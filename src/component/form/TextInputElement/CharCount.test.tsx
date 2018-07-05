@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { getSpecWrapper } from '../../../testUtils';
+import { getSpecWrapper } from '~/testUtils';
 import CharCount from './CharCount';
 
 describe('CharCount >', () => {

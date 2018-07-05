@@ -3,14 +3,18 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
-
-import { ConfigProviderContext } from '../config';
-import { fakePropType } from '../config/ConfigProvider';
-import { Types } from '../config/typeConfigs';
-import { getActivity } from '../external';
-import { FlowDefinition, FlowNode } from '../flowTypes';
-import ActivityManager from '../services/ActivityManager';
-import Plumber from '../services/Plumber';
+import * as styles from '~/component/Flow.scss';
+import ConnectedNode, { DragPoint } from '~/component/Node';
+import ConnectedNodeEditor from '~/component/NodeEditor/NodeEditor';
+import Simulator from '~/component/Simulator/Simulator';
+import Sticky from '~/component/Sticky';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Types } from '~/config/typeConfigs';
+import { getActivity } from '~/external';
+import { FlowDefinition, FlowNode } from '~/flowTypes';
+import ActivityManager from '~/services/ActivityManager';
+import Plumber from '~/services/Plumber';
 import {
     AppState,
     ConnectionEvent,
@@ -31,16 +35,11 @@ import {
     updateDragSelection,
     UpdateSticky,
     updateSticky
-} from '../store';
-import { RenderNode } from '../store/flowContext';
-import { DragSelection } from '../store/flowEditor';
-import { getCollisions } from '../store/helpers';
-import { isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from '../utils';
-import * as styles from './Flow.scss';
-import ConnectedNode, { DragPoint } from './Node';
-import ConnectedNodeEditor from './NodeEditor/NodeEditor';
-import Simulator from './Simulator/Simulator';
-import Sticky from './Sticky';
+} from '~/store';
+import { RenderNode } from '~/store/flowContext';
+import { DragSelection } from '~/store/flowEditor';
+import { getCollisions } from '~/store/helpers';
+import { isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from '~/utils';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -207,7 +206,10 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             // Wire up the drag from to our ghost node
             const dragPoint = pendingConnection;
             this.Plumber.recalculate(ghostNode.uuid);
-            this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.uuid);
+            this.Plumber.connect(
+                dragPoint.nodeUUID + ':' + dragPoint.exitUUID,
+                ghostNode.uuid
+            );
 
             // Save our position for later
             const { left, top } = snapToGrid(
@@ -450,4 +452,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Flow);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Flow);

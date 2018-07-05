@@ -1,12 +1,11 @@
-import { handleLanguageChange } from '../store/thunks';
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '../testUtils';
-import { English, languages, Spanish } from '../testUtils/assetCreators';
 import {
     containerClasses,
     LanguageSelector,
     languageSelectorContainerSpecId,
-    LanguageSelectorStoreProps,
-} from './LanguageSelector';
+    LanguageSelectorStoreProps
+} from '~/component/LanguageSelector';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
+import { English, languages, Spanish } from '~/testUtils/assetCreators';
 
 const baseProps: LanguageSelectorStoreProps = {
     language: English,

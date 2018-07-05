@@ -1,11 +1,12 @@
-import { getTypeConfig } from '../../../config';
-import { Types } from '../../../config/typeConfigs';
-import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
-import { createStartSessionAction } from '../../../testUtils/assetCreators';
+import { getTypeConfig } from '~/config';
+import { Types } from '~/config/typeConfigs';
+import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
+import { createStartSessionAction } from '~/testUtils/assetCreators';
+
 import { StartSessionForm, StartSessionFormProps } from './StartSessionForm';
 import { StartSessionFormHelper } from './StartSessionFormHelper';
 
-const { assets: groups } = require('../../../../__test__/assets/groups.json');
+const { assets: groups } = require('~/test/assets/groups.json');
 
 const startSessionAction = createStartSessionAction();
 const typeConfig = getTypeConfig(Types.start_session);

@@ -1,8 +1,8 @@
-import { composeComponentTestUtils } from '../../../testUtils/index';
+import { Types } from '~/config/typeConfigs';
+import { AddLabels } from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
+
 import AddLabelsComp, { MAX_TO_SHOW } from './AddLabels';
-import { AddLabels } from '../../../flowTypes';
-import { add_input_labels } from '../Action/Action.scss';
-import { Types } from '../../../config/typeConfigs';
 
 const labels = [
     'Help',

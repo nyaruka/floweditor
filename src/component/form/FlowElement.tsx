@@ -1,8 +1,8 @@
 import * as React from 'react';
+import SelectSearch from '~/component/SelectSearch/SelectSearch';
+import { Asset, Assets } from '~/services/AssetService';
+import { getSelectClassForEntry } from '~/utils';
 
-import { Asset, Assets } from '../../services/AssetService';
-import { getSelectClassForEntry } from '../../utils';
-import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 interface FlowElementProps extends FormElementProps {

@@ -1,4 +1,4 @@
-import { CompletionOption } from '../../../store';
+import { CompletionOption } from '~/store';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 export enum KeyValues {
@@ -120,7 +120,9 @@ export const getInputOptions = (accessor: string = '') => {
 export const getContactOptions = (accessor?: string) => {
     const prefix = accessor ? `${accessor}.` : '';
     const descriptor = accessor
-        ? accessor === TopLevelVariables.run ? `${accessor}'s` : `${accessor} run's`
+        ? accessor === TopLevelVariables.run
+            ? `${accessor}'s`
+            : `${accessor} run's`
         : '';
     return [
         { name: `${prefix}contact`, description: `The name of a ${descriptor} contact` },

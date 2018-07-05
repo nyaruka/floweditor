@@ -7,11 +7,11 @@ import Select, {
     AutocompleteResult,
     IsOptionUniqueHandler,
     IsValidNewOptionHandler,
-    NewOptionCreatorHandler,
+    NewOptionCreatorHandler
 } from 'react-select';
+import { CreateOptions } from '~/flowTypes';
+import { Asset, Assets, AssetSearchResult, removeAsset } from '~/services/AssetService';
 
-import { CreateOptions } from '../../flowTypes';
-import { Asset, Assets, AssetSearchResult, removeAsset } from '../../services/AssetService';
 import SelectOption from './SelectOption';
 import SelectValue from './SelectValue';
 

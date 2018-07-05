@@ -1,8 +1,8 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
-import { StartSession } from '../../../flowTypes';
-import { Asset, AssetType } from '../../../services/AssetService';
-import { StartSessionFormState, NodeEditorSettings } from '../../../store/nodeEditor';
-import { getRecipients } from '../helpers';
+import { getRecipients } from '~/component/actions/helpers';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { StartSession } from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import { NodeEditorSettings, StartSessionFormState } from '~/store/nodeEditor';
 
 export class StartSessionFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): StartSessionFormState {

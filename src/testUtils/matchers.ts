@@ -1,7 +1,6 @@
 import { commaListsOr } from 'common-tags';
-
-import { Exit } from '../flowTypes';
-import { RenderNode } from '../store/flowContext';
+import { Exit } from '~/flowTypes';
+import { RenderNode } from '~/store/flowContext';
 
 const matchers: jest.ExpectExtendMap = {};
 

@@ -1,4 +1,5 @@
-import { Types } from '../../../config/typeConfigs';
+import { set_contact_name } from '~/component/actions/Action/Action.scss';
+import { Types } from '~/config/typeConfigs';
 import {
     Action,
     Channel,
@@ -7,10 +8,9 @@ import {
     SetContactField,
     SetContactName,
     SetContactProperty
-} from '../../../flowTypes';
-import { Asset, AssetType } from '../../../services/AssetService';
-import { snakify, titleCase } from '../../../utils';
-import { set_contact_name } from '../Action/Action.scss';
+} from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import { snakify, titleCase } from '~/utils';
 
 export type ContactProperty = Types.set_contact_name;
 

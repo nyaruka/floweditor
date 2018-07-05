@@ -7,9 +7,14 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import { getOperatorConfig } from '../config/operatorConfigs';
-import { getTypeConfig, Types } from '../config/typeConfigs';
+import ActionWrapper from '~/component/actions/Action';
+import CounterComp from '~/component/Counter';
+import ExitComp from '~/component/Exit';
+import * as styles from '~/component/Node.scss';
+import * as shared from '~/component/shared.scss';
+import TitleBar from '~/component/TitleBar';
+import { getOperatorConfig } from '~/config/operatorConfigs';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
 import {
     AnyAction,
     FlowDefinition,
@@ -17,10 +22,10 @@ import {
     RouterTypes,
     SwitchRouter,
     UINode
-} from '../flowTypes';
-import ActivityManager from '../services/ActivityManager';
-import { Asset } from '../services/AssetService';
-import Plumber, { DragEvent } from '../services/Plumber';
+} from '~/flowTypes';
+import ActivityManager from '~/services/ActivityManager';
+import { Asset } from '~/services/AssetService';
+import Plumber, { DragEvent } from '~/services/Plumber';
 import {
     AppState,
     DispatchWithState,
@@ -39,15 +44,9 @@ import {
     UpdateDragSelection,
     UpdateNodeDragging,
     updateNodeDragging
-} from '../store';
-import { DragSelection, updateDragSelection } from '../store/flowEditor';
-import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '../utils';
-import ActionWrapper from './actions/Action';
-import CounterComp from './Counter';
-import ExitComp from './Exit';
-import * as styles from './Node.scss';
-import * as shared from './shared.scss';
-import TitleBar from './TitleBar';
+} from '~/store';
+import { DragSelection, updateDragSelection } from '~/store/flowEditor';
+import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils';
 
 // A point in the flow from which a drag is initiated
 export interface DragPoint {
@@ -485,7 +484,10 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
 const mapStateToProps = ({
     flowContext: { definition, languages },
-    flowEditor: { editorUI: { translating }, flowUI: { nodeDragging, dragSelection } }
+    flowEditor: {
+        editorUI: { translating },
+        flowUI: { nodeDragging, dragSelection }
+    }
 }: AppState) => ({
     translating,
     definition,
@@ -509,4 +511,9 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(NodeComp);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    { withRef: true }
+)(NodeComp);

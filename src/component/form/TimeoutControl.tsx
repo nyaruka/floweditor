@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import Select, { Option } from 'react-select';
 import { bindActionCreators } from 'redux';
 
-import { AppState, UpdateTimeout, updateTimeout } from '../../store';
-import { DispatchWithState } from '../../store/thunks';
-import { isRealValue, renderIf } from '../../utils';
+import { AppState, UpdateTimeout, updateTimeout } from '~/store';
+import { DispatchWithState } from '~/store/thunks';
+import { isRealValue, renderIf } from '~/utils';
 import CheckboxElement from './CheckboxElement';
 import * as styles from './TimeoutControl.scss';
 
@@ -134,6 +134,9 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedTimeout = connect(mapStateToProps, mapDispatchToProps)(TimeoutControl);
+const ConnectedTimeout = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(TimeoutControl);
 
 export default ConnectedTimeout;

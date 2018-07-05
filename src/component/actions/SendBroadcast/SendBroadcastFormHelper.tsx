@@ -1,8 +1,8 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
-import { BroadcastMsg } from '../../../flowTypes';
-import { Asset, AssetType } from '../../../services/AssetService';
-import { SendBroadcastFormState, NodeEditorSettings } from '../../../store/nodeEditor';
-import { getRecipients } from '../helpers';
+import { getRecipients } from '~/component/actions/helpers';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { BroadcastMsg } from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import { NodeEditorSettings, SendBroadcastFormState } from '~/store/nodeEditor';
 
 export class SendBroadcastFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): SendBroadcastFormState {

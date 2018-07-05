@@ -1,19 +1,18 @@
-import '../global.scss';
+import '~/global.scss';
 
 import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import ConfigProvider from '../config';
-import { fakePropType } from '../config/ConfigProvider';
-import { FlowDefinition, FlowEditorConfig } from '../flowTypes';
-import AssetService, { Asset } from '../services/AssetService';
-import { AppState, createStore, DispatchWithState, FetchFlow, fetchFlow } from '../store';
-import { renderIf } from '../utils';
-import ConnectedFlow from './Flow';
-import ConnectedFlowList, { FlowOption } from './FlowList';
-import * as styles from './index.scss';
-import ConnectedLanguageSelector from './LanguageSelector';
+import ConnectedFlow from '~/component/Flow';
+import ConnectedFlowList, { FlowOption } from '~/component/FlowList';
+import * as styles from '~/component/index.scss';
+import ConnectedLanguageSelector from '~/component/LanguageSelector';
+import ConfigProvider from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
+import AssetService, { Asset } from '~/services/AssetService';
+import { AppState, createStore, DispatchWithState, FetchFlow, fetchFlow } from '~/store';
+import { renderIf } from '~/utils';
 
 export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 
@@ -84,7 +83,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
 const mapStateToProps = ({
     flowContext: { definition, dependencies, languages },
-    flowEditor: { editorUI: { translating, language, fetchingFlow } }
+    flowEditor: {
+        editorUI: { translating, language, fetchingFlow }
+    }
 }: AppState) => ({
     translating,
     language,
@@ -102,6 +103,9 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-export const ConnectedFlowEditor = connect(mapStateToProps, mapDispatchToProps)(FlowEditor);
+export const ConnectedFlowEditor = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FlowEditor);
 
 export default FlowEditorContainer;

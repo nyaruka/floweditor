@@ -1,5 +1,6 @@
 const { ProvidePlugin, LoaderOptionsPlugin } = require('webpack');
 const { pkgName } = require('./utils');
+const paths = require('./paths');
 
 const name = pkgName();
 
@@ -9,6 +10,10 @@ module.exports = {
         filename: `${name}.js`
     },
     resolve: {
+        modules: [paths.src, 'node_modules'],
+        alias: {
+            '~': paths.src
+        },
         extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [

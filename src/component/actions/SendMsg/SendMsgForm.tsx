@@ -2,20 +2,19 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as styles from '~/component/actions/Action/Action.scss';
+import CheckboxElement from '~/component/form/CheckboxElement';
+import TaggingElement from '~/component/form/TaggingElement/TaggingElement';
+import TextInputElement, { Count } from '~/component/form/TextInputElement';
+import { UpdateLocalizations } from '~/component/NodeEditor';
+import { Type } from '~/config';
+import { FlowDefinition, SendMsg } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
+import { AppState, DispatchWithState } from '~/store';
+import { SendMsgFunc, updateSendMsgForm } from '~/store/forms';
+import { SendMsgFormState } from '~/store/nodeEditor';
+import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
 
-import { Type } from '../../../config';
-import { FlowDefinition, SendMsg } from '../../../flowTypes';
-import { Asset } from '../../../services/AssetService';
-import Localization, { LocalizedObject } from '../../../services/Localization';
-import { AppState, DispatchWithState } from '../../../store';
-import { SendMsgFunc, updateSendMsgForm } from '../../../store/forms';
-import { SendMsgFormState } from '../../../store/nodeEditor';
-import { validate, validateMaxOfTen, validateRequired } from '../../../store/validators';
-import * as styles from '../../actions/Action/Action.scss';
-import CheckboxElement from '../../form/CheckboxElement';
-import TaggingElement from '../../form/TaggingElement/TaggingElement';
-import TextInputElement, { Count } from '../../form/TextInputElement';
-import { UpdateLocalizations } from '../../NodeEditor';
 import * as localStyles from './SendMsgForm.scss';
 import { SendMsgFormHelper } from './SendMsgFormHelper';
 
@@ -190,7 +189,9 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
 
 const mapStateToProps = ({
     flowContext: { definition },
-    flowEditor: { editorUI: { language, translating } },
+    flowEditor: {
+        editorUI: { language, translating }
+    },
     nodeEditor: { typeConfig, form }
 }: AppState) => ({
     language,
@@ -204,8 +205,11 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSendMsgForm }, dispatch);
 
-const ConnectedSendMsgForm = connect(mapStateToProps, mapDispatchToProps, null, { withRef: true })(
-    SendMsgForm
-);
+const ConnectedSendMsgForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    { withRef: true }
+)(SendMsgForm);
 
 export default ConnectedSendMsgForm;

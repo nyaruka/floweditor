@@ -1,9 +1,9 @@
 import * as React from 'react';
+import { Operators } from '~/config/operatorConfigs';
+import { Types } from '~/config/typeConfigs';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createCase, createExit, createWaitRouterNode } from '~/testUtils/assetCreators';
 
-import { Operators } from '../config/operatorConfigs';
-import { Types } from '../config/typeConfigs';
-import { composeComponentTestUtils } from '../testUtils';
-import { createCase, createExit, createWaitRouterNode } from '../testUtils/assetCreators';
 import { Modal, ModalProps } from './Modal';
 
 const waitForRespTitle = <div key={'front'}>Wait for Response</div>;

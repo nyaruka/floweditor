@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths" : {
+      "~/*":  ["./src/*"]
+    },
     "moduleResolution": "node",
-    "rootDirs": ["src", "stories"],
     "jsx": "react",
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,

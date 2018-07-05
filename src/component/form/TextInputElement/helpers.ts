@@ -1,8 +1,8 @@
 import { split } from 'split-sms';
+import { CompletionOption } from '~/store';
+import { ContactFields, ResultMap } from '~/store/flowContext';
+import { titleCase } from '~/utils';
 
-import { CompletionOption } from '../../../store';
-import { ContactFields, ResultMap } from '../../../store/flowContext';
-import { titleCase } from '../../../utils';
 import { GSM, OPTIONS } from './constants';
 
 export interface UnicodeCharMap {

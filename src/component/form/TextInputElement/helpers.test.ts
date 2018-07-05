@@ -1,4 +1,4 @@
-import { FlowDefinition } from '../../../flowTypes';
+import { FlowDefinition } from '~/flowTypes';
 import { GSM, OPTIONS, TOP_LEVEL_OPTIONS } from './constants';
 import {
     cleanMsg,
@@ -9,7 +9,7 @@ import {
     pluralize
 } from './helpers';
 
-const definition: FlowDefinition = require('../../../../__test__/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
+const definition: FlowDefinition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
 const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
     const lastIndex = name.lastIndexOf('.');

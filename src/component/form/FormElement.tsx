@@ -1,8 +1,8 @@
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
 
-import { FormEntry } from '../../store/nodeEditor';
-import { renderIf } from '../../utils';
+import { FormEntry } from '~/store/nodeEditor';
+import { renderIf } from '~/utils';
 import * as styles from './FormElement.scss';
 
 const cx = classNames.bind(styles);

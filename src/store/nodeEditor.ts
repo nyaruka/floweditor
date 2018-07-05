@@ -1,10 +1,11 @@
 // tslint:disable:no-shadowed-variable
 import { combineReducers } from 'redux';
+import { Type } from '~/config';
+import { Types } from '~/config/typeConfigs';
+import { AnyAction, FlowNode } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
+import { LocalizedObject } from '~/services/Localization';
 
-import { Type } from '../config';
-import { Types } from '../config/typeConfigs';
-import { AnyAction, FlowNode } from '../flowTypes';
-import { Asset } from '../services/AssetService';
 import ActionTypes, {
     UpdateFormAction,
     UpdateNodeEditorSettings,
@@ -16,7 +17,6 @@ import ActionTypes, {
     UpdateUserAddingActionAction
 } from './actionTypes';
 import Constants from './constants';
-import { LocalizedObject } from '../services/Localization';
 
 export interface ValidationFailure {
     message: string;

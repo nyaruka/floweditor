@@ -1,6 +1,6 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
-import { SetRunResult } from '../../../flowTypes';
-import { SetRunResultFormState, NodeEditorSettings } from '../../../store/nodeEditor';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { SetRunResult } from '~/flowTypes';
+import { SetRunResultFormState, NodeEditorSettings } from '~/store/nodeEditor';
 
 export class SetRunResultFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): SetRunResultFormState {

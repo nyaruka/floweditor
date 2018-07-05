@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-
-import { addCommas } from '../utils';
-
-import * as styles from './Counter.scss';
+import * as styles from '~/component/Counter.scss';
+import { addCommas } from '~/utils';
 
 export interface CounterProps {
     containerStyle: string;

@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import { AssetType } from '../../services/AssetService';
+import { AssetType } from '~/services/AssetService';
 
 export const getIconForAssetType = (assetType: AssetType): JSX.Element => {
     switch (assetType) {

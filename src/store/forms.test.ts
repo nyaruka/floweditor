@@ -1,10 +1,8 @@
-import { fieldToAsset, propertyToAsset } from '../component/actions/SetContactAttrib/helpers';
-import { Types } from '../config/typeConfigs';
-import { createMockStore, prepMockDuxState } from '../testUtils';
-import {
-    createSetContactFieldAction,
-    createSetContactNameAction
-} from '../testUtils/assetCreators';
+import { fieldToAsset, propertyToAsset } from '~/component/actions/SetContactAttrib/helpers';
+import { Types } from '~/config/typeConfigs';
+import { createMockStore, prepMockDuxState } from '~/testUtils';
+import { createSetContactFieldAction, createSetContactNameAction } from '~/testUtils/assetCreators';
+
 import Constants from './constants';
 import {
     updateSendBroadcastForm,
@@ -12,7 +10,7 @@ import {
     updateStartSessionForm
 } from './forms';
 
-const [flowAsset] = require('../../__test__/assets/flows.json');
+const [flowAsset] = require('~/test/assets/flows.json');
 
 const setContactNameAction = createSetContactNameAction();
 const setContactFieldAction = createSetContactFieldAction();

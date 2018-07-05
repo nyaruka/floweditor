@@ -1,13 +1,14 @@
-import { getTypeConfig } from '../../../config';
-import { Types } from '../../../config/typeConfigs';
-import { LocalizedObject } from '../../../services/Localization';
-import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
-import { createBroadcastMsgAction, Spanish } from '../../../testUtils/assetCreators';
+import { getTypeConfig } from '~/config';
+import { Types } from '~/config/typeConfigs';
+import { AssetType } from '~/services/AssetService';
+import { LocalizedObject } from '~/services/Localization';
+import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
+import { createBroadcastMsgAction, Spanish } from '~/testUtils/assetCreators';
+
 import { SendBroadcastForm, SendBroadcastFormProps } from './SendBroadcastForm';
 import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
-import { AssetType } from '../../../services/AssetService';
 
-const { assets: groups } = require('../../../../__test__/assets/groups.json');
+const { assets: groups } = require('~/test/assets/groups.json');
 
 const broadcastMsgAction = createBroadcastMsgAction();
 const sendConfig = getTypeConfig(Types.send_broadcast);

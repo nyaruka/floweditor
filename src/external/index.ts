@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { FlowDefinition, Endpoints, StartFlow } from '../flowTypes';
-import { Activity } from '../services/ActivityManager';
+import { FlowDefinition } from '~/flowTypes';
+import { Activity } from '~/services/ActivityManager';
 
 export interface FlowDetails {
     uuid: string;

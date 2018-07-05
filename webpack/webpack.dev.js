@@ -92,7 +92,7 @@ const devConfig = {
             },
             {
                 test: /\.s?css$/,
-                include: [paths.lib],
+                include: [paths.src],
                 exclude: [paths.component],
                 use: ['style-loader', 'css-loader', postCSSLoader, 'sass-loader']
             },

@@ -1,5 +1,5 @@
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
-import { set, setFalse } from '../../utils';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
+import { set, setFalse } from '~/utils';
 import HeaderElement, {
     Header,
     headerContainerSpecId,
@@ -101,7 +101,11 @@ describe(HeaderElement.name, () => {
         describe('handleChangeName', () => {
             it('should update state, call onChange prop', () => {
                 const setStateSpy = spyOn('setState');
-                const { wrapper, props: { onChange: onChangeMock }, instance } = setup(true, {
+                const {
+                    wrapper,
+                    props: { onChange: onChangeMock },
+                    instance
+                } = setup(true, {
                     onChange: setMock()
                 });
 

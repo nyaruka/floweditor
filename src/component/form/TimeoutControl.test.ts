@@ -1,5 +1,10 @@
-import { composeComponentTestUtils, setMock } from '../../testUtils';
-import { DEFAULT_TIMEOUT, TIMEOUT_OPTIONS, TimeoutControl, TimeoutControlStoreProps } from './TimeoutControl';
+import { composeComponentTestUtils, setMock } from '~/testUtils';
+import {
+    DEFAULT_TIMEOUT,
+    TIMEOUT_OPTIONS,
+    TimeoutControl,
+    TimeoutControlStoreProps
+} from './TimeoutControl';
 
 const baseProps: TimeoutControlStoreProps = {
     checked: false,

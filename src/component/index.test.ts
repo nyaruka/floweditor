@@ -1,14 +1,15 @@
-import { editorContainerSpecId, editorSpecId, FlowEditor, FlowEditorStoreProps } from '.';
 import {
     composeComponentTestUtils,
     configProviderContext,
     getSpecWrapper,
     setMock
-} from '../testUtils';
-import { English, languages } from '../testUtils/assetCreators';
-import { set, setTrue } from '../utils';
+} from '~/testUtils';
+import { English, languages } from '~/testUtils/assetCreators';
+import { set, setTrue } from '~/utils';
 
-const colorsFlow = require('../../__test__/flows/colors.json');
+import { editorContainerSpecId, editorSpecId, FlowEditor, FlowEditorStoreProps } from '.';
+
+const colorsFlow = require('~/test/flows/colors.json');
 
 const baseProps: FlowEditorStoreProps = {
     language: English,
@@ -23,7 +24,7 @@ const baseProps: FlowEditorStoreProps = {
 const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);
 
 describe('Root', () => {
-    const definition = require('../../__test__/flows/boring.json');
+    const definition = require('~/test/flows/boring.json');
 
     describe('render', () => {
         it('should render self, children with required props', () => {

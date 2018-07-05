@@ -8,15 +8,15 @@ import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { FlowDefinition, FlowNode, Group, Wait } from '~/flowTypes';
+import { Activity } from '~/services/ActivityManager';
+import AssetService, { getBaseURL } from '~/services/AssetService';
+import { AppState, DispatchWithState } from '~/store';
+import { RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { getOrderedNodes } from '~/store/helpers';
 
-import { ConfigProviderContext } from '../../config';
-import { fakePropType } from '../../config/ConfigProvider';
-import { FlowDefinition, FlowNode, Group, Wait } from '../../flowTypes';
-import ActivityManager, { Activity } from '../../services/ActivityManager';
-import AssetService, { getBaseURL } from '../../services/AssetService';
-import { AppState, DispatchWithState } from '../../store';
-import { RenderNode, RenderNodeMap } from '../../store/flowContext';
-import { getOrderedNodes } from '../../store/helpers';
 import LogEvent, { EventProps } from './LogEvent';
 import * as styles from './Simulator.scss';
 
@@ -442,4 +442,7 @@ const mapStateToProps = ({ flowContext: { definition, nodes } }: AppState) => ({
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) => bindActionCreators({}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Simulator);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Simulator);

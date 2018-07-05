@@ -3,20 +3,20 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import GroupsElement, { GroupsElementProps } from '~/component/form/GroupsElement';
+import { GetResultNameField } from '~/component/NodeEditor';
+import { hasSwitchRouter, SaveLocalizations } from '~/component/NodeEditor/NodeEditor';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Operators } from '~/config/operatorConfigs';
+import { Case, FlowNode, SwitchRouter } from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import { AppState } from '~/store';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 
-import { fakePropType } from '../../config/ConfigProvider';
-import { Operators } from '../../config/operatorConfigs';
-import { Case, FlowNode, SwitchRouter } from '../../flowTypes';
-import { Asset, AssetType } from '../../services/AssetService';
-import { AppState } from '../../store';
-import GroupsElement, { GroupsElementProps } from '../form/GroupsElement';
-import { GetResultNameField } from '../NodeEditor';
-import { hasSwitchRouter, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { GROUP_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
-import { NodeEditorSettings } from '../../store/nodeEditor';
 
-// import { endpointsPT } from '../../config';
+// import { endpointsPT } from '~/config';
 export interface GroupsRouterStoreProps {
     translating: boolean;
     settings: NodeEditorSettings;
@@ -125,15 +125,20 @@ export class GroupsRouter extends React.Component<GroupsRouterProps, TempGroupSt
 }
 
 const mapStateToProps = ({
-    flowEditor: { editorUI: { translating } },
+    flowEditor: {
+        editorUI: { translating }
+    },
     nodeEditor: { settings }
 }: AppState) => ({
     translating,
     settings
 });
 
-const ConnectedGroupsRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
-    GroupsRouter
-);
+const ConnectedGroupsRouterForm = connect(
+    mapStateToProps,
+    null,
+    null,
+    { withRef: true }
+)(GroupsRouter);
 
 export default ConnectedGroupsRouterForm;

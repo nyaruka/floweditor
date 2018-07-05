@@ -1,4 +1,5 @@
-import { Action, Case, Exit, Language } from '../flowTypes';
+import { Action, Case, Exit, Language } from '~/flowTypes';
+
 import { Asset } from './AssetService';
 
 export class LocalizedObject {

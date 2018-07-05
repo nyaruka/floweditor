@@ -1,6 +1,6 @@
 import AssetService, { Assets, AssetSearchResult, AssetType, LabelAssets } from './AssetService';
 
-const config = require('../../__test__/config');
+const config = require('~/test/config');
 
 describe('AssetService', () => {
     let assetService: AssetService;

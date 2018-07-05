@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
+import SelectSearch from '~/component/SelectSearch/SelectSearch';
+import { Asset, Assets, AssetType } from '~/services/AssetService';
+import {
+    composeCreateNewOption,
+    getSelectClassForEntry,
+    isOptionUnique,
+    isValidNewOption
+} from '~/utils';
 
-import { Asset, Assets, AssetType } from '../../services/AssetService';
-import { composeCreateNewOption, getSelectClassForEntry, isOptionUnique, isValidNewOption } from '../../utils';
-import SelectSearch from '../SelectSearch/SelectSearch';
 import FormElement, { FormElementProps } from './FormElement';
 
 export interface GroupOption {

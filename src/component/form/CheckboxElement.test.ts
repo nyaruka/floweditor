@@ -1,11 +1,11 @@
-import { composeComponentTestUtils, getSpecWrapper } from '../../testUtils';
+import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import CheckboxElement, {
     boxIco,
     CheckboxElementProps,
     checkboxSpecId,
     checkedBoxIco,
     descSpecId,
-    titleSpecId,
+    titleSpecId
 } from './CheckboxElement';
 
 const baseProps: CheckboxElementProps = {

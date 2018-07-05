@@ -2,14 +2,14 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import TextInputElement from '~/component/form/TextInputElement';
+import { AppState, DispatchWithState } from '~/store';
+import { SetRunResultFunc, updateSetRunResultForm } from '~/store/forms';
+import { SetRunResultFormState } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
 
-import { Type } from '../../../config';
-import { SetRunResult } from '../../../flowTypes';
-import { AppState, DispatchWithState } from '../../../store';
-import { SetRunResultFunc, updateSetRunResultForm } from '../../../store/forms';
-import { SetRunResultFormState } from '../../../store/nodeEditor';
-import { validate, validateRequired } from '../../../store/validators';
-import TextInputElement from '../../form/TextInputElement';
+import { Type } from '~/config';
+import { SetRunResult } from '~/flowTypes';
 import * as styles from './SetRunResult.scss';
 import { SetRunResultFormHelper } from './SetRunResultFormHelper';
 
@@ -105,8 +105,13 @@ const mapStateToProps = ({ nodeEditor: { form, typeConfig } }: AppState) => ({ f
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSetRunResultForm }, dispatch);
 
-const ConnectedSetRunResultForm = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(SetRunResultForm);
+const ConnectedSetRunResultForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(SetRunResultForm);
 
 export default ConnectedSetRunResultForm;

@@ -4,10 +4,9 @@ import {
     NewOptionCreatorHandler,
     PromptTextCreatorHandler
 } from 'react-select';
-
-import { Operators } from './config/operatorConfigs';
-import { Types } from './config/typeConfigs';
-import AssetService from './services/AssetService';
+import { Operators } from '~/config/operatorConfigs';
+import { Types } from '~/config/typeConfigs';
+import AssetService from '~/services/AssetService';
 
 export interface Languages {
     [iso: string]: string;

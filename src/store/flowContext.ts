@@ -1,8 +1,7 @@
-// tslint:disable:no-shadowed-variable
 import { combineReducers } from 'redux';
+import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
 
-import { FlowDefinition, FlowNode, UINode } from '../flowTypes';
-import { Asset } from '../services/AssetService';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
@@ -15,6 +14,7 @@ import ActionTypes, {
 } from './actionTypes';
 import Constants from './constants';
 
+// tslint:disable:no-shadowed-variable
 export interface RenderNodeMap {
     [uuid: string]: RenderNode;
 }

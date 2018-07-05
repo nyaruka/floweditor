@@ -1,22 +1,17 @@
 import update from 'immutability-helper';
 import * as React from 'react';
+import { CaseElementProps } from '~/component/form/CaseElement';
+import TextInputElement from '~/component/form/TextInputElement';
+import { DEFAULT_OPERAND } from '~/component/NodeEditor';
+import { getOperatorConfig, Operators } from '~/config/operatorConfigs';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { SwitchRouter } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+import { getLocalizations } from '~/store/helpers';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
+import { createCase, createExit, createWaitRouterNode, Spanish } from '~/testUtils/assetCreators';
+import { reorderList } from '~/utils';
 
-import { getOperatorConfig, Operators } from '../../config/operatorConfigs';
-import { getTypeConfig, Types } from '../../config/typeConfigs';
-import { SwitchRouter } from '../../flowTypes';
-import { AssetType } from '../../services/AssetService';
-import { getLocalizations } from '../../store/helpers';
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
-import {
-    createCase,
-    createExit,
-    createWaitRouterNode,
-    Spanish
-} from '../../testUtils/assetCreators';
-import { reorderList } from '../../utils';
-import { CaseElementProps } from '../form/CaseElement';
-import TextInputElement from '../form/TextInputElement';
-import { DEFAULT_OPERAND } from '../NodeEditor';
 import { EXPRESSION_LABEL } from './constants';
 import {
     addFocus,

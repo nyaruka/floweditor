@@ -1,10 +1,8 @@
-import { Types } from '../../../config/typeConfigs';
-import { SetContactName } from '../../../flowTypes';
-import { AssetType } from '../../../services/AssetService';
-import {
-    createSetContactFieldAction,
-    createSetContactNameAction
-} from '../../../testUtils/assetCreators';
+import { Types } from '~/config/typeConfigs';
+import { SetContactName } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+import { createSetContactFieldAction, createSetContactNameAction } from '~/testUtils/assetCreators';
+
 import { fieldToAsset, newFieldAction, newPropertyAction, propertyToAsset } from './helpers';
 
 const setContactName = createSetContactNameAction();

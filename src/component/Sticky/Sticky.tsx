@@ -3,12 +3,12 @@ import * as React from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { FlowDefinition, StickyNote } from '~/flowTypes';
+import { DragEvent } from '~/services/Plumber';
+import { AppState, DispatchWithState, UpdateSticky, updateSticky } from '~/store';
+import { OnResetDragSelection, onResetDragSelection } from '~/store/thunks';
+import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '~/utils';
 
-import { FlowDefinition, StickyNote } from '../../flowTypes';
-import { DragEvent } from '../../services/Plumber';
-import { AppState, DispatchWithState, UpdateSticky, updateSticky } from '../../store';
-import { OnResetDragSelection, onResetDragSelection } from '../../store/thunks';
-import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '../../utils';
 import * as styles from './Sticky.scss';
 
 type DragFunction = (event: DragEvent) => void;
@@ -249,4 +249,9 @@ const mapDispatchToProps = (dispatch: DispatchWithState) => {
     return bindActionCreators({ updateSticky, onResetDragSelection }, dispatch);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, null, { withRef: false })(Sticky);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    { withRef: false }
+)(Sticky);

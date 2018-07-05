@@ -1,4 +1,4 @@
-import '../src/global.scss';
+import '~/global.scss';
 
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';

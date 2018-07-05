@@ -1,9 +1,9 @@
 // tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+import { Asset } from '~/services/AssetService';
+import { renderIf } from '~/utils';
 
-import { Asset } from '../../services/AssetService';
-import { renderIf } from '../../utils';
 import { getIconForAssetType } from './helper';
 
 export interface SelectValueProps {

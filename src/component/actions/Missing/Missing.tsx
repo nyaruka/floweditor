@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Action } from '../../../flowTypes';
+import { Action } from '~/flowTypes';
 
 export const PLACEHOLDER = 'Send a message to the contact';
 

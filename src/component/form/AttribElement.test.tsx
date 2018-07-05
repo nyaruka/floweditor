@@ -1,14 +1,14 @@
-import { getTypeConfig } from '../../config';
-import { Types } from '../../config/typeConfigs';
-import { Asset, AssetType } from '../../services/AssetService';
-import { composeComponentTestUtils, configProviderContext, setMock } from '../../testUtils';
+import { fieldToAsset, propertyToAsset } from '~/component/actions/SetContactAttrib/helpers';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Asset, AssetType } from '~/services/AssetService';
+import { composeComponentTestUtils, configProviderContext, setMock } from '~/testUtils';
 import {
     createExit,
     createSendMsgAction,
     createSetContactFieldAction
-} from '../../testUtils/assetCreators';
-import { isOptionUnique, isValidNewOption } from '../../utils';
-import { fieldToAsset, propertyToAsset } from '../actions/SetContactAttrib/helpers';
+} from '~/testUtils/assetCreators';
+import { isOptionUnique, isValidNewOption } from '~/utils';
+
 import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
 
 const attribute: Asset = {

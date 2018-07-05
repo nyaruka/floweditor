@@ -1,8 +1,9 @@
-import { Types } from '../../../config/typeConfigs';
-import { ChangeGroups } from '../../../flowTypes';
-import { updateChangeGroupsForm } from '../../../store/forms';
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
-import { createAddGroupsAction } from '../../../testUtils/assetCreators';
+import { Types } from '~/config/typeConfigs';
+import { ChangeGroups } from '~/flowTypes';
+import { updateChangeGroupsForm } from '~/store/forms';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
+import { createAddGroupsAction } from '~/testUtils/assetCreators';
+
 import { labelSpecId } from './AddGroupsForm';
 import { mapGroupsToAssets } from './helpers';
 import ChangeGroupFormProps from './props';

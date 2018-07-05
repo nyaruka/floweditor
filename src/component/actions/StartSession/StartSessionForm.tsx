@@ -2,17 +2,17 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import FlowElement from '~/component/form/FlowElement';
+import OmniboxElement from '~/component/form/OmniboxElement';
+import { Type } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { StartSession } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
+import { AppState, DispatchWithState } from '~/store';
+import { StartSessionFunc, updateStartSessionForm } from '~/store/forms';
+import { StartSessionFormState } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
 
-import { Type } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { StartSession } from '../../../flowTypes';
-import { Asset } from '../../../services/AssetService';
-import { AppState, DispatchWithState } from '../../../store';
-import { StartSessionFunc, updateStartSessionForm } from '../../../store/forms';
-import { StartSessionFormState } from '../../../store/nodeEditor';
-import { validate, validateRequired } from '../../../store/validators';
-import FlowElement from '../../form/FlowElement';
-import OmniboxElement from '../../form/OmniboxElement';
 import { StartSessionFormHelper } from './StartSessionFormHelper';
 
 export interface StartSessionFormStoreProps {
@@ -112,8 +112,13 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         dispatch
     );
 
-const ConnectedStartSessionForm = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(StartSessionForm);
+const ConnectedStartSessionForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(StartSessionForm);
 
 export default ConnectedStartSessionForm;

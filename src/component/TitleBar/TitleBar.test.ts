@@ -1,5 +1,6 @@
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../testUtils';
-import { set, setTrue } from '../../utils';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
+import { set, setTrue } from '~/utils';
+
 import TitleBar, {
     confirmationSpecId,
     confirmRemovalSpecId,
@@ -23,7 +24,11 @@ jest.useFakeTimers();
 describe(TitleBar.name, () => {
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, instance, props: { title } } = setup();
+            const {
+                wrapper,
+                instance,
+                props: { title }
+            } = setup();
             const titlebar = getSpecWrapper(wrapper, titlebarSpecId);
             const moveIcon = getSpecWrapper(wrapper, moveSpecId);
             const confirmation = getSpecWrapper(wrapper, confirmationSpecId);
@@ -41,7 +46,11 @@ describe(TitleBar.name, () => {
         });
 
         it('should apply _className prop', () => {
-            const { wrapper, instance, props: { __className } } = setup(true, {
+            const {
+                wrapper,
+                instance,
+                props: { __className }
+            } = setup(true, {
                 __className: set('some-classy-class')
             });
 

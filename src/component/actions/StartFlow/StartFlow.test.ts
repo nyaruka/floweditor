@@ -1,6 +1,6 @@
-import { StartFlow } from '../../../flowTypes';
-import { composeComponentTestUtils } from '../../../testUtils';
-import { createStartFlowAction } from '../../../testUtils/assetCreators';
+import { StartFlow } from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createStartFlowAction } from '~/testUtils/assetCreators';
 import StartFlowComp from './StartFlow';
 
 const startFlowAction = createStartFlowAction();

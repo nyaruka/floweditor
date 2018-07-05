@@ -2,10 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import { bindActionCreators } from 'redux';
-import { ConfigProviderContext } from '../config';
-import { AppState, DispatchWithState, FetchFlow, fetchFlow } from '../store';
-import { flowList } from './FlowList.scss';
-import { fakePropType } from '../config/ConfigProvider';
+import { flowList } from '~/component/FlowList.scss';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { DispatchWithState, FetchFlow, fetchFlow } from '~/store';
 
 export interface FlowOption {
     uuid: string;
@@ -78,4 +78,7 @@ export class FlowList extends React.Component<FlowListStoreProps> {
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ fetchFlow }, dispatch);
 
-export default connect(null, mapDispatchToProps)(FlowList);
+export default connect(
+    null,
+    mapDispatchToProps
+)(FlowList);

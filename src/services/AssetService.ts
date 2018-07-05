@@ -1,10 +1,9 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
 import { v4 as generateUUID } from 'uuid';
-
-import { Contact, ContactProperties, FlowEditorConfig, Group } from '../flowTypes';
-import { FlowComponents } from '../store/helpers';
-import { titleCase } from '../utils';
+import { ContactProperties, FlowEditorConfig } from '~/flowTypes';
+import { FlowComponents } from '~/store/helpers';
+import { titleCase } from '~/utils';
 
 export enum AssetType {
     Channel = 'channel',

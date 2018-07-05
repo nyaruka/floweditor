@@ -1,8 +1,7 @@
 import * as React from 'react';
-
-import { StartSession } from '../../../flowTypes';
-import { AssetType } from '../../../services/AssetService';
-import { getRecipients, renderAssetList } from '../helpers';
+import { getRecipients, renderAssetList } from '~/component/actions/helpers';
+import { StartSession } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
 
 const styles = require('./StartSession.scss');
 

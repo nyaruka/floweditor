@@ -1,10 +1,10 @@
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '../../../testUtils';
-import { createAddGroupsAction } from '../../../testUtils/assetCreators';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
+import { createAddGroupsAction } from '~/testUtils/assetCreators';
 import { AddGroupsForm, LABEL, labelSpecId } from './AddGroupsForm';
 import { AddGroupsFormHelper } from './AddGroupsFormHelper';
 import ChangeGroupsFormProps from './props';
 
-const { assets: groups } = require('../../../../__test__/assets/groups.json');
+const { assets: groups } = require('~/test/assets/groups.json');
 
 const addGroupsAction = createAddGroupsAction();
 const formHelper = new AddGroupsFormHelper();

@@ -1,12 +1,13 @@
-import { Label } from '../../../flowTypes';
-import { AssetType } from '../../../services/AssetService';
-import { composeComponentTestUtils } from '../../../testUtils';
-import { createAddLabelsAction } from '../../../testUtils/assetCreators';
-import { setTrue } from '../../../utils';
+import { Label } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createAddLabelsAction } from '~/testUtils/assetCreators';
+import { setTrue } from '~/utils';
+
 import { AddLabelsForm, AddLabelsFormProps } from './AddLabelsForm';
 import { AddLabelsFormHelper } from './AddLabelsFormHelper';
 
-const { assets: labels } = require('../../../../__test__/assets/labels.json') as {
+const { assets: labels } = require('~/test/assets/labels.json') as {
     assets: Label[];
 };
 

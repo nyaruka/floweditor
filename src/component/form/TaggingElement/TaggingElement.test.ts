@@ -1,4 +1,4 @@
-import { composeComponentTestUtils } from '../../../testUtils';
+import { composeComponentTestUtils } from '~/testUtils';
 import TaggingElement, { TaggingElementProps } from './TaggingElement';
 
 const taggingElementProps: TaggingElementProps = {

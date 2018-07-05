@@ -1,4 +1,4 @@
-import { FormHelper, Types } from '../../../config/typeConfigs';
+import { FormHelper, Types } from '~/config/typeConfigs';
 import {
     Channel,
     SetContactAttribute,
@@ -6,8 +6,8 @@ import {
     SetContactField,
     SetContactLanguage,
     SetContactName
-} from '../../../flowTypes';
-import { Asset, AssetType, removeAsset } from '../../../services/AssetService';
+} from '~/flowTypes';
+import { Asset, AssetType, removeAsset } from '~/services/AssetService';
 import {
     NodeEditorSettings,
     SetContactAttribFormState,
@@ -15,7 +15,8 @@ import {
     SetContactFieldFormState,
     SetContactLanguageFormState,
     SetContactNameFormState
-} from '../../../store/nodeEditor';
+} from '~/store/nodeEditor';
+
 import { assetToField, channelToAsset, fieldToAsset, propertyToAsset } from './helpers';
 
 export type SetContactAttribFormHelperActionTypes =

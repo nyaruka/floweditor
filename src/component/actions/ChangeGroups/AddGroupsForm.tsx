@@ -2,16 +2,16 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import GroupsElement from '~/component/form/GroupsElement';
+import { updateChangeGroupsForm } from '~/store/forms';
+import AppState from '~/store/state';
+import { DispatchWithState } from '~/store/thunks';
+import { validate, validateRequired } from '~/store/validators';
 
-import { ConfigProviderContext } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { ChangeGroups } from '../../../flowTypes';
-import AssetService, { Asset } from '../../../services/AssetService';
-import { updateChangeGroupsForm } from '../../../store/forms';
-import AppState from '../../../store/state';
-import { DispatchWithState } from '../../../store/thunks';
-import { validate, validateRequired } from '../../../store/validators';
-import GroupsElement from '../../form/GroupsElement';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { ChangeGroups } from '~/flowTypes';
+import AssetService, { Asset } from '~/services/AssetService';
 import ChangeGroupsFormProps from './props';
 
 export const LABEL = ' Select the group(s) to add the contact to.';
@@ -76,8 +76,13 @@ const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateChangeGroupsForm }, dispatch);
 
-const ConnectedAddGroupsFrom = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(AddGroupsForm);
+const ConnectedAddGroupsFrom = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(AddGroupsForm);
 
 export default ConnectedAddGroupsFrom;

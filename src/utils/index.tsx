@@ -5,12 +5,11 @@ import {
     IsValidNewOptionHandler,
     NewOptionCreatorHandler
 } from 'react-select';
-
-import { Action, Case, ContactProperties, Exit, LocalizationMap } from '../flowTypes';
-import { Asset, AssetType } from '../services/AssetService';
-import Localization, { LocalizedObject } from '../services/Localization';
-import { FormEntry } from '../store/nodeEditor';
-import * as variables from '../variables.scss';
+import { Action, Case, ContactProperties, Exit, LocalizationMap } from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import Localization, { LocalizedObject } from '~/services/Localization';
+import { FormEntry } from '~/store/nodeEditor';
+import * as variables from '~/variables.scss';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;

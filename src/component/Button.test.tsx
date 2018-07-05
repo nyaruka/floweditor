@@ -1,5 +1,5 @@
-import { composeComponentTestUtils, setMock } from '../testUtils';
-import Button, { ButtonProps, ButtonTypes } from './Button';
+import Button, { ButtonProps, ButtonTypes } from '~/component/Button';
+import { composeComponentTestUtils, setMock } from '~/testUtils';
 
 const baseProps: ButtonProps = {
     name: 'Save',

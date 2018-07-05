@@ -1,12 +1,12 @@
 const axios = require.requireActual('axios');
-const { endpoints } = require('../__test__/config');
-const boringFlowResp = require('../__test__/assets/flows/boring.json');
-const flowsResp = require('../__test__/assets/flows.json');
-const groupsResp = require('../__test__/assets/groups.json');
-const contactsResp = require('../__test__/assets/contacts.json');
-const fieldsResp = require('../__test__/assets/fields.json');
-const recipientsResp = require('../__test__/assets/recipients.json');
-const labelsResp = require('../__test__/assets/labels.json');
+const { endpoints } = require('~/test/config');
+const boringFlowResp = require('~/test/assets/flows/boring.json');
+const flowsResp = require('~/test/assets/flows.json');
+const groupsResp = require('~/test/assets/groups.json');
+const contactsResp = require('~/test/assets/contacts.json');
+const fieldsResp = require('~/test/assets/fields.json');
+const recipientsResp = require('~/test/assets/recipients.json');
+const labelsResp = require('~/test/assets/labels.json');
 
 const getEndpoint = (urlStr: string) => {
     const queryIdx = urlStr.indexOf('?');

@@ -2,14 +2,17 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-
-import { ConfigProviderContext, Type } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { Types } from '../../../config/typeConfigs';
-import { Channel, SetContactAttribute } from '../../../flowTypes';
-import AssetService, { Asset, ChannelAssets } from '../../../services/AssetService';
-import { AppState, DispatchWithState } from '../../../store';
-import { SetContactAttribFunc, updateSetContactAttribForm } from '../../../store/forms';
+import ConnectedAttribElement from '~/component/form/AttribElement';
+import FormElement from '~/component/form/FormElement';
+import ConnectedTextInputElement from '~/component/form/TextInputElement';
+import SelectSearch from '~/component/SelectSearch/SelectSearch';
+import { ConfigProviderContext, Type } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Types } from '~/config/typeConfigs';
+import { SetContactAttribute } from '~/flowTypes';
+import { Asset, ChannelAssets } from '~/services/AssetService';
+import { AppState, DispatchWithState } from '~/store';
+import { SetContactAttribFunc, updateSetContactAttribForm } from '~/store/forms';
 import {
     AssetEntry,
     SetContactAttribFormState,
@@ -18,13 +21,10 @@ import {
     SetContactLanguageFormState,
     SetContactNameFormState,
     ValidationFailure
-} from '../../../store/nodeEditor';
-import { validate, ValidatorFunc } from '../../../store/validators';
-import { renderIf } from '../../../utils';
-import ConnectedAttribElement from '../../form/AttribElement';
-import FormElement from '../../form/FormElement';
-import ConnectedTextInputElement from '../../form/TextInputElement';
-import SelectSearch from '../../SelectSearch/SelectSearch';
+} from '~/store/nodeEditor';
+import { validate, ValidatorFunc } from '~/store/validators';
+import { renderIf } from '~/utils';
+
 import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
 
 export interface SetContactAttribFormPassedProps {
@@ -200,7 +200,9 @@ export class SetContactAttribForm extends React.Component<SetContactAttribFormPr
         switch (this.props.typeConfig.type) {
             case Types.set_contact_field:
             case Types.set_contact_name:
-                ({ value: { value } } = this.props.form);
+                ({
+                    value: { value }
+                } = this.props.form);
                 break;
             default:
                 value = '';
@@ -301,8 +303,13 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSetContactAttribForm }, dispatch);
 
-const ConnectedSetContactAttribForm = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(SetContactAttribForm);
+const ConnectedSetContactAttribForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(SetContactAttribForm);
 
 export default ConnectedSetContactAttribForm;

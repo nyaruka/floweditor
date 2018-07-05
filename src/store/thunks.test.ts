@@ -1,16 +1,15 @@
 import mutate from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
+import { DragPoint } from '~/component/Node';
+import { Operators } from '~/config/operatorConfigs';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
+import AssetService from '~/services/AssetService';
+import { createMockStore, prepMockDuxState } from '~/testUtils';
+import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
+import { push } from '~/utils';
 
 import { Constants, initialState, LocalizationUpdates } from '.';
-import { SetContactAttribFormHelper } from '../component/actions/SetContactAttrib/SetContactAttribFormHelper';
-import { DragPoint } from '../component/Node';
-import { Operators } from '../config/operatorConfigs';
-import { getTypeConfig, Types } from '../config/typeConfigs';
-import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '../flowTypes';
-import AssetService from '../services/AssetService';
-import { createMockStore, prepMockDuxState } from '../testUtils';
-import { createSendMsgAction, createSetContactFieldAction } from '../testUtils/assetCreators';
-import { push } from '../utils';
 import { RenderNode, RenderNodeMap } from './flowContext';
 import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
 import { getOtherExit } from './mutators';
@@ -42,9 +41,9 @@ import {
     updateSticky
 } from './thunks';
 
-const config = require('../../__test__/config');
+const config = require('~/test/config');
 
-const boring: FlowDefinition = require('../../__test__/flows/boring.json');
+const boring: FlowDefinition = require('~/test/flows/boring.json');
 const getUpdatedNodes = (currentStore: any): { [uuid: string]: RenderNode } => {
     let nodes;
     // return the last action for UPDATE_NODES
@@ -730,17 +729,12 @@ describe('Flow Manipulation', () => {
 
         describe('normal editing', () => {
             it('should update type config', () => {
-                const newTypeConfig = getTypeConfig(Types.set_contact_field);
-                const newActionToEdit = createSetContactFieldAction();
-                const formHelper = new SetContactAttribFormHelper();
+                const newTypeConfig = getTypeConfig(Types.add_contact_groups);
+                const newActionToEdit = createAddGroupsAction();
                 const settings = {
                     originalNode: null,
                     originalAction: newActionToEdit
                 } as NodeEditorSettings;
-                const newFormState = formHelper.initializeForm(
-                    settings,
-                    newTypeConfig.type as Types.set_contact_field
-                );
 
                 store = createMockStore(
                     mutate(initialState, {
@@ -756,16 +750,17 @@ describe('Flow Manipulation', () => {
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: newTypeConfig
                 });
-                expect(store).toHavePayload(Constants.UPDATE_FORM, {
-                    form: newFormState
-                });
             });
 
             it('should generate a suggested result name', () => {
                 const { renderNodeMap, resultMap } = getFlowComponents(boring);
                 const newTypeConfig = getTypeConfig(Types.wait_for_response);
-                const { nodes: [originalNode] } = boring;
-                const { actions: [originalAction] } = originalNode;
+                const {
+                    nodes: [originalNode]
+                } = boring;
+                const {
+                    actions: [originalAction]
+                } = originalNode;
                 const suggestedNameCount = Object.keys(resultMap).length;
                 const suggestedResultName = getSuggestedResultName(suggestedNameCount);
                 const expectedActions = [

@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { AxiosResponse } from 'axios';
-import { FlowDefinition } from '../flowTypes';
+import axios, { AxiosResponse } from 'axios';
+import { FlowDefinition } from '~/flowTypes';
 
 export interface FlowDetails {
     uuid: string;
@@ -55,11 +54,15 @@ export default class Temba {
                 const json = response.data;
                 if (json.version >= 10) {
                     let toMigrate: FlowDefinition[] = [];
-                    const { data: { flows } } = response;
+                    const {
+                        data: { flows }
+                    } = response;
 
                     if (ignoreDependencies) {
                         flows.forEach((flowDef: any) => {
-                            const { metadata: { uuid: defUUID } } = flowDef;
+                            const {
+                                metadata: { uuid: defUUID }
+                            } = flowDef;
                             if (defUUID === uuid) {
                                 toMigrate.push(flowDef);
                             }

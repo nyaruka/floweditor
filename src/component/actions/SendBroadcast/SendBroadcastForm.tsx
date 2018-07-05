@@ -2,20 +2,19 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as styles from '~/component/actions/Action/Action.scss';
+import OmniboxElement from '~/component/form/OmniboxElement';
+import TextInputElement, { Count } from '~/component/form/TextInputElement';
+import { UpdateLocalizations } from '~/component/NodeEditor';
+import { Type } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { BroadcastMsg } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
+import { AppState, DispatchWithState } from '~/store';
+import { SendBroadcastFunc, updateSendBroadcastForm } from '~/store/forms';
+import { SendBroadcastFormState } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
 
-import { Type } from '../../../config';
-import { fakePropType } from '../../../config/ConfigProvider';
-import { BroadcastMsg } from '../../../flowTypes';
-import { Asset } from '../../../services/AssetService';
-import Localization, { LocalizedObject } from '../../../services/Localization';
-import { AppState, DispatchWithState } from '../../../store';
-import { SendBroadcastFunc, updateSendBroadcastForm } from '../../../store/forms';
-import { SendBroadcastFormState } from '../../../store/nodeEditor';
-import { validate, validateRequired } from '../../../store/validators';
-import * as styles from '../../actions/Action/Action.scss';
-import OmniboxElement from '../../form/OmniboxElement';
-import TextInputElement, { Count } from '../../form/TextInputElement';
-import { UpdateLocalizations } from '../../NodeEditor';
 import * as broadcastStyles from './SendBroadcast.scss';
 import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
 
@@ -158,7 +157,9 @@ export class SendBroadcastForm extends React.Component<
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowEditor: { editorUI: { language, translating } },
+    flowEditor: {
+        editorUI: { language, translating }
+    },
     nodeEditor: { typeConfig, form }
 }: AppState) => ({
     language,
@@ -171,8 +172,13 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ updateSendBroadcastForm }, dispatch);
 
-const ConnectedSendBroadcastForm = connect(mapStateToProps, mapDispatchToProps, null, {
-    withRef: true
-})(SendBroadcastForm);
+const ConnectedSendBroadcastForm = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    null,
+    {
+        withRef: true
+    }
+)(SendBroadcastForm);
 
 export default ConnectedSendBroadcastForm;

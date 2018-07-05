@@ -12,22 +12,22 @@ import {
 } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+import CaseElement, { CaseElementProps } from '~/component/form/CaseElement';
+import TextInputElement from '~/component/form/TextInputElement';
+import { GetResultNameField } from '~/component/NodeEditor';
+import { hasCases, SaveLocalizations } from '~/component/NodeEditor/NodeEditor';
+import { getOperatorConfig, operatorConfigList, Type } from '~/config';
+import { Operators } from '~/config/operatorConfigs';
+import { Types } from '~/config/typeConfigs';
+import { Case, Exit, FlowNode, SwitchRouter } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
+import { LocalizedObject } from '~/services/Localization';
+import { AppState } from '~/store';
+import { NodeEditorSettings } from '~/store/nodeEditor';
+import { reorderList } from '~/utils';
 
-import { getOperatorConfig, operatorConfigList, Type } from '../../config';
-import { Operators } from '../../config/operatorConfigs';
-import { Types } from '../../config/typeConfigs';
-import { Case, Exit, FlowNode, SwitchRouter } from '../../flowTypes';
-import { Asset } from '../../services/AssetService';
-import { LocalizedObject } from '../../services/Localization';
-import { AppState } from '../../store';
-import { reorderList } from '../../utils';
-import CaseElement, { CaseElementProps } from '../form/CaseElement';
-import TextInputElement from '../form/TextInputElement';
-import { GetResultNameField } from '../NodeEditor';
-import { hasCases, SaveLocalizations } from '../NodeEditor/NodeEditor';
 import { EXPRESSION_LABEL, OPERAND_LOCALIZATION_DESC, WAIT_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
-import { NodeEditorSettings } from '../../store/nodeEditor';
 
 export enum DragCursor {
     move = 'move',
@@ -579,12 +579,17 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowEditor: { editorUI: { language, translating } },
+    flowEditor: {
+        editorUI: { language, translating }
+    },
     nodeEditor: { typeConfig, settings, operand }
 }: AppState) => ({ language, typeConfig, translating, settings, operand });
 
-const ConnectedSwitchRouterForm = connect(mapStateToProps, null, null, { withRef: true })(
-    SwitchRouterForm
-);
+const ConnectedSwitchRouterForm = connect(
+    mapStateToProps,
+    null,
+    null,
+    { withRef: true }
+)(SwitchRouterForm);
 
 export default ConnectedSwitchRouterForm;

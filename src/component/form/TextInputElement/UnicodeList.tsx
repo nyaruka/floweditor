@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { renderIf } from '~/utils';
 
-import { renderIf } from '../../../utils';
 import { pluralize, UnicodeCharMap } from './helpers';
 import * as styles from './UnicodeList.scss';
 

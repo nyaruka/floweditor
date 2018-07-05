@@ -1,8 +1,9 @@
-import { AssetType } from '../../services/AssetService';
-import { composeComponentTestUtils, getSpecWrapper, Resp } from '../../testUtils';
+import { AssetType } from '~/services/AssetService';
+import { composeComponentTestUtils, getSpecWrapper, Resp } from '~/testUtils';
+
 import SelectValue, { SelectValueProps } from './SelectValue';
 
-const groupsResp = require('../../../__test__/assets/groups.json') as Resp;
+const groupsResp = require('~/test/assets/groups.json') as Resp;
 
 const baseProps: SelectValueProps = {
     value: { id: 'group-id', name: 'My Group', type: AssetType.Group },

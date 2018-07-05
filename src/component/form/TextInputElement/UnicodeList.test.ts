@@ -1,4 +1,4 @@
-import { composeComponentTestUtils, getSpecWrapper } from '../../../testUtils';
+import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import UnicodeList, {
     unicodeListContainerSpecId,
     UnicodeListProps,
@@ -30,7 +30,10 @@ describe('UnicodeList', () => {
 
     describe('render', () => {
         it('should render self, children with base props', () => {
-            const { wrapper, props: { unicodeChars } } = setup();
+            const {
+                wrapper,
+                props: { unicodeChars }
+            } = setup();
             const unicodeList = getSpecWrapper(wrapper, unicodeListSpecId);
 
             expect(

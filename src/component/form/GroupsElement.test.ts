@@ -1,6 +1,6 @@
-import { composeComponentTestUtils, configProviderContext } from '../../testUtils';
-import { createSelectOption, getGroups } from '../../testUtils/assetCreators';
-import { validUUID } from '../../utils';
+import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
+import { createSelectOption, getGroups } from '~/testUtils/assetCreators';
+import { validUUID } from '~/utils';
 import GroupsElement, {
     createNewOption,
     GROUP_NOT_FOUND,
