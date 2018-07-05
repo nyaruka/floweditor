@@ -3,9 +3,9 @@ import '~/global.scss';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import CheckboxElement, { CheckboxElementProps } from '~/component/form/CheckboxElement';
-import { ellipsize } from '~/component/form/TimeoutControl';
 
+import CheckboxElement, { CheckboxElementProps } from '../src/component/form/CheckboxElement';
+import { ellipsize } from '../src/component/form/TimeoutControl';
 import * as styles from './CheckboxElement.stories.scss';
 
 const checkboxDecorator = (storyFn: Function): JSX.Element => (

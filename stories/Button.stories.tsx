@@ -3,7 +3,8 @@ import '../src/global.scss';
 import { action } from '@storybook/addon-actions';
 import { storiesOf } from '@storybook/react';
 import * as React from 'react';
-import Button, { ButtonProps, ButtonTypes } from '~/component/Button';
+
+import Button, { ButtonProps, ButtonTypes } from '../src/component/Button';
 
 const buttonDecorator = (storyFn: Function): JSX.Element => (
     <div
