@@ -1,12 +1,13 @@
 module.exports = {
     automock: false,
-    verbose: true,
+    verbose: false,
     snapshotSerializers: ['enzyme-to-json/serializer'],
     transform: {
         '.tsx?': '<rootDir>/node_modules/ts-jest/preprocessor.js'
     },
     testPathIgnorePatterns: ['/node_modules/', '/lib/'],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(j|t)sx?$',
+    modulePathIgnorePatterns: ['lib'],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
     moduleNameMapper: {
         '^.+\\.s?css$': 'identity-obj-proxy',

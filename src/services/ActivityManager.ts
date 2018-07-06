@@ -1,4 +1,4 @@
-import Counter from '~/component/Counter';
+import Counter from '~/components/counter/Counter';
 import { Exit } from '~/flowTypes';
 
 // tslint:disable:ban-types

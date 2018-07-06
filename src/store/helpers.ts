@@ -1,6 +1,6 @@
 import { v4 as generateUUID } from 'uuid';
-import { fieldToAsset } from '~/component/actions/SetContactAttrib/helpers';
-import { DefaultExitNames } from '~/component/NodeEditor/NodeEditor';
+import { fieldToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
+import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { Types } from '~/config/typeConfigs';
 import {
     AddLabels,

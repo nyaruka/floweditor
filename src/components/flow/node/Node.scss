@@ -1,0 +1,151 @@
+@import "~/variables.scss";
+
+.node_container {
+    padding: $node_padding + px;
+    z-index: $z_nodes;
+    position: absolute;
+    transition: top 200ms ease-out;
+
+    &.dragging {
+        z-index: $z_dragging;
+        transition: none;
+        .node {
+            box-shadow: $node_shadow $node_shadow_color;
+            .add {
+                visibility: hidden !important;
+            }
+            
+            border-radius: $curvature;
+        }
+    }
+
+    &.ghost {
+        opacity: .5;
+        transition: none;
+        z-index: $z_dragging;
+    }
+
+    &.nondragged {
+        opacity: .6;
+        transition: opacity 400ms ease;
+    }
+
+    &.translating {
+        .node {
+            .actions {
+                border-bottom-left-radius: 7px;
+                border-bottom-right-radius: 7px;
+                overflow: hidden;
+            }
+
+            .unnamed_exit {
+                &.exit_table {
+                    border-bottom-left-radius: 0px;
+                    border-bottom-right-radius: 0px;
+                    height: 0 important;
+                    border-top: none;
+
+                    .exits {
+                        height: 0;
+                    }
+                    .exit {
+                        padding: 0 !important;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    &.selected {
+        .node {
+            box-shadow: 0px 0px 0px 3px $selected !important;
+            border: 1px solid $selected;
+        }
+    }
+
+    .node {
+        border: 1px solid $borders;
+        border-radius: $curvature;
+        background: #fff;
+        padding: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        display: table;
+
+        .cropped {
+            box-shadow: -1px -1px 0px 0px $node_shadow_color;
+            overflow: hidden;
+            min-width: $node_width;
+            border-top-left-radius: $curvature;
+            border-top-right-radius: $curvature;
+        }
+
+        .actions {
+            background: #fff;
+        }
+
+        .exit_table {
+            display: table;
+            width: 100%;
+            box-shadow: -1px -1px 0px 0px $node_shadow_color;
+            border-bottom-left-radius: $curvature;
+            border-bottom-right-radius: $curvature;
+
+            .exits {
+                border-collapse: collapse;
+                display: table-row;
+                height: 7px;
+                &:after {
+                    content: "";
+                    display: table;
+                    clear: both;
+                }
+            }
+        }
+
+        .add {
+            position: absolute;
+            right: $node_padding / 2 + px;
+            bottom: $node_padding / 2 + px;
+            visibility: hidden;
+            color: $blue;
+            text-decoration: none;
+            background: #fff;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            line-height: 8px;
+            font-size: 14px;
+        }
+        &:hover {
+            .add {
+                visibility: visible;
+            }
+            .drag_group {
+                visibility: visible;
+            }
+        }
+    }
+}
+
+.active {
+    position: absolute;
+    background: $active_color;
+    border: 1px solid $active_color - #111;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    padding: 3px 5px;
+    color: #fff;
+    font-weight: 500;
+    top: -10px;
+    left: -10px;
+    font-size: 13px;
+    min-width: 22px;
+    text-align: center;
+    cursor: default;
+}

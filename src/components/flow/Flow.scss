@@ -1,0 +1,27 @@
+@import '~/variables.scss';
+
+.loading {
+    visibility: hidden;
+    height: inherit;
+}
+
+.loaded {
+    height: inherit;
+    position: relative;
+}
+
+.nodeList {
+    height: 10000px;
+    position: relative;
+    user-select: none;
+}
+
+
+.dragSelection {
+    position: absolute;
+    background: $selection_square;
+    border: 0px solid $selection_square - #222;
+    opacity: .2;
+    pointer-events:none;
+    z-index: $z_selection;
+}   
