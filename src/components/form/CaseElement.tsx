@@ -1,7 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Select from 'react-select';
-import { InputToFocus } from '~/components/flow/routers/SwitchRouter';
+import { InputToFocus } from '~/components/flow/routers/switch/SwitchRouter';
 import TextInputElement from '~/components/form/textinputelement/TextInputElement';
 import { getOperatorConfig, Operator, operatorConfigList } from '~/config';
 import { Operators } from '~/config/operatorConfigs';

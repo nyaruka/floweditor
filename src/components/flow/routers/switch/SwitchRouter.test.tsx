@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
 import * as React from 'react';
+import { EXPRESSION_LABEL } from '~/components/flow/routers/constants';
 import { CaseElementProps } from '~/components/form/caseelement';
 import TextInputElement from '~/components/form/textinputelement/TextInputElement';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
@@ -12,7 +13,6 @@ import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils'
 import { createCase, createExit, createWaitRouterNode, Spanish } from '~/testUtils/assetCreators';
 import { reorderList } from '~/utils';
 
-import { EXPRESSION_LABEL } from './constants';
 import {
     addFocus,
     casePropsFromElement,

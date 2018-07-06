@@ -3,6 +3,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { GROUP_LABEL } from '~/components/flow/routers/constants';
+import * as styles from '~/components/flow/routers/switch/SwitchRouter.scss';
 import GroupsElement, { GroupsElementProps } from '~/components/form/GroupsElement';
 import {
     GetResultNameField,
@@ -16,9 +18,7 @@ import { Asset, AssetType } from '~/services/AssetService';
 import { AppState } from '~/store';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
-import { GROUP_LABEL } from './constants';
-import * as styles from './SwitchRouter.scss';
-
+// TODO: modules should not reference sibling modules (SwitchRouter)
 // import { endpointsPT } from '~/config';
 export interface GroupsRouterStoreProps {
     translating: boolean;

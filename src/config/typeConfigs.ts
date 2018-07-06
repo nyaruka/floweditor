@@ -27,10 +27,10 @@ import StartFlowComp from '~/components/flow/actions/startflow/StartFlow';
 import StartSessionComp from '~/components/flow/actions/startsession/StartSession';
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
 import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
-import GroupsRouter from '~/components/flow/routers/GroupsRouter';
-import { SubflowRouter } from '~/components/flow/routers/SubflowRouter';
-import SwitchRouter from '~/components/flow/routers/SwitchRouter';
-import WebhookRouter from '~/components/flow/routers/WebhookRouter';
+import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
+import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
+import SwitchRouter from '~/components/flow/routers/switch/SwitchRouter';
+import WebhookRouter from '~/components/flow/routers/webhook/WebhookRouter';
 import { AnyAction, RouterTypes, UINodeTypes } from '~/flowTypes';
 import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
 

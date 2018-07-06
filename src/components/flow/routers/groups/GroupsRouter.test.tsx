@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { GROUP_LABEL } from '~/components/flow/routers/constants';
 import { SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, setMock } from '~/testUtils';
 import {
@@ -9,7 +10,6 @@ import {
 } from '~/testUtils/assetCreators';
 import { setTrue } from '~/utils';
 
-import { GROUP_LABEL } from './constants';
 import { extractGroups, GroupsRouter, GroupsRouterProps, hasGroupsRouter } from './GroupsRouter';
 
 const groupsRouterNode = createGroupsRouterNode();

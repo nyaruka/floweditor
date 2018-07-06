@@ -12,6 +12,11 @@ import {
 } from 'react-beautiful-dnd';
 import { connect } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+import {
+    EXPRESSION_LABEL,
+    OPERAND_LOCALIZATION_DESC,
+    WAIT_LABEL
+} from '~/components/flow/routers/constants';
 import CaseElement, { CaseElementProps } from '~/components/form/CaseElement';
 import TextInputElement from '~/components/form/textinputelement/TextInputElement';
 import {
@@ -29,7 +34,6 @@ import { AppState } from '~/store';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { reorderList } from '~/utils';
 
-import { EXPRESSION_LABEL, OPERAND_LOCALIZATION_DESC, WAIT_LABEL } from './constants';
 import * as styles from './SwitchRouter.scss';
 
 export enum DragCursor {

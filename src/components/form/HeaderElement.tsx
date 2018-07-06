@@ -1,11 +1,12 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import * as styles from '~/components/flow/routers/Webhook.scss';
+import * as styles from '~/components/flow/routers/webhook/Webhook.scss';
 import ConnectedTextInputElement from '~/components/form/textinputelement/TextInputElement';
 import { renderIf } from '~/utils';
 
 import FormElement from './FormElement';
 
+// TODO: move this into webhook router component
 export interface Header {
     uuid: string;
     name: string;

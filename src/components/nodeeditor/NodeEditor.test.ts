@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import { casePropsFromNode } from '~/components/flow/routers/SwitchRouter';
+import { casePropsFromNode } from '~/components/flow/routers/switch/SwitchRouter';
 import { getTypeConfig } from '~/config';
 import { Types } from '~/config/typeConfigs';
 import { FlowDefinition, FlowNode, SwitchRouter } from '~/flowTypes';
