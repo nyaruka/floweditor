@@ -1,8 +1,8 @@
 import update from 'immutability-helper';
 import * as React from 'react';
 import { EXPRESSION_LABEL } from '~/components/flow/routers/constants';
-import { CaseElementProps } from '~/components/form/caseelement';
-import TextInputElement from '~/components/form/textinputelement/TextInputElement';
+import { CaseElementProps } from '~/components/form/case/CaseElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { getOperatorConfig, Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';

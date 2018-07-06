@@ -17,8 +17,8 @@ import {
     OPERAND_LOCALIZATION_DESC,
     WAIT_LABEL
 } from '~/components/flow/routers/constants';
-import CaseElement, { CaseElementProps } from '~/components/form/CaseElement';
-import TextInputElement from '~/components/form/textinputelement/TextInputElement';
+import CaseElement, { CaseElementProps } from '~/components/form/case/CaseElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
 import {
     GetResultNameField,
     hasCases,

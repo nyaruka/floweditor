@@ -1,4 +1,4 @@
-import ConnectedTextInputElement from '~/components/form/textinputelement/TextInputElement';
+import ConnectedTextInputElement from '~/components/form/textinput/TextInputElement';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { composeComponentTestUtils, restoreSpies, setMock } from '~/testUtils';
 import {

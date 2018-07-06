@@ -1,10 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import * as styles from '~/components/flow/routers/webhook/Webhook.scss';
-import ConnectedTextInputElement from '~/components/form/textinputelement/TextInputElement';
+import ConnectedTextInputElement from '~/components/form/textinput/TextInputElement';
 import { renderIf } from '~/utils';
 
-import FormElement from './FormElement';
+import FormElement from '../FormElement';
 
 // TODO: move this into webhook router component
 export interface Header {

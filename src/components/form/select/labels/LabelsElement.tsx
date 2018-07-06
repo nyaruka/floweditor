@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import SelectSearch from '~/components/form/selectsearch/SelectSearch';
 import { CreateOptions } from '~/flowTypes';
 import { Asset, Assets, AssetType } from '~/services/AssetService';
 import {
@@ -11,7 +10,8 @@ import {
     LabelIdCb
 } from '~/utils';
 
-import FormElement, { FormElementProps } from './FormElement';
+import FormElement, { FormElementProps } from '../../FormElement';
+import SelectSearch from '../SelectSearch';
 
 export interface LabelsElementProps extends FormElementProps {
     assets: Assets;

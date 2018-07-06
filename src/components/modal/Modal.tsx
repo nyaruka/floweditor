@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import Button, { ButtonProps, ButtonTypes } from '~/components/button/Button';
-import ConnectedTimeoutControl from '~/components/form/TimeoutControl';
+import ConnectedTimeoutControl from '~/components/form/timeout/TimeoutControl';
 import * as shared from '~/components/shared.scss';
 import { Types } from '~/config/typeConfigs';
 import { Case, FlowNode, SwitchRouter } from '~/flowTypes';

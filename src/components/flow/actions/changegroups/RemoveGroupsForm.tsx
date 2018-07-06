@@ -2,17 +2,17 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import CheckboxElement from '~/components/form/CheckboxElement';
-import GroupsElement from '~/components/form/GroupsElement';
+import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
+import GroupsElement from '~/components/form/select/groups/GroupsElement';
+import { ConfigProviderContext } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { ChangeGroups } from '~/flowTypes';
+import { Asset } from '~/services/AssetService';
 import { updateChangeGroupsForm } from '~/store/forms';
 import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
 
-import { ConfigProviderContext } from '~/config';
-import { fakePropType } from '~/config/ConfigProvider';
-import { ChangeGroups } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
 import ChangeGroupsFormProps from './props';
 import * as styles from './RemoveGroupsForm.scss';
 

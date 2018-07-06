@@ -1,10 +1,12 @@
-import { isValidURL } from '~/components/form/textinputelement/helpers';
+import { isValidURL } from '~/components/form/textinput/helpers';
 import { Asset } from '~/services/AssetService';
 
 import { FormEntry, ValidationFailure } from './nodeEditor';
 
 export type FormInput = string | string[] | number | Asset | Asset[];
 export type ValidatorFunc = (name: string, input: FormInput) => ValidationFailure[];
+
+// TODO: should not depend on components/..
 
 export const validate = (
     name: string,

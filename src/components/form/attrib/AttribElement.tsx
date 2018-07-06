@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SelectSearch from '~/components/form/selectsearch/SelectSearch';
+import SelectSearch from '~/components/form/select/SelectSearch';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { CreateOptions } from '~/flowTypes';
 import { Asset, Assets, AssetType } from '~/services/AssetService';
@@ -28,7 +28,7 @@ import {
     snakify
 } from '~/utils';
 
-import FormElement, { FormElementProps } from './FormElement';
+import FormElement, { FormElementProps } from '../FormElement';
 
 export interface AttribElementPassedProps extends FormElementProps {
     assets: Assets;

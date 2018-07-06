@@ -2,7 +2,7 @@
 // tslint:disable:ban-types
 import * as React from 'react';
 import { connect } from 'react-redux';
-import FlowElement from '~/components/form/FlowElement';
+import FlowElement from '~/components/form/select/flows/FlowElement';
 import { SaveLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';

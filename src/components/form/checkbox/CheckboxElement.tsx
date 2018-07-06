@@ -1,9 +1,9 @@
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-
 import { isRealValue, renderIf } from '~/utils';
+
+import { FormElementProps } from '../FormElement';
 import * as styles from './CheckboxElement.scss';
-import { FormElementProps } from './FormElement';
 
 export interface CheckboxElementProps extends FormElementProps {
     checked: boolean;

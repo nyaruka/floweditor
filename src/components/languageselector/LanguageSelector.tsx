@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SelectSearch from '~/components/form/selectsearch/SelectSearch';
+import SelectSearch from '~/components/form/select/SelectSearch';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/services/AssetService';

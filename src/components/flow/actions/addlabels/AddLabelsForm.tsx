@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import LabelsElement from '~/components/form/LabelsElement';
+import LabelsElement from '~/components/form/select/labels/LabelsElement';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Types } from '~/config/typeConfigs';

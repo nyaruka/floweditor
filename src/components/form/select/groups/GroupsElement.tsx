@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import SelectSearch from '~/components/form/selectsearch/SelectSearch';
 import { Asset, Assets, AssetType } from '~/services/AssetService';
 import {
     composeCreateNewOption,
@@ -9,7 +8,8 @@ import {
     isValidNewOption
 } from '~/utils';
 
-import FormElement, { FormElementProps } from './FormElement';
+import FormElement, { FormElementProps } from '../../FormElement';
+import SelectSearch from '../SelectSearch';
 
 export interface GroupOption {
     group: string;

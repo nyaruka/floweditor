@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import TextInputElement from '~/components/form/textinputelement/TextInputElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { Type } from '~/config';
 import { SetRunResult } from '~/flowTypes';
 import { AppState, DispatchWithState } from '~/store';
