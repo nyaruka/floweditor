@@ -7,5 +7,9 @@ const umdConfig = require('./webpack.umd');
  * @param env arguments passed in on the command line: https://webpack.js.org/guides/environment-variables/
  */
 module.exports = ({ NODE_ENV }) => {
-    return NODE_ENV === 'dev' ? devConfig : NODE_ENV === 'prev' ? prevConfig : umdConfig;
+    return NODE_ENV === 'development'
+        ? devConfig
+        : NODE_ENV === 'production'
+            ? prevConfig
+            : umdConfig;
 };
