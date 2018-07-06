@@ -113,6 +113,7 @@
     "jsplumb": "2.7.9",
     "lint-staged": "7.2.0",
     "local-storage": "1.4.2",
+    "mini-css-extract-plugin": "0.4.1",
     "netlify-lambda": "0.4.0",
     "node-sass": "4.9.0",
     "npm": "6.1.0",
