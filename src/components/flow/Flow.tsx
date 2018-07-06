@@ -3,8 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
-import * as styles from '~/components/Flow.scss';
-import ConnectedNode, { DragPoint } from '~/components/Node';
+import ConnectedNode, { DragPoint } from '~/components/flow/node/Node';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
 import Simulator from '~/components/simulator/Simulator';
 import Sticky from '~/components/sticky/Sticky';
@@ -40,6 +39,8 @@ import { RenderNode } from '~/store/flowContext';
 import { DragSelection } from '~/store/flowEditor';
 import { getCollisions } from '~/store/helpers';
 import { isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from '~/utils';
+
+import * as styles from './Flow.scss';
 
 export interface FlowStoreProps {
     translating: boolean;

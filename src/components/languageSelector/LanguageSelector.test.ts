@@ -3,7 +3,7 @@ import {
     LanguageSelector,
     languageSelectorContainerSpecId,
     LanguageSelectorStoreProps
-} from '~/components/LanguageSelector';
+} from '~/components/languageselector/LanguageSelector';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import { English, languages, Spanish } from '~/testUtils/assetCreators';
 

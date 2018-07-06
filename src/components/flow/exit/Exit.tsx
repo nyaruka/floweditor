@@ -5,13 +5,14 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Counter from '~/components/Counter';
-import * as styles from '~/components/Exit.scss';
+import Counter from '~/components/counter/Counter';
 import { Exit, FlowNode, LocalizationMap } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/services/AssetService';
 import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '~/store';
 import { createClickHandler, getLocalization } from '~/utils';
+
+import * as styles from './Exit.scss';
 
 export interface ExitPassedProps {
     exit: Exit;

@@ -11,7 +11,7 @@ import {
     nodesContainerSpecId,
     nodeSpecId,
     REPAINT_TIMEOUT
-} from '~/components/Flow';
+} from '~/components/flow/Flow';
 import { Types } from '~/config/typeConfigs';
 import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';

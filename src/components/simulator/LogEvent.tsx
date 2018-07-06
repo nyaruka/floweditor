@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ConnectedModal from '~/components/Modal';
+import ConnectedModal from '~/components/modal/Modal';
 import { Types } from '~/config/typeConfigs';
 import { Group } from '~/flowTypes';
 

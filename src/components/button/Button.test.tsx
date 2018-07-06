@@ -1,4 +1,4 @@
-import Button, { ButtonProps, ButtonTypes } from '~/components/Button';
+import Button, { ButtonProps, ButtonTypes } from '~/components/button/Button';
 import { composeComponentTestUtils, setMock } from '~/testUtils';
 
 const baseProps: ButtonProps = {

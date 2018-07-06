@@ -2,11 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import SelectSearch from '~/components/form/selectsearch/SelectSearch';
-import { languageSelector } from '~/components/LanguageSelector.scss';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/services/AssetService';
 import { AppState, DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store';
+
+import { languageSelector } from './LanguageSelector.scss';
 
 export interface LanguageSelectorStoreProps {
     language: Asset;

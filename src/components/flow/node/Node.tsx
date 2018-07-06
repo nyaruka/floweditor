@@ -5,10 +5,9 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import CounterComp from '~/components/Counter';
-import ExitComp from '~/components/Exit';
+import CounterComp from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
-import * as styles from '~/components/Node.scss';
+import ExitComp from '~/components/flow/exit/Exit';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { getOperatorConfig } from '~/config/operatorConfigs';
@@ -45,6 +44,8 @@ import {
 } from '~/store';
 import { DragSelection, updateDragSelection } from '~/store/flowEditor';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils';
+
+import * as styles from './Node.scss';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types

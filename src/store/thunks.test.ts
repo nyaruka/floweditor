@@ -1,6 +1,6 @@
 import mutate from 'immutability-helper';
 import { v4 as generateUUID } from 'uuid';
-import { DragPoint } from '~/components/Node';
+import { DragPoint } from '~/components/flow/node/Node';
 import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
