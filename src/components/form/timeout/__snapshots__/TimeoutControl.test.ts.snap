@@ -53,7 +53,7 @@ exports[`TimeoutControl render should render select control if passed a timeout 
     ignoreCase={true}
     inputProps={Object {}}
     isLoading={false}
-    joinValues={false}
+    joinValues={true}
     labelKey="label"
     matchPos="any"
     matchProp="any"

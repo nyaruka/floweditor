@@ -1,18 +1,21 @@
 const { ProvidePlugin, LoaderOptionsPlugin } = require('webpack');
 const { pkgName } = require('./utils');
 const paths = require('./paths');
+const path = require('path');
 
 const name = pkgName();
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     output: {
         filename: `${name}.js`
     },
     resolve: {
         modules: [paths.src, 'node_modules'],
         alias: {
-            '~': paths.src
+            '~': paths.src,
+            // https://github.com/JedWatson/react-select/issues/2025
+            react: path.resolve(__dirname, '../node_modules', 'react')
         },
         extensions: ['.ts', '.tsx', '.js']
     },

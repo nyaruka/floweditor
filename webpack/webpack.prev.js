@@ -2,7 +2,6 @@ const {
     optimize: { ModuleConcatenationPlugin },
     EnvironmentPlugin
 } = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const paths = require('./paths');
 const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
@@ -19,7 +18,7 @@ const prevConfig = {
     },
     plugins: [
         new EnvironmentPlugin({
-            NODE_ENV: 'production',
+            NODE_ENV: 'preview',
             DEPLOY_PRIME_URL: JSON.stringify(process.env.DEPLOY_PRIME_URL)
         }),
         new MiniCssExtractPlugin({
@@ -35,7 +34,15 @@ const prevConfig = {
     module: {
         rules: [
             {
+                test: /\.s?css$/,
+                include: [paths.components],
+                use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
+            },
+
+            {
                 test: /\.(sa|sc|c)ss$/,
+                include: [paths.src],
+                exclude: [paths.components],
                 use: [MiniCssExtractPlugin.loader, 'css-loader', postCSSLoader, 'sass-loader']
             },
             {

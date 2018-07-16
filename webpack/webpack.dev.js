@@ -87,13 +87,13 @@ const devConfig = {
         rules: [
             {
                 test: /\.s?css$/,
-                include: [paths.component],
+                include: [paths.components],
                 use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
             },
             {
                 test: /\.s?css$/,
                 include: [paths.src],
-                exclude: [paths.component],
+                exclude: [paths.components],
                 use: ['style-loader', 'css-loader', postCSSLoader, 'sass-loader']
             },
             {

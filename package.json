@@ -23,7 +23,7 @@
     "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}' -e 'src/**/*.d.ts'",
     "clean:umd": "shx rm -rf umd",
     "clean:prev": "shx rm -rf preview/dist",
-    "build:prev": "npm run clean:prev && webpack --config webpack/webpack.config.js --env.NODE_ENV=production && npm run lambda:build",
+    "build:prev": "npm run clean:prev && webpack --config webpack/webpack.config.js --env.NODE_ENV=preview && npm run lambda:build",
     "build:umd": "npm run clean:umd & webpack --config webpack/webpack.config.js --env.NODE_ENV=production",
     "bundleStats:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=development --profile --json > stats.json",
     "bundleStats:dev:windows": "webpack --config webpack/webpack.config.js --env.NODE_ENV=development --profile --json | Out-file 'stats.json' -Encoding OEM",
@@ -56,8 +56,6 @@
     "react-dom": ">=16.0"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "3.4.8",
-    "@storybook/react": "3.4.8",
     "@types/classnames": "2.2.4",
     "@types/common-tags": "1.4.0",
     "@types/core-js": "2.5.0",
@@ -100,7 +98,6 @@
     "enzyme-to-json": "3.3.4",
     "eslint": "5.0.1",
     "eslint-config-xo-space": "0.19.0",
-    "extract-text-webpack-plugin": "3.0.2",
     "fast-deep-equal": "2.0.1",
     "file-loader": "1.1.11",
     "get-input-selection": "1.1.4",

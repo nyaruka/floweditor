@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Select from 'react-select';
+import { Type } from '~/config';
 import { configsToDisplay } from '~/config/typeConfigs';
 
-import { Type } from '~/config';
 import * as formStyles from './NodeEditor.scss';
 
 export interface TypeListProps {
@@ -43,6 +43,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                 </div>
                 <div>
                     <Select
+                        joinValues={true}
                         value={this.state.config}
                         onChange={this.handleChangeType}
                         valueKey="type"

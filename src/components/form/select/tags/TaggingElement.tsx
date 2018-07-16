@@ -62,6 +62,7 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
         return (
             <FormElement name={this.props.name} entry={this.props.entry}>
                 <SelectCreatable
+                    joinValues={true}
                     className={className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}

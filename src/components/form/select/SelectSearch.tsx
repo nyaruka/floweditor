@@ -214,6 +214,7 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
             return (
                 <AsyncCreatable
                     ref={this.selectRef}
+                    joinValues={true}
                     className={this.props.__className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
@@ -241,6 +242,7 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
             return (
                 <Async
                     ref={this.selectRef}
+                    joinValues={true}
                     className={this.props.__className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
