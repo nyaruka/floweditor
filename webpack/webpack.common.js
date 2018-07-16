@@ -5,7 +5,7 @@ const paths = require('./paths');
 const name = pkgName();
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     output: {
         filename: `${name}.js`
     },

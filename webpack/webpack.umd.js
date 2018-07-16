@@ -15,6 +15,7 @@ const pascalCase = str => require('camelcase')(str, { pascalCase: true });
 const name = pkgName();
 
 const prodConfig = {
+    mode: 'production',
     entry: {
         [name]: paths.lib,
         [`${name}.min`]: paths.lib
