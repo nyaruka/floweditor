@@ -11,6 +11,7 @@ Object {
   "filterOption": [Function],
   "ignoreAccents": false,
   "ignoreCase": false,
+  "joinValues": true,
   "labelKey": "name",
   "loadOptions": [Function],
   "loadingPlaceholder": "Loading...",
@@ -52,6 +53,7 @@ exports[`SelectSearch render should render self, children with required props 2`
     filterOption={[Function]}
     ignoreAccents={false}
     ignoreCase={false}
+    joinValues={true}
     labelKey="name"
     loadOptions={[Function]}
     loadingPlaceholder="Loading..."
@@ -88,7 +90,7 @@ exports[`SelectSearch render should render self, children with required props 2`
       ignoreCase={false}
       inputProps={Object {}}
       isLoading={false}
-      joinValues={false}
+      joinValues={true}
       labelKey="name"
       loadOptions={[Function]}
       loadingPlaceholder="Loading..."
@@ -153,6 +155,12 @@ exports[`SelectSearch render should render self, children with required props 2`
       <div
         className="Select Select--single is-searchable"
       >
+        <input
+          disabled={false}
+          name="Groups"
+          type="hidden"
+          value=""
+        />
         <div
           className="Select-control"
           onKeyDown={[Function]}
