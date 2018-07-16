@@ -3,12 +3,12 @@ const {
     EnvironmentPlugin
 } = require('webpack');
 const { smartStrategy } = require('webpack-merge');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 const { uglifyPlugin, compressionPlugin } = require('./plugins');
 const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
 const { pkgName } = require('./utils');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const pascalCase = str => require('camelcase')(str, { pascalCase: true });
 
@@ -32,7 +32,12 @@ const prodConfig = {
         new EnvironmentPlugin({
             NODE_ENV: 'production'
         }),
-        new ExtractTextPlugin(`${name}.min.css`),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: '[name].[hash].css',
+            chunkFilename: '[id].[hash].css'
+        }),
         new ModuleConcatenationPlugin(),
         uglifyPlugin,
         compressionPlugin
@@ -40,21 +45,8 @@ const prodConfig = {
     module: {
         rules: [
             {
-                test: /\.s?css$/,
-                include: [paths.component],
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [typingsForCssModulesLoader(true), postCSSLoader, 'sass-loader']
-                })
-            },
-            {
-                test: /\.s?css$/,
-                include: [paths.src],
-                exclude: [paths.component],
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: ['css-loader', postCSSLoader, 'sass-loader']
-                })
+                test: /\.(sa|sc|c)ss$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader', postCSSLoader, 'sass-loader']
             },
             {
                 test: /\.tsx?$/,

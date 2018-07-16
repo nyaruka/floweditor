@@ -2,7 +2,6 @@ const {
     optimize: { ModuleConcatenationPlugin },
     EnvironmentPlugin
 } = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const { smartStrategy } = require('webpack-merge');
 const paths = require('./paths');
 const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
