@@ -1,8 +1,12 @@
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import { createAddGroupsAction } from '~/testUtils/assetCreators';
-import { AddGroupsForm, LABEL, labelSpecId } from './AddGroupsForm';
-import { AddGroupsFormHelper } from './AddGroupsFormHelper';
-import ChangeGroupsFormProps from './props';
+import {
+    AddGroupsForm,
+    LABEL,
+    labelSpecId
+} from '~/components/flow/actions/changegroups/AddGroupsForm';
+import { AddGroupsFormHelper } from '~/components/flow/actions/changegroups/AddGroupsFormHelper';
+import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 

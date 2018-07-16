@@ -9,7 +9,7 @@ import LabelsElement, {
     createNewOption,
     LabelsElementProps,
     NAME
-} from './LabelsElement';
+} from '~/components/form/select/labels/LabelsElement';
 
 const { assets: labels } = require('~/test/assets/labels.json') as { assets: Label[] };
 

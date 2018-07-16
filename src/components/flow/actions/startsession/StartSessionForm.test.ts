@@ -3,8 +3,11 @@ import { Types } from '~/config/typeConfigs';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import { createStartSessionAction } from '~/testUtils/assetCreators';
 
-import { StartSessionForm, StartSessionFormProps } from './StartSessionForm';
-import { StartSessionFormHelper } from './StartSessionFormHelper';
+import {
+    StartSessionForm,
+    StartSessionFormProps
+} from '~/components/flow/actions/startsession/StartSessionForm';
+import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 

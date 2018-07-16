@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as styles from './Button.scss';
+import * as styles from '~/components/button/Button.scss';
 
 export enum ButtonTypes {
     primary = 'primary',

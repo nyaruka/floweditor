@@ -9,7 +9,7 @@ import { AppState, UpdateTimeout, updateTimeout } from '~/store';
 import { DispatchWithState } from '~/store/thunks';
 import { isRealValue, renderIf } from '~/utils';
 
-import * as styles from './TimeoutControl.scss';
+import * as styles from '~/components/form/timeout/TimeoutControl.scss';
 
 export interface TimeoutControlStoreProps {
     checked: boolean;

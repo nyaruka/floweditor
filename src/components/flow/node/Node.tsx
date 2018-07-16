@@ -45,7 +45,7 @@ import {
 import { DragSelection, updateDragSelection } from '~/store/flowEditor';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils';
 
-import * as styles from './Node.scss';
+import * as styles from '~/components/flow/node/Node.scss';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types

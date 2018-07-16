@@ -5,7 +5,6 @@ import { Types } from '~/config/typeConfigs';
 import { AnyAction, FlowNode } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
-
 import ActionTypes, {
     UpdateFormAction,
     UpdateNodeEditorSettings,
@@ -15,8 +14,8 @@ import ActionTypes, {
     UpdateTimeoutAction,
     UpdateTypeConfigAction,
     UpdateUserAddingActionAction
-} from './actionTypes';
-import Constants from './constants';
+} from '~/store/actionTypes';
+import Constants from '~/store/constants';
 
 export interface ValidationFailure {
     message: string;
@@ -59,6 +58,8 @@ export interface SendMsgFormState extends FormState {
     quickReplies: StringArrayEntry;
     sendAll: boolean;
 }
+
+export interface SwitchRouterFormState extends FormState {}
 
 export interface AddLabelsFormState extends FormState {
     labels: AssetArrayEntry;
@@ -120,7 +121,8 @@ export type NodeEditorForm =
     | SetContactAttribFormState
     | AddLabelsFormState
     | ChangeGroupsFormState
-    | SendEmailFormState;
+    | SendEmailFormState
+    | SwitchRouterFormState;
 
 export interface NodeEditorSettings {
     originalNode: FlowNode;

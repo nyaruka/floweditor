@@ -4,7 +4,7 @@ import {
     TIMEOUT_OPTIONS,
     TimeoutControl,
     TimeoutControlStoreProps
-} from './TimeoutControl';
+} from '~/components/form/timeout/TimeoutControl';
 
 const baseProps: TimeoutControlStoreProps = {
     checked: false,

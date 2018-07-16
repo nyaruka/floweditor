@@ -2,7 +2,7 @@ import { FlowDefinition, StickyNote } from '~/flowTypes';
 import { composeComponentTestUtils, composeDuxState, setMock } from '~/testUtils';
 import { set } from '~/utils';
 
-import { Sticky, StickyProps } from './Sticky';
+import { Sticky, StickyProps } from '~/components/sticky/Sticky';
 
 jest.useFakeTimers();
 

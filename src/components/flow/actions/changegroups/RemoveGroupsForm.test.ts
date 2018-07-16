@@ -4,11 +4,16 @@ import { updateChangeGroupsForm } from '~/store/forms';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import { createAddGroupsAction } from '~/testUtils/assetCreators';
 
-import { labelSpecId } from './AddGroupsForm';
-import { mapGroupsToAssets } from './helpers';
-import ChangeGroupFormProps from './props';
-import { LABEL, REMOVE_FROM_ALL, REMOVE_FROM_ALL_DESC, RemoveGroupsForm } from './RemoveGroupsForm';
-import { RemoveGroupsFormHelper } from './RemoveGroupsFormHelper';
+import { labelSpecId } from '~/components/flow/actions/changegroups/AddGroupsForm';
+import { mapGroupsToAssets } from '~/components/flow/actions/changegroups/helpers';
+import ChangeGroupFormProps from '~/components/flow/actions/changegroups/props';
+import {
+    LABEL,
+    REMOVE_FROM_ALL,
+    REMOVE_FROM_ALL_DESC,
+    RemoveGroupsForm
+} from '~/components/flow/actions/changegroups/RemoveGroupsForm';
+import { RemoveGroupsFormHelper } from '~/components/flow/actions/changegroups/RemoveGroupsFormHelper';
 
 const addGroupsAction = createAddGroupsAction();
 const formHelper = new RemoveGroupsFormHelper();

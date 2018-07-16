@@ -1,7 +1,7 @@
 import { FlowDefinition } from '~/flowTypes';
 import { English, Spanish } from '~/testUtils/assetCreators';
 
-import Constants from './constants';
+import Constants from '~/store/constants';
 import reducer, {
     definition as definitionReducer,
     dependencies as dependenciesReducer,
@@ -17,7 +17,7 @@ import reducer, {
     updateLanguages,
     updateNodes,
     updateResultMap
-} from './flowContext';
+} from '~/store/flowContext';
 
 const boringFlow = require('~/test/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('~/test/flows/empty.json') as FlowDefinition;

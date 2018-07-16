@@ -17,7 +17,7 @@ import {
     actionOverlaySpecId,
     ActionWrapper,
     ActionWrapperProps
-} from './Action';
+} from '~/components/flow/actions/action/Action';
 
 const sendMsgAction = createSendMsgAction();
 const sendMsgAction1 = createSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });

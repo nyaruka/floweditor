@@ -16,8 +16,8 @@ import ActionTypes, {
     UpdatePendingConnectionAction,
     UpdatePendingConnectionsAction,
     UpdateTranslatingAction
-} from './actionTypes';
-import Constants from './constants';
+} from '~/store/actionTypes';
+import Constants from '~/store/constants';
 
 // tslint:disable:no-shadowed-variable
 export interface DragSelection {

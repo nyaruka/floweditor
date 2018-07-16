@@ -1,12 +1,11 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 import { findRenderedComponentWithType, renderIntoDocument } from 'react-dom/test-utils';
-
 import ConfigProvider, {
     fakePropType,
     SINGLE_CHILD_ERROR,
     VALID_CHILD_ERROR
-} from './ConfigProvider';
+} from '~/config/ConfigProvider';
 
 const config = require('~/test/config.js');
 

@@ -1,6 +1,6 @@
 import { languages } from '~/testUtils/assetCreators';
 
-import Localization from './Localization';
+import Localization from '~/services/Localization';
 
 const {
     nodes: [

@@ -15,8 +15,8 @@ import { SendBroadcastFunc, updateSendBroadcastForm } from '~/store/forms';
 import { SendBroadcastFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import * as broadcastStyles from './SendBroadcast.scss';
-import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
+import * as broadcastStyles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
+import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 
 export interface SendBroadcastFormStoreProps {
     language: Asset;

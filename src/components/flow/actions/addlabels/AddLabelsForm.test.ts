@@ -4,8 +4,11 @@ import { composeComponentTestUtils } from '~/testUtils';
 import { createAddLabelsAction } from '~/testUtils/assetCreators';
 import { setTrue } from '~/utils';
 
-import { AddLabelsForm, AddLabelsFormProps } from './AddLabelsForm';
-import { AddLabelsFormHelper } from './AddLabelsFormHelper';
+import {
+    AddLabelsForm,
+    AddLabelsFormProps
+} from '~/components/flow/actions/addlabels/AddLabelsForm';
+import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
 
 const { assets: labels } = require('~/test/assets/labels.json') as {
     assets: Label[];

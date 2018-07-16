@@ -2,8 +2,8 @@ import { applyMiddleware, createStore, Middleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import rootReducer from './rootReducer';
-import AppState, { initialState } from './state';
+import rootReducer from '~/store/rootReducer';
+import AppState, { initialState } from '~/store/state';
 
 const middlewares: Middleware[] = [thunk];
 

@@ -1,7 +1,7 @@
 import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils, getSpecWrapper, Resp } from '~/testUtils';
 
-import SelectValue, { SelectValueProps } from './SelectValue';
+import SelectValue, { SelectValueProps } from '~/components/form/select/SelectValue';
 
 const groupsResp = require('~/test/assets/groups.json') as Resp;
 

@@ -3,7 +3,7 @@ import ConnectedModal from '~/components/modal/Modal';
 import { Types } from '~/config/typeConfigs';
 import { Group } from '~/flowTypes';
 
-import * as styles from './Simulator.scss';
+import * as styles from '~/components/simulator/Simulator.scss';
 
 interface MsgProps {
     text: string;

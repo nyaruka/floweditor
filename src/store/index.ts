@@ -13,10 +13,10 @@ import {
     UpdateTranslating,
     UpdateTypeConfig,
     UpdateUserAddingAction
-} from './actionTypes';
-import Constants from './constants';
-import createStore from './createStore';
-import { CompletionOption, updateDefinition, updateDependencies } from './flowContext';
+} from '~/store/actionTypes';
+import Constants from '~/store/constants';
+import createStore from '~/store/createStore';
+import { CompletionOption, updateDefinition, updateDependencies } from '~/store/flowContext';
 import {
     updateCreateNodePosition,
     updateDragGroup,
@@ -27,7 +27,7 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updateTranslating
-} from './flowEditor';
+} from '~/store/flowEditor';
 import {
     updateForm,
     updateOperand,
@@ -36,8 +36,8 @@ import {
     updateTimeout,
     updateTypeConfig,
     updateUserAddingAction
-} from './nodeEditor';
-import AppState, { initialState } from './state';
+} from '~/store/nodeEditor';
+import AppState, { initialState } from '~/store/state';
 import {
     ActionAC,
     ConnectionEvent,
@@ -80,7 +80,7 @@ import {
     UpdateDimensions,
     UpdateSticky,
     updateSticky
-} from './thunks';
+} from '~/store/thunks';
 
 export {
     AppState,

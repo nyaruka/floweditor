@@ -9,7 +9,7 @@ import HeaderElement, {
     removeIcoSpecId,
     VALUE_PLACEHOLDER,
     valueConatainerSpecId
-} from './HeaderElement';
+} from '~/components/form/header/HeaderElement';
 
 const headers: Header[] = [
     {

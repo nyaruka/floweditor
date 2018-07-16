@@ -3,12 +3,12 @@ import { Types } from '~/config/typeConfigs';
 import { createMockStore, prepMockDuxState } from '~/testUtils';
 import { createSetContactFieldAction, createSetContactNameAction } from '~/testUtils/assetCreators';
 
-import Constants from './constants';
+import Constants from '~/store/constants';
 import {
     updateSendBroadcastForm,
     updateSetContactAttribForm,
     updateStartSessionForm
-} from './forms';
+} from '~/store/forms';
 
 const [flowAsset] = require('~/test/assets/flows.json');
 

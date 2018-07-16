@@ -9,7 +9,12 @@ import {
 } from '~/testUtils/assetCreators';
 import { isOptionUnique, isValidNewOption } from '~/utils';
 
-import { AttribElement, AttribElementProps, CREATE_PROMPT, createNewOption } from './AttribElement';
+import {
+    AttribElement,
+    AttribElementProps,
+    CREATE_PROMPT,
+    createNewOption
+} from '~/components/form/attrib/AttribElement';
 
 const attribute: Asset = {
     id: 'name',

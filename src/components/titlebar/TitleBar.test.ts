@@ -10,7 +10,7 @@ import TitleBar, {
     titlebarContainerSpecId,
     TitleBarProps,
     titlebarSpecId
-} from './TitleBar';
+} from '~/components/titlebar/TitleBar';
 
 const baseProps: TitleBarProps = {
     title: 'Send Message',

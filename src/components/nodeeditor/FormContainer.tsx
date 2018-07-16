@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import * as formStyles from './NodeEditor.scss';
+import * as formStyles from '~/components/nodeeditor/NodeEditor.scss';
 
 export const FormContainer: React.SFC<{
     onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void;

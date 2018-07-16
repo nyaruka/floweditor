@@ -28,7 +28,7 @@ import {
     snakify
 } from '~/utils';
 
-import FormElement, { FormElementProps } from '../FormElement';
+import FormElement, { FormElementProps } from '~/components/form/FormElement';
 
 export interface AttribElementPassedProps extends FormElementProps {
     assets: Assets;

@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import TextareaAutosize from 'react-autosize-textarea';
+import TextareaAutosize from 'react-autosize-textarea/lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { FlowDefinition, StickyNote } from '~/flowTypes';
@@ -9,7 +9,7 @@ import { AppState, DispatchWithState, UpdateSticky, updateSticky } from '~/store
 import { OnResetDragSelection, onResetDragSelection } from '~/store/thunks';
 import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '~/utils';
 
-import * as styles from './Sticky.scss';
+import * as styles from '~/components/sticky/Sticky.scss';
 
 type DragFunction = (event: DragEvent) => void;
 export const STICKY_SPEC_ID: string = 'sticky-container';

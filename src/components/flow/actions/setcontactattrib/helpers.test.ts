@@ -3,7 +3,12 @@ import { SetContactName } from '~/flowTypes';
 import { AssetType } from '~/services/AssetService';
 import { createSetContactFieldAction, createSetContactNameAction } from '~/testUtils/assetCreators';
 
-import { fieldToAsset, newFieldAction, newPropertyAction, propertyToAsset } from './helpers';
+import {
+    fieldToAsset,
+    newFieldAction,
+    newPropertyAction,
+    propertyToAsset
+} from '~/components/flow/actions/setcontactattrib/helpers';
 
 const setContactName = createSetContactNameAction();
 const setContactField = createSetContactFieldAction();

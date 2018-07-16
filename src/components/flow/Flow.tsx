@@ -40,7 +40,7 @@ import { DragSelection } from '~/store/flowEditor';
 import { getCollisions } from '~/store/helpers';
 import { isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from '~/utils';
 
-import * as styles from './Flow.scss';
+import * as styles from '~/components/flow/Flow.scss';
 
 export interface FlowStoreProps {
     translating: boolean;

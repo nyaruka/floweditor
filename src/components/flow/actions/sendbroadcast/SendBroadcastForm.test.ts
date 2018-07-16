@@ -5,8 +5,11 @@ import { LocalizedObject } from '~/services/Localization';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import { createBroadcastMsgAction, Spanish } from '~/testUtils/assetCreators';
 
-import { SendBroadcastForm, SendBroadcastFormProps } from './SendBroadcastForm';
-import { SendBroadcastFormHelper } from './SendBroadcastFormHelper';
+import {
+    SendBroadcastForm,
+    SendBroadcastFormProps
+} from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
+import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 

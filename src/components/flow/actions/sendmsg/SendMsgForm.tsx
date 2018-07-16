@@ -3,6 +3,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as styles from '~/components/flow/actions/action/Action.scss';
+import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
+import { SendMsgFormHelper } from '~/components/flow/actions/sendmsg/SendMsgFormHelper';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
@@ -14,9 +16,6 @@ import { AppState, DispatchWithState } from '~/store';
 import { SendMsgFunc, updateSendMsgForm } from '~/store/forms';
 import { SendMsgFormState } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
-
-import * as localStyles from './SendMsgForm.scss';
-import { SendMsgFormHelper } from './SendMsgFormHelper';
 
 const MAX_REPLIES = 10;
 

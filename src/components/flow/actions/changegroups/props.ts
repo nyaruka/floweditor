@@ -1,4 +1,4 @@
-import { FormHelper } from '~/config/typeConfigs';
+import { ActionFormHelper } from '~/config/typeConfigs';
 import { ChangeGroups } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { ChangeGroupsFunc } from '~/store/forms';
@@ -13,7 +13,7 @@ export interface ChangeGroupsPassedProps {
     action: ChangeGroups;
     updateAction: (action: ChangeGroups) => void;
     groups: Asset[];
-    formHelper: FormHelper;
+    formHelper: ActionFormHelper;
 }
 
 export type ChangeGroupsFormProps = ChangeGroupsPassedProps & ChangeGroupsStoreProps;

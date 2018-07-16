@@ -1,7 +1,7 @@
 import mutate from 'immutability-helper';
 import { AssetType } from '~/services/AssetService';
 
-import { DispatchWithState, GetState } from '.';
+import { DispatchWithState, GetState } from '~/store';
 import {
     AddLabelsFormState,
     AssetEntry,
@@ -15,8 +15,8 @@ import {
     StartSessionFormState,
     StringEntry,
     updateForm
-} from './nodeEditor';
-import { Thunk } from './thunks';
+} from '~/store/nodeEditor';
+import { Thunk } from '~/store/thunks';
 
 export type SendBroadcastFunc = (
     updated: Partial<SendBroadcastFormState>

@@ -11,7 +11,7 @@ import {
     getLocalizations,
     getOrderedNodes,
     getUniqueDestinations
-} from './helpers';
+} from '~/store/helpers';
 
 const mutate = require('immutability-helper');
 

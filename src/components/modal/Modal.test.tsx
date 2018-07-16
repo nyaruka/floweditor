@@ -4,7 +4,7 @@ import { Types } from '~/config/typeConfigs';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createCase, createExit, createWaitRouterNode } from '~/testUtils/assetCreators';
 
-import { Modal, ModalProps } from './Modal';
+import { Modal, ModalProps } from '~/components/modal/Modal';
 
 const waitForRespTitle = <div key={'front'}>Wait for Response</div>;
 

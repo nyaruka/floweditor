@@ -17,6 +17,7 @@ import {
     OPERAND_LOCALIZATION_DESC,
     WAIT_LABEL
 } from '~/components/flow/routers/constants';
+import * as styles from '~/components/flow/routers/SwitchRouterForm.scss';
 import CaseElement, { CaseElementProps } from '~/components/form/case/CaseElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import {
@@ -33,8 +34,6 @@ import { LocalizedObject } from '~/services/Localization';
 import { AppState } from '~/store';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { reorderList } from '~/utils';
-
-import * as styles from './SwitchRouter.scss';
 
 export enum DragCursor {
     move = 'move',

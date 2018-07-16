@@ -10,8 +10,8 @@ import { SetRunResultFunc, updateSetRunResultForm } from '~/store/forms';
 import { SetRunResultFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import * as styles from './SetRunResult.scss';
-import { SetRunResultFormHelper } from './SetRunResultFormHelper';
+import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
+import { SetRunResultFormHelper } from '~/components/flow/actions/setrunresult/SetRunResultFormHelper';
 
 export interface SetRunResultFormStoreProps {
     typeConfig: Type;

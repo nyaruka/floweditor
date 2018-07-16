@@ -4,10 +4,10 @@ import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 
-import Constants from './constants';
-import { ContactFields, RenderNode, ResultMap } from './flowContext';
-import { DragSelection } from './flowEditor';
-import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
+import Constants from '~/store/constants';
+import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
+import { DragSelection } from '~/store/flowEditor';
+import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> {

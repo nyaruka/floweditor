@@ -7,7 +7,7 @@ import SetRunResultComp, {
     getClearPlaceholder,
     getResultNameMarkup,
     getSavePlaceholder
-} from './SetRunResult';
+} from '~/components/flow/actions/setrunresult/SetRunResult';
 
 const setRunResultAction = createSetRunResultAction();
 

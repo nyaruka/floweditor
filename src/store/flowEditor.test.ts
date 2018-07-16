@@ -1,8 +1,8 @@
 import { v4 as generateUUID } from 'uuid';
 import { Spanish } from '~/testUtils/assetCreators';
 
-import Constants from './constants';
-import { RenderNode } from './flowContext';
+import Constants from '~/store/constants';
+import { RenderNode } from '~/store/flowContext';
 import {
     createNodePosition as createNodePositionReducer,
     dragGroup as dragGroupReducer,
@@ -28,8 +28,8 @@ import {
     updatePendingConnection,
     updatePendingConnections,
     updateTranslating
-} from './flowEditor';
-import { getFlowComponents, getGhostNode } from './helpers';
+} from '~/store/flowEditor';
+import { getFlowComponents, getGhostNode } from '~/store/helpers';
 
 const flowsResp = require('~/test/assets/flows.json');
 const boringFlow = require('~/test/flows/boring.json');

@@ -9,6 +9,10 @@ import { DragPoint } from '~/components/flow/node/Node';
 import { CaseElementProps } from '~/components/form/case/CaseElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import ConnectedModal, { ButtonSet } from '~/components/modal/Modal';
+import { DEFAULT_BODY, GROUPS_OPERAND } from '~/components/nodeeditor/constants';
+import FormContainer from '~/components/nodeeditor/FormContainer';
+import * as formStyles from '~/components/nodeeditor/NodeEditor.scss';
+import TypeList from '~/components/nodeeditor/TypeList';
 import * as shared from '~/components/shared.scss';
 import { Operators } from '~/config/operatorConfigs';
 import { FormHelper, Mode, Type, Types } from '~/config/typeConfigs';
@@ -66,11 +70,6 @@ import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowConte
 import { getSuggestedResultName } from '~/store/helpers';
 import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '~/store/thunks';
-
-import { DEFAULT_BODY, GROUPS_OPERAND } from './constants';
-import FormContainer from './FormContainer';
-import * as formStyles from './NodeEditor.scss';
-import TypeList from './TypeList';
 
 export type GetResultNameField = () => JSX.Element;
 export type SaveLocalizations = (
@@ -1110,8 +1109,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
     private hasAdvanced(): boolean {
         const mode: Mode = this.getMode();
-
-        return this.props.typeConfig.allows(mode);
+        return (this.props.typeConfig.advanced & mode) === mode;
     }
 
     private getButtons(): ButtonSet {

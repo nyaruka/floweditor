@@ -1,5 +1,8 @@
 import { FlowDefinition, ChangeGroups } from '~/flowTypes';
-import { mapGroupsToAssets, mapAssetsToGroups } from './helpers';
+import {
+    mapGroupsToAssets,
+    mapAssetsToGroups
+} from '~/components/flow/actions/changegroups/helpers';
 
 const definition: FlowDefinition = require('~/test/assets/flows/9ecc8e84-6b83-442b-a04a-8094d5de997b.json');
 const { assets: groups } = require('~/test/assets/groups.json');

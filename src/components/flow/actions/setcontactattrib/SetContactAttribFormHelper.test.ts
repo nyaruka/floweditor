@@ -12,7 +12,7 @@ import {
 import {
     SetContactAttribFormHelper,
     SetContactAttribFormHelperActionTypes
-} from './SetContactAttribFormHelper';
+} from '~/components/flow/actions/setcontactattrib/SetContactAttribFormHelper';
 
 const formHelper = new SetContactAttribFormHelper();
 

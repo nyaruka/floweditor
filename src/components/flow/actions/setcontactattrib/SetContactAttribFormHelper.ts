@@ -17,7 +17,12 @@ import {
     SetContactNameFormState
 } from '~/store/nodeEditor';
 
-import { assetToField, channelToAsset, fieldToAsset, propertyToAsset } from './helpers';
+import {
+    assetToField,
+    channelToAsset,
+    fieldToAsset,
+    propertyToAsset
+} from '~/components/flow/actions/setcontactattrib/helpers';
 
 export type SetContactAttribFormHelperActionTypes =
     | Types.set_contact_field

@@ -1,7 +1,7 @@
 import { CallWebhook } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createCallWebhookAction } from '~/testUtils/assetCreators';
-import CallWebhookComp from './CallWebhook';
+import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';
 
 const callWebhookAction = createCallWebhookAction();
 

@@ -20,7 +20,7 @@ import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { snakify } from '~/utils';
 
-import { RenderNode, RenderNodeMap, ResultMap } from './flowContext';
+import { RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
 
 export interface Bounds {
     left: number;

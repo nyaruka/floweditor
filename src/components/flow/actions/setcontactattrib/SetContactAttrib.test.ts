@@ -12,7 +12,9 @@ import {
     createSetContactNameAction
 } from '~/testUtils/assetCreators';
 
-import SetContactAttribComp, { getAttribNameMarkup } from './SetContactAttrib';
+import SetContactAttribComp, {
+    getAttribNameMarkup
+} from '~/components/flow/actions/setcontactattrib/SetContactAttrib';
 
 const setContactNameAction = createSetContactNameAction();
 const setContactFieldAction = createSetContactFieldAction();

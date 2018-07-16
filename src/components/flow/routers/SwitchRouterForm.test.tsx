@@ -1,6 +1,17 @@
 import update from 'immutability-helper';
 import * as React from 'react';
 import { EXPRESSION_LABEL } from '~/components/flow/routers/constants';
+import {
+    addFocus,
+    casePropsFromElement,
+    DragCursor,
+    getItemStyle,
+    getListStyle,
+    InputToFocus,
+    leadInSpecId,
+    SwitchRouterForm,
+    SwitchRouterFormProps
+} from '~/components/flow/routers/SwitchRouterForm';
 import { CaseElementProps } from '~/components/form/case/CaseElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
@@ -12,18 +23,6 @@ import { getLocalizations } from '~/store/helpers';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import { createCase, createExit, createWaitRouterNode, Spanish } from '~/testUtils/assetCreators';
 import { reorderList } from '~/utils';
-
-import {
-    addFocus,
-    casePropsFromElement,
-    DragCursor,
-    getItemStyle,
-    getListStyle,
-    InputToFocus,
-    leadInSpecId,
-    SwitchRouterForm,
-    SwitchRouterFormProps
-} from './SwitchRouter';
 
 let mockUuidCounts = 1;
 jest.mock('uuid', () => {

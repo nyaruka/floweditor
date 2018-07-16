@@ -2,7 +2,7 @@ import { GROUP_NOT_FOUND, GROUP_PLACEHOLDER } from '~/components/form/constants'
 import AssetService from '~/services/AssetService';
 import { composeComponentTestUtils, flushPromises, Resp, restoreSpies } from '~/testUtils';
 
-import SelectSearch, { SelectSearchProps } from './SelectSearch';
+import SelectSearch, { SelectSearchProps } from '~/components/form/select/SelectSearch';
 
 const config = require('~/test/config');
 const groupsResp = require('~/test/assets/groups.json') as Resp;

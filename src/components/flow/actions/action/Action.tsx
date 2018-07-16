@@ -20,7 +20,7 @@ import {
 } from '~/store';
 import { createClickHandler, getLocalization } from '~/utils';
 
-import * as styles from './Action.scss';
+import * as styles from '~/components/flow/actions/action/Action.scss';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;

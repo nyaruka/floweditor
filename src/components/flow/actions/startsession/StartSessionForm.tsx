@@ -13,7 +13,7 @@ import { StartSessionFunc, updateStartSessionForm } from '~/store/forms';
 import { StartSessionFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import { StartSessionFormHelper } from './StartSessionFormHelper';
+import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 
 export interface StartSessionFormStoreProps {
     typeConfig: Type;

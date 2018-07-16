@@ -14,7 +14,7 @@ import CaseElement, {
     parseNum,
     prefix,
     strContainsNum
-} from './CaseElement';
+} from '~/components/form/case/CaseElement';
 
 const definition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const {

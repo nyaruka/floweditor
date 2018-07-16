@@ -14,7 +14,7 @@ import { AddLabelsFormState } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import { validate, validateRequired } from '~/store/validators';
 
-import { AddLabelsFormHelper } from './AddLabelsFormHelper';
+import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
 
 export interface AddLabelsFormStoreProps {
     form: AddLabelsFormState;

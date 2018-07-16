@@ -29,7 +29,7 @@ import StartSessionForm from '~/components/flow/actions/startsession/StartSessio
 import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
 import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
-import SwitchRouter from '~/components/flow/routers/SwitchRouter';
+import SwitchRouterForm from '~/components/flow/routers/SwitchRouterForm';
 import WebhookRouter from '~/components/flow/routers/webhook/WebhookRouter';
 import { AnyAction, RouterTypes, UINodeTypes } from '~/flowTypes';
 import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
@@ -86,6 +86,9 @@ export enum Mode {
 
 export interface FormHelper {
     initializeForm: (settings: NodeEditorSettings, actionType?: Types) => NodeEditorForm;
+}
+
+export interface ActionFormHelper extends FormHelper {
     stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
 }
 
@@ -104,7 +107,6 @@ export interface Type {
     type: Types;
     name: string;
     description: string;
-    allows(mode: Mode): boolean;
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
     formHelper?: FormHelper;
@@ -118,10 +120,6 @@ export interface TypeMap {
 
 export type GetTypeConfig = (type: string) => Type;
 
-export function allows(mode: Mode): boolean {
-    return (this.advanced & mode) === mode;
-}
-
 const ContactAttribHelper = new SetContactAttribFormHelper();
 
 export const typeConfigList: Type[] = [
@@ -130,8 +128,7 @@ export const typeConfigList: Type[] = [
         type: Types.missing,
         name: 'Missing',
         description: ' ** Unsupported ** ',
-        component: MissingComp,
-        allows
+        component: MissingComp
     },
     {
         type: Types.send_msg,
@@ -140,8 +137,7 @@ export const typeConfigList: Type[] = [
         form: SendMsgForm,
         formHelper: new SendMsgFormHelper(),
         component: SendMsgComp,
-        advanced: Mode.ALL,
-        allows
+        advanced: Mode.ALL
     },
     {
         type: Types.send_broadcast,
@@ -149,8 +145,7 @@ export const typeConfigList: Type[] = [
         description: 'Send somebody else a message',
         form: SendBroadcastForm,
         formHelper: new SendBroadcastFormHelper(),
-        component: SendBroadcastComp,
-        allows
+        component: SendBroadcastComp
     },
     {
         type: Types.add_input_labels,
@@ -158,8 +153,7 @@ export const typeConfigList: Type[] = [
         description: 'Label the incoming message',
         form: AddLabelsForm,
         formHelper: new AddLabelsFormHelper(),
-        component: AddLabelsComp,
-        allows
+        component: AddLabelsComp
     },
     {
         type: Types.add_contact_groups,
@@ -167,8 +161,7 @@ export const typeConfigList: Type[] = [
         description: 'Add the contact to a group',
         form: AddGroupsForm,
         formHelper: new AddGroupsFormHelper(),
-        component: ChangeGroupsComp,
-        allows
+        component: ChangeGroupsComp
     },
     {
         type: Types.remove_contact_groups,
@@ -176,8 +169,7 @@ export const typeConfigList: Type[] = [
         description: 'Remove the contact from a group',
         form: RemoveGroupsForm,
         formHelper: new RemoveGroupsFormHelper(),
-        component: ChangeGroupsComp,
-        allows
+        component: ChangeGroupsComp
     },
     {
         type: Types.set_contact_field,
@@ -185,8 +177,7 @@ export const typeConfigList: Type[] = [
         description: 'Update the contact',
         form: SetContactAttribForm,
         formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
+        component: SetContactAttrib
     },
     {
         type: Types.set_contact_name,
@@ -194,8 +185,7 @@ export const typeConfigList: Type[] = [
         description: 'Update the contact',
         form: SetContactAttribForm,
         formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
+        component: SetContactAttrib
     },
     {
         type: Types.set_contact_language,
@@ -203,8 +193,7 @@ export const typeConfigList: Type[] = [
         description: 'Update the contact',
         form: SetContactAttribForm,
         formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
+        component: SetContactAttrib
     },
     {
         type: Types.set_contact_channel,
@@ -212,8 +201,7 @@ export const typeConfigList: Type[] = [
         description: 'Update the contact',
         form: SetContactAttribForm,
         formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
+        component: SetContactAttrib
     },
     {
         type: Types.send_email,
@@ -221,8 +209,7 @@ export const typeConfigList: Type[] = [
         description: 'Send an email',
         form: SendEmailForm,
         formHelper: new SendEmailFormHelper(),
-        component: SendEmailComp,
-        allows
+        component: SendEmailComp
     },
     {
         type: Types.set_run_result,
@@ -230,8 +217,7 @@ export const typeConfigList: Type[] = [
         description: 'Save a result for this flow',
         form: SetRunResultForm,
         formHelper: new SetRunResultFormHelper(),
-        component: SetRunResultComp,
-        allows
+        component: SetRunResultComp
     },
     // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
     /** Hybrids */
@@ -242,8 +228,7 @@ export const typeConfigList: Type[] = [
         form: WebhookRouter,
         component: CallWebhookComp,
         advanced: Mode.EDITING,
-        aliases: [UINodeTypes.webhook],
-        allows
+        aliases: [UINodeTypes.webhook]
     },
     {
         type: Types.start_flow,
@@ -251,8 +236,7 @@ export const typeConfigList: Type[] = [
         description: 'Enter another flow',
         form: SubflowRouter,
         component: StartFlowComp,
-        aliases: [UINodeTypes.subflow],
-        allows
+        aliases: [UINodeTypes.subflow]
     },
     {
         type: Types.start_session,
@@ -260,8 +244,7 @@ export const typeConfigList: Type[] = [
         description: 'Start somebody else in a flow',
         form: StartSessionForm,
         formHelper: new StartSessionFormHelper(),
-        component: StartSessionComp,
-        allows
+        component: StartSessionComp
     },
 
     /** Routers */
@@ -269,25 +252,23 @@ export const typeConfigList: Type[] = [
         type: Types.split_by_expression,
         name: 'Split by Expression',
         description: 'Split by a custom expression',
-        form: SwitchRouter,
-        advanced: Mode.TRANSLATING,
-        allows
+        form: SwitchRouterForm,
+        advanced: Mode.TRANSLATING
     },
     {
         type: Types.split_by_groups,
         name: 'Split by Group Membership',
         description: 'Split by group membership',
-        form: GroupsRouter,
-        allows
+        form: GroupsRouter
     },
     {
         type: Types.wait_for_response,
         name: 'Wait for Response',
         description: 'Wait for the contact to respond',
-        form: SwitchRouter,
+        form: SwitchRouterForm,
+        // formHelper: new SwitchRouterFormHelper(),
         advanced: Mode.TRANSLATING,
-        aliases: [RouterTypes.switch],
-        allows
+        aliases: [RouterTypes.switch]
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];

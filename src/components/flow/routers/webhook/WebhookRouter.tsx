@@ -15,7 +15,7 @@ import { CallWebhook, Headers, Methods } from '~/flowTypes';
 import { AppState } from '~/store';
 import { set } from '~/utils';
 
-import * as styles from './Webhook.scss';
+import * as styles from '~/components/flow/routers/webhook/Webhook.scss';
 
 export interface WebhookRouterStoreProps {
     translating: boolean;

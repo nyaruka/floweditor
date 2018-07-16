@@ -1,5 +1,6 @@
 import update from 'immutability-helper';
-import { casePropsFromNode } from '~/components/flow/routers/SwitchRouter';
+import { casePropsFromNode } from '~/components/flow/routers/SwitchRouterForm';
+import { NodeEditor, NodeEditorProps } from '~/components/nodeeditor/NodeEditor';
 import { getTypeConfig } from '~/config';
 import { Types } from '~/config/typeConfigs';
 import { FlowDefinition, FlowNode, SwitchRouter } from '~/flowTypes';
@@ -7,8 +8,6 @@ import { AssetType } from '~/services/AssetService';
 import { getFlowComponents } from '~/store/helpers';
 import { NodeEditorForm } from '~/store/nodeEditor';
 import { composeComponentTestUtils, setMock } from '~/testUtils';
-
-import { NodeEditor, NodeEditorProps } from './NodeEditor';
 
 jest.mock('uuid', () => ({
     v4: jest.fn()

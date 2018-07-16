@@ -11,8 +11,8 @@ import { SendEmailFunc, updateSendEmailForm } from '~/store/forms';
 import { SendEmailFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import * as styles from './SendEmail.scss';
-import { SendEmailFormHelper } from './SendEmailFormHelper';
+import * as styles from '~/components/flow/actions/sendemail/SendEmail.scss';
+import { SendEmailFormHelper } from '~/components/flow/actions/sendemail/SendEmailFormHelper';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 

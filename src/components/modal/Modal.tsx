@@ -9,7 +9,7 @@ import { Case, FlowNode, SwitchRouter } from '~/flowTypes';
 import { AppState } from '~/store';
 import { renderIf } from '~/utils';
 
-import * as styles from './Modal.scss';
+import * as styles from '~/components/modal/Modal.scss';
 
 export interface ButtonSet {
     primary: ButtonProps;

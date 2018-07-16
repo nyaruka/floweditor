@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
@@ -11,8 +12,6 @@ import { updateChangeGroupsForm } from '~/store/forms';
 import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
-
-import ChangeGroupsFormProps from './props';
 
 export const LABEL = ' Select the group(s) to add the contact to.';
 export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';

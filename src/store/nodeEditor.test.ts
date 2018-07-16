@@ -1,7 +1,7 @@
 import { getTypeConfig } from '~/config';
 import { Types } from '~/config/typeConfigs';
 
-import Constants from './constants';
+import Constants from '~/store/constants';
 import reducer, {
     initialState,
     operand as operandReducer,
@@ -16,7 +16,7 @@ import reducer, {
     updateTypeConfig,
     updateUserAddingAction,
     userAddingAction as userAddingActionReducer
-} from './nodeEditor';
+} from '~/store/nodeEditor';
 
 const definition = require('~/test/flows/boring.json');
 

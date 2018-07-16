@@ -12,8 +12,8 @@ import Select, {
 import { CreateOptions } from '~/flowTypes';
 import { Asset, Assets, AssetSearchResult, removeAsset } from '~/services/AssetService';
 
-import SelectOption from './SelectOption';
-import SelectValue from './SelectValue';
+import SelectOption from '~/components/form/select/SelectOption';
+import SelectValue from '~/components/form/select/SelectValue';
 
 export interface SelectSearchProps {
     name?: string;

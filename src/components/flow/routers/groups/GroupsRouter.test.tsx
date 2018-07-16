@@ -10,7 +10,12 @@ import {
 } from '~/testUtils/assetCreators';
 import { setTrue } from '~/utils';
 
-import { extractGroups, GroupsRouter, GroupsRouterProps, hasGroupsRouter } from './GroupsRouter';
+import {
+    extractGroups,
+    GroupsRouter,
+    GroupsRouterProps,
+    hasGroupsRouter
+} from '~/components/flow/routers/groups/GroupsRouter';
 
 const groupsRouterNode = createGroupsRouterNode();
 const sendMsgNode = createFlowNode({

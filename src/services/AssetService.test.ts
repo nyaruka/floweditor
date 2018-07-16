@@ -1,4 +1,9 @@
-import AssetService, { Assets, AssetSearchResult, AssetType, LabelAssets } from './AssetService';
+import AssetService, {
+    Assets,
+    AssetSearchResult,
+    AssetType,
+    LabelAssets
+} from '~/services/AssetService';
 
 const config = require('~/test/config');
 

@@ -11,9 +11,12 @@ import {
     Spanish
 } from '~/testUtils/assetCreators';
 
-import { propertyToAsset } from './helpers';
-import { SetContactAttribForm, SetContactAttribFormProps } from './SetContactAttribForm';
-import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
+import { propertyToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
+import {
+    SetContactAttribForm,
+    SetContactAttribFormProps
+} from '~/components/flow/actions/setcontactattrib/SetContactAttribForm';
+import { SetContactAttribFormHelper } from '~/components/flow/actions/setcontactattrib/SetContactAttribFormHelper';
 
 const setContactNameAction = createSetContactNameAction();
 const setContactFieldAction = createSetContactFieldAction();

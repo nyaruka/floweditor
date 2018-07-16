@@ -5,15 +5,11 @@ import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
 import AssetService from '~/services/AssetService';
-import { createMockStore, prepMockDuxState } from '~/testUtils';
-import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
-import { push } from '~/utils';
-
-import { Constants, initialState, LocalizationUpdates } from '.';
-import { RenderNode, RenderNodeMap } from './flowContext';
-import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
-import { getOtherExit } from './mutators';
-import { NodeEditorSettings } from './nodeEditor';
+import { Constants, initialState, LocalizationUpdates } from '~/store';
+import { RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from '~/store/helpers';
+import { getOtherExit } from '~/store/mutators';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 import {
     addNode,
     disconnectExit,
@@ -39,7 +35,10 @@ import {
     updateDimensions,
     updateExitDestination,
     updateSticky
-} from './thunks';
+} from '~/store/thunks';
+import { createMockStore, prepMockDuxState } from '~/testUtils';
+import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
+import { push } from '~/utils';
 
 const config = require('~/test/config');
 
@@ -72,7 +71,7 @@ describe('Flow Manipulation', () => {
         it('should initialize definition', () => {
             const assetService = new AssetService(config);
             const { renderNodeMap, groups, fields } = store.dispatch(
-                initializeFlow(boring, assetService)
+                initializeFlow(boring, assetService, [])
             );
             expect(renderNodeMap).toMatchSnapshot('nodes');
             expect(store).toHaveReduxActions([Constants.UPDATE_NODES]);

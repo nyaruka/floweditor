@@ -13,8 +13,8 @@ import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
 
-import ChangeGroupsFormProps from './props';
-import * as styles from './RemoveGroupsForm.scss';
+import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
+import * as styles from '~/components/flow/actions/changegroups/RemoveGroupsForm.scss';
 
 export const LABEL = 'Select the group(s) to remove the contact from.';
 export const NOT_FOUND = 'Enter the name of an existing group';

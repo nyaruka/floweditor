@@ -3,7 +3,7 @@ import { composeComponentTestUtils } from '~/testUtils';
 import { createSendMsgAction } from '~/testUtils/assetCreators';
 import { setEmpty } from '~/utils';
 
-import SendMsgComp, { PLACEHOLDER } from './SendMsg';
+import SendMsgComp, { PLACEHOLDER } from '~/components/flow/actions/sendmsg/SendMsg';
 
 const sendMsgAction = createSendMsgAction();
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { getRecipients, renderAssetList } from '~/components/flow/actions/helpers';
 import { BroadcastMsg } from '~/flowTypes';
 
-import * as styles from './SendBroadcast.scss';
+import * as styles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
 
 export const PLACEHOLDER = 'Send a message to the contact';
 

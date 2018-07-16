@@ -25,7 +25,7 @@ import {
 import { validate, ValidatorFunc } from '~/store/validators';
 import { renderIf } from '~/utils';
 
-import { SetContactAttribFormHelper } from './SetContactAttribFormHelper';
+import { SetContactAttribFormHelper } from '~/components/flow/actions/setcontactattrib/SetContactAttribFormHelper';
 
 export interface SetContactAttribFormPassedProps {
     action: SetContactAttribute;

@@ -2,7 +2,7 @@ import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils, Resp } from '~/testUtils';
 import { merge } from '~/utils';
 
-import SelectOption, { SelectOptionProps } from './SelectOption';
+import SelectOption, { SelectOptionProps } from '~/components/form/select/SelectOption';
 
 const groupsResp = require('~/test/assets/groups.json') as Resp;
 

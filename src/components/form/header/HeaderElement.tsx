@@ -4,7 +4,7 @@ import * as styles from '~/components/flow/routers/webhook/Webhook.scss';
 import ConnectedTextInputElement from '~/components/form/textinput/TextInputElement';
 import { renderIf } from '~/utils';
 
-import FormElement from '../FormElement';
+import FormElement from '~/components/form/FormElement';
 
 // TODO: move this into webhook router component
 export interface Header {

@@ -20,8 +20,6 @@ import {
     WaitTypes
 } from '~/flowTypes';
 import AssetService, { Asset, DEFAULT_LANGUAGE } from '~/services/AssetService';
-import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
-
 import {
     incrementSuggestedResultNameCount,
     RenderNode,
@@ -32,7 +30,7 @@ import {
     updateLanguages,
     updateNodes,
     updateResultMap
-} from './flowContext';
+} from '~/store/flowContext';
 import {
     updateCreateNodePosition,
     updateDragSelection,
@@ -43,7 +41,7 @@ import {
     updateNodeEditorOpen,
     updatePendingConnection,
     updateTranslating
-} from './flowEditor';
+} from '~/store/flowEditor';
 import {
     determineConfigType,
     extractContactFields,
@@ -55,8 +53,8 @@ import {
     getGhostNode,
     getLocalizations,
     getSuggestedResultName
-} from './helpers';
-import * as mutators from './mutators';
+} from '~/store/helpers';
+import * as mutators from '~/store/mutators';
 import {
     NodeEditorSettings,
     updateForm,
@@ -67,8 +65,9 @@ import {
     updateTimeout,
     updateTypeConfig,
     updateUserAddingAction
-} from './nodeEditor';
-import AppState from './state';
+} from '~/store/nodeEditor';
+import AppState from '~/store/state';
+import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -193,14 +192,14 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
 ) => {
     dispatch(updateFetchingFlow(true));
 
-    const [flows, environment, fields] = await Promise.all([
+    const [flows, environment, fields, languages] = await Promise.all([
         assetService.getFlowAssets().get(uuid),
         assetService.getEnvironmentAssets().get(''),
         assetService.getFieldAssets().get(''),
         assetService.getLanguageAssets().search('')
     ]);
 
-    dispatch(initializeFlow(flows.content, assetService));
+    dispatch(initializeFlow(flows.content, assetService, languages.assets));
     const fieldsToDedupe = [...fields.content];
     const existingFields = extractContactFields(flows.content.nodes);
     if (existingFields.length) {

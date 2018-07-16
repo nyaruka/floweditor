@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { renderIf } from '~/utils';
 
-import { pluralize, UnicodeCharMap } from './helpers';
-import * as styles from './UnicodeList.scss';
+import { pluralize, UnicodeCharMap } from '~/components/form/textinput/helpers';
+import * as styles from '~/components/form/textinput/UnicodeList.scss';
 
 export interface UnicodeListProps {
     unicodeChars: UnicodeCharMap;

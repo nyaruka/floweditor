@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createClickHandler } from '~/utils';
 
-import * as styles from './TitleBar.scss';
+import * as styles from '~/components/titlebar/TitleBar.scss';
 
 export interface TitleBarProps {
     title: string;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Select from 'react-select';
 
-import FormElement, { FormElementProps } from '../FormElement';
+import FormElement, { FormElementProps } from '~/components/form/FormElement';
 
 interface SelectElementProps extends FormElementProps {
     onChange(value: any): void;

@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { Type } from '~/config';
 import { configsToDisplay } from '~/config/typeConfigs';
 
-import * as formStyles from './NodeEditor.scss';
+import * as formStyles from '~/components/nodeeditor/NodeEditor.scss';
 
 export interface TypeListProps {
     __className: string;
