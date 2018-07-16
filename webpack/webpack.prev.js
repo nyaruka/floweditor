@@ -34,7 +34,15 @@ const prevConfig = {
     module: {
         rules: [
             {
+                test: /\.s?css$/,
+                include: [paths.components],
+                use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
+            },
+
+            {
                 test: /\.(sa|sc|c)ss$/,
+                include: [paths.src],
+                exclude: [paths.components],
                 use: [MiniCssExtractPlugin.loader, 'css-loader', postCSSLoader, 'sass-loader']
             },
             {
