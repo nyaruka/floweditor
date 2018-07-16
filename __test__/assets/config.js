@@ -3,7 +3,7 @@ const config = {
 };
 
 module.exports =
-    process.env.NODE_ENV === 'production'
+    process.env.NODE_ENV === 'preview'
         ? Object.assign({}, config, {
               localStorage: true,
               endpoints: {

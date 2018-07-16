@@ -19,7 +19,7 @@ const prevConfig = {
     },
     plugins: [
         new EnvironmentPlugin({
-            NODE_ENV: 'production',
+            NODE_ENV: 'preview',
             DEPLOY_PRIME_URL: JSON.stringify(process.env.DEPLOY_PRIME_URL)
         }),
         new MiniCssExtractPlugin({

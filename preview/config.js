@@ -24,7 +24,7 @@ if (process.env.RAPID_FLOW) {
     });
 } else {
     module.exports =
-        process.env.NODE_ENV === 'production'
+        process.env.NODE_ENV === 'preview'
             ? Object.assign({}, config, {
                   localStorage: false,
                   endpoints: {

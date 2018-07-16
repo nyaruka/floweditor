@@ -23,7 +23,7 @@
     "lint:ts": "tslint -c tslint.json 'src/**/*.{ts,tsx}' -e 'src/**/*.d.ts'",
     "clean:umd": "shx rm -rf umd",
     "clean:prev": "shx rm -rf preview/dist",
-    "build:prev": "npm run clean:prev && webpack --config webpack/webpack.config.js --env.NODE_ENV=production && npm run lambda:build",
+    "build:prev": "npm run clean:prev && webpack --config webpack/webpack.config.js --env.NODE_ENV=preview && npm run lambda:build",
     "build:umd": "npm run clean:umd & webpack --config webpack/webpack.config.js --env.NODE_ENV=production",
     "bundleStats:dev": "webpack --config webpack/webpack.config.js --env.NODE_ENV=development --profile --json > stats.json",
     "bundleStats:dev:windows": "webpack --config webpack/webpack.config.js --env.NODE_ENV=development --profile --json | Out-file 'stats.json' -Encoding OEM",
