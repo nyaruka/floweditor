@@ -42,6 +42,7 @@ export default class SelectElement extends React.Component<SelectElementProps, S
         return (
             <FormElement name={this.props.name}>
                 <Select
+                    joinValues={true}
                     name={this.props.name}
                     value={this.state.value}
                     onChange={this.onChange}

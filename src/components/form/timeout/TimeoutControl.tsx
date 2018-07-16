@@ -105,6 +105,7 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
                 </div>
                 {renderIf(this.props.checked)(
                     <Select
+                        joinValues={true}
                         name="timeout"
                         className="select-small-timeout"
                         clearable={false}

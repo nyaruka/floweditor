@@ -486,6 +486,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     {this.getDndIco()}
                     <div className={styles.choice}>
                         <Select
+                            joinValues={true}
                             data-spec="operator-list"
                             name="operator"
                             clearable={false}
