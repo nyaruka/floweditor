@@ -3,7 +3,6 @@
 exports[`typeConfigs should provide type configs 1`] = `
 Array [
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": " ** Unsupported ** ",
     "name": "Missing",
@@ -11,7 +10,6 @@ Array [
   },
   Object {
     "advanced": 3,
-    "allows": [Function],
     "component": [Function],
     "description": "Send the contact a message",
     "form": [Function],
@@ -20,7 +18,6 @@ Array [
     "type": "send_msg",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Send somebody else a message",
     "form": [Function],
@@ -29,7 +26,6 @@ Array [
     "type": "send_broadcast",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Label the incoming message",
     "form": [Function],
@@ -38,7 +34,6 @@ Array [
     "type": "add_input_labels",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Add the contact to a group",
     "form": [Function],
@@ -47,7 +42,6 @@ Array [
     "type": "add_contact_groups",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Remove the contact from a group",
     "form": [Function],
@@ -56,7 +50,6 @@ Array [
     "type": "remove_contact_groups",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -65,7 +58,6 @@ Array [
     "type": "set_contact_field",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -74,7 +66,6 @@ Array [
     "type": "set_contact_name",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -83,7 +74,6 @@ Array [
     "type": "set_contact_language",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -92,7 +82,6 @@ Array [
     "type": "set_contact_channel",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Send an email",
     "form": [Function],
@@ -101,7 +90,6 @@ Array [
     "type": "send_email",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Save a result for this flow",
     "form": [Function],
@@ -114,7 +102,6 @@ Array [
     "aliases": Array [
       "webhook",
     ],
-    "allows": [Function],
     "component": [Function],
     "description": "Call a webook",
     "form": [Function],
@@ -125,7 +112,6 @@ Array [
     "aliases": Array [
       "subflow",
     ],
-    "allows": [Function],
     "component": [Function],
     "description": "Enter another flow",
     "form": [Function],
@@ -133,7 +119,6 @@ Array [
     "type": "start_flow",
   },
   Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Start somebody else in a flow",
     "form": [Function],
@@ -143,14 +128,12 @@ Array [
   },
   Object {
     "advanced": 2,
-    "allows": [Function],
     "description": "Split by a custom expression",
     "form": [Function],
     "name": "Split by Expression",
     "type": "split_by_expression",
   },
   Object {
-    "allows": [Function],
     "description": "Split by group membership",
     "form": [Function],
     "name": "Split by Group Membership",
@@ -161,7 +144,6 @@ Array [
     "aliases": Array [
       "switch",
     ],
-    "allows": [Function],
     "description": "Wait for the contact to respond",
     "form": [Function],
     "name": "Wait for Response",
@@ -173,7 +155,6 @@ Array [
 exports[`typeConfigs should provide type configs 2`] = `
 Object {
   "add_contact_groups": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Add the contact to a group",
     "form": [Function],
@@ -182,7 +163,6 @@ Object {
     "type": "add_contact_groups",
   },
   "add_input_labels": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Label the incoming message",
     "form": [Function],
@@ -195,7 +175,6 @@ Object {
     "aliases": Array [
       "webhook",
     ],
-    "allows": [Function],
     "component": [Function],
     "description": "Call a webook",
     "form": [Function],
@@ -203,14 +182,12 @@ Object {
     "type": "call_webhook",
   },
   "missing": Object {
-    "allows": [Function],
     "component": [Function],
     "description": " ** Unsupported ** ",
     "name": "Missing",
     "type": "missing",
   },
   "remove_contact_groups": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Remove the contact from a group",
     "form": [Function],
@@ -219,7 +196,6 @@ Object {
     "type": "remove_contact_groups",
   },
   "send_broadcast": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Send somebody else a message",
     "form": [Function],
@@ -228,7 +204,6 @@ Object {
     "type": "send_broadcast",
   },
   "send_email": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Send an email",
     "form": [Function],
@@ -238,7 +213,6 @@ Object {
   },
   "send_msg": Object {
     "advanced": 3,
-    "allows": [Function],
     "component": [Function],
     "description": "Send the contact a message",
     "form": [Function],
@@ -247,7 +221,6 @@ Object {
     "type": "send_msg",
   },
   "set_contact_channel": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -256,7 +229,6 @@ Object {
     "type": "set_contact_channel",
   },
   "set_contact_field": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -265,7 +237,6 @@ Object {
     "type": "set_contact_field",
   },
   "set_contact_language": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -274,7 +245,6 @@ Object {
     "type": "set_contact_language",
   },
   "set_contact_name": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Update the contact",
     "form": [Function],
@@ -283,7 +253,6 @@ Object {
     "type": "set_contact_name",
   },
   "set_run_result": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Save a result for this flow",
     "form": [Function],
@@ -293,14 +262,12 @@ Object {
   },
   "split_by_expression": Object {
     "advanced": 2,
-    "allows": [Function],
     "description": "Split by a custom expression",
     "form": [Function],
     "name": "Split by Expression",
     "type": "split_by_expression",
   },
   "split_by_groups": Object {
-    "allows": [Function],
     "description": "Split by group membership",
     "form": [Function],
     "name": "Split by Group Membership",
@@ -310,7 +277,6 @@ Object {
     "aliases": Array [
       "subflow",
     ],
-    "allows": [Function],
     "component": [Function],
     "description": "Enter another flow",
     "form": [Function],
@@ -318,7 +284,6 @@ Object {
     "type": "start_flow",
   },
   "start_session": Object {
-    "allows": [Function],
     "component": [Function],
     "description": "Start somebody else in a flow",
     "form": [Function],
@@ -330,7 +295,6 @@ Object {
     "aliases": Array [
       "subflow",
     ],
-    "allows": [Function],
     "component": [Function],
     "description": "Enter another flow",
     "form": [Function],
@@ -342,7 +306,6 @@ Object {
     "aliases": Array [
       "switch",
     ],
-    "allows": [Function],
     "description": "Wait for the contact to respond",
     "form": [Function],
     "name": "Wait for Response",
@@ -353,7 +316,6 @@ Object {
     "aliases": Array [
       "switch",
     ],
-    "allows": [Function],
     "description": "Wait for the contact to respond",
     "form": [Function],
     "name": "Wait for Response",
@@ -364,7 +326,6 @@ Object {
     "aliases": Array [
       "webhook",
     ],
-    "allows": [Function],
     "component": [Function],
     "description": "Call a webook",
     "form": [Function],
