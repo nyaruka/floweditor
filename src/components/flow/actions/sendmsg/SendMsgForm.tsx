@@ -1,80 +1,54 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Dialog, { HeaderStyle } from '~/components/dialog/Dialog';
+import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
 import * as styles from '~/components/flow/actions/action/Action.scss';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { SendMsgFormHelper } from '~/components/flow/actions/sendmsg/SendMsgFormHelper';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
+import { ButtonSet } from '~/components/modal/Modal';
+import { back } from '~/components/modal/Modal.scss';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
-import { Type } from '~/config';
-import { FlowDefinition, SendMsg } from '~/flowTypes';
+import TypeList from '~/components/nodeeditor/TypeList';
+import { Type } from '~/config/typeConfigs';
+import { SendMsg } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { AppState, DispatchWithState } from '~/store';
-import { SendMsgFunc, updateSendMsgForm } from '~/store/forms';
-import { SendMsgFormState } from '~/store/nodeEditor';
+import { mergeForm, NodeEditorSettings, SendMsgFormState } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
 
 const MAX_REPLIES = 10;
 
-export interface SendMsgFormStoreProps {
-    language: Asset;
+export interface SendMsgFormProps {
     translating: boolean;
-    typeConfig: Type;
-    definition: FlowDefinition;
-    updateSendMsgForm: SendMsgFunc;
-    form: SendMsgFormState;
-}
+    language: Asset;
 
-export interface SendMsgFormPassedProps {
-    showAdvanced: boolean;
-    action: SendMsg;
+    // action: SendMsg;
+    nodeSettings: NodeEditorSettings;
+
     updateAction(action: SendMsg): void;
-    onBindWidget(ref: any): void;
-    onBindAdvancedWidget(ref: any): void;
     formHelper: SendMsgFormHelper;
     updateLocalizations: UpdateLocalizations;
+
+    typeConfig: Type;
+    onTypeChange(config: Type): void;
+    onClose(canceled: boolean): void;
 }
 
-export type SendMsgFormProps = SendMsgFormStoreProps & SendMsgFormPassedProps;
-
-export class SendMsgForm extends React.Component<SendMsgFormProps> {
+export default class SendMsgForm extends React.Component<SendMsgFormProps, SendMsgFormState> {
     constructor(props: SendMsgFormProps) {
         super(props);
-
+        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
         bindCallbacks(this, {
             include: [/^handle/, /^on/]
         });
     }
 
-    public onValid(): void {
-        if (this.props.translating) {
-            const translation = this.props.form.text ? this.props.form.text.value : null;
-
-            if (translation) {
-                this.props.updateLocalizations(this.props.language.id, [
-                    { uuid: this.props.action.uuid, translations: { text: translation } }
-                ]);
-            } else {
-                this.props.updateLocalizations(this.props.language.id, [
-                    { uuid: this.props.action.uuid, translations: null }
-                ]);
-            }
-        } else {
-            this.props.updateAction(
-                this.props.formHelper.stateToAction(this.props.action.uuid, this.props.form)
-            );
-        }
-    }
-
-    public validate(): boolean {
-        return this.handleUpdateMessage(this.props.form.text.value);
-    }
-
     private handleUpdateForm(updates: Partial<SendMsgFormState>): boolean {
-        return (this.props.updateSendMsgForm(updates) as any).valid;
+        const updated = mergeForm(this.state, updates);
+        this.setState(updated);
+        return updated.valid;
     }
 
     public handleUpdateMessage(value: string): boolean {
@@ -95,7 +69,7 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
     }
 
     public handleUpdateSendAll(sendAll: boolean): void {
-        this.props.updateSendMsgForm({ sendAll });
+        this.handleUpdateForm({ sendAll });
     }
 
     public handleCheckValidReply(value: string): boolean {
@@ -106,43 +80,134 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
         return `New Reply "${value}"`;
     }
 
-    private renderForm(): JSX.Element {
-        let placeholder = '';
-        let translation = null;
+    private handleSave(): void {
+        if (this.state.valid) {
+            if (this.props.translating) {
+                const { text, quickReplies } = this.state;
 
-        if (this.props.translating) {
-            translation = (
-                <div data-spec="translation-container">
-                    <div data-spec="text-to-translate" className={styles.translate_from}>
-                        {this.props.action.text}
-                    </div>
-                </div>
-            );
-            placeholder = `${this.props.language.name} Translation`;
+                this.props.updateLocalizations(this.props.language.id, [
+                    {
+                        uuid: this.props.nodeSettings.originalAction.uuid,
+                        translations: {
+                            text: text.value,
+                            quick_replies: quickReplies.value
+                        }
+                    }
+                ]);
+            } else {
+                this.props.updateAction(
+                    this.props.formHelper.stateToAction(
+                        this.props.nodeSettings.originalAction.uuid,
+                        this.state
+                    )
+                );
+            }
+
+            // notify our modal we are done
+            this.props.onClose(false);
         }
-
-        return (
-            <div>
-                {translation}
-                <TextInputElement
-                    name="Message"
-                    showLabel={false}
-                    count={Count.SMS}
-                    onChange={this.handleUpdateMessage}
-                    entry={this.props.form.text}
-                    placeholder={placeholder}
-                    autocomplete={true}
-                    focus={true}
-                    textarea={true}
-                />
-            </div>
-        );
     }
 
-    private renderAdvanced(): JSX.Element {
-        if (this.props.translating) {
-            return (
-                <>
+    private getButtons(): ButtonSet {
+        return {
+            primary: { name: 'Ok', onClick: this.handleSave },
+            secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+        };
+    }
+
+    public renderEdit(): FlipperProps {
+        return {
+            front: (
+                <Dialog
+                    title={this.props.typeConfig.name}
+                    headerClass={this.props.typeConfig.type}
+                    buttons={this.getButtons()}
+                >
+                    <TypeList
+                        __className=""
+                        initialType={this.props.typeConfig}
+                        onChange={this.props.onTypeChange}
+                    />
+                    <TextInputElement
+                        name="Message"
+                        showLabel={false}
+                        count={Count.SMS}
+                        onChange={this.handleUpdateMessage}
+                        entry={this.state.text}
+                        autocomplete={true}
+                        focus={true}
+                        textarea={true}
+                    />
+                </Dialog>
+            ),
+
+            back: (
+                <Dialog
+                    title={this.props.typeConfig.name}
+                    subtitle="Advanced Settings"
+                    headerStyle={HeaderStyle.BARBER}
+                    headerClass={this.props.typeConfig.type}
+                    headerIcon="fe-cog"
+                >
+                    <p>Quick Replies are made into buttons for supported channels</p>
+                    <TaggingElement
+                        name="Replies"
+                        placeholder="Quick Replies"
+                        prompt="Enter a Quick Reply"
+                        onChange={this.handleUpdateQuickReplies}
+                        onCheckValid={this.handleCheckValidReply}
+                        onValidPrompt={this.handleValidReplyPrompt}
+                        entry={this.state.quickReplies}
+                    />
+                    <CheckboxElement
+                        name="All Destinations"
+                        title="All Destinations"
+                        labelClassName={localStyles.checkbox}
+                        checked={this.state.sendAll}
+                        description="Send a message to all destinations known for this contact."
+                        onChange={this.handleUpdateSendAll}
+                    />
+                </Dialog>
+            )
+        };
+    }
+
+    public renderTranslate(): FlipperProps {
+        return {
+            front: (
+                <Dialog
+                    title={this.props.typeConfig.name}
+                    headerClass={this.props.typeConfig.type}
+                    buttons={this.getButtons()}
+                >
+                    <div data-spec="translation-container">
+                        <div data-spec="text-to-translate" className={styles.translate_from}>
+                            {(this.props.nodeSettings.originalAction as SendMsg).text}
+                        </div>
+                    </div>
+
+                    <TextInputElement
+                        name="Message"
+                        showLabel={false}
+                        count={Count.SMS}
+                        onChange={this.handleUpdateMessage}
+                        entry={this.state.text}
+                        placeholder={`${this.props.language.name} Translation`}
+                        autocomplete={true}
+                        focus={true}
+                        textarea={true}
+                    />
+                </Dialog>
+            ),
+
+            back: (
+                <Dialog
+                    title={this.props.typeConfig.name}
+                    subtitle="Advanced Settings"
+                    headerStyle={HeaderStyle.BARBER}
+                    headerClass={this.props.typeConfig.type}
+                    headerIcon="fe-cog"
+                >
                     <p>Enter any {this.props.language.name} Quick Replies</p>
                     <TaggingElement
                         name="Replies"
@@ -151,64 +216,25 @@ export class SendMsgForm extends React.Component<SendMsgFormProps> {
                         onChange={this.handleUpdateQuickReplies}
                         onCheckValid={this.handleCheckValidReply}
                         onValidPrompt={this.handleValidReplyPrompt}
-                        entry={this.props.form.quickReplies}
+                        entry={this.state.quickReplies}
                     />
-                </>
-            );
-        }
-
-        return (
-            <>
-                <p>Quick Replies are made into buttons for supported channels</p>
-                <TaggingElement
-                    name="Replies"
-                    placeholder="Quick Replies"
-                    prompt="Enter a Quick Reply"
-                    onChange={this.handleUpdateQuickReplies}
-                    onCheckValid={this.handleCheckValidReply}
-                    onValidPrompt={this.handleValidReplyPrompt}
-                    entry={this.props.form.quickReplies}
-                />
-                <CheckboxElement
-                    name="All Destinations"
-                    title="All Destinations"
-                    labelClassName={localStyles.checkbox}
-                    checked={this.props.form.sendAll}
-                    description="Send a message to all destinations known for this contact."
-                    onChange={this.handleUpdateSendAll}
-                />
-            </>
-        );
+                </Dialog>
+            )
+        };
     }
 
     public render(): JSX.Element {
-        return this.props.showAdvanced ? this.renderAdvanced() : this.renderForm();
+        if (this.props.translating) {
+            return (
+                <Flipper
+                    {...this.renderTranslate()}
+                    flipped={this.props.nodeSettings.showAdvanced}
+                />
+            );
+        } else {
+            return (
+                <Flipper {...this.renderEdit()} flipped={this.props.nodeSettings.showAdvanced} />
+            );
+        }
     }
 }
-
-const mapStateToProps = ({
-    flowContext: { definition },
-    flowEditor: {
-        editorUI: { language, translating }
-    },
-    nodeEditor: { typeConfig, form }
-}: AppState) => ({
-    language,
-    translating,
-    typeConfig,
-    definition,
-    form
-});
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators({ updateSendMsgForm }, dispatch);
-
-const ConnectedSendMsgForm = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { withRef: true }
-)(SendMsgForm);
-
-export default ConnectedSendMsgForm;

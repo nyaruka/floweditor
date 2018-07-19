@@ -3,6 +3,7 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as styles from '~/components/flow/actions/action/Action.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
@@ -19,8 +20,6 @@ import {
     removeAction
 } from '~/store';
 import { createClickHandler, getLocalization } from '~/utils';
-
-import * as styles from '~/components/flow/actions/action/Action.scss';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
@@ -64,8 +63,9 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
         const target = event.target as any;
+
         const showAdvanced =
-            (target && target.attributes && target.attributes['data-advanced']) || false;
+            target && target.attributes && target.getAttribute('data-advanced') === 'true';
 
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
@@ -90,15 +90,17 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 
     public getAction(): Action {
-        const localization = getLocalization(
-            this.props.action,
-            this.props.localization,
-            this.props.language
-        );
+        // if we are translating, us our localized version
+        if (this.props.translating) {
+            const localization = getLocalization(
+                this.props.action,
+                this.props.localization,
+                this.props.language
+            );
+            return localization.getObject() as AnyAction;
+        }
 
-        return localization && this.props.translating
-            ? (localization.getObject() as AnyAction)
-            : this.props.action;
+        return this.props.action;
     }
 
     private getClasses(): string {

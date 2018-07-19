@@ -1,6 +1,5 @@
 import mutate from 'immutability-helper';
 import { AssetType } from '~/services/AssetService';
-
 import { DispatchWithState, GetState } from '~/store';
 import {
     AddLabelsFormState,

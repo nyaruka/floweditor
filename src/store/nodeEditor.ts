@@ -1,4 +1,5 @@
 // tslint:disable:no-shadowed-variable
+import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
 import { Type } from '~/config';
 import { Types } from '~/config/typeConfigs';
@@ -41,6 +42,26 @@ export interface AssetEntry extends FormEntry {
 export interface AssetArrayEntry extends FormEntry {
     value: Asset[];
 }
+
+export const mergeForm = (
+    form: FormState,
+    toMerge: Partial<FormState>,
+    toRemove: string[] = []
+): FormState => {
+    const updated = mutate(form || {}, { $merge: toMerge, $unset: toRemove }) as FormState;
+    let valid = true;
+    for (const key of Object.keys(toMerge)) {
+        const entry: any = toMerge[key];
+        if (entry && typeof entry === 'object') {
+            if (entry.validationFailures && entry.validationFailures.length > 0) {
+                valid = false;
+                break;
+            }
+        }
+    }
+
+    return mutate(updated, { $merge: { valid } }) as NodeEditorForm;
+};
 
 export interface FormState {
     type: Types;

@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import * as styles from '~/components/button/Button.scss';
 
 export enum ButtonTypes {

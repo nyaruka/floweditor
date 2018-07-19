@@ -128,7 +128,6 @@ export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
     formHelper: FormHelper;
-    showAdvanced: boolean;
     updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
     onBindAdvancedWidget: (ref: any) => void;
@@ -142,6 +141,13 @@ export interface FormProps {
     saveLocalizations: SaveLocalizations;
     getResultNameField: GetResultNameField;
     onExpressionChanged: (e: any) => void;
+
+    nodeSettings?: NodeEditorSettings;
+    typeConfig?: Type;
+    onTypeChange?(config: Type): void;
+    onClose?(canceled: boolean): void;
+    translating: boolean;
+    language: Asset;
 }
 
 export interface CombinedExits {
@@ -288,6 +294,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         bindCallbacks(this, {
             include: [
                 /^get/,
+                /^close/,
                 /^on/,
                 /Ref$/,
                 /^get/,
@@ -1203,12 +1210,17 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             onToggleAdvanced: this.toggleAdvanced,
             onExpressionChanged: this.onExpressionChanged,
             triggerFormUpdate: this.triggerFormUpdate,
-            removeWidget: this.removeWidget
+
+            removeWidget: this.removeWidget,
+            nodeSettings: this.props.settings,
+            typeConfig: this.props.typeConfig,
+            onTypeChange: this.onTypeChange,
+            translating: this.props.translating
         };
 
         const { form: FormComp } = typeConfig;
 
-        const typeList = this.getTypeList();
+        const typeList: any = null; // this.getTypeList();
 
         const front = (
             <FormContainer key={'fc-front'} onKeyPress={this.onKeyPress}>
@@ -1219,7 +1231,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         let back: JSX.Element = null;
 
-        if (this.hasAdvanced()) {
+        if (false && this.hasAdvanced()) {
             back = (
                 <FormContainer
                     key={'fc-back'}
@@ -1240,6 +1252,37 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     public render(): JSX.Element {
         if (this.props.nodeEditorOpen) {
             if (this.props.typeConfig.form) {
+                const {
+                    settings: { originalAction: actionToEdit },
+                    typeConfig
+                } = this.props;
+                const action = getAction(actionToEdit, typeConfig);
+                const { form: FormComp } = typeConfig;
+
+                const formProps: Partial<FormProps> = {
+                    action,
+                    formHelper: typeConfig.formHelper,
+                    saveLocalizations: this.saveLocalizations,
+                    updateLocalizations: this.updateLocalizations,
+                    cleanUpLocalizations: this.cleanUpLocalizations,
+                    updateAction: this.updateAction,
+                    updateRouter: null,
+                    getResultNameField: this.getResultNameField,
+                    getExitTranslations: this.getExitTranslations,
+                    onBindWidget: this.onBindWidget,
+                    onBindAdvancedWidget: this.onBindAdvancedWidget,
+                    onToggleAdvanced: this.toggleAdvanced,
+                    onExpressionChanged: this.onExpressionChanged,
+                    triggerFormUpdate: this.triggerFormUpdate,
+                    removeWidget: this.removeWidget,
+                    nodeSettings: this.props.settings,
+                    typeConfig: this.props.typeConfig,
+                    onTypeChange: this.onTypeChange,
+                    onClose: this.close,
+                    translating: this.props.translating,
+                    language: this.props.language
+                };
+
                 const style = shared[this.props.typeConfig.type];
                 const titles: JSX.Element[] = this.getTitles();
                 const buttons: ButtonSet = this.getButtons();
@@ -1253,8 +1296,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                         show={this.props.nodeEditorOpen}
                         buttons={buttons}
                     >
-                        {front}
-                        {back}
+                        <FormComp ref={this.formRef} {...{ ...formProps }} />
                     </ConnectedModal>
                 );
             }

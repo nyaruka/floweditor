@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { Type } from '~/config';
 import { configsToDisplay } from '~/config/typeConfigs';
 
-import * as formStyles from '~/components/nodeeditor/NodeEditor.scss';
+import * as styles from './TypeList.scss';
 
 export interface TypeListProps {
     __className: string;
@@ -37,10 +37,8 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
 
     public render(): JSX.Element {
         return (
-            <div className={this.props.__className}>
-                <div className={formStyles.intro}>
-                    When a contact arrives at this point in your flow...
-                </div>
+            <div className={`${this.props.__className} ${styles.typeList}`}>
+                <p>When a contact arrives at this point in your flow...</p>
                 <div>
                     <Select
                         joinValues={true}

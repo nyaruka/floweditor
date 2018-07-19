@@ -3,13 +3,12 @@ import * as ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import Button, { ButtonProps, ButtonTypes } from '~/components/button/Button';
 import ConnectedTimeoutControl from '~/components/form/timeout/TimeoutControl';
+import * as styles from '~/components/modal/Modal.scss';
 import * as shared from '~/components/shared.scss';
 import { Types } from '~/config/typeConfigs';
 import { Case, FlowNode, SwitchRouter } from '~/flowTypes';
 import { AppState } from '~/store';
 import { renderIf } from '~/utils';
-
-import * as styles from '~/components/modal/Modal.scss';
 
 export interface ButtonSet {
     primary: ButtonProps;
@@ -212,7 +211,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 shouldCloseOnOverlayClick={false}
                 contentLabel="Modal"
             >
-                <div className={this.getTopStyle()}>{this.mapSides()}</div>
+                <div className={this.getTopStyle()}>{this.props.children}</div>
             </ReactModal>
         );
     }

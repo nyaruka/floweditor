@@ -1,0 +1,56 @@
+@import "~/variables.scss";
+
+
+.dialog {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 5px 10px 1px #555;
+
+    .header {
+        color: #fff;
+        padding: 16px;
+
+        .header-icon {
+            font-size: 80px;
+            position: absolute;
+            left: -35px;
+            top: 16px;
+            clip: rect(0px, 100px, 54px, 35px);
+        }
+
+        .title {
+            font-size: 20px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+        }
+
+        &.barber {
+            $color_1: rgba(0, 0, 0, .08);
+            $color_2: rgba(0, 0, 0, .05);
+            background-image: repeating-linear-gradient(60deg, $color_1, $color_1 12px, $color_2 12px, $color_2 24px);
+        }
+
+        &.iconed {
+            .title-container {
+                margin-left:50px;
+            }
+        }
+    }
+
+    .content {
+        padding: 10px 20px;
+        margin-bottom: 10px;
+    }
+
+    .footer {
+        padding: 12px;
+        background: $light_gray;
+
+        .right-buttons {
+            text-align: right
+        }
+    }
+}
