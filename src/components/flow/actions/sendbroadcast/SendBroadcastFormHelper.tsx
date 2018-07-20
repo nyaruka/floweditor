@@ -6,7 +6,7 @@ import { NodeEditorSettings, SendBroadcastFormState } from '~/store/nodeEditor';
 
 export class SendBroadcastFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): SendBroadcastFormState {
-        if (settings.originalAction) {
+        if (settings.originalAction && settings.originalAction.type === Types.send_broadcast) {
             let action = settings.originalAction as BroadcastMsg;
 
             // check if our form should use a localized action

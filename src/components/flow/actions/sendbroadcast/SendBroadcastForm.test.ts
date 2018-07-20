@@ -1,15 +1,12 @@
-import { getTypeConfig } from '~/config';
-import { Types } from '~/config/typeConfigs';
+import SendBroadcastForm, {
+    SendBroadcastFormProps
+} from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
+import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AssetType } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import { createBroadcastMsgAction, Spanish } from '~/testUtils/assetCreators';
-
-import {
-    SendBroadcastForm,
-    SendBroadcastFormProps
-} from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
-import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 
@@ -19,18 +16,18 @@ const sendConfig = getTypeConfig(Types.send_broadcast);
 const formHelper = new SendBroadcastFormHelper();
 
 const baseProps: SendBroadcastFormProps = {
-    action: broadcastMsgAction,
     formHelper,
     updateAction: jest.fn(),
     typeConfig: sendConfig,
     language: null,
     translating: false,
     updateLocalizations: jest.fn(),
-    updateSendBroadcastForm: jest.fn(),
-    form: formHelper.initializeForm({
+    onClose: jest.fn(),
+    onTypeChange: jest.fn(),
+    nodeSettings: {
         originalNode: null,
         originalAction: broadcastMsgAction
-    })
+    }
 };
 
 const { setup, spyOn } = composeComponentTestUtils<SendBroadcastFormProps>(
@@ -47,13 +44,13 @@ describe(SendBroadcastForm.name, () => {
         });
 
         it('should render an empty form with no action', () => {
-            const { wrapper, props } = setup(true, {
+            const { wrapper, instance } = setup(true, {
                 $merge: {
-                    form: formHelper.initializeForm({ originalNode: null })
+                    nodeSettings: { originalNode: null }
                 }
             });
 
-            expect(props.form).toEqual({
+            expect(instance.state).toEqual({
                 recipients: { value: [] },
                 text: { value: '' },
                 type: Types.send_broadcast,
@@ -71,7 +68,7 @@ describe(SendBroadcastForm.name, () => {
             });
             localized.addTranslation('text', 'espanols!');
 
-            const { wrapper, props } = setup(true, {
+            const { wrapper } = setup(true, {
                 $merge: {
                     translating: true,
                     language: { name: 'Spanish', iso: 'spa' },
@@ -87,63 +84,13 @@ describe(SendBroadcastForm.name, () => {
         });
     });
 
-    describe('onValid', () => {
-        it('processes the form for normal edits', () => {
-            const { wrapper, instance, props } = setup(true, {
-                $merge: { updateAction: jest.fn() }
-            });
-            instance.onValid();
-            expect(props.updateAction).toBeCalledWith(broadcastMsgAction);
-        });
-
-        it('clears translations', () => {
-            const { instance, props } = setup(true, {
-                $merge: {
-                    translating: true,
-                    language: Spanish,
-                    form: {
-                        ...formHelper.initializeForm({
-                            originalNode: null,
-                            originalAction: broadcastMsgAction,
-                            localizations: [new LocalizedObject(broadcastMsgAction, Spanish)]
-                        })
-                    },
-                    updateLocalizations: jest.fn()
-                }
-            });
-
-            instance.onValid();
-            expect(props.updateLocalizations).toBeCalledWith('spa', [
-                { translations: null, uuid: 'send_broadcast-0' }
-            ]);
-        });
-
-        it('updates translations', () => {
-            const { instance, props } = setup(true, {
-                $merge: {
-                    translating: true,
-                    language: Spanish,
-                    localizations: [new LocalizedObject(broadcastMsgAction, Spanish)],
-                    updateLocalizations: jest.fn()
-                }
-            });
-
-            instance.onValid();
-            expect(props.updateLocalizations).toBeCalledWith('spa', [
-                { translations: { text: ['Hello World'] }, uuid: 'send_broadcast-0' }
-            ]);
-        });
-    });
-
     describe('event', () => {
         it('handles recipent change', () => {
-            const { instance, props } = setup(true, {
+            const { instance } = setup(true, {
                 $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
             });
             instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
-            expect(props.updateSendBroadcastForm).toBeCalledWith({
-                recipients: { value: [{ id: 'group-0', name: 'My Group' }] }
-            });
+            expect(instance.state).toMatchSnapshot();
         });
 
         it('handles text change', () => {
@@ -151,10 +98,7 @@ describe(SendBroadcastForm.name, () => {
                 $merge: { updateSendBroadcastForm: jest.fn().mockReturnValue(true) }
             });
             instance.handleMessageUpdate('Message to Group');
-
-            expect(props.updateSendBroadcastForm).toBeCalledWith({
-                text: { value: 'Message to Group' }
-            });
+            expect(instance.state).toMatchSnapshot();
         });
 
         it('handles translation change', () => {
@@ -168,7 +112,7 @@ describe(SendBroadcastForm.name, () => {
             });
 
             instance.handleMessageUpdate('espanols!');
-            expect(props.updateSendBroadcastForm).toBeCalledWith({ text: { value: 'espanols!' } });
+            expect(instance.state).toMatchSnapshot();
         });
     });
 });

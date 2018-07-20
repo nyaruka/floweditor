@@ -21,17 +21,20 @@ import { validate, validateMaxOfTen, validateRequired } from '~/store/validators
 const MAX_REPLIES = 10;
 
 export interface SendMsgFormProps {
+    // localization settings
     translating: boolean;
     language: Asset;
 
-    // action: SendMsg;
+    // action details
     nodeSettings: NodeEditorSettings;
-
-    updateAction(action: SendMsg): void;
     formHelper: SendMsgFormHelper;
-    updateLocalizations: UpdateLocalizations;
-
     typeConfig: Type;
+
+    // update handlers
+    updateLocalizations(languageCode: string, localizations: any[]): UpdateLocalizations;
+    updateAction(action: SendMsg): void;
+
+    // modal notifiers
     onTypeChange(config: Type): void;
     onClose(canceled: boolean): void;
 }
