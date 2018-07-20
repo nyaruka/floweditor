@@ -69,7 +69,7 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
             updates.sendAll = keys.sendAll;
         }
 
-        if (keys.hasOwnProperty('quickRepiles')) {
+        if (keys.hasOwnProperty('quickReplies')) {
             updates.quickReplies = validate('Quick Replies', keys.quickReplies, [validateMaxOfTen]);
         }
 
