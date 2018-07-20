@@ -1,11 +1,12 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+import Dialog from '~/components/dialog/Dialog';
 import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
 import * as styles from '~/components/flow/actions/changegroups/RemoveGroupsForm.scss';
-import { renderChooserDialog } from '~/components/flow/actions/helpers';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import { ButtonSet } from '~/components/modal/Modal';
+import TypeList from '~/components/nodeeditor/TypeList';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
@@ -93,10 +94,18 @@ export default class RemoveGroupsForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        return renderChooserDialog(
-            this.props,
-            this.getButtons(),
-            <>
+        return (
+            <Dialog
+                title={this.props.typeConfig.name}
+                headerClass={this.props.typeConfig.type}
+                buttons={this.getButtons()}
+            >
+                <TypeList
+                    __className=""
+                    initialType={this.props.typeConfig}
+                    onChange={this.props.onTypeChange}
+                />
+
                 {renderIf(!this.state.removeAll)(
                     <div>
                         <p data-spec={labelSpecId}>{LABEL}</p>
@@ -111,6 +120,7 @@ export default class RemoveGroupsForm extends React.Component<
                         />
                     </div>
                 )}
+
                 <CheckboxElement
                     name={REMOVE_FROM_ALL}
                     title={REMOVE_FROM_ALL}
@@ -119,7 +129,7 @@ export default class RemoveGroupsForm extends React.Component<
                     description={REMOVE_FROM_ALL_DESC}
                     onChange={this.handleRemoveAllUpdate}
                 />
-            </>
+            </Dialog>
         );
     }
 }

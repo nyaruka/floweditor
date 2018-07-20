@@ -95,14 +95,14 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                 </div>
                 <div className={styles.content}>{this.props.children}</div>
 
-                <div className={styles.footer}>
-                    {renderIf(rightButtons.length > 0 || leftButtons.length > 0)(
+                {renderIf(rightButtons.length > 0 || leftButtons.length > 0)(
+                    <div className={styles.footer}>
                         <div className={styles.buttons}>
                             <div className={styles.leftButtons}>{leftButtons}</div>
                             <div className={styles.rightButtons}>{rightButtons}</div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
         );
     }
