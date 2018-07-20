@@ -1,10 +1,10 @@
 import { FormHelper, Types } from '~/config/typeConfigs';
 import { SetRunResult } from '~/flowTypes';
-import { SetRunResultFormState, NodeEditorSettings } from '~/store/nodeEditor';
+import { NodeEditorSettings, SetRunResultFormState } from '~/store/nodeEditor';
 
 export class SetRunResultFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): SetRunResultFormState {
-        if (settings.originalAction) {
+        if (settings.originalAction && settings.originalAction.type === Types.set_run_result) {
             const action = settings.originalAction as SetRunResult;
 
             return {
