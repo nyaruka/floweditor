@@ -127,42 +127,44 @@ exports[`SendBroadcastForm render should render an empty form with no action 1`]
     }
     onChange={[MockFunction]}
   />
-  <OmniboxElement
-    add={true}
-    assets={
-      RecipientAssets {
-        "assets": Object {},
-        "endpoint": "/assets/recipients.json",
-        "idProperty": "uuid",
-        "localStorage": true,
+  <React.Fragment>
+    <OmniboxElement
+      add={true}
+      assets={
+        RecipientAssets {
+          "assets": Object {},
+          "endpoint": "/assets/recipients.json",
+          "idProperty": "uuid",
+          "localStorage": true,
+        }
       }
-    }
-    className="recipients"
-    data-spec="recipients"
-    entry={
-      Object {
-        "value": Array [],
+      className="recipients"
+      data-spec="recipients"
+      entry={
+        Object {
+          "value": Array [],
+        }
       }
-    }
-    name="Recipients"
-    onChange={[Function]}
-    placeholder="Enter a group or contact..."
-    searchPromptText="No matches"
-  />
-  <Connect(TextInputElement)
-    autocomplete={true}
-    count="SMS"
-    entry={
-      Object {
-        "value": "",
+      name="Recipients"
+      onChange={[Function]}
+      placeholder="Enter a group or contact..."
+      searchPromptText="No matches"
+    />
+    <Connect(TextInputElement)
+      autocomplete={true}
+      count="SMS"
+      entry={
+        Object {
+          "value": "",
+        }
       }
-    }
-    focus={true}
-    name="Message"
-    onChange={[Function]}
-    showLabel={false}
-    textarea={true}
-  />
+      focus={true}
+      name="Message"
+      onChange={[Function]}
+      showLabel={false}
+      textarea={true}
+    />
+  </React.Fragment>
 </Dialog>
 `;
 
@@ -197,68 +199,70 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     }
     onChange={[MockFunction]}
   />
-  <OmniboxElement
-    add={true}
-    assets={
-      RecipientAssets {
-        "assets": Object {},
-        "endpoint": "/assets/recipients.json",
-        "idProperty": "uuid",
-        "localStorage": true,
+  <React.Fragment>
+    <OmniboxElement
+      add={true}
+      assets={
+        RecipientAssets {
+          "assets": Object {},
+          "endpoint": "/assets/recipients.json",
+          "idProperty": "uuid",
+          "localStorage": true,
+        }
       }
-    }
-    className="recipients"
-    data-spec="recipients"
-    entry={
-      Object {
-        "value": Array [
-          Object {
-            "id": "group-0",
-            "name": "Cat Fanciers",
-            "type": "group",
-          },
-          Object {
-            "id": "group-1",
-            "name": "Cat Facts",
-            "type": "group",
-          },
-          Object {
-            "id": "contact-0",
-            "name": "Kellan Alexander",
-            "type": "contact",
-          },
-          Object {
-            "id": "contact-1",
-            "name": "Norbert Kwizera",
-            "type": "contact",
-          },
-          Object {
-            "id": "contact-2",
-            "name": "Rowan Seymour",
-            "type": "contact",
-          },
-        ],
+      className="recipients"
+      data-spec="recipients"
+      entry={
+        Object {
+          "value": Array [
+            Object {
+              "id": "group-0",
+              "name": "Cat Fanciers",
+              "type": "group",
+            },
+            Object {
+              "id": "group-1",
+              "name": "Cat Facts",
+              "type": "group",
+            },
+            Object {
+              "id": "contact-0",
+              "name": "Kellan Alexander",
+              "type": "contact",
+            },
+            Object {
+              "id": "contact-1",
+              "name": "Norbert Kwizera",
+              "type": "contact",
+            },
+            Object {
+              "id": "contact-2",
+              "name": "Rowan Seymour",
+              "type": "contact",
+            },
+          ],
+        }
       }
-    }
-    name="Recipients"
-    onChange={[Function]}
-    placeholder="Enter a group or contact..."
-    searchPromptText="No matches"
-  />
-  <Connect(TextInputElement)
-    autocomplete={true}
-    count="SMS"
-    entry={
-      Object {
-        "value": "Hello World",
+      name="Recipients"
+      onChange={[Function]}
+      placeholder="Enter a group or contact..."
+      searchPromptText="No matches"
+    />
+    <Connect(TextInputElement)
+      autocomplete={true}
+      count="SMS"
+      entry={
+        Object {
+          "value": "Hello World",
+        }
       }
-    }
-    focus={true}
-    name="Message"
-    onChange={[Function]}
-    showLabel={false}
-    textarea={true}
-  />
+      focus={true}
+      name="Message"
+      onChange={[Function]}
+      showLabel={false}
+      textarea={true}
+    />
+  </React.Fragment>
 </Dialog>
 `;
 

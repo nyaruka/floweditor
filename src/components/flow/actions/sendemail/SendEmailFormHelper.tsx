@@ -1,10 +1,10 @@
 import { FormHelper, Types } from '~/config/typeConfigs';
 import { SendEmail } from '~/flowTypes';
-import { SendEmailFormState, NodeEditorSettings } from '~/store/nodeEditor';
+import { NodeEditorSettings, SendEmailFormState } from '~/store/nodeEditor';
 
 export class SendEmailFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): SendEmailFormState {
-        if (settings.originalAction) {
+        if (settings.originalAction && settings.originalAction.type === Types.send_email) {
             const action = settings.originalAction as SendEmail;
             return {
                 type: action.type,

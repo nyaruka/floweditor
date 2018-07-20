@@ -1,15 +1,17 @@
 @import "~/variables.scss";
 
+$border-radius: 12px;
 
 .dialog {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
     box-shadow: 0px 5px 10px 1px #555;
+    border-radius: $border-radius;
 
     .header {
         color: #fff;
         padding: 16px;
+
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
 
         .header-icon {
             font-size: 80px;
@@ -41,13 +43,16 @@
     }
 
     .content {
-        padding: 10px 20px;
-        margin-bottom: 10px;
+        padding: 10px 20px 20px 20px;
+        background: #fff;
     }
 
     .footer {
         padding: 12px;
         background: $light_gray;
+
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
 
         .right-buttons {
             text-align: right

@@ -1,17 +1,15 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog, { HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
 import * as styles from '~/components/flow/actions/action/Action.scss';
+import { renderChooserDialog, renderDialog } from '~/components/flow/actions/helpers';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { SendMsgFormHelper } from '~/components/flow/actions/sendmsg/SendMsgFormHelper';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import { ButtonSet } from '~/components/modal/Modal';
-import { back } from '~/components/modal/Modal.scss';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
-import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config/typeConfigs';
 import { SendMsg } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
@@ -136,38 +134,25 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
 
     public renderEdit(): FlipperProps {
         return {
-            front: (
-                <Dialog
-                    title={this.props.typeConfig.name}
-                    headerClass={this.props.typeConfig.type}
-                    buttons={this.getButtons()}
-                >
-                    <TypeList
-                        __className=""
-                        initialType={this.props.typeConfig}
-                        onChange={this.props.onTypeChange}
-                    />
-                    <TextInputElement
-                        name="Message"
-                        showLabel={false}
-                        count={Count.SMS}
-                        onChange={this.handleMessageUpdate}
-                        entry={this.state.text}
-                        autocomplete={true}
-                        focus={true}
-                        textarea={true}
-                    />
-                </Dialog>
+            front: renderChooserDialog(
+                this.props,
+                this.getButtons(),
+                <TextInputElement
+                    name="Message"
+                    showLabel={false}
+                    count={Count.SMS}
+                    onChange={this.handleMessageUpdate}
+                    entry={this.state.text}
+                    autocomplete={true}
+                    focus={true}
+                    textarea={true}
+                />
             ),
 
-            back: (
-                <Dialog
-                    title={this.props.typeConfig.name}
-                    subtitle="Advanced Settings"
-                    headerStyle={HeaderStyle.BARBER}
-                    headerClass={this.props.typeConfig.type}
-                    headerIcon="fe-cog"
-                >
+            back: renderDialog(
+                this.props,
+                this.getButtons(),
+                <>
                     <p>Quick Replies are made into buttons for supported channels</p>
                     <TaggingElement
                         name="Replies"
@@ -186,25 +171,22 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                         description="Send a message to all destinations known for this contact."
                         onChange={this.handleUpdateSendAll}
                     />
-                </Dialog>
+                </>
             )
         };
     }
 
     public renderTranslate(): FlipperProps {
         return {
-            front: (
-                <Dialog
-                    title={this.props.typeConfig.name}
-                    headerClass={this.props.typeConfig.type}
-                    buttons={this.getButtons()}
-                >
+            front: renderDialog(
+                this.props,
+                this.getButtons(),
+                <>
                     <div data-spec="translation-container">
                         <div data-spec="text-to-translate" className={styles.translate_from}>
                             {(this.props.nodeSettings.originalAction as SendMsg).text}
                         </div>
                     </div>
-
                     <TextInputElement
                         name="Message"
                         showLabel={false}
@@ -216,17 +198,13 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                         focus={true}
                         textarea={true}
                     />
-                </Dialog>
+                </>
             ),
 
-            back: (
-                <Dialog
-                    title={this.props.typeConfig.name}
-                    subtitle="Advanced Settings"
-                    headerStyle={HeaderStyle.BARBER}
-                    headerClass={this.props.typeConfig.type}
-                    headerIcon="fe-cog"
-                >
+            back: renderDialog(
+                this.props,
+                this.getButtons(),
+                <>
                     <p>Enter any {this.props.language.name} Quick Replies</p>
                     <TaggingElement
                         name="Replies"
@@ -237,7 +215,7 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                         onValidPrompt={this.handleValidReplyPrompt}
                         entry={this.state.quickReplies}
                     />
-                </Dialog>
+                </>
             )
         };
     }

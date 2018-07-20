@@ -2,13 +2,13 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/action/Action.scss';
+import { renderChooserDialog } from '~/components/flow/actions/helpers';
 import * as broadcastStyles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
 import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import { ButtonSet } from '~/components/modal/Modal';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
-import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { BroadcastMsg } from '~/flowTypes';
@@ -124,17 +124,10 @@ export default class SendBroadcastForm extends React.Component<
     }
 
     public renderEdit(): JSX.Element {
-        return (
-            <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
-                buttons={this.getButtons()}
-            >
-                <TypeList
-                    __className=""
-                    initialType={this.props.typeConfig}
-                    onChange={this.props.onTypeChange}
-                />
+        return renderChooserDialog(
+            this.props,
+            this.getButtons(),
+            <>
                 <OmniboxElement
                     data-spec="recipients"
                     className={broadcastStyles.recipients}
@@ -154,7 +147,7 @@ export default class SendBroadcastForm extends React.Component<
                     focus={true}
                     textarea={true}
                 />
-            </Dialog>
+            </>
         );
     }
 

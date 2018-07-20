@@ -1,10 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog from '~/components/dialog/Dialog';
 import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
+import { renderChooserDialog } from '~/components/flow/actions/helpers';
 import LabelsElement from '~/components/form/select/labels/LabelsElement';
 import { ButtonSet } from '~/components/modal/Modal';
-import TypeList from '~/components/nodeeditor/TypeList';
 import { ConfigProviderContext, Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { AddLabels } from '~/flowTypes';
@@ -77,17 +76,10 @@ export default class AddLabelsForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
-        return (
-            <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
-                buttons={this.getButtons()}
-            >
-                <TypeList
-                    __className=""
-                    initialType={this.props.typeConfig}
-                    onChange={this.props.onTypeChange}
-                />
+        return renderChooserDialog(
+            this.props,
+            this.getButtons(),
+            <>
                 <p data-spec={controlLabelSpecId}>{LABEL}</p>
                 <LabelsElement
                     name="Labels"
@@ -96,7 +88,7 @@ export default class AddLabelsForm extends React.PureComponent<
                     entry={this.state.labels}
                     onChange={this.handleLabelChange}
                 />
-            </Dialog>
+            </>
         );
     }
 }
