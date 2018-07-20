@@ -1,35 +1,33 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Dialog from '~/components/dialog/Dialog';
+import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
+import { ButtonSet } from '~/components/modal/Modal';
+import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { StartSession } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { AppState, DispatchWithState } from '~/store';
-import { StartSessionFunc, updateStartSessionForm } from '~/store/forms';
-import { StartSessionFormState } from '~/store/nodeEditor';
+import { mergeForm, NodeEditorSettings, StartSessionFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
-
-export interface StartSessionFormStoreProps {
-    typeConfig: Type;
-    form: StartSessionFormState;
-    updateStartSessionForm: StartSessionFunc;
-}
-
-export interface StartSessionFormPassedProps {
-    action: StartSession;
+export interface StartSessionFormProps {
+    // action details
+    nodeSettings: NodeEditorSettings;
     formHelper: StartSessionFormHelper;
+    typeConfig: Type;
+
+    // update handlers
     updateAction(action: StartSession): void;
+
+    // modal notifiers
+    onTypeChange(config: Type): void;
+    onClose(canceled: boolean): void;
 }
 
-export type StartSessionFormProps = StartSessionFormStoreProps & StartSessionFormPassedProps;
-
-export class StartSessionForm extends React.Component<
+export default class StartSessionForm extends React.Component<
     StartSessionFormProps,
     StartSessionFormState
 > {
@@ -41,84 +39,98 @@ export class StartSessionForm extends React.Component<
     constructor(props: StartSessionFormProps) {
         super(props);
 
+        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
+
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
     }
 
-    public onValid(): void {
-        const action = this.props.formHelper.stateToAction(this.props.action.uuid, this.props.form);
-        this.props.updateAction(action);
+    public handleRecipientsChanged(recipients: Asset[]): boolean {
+        return this.handleUpdate({ recipients });
     }
 
-    public validate(): boolean {
-        const valid = this.handleRecipientsChanged(this.props.form.recipients.value);
-        const flow = this.props.form.flow.value ? [this.props.form.flow.value] : [];
-        return this.handleFlowChanged(flow) && valid;
-    }
-
-    public handleRecipientsChanged(selected: Asset[]): boolean {
-        return (this.props.updateStartSessionForm({
-            recipients: validate('Recipients', selected, [validateRequired])
-        }) as any).valid;
-    }
-
-    public handleFlowChanged(selected: Asset[]): boolean {
+    public handleFlowChanged(flows: Asset[]): boolean {
         let flow = null;
-        if (selected && selected.length > 0) {
-            flow = selected[0];
+        if (flows && flows.length > 0) {
+            flow = flows[0];
+        }
+        return this.handleUpdate({ flow });
+    }
+
+    private handleUpdate(keys: { flow?: Asset; recipients?: Asset[] }): boolean {
+        const updates: Partial<StartSessionFormState> = {};
+
+        if (keys.hasOwnProperty('recipients')) {
+            updates.recipients = validate('Recipients', keys.recipients, [validateRequired]);
         }
 
-        return (this.props.updateStartSessionForm({
-            flow: validate('Flow', flow, [validateRequired])
-        }) as any).valid;
+        if (keys.hasOwnProperty('flow')) {
+            updates.flow = validate('Flow', keys.flow, [validateRequired]);
+        }
+
+        const updated = mergeForm(this.state, updates);
+        this.setState(updated);
+        return updated.valid;
+    }
+
+    private handleSave(): void {
+        // validate in case they never updated an empty field
+        const valid = this.handleUpdate({
+            recipients: this.state.recipients.value,
+            flow: this.state.flow.value
+        });
+
+        if (valid) {
+            this.props.updateAction(
+                this.props.formHelper.stateToAction(
+                    this.props.nodeSettings.originalAction.uuid,
+                    this.state
+                )
+            );
+
+            // notify our modal we are done
+            this.props.onClose(false);
+        }
+    }
+
+    private getButtons(): ButtonSet {
+        return {
+            primary: { name: 'Ok', onClick: this.handleSave },
+            secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+        };
     }
 
     public render(): JSX.Element {
         return (
-            <div>
-                <OmniboxElement
-                    data-spec="recipients"
-                    name="Recipients"
-                    assets={this.context.assetService.getRecipients()}
-                    onChange={this.handleRecipientsChanged}
-                    entry={this.props.form.recipients}
-                    add={true}
+            <Dialog
+                title={this.props.typeConfig.name}
+                headerClass={this.props.typeConfig.type}
+                buttons={this.getButtons()}
+            >
+                <TypeList
+                    __className=""
+                    initialType={this.props.typeConfig}
+                    onChange={this.props.onTypeChange}
                 />
-                <p>Select a flow to run</p>
-                <FlowElement
-                    name="Flow"
-                    onChange={this.handleFlowChanged}
-                    assets={this.context.assetService.getFlowAssets()}
-                    entry={this.props.form.flow}
-                />
-            </div>
+                <div>
+                    <OmniboxElement
+                        data-spec="recipients"
+                        name="Recipients"
+                        assets={this.context.assetService.getRecipients()}
+                        onChange={this.handleRecipientsChanged}
+                        entry={this.state.recipients}
+                        add={true}
+                    />
+                    <p>Select a flow to run</p>
+                    <FlowElement
+                        name="Flow"
+                        onChange={this.handleFlowChanged}
+                        assets={this.context.assetService.getFlowAssets()}
+                        entry={this.state.flow}
+                    />
+                </div>
+            </Dialog>
         );
     }
 }
-
-/* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { typeConfig, form } }: AppState) => ({
-    typeConfig,
-    form
-});
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators(
-        {
-            updateStartSessionForm
-        },
-        dispatch
-    );
-
-const ConnectedStartSessionForm = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    {
-        withRef: true
-    }
-)(StartSessionForm);
-
-export default ConnectedStartSessionForm;

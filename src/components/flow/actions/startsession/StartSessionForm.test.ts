@@ -1,13 +1,10 @@
-import { getTypeConfig } from '~/config';
-import { Types } from '~/config/typeConfigs';
-import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
-import { createStartSessionAction } from '~/testUtils/assetCreators';
-
-import {
-    StartSessionForm,
+import StartSessionForm, {
     StartSessionFormProps
 } from '~/components/flow/actions/startsession/StartSessionForm';
 import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
+import { createStartSessionAction } from '~/testUtils/assetCreators';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 
@@ -16,12 +13,12 @@ const typeConfig = getTypeConfig(Types.start_session);
 const formHelper = new StartSessionFormHelper();
 
 const baseProps: StartSessionFormProps = {
-    action: startSessionAction,
     formHelper,
     typeConfig,
     updateAction: jest.fn(),
-    updateStartSessionForm: jest.fn(),
-    form: formHelper.initializeForm({ originalNode: null, originalAction: startSessionAction })
+    onTypeChange: jest.fn(),
+    onClose: jest.fn(),
+    nodeSettings: { originalNode: null, originalAction: startSessionAction }
 };
 
 const { setup, spyOn } = composeComponentTestUtils<StartSessionFormProps>(
@@ -38,13 +35,13 @@ describe(StartSessionForm.name, () => {
         });
 
         it('should render an empty form with no action', () => {
-            const { wrapper, props } = setup(true, {
+            const { wrapper, instance } = setup(true, {
                 $merge: {
-                    form: formHelper.initializeForm({ originalNode: null, originalAction: null })
+                    nodeSettings: { originalNode: null, originalAction: null }
                 }
             });
 
-            expect(props.form).toEqual({
+            expect(instance.state).toEqual({
                 recipients: { value: [] },
                 flow: { value: null },
                 type: Types.start_session,
@@ -52,37 +49,6 @@ describe(StartSessionForm.name, () => {
             });
 
             expect(wrapper).toMatchSnapshot();
-        });
-    });
-
-    describe('onValid', () => {
-        it('processes the form for normal edits', () => {
-            const { instance, props } = setup(true, {
-                $merge: { updateAction: jest.fn() }
-            });
-            instance.onValid();
-            expect(props.updateAction).toBeCalledWith(startSessionAction);
-        });
-    });
-
-    describe('event', () => {
-        it('handles recipent change', () => {
-            const { instance, props } = setup(true, {
-                $merge: { updateStartSessionForm: jest.fn().mockReturnValue(true) }
-            });
-            instance.handleRecipientsChanged([{ id: 'group-0', name: 'My Group' }]);
-            expect(props.updateStartSessionForm).toBeCalledWith({
-                recipients: { value: [{ id: 'group-0', name: 'My Group' }] }
-            });
-        });
-
-        it('handles flow change', () => {
-            const { instance, props } = setup(true, {
-                $merge: { updateStartSessionForm: jest.fn().mockReturnValue(true) }
-            });
-            const flow = { id: 'flow-1', name: 'My Other Flow' };
-            instance.handleFlowChanged([flow]);
-            expect(props.updateStartSessionForm).toBeCalledWith({ flow: { value: flow } });
         });
     });
 });

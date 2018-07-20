@@ -1,125 +1,187 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StartSessionForm render should render an empty form with no action 1`] = `
-<div>
-  <OmniboxElement
-    add={true}
-    assets={
-      RecipientAssets {
-        "assets": Object {},
-        "endpoint": "/assets/recipients.json",
-        "idProperty": "uuid",
-        "localStorage": true,
-      }
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
     }
-    data-spec="recipients"
-    entry={
+  }
+  headerClass="start_session"
+  title="Start Somebody Else"
+>
+  <TypeList
+    __className=""
+    initialType={
       Object {
-        "value": Array [],
+        "component": [Function],
+        "description": "Start somebody else in a flow",
+        "form": undefined,
+        "formHelper": StartSessionFormHelper {},
+        "name": "Start Somebody Else",
+        "type": "start_session",
       }
     }
-    name="Recipients"
-    onChange={[Function]}
-    placeholder="Enter a group or contact..."
-    searchPromptText="No matches"
+    onChange={[MockFunction]}
   />
-  <p>
-    Select a flow to run
-  </p>
-  <FlowElement
-    assets={
-      FlowAssets {
-        "assetType": "flow",
-        "assets": Object {},
-        "endpoint": "/assets/flows.json",
-        "idProperty": "uuid",
-        "localStorage": true,
+  <div>
+    <OmniboxElement
+      add={true}
+      assets={
+        RecipientAssets {
+          "assets": Object {},
+          "endpoint": "/assets/recipients.json",
+          "idProperty": "uuid",
+          "localStorage": true,
+        }
       }
-    }
-    entry={
-      Object {
-        "value": null,
+      data-spec="recipients"
+      entry={
+        Object {
+          "value": Array [],
+        }
       }
-    }
-    name="Flow"
-    onChange={[Function]}
-  />
-</div>
+      name="Recipients"
+      onChange={[Function]}
+      placeholder="Enter a group or contact..."
+      searchPromptText="No matches"
+    />
+    <p>
+      Select a flow to run
+    </p>
+    <FlowElement
+      assets={
+        FlowAssets {
+          "assetType": "flow",
+          "assets": Object {},
+          "endpoint": "/assets/flows.json",
+          "idProperty": "uuid",
+          "localStorage": true,
+        }
+      }
+      entry={
+        Object {
+          "value": null,
+        }
+      }
+      name="Flow"
+      onChange={[Function]}
+    />
+  </div>
+</Dialog>
 `;
 
 exports[`StartSessionForm render should render self, children with base props 1`] = `
-<div>
-  <OmniboxElement
-    add={true}
-    assets={
-      RecipientAssets {
-        "assets": Object {},
-        "endpoint": "/assets/recipients.json",
-        "idProperty": "uuid",
-        "localStorage": true,
-      }
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
     }
-    data-spec="recipients"
-    entry={
+  }
+  headerClass="start_session"
+  title="Start Somebody Else"
+>
+  <TypeList
+    __className=""
+    initialType={
       Object {
-        "value": Array [
-          Object {
-            "id": "group-0",
-            "name": "Cat Fanciers",
-            "type": "group",
-          },
-          Object {
-            "id": "group-1",
-            "name": "Cat Facts",
-            "type": "group",
-          },
-          Object {
-            "id": "contact-0",
-            "name": "Kellan Alexander",
-            "type": "contact",
-          },
-          Object {
-            "id": "contact-1",
-            "name": "Norbert Kwizera",
-            "type": "contact",
-          },
-          Object {
-            "id": "contact-2",
-            "name": "Rowan Seymour",
-            "type": "contact",
-          },
-        ],
+        "component": [Function],
+        "description": "Start somebody else in a flow",
+        "form": undefined,
+        "formHelper": StartSessionFormHelper {},
+        "name": "Start Somebody Else",
+        "type": "start_session",
       }
     }
-    name="Recipients"
-    onChange={[Function]}
-    placeholder="Enter a group or contact..."
-    searchPromptText="No matches"
+    onChange={[MockFunction]}
   />
-  <p>
-    Select a flow to run
-  </p>
-  <FlowElement
-    assets={
-      FlowAssets {
-        "assetType": "flow",
-        "assets": Object {},
-        "endpoint": "/assets/flows.json",
-        "idProperty": "uuid",
-        "localStorage": true,
+  <div>
+    <OmniboxElement
+      add={true}
+      assets={
+        RecipientAssets {
+          "assets": Object {},
+          "endpoint": "/assets/recipients.json",
+          "idProperty": "uuid",
+          "localStorage": true,
+        }
       }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "flow_uuid",
-          "name": "Flow to Start",
-          "type": "flow",
-        },
+      data-spec="recipients"
+      entry={
+        Object {
+          "value": Array [
+            Object {
+              "id": "group-0",
+              "name": "Cat Fanciers",
+              "type": "group",
+            },
+            Object {
+              "id": "group-1",
+              "name": "Cat Facts",
+              "type": "group",
+            },
+            Object {
+              "id": "contact-0",
+              "name": "Kellan Alexander",
+              "type": "contact",
+            },
+            Object {
+              "id": "contact-1",
+              "name": "Norbert Kwizera",
+              "type": "contact",
+            },
+            Object {
+              "id": "contact-2",
+              "name": "Rowan Seymour",
+              "type": "contact",
+            },
+          ],
+        }
       }
-    }
-    name="Flow"
-    onChange={[Function]}
-  />
-</div>
+      name="Recipients"
+      onChange={[Function]}
+      placeholder="Enter a group or contact..."
+      searchPromptText="No matches"
+    />
+    <p>
+      Select a flow to run
+    </p>
+    <FlowElement
+      assets={
+        FlowAssets {
+          "assetType": "flow",
+          "assets": Object {},
+          "endpoint": "/assets/flows.json",
+          "idProperty": "uuid",
+          "localStorage": true,
+        }
+      }
+      entry={
+        Object {
+          "value": Object {
+            "id": "flow_uuid",
+            "name": "Flow to Start",
+            "type": "flow",
+          },
+        }
+      }
+      name="Flow"
+      onChange={[Function]}
+    />
+  </div>
+</Dialog>
 `;

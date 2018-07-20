@@ -6,7 +6,7 @@ import { NodeEditorSettings, StartSessionFormState } from '~/store/nodeEditor';
 
 export class StartSessionFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): StartSessionFormState {
-        if (settings.originalAction) {
+        if (settings.originalAction && settings.originalAction.type === Types.start_session) {
             const action = settings.originalAction as StartSession;
             return {
                 type: action.type,
