@@ -18,8 +18,6 @@ import { Asset } from '~/services/AssetService';
 import { mergeForm, NodeEditorSettings, SendMsgFormState } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
 
-const MAX_REPLIES = 10;
-
 export interface SendMsgFormProps {
     // localization settings
     translating: boolean;
@@ -48,31 +46,44 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
         });
     }
 
-    private handleUpdateForm(updates: Partial<SendMsgFormState>): boolean {
+    public handleMessageUpdate(text: string): boolean {
+        return this.handleUpdate({ text });
+    }
+
+    private handleUpdate(keys: {
+        text?: string;
+        sendAll?: boolean;
+        quickReplies?: string[];
+    }): boolean {
+        const updates: Partial<SendMsgFormState> = {};
+
+        if (keys.hasOwnProperty('text')) {
+            const messageValidators = [];
+            if (!this.props.translating) {
+                messageValidators.push(validateRequired);
+            }
+            updates.text = validate('Message', keys.text, messageValidators);
+        }
+
+        if (keys.hasOwnProperty('sendAll')) {
+            updates.sendAll = keys.sendAll;
+        }
+
+        if (keys.hasOwnProperty('quickRepiles')) {
+            updates.quickReplies = validate('Quick Replies', keys.quickReplies, [validateMaxOfTen]);
+        }
+
         const updated = mergeForm(this.state, updates);
         this.setState(updated);
         return updated.valid;
     }
 
-    public handleUpdateMessage(value: string): boolean {
-        const validators = [];
-        if (!this.props.translating) {
-            validators.push(validateRequired);
-        }
-
-        return this.handleUpdateForm({
-            text: validate('Message', value, validators)
-        });
+    public handleUpdateQuickReplies(quickReplies: string[]): boolean {
+        return this.handleUpdate({ quickReplies });
     }
 
-    public handleUpdateQuickReplies(value: string[]): boolean {
-        return this.handleUpdateForm({
-            quickReplies: validate('Quick Replies', value, [validateMaxOfTen])
-        });
-    }
-
-    public handleUpdateSendAll(sendAll: boolean): void {
-        this.handleUpdateForm({ sendAll });
+    public handleUpdateSendAll(sendAll: boolean): boolean {
+        return this.handleUpdate({ sendAll });
     }
 
     public handleCheckValidReply(value: string): boolean {
@@ -84,7 +95,12 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
     }
 
     private handleSave(): void {
-        if (this.state.valid) {
+        // make sure we validate untouched text fields
+        const valid = this.handleUpdate({
+            text: this.state.text.value
+        });
+
+        if (valid) {
             if (this.props.translating) {
                 const { text, quickReplies } = this.state;
 
@@ -135,7 +151,7 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                         name="Message"
                         showLabel={false}
                         count={Count.SMS}
-                        onChange={this.handleUpdateMessage}
+                        onChange={this.handleMessageUpdate}
                         entry={this.state.text}
                         autocomplete={true}
                         focus={true}
@@ -193,7 +209,7 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                         name="Message"
                         showLabel={false}
                         count={Count.SMS}
-                        onChange={this.handleUpdateMessage}
+                        onChange={this.handleMessageUpdate}
                         entry={this.state.text}
                         placeholder={`${this.props.language.name} Translation`}
                         autocomplete={true}
