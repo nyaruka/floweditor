@@ -1,5 +1,5 @@
 import AddLabelsComp from '~/components/flow/actions/addlabels/AddLabels';
-import { AddLabelsForm } from '~/components/flow/actions/addlabels/AddLabelsForm';
+import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
 import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
 import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';
 import AddGroupsForm from '~/components/flow/actions/changegroups/AddGroupsForm';

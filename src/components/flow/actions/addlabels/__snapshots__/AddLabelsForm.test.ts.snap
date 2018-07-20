@@ -1,7 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AddLabelsForm render should pass LabelsElement labels if they exist on the action 1`] = `
-<React.Fragment>
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="send_broadcast"
+  title="Send Broadcast"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Send somebody else a message",
+        "form": [Function],
+        "formHelper": SendBroadcastFormHelper {},
+        "name": "Send Broadcast",
+        "type": "send_broadcast",
+      }
+    }
+    onChange={[MockFunction]}
+  />
   <p
     data-spec="label"
   >
@@ -39,5 +68,5 @@ exports[`AddLabelsForm render should pass LabelsElement labels if they exist on 
     required={true}
     searchPromptText="Invalid label"
   />
-</React.Fragment>
+</Dialog>
 `;

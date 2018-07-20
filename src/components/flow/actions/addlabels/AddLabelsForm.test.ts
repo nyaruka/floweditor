@@ -1,14 +1,11 @@
-import { Label } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
-import { composeComponentTestUtils } from '~/testUtils';
-import { createAddLabelsAction } from '~/testUtils/assetCreators';
-import { setTrue } from '~/utils';
-
-import {
-    AddLabelsForm,
+import AddLabelsForm, {
     AddLabelsFormProps
 } from '~/components/flow/actions/addlabels/AddLabelsForm';
 import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Label } from '~/flowTypes';
+import { composeComponentTestUtils } from '~/testUtils';
+import { createAddLabelsAction } from '~/testUtils/assetCreators';
 
 const { assets: labels } = require('~/test/assets/labels.json') as {
     assets: Label[];
@@ -16,11 +13,17 @@ const { assets: labels } = require('~/test/assets/labels.json') as {
 
 const formHelper = new AddLabelsFormHelper();
 const action = createAddLabelsAction(labels);
+const sendConfig = getTypeConfig(Types.send_broadcast);
+
 const baseProps: AddLabelsFormProps = {
-    action,
     updateAction: jest.fn(),
-    updateAddLabelsForm: jest.fn(),
-    form: formHelper.initializeForm({ originalNode: null, originalAction: action }),
+    onTypeChange: jest.fn(),
+    onClose: jest.fn(),
+    nodeSettings: {
+        originalNode: null,
+        originalAction: action
+    },
+    typeConfig: sendConfig,
     formHelper
 };
 
@@ -31,35 +34,6 @@ describe(AddLabelsForm.name, () => {
         it('should pass LabelsElement labels if they exist on the action', () => {
             const { wrapper } = setup();
             expect(wrapper).toMatchSnapshot();
-        });
-    });
-
-    describe('onValid', () => {
-        it('should update action', () => {
-            const emptyAction = createAddLabelsAction([]);
-            const { wrapper, instance, props } = setup(true, {
-                action: { $set: emptyAction },
-                form: {
-                    $set: formHelper.initializeForm({
-                        originalNode: null,
-                        originalAction: emptyAction
-                    })
-                },
-                updateAction: { $set: jest.fn() },
-                updateAddLabelsForm: { $set: jest.fn().mockReturnValue(setTrue) }
-            });
-
-            instance.handleLabelChange([
-                { id: 'label0', name: 'Updated Label', type: AssetType.Label }
-            ]);
-
-            instance.onValid();
-            expect(props.updateAction).toHaveBeenCalledTimes(1);
-            expect(props.updateAction).toHaveBeenCalledWith({
-                labels: [],
-                type: 'add_input_labels',
-                uuid: 'labels-action-uuid-0'
-            });
         });
     });
 });

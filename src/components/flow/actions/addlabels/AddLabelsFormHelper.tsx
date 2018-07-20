@@ -5,7 +5,7 @@ import { AddLabelsFormState, NodeEditorSettings } from '~/store/nodeEditor';
 
 export class AddLabelsFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): AddLabelsFormState {
-        if (settings.originalAction) {
+        if (settings.originalAction && settings.originalAction.type === Types.add_input_labels) {
             const action = settings.originalAction as AddLabels;
             return {
                 type: action.type,
