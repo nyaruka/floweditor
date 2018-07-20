@@ -1,19 +1,11 @@
-import { Types } from '~/config/typeConfigs';
-import { ChangeGroups } from '~/flowTypes';
-import { updateChangeGroupsForm } from '~/store/forms';
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
-import { createAddGroupsAction } from '~/testUtils/assetCreators';
-
 import { labelSpecId } from '~/components/flow/actions/changegroups/AddGroupsForm';
-import { mapGroupsToAssets } from '~/components/flow/actions/changegroups/helpers';
 import ChangeGroupFormProps from '~/components/flow/actions/changegroups/props';
-import {
-    LABEL,
-    REMOVE_FROM_ALL,
-    REMOVE_FROM_ALL_DESC,
-    RemoveGroupsForm
-} from '~/components/flow/actions/changegroups/RemoveGroupsForm';
+import RemoveGroupsForm, { LABEL } from '~/components/flow/actions/changegroups/RemoveGroupsForm';
 import { RemoveGroupsFormHelper } from '~/components/flow/actions/changegroups/RemoveGroupsFormHelper';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { ChangeGroups } from '~/flowTypes';
+import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
+import { createAddGroupsAction } from '~/testUtils/assetCreators';
 
 const addGroupsAction = createAddGroupsAction();
 const formHelper = new RemoveGroupsFormHelper();
@@ -23,12 +15,12 @@ const removeGroupsAction = {
 };
 
 const baseProps: ChangeGroupFormProps = {
-    action: removeGroupsAction,
     updateAction: jest.fn(),
-    updateChangeGroupsForm: jest.fn(),
-    form: formHelper.initializeForm({ originalNode: null, originalAction: removeGroupsAction }),
-    formHelper,
-    groups: []
+    onTypeChange: jest.fn(),
+    onClose: jest.fn(),
+    nodeSettings: { originalNode: null, originalAction: removeGroupsAction },
+    typeConfig: getTypeConfig(Types.remove_contact_groups),
+    formHelper
 };
 
 const { setup, spyOn } = composeComponentTestUtils(RemoveGroupsForm, baseProps);
@@ -45,85 +37,6 @@ describe(RemoveGroupsForm.name, () => {
             expect(wrapper.find('CheckboxElement').props()).toMatchSnapshot();
         });
 
-        it('should render only the checkbox', () => {
-            const { wrapper, instance } = setup(false, { form: { removeAll: { $set: true } } });
-            expect(getSpecWrapper(wrapper, labelSpecId).exists()).toBeFalsy();
-            expect(wrapper.find('GroupsElement').exists()).toBeFalsy();
-            expect(wrapper.find('CheckboxElement').props()).toEqual({
-                labelClassName: '',
-                name: REMOVE_FROM_ALL,
-                title: REMOVE_FROM_ALL,
-                checked: true,
-                description: REMOVE_FROM_ALL_DESC,
-                onChange: instance.handleUpdateRemoveAll
-            });
-        });
-    });
-
-    describe('instance methods', () => {
-        it('should handle removeAll', () => {
-            const { wrapper, instance, props } = setup(true, {
-                $merge: { updateChangeGroupsForm: jest.fn().mockReturnValue(true) }
-            });
-            instance.handleUpdateRemoveAll(true);
-            expect(props.updateChangeGroupsForm).toHaveBeenCalledWith({
-                groups: { value: null },
-                removeAll: true
-            });
-        });
-
-        describe('handleUpdateGroups', () => {
-            it('should update groups state if passed new groups', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    $merge: { updateChangeGroupsForm: jest.fn().mockReturnValue(true) }
-                });
-                const searchResults = mapGroupsToAssets(props.action.groups.slice(2));
-
-                instance.handleUpdateGroups(searchResults);
-
-                expect(props.updateChangeGroupsForm).toHaveBeenCalledWith({
-                    groups: {
-                        value: [
-                            {
-                                id: 'cdbf9e01-aaa7-4381-8259-ee042447bcac',
-                                name: 'Early Adopters',
-                                type: 'group'
-                            },
-                            {
-                                id: 'afaba971-8943-4dd8-860b-3561ed4f1fe1',
-                                name: 'Testers',
-                                type: 'group'
-                            },
-                            {
-                                id: '33b28bac-b588-43e4-90de-fda77aeaf7c0',
-                                name: 'Subscribers',
-                                type: 'group'
-                            }
-                        ]
-                    }
-                });
-            });
-        });
-
-        describe('onValid', () => {
-            it('should call updateAction action creator with a ChangeGroups action', () => {
-                const { instance, props } = setup(true, { updateAction: setMock() });
-                instance.onValid();
-                expect(props.updateAction).toHaveBeenCalledWith({
-                    groups: [
-                        { name: 'Customers', uuid: '23ff7152-b588-43e4-90de-fda77aeaf7c0' },
-                        {
-                            name: 'Unsatisfied Customers',
-                            uuid: '2429d573-80d7-47f8-879f-f2ba442a1bfd'
-                        },
-                        { name: 'Early Adopters', uuid: 'cdbf9e01-aaa7-4381-8259-ee042447bcac' },
-                        { name: 'Testers', uuid: 'afaba971-8943-4dd8-860b-3561ed4f1fe1' },
-                        { name: 'Subscribers', uuid: '33b28bac-b588-43e4-90de-fda77aeaf7c0' }
-                    ],
-                    type: 'remove_contact_groups',
-                    uuid: 'add_contact_groups-0'
-                });
-            });
-        });
+        it('should render only the checkbox', () => {});
     });
 });

@@ -1,14 +1,14 @@
-import { FormHelper, Types } from '~/config/typeConfigs';
-import { ChangeGroups } from '~/flowTypes';
-import { ChangeGroupsFormState, NodeEditorSettings } from '~/store/nodeEditor';
 import {
     mapAssetsToGroups,
     mapGroupsToAssets
 } from '~/components/flow/actions/changegroups/helpers';
+import { FormHelper, Types } from '~/config/typeConfigs';
+import { ChangeGroups } from '~/flowTypes';
+import { ChangeGroupsFormState, NodeEditorSettings } from '~/store/nodeEditor';
 
 export class AddGroupsFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): ChangeGroupsFormState {
-        if (settings.originalAction) {
+        if (settings.originalAction && settings.originalAction.type === Types.add_contact_groups) {
             const action = settings.originalAction as ChangeGroups;
             return {
                 type: action.type,

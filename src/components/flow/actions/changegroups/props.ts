@@ -1,21 +1,18 @@
-import { ActionFormHelper } from '~/config/typeConfigs';
+import { ActionFormHelper, Type } from '~/config/typeConfigs';
 import { ChangeGroups } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
-import { ChangeGroupsFunc } from '~/store/forms';
-import { ChangeGroupsFormState } from '~/store/nodeEditor';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 
-export interface ChangeGroupsStoreProps {
-    form: ChangeGroupsFormState;
-    updateChangeGroupsForm: ChangeGroupsFunc;
-}
-
-export interface ChangeGroupsPassedProps {
-    action: ChangeGroups;
-    updateAction: (action: ChangeGroups) => void;
-    groups: Asset[];
+export interface ChangeGroupsFormProps {
+    // action details
+    nodeSettings: NodeEditorSettings;
     formHelper: ActionFormHelper;
+    typeConfig: Type;
+
+    // update handlers
+    updateAction(action: ChangeGroups): void;
+
+    // modal notifiers
+    onTypeChange(config: Type): void;
+    onClose(canceled: boolean): void;
 }
-
-export type ChangeGroupsFormProps = ChangeGroupsPassedProps & ChangeGroupsStoreProps;
-
 export default ChangeGroupsFormProps;
