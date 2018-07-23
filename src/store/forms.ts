@@ -3,16 +3,13 @@ import { AssetType } from '~/services/AssetService';
 import { DispatchWithState, GetState } from '~/store';
 import {
     AddLabelsFormState,
-    AssetEntry,
     ChangeGroupsFormState,
     NodeEditorForm,
     SendBroadcastFormState,
     SendEmailFormState,
     SendMsgFormState,
-    SetContactAttribFormState,
     SetRunResultFormState,
     StartSessionFormState,
-    StringEntry,
     updateForm
 } from '~/store/nodeEditor';
 import { Thunk } from '~/store/thunks';
@@ -24,11 +21,6 @@ export type SendBroadcastFunc = (
 export type StartSessionFunc = (
     updated: Partial<StartSessionFormState>
 ) => Thunk<StartSessionFormState>;
-
-export type SetContactAttribFunc = (
-    attribute?: AssetEntry,
-    value?: StringEntry
-) => Thunk<SetContactAttribFormState>;
 
 export type SendMsgFunc = (updated: Partial<SendMsgFormState>) => Thunk<SendMsgFormState>;
 
@@ -82,43 +74,6 @@ export const updateSendBroadcastForm: SendBroadcastFunc = updated => (
     const updatedForm = mutateForm(form, updated);
     dispatch(updateForm(updatedForm));
     return updatedForm as SendBroadcastFormState;
-};
-
-// Todo: make this less awful
-export const updateSetContactAttribForm: SetContactAttribFunc = (
-    attribute: AssetEntry,
-    value = null
-) => (dispatch, getState): SetContactAttribFormState => {
-    const {
-        nodeEditor: { form }
-    } = getState();
-    if (attribute) {
-        let keyToUpdate: string;
-        let keysToRemove;
-        switch (attribute.value.type) {
-            case AssetType.Field:
-                keyToUpdate = attribute.value.type;
-                keysToRemove = getKeysToRemove(AssetType.Name);
-                break;
-            case AssetType.Name:
-                keyToUpdate = attribute.value.type;
-                keysToRemove = getKeysToRemove(AssetType.Field);
-                break;
-            case AssetType.Language:
-                keyToUpdate = attribute.value.type;
-                keysToRemove = getKeysToRemove(AssetType.Language);
-            case AssetType.Channel:
-                keyToUpdate = attribute.value.type;
-                keysToRemove = getKeysToRemove(AssetType.Channel);
-        }
-        const updatedForm = mutateForm(form, { [keyToUpdate]: attribute }, keysToRemove);
-        dispatch(updateForm(updatedForm));
-        return updatedForm as SetContactAttribFormState;
-    } else if (value !== null) {
-        const updatedForm = mutateForm(form, { value });
-        dispatch(updateForm(updatedForm));
-        return updatedForm as SetContactAttribFormState;
-    }
 };
 
 export const updateStartSessionForm: StartSessionFunc = updated => (

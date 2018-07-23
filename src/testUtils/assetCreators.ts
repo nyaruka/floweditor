@@ -1,4 +1,4 @@
-import { languageToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
+import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import {

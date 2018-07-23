@@ -313,7 +313,7 @@ describe('utils', () => {
             const newOption = {
                 id: 'name',
                 name: 'Name',
-                type: AssetType.Name
+                type: AssetType.ContactProperty
             };
 
             expect(

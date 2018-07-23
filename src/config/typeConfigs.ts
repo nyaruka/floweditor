@@ -17,9 +17,6 @@ import { SendEmailFormHelper } from '~/components/flow/actions/sendemail/SendEma
 import SendMsgComp from '~/components/flow/actions/sendmsg/SendMsg';
 import SendMsgForm from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { SendMsgFormHelper } from '~/components/flow/actions/sendmsg/SendMsgFormHelper';
-import SetContactAttrib from '~/components/flow/actions/setcontactattrib/SetContactAttrib';
-import { SetContactAttribForm } from '~/components/flow/actions/setcontactattrib/SetContactAttribForm';
-import { SetContactAttribFormHelper } from '~/components/flow/actions/setcontactattrib/SetContactAttribFormHelper';
 import SetRunResultComp from '~/components/flow/actions/setrunresult/SetRunResult';
 import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
 import { SetRunResultFormHelper } from '~/components/flow/actions/setrunresult/SetRunResultFormHelper';
@@ -27,6 +24,9 @@ import StartFlowComp from '~/components/flow/actions/startflow/StartFlow';
 import StartSessionComp from '~/components/flow/actions/startsession/StartSession';
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
 import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
+import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
+import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact/UpdateContactFormHelper';
 import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
 import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
 import SwitchRouterForm from '~/components/flow/routers/SwitchRouterForm';
@@ -120,8 +120,6 @@ export interface TypeMap {
 
 export type GetTypeConfig = (type: string) => Type;
 
-const ContactAttribHelper = new SetContactAttribFormHelper();
-
 export const typeConfigList: Type[] = [
     /** Actions */
     {
@@ -173,35 +171,12 @@ export const typeConfigList: Type[] = [
     },
     {
         type: Types.set_contact_field,
+        aliases: [Types.set_contact_name, Types.set_contact_language, Types.set_contact_channel],
         name: 'Update Contact',
         description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib
-    },
-    {
-        type: Types.set_contact_name,
-        name: 'Update Contact',
-        description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib
-    },
-    {
-        type: Types.set_contact_language,
-        name: 'Update Contact',
-        description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib
-    },
-    {
-        type: Types.set_contact_channel,
-        name: 'Update Contact',
-        description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib
+        form: UpdateContactForm,
+        formHelper: new UpdateContactFormHelper(),
+        component: UpdateContactComp
     },
     {
         type: Types.send_email,
@@ -219,7 +194,7 @@ export const typeConfigList: Type[] = [
         formHelper: new SetRunResultFormHelper(),
         component: SetRunResultComp
     },
-    // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
+
     /** Hybrids */
     {
         type: Types.call_webhook,

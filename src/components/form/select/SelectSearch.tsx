@@ -9,11 +9,10 @@ import Select, {
     IsValidNewOptionHandler,
     NewOptionCreatorHandler
 } from 'react-select';
-import { CreateOptions } from '~/flowTypes';
-import { Asset, Assets, AssetSearchResult, removeAsset } from '~/services/AssetService';
-
 import SelectOption from '~/components/form/select/SelectOption';
 import SelectValue from '~/components/form/select/SelectValue';
+import { CreateOptions } from '~/flowTypes';
+import { Asset, Assets, AssetSearchResult, removeAsset } from '~/services/AssetService';
 
 export interface SelectSearchProps {
     name?: string;
@@ -32,6 +31,7 @@ export interface SelectSearchProps {
     isValidNewOption?: IsValidNewOptionHandler;
     isOptionUnique?: IsOptionUniqueHandler;
     createNewOption?: NewOptionCreatorHandler;
+    sortFunction?(a: Asset, b: Asset): number;
 }
 
 interface SelectSearchState {
@@ -135,7 +135,9 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
                     combined = this.addSearchResult(combined, result);
                 }
 
-                const options = assetResults.sorted ? combined : combined.sort(this.sortResults);
+                const options = assetResults.sorted
+                    ? combined
+                    : combined.sort(this.props.sortFunction || this.sortResults);
                 return new Promise<AutocompleteResult>(resolve => {
                     resolve({
                         complete: assetResults.complete,
@@ -187,14 +189,7 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
             }
         }
 
-        // Value will be removeAsset if an initial value hasn't
-        // been passed and the actionClearable prop is truthy.
-        if (this.props.actionClearable && (!value || !value.length)) {
-            value = Array.isArray(value) ? [removeAsset] : removeAsset;
-        }
-
         const onChange = this.props.multi ? this.onChangeMulti : this.onChange;
-
         const createOptions: CreateOptions = {};
         if (this.props.createPrompt) {
             createOptions.promptTextCreator = (label: string) => this.props.createPrompt + label;

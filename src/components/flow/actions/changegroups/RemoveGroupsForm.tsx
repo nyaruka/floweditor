@@ -78,7 +78,6 @@ export default class RemoveGroupsForm extends React.Component<
     }
 
     public handleGroupsChange(groups: Asset[]): boolean {
-        console.log('changed, ', groups);
         return this.handleUpdate({ groups });
     }
 

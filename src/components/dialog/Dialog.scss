@@ -1,15 +1,18 @@
 @import "~/variables.scss";
 
+$curvature: 12px;
 
 .dialog {
     background: #fff;
     border-radius: 12px;
-    overflow: hidden;
     box-shadow: 0px 5px 10px 1px #555;
 
     .header {
         color: #fff;
         padding: 16px;
+
+        border-top-left-radius: $curvature;
+        border-top-right-radius: $curvature;
 
         .header-icon {
             font-size: 80px;
@@ -48,6 +51,8 @@
     .footer {
         padding: 12px;
         background: $light_gray;
+        border-bottom-left-radius: $curvature;
+        border-bottom-right-radius: $curvature;
 
         .right-buttons {
             text-align: right

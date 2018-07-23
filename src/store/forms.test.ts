@@ -1,14 +1,7 @@
-import { fieldToAsset, propertyToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
-import { Types } from '~/config/typeConfigs';
+import Constants from '~/store/constants';
+import { updateSendBroadcastForm, updateStartSessionForm } from '~/store/forms';
 import { createMockStore, prepMockDuxState } from '~/testUtils';
 import { createSetContactFieldAction, createSetContactNameAction } from '~/testUtils/assetCreators';
-
-import Constants from '~/store/constants';
-import {
-    updateSendBroadcastForm,
-    updateSetContactAttribForm,
-    updateStartSessionForm
-} from '~/store/forms';
 
 const [flowAsset] = require('~/test/assets/flows.json');
 
@@ -43,47 +36,6 @@ describe('form thunks', () => {
             const newFormState = store.dispatch(updateStartSessionForm({ flow: flowAsset }));
 
             expect(newFormState.flow).toBe(flowAsset);
-            expect(newFormState).toMatchSnapshot();
-            expect(store).toHaveReduxActions([Constants.UPDATE_FORM]);
-            expect(store).toHavePayload(Constants.UPDATE_FORM, {
-                form: newFormState
-            });
-        });
-    });
-
-    describe('updateSetContactAttribForm', () => {
-        it('should dispatch form update action with new contact name attribute', () => {
-            const attribute = { value: propertyToAsset(Types.set_contact_name) };
-            const newFormState = store.dispatch(updateSetContactAttribForm(attribute));
-
-            expect(newFormState[attribute.value.type]).toEqual(attribute);
-            expect(newFormState).toMatchSnapshot();
-            expect(store).toHaveReduxActions([Constants.UPDATE_FORM]);
-            expect(store).toHavePayload(Constants.UPDATE_FORM, {
-                form: newFormState
-            });
-        });
-
-        it('should dispatch form update action with new contact field attribute', () => {
-            const attribute = { value: fieldToAsset(setContactFieldAction.field) };
-            const newFormState = store.dispatch(updateSetContactAttribForm(attribute));
-
-            expect(newFormState[attribute.value.type]).toEqual(attribute);
-            expect(newFormState).toMatchSnapshot();
-            expect(store).toHaveReduxActions([Constants.UPDATE_FORM]);
-            expect(store).toHavePayload(Constants.UPDATE_FORM, {
-                form: newFormState
-            });
-        });
-
-        it('should dispatch form update action with new value', () => {
-            const value = '26';
-            const entry = {
-                value
-            };
-            const newFormState = store.dispatch(updateSetContactAttribForm(null, entry));
-
-            expect(newFormState.value).toEqual({ value });
             expect(newFormState).toMatchSnapshot();
             expect(store).toHaveReduxActions([Constants.UPDATE_FORM]);
             expect(store).toHavePayload(Constants.UPDATE_FORM, {

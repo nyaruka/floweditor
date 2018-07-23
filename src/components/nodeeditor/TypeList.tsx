@@ -1,9 +1,8 @@
 import * as React from 'react';
 import Select from 'react-select';
+import * as styles from '~/components/nodeeditor/TypeList.scss';
 import { Type } from '~/config';
 import { configsToDisplay } from '~/config/typeConfigs';
-
-import * as styles from './TypeList.scss';
 
 export interface TypeListProps {
     __className: string;

@@ -1,6 +1,7 @@
 // tslint:disable:no-shadowed-variable
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
+import { UpdateContactFormState } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { Type } from '~/config';
 import { Types } from '~/config/typeConfigs';
 import { AnyAction, FlowNode } from '~/flowTypes';
@@ -92,26 +93,6 @@ export interface SendEmailFormState extends FormState {
     body: StringEntry;
 }
 
-export interface SetContactFieldFormState extends FormState {
-    field: AssetEntry;
-    value: StringEntry;
-}
-
-export interface SetContactNameFormState extends FormState {
-    name: AssetEntry;
-    value: StringEntry;
-}
-
-export interface SetContactLanguageFormState extends FormState {
-    language: AssetEntry;
-    value: AssetEntry;
-}
-
-export interface SetContactChannelFormState extends FormState {
-    channel: AssetEntry;
-    value: AssetEntry;
-}
-
 export interface SetRunResultFormState extends FormState {
     name: StringEntry;
     value: StringEntry;
@@ -123,12 +104,6 @@ export interface ChangeGroupsFormState extends FormState {
     removeAll?: boolean;
 }
 
-export type SetContactAttribFormState =
-    | SetContactFieldFormState
-    | SetContactNameFormState
-    | SetContactLanguageFormState
-    | SetContactChannelFormState;
-
 export interface StartSessionFormState extends FormState {
     recipients: AssetArrayEntry;
     flow: AssetEntry;
@@ -139,11 +114,11 @@ export type NodeEditorForm =
     | SendBroadcastFormState
     | StartSessionFormState
     | SendMsgFormState
-    | SetContactAttribFormState
     | AddLabelsFormState
     | ChangeGroupsFormState
     | SendEmailFormState
-    | SwitchRouterFormState;
+    | SwitchRouterFormState
+    | UpdateContactFormState;
 
 export interface NodeEditorSettings {
     originalNode: FlowNode;

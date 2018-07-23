@@ -1,9 +1,9 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-
+import * as styles from '~/components/form/FormElement.scss';
 import { FormEntry } from '~/store/nodeEditor';
 import { renderIf } from '~/utils';
-import * as styles from '~/components/form/FormElement.scss';
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +20,12 @@ export interface FormElementProps {
 }
 
 export default class FormElement extends React.PureComponent<FormElementProps> {
+    constructor(props: FormElementProps) {
+        super(props);
+        bindCallbacks(this, {
+            include: [/^get/, /^has/]
+        });
+    }
     private getName(): JSX.Element {
         return renderIf(
             this.props.showLabel &&

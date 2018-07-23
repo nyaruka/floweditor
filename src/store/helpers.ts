@@ -1,5 +1,5 @@
 import { v4 as generateUUID } from 'uuid';
-import { fieldToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
+import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
 import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { Types } from '~/config/typeConfigs';
 import {
@@ -18,9 +18,8 @@ import {
 } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
-import { snakify } from '~/utils';
-
 import { RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
+import { snakify } from '~/utils';
 
 export interface Bounds {
     left: number;
