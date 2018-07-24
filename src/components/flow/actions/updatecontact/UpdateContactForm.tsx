@@ -230,9 +230,7 @@ export default class UpdateContactForm extends React.Component<
                     clearable={true}
                 />
             );
-        }
-
-        if (this.state.type === Types.set_contact_name) {
+        } else if (this.state.type === Types.set_contact_name) {
             return (
                 <TextInputElement
                     name="Name"
@@ -243,24 +241,18 @@ export default class UpdateContactForm extends React.Component<
                     focus={true}
                 />
             );
+        } else {
+            return (
+                <TextInputElement
+                    name="Field Value"
+                    placeholder={`Enter a new value for ${this.state.field.value.name}`}
+                    onChange={this.handleFieldValueUpdate}
+                    entry={this.state.fieldValue}
+                    autocomplete={true}
+                    focus={true}
+                />
+            );
         }
-
-        if (this.state.type === Types.set_contact_field) {
-            if (this.state.field.value) {
-                return (
-                    <TextInputElement
-                        name="Field Value"
-                        placeholder={`Enter a new value for ${this.state.field.value.name}`}
-                        onChange={this.handleFieldValueUpdate}
-                        entry={this.state.fieldValue}
-                        autocomplete={true}
-                        focus={true}
-                    />
-                );
-            }
-        }
-
-        return <div />;
     }
 
     public render(): JSX.Element {

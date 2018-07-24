@@ -59,7 +59,6 @@ export const assetToLanguage = (asset: Asset): string => {
 };
 
 export const languageToAsset = ({ iso, name }: Language) => {
-    console.log(iso);
     if (!iso || iso.length === 0) {
         return removeAsset;
     }
