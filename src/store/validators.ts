@@ -44,7 +44,12 @@ export const validateRequired: ValidatorFunc = (name: string, input: FormInput) 
 
 export const validateURL: ValidatorFunc = (name: string, input: FormInput) => {
     if (typeof input === 'string') {
-        if (isValidURL(input as string)) {
+        // don't validate empty strings, that's up to validate required
+        if ((input as string).trim() === '') {
+            return [];
+        }
+
+        if (!isValidURL(input as string)) {
             return [{ message: `${name} is not a valid URL` }];
         }
     }

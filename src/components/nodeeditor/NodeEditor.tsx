@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '~/components/flow/node/Node';
+import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { CaseElementProps } from '~/components/form/case/CaseElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import ConnectedModal, { ButtonSet } from '~/components/modal/Modal';
@@ -26,7 +27,6 @@ import {
     Exit,
     FlowDefinition,
     FlowNode,
-    Methods,
     Router,
     RouterTypes,
     SendEmail,
@@ -128,10 +128,8 @@ export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
     formHelper: FormHelper;
-    updateAction: (action: AnyAction) => void;
     onBindWidget: (ref: any) => void;
     onBindAdvancedWidget: (ref: any) => void;
-    updateRouter: Function;
     removeWidget: (name: string) => void;
     getExitTranslations(): JSX.Element;
     triggerFormUpdate: () => void;
@@ -141,6 +139,10 @@ export interface FormProps {
     saveLocalizations: SaveLocalizations;
     getResultNameField: GetResultNameField;
     onExpressionChanged: (e: any) => void;
+
+    // our two ways of updating
+    updateRouter(renderNode: RenderNode): void;
+    updateAction(action: AnyAction): void;
 
     nodeSettings?: NodeEditorSettings;
     typeConfig?: Type;
@@ -388,8 +390,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // create mapping of our old exit uuids to old exit settings
         const previousExitMap: { [uuid: string]: Exit } = {};
 
-        if (this.props.settings.originalNode.exits) {
-            for (const exit of this.props.settings.originalNode.exits) {
+        if (this.props.settings.originalNode.node.exits) {
+            for (const exit of this.props.settings.originalNode.node.exits) {
                 previousExitMap[exit.uuid] = exit;
             }
         }
@@ -426,8 +428,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 // couldn't find a new exit, look through our old ones
                 if (!existingExit) {
                     // look through our previous cases for a match
-                    if (this.props.settings.originalNode.exits) {
-                        for (const exit of this.props.settings.originalNode.exits) {
+                    if (this.props.settings.originalNode.node.exits) {
+                        for (const exit of this.props.settings.originalNode.node.exits) {
                             if (newCase.exitName && exit.name) {
                                 if (
                                     exit.name.toLowerCase() ===
@@ -470,10 +472,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // add in our default exit
         let defaultUUID = generateUUID();
         if (
-            this.props.settings.originalNode.router &&
-            this.props.settings.originalNode.router.type === RouterTypes.switch
+            this.props.settings.originalNode.node.router &&
+            this.props.settings.originalNode.node.router.type === RouterTypes.switch
         ) {
-            const router = this.props.settings.originalNode.router as SwitchRouter;
+            const router = this.props.settings.originalNode.node.router as SwitchRouter;
             if (router && router.default_exit_uuid) {
                 defaultUUID = router.default_exit_uuid;
             }
@@ -482,8 +484,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         let defaultName = DefaultExitNames.All_Responses;
 
         if (
-            this.props.settings.originalNode.wait &&
-            this.props.settings.originalNode.wait.type === 'exp'
+            this.props.settings.originalNode.node.wait &&
+            this.props.settings.originalNode.node.wait.type === 'exp'
         ) {
             defaultName = DefaultExitNames.Any_Value;
         }
@@ -506,7 +508,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         // is a timeout set?
         if (this.props.timeout) {
             // do we have an existing timeout exit?
-            const existingExit = this.props.settings.originalNode.exits.find(
+            const existingExit = this.props.settings.originalNode.node.exits.find(
                 ({ name }) => name === DefaultExitNames.No_Response
             );
             const timeoutExit: Exit = {
@@ -580,7 +582,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
      * and this router has a translation for the 'Other' case, lose it.
      */
     private cleanUpLocalizations(cases: CaseElementProps[]): void {
-        const { uuid: nodeUUID, exits: nodeExits } = this.props.settings.originalNode;
+        const { uuid: nodeUUID, exits: nodeExits } = this.props.settings.originalNode.node;
         const exitMap: { [uuid: string]: Exit } = mapExits(nodeExits);
         const updates: LocalizationUpdates = [];
         let lang: string;
@@ -594,11 +596,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                         // don't prune if we have a timeout
                         if (
                             (exitMatch.name === DefaultExitNames.All_Responses &&
-                                (this.props.settings.originalNode.wait &&
-                                    !this.props.settings.originalNode.wait.timeout)) ||
+                                (this.props.settings.originalNode.node.wait &&
+                                    !this.props.settings.originalNode.node.wait.timeout)) ||
                             (exitMatch.name === DefaultExitNames.Other &&
-                                (this.props.settings.originalNode.wait &&
-                                    !this.props.settings.originalNode.wait.timeout))
+                                (this.props.settings.originalNode.node.wait &&
+                                    !this.props.settings.originalNode.node.wait.timeout))
                         ) {
                             lang = iso;
                             updates.push({ uuid: localizationUUID });
@@ -614,7 +616,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private getLocalizedExits(widgets: {
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
-        return this.props.settings.originalNode.exits.reduce(
+        return this.props.settings.originalNode.node.exits.reduce(
             (results, { uuid: exitUUID }: Exit) => {
                 const input = widgets[exitUUID];
 
@@ -652,7 +654,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
         const results: Array<{ uuid: string; translations: any }> = [];
-        const { cases } = this.props.settings.originalNode.router as SwitchRouter;
+        const { cases } = this.props.settings.originalNode.node.router as SwitchRouter;
 
         cases.forEach(({ uuid: caseUUID }) => {
             const input = widgets[caseUUID];
@@ -685,7 +687,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             return null;
         }
 
-        const exits: Exit[] = this.props.settings.originalNode.exits.reduce(
+        const exits: Exit[] = this.props.settings.originalNode.node.exits.reduce(
             (exitList, { uuid: exitUUID, name: exitName }) => {
                 const [localized] = this.props.settings.localizations.filter(
                     (localizedObject: LocalizedObject) =>
@@ -811,6 +813,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.onUpdateAction(action);
     }
 
+    private updateRouter(renderNode: RenderNode): void {
+        this.props.onUpdateRouter(renderNode);
+    }
+
     private getWait(): Wait {
         const wait: Wait = {} as any;
 
@@ -875,7 +881,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     ): RenderNode {
         return {
             node: {
-                uuid: this.props.settings.originalNode.uuid,
+                uuid: this.props.settings.originalNode.node.uuid,
                 actions,
                 router,
                 exits,
@@ -948,11 +954,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         let cases: Case[];
 
         // TODO: we should probably just be passing down RenderNode
-        const renderNode = this.props.nodes[this.props.settings.originalNode.uuid];
+        const renderNode = this.props.nodes[this.props.settings.originalNode.node.uuid];
 
         if (renderNode && renderNode.ui.type === 'subflow') {
-            ({ exits } = this.props.settings.originalNode);
-            ({ cases } = this.props.settings.originalNode.router as SwitchRouter);
+            ({ exits } = this.props.settings.originalNode.node);
+            ({ cases } = this.props.settings.originalNode.node.router as SwitchRouter);
         } else {
             // Otherwise, let's create some new ones
             exits = [
@@ -1045,12 +1051,12 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         let cases: Case[] = [];
 
         // TODO: we should probably just be passing down RenderNode
-        const renderNode = this.props.nodes[this.props.settings.originalNode.uuid];
+        const renderNode = this.props.nodes[this.props.settings.originalNode.node.uuid];
 
         // If we were already a webhook, lean on those exits and cases
         if (renderNode && renderNode.ui.type === 'webhook') {
-            this.props.settings.originalNode.exits.forEach(exit => exits.push(exit));
-            (this.props.settings.originalNode.router as SwitchRouter).cases.forEach(kase =>
+            this.props.settings.originalNode.node.exits.forEach(exit => exits.push(exit));
+            (this.props.settings.originalNode.node.router as SwitchRouter).cases.forEach(kase =>
                 cases.push(kase)
             );
         } else {
@@ -1180,19 +1186,19 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             typeConfig
         } = this.props;
         const action = getAction(actionToEdit, typeConfig);
-        let updateRouter: Function;
+        let updateRouter: (renderNode: RenderNode) => void;
 
         if (
             typeConfig.type === Types.wait_for_response ||
             typeConfig.type === Types.split_by_expression
         ) {
-            updateRouter = this.updateSwitchRouter;
+            // updateRouter = this.updateSwitchRouter;
         } else if (typeConfig.type === Types.start_flow) {
             updateRouter = this.updateSubflowRouter;
         } else if (typeConfig.type === Types.call_webhook) {
             updateRouter = this.updateWebhookRouter;
         } else if (typeConfig.type === Types.split_by_groups) {
-            updateRouter = this.updateGroupsRouter;
+            // updateRouter = this.updateGroupsRouter;
         }
 
         const formProps: Partial<FormProps> = {
@@ -1202,7 +1208,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             updateLocalizations: this.updateLocalizations,
             cleanUpLocalizations: this.cleanUpLocalizations,
             updateAction: this.updateAction,
-            updateRouter,
+            updateRouter: this.updateRouter,
             getResultNameField: this.getResultNameField,
             getExitTranslations: this.getExitTranslations,
             onBindWidget: this.onBindWidget,
@@ -1266,7 +1272,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     updateLocalizations: this.updateLocalizations,
                     cleanUpLocalizations: this.cleanUpLocalizations,
                     updateAction: this.updateAction,
-                    updateRouter: null,
+                    updateRouter: this.updateRouter,
                     getResultNameField: this.getResultNameField,
                     getExitTranslations: this.getExitTranslations,
                     onBindWidget: this.onBindWidget,

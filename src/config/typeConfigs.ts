@@ -30,7 +30,7 @@ import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact
 import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
 import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
 import SwitchRouterForm from '~/components/flow/routers/SwitchRouterForm';
-import WebhookRouter from '~/components/flow/routers/webhook/WebhookRouter';
+import { WebhookRouterForm } from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { AnyAction, RouterTypes, UINodeTypes } from '~/flowTypes';
 import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
 
@@ -200,7 +200,7 @@ export const typeConfigList: Type[] = [
         type: Types.call_webhook,
         name: 'Call Webhook',
         description: 'Call a webook',
-        form: WebhookRouter,
+        form: WebhookRouterForm,
         component: CallWebhookComp,
         advanced: Mode.EDITING,
         aliases: [UINodeTypes.webhook]

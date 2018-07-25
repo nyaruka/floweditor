@@ -1,7 +1,5 @@
 import { Types } from '~/config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '~/flowTypes';
-import { Spanish } from '~/testUtils/assetCreators';
-
 import {
     determineConfigType,
     generateResultQuery,
@@ -12,6 +10,7 @@ import {
     getOrderedNodes,
     getUniqueDestinations
 } from '~/store/helpers';
+import { Spanish } from '~/testUtils/assetCreators';
 
 const mutate = require('immutability-helper');
 
@@ -124,12 +123,12 @@ describe('helpers', () => {
         describe('getGhostNode', () => {
             it('should create a router from an action', () => {
                 const ghost = getGhostNode(nodes.node0, 1);
-                expect(ghost.router.type).toBe(RouterTypes.switch);
+                expect(ghost.node.router.type).toBe(RouterTypes.switch);
             });
             it('should create an action node from a switch', () => {
                 const ghost = getGhostNode(nodes.node1, 1);
-                expect(ghost.router).toBeUndefined();
-                expect(ghost.actions[0].type).toBe(Types.send_msg);
+                expect(ghost.node.router).toBeUndefined();
+                expect(ghost.node.actions[0].type).toBe(Types.send_msg);
             });
         });
 

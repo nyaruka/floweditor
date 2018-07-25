@@ -52,6 +52,7 @@ import {
     getFlowComponents,
     getGhostNode,
     getLocalizations,
+    getNode,
     getSuggestedResultName
 } from '~/store/helpers';
 import * as mutators from '~/store/mutators';
@@ -581,7 +582,7 @@ export const handleTypeConfigChange = (typeConfig: Type) => (
     if (
         settings &&
         settings.originalNode &&
-        (!settings.originalNode.wait || settings.originalNode.wait.type !== WaitTypes.msg)
+        (!settings.originalNode.node.wait || settings.originalNode.node.wait.type !== WaitTypes.msg)
     ) {
         if (typeConfig.type === Types.wait_for_response) {
             dispatch(updateResultName(getSuggestedResultName(suggestedNameCount)));
@@ -648,7 +649,8 @@ export const onUpdateAction = (action: AnyAction) => (
     const { originalNode, originalAction } = settings;
 
     let updatedNodes = nodes;
-    const creatingNewNode = pendingConnection && pendingConnection.nodeUUID !== originalNode.uuid;
+    const creatingNewNode =
+        pendingConnection && pendingConnection.nodeUUID !== originalNode.node.uuid;
 
     if (creatingNewNode) {
         const newNode: RenderNode = {
@@ -662,11 +664,11 @@ export const onUpdateAction = (action: AnyAction) => (
         };
         updatedNodes = mutators.mergeNode(nodes, newNode);
     } else if (userAddingAction) {
-        updatedNodes = mutators.addAction(nodes, originalNode.uuid, action);
+        updatedNodes = mutators.addAction(nodes, originalNode.node.uuid, action);
     } else if (originalNode.hasOwnProperty('router')) {
-        updatedNodes = mutators.spliceInAction(nodes, originalNode.uuid, action);
+        updatedNodes = mutators.spliceInAction(nodes, originalNode.node.uuid, action);
     } else {
-        updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action, originalAction);
+        updatedNodes = mutators.updateAction(nodes, originalNode.node.uuid, action, originalAction);
     }
 
     dispatch(updateNodes(updatedNodes));
@@ -705,7 +707,7 @@ export const onAddToNode = (node: FlowNode) => (
     getState: GetState
 ) => {
     const {
-        flowContext: { definition },
+        flowContext: { definition, nodes },
         flowEditor: {
             editorUI: { language }
         }
@@ -720,7 +722,7 @@ export const onAddToNode = (node: FlowNode) => (
 
     dispatch(
         updateNodeEditorSettings({
-            originalNode: node,
+            originalNode: getNode(nodes, node.uuid),
             originalAction: newAction,
             showAdvanced: false
         })
@@ -856,7 +858,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         }
     } = getState();
 
-    const previousNode = nodes[originalNode.uuid];
+    const previousNode = nodes[originalNode.node.uuid];
 
     let updated = nodes;
     if (createNodePosition) {
@@ -953,8 +955,10 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
         nodeEditor: { settings: currentSettings }
     } = getState();
 
-    const { originalNode: node } = settings;
+    const { originalNode: renderNode } = settings;
     let { originalAction: action } = settings;
+
+    const node = renderNode.node;
 
     // stuff our localization objects in our settings
     settings.languages = languages;

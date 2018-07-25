@@ -1,7 +1,4 @@
-import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
-import { set, setFalse } from '~/utils';
 import HeaderElement, {
-    Header,
     headerContainerSpecId,
     HeaderElementProps,
     NAME_PLACEHOLDER,
@@ -9,26 +6,33 @@ import HeaderElement, {
     removeIcoSpecId,
     VALUE_PLACEHOLDER,
     valueConatainerSpecId
-} from '~/components/form/header/HeaderElement';
+} from '~/components/flow/routers/webhook/header/HeaderElement';
+import { HeaderEntry } from '~/components/flow/routers/webhook/WebhookRouterForm';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
+import { set, setFalse } from '~/utils';
 
-const headers: Header[] = [
+const headers: HeaderEntry[] = [
     {
-        uuid: '00c4498e-1c9e-4c26-aa7c-f81d13573129',
-        name: 'Content-Type',
-        value: 'application/json'
+        value: {
+            uuid: '00c4498e-1c9e-4c26-aa7c-f81d13573129',
+            name: 'Content-Type',
+            value: 'application/json'
+        }
     },
     {
-        uuid: '3e7d8366-22ff-452b-953e-3a9a88b5d72c ',
-        name: 'Authorization',
-        value:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ'
+        value: {
+            uuid: '3e7d8366-22ff-452b-953e-3a9a88b5d72c ',
+            name: 'Authorization',
+            value:
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ'
+        }
     },
-    { uuid: '236f2392-e576-4254-8c28-db175510c6a8', name: '', value: '' }
+    { value: { uuid: '236f2392-e576-4254-8c28-db175510c6a8', name: '', value: '' } }
 ];
 
 const baseProps: HeaderElementProps = {
-    name: `header_${headers[0].uuid}`,
-    header: headers[0],
+    name: `header_${headers[0].value.uuid}`,
+    entry: headers[0],
     index: 0,
     onRemove: jest.fn(),
     onChange: jest.fn()
@@ -58,7 +62,7 @@ describe(HeaderElement.name, () => {
                 placeholder: NAME_PLACEHOLDER,
                 name: 'name',
                 onChange: instance.handleChangeName,
-                entry: { value: props.header.name },
+                entry: { value: props.entry.value.name },
                 showInvalid: false
             });
 
@@ -70,11 +74,9 @@ describe(HeaderElement.name, () => {
                 placeholder: VALUE_PLACEHOLDER,
                 name: 'value',
                 onChange: instance.handleChangeValue,
-                entry: { value: props.header.value },
+                entry: { value: props.entry.value.value },
                 autocomplete: true
             });
-
-            expect(getSpecWrapper(wrapper, removeIcoSpecId).exists()).toBeFalsy();
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -87,12 +89,7 @@ describe(HeaderElement.name, () => {
             const removeIcon = getSpecWrapper(wrapper, removeIcoSpecId);
 
             expect(removeIcon.hasClass('removeIco')).toBeTruthy();
-            expect(removeIcon.props()).toEqual(
-                expect.objectContaining({
-                    onClick: instance.onRemove
-                })
-            );
-            expect(wrapper.find('.fe-remove').exists()).toBeTruthy();
+            expect(wrapper.find('.fe-x').exists()).toBeTruthy();
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -109,12 +106,12 @@ describe(HeaderElement.name, () => {
                     onChange: setMock()
                 });
 
-                instance.handleChangeName(headers[0].name);
+                instance.handleChangeName(headers[0].value.name);
                 wrapper.update();
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
                 expect(setStateSpy).toHaveBeenCalledWith(
-                    { name: headers[0].name },
+                    { name: headers[0].value.name },
                     expect.any(Function)
                 );
                 expect(onChangeMock).toHaveBeenCalledTimes(1);
@@ -125,14 +122,14 @@ describe(HeaderElement.name, () => {
                         .find('Connect(TextInputElement)')
                         .at(0)
                         .prop('entry')
-                ).toEqual({ value: headers[0].name });
+                ).toEqual({ value: headers[0].value.name });
                 expect(wrapper).toMatchSnapshot();
 
                 setStateSpy.mockRestore();
             });
         });
 
-        describe('onChangeValue', () => {
+        describe('handleChangeValue', () => {
             it('should update state, call onChange prop', () => {
                 const setStateSpy = spyOn('setState');
                 const { wrapper, props, instance } = setup(true, {
@@ -159,18 +156,6 @@ describe(HeaderElement.name, () => {
 
                 setStateSpy.mockRestore();
             });
-        });
-    });
-
-    describe('onRemove', () => {
-        it('should call onRemove prop', () => {
-            const { wrapper, props, instance } = setup(true, {
-                onRemove: setMock()
-            });
-
-            instance.onRemove();
-
-            expect(props.onRemove).toHaveBeenCalledTimes(1);
         });
     });
 });

@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import { UpdateContactFormState } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { Type } from '~/config';
 import { Types } from '~/config/typeConfigs';
-import { AnyAction, FlowNode } from '~/flowTypes';
+import { AnyAction } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import ActionTypes, {
@@ -18,6 +18,7 @@ import ActionTypes, {
     UpdateUserAddingActionAction
 } from '~/store/actionTypes';
 import Constants from '~/store/constants';
+import { RenderNode } from '~/store/flowContext';
 
 export interface ValidationFailure {
     message: string;
@@ -47,12 +48,61 @@ export interface AssetArrayEntry extends FormEntry {
 export const mergeForm = (
     form: FormState,
     toMerge: Partial<FormState>,
-    toRemove: string[] = []
+    toRemove: any[] = []
 ): FormState => {
-    const updated = mutate(form || {}, { $merge: toMerge, $unset: toRemove }) as FormState;
-    let valid = true;
+    let updated = form || {};
+    // we auto update array items with uuids
     for (const key of Object.keys(toMerge)) {
         const entry: any = toMerge[key];
+        if (Array.isArray(entry)) {
+            for (const item of entry) {
+                if (item.value.uuid) {
+                    const existingIdx = form[key].findIndex(
+                        (obj: any) => obj.value.uuid === item.value.uuid
+                    );
+                    if (existingIdx > -1) {
+                        // we found a match, merge us in
+                        updated = mutate(updated, {
+                            [key]: { $merge: { [existingIdx]: item } }
+                        }) as FormState;
+                    } else {
+                        // couldn't find it, lets push it on
+                        updated = mutate(updated, {
+                            [key]: { $push: [item] }
+                        }) as FormState;
+                    }
+                }
+            }
+
+            // remove it from our merge
+            delete toMerge[key];
+        }
+    }
+
+    // removals can be items in an array
+    for (const remove of toRemove.filter((item: any) => typeof item === 'object')) {
+        for (const key of Object.keys(remove)) {
+            const entry: any = remove[key];
+            if (Array.isArray(entry)) {
+                for (const item of entry) {
+                    if (item.value.uuid) {
+                        updated = mutate(updated, {
+                            [key]: (items: any) =>
+                                items.filter(
+                                    (existing: any) => existing.value.uuid !== item.value.uuid
+                                )
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    const removeKeys = toRemove.filter((item: any) => typeof item === 'string');
+    updated = mutate(updated, { $merge: toMerge, $unset: removeKeys }) as FormState;
+    let valid = true;
+    for (const key of Object.keys(form)) {
+        const entry: any = form[key];
         if (entry && typeof entry === 'object') {
             if (entry.validationFailures && entry.validationFailures.length > 0) {
                 valid = false;
@@ -121,7 +171,7 @@ export type NodeEditorForm =
     | UpdateContactFormState;
 
 export interface NodeEditorSettings {
-    originalNode: FlowNode;
+    originalNode: RenderNode;
     showAdvanced?: boolean;
     originalAction?: AnyAction;
     localizations?: LocalizedObject[];

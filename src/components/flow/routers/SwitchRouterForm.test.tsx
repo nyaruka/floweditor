@@ -196,12 +196,12 @@ describe(SwitchRouterForm.name, () => {
         it('should render advanced form', () => {
             const renderAdvancedSpy = spyOn('renderAdvanced');
             const translations = {
-                [(nodeToEdit.router as SwitchRouter).cases[0].uuid]: {
+                [(nodeToEdit.node.router as SwitchRouter).cases[0].uuid]: {
                     name: ['Si'],
                     arguments: ['si, simón']
                 }
             };
-            const localizations = getLocalizations(nodeToEdit, null, Spanish, translations);
+            const localizations = getLocalizations(nodeToEdit.node, null, Spanish, translations);
             const { wrapper, props } = setup(true, {
                 translating: { $set: true },
                 showAdvanced: { $set: true },
@@ -386,7 +386,7 @@ describe(SwitchRouterForm.name, () => {
                 const { wrapper, instance, props } = setup(true, {
                     removeWidget: setMock()
                 });
-                const { uuid: caseUUID } = (props.settings.originalNode
+                const { uuid: caseUUID } = (props.settings.originalNode.node
                     .router as SwitchRouter).cases[0];
                 const caseToRemove = {
                     props: {

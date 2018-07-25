@@ -3,7 +3,6 @@ import { Type } from '~/config';
 import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
-
 import Constants from '~/store/constants';
 import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
 import { DragSelection } from '~/store/flowEditor';
@@ -74,7 +73,7 @@ interface UpdateNodeEditorOpenPayload {
 }
 
 interface UpdateGhostNodePayload {
-    ghostNode: FlowNode;
+    ghostNode: RenderNode;
 }
 
 interface UpdateCreateNodePositionPayload {

@@ -1,4 +1,5 @@
 import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers';
+import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import {
@@ -14,7 +15,6 @@ import {
     FlowNode,
     Group,
     Label,
-    Methods,
     Router,
     RouterTypes,
     SendEmail,
@@ -33,6 +33,7 @@ import {
     WaitTypes
 } from '~/flowTypes';
 import { AssetType } from '~/services/AssetService';
+import { RenderNode } from '~/store/flowContext';
 import { capitalize } from '~/utils';
 
 const { assets: groupsResults } = require('~/test/assets/groups.json');
@@ -309,6 +310,32 @@ export const createSwitchRouter = ({
     default_exit_uuid
 });
 
+export const createRenderNode = ({
+    actions,
+    exits,
+    uuid = 'node-0',
+    router = null,
+    wait = null
+}: {
+    actions: AnyAction[];
+    exits: Exit[];
+    uuid?: string;
+    router?: Router | SwitchRouter;
+    wait?: Wait;
+}): RenderNode => ({
+    node: {
+        actions,
+        exits,
+        uuid,
+        ...(router ? { router } : ({} as any)),
+        ...(wait ? { wait } : ({} as any))
+    },
+    ui: {
+        position: { left: 0, top: 0 }
+    },
+    inboundConnections: null
+});
+
 export const createFlowNode = ({
     actions,
     exits,
@@ -339,8 +366,8 @@ export const createWaitRouterNode = ({
     cases: Case[];
     timeout?: number;
     uuid?: string;
-}): FlowNode =>
-    createFlowNode({
+}): RenderNode =>
+    createRenderNode({
         actions: [],
         exits,
         uuid,
@@ -396,8 +423,8 @@ export const createStartFlowNode = (
 export const createGroupsRouterNode = (
     groups: Group[] = groupsResults,
     uuid: string = 'split_by_groups-0'
-): FlowNode =>
-    createFlowNode({
+): RenderNode =>
+    createRenderNode({
         actions: [],
         exits: groups.map((group, idx) =>
             createExit({ uuid: group.uuid, name: group.name, destination_node_uuid: `node-${idx}` })

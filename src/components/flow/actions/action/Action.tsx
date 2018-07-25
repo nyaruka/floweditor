@@ -8,7 +8,7 @@ import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { Action, AnyAction, FlowNode, LocalizationMap } from '~/flowTypes';
+import { Action, AnyAction, LocalizationMap } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import {
     ActionAC,
@@ -19,6 +19,7 @@ import {
     onOpenNodeEditor,
     removeAction
 } from '~/store';
+import { RenderNode } from '~/store/flowContext';
 import { createClickHandler, getLocalization } from '~/utils';
 
 export interface ActionWrapperPassedProps {
@@ -30,7 +31,7 @@ export interface ActionWrapperPassedProps {
 }
 
 export interface ActionWrapperStoreProps {
-    node: FlowNode;
+    renderNode: RenderNode;
     language: Asset;
     translating: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;
@@ -71,7 +72,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             event.preventDefault();
             event.stopPropagation();
             this.props.onOpenNodeEditor({
-                originalNode: this.props.node,
+                originalNode: this.props.renderNode,
                 originalAction: this.props.action,
                 showAdvanced
             });
@@ -80,13 +81,13 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-        this.props.removeAction(this.props.node.uuid, this.props.action);
+        this.props.removeAction(this.props.renderNode.node.uuid, this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
 
-        this.props.moveActionUp(this.props.node.uuid, this.props.action);
+        this.props.moveActionUp(this.props.renderNode.node.uuid, this.props.action);
     }
 
     public getAction(): Action {
@@ -138,7 +139,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         return cx({
             [styles.action]: true,
             [styles.has_router]:
-                this.props.node.hasOwnProperty('router') && this.props.node.router !== null,
+                this.props.renderNode.node.hasOwnProperty('router') &&
+                this.props.renderNode.node.router !== null,
             [styles.translating]: this.props.translating,
             [styles.not_localizable]: this.props.translating && localizedKeys.length === 0,
             [styles.missing_localization]: missingLocalization

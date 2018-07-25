@@ -259,11 +259,11 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
     private getInitialState(): SwitchRouterState {
         const displayableCases = [];
 
-        const router = this.props.settings.originalNode.router as SwitchRouter;
+        const router = this.props.settings.originalNode.node.router as SwitchRouter;
 
-        if (router && hasCases(this.props.settings.originalNode)) {
+        if (router && hasCases(this.props.settings.originalNode.node)) {
             const existingCases = casePropsFromNode({
-                nodeToEdit: this.props.settings.originalNode,
+                nodeToEdit: this.props.settings.originalNode.node,
                 handleCaseChanged: this.handleCaseChanged,
                 handleCaseRemoved: this.handleCaseRemoved
             });
@@ -425,7 +425,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
     }
 
     public getCasesForLocalization(): JSX.Element[] {
-        return (this.props.settings.originalNode.router as SwitchRouter).cases.reduce(
+        return (this.props.settings.originalNode.node.router as SwitchRouter).cases.reduce(
             (casesForLocalization: JSX.Element[], kase) => {
                 // only allow translations for cases with arguments that aren't numeric
                 if (kase.arguments && kase.arguments.length > 0 && !/number/.test(kase.type)) {
@@ -495,7 +495,7 @@ export class SwitchRouterForm extends React.Component<SwitchRouterFormProps, Swi
                     <p>{EXPRESSION_LABEL}</p>
                     <TextInputElement
                         ref={this.props.onBindWidget}
-                        key={this.props.settings.originalNode.uuid}
+                        key={this.props.settings.originalNode.node.uuid}
                         name="Expression"
                         showLabel={false}
                         entry={{ value: this.props.operand }}

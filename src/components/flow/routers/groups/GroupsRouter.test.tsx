@@ -1,5 +1,11 @@
 import * as React from 'react';
 import { GROUP_LABEL } from '~/components/flow/routers/constants';
+import {
+    extractGroups,
+    GroupsRouter,
+    GroupsRouterProps,
+    hasGroupsRouter
+} from '~/components/flow/routers/groups/GroupsRouter';
 import { SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, setMock } from '~/testUtils';
 import {
@@ -9,13 +15,6 @@ import {
     createSendMsgAction
 } from '~/testUtils/assetCreators';
 import { setTrue } from '~/utils';
-
-import {
-    extractGroups,
-    GroupsRouter,
-    GroupsRouterProps,
-    hasGroupsRouter
-} from '~/components/flow/routers/groups/GroupsRouter';
 
 const groupsRouterNode = createGroupsRouterNode();
 const sendMsgNode = createFlowNode({
@@ -38,10 +37,10 @@ describe(GroupsRouter.name, () => {
     describe('helpers', () => {
         describe('extractGroups', () => {
             it('should extract groups from the exits of a groupsRouter node', () => {
-                extractGroups(groupsRouterNode).forEach((group, idx) => {
-                    expect(group.name).toBe(groupsRouterNode.exits[idx].name);
+                extractGroups(groupsRouterNode.node).forEach((group, idx) => {
+                    expect(group.name).toBe(groupsRouterNode.node.exits[idx].name);
                     expect(group.id).toBe(
-                        (groupsRouterNode.router as SwitchRouter).cases[idx].arguments[0]
+                        (groupsRouterNode.node.router as SwitchRouter).cases[idx].arguments[0]
                     );
                     expect(group).toMatchSnapshot();
                 });
@@ -50,7 +49,7 @@ describe(GroupsRouter.name, () => {
 
         describe('hasGroupsRouter', () => {
             it('should return true if given Node has a groups router', () => {
-                expect(hasGroupsRouter(groupsRouterNode)).toBeTruthy();
+                expect(hasGroupsRouter(groupsRouterNode.node)).toBeTruthy();
             });
 
             it('should return false if given Node does not have a groups router', () => {

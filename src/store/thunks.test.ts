@@ -677,7 +677,7 @@ describe('Flow Manipulation', () => {
 
                 store.dispatch(
                     onOpenNodeEditor({
-                        originalNode: testNodes.node0.node,
+                        originalNode: testNodes.node0,
                         originalAction: testNodes.node0.node.actions[0],
                         showAdvanced: false
                     })
@@ -700,7 +700,7 @@ describe('Flow Manipulation', () => {
                 );
 
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node3, showAdvanced: false })
                 );
             });
 
@@ -720,7 +720,7 @@ describe('Flow Manipulation', () => {
                 );
 
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node2.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node2, showAdvanced: false })
                 );
                 expect(store).not.toHaveReduxActions([Constants.UPDATE_DEFINITION]);
             });
@@ -799,7 +799,7 @@ describe('Flow Manipulation', () => {
             it('should edit an existing action', () => {
                 store.dispatch(
                     onOpenNodeEditor({
-                        originalNode: testNodes.node0.node,
+                        originalNode: testNodes.node0,
                         originalAction: testNodes.node0.node.actions[0],
                         showAdvanced: false
                     })
@@ -808,7 +808,7 @@ describe('Flow Manipulation', () => {
 
             it('should pick the last action if none are provided', () => {
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node3, showAdvanced: false })
                 );
             });
 
@@ -817,7 +817,7 @@ describe('Flow Manipulation', () => {
                 expect(() => {
                     store.dispatch(
                         onOpenNodeEditor({
-                            originalNode: testNodes.node0.node,
+                            originalNode: testNodes.node0,
                             showAdvanced: false
                         })
                     );
@@ -826,7 +826,7 @@ describe('Flow Manipulation', () => {
 
             it('should edit router nodes', () => {
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node1.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node1, showAdvanced: false })
                 );
 
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {

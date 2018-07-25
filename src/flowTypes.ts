@@ -4,6 +4,7 @@ import {
     NewOptionCreatorHandler,
     PromptTextCreatorHandler
 } from 'react-select';
+import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import AssetService from '~/services/AssetService';
@@ -122,12 +123,6 @@ export interface Group {
 export interface Contact {
     uuid: string;
     name: string;
-}
-
-export enum Methods {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT'
 }
 
 export interface ChangeGroups extends Action {

@@ -4,15 +4,12 @@ import {
     Flow,
     FlowStoreProps,
     getDragStyle,
-    getGhostUI,
-    GHOST_POSITION_INITIAL,
     ghostNodeSpecId,
     isDraggingBack,
     nodesContainerSpecId,
     nodeSpecId,
     REPAINT_TIMEOUT
 } from '~/components/flow/Flow';
-import { Types } from '~/config/typeConfigs';
 import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';
 import { ConnectionEvent } from '~/store';
@@ -113,27 +110,6 @@ describe(Flow.name, () => {
             });
         });
 
-        describe('getGhostUI', () => {
-            it('should return only the position of the ghost node if it does not have a router', () => {
-                const ghostUI = getGhostUI(ghostNodeFromWait);
-
-                expect(ghostUI).toEqual({
-                    position: GHOST_POSITION_INITIAL
-                });
-                expect(ghostUI).toMatchSnapshot();
-            });
-
-            it('should return the position and type of the ghost node if it has a router', () => {
-                const ghostUI = getGhostUI(ghostNodeFromAction);
-
-                expect(ghostUI).toEqual({
-                    position: GHOST_POSITION_INITIAL,
-                    type: Types.wait_for_response
-                });
-                expect(ghostUI).toMatchSnapshot();
-            });
-        });
-
         describe('getDragStyle', () => {
             it('should return style object for drag selection box', () => {
                 expect(getDragStyle(dragSelection)).toMatchSnapshot();
@@ -216,12 +192,11 @@ describe(Flow.name, () => {
             });
             const ghost = getSpecWrapper(wrapper, ghostNodeSpecId);
 
-            expect(ghost.key()).toBe(props.ghostNode.uuid);
+            expect(ghost.key()).toBe(props.ghostNode.node.uuid);
             expect(ghost.props()).toEqual(
                 expect.objectContaining({
                     ghost: true,
-                    node: props.ghostNode,
-                    ui: getGhostUI(props.ghostNode),
+                    renderNode: props.ghostNode,
                     Activity: instance.Activity,
                     plumberRepaintForDuration: instance.Plumber.repaintForDuration,
                     plumberDraggable: instance.Plumber.draggable,
@@ -383,11 +358,13 @@ describe(Flow.name, () => {
 
                 expect(ghostRefSpy).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledTimes(1);
-                expect(instance.Plumber.recalculate).toHaveBeenCalledWith(props.ghostNode.uuid);
+                expect(instance.Plumber.recalculate).toHaveBeenCalledWith(
+                    props.ghostNode.node.uuid
+                );
                 expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.connect).toHaveBeenCalledWith(
                     `${props.pendingConnection.nodeUUID}:${props.pendingConnection.exitUUID}`,
-                    props.ghostNode.uuid
+                    props.ghostNode.node.uuid
                 );
                 expect(props.updateCreateNodePosition).toHaveBeenCalledTimes(1);
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);

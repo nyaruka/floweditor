@@ -3,15 +3,15 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
+import * as styles from '~/components/flow/Flow.scss';
 import ConnectedNode, { DragPoint } from '~/components/flow/node/Node';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
 import Simulator from '~/components/simulator/Simulator';
 import Sticky from '~/components/sticky/Sticky';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Types } from '~/config/typeConfigs';
 import { getActivity } from '~/external';
-import { FlowDefinition, FlowNode } from '~/flowTypes';
+import { FlowDefinition } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import Plumber from '~/services/Plumber';
 import {
@@ -40,14 +40,12 @@ import { DragSelection } from '~/store/flowEditor';
 import { getCollisions } from '~/store/helpers';
 import { isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from '~/utils';
 
-import * as styles from '~/components/flow/Flow.scss';
-
 export interface FlowStoreProps {
     translating: boolean;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
     dependencies: FlowDefinition[];
-    ghostNode: FlowNode;
+    ghostNode: RenderNode;
     pendingConnection: DragPoint;
     dragSelection: DragSelection;
     nodeEditorOpen: boolean;
@@ -72,11 +70,6 @@ export const nodeSpecId = 'node';
 export const nodesContainerSpecId = 'node-container';
 export const ghostNodeSpecId = 'ghost-node';
 export const dragSelectSpecId = 'drag-select';
-
-export const getGhostUI = (ghostNode: FlowNode = {} as any) => ({
-    position: GHOST_POSITION_INITIAL,
-    ...(ghostNode.router ? { type: Types.wait_for_response } : {})
-});
 
 export const isDraggingBack = (event: ConnectionEvent) => {
     return event.suspendedElementId === event.targetId && event.source !== null;
@@ -206,10 +199,10 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         if (isRealValue(ghostNode) && !isDraggingBack(event)) {
             // Wire up the drag from to our ghost node
             const dragPoint = pendingConnection;
-            this.Plumber.recalculate(ghostNode.uuid);
+            this.Plumber.recalculate(ghostNode.node.uuid);
             this.Plumber.connect(
                 dragPoint.nodeUUID + ':' + dragPoint.exitUUID,
-                ghostNode.uuid
+                ghostNode.node.uuid
             );
 
             // Save our position for later
@@ -219,9 +212,18 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             );
 
             this.props.updateCreateNodePosition({ left, top });
+            this.props.ghostNode.ui.position = { left, top };
+
+            let originalAction = null;
+            if (ghostNode.node.actions && ghostNode.node.actions.length === 1) {
+                originalAction = ghostNode.node.actions[0];
+            }
 
             // Bring up the node editor
-            this.props.onOpenNodeEditor({ originalNode: this.props.ghostNode });
+            this.props.onOpenNodeEditor({
+                originalNode: ghostNode,
+                originalAction
+            });
         }
 
         // To-do: mock this out
@@ -242,8 +244,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 <ConnectedNode
                     key={uuid}
                     data-spec={nodeSpecId}
-                    node={renderNode.node}
-                    ui={renderNode.ui}
+                    renderNode={renderNode}
                     Activity={this.Activity}
                     plumberRepaintForDuration={this.Plumber.repaintForDuration}
                     plumberDraggable={this.Plumber.draggable}
@@ -280,11 +281,10 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         return isRealValue(this.props.ghostNode) ? (
             <ConnectedNode
                 ref={this.ghostRef}
-                key={this.props.ghostNode.uuid}
+                key={this.props.ghostNode.node.uuid}
                 data-spec={ghostNodeSpecId}
                 ghost={true}
-                node={this.props.ghostNode}
-                ui={getGhostUI(this.props.ghostNode)}
+                renderNode={this.props.ghostNode}
                 Activity={this.Activity}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
                 plumberDraggable={this.Plumber.draggable}

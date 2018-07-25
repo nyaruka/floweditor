@@ -101,8 +101,8 @@ export class GroupsRouter extends React.Component<GroupsRouterProps, TempGroupSt
         }
 
         const groupProps: Partial<GroupsElementProps> = {};
-        if (hasGroupsRouter(this.props.settings.originalNode)) {
-            groupProps.entry = { value: extractGroups(this.props.settings.originalNode) };
+        if (hasGroupsRouter(this.props.settings.originalNode.node)) {
+            groupProps.entry = { value: extractGroups(this.props.settings.originalNode.node) };
         }
 
         const nameField: JSX.Element = this.props.getResultNameField();

@@ -198,7 +198,10 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
     return [];
 };
 
-export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: number) => {
+export const getGhostNode = (
+    fromNode: RenderNode,
+    suggestedResultNameCount: number
+): RenderNode => {
     const ghostNode: FlowNode = {
         uuid: generateUUID(),
         actions: [],
@@ -229,7 +232,7 @@ export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: num
         };
     }
 
-    return ghostNode;
+    return { node: ghostNode, ui: { position: { left: 0, top: 0 } }, inboundConnections: null };
 };
 
 export interface FlowComponents {

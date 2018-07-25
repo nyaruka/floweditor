@@ -2,94 +2,15 @@
 
 exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop 1`] = `
 <FormElement
-  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
->
-  <div
-    className="header"
-    data-spec="header-container"
-  >
-    <div
-      className="header_name"
-      data-spec="name-container"
-    >
-      <Connect(TextInputElement)
-        entry={
-          Object {
-            "value": "Content-Type",
-          }
-        }
-        name="name"
-        onChange={[Function]}
-        placeholder="Header Name"
-        showInvalid={false}
-      />
-    </div>
-    <div
-      className="header_value"
-      data-spec="value-container"
-    >
-      <Connect(TextInputElement)
-        autocomplete={true}
-        entry={
-          Object {
-            "value": "application/json",
-          }
-        }
-        name="value"
-        onChange={[Function]}
-        placeholder="Value"
-      />
-    </div>
-  </div>
-</FormElement>
-`;
-
-exports[`HeaderElement instance methods onChangeValue should update state, call onChange prop 1`] = `
-<FormElement
-  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
->
-  <div
-    className="header"
-    data-spec="header-container"
-  >
-    <div
-      className="header_name"
-      data-spec="name-container"
-    >
-      <Connect(TextInputElement)
-        entry={
-          Object {
-            "value": "Content-Type",
-          }
-        }
-        name="name"
-        onChange={[Function]}
-        placeholder="Header Name"
-        showInvalid={false}
-      />
-    </div>
-    <div
-      className="header_value"
-      data-spec="value-container"
-    >
-      <Connect(TextInputElement)
-        autocomplete={true}
-        entry={
-          Object {
-            "value": "application/json",
-          }
-        }
-        name="value"
-        onChange={[Function]}
-        placeholder="Value"
-      />
-    </div>
-  </div>
-</FormElement>
-`;
-
-exports[`HeaderElement render should render remove icon 1`] = `
-<FormElement
+  entry={
+    Object {
+      "value": Object {
+        "name": "Content-Type",
+        "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+        "value": "application/json",
+      },
+    }
+  }
   name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
 >
   <div
@@ -134,15 +55,90 @@ exports[`HeaderElement render should render remove icon 1`] = `
       onClick={[Function]}
     >
       <span
-        className="fe-remove"
+        className="fe-x"
       />
     </div>
   </div>
 </FormElement>
 `;
 
-exports[`HeaderElement render should render self, children with base props 1`] = `
+exports[`HeaderElement instance methods handleChangeValue should update state, call onChange prop 1`] = `
 <FormElement
+  entry={
+    Object {
+      "value": Object {
+        "name": "Content-Type",
+        "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+        "value": "application/json",
+      },
+    }
+  }
+  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
+>
+  <div
+    className="header"
+    data-spec="header-container"
+  >
+    <div
+      className="header_name"
+      data-spec="name-container"
+    >
+      <Connect(TextInputElement)
+        entry={
+          Object {
+            "value": "Content-Type",
+          }
+        }
+        name="name"
+        onChange={[Function]}
+        placeholder="Header Name"
+        showInvalid={false}
+      />
+    </div>
+    <div
+      className="header_value"
+      data-spec="value-container"
+    >
+      <Connect(TextInputElement)
+        autocomplete={true}
+        entry={
+          Object {
+            "value": Object {
+              "name": "Content-Type",
+              "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+              "value": "application/json",
+            },
+          }
+        }
+        name="value"
+        onChange={[Function]}
+        placeholder="Value"
+      />
+    </div>
+    <div
+      className="removeIco"
+      data-spec="remove-icon"
+      onClick={[Function]}
+    >
+      <span
+        className="fe-x"
+      />
+    </div>
+  </div>
+</FormElement>
+`;
+
+exports[`HeaderElement render should render remove icon 1`] = `
+<FormElement
+  entry={
+    Object {
+      "value": Object {
+        "name": "Content-Type",
+        "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+        "value": "application/json",
+      },
+    }
+  }
   name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
 >
   <div
@@ -179,6 +175,77 @@ exports[`HeaderElement render should render self, children with base props 1`] =
         name="value"
         onChange={[Function]}
         placeholder="Value"
+      />
+    </div>
+    <div
+      className="removeIco"
+      data-spec="remove-icon"
+      onClick={[Function]}
+    >
+      <span
+        className="fe-x"
+      />
+    </div>
+  </div>
+</FormElement>
+`;
+
+exports[`HeaderElement render should render self, children with base props 1`] = `
+<FormElement
+  entry={
+    Object {
+      "value": Object {
+        "name": "Content-Type",
+        "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+        "value": "application/json",
+      },
+    }
+  }
+  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
+>
+  <div
+    className="header"
+    data-spec="header-container"
+  >
+    <div
+      className="header_name"
+      data-spec="name-container"
+    >
+      <Connect(TextInputElement)
+        entry={
+          Object {
+            "value": "Content-Type",
+          }
+        }
+        name="name"
+        onChange={[Function]}
+        placeholder="Header Name"
+        showInvalid={false}
+      />
+    </div>
+    <div
+      className="header_value"
+      data-spec="value-container"
+    >
+      <Connect(TextInputElement)
+        autocomplete={true}
+        entry={
+          Object {
+            "value": "application/json",
+          }
+        }
+        name="value"
+        onChange={[Function]}
+        placeholder="Value"
+      />
+    </div>
+    <div
+      className="removeIco"
+      data-spec="remove-icon"
+      onClick={[Function]}
+    >
+      <span
+        className="fe-x"
       />
     </div>
   </div>

@@ -1,3 +1,17 @@
+import {
+    assetToChannel,
+    assetToField,
+    assetToLanguage,
+    channelToAsset,
+    fieldToAsset,
+    languageToAsset
+} from '~/components/flow/actions/updatecontact/helpers';
+import {
+    CHANNEL_PROPERTY,
+    LANGUAGE_PROPERTY,
+    NAME_PROPERTY,
+    UpdateContactFormState
+} from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { FormHelper, getTypeConfig, Types } from '~/config/typeConfigs';
 import {
     SetContactAttribute,
@@ -7,21 +21,6 @@ import {
     SetContactName
 } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-
-import {
-    assetToChannel,
-    assetToField,
-    assetToLanguage,
-    channelToAsset,
-    fieldToAsset,
-    languageToAsset
-} from './helpers';
-import {
-    CHANNEL_PROPERTY,
-    LANGUAGE_PROPERTY,
-    NAME_PROPERTY,
-    UpdateContactFormState
-} from './UpdateContactForm';
 
 export class UpdateContactFormHelper implements FormHelper {
     public initializeForm(settings: NodeEditorSettings): UpdateContactFormState {

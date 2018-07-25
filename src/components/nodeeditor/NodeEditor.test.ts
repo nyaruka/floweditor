@@ -46,7 +46,12 @@ const baseProps: NodeEditorProps = {
     updateShowResultName: jest.fn(),
     plumberConnectExit: jest.fn(),
     plumberRepaintForDuration: jest.fn(),
-    settings: { showAdvanced: false, originalNode: switchWithTimeout }
+    settings: {
+        showAdvanced: false,
+        originalNode: { node: switchWithTimeout, ui: { position: null }, inboundConnections: null },
+        ui: { position: null },
+        inboundConnections: null
+    }
 };
 
 const { setup, spyOn } = composeComponentTestUtils(NodeEditor, baseProps);
@@ -59,7 +64,7 @@ describe(NodeEditor.name, () => {
                     onUpdateRouter: setMock()
                 });
                 const kases = casePropsFromNode({
-                    nodeToEdit: props.settings.originalNode,
+                    nodeToEdit: props.settings.originalNode.node,
                     handleCaseChanged: jest.fn(),
                     handleCaseRemoved: jest.fn()
                 });

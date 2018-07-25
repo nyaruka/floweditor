@@ -10,7 +10,7 @@ import { getTypeConfig } from '~/config/typeConfigs';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import {
     createExit,
-    createFlowNode,
+    createRenderNode,
     createSendMsgAction,
     createStartFlowAction,
     createStartFlowNode,
@@ -20,7 +20,7 @@ import { getLocalization, set, setFalse, setTrue } from '~/utils';
 
 const sendMsgAction = createSendMsgAction();
 const sendMsgAction1 = createSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });
-const sendMsgNode = createFlowNode({ actions: [sendMsgAction], exits: [createExit()] });
+const sendMsgNode = createRenderNode({ actions: [sendMsgAction], exits: [createExit()] });
 const startFlowAction = createStartFlowAction();
 const startFlowNode = createStartFlowNode(startFlowAction);
 const localization = {
@@ -37,7 +37,7 @@ const baseProps: ActionWrapperProps = {
     first: true,
     action: sendMsgAction,
     render: jest.fn(),
-    node: sendMsgNode,
+    renderNode: sendMsgNode,
     language: English,
     translating: false,
     onOpenNodeEditor: jest.fn(),
@@ -182,7 +182,10 @@ describe(ActionWrapper.name, () => {
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(props.removeAction).toHaveBeenCalledTimes(1);
-                expect(props.removeAction).toHaveBeenCalledWith(props.node.uuid, props.action);
+                expect(props.removeAction).toHaveBeenCalledWith(
+                    props.renderNode.node.uuid,
+                    props.action
+                );
             });
         });
 
@@ -199,7 +202,10 @@ describe(ActionWrapper.name, () => {
 
                 expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(props.moveActionUp).toHaveBeenCalledTimes(1);
-                expect(props.moveActionUp).toHaveBeenCalledWith(props.node.uuid, props.action);
+                expect(props.moveActionUp).toHaveBeenCalledWith(
+                    props.renderNode.node.uuid,
+                    props.action
+                );
             });
         });
 

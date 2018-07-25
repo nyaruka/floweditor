@@ -6,8 +6,9 @@ import ConnectedTimeoutControl from '~/components/form/timeout/TimeoutControl';
 import * as styles from '~/components/modal/Modal.scss';
 import * as shared from '~/components/shared.scss';
 import { Types } from '~/config/typeConfigs';
-import { Case, FlowNode, SwitchRouter } from '~/flowTypes';
+import { Case, SwitchRouter } from '~/flowTypes';
 import { AppState } from '~/store';
+import { RenderNode } from '~/store/flowContext';
 import { renderIf } from '~/utils';
 
 export interface ButtonSet {
@@ -37,7 +38,7 @@ export interface ModalPassedProps {
 
 export interface ModalStoreProps {
     translating: boolean;
-    originalNode: FlowNode;
+    originalNode: RenderNode;
     type: Types;
 }
 
@@ -129,8 +130,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             if (hasAdvanced) {
                 /** Don't show advanced settings for SwitchRouter unless we have cases to translate */
                 let cases: Case[];
-                if (this.props.originalNode && this.props.originalNode.router) {
-                    ({ cases } = this.props.originalNode.router as SwitchRouter);
+                if (this.props.originalNode && this.props.originalNode.node.router) {
+                    ({ cases } = this.props.originalNode.node.router as SwitchRouter);
                 }
                 if (isFrontForm) {
                     if (cases && !cases.length) {

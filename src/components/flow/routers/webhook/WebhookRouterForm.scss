@@ -1,5 +1,11 @@
 @import '~/variables.scss';
 
+.link {
+    text-decoration: underline;
+    color: $link_color;
+    cursor: pointer;
+}
+
 .info {
     margin-bottom: 0px;
 }
@@ -11,7 +17,7 @@
 }
 
 .url {
-    width: 480px;
+    width: 512px;
     display: inline-block;
     input {
         height: 36px;
@@ -38,13 +44,13 @@
 .remove-ico {
     color: #ccc;
     border: 0px solid green;
-    margin-right: -8px;
-    margin-top: 7px;
-    float: right;
     opacity: 0;
-    font-size: 15px;
+    font-size: 12px;
     line-height: 12px;
     width: 20px;
+    position: absolute;
+    right: -23px;
+    top: 16px;
 }
 
 .example {
@@ -82,7 +88,7 @@
 }
 
 .header_value {
-    width: 400px;
+    width: 434px;
     display: inline-block;
     margin-left: 10px;
 }

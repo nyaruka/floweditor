@@ -1,10 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import * as styles from '~/components/flow/routers/webhook/Webhook.scss';
-import ConnectedTextInputElement from '~/components/form/textinput/TextInputElement';
-import { renderIf } from '~/utils';
-
+import { HeaderEntry } from '~/components/flow/routers/webhook/WebhookRouterForm';
+import * as styles from '~/components/flow/routers/webhook/WebhookRouterForm.scss';
 import FormElement from '~/components/form/FormElement';
+import ConnectedTextInputElement from '~/components/form/textinput/TextInputElement';
 
 // TODO: move this into webhook router component
 export interface Header {
@@ -15,7 +14,7 @@ export interface Header {
 
 export interface HeaderElementProps {
     name: string;
-    header: Header;
+    entry: HeaderEntry;
     index: number;
     onRemove: (header: HeaderElement) => void;
     onChange: (header: HeaderElement) => void;
@@ -40,8 +39,9 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     constructor(props: HeaderElementProps) {
         super(props);
 
-        const name = this.props.header.name || '';
-        const value = this.props.header.value || '';
+        const header = this.props.entry.value;
+        const name = header.name || '';
+        const value = header.value || '';
 
         this.state = {
             name,
@@ -61,32 +61,18 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         this.setState({ value }, () => this.props.onChange(this));
     }
 
-    private onRemove(): void {
+    private handleRemove(): void {
         this.props.onRemove(this);
     }
 
-    /* 
-    // TOOO: this one needs cross field validation
-    public validate(): boolean {
-        const errors = [];
-
-        const needsHeaderName =
-            this.state.value.trim().length > 0 && this.state.name.trim().length === 0;
-
-        if (needsHeaderName) {
-            errors.push(HEADER_NAME_ERROR);
-        }
-
-        this.setState({ errors });
-
-        return errors.length === 0;
-    }
-    */
-
     private getRemoveIco(): JSX.Element {
-        return renderIf(this.props.index !== 0 && !this.props.empty)(
-            <div className={styles.removeIco} onClick={this.onRemove} data-spec={removeIcoSpecId}>
-                <span className="fe-remove" />
+        return (
+            <div
+                className={styles.removeIco}
+                onClick={this.handleRemove}
+                data-spec={removeIcoSpecId}
+            >
+                <span className="fe-x" />
             </div>
         );
     }
@@ -95,7 +81,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         const hasHeaderError = false; // hasErrorType(this.state.errors, [/headers/]);
         const removeIco: JSX.Element = this.getRemoveIco();
         return (
-            <FormElement name={this.props.name}>
+            <FormElement name={this.props.name} entry={this.props.entry}>
                 <div className={styles.header} data-spec={headerContainerSpecId}>
                     <div className={styles.header_name} data-spec={nameContainerSpecId}>
                         <ConnectedTextInputElement
