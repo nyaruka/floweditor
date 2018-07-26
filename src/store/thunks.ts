@@ -650,7 +650,7 @@ export const onUpdateAction = (action: AnyAction) => (
 
     let updatedNodes = nodes;
     const creatingNewNode =
-        pendingConnection && pendingConnection.nodeUUID !== originalNode.node.uuid;
+        pendingConnection && originalNode && pendingConnection.nodeUUID !== originalNode.node.uuid;
 
     if (creatingNewNode) {
         const newNode: RenderNode = {
@@ -665,7 +665,7 @@ export const onUpdateAction = (action: AnyAction) => (
         updatedNodes = mutators.mergeNode(nodes, newNode);
     } else if (userAddingAction) {
         updatedNodes = mutators.addAction(nodes, originalNode.node.uuid, action);
-    } else if (originalNode.hasOwnProperty('router')) {
+    } else if (originalNode.node.hasOwnProperty('router')) {
         updatedNodes = mutators.spliceInAction(nodes, originalNode.node.uuid, action);
     } else {
         updatedNodes = mutators.updateAction(nodes, originalNode.node.uuid, action, originalAction);

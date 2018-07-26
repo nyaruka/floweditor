@@ -383,8 +383,8 @@ export const createStartFlowNode = (
     // tslint:disable-next-line:variable-name
     flow_uuid?: string,
     exitUUIDs: string[] = ['exit1', 'exit2']
-): FlowNode =>
-    createFlowNode({
+): RenderNode =>
+    createRenderNode({
         actions: [startFlowAction],
         exits: [
             createExit({

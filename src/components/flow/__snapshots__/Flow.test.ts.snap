@@ -9,6 +9,43 @@ Object {
 }
 `;
 
+exports[`Flow instance methods onConnectorDrop should do NodeEditor work if the user is not dragging back 1`] = `
+Array [
+  Object {
+    "originalAction": Object {
+      "text": "",
+      "type": "send_msg",
+      "uuid": "generated_uuid_3",
+    },
+    "originalNode": Object {
+      "inboundConnections": null,
+      "node": Object {
+        "actions": Array [
+          Object {
+            "text": "",
+            "type": "send_msg",
+            "uuid": "generated_uuid_3",
+          },
+        ],
+        "exits": Array [
+          Object {
+            "destination_node_uuid": null,
+            "uuid": "generated_uuid_2",
+          },
+        ],
+        "uuid": "generated_uuid_1",
+      },
+      "ui": Object {
+        "position": Object {
+          "left": 0,
+          "top": 0,
+        },
+      },
+    },
+  },
+]
+`;
+
 exports[`Flow render should render NodeEditor 1`] = `
 Object {
   "plumberConnectExit": [MockFunction],
@@ -1627,6 +1664,567 @@ exports[`Flow render should render drag selection box 1`] = `
 `;
 
 exports[`Flow render should render self, children with base props 1`] = `
+Object {
+  "Activity": Object {
+    "clearSimulation": [MockFunction],
+    "deregister": [MockFunction],
+    "getActiveCount": [MockFunction],
+    "getActivity": [MockFunction],
+    "getPathCount": [MockFunction],
+    "notifyListeners": [MockFunction],
+    "registerListener": [MockFunction],
+    "setSimulation": [MockFunction],
+  },
+  "data-spec": "node",
+  "plumberClearDragSelection": [MockFunction],
+  "plumberConnectExit": [MockFunction],
+  "plumberDraggable": [MockFunction],
+  "plumberMakeSource": [MockFunction],
+  "plumberMakeTarget": [MockFunction],
+  "plumberRecalculate": [MockFunction],
+  "plumberRemove": [MockFunction],
+  "plumberRemoveFromDragSelection": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+  "plumberSetDragSelection": [MockFunction],
+  "renderNode": Object {
+    "inboundConnections": Object {
+      "326a41b7-9bce-453b-8783-1113f649663c": "46e8d603-8e5d-4435-97dd-1333291aafca",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+          "type": "send_msg",
+          "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
+          "name": null,
+          "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+        },
+      ],
+      "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "ui": Object {
+      "position": Object {
+        "left": 0,
+        "top": 0,
+      },
+    },
+  },
+}
+`;
+
+exports[`Flow render should render self, children with base props 2`] = `
+Object {
+  "Activity": Object {
+    "clearSimulation": [MockFunction],
+    "deregister": [MockFunction],
+    "getActiveCount": [MockFunction],
+    "getActivity": [MockFunction],
+    "getPathCount": [MockFunction],
+    "notifyListeners": [MockFunction],
+    "registerListener": [MockFunction],
+    "setSimulation": [MockFunction],
+  },
+  "data-spec": "node",
+  "plumberClearDragSelection": [MockFunction],
+  "plumberConnectExit": [MockFunction],
+  "plumberDraggable": [MockFunction],
+  "plumberMakeSource": [MockFunction],
+  "plumberMakeTarget": [MockFunction],
+  "plumberRecalculate": [MockFunction],
+  "plumberRemove": [MockFunction],
+  "plumberRemoveFromDragSelection": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+  "plumberSetDragSelection": [MockFunction],
+  "renderNode": Object {
+    "inboundConnections": Object {
+      "445fc64c-2a18-47cc-89d0-15172826bfcc": "4fac7935-d13b-4b36-bf15-98075dca822a",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          "name": "Red",
+          "uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
+        },
+        Object {
+          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          "name": "Orange",
+          "uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
+        },
+        Object {
+          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          "name": "Yellow",
+          "uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
+        },
+        Object {
+          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          "name": "Green",
+          "uuid": "77394377-f6b8-4366-9bef-d468621258ef",
+        },
+        Object {
+          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          "name": "Blue",
+          "uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
+        },
+        Object {
+          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          "name": "Indigo",
+          "uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
+        },
+        Object {
+          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          "name": "Violet",
+          "uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
+        },
+        Object {
+          "destination_node_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+          "name": "Other",
+          "uuid": "326a41b7-9bce-453b-8783-1113f649663c",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
+            "type": "has_any_word",
+            "uuid": "fa0a9b24-5f19-4b8e-b287-27af5811de1d",
+          },
+          Object {
+            "arguments": Array [
+              "orange, o",
+            ],
+            "exit_uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
+            "type": "has_any_word",
+            "uuid": "b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2",
+          },
+          Object {
+            "arguments": Array [
+              "yellow, y",
+            ],
+            "exit_uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
+            "type": "has_any_word",
+            "uuid": "e9c842e8-f1c5-4f07-97e7-50a4f93b22e5",
+          },
+          Object {
+            "arguments": Array [
+              "green, g",
+            ],
+            "exit_uuid": "77394377-f6b8-4366-9bef-d468621258ef",
+            "type": "has_any_word",
+            "uuid": "cc5894af-5dce-454e-a525-3d7c5c41d21d",
+          },
+          Object {
+            "arguments": Array [
+              "blue, b",
+            ],
+            "exit_uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
+            "type": "has_any_word",
+            "uuid": "590d13e3-7b47-44e3-b8a0-ba9bd41d75d2",
+          },
+          Object {
+            "arguments": Array [
+              "indigo, i",
+            ],
+            "exit_uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
+            "type": "has_any_word",
+            "uuid": "2a7cbed1-6597-4545-b145-14a2e9282e6c",
+          },
+          Object {
+            "arguments": Array [
+              "violet, v",
+            ],
+            "exit_uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
+            "type": "has_any_word",
+            "uuid": "ab99e18c-433f-436e-9278-08bcf506f433",
+          },
+        ],
+        "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
+        "operand": "@run.input",
+        "result_name": "color",
+        "type": "switch",
+      },
+      "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
+      "wait": Object {
+        "type": "msg",
+      },
+    },
+    "ui": Object {
+      "position": Object {
+        "left": 300,
+        "top": 120,
+      },
+      "type": "wait_for_response",
+    },
+  },
+}
+`;
+
+exports[`Flow render should render self, children with base props 3`] = `
+Object {
+  "Activity": Object {
+    "clearSimulation": [MockFunction],
+    "deregister": [MockFunction],
+    "getActiveCount": [MockFunction],
+    "getActivity": [MockFunction],
+    "getPathCount": [MockFunction],
+    "notifyListeners": [MockFunction],
+    "registerListener": [MockFunction],
+    "setSimulation": [MockFunction],
+  },
+  "data-spec": "node",
+  "plumberClearDragSelection": [MockFunction],
+  "plumberConnectExit": [MockFunction],
+  "plumberDraggable": [MockFunction],
+  "plumberMakeSource": [MockFunction],
+  "plumberMakeTarget": [MockFunction],
+  "plumberRecalculate": [MockFunction],
+  "plumberRemove": [MockFunction],
+  "plumberRemoveFromDragSelection": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+  "plumberSetDragSelection": [MockFunction],
+  "renderNode": Object {
+    "inboundConnections": Object {
+      "14806949-d583-49e2-aa55-03aa16ee5a3a": "46e8d603-8e5d-4435-97dd-1333291aafca",
+      "2de9af80-1bd9-4f37-839f-073edbd14369": "46e8d603-8e5d-4435-97dd-1333291aafca",
+      "55855afc-f612-4ef9-9288-dcb1dd136052": "46e8d603-8e5d-4435-97dd-1333291aafca",
+      "5760ec2f-04d4-492b-817b-9f395633ec79": "46e8d603-8e5d-4435-97dd-1333291aafca",
+      "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb": "46e8d603-8e5d-4435-97dd-1333291aafca",
+      "77394377-f6b8-4366-9bef-d468621258ef": "46e8d603-8e5d-4435-97dd-1333291aafca",
+      "92d429d8-c275-4306-9360-93f4b9c7acb1": "46e8d603-8e5d-4435-97dd-1333291aafca",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          "name": "Red",
+          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+        },
+        Object {
+          "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          "name": "Other",
+          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red, r",
+            ],
+            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+            "type": "has_any_word",
+            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+          },
+        ],
+        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+        "operand": "@run.results.color ",
+        "type": "switch",
+      },
+      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "ui": Object {
+      "position": Object {
+        "left": 440,
+        "top": 240,
+      },
+      "type": "split_by_expression",
+    },
+  },
+}
+`;
+
+exports[`Flow render should render self, children with base props 4`] = `
+Object {
+  "Activity": Object {
+    "clearSimulation": [MockFunction],
+    "deregister": [MockFunction],
+    "getActiveCount": [MockFunction],
+    "getActivity": [MockFunction],
+    "getPathCount": [MockFunction],
+    "notifyListeners": [MockFunction],
+    "registerListener": [MockFunction],
+    "setSimulation": [MockFunction],
+  },
+  "data-spec": "node",
+  "plumberClearDragSelection": [MockFunction],
+  "plumberConnectExit": [MockFunction],
+  "plumberDraggable": [MockFunction],
+  "plumberMakeSource": [MockFunction],
+  "plumberMakeTarget": [MockFunction],
+  "plumberRecalculate": [MockFunction],
+  "plumberRemove": [MockFunction],
+  "plumberRemoveFromDragSelection": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+  "plumberSetDragSelection": [MockFunction],
+  "renderNode": Object {
+    "inboundConnections": Object {
+      "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Mine too!",
+          "type": "send_msg",
+          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": null,
+          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+        },
+      ],
+      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+    },
+    "ui": Object {
+      "position": Object {
+        "left": 200,
+        "top": 340,
+      },
+    },
+  },
+}
+`;
+
+exports[`Flow render should render self, children with base props 5`] = `
+Object {
+  "Activity": Object {
+    "clearSimulation": [MockFunction],
+    "deregister": [MockFunction],
+    "getActiveCount": [MockFunction],
+    "getActivity": [MockFunction],
+    "getPathCount": [MockFunction],
+    "notifyListeners": [MockFunction],
+    "registerListener": [MockFunction],
+    "setSimulation": [MockFunction],
+  },
+  "data-spec": "node",
+  "plumberClearDragSelection": [MockFunction],
+  "plumberConnectExit": [MockFunction],
+  "plumberDraggable": [MockFunction],
+  "plumberMakeSource": [MockFunction],
+  "plumberMakeTarget": [MockFunction],
+  "plumberRecalculate": [MockFunction],
+  "plumberRemove": [MockFunction],
+  "plumberRemoveFromDragSelection": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+  "plumberSetDragSelection": [MockFunction],
+  "renderNode": Object {
+    "inboundConnections": Object {
+      "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "text": "Yuck",
+          "type": "send_msg",
+          "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          "name": null,
+          "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+        },
+      ],
+      "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "ui": Object {
+      "position": Object {
+        "left": 680,
+        "top": 340,
+      },
+    },
+  },
+}
+`;
+
+exports[`Flow render should render self, children with base props 6`] = `
+Object {
+  "Activity": Object {
+    "clearSimulation": [MockFunction],
+    "deregister": [MockFunction],
+    "getActiveCount": [MockFunction],
+    "getActivity": [MockFunction],
+    "getPathCount": [MockFunction],
+    "notifyListeners": [MockFunction],
+    "registerListener": [MockFunction],
+    "setSimulation": [MockFunction],
+  },
+  "data-spec": "node",
+  "plumberClearDragSelection": [MockFunction],
+  "plumberConnectExit": [MockFunction],
+  "plumberDraggable": [MockFunction],
+  "plumberMakeSource": [MockFunction],
+  "plumberMakeTarget": [MockFunction],
+  "plumberRecalculate": [MockFunction],
+  "plumberRemove": [MockFunction],
+  "plumberRemoveFromDragSelection": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+  "plumberSetDragSelection": [MockFunction],
+  "renderNode": Object {
+    "inboundConnections": Object {
+      "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+    },
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Early Adopters",
+          "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+        },
+        Object {
+          "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+          "name": "Subscribers",
+          "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            ],
+            "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+            "type": "has_group",
+            "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+          },
+          Object {
+            "arguments": Array [
+              "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            ],
+            "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+            "type": "has_group",
+            "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+          },
+        ],
+        "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+        "operand": "@contact",
+        "type": "switch",
+      },
+      "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "ui": Object {
+      "position": Object {
+        "left": 640,
+        "top": 460,
+      },
+      "type": "split_by_groups",
+    },
+  },
+}
+`;
+
+exports[`Flow render should render self, children with base props 7`] = `
+Object {
+  "Activity": Object {
+    "clearSimulation": [MockFunction],
+    "deregister": [MockFunction],
+    "getActiveCount": [MockFunction],
+    "getActivity": [MockFunction],
+    "getPathCount": [MockFunction],
+    "notifyListeners": [MockFunction],
+    "registerListener": [MockFunction],
+    "setSimulation": [MockFunction],
+  },
+  "data-spec": "node",
+  "plumberClearDragSelection": [MockFunction],
+  "plumberConnectExit": [MockFunction],
+  "plumberDraggable": [MockFunction],
+  "plumberMakeSource": [MockFunction],
+  "plumberMakeTarget": [MockFunction],
+  "plumberRecalculate": [MockFunction],
+  "plumberRemove": [MockFunction],
+  "plumberRemoveFromDragSelection": [MockFunction],
+  "plumberRepaintForDuration": [MockFunction],
+  "plumberSetDragSelection": [MockFunction],
+  "renderNode": Object {
+    "inboundConnections": Object {
+      "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+    },
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow": Object {
+            "name": "Customer Service",
+            "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+          },
+          "type": "start_flow",
+          "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+            "type": "has_run_status",
+            "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+            "type": "has_run_status",
+            "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      "wait": Object {
+        "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+        "type": "flow",
+      },
+    },
+    "ui": Object {
+      "position": Object {
+        "left": 300,
+        "top": 520,
+      },
+      "type": "subflow",
+    },
+  },
+}
+`;
+
+exports[`Flow render should render self, children with base props 8`] = `
 <React.Fragment>
   <div
     className="nodeList"
@@ -1652,25 +2250,6 @@ exports[`Flow render should render self, children with base props 1`] = `
       }
       data-spec="node"
       key="4fac7935-d13b-4b36-bf15-98075dca822a"
-      node={
-        Object {
-          "actions": Array [
-            Object {
-              "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
-              "type": "send_msg",
-              "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
-            },
-          ],
-          "exits": Array [
-            Object {
-              "destination_node_uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
-              "name": null,
-              "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
-            },
-          ],
-          "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
-        }
-      }
       plumberClearDragSelection={[MockFunction]}
       plumberConnectExit={[MockFunction]}
       plumberDraggable={[MockFunction]}
@@ -1681,11 +2260,33 @@ exports[`Flow render should render self, children with base props 1`] = `
       plumberRemoveFromDragSelection={[MockFunction]}
       plumberRepaintForDuration={[MockFunction]}
       plumberSetDragSelection={[MockFunction]}
-      ui={
+      renderNode={
         Object {
-          "position": Object {
-            "left": 0,
-            "top": 0,
+          "inboundConnections": Object {
+            "326a41b7-9bce-453b-8783-1113f649663c": "46e8d603-8e5d-4435-97dd-1333291aafca",
+          },
+          "node": Object {
+            "actions": Array [
+              Object {
+                "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?",
+                "type": "send_msg",
+                "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
+              },
+            ],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
+                "name": null,
+                "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
+              },
+            ],
+            "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 0,
+              "top": 0,
+            },
           },
         }
       }
@@ -1705,121 +2306,6 @@ exports[`Flow render should render self, children with base props 1`] = `
       }
       data-spec="node"
       key="46e8d603-8e5d-4435-97dd-1333291aafca"
-      node={
-        Object {
-          "actions": Array [],
-          "exits": Array [
-            Object {
-              "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-              "name": "Red",
-              "uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
-            },
-            Object {
-              "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-              "name": "Orange",
-              "uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
-            },
-            Object {
-              "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-              "name": "Yellow",
-              "uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
-            },
-            Object {
-              "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-              "name": "Green",
-              "uuid": "77394377-f6b8-4366-9bef-d468621258ef",
-            },
-            Object {
-              "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-              "name": "Blue",
-              "uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
-            },
-            Object {
-              "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-              "name": "Indigo",
-              "uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
-            },
-            Object {
-              "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-              "name": "Violet",
-              "uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
-            },
-            Object {
-              "destination_node_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
-              "name": "Other",
-              "uuid": "326a41b7-9bce-453b-8783-1113f649663c",
-            },
-          ],
-          "router": Object {
-            "cases": Array [
-              Object {
-                "arguments": Array [
-                  "red, r",
-                ],
-                "exit_uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
-                "type": "has_any_word",
-                "uuid": "fa0a9b24-5f19-4b8e-b287-27af5811de1d",
-              },
-              Object {
-                "arguments": Array [
-                  "orange, o",
-                ],
-                "exit_uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
-                "type": "has_any_word",
-                "uuid": "b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2",
-              },
-              Object {
-                "arguments": Array [
-                  "yellow, y",
-                ],
-                "exit_uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
-                "type": "has_any_word",
-                "uuid": "e9c842e8-f1c5-4f07-97e7-50a4f93b22e5",
-              },
-              Object {
-                "arguments": Array [
-                  "green, g",
-                ],
-                "exit_uuid": "77394377-f6b8-4366-9bef-d468621258ef",
-                "type": "has_any_word",
-                "uuid": "cc5894af-5dce-454e-a525-3d7c5c41d21d",
-              },
-              Object {
-                "arguments": Array [
-                  "blue, b",
-                ],
-                "exit_uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
-                "type": "has_any_word",
-                "uuid": "590d13e3-7b47-44e3-b8a0-ba9bd41d75d2",
-              },
-              Object {
-                "arguments": Array [
-                  "indigo, i",
-                ],
-                "exit_uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
-                "type": "has_any_word",
-                "uuid": "2a7cbed1-6597-4545-b145-14a2e9282e6c",
-              },
-              Object {
-                "arguments": Array [
-                  "violet, v",
-                ],
-                "exit_uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
-                "type": "has_any_word",
-                "uuid": "ab99e18c-433f-436e-9278-08bcf506f433",
-              },
-            ],
-            "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
-            "operand": "@run.input",
-            "result_name": "color",
-            "type": "switch",
-          },
-          "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
-          "wait": Object {
-            "type": "msg",
-          },
-        }
-      }
       plumberClearDragSelection={[MockFunction]}
       plumberConnectExit={[MockFunction]}
       plumberDraggable={[MockFunction]}
@@ -1830,13 +2316,131 @@ exports[`Flow render should render self, children with base props 1`] = `
       plumberRemoveFromDragSelection={[MockFunction]}
       plumberRepaintForDuration={[MockFunction]}
       plumberSetDragSelection={[MockFunction]}
-      ui={
+      renderNode={
         Object {
-          "position": Object {
-            "left": 300,
-            "top": 120,
+          "inboundConnections": Object {
+            "445fc64c-2a18-47cc-89d0-15172826bfcc": "4fac7935-d13b-4b36-bf15-98075dca822a",
           },
-          "type": "wait_for_response",
+          "node": Object {
+            "actions": Array [],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+                "name": "Red",
+                "uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
+              },
+              Object {
+                "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+                "name": "Orange",
+                "uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
+              },
+              Object {
+                "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+                "name": "Yellow",
+                "uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
+              },
+              Object {
+                "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+                "name": "Green",
+                "uuid": "77394377-f6b8-4366-9bef-d468621258ef",
+              },
+              Object {
+                "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+                "name": "Blue",
+                "uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
+              },
+              Object {
+                "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+                "name": "Indigo",
+                "uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
+              },
+              Object {
+                "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+                "name": "Violet",
+                "uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
+              },
+              Object {
+                "destination_node_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+                "name": "Other",
+                "uuid": "326a41b7-9bce-453b-8783-1113f649663c",
+              },
+            ],
+            "router": Object {
+              "cases": Array [
+                Object {
+                  "arguments": Array [
+                    "red, r",
+                  ],
+                  "exit_uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
+                  "type": "has_any_word",
+                  "uuid": "fa0a9b24-5f19-4b8e-b287-27af5811de1d",
+                },
+                Object {
+                  "arguments": Array [
+                    "orange, o",
+                  ],
+                  "exit_uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
+                  "type": "has_any_word",
+                  "uuid": "b5f900b9-ad13-479a-8ad3-1f1ad5ac88f2",
+                },
+                Object {
+                  "arguments": Array [
+                    "yellow, y",
+                  ],
+                  "exit_uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
+                  "type": "has_any_word",
+                  "uuid": "e9c842e8-f1c5-4f07-97e7-50a4f93b22e5",
+                },
+                Object {
+                  "arguments": Array [
+                    "green, g",
+                  ],
+                  "exit_uuid": "77394377-f6b8-4366-9bef-d468621258ef",
+                  "type": "has_any_word",
+                  "uuid": "cc5894af-5dce-454e-a525-3d7c5c41d21d",
+                },
+                Object {
+                  "arguments": Array [
+                    "blue, b",
+                  ],
+                  "exit_uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
+                  "type": "has_any_word",
+                  "uuid": "590d13e3-7b47-44e3-b8a0-ba9bd41d75d2",
+                },
+                Object {
+                  "arguments": Array [
+                    "indigo, i",
+                  ],
+                  "exit_uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
+                  "type": "has_any_word",
+                  "uuid": "2a7cbed1-6597-4545-b145-14a2e9282e6c",
+                },
+                Object {
+                  "arguments": Array [
+                    "violet, v",
+                  ],
+                  "exit_uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
+                  "type": "has_any_word",
+                  "uuid": "ab99e18c-433f-436e-9278-08bcf506f433",
+                },
+              ],
+              "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
+              "operand": "@run.input",
+              "result_name": "color",
+              "type": "switch",
+            },
+            "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
+            "wait": Object {
+              "type": "msg",
+            },
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 300,
+              "top": 120,
+            },
+            "type": "wait_for_response",
+          },
         }
       }
     />
@@ -1855,39 +2459,6 @@ exports[`Flow render should render self, children with base props 1`] = `
       }
       data-spec="node"
       key="bc978e00-2f3d-41f2-87c1-26b3f14e5925"
-      node={
-        Object {
-          "actions": Array [],
-          "exits": Array [
-            Object {
-              "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
-              "name": "Red",
-              "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
-            },
-            Object {
-              "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
-              "name": "Other",
-              "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
-            },
-          ],
-          "router": Object {
-            "cases": Array [
-              Object {
-                "arguments": Array [
-                  "red, r",
-                ],
-                "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
-                "type": "has_any_word",
-                "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
-              },
-            ],
-            "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
-            "operand": "@run.results.color ",
-            "type": "switch",
-          },
-          "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-        }
-      }
       plumberClearDragSelection={[MockFunction]}
       plumberConnectExit={[MockFunction]}
       plumberDraggable={[MockFunction]}
@@ -1898,13 +2469,55 @@ exports[`Flow render should render self, children with base props 1`] = `
       plumberRemoveFromDragSelection={[MockFunction]}
       plumberRepaintForDuration={[MockFunction]}
       plumberSetDragSelection={[MockFunction]}
-      ui={
+      renderNode={
         Object {
-          "position": Object {
-            "left": 440,
-            "top": 240,
+          "inboundConnections": Object {
+            "14806949-d583-49e2-aa55-03aa16ee5a3a": "46e8d603-8e5d-4435-97dd-1333291aafca",
+            "2de9af80-1bd9-4f37-839f-073edbd14369": "46e8d603-8e5d-4435-97dd-1333291aafca",
+            "55855afc-f612-4ef9-9288-dcb1dd136052": "46e8d603-8e5d-4435-97dd-1333291aafca",
+            "5760ec2f-04d4-492b-817b-9f395633ec79": "46e8d603-8e5d-4435-97dd-1333291aafca",
+            "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb": "46e8d603-8e5d-4435-97dd-1333291aafca",
+            "77394377-f6b8-4366-9bef-d468621258ef": "46e8d603-8e5d-4435-97dd-1333291aafca",
+            "92d429d8-c275-4306-9360-93f4b9c7acb1": "46e8d603-8e5d-4435-97dd-1333291aafca",
           },
-          "type": "split_by_expression",
+          "node": Object {
+            "actions": Array [],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+                "name": "Red",
+                "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+              },
+              Object {
+                "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+                "name": "Other",
+                "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+              },
+            ],
+            "router": Object {
+              "cases": Array [
+                Object {
+                  "arguments": Array [
+                    "red, r",
+                  ],
+                  "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
+                  "type": "has_any_word",
+                  "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
+                },
+              ],
+              "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+              "operand": "@run.results.color ",
+              "type": "switch",
+            },
+            "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 440,
+              "top": 240,
+            },
+            "type": "split_by_expression",
+          },
         }
       }
     />
@@ -1923,25 +2536,6 @@ exports[`Flow render should render self, children with base props 1`] = `
       }
       data-spec="node"
       key="e2ecc8de-9774-4b74-a0dc-ca8aea123227"
-      node={
-        Object {
-          "actions": Array [
-            Object {
-              "text": "Mine too!",
-              "type": "send_msg",
-              "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
-            },
-          ],
-          "exits": Array [
-            Object {
-              "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
-              "name": null,
-              "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
-            },
-          ],
-          "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
-        }
-      }
       plumberClearDragSelection={[MockFunction]}
       plumberConnectExit={[MockFunction]}
       plumberDraggable={[MockFunction]}
@@ -1952,11 +2546,33 @@ exports[`Flow render should render self, children with base props 1`] = `
       plumberRemoveFromDragSelection={[MockFunction]}
       plumberRepaintForDuration={[MockFunction]}
       plumberSetDragSelection={[MockFunction]}
-      ui={
+      renderNode={
         Object {
-          "position": Object {
-            "left": 200,
-            "top": 340,
+          "inboundConnections": Object {
+            "7b245d49-e9e3-4387-b4ad-48deb03528cd": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          },
+          "node": Object {
+            "actions": Array [
+              Object {
+                "text": "Mine too!",
+                "type": "send_msg",
+                "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+              },
+            ],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+                "name": null,
+                "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+              },
+            ],
+            "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 200,
+              "top": 340,
+            },
           },
         }
       }
@@ -1976,25 +2592,6 @@ exports[`Flow render should render self, children with base props 1`] = `
       }
       data-spec="node"
       key="533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
-      node={
-        Object {
-          "actions": Array [
-            Object {
-              "text": "Yuck",
-              "type": "send_msg",
-              "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
-            },
-          ],
-          "exits": Array [
-            Object {
-              "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
-              "name": null,
-              "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
-            },
-          ],
-          "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
-        }
-      }
       plumberClearDragSelection={[MockFunction]}
       plumberConnectExit={[MockFunction]}
       plumberDraggable={[MockFunction]}
@@ -2005,11 +2602,33 @@ exports[`Flow render should render self, children with base props 1`] = `
       plumberRemoveFromDragSelection={[MockFunction]}
       plumberRepaintForDuration={[MockFunction]}
       plumberSetDragSelection={[MockFunction]}
-      ui={
+      renderNode={
         Object {
-          "position": Object {
-            "left": 680,
-            "top": 340,
+          "inboundConnections": Object {
+            "a8bdc1c5-0283-4656-b932-4f4094f4cc7e": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+          },
+          "node": Object {
+            "actions": Array [
+              Object {
+                "text": "Yuck",
+                "type": "send_msg",
+                "uuid": "28b9e295-1102-4f13-bd9d-4a7b11f4fcdc",
+              },
+            ],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+                "name": null,
+                "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
+              },
+            ],
+            "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 680,
+              "top": 340,
+            },
           },
         }
       }
@@ -2029,52 +2648,6 @@ exports[`Flow render should render self, children with base props 1`] = `
       }
       data-spec="node"
       key="882f8022-7256-4b1c-abf3-7b180f5e7e24"
-      node={
-        Object {
-          "actions": Array [],
-          "exits": Array [
-            Object {
-              "destination_node_uuid": null,
-              "name": "Early Adopters",
-              "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
-            },
-            Object {
-              "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
-              "name": "Subscribers",
-              "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
-            },
-            Object {
-              "destination_node_uuid": null,
-              "name": "Other",
-              "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
-            },
-          ],
-          "router": Object {
-            "cases": Array [
-              Object {
-                "arguments": Array [
-                  "cdbf9e01-aaa7-4381-8259-ee042447bcac",
-                ],
-                "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
-                "type": "has_group",
-                "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
-              },
-              Object {
-                "arguments": Array [
-                  "33b28bac-b588-43e4-90de-fda77aeaf7c0",
-                ],
-                "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
-                "type": "has_group",
-                "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
-              },
-            ],
-            "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
-            "operand": "@contact",
-            "type": "switch",
-          },
-          "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
-        }
-      }
       plumberClearDragSelection={[MockFunction]}
       plumberConnectExit={[MockFunction]}
       plumberDraggable={[MockFunction]}
@@ -2085,13 +2658,62 @@ exports[`Flow render should render self, children with base props 1`] = `
       plumberRemoveFromDragSelection={[MockFunction]}
       plumberRepaintForDuration={[MockFunction]}
       plumberSetDragSelection={[MockFunction]}
-      ui={
+      renderNode={
         Object {
-          "position": Object {
-            "left": 640,
-            "top": 460,
+          "inboundConnections": Object {
+            "9de30522-db84-4471-bce6-99f6d0a200e0": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
           },
-          "type": "split_by_groups",
+          "node": Object {
+            "actions": Array [],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": null,
+                "name": "Early Adopters",
+                "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+              },
+              Object {
+                "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+                "name": "Subscribers",
+                "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+              },
+              Object {
+                "destination_node_uuid": null,
+                "name": "Other",
+                "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+              },
+            ],
+            "router": Object {
+              "cases": Array [
+                Object {
+                  "arguments": Array [
+                    "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+                  ],
+                  "exit_uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
+                  "type": "has_group",
+                  "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
+                },
+                Object {
+                  "arguments": Array [
+                    "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+                  ],
+                  "exit_uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
+                  "type": "has_group",
+                  "uuid": "fa8d0d3a-067e-4460-9cff-0474ecc4e8ca",
+                },
+              ],
+              "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+              "operand": "@contact",
+              "type": "switch",
+            },
+            "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 640,
+              "top": 460,
+            },
+            "type": "split_by_groups",
+          },
         }
       }
     />
@@ -2110,60 +2732,6 @@ exports[`Flow render should render self, children with base props 1`] = `
       }
       data-spec="node"
       key="059a8daa-0697-44a6-9486-2386cc417e9d"
-      node={
-        Object {
-          "actions": Array [
-            Object {
-              "flow": Object {
-                "name": "Customer Service",
-                "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
-              },
-              "type": "start_flow",
-              "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
-            },
-          ],
-          "exits": Array [
-            Object {
-              "destination_node_uuid": null,
-              "name": "Complete",
-              "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
-            },
-            Object {
-              "destination_node_uuid": null,
-              "name": "Expired",
-              "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
-            },
-          ],
-          "router": Object {
-            "cases": Array [
-              Object {
-                "arguments": Array [
-                  "C",
-                ],
-                "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
-                "type": "has_run_status",
-                "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
-              },
-              Object {
-                "arguments": Array [
-                  "E",
-                ],
-                "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
-                "type": "has_run_status",
-                "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
-              },
-            ],
-            "default_exit_uuid": null,
-            "operand": "@child",
-            "type": "switch",
-          },
-          "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
-          "wait": Object {
-            "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
-            "type": "flow",
-          },
-        }
-      }
       plumberClearDragSelection={[MockFunction]}
       plumberConnectExit={[MockFunction]}
       plumberDraggable={[MockFunction]}
@@ -2174,13 +2742,71 @@ exports[`Flow render should render self, children with base props 1`] = `
       plumberRemoveFromDragSelection={[MockFunction]}
       plumberRepaintForDuration={[MockFunction]}
       plumberSetDragSelection={[MockFunction]}
-      ui={
+      renderNode={
         Object {
-          "position": Object {
-            "left": 300,
-            "top": 520,
+          "inboundConnections": Object {
+            "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+            "7571ef74-35b3-4090-ac7a-c4531a500806": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
           },
-          "type": "subflow",
+          "node": Object {
+            "actions": Array [
+              Object {
+                "flow": Object {
+                  "name": "Customer Service",
+                  "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+                },
+                "type": "start_flow",
+                "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
+              },
+            ],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": null,
+                "name": "Complete",
+                "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+              },
+              Object {
+                "destination_node_uuid": null,
+                "name": "Expired",
+                "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+              },
+            ],
+            "router": Object {
+              "cases": Array [
+                Object {
+                  "arguments": Array [
+                    "C",
+                  ],
+                  "exit_uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
+                  "type": "has_run_status",
+                  "uuid": "2d247ecc-1d5d-4381-914a-3195b1888f04",
+                },
+                Object {
+                  "arguments": Array [
+                    "E",
+                  ],
+                  "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
+                  "type": "has_run_status",
+                  "uuid": "b46ffd80-1b85-44bf-b3f2-01550d4ff302",
+                },
+              ],
+              "default_exit_uuid": null,
+              "operand": "@child",
+              "type": "switch",
+            },
+            "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+            "wait": Object {
+              "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b",
+              "type": "flow",
+            },
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 300,
+              "top": 520,
+            },
+            "type": "subflow",
+          },
         }
       }
     />

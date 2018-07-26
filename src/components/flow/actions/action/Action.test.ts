@@ -104,7 +104,7 @@ describe(ActionWrapper.name, () => {
 
         it('should display hybrid style', () => {
             const { wrapper, props } = setup(true, {
-                node: set(startFlowNode)
+                renderNode: set(startFlowNode)
             });
 
             expect(

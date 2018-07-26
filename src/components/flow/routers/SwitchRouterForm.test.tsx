@@ -225,7 +225,7 @@ describe(SwitchRouterForm.name, () => {
             it('should return unwrapped, empty case', () => {
                 const { wrapper, props } = setup(true, {
                     settings: {
-                        originalNode: { router: { $merge: { cases: [] } } }
+                        originalNode: { node: { router: { $merge: { cases: [] } } } }
                     }
                 });
 
@@ -262,9 +262,11 @@ describe(SwitchRouterForm.name, () => {
                 const { wrapper } = setup(true, {
                     settings: {
                         originalNode: {
-                            router: {
-                                $merge: {
-                                    cases: [cases[0]]
+                            node: {
+                                router: {
+                                    $merge: {
+                                        cases: [cases[0]]
+                                    }
                                 }
                             }
                         }

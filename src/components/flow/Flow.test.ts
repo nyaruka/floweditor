@@ -138,23 +138,7 @@ describe(Flow.name, () => {
                 const renderNode = props.nodes[nodeUUID];
 
                 expect(node.key()).toBe(nodeUUID);
-                expect(node.props()).toEqual(
-                    expect.objectContaining({
-                        node: renderNode.node,
-                        ui: renderNode.ui,
-                        Activity: instance.Activity,
-                        plumberRepaintForDuration: instance.Plumber.repaintForDuration,
-                        plumberDraggable: instance.Plumber.draggable,
-                        plumberMakeTarget: instance.Plumber.makeTarget,
-                        plumberRemove: instance.Plumber.remove,
-                        plumberRecalculate: instance.Plumber.recalculate,
-                        plumberMakeSource: instance.Plumber.makeSource,
-                        plumberConnectExit: instance.Plumber.connectExit,
-                        plumberSetDragSelection: instance.Plumber.setDragSelection,
-                        plumberClearDragSelection: instance.Plumber.clearDragSelection,
-                        plumberRemoveFromDragSelection: instance.Plumber.removeFromDragSelection
-                    })
-                );
+                expect(node.props()).toMatchSnapshot();
             });
             expect(wrapper).toMatchSnapshot();
         });
@@ -368,9 +352,7 @@ describe(Flow.name, () => {
                 );
                 expect(props.updateCreateNodePosition).toHaveBeenCalledTimes(1);
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
-                expect(props.onOpenNodeEditor).toHaveBeenCalledWith({
-                    originalNode: props.ghostNode
-                });
+                expect((props.onOpenNodeEditor as any).mock.calls[0]).toMatchSnapshot();
             });
         });
 

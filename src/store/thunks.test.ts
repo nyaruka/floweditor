@@ -411,7 +411,7 @@ describe('Flow Manipulation', () => {
                 ...store.getState(),
                 nodeEditor: {
                     userAddingAction: true,
-                    settings: { originalNode: testNodes.node0.node }
+                    settings: { originalNode: testNodes.node0 }
                 }
             });
 
@@ -441,7 +441,7 @@ describe('Flow Manipulation', () => {
                         nodes: { $set: renderNodeMap }
                     },
                     nodeEditor: {
-                        settings: { $set: { originalNode: originalRenderNode.node } }
+                        settings: { $set: { originalNode: originalRenderNode } }
                     }
                 })
             );
@@ -483,7 +483,7 @@ describe('Flow Manipulation', () => {
                 ...store.getState(),
                 nodeEditor: {
                     userAddingAction: false,
-                    settings: { originalNode: testNodes.node0.node }
+                    settings: { originalNode: testNodes.node0 }
                 }
             });
 
@@ -534,7 +534,7 @@ describe('Flow Manipulation', () => {
                 },
                 nodeEditor: {
                     userAddingAction: true,
-                    settings: { originalNode: {} }
+                    settings: { originalNode: { node: { uuid: generateUUID() } } }
                 }
             });
 
@@ -928,7 +928,7 @@ describe('Flow Manipulation', () => {
             store = createMockStore(
                 mutate(initialState, {
                     flowContext: { nodes: { $set: testNodes } },
-                    nodeEditor: { settings: { $set: { originalNode: testNodes.node1.node } } }
+                    nodeEditor: { settings: { $set: { originalNode: testNodes.node1 } } }
                 })
             );
 
@@ -966,7 +966,7 @@ describe('Flow Manipulation', () => {
                             }
                         }
                     },
-                    nodeEditor: { settings: { $set: { originalNode: testNodes.node3.node } } }
+                    nodeEditor: { settings: { $set: { originalNode: testNodes.node3 } } }
                 })
             );
 
@@ -994,7 +994,7 @@ describe('Flow Manipulation', () => {
                         settings: {
                             $set: {
                                 originalAction: testNodes.node3.node.actions[0],
-                                originalNode: testNodes.node3.node
+                                originalNode: testNodes.node3
                             }
                         }
                     }
@@ -1023,7 +1023,7 @@ describe('Flow Manipulation', () => {
                 mutate(initialState, {
                     flowContext: { nodes: { $set: testNodes } },
                     nodeEditor: {
-                        settings: { $set: { originalNode: testNodes.node0.node } }
+                        settings: { $set: { originalNode: testNodes.node0 } }
                     }
                 })
             );
