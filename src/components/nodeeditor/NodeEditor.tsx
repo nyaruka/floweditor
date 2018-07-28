@@ -8,12 +8,7 @@ import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '~/components/flow/node/Node';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { CaseElementProps } from '~/components/form/case/CaseElement';
-import TextInputElement from '~/components/form/textinput/TextInputElement';
-import ConnectedModal, { ButtonSet } from '~/components/modal/Modal';
-import { DEFAULT_BODY, GROUPS_OPERAND } from '~/components/nodeeditor/constants';
-import FormContainer from '~/components/nodeeditor/FormContainer';
-import * as formStyles from '~/components/nodeeditor/NodeEditor.scss';
-import TypeList from '~/components/nodeeditor/TypeList';
+import Modal from '~/components/modal/Modal';
 import * as shared from '~/components/shared.scss';
 import { Operators } from '~/config/operatorConfigs';
 import { FormHelper, Mode, Type, Types } from '~/config/typeConfigs';
@@ -27,21 +22,14 @@ import {
     Exit,
     FlowDefinition,
     FlowNode,
-    Router,
-    RouterTypes,
     SendEmail,
     SetContactField,
     SetRunResult,
     StartFlow,
-    StartFlowExitNames,
     SwitchRouter,
-    UINodeTypes,
-    Wait,
-    WaitTypes,
-    WebhookExitNames
+    WaitTypes
 } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { LocalizedObject } from '~/services/Localization';
 import {
     AppState,
     DispatchWithState,
@@ -67,7 +55,6 @@ import {
 } from '~/store';
 import { IncrementSuggestedResultNameCount } from '~/store/actionTypes';
 import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
-import { getSuggestedResultName } from '~/store/helpers';
 import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '~/store/thunks';
 
@@ -128,17 +115,8 @@ export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
     action: AnyAction;
     formHelper: FormHelper;
-    onBindWidget: (ref: any) => void;
-    onBindAdvancedWidget: (ref: any) => void;
-    removeWidget: (name: string) => void;
-    getExitTranslations(): JSX.Element;
-    triggerFormUpdate: () => void;
-    onToggleAdvanced: () => void;
     cleanUpLocalizations: CleanUpLocalizations;
     updateLocalizations: UpdateLocalizations;
-    saveLocalizations: SaveLocalizations;
-    getResultNameField: GetResultNameField;
-    onExpressionChanged: (e: any) => void;
 
     // our two ways of updating
     updateRouter(renderNode: RenderNode): void;
@@ -285,11 +263,6 @@ export const groupsToCases = (groups: Asset[] = []): CaseElementProps[] =>
 export class NodeEditor extends React.Component<NodeEditorProps> {
     private modal: any;
     private form: any;
-    private advanced: any;
-    private widgets: { [name: string]: any } = {};
-    private advancedWidgets: { [name: string]: boolean } = {};
-    private initialButtons: ButtonSet;
-    private temporaryButtons?: ButtonSet;
 
     constructor(props: NodeEditorProps) {
         super(props);
@@ -309,11 +282,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 'removeWidget'
             ]
         });
-
-        this.initialButtons = {
-            primary: { name: 'Save', onClick: this.onSave },
-            secondary: { name: 'Cancel', onClick: this.onCancel }
-        };
     }
 
     private formRef(ref: React.Component<{}>): React.Component<{}> {
@@ -324,35 +292,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         return (this.modal = ref);
     }
 
-    // Make NodeEditor aware of base form inputs
-    public onBindWidget(widget: any): void {
-        if (widget) {
-            if (this.widgets) {
-                this.widgets[widget.props.name] = widget;
-            }
-        }
-    }
-
-    // Make NodeEditor aware of advanced form inputs
-    public onBindAdvancedWidget(widget: any): void {
-        if (widget) {
-            this.onBindWidget(widget);
-            this.advancedWidgets[widget.props.name] = true;
-        }
-    }
-
-    private onSave(): void {
-        if (this.submit()) {
-            this.close(false);
-        }
-    }
-
-    private onCancel(): void {
-        this.close(true);
-    }
-
     // Allow return key to submit our form
-    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
+    /*private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
         // Return key
         if (event.which === 13) {
             const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
@@ -363,213 +304,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 }
             }
         }
-    }
-
-    private onTypeChange(config: Type): void {
-        this.widgets = {};
-        this.advancedWidgets = {};
-        this.props.handleTypeConfigChange(config);
-    }
-
-    private onShowNameField(): void {
-        this.props.updateShowResultName(true);
-    }
-
-    private onResultNameChange(resultName: string): void {
-        this.props.updateResultName(resultName);
-    }
-
-    private onExpressionChanged(operand: string): void {
-        this.props.updateOperand(operand);
-    }
-
-    /**
-     * Given a set of cases and previous exits, determines correct merging of cases
-     * and the union of exits
-     */
-    private resolveExits(newCases: CaseElementProps[]): CombinedExits {
-        // create mapping of our old exit uuids to old exit settings
-        const previousExitMap: { [uuid: string]: Exit } = {};
-
-        if (this.props.settings.originalNode.node.exits) {
-            for (const exit of this.props.settings.originalNode.node.exits) {
-                previousExitMap[exit.uuid] = exit;
-            }
-        }
-
-        const exits: Exit[] = [];
-        const cases: Case[] = [];
-
-        // map our new cases to an appropriate exit
-        for (const newCase of newCases) {
-            // see if we have a suitable exit for our case already
-            let existingExit: Exit = null;
-
-            // use our previous exit name if it isn't set
-            if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
-                newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
-            }
-
-            // ignore cases with empty names
-            if (!newCase.exitName || newCase.exitName.trim().length === 0) {
-                continue;
-            }
-
-            if (newCase.exitName) {
-                // look through our new exits to see if we've already created one
-                for (const exit of exits) {
-                    if (newCase.exitName && exit.name) {
-                        if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                            existingExit = exit;
-                            break;
-                        }
-                    }
-                }
-
-                // couldn't find a new exit, look through our old ones
-                if (!existingExit) {
-                    // look through our previous cases for a match
-                    if (this.props.settings.originalNode.node.exits) {
-                        for (const exit of this.props.settings.originalNode.node.exits) {
-                            if (newCase.exitName && exit.name) {
-                                if (
-                                    exit.name.toLowerCase() ===
-                                    newCase.exitName.trim().toLowerCase()
-                                ) {
-                                    existingExit = exit;
-                                    exits.push(existingExit);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // we found a suitable exit, point our case to it
-            if (existingExit) {
-                newCase.kase.exit_uuid = existingExit.uuid;
-            } else {
-                // no existing exit, create a new one
-                // find our previous destination if we have one
-                let destination = null;
-                if (newCase.kase.exit_uuid in previousExitMap) {
-                    destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
-                }
-
-                newCase.kase.exit_uuid = generateUUID();
-
-                exits.push({
-                    name: newCase.exitName,
-                    uuid: newCase.kase.exit_uuid,
-                    destination_node_uuid: destination
-                });
-            }
-
-            // remove exitName from our case
-            cases.push(newCase.kase);
-        }
-
-        // add in our default exit
-        let defaultUUID = generateUUID();
-        if (
-            this.props.settings.originalNode.node.router &&
-            this.props.settings.originalNode.node.router.type === RouterTypes.switch
-        ) {
-            const router = this.props.settings.originalNode.node.router as SwitchRouter;
-            if (router && router.default_exit_uuid) {
-                defaultUUID = router.default_exit_uuid;
-            }
-        }
-
-        let defaultName = DefaultExitNames.All_Responses;
-
-        if (
-            this.props.settings.originalNode.node.wait &&
-            this.props.settings.originalNode.node.wait.type === 'exp'
-        ) {
-            defaultName = DefaultExitNames.Any_Value;
-        }
-
-        if (exits.length > 0) {
-            defaultName = DefaultExitNames.Other;
-        }
-
-        let defaultDestination = null;
-        if (defaultUUID in previousExitMap) {
-            defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
-        }
-
-        exits.push({
-            uuid: defaultUUID,
-            name: defaultName,
-            destination_node_uuid: defaultDestination
-        });
-
-        // is a timeout set?
-        if (this.props.timeout) {
-            // do we have an existing timeout exit?
-            const existingExit = this.props.settings.originalNode.node.exits.find(
-                ({ name }) => name === DefaultExitNames.No_Response
-            );
-            const timeoutExit: Exit = {
-                uuid: (existingExit && existingExit.uuid) || generateUUID(),
-                name: DefaultExitNames.No_Response,
-                destination_node_uuid: null
-            };
-            // add our timeout exit accordingly
-            if (exits[exits.length - 1].name === DefaultExitNames.Other) {
-                exits.splice(exits.length - 1, 0, timeoutExit);
-            } else {
-                exits.push(timeoutExit);
-            }
-
-            // Add a case for the timeout.
-            // We strip passive cases (like timeouts) when SwitchRouter mounts.
-            cases.push({
-                uuid: generateUUID(),
-                type: Operators.has_wait_timed_out,
-                arguments: ['@run'],
-                exit_uuid: timeoutExit.uuid
-            });
-        }
-
-        return { cases, exits, defaultExit: defaultUUID };
-    }
-
-    public componentDidMount(): void {
-        if (this.props.settings.showAdvanced) {
-            this.toggleAdvanced();
-        }
-    }
-
-    private getResultNameField(): JSX.Element {
-        let resultNameField: JSX.Element;
-        if (this.props.showResultName) {
-            resultNameField = (
-                <TextInputElement
-                    data-spec="name-field"
-                    ref={this.onBindWidget}
-                    name="Result Name"
-                    showLabel={true}
-                    entry={{ value: this.props.resultName }}
-                    onChange={this.onResultNameChange}
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                />
-            );
-        } else {
-            resultNameField = (
-                <span
-                    data-spec="name-field"
-                    className={formStyles.saveLink}
-                    onClick={this.onShowNameField}
-                >
-                    Save as..
-                </span>
-            );
-        }
-        return <div className={formStyles.saveAs}>{resultNameField}</div>;
-    }
+    }*/
 
     private updateLocalizations(language: string, changes: LocalizationUpdates): void {
         this.props.onUpdateLocalizations(language, changes);
@@ -614,6 +349,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.updateLocalizations(lang, updates);
     }
 
+    /*
     private getLocalizedExits(widgets: {
         [name: string]: any;
     }): Array<{ uuid: string; translations: any }> {
@@ -741,8 +477,9 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 <div className={formStyles.translating_exits}>{exits}</div>
             </div>
         );
-    }
+    } */
 
+    /*
     public submit(): boolean {
         if (
             !(this.form.wrappedInstance
@@ -763,12 +500,9 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.resetNodeEditingState();
 
         return true;
-    }
+    }*/
 
     public close(canceled: boolean): void {
-        this.widgets = {};
-        this.advancedWidgets = {};
-
         // Make sure we re-wire the old connection
         if (canceled) {
             if (this.props.pendingConnection) {
@@ -788,93 +522,16 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.updateNodeEditorOpen(false);
     }
 
-    private triggerFormUpdate(): void {
-        this.form.wrappedInstance
-            ? this.form.wrappedInstance.onUpdateForm(this.widgets)
-            : this.form.onUpdateForm(this.widgets);
-
-        if (this.advanced) {
-            this.advanced.wrappedInstance
-                ? this.advanced.wrappedInstance.onUpdateForm(this.widgets)
-                : this.advanced.onUpdateForm(this.widgets);
-        }
-    }
-
-    private toggleAdvanced(): void {
-        if (this.modal) {
-            this.modal.getWrappedInstance().toggleFlip();
-        }
-    }
-
-    private removeWidget(name: string): void {
-        delete this.widgets[name];
-    }
-
     private updateAction(action: Action): void {
         this.props.onUpdateAction(action);
     }
 
     private updateRouter(renderNode: RenderNode): void {
-        console.log(renderNode);
         this.props.onUpdateRouter(renderNode);
     }
 
-    private getWait(): Wait {
-        const wait: Wait = {} as any;
-
-        if (this.props.typeConfig.type === Types.wait_for_response) {
-            wait.type = WaitTypes.msg;
-        }
-
-        if (this.props.timeout) {
-            wait.timeout = this.props.timeout;
-        }
-
-        return wait;
-    }
-
-    private updateSuggestedResultNameState(resultName: string = ''): void {
-        // Update suggestResultName state
-        if (
-            resultName &&
-            resultName.trim() === getSuggestedResultName(this.props.suggestedNameCount)
-        ) {
-            this.props.incrementSuggestedResultNameCount();
-        }
-    }
-
-    private updateSwitchRouter(kases: CaseElementProps[]): void {
-        if (
-            this.props.definition.localization &&
-            Object.keys(this.props.definition.localization).length
-        ) {
-            this.cleanUpLocalizations(kases);
-        }
-
-        const { cases, exits, defaultExit } = this.resolveExits(kases);
-
-        const optionalRouter: Pick<Router, 'result_name'> = {};
-        if (this.props.resultName) {
-            optionalRouter.result_name = this.props.resultName;
-        }
-
-        const router: SwitchRouter = {
-            type: RouterTypes.switch,
-            default_exit_uuid: defaultExit,
-            cases,
-            operand: this.props.operand,
-            ...optionalRouter
-        };
-
-        const newRenderNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
-        newRenderNode.node.wait = this.getWait();
-
-        this.updateSuggestedResultNameState(router.result_name);
-
-        this.props.onUpdateRouter(newRenderNode);
-    }
-
-    private getUpdatedRouterNode(
+    /* 
+        private getUpdatedRouterNode(
         router: Router,
         exits: Exit[],
         type: UINodeTypes | Types,
@@ -897,6 +554,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         };
     }
 
+
+    
     private updateGroupsRouter(groups: Asset[]): void {
         const currentCases = groupsToCases(groups);
         const { cases, exits, defaultExit } = this.resolveExits(currentCases);
@@ -1005,114 +664,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         } as Wait);
         this.props.onUpdateRouter(newNode);
     }
-
-    private updateWebhookRouter(): void {
-        const action = getAction(this.props.settings.originalAction, this.props.typeConfig);
-        const urlEle = this.widgets.URL.wrappedInstance;
-
-        // Determine method
-        let method: Methods = Methods.GET;
-        const methodEle = this.widgets.MethodMap;
-        if (methodEle.state.value) {
-            method = methodEle.state.value;
-        }
-
-        // Determine body
-        let body = DEFAULT_BODY;
-        if (method === Methods.POST || method === Methods.PUT) {
-            const bodyEle = this.widgets.Body.wrappedInstance;
-            body = bodyEle.state.value;
-        }
-
-        // Go through any headers we have
-        const headers: HeaderMap = Object.keys(this.widgets).reduce((map, key) => {
-            if (key.startsWith('header_')) {
-                const header = this.widgets[key];
-                const headerName = header.state.name.trim();
-                const headerState = header.state.value.trim();
-
-                // Note: we're overwriting headers with the same 'name' value
-                if (headerName.length) {
-                    map[headerName] = headerState;
-                }
-            }
-
-            return map;
-        }, {});
-
-        const newAction: CallWebhook = {
-            uuid: action.uuid,
-            type: this.props.typeConfig.type,
-            url: urlEle.state.value,
-            headers,
-            method,
-            body
-        };
-
-        const exits: Exit[] = [];
-        let cases: Case[] = [];
-
-        // TODO: we should probably just be passing down RenderNode
-        const renderNode = this.props.nodes[this.props.settings.originalNode.node.uuid];
-
-        // If we were already a webhook, lean on those exits and cases
-        if (renderNode && renderNode.ui.type === 'webhook') {
-            this.props.settings.originalNode.node.exits.forEach(exit => exits.push(exit));
-            (this.props.settings.originalNode.node.router as SwitchRouter).cases.forEach(kase =>
-                cases.push(kase)
-            );
-        } else {
-            // Otherwise, let's create some new ones
-            exits.push(
-                {
-                    uuid: generateUUID(),
-                    name: WebhookExitNames.Success,
-                    destination_node_uuid: null
-                },
-                {
-                    uuid: generateUUID(),
-                    name: WebhookExitNames.Failure,
-                    destination_node_uuid: null
-                },
-                {
-                    uuid: generateUUID(),
-                    name: WebhookExitNames.Unreachable,
-                    destination_node_uuid: null
-                }
-            );
-
-            cases = [
-                {
-                    uuid: generateUUID(),
-                    type: Operators.is_text_eq,
-                    arguments: ['run.webhook.status', 'success'],
-                    exit_uuid: exits[0].uuid
-                },
-                {
-                    uuid: generateUUID(),
-                    type: Operators.is_text_eq,
-                    arguments: ['run.webhook.status', 'response_error'],
-                    exit_uuid: exits[1].uuid
-                },
-                {
-                    uuid: generateUUID(),
-                    type: Operators.is_text_eq,
-                    arguments: ['run.webhook.status', 'connection_error'],
-                    exit_uuid: exits[2].uuid
-                }
-            ];
-        }
-
-        const router: SwitchRouter = {
-            type: RouterTypes.switch,
-            operand: '@webhook',
-            cases,
-            default_exit_uuid: exits[1].uuid
-        };
-
-        const newNode = this.getUpdatedRouterNode(router, exits, UINodeTypes.webhook, [newAction]);
-        this.props.onUpdateRouter(newNode);
-    }
+    */
 
     private getMode(): Mode {
         if (this.props.translating) {
@@ -1120,141 +672,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         }
 
         return Mode.EDITING;
-    }
-
-    private hasAdvanced(): boolean {
-        const mode: Mode = this.getMode();
-        return (this.props.typeConfig.advanced & mode) === mode;
-    }
-
-    private getButtons(): ButtonSet {
-        if (this.temporaryButtons) {
-            return this.temporaryButtons;
-        }
-
-        return this.initialButtons;
-    }
-
-    private getTitleText(): string {
-        if (this.props.translating) {
-            return `${this.props.language.name} Translation`;
-        }
-
-        return this.props.typeConfig.name;
-    }
-
-    private getTitles(): JSX.Element[] {
-        const titleText: string = this.getTitleText();
-        const titles: JSX.Element[] = [<div key={'front'}>{titleText}</div>];
-
-        if (this.hasAdvanced()) {
-            titles.push(
-                <div key={'advanced'}>
-                    <div>{titleText}</div>
-                    <div className={shared.advanced_title}>Advanced Settings</div>
-                </div>
-            );
-        }
-
-        return titles;
-    }
-
-    private getTypeList(): JSX.Element {
-        if (!this.props.translating) {
-            let className: string = '';
-
-            if (isSwitchForm(this.props.typeConfig.type)) {
-                ({ type_chooser_switch: className } = formStyles);
-            } else {
-                ({ type_chooser: className } = formStyles);
-            }
-
-            return (
-                <TypeList
-                    __className={className}
-                    // NodeEditor
-                    initialType={this.props.typeConfig}
-                    onChange={this.onTypeChange}
-                />
-            );
-        }
-
-        return null;
-    }
-
-    private getSides(): Sides {
-        const {
-            settings: { originalAction: actionToEdit },
-            typeConfig
-        } = this.props;
-        const action = getAction(actionToEdit, typeConfig);
-        let updateRouter: (renderNode: RenderNode) => void;
-
-        if (
-            typeConfig.type === Types.wait_for_response ||
-            typeConfig.type === Types.split_by_expression
-        ) {
-            // updateRouter = this.updateSwitchRouter;
-        } else if (typeConfig.type === Types.start_flow) {
-            updateRouter = this.updateSubflowRouter;
-        } else if (typeConfig.type === Types.call_webhook) {
-            updateRouter = this.updateWebhookRouter;
-        } else if (typeConfig.type === Types.split_by_groups) {
-            // updateRouter = this.updateGroupsRouter;
-        }
-
-        const formProps: Partial<FormProps> = {
-            action,
-            formHelper: typeConfig.formHelper,
-            saveLocalizations: this.saveLocalizations,
-            updateLocalizations: this.updateLocalizations,
-            cleanUpLocalizations: this.cleanUpLocalizations,
-            updateAction: this.updateAction,
-            updateRouter: this.updateRouter,
-            getResultNameField: this.getResultNameField,
-            getExitTranslations: this.getExitTranslations,
-            onBindWidget: this.onBindWidget,
-            onBindAdvancedWidget: this.onBindAdvancedWidget,
-            onToggleAdvanced: this.toggleAdvanced,
-            onExpressionChanged: this.onExpressionChanged,
-            triggerFormUpdate: this.triggerFormUpdate,
-
-            removeWidget: this.removeWidget,
-            nodeSettings: this.props.settings,
-            typeConfig: this.props.typeConfig,
-            onTypeChange: this.onTypeChange,
-            translating: this.props.translating
-        };
-
-        const { form: FormComp } = typeConfig;
-
-        const typeList: any = null; // this.getTypeList();
-
-        const front = (
-            <FormContainer key={'fc-front'} onKeyPress={this.onKeyPress}>
-                {typeList}
-                <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: false }} />
-            </FormContainer>
-        );
-
-        let back: JSX.Element = null;
-
-        if (false && this.hasAdvanced()) {
-            back = (
-                <FormContainer
-                    key={'fc-back'}
-                    onKeyPress={this.onKeyPress}
-                    __className={formStyles.advanced}
-                >
-                    <FormComp ref={this.formRef} {...{ ...formProps, showAdvanced: true }} />
-                </FormContainer>
-            );
-        }
-
-        return {
-            front,
-            back
-        };
     }
 
     public render(): JSX.Element {
@@ -1270,42 +687,29 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 const formProps: Partial<FormProps> = {
                     action,
                     formHelper: typeConfig.formHelper,
-                    saveLocalizations: this.saveLocalizations,
                     updateLocalizations: this.updateLocalizations,
                     cleanUpLocalizations: this.cleanUpLocalizations,
                     updateAction: this.updateAction,
                     updateRouter: this.updateRouter,
-                    getResultNameField: this.getResultNameField,
-                    getExitTranslations: this.getExitTranslations,
-                    onBindWidget: this.onBindWidget,
-                    onBindAdvancedWidget: this.onBindAdvancedWidget,
-                    onToggleAdvanced: this.toggleAdvanced,
-                    onExpressionChanged: this.onExpressionChanged,
-                    triggerFormUpdate: this.triggerFormUpdate,
-                    removeWidget: this.removeWidget,
                     nodeSettings: this.props.settings,
                     typeConfig: this.props.typeConfig,
-                    onTypeChange: this.onTypeChange,
+                    onTypeChange: this.props.handleTypeConfigChange,
                     onClose: this.close,
                     translating: this.props.translating,
                     language: this.props.language
                 };
 
                 const style = shared[this.props.typeConfig.type];
-                const titles: JSX.Element[] = this.getTitles();
-                const buttons: ButtonSet = this.getButtons();
-                const { front, back }: Sides = this.getSides();
+
                 return (
-                    <ConnectedModal
+                    <Modal
                         ref={this.modalRef}
                         __className={style}
                         width="600px"
-                        title={titles}
                         show={this.props.nodeEditorOpen}
-                        buttons={buttons}
                     >
                         <FormComp ref={this.formRef} {...{ ...formProps }} />
-                    </ConnectedModal>
+                    </Modal>
                 );
             }
             return null;

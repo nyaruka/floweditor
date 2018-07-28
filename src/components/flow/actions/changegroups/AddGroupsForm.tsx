@@ -1,9 +1,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
-import { ButtonSet } from '~/components/modal/Modal';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';

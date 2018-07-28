@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog, { HeaderStyle } from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
 import * as styles from '~/components/flow/actions/action/Action.scss';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
@@ -8,7 +8,6 @@ import { SendMsgFormHelper } from '~/components/flow/actions/sendmsg/SendMsgForm
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
-import { ButtonSet } from '~/components/modal/Modal';
 import { back } from '~/components/modal/Modal.scss';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import TypeList from '~/components/nodeeditor/TypeList';

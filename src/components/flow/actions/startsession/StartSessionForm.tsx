@@ -1,10 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
-import { ButtonSet } from '~/components/modal/Modal';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';

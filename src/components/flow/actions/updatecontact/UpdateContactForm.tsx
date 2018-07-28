@@ -1,11 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { sortFieldsAndProperties } from '~/components/flow/actions/updatecontact/helpers';
 import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact/UpdateContactFormHelper';
 import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { ButtonSet } from '~/components/modal/Modal';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Type, Types } from '~/config/typeConfigs';

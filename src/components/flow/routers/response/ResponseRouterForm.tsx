@@ -1,19 +1,18 @@
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { nodeToState, stateToNode } from '~/components/flow/routers/response/helpers';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TimeoutControl from '~/components/form/timeout/TimeoutControl';
-import { ButtonSet } from '~/components/modal/Modal';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { Asset } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
 import { FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 export enum InputToFocus {
     args = 'args',
     min = 'min',

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import Button, { ButtonTypes } from '~/components/button/Button';
-import { ButtonSet } from '~/components/modal/Modal';
+import Button, { ButtonProps, ButtonTypes } from '~/components/button/Button';
 import { renderIf } from '~/utils';
 
 const styles = require('./Dialog.scss');
@@ -9,6 +8,12 @@ const shared = require('~/components/shared.scss');
 export enum HeaderStyle {
     NORMAL = 'normal',
     BARBER = 'barber'
+}
+
+export interface ButtonSet {
+    primary: ButtonProps;
+    secondary?: ButtonProps;
+    tertiary?: ButtonProps;
 }
 
 interface Buttons {

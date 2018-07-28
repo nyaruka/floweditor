@@ -1,9 +1,8 @@
-// tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import FlipMove = require('react-flip-move');
 import { v4 as generateUUID } from 'uuid';
-import Dialog, { HeaderStyle } from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
 import HeaderElement, { Header } from '~/components/flow/routers/webhook/header/HeaderElement';
 import {
@@ -16,7 +15,6 @@ import {
 } from '~/components/flow/routers/webhook/helpers';
 import SelectElement from '~/components/form/select/SelectElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { ButtonSet } from '~/components/modal/Modal';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config/typeConfigs';
 import { Asset } from '~/services/AssetService';
@@ -30,6 +28,7 @@ import {
 } from '~/store/nodeEditor';
 import { validate, validateRequired, validateURL } from '~/store/validators';
 
+// tslint:disable:ban-types
 const styles = require('./WebhookRouterForm.scss');
 
 export interface WebhookRouterFormProps {

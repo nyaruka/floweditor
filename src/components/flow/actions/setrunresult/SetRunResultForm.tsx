@@ -1,10 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
 import { SetRunResultFormHelper } from '~/components/flow/actions/setrunresult/SetRunResultFormHelper';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { ButtonSet } from '~/components/modal/Modal';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { SetRunResult } from '~/flowTypes';

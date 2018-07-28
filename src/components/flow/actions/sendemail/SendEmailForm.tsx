@@ -1,11 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/sendemail/SendEmail.scss';
 import { SendEmailFormHelper } from '~/components/flow/actions/sendemail/SendEmailFormHelper';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { ButtonSet } from '~/components/modal/Modal';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { SendEmail } from '~/flowTypes';
