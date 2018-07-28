@@ -6,7 +6,6 @@ import {
     resolveExits
 } from '~/components/flow/routers/helpers';
 import ResponseRouterForm, {
-    DragCursor,
     ResponseRouterFormState
 } from '~/components/flow/routers/response/ResponseRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
@@ -85,16 +84,6 @@ export const stateToNode = (
     );
 
     return newRenderNode;
-};
-
-export const getListStyle = (isDraggingOver: boolean, single: boolean): { cursor: DragCursor } => {
-    if (single) {
-        return null;
-    }
-
-    return {
-        cursor: isDraggingOver ? DragCursor.move : DragCursor.pointer
-    };
 };
 
 /*

@@ -1,6 +1,6 @@
 import { DraggableStyle } from 'react-beautiful-dnd';
 import { v4 as generateUUID } from 'uuid';
-import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { CaseProps, DragCursor } from '~/components/flow/routers/caselist/CaseList';
 import { Operators } from '~/config/operatorConfigs';
 import { Case, Exit } from '~/flowTypes';
 
@@ -45,3 +45,13 @@ export const getItemStyle = (
           }
         : {})
 });
+
+export const getListStyle = (isDraggingOver: boolean, single: boolean): { cursor: DragCursor } => {
+    if (single) {
+        return null;
+    }
+
+    return {
+        cursor: isDraggingOver ? DragCursor.move : DragCursor.pointer
+    };
+};

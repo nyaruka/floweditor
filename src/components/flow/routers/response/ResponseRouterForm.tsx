@@ -14,11 +14,6 @@ import { Asset } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
 import { FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
-export enum DragCursor {
-    move = 'move',
-    pointer = 'pointer'
-}
-
 export enum InputToFocus {
     args = 'args',
     min = 'min',
@@ -77,7 +72,6 @@ export default class ResponseRouterForm extends React.Component<
     }
 
     private handleSave(): void {
-        console.log(this.state.valid);
         if (this.state.valid) {
             this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
             this.props.onClose(false);
@@ -120,7 +114,11 @@ export default class ResponseRouterForm extends React.Component<
                     onChange={this.props.onTypeChange}
                 />
                 <div>If the message response...</div>
-                <CaseList cases={this.state.cases} onCasesUpdated={this.handleCasesUpdated} />
+                <CaseList
+                    data-spec="cases"
+                    cases={this.state.cases}
+                    onCasesUpdated={this.handleCasesUpdated}
+                />
                 <OptionalTextInput
                     name="Result Name"
                     value={this.state.resultName}

@@ -29,6 +29,7 @@ import {
     StartFlowExitNames,
     StartSession,
     SwitchRouter,
+    UINode,
     Wait,
     WaitTypes
 } from '~/flowTypes';
@@ -315,13 +316,17 @@ export const createRenderNode = ({
     exits,
     uuid = 'node-0',
     router = null,
-    wait = null
+    wait = null,
+    ui = {
+        position: { left: 0, top: 0 }
+    }
 }: {
     actions: AnyAction[];
     exits: Exit[];
     uuid?: string;
     router?: Router | SwitchRouter;
     wait?: Wait;
+    ui?: UINode;
 }): RenderNode => ({
     node: {
         actions,
@@ -330,9 +335,7 @@ export const createRenderNode = ({
         ...(router ? { router } : ({} as any)),
         ...(wait ? { wait } : ({} as any))
     },
-    ui: {
-        position: { left: 0, top: 0 }
-    },
+    ui,
     inboundConnections: null
 });
 

@@ -1,12 +1,20 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
-import { createEmptyCase, getItemStyle } from '~/components/flow/routers/caselist/helpers';
-import { getListStyle } from '~/components/flow/routers/response/helpers';
+import {
+    createEmptyCase,
+    getItemStyle,
+    getListStyle
+} from '~/components/flow/routers/caselist/helpers';
 import CaseElement from '~/components/form/case/CaseElement';
 import { Case } from '~/flowTypes';
 import { FormState, mergeForm } from '~/store/nodeEditor';
 import { reorderList } from '~/utils';
+
+export enum DragCursor {
+    move = 'move',
+    pointer = 'pointer'
+}
 
 export interface CaseProps {
     uuid: string;
