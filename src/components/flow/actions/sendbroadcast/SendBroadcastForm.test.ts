@@ -50,13 +50,7 @@ describe(SendBroadcastForm.name, () => {
                 }
             });
 
-            expect(instance.state).toEqual({
-                recipients: { value: [] },
-                text: { value: '' },
-                type: Types.send_broadcast,
-                valid: false
-            });
-
+            expect(instance.state).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
 

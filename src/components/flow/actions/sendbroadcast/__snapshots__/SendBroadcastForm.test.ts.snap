@@ -13,7 +13,6 @@ Object {
   "text": Object {
     "value": "Hello World",
   },
-  "type": "send_broadcast",
   "valid": true,
 }
 `;
@@ -52,7 +51,6 @@ Object {
   "text": Object {
     "value": "Message to Group",
   },
-  "type": "send_broadcast",
   "valid": true,
 }
 `;
@@ -91,12 +89,23 @@ Object {
   "text": Object {
     "value": "espanols!",
   },
-  "type": "send_broadcast",
   "valid": true,
 }
 `;
 
 exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
+Object {
+  "recipients": Object {
+    "value": Array [],
+  },
+  "text": Object {
+    "value": "",
+  },
+  "valid": false,
+}
+`;
+
+exports[`SendBroadcastForm render should render an empty form with no action 2`] = `
 <Dialog
   buttons={
     Object {

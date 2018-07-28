@@ -41,13 +41,7 @@ describe(StartSessionForm.name, () => {
                 }
             });
 
-            expect(instance.state).toEqual({
-                recipients: { value: [] },
-                flow: { value: null },
-                type: Types.start_session,
-                valid: false
-            });
-
+            expect(instance.state).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
     });

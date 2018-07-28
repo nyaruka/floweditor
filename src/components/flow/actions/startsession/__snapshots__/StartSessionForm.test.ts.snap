@@ -1,6 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StartSessionForm render should render an empty form with no action 1`] = `
+Object {
+  "flow": Object {
+    "value": null,
+  },
+  "recipients": Object {
+    "value": Array [],
+  },
+  "valid": false,
+}
+`;
+
+exports[`StartSessionForm render should render an empty form with no action 2`] = `
 <Dialog
   buttons={
     Object {
