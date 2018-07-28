@@ -41,7 +41,6 @@ export const METHOD_OPTIONS: MethodOption[] = [
 
 export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormState => {
     const state: WebhookRouterFormState = {
-        type: Types.call_webhook,
         headers: [
             {
                 value: {

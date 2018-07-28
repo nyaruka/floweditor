@@ -8,7 +8,6 @@ export class AddLabelsFormHelper implements FormHelper {
         if (settings.originalAction && settings.originalAction.type === Types.add_input_labels) {
             const action = settings.originalAction as AddLabels;
             return {
-                type: action.type,
                 labels: {
                     value: action.labels.map(label => {
                         return { id: label.uuid, name: label.name, type: AssetType.Label };
@@ -19,7 +18,6 @@ export class AddLabelsFormHelper implements FormHelper {
         }
 
         return {
-            type: Types.add_input_labels,
             labels: { value: [] },
             valid: false
         };
@@ -27,8 +25,8 @@ export class AddLabelsFormHelper implements FormHelper {
 
     public stateToAction(actionUUID: string, formState: AddLabelsFormState): AddLabels {
         return {
+            type: Types.add_input_labels,
             labels: this.getAsset(formState.labels.value, AssetType.Label),
-            type: formState.type,
             uuid: actionUUID
         };
     }

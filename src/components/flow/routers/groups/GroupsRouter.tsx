@@ -4,7 +4,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { GROUP_LABEL } from '~/components/flow/routers/constants';
-import * as styles from '~/components/flow/routers/SwitchRouterForm.scss';
+import * as styles from '~/components/flow/routers/response/ResponseRouterForm.scss';
 import GroupsElement, { GroupsElementProps } from '~/components/form/select/groups/GroupsElement';
 import {
     GetResultNameField,

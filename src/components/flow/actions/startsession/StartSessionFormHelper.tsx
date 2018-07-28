@@ -9,7 +9,6 @@ export class StartSessionFormHelper implements FormHelper {
         if (settings.originalAction && settings.originalAction.type === Types.start_session) {
             const action = settings.originalAction as StartSession;
             return {
-                type: action.type,
                 recipients: { value: getRecipients(action) },
                 flow: {
                     value: { id: action.flow.uuid, name: action.flow.name, type: AssetType.Flow }
@@ -19,7 +18,6 @@ export class StartSessionFormHelper implements FormHelper {
         }
 
         return {
-            type: Types.start_session,
             recipients: { value: [] },
             flow: { value: null },
             valid: false
@@ -33,7 +31,7 @@ export class StartSessionFormHelper implements FormHelper {
             contacts: this.getRecipients(form.recipients.value, AssetType.Contact),
             groups: this.getRecipients(form.recipients.value, AssetType.Group),
             flow: { name: flow.name, uuid: flow.id },
-            type: form.type,
+            type: Types.start_session,
             uuid
         };
     }

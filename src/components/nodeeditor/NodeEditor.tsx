@@ -272,6 +272,7 @@ export const hasWait = (node: FlowNode, type?: WaitTypes): boolean => {
 
 export const groupsToCases = (groups: Asset[] = []): CaseElementProps[] =>
     groups.map(({ name, id }: Asset) => ({
+        uuid: id,
         kase: {
             uuid: id,
             type: Operators.has_group,

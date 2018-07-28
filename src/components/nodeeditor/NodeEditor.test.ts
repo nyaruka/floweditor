@@ -1,5 +1,4 @@
 import update from 'immutability-helper';
-import { casePropsFromNode } from '~/components/flow/routers/SwitchRouterForm';
 import { NodeEditor, NodeEditorProps } from '~/components/nodeeditor/NodeEditor';
 import { getTypeConfig } from '~/config';
 import { Types } from '~/config/typeConfigs';
@@ -7,7 +6,7 @@ import { FlowDefinition, FlowNode, SwitchRouter } from '~/flowTypes';
 import { AssetType } from '~/services/AssetService';
 import { getFlowComponents } from '~/store/helpers';
 import { NodeEditorForm } from '~/store/nodeEditor';
-import { composeComponentTestUtils, setMock } from '~/testUtils';
+import { composeComponentTestUtils } from '~/testUtils';
 
 jest.mock('uuid', () => ({
     v4: jest.fn()
@@ -56,23 +55,4 @@ const baseProps: NodeEditorProps = {
 
 const { setup, spyOn } = composeComponentTestUtils(NodeEditor, baseProps);
 
-describe(NodeEditor.name, () => {
-    describe('instance methods', () => {
-        describe('updateSwitchRouter', () => {
-            it('should update switch router', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    onUpdateRouter: setMock()
-                });
-                const kases = casePropsFromNode({
-                    nodeToEdit: props.settings.originalNode.node,
-                    handleCaseChanged: jest.fn(),
-                    handleCaseRemoved: jest.fn()
-                });
-
-                instance.updateSwitchRouter(kases);
-
-                expect(props.onUpdateRouter).toHaveBeenCalledTimes(1);
-            });
-        });
-    });
-});
+describe(NodeEditor.name, () => {});

@@ -28,8 +28,8 @@ import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateCon
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact/UpdateContactFormHelper';
 import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
+import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
 import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
-import SwitchRouterForm from '~/components/flow/routers/SwitchRouterForm';
 import { WebhookRouterForm } from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { AnyAction, RouterTypes, UINodeTypes } from '~/flowTypes';
 import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
@@ -227,7 +227,7 @@ export const typeConfigList: Type[] = [
         type: Types.split_by_expression,
         name: 'Split by Expression',
         description: 'Split by a custom expression',
-        form: SwitchRouterForm,
+        form: ResponseRouterForm,
         advanced: Mode.TRANSLATING
     },
     {
@@ -240,8 +240,7 @@ export const typeConfigList: Type[] = [
         type: Types.wait_for_response,
         name: 'Wait for Response',
         description: 'Wait for the contact to respond',
-        form: SwitchRouterForm,
-        // formHelper: new SwitchRouterFormHelper(),
+        form: ResponseRouterForm,
         advanced: Mode.TRANSLATING,
         aliases: [RouterTypes.switch]
     }

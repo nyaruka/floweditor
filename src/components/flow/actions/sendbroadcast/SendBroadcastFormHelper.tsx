@@ -16,7 +16,6 @@ export class SendBroadcastFormHelper implements FormHelper {
                     action = settings.localizations[0].getObject() as BroadcastMsg;
                 } else {
                     return {
-                        type: Types.send_broadcast,
                         text: { value: '' },
                         recipients: { value: [] },
                         valid: true
@@ -25,7 +24,6 @@ export class SendBroadcastFormHelper implements FormHelper {
             }
 
             return {
-                type: action.type,
                 text: { value: action.text },
                 recipients: { value: getRecipients(action) },
                 valid: true
@@ -33,7 +31,6 @@ export class SendBroadcastFormHelper implements FormHelper {
         }
 
         return {
-            type: Types.send_broadcast,
             text: { value: '' },
             recipients: { value: [] },
             valid: false
@@ -45,7 +42,7 @@ export class SendBroadcastFormHelper implements FormHelper {
             contacts: this.getAsset(formState.recipients.value, AssetType.Contact),
             groups: this.getAsset(formState.recipients.value, AssetType.Group),
             text: formState.text.value,
-            type: formState.type,
+            type: Types.send_broadcast,
             uuid: actionUUID
         };
     }

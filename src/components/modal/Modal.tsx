@@ -2,14 +2,12 @@ import * as React from 'react';
 import * as ReactModal from 'react-modal';
 import { connect } from 'react-redux';
 import Button, { ButtonProps, ButtonTypes } from '~/components/button/Button';
-import ConnectedTimeoutControl from '~/components/form/timeout/TimeoutControl';
 import * as styles from '~/components/modal/Modal.scss';
 import * as shared from '~/components/shared.scss';
 import { Types } from '~/config/typeConfigs';
 import { Case, SwitchRouter } from '~/flowTypes';
 import { AppState } from '~/store';
 import { RenderNode } from '~/store/flowContext';
-import { renderIf } from '~/utils';
 
 export interface ButtonSet {
     primary: ButtonProps;
@@ -165,14 +163,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         </div>
                         <div className={styles.content}>{child}</div>
                         <div className={styles.footer}>
-                            <div className={styles.sectionLeft}>
-                                {renderIf(
-                                    // prettier-ignore
-                                    isFrontForm &&
-                                    !this.props.translating &&
-                                    this.props.type === Types.wait_for_response
-                                )(<ConnectedTimeoutControl />)}
-                            </div>
                             <div className={styles.sectionRight}>
                                 <div className={styles.buttons}>
                                     <div className={styles.leftButtons}>{leftButtons}</div>

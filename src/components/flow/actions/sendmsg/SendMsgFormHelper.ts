@@ -14,7 +14,6 @@ export class SendMsgFormHelper implements FormHelper {
                     action = settings.localizations[0].getObject() as SendMsg;
                 } else {
                     return {
-                        type: Types.send_msg,
                         text: { value: '' },
                         quickReplies: { value: [] },
                         sendAll: false,
@@ -24,7 +23,6 @@ export class SendMsgFormHelper implements FormHelper {
             }
 
             return {
-                type: action.type,
                 text: { value: action.text },
                 quickReplies: { value: action.quick_replies || [] },
                 sendAll: action.all_urns,
@@ -33,7 +31,6 @@ export class SendMsgFormHelper implements FormHelper {
         }
 
         return {
-            type: Types.send_msg,
             text: { value: '' },
             quickReplies: { value: [] },
             sendAll: false,
@@ -44,7 +41,7 @@ export class SendMsgFormHelper implements FormHelper {
     public stateToAction(uuid: string, state: SendMsgFormState): SendMsg {
         return {
             text: state.text.value,
-            type: state.type,
+            type: Types.send_msg,
             all_urns: state.sendAll,
             quick_replies: state.quickReplies.value,
             uuid

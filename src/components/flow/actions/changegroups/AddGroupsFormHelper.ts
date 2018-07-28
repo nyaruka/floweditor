@@ -11,14 +11,12 @@ export class AddGroupsFormHelper implements FormHelper {
         if (settings.originalAction && settings.originalAction.type === Types.add_contact_groups) {
             const action = settings.originalAction as ChangeGroups;
             return {
-                type: action.type,
                 groups: { value: mapGroupsToAssets(action.groups) },
                 valid: true
             };
         }
 
         return {
-            type: Types.add_contact_groups,
             groups: { value: null },
             valid: false
         };
@@ -26,7 +24,7 @@ export class AddGroupsFormHelper implements FormHelper {
 
     public stateToAction(uuid: string, state: ChangeGroupsFormState): ChangeGroups {
         return {
-            type: state.type,
+            type: Types.add_contact_groups,
             groups: mapAssetsToGroups(state.groups.value),
             uuid
         };

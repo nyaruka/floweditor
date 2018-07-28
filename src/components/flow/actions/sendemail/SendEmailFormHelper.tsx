@@ -7,7 +7,6 @@ export class SendEmailFormHelper implements FormHelper {
         if (settings.originalAction && settings.originalAction.type === Types.send_email) {
             const action = settings.originalAction as SendEmail;
             return {
-                type: action.type,
                 body: { value: action.body },
                 subject: { value: action.subject },
                 recipients: { value: action.addresses },
@@ -16,7 +15,6 @@ export class SendEmailFormHelper implements FormHelper {
         }
 
         return {
-            type: Types.send_email,
             body: { value: '' },
             subject: { value: '' },
             recipients: { value: [] },
@@ -29,7 +27,7 @@ export class SendEmailFormHelper implements FormHelper {
             addresses: formState.recipients.value,
             subject: formState.subject.value,
             body: formState.body.value,
-            type: formState.type,
+            type: Types.send_email,
             uuid: actionUUID
         };
     }

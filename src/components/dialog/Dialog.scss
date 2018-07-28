@@ -6,6 +6,7 @@ $curvature: 12px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0px 5px 10px 1px #555;
+    width: 655px;
 
     .header {
         color: #fff;
@@ -53,9 +54,19 @@ $curvature: 12px;
         background: $light_gray;
         border-bottom-left-radius: $curvature;
         border-bottom-right-radius: $curvature;
+        
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+
+        .gutter {
+            display: inline-block;
+            vertical-align: baseline; 
+        }
 
         .right-buttons {
-            text-align: right
+            text-align: right;
+            vertical-align: baseline; 
         }
     }
 }

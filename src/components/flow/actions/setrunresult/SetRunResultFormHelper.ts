@@ -8,7 +8,6 @@ export class SetRunResultFormHelper implements FormHelper {
             const action = settings.originalAction as SetRunResult;
 
             return {
-                type: action.type,
                 name: { value: action.name },
                 value: { value: action.value },
                 category: { value: action.category },
@@ -17,7 +16,6 @@ export class SetRunResultFormHelper implements FormHelper {
         }
 
         return {
-            type: Types.set_run_result,
             name: { value: '' },
             value: { value: '' },
             category: { value: '' },
@@ -27,7 +25,7 @@ export class SetRunResultFormHelper implements FormHelper {
 
     public stateToAction(uuid: string, state: SetRunResultFormState): SetRunResult {
         return {
-            type: state.type,
+            type: Types.set_run_result,
             name: state.name.value,
             value: state.value.value,
             category: state.category.value,

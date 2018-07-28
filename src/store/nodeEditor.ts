@@ -2,8 +2,8 @@
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
 import { UpdateContactFormState } from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import { ResponseRouterFormState } from '~/components/flow/routers/response/ResponseRouterForm';
 import { Type } from '~/config';
-import { Types } from '~/config/typeConfigs';
 import { AnyAction } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
@@ -55,11 +55,21 @@ export const mergeForm = (
     for (const key of Object.keys(toMerge)) {
         const entry: any = toMerge[key];
         if (Array.isArray(entry)) {
-            for (const item of entry) {
-                if (item.value.uuid) {
-                    const existingIdx = form[key].findIndex(
-                        (obj: any) => obj.value.uuid === item.value.uuid
-                    );
+            for (let item of entry) {
+                // we support objects with uuids or FormEntry's with uuids
+                if (item.hasOwnProperty('value')) {
+                    item = item.value;
+                }
+
+                if (item.uuid) {
+                    const existingIdx = form[key].findIndex((existing: any) => {
+                        let obj = existing;
+                        if (obj.hasOwnProperty('value')) {
+                            obj = obj.value;
+                        }
+                        return obj.uuid === item.uuid;
+                    });
+
                     if (existingIdx > -1) {
                         // we found a match, merge us in
                         updated = mutate(updated, {
@@ -84,13 +94,20 @@ export const mergeForm = (
         for (const key of Object.keys(remove)) {
             const entry: any = remove[key];
             if (Array.isArray(entry)) {
-                for (const item of entry) {
-                    if (item.value.uuid) {
+                for (let item of entry) {
+                    if (item.hasOwnProperty('value')) {
+                        item = item.value;
+                    }
+                    if (item.uuid) {
                         updated = mutate(updated, {
                             [key]: (items: any) =>
-                                items.filter(
-                                    (existing: any) => existing.value.uuid !== item.value.uuid
-                                )
+                                items.filter((existing: any) => {
+                                    let obj = existing;
+                                    if (obj.hasOwnProperty('value')) {
+                                        obj = obj.value;
+                                    }
+                                    return obj.uuid !== item.uuid;
+                                })
                         });
                     }
                 }
@@ -115,7 +132,6 @@ export const mergeForm = (
 };
 
 export interface FormState {
-    type: Types;
     validationFailures?: ValidationFailure[];
     valid: boolean;
 }
@@ -130,8 +146,6 @@ export interface SendMsgFormState extends FormState {
     quickReplies: StringArrayEntry;
     sendAll: boolean;
 }
-
-export interface SwitchRouterFormState extends FormState {}
 
 export interface AddLabelsFormState extends FormState {
     labels: AssetArrayEntry;
@@ -167,7 +181,7 @@ export type NodeEditorForm =
     | AddLabelsFormState
     | ChangeGroupsFormState
     | SendEmailFormState
-    | SwitchRouterFormState
+    | ResponseRouterFormState
     | UpdateContactFormState;
 
 export interface NodeEditorSettings {

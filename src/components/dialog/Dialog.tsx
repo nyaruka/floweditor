@@ -23,14 +23,13 @@ interface DialogProps {
     headerClass?: string;
     headerStyle?: HeaderStyle;
     buttons?: ButtonSet;
+    gutter?: JSX.Element;
 }
-
-interface DialogState {}
 
 /**
  * A component that has a front and back and can flip back and forth between them
  */
-export default class Dialog extends React.Component<DialogProps, DialogState> {
+export default class Dialog extends React.Component<DialogProps> {
     constructor(props: DialogProps) {
         super(props);
     }
@@ -97,6 +96,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
                 {renderIf(rightButtons.length > 0 || leftButtons.length > 0)(
                     <div className={styles.footer}>
+                        <div className={styles.gutter}>{this.props.gutter}</div>
                         <div className={styles.buttons}>
                             <div className={styles.leftButtons}>{leftButtons}</div>
                             <div className={styles.rightButtons}>{rightButtons}</div>

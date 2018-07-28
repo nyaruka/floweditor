@@ -38,6 +38,7 @@ export interface UpdateContactFormProps {
 }
 
 export interface UpdateContactFormState extends FormState {
+    type: Types;
     name: StringEntry;
     channel: AssetEntry;
     language: AssetEntry;

@@ -266,11 +266,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (!this.props.nodeDragging) {
             this.props.onOpenNodeEditor({
-                originalNode: {
-                    node: this.props.renderNode.node,
-                    ui: { position: null },
-                    inboundConnections: null
-                }
+                originalNode: this.props.renderNode
             });
         }
     }

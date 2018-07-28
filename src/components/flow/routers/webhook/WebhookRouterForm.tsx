@@ -5,6 +5,7 @@ import FlipMove = require('react-flip-move');
 import { v4 as generateUUID } from 'uuid';
 import Dialog, { HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
+import HeaderElement, { Header } from '~/components/flow/routers/webhook/header/HeaderElement';
 import {
     GET_METHOD,
     METHOD_OPTIONS,
@@ -28,8 +29,6 @@ import {
     StringEntry
 } from '~/store/nodeEditor';
 import { validate, validateRequired, validateURL } from '~/store/validators';
-
-import HeaderElement, { Header } from './header/HeaderElement';
 
 const styles = require('./WebhookRouterForm.scss');
 
