@@ -16,7 +16,7 @@ import SendEmailForm from '~/components/flow/actions/sendemail/SendEmailForm';
 import { SendEmailFormHelper } from '~/components/flow/actions/sendemail/SendEmailFormHelper';
 import SendMsgComp from '~/components/flow/actions/sendmsg/SendMsg';
 import SendMsgForm from '~/components/flow/actions/sendmsg/SendMsgForm';
-import { SendMsgFormHelper } from '~/components/flow/actions/sendmsg/SendMsgFormHelper';
+import SendMsgLocalizationForm from '~/components/flow/actions/sendmsg/SendMsgLocalizationForm';
 import SetRunResultComp from '~/components/flow/actions/setrunresult/SetRunResult';
 import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
 import { SetRunResultFormHelper } from '~/components/flow/actions/setrunresult/SetRunResultFormHelper';
@@ -109,6 +109,7 @@ export interface Type {
     description: string;
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
+    localization?: React.ComponentClass<any>;
     formHelper?: FormHelper;
     advanced?: Mode;
     aliases?: string[];
@@ -133,7 +134,7 @@ export const typeConfigList: Type[] = [
         name: 'Send Message',
         description: 'Send the contact a message',
         form: SendMsgForm,
-        formHelper: new SendMsgFormHelper(),
+        localization: SendMsgLocalizationForm,
         component: SendMsgComp,
         advanced: Mode.ALL
     },

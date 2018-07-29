@@ -1,6 +1,7 @@
 // tslint:disable:no-shadowed-variable
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
+import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { UpdateContactFormState } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { ResponseRouterFormState } from '~/components/flow/routers/response/ResponseRouterForm';
 import { Type } from '~/config';
@@ -139,12 +140,6 @@ export interface FormState {
 export interface SendBroadcastFormState extends FormState {
     text: StringEntry;
     recipients: AssetArrayEntry;
-}
-
-export interface SendMsgFormState extends FormState {
-    text: StringEntry;
-    quickReplies: StringArrayEntry;
-    sendAll: boolean;
 }
 
 export interface AddLabelsFormState extends FormState {

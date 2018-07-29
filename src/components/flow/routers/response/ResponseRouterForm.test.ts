@@ -1,4 +1,7 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import ResponseRouterForm, {
+    ResponseRouterFormProps
+} from '~/components/flow/routers/response/ResponseRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
@@ -6,13 +9,9 @@ import { RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { composeComponentTestUtils, mockClear } from '~/testUtils';
 import { createRenderNode } from '~/testUtils/assetCreators';
 
-import ResponseRouterForm, { ResponseRouterFormProps } from './ResponseRouterForm';
-
 const sendConfig = getTypeConfig(Types.wait_for_response);
 const baseProps: ResponseRouterFormProps = {
     typeConfig: sendConfig,
-    language: null,
-    translating: false,
     updateRouter: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
@@ -104,13 +103,6 @@ describe(ResponseRouterForm.name, () => {
             instance.getButtons().secondary.onClick();
             expect(props.onClose).toHaveBeenCalled();
             expect(props.updateRouter).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('localization', () => {
-        it('should render', () => {
-            const { wrapper } = setup(true, { translating: { $set: true } });
-            expect(wrapper).toMatchSnapshot();
         });
     });
 });

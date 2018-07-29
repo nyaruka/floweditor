@@ -7,7 +7,6 @@ import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput'
 import TimeoutControl from '~/components/form/timeout/TimeoutControl';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
-import { Asset } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
 import { FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
@@ -31,10 +30,6 @@ export const leadInSpecId = 'lead-in';
 export interface ResponseRouterFormProps {
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
-
-    // localization settings
-    translating: boolean;
-    language: Asset;
 
     // update handlers
     updateRouter(renderNode: RenderNode): void;
@@ -84,16 +79,6 @@ export default class ResponseRouterForm extends React.Component<
         };
     }
 
-    public renderTranslate(): JSX.Element {
-        return (
-            <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
-                buttons={this.getButtons()}
-            />
-        );
-    }
-
     public renderEdit(): JSX.Element {
         return (
             <Dialog
@@ -130,10 +115,6 @@ export default class ResponseRouterForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        if (this.props.translating) {
-            return this.renderTranslate();
-        } else {
-            return this.renderEdit();
-        }
+        return this.renderEdit();
     }
 }

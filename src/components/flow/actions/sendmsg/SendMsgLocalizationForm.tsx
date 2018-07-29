@@ -2,49 +2,41 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper from '~/components/flipper/Flipper';
-import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg/helpers';
-import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
-import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
+import * as styles from '~/components/flow/actions/action/Action.scss';
+import { initializeLocalizedForm } from '~/components/flow/actions/sendmsg/helpers';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
-import TypeList from '~/components/nodeeditor/TypeList';
+import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { Type } from '~/config/typeConfigs';
 import { SendMsg } from '~/flowTypes';
-import {
-    FormState,
-    mergeForm,
-    NodeEditorSettings,
-    StringArrayEntry,
-    StringEntry
-} from '~/store/nodeEditor';
-import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
+import { Asset } from '~/services/AssetService';
+import { mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
+import { validate, validateMaxOfTen } from '~/store/validators';
 
-export interface SendMsgFormProps {
-    // action details
+import { SendMsgFormState } from './SendMsgForm';
+
+export interface SendMsgLocalizationFormProps {
+    language: Asset;
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
-
-    // update handlers
-    updateAction(action: SendMsg): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
+    updateLocalizations(languageCode: string, localizations: any[]): UpdateLocalizations;
     onClose(canceled: boolean): void;
 }
 
-export interface SendMsgFormState extends FormState {
-    text: StringEntry;
-    quickReplies: StringArrayEntry;
-    sendAll: boolean;
-}
-
-export default class SendMsgForm extends React.Component<SendMsgFormProps, SendMsgFormState> {
-    constructor(props: SendMsgFormProps) {
+export default class SendMsgLocalizationForm extends React.Component<
+    SendMsgLocalizationFormProps,
+    SendMsgFormState
+> {
+    constructor(props: SendMsgLocalizationFormProps) {
         super(props);
-        this.state = initializeForm(this.props.nodeSettings);
+        this.state = initializeLocalizedForm(this.props.nodeSettings);
         bindCallbacks(this, {
             include: [/^handle/, /^on/]
         });
+    }
+
+    public handleMessageUpdate(text: string): boolean {
+        return this.handleUpdate({ text });
     }
 
     private handleUpdate(keys: {
@@ -55,11 +47,7 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
         const updates: Partial<SendMsgFormState> = {};
 
         if (keys.hasOwnProperty('text')) {
-            updates.text = validate('Message', keys.text, [validateRequired]);
-        }
-
-        if (keys.hasOwnProperty('sendAll')) {
-            updates.sendAll = keys.sendAll;
+            updates.text = validate('Message', keys.text, []);
         }
 
         if (keys.hasOwnProperty('quickReplies')) {
@@ -71,32 +59,25 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
         return updated.valid;
     }
 
-    public handleMessageUpdate(text: string): boolean {
-        return this.handleUpdate({ text });
-    }
-
     public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
         return this.handleUpdate({ quickReplies });
     }
 
-    public handleSendAllUpdate(sendAll: boolean): boolean {
-        return this.handleUpdate({ sendAll });
-    }
-
     private handleSave(): void {
-        // make sure we validate untouched text fields
-        const valid = this.handleUpdate({
-            text: this.state.text.value
-        });
+        const { text, quickReplies } = this.state;
 
-        if (valid) {
-            this.props.updateAction(
-                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
-            );
+        this.props.updateLocalizations(this.props.language.id, [
+            {
+                uuid: this.props.nodeSettings.originalAction.uuid,
+                translations: {
+                    text: text.value,
+                    quick_replies: quickReplies.value
+                }
+            }
+        ]);
 
-            // notify our modal we are done
-            this.props.onClose(false);
-        }
+        // notify our modal we are done
+        this.props.onClose(false);
     }
 
     private getButtons(): ButtonSet {
@@ -115,17 +96,19 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                         headerClass={this.props.typeConfig.type}
                         buttons={this.getButtons()}
                     >
-                        <TypeList
-                            __className=""
-                            initialType={this.props.typeConfig}
-                            onChange={this.props.onTypeChange}
-                        />
+                        <div data-spec="translation-container">
+                            <div data-spec="text-to-translate" className={styles.translate_from}>
+                                {(this.props.nodeSettings.originalAction as SendMsg).text}
+                            </div>
+                        </div>
+
                         <TextInputElement
                             name="Message"
                             showLabel={false}
                             count={Count.SMS}
                             onChange={this.handleMessageUpdate}
                             entry={this.state.text}
+                            placeholder={`${this.props.language.name} Translation`}
                             autocomplete={true}
                             focus={true}
                             textarea={true}
@@ -140,7 +123,7 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                         headerClass={this.props.typeConfig.type}
                         headerIcon="fe-cog"
                     >
-                        <p>Quick Replies are made into buttons for supported channels</p>
+                        <p>Enter any {this.props.language.name} Quick Replies</p>
                         <TaggingElement
                             name="Replies"
                             placeholder="Quick Replies"
@@ -150,17 +133,8 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                             onValidPrompt={(value: string) => `New Reply "${value}"`}
                             entry={this.state.quickReplies}
                         />
-                        <CheckboxElement
-                            name="All Destinations"
-                            title="All Destinations"
-                            labelClassName={localStyles.checkbox}
-                            checked={this.state.sendAll}
-                            description="Send a message to all destinations known for this contact."
-                            onChange={this.handleSendAllUpdate}
-                        />
                     </Dialog>
                 }
-                flipped={this.props.nodeSettings.showAdvanced}
             />
         );
     }

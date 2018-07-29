@@ -682,35 +682,56 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     typeConfig
                 } = this.props;
                 const action = getAction(actionToEdit, typeConfig);
-                const { form: FormComp } = typeConfig;
-
-                const formProps: Partial<FormProps> = {
-                    action,
-                    formHelper: typeConfig.formHelper,
-                    updateLocalizations: this.updateLocalizations,
-                    cleanUpLocalizations: this.cleanUpLocalizations,
-                    updateAction: this.updateAction,
-                    updateRouter: this.updateRouter,
-                    nodeSettings: this.props.settings,
-                    typeConfig: this.props.typeConfig,
-                    onTypeChange: this.props.handleTypeConfigChange,
-                    onClose: this.close,
-                    translating: this.props.translating,
-                    language: this.props.language
-                };
-
                 const style = shared[this.props.typeConfig.type];
 
-                return (
-                    <Modal
-                        ref={this.modalRef}
-                        __className={style}
-                        width="600px"
-                        show={this.props.nodeEditorOpen}
-                    >
-                        <FormComp ref={this.formRef} {...{ ...formProps }} />
-                    </Modal>
-                );
+                // see if we should use the localization form
+                if (this.props.translating) {
+                    const { localization: FormComp } = typeConfig;
+                    const formProps: Partial<FormProps> = {
+                        action,
+                        formHelper: typeConfig.formHelper,
+                        updateLocalizations: this.updateLocalizations,
+                        cleanUpLocalizations: this.cleanUpLocalizations,
+                        nodeSettings: this.props.settings,
+                        typeConfig: this.props.typeConfig,
+                        onClose: this.close,
+                        language: this.props.language
+                    };
+
+                    return (
+                        <Modal
+                            ref={this.modalRef}
+                            __className={style}
+                            width="600px"
+                            show={this.props.nodeEditorOpen}
+                        >
+                            <FormComp ref={this.formRef} {...{ ...formProps }} />
+                        </Modal>
+                    );
+                } else {
+                    const { form: FormComp } = typeConfig;
+                    const formProps: Partial<FormProps> = {
+                        action,
+                        formHelper: typeConfig.formHelper,
+                        updateAction: this.updateAction,
+                        updateRouter: this.updateRouter,
+                        nodeSettings: this.props.settings,
+                        typeConfig: this.props.typeConfig,
+                        onTypeChange: this.props.handleTypeConfigChange,
+                        onClose: this.close
+                    };
+
+                    return (
+                        <Modal
+                            ref={this.modalRef}
+                            __className={style}
+                            width="600px"
+                            show={this.props.nodeEditorOpen}
+                        >
+                            <FormComp ref={this.formRef} {...{ ...formProps }} />
+                        </Modal>
+                    );
+                }
             }
             return null;
         }

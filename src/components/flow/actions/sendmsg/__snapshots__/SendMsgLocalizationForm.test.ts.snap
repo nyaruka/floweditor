@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendMsgLocalizationForm inits inits with initial values 1`] = `
+<Flipper
+  back={
+    <Dialog
+      headerClass="send_broadcast"
+      headerIcon="fe-cog"
+      headerStyle="barber"
+      subtitle="Advanced Settings"
+      title="Send Broadcast"
+    >
+      <p>
+        Enter any 
+        Spanish
+         Quick Replies
+      </p>
+      <TaggingElement
+        entry={
+          Object {
+            "value": Array [],
+          }
+        }
+        name="Replies"
+        onChange={[Function]}
+        onCheckValid={[Function]}
+        onValidPrompt={[Function]}
+        placeholder="Quick Replies"
+        prompt="Enter a Quick Reply"
+      />
+    </Dialog>
+  }
+  front={
+    <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
+        }
+      }
+      headerClass="send_broadcast"
+      title="Send Broadcast"
+    >
+      <div
+        data-spec="translation-container"
+      >
+        <div
+          className="translate_from"
+          data-spec="text-to-translate"
+        >
+          Hey!
+        </div>
+      </div>
+      <Connect(TextInputElement)
+        autocomplete={true}
+        count="SMS"
+        entry={
+          Object {
+            "value": "¡hola!",
+          }
+        }
+        focus={true}
+        name="Message"
+        onChange={[Function]}
+        placeholder="Spanish Translation"
+        showLabel={false}
+        textarea={true}
+      />
+    </Dialog>
+  }
+/>
+`;
+
+exports[`SendMsgLocalizationForm render should render 1`] = `
+<Flipper
+  back={
+    <Dialog
+      headerClass="send_broadcast"
+      headerIcon="fe-cog"
+      headerStyle="barber"
+      subtitle="Advanced Settings"
+      title="Send Broadcast"
+    >
+      <p>
+        Enter any 
+        Spanish
+         Quick Replies
+      </p>
+      <TaggingElement
+        entry={
+          Object {
+            "value": Array [],
+          }
+        }
+        name="Replies"
+        onChange={[Function]}
+        onCheckValid={[Function]}
+        onValidPrompt={[Function]}
+        placeholder="Quick Replies"
+        prompt="Enter a Quick Reply"
+      />
+    </Dialog>
+  }
+  front={
+    <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
+        }
+      }
+      headerClass="send_broadcast"
+      title="Send Broadcast"
+    >
+      <div
+        data-spec="translation-container"
+      >
+        <div
+          className="translate_from"
+          data-spec="text-to-translate"
+        >
+          Hey!
+        </div>
+      </div>
+      <Connect(TextInputElement)
+        autocomplete={true}
+        count="SMS"
+        entry={
+          Object {
+            "value": "",
+          }
+        }
+        focus={true}
+        name="Message"
+        onChange={[Function]}
+        placeholder="Spanish Translation"
+        showLabel={false}
+        textarea={true}
+      />
+    </Dialog>
+  }
+/>
+`;
+
+exports[`SendMsgLocalizationForm updates should save changes 1`] = `
+Object {
+  "quickReplies": Object {
+    "value": Array [
+      "red",
+      "green",
+      "blue",
+    ],
+  },
+  "sendAll": false,
+  "text": Object {
+    "value": "What is your favorite color?",
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendMsgLocalizationForm updates should save changes 2`] = `
+Array [
+  "spa",
+  Array [
+    Object {
+      "translations": Object {
+        "quick_replies": Array [
+          "red",
+          "green",
+          "blue",
+        ],
+        "text": "What is your favorite color?",
+      },
+      "uuid": "send_msg-0",
+    },
+  ],
+]
+`;

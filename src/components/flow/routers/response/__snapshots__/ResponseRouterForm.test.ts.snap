@@ -31,7 +31,7 @@ exports[`ResponseRouterForm initializes 1`] = `
           "switch",
         ],
         "description": "Wait for the contact to respond",
-        "form": [Function],
+        "form": undefined,
         "name": "Wait for Response",
         "type": "wait_for_response",
       }
@@ -75,25 +75,6 @@ exports[`ResponseRouterForm initializes 1`] = `
 </Dialog>
 `;
 
-exports[`ResponseRouterForm localization should render 1`] = `
-<Dialog
-  buttons={
-    Object {
-      "primary": Object {
-        "name": "Ok",
-        "onClick": [Function],
-      },
-      "secondary": Object {
-        "name": "Cancel",
-        "onClick": [Function],
-      },
-    }
-  }
-  headerClass="wait_for_response"
-  title="Wait for Response"
-/>
-`;
-
 exports[`ResponseRouterForm should render 1`] = `
 <Dialog
   buttons={
@@ -126,7 +107,7 @@ exports[`ResponseRouterForm should render 1`] = `
           "switch",
         ],
         "description": "Wait for the contact to respond",
-        "form": [Function],
+        "form": undefined,
         "name": "Wait for Response",
         "type": "wait_for_response",
       }

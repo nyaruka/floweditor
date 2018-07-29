@@ -1,9 +1,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+import * as styles from '~/components/form/optionaltext/OptionalTextInput.scss';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { FormState, StringEntry } from '~/store/nodeEditor';
-
-import * as styles from './OptionalTextInput.scss';
 
 export interface OptionalTextInputProps {
     name: string;

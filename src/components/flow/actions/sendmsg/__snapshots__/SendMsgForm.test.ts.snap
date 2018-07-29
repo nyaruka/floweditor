@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendMsgForm render should render 1`] = `
+<Flipper
+  back={
+    <Dialog
+      headerClass="send_broadcast"
+      headerIcon="fe-cog"
+      headerStyle="barber"
+      subtitle="Advanced Settings"
+      title="Send Broadcast"
+    >
+      <p>
+        Quick Replies are made into buttons for supported channels
+      </p>
+      <TaggingElement
+        entry={
+          Object {
+            "value": Array [],
+          }
+        }
+        name="Replies"
+        onChange={[Function]}
+        onCheckValid={[Function]}
+        onValidPrompt={[Function]}
+        placeholder="Quick Replies"
+        prompt="Enter a Quick Reply"
+      />
+      <CheckboxElement
+        checked={false}
+        description="Send a message to all destinations known for this contact."
+        labelClassName="checkbox"
+        name="All Destinations"
+        onChange={[Function]}
+        title="All Destinations"
+      />
+    </Dialog>
+  }
+  front={
+    <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
+        }
+      }
+      headerClass="send_broadcast"
+      title="Send Broadcast"
+    >
+      <TypeList
+        __className=""
+        initialType={
+          Object {
+            "component": [Function],
+            "description": "Send somebody else a message",
+            "form": [Function],
+            "formHelper": SendBroadcastFormHelper {},
+            "name": "Send Broadcast",
+            "type": "send_broadcast",
+          }
+        }
+        onChange={[MockFunction]}
+      />
+      <Connect(TextInputElement)
+        autocomplete={true}
+        count="SMS"
+        entry={
+          Object {
+            "value": "Hey!",
+          }
+        }
+        focus={true}
+        name="Message"
+        onChange={[Function]}
+        showLabel={false}
+        textarea={true}
+      />
+    </Dialog>
+  }
+/>
+`;
+
+exports[`SendMsgForm updates should save changes 1`] = `
+Object {
+  "quickReplies": Object {
+    "value": Array [
+      "red",
+      "green",
+      "blue",
+    ],
+  },
+  "sendAll": true,
+  "text": Object {
+    "value": "What is your favorite color?",
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendMsgForm updates should save changes 2`] = `
+Array [
+  Object {
+    "all_urns": true,
+    "quick_replies": Array [
+      "red",
+      "green",
+      "blue",
+    ],
+    "text": "What is your favorite color?",
+    "type": "send_msg",
+    "uuid": "send_msg-0",
+  },
+]
+`;
