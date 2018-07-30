@@ -9,7 +9,6 @@ Array [
     "type": "missing",
   },
   Object {
-    "advanced": 3,
     "component": [Function],
     "description": "Send the contact a message",
     "form": [Function],
@@ -79,7 +78,6 @@ Array [
     "type": "set_run_result",
   },
   Object {
-    "advanced": 1,
     "aliases": Array [
       "webhook",
     ],
@@ -108,7 +106,6 @@ Array [
     "type": "start_session",
   },
   Object {
-    "advanced": 2,
     "description": "Split by a custom expression",
     "form": [Function],
     "name": "Split by Expression",
@@ -121,12 +118,12 @@ Array [
     "type": "split_by_groups",
   },
   Object {
-    "advanced": 2,
     "aliases": Array [
       "switch",
     ],
     "description": "Wait for the contact to respond",
     "form": [Function],
+    "localization": [Function],
     "name": "Wait for Response",
     "type": "wait_for_response",
   },
@@ -152,7 +149,6 @@ Object {
     "type": "add_input_labels",
   },
   "call_webhook": Object {
-    "advanced": 1,
     "aliases": Array [
       "webhook",
     ],
@@ -193,7 +189,6 @@ Object {
     "type": "send_email",
   },
   "send_msg": Object {
-    "advanced": 3,
     "component": [Function],
     "description": "Send the contact a message",
     "form": [Function],
@@ -262,7 +257,6 @@ Object {
     "type": "set_run_result",
   },
   "split_by_expression": Object {
-    "advanced": 2,
     "description": "Split by a custom expression",
     "form": [Function],
     "name": "Split by Expression",
@@ -303,27 +297,26 @@ Object {
     "type": "start_flow",
   },
   "switch": Object {
-    "advanced": 2,
     "aliases": Array [
       "switch",
     ],
     "description": "Wait for the contact to respond",
     "form": [Function],
+    "localization": [Function],
     "name": "Wait for Response",
     "type": "wait_for_response",
   },
   "wait_for_response": Object {
-    "advanced": 2,
     "aliases": Array [
       "switch",
     ],
     "description": "Wait for the contact to respond",
     "form": [Function],
+    "localization": [Function],
     "name": "Wait for Response",
     "type": "wait_for_response",
   },
   "webhook": Object {
-    "advanced": 1,
     "aliases": Array [
       "webhook",
     ],

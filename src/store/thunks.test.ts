@@ -834,7 +834,6 @@ describe('Flow Manipulation', () => {
                         type: Types.wait_for_response,
                         name: 'Wait for Response',
                         description: 'Wait for the contact to respond',
-                        advanced: 2,
                         aliases: [RouterTypes.switch]
                     }
                 });

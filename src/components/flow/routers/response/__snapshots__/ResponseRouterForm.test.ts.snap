@@ -26,12 +26,12 @@ exports[`ResponseRouterForm initializes 1`] = `
     __className=""
     initialType={
       Object {
-        "advanced": 2,
         "aliases": Array [
           "switch",
         ],
         "description": "Wait for the contact to respond",
         "form": undefined,
+        "localization": [Function],
         "name": "Wait for Response",
         "type": "wait_for_response",
       }
@@ -102,12 +102,12 @@ exports[`ResponseRouterForm should render 1`] = `
     __className=""
     initialType={
       Object {
-        "advanced": 2,
         "aliases": Array [
           "switch",
         ],
         "description": "Wait for the contact to respond",
         "form": undefined,
+        "localization": [Function],
         "name": "Wait for Response",
         "type": "wait_for_response",
       }
