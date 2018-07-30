@@ -39,8 +39,6 @@ export const getItemStyle = (
               background: '#f2f9fc',
               borderRadius: 4,
               opacity: 0.75,
-              top: draggableStyle.top - 90,
-              left: 20,
               height: draggableStyle.height + 15
           }
         : {})

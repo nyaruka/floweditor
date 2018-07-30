@@ -6,7 +6,6 @@ const waitForRespTitle = <div key={'front'}>Wait for Response</div>;
 
 const baseProps: ModalProps = {
     show: true,
-    __className: 'waitForResponse',
     width: '600px'
 };
 

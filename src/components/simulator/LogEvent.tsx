@@ -169,7 +169,6 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     </div>
                     <Modal
                         // TODO: Use Dialog
-                        __className={styles[`detail_${this.props.type}`]}
                         // tslint:disable-next-line:jsx-key
                         // title={[<div>{detailTitle}</div>]}
                         show={this.state.detailsVisible}

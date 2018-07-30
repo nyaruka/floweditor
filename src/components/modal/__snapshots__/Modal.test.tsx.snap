@@ -2,7 +2,6 @@
 
 exports[`Modal render should render timeout control 1`] = `
 <Modal
-  __className="waitForResponse"
   show={true}
   width="600px"
 >

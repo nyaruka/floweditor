@@ -10,7 +10,6 @@ export interface ModalProps {
     onClose?(): void;
 
     onModalOpen?: any;
-    __className?: string;
     width?: string;
 }
 

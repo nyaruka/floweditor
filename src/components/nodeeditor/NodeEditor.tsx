@@ -699,12 +699,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     };
 
                     return (
-                        <Modal
-                            ref={this.modalRef}
-                            __className={style}
-                            width="600px"
-                            show={this.props.nodeEditorOpen}
-                        >
+                        <Modal ref={this.modalRef} width="600px" show={this.props.nodeEditorOpen}>
                             <FormComp ref={this.formRef} {...{ ...formProps }} />
                         </Modal>
                     );
@@ -722,12 +717,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     };
 
                     return (
-                        <Modal
-                            ref={this.modalRef}
-                            __className={style}
-                            width="600px"
-                            show={this.props.nodeEditorOpen}
-                        >
+                        <Modal ref={this.modalRef} width="600px" show={this.props.nodeEditorOpen}>
                             <FormComp ref={this.formRef} {...{ ...formProps }} />
                         </Modal>
                     );
