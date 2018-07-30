@@ -28,6 +28,7 @@ import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateCon
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact/UpdateContactFormHelper';
 import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
+import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
 import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
 import { WebhookRouterForm } from '~/components/flow/routers/webhook/WebhookRouterForm';
@@ -78,12 +79,6 @@ export const enum Types {
     missing = 'missing'
 }
 
-export enum Mode {
-    EDITING = 0x1,
-    TRANSLATING = 0x2,
-    ALL = EDITING | TRANSLATING
-}
-
 export interface FormHelper {
     initializeForm: (settings: NodeEditorSettings, actionType?: Types) => NodeEditorForm;
 }
@@ -111,7 +106,6 @@ export interface Type {
     form?: React.ComponentClass<any>;
     localization?: React.ComponentClass<any>;
     formHelper?: FormHelper;
-    advanced?: Mode;
     aliases?: string[];
 }
 
@@ -135,8 +129,7 @@ export const typeConfigList: Type[] = [
         description: 'Send the contact a message',
         form: SendMsgForm,
         localization: SendMsgLocalizationForm,
-        component: SendMsgComp,
-        advanced: Mode.ALL
+        component: SendMsgComp
     },
     {
         type: Types.send_broadcast,
@@ -203,7 +196,6 @@ export const typeConfigList: Type[] = [
         description: 'Call a webook',
         form: WebhookRouterForm,
         component: CallWebhookComp,
-        advanced: Mode.EDITING,
         aliases: [UINodeTypes.webhook]
     },
     {
@@ -228,8 +220,7 @@ export const typeConfigList: Type[] = [
         type: Types.split_by_expression,
         name: 'Split by Expression',
         description: 'Split by a custom expression',
-        form: ResponseRouterForm,
-        advanced: Mode.TRANSLATING
+        form: ResponseRouterForm
     },
     {
         type: Types.split_by_groups,
@@ -242,7 +233,7 @@ export const typeConfigList: Type[] = [
         name: 'Wait for Response',
         description: 'Wait for the contact to respond',
         form: ResponseRouterForm,
-        advanced: Mode.TRANSLATING,
+        localization: RouterLocalizationForm,
         aliases: [RouterTypes.switch]
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}

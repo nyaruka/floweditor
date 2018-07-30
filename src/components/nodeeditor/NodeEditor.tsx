@@ -9,9 +9,8 @@ import { DragPoint } from '~/components/flow/node/Node';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { CaseElementProps } from '~/components/form/case/CaseElement';
 import Modal from '~/components/modal/Modal';
-import * as shared from '~/components/shared.scss';
 import { Operators } from '~/config/operatorConfigs';
-import { FormHelper, Mode, Type, Types } from '~/config/typeConfigs';
+import { FormHelper, Type, Types } from '~/config/typeConfigs';
 import {
     Action,
     AddLabels,
@@ -113,10 +112,7 @@ export interface NodeEditorStoreProps {
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
-    action: AnyAction;
     formHelper: FormHelper;
-    cleanUpLocalizations: CleanUpLocalizations;
-    updateLocalizations: UpdateLocalizations;
 
     // our two ways of updating
     updateRouter(renderNode: RenderNode): void;
@@ -126,7 +122,15 @@ export interface FormProps {
     typeConfig?: Type;
     onTypeChange?(config: Type): void;
     onClose?(canceled: boolean): void;
-    translating: boolean;
+}
+
+export interface LocalizationProps {
+    nodeSettings?: NodeEditorSettings;
+    typeConfig?: Type;
+    onClose?(canceled: boolean): void;
+
+    cleanUpLocalizations: CleanUpLocalizations;
+    updateLocalizations: UpdateLocalizations;
     language: Asset;
 }
 
@@ -261,39 +265,17 @@ export const groupsToCases = (groups: Asset[] = []): CaseElementProps[] =>
     }));
 
 export class NodeEditor extends React.Component<NodeEditorProps> {
-    private modal: any;
-    private form: any;
-
     constructor(props: NodeEditorProps) {
         super(props);
 
         bindCallbacks(this, {
-            include: [
-                /^get/,
-                /^close/,
-                /^on/,
-                /Ref$/,
-                /^get/,
-                /^add/,
-                /^update/,
-                /Localizations$/,
-                'toggleAdvanced',
-                'triggerFormUpdate',
-                'removeWidget'
-            ]
+            include: [/^close/, /^update/]
         });
     }
 
-    private formRef(ref: React.Component<{}>): React.Component<{}> {
-        return (this.form = ref);
-    }
-
-    private modalRef(ref: any): any {
-        return (this.modal = ref);
-    }
-
     // Allow return key to submit our form
-    /*private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
+    /*
+    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
         // Return key
         if (event.which === 13) {
             const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
@@ -304,7 +286,8 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 }
             }
         }
-    }*/
+    }
+    */
 
     private updateLocalizations(language: string, changes: LocalizationUpdates): void {
         this.props.onUpdateLocalizations(language, changes);
@@ -349,159 +332,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.updateLocalizations(lang, updates);
     }
 
-    /*
-    private getLocalizedExits(widgets: {
-        [name: string]: any;
-    }): Array<{ uuid: string; translations: any }> {
-        return this.props.settings.originalNode.node.exits.reduce(
-            (results, { uuid: exitUUID }: Exit) => {
-                const input = widgets[exitUUID];
-
-                if (input) {
-                    // We save localized values as string arrays
-                    const value =
-                        input.wrappedInstance.state.value.constructor === Array
-                            ? input.wrappedInstance.state.value[0].trim()
-                            : input.wrappedInstance.state.value.trim();
-
-                    if (value) {
-                        results.push({ uuid: exitUUID, translations: { name: [value] } });
-                    } else {
-                        results.push({ uuid: exitUUID, translations: null });
-                    }
-                }
-
-                return results;
-            },
-            []
-        );
-    }
-
-    private saveLocalizations(widgets: { [name: string]: any }, cases?: CaseElementProps[]): void {
-        const updates = [...this.getLocalizedExits(widgets)];
-
-        if (cases && cases.length) {
-            updates.push(...this.getLocalizedCases(widgets));
-        }
-
-        this.updateLocalizations(this.props.language.id, updates);
-    }
-
-    private getLocalizedCases(widgets: {
-        [name: string]: any;
-    }): Array<{ uuid: string; translations: any }> {
-        const results: Array<{ uuid: string; translations: any }> = [];
-        const { cases } = this.props.settings.originalNode.node.router as SwitchRouter;
-
-        cases.forEach(({ uuid: caseUUID }) => {
-            const input = widgets[caseUUID];
-
-            if (input) {
-                const wrappedInstance = input.hasOwnProperty('wrappedInstance');
-                const value = wrappedInstance
-                    ? input.wrappedInstance.state.value.trim()
-                    : input.state.value.trim();
-
-                if (value) {
-                    results.push({ uuid: caseUUID, translations: { arguments: [value] } });
-                } else {
-                    results.push({ uuid: caseUUID, translations: null });
-                }
-            }
-        });
-
-        return results;
-    }
-
-    public getExitTranslations(): JSX.Element {
-        let languageName: string = 'Spanish';
-
-        if (this.props.translating) {
-            ({ name: languageName } = this.props.language);
-        }
-
-        if (!languageName) {
-            return null;
-        }
-
-        const exits: Exit[] = this.props.settings.originalNode.node.exits.reduce(
-            (exitList, { uuid: exitUUID, name: exitName }) => {
-                const [localized] = this.props.settings.localizations.filter(
-                    (localizedObject: LocalizedObject) =>
-                        localizedObject.getObject().uuid === exitUUID
-                );
-
-                if (localized) {
-                    let value = '';
-
-                    if ('name' in localized.localizedKeys) {
-                        ({ name: value } = localized.getObject() as Exit);
-                    }
-
-                    const placeholder = `${languageName} Translation`;
-
-                    exitList.push(
-                        <div key={exitUUID} className={formStyles.translating_exit}>
-                            <div data-spec="exit-name" className={formStyles.translating_from}>
-                                {exitName}
-                            </div>
-                            <div className={formStyles.translating_to}>
-                                <TextInputElement
-                                    data-spec="localization-input"
-                                    ref={this.onBindWidget}
-                                    name={exitUUID}
-                                    placeholder={placeholder}
-                                    showLabel={false}
-                                    entry={{ value }}
-                                />
-                            </div>
-                        </div>
-                    );
-                }
-
-                return exitList;
-            },
-            []
-        );
-
-        return (
-            <div>
-                <div data-spec="title" className={formStyles.title}>
-                    Categories
-                </div>
-                <div data-spec="instructions" className={formStyles.instructions}>
-                    When category names are referenced later in the flow, the appropriate language
-                    for the category will be used. If no translation is provided, the original text
-                    will be used.
-                </div>
-                <div className={formStyles.translating_exits}>{exits}</div>
-            </div>
-        );
-    } */
-
-    /*
-    public submit(): boolean {
-        if (
-            !(this.form.wrappedInstance
-                ? this.form.wrappedInstance.validate()
-                : this.form.validate())
-        ) {
-            return false;
-        }
-
-        if (this.props.form && !this.props.form.valid) {
-            return false;
-        }
-
-        this.form.wrappedInstance
-            ? this.form.wrappedInstance.onValid(this.widgets)
-            : this.form.onValid(this.widgets);
-
-        this.props.resetNodeEditingState();
-
-        return true;
-    }*/
-
     public close(canceled: boolean): void {
         // Make sure we re-wire the old connection
         if (canceled) {
@@ -531,31 +361,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     /* 
-        private getUpdatedRouterNode(
-        router: Router,
-        exits: Exit[],
-        type: UINodeTypes | Types,
-        actions: Action[] = [],
-        wait: Wait = null
-    ): RenderNode {
-        return {
-            node: {
-                uuid: this.props.settings.originalNode.node.uuid,
-                actions,
-                router,
-                exits,
-                wait
-            },
-            ui: {
-                type,
-                position: null
-            },
-            inboundConnections: {}
-        };
-    }
-
-
-    
     private updateGroupsRouter(groups: Asset[]): void {
         const currentCases = groupsToCases(groups);
         const { cases, exits, defaultExit } = this.resolveExits(currentCases);
@@ -666,30 +471,16 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
     */
 
-    private getMode(): Mode {
-        if (this.props.translating) {
-            return Mode.TRANSLATING;
-        }
-
-        return Mode.EDITING;
-    }
-
     public render(): JSX.Element {
         if (this.props.nodeEditorOpen) {
-            if (this.props.typeConfig.form) {
-                const {
-                    settings: { originalAction: actionToEdit },
-                    typeConfig
-                } = this.props;
-                const action = getAction(actionToEdit, typeConfig);
-                const style = shared[this.props.typeConfig.type];
+            const { typeConfig } = this.props;
 
-                // see if we should use the localization form
-                if (this.props.translating) {
-                    const { localization: FormComp } = typeConfig;
-                    const formProps: Partial<FormProps> = {
-                        action,
-                        formHelper: typeConfig.formHelper,
+            // see if we should use the localization form
+            if (this.props.translating) {
+                const { localization: LocalizationForm } = typeConfig;
+
+                if (LocalizationForm) {
+                    const localizationProps: LocalizationProps = {
                         updateLocalizations: this.updateLocalizations,
                         cleanUpLocalizations: this.cleanUpLocalizations,
                         nodeSettings: this.props.settings,
@@ -699,31 +490,29 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     };
 
                     return (
-                        <Modal ref={this.modalRef} width="600px" show={this.props.nodeEditorOpen}>
-                            <FormComp ref={this.formRef} {...{ ...formProps }} />
-                        </Modal>
-                    );
-                } else {
-                    const { form: FormComp } = typeConfig;
-                    const formProps: Partial<FormProps> = {
-                        action,
-                        formHelper: typeConfig.formHelper,
-                        updateAction: this.updateAction,
-                        updateRouter: this.updateRouter,
-                        nodeSettings: this.props.settings,
-                        typeConfig: this.props.typeConfig,
-                        onTypeChange: this.props.handleTypeConfigChange,
-                        onClose: this.close
-                    };
-
-                    return (
-                        <Modal ref={this.modalRef} width="600px" show={this.props.nodeEditorOpen}>
-                            <FormComp ref={this.formRef} {...{ ...formProps }} />
+                        <Modal width="600px" show={this.props.nodeEditorOpen}>
+                            <LocalizationForm {...{ ...localizationProps }} />
                         </Modal>
                     );
                 }
             }
-            return null;
+
+            const { form: Form } = typeConfig;
+            const formProps: FormProps = {
+                formHelper: typeConfig.formHelper,
+                updateAction: this.updateAction,
+                updateRouter: this.updateRouter,
+                nodeSettings: this.props.settings,
+                typeConfig: this.props.typeConfig,
+                onTypeChange: this.props.handleTypeConfigChange,
+                onClose: this.close
+            };
+
+            return (
+                <Modal width="600px" show={this.props.nodeEditorOpen}>
+                    <Form {...{ ...formProps }} />
+                </Modal>
+            );
         }
         return null;
     }
