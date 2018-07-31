@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AddLabelsForm render should pass LabelsElement labels if they exist on the action 1`] = `
+exports[`AddLabelsForm render should render a base action 1`] = `
 <Dialog
   buttons={
     Object {
@@ -24,7 +24,6 @@ exports[`AddLabelsForm render should pass LabelsElement labels if they exist on 
         "component": [Function],
         "description": "Send somebody else a message",
         "form": [Function],
-        "formHelper": SendBroadcastFormHelper {},
         "name": "Send Broadcast",
         "type": "send_broadcast",
       }
@@ -69,4 +68,34 @@ exports[`AddLabelsForm render should pass LabelsElement labels if they exist on 
     searchPromptText="Invalid label"
   />
 </Dialog>
+`;
+
+exports[`AddLabelsForm updates should update and save 1`] = `
+Object {
+  "labels": Object {
+    "value": Array [
+      Object {
+        "id": "feedback_label",
+        "name": "Feedback",
+        "type": "label",
+      },
+    ],
+  },
+  "valid": true,
+}
+`;
+
+exports[`AddLabelsForm updates should update and save 2`] = `
+Array [
+  Object {
+    "labels": Array [
+      Object {
+        "name": "Feedback",
+        "uuid": "feedback_label",
+      },
+    ],
+    "type": "add_input_labels",
+    "uuid": "labels-action-uuid-2",
+  },
+]
 `;

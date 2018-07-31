@@ -1,7 +1,6 @@
 import SendBroadcastForm, {
     SendBroadcastFormProps
 } from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
-import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AssetType } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
@@ -13,10 +12,7 @@ const { assets: groups } = require('~/test/assets/groups.json');
 const broadcastMsgAction = createBroadcastMsgAction();
 const sendConfig = getTypeConfig(Types.send_broadcast);
 
-const formHelper = new SendBroadcastFormHelper();
-
 const baseProps: SendBroadcastFormProps = {
-    formHelper,
     updateAction: jest.fn(),
     typeConfig: sendConfig,
     language: null,

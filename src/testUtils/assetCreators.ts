@@ -472,4 +472,12 @@ export const English = { name: 'English', id: 'eng', type: AssetType.Language };
 
 export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
 
+export const SubscribersGroup = {
+    name: 'Subscriber',
+    id: 'subscribers_group',
+    type: AssetType.Group
+};
+
+export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: AssetType.Label };
+
 export const languages = languagesResults.assets.map((language: any) => languageToAsset(language));

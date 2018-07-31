@@ -3,7 +3,6 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/action/Action.scss';
 import * as broadcastStyles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
-import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
@@ -15,6 +14,8 @@ import { Asset } from '~/services/AssetService';
 import { mergeForm, NodeEditorSettings, SendBroadcastFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
+import { initializeForm, stateToAction } from './helpers';
+
 export interface SendBroadcastFormProps {
     // localization
     language: Asset;
@@ -22,7 +23,6 @@ export interface SendBroadcastFormProps {
 
     // action details
     nodeSettings: NodeEditorSettings;
-    formHelper: SendBroadcastFormHelper;
     typeConfig: Type;
 
     // update handlers
@@ -46,7 +46,7 @@ export default class SendBroadcastForm extends React.Component<
 
     constructor(props: SendBroadcastFormProps) {
         super(props);
-        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
+        this.state = initializeForm(this.props.nodeSettings);
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
@@ -103,10 +103,7 @@ export default class SendBroadcastForm extends React.Component<
 
             if (valid) {
                 this.props.updateAction(
-                    this.props.formHelper.stateToAction(
-                        this.props.nodeSettings.originalAction.uuid,
-                        this.state
-                    )
+                    stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
                 );
 
                 // notify our modal we are done

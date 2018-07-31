@@ -8,7 +8,7 @@ import { DragPoint } from '~/components/flow/node/Node';
 import { CaseElementProps } from '~/components/form/case/CaseElement';
 import Modal from '~/components/modal/Modal';
 import { Operators } from '~/config/operatorConfigs';
-import { FormHelper, Type } from '~/config/typeConfigs';
+import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition, FlowNode, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import {
@@ -89,8 +89,6 @@ export interface NodeEditorStoreProps {
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
 export interface FormProps {
-    formHelper: FormHelper;
-
     // our two ways of updating
     updateRouter(renderNode: RenderNode): void;
     updateAction(action: AnyAction): void;
@@ -341,7 +339,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
             const { form: Form } = typeConfig;
             const formProps: FormProps = {
-                formHelper: typeConfig.formHelper,
                 updateAction: this.updateAction,
                 updateRouter: this.updateRouter,
                 nodeSettings: this.props.settings,

@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
-import { SetRunResultFormHelper } from '~/components/flow/actions/setrunresult/SetRunResultFormHelper';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
@@ -10,10 +9,11 @@ import { SetRunResult } from '~/flowTypes';
 import { mergeForm, NodeEditorSettings, SetRunResultFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
+import { initializeForm, stateToAction } from './helpers';
+
 export interface SetRunResultFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
-    formHelper: SetRunResultFormHelper;
     typeConfig: Type;
 
     // update handlers
@@ -31,7 +31,7 @@ export default class SetRunResultForm extends React.PureComponent<
     constructor(props: SetRunResultFormProps) {
         super(props);
 
-        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
+        this.state = initializeForm(this.props.nodeSettings);
 
         bindCallbacks(this, {
             include: [/^handle/, /^on/]
@@ -78,10 +78,7 @@ export default class SetRunResultForm extends React.PureComponent<
 
         if (valid) {
             this.props.updateAction(
-                this.props.formHelper.stateToAction(
-                    this.props.nodeSettings.originalAction.uuid,
-                    this.state
-                )
+                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
             );
 
             // notify our modal we are done

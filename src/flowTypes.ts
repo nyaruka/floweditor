@@ -129,6 +129,10 @@ export interface ChangeGroups extends Action {
     groups: Group[];
 }
 
+export interface RemoveFromGroups extends ChangeGroups {
+    all_groups: boolean;
+}
+
 export interface Field {
     key: string;
     name: string;

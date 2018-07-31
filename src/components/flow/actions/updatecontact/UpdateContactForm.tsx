@@ -1,8 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { sortFieldsAndProperties } from '~/components/flow/actions/updatecontact/helpers';
-import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact/UpdateContactFormHelper';
 import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -20,12 +18,13 @@ import {
 import { validate, validateRequired } from '~/store/validators';
 import { composeCreateNewOption, snakify, titleCase } from '~/utils';
 
+import { initializeForm, sortFieldsAndProperties, stateToAction } from './helpers';
+
 const styles = require('./UpdateContact.scss');
 
 export interface UpdateContactFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
-    formHelper: UpdateContactFormHelper;
     typeConfig: Type;
 
     // update handlers
@@ -81,7 +80,7 @@ export default class UpdateContactForm extends React.Component<
     constructor(props: UpdateContactFormProps) {
         super(props);
 
-        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
+        this.state = initializeForm(this.props.nodeSettings);
 
         bindCallbacks(this, {
             include: [/^get/, /^on/, /^handle/]
@@ -178,10 +177,7 @@ export default class UpdateContactForm extends React.Component<
         if (valid) {
             // do the saving!
             this.props.updateAction(
-                this.props.formHelper.stateToAction(
-                    this.props.nodeSettings.originalAction.uuid,
-                    this.state
-                )
+                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
             );
 
             // make sure any new fields are added to our local store

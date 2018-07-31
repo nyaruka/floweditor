@@ -1,5 +1,13 @@
-import { Group, ChangeGroups } from '~/flowTypes';
+import { Group } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
+import { AssetArrayEntry, FormState } from '~/store/nodeEditor';
+
+export const labelSpecId = 'label';
+
+export interface ChangeGroupsFormState extends FormState {
+    groups: AssetArrayEntry;
+    removeAll?: boolean;
+}
 
 export const mapGroupsToAssets = (groups: Group[]): Asset[] =>
     groups.map(({ name, uuid }) => ({ name, id: uuid, type: AssetType.Group }));

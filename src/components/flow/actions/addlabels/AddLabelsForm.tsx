@@ -1,7 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
+import { initializeForm, stateToAction } from '~/components/flow/actions/addlabels/helpers';
 import LabelsElement from '~/components/form/select/labels/LabelsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { ConfigProviderContext, Type } from '~/config';
@@ -14,7 +14,6 @@ import { validate, validateRequired } from '~/store/validators';
 export interface AddLabelsFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
-    formHelper: AddLabelsFormHelper;
     typeConfig: Type;
 
     // update handlers
@@ -40,7 +39,7 @@ export default class AddLabelsForm extends React.PureComponent<
     constructor(props: AddLabelsFormProps, context: ConfigProviderContext) {
         super(props);
 
-        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
+        this.state = initializeForm(this.props.nodeSettings);
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
@@ -49,7 +48,7 @@ export default class AddLabelsForm extends React.PureComponent<
     public handleSave(): void {
         const valid = this.handleLabelChange(this.state.labels.value);
         if (valid) {
-            const newAction = this.props.formHelper.stateToAction(
+            const newAction = stateToAction(
                 this.props.nodeSettings.originalAction.uuid,
                 this.state
             );

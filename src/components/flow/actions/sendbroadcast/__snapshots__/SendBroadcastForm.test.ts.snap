@@ -129,7 +129,6 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
         "component": [Function],
         "description": "Send somebody else a message",
         "form": undefined,
-        "formHelper": SendBroadcastFormHelper {},
         "name": "Send Broadcast",
         "type": "send_broadcast",
       }
@@ -199,7 +198,6 @@ exports[`SendBroadcastForm render should render self, children with base props 1
         "component": [Function],
         "description": "Send somebody else a message",
         "form": undefined,
-        "formHelper": SendBroadcastFormHelper {},
         "name": "Send Broadcast",
         "type": "send_broadcast",
       }

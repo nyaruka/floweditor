@@ -60,7 +60,6 @@ exports[`SendMsgForm render should render 1`] = `
             "component": [Function],
             "description": "Send somebody else a message",
             "form": [Function],
-            "formHelper": SendBroadcastFormHelper {},
             "name": "Send Broadcast",
             "type": "send_broadcast",
           }

@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
-import * as styles from '~/components/flow/actions/changegroups/RemoveGroupsForm.scss';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -10,9 +9,13 @@ import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { ChangeGroupsFormState, mergeForm } from '~/store/nodeEditor';
+import { mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 import { renderIf } from '~/utils';
+
+import { ChangeGroupsFormState } from '../helpers';
+import { initializeForm, stateToAction } from './helpers';
+import * as styles from './RemoveGroupsForm.scss';
 
 export const LABEL = 'Select the group(s) to remove the contact from.';
 export const NOT_FOUND = 'Enter the name of an existing group';
@@ -34,9 +37,7 @@ export default class RemoveGroupsForm extends React.Component<
 
     constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
         super(props);
-        this.state = this.props.formHelper.initializeForm(
-            this.props.nodeSettings
-        ) as ChangeGroupsFormState;
+        this.state = initializeForm(this.props.nodeSettings) as ChangeGroupsFormState;
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
@@ -45,7 +46,7 @@ export default class RemoveGroupsForm extends React.Component<
     public handleSave(): void {
         const valid = this.handleGroupsChange(this.state.groups.value);
         if (valid) {
-            const newAction = this.props.formHelper.stateToAction(
+            const newAction = stateToAction(
                 this.props.nodeSettings.originalAction.uuid,
                 this.state
             );

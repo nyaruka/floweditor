@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/sendemail/SendEmail.scss';
-import { SendEmailFormHelper } from '~/components/flow/actions/sendemail/SendEmailFormHelper';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -11,12 +10,13 @@ import { SendEmail } from '~/flowTypes';
 import { mergeForm, NodeEditorSettings, SendEmailFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
+import { initializeForm, stateToAction } from './helpers';
+
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
 export interface SendEmailFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
-    formHelper: SendEmailFormHelper;
     typeConfig: Type;
 
     // update handlers
@@ -31,7 +31,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps, S
     constructor(props: SendEmailFormProps) {
         super(props);
 
-        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
+        this.state = initializeForm(this.props.nodeSettings);
 
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
@@ -84,10 +84,7 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps, S
 
         if (valid) {
             this.props.updateAction(
-                this.props.formHelper.stateToAction(
-                    this.props.nodeSettings.originalAction.uuid,
-                    this.state
-                )
+                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
             );
 
             // notify our modal we are done

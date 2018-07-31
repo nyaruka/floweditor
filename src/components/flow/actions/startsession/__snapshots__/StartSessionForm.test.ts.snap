@@ -36,7 +36,6 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         "component": [Function],
         "description": "Start somebody else in a flow",
         "form": undefined,
-        "formHelper": StartSessionFormHelper {},
         "name": "Start Somebody Else",
         "type": "start_session",
       }
@@ -114,7 +113,6 @@ exports[`StartSessionForm render should render self, children with base props 1`
         "component": [Function],
         "description": "Start somebody else in a flow",
         "form": undefined,
-        "formHelper": StartSessionFormHelper {},
         "name": "Start Somebody Else",
         "type": "start_session",
       }

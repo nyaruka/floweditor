@@ -1,6 +1,7 @@
 // tslint:disable:no-shadowed-variable
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
+import { ChangeGroupsFormState } from '~/components/flow/actions/changegroups/helpers';
 import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { UpdateContactFormState } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { ResponseRouterFormState } from '~/components/flow/routers/response/ResponseRouterForm';
@@ -156,11 +157,6 @@ export interface SetRunResultFormState extends FormState {
     name: StringEntry;
     value: StringEntry;
     category: StringEntry;
-}
-
-export interface ChangeGroupsFormState extends FormState {
-    groups: AssetArrayEntry;
-    removeAll?: boolean;
 }
 
 export interface StartSessionFormState extends FormState {

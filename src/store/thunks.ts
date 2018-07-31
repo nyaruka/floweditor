@@ -591,16 +591,6 @@ export const handleTypeConfigChange = (typeConfig: Type) => (
     }
 
     dispatch(updateTypeConfig(typeConfig));
-
-    // now update our form accordingly
-    if (typeConfig.formHelper) {
-        // only use the original action if it is the same type
-        const customSettings =
-            settings.originalAction && settings.originalAction.type === typeConfig.type
-                ? settings
-                : { ...settings, originalAction: null };
-        dispatch(updateForm(typeConfig.formHelper.initializeForm(customSettings, typeConfig.type)));
-    }
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {

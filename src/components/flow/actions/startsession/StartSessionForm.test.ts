@@ -1,7 +1,6 @@
 import StartSessionForm, {
     StartSessionFormProps
 } from '~/components/flow/actions/startsession/StartSessionForm';
-import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import { createStartSessionAction } from '~/testUtils/assetCreators';
@@ -10,10 +9,8 @@ const { assets: groups } = require('~/test/assets/groups.json');
 
 const startSessionAction = createStartSessionAction();
 const typeConfig = getTypeConfig(Types.start_session);
-const formHelper = new StartSessionFormHelper();
 
 const baseProps: StartSessionFormProps = {
-    formHelper,
     typeConfig,
     updateAction: jest.fn(),
     onTypeChange: jest.fn(),

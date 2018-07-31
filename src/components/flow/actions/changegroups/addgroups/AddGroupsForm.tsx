@@ -7,14 +7,15 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
-import AssetService, { Asset } from '~/services/AssetService';
-import { ChangeGroupsFormState, mergeForm } from '~/store/nodeEditor';
+import { Asset } from '~/services/AssetService';
+import { mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
+
+import { ChangeGroupsFormState, labelSpecId } from '../helpers';
+import { initializeForm, stateToAction } from './helpers';
 
 export const LABEL = ' Select the group(s) to add the contact to.';
 export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';
-
-export const labelSpecId = 'label';
 
 export default class AddGroupsForm extends React.Component<
     ChangeGroupsFormProps,
@@ -26,9 +27,7 @@ export default class AddGroupsForm extends React.Component<
 
     constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
         super(props);
-        this.state = this.props.formHelper.initializeForm(
-            this.props.nodeSettings
-        ) as ChangeGroupsFormState;
+        this.state = initializeForm(this.props.nodeSettings) as ChangeGroupsFormState;
 
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
@@ -38,7 +37,7 @@ export default class AddGroupsForm extends React.Component<
     public handleSave(): void {
         const valid = this.handleGroupsChange(this.state.groups.value);
         if (valid) {
-            const newAction = this.props.formHelper.stateToAction(
+            const newAction = stateToAction(
                 this.props.nodeSettings.originalAction.uuid,
                 this.state
             );

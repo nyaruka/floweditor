@@ -1,39 +1,30 @@
 import AddLabelsComp from '~/components/flow/actions/addlabels/AddLabels';
 import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
-import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
 import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';
-import AddGroupsForm from '~/components/flow/actions/changegroups/AddGroupsForm';
-import { AddGroupsFormHelper } from '~/components/flow/actions/changegroups/AddGroupsFormHelper';
+import AddGroupsForm from '~/components/flow/actions/changegroups/addgroups/AddGroupsForm';
 import ChangeGroupsComp from '~/components/flow/actions/changegroups/ChangeGroups';
-import RemoveGroupsForm from '~/components/flow/actions/changegroups/RemoveGroupsForm';
-import { RemoveGroupsFormHelper } from '~/components/flow/actions/changegroups/RemoveGroupsFormHelper';
+import RemoveGroupsForm from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
 import MissingComp from '~/components/flow/actions/missing/Missing';
 import SendBroadcastComp from '~/components/flow/actions/sendbroadcast/SendBroadcast';
 import SendBroadcastForm from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
-import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 import SendEmailComp from '~/components/flow/actions/sendemail/SendEmail';
 import SendEmailForm from '~/components/flow/actions/sendemail/SendEmailForm';
-import { SendEmailFormHelper } from '~/components/flow/actions/sendemail/SendEmailFormHelper';
 import SendMsgComp from '~/components/flow/actions/sendmsg/SendMsg';
 import SendMsgForm from '~/components/flow/actions/sendmsg/SendMsgForm';
 import SendMsgLocalizationForm from '~/components/flow/actions/sendmsg/SendMsgLocalizationForm';
 import SetRunResultComp from '~/components/flow/actions/setrunresult/SetRunResult';
 import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
-import { SetRunResultFormHelper } from '~/components/flow/actions/setrunresult/SetRunResultFormHelper';
 import StartFlowComp from '~/components/flow/actions/startflow/StartFlow';
 import StartSessionComp from '~/components/flow/actions/startsession/StartSession';
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
-import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
-import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact/UpdateContactFormHelper';
 import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
 import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
 import { WebhookRouterForm } from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { AnyAction, RouterTypes, UINodeTypes } from '~/flowTypes';
-import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -79,14 +70,6 @@ export const enum Types {
     missing = 'missing'
 }
 
-export interface FormHelper {
-    initializeForm: (settings: NodeEditorSettings, actionType?: Types) => NodeEditorForm;
-}
-
-export interface ActionFormHelper extends FormHelper {
-    stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
-}
-
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
     const map = {};
     return typeConfigs.filter(config => {
@@ -105,7 +88,6 @@ export interface Type {
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
     localization?: React.ComponentClass<any>;
-    formHelper?: FormHelper;
     aliases?: string[];
 }
 
@@ -136,7 +118,6 @@ export const typeConfigList: Type[] = [
         name: 'Send Broadcast',
         description: 'Send somebody else a message',
         form: SendBroadcastForm,
-        formHelper: new SendBroadcastFormHelper(),
         component: SendBroadcastComp
     },
     {
@@ -144,7 +125,6 @@ export const typeConfigList: Type[] = [
         name: 'Add Labels',
         description: 'Label the incoming message',
         form: AddLabelsForm,
-        formHelper: new AddLabelsFormHelper(),
         component: AddLabelsComp
     },
     {
@@ -152,7 +132,6 @@ export const typeConfigList: Type[] = [
         name: 'Add to Group',
         description: 'Add the contact to a group',
         form: AddGroupsForm,
-        formHelper: new AddGroupsFormHelper(),
         component: ChangeGroupsComp
     },
     {
@@ -160,7 +139,6 @@ export const typeConfigList: Type[] = [
         name: 'Remove from Group',
         description: 'Remove the contact from a group',
         form: RemoveGroupsForm,
-        formHelper: new RemoveGroupsFormHelper(),
         component: ChangeGroupsComp
     },
     {
@@ -169,7 +147,6 @@ export const typeConfigList: Type[] = [
         name: 'Update Contact',
         description: 'Update the contact',
         form: UpdateContactForm,
-        formHelper: new UpdateContactFormHelper(),
         component: UpdateContactComp
     },
     {
@@ -177,7 +154,6 @@ export const typeConfigList: Type[] = [
         name: 'Send Email',
         description: 'Send an email',
         form: SendEmailForm,
-        formHelper: new SendEmailFormHelper(),
         component: SendEmailComp
     },
     {
@@ -185,7 +161,6 @@ export const typeConfigList: Type[] = [
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
         form: SetRunResultForm,
-        formHelper: new SetRunResultFormHelper(),
         component: SetRunResultComp
     },
 
@@ -211,7 +186,6 @@ export const typeConfigList: Type[] = [
         name: 'Start Somebody Else',
         description: 'Start somebody else in a flow',
         form: StartSessionForm,
-        formHelper: new StartSessionFormHelper(),
         component: StartSessionComp
     },
 

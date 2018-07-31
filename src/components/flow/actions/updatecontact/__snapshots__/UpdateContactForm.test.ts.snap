@@ -29,7 +29,6 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
         "component": [Function],
         "description": "Update the contact",
         "form": undefined,
-        "formHelper": UpdateContactFormHelper {},
         "name": "Update Contact",
         "type": "set_contact_field",
       }
@@ -131,7 +130,6 @@ exports[`UpdateContactForm render should render self, children with base props 1
         "component": [Function],
         "description": "Update the contact",
         "form": undefined,
-        "formHelper": UpdateContactFormHelper {},
         "name": "Update Contact",
         "type": "set_contact_field",
       }

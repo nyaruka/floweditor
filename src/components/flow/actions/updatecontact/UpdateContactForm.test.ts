@@ -4,7 +4,6 @@ import UpdateContactForm, {
     NAME_PROPERTY,
     UpdateContactFormProps
 } from '~/components/flow/actions/updatecontact/UpdateContactForm';
-import { UpdateContactFormHelper } from '~/components/flow/actions/updatecontact/UpdateContactFormHelper';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils } from '~/testUtils';
@@ -12,10 +11,8 @@ import { createSetContactFieldAction } from '~/testUtils/assetCreators';
 
 const startSessionAction = createSetContactFieldAction();
 const typeConfig = getTypeConfig(Types.set_contact_field);
-const formHelper = new UpdateContactFormHelper();
 
 const baseProps: UpdateContactFormProps = {
-    formHelper,
     typeConfig,
     updateAction: jest.fn(),
     onTypeChange: jest.fn(),
@@ -23,10 +20,7 @@ const baseProps: UpdateContactFormProps = {
     nodeSettings: { originalNode: null, originalAction: startSessionAction }
 };
 
-const { setup, spyOn } = composeComponentTestUtils<UpdateContactFormProps>(
-    UpdateContactForm,
-    baseProps
-);
+const { setup } = composeComponentTestUtils<UpdateContactFormProps>(UpdateContactForm, baseProps);
 
 describe(UpdateContactForm.name, () => {
     describe('render', () => {

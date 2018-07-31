@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddGroupsForm render should render self, children with base props 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="remove_contact_groups"
+  title="Remove from Group"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Remove the contact from a group",
+        "form": [Function],
+        "name": "Remove from Group",
+        "type": "remove_contact_groups",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p
+    data-spec="label"
+  >
+     Select the group(s) to add the contact to.
+  </p>
+  <GroupsElement
+    add={true}
+    assets={
+      GroupAssets {
+        "assetType": "group",
+        "assets": Object {},
+        "endpoint": "/assets/groups.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    entry={
+      Object {
+        "value": Array [
+          Object {
+            "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+            "name": "Customers",
+            "type": "group",
+          },
+          Object {
+            "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+            "name": "Unsatisfied Customers",
+            "type": "group",
+          },
+          Object {
+            "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            "name": "Early Adopters",
+            "type": "group",
+          },
+          Object {
+            "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+            "name": "Testers",
+            "type": "group",
+          },
+          Object {
+            "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            "name": "Subscribers",
+            "type": "group",
+          },
+        ],
+      }
+    }
+    name="Groups"
+    onChange={[Function]}
+    placeholder="Enter the name of an existing group or create a new one"
+    searchPromptText="Invalid group"
+  />
+</Dialog>
+`;
+
+exports[`AddGroupsForm updates should handle updates and save 1`] = `
+Array [
+  Object {
+    "groups": Array [
+      Object {
+        "name": "Subscriber",
+        "uuid": "subscribers_group",
+      },
+    ],
+    "type": "add_contact_groups",
+    "uuid": "add_contact_groups-0",
+  },
+]
+`;

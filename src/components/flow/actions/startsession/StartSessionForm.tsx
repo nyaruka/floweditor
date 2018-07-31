@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -12,10 +11,11 @@ import { Asset } from '~/services/AssetService';
 import { mergeForm, NodeEditorSettings, StartSessionFormState } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
+import { initializeForm, stateToAction } from './helpers';
+
 export interface StartSessionFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
-    formHelper: StartSessionFormHelper;
     typeConfig: Type;
 
     // update handlers
@@ -38,7 +38,7 @@ export default class StartSessionForm extends React.Component<
     constructor(props: StartSessionFormProps) {
         super(props);
 
-        this.state = this.props.formHelper.initializeForm(this.props.nodeSettings);
+        this.state = initializeForm(this.props.nodeSettings);
 
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
@@ -82,10 +82,7 @@ export default class StartSessionForm extends React.Component<
 
         if (valid) {
             this.props.updateAction(
-                this.props.formHelper.stateToAction(
-                    this.props.nodeSettings.originalAction.uuid,
-                    this.state
-                )
+                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
             );
 
             // notify our modal we are done
