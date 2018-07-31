@@ -58,7 +58,6 @@ import {
 import * as mutators from '~/store/mutators';
 import {
     NodeEditorSettings,
-    updateForm,
     updateNodeEditorSettings,
     updateOperand,
     updateResultName,
@@ -611,7 +610,6 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     }
 
     dispatch(updateNodeEditorSettings(null));
-    dispatch(updateForm(null));
     dispatch(updateTimeout(null));
 };
 
