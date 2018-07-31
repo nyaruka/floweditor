@@ -1,6 +1,6 @@
 import { v4 as generateUUID } from 'uuid';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { CombinedExits, DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
+import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import {
@@ -16,6 +16,12 @@ import {
 } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+
+export interface CombinedExits {
+    cases: Case[];
+    exits: Exit[];
+    defaultExit: string;
+}
 
 export const createRenderNode = (
     uuid: string,

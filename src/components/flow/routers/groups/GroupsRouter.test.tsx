@@ -25,7 +25,6 @@ const sendMsgNode = createFlowNode({
 const baseProps: GroupsRouterProps = {
     translating: false,
     settings: { originalNode: groupsRouterNode },
-    saveLocalizations: jest.fn(),
     updateRouter: jest.fn(),
     getExitTranslations: jest.fn(),
     getResultNameField: jest.fn()
@@ -103,9 +102,6 @@ describe(GroupsRouter.name, () => {
                 const widgets = { Groups: '' };
 
                 instance.onValid(widgets);
-
-                expect(props.saveLocalizations).toHaveBeenCalledTimes(1);
-                expect(props.saveLocalizations).toHaveBeenCalledWith(widgets);
             });
         });
     });

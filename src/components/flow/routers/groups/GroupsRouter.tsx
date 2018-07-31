@@ -6,11 +6,7 @@ import { connect } from 'react-redux';
 import { GROUP_LABEL } from '~/components/flow/routers/constants';
 import * as styles from '~/components/flow/routers/response/ResponseRouterForm.scss';
 import GroupsElement, { GroupsElementProps } from '~/components/form/select/groups/GroupsElement';
-import {
-    GetResultNameField,
-    hasSwitchRouter,
-    SaveLocalizations
-} from '~/components/nodeeditor/NodeEditor';
+import { GetResultNameField, hasSwitchRouter } from '~/components/nodeeditor/NodeEditor';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Operators } from '~/config/operatorConfigs';
 import { Case, FlowNode, SwitchRouter } from '~/flowTypes';
@@ -24,7 +20,6 @@ export interface GroupsRouterStoreProps {
 }
 
 export interface GroupsRouterPassedProps {
-    saveLocalizations: SaveLocalizations;
     updateRouter(groups: Asset[]): void;
     getExitTranslations(): JSX.Element;
     getResultNameField: GetResultNameField;
@@ -79,11 +74,11 @@ export class GroupsRouter extends React.Component<GroupsRouterProps, TempGroupSt
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        if (this.props.translating) {
-            return this.props.saveLocalizations(widgets);
-        } else {
-            this.props.updateRouter(this.state.groups);
-        }
+        // if (this.props.translating) {
+        //    return this.props.saveLocalizations(widgets);
+        // } else {
+        //    this.props.updateRouter(this.state.groups);
+        // }
     }
 
     public validate(): boolean {

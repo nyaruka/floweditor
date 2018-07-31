@@ -4,30 +4,12 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '~/components/flow/node/Node';
-import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { CaseElementProps } from '~/components/form/case/CaseElement';
 import Modal from '~/components/modal/Modal';
 import { Operators } from '~/config/operatorConfigs';
-import { FormHelper, Type, Types } from '~/config/typeConfigs';
-import {
-    Action,
-    AddLabels,
-    AnyAction,
-    CallWebhook,
-    Case,
-    ChangeGroups,
-    Exit,
-    FlowDefinition,
-    FlowNode,
-    SendEmail,
-    SetContactField,
-    SetRunResult,
-    StartFlow,
-    SwitchRouter,
-    WaitTypes
-} from '~/flowTypes';
+import { FormHelper, Type } from '~/config/typeConfigs';
+import { Action, AnyAction, FlowDefinition, FlowNode, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import {
     AppState,
@@ -58,11 +40,6 @@ import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '~/store/thunks';
 
 export type GetResultNameField = () => JSX.Element;
-export type SaveLocalizations = (
-    widgets: { [name: string]: any },
-    cases?: CaseElementProps[]
-) => void;
-export type CleanUpLocalizations = (cases: CaseElementProps[]) => void;
 export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
 interface Sides {
@@ -129,107 +106,12 @@ export interface LocalizationProps {
     typeConfig?: Type;
     onClose?(canceled: boolean): void;
 
-    cleanUpLocalizations: CleanUpLocalizations;
     updateLocalizations: UpdateLocalizations;
     language: Asset;
 }
 
-export interface CombinedExits {
-    cases: Case[];
-    exits: Exit[];
-    defaultExit: string;
-}
-
-interface HeaderMap {
-    [name: string]: string;
-}
-
-export const mapExits = (exits: Exit[]): { [uuid: string]: Exit } =>
-    exits.reduce(
-        (map, exit) => {
-            map[exit.uuid] = exit;
-            return map;
-        },
-        {} as { [uuid: string]: Exit }
-    );
-
-export const isSwitchForm = (type: string) =>
-    type === Types.wait_for_response ||
-    type === Types.split_by_expression ||
-    type === Types.split_by_groups;
-
 export const hasSwitchRouter = (node: FlowNode): boolean =>
     (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
-
-/**
- * Returns existing action (if any), or a bare-bones representation of the form's action.
- */
-export const getAction = (actionToEdit: AnyAction, typeConfig: Type): AnyAction => {
-    let uuid: string;
-
-    if (actionToEdit) {
-        if (
-            actionToEdit.type === typeConfig.type ||
-            (typeConfig.aliases && actionToEdit.type === typeConfig.aliases[0])
-        ) {
-            return actionToEdit;
-        } else {
-            ({ uuid } = actionToEdit);
-        }
-    }
-
-    let defaultAction: Action = {
-        type: typeConfig.type,
-        uuid: uuid || generateUUID()
-    };
-
-    switch (typeConfig.type) {
-        case Types.add_contact_groups:
-            defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
-            break;
-        case Types.remove_contact_groups:
-            defaultAction = { ...defaultAction, groups: null } as ChangeGroups;
-            break;
-        // Note: we change the type config in AttribElement if other than Types.set_contact_field
-        case Types.set_contact_field:
-            defaultAction = {
-                ...defaultAction,
-                field: {
-                    key: '',
-                    name: ''
-                },
-                value: ''
-            } as SetContactField;
-            break;
-        case Types.send_email:
-            defaultAction = {
-                ...defaultAction,
-                subject: '',
-                body: '',
-                addresses: null
-            } as SendEmail;
-            break;
-        case Types.set_run_result:
-            defaultAction = {
-                ...defaultAction,
-                name: '',
-                value: '',
-                category: ''
-            } as SetRunResult;
-            break;
-        case Types.call_webhook:
-            defaultAction = { ...defaultAction, url: '', method: Methods.GET } as CallWebhook;
-            break;
-        case Types.start_flow:
-            defaultAction = { ...defaultAction, flow: { name: null, uuid: null } } as StartFlow;
-            break;
-        case Types.add_input_labels:
-            defaultAction = { ...defaultAction, labels: [] } as AddLabels;
-            break;
-    }
-
-    return defaultAction;
-};
 
 export const hasCases = (node: FlowNode): boolean => {
     if (
@@ -291,45 +173,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
     private updateLocalizations(language: string, changes: LocalizationUpdates): void {
         this.props.onUpdateLocalizations(language, changes);
-    }
-
-    /***
-     * If the user has a localized 'All Responses' case and no timeout set on the node
-     * and they're adding another case, remove translation for the initial case.
-     *
-     * If the user is going from 1 or more cases to 0 and no timeout is set on the node
-     * and this router has a translation for the 'Other' case, lose it.
-     */
-    private cleanUpLocalizations(cases: CaseElementProps[]): void {
-        const { uuid: nodeUUID, exits: nodeExits } = this.props.settings.originalNode.node;
-        const exitMap: { [uuid: string]: Exit } = mapExits(nodeExits);
-        const updates: LocalizationUpdates = [];
-        let lang: string;
-
-        Object.keys(this.props.definition.localization).forEach(iso => {
-            const language = this.props.definition.localization[iso];
-            Object.keys(language).forEach(localizationUUID => {
-                if (exitMap[localizationUUID]) {
-                    const exitMatch = exitMap[localizationUUID];
-                    if (exitMatch.name) {
-                        // don't prune if we have a timeout
-                        if (
-                            (exitMatch.name === DefaultExitNames.All_Responses &&
-                                (this.props.settings.originalNode.node.wait &&
-                                    !this.props.settings.originalNode.node.wait.timeout)) ||
-                            (exitMatch.name === DefaultExitNames.Other &&
-                                (this.props.settings.originalNode.node.wait &&
-                                    !this.props.settings.originalNode.node.wait.timeout))
-                        ) {
-                            lang = iso;
-                            updates.push({ uuid: localizationUUID });
-                        }
-                    }
-                }
-            });
-        });
-
-        this.updateLocalizations(lang, updates);
     }
 
     public close(canceled: boolean): void {
@@ -482,7 +325,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                 if (LocalizationForm) {
                     const localizationProps: LocalizationProps = {
                         updateLocalizations: this.updateLocalizations,
-                        cleanUpLocalizations: this.cleanUpLocalizations,
                         nodeSettings: this.props.settings,
                         typeConfig: this.props.typeConfig,
                         onClose: this.close,

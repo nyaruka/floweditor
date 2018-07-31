@@ -3,7 +3,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import FlowElement from '~/components/form/select/flows/FlowElement';
-import { SaveLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { StartFlow } from '~/flowTypes';
@@ -15,7 +14,6 @@ export interface SubflowRouterStoreProps {
 
 export interface SubflowRouterPassedProps {
     action: StartFlow;
-    saveLocalizations: SaveLocalizations;
     updateRouter: Function;
     getExitTranslations(): JSX.Element;
     onBindWidget(ref: any): void;
@@ -36,9 +34,9 @@ export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
     }
 
     public onValid(widgets: { [name: string]: any }): void {
-        if (this.props.translating) {
-            return this.props.saveLocalizations(widgets);
-        }
+        // if (this.props.translating) {
+        //    return this.props.saveLocalizations(widgets);
+        // }
         this.props.updateRouter();
     }
 
