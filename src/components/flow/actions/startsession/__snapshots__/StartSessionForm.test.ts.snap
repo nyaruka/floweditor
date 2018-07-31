@@ -195,3 +195,45 @@ exports[`StartSessionForm render should render self, children with base props 1`
   </div>
 </Dialog>
 `;
+
+exports[`StartSessionForm updates should save changes 1`] = `
+Object {
+  "flow": Object {
+    "value": Object {
+      "id": "my_flow",
+      "name": "My Flow",
+      "type": "flow",
+    },
+  },
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "subscribers_group",
+        "name": "Subscriber",
+        "type": "group",
+      },
+    ],
+  },
+  "valid": true,
+}
+`;
+
+exports[`StartSessionForm updates should save changes 2`] = `
+Array [
+  Object {
+    "contacts": Array [],
+    "flow": Object {
+      "name": "My Flow",
+      "uuid": "my_flow",
+    },
+    "groups": Array [
+      Object {
+        "name": "Subscriber",
+        "uuid": "subscribers_group",
+      },
+    ],
+    "type": "start_session",
+    "uuid": "start-session-0",
+  },
+]
+`;

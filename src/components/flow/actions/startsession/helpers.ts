@@ -25,14 +25,20 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
     };
 };
 
-export const stateToAction = (uuid: string, form: StartSessionFormState): StartSession => {
-    const flow: Asset = form.flow.value;
+export const stateToAction = (uuid: string, state: StartSessionFormState): StartSession => {
+    const flow: Asset = state.flow.value;
 
     return {
-        contacts: this.getRecipients(form.recipients.value, AssetType.Contact),
-        groups: this.getRecipients(form.recipients.value, AssetType.Group),
+        contacts: getRecipientsByAsset(state.recipients.value, AssetType.Contact),
+        groups: getRecipientsByAsset(state.recipients.value, AssetType.Group),
         flow: { name: flow.name, uuid: flow.id },
         type: Types.start_session,
         uuid
     };
+};
+
+const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] => {
+    return assets.filter((asset: Asset) => asset.type === type).map((asset: Asset) => {
+        return { uuid: asset.id, name: asset.name };
+    });
 };

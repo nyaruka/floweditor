@@ -1,14 +1,16 @@
-import SendMsgForm, { SendMsgFormProps } from '~/components/flow/actions/sendmsg/SendMsgForm';
+import SetRunResultForm, {
+    SetRunResultFormProps
+} from '~/components/flow/actions/setrunresult/SetRunResultForm';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createSendMsgAction } from '~/testUtils/assetCreators';
+import { createSetRunResultAction } from '~/testUtils/assetCreators';
 
-const action = createSendMsgAction();
-const sendConfig = getTypeConfig(Types.send_broadcast);
+const action = createSetRunResultAction();
+const typeConfig = getTypeConfig(Types.send_email);
 
-const baseProps: SendMsgFormProps = {
+const baseProps: SetRunResultFormProps = {
+    typeConfig,
     updateAction: jest.fn(),
-    typeConfig: sendConfig,
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
     nodeSettings: {
@@ -17,9 +19,9 @@ const baseProps: SendMsgFormProps = {
     }
 };
 
-const { setup, spyOn } = composeComponentTestUtils<SendMsgFormProps>(SendMsgForm, baseProps);
+const { setup } = composeComponentTestUtils<SetRunResultFormProps>(SetRunResultForm, baseProps);
 
-describe(SendMsgForm.name, () => {
+describe(SetRunResultForm.name, () => {
     describe('render', () => {
         it('should render', () => {
             const { wrapper } = setup(true);
@@ -31,9 +33,9 @@ describe(SendMsgForm.name, () => {
         it('should save changes', () => {
             const { instance, props } = setup(true);
 
-            instance.handleMessageUpdate('What is your favorite color?');
-            instance.handleQuickRepliesUpdate(['red', 'green', 'blue']);
-            instance.handleSendAllUpdate(true);
+            instance.handleNameUpdate('Result Name');
+            instance.handleValueUpdate('Result Value');
+            instance.handleCategoryUpdate('Result Category');
 
             expect(instance.state).toMatchSnapshot();
 
@@ -48,7 +50,8 @@ describe(SendMsgForm.name, () => {
             const { instance, props } = setup(true, {
                 $merge: { onClose: jest.fn(), updateAction: jest.fn() }
             });
-            instance.handleMessageUpdate("Don't save me bro");
+
+            instance.handleNameUpdate("Don't Save Me");
             instance.getButtons().secondary.onClick();
             expect(props.onClose).toHaveBeenCalled();
             expect(props.updateAction).not.toHaveBeenCalled();

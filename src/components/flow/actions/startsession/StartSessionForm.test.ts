@@ -2,8 +2,9 @@ import StartSessionForm, {
     StartSessionFormProps
 } from '~/components/flow/actions/startsession/StartSessionForm';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
-import { createStartSessionAction } from '~/testUtils/assetCreators';
+import { createStartSessionAction, SubscribersGroup } from '~/testUtils/assetCreators';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 
@@ -40,6 +41,34 @@ describe(StartSessionForm.name, () => {
 
             expect(instance.state).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('updates', () => {
+        it('should save changes', () => {
+            const { instance, props } = setup(true);
+
+            instance.handleRecipientsChanged([SubscribersGroup]);
+            instance.handleFlowChanged([{ id: 'my_flow', name: 'My Flow', type: AssetType.Flow }]);
+            expect(instance.state).toMatchSnapshot();
+
+            instance.handleSave();
+            expect(props.updateAction).toHaveBeenCalled();
+            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+        });
+    });
+
+    describe('cancel', () => {
+        it('should cancel without changes', () => {
+            const { instance, props } = setup(true, {
+                $merge: { onClose: jest.fn(), updateAction: jest.fn() }
+            });
+
+            instance.handleRecipientsChanged([SubscribersGroup]);
+            instance.handleFlowChanged([{ id: 'my_flow', name: 'My Flow', type: AssetType.Flow }]);
+            instance.getButtons().secondary.onClick();
+            expect(props.onClose).toHaveBeenCalled();
+            expect(props.updateAction).not.toHaveBeenCalled();
         });
     });
 });
