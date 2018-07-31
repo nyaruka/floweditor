@@ -74,18 +74,33 @@ export default class RouterLocalizationForm extends React.Component<
     }
 
     private handleSave(): void {
-        /* const { text, quickReplies } = this.state;
+        // collect up our exit localizations
+        const translations: any[] = this.state.exits.map((exit: Exit) => {
+            return exit.name
+                ? {
+                      uuid: exit.uuid,
+                      translations: {
+                          name: exit.name
+                      }
+                  }
+                : { uuid: exit.uuid };
+        });
 
-        this.props.updateLocalizations(this.props.language.id, [
-            {
-                uuid: this.props.nodeSettings.originalAction.uuid,
-                translations: {
-                    text: text.value,
-                    quick_replies: quickReplies.value
-                }
-            }
-        ]);
-        */
+        // same thing for any cases
+        translations.push(
+            ...this.state.cases.map((kase: Case) => {
+                return kase.arguments
+                    ? {
+                          uuid: kase.uuid,
+                          translations: {
+                              arguments: kase.arguments
+                          }
+                      }
+                    : { uuid: kase.uuid };
+            })
+        );
+
+        this.props.updateLocalizations(this.props.language.id, translations);
 
         // notify our modal we are done
         this.props.onClose(false);
