@@ -1,9 +1,8 @@
+import { AddLabelsFormState } from '~/components/flow/actions/addlabels/AddLabelsForm';
 import { Types } from '~/config/typeConfigs';
 import { AddLabels } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-
-import { AddLabelsFormState } from './AddLabelsForm';
 
 export const initializeForm = (settings: NodeEditorSettings): AddLabelsFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.add_input_labels) {

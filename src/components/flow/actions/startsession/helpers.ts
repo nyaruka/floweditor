@@ -1,10 +1,9 @@
 import { getRecipients } from '~/components/flow/actions/helpers';
+import { StartSessionFormState } from '~/components/flow/actions/startsession/StartSessionForm';
 import { Types } from '~/config/typeConfigs';
 import { StartSession } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-
-import { StartSessionFormState } from './StartSessionForm';
 
 export const initializeForm = (settings: NodeEditorSettings): StartSessionFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.start_session) {

@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/action/Action.scss';
+import { initializeForm, stateToAction } from '~/components/flow/actions/sendbroadcast/helpers';
 import * as broadcastStyles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
@@ -19,8 +20,6 @@ import {
     StringEntry
 } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-import { initializeForm, stateToAction } from './helpers';
 
 export interface SendBroadcastFormProps {
     // localization

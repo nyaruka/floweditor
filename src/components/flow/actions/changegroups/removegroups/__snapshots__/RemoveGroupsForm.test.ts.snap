@@ -23,7 +23,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
       Object {
         "component": [Function],
         "description": "Remove the contact from a group",
-        "form": [Function],
+        "form": undefined,
         "name": "Remove from Group",
         "type": "remove_contact_groups",
       }
@@ -85,6 +85,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
     />
   </div>
   <CheckboxElement
+    checked={false}
     description="Remove the active contact from all groups they're a member of."
     labelClassName="checkbox"
     name="Remove from All"
@@ -100,7 +101,7 @@ Array [
     "all_groups": true,
     "groups": Array [],
     "type": "remove_contact_groups",
-    "uuid": "add_contact_groups-0",
+    "uuid": "remove_contact_groups-0",
   },
 ]
 `;
@@ -116,7 +117,7 @@ Array [
       },
     ],
     "type": "remove_contact_groups",
-    "uuid": "add_contact_groups-0",
+    "uuid": "remove_contact_groups-0",
   },
 ]
 `;

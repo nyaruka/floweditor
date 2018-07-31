@@ -3,11 +3,12 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
-import TimeoutControl from '~/components/form/timeout/TimeoutControl';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { RenderNode } from '~/store/flowContext';
 import { FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 
@@ -20,15 +21,15 @@ export enum InputToFocus {
     exit = 'exit'
 }
 
-export interface ResponseRouterFormState extends FormState {
+export interface ExpressionRouterFormState extends FormState {
     cases: CaseProps[];
     resultName: StringEntry;
-    timeout: number;
+    operand: StringEntry;
 }
 
 export const leadInSpecId = 'lead-in';
 
-export interface ResponseRouterFormProps {
+export interface ExpressionRouterFormProps {
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
 
@@ -40,11 +41,11 @@ export interface ResponseRouterFormProps {
     onClose(canceled: boolean): void;
 }
 
-export default class ResponseRouterForm extends React.Component<
-    ResponseRouterFormProps,
-    ResponseRouterFormState
+export default class ExpressionRouterForm extends React.Component<
+    ExpressionRouterFormProps,
+    ExpressionRouterFormState
 > {
-    constructor(props: ResponseRouterFormProps) {
+    constructor(props: ExpressionRouterFormProps) {
         super(props);
 
         this.state = nodeToState(this.props.nodeSettings);
@@ -58,8 +59,8 @@ export default class ResponseRouterForm extends React.Component<
         this.setState({ resultName: { value } });
     }
 
-    private handleUpdateTimeout(timeout: number): void {
-        this.setState({ timeout });
+    private handleOperandUpdated(value: string): void {
+        this.setState({ operand: validate('Operand', value, [validateRequired]) });
     }
 
     private handleCasesUpdated(cases: CaseProps[]): void {
@@ -86,19 +87,19 @@ export default class ResponseRouterForm extends React.Component<
                 title={this.props.typeConfig.name}
                 headerClass={this.props.typeConfig.type}
                 buttons={this.getButtons()}
-                gutter={
-                    <TimeoutControl
-                        timeout={this.state.timeout}
-                        onChanged={this.handleUpdateTimeout}
-                    />
-                }
             >
                 <TypeList
                     __className=""
                     initialType={this.props.typeConfig}
                     onChange={this.props.onTypeChange}
                 />
-                <div>If the message response...</div>
+                <p>If the expression...</p>
+                <TextInputElement
+                    name="Operand"
+                    showLabel={false}
+                    onChange={this.handleOperandUpdated}
+                    entry={this.state.operand}
+                />
                 <CaseList
                     data-spec="cases"
                     cases={this.state.cases}

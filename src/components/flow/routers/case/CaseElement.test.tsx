@@ -1,9 +1,4 @@
 import * as React from 'react';
-import { getTypeConfig, operatorConfigList } from '~/config';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
-import { titleCase } from '~/utils';
-
 import CaseElement, {
     composeExitName,
     getMinMax,
@@ -12,7 +7,11 @@ import CaseElement, {
     parseNum,
     prefix,
     strContainsNum
-} from './CaseElement';
+} from '~/components/flow/routers/case/CaseElement';
+import { getTypeConfig, operatorConfigList } from '~/config';
+import { Operators } from '~/config/operatorConfigs';
+import { Types } from '~/config/typeConfigs';
+import { titleCase } from '~/utils';
 
 const definition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 const {

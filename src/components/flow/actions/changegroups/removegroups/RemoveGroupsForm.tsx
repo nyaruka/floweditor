@@ -1,7 +1,13 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { ChangeGroupsFormState } from '~/components/flow/actions/changegroups/helpers';
 import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
+import {
+    initializeForm,
+    stateToAction
+} from '~/components/flow/actions/changegroups/removegroups/helpers';
+import * as styles from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm.scss';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -12,10 +18,6 @@ import { Asset } from '~/services/AssetService';
 import { mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 import { renderIf } from '~/utils';
-
-import { ChangeGroupsFormState } from '../helpers';
-import { initializeForm, stateToAction } from './helpers';
-import * as styles from './RemoveGroupsForm.scss';
 
 export const LABEL = 'Select the group(s) to remove the contact from.';
 export const NOT_FOUND = 'Enter the name of an existing group';

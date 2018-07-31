@@ -1,10 +1,9 @@
 import { getRecipients } from '~/components/flow/actions/helpers';
+import { SendBroadcastFormState } from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from '~/config/typeConfigs';
 import { BroadcastMsg } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-
-import { SendBroadcastFormState } from './SendBroadcastForm';
 
 export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.send_broadcast) {

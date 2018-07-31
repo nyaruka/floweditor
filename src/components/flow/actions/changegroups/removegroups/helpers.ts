@@ -1,8 +1,11 @@
+import {
+    ChangeGroupsFormState,
+    mapAssetsToGroups,
+    mapGroupsToAssets
+} from '~/components/flow/actions/changegroups/helpers';
 import { Types } from '~/config/typeConfigs';
 import { RemoveFromGroups } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-
-import { ChangeGroupsFormState, mapAssetsToGroups, mapGroupsToAssets } from '../helpers';
 
 export const initializeForm = (settings: NodeEditorSettings): ChangeGroupsFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.remove_contact_groups) {

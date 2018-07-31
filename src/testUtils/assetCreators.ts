@@ -15,6 +15,7 @@ import {
     FlowNode,
     Group,
     Label,
+    RemoveFromGroups,
     Router,
     RouterTypes,
     SendEmail,
@@ -151,6 +152,16 @@ export const createAddGroupsAction = ({
 }: { uuid?: string; groups?: Group[] } = {}): ChangeGroups => ({
     uuid,
     type: Types.add_contact_groups,
+    groups
+});
+
+export const createRemoveGroupsAction = ({
+    uuid = 'remove_contact_groups-0',
+    groups = groupsResults
+}: { uuid?: string; groups?: Group[] } = {}): RemoveFromGroups => ({
+    uuid,
+    all_groups: false,
+    type: Types.remove_contact_groups,
     groups
 });
 

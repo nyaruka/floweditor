@@ -2,7 +2,11 @@ import { Types } from '~/config/typeConfigs';
 import { ChangeGroups } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
-import { ChangeGroupsFormState, mapAssetsToGroups, mapGroupsToAssets } from '../helpers';
+import {
+    ChangeGroupsFormState,
+    mapAssetsToGroups,
+    mapGroupsToAssets
+} from '~/components/flow/actions/changegroups/helpers';
 
 export const initializeForm = (settings: NodeEditorSettings): ChangeGroupsFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.add_contact_groups) {

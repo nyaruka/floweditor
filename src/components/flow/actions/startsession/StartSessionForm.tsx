@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { initializeForm, stateToAction } from '~/components/flow/actions/startsession/helpers';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -16,8 +17,6 @@ import {
     NodeEditorSettings
 } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-import { initializeForm, stateToAction } from './helpers';
 
 export interface StartSessionFormProps {
     // action details

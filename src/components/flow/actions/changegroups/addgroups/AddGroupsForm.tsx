@@ -11,8 +11,11 @@ import { Asset } from '~/services/AssetService';
 import { mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import { ChangeGroupsFormState, labelSpecId } from '../helpers';
-import { initializeForm, stateToAction } from './helpers';
+import { ChangeGroupsFormState, labelSpecId } from '~/components/flow/actions/changegroups/helpers';
+import {
+    initializeForm,
+    stateToAction
+} from '~/components/flow/actions/changegroups/addgroups/helpers';
 
 export const LABEL = ' Select the group(s) to add the contact to.';
 export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';

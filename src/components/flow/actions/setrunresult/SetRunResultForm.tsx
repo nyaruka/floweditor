@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { initializeForm, stateToAction } from '~/components/flow/actions/setrunresult/helpers';
 import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -8,8 +9,6 @@ import { Type } from '~/config';
 import { SetRunResult } from '~/flowTypes';
 import { FormState, mergeForm, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-import { initializeForm, stateToAction } from './helpers';
 
 export interface SetRunResultFormProps {
     // action details

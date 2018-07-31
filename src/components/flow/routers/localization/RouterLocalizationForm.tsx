@@ -15,7 +15,7 @@ import { Case, Exit } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { FormState, mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
 
-import * as styles from './RouterLocalizationForm.scss';
+import * as styles from '~/components/flow/routers/localization/RouterLocalizationForm.scss';
 
 export interface RouterLocalizationFormProps {
     language: Asset;

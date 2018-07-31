@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { initializeForm, stateToAction } from '~/components/flow/actions/sendemail/helpers';
 import * as styles from '~/components/flow/actions/sendemail/SendEmail.scss';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
@@ -15,8 +16,6 @@ import {
     StringEntry
 } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-import { initializeForm, stateToAction } from './helpers';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 

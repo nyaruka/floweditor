@@ -1,18 +1,12 @@
-import ChangeGroupFormProps from '~/components/flow/actions/changegroups/props';
+import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
+import RemoveGroupsForm from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { ChangeGroups } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createAddGroupsAction, SubscribersGroup } from '~/testUtils/assetCreators';
+import { createRemoveGroupsAction, SubscribersGroup } from '~/testUtils/assetCreators';
 
-import RemoveGroupsForm from './RemoveGroupsForm';
+const removeGroupsAction = createRemoveGroupsAction();
 
-const addGroupsAction = createAddGroupsAction();
-const removeGroupsAction = {
-    ...(addGroupsAction as ChangeGroups),
-    type: Types.remove_contact_groups
-};
-
-const baseProps: ChangeGroupFormProps = {
+const baseProps: ChangeGroupsFormProps = {
     updateAction: jest.fn(),
     onTypeChange: jest.fn(),
     onClose: jest.fn(),

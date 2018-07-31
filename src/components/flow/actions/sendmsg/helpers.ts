@@ -1,8 +1,7 @@
+import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from '~/config/typeConfigs';
 import { SendMsg } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-
-import { SendMsgFormState } from './SendMsgForm';
 
 export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.send_msg) {

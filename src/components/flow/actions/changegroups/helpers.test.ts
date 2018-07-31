@@ -1,4 +1,7 @@
-import { mapAssetsToGroups, mapGroupsToAssets } from './helpers';
+import {
+    mapAssetsToGroups,
+    mapGroupsToAssets
+} from '~/components/flow/actions/changegroups/helpers';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 

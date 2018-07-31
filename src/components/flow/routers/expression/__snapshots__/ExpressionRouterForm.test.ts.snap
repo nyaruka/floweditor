@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpressionRouterForm initializes 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="wait_for_response"
+  title="Wait for Response"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "switch",
+        ],
+        "description": "Wait for the contact to respond",
+        "form": undefined,
+        "localization": [Function],
+        "name": "Wait for Response",
+        "type": "wait_for_response",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div>
+    If the message response...
+  </div>
+  <CaseList
+    cases={Array []}
+    data-spec="cases"
+    onCasesUpdated={[Function]}
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "Result",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`ExpressionRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="wait_for_response"
+  title="Wait for Response"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "switch",
+        ],
+        "description": "Wait for the contact to respond",
+        "form": undefined,
+        "localization": [Function],
+        "name": "Wait for Response",
+        "type": "wait_for_response",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div>
+    If the message response...
+  </div>
+  <CaseList
+    cases={Array []}
+    data-spec="cases"
+    onCasesUpdated={[Function]}
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "Result",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`ExpressionRouterForm updates should save changes 1`] = `
+Object {
+  "cases": Array [
+    Object {
+      "exitName": "Red",
+      "kase": Object {
+        "arguments": Array [
+          "red",
+        ],
+        "type": "has_any_word",
+      },
+    },
+    Object {
+      "exitName": "Red",
+      "kase": Object {
+        "arguments": Array [
+          "maroon",
+        ],
+        "type": "has_any_word",
+      },
+    },
+    Object {
+      "exitName": "Green",
+      "kase": Object {
+        "arguments": Array [
+          "green",
+        ],
+        "type": "has_any_word",
+      },
+    },
+  ],
+  "operand": Object {
+    "value": "@run.input",
+  },
+  "resultName": Object {
+    "value": "Favorite Color",
+  },
+  "valid": true,
+}
+`;
+
+exports[`ExpressionRouterForm updates should save changes 2`] = `
+Object {
+  "inboundConnections": Object {},
+  "node": Object {
+    "actions": Array [],
+    "exits": Array [
+      Object {
+        "destination_node_uuid": null,
+        "name": "Red",
+        "uuid": "generated_uuid_1",
+      },
+      Object {
+        "destination_node_uuid": null,
+        "name": "Green",
+        "uuid": "generated_uuid_2",
+      },
+      Object {
+        "destination_node_uuid": null,
+        "name": "Other",
+        "uuid": "generated_uuid_3",
+      },
+    ],
+    "router": Object {
+      "cases": Array [
+        Object {
+          "arguments": Array [
+            "red",
+          ],
+          "exit_uuid": "generated_uuid_1",
+          "type": "has_any_word",
+        },
+        Object {
+          "arguments": Array [
+            "maroon",
+          ],
+          "exit_uuid": "generated_uuid_1",
+          "type": "has_any_word",
+        },
+        Object {
+          "arguments": Array [
+            "green",
+          ],
+          "exit_uuid": "generated_uuid_2",
+          "type": "has_any_word",
+        },
+      ],
+      "default_exit_uuid": "generated_uuid_3",
+      "operand": "@run.input",
+      "result_name": "Favorite Color",
+      "type": "switch",
+    },
+    "uuid": "node-0",
+    "wait": null,
+  },
+  "ui": Object {
+    "position": null,
+    "type": "split_by_expression",
+  },
+}
+`;

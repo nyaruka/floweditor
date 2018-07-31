@@ -4,6 +4,7 @@ import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper from '~/components/flipper/Flipper';
 import * as styles from '~/components/flow/actions/action/Action.scss';
 import { initializeLocalizedForm } from '~/components/flow/actions/sendmsg/helpers';
+import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
@@ -12,8 +13,6 @@ import { SendMsg } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen } from '~/store/validators';
-
-import { SendMsgFormState } from './SendMsgForm';
 
 export interface SendMsgLocalizationFormProps {
     language: Asset;

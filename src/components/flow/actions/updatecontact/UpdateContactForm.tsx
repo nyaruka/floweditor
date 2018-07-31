@@ -18,7 +18,11 @@ import {
 import { validate, validateRequired } from '~/store/validators';
 import { composeCreateNewOption, snakify, titleCase } from '~/utils';
 
-import { initializeForm, sortFieldsAndProperties, stateToAction } from './helpers';
+import {
+    initializeForm,
+    sortFieldsAndProperties,
+    stateToAction
+} from '~/components/flow/actions/updatecontact/helpers';
 
 const styles = require('./UpdateContact.scss');
 

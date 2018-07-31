@@ -19,6 +19,7 @@ import StartSessionComp from '~/components/flow/actions/startsession/StartSessio
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
 import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import ExpressionRouterForm from '~/components/flow/routers/expression/ExpressionRouterForm';
 import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
@@ -195,7 +196,7 @@ export const typeConfigList: Type[] = [
         name: 'Split by Expression',
         description: 'Split by a custom expression',
         localization: RouterLocalizationForm,
-        form: ResponseRouterForm
+        form: ExpressionRouterForm
     },
     {
         type: Types.split_by_groups,

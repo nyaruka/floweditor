@@ -1,16 +1,16 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import ResponseRouterForm, {
-    ResponseRouterFormProps
-} from '~/components/flow/routers/response/ResponseRouterForm';
+import ExpressionRouterForm, {
+    ExpressionRouterFormProps
+} from '~/components/flow/routers/expression/ExpressionRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
+import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, mockClear } from '~/testUtils';
 import { createRenderNode } from '~/testUtils/assetCreators';
 
 const sendConfig = getTypeConfig(Types.wait_for_response);
-const baseProps: ResponseRouterFormProps = {
+const baseProps: ExpressionRouterFormProps = {
     typeConfig: sendConfig,
     updateRouter: jest.fn(),
     onClose: jest.fn(),
@@ -21,7 +21,10 @@ const baseProps: ResponseRouterFormProps = {
     }
 };
 
-const { setup } = composeComponentTestUtils<ResponseRouterFormProps>(ResponseRouterForm, baseProps);
+const { setup } = composeComponentTestUtils<ExpressionRouterFormProps>(
+    ExpressionRouterForm,
+    baseProps
+);
 
 let mockUuidCounts = 1;
 jest.mock('uuid', () => {
@@ -30,7 +33,7 @@ jest.mock('uuid', () => {
     };
 });
 
-describe(ResponseRouterForm.name, () => {
+describe(ExpressionRouterForm.name, () => {
     it('should render', () => {
         const { wrapper } = setup(true);
         expect(wrapper).toMatchSnapshot();
@@ -45,7 +48,6 @@ describe(ResponseRouterForm.name, () => {
                         exits: [
                             { destination_node_uuid: null, name: 'Other', uuid: 'generated_uuid_1' }
                         ],
-                        wait: { type: WaitTypes.msg },
                         router: {
                             type: RouterTypes.switch,
                             operand: DEFAULT_OPERAND,
@@ -62,7 +64,7 @@ describe(ResponseRouterForm.name, () => {
                         } as SwitchRouter,
                         ui: {
                             position: { left: 0, top: 0 },
-                            type: Types.wait_for_response
+                            type: Types.split_by_expression
                         }
                     })
                 }
@@ -76,7 +78,6 @@ describe(ResponseRouterForm.name, () => {
         it('should save changes', () => {
             const { instance, props } = setup(true);
 
-            instance.handleUpdateTimeout(180);
             instance.handleUpdateResultName('Favorite Color');
             instance.handleCasesUpdated([
                 { kase: { type: Operators.has_any_word, arguments: ['red'] }, exitName: 'Red' },
@@ -96,7 +97,7 @@ describe(ResponseRouterForm.name, () => {
             mockClear(props.updateRouter);
             mockClear(props.onClose);
 
-            instance.handleUpdateTimeout(180);
+            instance.handleOperandUpdated('@date.now');
             instance.getButtons().secondary.onClick();
             expect(props.onClose).toHaveBeenCalled();
             expect(props.updateRouter).not.toHaveBeenCalled();
