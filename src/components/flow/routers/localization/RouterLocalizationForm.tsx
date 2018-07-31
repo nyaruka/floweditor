@@ -7,6 +7,7 @@ import {
     getOriginal,
     LocalizedType
 } from '~/components/flow/routers/localization/helpers';
+import * as styles from '~/components/flow/routers/localization/RouterLocalizationForm.scss';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { getOperatorConfig } from '~/config/operatorConfigs';
@@ -14,8 +15,6 @@ import { Type } from '~/config/typeConfigs';
 import { Case, Exit } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { FormState, mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
-
-import * as styles from '~/components/flow/routers/localization/RouterLocalizationForm.scss';
 
 export interface RouterLocalizationFormProps {
     language: Asset;
@@ -192,39 +191,46 @@ export default class RouterLocalizationForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        return (
-            <Flipper
-                front={
-                    <Dialog
-                        title={`${this.props.language.name} Category Names`}
-                        headerClass={this.props.typeConfig.type}
-                        buttons={this.getButtons()}
-                    >
-                        <p data-spec="instructions">
-                            When category names are referenced later in the flow, the appropriate
-                            language for the category will be used. If no translation is provided,
-                            the original text will be used.
-                        </p>
-                        {this.renderExits()}
-                    </Dialog>
-                }
-                back={
-                    <Dialog
-                        title={`${this.props.language.name} Rules`}
-                        headerStyle={HeaderStyle.BARBER}
-                        headerClass={this.props.typeConfig.type}
-                        headerIcon="fe-cog"
-                        subtitle="Advanced Settings"
-                        buttons={this.getButtons()}
-                    >
-                        <p data-spec="instructions">
-                            Sometimes languages need special rules to route things properly. If a
-                            translation is not provided, the original rule will be used.
-                        </p>
-                        {this.renderCases()}
-                    </Dialog>
-                }
-            />
+        const exits = (
+            <Dialog
+                title={`${this.props.language.name} Category Names`}
+                headerClass={this.props.typeConfig.type}
+                buttons={this.getButtons()}
+            >
+                <p data-spec="instructions">
+                    When category names are referenced later in the flow, the appropriate language
+                    for the category will be used. If no translation is provided, the original text
+                    will be used.
+                </p>
+                {this.renderExits()}
+            </Dialog>
         );
+
+        // if we have cases, use a flipper
+        if (this.state.cases.length > 0) {
+            return (
+                <Flipper
+                    front={exits}
+                    back={
+                        <Dialog
+                            title={`${this.props.language.name} Rules`}
+                            headerStyle={HeaderStyle.BARBER}
+                            headerClass={this.props.typeConfig.type}
+                            headerIcon="fe-cog"
+                            subtitle="Advanced Settings"
+                            buttons={this.getButtons()}
+                        >
+                            <p data-spec="instructions">
+                                Sometimes languages need special rules to route things properly. If
+                                a translation is not provided, the original rule will be used.
+                            </p>
+                            {this.renderCases()}
+                        </Dialog>
+                    }
+                />
+            );
+        } else {
+            return exits;
+        }
     }
 }

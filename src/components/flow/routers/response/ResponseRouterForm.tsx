@@ -2,14 +2,13 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { nodeToState, stateToNode } from '~/components/flow/routers/response/helpers';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TimeoutControl from '~/components/form/timeout/TimeoutControl';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { RenderNode } from '~/store/flowContext';
 import { FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
-
-import { nodeToState, stateToNode } from './helpers';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types

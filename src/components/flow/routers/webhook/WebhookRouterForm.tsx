@@ -17,7 +17,6 @@ import SelectElement from '~/components/form/select/SelectElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config/typeConfigs';
-import { Asset } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
 import {
     FormEntry,
@@ -34,10 +33,6 @@ const styles = require('./WebhookRouterForm.scss');
 export interface WebhookRouterFormProps {
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
-
-    // localization settings
-    translating: boolean;
-    language: Asset;
 
     // update handlers
     updateRouter(renderNode: RenderNode): void;
@@ -315,17 +310,13 @@ export class WebhookRouterForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        if (this.props.translating) {
-            // we can translate our exits
-        } else {
-            return (
-                <Flipper
-                    ref={flipper => {
-                        this.flipper = flipper;
-                    }}
-                    {...this.renderEdit()}
-                />
-            );
-        }
+        return (
+            <Flipper
+                ref={flipper => {
+                    this.flipper = flipper;
+                }}
+                {...this.renderEdit()}
+            />
+        );
     }
 }

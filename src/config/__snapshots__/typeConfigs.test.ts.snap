@@ -107,6 +107,7 @@ Array [
   Object {
     "description": "Split by group membership",
     "form": [Function],
+    "localization": [Function],
     "name": "Split by Group Membership",
     "type": "split_by_groups",
   },
@@ -249,6 +250,7 @@ Object {
   "split_by_groups": Object {
     "description": "Split by group membership",
     "form": [Function],
+    "localization": [Function],
     "name": "Split by Group Membership",
     "type": "split_by_groups",
   },

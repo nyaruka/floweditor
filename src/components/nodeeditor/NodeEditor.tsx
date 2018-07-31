@@ -5,9 +5,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragPoint } from '~/components/flow/node/Node';
-import { CaseElementProps } from '~/components/flow/routers/case/CaseElement';
 import Modal from '~/components/modal/Modal';
-import { Operators } from '~/config/operatorConfigs';
 import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition, FlowNode, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
@@ -130,18 +128,6 @@ export const hasWait = (node: FlowNode, type?: WaitTypes): boolean => {
     }
     return node.wait.type in WaitTypes;
 };
-
-export const groupsToCases = (groups: Asset[] = []): CaseElementProps[] =>
-    groups.map(({ name, id }: Asset) => ({
-        uuid: id,
-        kase: {
-            uuid: id,
-            type: Operators.has_group,
-            arguments: [id],
-            exit_uuid: ''
-        },
-        exitName: name
-    }));
 
 export class NodeEditor extends React.Component<NodeEditorProps> {
     constructor(props: NodeEditorProps) {

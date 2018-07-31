@@ -20,7 +20,7 @@ import StartSessionForm from '~/components/flow/actions/startsession/StartSessio
 import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import ExpressionRouterForm from '~/components/flow/routers/expression/ExpressionRouterForm';
-import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
+import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
 import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
@@ -202,7 +202,8 @@ export const typeConfigList: Type[] = [
         type: Types.split_by_groups,
         name: 'Split by Group Membership',
         description: 'Split by group membership',
-        form: GroupsRouter
+        localization: RouterLocalizationForm,
+        form: GroupsRouterForm
     },
     {
         type: Types.wait_for_response,

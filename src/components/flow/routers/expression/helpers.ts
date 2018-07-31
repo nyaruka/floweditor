@@ -11,7 +11,7 @@ import { Router, RouterTypes, SwitchRouter } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
-import { ExpressionRouterFormState } from './ExpressionRouterForm';
+import { ExpressionRouterFormState } from '~/components/flow/routers/expression/ExpressionRouterForm';
 
 export const nodeToState = (settings: NodeEditorSettings): ExpressionRouterFormState => {
     let initialCases: CaseProps[] = [];

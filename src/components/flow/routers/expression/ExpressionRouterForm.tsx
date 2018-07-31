@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { nodeToState, stateToNode } from '~/components/flow/routers/expression/helpers';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -9,8 +10,6 @@ import { Type } from '~/config';
 import { RenderNode } from '~/store/flowContext';
 import { FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-import { nodeToState, stateToNode } from './helpers';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
