@@ -1,5 +1,3 @@
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -14,8 +12,8 @@ import {
     DispatchWithState,
     LocalizationUpdates,
     NoParamsAC,
-    onUpdateAction,
     OnUpdateAction,
+    onUpdateAction,
     OnUpdateLocalizations,
     onUpdateLocalizations,
     OnUpdateRouter,
@@ -23,12 +21,6 @@ import {
     resetNodeEditingState,
     UpdateNodeEditorOpen,
     updateNodeEditorOpen,
-    UpdateOperand,
-    updateOperand,
-    updateResultName,
-    UpdateResultName,
-    updateShowResultName,
-    UpdateShowResultName,
     UpdateUserAddingAction,
     updateUserAddingAction
 } from '~/store';
@@ -37,6 +29,8 @@ import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowConte
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '~/store/thunks';
 
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 export type GetResultNameField = () => JSX.Element;
 export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
@@ -63,16 +57,10 @@ export interface NodeEditorStoreProps {
     definition: FlowDefinition;
     translating: boolean;
     typeConfig: Type;
-    resultName: string;
-    showResultName: boolean;
     suggestedNameCount: number;
-    operand: string;
-    timeout: number;
     settings: NodeEditorSettings;
     pendingConnection: DragPoint;
     nodes: { [uuid: string]: RenderNode };
-    updateResultName: UpdateResultName;
-    updateOperand: UpdateOperand;
     handleTypeConfigChange: HandleTypeConfigChange;
     resetNodeEditingState: NoParamsAC;
     updateNodeEditorOpen: UpdateNodeEditorOpen;
@@ -80,7 +68,6 @@ export interface NodeEditorStoreProps {
     onUpdateAction: OnUpdateAction;
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
-    updateShowResultName: UpdateShowResultName;
     incrementSuggestedResultNameCount: IncrementSuggestedResultNameCount;
 }
 
@@ -104,9 +91,6 @@ export interface LocalizationProps {
     updateLocalizations: UpdateLocalizations;
     language: Asset;
 }
-
-export const hasSwitchRouter = (node: FlowNode): boolean =>
-    (node.router as SwitchRouter) && (node.router as SwitchRouter).hasOwnProperty('operand');
 
 export const hasCases = (node: FlowNode): boolean => {
     if (
@@ -353,7 +337,7 @@ const mapStateToProps = ({
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
     },
-    nodeEditor: { typeConfig, resultName, showResultName, settings, operand, timeout }
+    nodeEditor: { typeConfig, settings }
 }: AppState) => ({
     language,
     nodeEditorOpen,
@@ -361,11 +345,7 @@ const mapStateToProps = ({
     nodes,
     translating,
     typeConfig,
-    resultName,
-    showResultName,
     suggestedNameCount,
-    operand,
-    timeout,
     pendingConnection,
     settings
 });
@@ -374,16 +354,13 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            updateResultName,
             resetNodeEditingState,
             updateNodeEditorOpen,
             handleTypeConfigChange,
-            updateOperand,
             onUpdateLocalizations,
             onUpdateAction,
             onUpdateRouter,
             updateUserAddingAction,
-            updateShowResultName,
             incrementSuggestedResultNameCount
         },
         dispatch

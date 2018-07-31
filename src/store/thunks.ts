@@ -2,7 +2,6 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import { hasCases } from '~/components/nodeeditor/NodeEditor';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import {
     Action,
@@ -16,8 +15,7 @@ import {
     SetContactField,
     SetRunResult,
     StickyNote,
-    SwitchRouter,
-    WaitTypes
+    SwitchRouter
 } from '~/flowTypes';
 import AssetService, { Asset, DEFAULT_LANGUAGE } from '~/services/AssetService';
 import {
@@ -52,17 +50,12 @@ import {
     getFlowComponents,
     getGhostNode,
     getLocalizations,
-    getNode,
-    getSuggestedResultName
+    getNode
 } from '~/store/helpers';
 import * as mutators from '~/store/mutators';
 import {
     NodeEditorSettings,
     updateNodeEditorSettings,
-    updateOperand,
-    updateResultName,
-    updateShowResultName,
-    updateTimeout,
     updateTypeConfig,
     updateUserAddingAction
 } from '~/store/nodeEditor';
@@ -566,29 +559,8 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    // Generate suggested result name if user is changing
-    // an existing node to a `wait_for_response` router.
-    const {
-        flowContext: {
-            results: { suggestedNameCount }
-        },
-        nodeEditor: { settings }
-    } = getState();
-    if (
-        settings &&
-        settings.originalNode &&
-        (!settings.originalNode.node.wait || settings.originalNode.node.wait.type !== WaitTypes.msg)
-    ) {
-        if (typeConfig.type === Types.wait_for_response) {
-            dispatch(updateResultName(getSuggestedResultName(suggestedNameCount)));
-            dispatch(updateShowResultName(true));
-        }
-    }
-
+export const handleTypeConfigChange = (typeConfig: Type) => (dispatch: DispatchWithState) => {
+    // TODO: Generate suggested result name if user is changing to a `wait_for_response` router.
     dispatch(updateTypeConfig(typeConfig));
 };
 
@@ -610,7 +582,6 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     }
 
     dispatch(updateNodeEditorSettings(null));
-    dispatch(updateTimeout(null));
 };
 
 export const onUpdateAction = (action: AnyAction) => (
@@ -989,23 +960,10 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
                 router: { result_name: resultName }
             } = node);
         }
-
-        /* istanbul ignore else */
-        if (node.wait && node.wait.timeout) {
-            dispatch(updateTimeout(node.wait.timeout));
-        }
-
-        /* istanbul ignore else */
-        if (hasCases(node)) {
-            const { operand } = node.router as SwitchRouter;
-            dispatch(updateOperand(operand));
-        }
     }
 
     dispatch(updateNodeEditorSettings(settings));
     dispatch(handleTypeConfigChange(typeConfig));
     dispatch(updateNodeDragging(false));
-    dispatch(updateResultName(resultName));
-    dispatch(updateShowResultName(resultName.length > 0));
     dispatch(updateNodeEditorOpen(true));
 };

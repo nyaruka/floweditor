@@ -5,10 +5,6 @@ import {
     UpdateLanguage,
     UpdateNodeDragging,
     UpdateNodeEditorOpen,
-    UpdateOperand,
-    UpdateResultName,
-    UpdateShowResultName,
-    UpdateTimeout,
     UpdateTranslating,
     UpdateTypeConfig,
     UpdateUserAddingAction
@@ -27,14 +23,7 @@ import {
     updateNodeEditorOpen,
     updateTranslating
 } from '~/store/flowEditor';
-import {
-    updateOperand,
-    updateResultName,
-    updateShowResultName,
-    updateTimeout,
-    updateTypeConfig,
-    updateUserAddingAction
-} from '~/store/nodeEditor';
+import { updateTypeConfig, updateUserAddingAction } from '~/store/nodeEditor';
 import AppState, { initialState } from '~/store/state';
 import {
     ActionAC,
@@ -95,8 +84,6 @@ export {
     UpdateLanguage,
     UpdateTranslating,
     UpdateNodeEditorOpen,
-    UpdateResultName,
-    UpdateOperand,
     UpdateDragGroup,
     UpdateCreateNodePosition,
     createStore,
@@ -106,8 +93,6 @@ export {
     updateTypeConfig,
     UpdateUserAddingAction,
     UpdateTypeConfig,
-    updateOperand,
-    updateResultName,
     updateLanguage,
     updateFetchingFlow,
     updateDefinition,
@@ -144,15 +129,11 @@ export {
     UpdateDimensions,
     moveActionUp,
     removeAction,
-    updateShowResultName,
-    UpdateShowResultName,
     UpdateNodeDragging,
     UpdateDragSelection,
     updateDragSelection,
     updateSticky,
     UpdateSticky,
-    UpdateTimeout,
-    updateTimeout,
     handleLanguageChange,
     HandleLanguageChange,
     handleTypeConfigChange,

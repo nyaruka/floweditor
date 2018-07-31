@@ -4,7 +4,7 @@ import { createRenderNode, resolveExits } from '~/components/flow/routers/helper
 import { GROUPS_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
-import { FlowNode, Router, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
+import { FlowNode, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
@@ -18,6 +18,10 @@ export const nodeToState = (settings: NodeEditorSettings): GroupsRouterFormState
 
     if (settings.originalNode.ui.type === Types.split_by_groups) {
         state.groups.value = extractGroups(settings.originalNode.node);
+        state.resultName = {
+            value: (settings.originalNode.node.router as SwitchRouter).result_name || ''
+        };
+        state.valid = true;
     }
 
     return state;
@@ -27,11 +31,6 @@ export const stateToNode = (
     settings: NodeEditorSettings,
     state: GroupsRouterFormState
 ): RenderNode => {
-    const optionalRouter: Pick<Router, 'result_name'> = {};
-    if (state.resultName.value) {
-        optionalRouter.result_name = state.resultName.value;
-    }
-
     const currentCases = groupsToCases(state.groups.value);
     const { cases, exits, defaultExit } = resolveExits(currentCases, false, settings);
 

@@ -7,7 +7,7 @@ import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~
 import AssetService from '~/services/AssetService';
 import { Constants, initialState, LocalizationUpdates } from '~/store';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
-import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from '~/store/helpers';
+import { getFlowComponents, getUniqueDestinations } from '~/store/helpers';
 import { getOtherExit } from '~/store/mutators';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import {
@@ -742,10 +742,7 @@ describe('Flow Manipulation', () => {
                 );
 
                 store.dispatch(handleTypeConfigChange(newTypeConfig));
-                expect(store).toHaveReduxActions([
-                    Constants.UPDATE_TYPE_CONFIG,
-                    Constants.UPDATE_FORM
-                ]);
+                expect(store).toHaveReduxActions([Constants.UPDATE_TYPE_CONFIG]);
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: newTypeConfig
                 });
@@ -761,16 +758,6 @@ describe('Flow Manipulation', () => {
                     actions: [originalAction]
                 } = originalNode;
                 const suggestedNameCount = Object.keys(resultMap).length;
-                const suggestedResultName = getSuggestedResultName(suggestedNameCount);
-                const expectedActions = [
-                    Constants.UPDATE_TYPE_CONFIG,
-                    Constants.UPDATE_RESULT_NAME,
-                    Constants.UPDATE_SHOW_RESULT_NAME
-                ];
-                const expectedResultNamePayload = [
-                    Constants.UPDATE_RESULT_NAME,
-                    { resultName: suggestedResultName }
-                ];
 
                 store = createMockStore(
                     mutate(initialState, {
@@ -792,8 +779,6 @@ describe('Flow Manipulation', () => {
 
                 // store.dispatch(handleTypeConfigChange(newTypeConfig, originalAction));
                 // expect(store).toHaveReduxActions(expectedActions);
-                // expect(store).toHavePayload(...expectedResultNamePayload);
-                expect(expectedResultNamePayload).toMatchSnapshot();
             });
 
             it('should edit an existing action', () => {
@@ -894,7 +879,7 @@ describe('Flow Manipulation', () => {
                     ghostNode: null
                 });
 
-                expect(store.getActions().length).toBe(3);
+                expect(store.getActions().length).toBe(2);
             });
 
             it('should reset the node editor', () => {

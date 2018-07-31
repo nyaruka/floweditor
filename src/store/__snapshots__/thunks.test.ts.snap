@@ -200,15 +200,6 @@ Object {
 }
 `;
 
-exports[`Flow Manipulation node editor normal editing should generate a suggested result name 1`] = `
-Array [
-  "UPDATE_RESULT_NAME",
-  Object {
-    "resultName": "Result 1",
-  },
-]
-`;
-
 exports[`Flow Manipulation nodes removal should remove node node0: Remove node0 1`] = `
 Object {
   "node1": Object {

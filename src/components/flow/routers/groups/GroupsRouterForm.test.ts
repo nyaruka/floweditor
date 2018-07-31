@@ -28,8 +28,6 @@ describe(GroupsRouter.name, () => {
         });
     });
 
-    describe('updates', () => {});
-
     describe('helpers', () => {
         describe('extractGroups', () => {
             it('should extract groups from the exits of a groupsRouter node', () => {

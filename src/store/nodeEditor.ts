@@ -7,10 +7,6 @@ import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import ActionTypes, {
     UpdateNodeEditorSettings,
-    UpdateOperandAction,
-    UpdateResultNameAction,
-    UpdateShowResultNameAction,
-    UpdateTimeoutAction,
     UpdateTypeConfigAction,
     UpdateUserAddingActionAction
 } from '~/store/actionTypes';
@@ -47,6 +43,8 @@ export const mergeForm = (
     toMerge: Partial<FormState>,
     toRemove: any[] = []
 ): FormState => {
+    // TODO: deal with explicit array setting
+
     let updated = form || {};
     // we auto update array items with uuids
     for (const key of Object.keys(toMerge)) {
@@ -117,6 +115,7 @@ export const mergeForm = (
     let valid = true;
     for (const key of Object.keys(form)) {
         const entry: any = form[key];
+        console.log(key, entry);
         if (entry && typeof entry === 'object') {
             if (entry.validationFailures && entry.validationFailures.length > 0) {
                 valid = false;
@@ -143,24 +142,14 @@ export interface NodeEditorSettings {
 
 export interface NodeEditor {
     typeConfig: Type;
-    resultName: string;
-    showResultName: boolean;
-    operand: string;
     userAddingAction: boolean;
     settings: NodeEditorSettings;
-    timeout: number;
 }
-
-const DEFAULT_OPERAND = '@run.input';
 
 // Initial state
 export const initialState: NodeEditor = {
     typeConfig: null,
-    resultName: '',
-    showResultName: false,
-    operand: DEFAULT_OPERAND,
     userAddingAction: false,
-    timeout: null,
     settings: null
 };
 
@@ -181,41 +170,12 @@ export const updateNodeEditorSettings = (
     }
 });
 
-export const updateResultName = (resultName: string): UpdateResultNameAction => ({
-    type: Constants.UPDATE_RESULT_NAME,
-    payload: {
-        resultName
-    }
-});
-
-export const updateOperand = (operand: string): UpdateOperandAction => ({
-    type: Constants.UPDATE_OPERAND,
-    payload: {
-        operand
-    }
-});
-
 export const updateUserAddingAction = (
     userAddingAction: boolean
 ): UpdateUserAddingActionAction => ({
     type: Constants.UPDATE_USER_ADDING_ACTION,
     payload: {
         userAddingAction
-    }
-});
-
-export const updateShowResultName = (showResultName: boolean): UpdateShowResultNameAction => ({
-    type: Constants.UPDATE_SHOW_RESULT_NAME,
-    payload: {
-        showResultName
-    }
-});
-
-// tslint:disable-next-line:no-shadowed-variable
-export const updateTimeout = (timeout: number): UpdateTimeoutAction => ({
-    type: Constants.UPDATE_TIMEOUT,
-    payload: {
-        timeout
     }
 });
 
@@ -229,36 +189,6 @@ export const typeConfig = (state: Type = initialState.typeConfig, action: Action
     }
 };
 
-export const resultName = (state: string = initialState.resultName, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_RESULT_NAME:
-            return action.payload.resultName;
-        default:
-            return state;
-    }
-};
-
-export const showResultName = (
-    state: boolean = initialState.showResultName,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_SHOW_RESULT_NAME:
-            return action.payload.showResultName;
-        default:
-            return state;
-    }
-};
-
-export const operand = (state: string = initialState.operand, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_OPERAND:
-            return action.payload.operand;
-        default:
-            return state;
-    }
-};
-
 export const userAddingAction = (
     state: boolean = initialState.userAddingAction,
     action: ActionTypes
@@ -266,15 +196,6 @@ export const userAddingAction = (
     switch (action.type) {
         case Constants.UPDATE_USER_ADDING_ACTION:
             return action.payload.userAddingAction;
-        default:
-            return state;
-    }
-};
-
-export const timeout = (state: number = initialState.timeout, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_TIMEOUT:
-            return action.payload.timeout;
         default:
             return state;
     }
@@ -295,10 +216,6 @@ export const settings = (
 // Root reducer
 export default combineReducers({
     typeConfig,
-    resultName,
-    showResultName,
-    operand,
     userAddingAction,
-    settings,
-    timeout
+    settings
 });

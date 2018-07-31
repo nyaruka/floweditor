@@ -213,21 +213,9 @@ export type UpdateTypeConfigAction = DuxAction<
     UpdateTypeConfigPayload
 >;
 
-export type UpdateResultNameAction = DuxAction<
-    Constants.UPDATE_RESULT_NAME,
-    UpdateResultNamePayload
->;
-
-export type UpdateOperandAction = DuxAction<Constants.UPDATE_OPERAND, UpdateOperandPayload>;
-
 export type UpdateUserAddingActionAction = DuxAction<
     Constants.UPDATE_USER_ADDING_ACTION,
     UpdateUserAddingActionPayload
->;
-
-export type UpdateShowResultNameAction = DuxAction<
-    Constants.UPDATE_SHOW_RESULT_NAME,
-    UpdateShowResultNameActionPayload
 >;
 
 export type UpdateDragSelectionAction = DuxAction<
@@ -239,8 +227,6 @@ export type UpdateContactFieldsAction = DuxAction<
     Constants.UPDATE_CONTACT_FIELDS,
     UpdateContactFieldsPayload
 >;
-
-export type UpdateTimeoutAction = DuxAction<Constants.UPDATE_TIMEOUT, UpdateTimeoutPayload>;
 
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
 
@@ -256,19 +242,11 @@ export type UpdateCreateNodePosition = (
 
 export type UpdateDragSelection = (dragSelection: DragSelection) => UpdateDragSelectionAction;
 
-export type UpdateResultName = (resultName: string) => UpdateResultNameAction;
-
-export type UpdateOperand = (operand: string) => UpdateOperandAction;
-
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
 export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
 
 export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
-
-export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
-
-export type UpdateTimeout = (timeout: number) => UpdateTimeoutAction;
 
 export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
 
@@ -294,12 +272,8 @@ type ActionTypes =
     | UpdatePendingConnectionAction
     | UpdateDragGroupAction
     | UpdateTypeConfigAction
-    | UpdateResultNameAction
-    | UpdateOperandAction
     | UpdateUserAddingActionAction
-    | UpdateShowResultNameAction
     | UpdateDragSelectionAction
-    | UpdateTimeoutAction
     | UpdateBaseLanguageAction
     | UpdateLanguagesAction
     | UpdateContactFieldsAction;
