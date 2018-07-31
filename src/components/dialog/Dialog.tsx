@@ -21,7 +21,7 @@ interface Buttons {
     rightButtons: JSX.Element[];
 }
 
-interface DialogProps {
+export interface DialogProps {
     title: string;
     subtitle?: string;
     headerIcon?: string;

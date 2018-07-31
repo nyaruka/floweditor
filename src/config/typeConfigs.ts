@@ -220,6 +220,7 @@ export const typeConfigList: Type[] = [
         type: Types.split_by_expression,
         name: 'Split by Expression',
         description: 'Split by a custom expression',
+        localization: RouterLocalizationForm,
         form: ResponseRouterForm
     },
     {

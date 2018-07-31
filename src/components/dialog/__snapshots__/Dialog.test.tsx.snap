@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dialog should render 1`] = `
+<div
+  className="dialog"
+>
+  <div
+    className="header header-class iconed barber"
+  >
+    <span
+      className="headerIcon fe-icon"
+    />
+    <div
+      className="titleContainer"
+    >
+      <div
+        className="title"
+      >
+        My Dialog
+      </div>
+      <div
+        className="subtitle"
+      >
+        Subtitlf
+      </div>
+    </div>
+  </div>
+  <div
+    className="content"
+  />
+  <div
+    className="footer"
+  >
+    <div
+      className="gutter"
+    >
+      <div>
+        The Gutter
+      </div>
+    </div>
+    <div
+      className="buttons"
+    >
+      <div
+        className="leftButtons"
+      >
+        <Button
+          key="0"
+          name="Other"
+          onClick={[MockFunction]}
+          type="tertiary"
+        />
+      </div>
+      <div
+        className="rightButtons"
+      >
+        <Button
+          key="0"
+          name="Cancel"
+          onClick={[MockFunction]}
+          type="secondary"
+        />
+        <Button
+          key="1"
+          name="Ok"
+          onClick={[MockFunction]}
+          type="primary"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

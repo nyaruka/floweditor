@@ -108,6 +108,7 @@ Array [
   Object {
     "description": "Split by a custom expression",
     "form": [Function],
+    "localization": [Function],
     "name": "Split by Expression",
     "type": "split_by_expression",
   },
@@ -259,6 +260,7 @@ Object {
   "split_by_expression": Object {
     "description": "Split by a custom expression",
     "form": [Function],
+    "localization": [Function],
     "name": "Split by Expression",
     "type": "split_by_expression",
   },
