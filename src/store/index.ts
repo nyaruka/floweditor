@@ -2,7 +2,6 @@ import {
     UpdateCreateNodePosition,
     UpdateDragGroup,
     UpdateDragSelection,
-    UpdateForm,
     UpdateLanguage,
     UpdateNodeDragging,
     UpdateNodeEditorOpen,
@@ -29,7 +28,6 @@ import {
     updateTranslating
 } from '~/store/flowEditor';
 import {
-    updateForm,
     updateOperand,
     updateResultName,
     updateShowResultName,
@@ -157,8 +155,6 @@ export {
     updateTimeout,
     handleLanguageChange,
     HandleLanguageChange,
-    updateForm,
-    UpdateForm,
     handleTypeConfigChange,
     HandleTypeConfigChange
 };

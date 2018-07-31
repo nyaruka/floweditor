@@ -1,6 +1,8 @@
 import { Types } from '~/config/typeConfigs';
 import { SendEmail } from '~/flowTypes';
-import { NodeEditorSettings, SendEmailFormState } from '~/store/nodeEditor';
+import { NodeEditorSettings } from '~/store/nodeEditor';
+
+import { SendEmailFormState } from './SendEmailForm';
 
 export const initializeForm = (settings: NodeEditorSettings): SendEmailFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.send_email) {

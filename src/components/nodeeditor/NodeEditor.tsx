@@ -5,7 +5,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DragPoint } from '~/components/flow/node/Node';
-import { CaseElementProps } from '~/components/form/case/CaseElement';
+import { CaseElementProps } from '~/components/flow/routers/case/CaseElement';
 import Modal from '~/components/modal/Modal';
 import { Operators } from '~/config/operatorConfigs';
 import { Type } from '~/config/typeConfigs';

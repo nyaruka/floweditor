@@ -1,6 +1,8 @@
 import { Types } from '~/config/typeConfigs';
 import { SetRunResult } from '~/flowTypes';
-import { NodeEditorSettings, SetRunResultFormState } from '~/store/nodeEditor';
+import { NodeEditorSettings } from '~/store/nodeEditor';
+
+import { SetRunResultFormState } from './SetRunResultForm';
 
 export const initializeForm = (settings: NodeEditorSettings): SetRunResultFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.set_run_result) {
