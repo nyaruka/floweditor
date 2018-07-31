@@ -14,30 +14,52 @@ exports[`ExpressionRouterForm initializes 1`] = `
       },
     }
   }
-  headerClass="wait_for_response"
-  title="Wait for Response"
+  headerClass="split_by_expression"
+  title="Split by Expression"
 >
   <TypeList
     __className=""
     initialType={
       Object {
-        "aliases": Array [
-          "switch",
-        ],
-        "description": "Wait for the contact to respond",
+        "description": "Split by a custom expression",
         "form": undefined,
         "localization": [Function],
-        "name": "Wait for Response",
-        "type": "wait_for_response",
+        "name": "Split by Expression",
+        "type": "split_by_expression",
       }
     }
     onChange={[MockFunction]}
   />
-  <div>
-    If the message response...
-  </div>
+  <p>
+    If the expression...
+  </p>
+  <Connect(TextInputElement)
+    entry={
+      Object {
+        "value": "@run.input",
+      }
+    }
+    name="Operand"
+    onChange={[Function]}
+    showLabel={false}
+  />
   <CaseList
-    cases={Array []}
+    cases={
+      Array [
+        Object {
+          "exitName": null,
+          "kase": Object {
+            "arguments": Array [
+              "red",
+            ],
+            "exit_uuid": null,
+            "type": "has_any_word",
+            "uuid": "generated_uuid_2",
+          },
+          "uuid": "generated_uuid_2",
+        },
+      ]
+    }
     data-spec="cases"
     onCasesUpdated={[Function]}
   />
@@ -48,7 +70,7 @@ exports[`ExpressionRouterForm initializes 1`] = `
     toggleText="Save as.."
     value={
       Object {
-        "value": "Result",
+        "value": "Color",
       }
     }
   />
@@ -69,28 +91,35 @@ exports[`ExpressionRouterForm should render 1`] = `
       },
     }
   }
-  headerClass="wait_for_response"
-  title="Wait for Response"
+  headerClass="split_by_expression"
+  title="Split by Expression"
 >
   <TypeList
     __className=""
     initialType={
       Object {
-        "aliases": Array [
-          "switch",
-        ],
-        "description": "Wait for the contact to respond",
+        "description": "Split by a custom expression",
         "form": undefined,
         "localization": [Function],
-        "name": "Wait for Response",
-        "type": "wait_for_response",
+        "name": "Split by Expression",
+        "type": "split_by_expression",
       }
     }
     onChange={[MockFunction]}
   />
-  <div>
-    If the message response...
-  </div>
+  <p>
+    If the expression...
+  </p>
+  <Connect(TextInputElement)
+    entry={
+      Object {
+        "value": "@run.input",
+      }
+    }
+    name="Operand"
+    onChange={[Function]}
+    showLabel={false}
+  />
   <CaseList
     cases={Array []}
     data-spec="cases"
@@ -103,7 +132,7 @@ exports[`ExpressionRouterForm should render 1`] = `
     toggleText="Save as.."
     value={
       Object {
-        "value": "Result",
+        "value": "",
       }
     }
   />

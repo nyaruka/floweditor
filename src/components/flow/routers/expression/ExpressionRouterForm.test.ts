@@ -9,9 +9,9 @@ import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, mockClear } from '~/testUtils';
 import { createRenderNode } from '~/testUtils/assetCreators';
 
-const sendConfig = getTypeConfig(Types.wait_for_response);
+const typeConfig = getTypeConfig(Types.split_by_expression);
 const baseProps: ExpressionRouterFormProps = {
-    typeConfig: sendConfig,
+    typeConfig,
     updateRouter: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
