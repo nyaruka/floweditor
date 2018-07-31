@@ -11,7 +11,13 @@ import { Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { BroadcastMsg } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { mergeForm, NodeEditorSettings, SendBroadcastFormState } from '~/store/nodeEditor';
+import {
+    AssetArrayEntry,
+    FormState,
+    mergeForm,
+    NodeEditorSettings,
+    StringEntry
+} from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -32,6 +38,11 @@ export interface SendBroadcastFormProps {
     // modal notifiers
     onTypeChange(config: Type): void;
     onClose(canceled: boolean): void;
+}
+
+export interface SendBroadcastFormState extends FormState {
+    text: StringEntry;
+    recipients: AssetArrayEntry;
 }
 
 // Note: action prop is only used for its uuid (see onValid)

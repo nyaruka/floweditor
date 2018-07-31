@@ -8,7 +8,13 @@ import { Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { StartSession } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { mergeForm, NodeEditorSettings, StartSessionFormState } from '~/store/nodeEditor';
+import {
+    AssetArrayEntry,
+    AssetEntry,
+    FormState,
+    mergeForm,
+    NodeEditorSettings
+} from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -24,6 +30,11 @@ export interface StartSessionFormProps {
     // modal notifiers
     onTypeChange(config: Type): void;
     onClose(canceled: boolean): void;
+}
+
+export interface StartSessionFormState extends FormState {
+    recipients: AssetArrayEntry;
+    flow: AssetEntry;
 }
 
 export default class StartSessionForm extends React.Component<

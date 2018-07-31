@@ -36,7 +36,7 @@ import {
 } from '~/store';
 import { IncrementSuggestedResultNameCount } from '~/store/actionTypes';
 import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
-import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 import { HandleTypeConfigChange, handleTypeConfigChange } from '~/store/thunks';
 
 export type GetResultNameField = () => JSX.Element;
@@ -84,7 +84,6 @@ export interface NodeEditorStoreProps {
     updateUserAddingAction: UpdateUserAddingAction;
     updateShowResultName: UpdateShowResultName;
     incrementSuggestedResultNameCount: IncrementSuggestedResultNameCount;
-    form: NodeEditorForm;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
@@ -368,7 +367,7 @@ const mapStateToProps = ({
         editorUI: { language, translating, nodeEditorOpen },
         flowUI: { pendingConnection }
     },
-    nodeEditor: { typeConfig, resultName, showResultName, settings, operand, timeout, form }
+    nodeEditor: { typeConfig, resultName, showResultName, settings, operand, timeout }
 }: AppState) => ({
     language,
     nodeEditorOpen,
@@ -382,8 +381,7 @@ const mapStateToProps = ({
     operand,
     timeout,
     pendingConnection,
-    settings,
-    form
+    settings
 });
 
 /* istanbul ignore next */

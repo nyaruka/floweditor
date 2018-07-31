@@ -6,7 +6,7 @@ import { LocalizedObject } from '~/services/Localization';
 import Constants from '~/store/constants';
 import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
 import { DragSelection } from '~/store/flowEditor';
-import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> {
@@ -124,10 +124,6 @@ interface UpdateDragSelectionActionPayload {
     dragSelection: DragSelection;
 }
 
-interface UpdateFormPayload {
-    form: NodeEditorForm;
-}
-
 interface UpdateNodeEditorSettingsPayload {
     settings: NodeEditorSettings;
 }
@@ -140,8 +136,6 @@ interface UpdateContactFieldsPayload {
 }
 
 // Action types
-export type UpdateFormAction = DuxAction<Constants.UPDATE_FORM, UpdateFormPayload>;
-
 export type UpdateNodeEditorSettings = DuxAction<
     Constants.UPDATE_NODE_EDITOR_SETTINGS,
     UpdateNodeEditorSettingsPayload
@@ -278,12 +272,9 @@ export type UpdateTimeout = (timeout: number) => UpdateTimeoutAction;
 
 export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
 
-export type UpdateForm = (form: NodeEditorForm) => UpdateFormAction;
-
 export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
 
 type ActionTypes =
-    | UpdateFormAction
     | UpdateNodeEditorSettings
     | UpdateTranslatingAction
     | UpdateLanguageAction

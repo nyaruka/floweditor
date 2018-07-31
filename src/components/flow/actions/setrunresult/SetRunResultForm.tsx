@@ -6,7 +6,7 @@ import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { SetRunResult } from '~/flowTypes';
-import { mergeForm, NodeEditorSettings, SetRunResultFormState } from '~/store/nodeEditor';
+import { FormState, mergeForm, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -22,6 +22,12 @@ export interface SetRunResultFormProps {
     // modal notifiers
     onTypeChange(config: Type): void;
     onClose(canceled: boolean): void;
+}
+
+export interface SetRunResultFormState extends FormState {
+    name: StringEntry;
+    value: StringEntry;
+    category: StringEntry;
 }
 
 export default class SetRunResultForm extends React.PureComponent<

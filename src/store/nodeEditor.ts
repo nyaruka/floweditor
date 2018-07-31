@@ -1,16 +1,11 @@
 // tslint:disable:no-shadowed-variable
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
-import { ChangeGroupsFormState } from '~/components/flow/actions/changegroups/helpers';
-import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
-import { UpdateContactFormState } from '~/components/flow/actions/updatecontact/UpdateContactForm';
-import { ResponseRouterFormState } from '~/components/flow/routers/response/ResponseRouterForm';
 import { Type } from '~/config';
 import { AnyAction } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import ActionTypes, {
-    UpdateFormAction,
     UpdateNodeEditorSettings,
     UpdateOperandAction,
     UpdateResultNameAction,
@@ -130,50 +125,13 @@ export const mergeForm = (
         }
     }
 
-    return mutate(updated, { $merge: { valid } }) as NodeEditorForm;
+    return mutate(updated, { $merge: { valid } }) as FormState;
 };
 
 export interface FormState {
     validationFailures?: ValidationFailure[];
     valid: boolean;
 }
-
-export interface SendBroadcastFormState extends FormState {
-    text: StringEntry;
-    recipients: AssetArrayEntry;
-}
-
-export interface AddLabelsFormState extends FormState {
-    labels: AssetArrayEntry;
-}
-
-export interface SendEmailFormState extends FormState {
-    recipients: StringArrayEntry;
-    subject: StringEntry;
-    body: StringEntry;
-}
-
-export interface SetRunResultFormState extends FormState {
-    name: StringEntry;
-    value: StringEntry;
-    category: StringEntry;
-}
-
-export interface StartSessionFormState extends FormState {
-    recipients: AssetArrayEntry;
-    flow: AssetEntry;
-}
-
-export type NodeEditorForm =
-    | SetRunResultFormState
-    | SendBroadcastFormState
-    | StartSessionFormState
-    | SendMsgFormState
-    | AddLabelsFormState
-    | ChangeGroupsFormState
-    | SendEmailFormState
-    | ResponseRouterFormState
-    | UpdateContactFormState;
 
 export interface NodeEditorSettings {
     originalNode: RenderNode;
@@ -190,7 +148,6 @@ export interface NodeEditor {
     operand: string;
     userAddingAction: boolean;
     settings: NodeEditorSettings;
-    form: NodeEditorForm;
     timeout: number;
 }
 
@@ -203,7 +160,6 @@ export const initialState: NodeEditor = {
     showResultName: false,
     operand: DEFAULT_OPERAND,
     userAddingAction: false,
-    form: null,
     timeout: null,
     settings: null
 };
@@ -213,13 +169,6 @@ export const updateTypeConfig = (typeConfig: Type): UpdateTypeConfigAction => ({
     type: Constants.UPDATE_TYPE_CONFIG,
     payload: {
         typeConfig
-    }
-});
-
-export const updateForm = (form: NodeEditorForm): UpdateFormAction => ({
-    type: Constants.UPDATE_FORM,
-    payload: {
-        form
     }
 });
 
@@ -271,15 +220,6 @@ export const updateTimeout = (timeout: number): UpdateTimeoutAction => ({
 });
 
 // Reducers
-export const form = (state: NodeEditorForm = initialState.form, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_FORM:
-            return action.payload.form;
-        default:
-            return state;
-    }
-};
-
 export const typeConfig = (state: Type = initialState.typeConfig, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_TYPE_CONFIG:
@@ -360,6 +300,5 @@ export default combineReducers({
     operand,
     userAddingAction,
     settings,
-    form,
     timeout
 });

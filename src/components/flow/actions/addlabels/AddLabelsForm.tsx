@@ -8,7 +8,7 @@ import { ConfigProviderContext, Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { AddLabels } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { AddLabelsFormState, mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
+import { AssetArrayEntry, FormState, mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 export interface AddLabelsFormProps {
@@ -22,6 +22,10 @@ export interface AddLabelsFormProps {
     // modal notifiers
     onTypeChange(config: Type): void;
     onClose(canceled: boolean): void;
+}
+
+export interface AddLabelsFormState extends FormState {
+    labels: AssetArrayEntry;
 }
 
 export const LABEL = 'Select the label(s) to apply to the incoming message.';

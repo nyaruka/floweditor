@@ -7,7 +7,13 @@ import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Type } from '~/config';
 import { SendEmail } from '~/flowTypes';
-import { mergeForm, NodeEditorSettings, SendEmailFormState } from '~/store/nodeEditor';
+import {
+    FormState,
+    mergeForm,
+    NodeEditorSettings,
+    StringArrayEntry,
+    StringEntry
+} from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -25,6 +31,12 @@ export interface SendEmailFormProps {
     // modal notifiers
     onTypeChange(config: Type): void;
     onClose(canceled: boolean): void;
+}
+
+export interface SendEmailFormState extends FormState {
+    recipients: StringArrayEntry;
+    subject: StringEntry;
+    body: StringEntry;
 }
 
 export default class SendEmailForm extends React.Component<SendEmailFormProps, SendEmailFormState> {
