@@ -251,16 +251,10 @@ export interface Dimensions {
     height: number;
 }
 
-export enum UINodeTypes {
-    split = 'split',
-    subflow = 'subflow',
-    webhook = 'webhook'
-}
-
 export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
-    type?: UINodeTypes | Types;
+    type?: Types;
 }
 
 export interface StickyNote {

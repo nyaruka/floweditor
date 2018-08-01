@@ -3,17 +3,7 @@ import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
-import {
-    Action,
-    Case,
-    Exit,
-    FlowNode,
-    Router,
-    RouterTypes,
-    SwitchRouter,
-    UINodeTypes,
-    Wait
-} from '~/flowTypes';
+import { Action, Case, Exit, FlowNode, Router, RouterTypes, SwitchRouter, Wait } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
@@ -27,7 +17,7 @@ export const createRenderNode = (
     uuid: string,
     router: Router,
     exits: Exit[],
-    type: UINodeTypes | Types,
+    type: Types,
     actions: Action[] = [],
     wait: Wait = null
 ): RenderNode => {

@@ -4,15 +4,7 @@ import { WebhookRouterFormState } from '~/components/flow/routers/webhook/Webhoo
 import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
-import {
-    CallWebhook,
-    Case,
-    Exit,
-    RouterTypes,
-    SwitchRouter,
-    UINodeTypes,
-    WebhookExitNames
-} from '~/flowTypes';
+import { CallWebhook, Case, Exit, RouterTypes, SwitchRouter, WebhookExitNames } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
@@ -110,7 +102,7 @@ export const stateToNode = (
     const renderNode = settings.originalNode;
 
     // If we were already a webhook, lean on those exits and cases
-    if (renderNode && renderNode.ui.type === 'webhook') {
+    if (renderNode && renderNode.ui.type === Types.split_by_webhook) {
         settings.originalNode.node.exits.forEach((exit: any) => exits.push(exit));
         (settings.originalNode.node.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
     } else {
@@ -162,7 +154,11 @@ export const stateToNode = (
         default_exit_uuid: exits[1].uuid
     };
 
-    return createRenderNode(settings.originalNode.node.uuid, router, exits, UINodeTypes.webhook, [
-        newAction
-    ]);
+    return createRenderNode(
+        settings.originalNode.node.uuid,
+        router,
+        exits,
+        Types.split_by_webhook,
+        [newAction]
+    );
 };

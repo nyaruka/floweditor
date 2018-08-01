@@ -13,7 +13,6 @@ import {
     RouterTypes,
     SetContactField,
     SwitchRouter,
-    UINodeTypes,
     WaitTypes
 } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
@@ -186,7 +185,7 @@ export const getGhostNode = (
     };
 
     // Add an action if we are coming from a split
-    if (fromNode.node.wait || fromNode.ui.type === UINodeTypes.webhook) {
+    if (fromNode.node.wait || fromNode.ui.type === Types.split_by_webhook) {
         const replyAction = {
             uuid: generateUUID(),
             type: Types.send_msg,

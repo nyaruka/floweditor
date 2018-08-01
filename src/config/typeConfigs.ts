@@ -23,9 +23,9 @@ import ExpressionRouterForm from '~/components/flow/routers/expression/Expressio
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
-import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
-import { WebhookRouterForm } from '~/components/flow/routers/webhook/WebhookRouterForm';
-import { AnyAction, RouterTypes, UINodeTypes } from '~/flowTypes';
+import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
+import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
+import { AnyAction, RouterTypes } from '~/flowTypes';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -66,6 +66,8 @@ export const enum Types {
     start_session = 'start_session',
     split_by_expression = 'split_by_expression',
     split_by_groups = 'split_by_groups',
+    split_by_subflow = 'split_by_subflow',
+    split_by_webhook = 'split_by_webhook',
     wait_for_response = 'wait_for_response',
 
     missing = 'missing'
@@ -178,17 +180,17 @@ export const typeConfigList: Type[] = [
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits'],
         component: CallWebhookComp,
-        aliases: [UINodeTypes.webhook]
+        aliases: [Types.split_by_webhook]
     },
     {
         type: Types.start_flow,
         name: 'Start a Flow',
         description: 'Enter another flow',
-        form: SubflowRouter,
+        form: SubflowRouterForm,
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits'],
         component: StartFlowComp,
-        aliases: [UINodeTypes.subflow]
+        aliases: [Types.split_by_subflow]
     },
     {
         type: Types.start_session,
@@ -244,7 +246,7 @@ export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeC
  * @param {string} type - The type of the type config to return, e.g. 'send_msg'
  * @returns {Object} - The type config found at typeConfigs[type] or -1
  */
-export const getTypeConfig = (type: Types | RouterTypes | UINodeTypes): Type => {
+export const getTypeConfig = (type: Types | RouterTypes): Type => {
     let config = typeConfigMap[type];
 
     if (!config) {

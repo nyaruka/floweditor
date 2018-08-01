@@ -38,7 +38,10 @@ export interface WebhookRouterFormState extends FormState {
     postBody: StringEntry;
 }
 
-export class WebhookRouterForm extends React.Component<RouterFormProps, WebhookRouterFormState> {
+export default class WebhookRouterForm extends React.Component<
+    RouterFormProps,
+    WebhookRouterFormState
+> {
     private flipper: Flipper;
 
     constructor(props: RouterFormProps) {

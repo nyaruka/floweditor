@@ -114,7 +114,7 @@ export const mergeForm = (
     updated = mutate(updated, { $merge: toMerge, $unset: removeKeys }) as FormState;
     let valid = true;
     for (const key of Object.keys(form)) {
-        const entry: any = form[key];
+        const entry: any = updated[key];
         if (entry && typeof entry === 'object') {
             if (entry.validationFailures && entry.validationFailures.length > 0) {
                 valid = false;
