@@ -85,7 +85,7 @@ export default class SendBroadcastForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
         return (
             <Dialog
                 title={typeConfig.name}

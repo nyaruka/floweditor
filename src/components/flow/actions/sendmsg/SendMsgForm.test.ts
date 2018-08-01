@@ -1,21 +1,12 @@
 import SendMsgForm from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createSendMsgAction } from '~/testUtils/assetCreators';
+import { createSendMsgAction, getActionFormProps } from '~/testUtils/assetCreators';
 
-const action = createSendMsgAction();
-
-const baseProps: ActionFormProps = {
-    updateAction: jest.fn(),
-    onClose: jest.fn(),
-    onTypeChange: jest.fn(),
-    nodeSettings: {
-        originalNode: null,
-        originalAction: action
-    }
-};
-
-const { setup, spyOn } = composeComponentTestUtils<ActionFormProps>(SendMsgForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(
+    SendMsgForm,
+    getActionFormProps(createSendMsgAction())
+);
 
 describe(SendMsgForm.name, () => {
     describe('render', () => {

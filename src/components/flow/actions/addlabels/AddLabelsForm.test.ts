@@ -1,25 +1,20 @@
 import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
-import { ActionFormProps } from '~/components/flow/props';
 import { Label } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createAddLabelsAction, FeedbackLabel } from '~/testUtils/assetCreators';
+import {
+    createAddLabelsAction,
+    FeedbackLabel,
+    getActionFormProps
+} from '~/testUtils/assetCreators';
 
 const { assets: labels } = require('~/test/assets/labels.json') as {
     assets: Label[];
 };
 
-const action = createAddLabelsAction(labels);
-const baseProps: ActionFormProps = {
-    updateAction: jest.fn(),
-    onTypeChange: jest.fn(),
-    onClose: jest.fn(),
-    nodeSettings: {
-        originalNode: null,
-        originalAction: action
-    }
-};
-
-const { setup, spyOn } = composeComponentTestUtils(AddLabelsForm, baseProps);
+const { setup } = composeComponentTestUtils(
+    AddLabelsForm,
+    getActionFormProps(createAddLabelsAction(labels))
+);
 
 describe(AddLabelsForm.name, () => {
     describe('render', () => {

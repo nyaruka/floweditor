@@ -1,9 +1,6 @@
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import { GROUP_LABEL } from '~/components/flow/routers/constants';
 import { nodeToState, stateToNode } from '~/components/flow/routers/groups/helpers';
@@ -15,6 +12,8 @@ import { Asset } from '~/services/AssetService';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 export interface GroupsRouterFormState extends FormState {
     groups: AssetArrayEntry;
     resultName: StringEntry;
@@ -77,7 +76,7 @@ export default class GroupsRouterForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
 
         return (
             <Dialog

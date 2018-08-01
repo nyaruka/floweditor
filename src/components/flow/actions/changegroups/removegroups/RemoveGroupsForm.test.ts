@@ -1,20 +1,15 @@
 import RemoveGroupsForm from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
-import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createRemoveGroupsAction, SubscribersGroup } from '~/testUtils/assetCreators';
+import {
+    createRemoveGroupsAction,
+    getActionFormProps,
+    SubscribersGroup
+} from '~/testUtils/assetCreators';
 
-const removeGroupsAction = createRemoveGroupsAction();
-const baseProps: ActionFormProps = {
-    updateAction: jest.fn(),
-    onTypeChange: jest.fn(),
-    onClose: jest.fn(),
-    nodeSettings: {
-        originalNode: null,
-        originalAction: removeGroupsAction
-    }
-};
-
-const { setup } = composeComponentTestUtils(RemoveGroupsForm, baseProps);
+const { setup } = composeComponentTestUtils(
+    RemoveGroupsForm,
+    getActionFormProps(createRemoveGroupsAction())
+);
 
 describe(RemoveGroupsForm.name, () => {
     describe('render', () => {

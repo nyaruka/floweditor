@@ -806,22 +806,13 @@ describe('Flow Manipulation', () => {
                             showAdvanced: false
                         })
                     );
-                }).toThrowError('Cannot initialize NodeEditor without a valid type: node0');
+                }).toThrowError("Couldn't determine type config for: node0");
             });
 
             it('should edit router nodes', () => {
                 store.dispatch(
                     onOpenNodeEditor({ originalNode: testNodes.node1, showAdvanced: false })
                 );
-
-                expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
-                    typeConfig: {
-                        type: Types.wait_for_response,
-                        name: 'Wait for Response',
-                        description: 'Wait for the contact to respond',
-                        aliases: [RouterTypes.switch]
-                    }
-                });
 
                 expect(store).toHavePayload(Constants.UPDATE_NODE_EDITOR_OPEN, {
                     nodeEditorOpen: true

@@ -4,7 +4,6 @@ import FlipMove = require('react-flip-move');
 import { v4 as generateUUID } from 'uuid';
 import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import HeaderElement, { Header } from '~/components/flow/routers/webhook/header/HeaderElement';
 import {
@@ -173,7 +172,7 @@ export class WebhookRouterForm extends React.Component<RouterFormProps, WebhookR
     }
 
     private renderEdit(): FlipperProps {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
 
         const headerElements: JSX.Element[] = this.state.headers.map(
             (header: HeaderEntry, index: number, arr: HeaderEntry[]) => {

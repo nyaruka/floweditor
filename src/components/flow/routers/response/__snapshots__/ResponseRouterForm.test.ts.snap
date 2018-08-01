@@ -30,8 +30,12 @@ exports[`ResponseRouterForm initializes 1`] = `
           "switch",
         ],
         "description": "Wait for the contact to respond",
-        "form": [Function],
+        "form": undefined,
         "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
         "name": "Wait for Response",
         "type": "wait_for_response",
       }
@@ -106,8 +110,12 @@ exports[`ResponseRouterForm should render 1`] = `
           "switch",
         ],
         "description": "Wait for the contact to respond",
-        "form": [Function],
+        "form": undefined,
         "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
         "name": "Wait for Response",
         "type": "wait_for_response",
       }

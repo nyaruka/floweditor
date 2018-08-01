@@ -2,6 +2,7 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
+import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import {
     Action,
@@ -41,7 +42,6 @@ import {
     updateTranslating
 } from '~/store/flowEditor';
 import {
-    determineConfigType,
     extractContactFields,
     FlowComponents,
     generateResultQuery,
@@ -904,14 +904,11 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const {
         flowContext: {
             languages,
-            baseLanguage,
-            nodes,
             definition: { localization }
         },
         flowEditor: {
             editorUI: { language, translating }
-        },
-        nodeEditor: { settings: currentSettings }
+        }
     } = getState();
 
     const { originalNode: renderNode } = settings;
@@ -948,9 +945,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
         action = node.actions[node.actions.length - 1];
     }
 
-    const type = determineConfigType(node, action, nodes);
-    const typeConfig = getTypeConfig(type);
-
     let resultName = '';
 
     if (node.router) {
@@ -963,7 +957,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     }
 
     dispatch(updateNodeEditorSettings(settings));
-    dispatch(handleTypeConfigChange(typeConfig));
+    dispatch(handleTypeConfigChange(determineTypeConfig(settings)));
     dispatch(updateNodeDragging(false));
     dispatch(updateNodeEditorOpen(true));
 };

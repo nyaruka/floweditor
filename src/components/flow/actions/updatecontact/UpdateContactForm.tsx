@@ -6,7 +6,6 @@ import {
     sortFieldsAndProperties,
     stateToAction
 } from '~/components/flow/actions/updatecontact/helpers';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
@@ -238,7 +237,7 @@ export default class UpdateContactForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
 
         return (
             <Dialog

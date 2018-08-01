@@ -6,7 +6,6 @@ import {
     stateToAction
 } from '~/components/flow/actions/changegroups/addgroups/helpers';
 import { ChangeGroupsFormState, labelSpecId } from '~/components/flow/actions/changegroups/helpers';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -63,7 +62,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
         return (
             <Dialog
                 title={typeConfig.name}

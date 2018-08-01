@@ -3,23 +3,21 @@ import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Types } from '~/config/typeConfigs';
 import { RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { composeComponentTestUtils, mockClear } from '~/testUtils';
-import { createRenderNode } from '~/testUtils/assetCreators';
+import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
 
-const sendConfig = getTypeConfig(Types.wait_for_response);
-const baseProps: RouterFormProps = {
-    updateRouter: jest.fn(),
-    onClose: jest.fn(),
-    onTypeChange: jest.fn(),
-    nodeSettings: {
-        originalNode: createRenderNode({ actions: [], exits: [] }),
-        originalAction: null
-    }
-};
-
-const { setup } = composeComponentTestUtils<RouterFormProps>(ResponseRouterForm, baseProps);
+const { setup } = composeComponentTestUtils<RouterFormProps>(
+    ResponseRouterForm,
+    getRouterFormProps(
+        createRenderNode({
+            actions: [],
+            exits: [],
+            ui: { position: { left: 0, top: 0 }, type: Types.wait_for_response }
+        })
+    )
+);
 
 let mockUuidCounts = 1;
 jest.mock('uuid', () => {

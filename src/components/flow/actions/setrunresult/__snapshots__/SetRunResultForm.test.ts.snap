@@ -14,18 +14,18 @@ exports[`SetRunResultForm render should render 1`] = `
       },
     }
   }
-  headerClass="send_email"
-  title="Send Email"
+  headerClass="set_run_result"
+  title="Save Flow Result"
 >
   <TypeList
     __className=""
     initialType={
       Object {
         "component": [Function],
-        "description": "Send an email",
-        "form": [Function],
-        "name": "Send Email",
-        "type": "send_email",
+        "description": "Save a result for this flow",
+        "form": undefined,
+        "name": "Save Flow Result",
+        "type": "set_run_result",
       }
     }
     onChange={[MockFunction]}

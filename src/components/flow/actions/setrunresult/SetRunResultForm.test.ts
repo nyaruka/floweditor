@@ -1,21 +1,12 @@
 import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
 import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createSetRunResultAction } from '~/testUtils/assetCreators';
+import { createSetRunResultAction, getActionFormProps } from '~/testUtils/assetCreators';
 
-const action = createSetRunResultAction();
-
-const baseProps: ActionFormProps = {
-    updateAction: jest.fn(),
-    onClose: jest.fn(),
-    onTypeChange: jest.fn(),
-    nodeSettings: {
-        originalNode: null,
-        originalAction: action
-    }
-};
-
-const { setup } = composeComponentTestUtils<ActionFormProps>(SetRunResultForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(
+    SetRunResultForm,
+    getActionFormProps(createSetRunResultAction())
+);
 
 describe(SetRunResultForm.name, () => {
     describe('render', () => {

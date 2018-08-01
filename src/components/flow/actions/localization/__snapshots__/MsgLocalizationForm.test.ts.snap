@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendMsgLocalizationForm inits inits with initial values 1`] = `
+exports[`MsgLocalizationForm inits inits with initial values 1`] = `
 <Flipper
   back={
     <Dialog
-      headerClass="send_broadcast"
+      headerClass="send_msg"
       headerIcon="fe-cog"
       headerStyle="barber"
       subtitle="Advanced Settings"
-      title="Send Broadcast"
+      title="Send Message"
     >
       <p>
         Enter any 
@@ -44,8 +44,8 @@ exports[`SendMsgLocalizationForm inits inits with initial values 1`] = `
           },
         }
       }
-      headerClass="send_broadcast"
-      title="Send Broadcast"
+      headerClass="send_msg"
+      title="Send Message"
     >
       <div
         data-spec="translation-container"
@@ -77,15 +77,15 @@ exports[`SendMsgLocalizationForm inits inits with initial values 1`] = `
 />
 `;
 
-exports[`SendMsgLocalizationForm render should render 1`] = `
+exports[`MsgLocalizationForm render should render 1`] = `
 <Flipper
   back={
     <Dialog
-      headerClass="send_broadcast"
+      headerClass="send_msg"
       headerIcon="fe-cog"
       headerStyle="barber"
       subtitle="Advanced Settings"
-      title="Send Broadcast"
+      title="Send Message"
     >
       <p>
         Enter any 
@@ -121,8 +121,8 @@ exports[`SendMsgLocalizationForm render should render 1`] = `
           },
         }
       }
-      headerClass="send_broadcast"
-      title="Send Broadcast"
+      headerClass="send_msg"
+      title="Send Message"
     >
       <div
         data-spec="translation-container"
@@ -154,7 +154,7 @@ exports[`SendMsgLocalizationForm render should render 1`] = `
 />
 `;
 
-exports[`SendMsgLocalizationForm updates should save changes 1`] = `
+exports[`MsgLocalizationForm updates should save changes 1`] = `
 Object {
   "quickReplies": Object {
     "value": Array [
@@ -171,7 +171,7 @@ Object {
 }
 `;
 
-exports[`SendMsgLocalizationForm updates should save changes 2`] = `
+exports[`MsgLocalizationForm updates should save changes 2`] = `
 Array [
   "spa",
   Array [

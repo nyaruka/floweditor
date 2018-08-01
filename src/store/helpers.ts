@@ -90,34 +90,6 @@ export const getLocalizations = (
     return localizations;
 };
 
-export const determineConfigType = (
-    nodeToEdit: FlowNode,
-    action: AnyAction,
-    nodes: RenderNodeMap
-) => {
-    if (action && action.type) {
-        return action.type;
-    } else if (nodeToEdit.actions && nodeToEdit.actions.length > 0) {
-        return nodeToEdit.actions[nodeToEdit.actions.length - 1].type;
-    } else {
-        try {
-            const renderNode = getNode(nodes, nodeToEdit.uuid);
-            /* istanbul ignore else */
-            if (renderNode.ui.type) {
-                return renderNode.ui.type;
-            }
-            // tslint:disable-next-line:no-empty
-        } catch (Error) {}
-    }
-
-    // Account for ghost nodes
-    if (nodeToEdit.router) {
-        return nodeToEdit.router.type;
-    }
-
-    throw new Error(`Cannot initialize NodeEditor without a valid type: ${nodeToEdit.uuid}`);
-};
-
 export const getUniqueDestinations = (node: FlowNode): string[] => {
     const destinations = {};
     for (const exit of node.exits) {

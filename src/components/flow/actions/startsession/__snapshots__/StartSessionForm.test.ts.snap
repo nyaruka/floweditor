@@ -35,7 +35,11 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       Object {
         "component": [Function],
         "description": "Start somebody else in a flow",
-        "form": [Function],
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
         "name": "Start Somebody Else",
         "type": "start_session",
       }
@@ -112,7 +116,11 @@ exports[`StartSessionForm render should render self, children with base props 1`
       Object {
         "component": [Function],
         "description": "Start somebody else in a flow",
-        "form": [Function],
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
         "name": "Start Somebody Else",
         "type": "start_session",
       }

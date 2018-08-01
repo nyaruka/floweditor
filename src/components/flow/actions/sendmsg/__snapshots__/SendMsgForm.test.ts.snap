@@ -4,11 +4,11 @@ exports[`SendMsgForm render should render 1`] = `
 <Flipper
   back={
     <Dialog
-      headerClass="send_broadcast"
+      headerClass="send_msg"
       headerIcon="fe-cog"
       headerStyle="barber"
       subtitle="Advanced Settings"
-      title="Send Broadcast"
+      title="Send Message"
     >
       <p>
         Quick Replies are made into buttons for supported channels
@@ -50,19 +50,23 @@ exports[`SendMsgForm render should render 1`] = `
           },
         }
       }
-      headerClass="send_broadcast"
-      title="Send Broadcast"
+      headerClass="send_msg"
+      title="Send Message"
     >
       <TypeList
         __className=""
         initialType={
           Object {
             "component": [Function],
-            "description": "Send somebody else a message",
-            "form": [Function],
+            "description": "Send the contact a message",
+            "form": undefined,
             "localization": [Function],
-            "name": "Send Broadcast",
-            "type": "send_broadcast",
+            "localizeableKeys": Array [
+              "text",
+              "quick_replies",
+            ],
+            "name": "Send Message",
+            "type": "send_msg",
           }
         }
         onChange={[MockFunction]}

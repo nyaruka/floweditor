@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/startsession/helpers';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
@@ -89,7 +88,7 @@ export default class StartSessionForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
         return (
             <Dialog
                 title={typeConfig.name}

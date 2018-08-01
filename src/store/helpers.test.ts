@@ -1,7 +1,6 @@
 import { Types } from '~/config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '~/flowTypes';
 import {
-    determineConfigType,
     generateResultQuery,
     getCollisions,
     getFlowComponents,
@@ -129,59 +128,6 @@ describe('helpers', () => {
                 const ghost = getGhostNode(nodes.node1, 1);
                 expect(ghost.node.router).toBeUndefined();
                 expect(ghost.node.actions[0].type).toBe(Types.send_msg);
-            });
-        });
-
-        describe('determineConfigType', () => {
-            it('should determine config type from action', () => {
-                const configType = determineConfigType(
-                    nodes.node0.node,
-                    nodes.node0.node.actions[0],
-                    nodes
-                );
-                expect(configType).toBe(Types.send_msg);
-            });
-
-            it('should return last action type if no action provided', () => {
-                const configType = determineConfigType(nodes.node0.node, null, nodes);
-                expect(configType).toBe(Types.add_input_labels);
-            });
-
-            it('should use the router type if no actions', () => {
-                const configType = determineConfigType(nodes.node1.node, null, nodes);
-                expect(configType).toBe(Types.wait_for_response);
-            });
-
-            it('should determine type from a brand new router', () => {
-                const configType = determineConfigType(
-                    {
-                        uuid: 'new-node',
-                        actions: [],
-                        exits: [],
-                        router: {
-                            type: RouterTypes.switch
-                        }
-                    },
-                    null,
-                    nodes
-                );
-
-                // TODO: is this a valid type config type for the caller?
-                expect(configType).toBe(RouterTypes.switch);
-            });
-
-            it('should throw if no type is poissible', () => {
-                expect(() => {
-                    determineConfigType(
-                        {
-                            uuid: 'new-node',
-                            actions: [],
-                            exits: []
-                        },
-                        null,
-                        nodes
-                    );
-                }).toThrowError('Cannot initialize NodeEditor without a valid type: new-node');
             });
         });
     });

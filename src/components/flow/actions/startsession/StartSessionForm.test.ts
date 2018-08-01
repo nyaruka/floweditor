@@ -2,21 +2,16 @@ import StartSessionForm from '~/components/flow/actions/startsession/StartSessio
 import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
-import { createStartSessionAction, SubscribersGroup } from '~/testUtils/assetCreators';
+import {
+    createStartSessionAction,
+    getActionFormProps,
+    SubscribersGroup
+} from '~/testUtils/assetCreators';
 
-const startSessionAction = createStartSessionAction();
-
-const baseProps: ActionFormProps = {
-    updateAction: jest.fn(),
-    onTypeChange: jest.fn(),
-    onClose: jest.fn(),
-    nodeSettings: {
-        originalNode: null,
-        originalAction: startSessionAction
-    }
-};
-
-const { setup } = composeComponentTestUtils<ActionFormProps>(StartSessionForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(
+    StartSessionForm,
+    getActionFormProps(createStartSessionAction())
+);
 
 describe(StartSessionForm.name, () => {
     describe('render', () => {

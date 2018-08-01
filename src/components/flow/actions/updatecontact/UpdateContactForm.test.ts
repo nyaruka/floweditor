@@ -6,21 +6,12 @@ import UpdateContactForm, {
 import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createSetContactFieldAction } from '~/testUtils/assetCreators';
+import { createSetContactFieldAction, getActionFormProps } from '~/testUtils/assetCreators';
 
-const startSessionAction = createSetContactFieldAction();
-
-const baseProps: ActionFormProps = {
-    updateAction: jest.fn(),
-    onTypeChange: jest.fn(),
-    onClose: jest.fn(),
-    nodeSettings: {
-        originalNode: null,
-        originalAction: startSessionAction
-    }
-};
-
-const { setup } = composeComponentTestUtils<ActionFormProps>(UpdateContactForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(
+    UpdateContactForm,
+    getActionFormProps(createSetContactFieldAction())
+);
 
 describe(UpdateContactForm.name, () => {
     describe('render', () => {
@@ -30,7 +21,7 @@ describe(UpdateContactForm.name, () => {
         });
 
         it('should render an empty form with no action', () => {
-            const { wrapper, instance } = setup(true, {
+            const { wrapper } = setup(true, {
                 $merge: {
                     nodeSettings: { originalNode: null, originalAction: null }
                 }

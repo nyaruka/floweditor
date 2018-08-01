@@ -4,7 +4,6 @@ import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper from '~/components/flipper/Flipper';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg/helpers';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
@@ -88,7 +87,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
         return (
             <Flipper
                 front={

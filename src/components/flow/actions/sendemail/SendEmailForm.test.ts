@@ -1,21 +1,12 @@
 import SendEmailForm from '~/components/flow/actions/sendemail/SendEmailForm';
 import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils } from '~/testUtils';
-import { createSendEmailAction } from '~/testUtils/assetCreators';
+import { createSendEmailAction, getActionFormProps } from '~/testUtils/assetCreators';
 
-const action = createSendEmailAction();
-
-const baseProps: ActionFormProps = {
-    updateAction: jest.fn(),
-    onClose: jest.fn(),
-    onTypeChange: jest.fn(),
-    nodeSettings: {
-        originalNode: null,
-        originalAction: action
-    }
-};
-
-const { setup } = composeComponentTestUtils<ActionFormProps>(SendEmailForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(
+    SendEmailForm,
+    getActionFormProps(createSendEmailAction())
+);
 
 describe(SendEmailForm.name, () => {
     describe('render', () => {

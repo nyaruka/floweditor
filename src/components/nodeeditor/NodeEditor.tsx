@@ -72,6 +72,7 @@ export interface NodeEditorStoreProps {
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
+
 export interface FormProps {
     // our two ways of updating
     updateRouter(renderNode: RenderNode): void;
@@ -171,36 +172,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     /* 
-    private updateGroupsRouter(groups: Asset[]): void {
-        const currentCases = groupsToCases(groups);
-        const { cases, exits, defaultExit } = this.resolveExits(currentCases);
-
-        if (
-            this.props.definition.localization &&
-            Object.keys(this.props.definition.localization).length
-        ) {
-            this.cleanUpLocalizations(currentCases);
-        }
-
-        const router: SwitchRouter = {
-            type: RouterTypes.switch,
-            cases,
-            default_exit_uuid: defaultExit,
-            operand: GROUPS_OPERAND,
-            result_name: ''
-        };
-
-        if (this.props.resultName) {
-            router.result_name += this.props.resultName;
-        }
-
-        this.updateSuggestedResultNameState(router.result_name);
-
-        const newNode = this.getUpdatedRouterNode(router, exits, this.props.typeConfig.type);
-        newNode.node.wait = { type: WaitTypes.group };
-        this.props.onUpdateRouter(newNode);
-    }
-
     public updateSubflowRouter(): void {
         // prettier-ignore
         const action = getAction(

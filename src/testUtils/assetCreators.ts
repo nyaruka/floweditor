@@ -1,7 +1,9 @@
 import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps, RouterFormProps } from '~/components/flow/props';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
 import {
     AnyAction,
     BroadcastMsg,
@@ -261,6 +263,28 @@ export const createSetRunResultAction = ({
     type: Types.set_run_result
 });
 
+export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
+    updateAction: jest.fn(),
+    onClose: jest.fn(),
+    onTypeChange: jest.fn(),
+    typeConfig: getTypeConfig(action.type),
+    nodeSettings: {
+        originalNode: null,
+        originalAction: action
+    }
+});
+
+export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => ({
+    updateRouter: jest.fn(),
+    onClose: jest.fn(),
+    onTypeChange: jest.fn(),
+    typeConfig: determineTypeConfig({ originalNode: renderNode }),
+    nodeSettings: {
+        originalNode: createRenderNode({ actions: [], exits: [] }),
+        originalAction: null
+    }
+});
+
 // tslint:disable-next-line:variable-name
 export const createCase = ({
     uuid,
@@ -329,7 +353,8 @@ export const createRenderNode = ({
     router = null,
     wait = null,
     ui = {
-        position: { left: 0, top: 0 }
+        position: { left: 0, top: 0 },
+        type: Types.split_by_expression
     }
 }: {
     actions: AnyAction[];
@@ -338,17 +363,20 @@ export const createRenderNode = ({
     router?: Router | SwitchRouter;
     wait?: Wait;
     ui?: UINode;
-}): RenderNode => ({
-    node: {
-        actions,
-        exits,
-        uuid,
-        ...(router ? { router } : ({} as any)),
-        ...(wait ? { wait } : ({} as any))
-    },
-    ui,
-    inboundConnections: null
-});
+}): RenderNode => {
+    const renderNode: RenderNode = {
+        node: {
+            actions,
+            exits,
+            uuid,
+            ...(router ? { router } : ({} as any)),
+            ...(wait ? { wait } : ({} as any))
+        },
+        ui,
+        inboundConnections: null
+    };
+    return renderNode;
+};
 
 export const createFlowNode = ({
     actions,
@@ -456,7 +484,11 @@ export const createGroupsRouterNode = (
             operand: '@contact.groups',
             default_exit_uuid: null
         }),
-        wait: createWait({ type: WaitTypes.group })
+        wait: createWait({ type: WaitTypes.group }),
+        ui: {
+            type: Types.split_by_groups,
+            position: { left: 0, top: 0 }
+        }
     });
 
 export const getGroupOptions = (groups: Group[] = groupsResults) =>

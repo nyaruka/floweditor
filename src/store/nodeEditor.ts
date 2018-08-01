@@ -115,7 +115,6 @@ export const mergeForm = (
     let valid = true;
     for (const key of Object.keys(form)) {
         const entry: any = form[key];
-        console.log(key, entry);
         if (entry && typeof entry === 'object') {
             if (entry.validationFailures && entry.validationFailures.length > 0) {
                 valid = false;

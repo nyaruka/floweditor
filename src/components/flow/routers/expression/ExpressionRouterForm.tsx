@@ -69,7 +69,7 @@ export default class ExpressionRouterForm extends React.Component<
     }
 
     public renderEdit(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
 
         return (
             <Dialog

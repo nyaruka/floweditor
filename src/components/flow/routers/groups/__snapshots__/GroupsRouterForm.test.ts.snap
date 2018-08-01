@@ -62,8 +62,11 @@ exports[`GroupsRouterForm render should render 1`] = `
     initialType={
       Object {
         "description": "Split by group membership",
-        "form": [Function],
+        "form": undefined,
         "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
         "name": "Split by Group Membership",
         "type": "split_by_groups",
       }

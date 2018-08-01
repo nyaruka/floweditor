@@ -113,7 +113,7 @@ export const typeConfigList: Type[] = [
         description: 'Send the contact a message',
         form: SendMsgForm,
         localization: MsgLocalizationForm,
-        localizeableKeys: ['text', 'quickReplies'],
+        localizeableKeys: ['text', 'quick_replies'],
         component: SendMsgComp
     },
     {
@@ -245,10 +245,10 @@ export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeC
  * @returns {Object} - The type config found at typeConfigs[type] or -1
  */
 export const getTypeConfig = (type: Types | RouterTypes | UINodeTypes): Type => {
-    let actionConfig = typeConfigMap[type];
+    let config = typeConfigMap[type];
 
-    if (!actionConfig) {
-        actionConfig = typeConfigMap.missing;
+    if (!config) {
+        config = typeConfigMap.missing;
     }
-    return actionConfig;
+    return config;
 };

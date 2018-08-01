@@ -23,7 +23,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
       Object {
         "component": [Function],
         "description": "Remove the contact from a group",
-        "form": [Function],
+        "form": undefined,
         "name": "Remove from Group",
         "type": "remove_contact_groups",
       }

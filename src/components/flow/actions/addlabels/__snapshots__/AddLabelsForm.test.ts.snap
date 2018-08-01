@@ -14,19 +14,18 @@ exports[`AddLabelsForm render should render a base action 1`] = `
       },
     }
   }
-  headerClass="send_broadcast"
-  title="Send Broadcast"
+  headerClass="add_input_labels"
+  title="Add Labels"
 >
   <TypeList
     __className=""
     initialType={
       Object {
         "component": [Function],
-        "description": "Send somebody else a message",
-        "form": [Function],
-        "localization": [Function],
-        "name": "Send Broadcast",
-        "type": "send_broadcast",
+        "description": "Label the incoming message",
+        "form": undefined,
+        "name": "Add Labels",
+        "type": "add_input_labels",
       }
     }
     onChange={[MockFunction]}

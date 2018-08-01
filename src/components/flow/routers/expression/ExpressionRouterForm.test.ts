@@ -6,19 +6,18 @@ import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, mockClear } from '~/testUtils';
-import { createRenderNode } from '~/testUtils/assetCreators';
+import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
 
-const baseProps: RouterFormProps = {
-    updateRouter: jest.fn(),
-    onClose: jest.fn(),
-    onTypeChange: jest.fn(),
-    nodeSettings: {
-        originalNode: createRenderNode({ actions: [], exits: [] }),
-        originalAction: null
-    }
-};
-
-const { setup } = composeComponentTestUtils<RouterFormProps>(ExpressionRouterForm, baseProps);
+const { setup } = composeComponentTestUtils<RouterFormProps>(
+    ExpressionRouterForm,
+    getRouterFormProps(
+        createRenderNode({
+            actions: [],
+            exits: [],
+            ui: { position: { left: 0, top: 0 }, type: Types.split_by_expression }
+        })
+    )
+);
 
 let mockUuidCounts = 1;
 jest.mock('uuid', () => {

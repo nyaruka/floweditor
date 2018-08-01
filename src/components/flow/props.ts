@@ -8,6 +8,7 @@ import { NodeEditorSettings } from '~/store/nodeEditor';
 export interface ActionFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
+    typeConfig: Type;
 
     // update handlers
     updateAction(action: AnyAction): void;
@@ -19,6 +20,7 @@ export interface ActionFormProps {
 
 export interface RouterFormProps {
     nodeSettings: NodeEditorSettings;
+    typeConfig: Type;
 
     // update handlers
     updateRouter(renderNode: RenderNode): void;

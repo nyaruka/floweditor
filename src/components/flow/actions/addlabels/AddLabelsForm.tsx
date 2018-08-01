@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/addlabels/helpers';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import LabelsElement from '~/components/form/select/labels/LabelsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -66,7 +65,7 @@ export default class AddLabelsForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
         return (
             <Dialog
                 title={typeConfig.name}

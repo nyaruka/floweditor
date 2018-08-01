@@ -14,18 +14,18 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
       },
     }
   }
-  headerClass="remove_contact_groups"
-  title="Remove from Group"
+  headerClass="add_contact_groups"
+  title="Add to Group"
 >
   <TypeList
     __className=""
     initialType={
       Object {
         "component": [Function],
-        "description": "Remove the contact from a group",
-        "form": [Function],
-        "name": "Remove from Group",
-        "type": "remove_contact_groups",
+        "description": "Add the contact to a group",
+        "form": undefined,
+        "name": "Add to Group",
+        "type": "add_contact_groups",
       }
     }
     onChange={[MockFunction]}

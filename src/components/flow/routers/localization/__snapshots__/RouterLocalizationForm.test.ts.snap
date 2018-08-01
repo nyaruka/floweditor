@@ -1,173 +1,363 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RouterLocalizationForm initializes 1`] = `
-<Dialog
-  buttons={
-    Object {
-      "primary": Object {
-        "name": "Ok",
-        "onClick": [Function],
-      },
-      "secondary": Object {
-        "name": "Cancel",
-        "onClick": [Function],
-      },
-    }
+<Flipper
+  back={
+    <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
+        }
+      }
+      headerClass="split_by_expression"
+      headerIcon="fe-cog"
+      headerStyle="barber"
+      subtitle="Advanced Settings"
+      title="Spanish Rules"
+    >
+      <p
+        data-spec="instructions"
+      >
+        Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.
+      </p>
+      <div
+        className="translating_operator_container"
+        data-spec="operator-field"
+      >
+        <div
+          className="translating_operator"
+          data-spec="verbose-name"
+        >
+          has any of the words
+        </div>
+        <div
+          className="translating_from"
+          data-spec="argument-to-translate"
+        >
+          red
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-case"
+            entry={
+              Object {
+                "value": "rojo, r",
+              }
+            }
+            name="generated_uuid_3"
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_operator_container"
+        data-spec="operator-field"
+      >
+        <div
+          className="translating_operator"
+          data-spec="verbose-name"
+        >
+          has any of the words
+        </div>
+        <div
+          className="translating_from"
+          data-spec="argument-to-translate"
+        >
+          blue
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-case"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name="generated_uuid_4"
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+    </Dialog>
   }
-  headerClass="wait_for_response"
-  title="Spanish Category Names"
->
-  <p
-    data-spec="instructions"
-  >
-    When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
-  </p>
-  <div
-    className="translating_exit"
-    key="generated_uuid_1"
-  >
-    <div
-      className="translating_from"
-      data-spec="exit-name"
-    >
-      Colors
-    </div>
-    <div
-      className="translating_to"
-    >
-      <Connect(TextInputElement)
-        data-spec="localize-exit"
-        entry={
-          Object {
-            "value": "",
-          }
+  front={
+    <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
         }
-        name=""
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-  <div
-    className="translating_exit"
-    key="generated_uuid_2"
-  >
-    <div
-      className="translating_from"
-      data-spec="exit-name"
+      }
+      headerClass="split_by_expression"
+      title="Spanish Category Names"
     >
-      Other
-    </div>
-    <div
-      className="translating_to"
-    >
-      <Connect(TextInputElement)
-        data-spec="localize-exit"
-        entry={
-          Object {
-            "value": Array [
-              "Otro",
-            ],
-          }
-        }
-        name={
-          Array [
-            "Otro",
-          ]
-        }
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-</Dialog>
+      <p
+        data-spec="instructions"
+      >
+        When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
+      </p>
+      <div
+        className="translating_exit"
+      >
+        <div
+          className="translating_from"
+          data-spec="exit-name"
+        >
+          Colors
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-exit"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name=""
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_exit"
+      >
+        <div
+          className="translating_from"
+          data-spec="exit-name"
+        >
+          Other
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-exit"
+            entry={
+              Object {
+                "value": Array [
+                  "Otro",
+                ],
+              }
+            }
+            name={
+              Array [
+                "Otro",
+              ]
+            }
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+    </Dialog>
+  }
+/>
 `;
 
 exports[`RouterLocalizationForm should render 1`] = `
-<Dialog
-  buttons={
-    Object {
-      "primary": Object {
-        "name": "Ok",
-        "onClick": [Function],
-      },
-      "secondary": Object {
-        "name": "Cancel",
-        "onClick": [Function],
-      },
-    }
+<Flipper
+  back={
+    <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
+        }
+      }
+      headerClass="split_by_expression"
+      headerIcon="fe-cog"
+      headerStyle="barber"
+      subtitle="Advanced Settings"
+      title="Spanish Rules"
+    >
+      <p
+        data-spec="instructions"
+      >
+        Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.
+      </p>
+      <div
+        className="translating_operator_container"
+        data-spec="operator-field"
+      >
+        <div
+          className="translating_operator"
+          data-spec="verbose-name"
+        >
+          has any of the words
+        </div>
+        <div
+          className="translating_from"
+          data-spec="argument-to-translate"
+        >
+          red
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-case"
+            entry={
+              Object {
+                "value": "rojo, r",
+              }
+            }
+            name="generated_uuid_3"
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_operator_container"
+        data-spec="operator-field"
+      >
+        <div
+          className="translating_operator"
+          data-spec="verbose-name"
+        >
+          has any of the words
+        </div>
+        <div
+          className="translating_from"
+          data-spec="argument-to-translate"
+        >
+          blue
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-case"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name="generated_uuid_4"
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+    </Dialog>
   }
-  headerClass="wait_for_response"
-  title="Spanish Category Names"
->
-  <p
-    data-spec="instructions"
-  >
-    When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
-  </p>
-  <div
-    className="translating_exit"
-    key="generated_uuid_1"
-  >
-    <div
-      className="translating_from"
-      data-spec="exit-name"
-    >
-      Colors
-    </div>
-    <div
-      className="translating_to"
-    >
-      <Connect(TextInputElement)
-        data-spec="localize-exit"
-        entry={
-          Object {
-            "value": "",
-          }
+  front={
+    <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
         }
-        name=""
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-  <div
-    className="translating_exit"
-    key="generated_uuid_2"
-  >
-    <div
-      className="translating_from"
-      data-spec="exit-name"
+      }
+      headerClass="split_by_expression"
+      title="Spanish Category Names"
     >
-      Other
-    </div>
-    <div
-      className="translating_to"
-    >
-      <Connect(TextInputElement)
-        data-spec="localize-exit"
-        entry={
-          Object {
-            "value": Array [
-              "Otro",
-            ],
-          }
-        }
-        name={
-          Array [
-            "Otro",
-          ]
-        }
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-</Dialog>
+      <p
+        data-spec="instructions"
+      >
+        When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
+      </p>
+      <div
+        className="translating_exit"
+      >
+        <div
+          className="translating_from"
+          data-spec="exit-name"
+        >
+          Colors
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-exit"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name=""
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_exit"
+      >
+        <div
+          className="translating_from"
+          data-spec="exit-name"
+        >
+          Other
+        </div>
+        <div
+          className="translating_to"
+        >
+          <Connect(TextInputElement)
+            data-spec="localize-exit"
+            entry={
+              Object {
+                "value": Array [
+                  "Otro",
+                ],
+              }
+            }
+            name={
+              Array [
+                "Otro",
+              ]
+            }
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+    </Dialog>
+  }
+/>
 `;
 
 exports[`RouterLocalizationForm updates should save changes 1`] = `
@@ -180,6 +370,9 @@ Object {
       "exit_uuid": "generated_uuid_1",
       "type": "has_any_word",
       "uuid": "generated_uuid_3",
+    },
+    Object {
+      "uuid": "generated_uuid_4",
     },
   ],
   "exits": Array [
@@ -225,6 +418,9 @@ Array [
         ],
       },
       "uuid": "generated_uuid_3",
+    },
+    Object {
+      "uuid": "generated_uuid_4",
     },
   ],
 ]

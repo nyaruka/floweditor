@@ -183,7 +183,6 @@ export default class RouterLocalizationForm extends React.Component<
 
     public render(): JSX.Element {
         const typeConfig = determineTypeConfig(this.props.nodeSettings);
-
         const exits = (
             <Dialog
                 title={`${this.props.language.name} Category Names`}

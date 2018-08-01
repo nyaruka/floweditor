@@ -3,7 +3,6 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/setrunresult/helpers';
 import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -86,7 +85,7 @@ export default class SetRunResultForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
-        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const typeConfig = this.props.typeConfig;
         return (
             <Dialog
                 title={typeConfig.name}
