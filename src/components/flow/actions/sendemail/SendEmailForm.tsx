@@ -3,34 +3,15 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendemail/helpers';
 import * as styles from '~/components/flow/actions/sendemail/SendEmail.scss';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { Type } from '~/config';
-import { SendEmail } from '~/flowTypes';
-import {
-    FormState,
-    mergeForm,
-    NodeEditorSettings,
-    StringArrayEntry,
-    StringEntry
-} from '~/store/nodeEditor';
+import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
-
-export interface SendEmailFormProps {
-    // action details
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateAction(action: SendEmail): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface SendEmailFormState extends FormState {
     recipients: StringArrayEntry;
@@ -38,8 +19,8 @@ export interface SendEmailFormState extends FormState {
     body: StringEntry;
 }
 
-export default class SendEmailForm extends React.Component<SendEmailFormProps, SendEmailFormState> {
-    constructor(props: SendEmailFormProps) {
+export default class SendEmailForm extends React.Component<ActionFormProps, SendEmailFormState> {
+    constructor(props: ActionFormProps) {
         super(props);
 
         this.state = initializeForm(this.props.nodeSettings);
@@ -119,15 +100,16 @@ export default class SendEmailForm extends React.Component<SendEmailFormProps, S
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
                 <div className={styles.ele}>

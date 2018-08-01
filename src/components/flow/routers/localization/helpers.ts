@@ -34,6 +34,7 @@ export const getLocalizedObjects = (
 
     let items: Exit[] | Case[] = nodeSettings.originalNode.node.exits;
     if (localizedType === LocalizedType.Case) {
+        // TODO: FIXME
         if (hasLocalizableCases(nodeSettings.originalNode)) {
             items = (nodeSettings.originalNode.node.router as SwitchRouter).cases;
         } else {

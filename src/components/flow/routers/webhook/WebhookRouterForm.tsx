@@ -4,6 +4,8 @@ import FlipMove = require('react-flip-move');
 import { v4 as generateUUID } from 'uuid';
 import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { RouterFormProps } from '~/components/flow/props';
 import HeaderElement, { Header } from '~/components/flow/routers/webhook/header/HeaderElement';
 import {
     GET_METHOD,
@@ -16,31 +18,11 @@ import {
 import SelectElement from '~/components/form/select/SelectElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { Type } from '~/config/typeConfigs';
-import { RenderNode } from '~/store/flowContext';
-import {
-    FormEntry,
-    FormState,
-    mergeForm,
-    NodeEditorSettings,
-    StringEntry
-} from '~/store/nodeEditor';
+import { FormEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired, validateURL } from '~/store/validators';
 
 // tslint:disable:ban-types
 const styles = require('./WebhookRouterForm.scss');
-
-export interface WebhookRouterFormProps {
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateRouter(renderNode: RenderNode): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface HeaderEntry extends FormEntry {
     value: Header;
@@ -57,13 +39,10 @@ export interface WebhookRouterFormState extends FormState {
     postBody: StringEntry;
 }
 
-export class WebhookRouterForm extends React.Component<
-    WebhookRouterFormProps,
-    WebhookRouterFormState
-> {
+export class WebhookRouterForm extends React.Component<RouterFormProps, WebhookRouterFormState> {
     private flipper: Flipper;
 
-    constructor(props: WebhookRouterFormProps) {
+    constructor(props: RouterFormProps) {
         super(props);
         this.state = nodeToState(this.props.nodeSettings);
         bindCallbacks(this, {
@@ -194,6 +173,8 @@ export class WebhookRouterForm extends React.Component<
     }
 
     private renderEdit(): FlipperProps {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+
         const headerElements: JSX.Element[] = this.state.headers.map(
             (header: HeaderEntry, index: number, arr: HeaderEntry[]) => {
                 return (
@@ -233,13 +214,13 @@ export class WebhookRouterForm extends React.Component<
         return {
             front: (
                 <Dialog
-                    title={this.props.typeConfig.name}
-                    headerClass={this.props.typeConfig.type}
+                    title={typeConfig.name}
+                    headerClass={typeConfig.type}
                     buttons={this.getButtons()}
                 >
                     <TypeList
                         __className=""
-                        initialType={this.props.typeConfig}
+                        initialType={typeConfig}
                         onChange={this.props.onTypeChange}
                     />
                     <div className={styles.method}>
@@ -279,11 +260,11 @@ export class WebhookRouterForm extends React.Component<
             ),
             back: (
                 <Dialog
-                    title={this.props.typeConfig.name}
+                    title={typeConfig.name}
                     subtitle="Advanced Settings"
                     buttons={this.getButtons()}
                     headerStyle={HeaderStyle.BARBER}
-                    headerClass={this.props.typeConfig.type}
+                    headerClass={typeConfig.type}
                     headerIcon="fe-cog"
                 >
                     <h4 className={styles.headers_title}>Headers</h4>

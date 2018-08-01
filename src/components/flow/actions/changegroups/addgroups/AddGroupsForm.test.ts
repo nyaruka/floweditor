@@ -1,20 +1,21 @@
 import AddGroupsForm from '~/components/flow/actions/changegroups/addgroups/AddGroupsForm';
-import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createAddGroupsAction, SubscribersGroup } from '~/testUtils/assetCreators';
 
 const addGroupsAction = createAddGroupsAction();
 
-const baseProps: ChangeGroupsFormProps = {
+const baseProps: ActionFormProps = {
     updateAction: jest.fn(),
     onTypeChange: jest.fn(),
     onClose: jest.fn(),
-    nodeSettings: { originalNode: null, originalAction: addGroupsAction },
-    typeConfig: getTypeConfig(Types.remove_contact_groups)
+    nodeSettings: {
+        originalNode: null,
+        originalAction: addGroupsAction
+    }
 };
 
-const { setup } = composeComponentTestUtils<ChangeGroupsFormProps>(AddGroupsForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(AddGroupsForm, baseProps);
 
 describe(AddGroupsForm.name, () => {
     describe('render', () => {

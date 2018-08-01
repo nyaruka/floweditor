@@ -24,6 +24,7 @@ exports[`AddLabelsForm render should render a base action 1`] = `
         "component": [Function],
         "description": "Send somebody else a message",
         "form": [Function],
+        "localization": [Function],
         "name": "Send Broadcast",
         "type": "send_broadcast",
       }

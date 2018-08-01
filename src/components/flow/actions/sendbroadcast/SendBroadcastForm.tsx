@@ -1,43 +1,17 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import * as styles from '~/components/flow/actions/action/Action.scss';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendbroadcast/helpers';
 import * as broadcastStyles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
-import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
-import { BroadcastMsg } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import {
-    AssetArrayEntry,
-    FormState,
-    mergeForm,
-    NodeEditorSettings,
-    StringEntry
-} from '~/store/nodeEditor';
+import { AssetArrayEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-export interface SendBroadcastFormProps {
-    // localization
-    language: Asset;
-    translating: boolean;
-
-    // action details
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateAction(action: BroadcastMsg): void;
-    updateLocalizations: UpdateLocalizations;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface SendBroadcastFormState extends FormState {
     text: StringEntry;
@@ -46,7 +20,7 @@ export interface SendBroadcastFormState extends FormState {
 
 // Note: action prop is only used for its uuid (see onValid)
 export default class SendBroadcastForm extends React.Component<
-    SendBroadcastFormProps,
+    ActionFormProps,
     SendBroadcastFormState
 > {
     public static contextTypes = {
@@ -54,7 +28,7 @@ export default class SendBroadcastForm extends React.Component<
         assetService: fakePropType
     };
 
-    constructor(props: SendBroadcastFormProps) {
+    constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings);
         bindCallbacks(this, {
@@ -78,11 +52,7 @@ export default class SendBroadcastForm extends React.Component<
         }
 
         if (keys.hasOwnProperty('text')) {
-            const messageValidators = [];
-            if (!this.props.translating) {
-                messageValidators.push(validateRequired);
-            }
-            updates.text = validate('Message', keys.text, messageValidators);
+            updates.text = validate('Message', keys.text, [validateRequired]);
         }
 
         const updated = mergeForm(this.state, updates);
@@ -91,34 +61,19 @@ export default class SendBroadcastForm extends React.Component<
     }
 
     private handleSave(): void {
-        if (this.props.translating) {
-            const { text } = this.state;
-            this.props.updateLocalizations(this.props.language.id, [
-                {
-                    uuid: this.props.nodeSettings.originalAction.uuid,
-                    translations: {
-                        text: text.value
-                    }
-                }
-            ]);
+        // validate in case they never updated an empty field
+        const valid = this.handleUpdate({
+            text: this.state.text.value,
+            recipients: this.state.recipients.value
+        });
+
+        if (valid) {
+            this.props.updateAction(
+                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
+            );
 
             // notify our modal we are done
             this.props.onClose(false);
-        } else {
-            // validate in case they never updated an empty field
-            const valid = this.handleUpdate({
-                text: this.state.text.value,
-                recipients: this.state.recipients.value
-            });
-
-            if (valid) {
-                this.props.updateAction(
-                    stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
-                );
-
-                // notify our modal we are done
-                this.props.onClose(false);
-            }
         }
     }
 
@@ -129,16 +84,17 @@ export default class SendBroadcastForm extends React.Component<
         };
     }
 
-    public renderEdit(): JSX.Element {
+    public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
                 <OmniboxElement
@@ -162,41 +118,5 @@ export default class SendBroadcastForm extends React.Component<
                 />
             </Dialog>
         );
-    }
-
-    public renderTranslate(): JSX.Element {
-        return (
-            <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
-                buttons={this.getButtons()}
-            >
-                <div data-spec="translation-container">
-                    <div data-spec="text-to-translate" className={styles.translate_from}>
-                        {(this.props.nodeSettings.originalAction as BroadcastMsg).text}
-                    </div>
-                </div>
-
-                <TextInputElement
-                    name="Message"
-                    showLabel={false}
-                    count={Count.SMS}
-                    onChange={this.handleMessageUpdate}
-                    entry={this.state.text}
-                    placeholder={`${this.props.language.name} Translation`}
-                    autocomplete={true}
-                    focus={true}
-                    textarea={true}
-                />
-            </Dialog>
-        );
-    }
-
-    public render(): JSX.Element {
-        if (this.props.translating) {
-            return this.renderTranslate();
-        } else {
-            return this.renderEdit();
-        }
     }
 }

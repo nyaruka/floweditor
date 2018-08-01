@@ -4,33 +4,14 @@ import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper from '~/components/flipper/Flipper';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg/helpers';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { Type } from '~/config/typeConfigs';
-import { SendMsg } from '~/flowTypes';
-import {
-    FormState,
-    mergeForm,
-    NodeEditorSettings,
-    StringArrayEntry,
-    StringEntry
-} from '~/store/nodeEditor';
+import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
-
-export interface SendMsgFormProps {
-    // action details
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateAction(action: SendMsg): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface SendMsgFormState extends FormState {
     text: StringEntry;
@@ -38,8 +19,8 @@ export interface SendMsgFormState extends FormState {
     sendAll: boolean;
 }
 
-export default class SendMsgForm extends React.Component<SendMsgFormProps, SendMsgFormState> {
-    constructor(props: SendMsgFormProps) {
+export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
+    constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings);
         bindCallbacks(this, {
@@ -107,17 +88,18 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
         return (
             <Flipper
                 front={
                     <Dialog
-                        title={this.props.typeConfig.name}
-                        headerClass={this.props.typeConfig.type}
+                        title={typeConfig.name}
+                        headerClass={typeConfig.type}
                         buttons={this.getButtons()}
                     >
                         <TypeList
                             __className=""
-                            initialType={this.props.typeConfig}
+                            initialType={typeConfig}
                             onChange={this.props.onTypeChange}
                         />
                         <TextInputElement
@@ -134,10 +116,10 @@ export default class SendMsgForm extends React.Component<SendMsgFormProps, SendM
                 }
                 back={
                     <Dialog
-                        title={this.props.typeConfig.name}
+                        title={typeConfig.name}
                         subtitle="Advanced Settings"
                         headerStyle={HeaderStyle.BARBER}
-                        headerClass={this.props.typeConfig.type}
+                        headerClass={typeConfig.type}
                         headerIcon="fe-cog"
                     >
                         <p>Quick Replies are made into buttons for supported channels</p>

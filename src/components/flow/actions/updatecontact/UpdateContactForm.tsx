@@ -1,43 +1,25 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
-import TextInputElement from '~/components/form/textinput/TextInputElement';
-import TypeList from '~/components/nodeeditor/TypeList';
-import { fakePropType } from '~/config/ConfigProvider';
-import { Type, Types } from '~/config/typeConfigs';
-import { ContactProperties, SetContactAttribute } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
-import {
-    AssetEntry,
-    FormState,
-    mergeForm,
-    NodeEditorSettings,
-    StringEntry
-} from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
-import { composeCreateNewOption, snakify, titleCase } from '~/utils';
-
 import {
     initializeForm,
     sortFieldsAndProperties,
     stateToAction
 } from '~/components/flow/actions/updatecontact/helpers';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
+import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
+import TypeList from '~/components/nodeeditor/TypeList';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Types } from '~/config/typeConfigs';
+import { ContactProperties } from '~/flowTypes';
+import { Asset, AssetType } from '~/services/AssetService';
+import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
+import { composeCreateNewOption, snakify, titleCase } from '~/utils';
 
 const styles = require('./UpdateContact.scss');
-
-export interface UpdateContactFormProps {
-    // action details
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateAction(action: SetContactAttribute): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface UpdateContactFormState extends FormState {
     type: Types;
@@ -74,14 +56,14 @@ export const createNewOption = composeCreateNewOption({
 });
 
 export default class UpdateContactForm extends React.Component<
-    UpdateContactFormProps,
+    ActionFormProps,
     UpdateContactFormState
 > {
     public static contextTypes = {
         assetService: fakePropType
     };
 
-    constructor(props: UpdateContactFormProps) {
+    constructor(props: ActionFormProps) {
         super(props);
 
         this.state = initializeForm(this.props.nodeSettings);
@@ -256,15 +238,17 @@ export default class UpdateContactForm extends React.Component<
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
 

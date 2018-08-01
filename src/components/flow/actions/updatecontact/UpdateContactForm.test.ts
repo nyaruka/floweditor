@@ -1,26 +1,26 @@
 import UpdateContactForm, {
     CHANNEL_PROPERTY,
     LANGUAGE_PROPERTY,
-    NAME_PROPERTY,
-    UpdateContactFormProps
+    NAME_PROPERTY
 } from '~/components/flow/actions/updatecontact/UpdateContactForm';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createSetContactFieldAction } from '~/testUtils/assetCreators';
 
 const startSessionAction = createSetContactFieldAction();
-const typeConfig = getTypeConfig(Types.set_contact_field);
 
-const baseProps: UpdateContactFormProps = {
-    typeConfig,
+const baseProps: ActionFormProps = {
     updateAction: jest.fn(),
     onTypeChange: jest.fn(),
     onClose: jest.fn(),
-    nodeSettings: { originalNode: null, originalAction: startSessionAction }
+    nodeSettings: {
+        originalNode: null,
+        originalAction: startSessionAction
+    }
 };
 
-const { setup } = composeComponentTestUtils<UpdateContactFormProps>(UpdateContactForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(UpdateContactForm, baseProps);
 
 describe(UpdateContactForm.name, () => {
     describe('render', () => {

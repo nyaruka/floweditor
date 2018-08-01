@@ -3,36 +3,17 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { RouterFormProps } from '~/components/flow/props';
 import { GROUP_LABEL } from '~/components/flow/routers/constants';
+import { nodeToState, stateToNode } from '~/components/flow/routers/groups/helpers';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Type } from '~/config/typeConfigs';
 import { Asset } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
-import {
-    AssetArrayEntry,
-    FormState,
-    mergeForm,
-    NodeEditorSettings,
-    StringEntry
-} from '~/store/nodeEditor';
+import { AssetArrayEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-import { nodeToState, stateToNode } from './helpers';
-
-export interface GroupsRouterFormProps {
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateRouter(renderNode: RenderNode): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface GroupsRouterFormState extends FormState {
     groups: AssetArrayEntry;
@@ -40,7 +21,7 @@ export interface GroupsRouterFormState extends FormState {
 }
 
 export default class GroupsRouterForm extends React.Component<
-    GroupsRouterFormProps,
+    RouterFormProps,
     GroupsRouterFormState
 > {
     public static contextTypes = {
@@ -48,7 +29,7 @@ export default class GroupsRouterForm extends React.Component<
         assetService: fakePropType
     };
 
-    constructor(props: GroupsRouterFormProps) {
+    constructor(props: RouterFormProps) {
         super(props);
         this.state = nodeToState(this.props.nodeSettings);
 
@@ -96,15 +77,17 @@ export default class GroupsRouterForm extends React.Component<
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
                 <p>{GROUP_LABEL}</p>

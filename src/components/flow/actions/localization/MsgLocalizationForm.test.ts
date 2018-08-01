@@ -1,6 +1,5 @@
-import SendMsgLocalizationForm, {
-    SendMsgLocalizationFormProps
-} from '~/components/flow/actions/sendmsg/SendMsgLocalizationForm';
+import SendMsgLocalizationForm from '~/components/flow/actions/localization/MsgLocalizationForm';
+import { LocalizationFormProps } from '~/components/flow/props';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { LocalizedObject } from '~/services/Localization';
 import { composeComponentTestUtils, mockClear } from '~/testUtils';
@@ -9,10 +8,9 @@ import { createSendMsgAction, Spanish } from '~/testUtils/assetCreators';
 const action = createSendMsgAction();
 const sendConfig = getTypeConfig(Types.send_broadcast);
 
-const baseProps: SendMsgLocalizationFormProps = {
+const baseProps: LocalizationFormProps = {
     language: Spanish,
     updateLocalizations: jest.fn(),
-    typeConfig: sendConfig,
     onClose: jest.fn(),
     nodeSettings: {
         originalNode: null,
@@ -20,7 +18,7 @@ const baseProps: SendMsgLocalizationFormProps = {
     }
 };
 
-const { setup, spyOn } = composeComponentTestUtils<SendMsgLocalizationFormProps>(
+const { setup } = composeComponentTestUtils<LocalizationFormProps>(
     SendMsgLocalizationForm,
     baseProps
 );

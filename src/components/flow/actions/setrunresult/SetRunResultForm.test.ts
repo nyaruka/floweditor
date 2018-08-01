@@ -1,15 +1,11 @@
-import SetRunResultForm, {
-    SetRunResultFormProps
-} from '~/components/flow/actions/setrunresult/SetRunResultForm';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
+import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createSetRunResultAction } from '~/testUtils/assetCreators';
 
 const action = createSetRunResultAction();
-const typeConfig = getTypeConfig(Types.send_email);
 
-const baseProps: SetRunResultFormProps = {
-    typeConfig,
+const baseProps: ActionFormProps = {
     updateAction: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
@@ -19,7 +15,7 @@ const baseProps: SetRunResultFormProps = {
     }
 };
 
-const { setup } = composeComponentTestUtils<SetRunResultFormProps>(SetRunResultForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(SetRunResultForm, baseProps);
 
 describe(SetRunResultForm.name, () => {
     describe('render', () => {

@@ -1,6 +1,5 @@
-import RouterLocalizationForm, {
-    RouterLocalizationFormProps
-} from '~/components/flow/routers/localization/RouterLocalizationForm';
+import { LocalizationFormProps } from '~/components/flow/props';
+import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
@@ -44,8 +43,7 @@ const localizations = getLocalizations(responseRenderNode.node, null, Spanish, {
     generated_uuid_3: { arguments: ['rojo, r'] }
 });
 
-const baseProps: RouterLocalizationFormProps = {
-    typeConfig,
+const baseProps: LocalizationFormProps = {
     language: Spanish,
     updateLocalizations: jest.fn(),
     onClose: jest.fn(),
@@ -56,7 +54,7 @@ const baseProps: RouterLocalizationFormProps = {
     }
 };
 
-const { setup } = composeComponentTestUtils<RouterLocalizationFormProps>(
+const { setup } = composeComponentTestUtils<LocalizationFormProps>(
     RouterLocalizationForm,
     baseProps
 );

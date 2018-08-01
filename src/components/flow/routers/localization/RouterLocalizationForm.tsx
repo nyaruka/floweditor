@@ -2,6 +2,8 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper from '~/components/flipper/Flipper';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { LocalizationFormProps } from '~/components/flow/props';
 import {
     getLocalizedObjects,
     getOriginal,
@@ -9,20 +11,9 @@ import {
 } from '~/components/flow/routers/localization/helpers';
 import * as styles from '~/components/flow/routers/localization/RouterLocalizationForm.scss';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { getOperatorConfig } from '~/config/operatorConfigs';
-import { Type } from '~/config/typeConfigs';
 import { Case, Exit } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
-import { FormState, mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
-
-export interface RouterLocalizationFormProps {
-    language: Asset;
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-    updateLocalizations(languageCode: string, localizations: any[]): UpdateLocalizations;
-    onClose(canceled: boolean): void;
-}
+import { FormState, mergeForm } from '~/store/nodeEditor';
 
 export interface RouterLocalizationFormState extends FormState {
     exits: Exit[];
@@ -30,10 +21,10 @@ export interface RouterLocalizationFormState extends FormState {
 }
 
 export default class RouterLocalizationForm extends React.Component<
-    RouterLocalizationFormProps,
+    LocalizationFormProps,
     RouterLocalizationFormState
 > {
-    constructor(props: RouterLocalizationFormProps) {
+    constructor(props: LocalizationFormProps) {
         super(props);
 
         const exits: Exit[] = getLocalizedObjects(props.nodeSettings, LocalizedType.Exit) as Exit[];
@@ -191,10 +182,12 @@ export default class RouterLocalizationForm extends React.Component<
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+
         const exits = (
             <Dialog
                 title={`${this.props.language.name} Category Names`}
-                headerClass={this.props.typeConfig.type}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <p data-spec="instructions">
@@ -215,7 +208,7 @@ export default class RouterLocalizationForm extends React.Component<
                         <Dialog
                             title={`${this.props.language.name} Rules`}
                             headerStyle={HeaderStyle.BARBER}
-                            headerClass={this.props.typeConfig.type}
+                            headerClass={typeConfig.type}
                             headerIcon="fe-cog"
                             subtitle="Advanced Settings"
                             buttons={this.getButtons()}

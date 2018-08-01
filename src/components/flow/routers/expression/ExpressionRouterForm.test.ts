@@ -1,17 +1,14 @@
+import { RouterFormProps } from '~/components/flow/props';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import ExpressionRouterForm, {
-    ExpressionRouterFormProps
-} from '~/components/flow/routers/expression/ExpressionRouterForm';
+import ExpressionRouterForm from '~/components/flow/routers/expression/ExpressionRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Types } from '~/config/typeConfigs';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, mockClear } from '~/testUtils';
 import { createRenderNode } from '~/testUtils/assetCreators';
 
-const typeConfig = getTypeConfig(Types.split_by_expression);
-const baseProps: ExpressionRouterFormProps = {
-    typeConfig,
+const baseProps: RouterFormProps = {
     updateRouter: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
@@ -21,10 +18,7 @@ const baseProps: ExpressionRouterFormProps = {
     }
 };
 
-const { setup } = composeComponentTestUtils<ExpressionRouterFormProps>(
-    ExpressionRouterForm,
-    baseProps
-);
+const { setup } = composeComponentTestUtils<RouterFormProps>(ExpressionRouterForm, baseProps);
 
 let mockUuidCounts = 1;
 jest.mock('uuid', () => {

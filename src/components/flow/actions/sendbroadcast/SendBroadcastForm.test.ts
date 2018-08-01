@@ -1,7 +1,5 @@
-import SendBroadcastForm, {
-    SendBroadcastFormProps
-} from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import SendBroadcastForm from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
+import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
@@ -10,14 +8,9 @@ import { createBroadcastMsgAction, Spanish } from '~/testUtils/assetCreators';
 const { assets: groups } = require('~/test/assets/groups.json');
 
 const broadcastMsgAction = createBroadcastMsgAction();
-const sendConfig = getTypeConfig(Types.send_broadcast);
 
-const baseProps: SendBroadcastFormProps = {
+const baseProps: ActionFormProps = {
     updateAction: jest.fn(),
-    typeConfig: sendConfig,
-    language: null,
-    translating: false,
-    updateLocalizations: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
     nodeSettings: {
@@ -26,10 +19,7 @@ const baseProps: SendBroadcastFormProps = {
     }
 };
 
-const { setup, spyOn } = composeComponentTestUtils<SendBroadcastFormProps>(
-    SendBroadcastForm,
-    baseProps
-);
+const { setup } = composeComponentTestUtils<ActionFormProps>(SendBroadcastForm, baseProps);
 
 describe(SendBroadcastForm.name, () => {
     describe('render', () => {

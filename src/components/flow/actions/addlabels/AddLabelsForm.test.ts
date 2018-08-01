@@ -1,7 +1,5 @@
-import AddLabelsForm, {
-    AddLabelsFormProps
-} from '~/components/flow/actions/addlabels/AddLabelsForm';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
+import { ActionFormProps } from '~/components/flow/props';
 import { Label } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createAddLabelsAction, FeedbackLabel } from '~/testUtils/assetCreators';
@@ -11,17 +9,14 @@ const { assets: labels } = require('~/test/assets/labels.json') as {
 };
 
 const action = createAddLabelsAction(labels);
-const sendConfig = getTypeConfig(Types.send_broadcast);
-
-const baseProps: AddLabelsFormProps = {
+const baseProps: ActionFormProps = {
     updateAction: jest.fn(),
     onTypeChange: jest.fn(),
     onClose: jest.fn(),
     nodeSettings: {
         originalNode: null,
         originalAction: action
-    },
-    typeConfig: sendConfig
+    }
 };
 
 const { setup, spyOn } = composeComponentTestUtils(AddLabelsForm, baseProps);

@@ -1,6 +1,5 @@
-import GroupsRouter, {
-    GroupsRouterFormProps
-} from '~/components/flow/routers/groups/GroupsRouterForm';
+import { RouterFormProps } from '~/components/flow/props';
+import GroupsRouter from '~/components/flow/routers/groups/GroupsRouterForm';
 import { extractGroups } from '~/components/flow/routers/groups/helpers';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { SwitchRouter } from '~/flowTypes';
@@ -10,12 +9,11 @@ import { createGroupsRouterNode } from '~/testUtils/assetCreators';
 const groupsRouterNode = createGroupsRouterNode();
 const typeConfig = getTypeConfig(Types.split_by_groups);
 
-const baseProps: GroupsRouterFormProps = {
+const baseProps: RouterFormProps = {
     nodeSettings: { originalNode: groupsRouterNode },
     updateRouter: jest.fn(),
     onTypeChange: jest.fn(),
-    onClose: jest.fn(),
-    typeConfig
+    onClose: jest.fn()
 };
 
 const { setup } = composeComponentTestUtils(GroupsRouter, baseProps);

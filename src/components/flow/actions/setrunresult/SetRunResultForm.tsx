@@ -3,25 +3,12 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/setrunresult/helpers';
 import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { Type } from '~/config';
-import { SetRunResult } from '~/flowTypes';
-import { FormState, mergeForm, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
+import { FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-export interface SetRunResultFormProps {
-    // action details
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateAction(action: SetRunResult): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface SetRunResultFormState extends FormState {
     name: StringEntry;
@@ -30,10 +17,10 @@ export interface SetRunResultFormState extends FormState {
 }
 
 export default class SetRunResultForm extends React.PureComponent<
-    SetRunResultFormProps,
+    ActionFormProps,
     SetRunResultFormState
 > {
-    constructor(props: SetRunResultFormProps) {
+    constructor(props: ActionFormProps) {
         super(props);
 
         this.state = initializeForm(this.props.nodeSettings);
@@ -99,15 +86,16 @@ export default class SetRunResultForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
                 <div className={styles.form}>

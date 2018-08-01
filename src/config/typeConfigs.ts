@@ -4,6 +4,7 @@ import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';
 import AddGroupsForm from '~/components/flow/actions/changegroups/addgroups/AddGroupsForm';
 import ChangeGroupsComp from '~/components/flow/actions/changegroups/ChangeGroups';
 import RemoveGroupsForm from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
+import MsgLocalizationForm from '~/components/flow/actions/localization/MsgLocalizationForm';
 import MissingComp from '~/components/flow/actions/missing/Missing';
 import SendBroadcastComp from '~/components/flow/actions/sendbroadcast/SendBroadcast';
 import SendBroadcastForm from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
@@ -11,7 +12,6 @@ import SendEmailComp from '~/components/flow/actions/sendemail/SendEmail';
 import SendEmailForm from '~/components/flow/actions/sendemail/SendEmailForm';
 import SendMsgComp from '~/components/flow/actions/sendmsg/SendMsg';
 import SendMsgForm from '~/components/flow/actions/sendmsg/SendMsgForm';
-import SendMsgLocalizationForm from '~/components/flow/actions/sendmsg/SendMsgLocalizationForm';
 import SetRunResultComp from '~/components/flow/actions/setrunresult/SetRunResult';
 import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
 import StartFlowComp from '~/components/flow/actions/startflow/StartFlow';
@@ -88,8 +88,9 @@ export interface Type {
     description: string;
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
-    localization?: React.ComponentClass<any>;
     aliases?: string[];
+    localization?: React.ComponentClass<any>;
+    localizeableKeys?: string[];
 }
 
 export interface TypeMap {
@@ -111,7 +112,8 @@ export const typeConfigList: Type[] = [
         name: 'Send Message',
         description: 'Send the contact a message',
         form: SendMsgForm,
-        localization: SendMsgLocalizationForm,
+        localization: MsgLocalizationForm,
+        localizeableKeys: ['text', 'quickReplies'],
         component: SendMsgComp
     },
     {
@@ -119,6 +121,8 @@ export const typeConfigList: Type[] = [
         name: 'Send Broadcast',
         description: 'Send somebody else a message',
         form: SendBroadcastForm,
+        localization: MsgLocalizationForm,
+        localizeableKeys: ['text'],
         component: SendBroadcastComp
     },
     {
@@ -171,6 +175,8 @@ export const typeConfigList: Type[] = [
         name: 'Call Webhook',
         description: 'Call a webook',
         form: WebhookRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
         component: CallWebhookComp,
         aliases: [UINodeTypes.webhook]
     },
@@ -179,6 +185,8 @@ export const typeConfigList: Type[] = [
         name: 'Start a Flow',
         description: 'Enter another flow',
         form: SubflowRouter,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
         component: StartFlowComp,
         aliases: [UINodeTypes.subflow]
     },
@@ -186,6 +194,8 @@ export const typeConfigList: Type[] = [
         type: Types.start_session,
         name: 'Start Somebody Else',
         description: 'Start somebody else in a flow',
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
         form: StartSessionForm,
         component: StartSessionComp
     },
@@ -196,6 +206,7 @@ export const typeConfigList: Type[] = [
         name: 'Split by Expression',
         description: 'Split by a custom expression',
         localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
         form: ExpressionRouterForm
     },
     {
@@ -203,6 +214,7 @@ export const typeConfigList: Type[] = [
         name: 'Split by Group Membership',
         description: 'Split by group membership',
         localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
         form: GroupsRouterForm
     },
     {
@@ -211,6 +223,7 @@ export const typeConfigList: Type[] = [
         description: 'Wait for the contact to respond',
         form: ResponseRouterForm,
         localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
         aliases: [RouterTypes.switch]
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}

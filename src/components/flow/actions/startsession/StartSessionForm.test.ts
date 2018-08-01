@@ -1,28 +1,22 @@
-import StartSessionForm, {
-    StartSessionFormProps
-} from '~/components/flow/actions/startsession/StartSessionForm';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
+import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import { createStartSessionAction, SubscribersGroup } from '~/testUtils/assetCreators';
 
-const { assets: groups } = require('~/test/assets/groups.json');
-
 const startSessionAction = createStartSessionAction();
-const typeConfig = getTypeConfig(Types.start_session);
 
-const baseProps: StartSessionFormProps = {
-    typeConfig,
+const baseProps: ActionFormProps = {
     updateAction: jest.fn(),
     onTypeChange: jest.fn(),
     onClose: jest.fn(),
-    nodeSettings: { originalNode: null, originalAction: startSessionAction }
+    nodeSettings: {
+        originalNode: null,
+        originalAction: startSessionAction
+    }
 };
 
-const { setup, spyOn } = composeComponentTestUtils<StartSessionFormProps>(
-    StartSessionForm,
-    baseProps
-);
+const { setup } = composeComponentTestUtils<ActionFormProps>(StartSessionForm, baseProps);
 
 describe(StartSessionForm.name, () => {
     describe('render', () => {

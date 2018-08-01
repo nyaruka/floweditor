@@ -22,7 +22,7 @@ exports[`ExpressionRouterForm initializes 1`] = `
     initialType={
       Object {
         "description": "Split by a custom expression",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "name": "Split by Expression",
         "type": "split_by_expression",
@@ -99,7 +99,7 @@ exports[`ExpressionRouterForm should render 1`] = `
     initialType={
       Object {
         "description": "Split by a custom expression",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "name": "Split by Expression",
         "type": "split_by_expression",

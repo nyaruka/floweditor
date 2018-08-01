@@ -1,14 +1,14 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { nodeToState, stateToNode } from '~/components/flow/routers/expression/helpers';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { Type } from '~/config';
-import { RenderNode } from '~/store/flowContext';
-import { FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
+import { FormState, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 // TODO: Remove use of Function
@@ -28,23 +28,11 @@ export interface ExpressionRouterFormState extends FormState {
 
 export const leadInSpecId = 'lead-in';
 
-export interface ExpressionRouterFormProps {
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateRouter(renderNode: RenderNode): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
-
 export default class ExpressionRouterForm extends React.Component<
-    ExpressionRouterFormProps,
+    RouterFormProps,
     ExpressionRouterFormState
 > {
-    constructor(props: ExpressionRouterFormProps) {
+    constructor(props: RouterFormProps) {
         super(props);
 
         this.state = nodeToState(this.props.nodeSettings);
@@ -81,15 +69,17 @@ export default class ExpressionRouterForm extends React.Component<
     }
 
     public renderEdit(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
                 <p>If the expression...</p>

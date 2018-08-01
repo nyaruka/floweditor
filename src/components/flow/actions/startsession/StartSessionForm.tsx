@@ -2,34 +2,15 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/startsession/helpers';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
-import { StartSession } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import {
-    AssetArrayEntry,
-    AssetEntry,
-    FormState,
-    mergeForm,
-    NodeEditorSettings
-} from '~/store/nodeEditor';
+import { AssetArrayEntry, AssetEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-export interface StartSessionFormProps {
-    // action details
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateAction(action: StartSession): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface StartSessionFormState extends FormState {
     recipients: AssetArrayEntry;
@@ -37,7 +18,7 @@ export interface StartSessionFormState extends FormState {
 }
 
 export default class StartSessionForm extends React.Component<
-    StartSessionFormProps,
+    ActionFormProps,
     StartSessionFormState
 > {
     public static contextTypes = {
@@ -45,7 +26,7 @@ export default class StartSessionForm extends React.Component<
         assetService: fakePropType
     };
 
-    constructor(props: StartSessionFormProps) {
+    constructor(props: ActionFormProps) {
         super(props);
 
         this.state = initializeForm(this.props.nodeSettings);
@@ -108,15 +89,16 @@ export default class StartSessionForm extends React.Component<
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
                 <div>

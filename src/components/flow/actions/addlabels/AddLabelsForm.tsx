@@ -2,27 +2,14 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/addlabels/helpers';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import LabelsElement from '~/components/form/select/labels/LabelsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { ConfigProviderContext, Type } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
-import { AddLabels } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { AssetArrayEntry, FormState, mergeForm, NodeEditorSettings } from '~/store/nodeEditor';
+import { AssetArrayEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-export interface AddLabelsFormProps {
-    // action details
-    nodeSettings: NodeEditorSettings;
-    typeConfig: Type;
-
-    // update handlers
-    updateAction(action: AddLabels): void;
-
-    // modal notifiers
-    onTypeChange(config: Type): void;
-    onClose(canceled: boolean): void;
-}
 
 export interface AddLabelsFormState extends FormState {
     labels: AssetArrayEntry;
@@ -33,14 +20,14 @@ export const PLACEHOLDER = 'Enter the name of an existing label or create a new 
 export const controlLabelSpecId = 'label';
 
 export default class AddLabelsForm extends React.PureComponent<
-    AddLabelsFormProps,
+    ActionFormProps,
     AddLabelsFormState
 > {
     public static contextTypes = {
         assetService: fakePropType
     };
 
-    constructor(props: AddLabelsFormProps, context: ConfigProviderContext) {
+    constructor(props: ActionFormProps) {
         super(props);
 
         this.state = initializeForm(this.props.nodeSettings);
@@ -79,15 +66,16 @@ export default class AddLabelsForm extends React.PureComponent<
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
                 <p data-spec={controlLabelSpecId}>{LABEL}</p>

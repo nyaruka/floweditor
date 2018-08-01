@@ -1,12 +1,10 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 import * as React from 'react';
-import { connect } from 'react-redux';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { StartFlow } from '~/flowTypes';
-import { AppState } from '~/store';
 
 export interface SubflowRouterStoreProps {
     translating: boolean;
@@ -60,20 +58,3 @@ export class SubflowRouter extends React.PureComponent<SubflowRouterProps> {
         );
     }
 }
-
-const mapStateToProps = ({
-    flowEditor: {
-        editorUI: { translating }
-    }
-}: AppState) => ({
-    translating
-});
-
-const ConnectedSubflowRouterForm = connect(
-    mapStateToProps,
-    null,
-    null,
-    { withRef: true }
-)(SubflowRouter);
-
-export default ConnectedSubflowRouterForm;

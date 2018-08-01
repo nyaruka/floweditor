@@ -1,15 +1,11 @@
-import SendEmailForm, {
-    SendEmailFormProps
-} from '~/components/flow/actions/sendemail/SendEmailForm';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import SendEmailForm from '~/components/flow/actions/sendemail/SendEmailForm';
+import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createSendEmailAction } from '~/testUtils/assetCreators';
 
 const action = createSendEmailAction();
-const typeConfig = getTypeConfig(Types.send_email);
 
-const baseProps: SendEmailFormProps = {
-    typeConfig,
+const baseProps: ActionFormProps = {
     updateAction: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
@@ -19,7 +15,7 @@ const baseProps: SendEmailFormProps = {
     }
 };
 
-const { setup } = composeComponentTestUtils<SendEmailFormProps>(SendEmailForm, baseProps);
+const { setup } = composeComponentTestUtils<ActionFormProps>(SendEmailForm, baseProps);
 
 describe(SendEmailForm.name, () => {
     describe('render', () => {

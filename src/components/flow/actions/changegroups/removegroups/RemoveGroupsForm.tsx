@@ -2,16 +2,16 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { ChangeGroupsFormState } from '~/components/flow/actions/changegroups/helpers';
-import ChangeGroupsFormProps from '~/components/flow/actions/changegroups/props';
 import {
     initializeForm,
     stateToAction
 } from '~/components/flow/actions/changegroups/removegroups/helpers';
 import * as styles from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm.scss';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
@@ -30,14 +30,14 @@ export const labelSpecId = 'label';
 export const fieldContainerSpecId = 'field-container';
 
 export default class RemoveGroupsForm extends React.Component<
-    ChangeGroupsFormProps,
+    ActionFormProps,
     ChangeGroupsFormState
 > {
     public static contextTypes = {
         assetService: fakePropType
     };
 
-    constructor(props: ChangeGroupsFormProps, context: ConfigProviderContext) {
+    constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings) as ChangeGroupsFormState;
         bindCallbacks(this, {
@@ -95,15 +95,16 @@ export default class RemoveGroupsForm extends React.Component<
     }
 
     public render(): JSX.Element {
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
         return (
             <Dialog
-                title={this.props.typeConfig.name}
-                headerClass={this.props.typeConfig.type}
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
                 buttons={this.getButtons()}
             >
                 <TypeList
                     __className=""
-                    initialType={this.props.typeConfig}
+                    initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
 
