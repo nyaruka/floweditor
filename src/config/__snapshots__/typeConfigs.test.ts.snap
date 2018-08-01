@@ -80,7 +80,7 @@ Array [
   },
   Object {
     "aliases": Array [
-      "webhook",
+      "split_by_webhook",
     ],
     "component": [Function],
     "description": "Call a webook",
@@ -94,7 +94,7 @@ Array [
   },
   Object {
     "aliases": Array [
-      "subflow",
+      "split_by_subflow",
     ],
     "component": [Function],
     "description": "Enter another flow",
@@ -173,7 +173,7 @@ Object {
   },
   "call_webhook": Object {
     "aliases": Array [
-      "webhook",
+      "split_by_webhook",
     ],
     "component": [Function],
     "description": "Call a webook",
@@ -304,9 +304,37 @@ Object {
     "name": "Split by Group Membership",
     "type": "split_by_groups",
   },
+  "split_by_subflow": Object {
+    "aliases": Array [
+      "split_by_subflow",
+    ],
+    "component": [Function],
+    "description": "Enter another flow",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Start a Flow",
+    "type": "start_flow",
+  },
+  "split_by_webhook": Object {
+    "aliases": Array [
+      "split_by_webhook",
+    ],
+    "component": [Function],
+    "description": "Call a webook",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Call Webhook",
+    "type": "call_webhook",
+  },
   "start_flow": Object {
     "aliases": Array [
-      "subflow",
+      "split_by_subflow",
     ],
     "component": [Function],
     "description": "Enter another flow",
@@ -328,20 +356,6 @@ Object {
     ],
     "name": "Start Somebody Else",
     "type": "start_session",
-  },
-  "subflow": Object {
-    "aliases": Array [
-      "subflow",
-    ],
-    "component": [Function],
-    "description": "Enter another flow",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "exits",
-    ],
-    "name": "Start a Flow",
-    "type": "start_flow",
   },
   "switch": Object {
     "aliases": Array [
@@ -370,20 +384,6 @@ Object {
     ],
     "name": "Wait for Response",
     "type": "wait_for_response",
-  },
-  "webhook": Object {
-    "aliases": Array [
-      "webhook",
-    ],
-    "component": [Function],
-    "description": "Call a webook",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "exits",
-    ],
-    "name": "Call Webhook",
-    "type": "call_webhook",
   },
 }
 `;
