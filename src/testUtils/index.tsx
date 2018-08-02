@@ -172,3 +172,7 @@ export const prepMockDuxState = (): { testNodes: RenderNodeMap; mockDuxState: Ap
 };
 
 export const createMockStore: Function = configureStore([thunk]);
+
+export const mockClear = (mock: any) => {
+    mock.mockClear();
+};

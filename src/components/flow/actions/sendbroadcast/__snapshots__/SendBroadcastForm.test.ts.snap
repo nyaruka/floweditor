@@ -1,7 +1,106 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`SendBroadcastForm event handles recipent change 1`] = `
+Object {
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "group-0",
+        "name": "My Group",
+      },
+    ],
+  },
+  "text": Object {
+    "value": "Hello World",
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendBroadcastForm event handles text change 1`] = `
+Object {
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "group-0",
+        "name": "Cat Fanciers",
+        "type": "group",
+      },
+      Object {
+        "id": "group-1",
+        "name": "Cat Facts",
+        "type": "group",
+      },
+      Object {
+        "id": "contact-0",
+        "name": "Kellan Alexander",
+        "type": "contact",
+      },
+      Object {
+        "id": "contact-1",
+        "name": "Norbert Kwizera",
+        "type": "contact",
+      },
+      Object {
+        "id": "contact-2",
+        "name": "Rowan Seymour",
+        "type": "contact",
+      },
+    ],
+  },
+  "text": Object {
+    "value": "Message to Group",
+  },
+  "valid": true,
+}
+`;
+
 exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
-<div>
+Object {
+  "recipients": Object {
+    "value": Array [],
+  },
+  "text": Object {
+    "value": "",
+  },
+  "valid": false,
+}
+`;
+
+exports[`SendBroadcastForm render should render an empty form with no action 2`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="send_broadcast"
+  title="Send Broadcast"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Send somebody else a message",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "text",
+        ],
+        "name": "Send Broadcast",
+        "type": "send_broadcast",
+      }
+    }
+    onChange={[MockFunction]}
+  />
   <OmniboxElement
     add={true}
     assets={
@@ -35,15 +134,46 @@ exports[`SendBroadcastForm render should render an empty form with no action 1`]
     focus={true}
     name="Message"
     onChange={[Function]}
-    placeholder=""
     showLabel={false}
     textarea={true}
   />
-</div>
+</Dialog>
 `;
 
 exports[`SendBroadcastForm render should render self, children with base props 1`] = `
-<div>
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="send_broadcast"
+  title="Send Broadcast"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Send somebody else a message",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "text",
+        ],
+        "name": "Send Broadcast",
+        "type": "send_broadcast",
+      }
+    }
+    onChange={[MockFunction]}
+  />
   <OmniboxElement
     add={true}
     assets={
@@ -103,39 +233,8 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     focus={true}
     name="Message"
     onChange={[Function]}
-    placeholder=""
     showLabel={false}
     textarea={true}
   />
-</div>
-`;
-
-exports[`SendBroadcastForm render should render the localized text 1`] = `
-<div>
-  <div
-    data-spec="translation-container"
-  >
-    <div
-      className="translate_from"
-      data-spec="text-to-translate"
-    >
-      Hello World
-    </div>
-  </div>
-  <Connect(TextInputElement)
-    autocomplete={true}
-    count="SMS"
-    entry={
-      Object {
-        "value": "Hello World",
-      }
-    }
-    focus={true}
-    name="Message"
-    onChange={[Function]}
-    placeholder="Spanish Translation"
-    showLabel={false}
-    textarea={true}
-  />
-</div>
+</Dialog>
 `;

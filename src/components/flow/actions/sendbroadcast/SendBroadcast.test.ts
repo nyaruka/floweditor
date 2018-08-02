@@ -1,7 +1,7 @@
 import { BroadcastMsg } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createBroadcastMsgAction } from '~/testUtils/assetCreators';
-import SendBroadcastComp from './SendBroadcast';
+import SendBroadcastComp from '~/components/flow/actions/sendbroadcast/SendBroadcast';
 
 describe('SendBroadcastComp', () => {
     const baseProps: BroadcastMsg = createBroadcastMsgAction();

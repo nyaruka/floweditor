@@ -17,8 +17,8 @@ import { AppState, DispatchWithState } from '~/store';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getOrderedNodes } from '~/store/helpers';
 
-import LogEvent, { EventProps } from './LogEvent';
-import * as styles from './Simulator.scss';
+import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
+import * as styles from '~/components/simulator/Simulator.scss';
 
 const ACTIVE = 'A';
 

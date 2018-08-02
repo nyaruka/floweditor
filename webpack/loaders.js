@@ -24,7 +24,7 @@ exports.postCSSLoader = {
 exports.awesomeTypeScriptLoader = (prod = false) => ({
     loader: 'awesome-typescript-loader',
     options: {
-        useBabel: true,
+        useBabel: false,
         useCache: true,
         silent: process.argv.indexOf('--json') !== -1,
         watch: !prod

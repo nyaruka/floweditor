@@ -1,5 +1,5 @@
 import { FlowDefinition } from '~/flowTypes';
-import { GSM, OPTIONS, TOP_LEVEL_OPTIONS } from './constants';
+import { GSM, OPTIONS, TOP_LEVEL_OPTIONS } from '~/components/form/textinput/constants';
 import {
     cleanMsg,
     filterOptions,
@@ -7,7 +7,7 @@ import {
     getUnicodeChars,
     isUnicode,
     pluralize
-} from './helpers';
+} from '~/components/form/textinput/helpers';
 
 const definition: FlowDefinition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 

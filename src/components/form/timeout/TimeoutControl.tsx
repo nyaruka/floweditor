@@ -1,25 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
-import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import Select, { Option } from 'react-select';
-import { bindActionCreators } from 'redux';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
-import { AppState, UpdateTimeout, updateTimeout } from '~/store';
-import { DispatchWithState } from '~/store/thunks';
-import { isRealValue, renderIf } from '~/utils';
-
-import * as styles from './TimeoutControl.scss';
-
-export interface TimeoutControlStoreProps {
-    checked: boolean;
-    timeout: number;
-    updateTimeout: UpdateTimeout;
-}
-
-export interface TimeoutControlState {
-    selected: Option;
-}
+import * as styles from '~/components/form/timeout/TimeoutControl.scss';
+import { renderIf } from '~/utils';
 
 export const TIMEOUT_OPTIONS = [
     { value: 60, label: '1 minutes' },
@@ -45,22 +29,22 @@ export const DEFAULT_TIMEOUT = TIMEOUT_OPTIONS[4];
 
 export const ellipsize = (str: string) => `${str}...`;
 
-export class TimeoutControl extends React.Component<TimeoutControlStoreProps, TimeoutControlState> {
-    constructor(props: TimeoutControlStoreProps) {
+export interface TimeoutControlProps {
+    timeout: number;
+    onChanged(timeout: number): void;
+}
+
+export default class TimeoutControl extends React.Component<TimeoutControlProps> {
+    constructor(props: TimeoutControlProps) {
         super(props);
-
-        this.state = {
-            selected: this.getSelected()
-        };
-
         bindCallbacks(this, {
             include: [/^handle/]
         });
     }
 
-    private getSelected(): Option<number> {
+    private getSelected(timeout: number): Option<number> {
         for (const [idx, { value }] of TIMEOUT_OPTIONS.entries()) {
-            if (value === this.props.timeout) {
+            if (value === timeout) {
                 return TIMEOUT_OPTIONS[idx];
             }
         }
@@ -68,27 +52,24 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
     }
 
     private handleCheck(): void {
-        if (this.props.checked) {
-            this.props.updateTimeout(null);
+        if (this.props.timeout > 0) {
+            this.props.onChanged(0);
         } else {
-            this.setState(
-                {
-                    selected: DEFAULT_TIMEOUT
-                },
-                () => this.props.updateTimeout(DEFAULT_TIMEOUT.value)
-            );
+            this.props.onChanged(DEFAULT_TIMEOUT.value);
         }
     }
 
     private handleChangeTimeout(selected: Option): void {
-        if (!isEqual(this.state.selected, selected)) {
-            this.setState({ selected }, () => this.props.updateTimeout(selected.value as number));
-        }
+        this.props.onChanged(selected.value as number);
+    }
+
+    private isChecked(): boolean {
+        return this.props.timeout > 0;
     }
 
     private getInstructions(): string {
         const base = 'Continue when there is no response';
-        return this.props.checked ? `${base} for` : ellipsize(base);
+        return this.isChecked() ? `${base} for` : ellipsize(base);
     }
 
     public render(): JSX.Element {
@@ -97,20 +78,20 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
                 <div className={styles.leftSection}>
                     <CheckboxElement
                         name="Timeout"
-                        checked={this.props.checked}
+                        checked={this.isChecked()}
                         description={this.getInstructions()}
                         checkboxClassName={styles.checkbox}
                         onChange={this.handleCheck}
                     />
                 </div>
-                {renderIf(this.props.checked)(
+                {renderIf(this.isChecked())(
                     <Select
                         joinValues={true}
                         name="timeout"
                         className="select-small-timeout"
                         clearable={false}
                         searchable={false}
-                        value={this.state.selected}
+                        value={this.getSelected(this.props.timeout)}
                         onChange={this.handleChangeTimeout}
                         options={TIMEOUT_OPTIONS}
                     />
@@ -119,25 +100,3 @@ export class TimeoutControl extends React.Component<TimeoutControlStoreProps, Ti
         );
     }
 }
-
-/* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { timeout } }: AppState) => ({
-    checked: isRealValue(timeout),
-    timeout
-});
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators(
-        {
-            updateTimeout
-        },
-        dispatch
-    );
-
-const ConnectedTimeout = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TimeoutControl);
-
-export default ConnectedTimeout;

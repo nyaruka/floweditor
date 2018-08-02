@@ -1,5 +1,5 @@
 import { composeComponentTestUtils } from '~/testUtils';
-import TaggingElement, { TaggingElementProps } from './TaggingElement';
+import TaggingElement, { TaggingElementProps } from '~/components/form/select/tags/TaggingElement';
 
 const taggingElementProps: TaggingElementProps = {
     entry: { value: ['Red', 'Green', 'Blue'] },

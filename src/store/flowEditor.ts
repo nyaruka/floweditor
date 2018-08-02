@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
 import { DragPoint } from '~/components/flow/node/Node';
-import { FlowNode, FlowPosition } from '~/flowTypes';
+import { FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-
 import ActionTypes, {
     RemovePendingConnectionAction,
     UpdateCreateNodePositionAction,
@@ -16,8 +15,9 @@ import ActionTypes, {
     UpdatePendingConnectionAction,
     UpdatePendingConnectionsAction,
     UpdateTranslatingAction
-} from './actionTypes';
-import Constants from './constants';
+} from '~/store/actionTypes';
+import Constants from '~/store/constants';
+import { RenderNode } from '~/store/flowContext';
 
 // tslint:disable:no-shadowed-variable
 export interface DragSelection {
@@ -39,7 +39,7 @@ export interface FlowUI {
     createNodePosition: FlowPosition;
     pendingConnection: DragPoint;
     nodeDragging: boolean;
-    ghostNode: FlowNode;
+    ghostNode: RenderNode;
     dragGroup: boolean;
     dragSelection: DragSelection;
 }
@@ -141,7 +141,7 @@ export const removePendingConnection = (nodeUUID: string): RemovePendingConnecti
     }
 });
 
-export const updateGhostNode = (ghostNode: FlowNode): UpdateGhostNodeAction => ({
+export const updateGhostNode = (ghostNode: RenderNode): UpdateGhostNodeAction => ({
     type: Constants.UPDATE_GHOST_NODE,
     payload: {
         ghostNode
@@ -265,7 +265,10 @@ export const dragSelection = (
     }
 };
 
-export const ghostNode = (state: FlowNode = initialState.flowUI.ghostNode, action: ActionTypes) => {
+export const ghostNode = (
+    state: RenderNode = initialState.flowUI.ghostNode,
+    action: ActionTypes
+) => {
     switch (action.type) {
         case Constants.UPDATE_GHOST_NODE:
             return action.payload.ghostNode;

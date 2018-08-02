@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendEmailForm render should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="send_email"
+  title="Send Email"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Send an email",
+        "form": undefined,
+        "name": "Send Email",
+        "type": "send_email",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="ele"
+  >
+    <TaggingElement
+      entry={
+        Object {
+          "value": Array [
+            "jane@example.com",
+          ],
+        }
+      }
+      name="Recipient"
+      onChange={[Function]}
+      onCheckValid={[Function]}
+      onValidPrompt={[Function]}
+      placeholder="To"
+      prompt="Enter e-mail address"
+    />
+    <Connect(TextInputElement)
+      __className="subject"
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "New Sign Up",
+        }
+      }
+      name="Subject"
+      onChange={[Function]}
+      placeholder="Subject"
+    />
+    <Connect(TextInputElement)
+      __className="message"
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "@run.results.name just signed up.",
+        }
+      }
+      name="Message"
+      onChange={[Function]}
+      showLabel={false}
+      textarea={true}
+    />
+  </div>
+</Dialog>
+`;
+
+exports[`SendEmailForm updates should save changes 1`] = `
+Object {
+  "body": Object {
+    "value": "What is a group of tigers called?",
+  },
+  "recipients": Object {
+    "value": Array [
+      "joe@domain.com",
+      "jane@domain.com",
+    ],
+  },
+  "subject": Object {
+    "value": "URGENT: I have a question",
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendEmailForm updates should save changes 2`] = `
+Array [
+  Object {
+    "addresses": Array [
+      "joe@domain.com",
+      "jane@domain.com",
+    ],
+    "body": "What is a group of tigers called?",
+    "subject": "URGENT: I have a question",
+    "type": "send_email",
+    "uuid": "send_email-0",
+  },
+]
+`;

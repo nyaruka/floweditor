@@ -4,7 +4,6 @@ import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ConnectedFlow from '~/components/flow/Flow';
-import { FlowOption } from '~/components/flowlist/FlowList';
 import * as styles from '~/components/index.scss';
 import ConnectedLanguageSelector from '~/components/languageselector/LanguageSelector';
 import ConfigProvider from '~/config';
@@ -13,8 +12,6 @@ import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import AssetService, { Asset } from '~/services/AssetService';
 import { AppState, createStore, DispatchWithState, FetchFlow, fetchFlow } from '~/store';
 import { renderIf } from '~/utils';
-
-export type OnSelectFlow = ({ uuid }: FlowOption) => void;
 
 export interface FlowEditorContainerProps {
     config: FlowEditorConfig;

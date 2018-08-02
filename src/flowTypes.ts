@@ -4,6 +4,7 @@ import {
     NewOptionCreatorHandler,
     PromptTextCreatorHandler
 } from 'react-select';
+import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import AssetService from '~/services/AssetService';
@@ -124,14 +125,12 @@ export interface Contact {
     name: string;
 }
 
-export enum Methods {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT'
-}
-
 export interface ChangeGroups extends Action {
     groups: Group[];
+}
+
+export interface RemoveFromGroups extends ChangeGroups {
+    all_groups: boolean;
 }
 
 export interface Field {
@@ -252,16 +251,10 @@ export interface Dimensions {
     height: number;
 }
 
-export enum UINodeTypes {
-    split = 'split',
-    subflow = 'subflow',
-    webhook = 'webhook'
-}
-
 export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
-    type?: UINodeTypes | Types;
+    type?: Types;
 }
 
 export interface StickyNote {

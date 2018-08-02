@@ -3,7 +3,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { Asset } from '~/services/AssetService';
 
-import { getIconForAssetType } from './helper';
+import { getIconForAssetType } from '~/components/form/select/helper';
 
 export interface SelectOptionProps {
     className: string;

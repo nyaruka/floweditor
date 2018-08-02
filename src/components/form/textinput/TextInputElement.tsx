@@ -11,10 +11,15 @@ import { AppState, CompletionOption } from '~/store';
 import { ContactFields, ResultMap } from '~/store/flowContext';
 import { StringEntry } from '~/store/nodeEditor';
 
-import CharCount from './CharCount';
-import { COMPLETION_HELP, KeyValues } from './constants';
-import { filterOptions, getMsgStats, getOptionsList, UnicodeCharMap } from './helpers';
-import * as styles from './TextInputElement.scss';
+import CharCount from '~/components/form/textinput/CharCount';
+import { COMPLETION_HELP, KeyValues } from '~/components/form/textinput/constants';
+import {
+    filterOptions,
+    getMsgStats,
+    getOptionsList,
+    UnicodeCharMap
+} from '~/components/form/textinput/helpers';
+import * as styles from '~/components/form/textinput/TextInputElement.scss';
 
 export enum Count {
     SMS = 'SMS'

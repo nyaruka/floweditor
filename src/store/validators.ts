@@ -1,7 +1,6 @@
 import { isValidURL } from '~/components/form/textinput/helpers';
 import { Asset } from '~/services/AssetService';
-
-import { FormEntry, ValidationFailure } from './nodeEditor';
+import { FormEntry, ValidationFailure } from '~/store/nodeEditor';
 
 export type FormInput = string | string[] | number | Asset | Asset[];
 export type ValidatorFunc = (name: string, input: FormInput) => ValidationFailure[];
@@ -45,7 +44,12 @@ export const validateRequired: ValidatorFunc = (name: string, input: FormInput) 
 
 export const validateURL: ValidatorFunc = (name: string, input: FormInput) => {
     if (typeof input === 'string') {
-        if (isValidURL(input as string)) {
+        // don't validate empty strings, that's up to validate required
+        if ((input as string).trim() === '') {
+            return [];
+        }
+
+        if (!isValidURL(input as string)) {
             return [{ message: `${name} is not a valid URL` }];
         }
     }

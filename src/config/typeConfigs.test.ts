@@ -1,4 +1,4 @@
-import { getTypeConfig, typeConfigList, typeConfigMap, Types } from './typeConfigs';
+import { getTypeConfig, typeConfigList, typeConfigMap, Types } from '~/config/typeConfigs';
 
 describe('typeConfigs', () => {
     it('should provide type configs', () => {

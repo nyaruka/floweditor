@@ -1,5 +1,5 @@
 import { v4 as generateUUID } from 'uuid';
-import { fieldToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
+import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
 import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { Types } from '~/config/typeConfigs';
 import {
@@ -13,14 +13,12 @@ import {
     RouterTypes,
     SetContactField,
     SwitchRouter,
-    UINodeTypes,
     WaitTypes
 } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
+import { RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
 import { snakify } from '~/utils';
-
-import { RenderNode, RenderNodeMap, ResultMap } from './flowContext';
 
 export interface Bounds {
     left: number;
@@ -89,34 +87,6 @@ export const getLocalizations = (
     }
 
     return localizations;
-};
-
-export const determineConfigType = (
-    nodeToEdit: FlowNode,
-    action: AnyAction,
-    nodes: RenderNodeMap
-) => {
-    if (action && action.type) {
-        return action.type;
-    } else if (nodeToEdit.actions && nodeToEdit.actions.length > 0) {
-        return nodeToEdit.actions[nodeToEdit.actions.length - 1].type;
-    } else {
-        try {
-            const renderNode = getNode(nodes, nodeToEdit.uuid);
-            /* istanbul ignore else */
-            if (renderNode.ui.type) {
-                return renderNode.ui.type;
-            }
-            // tslint:disable-next-line:no-empty
-        } catch (Error) {}
-    }
-
-    // Account for ghost nodes
-    if (nodeToEdit.router) {
-        return nodeToEdit.router.type;
-    }
-
-    throw new Error(`Cannot initialize NodeEditor without a valid type: ${nodeToEdit.uuid}`);
 };
 
 export const getUniqueDestinations = (node: FlowNode): string[] => {
@@ -199,7 +169,10 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
     return [];
 };
 
-export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: number) => {
+export const getGhostNode = (
+    fromNode: RenderNode,
+    suggestedResultNameCount: number
+): RenderNode => {
     const ghostNode: FlowNode = {
         uuid: generateUUID(),
         actions: [],
@@ -212,7 +185,7 @@ export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: num
     };
 
     // Add an action if we are coming from a split
-    if (fromNode.node.wait || fromNode.ui.type === UINodeTypes.webhook) {
+    if (fromNode.node.wait || fromNode.ui.type === Types.split_by_webhook) {
         const replyAction = {
             uuid: generateUUID(),
             type: Types.send_msg,
@@ -230,7 +203,7 @@ export const getGhostNode = (fromNode: RenderNode, suggestedResultNameCount: num
         };
     }
 
-    return ghostNode;
+    return { node: ghostNode, ui: { position: { left: 0, top: 0 } }, inboundConnections: null };
 };
 
 export interface FlowComponents {

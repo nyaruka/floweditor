@@ -4,10 +4,10 @@ import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } fro
 import { Asset } from '~/services/AssetService';
 import { merge, push, set, snapToGrid, splice, unset } from '~/utils';
 
-import { LocalizationUpdates } from '.';
-import { RenderNode, RenderNodeMap } from './flowContext';
-import { getActionIndex, getExitIndex, getNode } from './helpers';
-import { NodeEditorSettings } from './nodeEditor';
+import { LocalizationUpdates } from '~/store';
+import { RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { getActionIndex, getExitIndex, getNode } from '~/store/helpers';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 
 const mutate = require('immutability-helper');
 

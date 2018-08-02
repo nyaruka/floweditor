@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import flowContext from './flowContext';
-import flowEditor from './flowEditor';
-import nodeEditor from './nodeEditor';
+import flowContext from '~/store/flowContext';
+import flowEditor from '~/store/flowEditor';
+import nodeEditor from '~/store/nodeEditor';
 
 export default combineReducers({
     flowContext,

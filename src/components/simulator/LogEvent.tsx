@@ -1,9 +1,8 @@
 import * as React from 'react';
-import ConnectedModal from '~/components/modal/Modal';
+import Modal from '~/components/modal/Modal';
+import * as styles from '~/components/simulator/Simulator.scss';
 import { Types } from '~/config/typeConfigs';
 import { Group } from '~/flowTypes';
-
-import * as styles from './Simulator.scss';
 
 interface MsgProps {
     text: string;
@@ -168,22 +167,22 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     <div className={classes.join(' ')} onClick={this.showDetails}>
                         {text}
                     </div>
-                    <ConnectedModal
-                        __className={styles[`detail_${this.props.type}`]}
+                    <Modal
+                        // TODO: Use Dialog
                         // tslint:disable-next-line:jsx-key
-                        title={[<div>{detailTitle}</div>]}
+                        // title={[<div>{detailTitle}</div>]}
                         show={this.state.detailsVisible}
-                        buttons={{
+                        /* buttons={{
                             primary: {
                                 name: 'Ok',
                                 onClick: () => {
                                     this.setState({ detailsVisible: false });
                                 }
                             }
-                        }}
+                        }}*/
                     >
                         <div className={styles.eventViewer}>{details}</div>
-                    </ConnectedModal>
+                    </Modal>
                 </div>
             );
         } else {

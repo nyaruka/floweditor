@@ -8,18 +8,12 @@ import { bindActionCreators } from 'redux';
 import CounterComp from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
 import ExitComp from '~/components/flow/exit/Exit';
+import * as styles from '~/components/flow/node/Node.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
-import {
-    AnyAction,
-    FlowDefinition,
-    FlowNode,
-    RouterTypes,
-    SwitchRouter,
-    UINode
-} from '~/flowTypes';
+import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/services/AssetService';
 import Plumber, { DragEvent } from '~/services/Plumber';
@@ -42,10 +36,9 @@ import {
     UpdateNodeDragging,
     updateNodeDragging
 } from '~/store';
+import { RenderNode } from '~/store/flowContext';
 import { DragSelection, updateDragSelection } from '~/store/flowEditor';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils';
-
-import * as styles from './Node.scss';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -57,8 +50,7 @@ export interface DragPoint {
 }
 
 export interface NodePassedProps {
-    node: FlowNode;
-    ui: UINode;
+    renderNode: RenderNode;
     Activity: ActivityManager;
     plumberRepaintForDuration: Function;
     plumberDraggable: Function;
@@ -140,30 +132,30 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.plumberRepaintForDuration();
 
             try {
-                this.props.plumberRecalculate(this.props.node.uuid);
+                this.props.plumberRecalculate(this.props.renderNode.node.uuid);
             } catch (error) {
                 console.log(error);
             }
 
             if (
-                !this.props.ui.position ||
-                (this.props.ui.position.right !==
-                    this.props.ui.position.left + this.ele.clientWidth ||
-                    this.props.ui.position.bottom !==
-                        this.props.ui.position.top + this.ele.clientHeight)
+                !this.props.renderNode.ui.position ||
+                (this.props.renderNode.ui.position.right !==
+                    this.props.renderNode.ui.position.left + this.ele.clientWidth ||
+                    this.props.renderNode.ui.position.bottom !==
+                        this.props.renderNode.ui.position.top + this.ele.clientHeight)
             ) {
                 if (!this.props.translating) {
                     this.updateDimensions();
                 }
             }
         } else {
-            this.props.plumberRecalculate(this.props.node.uuid);
+            this.props.plumberRecalculate(this.props.renderNode.node.uuid);
         }
     }
 
     public componentDidMount(): void {
         this.props.plumberDraggable(
-            this.props.node.uuid,
+            this.props.renderNode.node.uuid,
             (event: DragEvent) => {
                 this.onDragStart(event);
                 this.props.updateNodeDragging(true);
@@ -180,7 +172,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         );
 
         // Make ourselves a target
-        this.props.plumberMakeTarget(this.props.node.uuid);
+        this.props.plumberMakeTarget(this.props.renderNode.node.uuid);
 
         // Move our drag node around as necessary
         if (this.props.ghost) {
@@ -206,7 +198,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     public componentWillUnmount(): void {
-        this.props.plumberRemove(this.props.node.uuid);
+        this.props.plumberRemove(this.props.renderNode.node.uuid);
     }
 
     private onMouseOver(): void {
@@ -218,7 +210,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onAddToNode(): void {
-        this.props.onAddToNode(this.props.node);
+        this.props.onAddToNode(this.props.renderNode.node);
     }
 
     private onDragStart(event: any): boolean {
@@ -254,14 +246,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.ele.style.top = `${top}px`;
 
         // Update our coordinates
-        this.props.onNodeMoved(this.props.node.uuid, { left, top });
-        this.props.plumberRemoveFromDragSelection(this.props.node.uuid);
+        this.props.onNodeMoved(this.props.renderNode.node.uuid, { left, top });
+        this.props.plumberRemoveFromDragSelection(this.props.renderNode.node.uuid);
     }
 
     private updateDimensions(): void {
         if (this.ele) {
             if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.updateDimensions(this.props.node, {
+                this.props.updateDimensions(this.props.renderNode.node, {
                     width: this.ele.clientWidth,
                     height: this.ele.clientHeight
                 });
@@ -273,7 +265,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     // ./Action/Action handles click logic for Action nodes.
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (!this.props.nodeDragging) {
-            this.props.onOpenNodeEditor({ originalNode: this.props.node });
+            this.props.onOpenNodeEditor({
+                originalNode: this.props.renderNode
+            });
         }
     }
 
@@ -282,7 +276,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             event.preventDefault();
             event.stopPropagation();
         }
-        this.props.removeNode(this.props.node);
+        this.props.removeNode(this.props.renderNode.node);
     }
 
     private onUnmount(key: string): void {
@@ -290,15 +284,15 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private getCount(): number {
-        return this.props.Activity.getActiveCount(this.props.node.uuid);
+        return this.props.Activity.getActiveCount(this.props.renderNode.node.uuid);
     }
 
     private getExits(): JSX.Element[] {
-        if (this.props.node.exits) {
-            return this.props.node.exits.map(exit => (
+        if (this.props.renderNode.node.exits) {
+            return this.props.renderNode.node.exits.map(exit => (
                 <ExitComp
                     key={exit.uuid}
-                    node={this.props.node}
+                    node={this.props.renderNode.node}
                     exit={exit}
                     Activity={this.props.Activity}
                     plumberMakeSource={this.props.plumberMakeSource}
@@ -314,13 +308,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return (
             this.props.dragSelection &&
             this.props.dragSelection.selected &&
-            this.props.dragSelection.selected[this.props.node.uuid]
+            this.props.dragSelection.selected[this.props.renderNode.node.uuid]
         );
     }
 
     private hasMissing(): boolean {
-        if (this.props.node.router) {
-            const kases = (this.props.node.router as SwitchRouter).cases || [];
+        if (this.props.renderNode.node.router) {
+            const kases = (this.props.renderNode.node.router as SwitchRouter).cases || [];
             for (const kase of kases) {
                 if (!getOperatorConfig(kase.type)) {
                     return true;
@@ -334,13 +328,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         const actions: JSX.Element[] = [];
 
         let actionList: JSX.Element = null;
-        if (this.props.node.actions) {
+        if (this.props.renderNode.node.actions) {
             // Save the first reference off to manage our clicks
             let firstRef: { ref: (ref: any) => any } | {} = {
                 ref: (ref: any) => (this.firstAction = ref)
             };
 
-            this.props.node.actions.forEach((action: AnyAction, idx: number) => {
+            this.props.renderNode.node.actions.forEach((action: AnyAction, idx: number) => {
                 const actionConfig = getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
@@ -349,7 +343,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                         <ActionWrapper
                             {...firstRef}
                             key={action.uuid}
-                            node={this.props.node}
+                            renderNode={this.props.renderNode}
                             thisNodeDragging={this.state.thisNodeDragging}
                             action={action}
                             first={idx === 0}
@@ -379,31 +373,31 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
         // Router node display logic
         if (
-            !this.props.node.actions ||
-            !this.props.node.actions.length ||
-            this.props.ui.type != null
+            !this.props.renderNode.node.actions ||
+            !this.props.renderNode.node.actions.length ||
+            this.props.renderNode.ui.type != null
         ) {
-            let type = this.props.node.router.type;
+            let type = this.props.renderNode.node.router.type;
 
-            if (this.props.ui.type) {
-                type = this.props.ui.type as any;
+            if (this.props.renderNode.ui.type) {
+                type = this.props.renderNode.ui.type as any;
             }
 
             const config = getTypeConfig(type);
             let { name: title } = config;
 
-            if (this.props.node.router.type === RouterTypes.switch) {
-                const switchRouter = this.props.node.router as SwitchRouter;
+            if (this.props.renderNode.node.router.type === RouterTypes.switch) {
+                const switchRouter = this.props.renderNode.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
-                    if (this.props.ui.type === Types.split_by_expression) {
+                    if (this.props.renderNode.ui.type === Types.split_by_expression) {
                         title = `Split by ${titleCase(switchRouter.result_name)}`;
-                    } else if (this.props.ui.type === Types.wait_for_response) {
+                    } else if (this.props.renderNode.ui.type === Types.wait_for_response) {
                         title = `Wait for ${titleCase(switchRouter.result_name)}`;
                     }
                 }
             }
 
-            if (!this.props.node.actions || !this.props.node.actions.length) {
+            if (!this.props.renderNode.node.actions || !this.props.renderNode.node.actions.length) {
                 // Router headers are introduced here while action headers are introduced in ./Action/Action
 
                 header = (
@@ -443,19 +437,20 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         });
 
         const exitClass =
-            this.props.node.exits.length === 1 && !this.props.node.exits[0].name
+            this.props.renderNode.node.exits.length === 1 &&
+            !this.props.renderNode.node.exits[0].name
                 ? styles.unnamed_exit
                 : '';
 
         const style = {
-            left: this.props.ui.position.left,
-            top: this.props.ui.position.top
+            left: this.props.renderNode.ui.position.left,
+            top: this.props.renderNode.ui.position.top
         };
 
         return (
             <div
                 style={style}
-                id={this.props.node.uuid}
+                id={this.props.renderNode.node.uuid}
                 className={`${styles.node_container} ${classes}`}
                 ref={this.eleRef}
             >

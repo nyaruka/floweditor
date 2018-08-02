@@ -1,22 +1,21 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
 import { v4 as generateUUID } from 'uuid';
-import { ContactProperties, FlowEditorConfig } from '~/flowTypes';
+import { FlowEditorConfig } from '~/flowTypes';
 import { FlowComponents } from '~/store/helpers';
-import { titleCase } from '~/utils';
 
 export enum AssetType {
     Channel = 'channel',
     Flow = 'flow',
     Group = 'group',
-    Name = 'name',
     Field = 'field',
     Contact = 'contact',
     URN = 'urn',
     Label = 'label',
     Language = 'language',
     Environment = 'environment',
-    Remove = 'remove'
+    Remove = 'remove',
+    ContactProperty = 'property'
 }
 
 export const DEFAULT_LANGUAGE = { id: '', name: 'Default', type: AssetType.Language };
@@ -229,13 +228,11 @@ export class Assets {
         const assets: any[] = [];
         Object.keys(this.assets).forEach((key: string) => {
             const asset = this.assets[key];
-            if (asset.type !== AssetType.Name) {
-                assets.push({
-                    [this.idProperty]: asset.id,
-                    name: asset.name,
-                    ...asset.content
-                });
-            }
+            assets.push({
+                [this.idProperty]: asset.id,
+                name: asset.name,
+                ...asset.content
+            });
         });
         return assets;
     }
@@ -261,33 +258,11 @@ class GroupAssets extends Assets {
 }
 
 class FieldAssets extends Assets {
-    public static CONTACT_PROPERTIES: Asset[] = [
-        {
-            name: titleCase(ContactProperties.Name),
-            id: ContactProperties.Name,
-            type: AssetType.Name
-        },
-        {
-            name: titleCase(ContactProperties.Language),
-            id: ContactProperties.Language,
-            type: AssetType.Language
-        },
-        {
-            name: titleCase(ContactProperties.Channel),
-            id: ContactProperties.Channel,
-            type: AssetType.Channel
-        }
-    ];
-
     constructor(endpoint: string, localStorage: boolean) {
         super(endpoint, localStorage);
 
         this.idProperty = IdProperty.Key;
         this.assetType = AssetType.Field;
-
-        FieldAssets.CONTACT_PROPERTIES.map((result: Asset) => {
-            this.assets[result.id] = result;
-        });
     }
 }
 

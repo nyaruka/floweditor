@@ -1,6 +1,9 @@
-import { languageToAsset } from '~/components/flow/actions/setcontactattrib/helpers';
+import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers';
+import { determineTypeConfig } from '~/components/flow/helpers';
+import { ActionFormProps, RouterFormProps } from '~/components/flow/props';
+import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
 import {
     AnyAction,
     BroadcastMsg,
@@ -14,7 +17,7 @@ import {
     FlowNode,
     Group,
     Label,
-    Methods,
+    RemoveFromGroups,
     Router,
     RouterTypes,
     SendEmail,
@@ -29,10 +32,12 @@ import {
     StartFlowExitNames,
     StartSession,
     SwitchRouter,
+    UINode,
     Wait,
     WaitTypes
 } from '~/flowTypes';
 import { AssetType } from '~/services/AssetService';
+import { RenderNode } from '~/store/flowContext';
 import { capitalize } from '~/utils';
 
 const { assets: groupsResults } = require('~/test/assets/groups.json');
@@ -152,6 +157,16 @@ export const createAddGroupsAction = ({
     groups
 });
 
+export const createRemoveGroupsAction = ({
+    uuid = 'remove_contact_groups-0',
+    groups = groupsResults
+}: { uuid?: string; groups?: Group[] } = {}): RemoveFromGroups => ({
+    uuid,
+    all_groups: false,
+    type: Types.remove_contact_groups,
+    groups
+});
+
 export const createStartFlowAction = ({
     uuid = 'start_flow-0',
     flow = {
@@ -248,6 +263,28 @@ export const createSetRunResultAction = ({
     type: Types.set_run_result
 });
 
+export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
+    updateAction: jest.fn(),
+    onClose: jest.fn(),
+    onTypeChange: jest.fn(),
+    typeConfig: getTypeConfig(action.type),
+    nodeSettings: {
+        originalNode: null,
+        originalAction: action
+    }
+});
+
+export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => ({
+    updateRouter: jest.fn(),
+    onClose: jest.fn(),
+    onTypeChange: jest.fn(),
+    typeConfig: determineTypeConfig({ originalNode: renderNode }),
+    nodeSettings: {
+        originalNode: createRenderNode({ actions: [], exits: [] }),
+        originalAction: null
+    }
+});
+
 // tslint:disable-next-line:variable-name
 export const createCase = ({
     uuid,
@@ -309,6 +346,38 @@ export const createSwitchRouter = ({
     default_exit_uuid
 });
 
+export const createRenderNode = ({
+    actions,
+    exits,
+    uuid = 'node-0',
+    router = null,
+    wait = null,
+    ui = {
+        position: { left: 0, top: 0 },
+        type: Types.split_by_expression
+    }
+}: {
+    actions: AnyAction[];
+    exits: Exit[];
+    uuid?: string;
+    router?: Router | SwitchRouter;
+    wait?: Wait;
+    ui?: UINode;
+}): RenderNode => {
+    const renderNode: RenderNode = {
+        node: {
+            actions,
+            exits,
+            uuid,
+            ...(router ? { router } : ({} as any)),
+            ...(wait ? { wait } : ({} as any))
+        },
+        ui,
+        inboundConnections: null
+    };
+    return renderNode;
+};
+
 export const createFlowNode = ({
     actions,
     exits,
@@ -339,8 +408,8 @@ export const createWaitRouterNode = ({
     cases: Case[];
     timeout?: number;
     uuid?: string;
-}): FlowNode =>
-    createFlowNode({
+}): RenderNode =>
+    createRenderNode({
         actions: [],
         exits,
         uuid,
@@ -356,8 +425,8 @@ export const createStartFlowNode = (
     // tslint:disable-next-line:variable-name
     flow_uuid?: string,
     exitUUIDs: string[] = ['exit1', 'exit2']
-): FlowNode =>
-    createFlowNode({
+): RenderNode =>
+    createRenderNode({
         actions: [startFlowAction],
         exits: [
             createExit({
@@ -396,8 +465,8 @@ export const createStartFlowNode = (
 export const createGroupsRouterNode = (
     groups: Group[] = groupsResults,
     uuid: string = 'split_by_groups-0'
-): FlowNode =>
-    createFlowNode({
+): RenderNode =>
+    createRenderNode({
         actions: [],
         exits: groups.map((group, idx) =>
             createExit({ uuid: group.uuid, name: group.name, destination_node_uuid: `node-${idx}` })
@@ -415,7 +484,11 @@ export const createGroupsRouterNode = (
             operand: '@contact.groups',
             default_exit_uuid: null
         }),
-        wait: createWait({ type: WaitTypes.group })
+        wait: createWait({ type: WaitTypes.group }),
+        ui: {
+            type: Types.split_by_groups,
+            position: { left: 0, top: 0 }
+        }
     });
 
 export const getGroupOptions = (groups: Group[] = groupsResults) =>
@@ -441,5 +514,13 @@ export const createAddLabelsAction = (labels: Label[]) => ({
 export const English = { name: 'English', id: 'eng', type: AssetType.Language };
 
 export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
+
+export const SubscribersGroup = {
+    name: 'Subscriber',
+    id: 'subscribers_group',
+    type: AssetType.Group
+};
+
+export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: AssetType.Label };
 
 export const languages = languagesResults.assets.map((language: any) => languageToAsset(language));

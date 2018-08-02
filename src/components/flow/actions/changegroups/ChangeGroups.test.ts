@@ -10,7 +10,7 @@ import ChangeGroupsComp, {
     getChangeGroupsMarkup,
     getContentMarkup,
     getRemoveAllMarkup
-} from './ChangeGroups';
+} from '~/components/flow/actions/changegroups/ChangeGroups';
 
 const { assets: groups } = require('~/test/assets/groups.json');
 

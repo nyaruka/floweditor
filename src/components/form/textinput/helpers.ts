@@ -1,9 +1,8 @@
 import { split } from 'split-sms';
+import { GSM, OPTIONS } from '~/components/form/textinput/constants';
 import { CompletionOption } from '~/store';
 import { ContactFields, ResultMap } from '~/store/flowContext';
 import { titleCase } from '~/utils';
-
-import { GSM, OPTIONS } from './constants';
 
 export interface UnicodeCharMap {
     [char: string]: boolean;

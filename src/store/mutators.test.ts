@@ -2,7 +2,7 @@ import { Types } from '~/config/typeConfigs';
 import { FlowDefinition, RouterTypes, SendMsg } from '~/flowTypes';
 import { createSendMsgAction } from '~/testUtils/assetCreators';
 
-import { getActionIndex, getExitIndex, getFlowComponents, getNode } from './helpers';
+import { getActionIndex, getExitIndex, getFlowComponents, getNode } from '~/store/helpers';
 import {
     addAction,
     mergeNode,
@@ -15,7 +15,7 @@ import {
     updateDimensions,
     updateLocalization,
     updatePosition
-} from './mutators';
+} from '~/store/mutators';
 
 describe('mutators', () => {
     const definition: FlowDefinition = require('~/test/flows/boring.json');

@@ -3,11 +3,12 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as styles from '~/components/flow/actions/action/Action.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { Action, AnyAction, FlowNode, LocalizationMap } from '~/flowTypes';
+import { Action, AnyAction, LocalizationMap } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import {
     ActionAC,
@@ -18,9 +19,8 @@ import {
     onOpenNodeEditor,
     removeAction
 } from '~/store';
+import { RenderNode } from '~/store/flowContext';
 import { createClickHandler, getLocalization } from '~/utils';
-
-import * as styles from './Action.scss';
 
 export interface ActionWrapperPassedProps {
     thisNodeDragging: boolean;
@@ -31,7 +31,7 @@ export interface ActionWrapperPassedProps {
 }
 
 export interface ActionWrapperStoreProps {
-    node: FlowNode;
+    renderNode: RenderNode;
     language: Asset;
     translating: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;
@@ -64,14 +64,15 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     public onClick(event: React.MouseEvent<HTMLDivElement>): void {
         const target = event.target as any;
+
         const showAdvanced =
-            (target && target.attributes && target.attributes['data-advanced']) || false;
+            target && target.attributes && target.getAttribute('data-advanced') === 'true';
 
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
             this.props.onOpenNodeEditor({
-                originalNode: this.props.node,
+                originalNode: this.props.renderNode,
                 originalAction: this.props.action,
                 showAdvanced
             });
@@ -80,25 +81,27 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-        this.props.removeAction(this.props.node.uuid, this.props.action);
+        this.props.removeAction(this.props.renderNode.node.uuid, this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
 
-        this.props.moveActionUp(this.props.node.uuid, this.props.action);
+        this.props.moveActionUp(this.props.renderNode.node.uuid, this.props.action);
     }
 
     public getAction(): Action {
-        const localization = getLocalization(
-            this.props.action,
-            this.props.localization,
-            this.props.language
-        );
+        // if we are translating, us our localized version
+        if (this.props.translating) {
+            const localization = getLocalization(
+                this.props.action,
+                this.props.localization,
+                this.props.language
+            );
+            return localization.getObject() as AnyAction;
+        }
 
-        return localization && this.props.translating
-            ? (localization.getObject() as AnyAction)
-            : this.props.action;
+        return this.props.action;
     }
 
     private getClasses(): string {
@@ -136,7 +139,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         return cx({
             [styles.action]: true,
             [styles.has_router]:
-                this.props.node.hasOwnProperty('router') && this.props.node.router !== null,
+                this.props.renderNode.node.hasOwnProperty('router') &&
+                this.props.renderNode.node.router !== null,
             [styles.translating]: this.props.translating,
             [styles.not_localizable]: this.props.translating && localizedKeys.length === 0,
             [styles.missing_localization]: missingLocalization

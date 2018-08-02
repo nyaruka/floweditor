@@ -2,7 +2,7 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { v4 as generateUUID } from 'uuid';
-import { hasCases } from '~/components/nodeeditor/NodeEditor';
+import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import {
     Action,
@@ -16,12 +16,9 @@ import {
     SetContactField,
     SetRunResult,
     StickyNote,
-    SwitchRouter,
-    WaitTypes
+    SwitchRouter
 } from '~/flowTypes';
 import AssetService, { Asset, DEFAULT_LANGUAGE } from '~/services/AssetService';
-import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
-
 import {
     incrementSuggestedResultNameCount,
     RenderNode,
@@ -32,7 +29,7 @@ import {
     updateLanguages,
     updateNodes,
     updateResultMap
-} from './flowContext';
+} from '~/store/flowContext';
 import {
     updateCreateNodePosition,
     updateDragSelection,
@@ -43,9 +40,8 @@ import {
     updateNodeEditorOpen,
     updatePendingConnection,
     updateTranslating
-} from './flowEditor';
+} from '~/store/flowEditor';
 import {
-    determineConfigType,
     extractContactFields,
     FlowComponents,
     generateResultQuery,
@@ -54,21 +50,17 @@ import {
     getFlowComponents,
     getGhostNode,
     getLocalizations,
-    getSuggestedResultName
-} from './helpers';
-import * as mutators from './mutators';
+    getNode
+} from '~/store/helpers';
+import * as mutators from '~/store/mutators';
 import {
     NodeEditorSettings,
-    updateForm,
     updateNodeEditorSettings,
-    updateOperand,
-    updateResultName,
-    updateShowResultName,
-    updateTimeout,
     updateTypeConfig,
     updateUserAddingAction
-} from './nodeEditor';
-import AppState from './state';
+} from '~/store/nodeEditor';
+import AppState from '~/store/state';
+import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -193,14 +185,14 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
 ) => {
     dispatch(updateFetchingFlow(true));
 
-    const [flows, environment, fields] = await Promise.all([
+    const [flows, environment, fields, languages] = await Promise.all([
         assetService.getFlowAssets().get(uuid),
         assetService.getEnvironmentAssets().get(''),
         assetService.getFieldAssets().get(''),
         assetService.getLanguageAssets().search('')
     ]);
 
-    dispatch(initializeFlow(flows.content, assetService));
+    dispatch(initializeFlow(flows.content, assetService, languages.assets));
     const fieldsToDedupe = [...fields.content];
     const existingFields = extractContactFields(flows.content.nodes);
     if (existingFields.length) {
@@ -567,40 +559,9 @@ export const spliceInRouter = (
     return updatedNodes;
 };
 
-export const handleTypeConfigChange = (typeConfig: Type) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    // Generate suggested result name if user is changing
-    // an existing node to a `wait_for_response` router.
-    const {
-        flowContext: {
-            results: { suggestedNameCount }
-        },
-        nodeEditor: { settings }
-    } = getState();
-    if (
-        settings &&
-        settings.originalNode &&
-        (!settings.originalNode.wait || settings.originalNode.wait.type !== WaitTypes.msg)
-    ) {
-        if (typeConfig.type === Types.wait_for_response) {
-            dispatch(updateResultName(getSuggestedResultName(suggestedNameCount)));
-            dispatch(updateShowResultName(true));
-        }
-    }
-
+export const handleTypeConfigChange = (typeConfig: Type) => (dispatch: DispatchWithState) => {
+    // TODO: Generate suggested result name if user is changing to a `wait_for_response` router.
     dispatch(updateTypeConfig(typeConfig));
-
-    // now update our form accordingly
-    if (typeConfig.formHelper) {
-        // only use the original action if it is the same type
-        const customSettings =
-            settings.originalAction && settings.originalAction.type === typeConfig.type
-                ? settings
-                : { ...settings, originalAction: null };
-        dispatch(updateForm(typeConfig.formHelper.initializeForm(customSettings, typeConfig.type)));
-    }
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
@@ -621,8 +582,6 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     }
 
     dispatch(updateNodeEditorSettings(null));
-    dispatch(updateForm(null));
-    dispatch(updateTimeout(null));
 };
 
 export const onUpdateAction = (action: AnyAction) => (
@@ -649,7 +608,8 @@ export const onUpdateAction = (action: AnyAction) => (
     const { originalNode, originalAction } = settings;
 
     let updatedNodes = nodes;
-    const creatingNewNode = pendingConnection && pendingConnection.nodeUUID !== originalNode.uuid;
+    const creatingNewNode =
+        pendingConnection && originalNode && pendingConnection.nodeUUID !== originalNode.node.uuid;
 
     if (creatingNewNode) {
         const newNode: RenderNode = {
@@ -663,11 +623,11 @@ export const onUpdateAction = (action: AnyAction) => (
         };
         updatedNodes = mutators.mergeNode(nodes, newNode);
     } else if (userAddingAction) {
-        updatedNodes = mutators.addAction(nodes, originalNode.uuid, action);
-    } else if (originalNode.hasOwnProperty('router')) {
-        updatedNodes = mutators.spliceInAction(nodes, originalNode.uuid, action);
+        updatedNodes = mutators.addAction(nodes, originalNode.node.uuid, action);
+    } else if (originalNode.node.hasOwnProperty('router')) {
+        updatedNodes = mutators.spliceInAction(nodes, originalNode.node.uuid, action);
     } else {
-        updatedNodes = mutators.updateAction(nodes, originalNode.uuid, action, originalAction);
+        updatedNodes = mutators.updateAction(nodes, originalNode.node.uuid, action, originalAction);
     }
 
     dispatch(updateNodes(updatedNodes));
@@ -706,7 +666,7 @@ export const onAddToNode = (node: FlowNode) => (
     getState: GetState
 ) => {
     const {
-        flowContext: { definition },
+        flowContext: { definition, nodes },
         flowEditor: {
             editorUI: { language }
         }
@@ -721,7 +681,7 @@ export const onAddToNode = (node: FlowNode) => (
 
     dispatch(
         updateNodeEditorSettings({
-            originalNode: node,
+            originalNode: getNode(nodes, node.uuid),
             originalAction: newAction,
             showAdvanced: false
         })
@@ -857,7 +817,7 @@ export const onUpdateRouter = (node: RenderNode) => (
         }
     } = getState();
 
-    const previousNode = nodes[originalNode.uuid];
+    const previousNode = nodes[originalNode.node.uuid];
 
     let updated = nodes;
     if (createNodePosition) {
@@ -944,18 +904,17 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const {
         flowContext: {
             languages,
-            baseLanguage,
-            nodes,
             definition: { localization }
         },
         flowEditor: {
             editorUI: { language, translating }
-        },
-        nodeEditor: { settings: currentSettings }
+        }
     } = getState();
 
-    const { originalNode: node } = settings;
+    const { originalNode: renderNode } = settings;
     let { originalAction: action } = settings;
+
+    const node = renderNode.node;
 
     // stuff our localization objects in our settings
     settings.languages = languages;
@@ -986,9 +945,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
         action = node.actions[node.actions.length - 1];
     }
 
-    const type = determineConfigType(node, action, nodes);
-    const typeConfig = getTypeConfig(type);
-
     let resultName = '';
 
     if (node.router) {
@@ -998,23 +954,10 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
                 router: { result_name: resultName }
             } = node);
         }
-
-        /* istanbul ignore else */
-        if (node.wait && node.wait.timeout) {
-            dispatch(updateTimeout(node.wait.timeout));
-        }
-
-        /* istanbul ignore else */
-        if (hasCases(node)) {
-            const { operand } = node.router as SwitchRouter;
-            dispatch(updateOperand(operand));
-        }
     }
 
     dispatch(updateNodeEditorSettings(settings));
-    dispatch(handleTypeConfigChange(typeConfig));
+    dispatch(handleTypeConfigChange(determineTypeConfig(settings)));
     dispatch(updateNodeDragging(false));
-    dispatch(updateResultName(resultName));
-    dispatch(updateShowResultName(resultName.length > 0));
     dispatch(updateNodeEditorOpen(true));
 };

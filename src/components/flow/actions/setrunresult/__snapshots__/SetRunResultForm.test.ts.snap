@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SetRunResultForm render should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="set_run_result"
+  title="Save Flow Result"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Save a result for this flow",
+        "form": undefined,
+        "name": "Save Flow Result",
+        "type": "set_run_result",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="form"
+  >
+    <Connect(TextInputElement)
+      __className="name"
+      entry={
+        Object {
+          "value": "Name",
+        }
+      }
+      helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
+      name="Name"
+      onChange={[Function]}
+      showLabel={true}
+    />
+    <Connect(TextInputElement)
+      __className="value"
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "Grace",
+        }
+      }
+      helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
+      name="Value"
+      onChange={[Function]}
+      showLabel={true}
+    />
+    <Connect(TextInputElement)
+      __className="category"
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "",
+        }
+      }
+      helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
+      name="Category"
+      onChange={[Function]}
+      placeholder="Optional"
+      showLabel={true}
+    />
+  </div>
+</Dialog>
+`;
+
+exports[`SetRunResultForm updates should save changes 1`] = `
+Object {
+  "category": Object {
+    "value": "Result Category",
+  },
+  "name": Object {
+    "value": "Result Name",
+  },
+  "valid": true,
+  "value": Object {
+    "value": "Result Value",
+  },
+}
+`;
+
+exports[`SetRunResultForm updates should save changes 2`] = `
+Array [
+  Object {
+    "category": "Result Category",
+    "name": "Result Name",
+    "type": "set_run_result",
+    "uuid": "set_run_result-0",
+    "value": "Result Value",
+  },
+]
+`;

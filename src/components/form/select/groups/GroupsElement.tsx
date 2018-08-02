@@ -8,8 +8,8 @@ import {
     isValidNewOption
 } from '~/utils';
 
-import FormElement, { FormElementProps } from '../../FormElement';
-import SelectSearch from '../SelectSearch';
+import FormElement, { FormElementProps } from '~/components/form/FormElement';
+import SelectSearch from '~/components/form/select/SelectSearch';
 
 export interface GroupOption {
     group: string;

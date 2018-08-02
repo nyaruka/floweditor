@@ -1,0 +1,342 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UpdateContactForm render should render an empty form with no action 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="set_contact_field"
+  title="Update Contact"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "set_contact_name",
+          "set_contact_language",
+          "set_contact_channel",
+        ],
+        "component": [Function],
+        "description": "Update the contact",
+        "form": undefined,
+        "name": "Update Contact",
+        "type": "set_contact_field",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p>
+    Select what to update
+  </p>
+  <SelectAssetElement
+    add={true}
+    assets={
+      FieldAssets {
+        "assetType": "field",
+        "assets": Object {},
+        "endpoint": "/assets/fields.json",
+        "idProperty": "key",
+        "localStorage": true,
+      }
+    }
+    entry={
+      Object {
+        "value": Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      }
+    }
+    localSearchOptions={
+      Array [
+        Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+        Object {
+          "id": "language",
+          "name": "Language",
+          "type": "property",
+        },
+        Object {
+          "id": "channel",
+          "name": "Channel",
+          "type": "property",
+        },
+      ]
+    }
+    name="Contact Field"
+    onChange={[Function]}
+    onCreateOption={[Function]}
+    sortFunction={[Function]}
+  />
+  <div
+    className="value"
+  >
+    <Connect(TextInputElement)
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "",
+        }
+      }
+      focus={true}
+      name="Name"
+      onChange={[Function]}
+      placeholder="Enter a new name for the contact"
+    />
+  </div>
+</Dialog>
+`;
+
+exports[`UpdateContactForm render should render self, children with base props 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="set_contact_field"
+  title="Update Contact"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "set_contact_name",
+          "set_contact_language",
+          "set_contact_channel",
+        ],
+        "component": [Function],
+        "description": "Update the contact",
+        "form": undefined,
+        "name": "Update Contact",
+        "type": "set_contact_field",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p>
+    Select what to update
+  </p>
+  <SelectAssetElement
+    add={true}
+    assets={
+      FieldAssets {
+        "assetType": "field",
+        "assets": Object {},
+        "endpoint": "/assets/fields.json",
+        "idProperty": "key",
+        "localStorage": true,
+      }
+    }
+    entry={
+      Object {
+        "value": Object {
+          "id": "age",
+          "name": "Age",
+          "type": "field",
+        },
+      }
+    }
+    localSearchOptions={
+      Array [
+        Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+        Object {
+          "id": "language",
+          "name": "Language",
+          "type": "property",
+        },
+        Object {
+          "id": "channel",
+          "name": "Channel",
+          "type": "property",
+        },
+      ]
+    }
+    name="Contact Field"
+    onChange={[Function]}
+    onCreateOption={[Function]}
+    sortFunction={[Function]}
+  />
+  <div
+    className="value"
+  >
+    <Connect(TextInputElement)
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "25",
+        }
+      }
+      focus={true}
+      name="Field Value"
+      onChange={[Function]}
+      placeholder="Enter a new value for Age"
+    />
+  </div>
+</Dialog>
+`;
+
+exports[`UpdateContactForm updates should update channel 1`] = `
+Object {
+  "channel": Object {
+    "value": Object {
+      "id": "channel_id",
+      "name": "Channel Name",
+      "type": "channel",
+    },
+  },
+  "field": Object {
+    "value": Object {
+      "id": "age",
+      "name": "Age",
+      "type": "field",
+    },
+  },
+  "fieldValue": Object {
+    "value": "25",
+  },
+  "language": Object {
+    "value": null,
+  },
+  "name": Object {
+    "value": "",
+  },
+  "type": "set_contact_channel",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm updates should update field value 1`] = `
+Object {
+  "channel": Object {
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "birthday",
+      "name": "Birthday",
+      "type": "field",
+    },
+  },
+  "fieldValue": Object {
+    "value": "12/25/00",
+  },
+  "language": Object {
+    "value": null,
+  },
+  "name": Object {
+    "value": "",
+  },
+  "type": "set_contact_field",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm updates should update language 1`] = `
+Object {
+  "channel": Object {
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "age",
+      "name": "Age",
+      "type": "field",
+    },
+  },
+  "fieldValue": Object {
+    "value": "25",
+  },
+  "language": Object {
+    "value": "e",
+  },
+  "name": Object {
+    "value": "",
+  },
+  "type": "set_contact_language",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm updates should update name 1`] = `
+Object {
+  "channel": Object {
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "age",
+      "name": "Age",
+      "type": "field",
+    },
+  },
+  "fieldValue": Object {
+    "value": "25",
+  },
+  "language": Object {
+    "value": null,
+  },
+  "name": Object {
+    "value": "Rowan Seymour",
+  },
+  "type": "set_contact_name",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm updates should validate before saving 1`] = `
+Object {
+  "channel": Object {
+    "validationFailures": Array [
+      Object {
+        "message": "Channel is required",
+      },
+    ],
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "age",
+      "name": "Age",
+      "type": "field",
+    },
+  },
+  "fieldValue": Object {
+    "value": "25",
+  },
+  "language": Object {
+    "value": null,
+  },
+  "name": Object {
+    "value": "",
+  },
+  "type": "set_contact_channel",
+  "valid": false,
+}
+`;

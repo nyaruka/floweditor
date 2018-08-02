@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Asset } from '~/services/AssetService';
 import { renderIf } from '~/utils';
 
-import { getIconForAssetType } from './helper';
+import { getIconForAssetType } from '~/components/form/select/helper';
 
 export interface SelectValueProps {
     value: Asset;

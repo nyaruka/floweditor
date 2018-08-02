@@ -3,8 +3,8 @@ import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { ContactFields, ResultMap } from '~/store/flowContext';
 import { composeComponentTestUtils } from '~/testUtils';
 
-import { KeyValues, OPTIONS } from './constants';
-import { TextInputElement, TextInputProps } from './TextInputElement';
+import { KeyValues, OPTIONS } from '~/components/form/textinput/constants';
+import { TextInputElement, TextInputProps } from '~/components/form/textinput/TextInputElement';
 
 const baseProps: TextInputProps = {
     name: 'Message',

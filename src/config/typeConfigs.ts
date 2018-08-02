@@ -1,38 +1,31 @@
 import AddLabelsComp from '~/components/flow/actions/addlabels/AddLabels';
-import { AddLabelsForm } from '~/components/flow/actions/addlabels/AddLabelsForm';
-import { AddLabelsFormHelper } from '~/components/flow/actions/addlabels/AddLabelsFormHelper';
+import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
 import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';
-import AddGroupsForm from '~/components/flow/actions/changegroups/AddGroupsForm';
-import { AddGroupsFormHelper } from '~/components/flow/actions/changegroups/AddGroupsFormHelper';
+import AddGroupsForm from '~/components/flow/actions/changegroups/addgroups/AddGroupsForm';
 import ChangeGroupsComp from '~/components/flow/actions/changegroups/ChangeGroups';
-import RemoveGroupsForm from '~/components/flow/actions/changegroups/RemoveGroupsForm';
-import { RemoveGroupsFormHelper } from '~/components/flow/actions/changegroups/RemoveGroupsFormHelper';
+import RemoveGroupsForm from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
+import MsgLocalizationForm from '~/components/flow/actions/localization/MsgLocalizationForm';
 import MissingComp from '~/components/flow/actions/missing/Missing';
 import SendBroadcastComp from '~/components/flow/actions/sendbroadcast/SendBroadcast';
 import SendBroadcastForm from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
-import { SendBroadcastFormHelper } from '~/components/flow/actions/sendbroadcast/SendBroadcastFormHelper';
 import SendEmailComp from '~/components/flow/actions/sendemail/SendEmail';
 import SendEmailForm from '~/components/flow/actions/sendemail/SendEmailForm';
-import { SendEmailFormHelper } from '~/components/flow/actions/sendemail/SendEmailFormHelper';
 import SendMsgComp from '~/components/flow/actions/sendmsg/SendMsg';
 import SendMsgForm from '~/components/flow/actions/sendmsg/SendMsgForm';
-import { SendMsgFormHelper } from '~/components/flow/actions/sendmsg/SendMsgFormHelper';
-import SetContactAttrib from '~/components/flow/actions/setcontactattrib/SetContactAttrib';
-import { SetContactAttribForm } from '~/components/flow/actions/setcontactattrib/SetContactAttribForm';
-import { SetContactAttribFormHelper } from '~/components/flow/actions/setcontactattrib/SetContactAttribFormHelper';
 import SetRunResultComp from '~/components/flow/actions/setrunresult/SetRunResult';
 import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
-import { SetRunResultFormHelper } from '~/components/flow/actions/setrunresult/SetRunResultFormHelper';
 import StartFlowComp from '~/components/flow/actions/startflow/StartFlow';
 import StartSessionComp from '~/components/flow/actions/startsession/StartSession';
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
-import { StartSessionFormHelper } from '~/components/flow/actions/startsession/StartSessionFormHelper';
-import GroupsRouter from '~/components/flow/routers/groups/GroupsRouter';
-import { SubflowRouter } from '~/components/flow/routers/subflow/SubflowRouter';
-import SwitchRouter from '~/components/flow/routers/SwitchRouter';
-import WebhookRouter from '~/components/flow/routers/webhook/WebhookRouter';
-import { AnyAction, RouterTypes, UINodeTypes } from '~/flowTypes';
-import { NodeEditorForm, NodeEditorSettings } from '~/store/nodeEditor';
+import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
+import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import ExpressionRouterForm from '~/components/flow/routers/expression/ExpressionRouterForm';
+import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
+import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
+import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
+import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
+import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
+import { AnyAction, RouterTypes } from '~/flowTypes';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -73,20 +66,11 @@ export const enum Types {
     start_session = 'start_session',
     split_by_expression = 'split_by_expression',
     split_by_groups = 'split_by_groups',
+    split_by_subflow = 'split_by_subflow',
+    split_by_webhook = 'split_by_webhook',
     wait_for_response = 'wait_for_response',
 
     missing = 'missing'
-}
-
-export enum Mode {
-    EDITING = 0x1,
-    TRANSLATING = 0x2,
-    ALL = EDITING | TRANSLATING
-}
-
-export interface FormHelper {
-    initializeForm: (settings: NodeEditorSettings, actionType?: Types) => NodeEditorForm;
-    stateToAction: (actionUUID: string, formState: NodeEditorForm, formType?: Types) => AnyAction;
 }
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
@@ -104,12 +88,11 @@ export interface Type {
     type: Types;
     name: string;
     description: string;
-    allows(mode: Mode): boolean;
     component?: React.SFC<AnyAction>;
     form?: React.ComponentClass<any>;
-    formHelper?: FormHelper;
-    advanced?: Mode;
     aliases?: string[];
+    localization?: React.ComponentClass<any>;
+    localizeableKeys?: string[];
 }
 
 export interface TypeMap {
@@ -118,150 +101,105 @@ export interface TypeMap {
 
 export type GetTypeConfig = (type: string) => Type;
 
-export function allows(mode: Mode): boolean {
-    return (this.advanced & mode) === mode;
-}
-
-const ContactAttribHelper = new SetContactAttribFormHelper();
-
 export const typeConfigList: Type[] = [
     /** Actions */
     {
         type: Types.missing,
         name: 'Missing',
         description: ' ** Unsupported ** ',
-        component: MissingComp,
-        allows
+        component: MissingComp
     },
     {
         type: Types.send_msg,
         name: 'Send Message',
         description: 'Send the contact a message',
         form: SendMsgForm,
-        formHelper: new SendMsgFormHelper(),
-        component: SendMsgComp,
-        advanced: Mode.ALL,
-        allows
+        localization: MsgLocalizationForm,
+        localizeableKeys: ['text', 'quick_replies'],
+        component: SendMsgComp
     },
     {
         type: Types.send_broadcast,
         name: 'Send Broadcast',
         description: 'Send somebody else a message',
         form: SendBroadcastForm,
-        formHelper: new SendBroadcastFormHelper(),
-        component: SendBroadcastComp,
-        allows
+        localization: MsgLocalizationForm,
+        localizeableKeys: ['text'],
+        component: SendBroadcastComp
     },
     {
         type: Types.add_input_labels,
         name: 'Add Labels',
         description: 'Label the incoming message',
         form: AddLabelsForm,
-        formHelper: new AddLabelsFormHelper(),
-        component: AddLabelsComp,
-        allows
+        component: AddLabelsComp
     },
     {
         type: Types.add_contact_groups,
         name: 'Add to Group',
         description: 'Add the contact to a group',
         form: AddGroupsForm,
-        formHelper: new AddGroupsFormHelper(),
-        component: ChangeGroupsComp,
-        allows
+        component: ChangeGroupsComp
     },
     {
         type: Types.remove_contact_groups,
         name: 'Remove from Group',
         description: 'Remove the contact from a group',
         form: RemoveGroupsForm,
-        formHelper: new RemoveGroupsFormHelper(),
-        component: ChangeGroupsComp,
-        allows
+        component: ChangeGroupsComp
     },
     {
         type: Types.set_contact_field,
+        aliases: [Types.set_contact_name, Types.set_contact_language, Types.set_contact_channel],
         name: 'Update Contact',
         description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
-    },
-    {
-        type: Types.set_contact_name,
-        name: 'Update Contact',
-        description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
-    },
-    {
-        type: Types.set_contact_language,
-        name: 'Update Contact',
-        description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
-    },
-    {
-        type: Types.set_contact_channel,
-        name: 'Update Contact',
-        description: 'Update the contact',
-        form: SetContactAttribForm,
-        formHelper: ContactAttribHelper,
-        component: SetContactAttrib,
-        allows
+        form: UpdateContactForm,
+        component: UpdateContactComp
     },
     {
         type: Types.send_email,
         name: 'Send Email',
         description: 'Send an email',
         form: SendEmailForm,
-        formHelper: new SendEmailFormHelper(),
-        component: SendEmailComp,
-        allows
+        component: SendEmailComp
     },
     {
         type: Types.set_run_result,
         name: 'Save Flow Result',
         description: 'Save a result for this flow',
         form: SetRunResultForm,
-        formHelper: new SetRunResultFormHelper(),
-        component: SetRunResultComp,
-        allows
+        component: SetRunResultComp
     },
-    // {type: 'set_preferred_channel', name: 'Set Preferred Channel', description: 'Set their preferred channel', component: Missing},
+
     /** Hybrids */
     {
         type: Types.call_webhook,
         name: 'Call Webhook',
         description: 'Call a webook',
-        form: WebhookRouter,
+        form: WebhookRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
         component: CallWebhookComp,
-        advanced: Mode.EDITING,
-        aliases: [UINodeTypes.webhook],
-        allows
+        aliases: [Types.split_by_webhook]
     },
     {
         type: Types.start_flow,
         name: 'Start a Flow',
         description: 'Enter another flow',
-        form: SubflowRouter,
+        form: SubflowRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
         component: StartFlowComp,
-        aliases: [UINodeTypes.subflow],
-        allows
+        aliases: [Types.split_by_subflow]
     },
     {
         type: Types.start_session,
         name: 'Start Somebody Else',
         description: 'Start somebody else in a flow',
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
         form: StartSessionForm,
-        formHelper: new StartSessionFormHelper(),
-        component: StartSessionComp,
-        allows
+        component: StartSessionComp
     },
 
     /** Routers */
@@ -269,25 +207,26 @@ export const typeConfigList: Type[] = [
         type: Types.split_by_expression,
         name: 'Split by Expression',
         description: 'Split by a custom expression',
-        form: SwitchRouter,
-        advanced: Mode.TRANSLATING,
-        allows
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        form: ExpressionRouterForm
     },
     {
         type: Types.split_by_groups,
         name: 'Split by Group Membership',
         description: 'Split by group membership',
-        form: GroupsRouter,
-        allows
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
+        form: GroupsRouterForm
     },
     {
         type: Types.wait_for_response,
         name: 'Wait for Response',
         description: 'Wait for the contact to respond',
-        form: SwitchRouter,
-        advanced: Mode.TRANSLATING,
-        aliases: [RouterTypes.switch],
-        allows
+        form: ResponseRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        aliases: [RouterTypes.switch]
     }
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
@@ -307,11 +246,11 @@ export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeC
  * @param {string} type - The type of the type config to return, e.g. 'send_msg'
  * @returns {Object} - The type config found at typeConfigs[type] or -1
  */
-export const getTypeConfig = (type: Types | RouterTypes | UINodeTypes): Type => {
-    let actionConfig = typeConfigMap[type];
+export const getTypeConfig = (type: Types | RouterTypes): Type => {
+    let config = typeConfigMap[type];
 
-    if (!actionConfig) {
-        actionConfig = typeConfigMap.missing;
+    if (!config) {
+        config = typeConfigMap.missing;
     }
-    return actionConfig;
+    return config;
 };

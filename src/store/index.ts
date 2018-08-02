@@ -2,21 +2,16 @@ import {
     UpdateCreateNodePosition,
     UpdateDragGroup,
     UpdateDragSelection,
-    UpdateForm,
     UpdateLanguage,
     UpdateNodeDragging,
     UpdateNodeEditorOpen,
-    UpdateOperand,
-    UpdateResultName,
-    UpdateShowResultName,
-    UpdateTimeout,
     UpdateTranslating,
     UpdateTypeConfig,
     UpdateUserAddingAction
-} from './actionTypes';
-import Constants from './constants';
-import createStore from './createStore';
-import { CompletionOption, updateDefinition, updateDependencies } from './flowContext';
+} from '~/store/actionTypes';
+import Constants from '~/store/constants';
+import createStore from '~/store/createStore';
+import { CompletionOption, updateDefinition, updateDependencies } from '~/store/flowContext';
 import {
     updateCreateNodePosition,
     updateDragGroup,
@@ -27,17 +22,9 @@ import {
     updateNodeDragging,
     updateNodeEditorOpen,
     updateTranslating
-} from './flowEditor';
-import {
-    updateForm,
-    updateOperand,
-    updateResultName,
-    updateShowResultName,
-    updateTimeout,
-    updateTypeConfig,
-    updateUserAddingAction
-} from './nodeEditor';
-import AppState, { initialState } from './state';
+} from '~/store/flowEditor';
+import { updateTypeConfig, updateUserAddingAction } from '~/store/nodeEditor';
+import AppState, { initialState } from '~/store/state';
 import {
     ActionAC,
     ConnectionEvent,
@@ -80,7 +67,7 @@ import {
     UpdateDimensions,
     UpdateSticky,
     updateSticky
-} from './thunks';
+} from '~/store/thunks';
 
 export {
     AppState,
@@ -97,8 +84,6 @@ export {
     UpdateLanguage,
     UpdateTranslating,
     UpdateNodeEditorOpen,
-    UpdateResultName,
-    UpdateOperand,
     UpdateDragGroup,
     UpdateCreateNodePosition,
     createStore,
@@ -108,8 +93,6 @@ export {
     updateTypeConfig,
     UpdateUserAddingAction,
     UpdateTypeConfig,
-    updateOperand,
-    updateResultName,
     updateLanguage,
     updateFetchingFlow,
     updateDefinition,
@@ -146,19 +129,13 @@ export {
     UpdateDimensions,
     moveActionUp,
     removeAction,
-    updateShowResultName,
-    UpdateShowResultName,
     UpdateNodeDragging,
     UpdateDragSelection,
     updateDragSelection,
     updateSticky,
     UpdateSticky,
-    UpdateTimeout,
-    updateTimeout,
     handleLanguageChange,
     HandleLanguageChange,
-    updateForm,
-    UpdateForm,
     handleTypeConfigChange,
     HandleTypeConfigChange
 };

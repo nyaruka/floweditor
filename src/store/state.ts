@@ -1,6 +1,6 @@
-import { FlowContext, initialState as flowContext } from './flowContext';
-import { FlowEditor, initialState as flowEditor } from './flowEditor';
-import { initialState as nodeEditor, NodeEditor } from './nodeEditor';
+import { FlowContext, initialState as flowContext } from '~/store/flowContext';
+import { FlowEditor, initialState as flowEditor } from '~/store/flowEditor';
+import { initialState as nodeEditor, NodeEditor } from '~/store/nodeEditor';
 
 interface AppState {
     flowContext: FlowContext;

@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Flipper should flip 1`] = `
+Object {
+  "flipped": true,
+}
+`;
+
+exports[`Flipper should render 1`] = `
+<div
+  className="flipper"
+>
+  <div
+    className="side front"
+  >
+    <span
+      className="toggleButton fe-cog"
+      onClick={[Function]}
+    />
+    <div>
+      Front
+    </div>
+  </div>
+  <div
+    className="side back"
+  >
+    <span
+      className="toggleButton fe-back"
+      onClick={[Function]}
+    />
+    <div>
+      Back
+    </div>
+  </div>
+</div>
+`;

@@ -7,7 +7,12 @@ import {
 import { English, languages } from '~/testUtils/assetCreators';
 import { set, setTrue } from '~/utils';
 
-import { editorContainerSpecId, editorSpecId, FlowEditor, FlowEditorStoreProps } from '.';
+import {
+    editorContainerSpecId,
+    editorSpecId,
+    FlowEditor,
+    FlowEditorStoreProps
+} from '~/components';
 
 const colorsFlow = require('~/test/flows/colors.json');
 

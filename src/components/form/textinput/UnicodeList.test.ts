@@ -4,7 +4,7 @@ import UnicodeList, {
     UnicodeListProps,
     unicodeListSpecId,
     utfWarning
-} from './UnicodeList';
+} from '~/components/form/textinput/UnicodeList';
 
 const baseProps: UnicodeListProps = {
     unicodeChars: {

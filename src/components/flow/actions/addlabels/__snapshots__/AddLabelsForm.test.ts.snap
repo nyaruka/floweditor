@@ -1,7 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AddLabelsForm render should pass LabelsElement labels if they exist on the action 1`] = `
-<React.Fragment>
+exports[`AddLabelsForm render should render a base action 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="add_input_labels"
+  title="Add Labels"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Label the incoming message",
+        "form": undefined,
+        "name": "Add Labels",
+        "type": "add_input_labels",
+      }
+    }
+    onChange={[MockFunction]}
+  />
   <p
     data-spec="label"
   >
@@ -39,5 +67,35 @@ exports[`AddLabelsForm render should pass LabelsElement labels if they exist on 
     required={true}
     searchPromptText="Invalid label"
   />
-</React.Fragment>
+</Dialog>
+`;
+
+exports[`AddLabelsForm updates should update and save 1`] = `
+Object {
+  "labels": Object {
+    "value": Array [
+      Object {
+        "id": "feedback_label",
+        "name": "Feedback",
+        "type": "label",
+      },
+    ],
+  },
+  "valid": true,
+}
+`;
+
+exports[`AddLabelsForm updates should update and save 2`] = `
+Array [
+  Object {
+    "labels": Array [
+      Object {
+        "name": "Feedback",
+        "uuid": "feedback_label",
+      },
+    ],
+    "type": "add_input_labels",
+    "uuid": "labels-action-uuid-2",
+  },
+]
 `;

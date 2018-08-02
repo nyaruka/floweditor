@@ -51,34 +51,3 @@ $inner_spacing: 15px;
     padding: 15px 15px 0px 15px;
 }
 
-.translating_exits {
-    clear: both;
-}
-
-.translating_exit {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-    margin-bottom: 10px;
-}
-
-.translating_from {
-    background: $translation_bg;
-    border-radius: 5px;
-    padding: 9px;
-    border: 1px solid $translation_bg - #111;
-    display: inline-block;
-    width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
-    margin-right: 10px;
-}
-
-.translating_to {
-    display: inline-block;
-    width: 355px;
-}

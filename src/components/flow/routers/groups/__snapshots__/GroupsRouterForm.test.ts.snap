@@ -1,0 +1,112 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 1`] = `
+Object {
+  "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
+  "name": "Customers",
+  "type": "group",
+}
+`;
+
+exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 2`] = `
+Object {
+  "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
+  "name": "Unsatisfied Customers",
+  "type": "group",
+}
+`;
+
+exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 3`] = `
+Object {
+  "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
+  "name": "Early Adopters",
+  "type": "group",
+}
+`;
+
+exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 4`] = `
+Object {
+  "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
+  "name": "Testers",
+  "type": "group",
+}
+`;
+
+exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 5`] = `
+Object {
+  "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+  "name": "Subscribers",
+  "type": "group",
+}
+`;
+
+exports[`GroupsRouterForm render should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="split_by_groups"
+  title="Split by Group Membership"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Split by group membership",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Split by Group Membership",
+        "type": "split_by_groups",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p>
+    Select the group(s) you'd like to split by below
+  </p>
+  <GroupsElement
+    add={false}
+    assets={
+      GroupAssets {
+        "assetType": "group",
+        "assets": Object {},
+        "endpoint": "/assets/groups.json",
+        "idProperty": "uuid",
+        "localStorage": true,
+      }
+    }
+    entry={
+      Object {
+        "value": Array [],
+      }
+    }
+    name="Groups"
+    onChange={[Function]}
+    placeholder="Enter the name of an existing group..."
+    searchPromptText="Invalid group"
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;

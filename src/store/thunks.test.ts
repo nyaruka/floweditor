@@ -5,15 +5,11 @@ import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
 import AssetService from '~/services/AssetService';
-import { createMockStore, prepMockDuxState } from '~/testUtils';
-import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
-import { push } from '~/utils';
-
-import { Constants, initialState, LocalizationUpdates } from '.';
-import { RenderNode, RenderNodeMap } from './flowContext';
-import { getFlowComponents, getSuggestedResultName, getUniqueDestinations } from './helpers';
-import { getOtherExit } from './mutators';
-import { NodeEditorSettings } from './nodeEditor';
+import { Constants, initialState, LocalizationUpdates } from '~/store';
+import { RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { getFlowComponents, getUniqueDestinations } from '~/store/helpers';
+import { getOtherExit } from '~/store/mutators';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 import {
     addNode,
     disconnectExit,
@@ -39,7 +35,10 @@ import {
     updateDimensions,
     updateExitDestination,
     updateSticky
-} from './thunks';
+} from '~/store/thunks';
+import { createMockStore, prepMockDuxState } from '~/testUtils';
+import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
+import { push } from '~/utils';
 
 const config = require('~/test/config');
 
@@ -72,7 +71,7 @@ describe('Flow Manipulation', () => {
         it('should initialize definition', () => {
             const assetService = new AssetService(config);
             const { renderNodeMap, groups, fields } = store.dispatch(
-                initializeFlow(boring, assetService)
+                initializeFlow(boring, assetService, [])
             );
             expect(renderNodeMap).toMatchSnapshot('nodes');
             expect(store).toHaveReduxActions([Constants.UPDATE_NODES]);
@@ -412,7 +411,7 @@ describe('Flow Manipulation', () => {
                 ...store.getState(),
                 nodeEditor: {
                     userAddingAction: true,
-                    settings: { originalNode: testNodes.node0.node }
+                    settings: { originalNode: testNodes.node0 }
                 }
             });
 
@@ -442,7 +441,7 @@ describe('Flow Manipulation', () => {
                         nodes: { $set: renderNodeMap }
                     },
                     nodeEditor: {
-                        settings: { $set: { originalNode: originalRenderNode.node } }
+                        settings: { $set: { originalNode: originalRenderNode } }
                     }
                 })
             );
@@ -484,7 +483,7 @@ describe('Flow Manipulation', () => {
                 ...store.getState(),
                 nodeEditor: {
                     userAddingAction: false,
-                    settings: { originalNode: testNodes.node0.node }
+                    settings: { originalNode: testNodes.node0 }
                 }
             });
 
@@ -535,7 +534,7 @@ describe('Flow Manipulation', () => {
                 },
                 nodeEditor: {
                     userAddingAction: true,
-                    settings: { originalNode: {} }
+                    settings: { originalNode: { node: { uuid: generateUUID() } } }
                 }
             });
 
@@ -678,7 +677,7 @@ describe('Flow Manipulation', () => {
 
                 store.dispatch(
                     onOpenNodeEditor({
-                        originalNode: testNodes.node0.node,
+                        originalNode: testNodes.node0,
                         originalAction: testNodes.node0.node.actions[0],
                         showAdvanced: false
                     })
@@ -701,7 +700,7 @@ describe('Flow Manipulation', () => {
                 );
 
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node3, showAdvanced: false })
                 );
             });
 
@@ -721,7 +720,7 @@ describe('Flow Manipulation', () => {
                 );
 
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node2.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node2, showAdvanced: false })
                 );
                 expect(store).not.toHaveReduxActions([Constants.UPDATE_DEFINITION]);
             });
@@ -743,10 +742,7 @@ describe('Flow Manipulation', () => {
                 );
 
                 store.dispatch(handleTypeConfigChange(newTypeConfig));
-                expect(store).toHaveReduxActions([
-                    Constants.UPDATE_TYPE_CONFIG,
-                    Constants.UPDATE_FORM
-                ]);
+                expect(store).toHaveReduxActions([Constants.UPDATE_TYPE_CONFIG]);
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: newTypeConfig
                 });
@@ -762,16 +758,6 @@ describe('Flow Manipulation', () => {
                     actions: [originalAction]
                 } = originalNode;
                 const suggestedNameCount = Object.keys(resultMap).length;
-                const suggestedResultName = getSuggestedResultName(suggestedNameCount);
-                const expectedActions = [
-                    Constants.UPDATE_TYPE_CONFIG,
-                    Constants.UPDATE_RESULT_NAME,
-                    Constants.UPDATE_SHOW_RESULT_NAME
-                ];
-                const expectedResultNamePayload = [
-                    Constants.UPDATE_RESULT_NAME,
-                    { resultName: suggestedResultName }
-                ];
 
                 store = createMockStore(
                     mutate(initialState, {
@@ -793,14 +779,12 @@ describe('Flow Manipulation', () => {
 
                 // store.dispatch(handleTypeConfigChange(newTypeConfig, originalAction));
                 // expect(store).toHaveReduxActions(expectedActions);
-                // expect(store).toHavePayload(...expectedResultNamePayload);
-                expect(expectedResultNamePayload).toMatchSnapshot();
             });
 
             it('should edit an existing action', () => {
                 store.dispatch(
                     onOpenNodeEditor({
-                        originalNode: testNodes.node0.node,
+                        originalNode: testNodes.node0,
                         originalAction: testNodes.node0.node.actions[0],
                         showAdvanced: false
                     })
@@ -809,7 +793,7 @@ describe('Flow Manipulation', () => {
 
             it('should pick the last action if none are provided', () => {
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node3.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node3, showAdvanced: false })
                 );
             });
 
@@ -818,27 +802,17 @@ describe('Flow Manipulation', () => {
                 expect(() => {
                     store.dispatch(
                         onOpenNodeEditor({
-                            originalNode: testNodes.node0.node,
+                            originalNode: testNodes.node0,
                             showAdvanced: false
                         })
                     );
-                }).toThrowError('Cannot initialize NodeEditor without a valid type: node0');
+                }).toThrowError("Couldn't determine type config for: node0");
             });
 
             it('should edit router nodes', () => {
                 store.dispatch(
-                    onOpenNodeEditor({ originalNode: testNodes.node1.node, showAdvanced: false })
+                    onOpenNodeEditor({ originalNode: testNodes.node1, showAdvanced: false })
                 );
-
-                expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
-                    typeConfig: {
-                        type: Types.wait_for_response,
-                        name: 'Wait for Response',
-                        description: 'Wait for the contact to respond',
-                        advanced: 2,
-                        aliases: [RouterTypes.switch]
-                    }
-                });
 
                 expect(store).toHavePayload(Constants.UPDATE_NODE_EDITOR_OPEN, {
                     nodeEditorOpen: true
@@ -896,7 +870,7 @@ describe('Flow Manipulation', () => {
                     ghostNode: null
                 });
 
-                expect(store.getActions().length).toBe(4);
+                expect(store.getActions().length).toBe(2);
             });
 
             it('should reset the node editor', () => {
@@ -929,7 +903,7 @@ describe('Flow Manipulation', () => {
             store = createMockStore(
                 mutate(initialState, {
                     flowContext: { nodes: { $set: testNodes } },
-                    nodeEditor: { settings: { $set: { originalNode: testNodes.node1.node } } }
+                    nodeEditor: { settings: { $set: { originalNode: testNodes.node1 } } }
                 })
             );
 
@@ -967,7 +941,7 @@ describe('Flow Manipulation', () => {
                             }
                         }
                     },
-                    nodeEditor: { settings: { $set: { originalNode: testNodes.node3.node } } }
+                    nodeEditor: { settings: { $set: { originalNode: testNodes.node3 } } }
                 })
             );
 
@@ -995,7 +969,7 @@ describe('Flow Manipulation', () => {
                         settings: {
                             $set: {
                                 originalAction: testNodes.node3.node.actions[0],
-                                originalNode: testNodes.node3.node
+                                originalNode: testNodes.node3
                             }
                         }
                     }
@@ -1024,7 +998,7 @@ describe('Flow Manipulation', () => {
                 mutate(initialState, {
                     flowContext: { nodes: { $set: testNodes } },
                     nodeEditor: {
-                        settings: { $set: { originalNode: testNodes.node0.node } }
+                        settings: { $set: { originalNode: testNodes.node0 } }
                     }
                 })
             );

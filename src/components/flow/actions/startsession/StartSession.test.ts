@@ -1,7 +1,7 @@
 import { StartSession } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createStartSessionAction } from '~/testUtils/assetCreators';
-import StartSessionComp from './StartSession';
+import StartSessionComp from '~/components/flow/actions/startsession/StartSession';
 
 describe('StartSessionComp', () => {
     const baseProps: StartSession = createStartSessionAction();

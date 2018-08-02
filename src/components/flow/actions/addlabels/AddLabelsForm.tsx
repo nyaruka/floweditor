@@ -1,121 +1,91 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { initializeForm, stateToAction } from '~/components/flow/actions/addlabels/helpers';
+import { ActionFormProps } from '~/components/flow/props';
 import LabelsElement from '~/components/form/select/labels/LabelsElement';
-import { ConfigProviderContext } from '~/config';
+import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Types } from '~/config/typeConfigs';
-import { AddLabels, Label } from '~/flowTypes';
-import AssetService, { Asset, AssetType } from '~/services/AssetService';
-import { DispatchWithState } from '~/store';
-import { AddLabelsFunc, updateAddLabelsForm } from '~/store/forms';
-import { AddLabelsFormState } from '~/store/nodeEditor';
-import AppState from '~/store/state';
+import { Asset } from '~/services/AssetService';
+import { AssetArrayEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import { AddLabelsFormHelper } from './AddLabelsFormHelper';
-
-export interface AddLabelsFormStoreProps {
-    form: AddLabelsFormState;
-    updateAddLabelsForm: AddLabelsFunc;
+export interface AddLabelsFormState extends FormState {
+    labels: AssetArrayEntry;
 }
-
-export interface AddLabelsFormPassedProps {
-    action: AddLabels;
-    updateAction: (action: AddLabels) => void;
-    formHelper: AddLabelsFormHelper;
-}
-
-export type AddLabelsFormProps = AddLabelsFormPassedProps & AddLabelsFormStoreProps;
-
-export const mapLabelsToAssets = (labels: Label[]): Asset[] =>
-    labels.map(({ name, uuid }) => ({ name, id: uuid, type: AssetType.Label }));
-
-export const mapAssetsToLabels = (searchResults: Asset[]): Label[] =>
-    searchResults.map(({ id, name }) => ({ uuid: id, name }));
-
-export const createNewAddLabelAction = ({ uuid }: AddLabels, labels: Asset[]) => ({
-    uuid,
-    type: Types.add_input_labels,
-    labels: mapAssetsToLabels(labels)
-});
 
 export const LABEL = 'Select the label(s) to apply to the incoming message.';
 export const PLACEHOLDER = 'Enter the name of an existing label or create a new one';
-
 export const controlLabelSpecId = 'label';
 
-export class AddLabelsForm extends React.PureComponent<AddLabelsFormProps> {
+export default class AddLabelsForm extends React.PureComponent<
+    ActionFormProps,
+    AddLabelsFormState
+> {
     public static contextTypes = {
         assetService: fakePropType
     };
 
-    constructor(props: AddLabelsFormProps, context: ConfigProviderContext) {
+    constructor(props: ActionFormProps) {
         super(props);
 
+        this.state = initializeForm(this.props.nodeSettings);
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
     }
 
-    public onValid(): void {
-        const newAction = this.props.formHelper.stateToAction(
-            this.props.action.uuid,
-            this.props.form
-        );
-        this.props.updateAction(newAction);
-    }
-
-    public validate(): boolean {
-        return this.handleLabelChange(this.props.form.labels.value);
+    public handleSave(): void {
+        const valid = this.handleLabelChange(this.state.labels.value);
+        if (valid) {
+            const newAction = stateToAction(
+                this.props.nodeSettings.originalAction.uuid,
+                this.state
+            );
+            this.props.updateAction(newAction);
+            this.props.onClose(false);
+        }
     }
 
     public handleLabelChange(selected: Asset[]): boolean {
-        return (this.props.updateAddLabelsForm({
+        const updates: Partial<AddLabelsFormState> = {
             labels: validate('Labels', selected, [validateRequired])
-        }) as any).valid;
+        };
+
+        const updated = mergeForm(this.state, updates);
+        this.setState(updated);
+        return updated.valid;
     }
 
-    private getLabels(): Asset[] {
-        if (!this.props.action.labels.length) {
-            return [];
-        }
-        return mapLabelsToAssets(this.props.action.labels);
+    private getButtons(): ButtonSet {
+        return {
+            primary: { name: 'Ok', onClick: this.handleSave },
+            secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+        };
     }
 
     public render(): JSX.Element {
+        const typeConfig = this.props.typeConfig;
         return (
-            <>
+            <Dialog
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
+                buttons={this.getButtons()}
+            >
+                <TypeList
+                    __className=""
+                    initialType={typeConfig}
+                    onChange={this.props.onTypeChange}
+                />
                 <p data-spec={controlLabelSpecId}>{LABEL}</p>
                 <LabelsElement
                     name="Labels"
                     placeholder={PLACEHOLDER}
                     assets={this.context.assetService.getLabelAssets()}
-                    entry={this.props.form.labels}
+                    entry={this.state.labels}
                     onChange={this.handleLabelChange}
                 />
-            </>
+            </Dialog>
         );
     }
 }
-
-/* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { form } }: AppState) => ({
-    form
-});
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators({ updateAddLabelsForm }, dispatch);
-
-const ConnectedAddLabelsForm = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    {
-        withRef: true
-    }
-)(AddLabelsForm);
-
-export default ConnectedAddLabelsForm;

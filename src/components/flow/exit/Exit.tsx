@@ -12,7 +12,7 @@ import { Asset } from '~/services/AssetService';
 import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '~/store';
 import { createClickHandler, getLocalization } from '~/utils';
 
-import * as styles from './Exit.scss';
+import * as styles from '~/components/flow/exit/Exit.scss';
 
 export interface ExitPassedProps {
     exit: Exit;

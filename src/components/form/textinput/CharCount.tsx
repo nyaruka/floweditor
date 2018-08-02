@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as classNames from 'classnames/bind';
-import * as styles from './CharCount.scss';
-import { UnicodeCharMap, pluralize } from './helpers';
-import UnicodeList from './UnicodeList';
+import * as styles from '~/components/form/textinput/CharCount.scss';
+import { UnicodeCharMap, pluralize } from '~/components/form/textinput/helpers';
+import UnicodeList from '~/components/form/textinput/UnicodeList';
 
 interface CharCountProps {
     count: number;

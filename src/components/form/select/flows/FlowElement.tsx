@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Asset, Assets } from '~/services/AssetService';
 import { getSelectClassForEntry } from '~/utils';
 
-import FormElement, { FormElementProps } from '../../FormElement';
-import SelectSearch from '../SelectSearch';
+import FormElement, { FormElementProps } from '~/components/form/FormElement';
+import SelectSearch from '~/components/form/select/SelectSearch';
 
 interface FlowElementProps extends FormElementProps {
     endpoint?: string;

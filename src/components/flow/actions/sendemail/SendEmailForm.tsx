@@ -1,78 +1,93 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { initializeForm, stateToAction } from '~/components/flow/actions/sendemail/helpers';
+import * as styles from '~/components/flow/actions/sendemail/SendEmail.scss';
+import { ActionFormProps } from '~/components/flow/props';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { Type } from '~/config';
-import { SendEmail } from '~/flowTypes';
-import { AppState, DispatchWithState } from '~/store';
-import { SendEmailFunc, updateSendEmailForm } from '~/store/forms';
-import { SendEmailFormState } from '~/store/nodeEditor';
+import TypeList from '~/components/nodeeditor/TypeList';
+import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-
-import * as styles from './SendEmail.scss';
-import { SendEmailFormHelper } from './SendEmailFormHelper';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
-export interface SendEmailFormStoreProps {
-    typeConfig: Type;
-    form: SendEmailFormState;
-    updateSendEmailForm: SendEmailFunc;
+export interface SendEmailFormState extends FormState {
+    recipients: StringArrayEntry;
+    subject: StringEntry;
+    body: StringEntry;
 }
 
-export interface SendEmailFormPassedProps {
-    action: SendEmail;
-    updateAction(action: SendEmail): void;
-    formHelper: SendEmailFormHelper;
-}
-
-export type SendEmailFormProps = SendEmailFormStoreProps & SendEmailFormPassedProps;
-
-export class SendEmailForm extends React.Component<SendEmailFormProps> {
-    constructor(props: SendEmailFormProps) {
+export default class SendEmailForm extends React.Component<ActionFormProps, SendEmailFormState> {
+    constructor(props: ActionFormProps) {
         super(props);
+
+        this.state = initializeForm(this.props.nodeSettings);
 
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
     }
 
-    public onValid(): void {
-        const updated = this.props.formHelper.stateToAction(
-            this.props.action.uuid,
-            this.props.form
-        );
-        this.props.updateAction(updated);
+    public handleRecipientsChanged(recipients: string[]): boolean {
+        return this.handleUpdate({ recipients });
     }
 
-    public validate(): boolean {
-        let valid = this.handleRecipientsChanged(this.props.form.recipients.value);
-        valid = this.handleSubjectChanged(this.props.form.subject.value) && valid;
-        return this.handleBodyChanged(this.props.form.body.value) && valid;
+    public handleSubjectChanged(subject: string): boolean {
+        return this.handleUpdate({ subject });
     }
 
-    private handleUpdateForm(updates: Partial<SendEmailFormState>): boolean {
-        return (this.props.updateSendEmailForm(updates) as any).valid;
+    public handleBodyChanged(body: string): boolean {
+        return this.handleUpdate({ body });
     }
 
-    private handleRecipientsChanged(recipients: string[]): boolean {
-        return this.handleUpdateForm({
-            recipients: validate('Recipients', recipients, [validateRequired])
+    private handleUpdate(keys: {
+        recipients?: string[];
+        subject?: string;
+        body?: string;
+    }): boolean {
+        const updates: Partial<SendEmailFormState> = {};
+
+        if (keys.hasOwnProperty('recipients')) {
+            updates.recipients = validate('Recipients', keys.recipients, [validateRequired]);
+        }
+
+        if (keys.hasOwnProperty('subject')) {
+            updates.subject = validate('Subject', keys.subject, [validateRequired]);
+        }
+
+        if (keys.hasOwnProperty('body')) {
+            updates.body = validate('Body', keys.body, [validateRequired]);
+        }
+
+        const updated = mergeForm(this.state, updates);
+        this.setState(updated);
+        return updated.valid;
+    }
+
+    private handleSave(): void {
+        // validate in case they never updated an empty field
+        const valid = this.handleUpdate({
+            recipients: this.state.recipients.value,
+            subject: this.state.subject.value,
+            body: this.state.body.value
         });
+
+        if (valid) {
+            this.props.updateAction(
+                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
+            );
+
+            // notify our modal we are done
+            this.props.onClose(false);
+        }
     }
 
-    private handleSubjectChanged(subject: string): boolean {
-        return this.handleUpdateForm({
-            subject: validate('Subject', subject, [validateRequired])
-        });
-    }
-
-    private handleBodyChanged(body: string): boolean {
-        return this.handleUpdateForm({
-            body: validate('Body', body, [validateRequired])
-        });
+    private getButtons(): ButtonSet {
+        return {
+            primary: { name: 'Ok', onClick: this.handleSave },
+            secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+        };
     }
 
     private handleValidPrompt(value: string): string {
@@ -84,53 +99,47 @@ export class SendEmailForm extends React.Component<SendEmailFormProps> {
     }
 
     public render(): JSX.Element {
+        const typeConfig = this.props.typeConfig;
         return (
-            <div className={styles.ele}>
-                <TaggingElement
-                    name="Recipient"
-                    placeholder="To"
-                    prompt="Enter e-mail address"
-                    onCheckValid={this.handleCheckValid}
-                    onValidPrompt={this.handleValidPrompt}
-                    entry={this.props.form.recipients}
-                    onChange={this.handleRecipientsChanged}
+            <Dialog
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
+                buttons={this.getButtons()}
+            >
+                <TypeList
+                    __className=""
+                    initialType={typeConfig}
+                    onChange={this.props.onTypeChange}
                 />
-                <TextInputElement
-                    __className={styles.subject}
-                    name="Subject"
-                    placeholder="Subject"
-                    onChange={this.handleSubjectChanged}
-                    entry={this.props.form.subject}
-                    autocomplete={true}
-                />
-                <TextInputElement
-                    __className={styles.message}
-                    name="Message"
-                    showLabel={false}
-                    onChange={this.handleBodyChanged}
-                    entry={this.props.form.body}
-                    autocomplete={true}
-                    textarea={true}
-                />
-            </div>
+                <div className={styles.ele}>
+                    <TaggingElement
+                        name="Recipient"
+                        placeholder="To"
+                        prompt="Enter e-mail address"
+                        onCheckValid={this.handleCheckValid}
+                        onValidPrompt={this.handleValidPrompt}
+                        entry={this.state.recipients}
+                        onChange={this.handleRecipientsChanged}
+                    />
+                    <TextInputElement
+                        __className={styles.subject}
+                        name="Subject"
+                        placeholder="Subject"
+                        onChange={this.handleSubjectChanged}
+                        entry={this.state.subject}
+                        autocomplete={true}
+                    />
+                    <TextInputElement
+                        __className={styles.message}
+                        name="Message"
+                        showLabel={false}
+                        onChange={this.handleBodyChanged}
+                        entry={this.state.body}
+                        autocomplete={true}
+                        textarea={true}
+                    />
+                </div>
+            </Dialog>
         );
     }
 }
-
-/* istanbul ignore next */
-const mapStateToProps = ({ nodeEditor: { form, typeConfig } }: AppState) => ({ form, typeConfig });
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators({ updateSendEmailForm }, dispatch);
-
-const ConnectedSendEmailForm = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    {
-        withRef: true
-    }
-)(SendEmailForm);
-
-export default ConnectedSendEmailForm;

@@ -3,11 +3,10 @@ import { Type } from '~/config';
 import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
-
-import Constants from './constants';
-import { ContactFields, RenderNode, ResultMap } from './flowContext';
-import { DragSelection } from './flowEditor';
-import { NodeEditorForm, NodeEditorSettings } from './nodeEditor';
+import Constants from '~/store/constants';
+import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
+import { DragSelection } from '~/store/flowEditor';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 
 // Redux action generic
 interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> {
@@ -74,7 +73,7 @@ interface UpdateNodeEditorOpenPayload {
 }
 
 interface UpdateGhostNodePayload {
-    ghostNode: FlowNode;
+    ghostNode: RenderNode;
 }
 
 interface UpdateCreateNodePositionPayload {
@@ -125,10 +124,6 @@ interface UpdateDragSelectionActionPayload {
     dragSelection: DragSelection;
 }
 
-interface UpdateFormPayload {
-    form: NodeEditorForm;
-}
-
 interface UpdateNodeEditorSettingsPayload {
     settings: NodeEditorSettings;
 }
@@ -141,8 +136,6 @@ interface UpdateContactFieldsPayload {
 }
 
 // Action types
-export type UpdateFormAction = DuxAction<Constants.UPDATE_FORM, UpdateFormPayload>;
-
 export type UpdateNodeEditorSettings = DuxAction<
     Constants.UPDATE_NODE_EDITOR_SETTINGS,
     UpdateNodeEditorSettingsPayload
@@ -220,21 +213,9 @@ export type UpdateTypeConfigAction = DuxAction<
     UpdateTypeConfigPayload
 >;
 
-export type UpdateResultNameAction = DuxAction<
-    Constants.UPDATE_RESULT_NAME,
-    UpdateResultNamePayload
->;
-
-export type UpdateOperandAction = DuxAction<Constants.UPDATE_OPERAND, UpdateOperandPayload>;
-
 export type UpdateUserAddingActionAction = DuxAction<
     Constants.UPDATE_USER_ADDING_ACTION,
     UpdateUserAddingActionPayload
->;
-
-export type UpdateShowResultNameAction = DuxAction<
-    Constants.UPDATE_SHOW_RESULT_NAME,
-    UpdateShowResultNameActionPayload
 >;
 
 export type UpdateDragSelectionAction = DuxAction<
@@ -246,8 +227,6 @@ export type UpdateContactFieldsAction = DuxAction<
     Constants.UPDATE_CONTACT_FIELDS,
     UpdateContactFieldsPayload
 >;
-
-export type UpdateTimeoutAction = DuxAction<Constants.UPDATE_TIMEOUT, UpdateTimeoutPayload>;
 
 export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
 
@@ -263,28 +242,17 @@ export type UpdateCreateNodePosition = (
 
 export type UpdateDragSelection = (dragSelection: DragSelection) => UpdateDragSelectionAction;
 
-export type UpdateResultName = (resultName: string) => UpdateResultNameAction;
-
-export type UpdateOperand = (operand: string) => UpdateOperandAction;
-
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
 export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
 
 export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
 
-export type UpdateShowResultName = (showResultName: boolean) => UpdateShowResultNameAction;
-
-export type UpdateTimeout = (timeout: number) => UpdateTimeoutAction;
-
 export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
-
-export type UpdateForm = (form: NodeEditorForm) => UpdateFormAction;
 
 export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
 
 type ActionTypes =
-    | UpdateFormAction
     | UpdateNodeEditorSettings
     | UpdateTranslatingAction
     | UpdateLanguageAction
@@ -304,12 +272,8 @@ type ActionTypes =
     | UpdatePendingConnectionAction
     | UpdateDragGroupAction
     | UpdateTypeConfigAction
-    | UpdateResultNameAction
-    | UpdateOperandAction
     | UpdateUserAddingActionAction
-    | UpdateShowResultNameAction
     | UpdateDragSelectionAction
-    | UpdateTimeoutAction
     | UpdateBaseLanguageAction
     | UpdateLanguagesAction
     | UpdateContactFieldsAction;

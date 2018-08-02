@@ -7,7 +7,7 @@ import GroupsElement, {
     GROUP_PLACEHOLDER,
     GROUP_PROMPT,
     GroupsElementProps
-} from './GroupsElement';
+} from '~/components/form/select/groups/GroupsElement';
 
 const baseProps: GroupsElementProps = {
     name: 'Groups',

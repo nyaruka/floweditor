@@ -6,7 +6,7 @@ import CheckboxElement, {
     checkedBoxIco,
     descSpecId,
     titleSpecId
-} from './CheckboxElement';
+} from '~/components/form/checkbox/CheckboxElement';
 
 const baseProps: CheckboxElementProps = {
     name: 'Checkbox',

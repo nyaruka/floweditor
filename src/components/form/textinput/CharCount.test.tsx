@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { getSpecWrapper } from '~/testUtils';
-import CharCount from './CharCount';
+import CharCount from '~/components/form/textinput/CharCount';
 
 describe('CharCount >', () => {
     describe('render >', () => {
