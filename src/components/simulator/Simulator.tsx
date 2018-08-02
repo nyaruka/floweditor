@@ -8,17 +8,16 @@ import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { v4 as generateUUID } from 'uuid';
+import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
+import * as styles from '~/components/simulator/Simulator.scss';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
-import { FlowDefinition, FlowNode, Group, Wait } from '~/flowTypes';
+import { FlowDefinition, Group, Wait } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
 import AssetService, { getBaseURL } from '~/services/AssetService';
 import { AppState, DispatchWithState } from '~/store';
-import { RenderNode, RenderNodeMap } from '~/store/flowContext';
-import { getOrderedNodes } from '~/store/helpers';
-
-import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
-import * as styles from '~/components/simulator/Simulator.scss';
+import { RenderNodeMap } from '~/store/flowContext';
+import { getCurrentDefinition } from '~/store/helpers';
 
 const ACTIVE = 'A';
 
@@ -213,18 +212,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         );
     }
 
-    private getCurrentDefinition(): FlowDefinition {
-        const renderNodes = getOrderedNodes(this.props.nodes);
-        const nodes: FlowNode[] = [];
-        renderNodes.map((renderNode: RenderNode) => {
-            nodes.push(renderNode.node);
-        });
-        return {
-            ...this.props.definition,
-            nodes
-        };
-    }
-
     private startFlow(): void {
         // reset our events and contact
         this.setState(
@@ -234,7 +221,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             () => {
                 this.getAssetService()
                     .getFlowAssets()
-                    .update(this.props.definition.uuid, this.getCurrentDefinition())
+                    .update(
+                        this.props.definition.uuid,
+                        getCurrentDefinition(this.props.definition, this.props.nodes)
+                    )
                     .then(() => {
                         const body: any = {
                             contact: this.state.contact,
