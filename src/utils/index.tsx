@@ -313,3 +313,14 @@ export const dedupe = (arr: any[], key?: string) => {
         return arr.filter((item, idx, arrToFilter) => arrToFilter.indexOf(item) === idx);
     }
 };
+
+export const downloadJSON = (obj: any, name: string): void => {
+    const dataStr =
+        'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(obj, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', name + '.json');
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+};

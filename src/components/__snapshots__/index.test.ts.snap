@@ -7,6 +7,19 @@ exports[`Root render should apply translating style if passed a truthy translati
   id="editor-container"
 >
   <div
+    className="footer"
+  >
+    <div
+      className="downloadButton"
+    >
+      <Button
+        name="Download"
+        onClick={[Function]}
+        type="primary"
+      />
+    </div>
+  </div>
+  <div
     className="editor"
     data-spec="editor"
   >
@@ -20,6 +33,19 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
   data-spec="editor-container"
   id="editor-container"
 >
+  <div
+    className="footer"
+  >
+    <div
+      className="downloadButton"
+    >
+      <Button
+        name="Download"
+        onClick={[Function]}
+        type="primary"
+      />
+    </div>
+  </div>
   <div
     className="editor"
     data-spec="editor"
@@ -35,6 +61,19 @@ exports[`Root render should render self, children with required props 1`] = `
   data-spec="editor-container"
   id="editor-container"
 >
+  <div
+    className="footer"
+  >
+    <div
+      className="downloadButton"
+    >
+      <Button
+        name="Download"
+        onClick={[Function]}
+        type="primary"
+      />
+    </div>
+  </div>
   <div
     className="editor"
     data-spec="editor"

@@ -1,8 +1,10 @@
 import '~/global.scss';
 
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Button, { ButtonTypes } from '~/components/button/Button';
 import ConnectedFlow from '~/components/flow/Flow';
 import * as styles from '~/components/index.scss';
 import ConnectedLanguageSelector from '~/components/languageselector/LanguageSelector';
@@ -11,7 +13,9 @@ import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import AssetService, { Asset } from '~/services/AssetService';
 import { AppState, createStore, DispatchWithState, FetchFlow, fetchFlow } from '~/store';
-import { renderIf } from '~/utils';
+import { RenderNodeMap } from '~/store/flowContext';
+import { getCurrentDefinition } from '~/store/helpers';
+import { downloadJSON, renderIf } from '~/utils';
 
 export interface FlowEditorContainerProps {
     config: FlowEditorConfig;
@@ -25,6 +29,7 @@ export interface FlowEditorStoreProps {
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
     fetchFlow: FetchFlow;
+    nodes: RenderNodeMap;
 }
 
 const hotStore = createStore();
@@ -55,8 +60,33 @@ export const editorSpecId = 'editor';
 export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     public static contextTypes = contextTypes;
 
+    constructor(props: FlowEditorStoreProps) {
+        super(props);
+        bindCallbacks(this, {
+            include: [/^handle/]
+        });
+    }
+
     public componentDidMount(): void {
         this.props.fetchFlow(this.context.assetService, this.context.flow);
+    }
+
+    private handleDownloadClicked(): void {
+        downloadJSON(getCurrentDefinition(this.props.definition, this.props.nodes), 'definition');
+    }
+
+    public getFooter(): JSX.Element {
+        return (
+            <div className={styles.footer}>
+                <div className={styles.downloadButton}>
+                    <Button
+                        name="Download"
+                        onClick={this.handleDownloadClicked}
+                        type={ButtonTypes.primary}
+                    />
+                </div>
+            </div>
+        );
     }
 
     public render(): JSX.Element {
@@ -67,6 +97,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                 className={this.props.translating ? styles.translating : undefined}
                 data-spec={editorContainerSpecId}
             >
+                {this.getFooter()}
                 <div className={styles.editor} data-spec={editorSpecId}>
                     {renderIf(this.props.languages.length > 0)(<ConnectedLanguageSelector />)}
                     {renderIf(
@@ -79,7 +110,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, dependencies, languages },
+    flowContext: { definition, dependencies, languages, nodes },
     flowEditor: {
         editorUI: { translating, language, fetchingFlow }
     }
@@ -89,7 +120,8 @@ const mapStateToProps = ({
     fetchingFlow,
     definition,
     dependencies,
-    languages
+    languages,
+    nodes
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

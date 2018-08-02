@@ -13,6 +13,7 @@ import {
     RouterTypes,
     SetContactField,
     SwitchRouter,
+    UIMetaData,
     WaitTypes
 } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
@@ -97,6 +98,37 @@ export const getUniqueDestinations = (node: FlowNode): string[] => {
         }
     }
     return Object.keys(destinations);
+};
+
+export const getCurrentDefinition = (
+    definition: FlowDefinition,
+    nodeMap: RenderNodeMap,
+    includeUI: boolean = true
+): FlowDefinition => {
+    const renderNodes = getOrderedNodes(nodeMap);
+    const nodes: FlowNode[] = [];
+    renderNodes.map((renderNode: RenderNode) => {
+        nodes.push(renderNode.node);
+    });
+
+    // tslint:disable-next-line:variable-name
+    const uiNodes = {};
+    for (const uuid of Object.keys(nodeMap)) {
+        uiNodes[uuid] = nodeMap[uuid].ui;
+    }
+
+    // tslint:disable-next-line:variable-name
+    const _ui: UIMetaData = {
+        nodes: uiNodes,
+        stickies: definition._ui.stickies,
+        languages: definition._ui.languages
+    };
+
+    return {
+        ...definition,
+        nodes,
+        _ui
+    };
 };
 
 export const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {

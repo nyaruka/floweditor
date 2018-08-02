@@ -1,4 +1,10 @@
 import {
+    editorContainerSpecId,
+    editorSpecId,
+    FlowEditor,
+    FlowEditorStoreProps
+} from '~/components';
+import {
     composeComponentTestUtils,
     configProviderContext,
     getSpecWrapper,
@@ -6,13 +12,6 @@ import {
 } from '~/testUtils';
 import { English, languages } from '~/testUtils/assetCreators';
 import { set, setTrue } from '~/utils';
-
-import {
-    editorContainerSpecId,
-    editorSpecId,
-    FlowEditor,
-    FlowEditorStoreProps
-} from '~/components';
 
 const colorsFlow = require('~/test/flows/colors.json');
 
@@ -23,7 +22,8 @@ const baseProps: FlowEditorStoreProps = {
     fetchingFlow: false,
     definition: null,
     dependencies: null,
-    fetchFlow: jest.fn()
+    fetchFlow: jest.fn(),
+    nodes: null
 };
 
 const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);
