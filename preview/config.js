@@ -26,7 +26,7 @@ if (process.env.RAPID_FLOW) {
     module.exports =
         process.env.NODE_ENV === 'preview'
             ? Object.assign({}, config, {
-                  localStorage: false,
+                  localStorage: true,
                   endpoints: {
                       flows: 'flows',
                       groups: 'groups',
