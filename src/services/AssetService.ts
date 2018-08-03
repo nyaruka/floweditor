@@ -48,10 +48,10 @@ enum NameProperty {
 
 enum SimAssetType {
     Flow = 'flow',
-    Fields = 'field_set',
-    Groups = 'group_set',
-    Channels = 'channel_set',
-    Labels = 'label_set'
+    Fields = 'field',
+    Groups = 'group',
+    Channels = 'channel',
+    Labels = 'label'
 }
 
 interface SimAsset {
@@ -67,6 +67,24 @@ export const getBaseURL = (): string => {
     return (
         location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '')
     );
+};
+
+export const getURL = (path: string): string => {
+    let url = path;
+    if (!url.endsWith('/')) {
+        url += '/';
+    }
+
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url;
+    }
+
+    // Set url for netlify deployments
+    if (process.env.NODE_ENV === 'preview') {
+        url = '/.netlify/functions/' + url;
+    }
+
+    return `${getBaseURL() + url}`;
 };
 
 export class Assets {
@@ -428,14 +446,13 @@ export default class AssetService {
         this.languages = new LanguageAssets(config.endpoints.languages, config.localStorage);
 
         // initialize asset urls
-        const base = getBaseURL();
-        this.groupsURL = `${base + this.groups.endpoint}/`;
-        this.fieldsURL = `${base + this.fields.endpoint}/`;
-        this.labelsURL = `${base + this.labels.endpoint}/`;
-        this.flowsURL = `${base + this.flows.endpoint}/{uuid}/`;
-        this.channelsURL = `${base + this.channels.endpoint}/`;
-        this.environmentURL = `${base + this.environment.endpoint}/`;
-        this.languagesURL = `${base + this.languages.endpoint}/`;
+        this.groupsURL = getURL(this.groups.endpoint);
+        this.fieldsURL = getURL(this.fields.endpoint);
+        this.labelsURL = getURL(this.labels.endpoint);
+        this.flowsURL = getURL(this.flows.endpoint);
+        this.channelsURL = getURL(this.channels.endpoint);
+        this.environmentURL = getURL(this.environment.endpoint);
+        this.languagesURL = getURL(this.languages.endpoint);
     }
 
     public addFlowComponents(flowComponents: FlowComponents): void {

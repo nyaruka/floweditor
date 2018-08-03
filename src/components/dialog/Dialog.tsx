@@ -29,6 +29,7 @@ export interface DialogProps {
     headerStyle?: HeaderStyle;
     buttons?: ButtonSet;
     gutter?: JSX.Element;
+    noPadding?: boolean;
 }
 
 /**
@@ -97,7 +98,9 @@ export default class Dialog extends React.Component<DialogProps> {
                         <div className={styles.subtitle}>{this.props.subtitle}</div>
                     </div>
                 </div>
-                <div className={styles.content}>{this.props.children}</div>
+                <div className={this.props.noPadding ? '' : styles.content}>
+                    {this.props.children}
+                </div>
 
                 {renderIf(rightButtons.length > 0 || leftButtons.length > 0)(
                     <div className={styles.footer}>

@@ -29,7 +29,16 @@ body {
     }
 
     &.ReactModal__Body--open {
-        overflow-y: hidden !important;
+        // overflow-y: none !important
+        // position: fixed;
+
+        height: 100vh !important;
+        overflow-y: scroll !important;
+        margin: 0 0 5px !important;
+
+        // position: fixed !important; 
+        // overflow-y: scroll !important;
+        // width: 100% !important;
     }
 
     .ReactModal__Overlay {
@@ -144,6 +153,11 @@ body {
         }
     }
 
+    #simulator.jtk-drag {
+        transform: scale(1.02);
+        transition: all .05s ease-out;
+    }
+
     // jsplumb, no text selection while dragging
     .jtk-drag-select * {
         -webkit-touch-callout: none;
@@ -199,10 +213,6 @@ body {
     .plumb-exit .jtk-connected {
         background: $path_color !important;
         border-bottom: 1px solid $connector_color;
-    }
-
-    .plumb-drop-hover {
-
     }
 
     .plumb-endpoint-hover {

@@ -4,7 +4,7 @@
 
 This is a standalone flow editing tool designed for use within the [RapidPro](https://github.com/rapidpro/rapidpro) suite of messaging tools but can be adopted for use outside of that ecosystem. The editor is a React component built with TypeScript and bundled with Webpack. It is open-sourced under the AGPL-3.0 license.
 
-You can view and interact with the component [here](https://master--nyaruka.netlify.com/).
+You can view and interact with the component [here](https://floweditor.netlify.com/).
 
 ## Prerequisites
 

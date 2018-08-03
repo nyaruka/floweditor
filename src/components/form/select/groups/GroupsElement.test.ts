@@ -1,6 +1,3 @@
-import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
-import { createSelectOption, getGroups } from '~/testUtils/assetCreators';
-import { validUUID } from '~/utils';
 import GroupsElement, {
     createNewOption,
     GROUP_NOT_FOUND,
@@ -8,6 +5,9 @@ import GroupsElement, {
     GROUP_PROMPT,
     GroupsElementProps
 } from '~/components/form/select/groups/GroupsElement';
+import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
+import { createSelectOption, getGroups } from '~/testUtils/assetCreators';
+import { validUUID } from '~/utils';
 
 const baseProps: GroupsElementProps = {
     name: 'Groups',
@@ -17,7 +17,7 @@ const baseProps: GroupsElementProps = {
     onChange: jest.fn()
 };
 
-const { setup, spyOn } = composeComponentTestUtils(GroupsElement, baseProps);
+const { setup } = composeComponentTestUtils(GroupsElement, baseProps);
 
 describe(GroupsElement.name, () => {
     describe('helpers', () => {

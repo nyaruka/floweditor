@@ -16,7 +16,7 @@
 
 .simulator {
     background: $black;
-    border-radius: 35px;
+    border-radius: 20px;
     box-shadow: $node_shadow $node_shadow_color;
 
     input {
@@ -56,10 +56,9 @@
     }
     left: -300px;
     top: 0px;
-    transform: scale(.8);
     position: absolute;
-    height: 600px;
-    width: 304px;
+    height: 500px;
+    width: 260px;
     cursor: pointer;
     z-index: $z_simulator;
     transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
@@ -73,11 +72,11 @@
         -moz-border-radius: 20px;
         border-radius: 20px;
         cursor: pointer;
-        width: 75px;
-        height: 25px;
+        width: 60px;
+        height: 15px;
         position: absolute;
         bottom: 17px;
-        left: 112px;
+        left: 102px;
         &:hover {
             background-color: $button - #555;
             border-color: $button - #888;
@@ -93,14 +92,16 @@
     }
     .screen {
         top: 46px;
-        height: 494px;
+        height: 400px;
+        border-radius: 6px;
+        overflow: hidden;
         background-color: #fff;
         position: relative;
         margin: 0px 18px;
         cursor: default;
         .messages {
             user-select: none;
-            max-height: 430px;
+            max-height: 341px;
             padding: 10px;
             overflow-y: auto;
             overflow-x: hidden;
@@ -112,7 +113,7 @@
             position: absolute;
             border: 0px solid yellow;
             bottom: 0px;
-            width: 258px;
+            width: 214px;
             padding: 5px 5px;
             input {
                 &:focus {
@@ -123,10 +124,10 @@
                 border: none;
                 outline: none;
                 box-shadow: none;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 300;
-                width: 245px;
-                padding: 8px 5px;
+                width: 197px;
+                padding: 6px 8px;
                 color: #333;
             }
         }
@@ -202,7 +203,6 @@
     border: 1px solid $light_gray + #111;
     border-radius: 15px;
     margin-right: 24px;
-    font-size: 120%;
     color: #333;
 }
 
@@ -214,7 +214,6 @@
     border-radius: 15px;
     margin-left: 24px;
     color: #fff;
-    font-size: 120%;
 }
 
 .error {
@@ -230,6 +229,7 @@
     border: none;
     text-align: center;
     color: #bbb;
+    font-size: 11px;
 }
 
 .webhook {
