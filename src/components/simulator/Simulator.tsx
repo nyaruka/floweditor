@@ -14,7 +14,7 @@ import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, Group, Wait } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
-import AssetService, { getBaseURL } from '~/services/AssetService';
+import AssetService, { getURL } from '~/services/AssetService';
 import { AppState, DispatchWithState } from '~/store';
 import { RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
@@ -254,7 +254,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
                         axios.default
                             .post(
-                                `${getBaseURL()}${this.context.endpoints.simulateStart}`,
+                                getURL(this.context.endpoints.simulateStart),
                                 JSON.stringify(body, null, 2)
                             )
                             .then((response: axios.AxiosResponse) => {
@@ -300,10 +300,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         };
 
         axios.default
-            .post(
-                `${getBaseURL()}${this.context.endpoints.simulateResume}`,
-                JSON.stringify(body, null, 2)
-            )
+            .post(getURL(this.context.endpoints.simulateResume), JSON.stringify(body, null, 2))
             .then((response: axios.AxiosResponse) => {
                 this.updateRunContext(body, response.data as RunContext);
             })

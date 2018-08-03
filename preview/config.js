@@ -37,8 +37,8 @@ if (process.env.RAPID_FLOW) {
                       channels: 'channels',
                       environment: 'environment',
                       activity: '',
-                      simulateStart: '',
-                      simulateResume: ''
+                      simulateStart: 'https://goflow.nyaruka.com/flow/start',
+                      simulateResume: 'https://goflow.nyaruka.com/flow/resume'
                   }
               })
             : Object.assign({}, config, {

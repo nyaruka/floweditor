@@ -106,7 +106,7 @@
     "immutability-helper": "2.7.1",
     "jest": "23.2.0",
     "jquery": "3.3.1",
-    "jsplumb": "2.7.9",
+    "jsplumb": "2.7.12",
     "lint-staged": "7.2.0",
     "local-storage": "1.4.2",
     "mini-css-extract-plugin": "0.4.1",

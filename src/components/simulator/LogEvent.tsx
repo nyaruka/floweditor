@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { primary } from '~/components/button/Button.scss';
+import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import Modal from '~/components/modal/Modal';
 import * as styles from '~/components/simulator/Simulator.scss';
 import { Types } from '~/config/typeConfigs';
@@ -50,6 +52,18 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         };
 
         this.showDetails = this.showDetails.bind(this);
+        this.getButtons = this.getButtons.bind(this);
+    }
+
+    private getButtons(): ButtonSet {
+        return {
+            primary: {
+                name: 'Ok',
+                onClick: () => {
+                    this.setState({ detailsVisible: false });
+                }
+            }
+        };
     }
 
     private showDetails(): void {
@@ -60,7 +74,6 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         const classes: string[] = [];
         let text: JSX.Element = null;
         let details: JSX.Element = null;
-        let detailTitle: string = '';
         let groupText: string = '';
         let delim: string = '';
 
@@ -144,12 +157,18 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             case 'webhook_called':
                 text = <span>Called webhook {this.props.url}</span>;
                 classes.push(styles.info, styles.webhook);
-                detailTitle = 'Webhook Details';
                 details = (
-                    <div className={styles.webhookDetails}>
-                        <div className={''}>{this.props.request}</div>
-                        <div className={styles.response}>{this.props.response}</div>
-                    </div>
+                    <Dialog
+                        title="Webhook Details"
+                        headerClass={Types.call_webhook}
+                        buttons={this.getButtons()}
+                        noPadding={true}
+                    >
+                        <div className={styles.webhookDetails}>
+                            <div className={''}>{this.props.request}</div>
+                            <div className={styles.response}>{this.props.response}</div>
+                        </div>
+                    </Dialog>
                 );
                 break;
             case 'info':
@@ -167,20 +186,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     <div className={classes.join(' ')} onClick={this.showDetails}>
                         {text}
                     </div>
-                    <Modal
-                        // TODO: Use Dialog
-                        // tslint:disable-next-line:jsx-key
-                        // title={[<div>{detailTitle}</div>]}
-                        show={this.state.detailsVisible}
-                        /* buttons={{
-                            primary: {
-                                name: 'Ok',
-                                onClick: () => {
-                                    this.setState({ detailsVisible: false });
-                                }
-                            }
-                        }}*/
-                    >
+                    <Modal show={this.state.detailsVisible}>
                         <div className={styles.eventViewer}>{details}</div>
                     </Modal>
                 </div>
