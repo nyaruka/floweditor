@@ -50,19 +50,17 @@ export const mergeForm = (
     for (const key of Object.keys(toMerge)) {
         const entry: any = toMerge[key];
         if (Array.isArray(entry)) {
-            for (let item of entry) {
+            for (const item of entry) {
                 // we support objects with uuids or FormEntry's with uuids
-                if (item.hasOwnProperty('value')) {
-                    item = item.value;
-                }
+                const isEntry = item.hasOwnProperty('value') && typeof item.value === 'object';
 
-                if (item.uuid) {
+                if ((isEntry && item.value.uuid) || item.uuid) {
                     const existingIdx = form[key].findIndex((existing: any) => {
-                        let obj = existing;
-                        if (obj.hasOwnProperty('value')) {
-                            obj = obj.value;
+                        if (isEntry) {
+                            return existing.value.uuid === item.value.uuid;
+                        } else {
+                            return existing.uuid === item.uuid;
                         }
-                        return obj.uuid === item.uuid;
                     });
 
                     if (existingIdx > -1) {
@@ -89,19 +87,19 @@ export const mergeForm = (
         for (const key of Object.keys(remove)) {
             const entry: any = remove[key];
             if (Array.isArray(entry)) {
-                for (let item of entry) {
-                    if (item.hasOwnProperty('value')) {
-                        item = item.value;
-                    }
-                    if (item.uuid) {
+                for (const item of entry) {
+                    // we support objects with uuids or FormEntry's with uuids
+                    const isEntry = item.hasOwnProperty('value') && typeof item.value === 'object';
+
+                    if ((isEntry && item.value.uuid) || item.uuid) {
                         updated = mutate(updated, {
                             [key]: (items: any) =>
                                 items.filter((existing: any) => {
-                                    let obj = existing;
-                                    if (obj.hasOwnProperty('value')) {
-                                        obj = obj.value;
+                                    if (isEntry) {
+                                        return existing.value.uuid === item.value.uuid;
+                                    } else {
+                                        return existing.uuid === item.uuid;
                                     }
-                                    return obj.uuid !== item.uuid;
                                 })
                         });
                     }

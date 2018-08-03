@@ -31,7 +31,6 @@ const headers: HeaderEntry[] = [
 ];
 
 const baseProps: HeaderElementProps = {
-    name: `header_${headers[0].value.uuid}`,
     entry: headers[0],
     index: 0,
     onRemove: jest.fn(),
@@ -45,13 +44,6 @@ describe(HeaderElement.name, () => {
         it('should render self, children with base props', () => {
             const { wrapper, props, instance } = setup();
             const inputs = wrapper.find('Connect(TextInputElement)');
-
-            expect(wrapper.find('FormElement').props()).toEqual(
-                expect.objectContaining({
-                    name: props.name
-                })
-            );
-
             expect(getSpecWrapper(wrapper, headerContainerSpecId).hasClass('header')).toBeTruthy();
 
             expect(

@@ -16,11 +16,11 @@ import {
 } from '~/components/flow/routers/webhook/helpers';
 import SelectElement from '~/components/form/select/SelectElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
+import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired, validateURL } from '~/store/validators';
 
-// tslint:disable:ban-types
 const styles = require('./WebhookRouterForm.scss');
 
 export interface HeaderEntry extends FormEntry {
@@ -65,6 +65,10 @@ export default class WebhookRouterForm extends React.Component<
 
         if (keys.hasOwnProperty('method')) {
             updates.method = { value: keys.method };
+
+            if (keys.method.value !== Methods.GET && !this.state.postBody.value) {
+                updates.postBody = { value: DEFAULT_BODY };
+            }
         }
 
         if (keys.hasOwnProperty('url')) {
@@ -144,11 +148,18 @@ export default class WebhookRouterForm extends React.Component<
 
     private handleSave(): void {
         // validate our url in case they haven't interacted
-        this.handleUrlUpdate(this.state.url.value);
+        const valid = this.handleUrlUpdate(this.state.url.value);
 
-        if (this.state.valid) {
+        if (valid) {
             this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
             this.props.onClose(false);
+        } else {
+            if (this.state.url.validationFailures && this.state.url.validationFailures.length) {
+                // flip us around if there is an errors on the front
+                if (this.flipper && this.flipper.state.flipped) {
+                    this.flipper.handleFlip();
+                }
+            }
         }
     }
 
@@ -180,9 +191,8 @@ export default class WebhookRouterForm extends React.Component<
         const headerElements: JSX.Element[] = this.state.headers.map(
             (header: HeaderEntry, index: number, arr: HeaderEntry[]) => {
                 return (
-                    <div key={header.value.uuid}>
+                    <div key={`header_${header.value.uuid}`}>
                         <HeaderElement
-                            name={`header_${header.value.uuid}`}
                             entry={header}
                             onRemove={this.handleHeaderRemoved}
                             onChange={this.handleHeaderUpdated}

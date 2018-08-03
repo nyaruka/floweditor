@@ -11,7 +11,7 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
       },
     }
   }
-  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
+  name="Header"
 >
   <div
     className="header"
@@ -73,7 +73,7 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
       },
     }
   }
-  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
+  name="Header"
 >
   <div
     className="header"
@@ -139,7 +139,7 @@ exports[`HeaderElement render should render remove icon 1`] = `
       },
     }
   }
-  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
+  name="Header"
 >
   <div
     className="header"
@@ -201,7 +201,7 @@ exports[`HeaderElement render should render self, children with base props 1`] =
       },
     }
   }
-  name="header_00c4498e-1c9e-4c26-aa7c-f81d13573129"
+  name="Header"
 >
   <div
     className="header"

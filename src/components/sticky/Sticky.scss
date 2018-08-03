@@ -58,8 +58,6 @@
     }
 }
 
-
-
 .stickyContainer {
     position: absolute;
     padding: $node_padding + px;
@@ -128,13 +126,15 @@
                 transition: none;
                 border: none;
                 background: none;
-                font-weight: 600;
+                font-weight: 500;
                 font-size: 12px;
+                font-family: 'Roboto', sans-serif;
                 line-height: 14px;
                 width: 140px;
-                resize: none;
+                resize: none !important;
                 outline: none;
                 box-shadow: none;
+                font-size: 12px;
                 color: $text_color - #111;
             }
         }
@@ -142,16 +142,17 @@
         .body-wrapper {
             padding: 8px 8px;
             width: 160px;
-           
 
             textarea.body {
-                font-size: 90%;
+                font-family: 'Roboto', sans-serif;
                 outline: none;
                 box-shadow: none;
                 border: none;
                 background: none;
-                resize: none;
+                resize: none !important;
                 color: $text_color;
+                font-weight: 300;
+                font-size: 12px;
                 width: 154px;
             }
         }

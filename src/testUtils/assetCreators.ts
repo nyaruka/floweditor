@@ -277,24 +277,24 @@ export const createWebhookRouterNode = (): FlowNode => ({
     ],
     router: {
         type: RouterTypes.switch,
-        operand: '@webhook',
+        operand: '@run.webhook.status',
         cases: [
             {
                 uuid: '89f9a8c0-e399-4c49-8409-43e37c318423',
                 type: Operators.is_text_eq,
-                arguments: ['run.webhook.status', 'success'],
+                arguments: ['success'],
                 exit_uuid: '34bab8f0-4efa-40b7-a3c1-39ce856ea740'
             },
             {
                 uuid: '62e70441-a846-461d-8d57-4538d726b209',
                 type: Operators.is_text_eq,
-                arguments: ['run.webhook.status', 'response_error'],
+                arguments: ['response_error'],
                 exit_uuid: 'ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5'
             },
             {
                 uuid: 'eeb6ae86-f2ac-4ed2-a3b0-b211e0e5d4b3',
                 type: Operators.is_text_eq,
-                arguments: ['run.webhook.status', 'connection_error'],
+                arguments: ['connection_error'],
                 exit_uuid: '023db634-a097-4351-8662-8447d971ff74'
             }
         ],

@@ -28,6 +28,7 @@ export enum Operators {
     has_state = 'has_state',
     has_ward = 'has_ward',
     has_pattern = 'has_pattern',
+    has_webhook_status = 'has_webhook_status',
     is_error = 'is_error'
 }
 
