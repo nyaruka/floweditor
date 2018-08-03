@@ -34,7 +34,8 @@ import {
     SwitchRouter,
     UINode,
     Wait,
-    WaitTypes
+    WaitTypes,
+    WebhookExitNames
 } from '~/flowTypes';
 import { AssetType } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
@@ -263,6 +264,61 @@ export const createSetRunResultAction = ({
     type: Types.set_run_result
 });
 
+export const createWebhookRouterNode = (): FlowNode => ({
+    uuid: 'c6f278d5-2741-4c0a-880c-52a07dea91a5',
+    actions: [
+        {
+            uuid: 'a564374c-ee42-4f13-8fc3-cda99f43b6ae',
+            headers: {},
+            type: Types.call_webhook,
+            url: 'http://www.google.com',
+            method: 'GET'
+        } as CallWebhook
+    ],
+    router: {
+        type: RouterTypes.switch,
+        operand: '@webhook',
+        cases: [
+            {
+                uuid: '89f9a8c0-e399-4c49-8409-43e37c318423',
+                type: Operators.is_text_eq,
+                arguments: ['run.webhook.status', 'success'],
+                exit_uuid: '34bab8f0-4efa-40b7-a3c1-39ce856ea740'
+            },
+            {
+                uuid: '62e70441-a846-461d-8d57-4538d726b209',
+                type: Operators.is_text_eq,
+                arguments: ['run.webhook.status', 'response_error'],
+                exit_uuid: 'ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5'
+            },
+            {
+                uuid: 'eeb6ae86-f2ac-4ed2-a3b0-b211e0e5d4b3',
+                type: Operators.is_text_eq,
+                arguments: ['run.webhook.status', 'connection_error'],
+                exit_uuid: '023db634-a097-4351-8662-8447d971ff74'
+            }
+        ],
+        default_exit_uuid: 'ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5'
+    } as SwitchRouter,
+    exits: [
+        {
+            uuid: '34bab8f0-4efa-40b7-a3c1-39ce856ea740',
+            name: WebhookExitNames.Success,
+            destination_node_uuid: null
+        },
+        {
+            uuid: 'ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5',
+            name: WebhookExitNames.Failure,
+            destination_node_uuid: null
+        },
+        {
+            uuid: '023db634-a097-4351-8662-8447d971ff74',
+            name: WebhookExitNames.Unreachable,
+            destination_node_uuid: null
+        }
+    ]
+});
+
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
     updateAction: jest.fn(),
     onClose: jest.fn(),
@@ -280,7 +336,7 @@ export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => (
     onTypeChange: jest.fn(),
     typeConfig: determineTypeConfig({ originalNode: renderNode }),
     nodeSettings: {
-        originalNode: createRenderNode({ actions: [], exits: [] }),
+        originalNode: renderNode,
         originalAction: null
     }
 });

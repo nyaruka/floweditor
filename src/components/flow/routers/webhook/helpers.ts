@@ -92,9 +92,13 @@ export const stateToNode = (
         headers,
         type: Types.call_webhook,
         url: state.url.value,
-        method: state.method.value.value as Methods,
-        body: state.postBody.value
+        method: state.method.value.value as Methods
     };
+
+    // include the body if we aren't a get
+    if (newAction.method !== Methods.GET) {
+        newAction.body = state.postBody.value;
+    }
 
     const exits: Exit[] = [];
     let cases: Case[] = [];
