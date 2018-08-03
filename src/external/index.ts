@@ -9,6 +9,16 @@ export interface FlowDetails {
     dependencies: FlowDefinition[];
 }
 
+const fromPR = !!process.env.DEPLOY_PRIME_URL;
+console.log(process.env.DEPLOY_PRIME_URL, fromPR);
+if (process.env.NODE_ENV === 'preview') {
+    let baseURL = process.env.URL;
+    if (fromPR) {
+        baseURL = process.env.DEPLOY_PRIME_URL;
+    }
+    axios.defaults.baseURL = `${baseURL}/.netlify/functions/`;
+}
+
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.defaults.responseType = 'json';
