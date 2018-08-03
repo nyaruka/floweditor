@@ -242,7 +242,10 @@
 
 .webhook-details {
     unicode-bidi: embed;
-    font-family: monospace; // white-space: pre-wrap;
+    font-family: 'Roboto Mono', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    line-height: 13px;
     overflow-y: auto;
     max-height: 500px;
     padding: 16px;
@@ -255,6 +258,7 @@
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
         font-weight: 400;
+        line-height: 34px;
     }
     .response {
         padding-top: 20px;

@@ -13,7 +13,6 @@ export interface Header {
 }
 
 export interface HeaderElementProps {
-    name: string;
     entry: HeaderEntry;
     index: number;
     onRemove: (header: HeaderElement) => void;
@@ -81,7 +80,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         const hasHeaderError = false; // hasErrorType(this.state.errors, [/headers/]);
         const removeIco: JSX.Element = this.getRemoveIco();
         return (
-            <FormElement name={this.props.name} entry={this.props.entry}>
+            <FormElement name="Header" entry={this.props.entry}>
                 <div className={styles.header} data-spec={headerContainerSpecId}>
                     <div className={styles.header_name} data-spec={nameContainerSpecId}>
                         <ConnectedTextInputElement

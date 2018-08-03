@@ -92,9 +92,13 @@ export const stateToNode = (
         headers,
         type: Types.call_webhook,
         url: state.url.value,
-        method: state.method.value.value as Methods,
-        body: state.postBody.value
+        method: state.method.value.value as Methods
     };
+
+    // include the body if we aren't a get
+    if (newAction.method !== Methods.GET) {
+        newAction.body = state.postBody.value;
+    }
 
     const exits: Exit[] = [];
     let cases: Case[] = [];
@@ -128,20 +132,20 @@ export const stateToNode = (
         cases = [
             {
                 uuid: generateUUID(),
-                type: Operators.is_text_eq,
-                arguments: ['run.webhook.status', 'success'],
+                type: Operators.has_webhook_status,
+                arguments: ['success'],
                 exit_uuid: exits[0].uuid
             },
             {
                 uuid: generateUUID(),
-                type: Operators.is_text_eq,
-                arguments: ['run.webhook.status', 'response_error'],
+                type: Operators.has_webhook_status,
+                arguments: ['response_error'],
                 exit_uuid: exits[1].uuid
             },
             {
                 uuid: generateUUID(),
-                type: Operators.is_text_eq,
-                arguments: ['run.webhook.status', 'connection_error'],
+                type: Operators.has_webhook_status,
+                arguments: ['connection_error'],
                 exit_uuid: exits[2].uuid
             }
         ];
@@ -149,7 +153,7 @@ export const stateToNode = (
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
-        operand: '@webhook',
+        operand: '@run.webhook',
         cases,
         default_exit_uuid: exits[1].uuid
     };
