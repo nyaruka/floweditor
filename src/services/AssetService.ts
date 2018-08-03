@@ -260,7 +260,7 @@ export class Assets {
             const asset = this.assets[key];
             return {
                 type,
-                url: getBaseURL() + this.endpoint + '/' + asset.id + '/',
+                url: getURL(this.endpoint + '/' + asset.id + '/'),
                 content: asset.content
             };
         });
