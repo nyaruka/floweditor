@@ -30,7 +30,7 @@ export interface Asset {
 }
 
 export interface AssetSearchResult {
-    assets: Asset[];
+    results: Asset[];
     complete: boolean;
     sorted: boolean;
 }
@@ -154,8 +154,8 @@ export class Assets {
 
         return axios.get(url).then((response: AxiosResponse) => {
             // Only attempt to match if response contains a list of externally-fetched assets
-            if (Array.isArray(response.data)) {
-                for (const result of response.data) {
+            if (Array.isArray(response.data.results)) {
+                for (const result of response.data.results) {
                     if (this.matches(term, result.name)) {
                         matches.push({
                             name: result.name,
@@ -175,7 +175,7 @@ export class Assets {
                 });
             }
 
-            return { assets: matches, complete: true, sorted: false };
+            return { results: matches, complete: true, sorted: false };
         });
     }
 
@@ -324,7 +324,7 @@ export class ChannelAssets extends Assets {
                     });
                 }
             }
-            return { assets: matches, complete: true, sorted: false };
+            return { results: matches, complete: true, sorted: false };
         });
     }
 }
@@ -385,7 +385,7 @@ class RecipientAssets extends Assets {
                     }
                 }
             }
-            return { assets: matches, complete: response.data.more, sorted: true };
+            return { results: matches, complete: response.data.more, sorted: true };
         });
     }
 }
