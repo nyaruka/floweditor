@@ -5,8 +5,9 @@ import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
-import { composeComponentTestUtils, mockClear } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(
     ExpressionRouterForm,
@@ -19,12 +20,7 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
     )
 );
 
-let mockUuidCounts = 1;
-jest.mock('uuid', () => {
-    return {
-        v4: jest.fn(() => `generated_uuid_${mockUuidCounts++}`)
-    };
-});
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 describe(ExpressionRouterForm.name, () => {
     it('should render', () => {
@@ -69,7 +65,9 @@ describe(ExpressionRouterForm.name, () => {
 
     describe('updates', () => {
         it('should save changes', () => {
-            const { instance, props } = setup(true);
+            const { instance, props } = setup(true, {
+                $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
+            });
 
             instance.handleUpdateResultName('Favorite Color');
             instance.handleCasesUpdated([
@@ -81,14 +79,15 @@ describe(ExpressionRouterForm.name, () => {
             expect(instance.state).toMatchSnapshot();
 
             instance.handleSave();
+            expect(props.onClose).toHaveBeenCalled();
             expect(props.updateRouter).toHaveBeenCalled();
             expect((props.updateRouter as any).mock.calls[0][0]).toMatchSnapshot();
         });
 
         it('should cancel', () => {
-            const { instance, props } = setup(true);
-            mockClear(props.updateRouter);
-            mockClear(props.onClose);
+            const { instance, props } = setup(true, {
+                $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
+            });
 
             instance.handleOperandUpdated('@date.now');
             instance.getButtons().secondary.onClick();

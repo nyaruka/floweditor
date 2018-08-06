@@ -1,4 +1,3 @@
-import { v4 as generateUUID } from 'uuid';
 import { createRenderNode } from '~/components/flow/routers/helpers';
 import { WebhookRouterFormState } from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
@@ -7,6 +6,7 @@ import { Types } from '~/config/typeConfigs';
 import { CallWebhook, Case, Exit, RouterTypes, SwitchRouter, WebhookExitNames } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { createUUID } from '~/utils';
 
 export enum Methods {
     GET = 'GET',
@@ -36,7 +36,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
         headers: [
             {
                 value: {
-                    uuid: generateUUID(),
+                    uuid: createUUID(),
                     name: '',
                     value: ''
                 }
@@ -55,7 +55,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
         for (const name of Object.keys(action.headers)) {
             state.headers.unshift({
                 value: {
-                    uuid: generateUUID(),
+                    uuid: createUUID(),
                     value: action.headers[name],
                     name
                 }
@@ -82,7 +82,7 @@ export const stateToNode = (
         }
     }
 
-    let uuid = generateUUID();
+    let uuid = createUUID();
     if (settings.originalAction && settings.originalAction.type === Types.call_webhook) {
         uuid = settings.originalAction.uuid;
     }
@@ -113,17 +113,17 @@ export const stateToNode = (
         // Otherwise, let's create some new ones
         exits.push(
             {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 name: WebhookExitNames.Success,
                 destination_node_uuid: null
             },
             {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 name: WebhookExitNames.Failure,
                 destination_node_uuid: null
             },
             {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 name: WebhookExitNames.Unreachable,
                 destination_node_uuid: null
             }
@@ -131,19 +131,19 @@ export const stateToNode = (
 
         cases = [
             {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['success'],
                 exit_uuid: exits[0].uuid
             },
             {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['response_error'],
                 exit_uuid: exits[1].uuid
             },
             {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['connection_error'],
                 exit_uuid: exits[2].uuid

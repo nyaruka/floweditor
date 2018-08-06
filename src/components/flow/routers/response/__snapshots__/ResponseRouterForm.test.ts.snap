@@ -56,9 +56,9 @@ exports[`ResponseRouterForm initializes 1`] = `
             ],
             "exit_uuid": null,
             "type": "has_any_word",
-            "uuid": "generated_uuid_2",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
-          "uuid": "generated_uuid_2",
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
       ]
     }
@@ -192,22 +192,22 @@ Object {
       Object {
         "destination_node_uuid": null,
         "name": "Red",
-        "uuid": "generated_uuid_1",
+        "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
       },
       Object {
         "destination_node_uuid": null,
         "name": "Green",
-        "uuid": "generated_uuid_2",
+        "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },
       Object {
         "destination_node_uuid": undefined,
         "name": "No Response",
-        "uuid": "generated_uuid_4",
+        "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
       },
       Object {
         "destination_node_uuid": null,
         "name": "Other",
-        "uuid": "generated_uuid_3",
+        "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
       },
     ],
     "router": Object {
@@ -216,33 +216,33 @@ Object {
           "arguments": Array [
             "red",
           ],
-          "exit_uuid": "generated_uuid_1",
+          "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           "type": "has_any_word",
         },
         Object {
           "arguments": Array [
             "maroon",
           ],
-          "exit_uuid": "generated_uuid_1",
+          "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           "type": "has_any_word",
         },
         Object {
           "arguments": Array [
             "green",
           ],
-          "exit_uuid": "generated_uuid_2",
+          "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
           "type": "has_any_word",
         },
         Object {
           "arguments": Array [
             "@run",
           ],
-          "exit_uuid": "generated_uuid_4",
+          "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
           "type": "has_wait_timed_out",
-          "uuid": "generated_uuid_5",
+          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
         },
       ],
-      "default_exit_uuid": "generated_uuid_3",
+      "default_exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
       "operand": "@run.input",
       "result_name": "Favorite Color",
       "type": "switch",

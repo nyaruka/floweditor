@@ -1,8 +1,8 @@
 // tslint:disable:max-classes-per-file
 import axios, { AxiosResponse } from 'axios';
-import { v4 as generateUUID } from 'uuid';
 import { FlowEditorConfig } from '~/flowTypes';
 import { FlowComponents } from '~/store/helpers';
+import { createUUID } from '~/utils';
 
 export enum AssetType {
     Channel = 'channel',
@@ -114,7 +114,7 @@ export class Assets {
                 .get(url)
                 .then((response: AxiosResponse) => {
                     const ob = response.data;
-                    const uuid = ob.uuid || generateUUID();
+                    const uuid = ob.uuid || createUUID();
                     const name = ob.name || '';
                     const asset = {
                         id: uuid,

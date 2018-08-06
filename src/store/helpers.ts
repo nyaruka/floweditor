@@ -1,4 +1,3 @@
-import { v4 as generateUUID } from 'uuid';
 import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
 import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { Types } from '~/config/typeConfigs';
@@ -19,7 +18,7 @@ import {
 import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
-import { snakify } from '~/utils';
+import { snakify, createUUID } from '~/utils';
 
 export interface Bounds {
     left: number;
@@ -206,11 +205,11 @@ export const getGhostNode = (
     suggestedResultNameCount: number
 ): RenderNode => {
     const ghostNode: FlowNode = {
-        uuid: generateUUID(),
+        uuid: createUUID(),
         actions: [],
         exits: [
             {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 destination_node_uuid: null
             }
         ]
@@ -219,7 +218,7 @@ export const getGhostNode = (
     // Add an action if we are coming from a split
     if (fromNode.node.wait || fromNode.ui.type === Types.split_by_webhook) {
         const replyAction = {
-            uuid: generateUUID(),
+            uuid: createUUID(),
             type: Types.send_msg,
             text: ''
         };

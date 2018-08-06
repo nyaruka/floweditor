@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
+import FormElement, { FormElementProps } from '~/components/form/FormElement';
+import SelectSearch from '~/components/form/select/SelectSearch';
 import { Asset, Assets, AssetType } from '~/services/AssetService';
 import {
     composeCreateNewOption,
     getSelectClassForEntry,
     isOptionUnique,
-    isValidNewOption
+    isValidNewOption,
+    createUUID
 } from '~/utils';
-
-import FormElement, { FormElementProps } from '~/components/form/FormElement';
-import SelectSearch from '~/components/form/select/SelectSearch';
 
 export interface GroupOption {
     group: string;
@@ -26,7 +25,7 @@ export interface GroupsElementProps extends FormElementProps {
 }
 
 export const createNewOption = composeCreateNewOption({
-    idCb: () => generateUUID(),
+    idCb: () => createUUID(),
     type: AssetType.Group
 });
 

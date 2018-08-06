@@ -7,7 +7,6 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { v4 as generateUUID } from 'uuid';
 import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
 import * as styles from '~/components/simulator/Simulator.scss';
 import { ConfigProviderContext } from '~/config';
@@ -18,6 +17,7 @@ import AssetService, { getURL } from '~/services/AssetService';
 import { AppState, DispatchWithState } from '~/store';
 import { RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
+import { createUUID } from '~/utils';
 
 const ACTIVE = 'A';
 
@@ -106,12 +106,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             visible: false,
             events: [],
             contact: {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 urns: ['tel:+12065551212'],
                 fields: {},
                 groups: []
             },
-            channel: generateUUID()
+            channel: createUUID()
         };
         this.bottomRef = this.bottomRef.bind(this);
         this.inputBoxRef = this.inputBoxRef.bind(this);
@@ -237,7 +237,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                     languages: []
                                 },
                                 contact: {
-                                    uuid: generateUUID(),
+                                    uuid: createUUID(),
                                     urns: ['tel:+12065551212'],
                                     fields: {},
                                     groups: []
@@ -281,7 +281,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             type: 'msg_received',
             msg: {
                 text,
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 urn: this.state.session.contact.urns[0]
             },
             channel_uuid: this.state.channel,

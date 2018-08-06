@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
-import { addCommas } from '~/utils';
-
 import * as styles from '~/components/counter/Counter.scss';
+import { addCommas, createUUID } from '~/utils';
 
 export interface CounterProps {
     containerStyle: string;
@@ -20,7 +18,7 @@ export default class Counter extends React.Component<CounterProps, CounterState>
 
     constructor(props: CounterProps) {
         super(props);
-        this.key = generateUUID();
+        this.key = createUUID();
         this.getKey = this.getKey.bind(this);
         this.requestUpdate = this.requestUpdate.bind(this);
         this.handleClick = this.handleClick.bind(this);

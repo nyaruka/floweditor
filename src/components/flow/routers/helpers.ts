@@ -1,4 +1,3 @@
-import { v4 as generateUUID } from 'uuid';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { Operators } from '~/config/operatorConfigs';
@@ -6,6 +5,7 @@ import { Types } from '~/config/typeConfigs';
 import { Action, Case, Exit, FlowNode, Router, RouterTypes, SwitchRouter, Wait } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { createUUID } from '~/utils';
 
 export interface CombinedExits {
     cases: Case[];
@@ -136,7 +136,7 @@ export const resolveExits = (
                 destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
             }
 
-            newCase.kase.exit_uuid = generateUUID();
+            newCase.kase.exit_uuid = createUUID();
 
             exits.push({
                 name: newCase.exitName,
@@ -150,7 +150,7 @@ export const resolveExits = (
     }
 
     // add in our default exit
-    let defaultUUID = generateUUID();
+    let defaultUUID = createUUID();
     if (
         settings.originalNode.node.router &&
         settings.originalNode.node.router.type === RouterTypes.switch
@@ -189,7 +189,7 @@ export const resolveExits = (
             (exit: Exit) => exit.name === DefaultExitNames.No_Response
         );
         const timeoutExit: Exit = {
-            uuid: (existingExit && existingExit.uuid) || generateUUID(),
+            uuid: (existingExit && existingExit.uuid) || createUUID(),
             name: DefaultExitNames.No_Response,
             destination_node_uuid: existingExit && existingExit.destination_node_uuid
         };
@@ -203,7 +203,7 @@ export const resolveExits = (
         // Add a case for the timeout.
         // We strip passive cases (like timeouts) when SwitchRouter mounts.
         cases.push({
-            uuid: generateUUID(),
+            uuid: createUUID(),
             type: Operators.has_wait_timed_out,
             arguments: ['@run'],
             exit_uuid: timeoutExit.uuid
