@@ -5,8 +5,11 @@ import UpdateContactForm, {
 } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
-import { composeComponentTestUtils } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createSetContactFieldAction, getActionFormProps } from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
+
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const { setup } = composeComponentTestUtils<ActionFormProps>(
     UpdateContactForm,
@@ -84,6 +87,63 @@ describe(UpdateContactForm.name, () => {
             expect(form.instance.state).toMatchSnapshot();
             expect(form.props.updateAction).not.toBeCalled();
             expect(form.props.onClose).not.toBeCalled();
+        });
+    });
+
+    describe('should allow switching from router', () => {
+        it('to contact name', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() },
+                nodeSettings: { $merge: { originalAction: null } }
+            });
+
+            instance.handlePropertyChange([NAME_PROPERTY]);
+            instance.handleNameUpdate('Rowan Seymour');
+            instance.handleSave();
+            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+        });
+
+        it('to field value', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() },
+                nodeSettings: { $merge: { originalAction: null } }
+            });
+
+            instance.handlePropertyChange([
+                { id: 'birthday', name: 'Birthday', type: AssetType.Field }
+            ]);
+            instance.handleFieldValueUpdate('12/25/00');
+            instance.handleSave();
+            expect(instance.state).toMatchSnapshot();
+            expect(props.updateAction).toHaveBeenCalled();
+        });
+
+        it('to language', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() },
+                nodeSettings: { $merge: { originalAction: null } }
+            });
+
+            instance.handlePropertyChange([LANGUAGE_PROPERTY]);
+            instance.handleLanguageUpdate('eng');
+            instance.handleSave();
+            expect(instance.state).toMatchSnapshot();
+            expect(props.updateAction).toHaveBeenCalled();
+        });
+
+        it('to channel', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() },
+                nodeSettings: { $merge: { originalAction: null } }
+            });
+
+            instance.handlePropertyChange([CHANNEL_PROPERTY]);
+            instance.handleChannelUpdate([
+                { id: 'channel_id', name: 'Channel Name', type: AssetType.Channel }
+            ]);
+            instance.handleSave();
+            expect(instance.state).toMatchSnapshot();
+            expect(props.updateAction).toHaveBeenCalled();
         });
     });
 });

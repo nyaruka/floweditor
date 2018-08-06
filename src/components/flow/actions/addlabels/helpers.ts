@@ -1,4 +1,5 @@
 import { AddLabelsFormState } from '~/components/flow/actions/addlabels/AddLabelsForm';
+import { getActionUUID } from '~/components/flow/actions/helpers';
 import { Types } from '~/config/typeConfigs';
 import { AddLabels } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
@@ -23,11 +24,14 @@ export const initializeForm = (settings: NodeEditorSettings): AddLabelsFormState
     };
 };
 
-export const stateToAction = (actionUUID: string, formState: AddLabelsFormState): AddLabels => {
+export const stateToAction = (
+    settings: NodeEditorSettings,
+    formState: AddLabelsFormState
+): AddLabels => {
     return {
         type: Types.add_input_labels,
         labels: this.getAsset(formState.labels.value, AssetType.Label),
-        uuid: actionUUID
+        uuid: getActionUUID(settings, Types.add_input_labels)
     };
 };
 

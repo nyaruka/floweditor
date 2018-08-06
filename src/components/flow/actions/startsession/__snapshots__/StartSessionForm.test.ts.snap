@@ -143,27 +143,27 @@ exports[`StartSessionForm render should render self, children with base props 1`
         Object {
           "value": Array [
             Object {
-              "id": "group-0",
+              "id": "4441fa19-8bbf-4894-8529-d04cc3b365d6",
               "name": "Cat Fanciers",
               "type": "group",
             },
             Object {
-              "id": "group-1",
+              "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
               "name": "Cat Facts",
               "type": "group",
             },
             Object {
-              "id": "contact-0",
+              "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
               "name": "Kellan Alexander",
               "type": "contact",
             },
             Object {
-              "id": "contact-1",
+              "id": "575fe8e9-cb51-4f15-8df7-422290fdfc64",
               "name": "Norbert Kwizera",
               "type": "contact",
             },
             Object {
-              "id": "contact-2",
+              "id": "82df72ae-d835-401b-b248-d0c5dcfdce5c",
               "name": "Rowan Seymour",
               "type": "contact",
             },
@@ -204,6 +204,26 @@ exports[`StartSessionForm render should render self, children with base props 1`
 </Dialog>
 `;
 
+exports[`StartSessionForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "contacts": Array [],
+    "flow": Object {
+      "name": "My Flow",
+      "uuid": "my_flow",
+    },
+    "groups": Array [
+      Object {
+        "name": "Subscriber",
+        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
+      },
+    ],
+    "type": "start_session",
+    "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+  },
+]
+`;
+
 exports[`StartSessionForm updates should save changes 1`] = `
 Object {
   "flow": Object {
@@ -216,7 +236,7 @@ Object {
   "recipients": Object {
     "value": Array [
       Object {
-        "id": "subscribers_group",
+        "id": "68223118-109f-442a-aed3-7bb3e1eab687",
         "name": "Subscriber",
         "type": "group",
       },
@@ -237,11 +257,11 @@ Array [
     "groups": Array [
       Object {
         "name": "Subscriber",
-        "uuid": "subscribers_group",
+        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
       },
     ],
     "type": "start_session",
-    "uuid": "start-session-0",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
 ]
 `;

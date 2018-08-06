@@ -3,7 +3,6 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendbroadcast/helpers';
 import * as broadcastStyles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
@@ -68,9 +67,7 @@ export default class SendBroadcastForm extends React.Component<
         });
 
         if (valid) {
-            this.props.updateAction(
-                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
-            );
+            this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
             // notify our modal we are done
             this.props.onClose(false);

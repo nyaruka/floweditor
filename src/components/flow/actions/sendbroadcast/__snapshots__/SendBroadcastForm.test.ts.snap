@@ -1,60 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SendBroadcastForm event handles recipent change 1`] = `
-Object {
-  "recipients": Object {
-    "value": Array [
-      Object {
-        "id": "group-0",
-        "name": "My Group",
-      },
-    ],
-  },
-  "text": Object {
-    "value": "Hello World",
-  },
-  "valid": true,
-}
-`;
-
-exports[`SendBroadcastForm event handles text change 1`] = `
-Object {
-  "recipients": Object {
-    "value": Array [
-      Object {
-        "id": "group-0",
-        "name": "Cat Fanciers",
-        "type": "group",
-      },
-      Object {
-        "id": "group-1",
-        "name": "Cat Facts",
-        "type": "group",
-      },
-      Object {
-        "id": "contact-0",
-        "name": "Kellan Alexander",
-        "type": "contact",
-      },
-      Object {
-        "id": "contact-1",
-        "name": "Norbert Kwizera",
-        "type": "contact",
-      },
-      Object {
-        "id": "contact-2",
-        "name": "Rowan Seymour",
-        "type": "contact",
-      },
-    ],
-  },
-  "text": Object {
-    "value": "Message to Group",
-  },
-  "valid": true,
-}
-`;
-
 exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
 Object {
   "recipients": Object {
@@ -190,27 +135,27 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       Object {
         "value": Array [
           Object {
-            "id": "group-0",
+            "id": "4441fa19-8bbf-4894-8529-d04cc3b365d6",
             "name": "Cat Fanciers",
             "type": "group",
           },
           Object {
-            "id": "group-1",
+            "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
             "name": "Cat Facts",
             "type": "group",
           },
           Object {
-            "id": "contact-0",
+            "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
             "name": "Kellan Alexander",
             "type": "contact",
           },
           Object {
-            "id": "contact-1",
+            "id": "575fe8e9-cb51-4f15-8df7-422290fdfc64",
             "name": "Norbert Kwizera",
             "type": "contact",
           },
           Object {
-            "id": "contact-2",
+            "id": "82df72ae-d835-401b-b248-d0c5dcfdce5c",
             "name": "Rowan Seymour",
             "type": "contact",
           },
@@ -237,4 +182,71 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     textarea={true}
   />
 </Dialog>
+`;
+
+exports[`SendBroadcastForm updates handles recipent change 1`] = `
+Object {
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "group-0",
+        "name": "My Group",
+      },
+    ],
+  },
+  "text": Object {
+    "value": "Hello World",
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendBroadcastForm updates handles text change 1`] = `
+Object {
+  "recipients": Object {
+    "value": Array [
+      Object {
+        "id": "4441fa19-8bbf-4894-8529-d04cc3b365d6",
+        "name": "Cat Fanciers",
+        "type": "group",
+      },
+      Object {
+        "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
+        "name": "Cat Facts",
+        "type": "group",
+      },
+      Object {
+        "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
+        "name": "Kellan Alexander",
+        "type": "contact",
+      },
+      Object {
+        "id": "575fe8e9-cb51-4f15-8df7-422290fdfc64",
+        "name": "Norbert Kwizera",
+        "type": "contact",
+      },
+      Object {
+        "id": "82df72ae-d835-401b-b248-d0c5dcfdce5c",
+        "name": "Rowan Seymour",
+        "type": "contact",
+      },
+    ],
+  },
+  "text": Object {
+    "value": "Message to Group",
+  },
+  "valid": true,
+}
+`;
+
+exports[`SendBroadcastForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "contacts": Array [],
+    "groups": Array [],
+    "text": "Message to Group",
+    "type": "send_broadcast",
+    "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+  },
+]
 `;

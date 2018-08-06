@@ -7,7 +7,6 @@ import {
     stateToAction
 } from '~/components/flow/actions/changegroups/removegroups/helpers';
 import * as styles from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm.scss';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import GroupsElement from '~/components/form/select/groups/GroupsElement';
@@ -48,10 +47,7 @@ export default class RemoveGroupsForm extends React.Component<
     public handleSave(): void {
         const valid = this.handleGroupsChange(this.state.groups.value);
         if (valid) {
-            const newAction = stateToAction(
-                this.props.nodeSettings.originalAction.uuid,
-                this.state
-            );
+            const newAction = stateToAction(this.props.nodeSettings, this.state);
             this.props.updateAction(newAction as ChangeGroups);
             this.props.onClose(false);
         }

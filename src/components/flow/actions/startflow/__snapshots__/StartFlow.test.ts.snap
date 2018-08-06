@@ -4,7 +4,7 @@ exports[`StartFlowComp render should render flow name 1`] = `
 <React.Fragment>
   <div
     className="nodeAsset"
-    key="start_flow-0"
+    key="da795777-db05-438c-a24a-1880b7f7a95f"
   >
     <span
       className="nodeLabel fe-split"

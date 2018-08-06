@@ -39,7 +39,7 @@ import {
 } from '~/flowTypes';
 import { AssetType } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
-import { capitalize } from '~/utils';
+import { capitalize, createUUID } from '~/utils';
 
 const { results: groupsResults } = require('~/test/assets/groups.json');
 const languagesResults = require('~/test/assets/languages.json');
@@ -54,7 +54,7 @@ export const createSelectOption = ({ label }: { label: string }) => ({
 });
 
 export const createSendMsgAction = ({
-    uuid = 'send_msg-0',
+    uuid = '68b029c9-6400-4f46-947a-b61c619a7198',
     text = 'Hey!',
     all_urns = false
 }: {
@@ -70,7 +70,7 @@ export const createSendMsgAction = ({
 });
 
 export const createSendEmailAction = ({
-    uuid = 'send_email-0',
+    uuid = 'b4f00bdf-6268-4faa-b236-bf2af607526f',
     subject = 'New Sign Up',
     body = '@run.results.name just signed up.',
     addresses = ['jane@example.com']
@@ -88,7 +88,7 @@ export const createSendEmailAction = ({
 });
 
 export const createCallWebhookAction = ({
-    uuid = 'call_webhook-0',
+    uuid = '35a6eff8-dd6e-4e07-b605-73da32c83c9c',
     url = 'https://www.example.com',
     method = Methods.GET
 }: {
@@ -103,12 +103,15 @@ export const createCallWebhookAction = ({
 });
 
 export const createStartSessionAction = ({
-    uuid = 'start-session-0',
-    groups = [{ uuid: 'group-0', name: 'Cat Fanciers' }, { uuid: 'group-1', name: 'Cat Facts' }],
+    uuid = createUUID(),
+    groups = [
+        { uuid: '4441fa19-8bbf-4894-8529-d04cc3b365d6', name: 'Cat Fanciers' },
+        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Cat Facts' }
+    ],
     contacts = [
-        { uuid: 'contact-0', name: 'Kellan Alexander' },
-        { uuid: 'contact-1', name: 'Norbert Kwizera' },
-        { uuid: 'contact-2', name: 'Rowan Seymour' }
+        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Kellan Alexander' },
+        { uuid: '575fe8e9-cb51-4f15-8df7-422290fdfc64', name: 'Norbert Kwizera' },
+        { uuid: '82df72ae-d835-401b-b248-d0c5dcfdce5c', name: 'Rowan Seymour' }
     ],
     flow = {
         uuid: 'flow_uuid',
@@ -128,12 +131,15 @@ export const createStartSessionAction = ({
 });
 
 export const createBroadcastMsgAction = ({
-    uuid = 'send_broadcast-0',
-    groups = [{ uuid: 'group-0', name: 'Cat Fanciers' }, { uuid: 'group-1', name: 'Cat Facts' }],
+    uuid = createUUID(),
+    groups = [
+        { uuid: '4441fa19-8bbf-4894-8529-d04cc3b365d6', name: 'Cat Fanciers' },
+        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Cat Facts' }
+    ],
     contacts = [
-        { uuid: 'contact-0', name: 'Kellan Alexander' },
-        { uuid: 'contact-1', name: 'Norbert Kwizera' },
-        { uuid: 'contact-2', name: 'Rowan Seymour' }
+        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Kellan Alexander' },
+        { uuid: '575fe8e9-cb51-4f15-8df7-422290fdfc64', name: 'Norbert Kwizera' },
+        { uuid: '82df72ae-d835-401b-b248-d0c5dcfdce5c', name: 'Rowan Seymour' }
     ],
     text = 'Hello World'
 }: {
@@ -150,7 +156,7 @@ export const createBroadcastMsgAction = ({
 });
 
 export const createAddGroupsAction = ({
-    uuid = 'add_contact_groups-0',
+    uuid = '0d8abccd-ad6d-4776-a642-d310d6f15835',
     groups = groupsResults
 }: { uuid?: string; groups?: Group[] } = {}): ChangeGroups => ({
     uuid,
@@ -159,7 +165,7 @@ export const createAddGroupsAction = ({
 });
 
 export const createRemoveGroupsAction = ({
-    uuid = 'remove_contact_groups-0',
+    uuid = 'b230a96d-0448-4945-92b6-a53e583f3bd6',
     groups = groupsResults
 }: { uuid?: string; groups?: Group[] } = {}): RemoveFromGroups => ({
     uuid,
@@ -169,10 +175,10 @@ export const createRemoveGroupsAction = ({
 });
 
 export const createStartFlowAction = ({
-    uuid = 'start_flow-0',
+    uuid = 'da795777-db05-438c-a24a-1880b7f7a95f',
     flow = {
         name: 'Colors',
-        uuid: 'colors-0'
+        uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f'
     }
 }: {
     uuid?: string;
@@ -182,7 +188,7 @@ export const createStartFlowAction = ({
     };
 } = {}): StartFlow => ({
     type: Types.start_flow,
-    uuid: 'start-flow-0',
+    uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
     flow: {
         name: capitalize(flow.name.trim()),
         uuid
@@ -190,7 +196,7 @@ export const createStartFlowAction = ({
 });
 
 export const createSetContactNameAction = ({
-    uuid = 'set_contact_name-0',
+    uuid = '1212cb51-83d8-443f-a962-7ef89ea238cb',
     name = 'Jane Goodall'
 }: {
     uuid?: string;
@@ -202,7 +208,7 @@ export const createSetContactNameAction = ({
 });
 
 export const createSetContactFieldAction = ({
-    uuid = 'set_contact_field-0',
+    uuid = '80b54854-ac33-4488-a260-e9a9026d2152',
     field = {
         key: 'age',
         name: 'Age'
@@ -220,7 +226,7 @@ export const createSetContactFieldAction = ({
 });
 
 export const createSetContactLanguageAction = ({
-    uuid = 'set_contact_language-0',
+    uuid = '0dce545b-e743-44e4-a940-9767f0c508ea',
     language = 'eng'
 }: {
     uuid?: string;
@@ -232,7 +238,7 @@ export const createSetContactLanguageAction = ({
 });
 
 export const createSetContactChannelAction = ({
-    uuid = 'set_contact_channel-0',
+    uuid = '9fd8cf85-dd81-401a-b543-f44cc6574d93',
     channelName = 'Twilio Channel'
 }: {
     uuid?: string;
@@ -247,7 +253,7 @@ export const createSetContactChannelAction = ({
 });
 
 export const createSetRunResultAction = ({
-    uuid = 'set_run_result-0',
+    uuid = 'efe2a1c2-f189-488a-b431-0197def63cc4',
     name = 'Name',
     value = 'Grace',
     category = ''
@@ -360,9 +366,9 @@ export const createCase = ({
 });
 
 export const createExit = ({
-    uuid = 'exit-0',
+    uuid = 'd41215f1-4822-44ed-b6f5-419213bf6a15',
     name = null,
-    destination_node_uuid = 'node-1'
+    destination_node_uuid = null
 }: {
     uuid?: string;
     name?: string;
@@ -405,7 +411,7 @@ export const createSwitchRouter = ({
 export const createRenderNode = ({
     actions,
     exits,
-    uuid = 'node-0',
+    uuid = '48e0a64d-3b3c-4e3e-9d95-7844093edc90',
     router = null,
     wait = null,
     ui = {
@@ -437,7 +443,7 @@ export const createRenderNode = ({
 export const createFlowNode = ({
     actions,
     exits,
-    uuid = 'node-0',
+    uuid = '48e0a64d-3b3c-4e3e-9d95-7844093edc90',
     router = null,
     wait = null
 }: {
@@ -457,7 +463,7 @@ export const createFlowNode = ({
 export const createWaitRouterNode = ({
     exits,
     cases,
-    uuid = 'wait-router',
+    uuid = '2b023cef-9ef7-4425-a9b5-a1a032a69b92',
     timeout
 }: {
     exits: Exit[];
@@ -477,10 +483,13 @@ export const createWaitRouterNode = ({
 
 export const createStartFlowNode = (
     startFlowAction: StartFlow,
-    uuid: string = 'start_flow_node-0',
+    uuid: string = 'e4e66707-8798-4760-ba10-ab25c3da767c',
     // tslint:disable-next-line:variable-name
     flow_uuid?: string,
-    exitUUIDs: string[] = ['exit1', 'exit2']
+    exitUUIDs: string[] = [
+        '054be440-a819-4bcf-898e-d18084ab7f4e',
+        '70dbfd3f-a501-42cb-b53d-3c4290ab8d58'
+    ]
 ): RenderNode =>
     createRenderNode({
         actions: [startFlowAction],
@@ -520,18 +529,22 @@ export const createStartFlowNode = (
 
 export const createGroupsRouterNode = (
     groups: Group[] = groupsResults,
-    uuid: string = 'split_by_groups-0'
+    uuid: string = 'c51231fa-5efd-416a-abe9-d5aedbfe33e4'
 ): RenderNode =>
     createRenderNode({
         actions: [],
         exits: groups.map((group, idx) =>
-            createExit({ uuid: group.uuid, name: group.name, destination_node_uuid: `node-${idx}` })
+            createExit({
+                uuid: group.uuid,
+                name: group.name,
+                destination_node_uuid: 'ab4b7a93-c794-4a04-b4c7-00fa68c7bf1c'
+            })
         ),
         uuid,
         router: createSwitchRouter({
             cases: groups.map((group, idx) =>
                 createCase({
-                    uuid: `split_by_group-${idx}`,
+                    uuid: createUUID(),
                     type: Operators.has_group,
                     exit_uuid: group.uuid,
                     args: [group.uuid]
@@ -563,7 +576,7 @@ export const getGroups = (sliceAt: number, groups: Group[] = groupsResults) =>
 
 export const createAddLabelsAction = (labels: Label[]) => ({
     type: Types.add_input_labels,
-    uuid: `labels-action-uuid-${labels.length}`,
+    uuid: 'aa15ef19-da81-43d0-b6e5-84b47216aeb8',
     labels
 });
 
@@ -573,7 +586,7 @@ export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
 
 export const SubscribersGroup = {
     name: 'Subscriber',
-    id: 'subscribers_group',
+    id: '68223118-109f-442a-aed3-7bb3e1eab687',
     type: AssetType.Group
 };
 

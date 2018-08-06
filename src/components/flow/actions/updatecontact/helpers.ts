@@ -1,3 +1,4 @@
+import { getActionUUID } from '~/components/flow/actions/helpers';
 import {
     CHANNEL_PROPERTY,
     LANGUAGE_PROPERTY,
@@ -74,10 +75,13 @@ export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormS
     return state;
 };
 
-export const stateToAction = (uuid: string, state: UpdateContactFormState): SetContactAttribute => {
+export const stateToAction = (
+    settings: NodeEditorSettings,
+    state: UpdateContactFormState
+): SetContactAttribute => {
     if (state.type === Types.set_contact_field) {
         return {
-            uuid,
+            uuid: getActionUUID(settings, Types.set_contact_field),
             type: state.type,
             field: assetToField(state.field.value),
             value: state.fieldValue.value
@@ -86,7 +90,7 @@ export const stateToAction = (uuid: string, state: UpdateContactFormState): SetC
 
     if (state.type === Types.set_contact_channel) {
         return {
-            uuid,
+            uuid: getActionUUID(settings, Types.set_contact_channel),
             type: state.type,
             channel: assetToChannel(state.channel.value)
         };
@@ -94,7 +98,7 @@ export const stateToAction = (uuid: string, state: UpdateContactFormState): SetC
 
     if (state.type === Types.set_contact_language) {
         return {
-            uuid,
+            uuid: getActionUUID(settings, Types.set_contact_language),
             type: state.type,
             language: assetToLanguage(state.language.value)
         };
@@ -102,7 +106,7 @@ export const stateToAction = (uuid: string, state: UpdateContactFormState): SetC
 
     if (state.type === Types.set_contact_name) {
         return {
-            uuid,
+            uuid: getActionUUID(settings, Types.set_contact_name),
             type: state.type,
             name: state.name.value
         };

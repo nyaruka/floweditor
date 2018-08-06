@@ -1,4 +1,4 @@
-import { getRecipients } from '~/components/flow/actions/helpers';
+import { getActionUUID, getRecipients } from '~/components/flow/actions/helpers';
 import { SendBroadcastFormState } from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from '~/config/typeConfigs';
 import { BroadcastMsg } from '~/flowTypes';
@@ -38,7 +38,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
 };
 
 export const stateToAction = (
-    actionUUID: string,
+    settings: NodeEditorSettings,
     formState: SendBroadcastFormState
 ): BroadcastMsg => {
     return {
@@ -46,7 +46,7 @@ export const stateToAction = (
         groups: this.getAsset(formState.recipients.value, AssetType.Group),
         text: formState.text.value,
         type: Types.send_broadcast,
-        uuid: actionUUID
+        uuid: getActionUUID(settings, Types.send_broadcast)
     };
 };
 

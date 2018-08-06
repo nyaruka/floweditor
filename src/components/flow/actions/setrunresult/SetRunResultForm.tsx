@@ -68,9 +68,7 @@ export default class SetRunResultForm extends React.PureComponent<
         });
 
         if (valid) {
-            this.props.updateAction(
-                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
-            );
+            this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
             // notify our modal we are done
             this.props.onClose(false);

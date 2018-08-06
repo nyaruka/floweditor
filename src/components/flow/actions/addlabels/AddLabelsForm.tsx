@@ -38,10 +38,7 @@ export default class AddLabelsForm extends React.PureComponent<
     public handleSave(): void {
         const valid = this.handleLabelChange(this.state.labels.value);
         if (valid) {
-            const newAction = stateToAction(
-                this.props.nodeSettings.originalAction.uuid,
-                this.state
-            );
+            const newAction = stateToAction(this.props.nodeSettings, this.state);
             this.props.updateAction(newAction);
             this.props.onClose(false);
         }

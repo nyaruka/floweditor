@@ -247,7 +247,7 @@ Object {
       "result_name": "Favorite Color",
       "type": "switch",
     },
-    "uuid": "node-0",
+    "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
     "wait": Object {
       "timeout": 180,
       "type": "msg",

@@ -1,7 +1,10 @@
 import SendEmailForm from '~/components/flow/actions/sendemail/SendEmailForm';
 import { ActionFormProps } from '~/components/flow/props';
-import { composeComponentTestUtils } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createSendEmailAction, getActionFormProps } from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
+
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const { setup } = composeComponentTestUtils<ActionFormProps>(
     SendEmailForm,
@@ -43,6 +46,20 @@ describe(SendEmailForm.name, () => {
             expect(instance.handleValidPrompt('joe@domain.com')).toBe(
                 'Send email to joe@domain.com'
             );
+        });
+
+        it('should allow switching from router', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() },
+                nodeSettings: { $merge: { originalAction: null } }
+            });
+
+            instance.handleRecipientsChanged(['joe@domain.com', 'jane@domain.com']);
+            instance.handleSubjectChanged('URGENT: I have a question');
+            instance.handleBodyChanged('What is a group of tigers called?');
+            instance.handleSave();
+
+            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
         });
     });
 
