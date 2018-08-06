@@ -1,17 +1,16 @@
-import { Label } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
-
-import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
-import { createSelectOption } from '~/testUtils/assetCreators';
-import { isOptionUnique, isValidNewOption, V4_UUID } from '~/utils';
 import LabelsElement, {
     CREATE_PROMPT,
     createNewOption,
     LabelsElementProps,
     NAME
 } from '~/components/form/select/labels/LabelsElement';
+import { Label } from '~/flowTypes';
+import { AssetType } from '~/services/AssetService';
+import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
+import { createSelectOption } from '~/testUtils/assetCreators';
+import { isOptionUnique, isValidNewOption, V4_UUID } from '~/utils';
 
-const { assets: labels } = require('~/test/assets/labels.json') as { assets: Label[] };
+const { results: labels } = require('~/test/assets/labels.json') as { results: Label[] };
 
 const baseProps: LabelsElementProps = {
     name: NAME,

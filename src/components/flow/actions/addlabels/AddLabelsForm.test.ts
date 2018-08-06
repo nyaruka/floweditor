@@ -7,8 +7,8 @@ import {
     getActionFormProps
 } from '~/testUtils/assetCreators';
 
-const { assets: labels } = require('~/test/assets/labels.json') as {
-    assets: Label[];
+const { results: labels } = require('~/test/assets/labels.json') as {
+    results: Label[];
 };
 
 const { setup } = composeComponentTestUtils(

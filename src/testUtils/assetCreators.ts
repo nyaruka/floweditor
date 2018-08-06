@@ -41,7 +41,7 @@ import { AssetType } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
 import { capitalize } from '~/utils';
 
-const { assets: groupsResults } = require('~/test/assets/groups.json');
+const { results: groupsResults } = require('~/test/assets/groups.json');
 const languagesResults = require('~/test/assets/languages.json');
 
 /**
@@ -579,4 +579,4 @@ export const SubscribersGroup = {
 
 export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: AssetType.Label };
 
-export const languages = languagesResults.assets.map((language: any) => languageToAsset(language));
+export const languages = languagesResults.results.map((language: any) => languageToAsset(language));

@@ -3,7 +3,7 @@ import {
     mapGroupsToAssets
 } from '~/components/flow/actions/changegroups/helpers';
 
-const { assets: groups } = require('~/test/assets/groups.json');
+const { results: groups } = require('~/test/assets/groups.json');
 
 describe('mapGroupsToSearchResults', () => {
     it('should return a list of SearchResult objects', () => {

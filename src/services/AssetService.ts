@@ -154,25 +154,27 @@ export class Assets {
 
         return axios.get(url).then((response: AxiosResponse) => {
             // Only attempt to match if response contains a list of externally-fetched assets
-            if (Array.isArray(response.data.results)) {
-                for (const result of response.data.results) {
-                    if (this.matches(term, result.name)) {
-                        matches.push({
-                            name: result.name,
-                            id: result[this.idProperty],
-                            type: this.assetType
-                        });
+            if (response.data) {
+                if (Array.isArray(response.data.results)) {
+                    for (const result of response.data.results) {
+                        if (this.matches(term, result.name)) {
+                            matches.push({
+                                name: result.name,
+                                id: result[this.idProperty],
+                                type: this.assetType
+                            });
+                        }
                     }
+                } else {
+                    // Right now this just covers the mocked 'environment' response
+                    // in 'environment.json'.
+                    const { data: result } = response;
+                    matches.push({
+                        name: result.name,
+                        id: result[this.idProperty],
+                        type: this.assetType
+                    });
                 }
-            } else {
-                // Right now this just covers the mocked 'environment' response
-                // in 'environment.json'.
-                const { data: result } = response;
-                matches.push({
-                    name: result.name,
-                    id: result[this.idProperty],
-                    type: this.assetType
-                });
             }
 
             return { results: matches, complete: true, sorted: false };
