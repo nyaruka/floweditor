@@ -53,7 +53,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
                 "value": "rojo, r",
               }
             }
-            name="generated_uuid_3"
+            name="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
             onChange={[Function]}
             placeholder="Spanish Translation"
             showLabel={false}
@@ -86,7 +86,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
                 "value": "",
               }
             }
-            name="generated_uuid_4"
+            name="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
             onChange={[Function]}
             placeholder="Spanish Translation"
             showLabel={false}
@@ -233,7 +233,7 @@ exports[`RouterLocalizationForm should render 1`] = `
                 "value": "rojo, r",
               }
             }
-            name="generated_uuid_3"
+            name="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
             onChange={[Function]}
             placeholder="Spanish Translation"
             showLabel={false}
@@ -266,7 +266,7 @@ exports[`RouterLocalizationForm should render 1`] = `
                 "value": "",
               }
             }
-            name="generated_uuid_4"
+            name="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
             onChange={[Function]}
             placeholder="Spanish Translation"
             showLabel={false}
@@ -367,26 +367,26 @@ Object {
       "arguments": Array [
         "Red, r, rolo, maroon",
       ],
-      "exit_uuid": "generated_uuid_1",
+      "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       "type": "has_any_word",
-      "uuid": "generated_uuid_3",
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
     },
     Object {
-      "uuid": "generated_uuid_4",
+      "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
     },
   ],
   "exits": Array [
     Object {
       "destination_node_uuid": null,
       "name": "Roooojo!",
-      "uuid": "generated_uuid_1",
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
     },
     Object {
       "destination_node_uuid": null,
       "name": Array [
         "Otro",
       ],
-      "uuid": "generated_uuid_2",
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
     },
   ],
   "valid": true,
@@ -401,7 +401,7 @@ Array [
       "translations": Object {
         "name": "Roooojo!",
       },
-      "uuid": "generated_uuid_1",
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
     },
     Object {
       "translations": Object {
@@ -409,7 +409,7 @@ Array [
           "Otro",
         ],
       },
-      "uuid": "generated_uuid_2",
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
     },
     Object {
       "translations": Object {
@@ -417,10 +417,10 @@ Array [
           "Red, r, rolo, maroon",
         ],
       },
-      "uuid": "generated_uuid_3",
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
     },
     Object {
-      "uuid": "generated_uuid_4",
+      "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
     },
   ],
 ]

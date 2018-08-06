@@ -5,8 +5,12 @@ import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import { RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
-import { composeComponentTestUtils, mockClear } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
+import { createUUID } from '~/utils';
+
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(
     ResponseRouterForm,
@@ -19,12 +23,7 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
     )
 );
 
-let mockUuidCounts = 1;
-jest.mock('uuid', () => {
-    return {
-        v4: jest.fn(() => `generated_uuid_${mockUuidCounts++}`)
-    };
-});
+const otherExit = createUUID();
 
 describe(ResponseRouterForm.name, () => {
     it('should render', () => {
@@ -38,22 +37,20 @@ describe(ResponseRouterForm.name, () => {
                 $set: {
                     originalNode: createRenderNode({
                         actions: [],
-                        exits: [
-                            { destination_node_uuid: null, name: 'Other', uuid: 'generated_uuid_1' }
-                        ],
+                        exits: [{ destination_node_uuid: null, name: 'Other', uuid: otherExit }],
                         wait: { type: WaitTypes.msg },
                         router: {
                             type: RouterTypes.switch,
                             operand: DEFAULT_OPERAND,
                             cases: [
                                 {
-                                    uuid: 'generated_uuid_2',
+                                    uuid: createUUID(),
                                     type: Operators.has_any_word,
                                     arguments: ['red'],
                                     exit_uuid: null
                                 }
                             ],
-                            default_exit_uuid: 'generated_uuid_1',
+                            default_exit_uuid: otherExit,
                             result_name: 'Color'
                         } as SwitchRouter,
                         ui: {
@@ -70,7 +67,9 @@ describe(ResponseRouterForm.name, () => {
 
     describe('updates', () => {
         it('should save changes', () => {
-            const { instance, props } = setup(true);
+            const { instance, props } = setup(true, {
+                $merge: { onClose: jest.fn(), updateRouter: jest.fn() }
+            });
 
             instance.handleUpdateTimeout(180);
             instance.handleUpdateResultName('Favorite Color');
@@ -83,15 +82,15 @@ describe(ResponseRouterForm.name, () => {
             expect(instance.state).toMatchSnapshot();
 
             instance.handleSave();
+            expect(props.onClose).toHaveBeenCalled();
             expect(props.updateRouter).toHaveBeenCalled();
             expect((props.updateRouter as any).mock.calls[0][0]).toMatchSnapshot();
         });
 
         it('should cancel', () => {
-            const { instance, props } = setup(true);
-            mockClear(props.updateRouter);
-            mockClear(props.onClose);
-
+            const { instance, props } = setup(true, {
+                $merge: { onClose: jest.fn(), updateRouter: jest.fn() }
+            });
             instance.handleUpdateTimeout(180);
             instance.getButtons().secondary.onClick();
             expect(props.onClose).toHaveBeenCalled();

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { v4 as generateUUID } from 'uuid';
+import FormElement, { FormElementProps } from '~/components/form/FormElement';
+import SelectSearch from '~/components/form/select/SelectSearch';
 import { CreateOptions } from '~/flowTypes';
 import { Asset, Assets, AssetType } from '~/services/AssetService';
 import {
@@ -7,11 +8,9 @@ import {
     getSelectClassForEntry,
     isOptionUnique,
     isValidNewOption,
-    LabelIdCb
+    LabelIdCb,
+    createUUID
 } from '~/utils';
-
-import FormElement, { FormElementProps } from '~/components/form/FormElement';
-import SelectSearch from '~/components/form/select/SelectSearch';
 
 export interface LabelsElementProps extends FormElementProps {
     assets: Assets;
@@ -30,7 +29,7 @@ export const PLACEHOLDER = 'Enter the name of an existing label or create a new 
 export const NOT_FOUND = 'Invalid label';
 export const CREATE_PROMPT = 'New label: ';
 
-export const labelIdCb: LabelIdCb = () => generateUUID();
+export const labelIdCb: LabelIdCb = () => createUUID();
 
 export const createNewOption = composeCreateNewOption({
     idCb: labelIdCb,

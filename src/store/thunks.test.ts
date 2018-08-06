@@ -1,5 +1,4 @@
 import mutate from 'immutability-helper';
-import { v4 as generateUUID } from 'uuid';
 import { DragPoint } from '~/components/flow/node/Node';
 import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
@@ -38,7 +37,7 @@ import {
 } from '~/store/thunks';
 import { createMockStore, prepMockDuxState } from '~/testUtils';
 import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
-import { push } from '~/utils';
+import { push, createUUID } from '~/utils';
 
 const config = require('~/test/config');
 
@@ -534,7 +533,7 @@ describe('Flow Manipulation', () => {
                 },
                 nodeEditor: {
                     userAddingAction: true,
-                    settings: { originalNode: { node: { uuid: generateUUID() } } }
+                    settings: { originalNode: { node: { uuid: createUUID() } } }
                 }
             });
 
@@ -560,7 +559,7 @@ describe('Flow Manipulation', () => {
                 renderNode: RenderNode,
                 action: AnyAction
             ): RenderNodeMap => {
-                const newExitUUID = generateUUID();
+                const newExitUUID = createUUID();
                 const newNode: RenderNode = {
                     node: {
                         actions: [],
@@ -569,7 +568,7 @@ describe('Flow Manipulation', () => {
                             cases: [],
                             default_exit_uuid: newExitUUID
                         } as SwitchRouter,
-                        uuid: generateUUID(),
+                        uuid: createUUID(),
                         exits: [
                             {
                                 uuid: newExitUUID,

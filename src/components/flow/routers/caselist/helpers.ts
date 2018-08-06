@@ -1,8 +1,8 @@
 import { DraggableStyle } from 'react-beautiful-dnd';
-import { v4 as generateUUID } from 'uuid';
 import { CaseProps, DragCursor } from '~/components/flow/routers/caselist/CaseList';
 import { Operators } from '~/config/operatorConfigs';
 import { Case, Exit } from '~/flowTypes';
+import { createUUID } from '~/utils';
 
 export const getExitName = (kase: Case, exits: Exit[]) => {
     const match = exits.find((exit: Exit) => exit.uuid === kase.exit_uuid);
@@ -13,7 +13,7 @@ export const getExitName = (kase: Case, exits: Exit[]) => {
 };
 
 export const createEmptyCase = (): CaseProps => {
-    const uuid = generateUUID();
+    const uuid = createUUID();
     return {
         uuid,
         kase: {

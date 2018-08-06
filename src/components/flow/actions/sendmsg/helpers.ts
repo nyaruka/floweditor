@@ -1,3 +1,4 @@
+import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from '~/config/typeConfigs';
 import { SendMsg } from '~/flowTypes';
@@ -22,13 +23,13 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
     };
 };
 
-export const stateToAction = (uuid: string, state: SendMsgFormState): SendMsg => {
+export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormState): SendMsg => {
     return {
         text: state.text.value,
         type: Types.send_msg,
         all_urns: state.sendAll,
         quick_replies: state.quickReplies.value,
-        uuid
+        uuid: getActionUUID(settings, Types.send_msg)
     };
 };
 

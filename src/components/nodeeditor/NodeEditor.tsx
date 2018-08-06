@@ -210,12 +210,12 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             // Otherwise, let's create some new ones
             exits = [
                 {
-                    uuid: generateUUID(),
+                    uuid: createUUID(),
                     name: StartFlowExitNames.Complete,
                     destination_node_uuid: null
                 },
                 {
-                    uuid: generateUUID(),
+                    uuid: createUUID(),
                     name: StartFlowExitNames.Expired,
                     destination_node_uuid: null
                 }
@@ -223,13 +223,13 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
             cases = [
                 {
-                    uuid: generateUUID(),
+                    uuid: createUUID(),
                     type: Operators.is_text_eq,
                     arguments: ['child.run.status', 'completed'],
                     exit_uuid: exits[0].uuid
                 },
                 {
-                    uuid: generateUUID(),
+                    uuid: createUUID(),
                     arguments: ['child.run.status', 'expired'],
                     type: Operators.is_text_eq,
                     exit_uuid: exits[1].uuid

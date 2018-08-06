@@ -1,4 +1,3 @@
-import { v4 as generateUUID } from 'uuid';
 import {
     dragSelectSpecId,
     Flow,
@@ -14,19 +13,21 @@ import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';
 import { ConnectionEvent } from '~/store';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
-import { composeComponentTestUtils, composeDuxState, getSpecWrapper, setMock } from '~/testUtils';
-import { merge, set, setTrue } from '~/utils';
+import {
+    composeComponentTestUtils,
+    composeDuxState,
+    getSpecWrapper,
+    mock,
+    setMock
+} from '~/testUtils';
+import { createUUID, merge, set, setTrue } from '~/utils';
+import * as utils from '~/utils';
 
 jest.mock('~/services/ActivityManager');
 jest.mock('~/services/Plumber');
 jest.useFakeTimers();
 
-let mockUuidCounts = 1;
-jest.mock('uuid', () => {
-    return {
-        v4: jest.fn(() => `generated_uuid_${mockUuidCounts++}`)
-    };
-});
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const {
     flowContext: { definition }
@@ -65,14 +66,13 @@ describe(Flow.name, () => {
 
     beforeEach(() => {
         // Clear instance mocks
-        mockUuidCounts = 1;
         ghostNodeFromWait = getGhostNode(nodes[nodeMapKeys[nodeMapKeys.length - 1]], 1);
         ghostNodeFromAction = getGhostNode(nodes[nodeMapKeys[0]], 1);
 
         mockConnectionEvent = {
-            sourceId: `${generateUUID()}:${generateUUID()}`,
-            targetId: generateUUID(),
-            suspendedElementId: generateUUID(),
+            sourceId: `${createUUID()}:${createUUID()}`,
+            targetId: createUUID(),
+            suspendedElementId: createUUID(),
             source: null
         };
 
@@ -97,7 +97,7 @@ describe(Flow.name, () => {
             });
 
             it('should return true if event indicates user is returning to drag origin', () => {
-                const suspendedElementId = generateUUID();
+                const suspendedElementId = createUUID();
 
                 expect(
                     isDraggingBack({
@@ -282,12 +282,12 @@ describe(Flow.name, () => {
 
             it('should return false if pointing to itself', () => {
                 const { wrapper, instance } = setup();
-                const sourceId = generateUUID();
+                const sourceId = createUUID();
 
                 expect(
                     instance.onBeforeConnectorDrop({
                         ...mockConnectionEvent,
-                        sourceId: `${sourceId}:${generateUUID()}`,
+                        sourceId: `${sourceId}:${createUUID()}`,
                         targetId: sourceId
                     })
                 ).toBeFalsy();
@@ -319,10 +319,10 @@ describe(Flow.name, () => {
 
             it('should do NodeEditor work if the user is not dragging back', () => {
                 const pendingConnection = {
-                    exitUUID: generateUUID(),
-                    nodeUUID: generateUUID()
+                    exitUUID: createUUID(),
+                    nodeUUID: createUUID()
                 };
-                const suspendedElementId = generateUUID();
+                const suspendedElementId = createUUID();
                 const ghostRefSpy = spyOn('ghostRef');
 
                 // tslint:disable-next-line:no-shadowed-variable

@@ -15,7 +15,7 @@ Array [
     "originalAction": Object {
       "text": "",
       "type": "send_msg",
-      "uuid": "generated_uuid_3",
+      "uuid": "a60a7c14-1488-4aa0-a2b9-1f26c1860d5d",
     },
     "originalNode": Object {
       "inboundConnections": null,
@@ -24,16 +24,16 @@ Array [
           Object {
             "text": "",
             "type": "send_msg",
-            "uuid": "generated_uuid_3",
+            "uuid": "a60a7c14-1488-4aa0-a2b9-1f26c1860d5d",
           },
         ],
         "exits": Array [
           Object {
             "destination_node_uuid": null,
-            "uuid": "generated_uuid_2",
+            "uuid": "b6b7b254-d1ca-45e9-91d1-f03f62f91389",
           },
         ],
-        "uuid": "generated_uuid_1",
+        "uuid": "a21c8092-ec6a-4da9-8b47-6925f0c53899",
       },
       "ui": Object {
         "position": Object {
@@ -62,7 +62,7 @@ exports[`Flow render should render NodeEditor 2`] = `
   <div
     className="nodeList"
     data-spec="node-container"
-    id="generated_uuid_10"
+    id="44f05c10-0ec0-41ab-aed7-c65267337df7"
     onDoubleClick={[Function]}
     onMouseDown={[Function]}
     onMouseMove={[Function]}
@@ -1066,7 +1066,7 @@ exports[`Flow render should render drag selection box 1`] = `
   <div
     className="nodeList"
     data-spec="node-container"
-    id="generated_uuid_10"
+    id="7966434b-6d38-4d8b-b01c-13d3d9aa593c"
     onDoubleClick={[Function]}
     onMouseDown={[Function]}
     onMouseMove={[Function]}
@@ -2229,7 +2229,7 @@ exports[`Flow render should render self, children with base props 8`] = `
   <div
     className="nodeList"
     data-spec="node-container"
-    id="generated_uuid_10"
+    id="6f87dde3-5df3-4935-8585-2656df068d61"
     onDoubleClick={[Function]}
     onMouseDown={[Function]}
     onMouseMove={[Function]}

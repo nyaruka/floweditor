@@ -5,6 +5,7 @@ import {
     IsValidNewOptionHandler,
     NewOptionCreatorHandler
 } from 'react-select';
+import { v4 as generateUUID } from 'uuid';
 import { Action, Case, ContactProperties, Exit, LocalizationMap } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
@@ -323,4 +324,28 @@ export const downloadJSON = (obj: any, name: string): void => {
     document.body.appendChild(downloadAnchorNode); // required for firefox
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
+};
+
+export let createUUID = (): string => {
+    return generateUUID();
+};
+
+export const seededUUIDs = (seed: number = 1): any => {
+    let current = seed;
+    const randomNext = () => {
+        const x = Math.sin(current++) * 10000;
+        return x - Math.floor(x);
+    };
+
+    const random = (min: number, max: number): number => {
+        return Math.floor(randomNext() * (max - min) + min);
+    };
+
+    return () => {
+        const randomSeed: number[] = [];
+        for (let idx = 0; idx < 16; idx++) {
+            randomSeed.push(random(0, 250));
+        }
+        return generateUUID({ random: randomSeed });
+    };
 };

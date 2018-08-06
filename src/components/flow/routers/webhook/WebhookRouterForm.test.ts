@@ -2,8 +2,11 @@ import { RouterFormProps } from '~/components/flow/props';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { Types } from '~/config/typeConfigs';
 import { RenderNode } from '~/store/flowContext';
-import { composeComponentTestUtils } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createWebhookRouterNode, getRouterFormProps } from '~/testUtils/assetCreators';
+
+import * as utils from '~/utils';
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(
     WebhookRouterForm,
@@ -12,13 +15,6 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
         ui: { type: Types.call_webhook }
     } as RenderNode)
 );
-
-let mockUuidCounts = 1;
-jest.mock('uuid', () => {
-    return {
-        v4: jest.fn(() => `generated_uuid_${mockUuidCounts++}`)
-    };
-});
 
 describe(WebhookRouterForm.name, () => {
     it('should render', () => {

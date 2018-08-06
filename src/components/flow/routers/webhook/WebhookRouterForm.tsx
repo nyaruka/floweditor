@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import FlipMove = require('react-flip-move');
-import { v4 as generateUUID } from 'uuid';
 import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
 import { RouterFormProps } from '~/components/flow/props';
@@ -20,6 +19,7 @@ import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired, validateURL } from '~/store/validators';
+import { createUUID } from '~/utils';
 
 const styles = require('./WebhookRouterForm.scss');
 
@@ -135,7 +135,7 @@ export default class WebhookRouterForm extends React.Component<
     private handleCreateHeader(): boolean {
         return this.handleUpdate({
             header: {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 name: '',
                 value: ''
             }

@@ -2,45 +2,51 @@ import { LocalizationFormProps } from '~/components/flow/props';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { getLocalizations } from '~/store/helpers';
-import { composeComponentTestUtils } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createRenderNode, Spanish } from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
+import { createUUID } from '~/utils';
 
-const typeConfig = getTypeConfig(Types.wait_for_response);
+mock(utils, 'createUUID', utils.seededUUIDs());
+
+const colorsExit = createUUID();
+const otherExit = createUUID();
+const redCase = createUUID();
+const blueCase = createUUID();
 
 const responseRenderNode = createRenderNode({
     actions: [],
     exits: [
-        { destination_node_uuid: null, name: 'Colors', uuid: 'generated_uuid_1' },
-        { destination_node_uuid: null, name: 'Other', uuid: 'generated_uuid_2' }
+        { destination_node_uuid: null, name: 'Colors', uuid: colorsExit },
+        { destination_node_uuid: null, name: 'Other', uuid: otherExit }
     ],
     router: {
         type: RouterTypes.switch,
         operand: DEFAULT_OPERAND,
         cases: [
             {
-                uuid: 'generated_uuid_3',
+                uuid: redCase,
                 type: Operators.has_any_word,
                 arguments: ['red'],
-                exit_uuid: 'generated_uuid_1'
+                exit_uuid: colorsExit
             },
             {
-                uuid: 'generated_uuid_4',
+                uuid: blueCase,
                 type: Operators.has_any_word,
                 arguments: ['blue'],
-                exit_uuid: 'generated_uuid_1'
+                exit_uuid: colorsExit
             }
         ],
-        default_exit_uuid: 'generated_uuid_1',
+        default_exit_uuid: otherExit,
         result_name: 'Color'
     } as SwitchRouter
 });
 
 const localizations = getLocalizations(responseRenderNode.node, null, Spanish, {
-    generated_uuid_2: { name: ['Otro'] },
-    generated_uuid_3: { arguments: ['rojo, r'] }
+    [otherExit]: { name: ['Otro'] },
+    [redCase]: { arguments: ['rojo, r'] }
 });
 
 const baseProps: LocalizationFormProps = {

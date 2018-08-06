@@ -1,7 +1,6 @@
 import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
-import { v4 as generateUUID } from 'uuid';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import {
@@ -60,7 +59,7 @@ import {
     updateUserAddingAction
 } from '~/store/nodeEditor';
 import AppState from '~/store/state';
-import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
+import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart, createUUID } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -352,17 +351,17 @@ export const ensureStartNode = () => (
 
     if (Object.keys(nodes).length === 0) {
         const initialAction: SendMsg = {
-            uuid: generateUUID(),
+            uuid: createUUID(),
             type: Types.send_msg,
             text: 'Hi there, this is the first message in your flow.'
         };
 
         const node: FlowNode = {
-            uuid: generateUUID(),
+            uuid: createUUID(),
             actions: [initialAction],
             exits: [
                 {
-                    uuid: generateUUID()
+                    uuid: createUUID()
                 }
             ]
         };
@@ -498,11 +497,11 @@ export const spliceInRouter = (
     if (topActions.length > 0) {
         topNode = {
             node: {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 actions: topActions,
                 exits: [
                     {
-                        uuid: generateUUID(),
+                        uuid: createUUID(),
                         destination_node_uuid: null
                     }
                 ]
@@ -528,11 +527,11 @@ export const spliceInRouter = (
     if (bottomActions.length > 0) {
         bottomNode = {
             node: {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 actions: bottomActions,
                 exits: [
                     {
-                        uuid: generateUUID(),
+                        uuid: createUUID(),
                         destination_node_uuid: previousNode.node.exits[0].destination_node_uuid
                     }
                 ]
@@ -614,9 +613,9 @@ export const onUpdateAction = (action: AnyAction) => (
     if (creatingNewNode) {
         const newNode: RenderNode = {
             node: {
-                uuid: generateUUID(),
+                uuid: createUUID(),
                 actions: [action],
-                exits: [{ uuid: generateUUID(), destination_node_uuid: null, name: null }]
+                exits: [{ uuid: createUUID(), destination_node_uuid: null, name: null }]
             },
             ui: { position: createNodePosition },
             inboundConnections: { [pendingConnection.exitUUID]: pendingConnection.nodeUUID }
@@ -674,7 +673,7 @@ export const onAddToNode = (node: FlowNode) => (
 
     // TODO: remove the need for this once we all have formHelpers
     const newAction: SendMsg = {
-        uuid: generateUUID(),
+        uuid: createUUID(),
         type: Types.send_msg,
         text: ''
     };

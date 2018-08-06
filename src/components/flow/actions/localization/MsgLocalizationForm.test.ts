@@ -2,7 +2,7 @@ import SendMsgLocalizationForm from '~/components/flow/actions/localization/MsgL
 import { LocalizationFormProps } from '~/components/flow/props';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { LocalizedObject } from '~/services/Localization';
-import { composeComponentTestUtils, mockClear } from '~/testUtils';
+import { composeComponentTestUtils } from '~/testUtils';
 import { createSendMsgAction, Spanish } from '~/testUtils/assetCreators';
 
 const action = createSendMsgAction();
@@ -45,13 +45,16 @@ describe(SendMsgLocalizationForm.name, () => {
 
     describe('updates', () => {
         it('should save changes', () => {
-            const { instance, props } = setup(true);
+            const { instance, props } = setup(true, {
+                $merge: { updateLocalizations: jest.fn(), onClose: jest.fn() }
+            });
 
             instance.handleMessageUpdate('What is your favorite color?');
             instance.handleQuickRepliesUpdate(['red', 'green', 'blue']);
             expect(instance.state).toMatchSnapshot();
 
             instance.handleSave();
+            expect(props.onClose).toHaveBeenCalled();
             expect(props.updateLocalizations).toHaveBeenCalled();
             expect((props.updateLocalizations as any).mock.calls[0]).toMatchSnapshot();
         });
@@ -59,9 +62,9 @@ describe(SendMsgLocalizationForm.name, () => {
 
     describe('cancel', () => {
         it('should cancel without changes', () => {
-            const { instance, props } = setup(true);
-            mockClear(props.updateLocalizations);
-            mockClear(props.onClose);
+            const { instance, props } = setup(true, {
+                $merge: { updateLocalizations: jest.fn(), onClose: jest.fn() }
+            });
             instance.handleMessageUpdate("Don't save me bro");
             instance.getButtons().secondary.onClick();
             expect(props.onClose).toHaveBeenCalled();

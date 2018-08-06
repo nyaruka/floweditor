@@ -1,6 +1,3 @@
-import { v4 as generateUUID } from 'uuid';
-import { Spanish } from '~/testUtils/assetCreators';
-
 import Constants from '~/store/constants';
 import { RenderNode } from '~/store/flowContext';
 import {
@@ -30,6 +27,8 @@ import {
     updateTranslating
 } from '~/store/flowEditor';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
+import { Spanish } from '~/testUtils/assetCreators';
+import { createUUID } from '~/utils';
 
 const flowsResp = require('~/test/assets/flows.json');
 const boringFlow = require('~/test/flows/boring.json');
@@ -103,8 +102,8 @@ describe('flowEditor action creators', () => {
     describe('updatePendingConnection', () => {
         it('should create an action to update pendingConnection state', () => {
             const pendingConnection = {
-                nodeUUID: generateUUID(),
-                exitUUID: generateUUID()
+                nodeUUID: createUUID(),
+                exitUUID: createUUID()
             };
             const expectedAction = {
                 type: Constants.UPDATE_PENDING_CONNECTION,
@@ -118,10 +117,10 @@ describe('flowEditor action creators', () => {
 
     describe('updatePendingConnections', () => {
         it('should create an action to update pendingConnections state', () => {
-            const draggedTo = generateUUID();
+            const draggedTo = createUUID();
             const draggedFrom = {
-                nodeUUID: generateUUID(),
-                exitUUID: generateUUID()
+                nodeUUID: createUUID(),
+                exitUUID: createUUID()
             };
             const expectedAction = {
                 type: Constants.UPDATE_PENDING_CONNECTIONS,
@@ -136,7 +135,7 @@ describe('flowEditor action creators', () => {
 
     describe('removePendingConnection', () => {
         it('should create an action to update pendingConnections state', () => {
-            const nodeUUID = generateUUID();
+            const nodeUUID = createUUID();
             const expectedAction = {
                 type: Constants.REMOVE_PENDING_CONNECTION,
                 payload: {
@@ -272,8 +271,8 @@ describe('flowEditor reducers', () => {
 
         it('should handle UPDATE_PENDING_CONNECTION', () => {
             const pendingConnection = {
-                nodeUUID: generateUUID(),
-                exitUUID: generateUUID()
+                nodeUUID: createUUID(),
+                exitUUID: createUUID()
             };
             const action = updatePendingConnection(pendingConnection);
             expect(reduce(action)).toEqual(pendingConnection);

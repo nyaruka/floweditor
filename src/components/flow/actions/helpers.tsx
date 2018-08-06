@@ -1,8 +1,18 @@
 import * as React from 'react';
 import { Contact, Group, RecipientsAction } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
+import { NodeEditorSettings } from '~/store/nodeEditor';
+import { createUUID } from '~/utils';
 
 const styles = require('~/components/shared.scss');
+
+export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: string): string => {
+    if (nodeSettings.originalAction && nodeSettings.originalAction.type === currentType) {
+        return nodeSettings.originalAction.uuid;
+    }
+
+    return createUUID();
+};
 
 export const getRecipients = (action: RecipientsAction): Asset[] => {
     const selected = (action.groups || []).map((group: Group) => {

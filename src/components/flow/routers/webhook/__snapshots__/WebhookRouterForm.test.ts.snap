@@ -52,7 +52,7 @@ exports[`WebhookRouterForm should render 1`] = `
               Object {
                 "value": Object {
                   "name": "",
-                  "uuid": "generated_uuid_1",
+                  "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
                   "value": "",
                 },
               }
@@ -203,7 +203,7 @@ Object {
     Object {
       "value": Object {
         "name": "",
-        "uuid": "generated_uuid_2",
+        "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         "value": "",
       },
     },
@@ -232,24 +232,24 @@ Object {
         "method": undefined,
         "type": "call_webhook",
         "url": "http://domain.com/",
-        "uuid": "generated_uuid_3",
+        "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
       },
     ],
     "exits": Array [
       Object {
         "destination_node_uuid": null,
         "name": "Success",
-        "uuid": "generated_uuid_4",
+        "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },
       Object {
         "destination_node_uuid": null,
         "name": "Failed",
-        "uuid": "generated_uuid_5",
+        "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
       },
       Object {
         "destination_node_uuid": null,
         "name": "Unreachable",
-        "uuid": "generated_uuid_6",
+        "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
       },
     ],
     "router": Object {
@@ -258,28 +258,28 @@ Object {
           "arguments": Array [
             "success",
           ],
-          "exit_uuid": "generated_uuid_4",
+          "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
           "type": "has_webhook_status",
-          "uuid": "generated_uuid_7",
+          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
         },
         Object {
           "arguments": Array [
             "response_error",
           ],
-          "exit_uuid": "generated_uuid_5",
+          "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           "type": "has_webhook_status",
-          "uuid": "generated_uuid_8",
+          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
         },
         Object {
           "arguments": Array [
             "connection_error",
           ],
-          "exit_uuid": "generated_uuid_6",
+          "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
           "type": "has_webhook_status",
-          "uuid": "generated_uuid_9",
+          "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
         },
       ],
-      "default_exit_uuid": "generated_uuid_5",
+      "default_exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
       "operand": "@run.webhook",
       "type": "switch",
     },

@@ -1,19 +1,17 @@
-import { v4 as generateUUID } from 'uuid';
 import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { merge, push, set, snapToGrid, splice, unset } from '~/utils';
-
 import { LocalizationUpdates } from '~/store';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getActionIndex, getExitIndex, getNode } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { merge, push, set, snapToGrid, splice, unset, createUUID } from '~/utils';
 
 const mutate = require('immutability-helper');
 
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     // Give our node a unique uuid
-    return mutate(newNode, merge({ uuid: generateUUID() }));
+    return mutate(newNode, merge({ uuid: createUUID() }));
 };
 
 export const getOtherExit = (exits: Exit[]) =>

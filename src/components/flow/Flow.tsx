@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { v4 as generateUUID } from 'uuid';
 import * as styles from '~/components/flow/Flow.scss';
 import ConnectedNode, { DragPoint } from '~/components/flow/node/Node';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
@@ -38,7 +37,15 @@ import {
 import { RenderNode } from '~/store/flowContext';
 import { DragSelection } from '~/store/flowEditor';
 import { getCollisions } from '~/store/helpers';
-import { isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from '~/utils';
+import {
+    createUUID,
+    isRealValue,
+    NODE_PADDING,
+    renderIf,
+    snapToGrid,
+    timeEnd,
+    timeStart
+} from '~/utils';
 
 export interface FlowStoreProps {
     translating: boolean;
@@ -105,7 +112,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     constructor(props: FlowStoreProps, context: ConfigProviderContext) {
         super(props, context);
 
-        this.nodeContainerUUID = generateUUID();
+        this.nodeContainerUUID = createUUID();
 
         this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
 
@@ -327,7 +334,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 event.clientY - this.containerOffset.top - NODE_PADDING * 2
             );
 
-            this.props.updateSticky(generateUUID(), {
+            this.props.updateSticky(createUUID(), {
                 position: { left, top },
                 title: 'New Note',
                 body: '...'

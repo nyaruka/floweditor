@@ -173,6 +173,6 @@ export const prepMockDuxState = (): { testNodes: RenderNodeMap; mockDuxState: Ap
 
 export const createMockStore: Function = configureStore([thunk]);
 
-export const mockClear = (mock: any) => {
-    mock.mockClear();
+export const mock = <T extends {}, K extends keyof T>(object: T, property: K, value: T[K]) => {
+    Object.defineProperty(object, property, { get: () => value });
 };
