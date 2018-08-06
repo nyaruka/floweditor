@@ -5,6 +5,7 @@ module.exports = {
     transform: {
         '.tsx?': '<rootDir>/node_modules/ts-jest/preprocessor.js'
     },
+    roots: ['<rootDir>/src/', '<rootDir>/__test__/', '<rootDir>/__mocks__/'],
     testPathIgnorePatterns: ['/node_modules/', '/lib/'],
     testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(j|t)sx?$',
     modulePathIgnorePatterns: ['lib'],
