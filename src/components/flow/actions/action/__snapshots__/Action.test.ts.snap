@@ -35,7 +35,7 @@ exports[`ActionWrapper render should display missing_localization style 1`] = `
 <div
   className="action translating missing_localization"
   data-spec="action-container"
-  id="action-send_msg-1"
+  id="action-0ed4b887-2924-45ea-babe-4d580cdfb000"
 >
   <div
     className="overlay"
