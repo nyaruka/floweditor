@@ -22,7 +22,8 @@ FlowAssets {
 
 exports[`AssetService groups searching should return everything for empty search: empty 1`] = `
 Object {
-  "assets": Array [
+  "complete": true,
+  "results": Array [
     Object {
       "id": "monkey_happy",
       "name": "Monkey Happy",
@@ -64,14 +65,14 @@ Object {
       "type": "group",
     },
   ],
-  "complete": true,
   "sorted": false,
 }
 `;
 
 exports[`AssetService groups searching should search for "monkey ha": monkey ha 1`] = `
 Object {
-  "assets": Array [
+  "complete": true,
+  "results": Array [
     Object {
       "id": "monkey_happy",
       "name": "Monkey Happy",
@@ -83,28 +84,28 @@ Object {
       "type": "group",
     },
   ],
-  "complete": true,
   "sorted": false,
 }
 `;
 
 exports[`AssetService groups searching should search for "monkey hap": monkey hap 1`] = `
 Object {
-  "assets": Array [
+  "complete": true,
+  "results": Array [
     Object {
       "id": "monkey_happy",
       "name": "Monkey Happy",
       "type": "group",
     },
   ],
-  "complete": true,
   "sorted": false,
 }
 `;
 
 exports[`AssetService groups searching should search for "monkey": monkey 1`] = `
 Object {
-  "assets": Array [
+  "complete": true,
+  "results": Array [
     Object {
       "id": "monkey_happy",
       "name": "Monkey Happy",
@@ -121,7 +122,6 @@ Object {
       "type": "group",
     },
   ],
-  "complete": true,
   "sorted": false,
 }
 `;

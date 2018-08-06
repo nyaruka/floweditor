@@ -192,7 +192,7 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
         assetService.getLanguageAssets().search('')
     ]);
 
-    dispatch(initializeFlow(flows.content, assetService, languages.assets));
+    dispatch(initializeFlow(flows.content, assetService, languages.results));
     const fieldsToDedupe = [...fields.content];
     const existingFields = extractContactFields(flows.content.nodes);
     if (existingFields.length) {

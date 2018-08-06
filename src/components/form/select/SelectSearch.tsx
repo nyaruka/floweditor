@@ -131,7 +131,7 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
         // if we have assets, check there
         if (this.props.assets) {
             return this.props.assets.search(term).then((assetResults: AssetSearchResult) => {
-                for (const result of assetResults.assets) {
+                for (const result of assetResults.results) {
                     combined = this.addSearchResult(combined, result);
                 }
 

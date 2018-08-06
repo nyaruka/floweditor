@@ -29,7 +29,7 @@ const flowsHandler = (req = {}, cb) => {
         return notFoundHandler(cb);
     }
 
-    return cb(null, getOpts({ body: JSON.stringify(flowsResp.assets) }));
+    return cb(null, getOpts({ body: JSON.stringify(flowsResp) }));
 };
 
 exports.handler = (evt, ctx, cb) => flowsHandler(evt, cb);
