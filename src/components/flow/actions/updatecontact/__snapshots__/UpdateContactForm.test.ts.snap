@@ -202,6 +202,98 @@ exports[`UpdateContactForm render should render self, children with base props 1
 </Dialog>
 `;
 
+exports[`UpdateContactForm should allow switching from router to channel 1`] = `
+Object {
+  "channel": Object {
+    "value": Object {
+      "id": "channel_id",
+      "name": "Channel Name",
+      "type": "channel",
+    },
+  },
+  "field": Object {
+    "value": Object {
+      "id": "name",
+      "name": "Name",
+      "type": "property",
+    },
+  },
+  "fieldValue": Object {
+    "value": "",
+  },
+  "language": Object {
+    "value": null,
+  },
+  "name": Object {
+    "value": "",
+  },
+  "type": "set_contact_channel",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm should allow switching from router to contact name 1`] = `
+Array [
+  Object {
+    "name": "Rowan Seymour",
+    "type": "set_contact_name",
+    "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+  },
+]
+`;
+
+exports[`UpdateContactForm should allow switching from router to field value 1`] = `
+Object {
+  "channel": Object {
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "birthday",
+      "name": "Birthday",
+      "type": "field",
+    },
+  },
+  "fieldValue": Object {
+    "value": "12/25/00",
+  },
+  "language": Object {
+    "value": null,
+  },
+  "name": Object {
+    "value": "",
+  },
+  "type": "set_contact_field",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm should allow switching from router to language 1`] = `
+Object {
+  "channel": Object {
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "name",
+      "name": "Name",
+      "type": "property",
+    },
+  },
+  "fieldValue": Object {
+    "value": "",
+  },
+  "language": Object {
+    "value": "e",
+  },
+  "name": Object {
+    "value": "",
+  },
+  "type": "set_contact_language",
+  "valid": true,
+}
+`;
+
 exports[`UpdateContactForm updates should update channel 1`] = `
 Object {
   "channel": Object {

@@ -35,10 +35,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     public handleSave(): void {
         const valid = this.handleGroupsChange(this.state.groups.value);
         if (valid) {
-            const newAction = stateToAction(
-                this.props.nodeSettings.originalAction.uuid,
-                this.state
-            );
+            const newAction = stateToAction(this.props.nodeSettings, this.state);
             this.props.updateAction(newAction as ChangeGroups);
             this.props.onClose(false);
         }

@@ -70,6 +70,21 @@ exports[`AddLabelsForm render should render a base action 1`] = `
 </Dialog>
 `;
 
+exports[`AddLabelsForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "labels": Array [
+      Object {
+        "name": "Feedback",
+        "uuid": "feedback_label",
+      },
+    ],
+    "type": "add_input_labels",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+  },
+]
+`;
+
 exports[`AddLabelsForm updates should update and save 1`] = `
 Object {
   "labels": Object {
@@ -95,7 +110,7 @@ Array [
       },
     ],
     "type": "add_input_labels",
-    "uuid": "labels-action-uuid-2",
+    "uuid": "aa15ef19-da81-43d0-b6e5-84b47216aeb8",
   },
 ]
 `;

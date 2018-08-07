@@ -1,3 +1,4 @@
+import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SendEmailFormState } from '~/components/flow/actions/sendemail/SendEmailForm';
 import { Types } from '~/config/typeConfigs';
 import { SendEmail } from '~/flowTypes';
@@ -22,12 +23,15 @@ export const initializeForm = (settings: NodeEditorSettings): SendEmailFormState
     };
 };
 
-export const stateToAction = (actionUUID: string, formState: SendEmailFormState): SendEmail => {
+export const stateToAction = (
+    settings: NodeEditorSettings,
+    formState: SendEmailFormState
+): SendEmail => {
     return {
         addresses: formState.recipients.value,
         subject: formState.subject.value,
         body: formState.body.value,
         type: Types.send_email,
-        uuid: actionUUID
+        uuid: getActionUUID(settings, Types.send_email)
     };
 };

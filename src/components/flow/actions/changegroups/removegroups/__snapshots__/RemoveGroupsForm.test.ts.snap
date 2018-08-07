@@ -95,13 +95,29 @@ exports[`RemoveGroupsForm render should render 1`] = `
 </Dialog>
 `;
 
+exports[`RemoveGroupsForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "all_groups": false,
+    "groups": Array [
+      Object {
+        "name": "Subscriber",
+        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
+      },
+    ],
+    "type": "remove_contact_groups",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+  },
+]
+`;
+
 exports[`RemoveGroupsForm updates should handle remove from all groups 1`] = `
 Array [
   Object {
     "all_groups": true,
     "groups": Array [],
     "type": "remove_contact_groups",
-    "uuid": "remove_contact_groups-0",
+    "uuid": "b230a96d-0448-4945-92b6-a53e583f3bd6",
   },
 ]
 `;
@@ -113,11 +129,11 @@ Array [
     "groups": Array [
       Object {
         "name": "Subscriber",
-        "uuid": "subscribers_group",
+        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
       },
     ],
     "type": "remove_contact_groups",
-    "uuid": "remove_contact_groups-0",
+    "uuid": "b230a96d-0448-4945-92b6-a53e583f3bd6",
   },
 ]
 `;

@@ -161,9 +161,7 @@ export default class UpdateContactForm extends React.Component<
 
         if (valid) {
             // do the saving!
-            this.props.updateAction(
-                stateToAction(this.props.nodeSettings.originalAction.uuid, this.state)
-            );
+            this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
             // make sure any new fields are added to our local store
             if (this.state.type === Types.set_contact_field) {

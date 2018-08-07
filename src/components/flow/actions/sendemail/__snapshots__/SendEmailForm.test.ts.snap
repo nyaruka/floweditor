@@ -77,6 +77,21 @@ exports[`SendEmailForm render should render 1`] = `
 </Dialog>
 `;
 
+exports[`SendEmailForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "addresses": Array [
+      "joe@domain.com",
+      "jane@domain.com",
+    ],
+    "body": "What is a group of tigers called?",
+    "subject": "URGENT: I have a question",
+    "type": "send_email",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+  },
+]
+`;
+
 exports[`SendEmailForm updates should save changes 1`] = `
 Object {
   "body": Object {
@@ -105,7 +120,7 @@ Array [
     "body": "What is a group of tigers called?",
     "subject": "URGENT: I have a question",
     "type": "send_email",
-    "uuid": "send_email-0",
+    "uuid": "b4f00bdf-6268-4faa-b236-bf2af607526f",
   },
 ]
 `;

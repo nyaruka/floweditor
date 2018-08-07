@@ -1,11 +1,14 @@
 import AddGroupsForm from '~/components/flow/actions/changegroups/addgroups/AddGroupsForm';
 import { ActionFormProps } from '~/components/flow/props';
-import { composeComponentTestUtils } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import {
     createAddGroupsAction,
     getActionFormProps,
     SubscribersGroup
 } from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
+
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const { setup } = composeComponentTestUtils<ActionFormProps>(
     AddGroupsForm,
@@ -28,6 +31,17 @@ describe(AddGroupsForm.name, () => {
             instance.handleSave();
 
             expect(props.updateAction).toHaveBeenCalled();
+            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+        });
+
+        it('should allow switching from router', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() },
+                nodeSettings: { $merge: { originalAction: null } }
+            });
+
+            instance.handleGroupsChange([SubscribersGroup]);
+            instance.handleSave();
             expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
         });
     });

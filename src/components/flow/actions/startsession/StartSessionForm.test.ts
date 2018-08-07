@@ -1,12 +1,15 @@
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
 import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
-import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
+import { composeComponentTestUtils, getSpecWrapper, mock } from '~/testUtils';
 import {
     createStartSessionAction,
     getActionFormProps,
     SubscribersGroup
 } from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
+
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const { setup } = composeComponentTestUtils<ActionFormProps>(
     StartSessionForm,
@@ -43,6 +46,19 @@ describe(StartSessionForm.name, () => {
 
             instance.handleSave();
             expect(props.updateAction).toHaveBeenCalled();
+            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+        });
+
+        it('should allow switching from router', () => {
+            const { instance, props } = setup(true, {
+                $merge: { updateAction: jest.fn() },
+                nodeSettings: { $merge: { originalAction: null } }
+            });
+
+            instance.handleRecipientsChanged([SubscribersGroup]);
+            instance.handleFlowChanged([{ id: 'my_flow', name: 'My Flow', type: AssetType.Flow }]);
+            instance.handleSave();
+
             expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
         });
     });

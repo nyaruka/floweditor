@@ -76,6 +76,18 @@ exports[`SetRunResultForm render should render 1`] = `
 </Dialog>
 `;
 
+exports[`SetRunResultForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "category": "Result Category",
+    "name": "Result Name",
+    "type": "set_run_result",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "value": "Result Value",
+  },
+]
+`;
+
 exports[`SetRunResultForm updates should save changes 1`] = `
 Object {
   "category": Object {
@@ -97,7 +109,7 @@ Array [
     "category": "Result Category",
     "name": "Result Name",
     "type": "set_run_result",
-    "uuid": "set_run_result-0",
+    "uuid": "efe2a1c2-f189-488a-b431-0197def63cc4",
     "value": "Result Value",
   },
 ]

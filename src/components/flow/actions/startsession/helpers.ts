@@ -1,4 +1,4 @@
-import { getRecipients } from '~/components/flow/actions/helpers';
+import { getActionUUID, getRecipients } from '~/components/flow/actions/helpers';
 import { StartSessionFormState } from '~/components/flow/actions/startsession/StartSessionForm';
 import { Types } from '~/config/typeConfigs';
 import { StartSession } from '~/flowTypes';
@@ -24,7 +24,10 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
     };
 };
 
-export const stateToAction = (uuid: string, state: StartSessionFormState): StartSession => {
+export const stateToAction = (
+    settings: NodeEditorSettings,
+    state: StartSessionFormState
+): StartSession => {
     const flow: Asset = state.flow.value;
 
     return {
@@ -32,7 +35,7 @@ export const stateToAction = (uuid: string, state: StartSessionFormState): Start
         groups: getRecipientsByAsset(state.recipients.value, AssetType.Group),
         flow: { name: flow.name, uuid: flow.id },
         type: Types.start_session,
-        uuid
+        uuid: getActionUUID(settings, Types.start_session)
     };
 };
 

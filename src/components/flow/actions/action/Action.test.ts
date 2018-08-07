@@ -19,7 +19,10 @@ import {
 import { getLocalization, set, setFalse, setTrue } from '~/utils';
 
 const sendMsgAction = createSendMsgAction();
-const sendMsgAction1 = createSendMsgAction({ uuid: 'send_msg-1', text: 'Yo!' });
+const sendMsgAction1 = createSendMsgAction({
+    uuid: '0ed4b887-2924-45ea-babe-4d580cdfb000',
+    text: 'Yo!'
+});
 const sendMsgNode = createRenderNode({ actions: [sendMsgAction], exits: [createExit()] });
 const startFlowAction = createStartFlowAction();
 const startFlowNode = createStartFlowNode(startFlowAction);

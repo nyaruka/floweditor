@@ -1,3 +1,4 @@
+import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SetRunResultFormState } from '~/components/flow/actions/setrunresult/SetRunResultForm';
 import { Types } from '~/config/typeConfigs';
 import { SetRunResult } from '~/flowTypes';
@@ -23,12 +24,15 @@ export const initializeForm = (settings: NodeEditorSettings): SetRunResultFormSt
     };
 };
 
-export const stateToAction = (uuid: string, state: SetRunResultFormState): SetRunResult => {
+export const stateToAction = (
+    settings: NodeEditorSettings,
+    state: SetRunResultFormState
+): SetRunResult => {
     return {
         type: Types.set_run_result,
         name: state.name.value,
         value: state.value.value,
         category: state.category.value,
-        uuid
+        uuid: getActionUUID(settings, Types.set_run_result)
     };
 };

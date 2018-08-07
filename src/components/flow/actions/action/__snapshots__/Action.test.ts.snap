@@ -4,7 +4,7 @@ exports[`ActionWrapper render should display hybrid style 1`] = `
 <div
   className="action has_router"
   data-spec="action-container"
-  id="action-send_msg-0"
+  id="action-68b029c9-6400-4f46-947a-b61c619a7198"
 >
   <div
     className="overlay"
@@ -35,7 +35,7 @@ exports[`ActionWrapper render should display missing_localization style 1`] = `
 <div
   className="action translating missing_localization"
   data-spec="action-container"
-  id="action-send_msg-1"
+  id="action-0ed4b887-2924-45ea-babe-4d580cdfb000"
 >
   <div
     className="overlay"
@@ -66,7 +66,7 @@ exports[`ActionWrapper render should display not_localizable style 1`] = `
 <div
   className="action translating not_localizable"
   data-spec="action-container"
-  id="action-start-flow-0"
+  id="action-d4a3a01c-1dee-4324-b107-4ac7a21d836f"
 >
   <div
     className="overlay"
@@ -97,7 +97,7 @@ exports[`ActionWrapper render should display translating style 1`] = `
 <div
   className="action translating missing_localization"
   data-spec="action-container"
-  id="action-send_msg-0"
+  id="action-68b029c9-6400-4f46-947a-b61c619a7198"
 >
   <div
     className="overlay"
@@ -128,7 +128,7 @@ exports[`ActionWrapper render should render self, children with base props 1`] =
 <div
   className="action"
   data-spec="action-container"
-  id="action-send_msg-0"
+  id="action-68b029c9-6400-4f46-947a-b61c619a7198"
 >
   <div
     className="overlay"
@@ -159,7 +159,7 @@ exports[`ActionWrapper render should show move icon 1`] = `
 <div
   className="action"
   data-spec="action-container"
-  id="action-send_msg-0"
+  id="action-68b029c9-6400-4f46-947a-b61c619a7198"
 >
   <div
     className="overlay"
