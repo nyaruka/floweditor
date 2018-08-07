@@ -11,7 +11,7 @@
     "umd"
   ],
   "scripts": {
-    "test": "jest --maxWorkers=4 --coverage",
+    "test": "jest --maxWorkers=2 --coverage",
     "test:local": "jest",
     "test:watch": "npm run test:local -- --watch",
     "test:watch:coverage": "npm run test:local -- --watch --coverage",
