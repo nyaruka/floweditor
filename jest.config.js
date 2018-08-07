@@ -4,7 +4,7 @@ module.exports = {
     testURL: 'http://localhost/',
     snapshotSerializers: ['enzyme-to-json/serializer'],
     transform: {
-        '.tsx?': '<rootDir>/node_modules/ts-jest/preprocessor.js'
+        '.tsx?': 'ts-jest'
     },
     roots: ['<rootDir>/src/', '<rootDir>/__test__/', '<rootDir>/__mocks__/'],
     testPathIgnorePatterns: ['/node_modules/', '/lib/'],
