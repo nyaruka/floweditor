@@ -84,7 +84,3 @@ This project uses both [eslint](https://eslint.org/) (Node) & [tslint](https://g
 ## Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/nyaruka/floweditor/blob/master/CONTRIBUTING.md) for details on this project's code of conduct, and the process for submitting pull requests to this repo.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see this repo's [tags](https://github.com/nyaruka/floweditor/tags).
