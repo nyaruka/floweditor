@@ -59,7 +59,7 @@ describe(SendBroadcastForm.name, () => {
             instance.handleMessageUpdate('Message to Group');
             instance.handleSave();
 
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
     });
 });

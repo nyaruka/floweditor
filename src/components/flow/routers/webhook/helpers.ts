@@ -48,7 +48,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
         valid: false
     };
 
-    if (settings.originalAction && settings.originalAction.type === Types.call_webhook) {
+    if (settings.originalNode.ui.type === Types.split_by_webhook) {
         const action = settings.originalAction as CallWebhook;
 
         // add in our headers

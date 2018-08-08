@@ -184,78 +184,80 @@ Object {
 `;
 
 exports[`ResponseRouterForm updates should save changes 2`] = `
-Object {
-  "inboundConnections": Object {},
-  "node": Object {
-    "actions": Array [],
-    "exits": Array [
-      Object {
-        "destination_node_uuid": null,
-        "name": "Red",
-        "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-      },
-      Object {
-        "destination_node_uuid": null,
-        "name": "Green",
-        "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-      },
-      Object {
-        "destination_node_uuid": undefined,
-        "name": "No Response",
-        "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-      },
-      Object {
-        "destination_node_uuid": null,
-        "name": "Other",
-        "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-      },
-    ],
-    "router": Object {
-      "cases": Array [
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
         Object {
-          "arguments": Array [
-            "red",
-          ],
-          "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-          "type": "has_any_word",
+          "destination_node_uuid": null,
+          "name": "Red",
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
         Object {
-          "arguments": Array [
-            "maroon",
-          ],
-          "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-          "type": "has_any_word",
+          "destination_node_uuid": null,
+          "name": "Green",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
         Object {
-          "arguments": Array [
-            "green",
-          ],
-          "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-          "type": "has_any_word",
+          "destination_node_uuid": undefined,
+          "name": "No Response",
+          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         },
         Object {
-          "arguments": Array [
-            "@run",
-          ],
-          "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-          "type": "has_wait_timed_out",
-          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         },
       ],
-      "default_exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-      "operand": "@run.input",
-      "result_name": "Favorite Color",
-      "type": "switch",
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red",
+            ],
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "type": "has_any_word",
+          },
+          Object {
+            "arguments": Array [
+              "maroon",
+            ],
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "type": "has_any_word",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "type": "has_any_word",
+          },
+          Object {
+            "arguments": Array [
+              "@run",
+            ],
+            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "type": "has_wait_timed_out",
+            "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          },
+        ],
+        "default_exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "operand": "@run.input",
+        "result_name": "Favorite Color",
+        "type": "switch",
+      },
+      "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
+      "wait": Object {
+        "timeout": 180,
+        "type": "msg",
+      },
     },
-    "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
-    "wait": Object {
-      "timeout": 180,
-      "type": "msg",
+    "ui": Object {
+      "position": null,
+      "type": "wait_for_response",
     },
   },
-  "ui": Object {
-    "position": null,
-    "type": "wait_for_response",
-  },
-}
+]
 `;

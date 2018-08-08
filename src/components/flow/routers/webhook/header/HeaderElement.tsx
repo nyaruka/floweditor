@@ -15,8 +15,8 @@ export interface Header {
 export interface HeaderElementProps {
     entry: HeaderEntry;
     index: number;
-    onRemove: (header: HeaderElement) => void;
-    onChange: (header: HeaderElement) => void;
+    onRemove: (header: Header) => void;
+    onChange: (header: Header) => void;
     empty?: boolean;
 }
 
@@ -53,15 +53,19 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     }
 
     private handleChangeName(name: string): void {
-        this.setState({ name }, () => this.props.onChange(this));
+        this.setState({ name }, () =>
+            this.props.onChange({ ...this.state, uuid: this.props.entry.value.uuid })
+        );
     }
 
     private handleChangeValue(value: string): void {
-        this.setState({ value }, () => this.props.onChange(this));
+        this.setState({ value }, () =>
+            this.props.onChange({ ...this.state, uuid: this.props.entry.value.uuid })
+        );
     }
 
     private handleRemove(): void {
-        this.props.onRemove(this);
+        this.props.onRemove({ ...this.state, uuid: this.props.entry.value.uuid });
     }
 
     private getRemoveIco(): JSX.Element {

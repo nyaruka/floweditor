@@ -56,7 +56,7 @@ describe(SendMsgLocalizationForm.name, () => {
             instance.handleSave();
             expect(props.onClose).toHaveBeenCalled();
             expect(props.updateLocalizations).toHaveBeenCalled();
-            expect((props.updateLocalizations as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateLocalizations).toMatchCallSnapshot();
         });
     });
 

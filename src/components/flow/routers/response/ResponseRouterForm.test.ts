@@ -84,7 +84,7 @@ describe(ResponseRouterForm.name, () => {
             instance.handleSave();
             expect(props.onClose).toHaveBeenCalled();
             expect(props.updateRouter).toHaveBeenCalled();
-            expect((props.updateRouter as any).mock.calls[0][0]).toMatchSnapshot();
+            expect(props.updateRouter).toMatchCallSnapshot();
         });
 
         it('should cancel', () => {

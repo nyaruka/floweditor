@@ -30,7 +30,7 @@ describe(RemoveGroupsForm.name, () => {
             instance.handleSave();
 
             expect(props.updateAction).toHaveBeenCalled();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot('update');
         });
 
         it('should handle remove from all groups', () => {
@@ -40,7 +40,7 @@ describe(RemoveGroupsForm.name, () => {
             instance.handleSave();
 
             expect(props.updateAction).toHaveBeenCalled();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot('update');
         });
 
         it('should allow switching from router', () => {
@@ -51,8 +51,7 @@ describe(RemoveGroupsForm.name, () => {
 
             instance.handleGroupsChange([SubscribersGroup]);
             instance.handleSave();
-
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchSnapshot('switch from router');
         });
     });
 });

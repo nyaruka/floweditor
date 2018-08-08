@@ -66,8 +66,12 @@ export default class WebhookRouterForm extends React.Component<
         if (keys.hasOwnProperty('method')) {
             updates.method = { value: keys.method };
 
-            if (keys.method.value !== Methods.GET && !this.state.postBody.value) {
-                updates.postBody = { value: DEFAULT_BODY };
+            if (keys.method.value !== GET_METHOD.value) {
+                if (!this.state.postBody.value) {
+                    updates.postBody = { value: DEFAULT_BODY };
+                }
+            } else {
+                updates.postBody = { value: null };
             }
         }
 
@@ -120,16 +124,12 @@ export default class WebhookRouterForm extends React.Component<
         return this.handleUpdate({ url });
     }
 
-    private handleHeaderRemoved(header: HeaderElement): boolean {
-        return this.handleUpdate({
-            removeHeader: { ...header.state, uuid: header.props.entry.value.uuid }
-        });
+    private handleHeaderRemoved(removeHeader: Header): boolean {
+        return this.handleUpdate({ removeHeader });
     }
 
-    private handleHeaderUpdated(header: HeaderElement): boolean {
-        return this.handleUpdate({
-            header: { ...header.state, uuid: header.props.entry.value.uuid }
-        });
+    private handleHeaderUpdated(header: Header): boolean {
+        return this.handleUpdate({ header });
     }
 
     private handleCreateHeader(): boolean {

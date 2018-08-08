@@ -31,7 +31,7 @@ describe(SendMsgForm.name, () => {
 
             instance.handleSave();
             expect(props.updateAction).toHaveBeenCalled();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
 
         it('should allow switching from router', () => {
@@ -43,7 +43,7 @@ describe(SendMsgForm.name, () => {
             instance.handleMessageUpdate('What is your favorite color?');
             instance.handleSave();
 
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
     });
 

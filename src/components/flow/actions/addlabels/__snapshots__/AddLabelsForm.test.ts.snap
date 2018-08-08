@@ -70,7 +70,7 @@ exports[`AddLabelsForm render should render a base action 1`] = `
 </Dialog>
 `;
 
-exports[`AddLabelsForm updates should allow switching from router 1`] = `
+exports[`AddLabelsForm updates should allow switching from router: switch from router 1`] = `
 Array [
   Object {
     "labels": Array [
@@ -100,7 +100,7 @@ Object {
 }
 `;
 
-exports[`AddLabelsForm updates should update and save 2`] = `
+exports[`AddLabelsForm updates should update and save: update label 1`] = `
 Array [
   Object {
     "labels": Array [
