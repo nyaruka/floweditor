@@ -17,9 +17,13 @@ import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowType
 import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/services/AssetService';
 import { DragEvent } from '~/services/Plumber';
+import { EditorState } from '~/store/editor';
+import { RenderNode } from '~/store/flowContext';
+import AppState from '~/store/state';
 import {
-    AppState,
     DispatchWithState,
+    mergeEditorState,
+    MergeEditorState,
     OnAddToNode,
     onAddToNode,
     OnNodeMoved,
@@ -30,10 +34,7 @@ import {
     removeNode,
     updateDimensions,
     UpdateDimensions
-} from '~/store';
-import { EditorState } from '~/store/editor';
-import { RenderNode } from '~/store/flowContext';
-import { MergeEditorState, mergeEditorState } from '~/store/thunks';
+} from '~/store/thunks';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils';
 
 // TODO: Remove use of Function

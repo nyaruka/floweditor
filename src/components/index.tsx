@@ -12,9 +12,11 @@ import ConfigProvider from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import AssetService, { Asset } from '~/services/AssetService';
-import { AppState, createStore, DispatchWithState, FetchFlow, fetchFlow } from '~/store';
+import createStore from '~/store/createStore';
 import { RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
+import AppState from '~/store/state';
+import { DispatchWithState, FetchFlow, fetchFlow } from '~/store/thunks';
 import { downloadJSON, renderIf } from '~/utils';
 
 export interface FlowEditorContainerProps {

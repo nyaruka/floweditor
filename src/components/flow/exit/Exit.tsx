@@ -10,7 +10,8 @@ import * as styles from '~/components/flow/exit/Exit.scss';
 import { Exit, FlowNode, LocalizationMap } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/services/AssetService';
-import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '~/store';
+import AppState from '~/store/state';
+import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
 import { createClickHandler, getLocalization } from '~/utils';
 
 export interface ExitPassedProps {

@@ -1,4 +1,4 @@
-import { CompletionOption } from '~/store';
+import { CompletionOption } from '~/store/flowContext';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 export enum KeyValues {

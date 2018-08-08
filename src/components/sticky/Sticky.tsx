@@ -3,13 +3,18 @@ import * as React from 'react';
 import TextareaAutosize from 'react-autosize-textarea/lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as styles from '~/components/sticky/Sticky.scss';
 import { FlowDefinition, StickyNote } from '~/flowTypes';
 import { DragEvent } from '~/services/Plumber';
-import { AppState, DispatchWithState, UpdateSticky, updateSticky } from '~/store';
-import { OnResetDragSelection, onResetDragSelection } from '~/store/thunks';
+import AppState from '~/store/state';
+import {
+    DispatchWithState,
+    OnResetDragSelection,
+    onResetDragSelection,
+    UpdateSticky,
+    updateSticky
+} from '~/store/thunks';
 import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '~/utils';
-
-import * as styles from '~/components/sticky/Sticky.scss';
 
 type DragFunction = (event: DragEvent) => void;
 export const STICKY_SPEC_ID: string = 'sticky-container';

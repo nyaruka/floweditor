@@ -11,8 +11,8 @@ import {
 } from '~/components/flow/Flow';
 import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';
-import { ConnectionEvent } from '~/store';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
+import { ConnectionEvent } from '~/store/thunks';
 import {
     composeComponentTestUtils,
     composeDuxState,

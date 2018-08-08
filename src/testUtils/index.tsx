@@ -9,9 +9,10 @@ import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import AssetService from '~/services/AssetService';
-import { AppState, createStore, initialState } from '~/store';
+import createStore from '~/store/createStore';
 import { RenderNodeMap } from '~/store/flowContext';
 import { getFlowComponents } from '~/store/helpers';
+import AppState, { initialState } from '~/store/state';
 import * as matchers from '~/testUtils/matchers';
 import { merge, set } from '~/utils';
 

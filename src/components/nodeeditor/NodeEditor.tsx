@@ -7,29 +7,25 @@ import Modal from '~/components/modal/Modal';
 import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition, FlowNode, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
+import { IncrementSuggestedResultNameCount, UpdateUserAddingAction } from '~/store/actionTypes';
+import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
+import { NodeEditorSettings, updateUserAddingAction } from '~/store/nodeEditor';
+import AppState from '~/store/state';
 import {
-    AppState,
     DispatchWithState,
+    handleTypeConfigChange,
+    HandleTypeConfigChange,
     LocalizationUpdates,
+    MergeEditorState,
+    mergeEditorState,
     NoParamsAC,
     OnUpdateAction,
     onUpdateAction,
-    OnUpdateLocalizations,
     onUpdateLocalizations,
+    OnUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
-    resetNodeEditingState,
-    UpdateUserAddingAction,
-    updateUserAddingAction
-} from '~/store';
-import { IncrementSuggestedResultNameCount } from '~/store/actionTypes';
-import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
-import {
-    HandleTypeConfigChange,
-    handleTypeConfigChange,
-    MergeEditorState,
-    mergeEditorState
+    resetNodeEditingState
 } from '~/store/thunks';
 
 // TODO: Remove use of Function

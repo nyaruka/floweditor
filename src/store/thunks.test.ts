@@ -4,17 +4,19 @@ import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
 import AssetService from '~/services/AssetService';
-import { Constants, initialState, LocalizationUpdates } from '~/store';
+import Constants from '~/store/constants';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getFlowComponents, getUniqueDestinations } from '~/store/helpers';
 import { getOtherExit } from '~/store/mutators';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { initialState } from '~/store/state';
 import {
     addNode,
     disconnectExit,
     ensureStartNode,
     handleTypeConfigChange,
     initializeFlow,
+    LocalizationUpdates,
     moveActionUp,
     onAddToNode,
     onConnectionDrag,

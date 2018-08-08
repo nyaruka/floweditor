@@ -1,11 +1,11 @@
 import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
 import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { LocalizationUpdates } from '~/store';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getActionIndex, getExitIndex, getNode } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-import { merge, push, set, snapToGrid, splice, unset, createUUID } from '~/utils';
+import { LocalizationUpdates } from '~/store/thunks';
+import { createUUID, merge, push, set, snapToGrid, splice, unset } from '~/utils';
 
 const mutate = require('immutability-helper');
 
