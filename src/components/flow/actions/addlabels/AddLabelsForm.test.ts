@@ -36,7 +36,7 @@ describe(AddLabelsForm.name, () => {
             instance.handleSave();
 
             expect(props.updateAction).toHaveBeenCalled();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot('update label');
         });
 
         it('should allow switching from router', () => {
@@ -47,8 +47,7 @@ describe(AddLabelsForm.name, () => {
 
             instance.handleLabelChange([FeedbackLabel]);
             instance.handleSave();
-
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot('switch from router');
         });
     });
 });

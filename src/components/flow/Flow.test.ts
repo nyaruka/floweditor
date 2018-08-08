@@ -356,7 +356,7 @@ describe(Flow.name, () => {
                 );
                 expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
-                expect((props.onOpenNodeEditor as any).mock.calls[0]).toMatchSnapshot();
+                expect(props.onOpenNodeEditor).toMatchCallSnapshot();
             });
         });
 

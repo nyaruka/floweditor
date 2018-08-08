@@ -1,6 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop 1`] = `
+exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop: change header 1`] = `
+Array [
+  Object {
+    "name": "Content-Type",
+    "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+    "value": "application/json",
+  },
+]
+`;
+
+exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop: text element 1`] = `
 <FormElement
   entry={
     Object {
@@ -126,6 +136,20 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
     </div>
   </div>
 </FormElement>
+`;
+
+exports[`HeaderElement instance methods handleChangeValue should update state, call onChange prop: header change 1`] = `
+Array [
+  Object {
+    "name": "Content-Type",
+    "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+    "value": Object {
+      "name": "Content-Type",
+      "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+      "value": "application/json",
+    },
+  },
+]
 `;
 
 exports[`HeaderElement render should render remove icon 1`] = `

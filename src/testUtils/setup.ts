@@ -16,6 +16,7 @@ declare global {
             toHaveInboundConnections(): R;
             toHavePayload(action: string, payload: any): R;
             toHaveReduxActions(actions: string[]): R;
+            toMatchCallSnapshot(snapshotName?: string): R;
         }
     }
 }

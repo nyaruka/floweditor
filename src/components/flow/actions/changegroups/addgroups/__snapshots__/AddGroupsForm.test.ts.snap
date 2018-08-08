@@ -85,22 +85,32 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
 </Dialog>
 `;
 
-exports[`AddGroupsForm updates should allow switching from router 1`] = `
-Array [
-  Object {
-    "groups": Array [
+exports[`AddGroupsForm updates should allow switching from router: switch from router 1`] = `
+[MockFunction] {
+  "calls": Array [
+    Array [
       Object {
-        "name": "Subscriber",
-        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
+        "groups": Array [
+          Object {
+            "name": "Subscriber",
+            "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
+          },
+        ],
+        "type": "add_contact_groups",
+        "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       },
     ],
-    "type": "add_contact_groups",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-  },
-]
+  ],
+  "results": Array [
+    Object {
+      "isThrow": false,
+      "value": undefined,
+    },
+  ],
+}
 `;
 
-exports[`AddGroupsForm updates should handle updates and save 1`] = `
+exports[`AddGroupsForm updates should handle updates and save: update 1`] = `
 Array [
   Object {
     "groups": Array [

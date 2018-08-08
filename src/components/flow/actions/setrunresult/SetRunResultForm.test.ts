@@ -31,7 +31,7 @@ describe(SetRunResultForm.name, () => {
 
             instance.handleSave();
             expect(props.updateAction).toHaveBeenCalled();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
 
         it('should allow switching from router', () => {
@@ -45,7 +45,7 @@ describe(SetRunResultForm.name, () => {
             instance.handleCategoryUpdate('Result Category');
             instance.handleSave();
 
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
     });
 

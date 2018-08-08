@@ -2,11 +2,21 @@ import { commaListsOr } from 'common-tags';
 import { Exit } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 
+const snapshot = require('jest-snapshot');
+
 const matchers: jest.ExpectExtendMap = {};
 
 interface MatchResult {
     message: () => string;
     pass: boolean;
+}
+
+function toMatchCallSnapshot<T>(
+    this: jest.MatcherUtils,
+    received: any,
+    snapshotName?: string
+): MatchResult {
+    return snapshot.toMatchSnapshot.call(this, received.mock.calls[0], snapshotName);
 }
 
 function toHaveInboundConnections<T>(this: jest.MatcherUtils, received: RenderNode): MatchResult {
@@ -154,5 +164,6 @@ expect.extend({
     toHaveExitWithDestination,
     toHaveInboundConnections,
     toHavePayload,
-    toHaveReduxActions
+    toHaveReduxActions,
+    toMatchCallSnapshot
 });

@@ -46,7 +46,7 @@ describe(StartSessionForm.name, () => {
 
             instance.handleSave();
             expect(props.updateAction).toHaveBeenCalled();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
 
         it('should allow switching from router', () => {
@@ -59,7 +59,7 @@ describe(StartSessionForm.name, () => {
             instance.handleFlowChanged([{ id: 'my_flow', name: 'My Flow', type: AssetType.Flow }]);
             instance.handleSave();
 
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
     });
 

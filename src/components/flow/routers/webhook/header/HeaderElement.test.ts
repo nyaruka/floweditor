@@ -107,7 +107,7 @@ describe(HeaderElement.name, () => {
                     expect.any(Function)
                 );
                 expect(onChangeMock).toHaveBeenCalledTimes(1);
-                expect(onChangeMock).toHaveBeenCalledWith(expect.any(HeaderElement));
+                expect(onChangeMock).toMatchCallSnapshot('change header');
 
                 expect(
                     wrapper
@@ -115,7 +115,7 @@ describe(HeaderElement.name, () => {
                         .at(0)
                         .prop('entry')
                 ).toEqual({ value: headers[0].value.name });
-                expect(wrapper).toMatchSnapshot();
+                expect(wrapper).toMatchSnapshot('text element');
 
                 setStateSpy.mockRestore();
             });
@@ -137,7 +137,8 @@ describe(HeaderElement.name, () => {
                     expect.any(Function)
                 );
                 expect(props.onChange).toHaveBeenCalledTimes(1);
-                expect(props.onChange).toHaveBeenCalledWith(expect.any(HeaderElement));
+                expect(props.onChange).toMatchCallSnapshot('header change');
+
                 expect(
                     wrapper
                         .find('Connect(TextInputElement)')

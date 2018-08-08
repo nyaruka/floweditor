@@ -100,7 +100,7 @@ describe(UpdateContactForm.name, () => {
             instance.handlePropertyChange([NAME_PROPERTY]);
             instance.handleNameUpdate('Rowan Seymour');
             instance.handleSave();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
 
         it('to field value', () => {

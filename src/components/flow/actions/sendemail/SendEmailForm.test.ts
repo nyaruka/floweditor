@@ -31,7 +31,7 @@ describe(SendEmailForm.name, () => {
 
             instance.handleSave();
             expect(props.updateAction).toHaveBeenCalled();
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
 
         it('should validate emails', () => {
@@ -59,7 +59,7 @@ describe(SendEmailForm.name, () => {
             instance.handleBodyChanged('What is a group of tigers called?');
             instance.handleSave();
 
-            expect((props.updateAction as any).mock.calls[0]).toMatchSnapshot();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
     });
 

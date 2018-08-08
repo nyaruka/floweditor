@@ -189,62 +189,64 @@ Object {
 `;
 
 exports[`ExpressionRouterForm updates should save changes 2`] = `
-Object {
-  "inboundConnections": Object {},
-  "node": Object {
-    "actions": Array [],
-    "exits": Array [
-      Object {
-        "destination_node_uuid": null,
-        "name": "Red",
-        "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-      },
-      Object {
-        "destination_node_uuid": null,
-        "name": "Green",
-        "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-      },
-      Object {
-        "destination_node_uuid": null,
-        "name": "Other",
-        "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-      },
-    ],
-    "router": Object {
-      "cases": Array [
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
         Object {
-          "arguments": Array [
-            "red",
-          ],
-          "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-          "type": "has_any_word",
+          "destination_node_uuid": null,
+          "name": "Red",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
         Object {
-          "arguments": Array [
-            "maroon",
-          ],
-          "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-          "type": "has_any_word",
+          "destination_node_uuid": null,
+          "name": "Green",
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
         Object {
-          "arguments": Array [
-            "green",
-          ],
-          "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-          "type": "has_any_word",
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
       ],
-      "default_exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-      "operand": "@run.input",
-      "result_name": "Favorite Color",
-      "type": "switch",
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red",
+            ],
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "type": "has_any_word",
+          },
+          Object {
+            "arguments": Array [
+              "maroon",
+            ],
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "type": "has_any_word",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "type": "has_any_word",
+          },
+        ],
+        "default_exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "operand": "@run.input",
+        "result_name": "Favorite Color",
+        "type": "switch",
+      },
+      "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
+      "wait": null,
     },
-    "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
-    "wait": null,
+    "ui": Object {
+      "position": null,
+      "type": "split_by_expression",
+    },
   },
-  "ui": Object {
-    "position": null,
-    "type": "split_by_expression",
-  },
-}
+]
 `;
