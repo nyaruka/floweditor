@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - 10
+cache:
+  directories:
+    - $HOME/.npm
 install:
   - npm ci --no-optional
   - npm i -g codecov
