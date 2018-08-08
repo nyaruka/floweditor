@@ -9,4 +9,4 @@ install:
   - npm i -g codecov
   - npm i --no-optional
 after_success:
-  - codecov
+  - codecov --file coverage/lcov.info --disable search
