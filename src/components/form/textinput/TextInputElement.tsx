@@ -6,11 +6,6 @@ import { connect } from 'react-redux';
 import * as getCaretCoordinates from 'textarea-caret';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import * as shared from '~/components/form/FormElement.scss';
-import { Type, Types } from '~/config/typeConfigs';
-import { AppState, CompletionOption } from '~/store';
-import { ContactFields, ResultMap } from '~/store/flowContext';
-import { StringEntry } from '~/store/nodeEditor';
-
 import CharCount from '~/components/form/textinput/CharCount';
 import { COMPLETION_HELP, KeyValues } from '~/components/form/textinput/constants';
 import {
@@ -20,6 +15,10 @@ import {
     UnicodeCharMap
 } from '~/components/form/textinput/helpers';
 import * as styles from '~/components/form/textinput/TextInputElement.scss';
+import { Type, Types } from '~/config/typeConfigs';
+import { CompletionOption, ContactFields, ResultMap } from '~/store/flowContext';
+import { StringEntry } from '~/store/nodeEditor';
+import AppState from '~/store/state';
 
 export enum Count {
     SMS = 'SMS'

@@ -11,8 +11,8 @@ import {
 } from '~/components/flow/Flow';
 import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';
-import { ConnectionEvent } from '~/store';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
+import { ConnectionEvent } from '~/store/thunks';
 import {
     composeComponentTestUtils,
     composeDuxState,
@@ -20,7 +20,7 @@ import {
     mock,
     setMock
 } from '~/testUtils';
-import { createUUID, merge, set, setTrue } from '~/utils';
+import { createUUID, merge, set } from '~/utils';
 import * as utils from '~/utils';
 
 jest.mock('~/services/ActivityManager');
@@ -36,21 +36,21 @@ const {
 const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
-    translating: false,
+    editorState: {
+        pendingConnection: null,
+        ghostNode: null,
+        dragSelection: null,
+        nodeEditorOpen: false
+    },
+    mergeEditorState: jest.fn(),
     definition,
     nodes: initialNodes,
     dependencies: [],
-    ghostNode: null,
-    pendingConnection: null,
-    dragSelection: null,
-    nodeEditorOpen: false,
     ensureStartNode: jest.fn(),
     updateConnection: jest.fn(),
     onOpenNodeEditor: jest.fn(),
     resetNodeEditingState: jest.fn(),
     onConnectionDrag: jest.fn(),
-    updateCreateNodePosition: jest.fn(),
-    updateDragSelection: jest.fn(),
     updateSticky: jest.fn()
 };
 
@@ -144,8 +144,8 @@ describe(Flow.name, () => {
         });
 
         it('should render NodeEditor', () => {
-            const { wrapper, instance } = setup(true, {
-                nodeEditorOpen: setTrue()
+            const { wrapper } = setup(true, {
+                editorState: { $merge: { nodeEditorOpen: true } }
             });
 
             expect(wrapper.find('Connect(NodeEditor)').props()).toMatchSnapshot();
@@ -172,15 +172,15 @@ describe(Flow.name, () => {
 
         it('should render dragNode', () => {
             const { wrapper, instance, props } = setup(true, {
-                ghostNode: set(ghostNodeFromWait)
+                editorState: { ghostNode: set(ghostNodeFromWait) }
             });
             const ghost = getSpecWrapper(wrapper, ghostNodeSpecId);
 
-            expect(ghost.key()).toBe(props.ghostNode.node.uuid);
+            expect(ghost.key()).toBe(props.editorState.ghostNode.node.uuid);
             expect(ghost.props()).toEqual(
                 expect.objectContaining({
                     ghost: true,
-                    renderNode: props.ghostNode,
+                    renderNode: props.editorState.ghostNode,
                     Activity: instance.Activity,
                     plumberRepaintForDuration: instance.Plumber.repaintForDuration,
                     plumberDraggable: instance.Plumber.draggable,
@@ -198,12 +198,12 @@ describe(Flow.name, () => {
 
         it('should render drag selection box', () => {
             const { wrapper, props } = setup(true, {
-                dragSelection: set(dragSelection)
+                editorState: { dragSelection: set(dragSelection) }
             });
             const drag = getSpecWrapper(wrapper, dragSelectSpecId);
 
             expect(drag.hasClass('dragSelection')).toBeTruthy();
-            expect(drag.prop('style')).toEqual(getDragStyle(props.dragSelection));
+            expect(drag.prop('style')).toEqual(getDragStyle(props.editorState.dragSelection));
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -313,7 +313,7 @@ describe(Flow.name, () => {
 
                 expect(instance.Plumber.recalculate).not.toHaveBeenCalled();
                 expect(instance.Plumber.connect).not.toHaveBeenCalled();
-                expect(props.updateCreateNodePosition).not.toHaveBeenCalled();
+                expect(props.mergeEditorState).not.toHaveBeenCalled();
                 expect(props.onOpenNodeEditor).not.toHaveBeenCalled();
             });
 
@@ -327,10 +327,12 @@ describe(Flow.name, () => {
 
                 // tslint:disable-next-line:no-shadowed-variable
                 const { wrapper, instance, props, context } = setup(false, {
-                    updateCreateNodePosition: setMock(),
-                    onOpenNodeEditor: setMock(),
-                    ghostNode: set(ghostNodeFromWait),
-                    pendingConnection: set(pendingConnection)
+                    editorState: {
+                        updateCreateNodePosition: setMock(),
+                        onOpenNodeEditor: setMock(),
+                        ghostNode: set(ghostNodeFromWait),
+                        pendingConnection: set(pendingConnection)
+                    }
                 });
 
                 instance.onConnectorDrop({
@@ -343,14 +345,16 @@ describe(Flow.name, () => {
                 expect(ghostRefSpy).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledWith(
-                    props.ghostNode.node.uuid
+                    props.editorState.ghostNode.node.uuid
                 );
                 expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.connect).toHaveBeenCalledWith(
-                    `${props.pendingConnection.nodeUUID}:${props.pendingConnection.exitUUID}`,
-                    props.ghostNode.node.uuid
+                    `${props.editorState.pendingConnection.nodeUUID}:${
+                        props.editorState.pendingConnection.exitUUID
+                    }`,
+                    props.editorState.ghostNode.node.uuid
                 );
-                expect(props.updateCreateNodePosition).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
                 expect((props.onOpenNodeEditor as any).mock.calls[0]).toMatchSnapshot();
             });
@@ -360,14 +364,17 @@ describe(Flow.name, () => {
             it('should return reversse of translating prop', () => {
                 const { wrapper, instance, props } = setup();
 
-                expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(!props.translating);
+                expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(
+                    !props.editorState.translating
+                );
             });
         });
 
         describe('onMouseDown', () => {
             it('should call updateDragSelection prop', () => {
                 const { wrapper, instance, props } = setup(true, {
-                    updateDragSelection: setMock()
+                    updateDragSelection: setMock(),
+                    mergeEditorState: setMock()
                 });
 
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
@@ -380,13 +387,15 @@ describe(Flow.name, () => {
 
                 nodesContainer.simulate('mouseDown', mockMouseDownEvent);
 
-                expect(props.updateDragSelection).toHaveBeenCalledTimes(1);
-                expect(props.updateDragSelection).toHaveBeenCalledWith({
-                    startX: mockMouseDownEvent.pageX,
-                    startY: mockMouseDownEvent.pageY,
-                    currentX: mockMouseDownEvent.pageX,
-                    currentY: mockMouseDownEvent.pageY,
-                    selected: null
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledWith({
+                    dragSelection: {
+                        startX: mockMouseDownEvent.pageX,
+                        startY: mockMouseDownEvent.pageY,
+                        currentX: mockMouseDownEvent.pageX,
+                        currentY: mockMouseDownEvent.pageY,
+                        selected: null
+                    }
                 });
             });
         });
@@ -394,8 +403,11 @@ describe(Flow.name, () => {
         describe('onMouseMove', () => {
             it('should call updateDragSelection prop if user is creating a drag selection', () => {
                 const { wrapper, instance, props } = setup(true, {
-                    updateDragSelection: setMock(),
-                    dragSelection: set(dragSelection)
+                    editorState: {
+                        updateDragSelection: setMock(),
+                        dragSelection: set(dragSelection)
+                    },
+                    mergeEditorState: setMock()
                 });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
@@ -412,25 +424,28 @@ describe(Flow.name, () => {
 
                 nodesContainer.simulate('mouseMove', mockMouseMoveEvent);
 
-                expect(props.updateDragSelection).toHaveBeenCalledTimes(1);
-                expect(props.updateDragSelection).toHaveBeenCalledWith({
-                    startX: props.dragSelection.startX,
-                    startY: props.dragSelection.startY,
-                    currentX: mockMouseMoveEvent.pageX - instance.containerOffset.left,
-                    currentY: mockMouseMoveEvent.pageY - instance.containerOffset.top,
-                    selected: {}
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledWith({
+                    dragSelection: {
+                        startX: props.editorState.dragSelection.startX,
+                        startY: props.editorState.dragSelection.startY,
+                        currentX: mockMouseMoveEvent.pageX - instance.containerOffset.left,
+                        currentY: mockMouseMoveEvent.pageY - instance.containerOffset.top,
+                        selected: {}
+                    }
                 });
             });
 
             it('should not call updateDragSelection prop if user is not creating a drag selection', () => {
                 const { wrapper, props } = setup(true, {
-                    updateDragSelection: setMock()
+                    updateDragSelection: setMock(),
+                    mergeEditorState: setMock()
                 });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 nodesContainer.simulate('mouseMove');
 
-                expect(props.updateDragSelection).not.toHaveBeenCalled();
+                expect(props.mergeEditorState).not.toHaveBeenCalled();
             });
         });
 
@@ -438,26 +453,33 @@ describe(Flow.name, () => {
             it('should call updateDragSelection if user is creating a drag selection', () => {
                 const { wrapper, instance, props } = setup(true, {
                     updateDragSelection: setMock(),
-                    dragSelection: set(dragSelection)
+                    editorState: {
+                        dragSelection: set(dragSelection)
+                    },
+                    mergeEditorState: setMock()
                 });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 nodesContainer.simulate('mouseUp');
 
-                expect(props.updateDragSelection).toHaveBeenCalledTimes(1);
-                expect(props.updateDragSelection).toHaveBeenCalledWith({
-                    startX: null,
-                    startY: null,
-                    currentX: null,
-                    currentY: null,
-                    selected: props.dragSelection.selected
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledWith({
+                    dragSelection: {
+                        startX: null,
+                        startY: null,
+                        currentX: null,
+                        currentY: null,
+                        selected: props.editorState.dragSelection.selected
+                    }
                 });
             });
 
             it('notify jsplumb of the drag selection if nodes selected', () => {
                 const { wrapper, instance, props } = setup(true, {
-                    updateDragSelection: setMock(),
-                    dragSelection: set(dragSelection)
+                    editorState: {
+                        updateDragSelection: setMock(),
+                        dragSelection: set(dragSelection)
+                    }
                 });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
@@ -465,19 +487,20 @@ describe(Flow.name, () => {
 
                 expect(instance.Plumber.setDragSelection).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.setDragSelection).toHaveBeenCalledWith(
-                    props.dragSelection.selected
+                    props.editorState.dragSelection.selected
                 );
             });
 
             it('should not call updateDragSelection, notify jsplumb of selection if no selection exists', () => {
                 const { wrapper, instance, props } = setup(true, {
-                    updateDragSelection: setMock()
+                    updateDragSelection: setMock(),
+                    mergeEditorState: setMock()
                 });
                 const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
 
                 nodesContainer.simulate('mouseUp');
 
-                expect(props.updateDragSelection).not.toHaveBeenCalled();
+                expect(props.mergeEditorState).not.toHaveBeenCalled();
                 expect(instance.Plumber.setDragSelection).not.toHaveBeenCalled();
             });
         });

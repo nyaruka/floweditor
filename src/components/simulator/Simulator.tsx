@@ -14,9 +14,10 @@ import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, Group, Wait } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
 import AssetService, { getURL } from '~/services/AssetService';
-import { AppState, DispatchWithState } from '~/store';
 import { RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
+import AppState from '~/store/state';
+import { DispatchWithState } from '~/store/thunks';
 import { createUUID } from '~/utils';
 
 const ACTIVE = 'A';
@@ -412,7 +413,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 <div className={styles.simulatorTab + ' ' + tabHidden} onClick={this.onToggle}>
                     <div className={styles.simulatorTabIcon + ' fe-smartphone'} />
                     <div className={styles.simulatorTabText}>
-                        Run in<br />Simulator
+                        Run in
+                        <br />
+                        Simulator
                     </div>
                 </div>
             </div>

@@ -7,27 +7,26 @@ import Modal from '~/components/modal/Modal';
 import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition, FlowNode, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
+import { IncrementSuggestedResultNameCount, UpdateUserAddingAction } from '~/store/actionTypes';
+import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
+import { NodeEditorSettings, updateUserAddingAction } from '~/store/nodeEditor';
+import AppState from '~/store/state';
 import {
-    AppState,
     DispatchWithState,
+    handleTypeConfigChange,
+    HandleTypeConfigChange,
     LocalizationUpdates,
+    MergeEditorState,
+    mergeEditorState,
     NoParamsAC,
     OnUpdateAction,
     onUpdateAction,
-    OnUpdateLocalizations,
     onUpdateLocalizations,
+    OnUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
-    resetNodeEditingState,
-    UpdateNodeEditorOpen,
-    updateNodeEditorOpen,
-    UpdateUserAddingAction,
-    updateUserAddingAction
-} from '~/store';
-import { IncrementSuggestedResultNameCount } from '~/store/actionTypes';
-import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
-import { HandleTypeConfigChange, handleTypeConfigChange } from '~/store/thunks';
+    resetNodeEditingState
+} from '~/store/thunks';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -63,7 +62,7 @@ export interface NodeEditorStoreProps {
     nodes: { [uuid: string]: RenderNode };
     handleTypeConfigChange: HandleTypeConfigChange;
     resetNodeEditingState: NoParamsAC;
-    updateNodeEditorOpen: UpdateNodeEditorOpen;
+    mergeEditorState: MergeEditorState;
     onUpdateLocalizations: OnUpdateLocalizations;
     onUpdateAction: OnUpdateAction;
     onUpdateRouter: OnUpdateRouter;
@@ -160,7 +159,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         this.props.resetNodeEditingState();
         this.props.updateUserAddingAction(false);
-        this.props.updateNodeEditorOpen(false);
+        this.props.mergeEditorState({ nodeEditorOpen: false });
     }
 
     private updateAction(action: Action): void {
@@ -304,10 +303,7 @@ const mapStateToProps = ({
         nodes,
         results: { suggestedNameCount }
     },
-    flowEditor: {
-        editorUI: { language, translating, nodeEditorOpen },
-        flowUI: { pendingConnection }
-    },
+    editorState: { language, translating, nodeEditorOpen, pendingConnection },
     nodeEditor: { typeConfig, settings }
 }: AppState) => ({
     language,
@@ -326,7 +322,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             resetNodeEditingState,
-            updateNodeEditorOpen,
+            mergeEditorState,
             handleTypeConfigChange,
             onUpdateLocalizations,
             onUpdateAction,

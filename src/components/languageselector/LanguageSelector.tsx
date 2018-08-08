@@ -6,7 +6,8 @@ import { languageSelector } from '~/components/languageselector/LanguageSelector
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/services/AssetService';
-import { AppState, DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store';
+import AppState from '~/store/state';
+import { DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store/thunks';
 
 export interface LanguageSelectorStoreProps {
     language: Asset;
@@ -50,12 +51,10 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({
-    flowContext: { languages },
-    flowEditor: {
-        editorUI: { language }
-    }
-}: AppState) => ({ language, languages });
+const mapStateToProps = ({ flowContext: { languages }, editorState: { language } }: AppState) => ({
+    language,
+    languages
+});
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

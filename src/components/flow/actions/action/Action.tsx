@@ -10,16 +10,16 @@ import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { Action, AnyAction, LocalizationMap } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
+import { RenderNode } from '~/store/flowContext';
+import AppState from '~/store/state';
 import {
     ActionAC,
-    AppState,
     DispatchWithState,
     moveActionUp,
     OnOpenNodeEditor,
     onOpenNodeEditor,
     removeAction
-} from '~/store';
-import { RenderNode } from '~/store/flowContext';
+} from '~/store/thunks';
 import { createClickHandler, getLocalization } from '~/utils';
 
 export interface ActionWrapperPassedProps {
@@ -187,9 +187,7 @@ const mapStateToProps = ({
         languages,
         definition: { localization }
     },
-    flowEditor: {
-        editorUI: { language, translating }
-    }
+    editorState: { language, translating }
 }: AppState) => ({
     language,
     translating,

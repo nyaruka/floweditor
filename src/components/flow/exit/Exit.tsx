@@ -6,13 +6,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Counter from '~/components/counter/Counter';
+import * as styles from '~/components/flow/exit/Exit.scss';
 import { Exit, FlowNode, LocalizationMap } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/services/AssetService';
-import { AppState, DisconnectExit, disconnectExit, DispatchWithState } from '~/store';
+import AppState from '~/store/state';
+import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
 import { createClickHandler, getLocalization } from '~/utils';
-
-import * as styles from '~/components/flow/exit/Exit.scss';
 
 export interface ExitPassedProps {
     exit: Exit;
@@ -194,9 +194,7 @@ const mapStateToProps = ({
     flowContext: {
         definition: { localization }
     },
-    flowEditor: {
-        editorUI: { translating, language }
-    }
+    editorState: { translating, language }
 }: AppState) => ({
     translating,
     language,

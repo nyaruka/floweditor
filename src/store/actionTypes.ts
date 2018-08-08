@@ -4,8 +4,8 @@ import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import Constants from '~/store/constants';
+import { DragSelection, EditorState } from '~/store/editor';
 import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
-import { DragSelection } from '~/store/flowEditor';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 // Redux action generic
@@ -21,6 +21,10 @@ interface TranslatingPayload {
 
 interface LanguagePayload {
     language: Asset;
+}
+
+interface EditorStatePayload {
+    editorState: EditorState;
 }
 
 interface FetchingFlowPayload {
@@ -145,6 +149,8 @@ export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, Tr
 
 export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, LanguagePayload>;
 
+export type UpdateEditorState = DuxAction<Constants.UPDATE_EDITOR_STATE, EditorStatePayload>;
+
 export type UpdateFetchingFlowAction = DuxAction<
     Constants.UPDATE_FETCHING_FLOW,
     FetchingFlowPayload
@@ -194,16 +200,9 @@ export type UpdateNodeEditorOpenAction = DuxAction<
     UpdateNodeEditorOpenPayload
 >;
 
-export type UpdateGhostNodeAction = DuxAction<Constants.UPDATE_GHOST_NODE, UpdateGhostNodePayload>;
-
 export type UpdateCreateNodePositionAction = DuxAction<
     Constants.UPDATE_CREATE_NODE_POSITION,
     UpdateCreateNodePositionPayload
->;
-
-export type UpdatePendingConnectionAction = DuxAction<
-    Constants.UPDATE_PENDING_CONNECTION,
-    UpdatePendingConnectionPayload
 >;
 
 export type UpdateDragGroupAction = DuxAction<Constants.UPDATE_DRAG_GROUP, UpdateDragGroupPayload>;
@@ -216,11 +215,6 @@ export type UpdateTypeConfigAction = DuxAction<
 export type UpdateUserAddingActionAction = DuxAction<
     Constants.UPDATE_USER_ADDING_ACTION,
     UpdateUserAddingActionPayload
->;
-
-export type UpdateDragSelectionAction = DuxAction<
-    Constants.UPDATE_DRAG_SELECTION,
-    UpdateDragSelectionActionPayload
 >;
 
 export type UpdateContactFieldsAction = DuxAction<
@@ -240,8 +234,6 @@ export type UpdateCreateNodePosition = (
     createNodePosition: FlowPosition
 ) => UpdateCreateNodePositionAction;
 
-export type UpdateDragSelection = (dragSelection: DragSelection) => UpdateDragSelectionAction;
-
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
 export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
@@ -253,6 +245,7 @@ export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageActi
 export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
 
 type ActionTypes =
+    | UpdateEditorState
     | UpdateNodeEditorSettings
     | UpdateTranslatingAction
     | UpdateLanguageAction
@@ -267,13 +260,10 @@ type ActionTypes =
     | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
     | UpdateNodeEditorOpenAction
-    | UpdateGhostNodeAction
     | UpdateCreateNodePositionAction
-    | UpdatePendingConnectionAction
     | UpdateDragGroupAction
     | UpdateTypeConfigAction
     | UpdateUserAddingActionAction
-    | UpdateDragSelectionAction
     | UpdateBaseLanguageAction
     | UpdateLanguagesAction
     | UpdateContactFieldsAction;

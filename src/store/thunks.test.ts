@@ -4,17 +4,19 @@ import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
 import AssetService from '~/services/AssetService';
-import { Constants, initialState, LocalizationUpdates } from '~/store';
+import Constants from '~/store/constants';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getFlowComponents, getUniqueDestinations } from '~/store/helpers';
 import { getOtherExit } from '~/store/mutators';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { initialState } from '~/store/state';
 import {
     addNode,
     disconnectExit,
     ensureStartNode,
     handleTypeConfigChange,
     initializeFlow,
+    LocalizationUpdates,
     moveActionUp,
     onAddToNode,
     onConnectionDrag,
@@ -35,9 +37,9 @@ import {
     updateExitDestination,
     updateSticky
 } from '~/store/thunks';
-import { createMockStore, prepMockDuxState } from '~/testUtils';
+import { createMockStore, mock, prepMockDuxState } from '~/testUtils';
 import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
-import { push, createUUID } from '~/utils';
+import * as utils from '~/utils';
 
 const config = require('~/test/config');
 
@@ -64,6 +66,7 @@ describe('Flow Manipulation', () => {
     beforeEach(() => {
         // prep our store to show that we are editing
         store = createMockStore(mockDuxState);
+        mock(utils, 'createUUID', utils.seededUUIDs());
     });
 
     describe('init', () => {
@@ -216,14 +219,16 @@ describe('Flow Manipulation', () => {
             // prep our store to show that we are editing
             store = createMockStore({
                 flowContext: { nodes: testNodes },
-                flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
+                editorState: { dragSelection: { selected: { nodeA: true } } },
                 nodeEditor: { settings: null }
             });
 
             store.dispatch(onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 }));
-            expect(store).toHavePayload(Constants.UPDATE_DRAG_SELECTION, {
-                dragSelection: {
-                    selected: null
+            expect(store).toHavePayload(Constants.UPDATE_EDITOR_STATE, {
+                editorState: {
+                    dragSelection: {
+                        selected: null
+                    }
                 }
             });
         });
@@ -232,19 +237,22 @@ describe('Flow Manipulation', () => {
             // prep our store to show that we are editing
             store = createMockStore({
                 flowContext: { nodes: testNodes },
-                flowEditor: { flowUI: { dragSelection: { selected: { nodeA: true } } } },
+                editorState: { dragSelection: { selected: { nodeA: true } } },
                 nodeEditor: { settings: null }
             });
 
             store.dispatch(onResetDragSelection());
-            expect(store).toHavePayload(Constants.UPDATE_DRAG_SELECTION, {
-                dragSelection: {
-                    selected: null
+            expect(store).toHavePayload(Constants.UPDATE_EDITOR_STATE, {
+                editorState: {
+                    dragSelection: {
+                        selected: null
+                    }
                 }
             });
         });
 
         it('should store a pending connection when starting a drag', () => {
+            // mock(utils, 'createUUID', utils.seededUUIDs());
             store.dispatch(
                 onConnectionDrag({
                     connection: null,
@@ -256,13 +264,7 @@ describe('Flow Manipulation', () => {
                     sourceId: 'node0:node0_exit0'
                 })
             );
-            expect(store).toHaveReduxActions([Constants.UPDATE_GHOST_NODE]);
-            expect(store).toHavePayload(Constants.UPDATE_PENDING_CONNECTION, {
-                pendingConnection: {
-                    nodeUUID: 'node0',
-                    exitUUID: 'node0_exit0'
-                }
-            });
+            expect(store.getActions()).toMatchSnapshot();
         });
 
         it('should update dimensions', () => {
@@ -525,15 +527,13 @@ describe('Flow Manipulation', () => {
             const updatedStore = createMockStore({
                 ...store.getState(),
 
-                flowEditor: {
-                    flowUI: {
-                        pendingConnection: { exitUUID: 'node3_exit0', nodeUUID: 'node3' },
-                        createNodePosition: { left: 500, top: 500 }
-                    }
+                editorState: {
+                    pendingConnection: { exitUUID: 'node3_exit0', nodeUUID: 'node3' },
+                    createNodePosition: { left: 500, top: 500 }
                 },
                 nodeEditor: {
                     userAddingAction: true,
-                    settings: { originalNode: { node: { uuid: createUUID() } } }
+                    settings: { originalNode: { node: { uuid: utils.createUUID() } } }
                 }
             });
 
@@ -559,7 +559,7 @@ describe('Flow Manipulation', () => {
                 renderNode: RenderNode,
                 action: AnyAction
             ): RenderNodeMap => {
-                const newExitUUID = createUUID();
+                const newExitUUID = utils.createUUID();
                 const newNode: RenderNode = {
                     node: {
                         actions: [],
@@ -568,7 +568,7 @@ describe('Flow Manipulation', () => {
                             cases: [],
                             default_exit_uuid: newExitUUID
                         } as SwitchRouter,
-                        uuid: createUUID(),
+                        uuid: utils.createUUID(),
                         exits: [
                             {
                                 uuid: newExitUUID,
@@ -657,12 +657,9 @@ describe('Flow Manipulation', () => {
                             definition: { $set: boring },
                             nodes: { $set: testNodes }
                         },
-                        flowEditor: {
-                            editorUI: {
-                                language: { $set: { iso: 'spa' } },
-                                translating: { $set: false }
-                            },
-                            flowUI: { $set: {} }
+                        editorState: {
+                            language: { $set: { iso: 'spa' } },
+                            translating: { $set: false }
                         },
                         nodeEditor: {
                             settings: {
@@ -687,12 +684,9 @@ describe('Flow Manipulation', () => {
                 store = createMockStore(
                     mutate(initialState, {
                         flowContext: { nodes: { $set: testNodes }, definition: { $set: boring } },
-                        flowEditor: {
-                            editorUI: {
-                                language: { $set: { iso: 'spa' } },
-                                translating: { $set: true }
-                            },
-                            flowUI: {}
+                        editorState: {
+                            language: { $set: { iso: 'spa' } },
+                            translating: { $set: true }
                         },
                         nodeEditor: { settings: { $set: { originalNode: null } } }
                     })
@@ -707,12 +701,9 @@ describe('Flow Manipulation', () => {
                 store = createMockStore(
                     mutate(initialState, {
                         flowContext: { nodes: { $set: testNodes }, definition: { $set: boring } },
-                        flowEditor: {
-                            editorUI: {
-                                language: { $set: { iso: 'spa' } },
-                                translating: { $set: true }
-                            },
-                            flowUI: {}
+                        editorState: {
+                            language: { $set: { iso: 'spa' } },
+                            translating: { $set: true }
                         },
                         nodeEditor: { settings: { $set: { originalNode: null } } }
                     })
@@ -813,9 +804,7 @@ describe('Flow Manipulation', () => {
                     onOpenNodeEditor({ originalNode: testNodes.node1, showAdvanced: false })
                 );
 
-                expect(store).toHavePayload(Constants.UPDATE_NODE_EDITOR_OPEN, {
-                    nodeEditorOpen: true
-                });
+                expect(store.getActions()).toMatchSnapshot();
             });
         });
 
@@ -830,29 +819,23 @@ describe('Flow Manipulation', () => {
 
             it('should clear things when the editor is canceled', () => {
                 store.dispatch(onNodeEditorClose(false, null));
-                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                    ghostNode: null
-                });
+                expect(store.getActions()).toMatchSnapshot();
             });
 
             it('should clear things when the editor is closed', () => {
                 store.dispatch(onNodeEditorClose(true, null));
-                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                    ghostNode: null
-                });
+                expect(store.getActions()).toMatchSnapshot();
             });
 
             it('should rewire the old connection when canceling the editor', () => {
                 store = createMockStore({
                     flowContext: { nodes: testNodes },
-                    flowEditor: {
-                        flowUI: {
-                            pendingConnection: {
-                                exitUUID: testNodes.node0.node.exits[0].uuid,
-                                nodeUUID: testNodes.node0.node.uuid
-                            } as DragPoint,
-                            createNodePosition: {}
-                        }
+                    editorState: {
+                        pendingConnection: {
+                            exitUUID: testNodes.node0.node.exits[0].uuid,
+                            nodeUUID: testNodes.node0.node.uuid
+                        } as DragPoint,
+                        createNodePosition: {}
                     },
                     nodeEditor: { actionToEdit: {}, settings: null }
                 });
@@ -864,35 +847,20 @@ describe('Flow Manipulation', () => {
 
             it('should only update things that are set', () => {
                 store.dispatch(resetNodeEditingState());
-
-                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                    ghostNode: null
-                });
-
-                expect(store.getActions().length).toBe(2);
+                expect(store.getActions()).toMatchSnapshot();
             });
 
             it('should reset the node editor', () => {
                 // now try a store with all the things set
                 store = createMockStore({
                     flowContext: { nodes: testNodes },
-                    flowEditor: { flowUI: { pendingConnection: {}, createNodePosition: {} } },
+                    editorState: { pendingConnection: {}, createNodePosition: {} },
                     nodeEditor: { actionToEdit: {}, settings: null }
                 });
 
                 store.dispatch(resetNodeEditingState());
 
-                expect(store).toHavePayload(Constants.UPDATE_GHOST_NODE, {
-                    ghostNode: null
-                });
-
-                expect(store).toHavePayload(Constants.UPDATE_PENDING_CONNECTION, {
-                    pendingConnection: null
-                });
-
-                expect(store).toHavePayload(Constants.UPDATE_CREATE_NODE_POSITION, {
-                    createNodePosition: null
-                });
+                expect(store.getActions()).toMatchSnapshot();
             });
         });
     });
@@ -909,7 +877,7 @@ describe('Flow Manipulation', () => {
             const updatedNode = mutate(testNodes.node1, {
                 node: {
                     router: {
-                        cases: push([
+                        cases: utils.push([
                             {
                                 uuid: 'new_case',
                                 type: Operators.has_any_word,
@@ -932,12 +900,10 @@ describe('Flow Manipulation', () => {
             store = createMockStore(
                 mutate(initialState, {
                     flowContext: { nodes: { $set: testNodes } },
-                    flowEditor: {
-                        flowUI: {
-                            createNodePosition: { $set: { left: 500, top: 600 } },
-                            pendingConnection: {
-                                $set: { nodeUUID: 'node2', exitUUID: 'node2_exit0' }
-                            }
+                    editorState: {
+                        createNodePosition: { $set: { left: 500, top: 600 } },
+                        pendingConnection: {
+                            $set: { nodeUUID: 'node2', exitUUID: 'node2_exit0' }
                         }
                     },
                     nodeEditor: { settings: { $set: { originalNode: testNodes.node3 } } }

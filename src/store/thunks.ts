@@ -18,6 +18,7 @@ import {
     SwitchRouter
 } from '~/flowTypes';
 import AssetService, { Asset, DEFAULT_LANGUAGE } from '~/services/AssetService';
+import { EditorState, updateEditorState } from '~/store/editor';
 import {
     incrementSuggestedResultNameCount,
     RenderNode,
@@ -29,17 +30,6 @@ import {
     updateNodes,
     updateResultMap
 } from '~/store/flowContext';
-import {
-    updateCreateNodePosition,
-    updateDragSelection,
-    updateFetchingFlow,
-    updateGhostNode,
-    updateLanguage,
-    updateNodeDragging,
-    updateNodeEditorOpen,
-    updatePendingConnection,
-    updateTranslating
-} from '~/store/flowEditor';
 import {
     extractContactFields,
     FlowComponents,
@@ -59,7 +49,7 @@ import {
     updateUserAddingAction
 } from '~/store/nodeEditor';
 import AppState from '~/store/state';
-import { dedupe, NODE_SPACING, snakify, timeEnd, timeStart, createUUID } from '~/utils';
+import { createUUID, dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -110,6 +100,8 @@ export type DisconnectExit = (nodeUUID: string, exitUUID: string) => Thunk<Rende
 
 export type HandleLanguageChange = (language: Asset) => Thunk<void>;
 
+export type MergeEditorState = (state: Partial<EditorState>) => Thunk<EditorState>;
+
 export interface ReplaceAction {
     nodeUUID: string;
     actionUUID: string;
@@ -140,6 +132,16 @@ const QUIET_REFLOW = 200;
 
 let debounceReflow: any = null;
 
+export const mergeEditorState = (changes: Partial<EditorState>) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): EditorState => {
+    const { editorState } = getState();
+    const updated = mutate(editorState, { $merge: changes });
+    dispatch(updateEditorState(updated));
+    return updated;
+};
+
 export const initializeFlow = (
     definition: FlowDefinition,
     assetService: AssetService,
@@ -155,12 +157,12 @@ export const initializeFlow = (
     if (flowComponents.baseLanguage) {
         dispatch(updateLanguages(languages));
         dispatch(updateBaseLanguage(flowComponents.baseLanguage));
-        dispatch(updateLanguage(flowComponents.baseLanguage));
+        dispatch(mergeEditorState({ language: flowComponents.baseLanguage }));
     } else {
         // if we have an unset base language, inject our "Default" Language and set it
         dispatch(updateLanguages(mutators.addLanguage(languages, DEFAULT_LANGUAGE)));
         dispatch(updateBaseLanguage(DEFAULT_LANGUAGE));
-        dispatch(updateLanguage(DEFAULT_LANGUAGE));
+        dispatch(mergeEditorState({ language: DEFAULT_LANGUAGE }));
     }
 
     // store our flow definition without any nodes
@@ -174,7 +176,7 @@ export const initializeFlow = (
         dispatch(incrementSuggestedResultNameCount());
     }
 
-    dispatch(updateFetchingFlow(false));
+    dispatch(mergeEditorState({ fetchingFlow: false }));
     return flowComponents;
 };
 
@@ -182,7 +184,7 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    dispatch(updateFetchingFlow(true));
+    dispatch(mergeEditorState({ fetchingFlow: true }));
 
     const [flows, environment, fields, languages] = await Promise.all([
         assetService.getFlowAssets().get(uuid),
@@ -207,23 +209,21 @@ export const fetchFlow = (assetService: AssetService, uuid: string) => async (
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
     const {
         flowContext: { baseLanguage },
-        flowEditor: {
-            editorUI: { translating, language: currentLanguage }
-        }
+        editorState: { translating, language: currentLanguage }
     } = getState();
 
     // determine translating state
     if (!isEqual(language, baseLanguage)) {
         if (!translating) {
-            dispatch(updateTranslating(true));
+            dispatch(mergeEditorState({ translating: true }));
         }
     } else {
-        dispatch(updateTranslating(false));
+        dispatch(mergeEditorState({ translating: false }));
     }
 
     // update language
     if (!isEqual(language, currentLanguage)) {
-        dispatch(updateLanguage(language));
+        dispatch(mergeEditorState({ language }));
     }
 };
 
@@ -565,19 +565,17 @@ export const handleTypeConfigChange = (typeConfig: Type) => (dispatch: DispatchW
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
     const {
-        flowEditor: {
-            flowUI: { pendingConnection, createNodePosition }
-        }
+        editorState: { pendingConnection, createNodePosition }
     } = getState();
 
-    dispatch(updateGhostNode(null));
+    dispatch(mergeEditorState({ ghostNode: null }));
 
     if (pendingConnection) {
-        dispatch(updatePendingConnection(null));
+        dispatch(mergeEditorState({ ghostNode: null }));
     }
 
     if (createNodePosition) {
-        dispatch(updateCreateNodePosition(null));
+        dispatch(mergeEditorState({ createNodePosition: null }));
     }
 
     dispatch(updateNodeEditorSettings(null));
@@ -590,9 +588,7 @@ export const onUpdateAction = (action: AnyAction) => (
     timeStart('onUpdateAction');
 
     const {
-        flowEditor: {
-            flowUI: { pendingConnection, createNodePosition }
-        },
+        editorState: { pendingConnection, createNodePosition },
         nodeEditor: { userAddingAction, settings },
         flowContext: {
             nodes,
@@ -666,9 +662,7 @@ export const onAddToNode = (node: FlowNode) => (
 ) => {
     const {
         flowContext: { definition, nodes },
-        flowEditor: {
-            editorUI: { language }
-        }
+        editorState: { language }
     } = getState();
 
     // TODO: remove the need for this once we all have formHelpers
@@ -688,8 +682,8 @@ export const onAddToNode = (node: FlowNode) => (
 
     dispatch(updateUserAddingAction(true));
     dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
-    dispatch(updateNodeDragging(false));
-    dispatch(updateNodeEditorOpen(true));
+    dispatch(mergeEditorState({ nodeDragging: false }));
+    dispatch(mergeEditorState({ nodeEditorOpen: true }));
 };
 
 export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
@@ -698,9 +692,7 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
 ) => {
     const {
         flowContext: { nodes },
-        flowEditor: {
-            flowUI: { pendingConnection }
-        }
+        editorState: { pendingConnection }
     } = getState();
 
     // Make sure we re-wire the old connection
@@ -722,14 +714,12 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
 
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
     const {
-        flowEditor: {
-            flowUI: { dragSelection }
-        }
+        editorState: { dragSelection }
     } = getState();
 
     /* istanbul ignore else */
     if (dragSelection && dragSelection.selected) {
-        dispatch(updateDragSelection({ selected: null }));
+        dispatch(mergeEditorState({ dragSelection: { selected: null } }));
     }
 };
 
@@ -739,13 +729,11 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
 ): RenderNodeMap => {
     const {
         flowContext: { nodes },
-        flowEditor: {
-            flowUI: { dragSelection }
-        }
+        editorState: { dragSelection }
     } = getState();
 
     if (dragSelection && dragSelection.selected) {
-        dispatch(updateDragSelection({ selected: null }));
+        dispatch(mergeEditorState({ dragSelection: { selected: null } }));
     }
 
     const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top);
@@ -777,13 +765,15 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     const ghostNode = getGhostNode(fromNode, suggestedNameCount);
 
     // Set our ghost spec so it gets rendered.
-    dispatch(updateGhostNode(ghostNode));
+    dispatch(mergeEditorState({ ghostNode }));
 
     // Save off our drag point for later
     dispatch(
-        updatePendingConnection({
-            nodeUUID: fromNodeUUID,
-            exitUUID: event.sourceId.split(':')[1]
+        mergeEditorState({
+            pendingConnection: {
+                nodeUUID: fromNodeUUID,
+                exitUUID: event.sourceId.split(':')[1]
+            }
         })
     );
 };
@@ -808,9 +798,7 @@ export const onUpdateRouter = (node: RenderNode) => (
             nodes,
             results: { resultMap }
         },
-        flowEditor: {
-            flowUI: { pendingConnection, createNodePosition }
-        },
+        editorState: { pendingConnection, createNodePosition },
         nodeEditor: {
             settings: { originalNode, originalAction }
         }
@@ -905,9 +893,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
             languages,
             definition: { localization }
         },
-        flowEditor: {
-            editorUI: { language, translating }
-        }
+        editorState: { language, translating }
     } = getState();
 
     const { originalNode: renderNode } = settings;
@@ -957,6 +943,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 
     dispatch(updateNodeEditorSettings(settings));
     dispatch(handleTypeConfigChange(determineTypeConfig(settings)));
-    dispatch(updateNodeDragging(false));
-    dispatch(updateNodeEditorOpen(true));
+    dispatch(mergeEditorState({ nodeDragging: false }));
+    dispatch(mergeEditorState({ nodeEditorOpen: true }));
 };
