@@ -200,6 +200,260 @@ Object {
 }
 `;
 
+exports[`Flow Manipulation node editor normal editing should edit router nodes 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "settings": Object {
+        "languages": Array [],
+        "localizations": Array [],
+        "originalNode": Object {
+          "inboundConnections": Object {
+            "node0_exit0": "node0",
+          },
+          "node": Object {
+            "actions": Array [],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": "node2",
+                "name": "Red",
+                "uuid": "node1_exit0",
+              },
+              Object {
+                "destination_node_uuid": "node2",
+                "name": "Green",
+                "uuid": "node1_exit1",
+              },
+              Object {
+                "destination_node_uuid": "node2",
+                "name": "Other",
+                "uuid": "node1_exit2",
+              },
+            ],
+            "router": Object {
+              "cases": Array [
+                Object {
+                  "arguments": Array [
+                    "red",
+                  ],
+                  "exit_uuid": "uuid_node1_exit0",
+                  "type": "has_any_word",
+                  "uuid": "node1_case0",
+                },
+                Object {
+                  "arguments": Array [
+                    "green",
+                  ],
+                  "exit_uuid": "uuid_node1_exit1",
+                  "type": "has_any_word",
+                  "uuid": "node1_case1",
+                },
+              ],
+              "default_exit_uuid": "node1_exit2",
+              "operand": "@run.input",
+              "result_name": "color",
+              "type": "switch",
+            },
+            "uuid": "node1",
+            "wait": Object {
+              "type": "msg",
+            },
+          },
+          "ui": Object {
+            "position": Object {
+              "bottom": 370,
+              "left": 0,
+              "right": 220,
+              "top": 280,
+            },
+            "type": "wait_for_response",
+          },
+        },
+        "showAdvanced": false,
+      },
+    },
+    "type": "UPDATE_NODE_EDITOR_SETTINGS",
+  },
+  Object {
+    "payload": Object {
+      "typeConfig": Object {
+        "aliases": Array [
+          "switch",
+        ],
+        "description": "Wait for the contact to respond",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
+        "name": "Wait for Response",
+        "type": "wait_for_response",
+      },
+    },
+    "type": "UPDATE_TYPE_CONFIG",
+  },
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "dragGroup": false,
+        "dragSelection": null,
+        "fetchingFlow": false,
+        "ghostNode": null,
+        "language": null,
+        "nodeDragging": false,
+        "nodeEditorOpen": false,
+        "pendingConnection": null,
+        "translating": false,
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "dragGroup": false,
+        "dragSelection": null,
+        "fetchingFlow": false,
+        "ghostNode": null,
+        "language": null,
+        "nodeDragging": false,
+        "nodeEditorOpen": true,
+        "pendingConnection": null,
+        "translating": false,
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+]
+`;
+
+exports[`Flow Manipulation node editor opening and closing should clear things when the editor is canceled 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "dragGroup": false,
+        "dragSelection": null,
+        "fetchingFlow": false,
+        "ghostNode": null,
+        "language": null,
+        "nodeDragging": false,
+        "nodeEditorOpen": false,
+        "pendingConnection": null,
+        "translating": false,
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "settings": null,
+    },
+    "type": "UPDATE_NODE_EDITOR_SETTINGS",
+  },
+]
+`;
+
+exports[`Flow Manipulation node editor opening and closing should clear things when the editor is closed 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "dragGroup": false,
+        "dragSelection": null,
+        "fetchingFlow": false,
+        "ghostNode": null,
+        "language": null,
+        "nodeDragging": false,
+        "nodeEditorOpen": false,
+        "pendingConnection": null,
+        "translating": false,
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "settings": null,
+    },
+    "type": "UPDATE_NODE_EDITOR_SETTINGS",
+  },
+]
+`;
+
+exports[`Flow Manipulation node editor opening and closing should only update things that are set 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "dragGroup": false,
+        "dragSelection": null,
+        "fetchingFlow": false,
+        "ghostNode": null,
+        "language": null,
+        "nodeDragging": false,
+        "nodeEditorOpen": false,
+        "pendingConnection": null,
+        "translating": false,
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "settings": null,
+    },
+    "type": "UPDATE_NODE_EDITOR_SETTINGS",
+  },
+]
+`;
+
+exports[`Flow Manipulation node editor opening and closing should reset the node editor 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": Object {},
+        "ghostNode": null,
+        "pendingConnection": Object {},
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": Object {},
+        "ghostNode": null,
+        "pendingConnection": Object {},
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "pendingConnection": Object {},
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "settings": null,
+    },
+    "type": "UPDATE_NODE_EDITOR_SETTINGS",
+  },
+]
+`;
+
 exports[`Flow Manipulation nodes removal should remove node node0: Remove node0 1`] = `
 Object {
   "node1": Object {
@@ -799,4 +1053,72 @@ Object {
     },
   },
 }
+`;
+
+exports[`Flow Manipulation nodes should store a pending connection when starting a drag 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "dragGroup": false,
+        "dragSelection": null,
+        "fetchingFlow": false,
+        "ghostNode": Object {
+          "inboundConnections": null,
+          "node": Object {
+            "actions": Array [],
+            "exits": Array [
+              Object {
+                "destination_node_uuid": null,
+                "name": "All Responses",
+                "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+              },
+            ],
+            "router": Object {
+              "result_name": "Result 1",
+              "type": "switch",
+            },
+            "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "wait": Object {
+              "type": "msg",
+            },
+          },
+          "ui": Object {
+            "position": Object {
+              "left": 0,
+              "top": 0,
+            },
+          },
+        },
+        "language": null,
+        "nodeDragging": false,
+        "nodeEditorOpen": false,
+        "pendingConnection": null,
+        "translating": false,
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+  Object {
+    "payload": Object {
+      "editorState": Object {
+        "createNodePosition": null,
+        "dragGroup": false,
+        "dragSelection": null,
+        "fetchingFlow": false,
+        "ghostNode": null,
+        "language": null,
+        "nodeDragging": false,
+        "nodeEditorOpen": false,
+        "pendingConnection": Object {
+          "exitUUID": "node0_exit0",
+          "nodeUUID": "node0",
+        },
+        "translating": false,
+      },
+    },
+    "type": "UPDATE_EDITOR_STATE",
+  },
+]
 `;

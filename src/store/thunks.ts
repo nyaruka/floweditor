@@ -137,11 +137,7 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
     getState: GetState
 ): EditorState => {
     const { editorState } = getState();
-
     const updated = mutate(editorState, { $merge: changes });
-
-    console.log(editorState, updated);
-
     dispatch(updateEditorState(updated));
     return updated;
 };

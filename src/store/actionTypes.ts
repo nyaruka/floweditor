@@ -200,16 +200,9 @@ export type UpdateNodeEditorOpenAction = DuxAction<
     UpdateNodeEditorOpenPayload
 >;
 
-export type UpdateGhostNodeAction = DuxAction<Constants.UPDATE_GHOST_NODE, UpdateGhostNodePayload>;
-
 export type UpdateCreateNodePositionAction = DuxAction<
     Constants.UPDATE_CREATE_NODE_POSITION,
     UpdateCreateNodePositionPayload
->;
-
-export type UpdatePendingConnectionAction = DuxAction<
-    Constants.UPDATE_PENDING_CONNECTION,
-    UpdatePendingConnectionPayload
 >;
 
 export type UpdateDragGroupAction = DuxAction<Constants.UPDATE_DRAG_GROUP, UpdateDragGroupPayload>;
@@ -222,11 +215,6 @@ export type UpdateTypeConfigAction = DuxAction<
 export type UpdateUserAddingActionAction = DuxAction<
     Constants.UPDATE_USER_ADDING_ACTION,
     UpdateUserAddingActionPayload
->;
-
-export type UpdateDragSelectionAction = DuxAction<
-    Constants.UPDATE_DRAG_SELECTION,
-    UpdateDragSelectionActionPayload
 >;
 
 export type UpdateContactFieldsAction = DuxAction<
@@ -245,8 +233,6 @@ export type UpdateLanguage = (language: Asset) => UpdateLanguageAction;
 export type UpdateCreateNodePosition = (
     createNodePosition: FlowPosition
 ) => UpdateCreateNodePositionAction;
-
-export type UpdateDragSelection = (dragSelection: DragSelection) => UpdateDragSelectionAction;
 
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
@@ -274,13 +260,10 @@ type ActionTypes =
     | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
     | UpdateNodeEditorOpenAction
-    | UpdateGhostNodeAction
     | UpdateCreateNodePositionAction
-    | UpdatePendingConnectionAction
     | UpdateDragGroupAction
     | UpdateTypeConfigAction
     | UpdateUserAddingActionAction
-    | UpdateDragSelectionAction
     | UpdateBaseLanguageAction
     | UpdateLanguagesAction
     | UpdateContactFieldsAction;

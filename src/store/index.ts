@@ -1,7 +1,6 @@
 import {
     UpdateCreateNodePosition,
     UpdateDragGroup,
-    UpdateDragSelection,
     UpdateLanguage,
     UpdateNodeDragging,
     UpdateNodeEditorOpen,
@@ -111,7 +110,6 @@ export {
     moveActionUp,
     removeAction,
     UpdateNodeDragging,
-    UpdateDragSelection,
     updateSticky,
     UpdateSticky,
     handleLanguageChange,

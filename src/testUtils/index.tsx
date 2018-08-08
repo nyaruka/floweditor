@@ -42,11 +42,9 @@ export const baseState: AppState = mutate(initialState, {
     flowContext: merge({
         definition: require('~/test/flows/colors.json') as FlowDefinition
     }),
-    flowEditor: {
-        editorUI: merge({
-            language: { id: 'eng', name: 'English' }
-        })
-    }
+    editorState: merge({
+        language: { id: 'eng', name: 'English' }
+    })
 });
 
 const flowEditorConfig: FlowEditorConfig = config;
