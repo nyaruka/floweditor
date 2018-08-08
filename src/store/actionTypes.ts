@@ -4,8 +4,8 @@ import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import Constants from '~/store/constants';
+import { DragSelection, EditorState } from '~/store/editor';
 import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
-import { DragSelection } from '~/store/flowEditor';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 // Redux action generic
@@ -21,6 +21,10 @@ interface TranslatingPayload {
 
 interface LanguagePayload {
     language: Asset;
+}
+
+interface EditorStatePayload {
+    editorState: EditorState;
 }
 
 interface FetchingFlowPayload {
@@ -145,6 +149,8 @@ export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, Tr
 
 export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, LanguagePayload>;
 
+export type UpdateEditorState = DuxAction<Constants.UPDATE_EDITOR_STATE, EditorStatePayload>;
+
 export type UpdateFetchingFlowAction = DuxAction<
     Constants.UPDATE_FETCHING_FLOW,
     FetchingFlowPayload
@@ -253,6 +259,7 @@ export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageActi
 export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
 
 type ActionTypes =
+    | UpdateEditorState
     | UpdateNodeEditorSettings
     | UpdateTranslatingAction
     | UpdateLanguageAction

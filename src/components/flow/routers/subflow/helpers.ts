@@ -1,4 +1,5 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
+import { SubflowRouterFormState } from '~/components/flow/routers/subflow/SubflowRouterForm';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import {
@@ -13,8 +14,6 @@ import {
 import { Asset, AssetType } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-
-import { SubflowRouterFormState } from './SubflowRouterForm';
 import { createUUID } from '~/utils';
 
 export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormState => {

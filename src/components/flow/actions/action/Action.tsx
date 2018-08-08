@@ -187,9 +187,7 @@ const mapStateToProps = ({
         languages,
         definition: { localization }
     },
-    flowEditor: {
-        editorUI: { language, translating }
-    }
+    editorState: { language, translating }
 }: AppState) => ({
     language,
     translating,

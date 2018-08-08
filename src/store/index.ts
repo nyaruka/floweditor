@@ -12,17 +12,6 @@ import {
 import Constants from '~/store/constants';
 import createStore from '~/store/createStore';
 import { CompletionOption, updateDefinition, updateDependencies } from '~/store/flowContext';
-import {
-    updateCreateNodePosition,
-    updateDragGroup,
-    updateDragSelection,
-    updateFetchingFlow,
-    updateGhostNode,
-    updateLanguage,
-    updateNodeDragging,
-    updateNodeEditorOpen,
-    updateTranslating
-} from '~/store/flowEditor';
 import { updateTypeConfig, updateUserAddingAction } from '~/store/nodeEditor';
 import AppState, { initialState } from '~/store/state';
 import {
@@ -87,20 +76,12 @@ export {
     UpdateDragGroup,
     UpdateCreateNodePosition,
     createStore,
-    updateTranslating,
-    updateDragGroup,
     updateUserAddingAction,
     updateTypeConfig,
     UpdateUserAddingAction,
     UpdateTypeConfig,
-    updateLanguage,
-    updateFetchingFlow,
     updateDefinition,
-    updateNodeDragging,
     updateDependencies,
-    updateNodeEditorOpen,
-    updateGhostNode,
-    updateCreateNodePosition,
     fetchFlow,
     FetchFlow,
     ensureStartNode,
@@ -131,7 +112,6 @@ export {
     removeAction,
     UpdateNodeDragging,
     UpdateDragSelection,
-    updateDragSelection,
     updateSticky,
     UpdateSticky,
     handleLanguageChange,

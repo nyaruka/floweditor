@@ -3,7 +3,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as styles from '~/components/flow/Flow.scss';
-import ConnectedNode, { DragPoint } from '~/components/flow/node/Node';
+import ConnectedNode from '~/components/flow/node/Node';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
 import Simulator from '~/components/simulator/Simulator';
 import Sticky from '~/components/sticky/Sticky';
@@ -13,12 +13,17 @@ import { getActivity } from '~/external';
 import { FlowDefinition } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import Plumber from '~/services/Plumber';
+import { DragSelection, EditorState } from '~/store/editor';
+import { RenderNode } from '~/store/flowContext';
+import { getCollisions } from '~/store/helpers';
+import AppState from '~/store/state';
 import {
-    AppState,
     ConnectionEvent,
     DispatchWithState,
-    EnsureStartNode,
     ensureStartNode,
+    EnsureStartNode,
+    mergeEditorState,
+    MergeEditorState,
     NoParamsAC,
     OnConnectionDrag,
     onConnectionDrag,
@@ -27,16 +32,9 @@ import {
     resetNodeEditingState,
     UpdateConnection,
     updateConnection,
-    updateCreateNodePosition,
-    UpdateCreateNodePosition,
-    UpdateDragSelection,
-    updateDragSelection,
-    UpdateSticky,
-    updateSticky
-} from '~/store';
-import { RenderNode } from '~/store/flowContext';
-import { DragSelection } from '~/store/flowEditor';
-import { getCollisions } from '~/store/helpers';
+    updateSticky,
+    UpdateSticky
+} from '~/store/thunks';
 import {
     createUUID,
     isRealValue,
@@ -48,21 +46,17 @@ import {
 } from '~/utils';
 
 export interface FlowStoreProps {
-    translating: boolean;
+    editorState: Partial<EditorState>;
+    mergeEditorState: MergeEditorState;
+
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
     dependencies: FlowDefinition[];
-    ghostNode: RenderNode;
-    pendingConnection: DragPoint;
-    dragSelection: DragSelection;
-    nodeEditorOpen: boolean;
     ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
     resetNodeEditingState: NoParamsAC;
     onConnectionDrag: OnConnectionDrag;
-    updateCreateNodePosition: UpdateCreateNodePosition;
-    updateDragSelection: UpdateDragSelection;
     updateSticky: UpdateSticky;
 }
 
@@ -148,7 +142,10 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
             this.onConnectorDrop(event)
         );
-        this.Plumber.bind('beforeStartDetach', (event: ConnectionEvent) => !this.props.translating);
+        this.Plumber.bind(
+            'beforeStartDetach',
+            (event: ConnectionEvent) => !this.props.editorState.translating
+        );
         this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => true);
         this.Plumber.bind('beforeDrop', (event: ConnectionEvent) =>
             this.onBeforeConnectorDrop(event)
@@ -201,7 +198,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      * existing node or on to empty space.
      */
     private onConnectorDrop(event: ConnectionEvent): boolean {
-        const { ghostNode, pendingConnection } = this.props;
+        const { ghostNode, pendingConnection } = this.props.editorState;
         // Don't show the node editor if we a dragging back to where we were
         if (isRealValue(ghostNode) && !isDraggingBack(event)) {
             // Wire up the drag from to our ghost node
@@ -218,8 +215,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 this.ghost.wrappedInstance.ele.offsetTop
             );
 
-            this.props.updateCreateNodePosition({ left, top });
-            this.props.ghostNode.ui.position = { left, top };
+            this.props.mergeEditorState({ createNodePosition: { left, top } });
+            this.props.editorState.ghostNode.ui.position = { left, top };
 
             let originalAction = null;
             if (ghostNode.node.actions && ghostNode.node.actions.length === 1) {
@@ -241,7 +238,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private beforeConnectionDrag(event: ConnectionEvent): boolean {
-        return !this.props.translating;
+        return !this.props.editorState.translating;
     }
 
     private getNodes(): JSX.Element[] {
@@ -285,13 +282,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getDragNode(): JSX.Element {
-        return isRealValue(this.props.ghostNode) ? (
+        return isRealValue(this.props.editorState.ghostNode) ? (
             <ConnectedNode
                 ref={this.ghostRef}
-                key={this.props.ghostNode.node.uuid}
+                key={this.props.editorState.ghostNode.node.uuid}
                 data-spec={ghostNodeSpecId}
                 ghost={true}
-                renderNode={this.props.ghostNode}
+                renderNode={this.props.editorState.ghostNode}
                 Activity={this.Activity}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
                 plumberDraggable={this.Plumber.draggable}
@@ -314,7 +311,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getNodeEditor(): JSX.Element {
-        return renderIf(this.props.nodeEditorOpen)(
+        return renderIf(this.props.editorState.nodeEditorOpen)(
             <ConnectedNodeEditor
                 plumberConnectExit={this.Plumber.connectExit}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
@@ -344,57 +341,63 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.isClickOnCanvas(event)) {
-            this.props.updateDragSelection({
-                startX: event.pageX - this.containerOffset.left,
-                startY: event.pageY - this.containerOffset.top,
-                currentX: event.pageX - this.containerOffset.left,
-                currentY: event.pageY - this.containerOffset.top,
-                selected: null
+            this.props.mergeEditorState({
+                dragSelection: {
+                    startX: event.pageX - this.containerOffset.left,
+                    startY: event.pageY - this.containerOffset.top,
+                    currentX: event.pageX - this.containerOffset.left,
+                    currentY: event.pageY - this.containerOffset.top,
+                    selected: null
+                }
             });
         }
     }
 
     public onMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
-        if (this.props.dragSelection && this.props.dragSelection.startX) {
-            const drag = this.props.dragSelection;
+        if (this.props.editorState.dragSelection && this.props.editorState.dragSelection.startX) {
+            const drag = this.props.editorState.dragSelection;
             const left = Math.min(drag.startX, drag.currentX);
             const top = Math.min(drag.startY, drag.currentY);
             const right = Math.max(drag.startX, drag.currentX);
             const bottom = Math.max(drag.startY, drag.currentY);
 
-            this.props.updateDragSelection({
-                startX: drag.startX,
-                startY: drag.startY,
-                currentX: event.pageX - this.containerOffset.left,
-                currentY: event.pageY - this.containerOffset.top,
-                selected: getCollisions(this.props.nodes, { left, top, right, bottom })
+            this.props.mergeEditorState({
+                dragSelection: {
+                    startX: drag.startX,
+                    startY: drag.startY,
+                    currentX: event.pageX - this.containerOffset.left,
+                    currentY: event.pageY - this.containerOffset.top,
+                    selected: getCollisions(this.props.nodes, { left, top, right, bottom })
+                }
             });
         }
     }
 
     public onMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
-        if (this.props.dragSelection) {
-            this.props.updateDragSelection({
-                startX: null,
-                startY: null,
-                currentX: null,
-                currentY: null,
-                selected: this.props.dragSelection.selected
+        if (this.props.editorState.dragSelection) {
+            this.props.mergeEditorState({
+                dragSelection: {
+                    startX: null,
+                    startY: null,
+                    currentX: null,
+                    currentY: null,
+                    selected: this.props.editorState.dragSelection.selected
+                }
             });
 
-            if (this.props.dragSelection.selected) {
-                this.Plumber.setDragSelection(this.props.dragSelection.selected);
+            if (this.props.editorState.dragSelection.selected) {
+                this.Plumber.setDragSelection(this.props.editorState.dragSelection.selected);
             }
         }
     }
 
     public getDragSelectionBox(): JSX.Element {
-        if (this.props.dragSelection && this.props.dragSelection.startX) {
+        if (this.props.editorState.dragSelection && this.props.editorState.dragSelection.startX) {
             return (
                 <div
                     data-spec={dragSelectSpecId}
                     className={styles.dragSelection}
-                    style={{ ...getDragStyle(this.props.dragSelection) }}
+                    style={{ ...getDragStyle(this.props.editorState.dragSelection) }}
                 />
             );
         }
@@ -429,32 +432,26 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 /* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes },
-    flowEditor: {
-        editorUI: { translating, nodeEditorOpen },
-        flowUI: { ghostNode, pendingConnection, dragSelection }
-    }
-}: AppState) => ({
-    translating,
-    definition,
-    nodes,
-    dependencies,
-    ghostNode,
-    pendingConnection,
-    nodeEditorOpen,
-    dragSelection
-});
+    editorState
+}: AppState) => {
+    return {
+        definition,
+        nodes,
+        dependencies,
+        editorState: editorState as Partial<EditorState>
+    };
+};
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
+            mergeEditorState,
             ensureStartNode,
             resetNodeEditingState,
             onConnectionDrag,
             onOpenNodeEditor,
-            updateCreateNodePosition,
             updateConnection,
-            updateDragSelection,
             updateSticky
         },
         dispatch

@@ -50,12 +50,10 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({
-    flowContext: { languages },
-    flowEditor: {
-        editorUI: { language }
-    }
-}: AppState) => ({ language, languages });
+const mapStateToProps = ({ flowContext: { languages }, editorState: { language } }: AppState) => ({
+    language,
+    languages
+});
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

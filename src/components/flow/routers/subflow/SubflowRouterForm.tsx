@@ -1,8 +1,8 @@
-// TODO: Remove use of Function
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { RouterFormProps } from '~/components/flow/props';
+import { nodeToState, stateToNode } from '~/components/flow/routers/subflow/helpers';
 import FlowElement from '~/components/form/select/flows/FlowElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
@@ -10,8 +10,7 @@ import { Asset } from '~/services/AssetService';
 import { AssetEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import { nodeToState, stateToNode } from './helpers';
-
+// TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
     flow: AssetEntry;
 }

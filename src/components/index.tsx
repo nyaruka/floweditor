@@ -111,9 +111,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
 const mapStateToProps = ({
     flowContext: { definition, dependencies, languages, nodes },
-    flowEditor: {
-        editorUI: { translating, language, fetchingFlow }
-    }
+    editorState: { translating, language, fetchingFlow }
 }: AppState) => ({
     translating,
     language,

@@ -16,7 +16,7 @@ import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/services/AssetService';
-import Plumber, { DragEvent } from '~/services/Plumber';
+import { DragEvent } from '~/services/Plumber';
 import {
     AppState,
     DispatchWithState,
@@ -29,15 +29,11 @@ import {
     RemoveNode,
     removeNode,
     updateDimensions,
-    UpdateDimensions,
-    UpdateDragGroup,
-    updateDragGroup,
-    UpdateDragSelection,
-    UpdateNodeDragging,
-    updateNodeDragging
+    UpdateDimensions
 } from '~/store';
+import { EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
-import { DragSelection, updateDragSelection } from '~/store/flowEditor';
+import { MergeEditorState, mergeEditorState } from '~/store/thunks';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils';
 
 // TODO: Remove use of Function
@@ -67,19 +63,15 @@ export interface NodePassedProps {
 }
 
 export interface NodeStoreProps {
-    translating: boolean;
+    editorState: Partial<EditorState>;
     definition: FlowDefinition;
     languages: Asset[];
-    nodeDragging: boolean;
-    updateNodeDragging: UpdateNodeDragging;
     onAddToNode: OnAddToNode;
     onNodeMoved: OnNodeMoved;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeNode: RemoveNode;
     updateDimensions: UpdateDimensions;
-    updateDragGroup: UpdateDragGroup;
-    updateDragSelection: UpdateDragSelection;
-    dragSelection: DragSelection;
+    mergeEditorState: MergeEditorState;
 }
 
 export type NodeProps = NodePassedProps & NodeStoreProps;
@@ -144,7 +136,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     this.props.renderNode.ui.position.bottom !==
                         this.props.renderNode.ui.position.top + this.ele.clientHeight)
             ) {
-                if (!this.props.translating) {
+                if (!this.props.editorState.translating) {
                     this.updateDimensions();
                 }
             }
@@ -158,12 +150,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.renderNode.node.uuid,
             (event: DragEvent) => {
                 this.onDragStart(event);
-                this.props.updateNodeDragging(true);
+                this.props.mergeEditorState({ nodeDragging: true });
             },
             (event: DragEvent) => this.onDrag(event),
             (event: DragEvent) => this.onDragStop(event),
             () => {
-                if (!this.props.translating) {
+                if (!this.props.editorState.translating) {
                     return true;
                 } else {
                     return false;
@@ -202,11 +194,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onMouseOver(): void {
-        this.props.updateDragGroup(true);
+        this.props.mergeEditorState({ dragGroup: true });
     }
 
     private onMouseOut(): void {
-        this.props.updateDragGroup(false);
+        this.props.mergeEditorState({ dragGroup: false });
     }
 
     private onAddToNode(): void {
@@ -215,8 +207,12 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private onDragStart(event: any): boolean {
         // are we dragging a node not in our selection
-        if (this.props.dragSelection && this.props.dragSelection.selected && !this.isSelected()) {
-            this.props.updateDragSelection(null);
+        if (
+            this.props.editorState.dragSelection &&
+            this.props.editorState.dragSelection.selected &&
+            !this.isSelected()
+        ) {
+            this.props.mergeEditorState({ dragSelection: null });
             this.props.plumberClearDragSelection();
         }
         this.setState({ thisNodeDragging: true });
@@ -228,7 +224,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onDragStop(event: DragEvent): void {
-        this.props.updateNodeDragging(false);
+        this.props.mergeEditorState({ nodeDragging: false });
 
         event.e.preventDefault();
         event.e.stopPropagation();
@@ -264,7 +260,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     // Applies only to router nodes;
     // ./Action/Action handles click logic for Action nodes.
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
-        if (!this.props.nodeDragging) {
+        if (!this.props.editorState.nodeDragging) {
             this.props.onOpenNodeEditor({
                 originalNode: this.props.renderNode
             });
@@ -306,9 +302,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private isSelected(): boolean {
         return (
-            this.props.dragSelection &&
-            this.props.dragSelection.selected &&
-            this.props.dragSelection.selected[this.props.renderNode.node.uuid]
+            this.props.editorState.dragSelection &&
+            this.props.editorState.dragSelection.selected &&
+            this.props.editorState.dragSelection.selected[this.props.renderNode.node.uuid]
         );
     }
 
@@ -406,7 +402,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                         <div {...this.events}>
                             <TitleBar
                                 __className={shared[this.hasMissing() ? 'missing' : config.type]}
-                                showRemoval={!this.props.translating}
+                                showRemoval={!this.props.editorState.translating}
                                 onRemoval={this.onRemoval}
                                 title={title}
                             />
@@ -416,7 +412,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         } else {
             // Don't show add actions option if we are translating
-            if (!this.props.translating) {
+            if (!this.props.editorState.translating) {
                 addActions = (
                     <a className={styles.add} onClick={this.onAddToNode}>
                         <span className="fe-add" />
@@ -431,8 +427,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             'plumb-drag': true,
             [styles.dragging]: this.state.thisNodeDragging,
             [styles.ghost]: this.props.ghost,
-            [styles.translating]: this.props.translating,
-            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging,
+            [styles.translating]: this.props.editorState.translating,
+            [styles.nondragged]:
+                this.props.editorState.nodeDragging && !this.state.thisNodeDragging,
             [styles.selected]: this.isSelected()
         });
 
@@ -478,31 +475,21 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 }
 
-const mapStateToProps = ({
-    flowContext: { definition, languages },
-    flowEditor: {
-        editorUI: { translating },
-        flowUI: { nodeDragging, dragSelection }
-    }
-}: AppState) => ({
-    translating,
+const mapStateToProps = ({ flowContext: { definition, languages }, editorState }: AppState) => ({
+    editorState: editorState as Partial<EditorState>,
     definition,
-    languages,
-    nodeDragging,
-    dragSelection
+    languages
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            updateDragSelection,
-            updateNodeDragging,
             onAddToNode,
             onNodeMoved,
             onOpenNodeEditor,
             removeNode,
             updateDimensions,
-            updateDragGroup
+            mergeEditorState
         },
         dispatch
     );

@@ -36,21 +36,21 @@ const {
 const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
-    translating: false,
+    editorState: {
+        pendingConnection: null,
+        ghostNode: null,
+        dragSelection: null,
+        nodeEditorOpen: false
+    },
+    mergeEditorState: jest.fn(),
     definition,
     nodes: initialNodes,
     dependencies: [],
-    ghostNode: null,
-    pendingConnection: null,
-    dragSelection: null,
-    nodeEditorOpen: false,
     ensureStartNode: jest.fn(),
     updateConnection: jest.fn(),
     onOpenNodeEditor: jest.fn(),
     resetNodeEditingState: jest.fn(),
     onConnectionDrag: jest.fn(),
-    updateCreateNodePosition: jest.fn(),
-    updateDragSelection: jest.fn(),
     updateSticky: jest.fn()
 };
 
@@ -176,11 +176,11 @@ describe(Flow.name, () => {
             });
             const ghost = getSpecWrapper(wrapper, ghostNodeSpecId);
 
-            expect(ghost.key()).toBe(props.ghostNode.node.uuid);
+            expect(ghost.key()).toBe(props.editorState.ghostNode.node.uuid);
             expect(ghost.props()).toEqual(
                 expect.objectContaining({
                     ghost: true,
-                    renderNode: props.ghostNode,
+                    renderNode: props.editorState.ghostNode,
                     Activity: instance.Activity,
                     plumberRepaintForDuration: instance.Plumber.repaintForDuration,
                     plumberDraggable: instance.Plumber.draggable,
@@ -203,7 +203,7 @@ describe(Flow.name, () => {
             const drag = getSpecWrapper(wrapper, dragSelectSpecId);
 
             expect(drag.hasClass('dragSelection')).toBeTruthy();
-            expect(drag.prop('style')).toEqual(getDragStyle(props.dragSelection));
+            expect(drag.prop('style')).toEqual(getDragStyle(props.editorState.dragSelection));
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -313,7 +313,7 @@ describe(Flow.name, () => {
 
                 expect(instance.Plumber.recalculate).not.toHaveBeenCalled();
                 expect(instance.Plumber.connect).not.toHaveBeenCalled();
-                expect(props.updateCreateNodePosition).not.toHaveBeenCalled();
+                expect(props.mergeEditorState).not.toHaveBeenCalled();
                 expect(props.onOpenNodeEditor).not.toHaveBeenCalled();
             });
 
@@ -343,14 +343,16 @@ describe(Flow.name, () => {
                 expect(ghostRefSpy).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledWith(
-                    props.ghostNode.node.uuid
+                    props.editorState.ghostNode.node.uuid
                 );
                 expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.connect).toHaveBeenCalledWith(
-                    `${props.pendingConnection.nodeUUID}:${props.pendingConnection.exitUUID}`,
-                    props.ghostNode.node.uuid
+                    `${props.editorState.pendingConnection.nodeUUID}:${
+                        props.editorState.pendingConnection.exitUUID
+                    }`,
+                    props.editorState.ghostNode.node.uuid
                 );
-                expect(props.updateCreateNodePosition).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
                 expect((props.onOpenNodeEditor as any).mock.calls[0]).toMatchSnapshot();
             });
@@ -360,7 +362,9 @@ describe(Flow.name, () => {
             it('should return reversse of translating prop', () => {
                 const { wrapper, instance, props } = setup();
 
-                expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(!props.translating);
+                expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(
+                    !props.editorState.translating
+                );
             });
         });
 
@@ -380,8 +384,8 @@ describe(Flow.name, () => {
 
                 nodesContainer.simulate('mouseDown', mockMouseDownEvent);
 
-                expect(props.updateDragSelection).toHaveBeenCalledTimes(1);
-                expect(props.updateDragSelection).toHaveBeenCalledWith({
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledWith({
                     startX: mockMouseDownEvent.pageX,
                     startY: mockMouseDownEvent.pageY,
                     currentX: mockMouseDownEvent.pageX,
@@ -412,10 +416,10 @@ describe(Flow.name, () => {
 
                 nodesContainer.simulate('mouseMove', mockMouseMoveEvent);
 
-                expect(props.updateDragSelection).toHaveBeenCalledTimes(1);
-                expect(props.updateDragSelection).toHaveBeenCalledWith({
-                    startX: props.dragSelection.startX,
-                    startY: props.dragSelection.startY,
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledWith({
+                    startX: props.editorState.dragSelection.startX,
+                    startY: props.editorState.dragSelection.startY,
                     currentX: mockMouseMoveEvent.pageX - instance.containerOffset.left,
                     currentY: mockMouseMoveEvent.pageY - instance.containerOffset.top,
                     selected: {}
@@ -430,7 +434,7 @@ describe(Flow.name, () => {
 
                 nodesContainer.simulate('mouseMove');
 
-                expect(props.updateDragSelection).not.toHaveBeenCalled();
+                expect(props.mergeEditorState).not.toHaveBeenCalled();
             });
         });
 
@@ -444,13 +448,13 @@ describe(Flow.name, () => {
 
                 nodesContainer.simulate('mouseUp');
 
-                expect(props.updateDragSelection).toHaveBeenCalledTimes(1);
-                expect(props.updateDragSelection).toHaveBeenCalledWith({
+                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
+                expect(props.mergeEditorState).toHaveBeenCalledWith({
                     startX: null,
                     startY: null,
                     currentX: null,
                     currentY: null,
-                    selected: props.dragSelection.selected
+                    selected: props.editorState.dragSelection.selected
                 });
             });
 
@@ -465,7 +469,7 @@ describe(Flow.name, () => {
 
                 expect(instance.Plumber.setDragSelection).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.setDragSelection).toHaveBeenCalledWith(
-                    props.dragSelection.selected
+                    props.editorState.dragSelection.selected
                 );
             });
 
@@ -477,7 +481,7 @@ describe(Flow.name, () => {
 
                 nodesContainer.simulate('mouseUp');
 
-                expect(props.updateDragSelection).not.toHaveBeenCalled();
+                expect(props.mergeEditorState).not.toHaveBeenCalled();
                 expect(instance.Plumber.setDragSelection).not.toHaveBeenCalled();
             });
         });
