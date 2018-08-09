@@ -1,7 +1,6 @@
 import * as React from 'react';
 import CaseElement, { CaseElementProps } from '~/components/flow/routers/case/CaseElement';
-import { getTypeConfig, operatorConfigList } from '~/config';
-import { Operators, getOperatorConfig } from '~/config/operatorConfigs';
+import { getOperatorConfig, Operators } from '~/config/operatorConfigs';
 import { composeComponentTestUtils, setMock } from '~/testUtils';
 
 const caseUUID = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
@@ -22,6 +21,19 @@ describe(CaseElement.name, () => {
     describe('render', () => {
         it('should render empty case', () => {
             const { wrapper } = setup(true);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('renders no argument rules', () => {
+            const { wrapper } = setup(true, {
+                $merge: {
+                    kase: {
+                        uuid: caseUUID,
+                        type: Operators.has_number,
+                        exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
+                    }
+                }
+            });
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -55,7 +67,19 @@ describe(CaseElement.name, () => {
             expect(props.onRemove).toHaveBeenCalled();
         });
 
-        it('handles argument changes', () => {
+        it('handles argument change', () => {
+            const { instance } = setup(false);
+            instance.handleArgumentChanged('Green');
+            expect(instance.state).toMatchSnapshot();
+        });
+
+        it('clears empty casese', () => {
+            const { instance, props } = setup(false, { onRemove: setMock() });
+            instance.handleArgumentChanged('');
+            expect(props.onRemove).toHaveBeenCalled();
+        });
+
+        it('handles multiple argument change', () => {
             const { instance } = setup(false);
             instance.handleOperatorChanged(getOperatorConfig(Operators.has_number_between));
             instance.handleMinChanged('1');

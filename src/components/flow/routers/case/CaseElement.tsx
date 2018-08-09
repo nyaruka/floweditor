@@ -2,22 +2,23 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Select from 'react-select';
 import * as styles from '~/components/flow/routers/case/CaseElement.scss';
+import { getExitName, getMinMax } from '~/components/flow/routers/case/helpers';
+import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { InputToFocus } from '~/components/flow/routers/response/ResponseRouterForm';
 import FormElement from '~/components/form/FormElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { getOperatorConfig, Operator, operatorConfigList } from '~/config';
 import { Operators } from '~/config/operatorConfigs';
 import { Case } from '~/flowTypes';
-import { hasErrorType } from '~/utils';
-import { getExitName, getMinMax } from '~/components/flow/routers/case/helpers';
 import { FormState, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
+import { hasErrorType } from '~/utils';
 
 export interface CaseElementProps {
     kase: Case;
     exitName: string;
     name?: string; // satisfy form widget props
     onRemove?(uuid: string): void;
-    onChange?(c: any, type?: InputToFocus): void;
+    onChange?(c: CaseProps, type?: InputToFocus): void;
 }
 
 interface CaseElementState extends FormState {
@@ -44,7 +45,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         };
 
         bindCallbacks(this, {
-            include: [/Ref$/, /^handle/]
+            include: [/Ref$/, /^handle/, /^get/]
         });
     }
 
@@ -68,9 +69,24 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
         this.setState(updates as CaseElementState, () =>
             this.category.wrappedInstance.setState({ value: updates.exitName }, () =>
-                this.props.onChange(this)
+                this.props.onChange(this.getCaseProps())
             )
         );
+    }
+
+    private getCaseProps(): CaseProps {
+        return {
+            uuid: this.props.kase.uuid,
+            exitName: this.state.exitName.value,
+            kase: {
+                arguments: this.state.arguments.value,
+                type: this.state.operatorConfig.type,
+                uuid: this.props.kase.uuid,
+
+                // if the exit name changed, we'll need to recompute our exit
+                exit_uuid: this.state.exitNameEdited ? null : this.props.kase.exit_uuid
+            }
+        };
     }
 
     private handleExitChanged(exitName: string): void {
@@ -153,12 +169,12 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         if (
             (!this.state.arguments.value.length ||
                 // Accounting for two-arg cases
-                (!this.state.arguments[0] && !this.state.arguments[1])) &&
-            !this.state.exitName
+                (!this.state.arguments.value[0] && !this.state.arguments.value[1])) &&
+            !this.state.exitName.value
         ) {
             this.handleRemoveClicked();
         } else {
-            this.props.onChange(this, focus);
+            this.props.onChange(this.getCaseProps(), focus);
         }
     }
 

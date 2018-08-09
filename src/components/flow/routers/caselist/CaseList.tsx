@@ -68,7 +68,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
 
         let toRemove: any[] = [];
         if (keys.hasOwnProperty('removeCase')) {
-            toRemove = [{ currentCases: [{ value: keys.removeCase }] }];
+            toRemove = [{ currentCases: [keys.removeCase] }];
             ensureEmptyCase = true;
         }
 
@@ -99,21 +99,8 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         });
     }
 
-    private handleUpdateCase(element: CaseElement): boolean {
-        return this.handleUpdate({
-            caseProps: {
-                uuid: element.props.kase.uuid,
-                exitName: element.state.exitName.value,
-                kase: {
-                    arguments: element.state.arguments.value,
-                    type: element.state.operatorConfig.type,
-                    uuid: element.props.kase.uuid,
-
-                    // if the exit name changed, we'll need to recompute our exit
-                    exit_uuid: element.state.exitNameEdited ? null : element.props.kase.exit_uuid
-                }
-            }
-        });
+    private handleUpdateCase(caseProps: CaseProps): boolean {
+        return this.handleUpdate({ caseProps });
     }
 
     private renderCases(): JSX.Element[] {
