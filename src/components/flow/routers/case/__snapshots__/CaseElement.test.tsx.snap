@@ -1,47 +1,329 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CaseElement helpers prefix should prefix "has a date after" operator appropriately 1`] = `"After "`;
+exports[`CaseElement operator changes should handle updates 1`] = `
+Object {
+  "arguments": Object {
+    "value": Array [
+      "Red, r",
+    ],
+  },
+  "errors": Array [],
+  "exitName": Object {
+    "value": "Red",
+  },
+  "exitNameEdited": false,
+  "operatorConfig": Object {
+    "operands": 1,
+    "type": "has_any_word",
+    "verboseName": "has any of the words",
+  },
+  "valid": true,
+}
+`;
 
-exports[`CaseElement helpers prefix should prefix "has a date before" operator appropriately 1`] = `"Before "`;
+exports[`CaseElement operator changes should should set two arguments for numeric range 1`] = `
+Object {
+  "arguments": Object {
+    "value": Array [
+      "",
+      "",
+    ],
+  },
+  "errors": Array [],
+  "exitName": Object {
+    "value": "Red",
+  },
+  "exitNameEdited": false,
+  "operatorConfig": Object {
+    "operands": 2,
+    "type": "has_number_between",
+    "verboseName": "has a number between",
+  },
+  "valid": true,
+}
+`;
 
-exports[`CaseElement helpers prefix should prefix "has a date equal to" operator appropriately 1`] = `""`;
+exports[`CaseElement operator changes shouldnt update exit if it has been edited 1`] = `
+Object {
+  "arguments": Object {
+    "value": Array [
+      "Red, r",
+    ],
+  },
+  "errors": Array [],
+  "exitName": Object {
+    "value": "My Exit Name",
+  },
+  "exitNameEdited": true,
+  "operatorConfig": Object {
+    "operands": 1,
+    "type": "has_any_word",
+    "verboseName": "has any of the words",
+  },
+  "valid": true,
+}
+`;
 
-exports[`CaseElement helpers prefix should prefix "has a date" operator appropriately 1`] = `""`;
+exports[`CaseElement render should render empty case 1`] = `
+<FormElement
+  __className="group"
+  data-spec="case-form"
+  kaseError={false}
+  name="case_29b18c7e-c232-414c-9fc0-2e0b6260d9ca"
+>
+  <div
+    className="kase select-medium"
+  >
+    <span
+      className="fe-chevrons-expand dndIcon"
+    />
+    <div
+      className="choice"
+    >
+      <Select
+        arrowRenderer={[Function]}
+        autosize={true}
+        backspaceRemoves={true}
+        backspaceToRemoveMessage="Press backspace to remove {label}"
+        clearAllText="Clear all"
+        clearRenderer={[Function]}
+        clearValueText="Clear value"
+        clearable={false}
+        closeOnSelect={true}
+        data-spec="operator-list"
+        deleteRemoves={true}
+        delimiter=","
+        disabled={false}
+        escapeClearsValue={true}
+        filterOptions={[Function]}
+        ignoreAccents={true}
+        ignoreCase={true}
+        inputProps={Object {}}
+        isLoading={false}
+        joinValues={true}
+        labelKey="verboseName"
+        matchPos="any"
+        matchProp="any"
+        menuBuffer={0}
+        menuRenderer={[Function]}
+        multi={false}
+        name="operator"
+        noResultsText="No results found"
+        onBlurResetsInput={true}
+        onChange={[Function]}
+        onCloseResetsInput={true}
+        onSelectResetsInput={true}
+        openOnClick={true}
+        optionClassName="operator"
+        optionComponent={[Function]}
+        options={
+          Array [
+            Object {
+              "operands": 1,
+              "type": "has_any_word",
+              "verboseName": "has any of the words",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_all_words",
+              "verboseName": "has all of the words",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_phrase",
+              "verboseName": "has the phrase",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_only_phrase",
+              "verboseName": "has only the phrase",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_beginning",
+              "verboseName": "starts with",
+            },
+            Object {
+              "categoryName": "Has Text",
+              "operands": 0,
+              "type": "has_text",
+              "verboseName": "has some text",
+            },
+            Object {
+              "categoryName": "Has Number",
+              "operands": 0,
+              "type": "has_number",
+              "verboseName": "has a number",
+            },
+            Object {
+              "operands": 2,
+              "type": "has_number_between",
+              "verboseName": "has a number between",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_number_lt",
+              "verboseName": "has a number below",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_number_lte",
+              "verboseName": "has a number at or below",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_number_eq",
+              "verboseName": "has a number equal to",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_number_gte",
+              "verboseName": "has a number at or above",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_number_gt",
+              "verboseName": "has a number above",
+            },
+            Object {
+              "categoryName": "Has Date",
+              "operands": 0,
+              "type": "has_date",
+              "verboseName": "has a date",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_date_lt",
+              "verboseName": "has a date before",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_date_eq",
+              "verboseName": "has a date equal to",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_date_gt",
+              "verboseName": "has a date after",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_run_status",
+              "verboseName": "has a run status of",
+            },
+            Object {
+              "operands": 1,
+              "type": "has_group",
+              "verboseName": "is in the group",
+            },
+            Object {
+              "categoryName": "Has Phone",
+              "operands": 0,
+              "type": "has_phone",
+              "verboseName": "has a phone number",
+            },
+            Object {
+              "categoryName": "Has Email",
+              "operands": 0,
+              "type": "has_email",
+              "verboseName": "has an email",
+            },
+            Object {
+              "categoryName": "Has Error",
+              "operands": 0,
+              "type": "has_error",
+              "verboseName": "has an error",
+            },
+            Object {
+              "categoryName": "Not Empty",
+              "operands": 0,
+              "type": "has_value",
+              "verboseName": "is not empty",
+            },
+            Object {
+              "operands": 0,
+              "type": "has_wait_timed_out",
+              "verboseName": null,
+            },
+          ]
+        }
+        pageSize={5}
+        placeholder="Select..."
+        removeSelected={true}
+        required={false}
+        rtl={false}
+        scrollMenuIntoView={true}
+        searchable={false}
+        simpleValue={false}
+        tabSelectsValue={true}
+        trimFilter={true}
+        value="has_any_word"
+        valueComponent={[Function]}
+        valueKey="type"
+      />
+    </div>
+    <div
+      className="singleOperand"
+    >
+      <Connect(TextInputElement)
+        autocomplete={true}
+        data-spec="args-input"
+        entry={
+          Object {
+            "value": "Red, r",
+          }
+        }
+        name="arguments"
+        onChange={[Function]}
+        showInvalid={false}
+      />
+    </div>
+    <div
+      className="categorizeAs"
+    >
+      categorize as
+    </div>
+    <div
+      className="category"
+    >
+      <Connect(TextInputElement)
+        data-spec="exit-input"
+        entry={
+          Object {
+            "value": "Red",
+          }
+        }
+        name="exitName"
+        onChange={[Function]}
+        showInvalid={false}
+      />
+    </div>
+    <span
+      className="fe-x removeIcon"
+      onClick={[Function]}
+    />
+  </div>
+</FormElement>
+`;
 
-exports[`CaseElement helpers prefix should prefix "has a number above" operator appropriately 1`] = `">"`;
-
-exports[`CaseElement helpers prefix should prefix "has a number at or above" operator appropriately 1`] = `">= "`;
-
-exports[`CaseElement helpers prefix should prefix "has a number at or below" operator appropriately 1`] = `"<= "`;
-
-exports[`CaseElement helpers prefix should prefix "has a number below" operator appropriately 1`] = `"< "`;
-
-exports[`CaseElement helpers prefix should prefix "has a number between" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has a number equal to" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has a number" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has a phone number" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has a run status of" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has all of the words" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has an email" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has an error" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has any of the words" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has only the phrase" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has some text" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "has the phrase" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "is in the group" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "is not empty" operator appropriately 1`] = `""`;
-
-exports[`CaseElement helpers prefix should prefix "starts with" operator appropriately 1`] = `""`;
+exports[`CaseElement update handles argument changes 1`] = `
+Object {
+  "arguments": Object {
+    "value": Array [
+      "1",
+      "100",
+    ],
+  },
+  "errors": Array [],
+  "exitName": Object {
+    "value": "Red",
+  },
+  "exitNameEdited": false,
+  "operatorConfig": Object {
+    "operands": 2,
+    "type": "has_number_between",
+    "verboseName": "has a number between",
+  },
+  "valid": true,
+}
+`;

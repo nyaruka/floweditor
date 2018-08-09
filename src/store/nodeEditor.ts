@@ -44,7 +44,6 @@ export const mergeForm = (
     toRemove: any[] = []
 ): FormState => {
     // TODO: deal with explicit array setting
-
     let updated = form || {};
     // we auto update array items with uuids
     for (const key of Object.keys(toMerge)) {
@@ -90,15 +89,14 @@ export const mergeForm = (
                 for (const item of entry) {
                     // we support objects with uuids or FormEntry's with uuids
                     const isEntry = item.hasOwnProperty('value') && typeof item.value === 'object';
-
                     if ((isEntry && item.value.uuid) || item.uuid) {
                         updated = mutate(updated, {
                             [key]: (items: any) =>
                                 items.filter((existing: any) => {
                                     if (isEntry) {
-                                        return existing.value.uuid === item.value.uuid;
+                                        return existing.value.uuid !== item.value.uuid;
                                     } else {
-                                        return existing.uuid === item.uuid;
+                                        return existing.uuid !== item.uuid;
                                     }
                                 })
                         });

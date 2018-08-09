@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`helpers prefix should prefix "has a date after" operator appropriately 1`] = `"After "`;
+
+exports[`helpers prefix should prefix "has a date before" operator appropriately 1`] = `"Before "`;
+
+exports[`helpers prefix should prefix "has a date equal to" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has a date" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has a number above" operator appropriately 1`] = `">"`;
+
+exports[`helpers prefix should prefix "has a number at or above" operator appropriately 1`] = `">= "`;
+
+exports[`helpers prefix should prefix "has a number at or below" operator appropriately 1`] = `"<= "`;
+
+exports[`helpers prefix should prefix "has a number below" operator appropriately 1`] = `"< "`;
+
+exports[`helpers prefix should prefix "has a number between" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has a number equal to" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has a number" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has a phone number" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has a run status of" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has all of the words" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has an email" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has an error" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has any of the words" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has only the phrase" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has some text" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "has the phrase" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "is in the group" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "is not empty" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "starts with" operator appropriately 1`] = `""`;

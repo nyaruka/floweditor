@@ -93,9 +93,9 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         return cases.find((caseProps: CaseProps) => caseProps.exitName.trim().length === 0) != null;
     }
 
-    private handleRemoveCase(element: CaseElement): boolean {
+    private handleRemoveCase(uuid: string): boolean {
         return this.handleUpdate({
-            removeCase: { uuid: element.props.kase.uuid }
+            removeCase: { uuid }
         });
     }
 
@@ -103,9 +103,9 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         return this.handleUpdate({
             caseProps: {
                 uuid: element.props.kase.uuid,
-                exitName: element.state.exitName,
+                exitName: element.state.exitName.value,
                 kase: {
-                    arguments: element.state.arguments,
+                    arguments: element.state.arguments.value,
                     type: element.state.operatorConfig.type,
                     uuid: element.props.kase.uuid,
 
