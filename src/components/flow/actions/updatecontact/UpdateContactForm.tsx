@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import {
+    createNewOption,
     initializeForm,
     sortFieldsAndProperties,
     stateToAction
@@ -16,7 +17,7 @@ import { ContactProperties } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
-import { composeCreateNewOption, snakify, titleCase } from '~/utils';
+import { titleCase } from '~/utils';
 
 const styles = require('./UpdateContact.scss');
 
@@ -47,12 +48,7 @@ export const LANGUAGE_PROPERTY = {
     type: AssetType.ContactProperty
 };
 
-const CONTACT_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, CHANNEL_PROPERTY];
-
-export const createNewOption = composeCreateNewOption({
-    idCb: label => snakify(label),
-    type: AssetType.Field
-});
+export const CONTACT_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, CHANNEL_PROPERTY];
 
 export default class UpdateContactForm extends React.Component<
     ActionFormProps,

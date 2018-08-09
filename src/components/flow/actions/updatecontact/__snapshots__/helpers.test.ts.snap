@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UpdateContact.helpers should create new options 1`] = `
+Object {
+  "id": "label_name",
+  "isNew": true,
+  "name": "Label Name",
+  "type": "field",
+}
+`;
+
+exports[`UpdateContact.helpers should sort options 1`] = `
+Array [
+  Object {
+    "id": "name",
+    "name": "Name",
+    "type": "property",
+  },
+  Object {
+    "id": "expected_delivery_date",
+    "name": "Expected Delivery Date",
+    "type": "field",
+  },
+  Object {
+    "id": "national_id",
+    "name": "National ID",
+    "type": "field",
+  },
+  Object {
+    "id": "number_of_children",
+    "name": "Number of Children",
+    "type": "field",
+  },
+  Object {
+    "id": "channel",
+    "name": "Channel",
+    "type": "property",
+  },
+  Object {
+    "id": "language",
+    "name": "Language",
+    "type": "property",
+  },
+]
+`;
