@@ -6,7 +6,14 @@ import UpdateContactForm, {
 import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils, mock } from '~/testUtils';
-import { createSetContactFieldAction, getActionFormProps } from '~/testUtils/assetCreators';
+import {
+    createAddGroupsAction,
+    createSetContactChannelAction,
+    createSetContactFieldAction,
+    createSetContactLanguageAction,
+    createSetContactNameAction,
+    getActionFormProps
+} from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
@@ -18,8 +25,38 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 
 describe(UpdateContactForm.name, () => {
     describe('render', () => {
-        it('should render self, children with base props', () => {
+        it('initial for field', () => {
             const { wrapper } = setup(true);
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('initial for channel', () => {
+            const { wrapper } = setup(true, {
+                $set: getActionFormProps(createSetContactChannelAction())
+            });
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('initial for language', () => {
+            const { wrapper } = setup(true, {
+                $set: getActionFormProps(createSetContactLanguageAction())
+            });
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('initial for name', () => {
+            const { wrapper } = setup(true, {
+                $set: getActionFormProps(createSetContactNameAction())
+            });
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it('should render an empty form with different action', () => {
+            const { wrapper } = setup(true, {
+                $merge: {
+                    nodeSettings: { originalNode: null, originalAction: createAddGroupsAction() }
+                }
+            });
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -29,7 +66,6 @@ describe(UpdateContactForm.name, () => {
                     nodeSettings: { originalNode: null, originalAction: null }
                 }
             });
-
             expect(wrapper).toMatchSnapshot();
         });
     });
@@ -46,7 +82,7 @@ describe(UpdateContactForm.name, () => {
             form.instance.handleNameUpdate('Rowan Seymour');
             form.instance.handleSave();
             expect(form.instance.state).toMatchSnapshot();
-            expect(form.props.updateAction).toHaveBeenCalled();
+            expect(form.props.updateAction).toMatchCallSnapshot();
         });
 
         it('should update field value', () => {
@@ -56,7 +92,7 @@ describe(UpdateContactForm.name, () => {
             form.instance.handleFieldValueUpdate('12/25/00');
             form.instance.handleSave();
             expect(form.instance.state).toMatchSnapshot();
-            expect(form.props.updateAction).toHaveBeenCalled();
+            expect(form.props.updateAction).toMatchCallSnapshot();
         });
 
         it('should update language', () => {
@@ -64,7 +100,7 @@ describe(UpdateContactForm.name, () => {
             form.instance.handleLanguageUpdate('eng');
             form.instance.handleSave();
             expect(form.instance.state).toMatchSnapshot();
-            expect(form.props.updateAction).toHaveBeenCalled();
+            expect(form.props.updateAction).toMatchCallSnapshot();
         });
 
         it('should update channel', () => {
@@ -74,7 +110,7 @@ describe(UpdateContactForm.name, () => {
             ]);
             form.instance.handleSave();
             expect(form.instance.state).toMatchSnapshot();
-            expect(form.props.updateAction).toHaveBeenCalled();
+            expect(form.props.updateAction).toMatchCallSnapshot();
         });
 
         it('should validate before saving', () => {
@@ -87,6 +123,13 @@ describe(UpdateContactForm.name, () => {
             expect(form.instance.state).toMatchSnapshot();
             expect(form.props.updateAction).not.toBeCalled();
             expect(form.props.onClose).not.toBeCalled();
+        });
+
+        it('should cancel changes', () => {
+            form.instance.handlePropertyChange([NAME_PROPERTY]);
+            form.instance.handleNameUpdate('Rowan Seymour');
+            form.instance.getButtons().secondary.onClick();
+            expect(form.props.updateAction).not.toBeCalled();
         });
     });
 
@@ -115,7 +158,7 @@ describe(UpdateContactForm.name, () => {
             instance.handleFieldValueUpdate('12/25/00');
             instance.handleSave();
             expect(instance.state).toMatchSnapshot();
-            expect(props.updateAction).toHaveBeenCalled();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
 
         it('to language', () => {
@@ -128,7 +171,7 @@ describe(UpdateContactForm.name, () => {
             instance.handleLanguageUpdate('eng');
             instance.handleSave();
             expect(instance.state).toMatchSnapshot();
-            expect(props.updateAction).toHaveBeenCalled();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
 
         it('to channel', () => {
@@ -143,7 +186,7 @@ describe(UpdateContactForm.name, () => {
             ]);
             instance.handleSave();
             expect(instance.state).toMatchSnapshot();
-            expect(props.updateAction).toHaveBeenCalled();
+            expect(props.updateAction).toMatchCallSnapshot();
         });
     });
 });

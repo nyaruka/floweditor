@@ -37,7 +37,6 @@ const UpdateContactComp: React.SFC<SetContactAttribute> = action => {
         case Types.set_contact_name:
             return renderSetText('name', (action as SetContactName).name);
     }
-    return <div>update something</div>;
 };
 
 export default UpdateContactComp;

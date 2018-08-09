@@ -18,6 +18,7 @@ import {
 } from '~/flowTypes';
 import { Asset, AssetType, removeAsset } from '~/services/AssetService';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { composeCreateNewOption, snakify } from '~/utils';
 
 export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormState => {
     const state: UpdateContactFormState = {
@@ -79,6 +80,7 @@ export const stateToAction = (
     settings: NodeEditorSettings,
     state: UpdateContactFormState
 ): SetContactAttribute => {
+    /* istanbul ignore else */
     if (state.type === Types.set_contact_field) {
         return {
             uuid: getActionUUID(settings, Types.set_contact_field),
@@ -86,25 +88,19 @@ export const stateToAction = (
             field: assetToField(state.field.value),
             value: state.fieldValue.value
         };
-    }
-
-    if (state.type === Types.set_contact_channel) {
+    } else if (state.type === Types.set_contact_channel) {
         return {
             uuid: getActionUUID(settings, Types.set_contact_channel),
             type: state.type,
             channel: assetToChannel(state.channel.value)
         };
-    }
-
-    if (state.type === Types.set_contact_language) {
+    } else if (state.type === Types.set_contact_language) {
         return {
             uuid: getActionUUID(settings, Types.set_contact_language),
             type: state.type,
             language: assetToLanguage(state.language.value)
         };
-    }
-
-    if (state.type === Types.set_contact_name) {
+    } else if (state.type === Types.set_contact_name) {
         return {
             uuid: getActionUUID(settings, Types.set_contact_name),
             type: state.type,
@@ -115,29 +111,18 @@ export const stateToAction = (
 
 export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
     // Name always goes first
+    /* istanbul ignore else */
     if (a === NAME_PROPERTY) {
         return -1;
     }
-
-    if (b === NAME_PROPERTY) {
-        return 1;
-    }
-
     // go with alpha-sort for everthing else
-    if (a.type === b.type) {
+    else if (a.type === b.type) {
         return a.name.localeCompare(b.name);
     }
-
     // non-name non-fields go last
-    if (a.type !== AssetType.Field) {
+    else if (a.type !== AssetType.Field) {
         return 1;
     }
-
-    if (b.type !== AssetType.Field) {
-        return -1;
-    }
-
-    return 0;
 };
 
 export const fieldToAsset = (field: Field = { key: '', name: '' }): Asset => ({
@@ -191,3 +176,8 @@ export const channelToAsset = ({ uuid, name }: Channel) => {
         type: AssetType.Language
     };
 };
+
+export const createNewOption = composeCreateNewOption({
+    idCb: label => snakify(label),
+    type: AssetType.Field
+});
