@@ -24,6 +24,7 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
 );
 
 const otherExit = createUUID();
+const redExit = createUUID();
 
 describe(ResponseRouterForm.name, () => {
     it('should render', () => {
@@ -37,7 +38,10 @@ describe(ResponseRouterForm.name, () => {
                 $set: {
                     originalNode: createRenderNode({
                         actions: [],
-                        exits: [{ destination_node_uuid: null, name: 'Other', uuid: otherExit }],
+                        exits: [
+                            { destination_node_uuid: null, name: 'Red', uuid: redExit },
+                            { destination_node_uuid: null, name: 'Other', uuid: otherExit }
+                        ],
                         wait: { type: WaitTypes.msg },
                         router: {
                             type: RouterTypes.switch,
@@ -47,7 +51,7 @@ describe(ResponseRouterForm.name, () => {
                                     uuid: createUUID(),
                                     type: Operators.has_any_word,
                                     arguments: ['red'],
-                                    exit_uuid: null
+                                    exit_uuid: redExit
                                 }
                             ],
                             default_exit_uuid: otherExit,
