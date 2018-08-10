@@ -40,6 +40,7 @@ export const SOURCE_DEFAULTS = {
     isSource: true
 };
 
+/* istanbul ignore next */
 export default class Plumber {
     public jsPlumb: any;
 
@@ -153,11 +154,7 @@ export default class Plumber {
     }
 
     public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
-        this.connect(
-            `${node.uuid}:${exit.uuid}`,
-            exit.destination_node_uuid,
-            className
-        );
+        this.connect(`${node.uuid}:${exit.uuid}`, exit.destination_node_uuid, className);
     }
 
     public removeFromDragSelection(uuid: string): void {

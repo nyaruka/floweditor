@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
 import { FlowDefinition } from '~/flowTypes';
 
