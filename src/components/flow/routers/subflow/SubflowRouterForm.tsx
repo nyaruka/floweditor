@@ -3,7 +3,7 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { RouterFormProps } from '~/components/flow/props';
 import { nodeToState, stateToNode } from '~/components/flow/routers/subflow/helpers';
-import FlowElement from '~/components/form/select/flows/FlowElement';
+import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/services/AssetService';
@@ -74,13 +74,16 @@ export default class SubflowRouterForm extends React.PureComponent<
                     initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
-                <p>Select a flow to run</p>
-                <FlowElement
-                    name="Flow"
-                    assets={this.context.assetService.getFlowAssets()}
-                    onChange={this.handleFlowChanged}
-                    entry={this.state.flow}
-                />
+                <p>
+                    <SelectAssetElement
+                        key="flow_select"
+                        name="Flow"
+                        placeholder="Select the flow to enter"
+                        entry={this.state.flow}
+                        assets={this.context.assetService.getFlowAssets()}
+                        onChange={this.handleFlowChanged}
+                    />
+                </p>
             </Dialog>
         );
     }

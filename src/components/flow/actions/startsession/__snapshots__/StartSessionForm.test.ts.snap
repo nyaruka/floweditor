@@ -69,26 +69,27 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       searchPromptText="No matches"
     />
     <p>
-      Select a flow to run
+      <SelectAssetElement
+        assets={
+          FlowAssets {
+            "assetType": "flow",
+            "assets": Object {},
+            "endpoint": "/assets/flows.json",
+            "idProperty": "uuid",
+            "localStorage": true,
+          }
+        }
+        entry={
+          Object {
+            "value": null,
+          }
+        }
+        key="flow_select"
+        name="Flow"
+        onChange={[Function]}
+        placeholder="Select the flow to start them in"
+      />
     </p>
-    <FlowElement
-      assets={
-        FlowAssets {
-          "assetType": "flow",
-          "assets": Object {},
-          "endpoint": "/assets/flows.json",
-          "idProperty": "uuid",
-          "localStorage": true,
-        }
-      }
-      entry={
-        Object {
-          "value": null,
-        }
-      }
-      name="Flow"
-      onChange={[Function]}
-    />
   </div>
 </Dialog>
 `;
@@ -176,30 +177,31 @@ exports[`StartSessionForm render should render self, children with base props 1`
       searchPromptText="No matches"
     />
     <p>
-      Select a flow to run
+      <SelectAssetElement
+        assets={
+          FlowAssets {
+            "assetType": "flow",
+            "assets": Object {},
+            "endpoint": "/assets/flows.json",
+            "idProperty": "uuid",
+            "localStorage": true,
+          }
+        }
+        entry={
+          Object {
+            "value": Object {
+              "id": "flow_uuid",
+              "name": "Flow to Start",
+              "type": "flow",
+            },
+          }
+        }
+        key="flow_select"
+        name="Flow"
+        onChange={[Function]}
+        placeholder="Select the flow to start them in"
+      />
     </p>
-    <FlowElement
-      assets={
-        FlowAssets {
-          "assetType": "flow",
-          "assets": Object {},
-          "endpoint": "/assets/flows.json",
-          "idProperty": "uuid",
-          "localStorage": true,
-        }
-      }
-      entry={
-        Object {
-          "value": Object {
-            "id": "flow_uuid",
-            "name": "Flow to Start",
-            "type": "flow",
-          },
-        }
-      }
-      name="Flow"
-      onChange={[Function]}
-    />
   </div>
 </Dialog>
 `;

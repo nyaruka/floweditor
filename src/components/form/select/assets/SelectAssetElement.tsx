@@ -7,7 +7,7 @@ import { CreateOptions } from '~/flowTypes';
 import { Asset, Assets } from '~/services/AssetService';
 import { getSelectClassForEntry, isOptionUnique, isValidNewOption } from '~/utils';
 
-interface SelectAssetElementProps extends FormElementProps {
+export interface SelectAssetElementProps extends FormElementProps {
     endpoint?: string;
     placeholder?: string;
     assets: Assets;
@@ -30,7 +30,8 @@ export default class SelectAssetElement extends React.Component<SelectAssetEleme
         });
     }
 
-    private handleChange(selected: Asset[]): void {
+    private handleChanged(selected: Asset[]): void {
+        /* istanbul ignore else */
         if (this.props.onChange) {
             this.props.onChange(selected);
         }
@@ -54,7 +55,7 @@ export default class SelectAssetElement extends React.Component<SelectAssetEleme
             >
                 <SelectSearch
                     __className={getSelectClassForEntry(this.props.entry)}
-                    onChange={this.handleChange}
+                    onChange={this.handleChanged}
                     name={this.props.name}
                     assets={this.props.assets}
                     multi={false}

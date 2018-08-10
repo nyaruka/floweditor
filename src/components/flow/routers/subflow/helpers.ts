@@ -50,8 +50,8 @@ export const stateToNode = (
     let cases: Case[];
 
     if (settings.originalNode.ui.type === Types.split_by_subflow) {
-        ({ exits } = this.props.settings.originalNode.node);
-        ({ cases } = this.props.settings.originalNode.node.router as SwitchRouter);
+        ({ exits } = settings.originalNode.node);
+        ({ cases } = settings.originalNode.node.router as SwitchRouter);
     } else {
         // Otherwise, let's create some new ones
         exits = [

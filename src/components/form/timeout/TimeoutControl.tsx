@@ -51,18 +51,6 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
         return null;
     }
 
-    private handleCheck(): void {
-        if (this.props.timeout > 0) {
-            this.props.onChanged(0);
-        } else {
-            this.props.onChanged(DEFAULT_TIMEOUT.value);
-        }
-    }
-
-    private handleChangeTimeout(selected: Option): void {
-        this.props.onChanged(selected.value as number);
-    }
-
     private isChecked(): boolean {
         return this.props.timeout > 0;
     }
@@ -70,6 +58,18 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
     private getInstructions(): string {
         const base = 'Continue when there is no response';
         return this.isChecked() ? `${base} for` : ellipsize(base);
+    }
+
+    private handleChecked(): void {
+        if (this.props.timeout > 0) {
+            this.props.onChanged(0);
+        } else {
+            this.props.onChanged(DEFAULT_TIMEOUT.value);
+        }
+    }
+
+    private handleTimeoutChanged(selected: Option): void {
+        this.props.onChanged(selected.value as number);
     }
 
     public render(): JSX.Element {
@@ -81,7 +81,7 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
                         checked={this.isChecked()}
                         description={this.getInstructions()}
                         checkboxClassName={styles.checkbox}
-                        onChange={this.handleCheck}
+                        onChange={this.handleChecked}
                     />
                 </div>
                 {renderIf(this.isChecked())(
@@ -92,7 +92,7 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
                         clearable={false}
                         searchable={false}
                         value={this.getSelected(this.props.timeout)}
-                        onChange={this.handleChangeTimeout}
+                        onChange={this.handleTimeoutChanged}
                         options={TIMEOUT_OPTIONS}
                     />
                 )}

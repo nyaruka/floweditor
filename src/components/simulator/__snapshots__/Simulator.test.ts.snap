@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Simulator renders 1`] = `
+<div
+  className="simContainer"
+>
+  <div>
+    <div
+      className="simulator simHidden"
+      id="simulator"
+      key="sim"
+    >
+      <a
+        className="reset inactive"
+        onClick={[Function]}
+      />
+      <div
+        className="close fe-x"
+        onClick={[Function]}
+      />
+      <div
+        className="screen"
+      >
+        <div
+          className="messages"
+        >
+          <div
+            id="bottom"
+            style={
+              Object {
+                "clear": "both",
+                "float": "left",
+              }
+            }
+          />
+        </div>
+        <div
+          className="controls"
+        >
+          <input
+            disabled={true}
+            onKeyUp={[Function]}
+            placeholder="Press home to start again"
+            type="text"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="simulatorTab "
+    onClick={[Function]}
+  >
+    <div
+      className="simulatorTabIcon fe-smartphone"
+    />
+    <div
+      className="simulatorTabText"
+    >
+      Run in
+      <br />
+      Simulator
+    </div>
+  </div>
+</div>
+`;

@@ -3,7 +3,7 @@ import * as React from 'react';
 const styles = require('./Pill.scss');
 
 export interface PillProps {
-    advanced: true;
+    advanced: boolean;
     onClick?(event: React.MouseEvent<HTMLDivElement>): void;
     text: string;
     maxLength: number;

@@ -3,3 +3,10 @@ export const EXPRESSION_LABEL = 'If the expression...';
 export const GROUP_LABEL = "Select the group(s) you'd like to split by below";
 export const OPERAND_LOCALIZATION_DESC =
     'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.';
+
+export enum DefaultExitNames {
+    All_Responses = 'All Responses',
+    No_Response = 'No Response',
+    Any_Value = 'Any Value',
+    Other = 'Other'
+}

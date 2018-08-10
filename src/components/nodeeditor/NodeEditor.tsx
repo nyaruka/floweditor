@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { DragPoint } from '~/components/flow/node/Node';
 import Modal from '~/components/modal/Modal';
 import { Type } from '~/config/typeConfigs';
-import { Action, AnyAction, FlowDefinition, FlowNode, SwitchRouter, WaitTypes } from '~/flowTypes';
+import { Action, AnyAction, FlowDefinition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { IncrementSuggestedResultNameCount, UpdateUserAddingAction } from '~/store/actionTypes';
 import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
@@ -28,23 +28,10 @@ import {
     resetNodeEditingState
 } from '~/store/thunks';
 
-// TODO: Remove use of Function
-// tslint:disable:ban-types
-export type GetResultNameField = () => JSX.Element;
 export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
-interface Sides {
-    front: JSX.Element;
-    back: JSX.Element;
-}
-
-export enum DefaultExitNames {
-    All_Responses = 'All Responses',
-    No_Response = 'No Response',
-    Any_Value = 'Any Value',
-    Other = 'Other'
-}
-
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 export interface NodeEditorPassedProps {
     plumberConnectExit: Function;
     plumberRepaintForDuration: Function;
@@ -92,27 +79,6 @@ export interface LocalizationProps {
     language: Asset;
 }
 
-export const hasCases = (node: FlowNode): boolean => {
-    if (
-        node.router &&
-        (node.router as SwitchRouter).cases &&
-        (node.router as SwitchRouter).cases.length
-    ) {
-        return true;
-    }
-    return false;
-};
-
-/**
- * Determine whether Node has a 'wait' property
- */
-export const hasWait = (node: FlowNode, type?: WaitTypes): boolean => {
-    if (!node || !node.wait || !node.wait.type || (type && node.wait.type !== type)) {
-        return false;
-    }
-    return node.wait.type in WaitTypes;
-};
-
 export class NodeEditor extends React.Component<NodeEditorProps> {
     constructor(props: NodeEditorProps) {
         super(props);
@@ -121,22 +87,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             include: [/^close/, /^update/]
         });
     }
-
-    // Allow return key to submit our form
-    /*
-    private onKeyPress(event: React.KeyboardEvent<HTMLFormElement>): void {
-        // Return key
-        if (event.which === 13) {
-            const isTextarea = $(event.target).prop('tagName') === 'TEXTAREA';
-            if (!isTextarea || event.shiftKey) {
-                event.preventDefault();
-                if (this.submit()) {
-                    this.close(false);
-                }
-            }
-        }
-    }
-    */
 
     private updateLocalizations(language: string, changes: LocalizationUpdates): void {
         this.props.onUpdateLocalizations(language, changes);
@@ -169,87 +119,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     private updateRouter(renderNode: RenderNode): void {
         this.props.onUpdateRouter(renderNode);
     }
-
-    /* 
-    public updateSubflowRouter(): void {
-        // prettier-ignore
-        const action = getAction(
-            this.props.settings.originalAction,
-            this.props.typeConfig
-        );
-
-        // prettier-ignore
-        const {
-            state: {
-                flow:
-                {
-                    name: flowName,
-                    id: flowUUID
-                }
-            }
-        } = this.widgets.Flow;
-
-        const newAction: StartFlow = {
-            uuid: action.uuid,
-            type: this.props.typeConfig.type,
-            flow: { name: flowName, uuid: flowUUID }
-        };
-
-        // If we're already a subflow, lean on those exits and cases
-        let exits: Exit[];
-        let cases: Case[];
-
-        // TODO: we should probably just be passing down RenderNode
-        const renderNode = this.props.nodes[this.props.settings.originalNode.node.uuid];
-
-        if (renderNode && renderNode.ui.type === 'subflow') {
-            ({ exits } = this.props.settings.originalNode.node);
-            ({ cases } = this.props.settings.originalNode.node.router as SwitchRouter);
-        } else {
-            // Otherwise, let's create some new ones
-            exits = [
-                {
-                    uuid: createUUID(),
-                    name: StartFlowExitNames.Complete,
-                    destination_node_uuid: null
-                },
-                {
-                    uuid: createUUID(),
-                    name: StartFlowExitNames.Expired,
-                    destination_node_uuid: null
-                }
-            ];
-
-            cases = [
-                {
-                    uuid: createUUID(),
-                    type: Operators.is_text_eq,
-                    arguments: ['child.run.status', 'completed'],
-                    exit_uuid: exits[0].uuid
-                },
-                {
-                    uuid: createUUID(),
-                    arguments: ['child.run.status', 'expired'],
-                    type: Operators.is_text_eq,
-                    exit_uuid: exits[1].uuid
-                }
-            ];
-        }
-
-        const router: SwitchRouter = {
-            type: RouterTypes.switch,
-            operand: '@child',
-            cases,
-            default_exit_uuid: null
-        };
-
-        const newNode = this.getUpdatedRouterNode(router, exits, UINodeTypes.subflow, [newAction], {
-            type: WaitTypes.flow,
-            flow_uuid: flowUUID
-        } as Wait);
-        this.props.onUpdateRouter(newNode);
-    }
-    */
 
     public render(): JSX.Element {
         if (this.props.nodeEditorOpen) {

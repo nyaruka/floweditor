@@ -1,17 +1,50 @@
-import GroupsRouter from '~/components/flow/routers/groups/GroupsRouterForm';
+import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import { extractGroups } from '~/components/flow/routers/groups/helpers';
 import { SwitchRouter } from '~/flowTypes';
-import { composeComponentTestUtils } from '~/testUtils';
-import { createGroupsRouterNode, getRouterFormProps } from '~/testUtils/assetCreators';
+import { composeComponentTestUtils, mock, setMock } from '~/testUtils';
+import {
+    createGroupsRouterNode,
+    getRouterFormProps,
+    SubscribersGroup
+} from '~/testUtils/assetCreators';
+import * as utils from '~/utils';
 
 const groupsRouterNode = createGroupsRouterNode();
-const { setup } = composeComponentTestUtils(GroupsRouter, getRouterFormProps(groupsRouterNode));
+const { setup } = composeComponentTestUtils(GroupsRouterForm, getRouterFormProps(groupsRouterNode));
+mock(utils, 'createUUID', utils.seededUUIDs());
 
-describe(GroupsRouter.name, () => {
+describe(GroupsRouterForm.name, () => {
     describe('render', () => {
         it('should render', () => {
-            const { wrapper } = setup(true);
+            const { wrapper } = setup();
             expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('updates', () => {
+        it('should update and save', () => {
+            const { instance, props } = setup(true, { updateRouter: setMock() });
+            instance.handleGroupsChanged([SubscribersGroup]);
+            instance.handleResultNameChanged('My Group Result');
+            expect(instance.state).toMatchSnapshot();
+
+            instance.getButtons().primary.onClick();
+            expect(props.updateRouter).toMatchCallSnapshot();
+        });
+
+        it('should cancel changes', () => {
+            const { instance, props } = setup(true, { updateRouter: setMock() });
+            instance.handleGroupsChanged([SubscribersGroup]);
+            instance.handleResultNameChanged('My Group Result');
+            instance.getButtons().secondary.onClick();
+            expect(props.updateRouter).not.toBeCalled();
+        });
+
+        it('validates before saving', () => {
+            const { instance, props } = setup(true, { updateRouter: setMock() });
+            instance.handleGroupsChanged([]);
+            instance.getButtons().primary.onClick();
+            expect(props.updateRouter).not.toBeCalled();
         });
     });
 

@@ -37,11 +37,11 @@ export default class GroupsRouterForm extends React.Component<
         });
     }
 
-    private handleUpdateGroups(groups: Asset[]): void {
+    private handleGroupsChanged(groups: Asset[]): void {
         this.handleUpdate({ groups });
     }
 
-    private handleResultNameChange(resultName: string): void {
+    private handleResultNameChanged(resultName: string): void {
         this.handleUpdate({ resultName });
     }
 
@@ -94,13 +94,13 @@ export default class GroupsRouterForm extends React.Component<
                     name="Groups"
                     assets={this.context.assetService.getGroupAssets()}
                     add={false}
-                    onChange={this.handleUpdateGroups}
+                    onChange={this.handleGroupsChanged}
                     entry={this.state.groups}
                 />
                 <OptionalTextInput
                     name="Result Name"
                     value={this.state.resultName}
-                    onChange={this.handleResultNameChange}
+                    onChange={this.handleResultNameChanged}
                     toggleText="Save as.."
                     helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
                 />

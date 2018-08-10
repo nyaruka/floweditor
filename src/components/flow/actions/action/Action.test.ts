@@ -13,7 +13,7 @@ import {
     createRenderNode,
     createSendMsgAction,
     createStartFlowAction,
-    createStartFlowNode,
+    createSubflowNode,
     English
 } from '~/testUtils/assetCreators';
 import { getLocalization, set, setFalse, setTrue } from '~/utils';
@@ -25,7 +25,7 @@ const sendMsgAction1 = createSendMsgAction({
 });
 const sendMsgNode = createRenderNode({ actions: [sendMsgAction], exits: [createExit()] });
 const startFlowAction = createStartFlowAction();
-const startFlowNode = createStartFlowNode(startFlowAction);
+const subflowNode = createSubflowNode(startFlowAction);
 const localization = {
     spa: {
         [sendMsgAction.uuid]: {
@@ -107,7 +107,7 @@ describe(ActionWrapper.name, () => {
 
         it('should display hybrid style', () => {
             const { wrapper, props } = setup(true, {
-                renderNode: set(startFlowNode)
+                renderNode: set(subflowNode)
             });
 
             expect(
