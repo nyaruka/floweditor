@@ -1,4 +1,4 @@
-# FlowEditor
+# Flow Editor
 [![Build Status](https://travis-ci.org/nyaruka/floweditor.svg?branch=master)](https://travis-ci.org/nyaruka/floweditor)
 [![codecov](https://codecov.io/gh/nyaruka/floweditor/branch/master/graph/badge.svg)](https://codecov.io/gh/nyaruka/floweditor)
 
