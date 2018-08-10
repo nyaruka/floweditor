@@ -481,11 +481,9 @@ export const createWaitRouterNode = ({
         wait: createWait({ type: WaitTypes.msg, timeout })
     });
 
-export const createStartFlowNode = (
+export const createSubflowNode = (
     startFlowAction: StartFlow,
     uuid: string = 'e4e66707-8798-4760-ba10-ab25c3da767c',
-    // tslint:disable-next-line:variable-name
-    flow_uuid?: string,
     exitUUIDs: string[] = [
         '054be440-a819-4bcf-898e-d18084ab7f4e',
         '70dbfd3f-a501-42cb-b53d-3c4290ab8d58'
@@ -509,13 +507,13 @@ export const createStartFlowNode = (
         router: createSwitchRouter({
             cases: [
                 createCase({
-                    uuid: 'start_flow_case-0',
+                    uuid: '0d377671-c887-46df-a08a-22589cd50554',
                     type: Operators.has_run_status,
                     exit_uuid: exitUUIDs[0],
                     args: [StartFlowArgs.Complete]
                 }),
                 createCase({
-                    uuid: 'start_flow_case-1',
+                    uuid: '4be01054-1592-4193-8abd-b673e9ae8dcc',
                     type: Operators.has_run_status,
                     exit_uuid: exitUUIDs[1],
                     args: [StartFlowArgs.Expired]
@@ -524,7 +522,8 @@ export const createStartFlowNode = (
             operand: '@child',
             default_exit_uuid: null
         }),
-        wait: createWait({ type: WaitTypes.flow })
+        wait: createWait({ type: WaitTypes.flow }),
+        ui: { position: { left: 0, top: 0 }, type: Types.split_by_subflow }
     });
 
 export const createGroupsRouterNode = (
@@ -588,6 +587,11 @@ export const SubscribersGroup = {
     name: 'Subscriber',
     id: '68223118-109f-442a-aed3-7bb3e1eab687',
     type: AssetType.Group
+};
+
+export const ColorFlowAsset = {
+    name: 'Favorite Color',
+    uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56'
 };
 
 export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: AssetType.Label };

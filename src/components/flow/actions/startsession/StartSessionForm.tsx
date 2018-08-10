@@ -3,7 +3,7 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/startsession/helpers';
 import { ActionFormProps } from '~/components/flow/props';
-import FlowElement from '~/components/form/select/flows/FlowElement';
+import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
@@ -107,13 +107,16 @@ export default class StartSessionForm extends React.Component<
                         entry={this.state.recipients}
                         add={true}
                     />
-                    <p>Select a flow to run</p>
-                    <FlowElement
-                        name="Flow"
-                        onChange={this.handleFlowChanged}
-                        assets={this.context.assetService.getFlowAssets()}
-                        entry={this.state.flow}
-                    />
+                    <p>
+                        <SelectAssetElement
+                            key="flow_select"
+                            name="Flow"
+                            placeholder="Select the flow to start them in"
+                            entry={this.state.flow}
+                            assets={this.context.assetService.getFlowAssets()}
+                            onChange={this.handleFlowChanged}
+                        />
+                    </p>
                 </div>
             </Dialog>
         );

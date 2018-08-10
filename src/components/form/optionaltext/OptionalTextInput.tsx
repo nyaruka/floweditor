@@ -33,11 +33,11 @@ export default class OptionalTextInput extends React.Component<
         this.state = { editing: this.props.value.value.trim().length > 0, valid: true };
     }
 
-    private handleUpdateResultName(resultName: string): void {
-        this.props.onChange(resultName);
+    private handleTextChanged(text: string): void {
+        this.props.onChange(text);
     }
 
-    private handleShowEdit(): void {
+    private handleEditingChanged(): void {
         this.setState({ editing: true });
     }
 
@@ -47,20 +47,20 @@ export default class OptionalTextInput extends React.Component<
         if (this.state.editing) {
             ele = (
                 <TextInputElement
-                    data-spec="name-field"
+                    data-spec="optional-field"
                     name={this.props.name}
                     showLabel={true}
                     entry={this.props.value}
-                    onChange={this.handleUpdateResultName}
+                    onChange={this.handleTextChanged}
                     helpText={this.props.helpText}
                 />
             );
         } else {
             ele = (
                 <span
-                    data-spec="name-field"
+                    data-spec="toggle-link"
                     className={styles.toggleLink}
-                    onClick={this.handleShowEdit}
+                    onClick={this.handleEditingChanged}
                 >
                     {this.props.toggleText}
                 </span>

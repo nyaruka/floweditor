@@ -1,4 +1,4 @@
-import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
+import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';

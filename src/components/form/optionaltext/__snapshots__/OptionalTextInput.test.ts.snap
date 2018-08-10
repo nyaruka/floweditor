@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OptionalTextInput renders 1`] = `
+<div
+  className="optionalTextInput"
+>
+  <span
+    className="toggleLink"
+    data-spec="toggle-link"
+    onClick={[Function]}
+  >
+    Click me to show
+  </span>
+</div>
+`;
+
+exports[`OptionalTextInput updates 1`] = `
+Object {
+  "editing": true,
+  "valid": true,
+}
+`;

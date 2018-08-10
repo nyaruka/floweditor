@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pill renders 1`] = `
+<div
+  className="pill"
+  data-advanced={false}
+>
+  This is my...
+</div>
+`;
+
+exports[`Pill treats @ text differently 1`] = `
+<div
+  className="pill"
+  data-advanced={false}
+  title="@(CONCAT(contact.name, contact.age))"
+>
+  @(exp)
+</div>
+`;

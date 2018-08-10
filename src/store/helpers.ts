@@ -1,5 +1,5 @@
 import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
-import { DefaultExitNames } from '~/components/nodeeditor/NodeEditor';
+import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { Types } from '~/config/typeConfigs';
 import {
     AddLabels,
@@ -18,7 +18,7 @@ import {
 import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
-import { snakify, createUUID } from '~/utils';
+import { createUUID, snakify } from '~/utils';
 
 export interface Bounds {
     left: number;
