@@ -297,6 +297,7 @@ Array [
     "payload": Object {
       "editorState": Object {
         "createNodePosition": null,
+        "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,
@@ -314,6 +315,7 @@ Array [
     "payload": Object {
       "editorState": Object {
         "createNodePosition": null,
+        "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,
@@ -336,6 +338,7 @@ Array [
     "payload": Object {
       "editorState": Object {
         "createNodePosition": null,
+        "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,
@@ -364,6 +367,7 @@ Array [
     "payload": Object {
       "editorState": Object {
         "createNodePosition": null,
+        "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,
@@ -392,6 +396,7 @@ Array [
     "payload": Object {
       "editorState": Object {
         "createNodePosition": null,
+        "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,
@@ -1061,6 +1066,7 @@ Array [
     "payload": Object {
       "editorState": Object {
         "createNodePosition": null,
+        "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,
@@ -1104,6 +1110,7 @@ Array [
     "payload": Object {
       "editorState": Object {
         "createNodePosition": null,
+        "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,

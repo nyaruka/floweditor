@@ -14,6 +14,10 @@ export interface DragSelection {
     selected?: { [uuid: string]: boolean };
 }
 
+export interface DebugState {
+    showUUIDs: boolean;
+}
+
 export interface EditorState {
     language: Asset;
     translating: boolean;
@@ -25,6 +29,7 @@ export interface EditorState {
     ghostNode: RenderNode;
     dragGroup: boolean;
     dragSelection: DragSelection;
+    debug?: DebugState;
 }
 
 // Initial state
@@ -38,7 +43,8 @@ export const initialState: EditorState = {
     nodeDragging: false,
     ghostNode: null,
     dragSelection: null,
-    dragGroup: false
+    dragGroup: false,
+    debug: null
 };
 
 // Action Creator

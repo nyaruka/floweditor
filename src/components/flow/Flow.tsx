@@ -35,6 +35,7 @@ import {
     updateSticky,
     UpdateSticky
 } from '~/store/thunks';
+import { contextTypes } from '~/testUtils';
 import {
     createUUID,
     isRealValue,
@@ -44,6 +45,7 @@ import {
     timeEnd,
     timeStart
 } from '~/utils';
+import Debug from '~/utils/debug';
 
 export interface FlowStoreProps {
     editorState: Partial<EditorState>;
@@ -100,7 +102,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private ghost: any;
 
     public static contextTypes = {
-        endpoints: fakePropType
+        endpoints: fakePropType,
+        debug: fakePropType
     };
 
     constructor(props: FlowStoreProps, context: ConfigProviderContext) {
@@ -111,6 +114,11 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
 
         this.Plumber = new Plumber();
+
+        /* istanbul ignore next */
+        if (context.debug) {
+            window.fe = new Debug(props, this.props.editorState.debug);
+        }
 
         bindCallbacks(this, {
             include: [/Ref$/, /^on/, /^is/]

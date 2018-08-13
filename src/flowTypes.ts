@@ -43,6 +43,7 @@ export interface FlowEditorConfig {
     localStorage: boolean;
     endpoints: Endpoints;
     flow: string;
+    debug?: boolean;
     assetService?: AssetService;
     path?: string;
 }

@@ -1,4 +1,5 @@
 const config = {
+    debug: true,
     flow: 'a4f64f1b-85bc-477e-b706-de313a022979'
 };
 

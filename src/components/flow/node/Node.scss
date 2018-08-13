@@ -6,6 +6,25 @@
     position: absolute;
     transition: top 200ms ease-out;
 
+    .uuid {
+        user-select: text;
+        position: absolute;
+        z-index: 10000;
+        white-space: nowrap;
+        background: #ffffffDD;
+        padding: 3px;
+        border-radius: 3px;
+        cursor: pointer;
+        top: 17px;
+        align-content: center;
+        font-size: 8px;
+        font-family: monospace;
+        left: 16px;
+        &:hover {
+            background: #ffffffFF;
+        }
+    }
+
     &.dragging {
         z-index: $z_dragging;
         transition: none;
