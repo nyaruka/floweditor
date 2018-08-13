@@ -3,10 +3,6 @@ import { DebugState } from '~/store/editor';
 
 const mutate = require('immutability-helper');
 
-export const flowDebug = () => {
-    console.log('Debug Mode ON');
-};
-
 /* istanbul ignore next */
 export default class Debug {
     private props: FlowStoreProps;
