@@ -424,28 +424,9 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
-        "createNodePosition": Object {},
-        "ghostNode": null,
-        "pendingConnection": Object {},
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "createNodePosition": Object {},
-        "ghostNode": null,
-        "pendingConnection": Object {},
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "editorState": Object {
         "createNodePosition": null,
-        "pendingConnection": Object {},
+        "ghostNode": null,
+        "pendingConnection": null,
       },
     },
     "type": "UPDATE_EDITOR_STATE",
@@ -1097,24 +1078,6 @@ Array [
             },
           },
         },
-        "language": null,
-        "nodeDragging": false,
-        "nodeEditorOpen": false,
-        "pendingConnection": null,
-        "translating": false,
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "createNodePosition": null,
-        "debug": null,
-        "dragGroup": false,
-        "dragSelection": null,
-        "fetchingFlow": false,
-        "ghostNode": null,
         "language": null,
         "nodeDragging": false,
         "nodeEditorOpen": false,
