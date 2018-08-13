@@ -14,6 +14,7 @@ export interface ConfigProviderContext {
     assetService: AssetService;
     endpoints: Endpoints;
     flow: string;
+    debug: boolean;
 }
 
 // ----------------------------------------------------------------------------------------------
@@ -26,7 +27,8 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
     public static childContextTypes = {
         assetService: fakePropType,
         endpoints: fakePropType,
-        flow: fakePropType
+        flow: fakePropType,
+        debug: fakePropType
     };
 
     constructor(props: ConfigProviderProps) {
@@ -43,7 +45,8 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
         return {
             assetService: this.props.config.assetService,
             endpoints: this.props.config.endpoints,
-            flow: this.props.config.flow
+            flow: this.props.config.flow,
+            debug: this.props.config.debug
         };
     }
 

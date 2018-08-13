@@ -53,7 +53,8 @@ const flowEditorConfig: FlowEditorConfig = config;
 export const configProviderContext: ConfigProviderContext = {
     endpoints: flowEditorConfig.endpoints,
     flow: flowEditorConfig.flow,
-    assetService: new AssetService(flowEditorConfig)
+    assetService: new AssetService(flowEditorConfig),
+    debug: flowEditorConfig.debug
 };
 
 export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>

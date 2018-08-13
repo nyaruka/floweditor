@@ -98,7 +98,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.state = { thisNodeDragging: false };
 
         bindCallbacks(this, {
-            include: [/Ref$/, /^on/, /^get/]
+            include: [/Ref$/, /^on/, /^get/, /^handle/]
         });
 
         this.events = createClickHandler(this.onClick);
@@ -192,6 +192,18 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     public componentWillUnmount(): void {
         this.props.plumberRemove(this.props.renderNode.node.uuid);
+    }
+
+    /* istanbul ignore next */
+    private handleUUIDClicked(event: React.MouseEvent<HTMLDivElement>): void {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(event.currentTarget);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+        selection.removeAllRanges();
+        console.log(event.currentTarget.textContent + ' copied to clipboard.');
     }
 
     private onMouseOver(): void {
@@ -321,6 +333,23 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return false;
     }
 
+    /* istanbul ignore next */
+    private renderDebug(): JSX.Element {
+        if (this.props.editorState.debug) {
+            if (this.props.editorState.debug.showUUIDs) {
+                return (
+                    <span
+                        id={`uuid-${this.props.renderNode.node.uuid}`}
+                        onClick={this.handleUUIDClicked}
+                        className={styles.uuid}
+                    >
+                        {this.props.renderNode.node.uuid}
+                    </span>
+                );
+            }
+        }
+    }
+
     public render(): JSX.Element {
         const actions: JSX.Element[] = [];
 
@@ -445,6 +474,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             top: this.props.renderNode.ui.position.top
         };
 
+        const uuid: JSX.Element = this.renderDebug();
+
         return (
             <div
                 style={style}
@@ -453,6 +484,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 ref={this.eleRef}
             >
                 <div className={styles.node}>
+                    {uuid}
+
                     <CounterComp
                         ref={this.props.Activity.registerListener}
                         getCount={this.getCount}
