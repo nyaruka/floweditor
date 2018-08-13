@@ -114,7 +114,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
 
         this.Plumber = new Plumber();
-        // our debug access
+
+        /* istanbul ignore next */
         if (context.debug) {
             window.fe = new Debug(props, this.props.editorState.debug);
         }
