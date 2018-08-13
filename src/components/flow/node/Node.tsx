@@ -206,14 +206,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         console.log(event.currentTarget.textContent + ' copied to clipboard.');
     }
 
-    private onMouseOver(): void {
-        this.props.mergeEditorState({ dragGroup: true });
-    }
-
-    private onMouseOut(): void {
-        this.props.mergeEditorState({ dragGroup: false });
-    }
-
     private onAddToNode(): void {
         this.props.onAddToNode(this.props.renderNode.node);
     }

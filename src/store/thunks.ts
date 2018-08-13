@@ -564,20 +564,13 @@ export const handleTypeConfigChange = (typeConfig: Type) => (dispatch: DispatchW
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
-    const {
-        editorState: { pendingConnection, createNodePosition }
-    } = getState();
-
-    dispatch(mergeEditorState({ ghostNode: null }));
-
-    if (pendingConnection) {
-        dispatch(mergeEditorState({ ghostNode: null }));
-    }
-
-    if (createNodePosition) {
-        dispatch(mergeEditorState({ createNodePosition: null }));
-    }
-
+    dispatch(
+        mergeEditorState({
+            ghostNode: null,
+            pendingConnection: null,
+            createNodePosition: null
+        })
+    );
     dispatch(updateNodeEditorSettings(null));
 };
 
@@ -764,12 +757,12 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     const fromNode = nodes[fromNodeUUID];
     const ghostNode = getGhostNode(fromNode, suggestedNameCount);
 
-    // Set our ghost spec so it gets rendered.
-    dispatch(mergeEditorState({ ghostNode }));
-
-    // Save off our drag point for later
+    // Set our ghost spec so it gets rendered
+    // and save off our drag point for later
+    // TODO: can this use inboundConnections instead?
     dispatch(
         mergeEditorState({
+            ghostNode,
             pendingConnection: {
                 nodeUUID: fromNodeUUID,
                 exitUUID: event.sourceId.split(':')[1]
