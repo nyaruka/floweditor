@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as styles from '~/components/flow/Flow.scss';
 import ConnectedNode from '~/components/flow/node/Node';
+import { getDraggedFrom } from '~/components/helpers';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
 import Simulator from '~/components/simulator/Simulator';
 import Sticky from '~/components/sticky/Sticky';
@@ -206,12 +207,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      * existing node or on to empty space.
      */
     private onConnectorDrop(event: ConnectionEvent): boolean {
-        const { ghostNode, pendingConnection } = this.props.editorState;
+        const { ghostNode } = this.props.editorState;
         // Don't show the node editor if we a dragging back to where we were
         if (isRealValue(ghostNode) && !isDraggingBack(event)) {
             // Wire up the drag from to our ghost node
-            const dragPoint = pendingConnection;
             this.Plumber.recalculate(ghostNode.node.uuid);
+
+            const dragPoint = getDraggedFrom(ghostNode);
             this.Plumber.connect(
                 dragPoint.nodeUUID + ':' + dragPoint.exitUUID,
                 ghostNode.node.uuid
@@ -223,9 +225,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 this.ghost.wrappedInstance.ele.offsetTop
             );
 
-            this.props.mergeEditorState({ createNodePosition: { left, top } });
             this.props.editorState.ghostNode.ui.position = { left, top };
-
             let originalAction = null;
             if (ghostNode.node.actions && ghostNode.node.actions.length === 1) {
                 originalAction = ghostNode.node.actions[0];

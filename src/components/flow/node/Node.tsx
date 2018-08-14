@@ -39,13 +39,6 @@ import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
-// A point in the flow from which a drag is initiated
-export interface DragPoint {
-    exitUUID: string;
-    nodeUUID: string;
-    onResolved?(canceled: boolean): void;
-}
-
 export interface NodePassedProps {
     renderNode: RenderNode;
     Activity: ActivityManager;
@@ -204,14 +197,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         document.execCommand('copy');
         selection.removeAllRanges();
         console.log(event.currentTarget.textContent + ' copied to clipboard.');
-    }
-
-    private onMouseOver(): void {
-        this.props.mergeEditorState({ dragGroup: true });
-    }
-
-    private onMouseOut(): void {
-        this.props.mergeEditorState({ dragGroup: false });
     }
 
     private onAddToNode(): void {

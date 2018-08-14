@@ -296,7 +296,6 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
-        "createNodePosition": null,
         "debug": null,
         "dragGroup": false,
         "dragSelection": null,
@@ -305,7 +304,6 @@ Array [
         "language": null,
         "nodeDragging": false,
         "nodeEditorOpen": false,
-        "pendingConnection": null,
         "translating": false,
       },
     },
@@ -314,7 +312,6 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
-        "createNodePosition": null,
         "debug": null,
         "dragGroup": false,
         "dragSelection": null,
@@ -323,69 +320,10 @@ Array [
         "language": null,
         "nodeDragging": false,
         "nodeEditorOpen": true,
-        "pendingConnection": null,
         "translating": false,
       },
     },
     "type": "UPDATE_EDITOR_STATE",
-  },
-]
-`;
-
-exports[`Flow Manipulation node editor opening and closing should clear things when the editor is canceled 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "createNodePosition": null,
-        "debug": null,
-        "dragGroup": false,
-        "dragSelection": null,
-        "fetchingFlow": false,
-        "ghostNode": null,
-        "language": null,
-        "nodeDragging": false,
-        "nodeEditorOpen": false,
-        "pendingConnection": null,
-        "translating": false,
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "settings": null,
-    },
-    "type": "UPDATE_NODE_EDITOR_SETTINGS",
-  },
-]
-`;
-
-exports[`Flow Manipulation node editor opening and closing should clear things when the editor is closed 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "createNodePosition": null,
-        "debug": null,
-        "dragGroup": false,
-        "dragSelection": null,
-        "fetchingFlow": false,
-        "ghostNode": null,
-        "language": null,
-        "nodeDragging": false,
-        "nodeEditorOpen": false,
-        "pendingConnection": null,
-        "translating": false,
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "settings": null,
-    },
-    "type": "UPDATE_NODE_EDITOR_SETTINGS",
   },
 ]
 `;
@@ -395,7 +333,6 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
-        "createNodePosition": null,
         "debug": null,
         "dragGroup": false,
         "dragSelection": null,
@@ -404,7 +341,6 @@ Array [
         "language": null,
         "nodeDragging": false,
         "nodeEditorOpen": false,
-        "pendingConnection": null,
         "translating": false,
       },
     },
@@ -424,28 +360,7 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
-        "createNodePosition": Object {},
         "ghostNode": null,
-        "pendingConnection": Object {},
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "createNodePosition": Object {},
-        "ghostNode": null,
-        "pendingConnection": Object {},
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "createNodePosition": null,
-        "pendingConnection": Object {},
       },
     },
     "type": "UPDATE_EDITOR_STATE",
@@ -1065,13 +980,15 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
-        "createNodePosition": null,
         "debug": null,
         "dragGroup": false,
         "dragSelection": null,
         "fetchingFlow": false,
         "ghostNode": Object {
-          "inboundConnections": null,
+          "ghost": true,
+          "inboundConnections": Object {
+            "node0_exit0": "node0",
+          },
           "node": Object {
             "actions": Array [],
             "exits": Array [
@@ -1100,28 +1017,6 @@ Array [
         "language": null,
         "nodeDragging": false,
         "nodeEditorOpen": false,
-        "pendingConnection": null,
-        "translating": false,
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "createNodePosition": null,
-        "debug": null,
-        "dragGroup": false,
-        "dragSelection": null,
-        "fetchingFlow": false,
-        "ghostNode": null,
-        "language": null,
-        "nodeDragging": false,
-        "nodeEditorOpen": false,
-        "pendingConnection": Object {
-          "exitUUID": "node0_exit0",
-          "nodeUUID": "node0",
-        },
         "translating": false,
       },
     },

@@ -1,10 +1,8 @@
-import { DragPoint } from '~/components/flow/node/Node';
 import { Type } from '~/config';
-import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '~/flowTypes';
+import { FlowDefinition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { LocalizedObject } from '~/services/Localization';
 import Constants from '~/store/constants';
-import { DragSelection, EditorState } from '~/store/editor';
+import { EditorState } from '~/store/editor';
 import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
@@ -15,20 +13,8 @@ interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> 
 }
 
 // Payload types
-interface TranslatingPayload {
-    translating: boolean;
-}
-
-interface LanguagePayload {
-    language: Asset;
-}
-
 interface EditorStatePayload {
     editorState: EditorState;
-}
-
-interface FetchingFlowPayload {
-    fetchingFlow: boolean;
 }
 
 interface DefinitionPayload {
@@ -43,25 +29,12 @@ interface LanguagesPayload {
     languages: Asset[];
 }
 
-interface NodeDraggingPayload {
-    nodeDragging: boolean;
-}
-
 interface UpdateFlowsPayload {
     flows: Array<{ uuid: string; name: string }>;
 }
 
 interface UpdateDependenciesPayload {
     dependencies: FlowDefinition[];
-}
-
-interface UpdatePendingConnectionsPayload {
-    draggedTo: string;
-    draggedFrom: DragPoint;
-}
-
-interface RemovePendingConnectionPayload {
-    nodeUUID: string;
 }
 
 interface UpdateResultMapPayload {
@@ -72,67 +45,16 @@ interface UpdateNodesPayload {
     nodes: { [uuid: string]: RenderNode };
 }
 
-interface UpdateNodeEditorOpenPayload {
-    nodeEditorOpen: boolean;
-}
-
-interface UpdateGhostNodePayload {
-    ghostNode: RenderNode;
-}
-
-interface UpdateCreateNodePositionPayload {
-    createNodePosition: FlowPosition;
-}
-
-interface UpdatePendingConnectionPayload {
-    pendingConnection: DragPoint;
-}
-
-interface UpdateActionToEditPayload {
-    actionToEdit: AnyAction;
-}
-
-interface UpdateNodeToEditPayload {
-    nodeToEdit: FlowNode;
-}
-
-interface UpdateLocalizationsPayload {
-    localizations: LocalizedObject[];
-}
-
-interface UpdateDragGroupPayload {
-    dragGroup: boolean;
-}
-
 interface UpdateTypeConfigPayload {
     typeConfig: Type;
-}
-
-interface UpdateResultNamePayload {
-    resultName: string;
-}
-
-interface UpdateOperandPayload {
-    operand: string;
 }
 
 interface UpdateUserAddingActionPayload {
     userAddingAction: boolean;
 }
 
-interface UpdateShowResultNameActionPayload {
-    showResultName: boolean;
-}
-
-interface UpdateDragSelectionActionPayload {
-    dragSelection: DragSelection;
-}
-
 interface UpdateNodeEditorSettingsPayload {
     settings: NodeEditorSettings;
-}
-interface UpdateTimeoutPayload {
-    timeout: number;
 }
 
 interface UpdateContactFieldsPayload {
@@ -145,16 +67,7 @@ export type UpdateNodeEditorSettings = DuxAction<
     UpdateNodeEditorSettingsPayload
 >;
 
-export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
-
-export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, LanguagePayload>;
-
 export type UpdateEditorState = DuxAction<Constants.UPDATE_EDITOR_STATE, EditorStatePayload>;
-
-export type UpdateFetchingFlowAction = DuxAction<
-    Constants.UPDATE_FETCHING_FLOW,
-    FetchingFlowPayload
->;
 
 export type UpdateBaseLanguageAction = DuxAction<
     Constants.UPDATE_BASE_LANGUAGE,
@@ -165,26 +78,11 @@ export type UpdateLanguagesAction = DuxAction<Constants.UPDATE_LANGUAGES, Langua
 
 export type UpdateDefinitionAction = DuxAction<Constants.UPDATE_DEFINITION, DefinitionPayload>;
 
-export type UpdateNodeDraggingAction = DuxAction<
-    Constants.UPDATE_NODE_DRAGGING,
-    NodeDraggingPayload
->;
-
 export type UpdateFlowsAction = DuxAction<Constants.UPDATE_FLOWS, UpdateFlowsPayload>;
 
 export type UpdateDependenciesAction = DuxAction<
     Constants.UPDATE_DEPENDENCIES,
     UpdateDependenciesPayload
->;
-
-export type UpdatePendingConnectionsAction = DuxAction<
-    Constants.UPDATE_PENDING_CONNECTIONS,
-    UpdatePendingConnectionsPayload
->;
-
-export type RemovePendingConnectionAction = DuxAction<
-    Constants.REMOVE_PENDING_CONNECTION,
-    RemovePendingConnectionPayload
 >;
 
 export type UpdateResultMapAction = DuxAction<Constants.UPDATE_RESULT_MAP, UpdateResultMapPayload>;
@@ -194,18 +92,6 @@ export type IncrementSuggestedResultNameCountAction = DuxAction<
 >;
 
 export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
-
-export type UpdateNodeEditorOpenAction = DuxAction<
-    Constants.UPDATE_NODE_EDITOR_OPEN,
-    UpdateNodeEditorOpenPayload
->;
-
-export type UpdateCreateNodePositionAction = DuxAction<
-    Constants.UPDATE_CREATE_NODE_POSITION,
-    UpdateCreateNodePositionPayload
->;
-
-export type UpdateDragGroupAction = DuxAction<Constants.UPDATE_DRAG_GROUP, UpdateDragGroupPayload>;
 
 export type UpdateTypeConfigAction = DuxAction<
     Constants.UPDATE_TYPE_CONFIG,
@@ -222,23 +108,9 @@ export type UpdateContactFieldsAction = DuxAction<
     UpdateContactFieldsPayload
 >;
 
-export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
-
-export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
-
-export type UpdateTranslating = (translating: boolean) => UpdateTranslatingAction;
-
-export type UpdateLanguage = (language: Asset) => UpdateLanguageAction;
-
-export type UpdateCreateNodePosition = (
-    createNodePosition: FlowPosition
-) => UpdateCreateNodePositionAction;
-
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
 export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
-
-export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
 
 export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
 
@@ -247,21 +119,12 @@ export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNa
 type ActionTypes =
     | UpdateEditorState
     | UpdateNodeEditorSettings
-    | UpdateTranslatingAction
-    | UpdateLanguageAction
-    | UpdateFetchingFlowAction
     | UpdateDefinitionAction
-    | UpdateNodeDraggingAction
     | UpdateFlowsAction
     | UpdateDependenciesAction
-    | UpdatePendingConnectionsAction
-    | RemovePendingConnectionAction
     | UpdateResultMapAction
     | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
-    | UpdateNodeEditorOpenAction
-    | UpdateCreateNodePositionAction
-    | UpdateDragGroupAction
     | UpdateTypeConfigAction
     | UpdateUserAddingActionAction
     | UpdateBaseLanguageAction

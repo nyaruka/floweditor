@@ -121,11 +121,11 @@ describe('helpers', () => {
 
         describe('getGhostNode', () => {
             it('should create a router from an action', () => {
-                const ghost = getGhostNode(nodes.node0, 1);
+                const ghost = getGhostNode(nodes.node0, nodes.node0.node.exits[0].uuid, 1);
                 expect(ghost.node.router.type).toBe(RouterTypes.switch);
             });
             it('should create an action node from a switch', () => {
-                const ghost = getGhostNode(nodes.node1, 1);
+                const ghost = getGhostNode(nodes.node1, nodes.node1.node.exits[0].uuid, 1);
                 expect(ghost.node.router).toBeUndefined();
                 expect(ghost.node.actions[0].type).toBe(Types.send_msg);
             });

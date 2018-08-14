@@ -1,9 +1,8 @@
+import { DropResult } from 'react-beautiful-dnd';
 import CaseList, { CaseListProps, CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { Operators } from '~/config/operatorConfigs';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import * as utils from '~/utils';
-
-import { DropResult } from '../../../../../node_modules/@types/react-beautiful-dnd';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 

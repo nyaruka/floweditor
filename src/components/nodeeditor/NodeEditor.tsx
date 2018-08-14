@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { DragPoint } from '~/components/flow/node/Node';
+import { getDraggedFrom } from '~/components/helpers';
 import Modal from '~/components/modal/Modal';
 import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition } from '~/flowTypes';
@@ -45,7 +45,6 @@ export interface NodeEditorStoreProps {
     typeConfig: Type;
     suggestedNameCount: number;
     settings: NodeEditorSettings;
-    pendingConnection: DragPoint;
     nodes: { [uuid: string]: RenderNode };
     handleTypeConfigChange: HandleTypeConfigChange;
     resetNodeEditingState: NoParamsAC;
@@ -95,10 +94,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     public close(canceled: boolean): void {
         // Make sure we re-wire the old connection
         if (canceled) {
-            if (this.props.pendingConnection) {
-                const renderNode = this.props.nodes[this.props.pendingConnection.nodeUUID];
+            const dragPoint = getDraggedFrom(this.props.settings.originalNode);
+            if (dragPoint) {
+                const renderNode = this.props.nodes[dragPoint.nodeUUID];
                 for (const exit of renderNode.node.exits) {
-                    if (exit.uuid === this.props.pendingConnection.exitUUID) {
+                    if (exit.uuid === dragPoint.exitUUID) {
                         // TODO: should this just be taking literal uuids instead of objects?
                         this.props.plumberConnectExit(renderNode.node, exit);
                         break;
@@ -172,7 +172,7 @@ const mapStateToProps = ({
         nodes,
         results: { suggestedNameCount }
     },
-    editorState: { language, translating, nodeEditorOpen, pendingConnection },
+    editorState: { language, translating, nodeEditorOpen },
     nodeEditor: { typeConfig, settings }
 }: AppState) => ({
     language,
@@ -182,7 +182,6 @@ const mapStateToProps = ({
     translating,
     typeConfig,
     suggestedNameCount,
-    pendingConnection,
     settings
 });
 

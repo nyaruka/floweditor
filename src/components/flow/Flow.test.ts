@@ -9,6 +9,7 @@ import {
     nodeSpecId,
     REPAINT_TIMEOUT
 } from '~/components/flow/Flow';
+import { getDraggedFrom } from '~/components/helpers';
 import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
@@ -37,7 +38,6 @@ const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
     editorState: {
-        pendingConnection: null,
         ghostNode: null,
         dragSelection: null,
         nodeEditorOpen: false
@@ -66,8 +66,11 @@ describe(Flow.name, () => {
 
     beforeEach(() => {
         // Clear instance mocks
-        ghostNodeFromWait = getGhostNode(nodes[nodeMapKeys[nodeMapKeys.length - 1]], 1);
-        ghostNodeFromAction = getGhostNode(nodes[nodeMapKeys[0]], 1);
+        const waitNode = nodes[nodeMapKeys[nodeMapKeys.length - 1]];
+        ghostNodeFromWait = getGhostNode(waitNode, waitNode.node.exits[0].uuid, 1);
+
+        const actionNode = nodes[nodeMapKeys[0]];
+        ghostNodeFromAction = getGhostNode(actionNode, actionNode.node.exits[0].uuid, 1);
 
         mockConnectionEvent = {
             sourceId: `${createUUID()}:${createUUID()}`,
@@ -302,8 +305,7 @@ describe(Flow.name, () => {
 
         describe('onConnectorDrop', () => {
             it('should not do NodeEditor work if the user is dragging back', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    updateCreateNodePosition: setMock(),
+                const { instance, props } = setup(true, {
                     onOpenNodeEditor: setMock()
                 });
 
@@ -318,20 +320,14 @@ describe(Flow.name, () => {
             });
 
             it('should do NodeEditor work if the user is not dragging back', () => {
-                const pendingConnection = {
-                    exitUUID: createUUID(),
-                    nodeUUID: createUUID()
-                };
                 const suspendedElementId = createUUID();
                 const ghostRefSpy = spyOn('ghostRef');
 
                 // tslint:disable-next-line:no-shadowed-variable
-                const { wrapper, instance, props, context } = setup(false, {
+                const { instance, props } = setup(false, {
                     editorState: {
-                        updateCreateNodePosition: setMock(),
                         onOpenNodeEditor: setMock(),
-                        ghostNode: set(ghostNodeFromWait),
-                        pendingConnection: set(pendingConnection)
+                        ghostNode: set(ghostNodeFromWait)
                     }
                 });
 
@@ -348,13 +344,13 @@ describe(Flow.name, () => {
                     props.editorState.ghostNode.node.uuid
                 );
                 expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
+
+                const dragPoint = getDraggedFrom(props.editorState.ghostNode);
                 expect(instance.Plumber.connect).toHaveBeenCalledWith(
-                    `${props.editorState.pendingConnection.nodeUUID}:${
-                        props.editorState.pendingConnection.exitUUID
-                    }`,
+                    `${dragPoint.nodeUUID}:${dragPoint.exitUUID}`,
                     props.editorState.ghostNode.node.uuid
                 );
-                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
+
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
                 expect(props.onOpenNodeEditor).toMatchCallSnapshot();
             });
