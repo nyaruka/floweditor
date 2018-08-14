@@ -7,7 +7,6 @@ import AssetService from '~/services/AssetService';
 import Constants from '~/store/constants';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getFlowComponents, getUniqueDestinations } from '~/store/helpers';
-import { getOtherExit } from '~/store/mutators';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { initialState } from '~/store/state';
 import {
@@ -447,21 +446,7 @@ describe('Flow Manipulation', () => {
             );
 
             const updatedNodes = store.dispatch(onUpdateAction(incomingAction));
-            const updatedRenderNode = updatedNodes[originalRenderNode.node.uuid];
-
-            // Was the action inserted?
-            expect(updatedRenderNode.node.actions[0]).toEqual(incomingAction);
-            // Were the node's exits updated?
-            expect(updatedRenderNode.node.exits).toEqual([
-                {
-                    ...getOtherExit(originalRenderNode.node.exits),
-                    name: null
-                }
-            ]);
-            // Was the router offed?
-            expect(updatedRenderNode.node.hasOwnProperty('router')).toBeFalsy();
-            // Was the ui type offed?
-            expect(updatedRenderNode.ui.hasOwnProperty('type')).toBeFalsy();
+            expect(updatedNodes).toMatchSnapshot();
         });
 
         it('should throw if originalNode is null', () => {
