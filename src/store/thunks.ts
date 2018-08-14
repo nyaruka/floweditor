@@ -671,32 +671,6 @@ export const onAddToNode = (node: FlowNode) => (
     dispatch(mergeEditorState({ nodeEditorOpen: true }));
 };
 
-export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
-    const {
-        flowContext: { nodes }
-    } = getState();
-
-    // Make sure we re-wire the old connection
-    if (canceled) {
-        /*
-        if (pendingConnection) {
-            const renderNode = nodes[pendingConnection.nodeUUID];
-            for (const exit of renderNode.node.exits) {
-                if (exit.uuid === pendingConnection.exitUUID) {
-                    connectExit(renderNode.node, exit);
-                    break;
-                }
-            }
-        }
-        */
-    }
-
-    dispatch(resetNodeEditingState());
-};
-
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
     const {
         editorState: { dragSelection }

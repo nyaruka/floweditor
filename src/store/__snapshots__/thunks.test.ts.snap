@@ -328,60 +328,6 @@ Array [
 ]
 `;
 
-exports[`Flow Manipulation node editor opening and closing should clear things when the editor is canceled 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "debug": null,
-        "dragGroup": false,
-        "dragSelection": null,
-        "fetchingFlow": false,
-        "ghostNode": null,
-        "language": null,
-        "nodeDragging": false,
-        "nodeEditorOpen": false,
-        "translating": false,
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "settings": null,
-    },
-    "type": "UPDATE_NODE_EDITOR_SETTINGS",
-  },
-]
-`;
-
-exports[`Flow Manipulation node editor opening and closing should clear things when the editor is closed 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "editorState": Object {
-        "debug": null,
-        "dragGroup": false,
-        "dragSelection": null,
-        "fetchingFlow": false,
-        "ghostNode": null,
-        "language": null,
-        "nodeDragging": false,
-        "nodeEditorOpen": false,
-        "translating": false,
-      },
-    },
-    "type": "UPDATE_EDITOR_STATE",
-  },
-  Object {
-    "payload": Object {
-      "settings": null,
-    },
-    "type": "UPDATE_NODE_EDITOR_SETTINGS",
-  },
-]
-`;
-
 exports[`Flow Manipulation node editor opening and closing should only update things that are set 1`] = `
 Array [
   Object {

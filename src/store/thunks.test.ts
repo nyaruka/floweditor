@@ -20,7 +20,6 @@ import {
     moveActionUp,
     onAddToNode,
     onConnectionDrag,
-    onNodeEditorClose,
     onNodeMoved,
     onOpenNodeEditor,
     onResetDragSelection,
@@ -817,16 +816,6 @@ describe('Flow Manipulation', () => {
                 expect(store).toHavePayload(Constants.UPDATE_USER_ADDING_ACTION, {
                     userAddingAction: true
                 });
-            });
-
-            it('should clear things when the editor is canceled', () => {
-                store.dispatch(onNodeEditorClose(false, null));
-                expect(store.getActions()).toMatchSnapshot();
-            });
-
-            it('should clear things when the editor is closed', () => {
-                store.dispatch(onNodeEditorClose(true, null));
-                expect(store.getActions()).toMatchSnapshot();
             });
 
             it('should only update things that are set', () => {
