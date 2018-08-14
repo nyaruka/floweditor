@@ -9,6 +9,7 @@ import {
     nodeSpecId,
     REPAINT_TIMEOUT
 } from '~/components/flow/Flow';
+import { getDraggedFrom } from '~/components/helpers';
 import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
@@ -344,10 +345,9 @@ describe(Flow.name, () => {
                 );
                 expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
 
-                const exitUUID = Object.keys(props.editorState.ghostNode.inboundConnections)[0];
-                const nodeUUID = props.editorState.ghostNode.inboundConnections[exitUUID];
+                const dragPoint = getDraggedFrom(props.editorState.ghostNode);
                 expect(instance.Plumber.connect).toHaveBeenCalledWith(
-                    `${nodeUUID}:${exitUUID}`,
+                    `${dragPoint.nodeUUID}:${dragPoint.exitUUID}`,
                     props.editorState.ghostNode.node.uuid
                 );
 

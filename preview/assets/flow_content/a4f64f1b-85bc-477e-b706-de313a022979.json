@@ -2,38 +2,18 @@
   "name": "Colors",
   "language": "eng",
   "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
-  "localization": {
-    "spa": {
-      "64378fc1-19e4-4c8a-be27-aee49ebc728a": {
-        "text": [
-          "¿Cuál es tu color favorito?"
-        ]
-      },
-      "55855afc-f612-4ef9-9288-dcb1dd136052": {
-        "name": [
-          "rojo"
-        ]
-      },
-      "77394377-f6b8-4366-9bef-d468621258ef": {
-        "name": [
-          "verde"
-        ]
-      },
-      "92d429d8-c275-4306-9360-93f4b9c7acb1": {
-        "name": [
-          "azul"
-        ]
-      }
-    }
-  },
+  "localization": {},
   "nodes": [
     {
       "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
       "actions": [
         {
-          "text": "What's your favorite color?",
+          "text": "Would you like chicken or fish?",
           "type": "send_msg",
-          "quick_replies": [],
+          "quick_replies": [
+            "🐟",
+            "🐓"
+          ],
           "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a"
         }
       ],
@@ -46,6 +26,24 @@
       ]
     },
     {
+      "uuid": "472a6f74-fd03-429a-a2e3-15969e18cfca",
+      "actions": [
+        {
+          "text": "I don't know that one. Please reply with chicken or fish.",
+          "type": "send_msg",
+          "quick_replies": [],
+          "uuid": "a17cb8f2-c629-40d0-8773-20b906205b1f"
+        }
+      ],
+      "exits": [
+        {
+          "uuid": "efc4a200-3e85-4d63-b09e-7aba7dc193a4",
+          "destination_node_uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
+          "name": null
+        }
+      ]
+    },
+    {
       "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
       "actions": [],
       "router": {
@@ -53,184 +51,129 @@
         "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
         "cases": [
           {
+            "arguments": [
+              "🐓 chicken"
+            ],
+            "type": "has_any_word",
             "uuid": "fa0a9b24-5f19-4b8e-b287-27af5811de1d",
-            "type": "has_any_word",
-            "exit_uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
-            "arguments": [
-              "red, r"
-            ]
+            "exit_uuid": "b10b2006-38d7-467d-b820-f6e1f93ff916"
           },
           {
+            "arguments": [
+              "🐟 fish"
+            ],
+            "type": "has_any_word",
             "uuid": "cc5894af-5dce-454e-a525-3d7c5c41d21d",
-            "type": "has_any_word",
-            "exit_uuid": "77394377-f6b8-4366-9bef-d468621258ef",
-            "arguments": [
-              "green, g"
-            ]
+            "exit_uuid": "e5587f94-c1f4-4068-909c-32bac8001ecc"
           },
           {
-            "uuid": "590d13e3-7b47-44e3-b8a0-ba9bd41d75d2",
-            "type": "has_any_word",
-            "exit_uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
+            "uuid": "eeba12f0-85dc-43b1-b538-478395be5ed9",
+            "type": "has_wait_timed_out",
             "arguments": [
-              "blue, b"
-            ]
+              "@run"
+            ],
+            "exit_uuid": "dd66aea3-ae74-4ca4-99e9-809b8d6ed6c9"
           }
         ],
         "operand": "@run.input",
-        "result_name": "color"
+        "result_name": "Animal"
       },
       "exits": [
         {
-          "name": "Red",
-          "uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
-          "destination_node_uuid": "22d08636-1c30-43a1-9053-ec0de1488d49"
+          "name": "🐓",
+          "uuid": "b10b2006-38d7-467d-b820-f6e1f93ff916",
+          "destination_node_uuid": "e6f61792-6158-489c-a92e-1110696714ad"
         },
         {
-          "name": "Green",
-          "uuid": "77394377-f6b8-4366-9bef-d468621258ef",
-          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+          "name": "🐟",
+          "uuid": "e5587f94-c1f4-4068-909c-32bac8001ecc",
+          "destination_node_uuid": "5fb0fdff-1013-4f1c-8141-e027e8e75e4f"
         },
         {
-          "name": "Blue",
-          "uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
-          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+          "uuid": "dd66aea3-ae74-4ca4-99e9-809b8d6ed6c9",
+          "name": "No Response",
+          "destination_node_uuid": "bd82ec05-6829-4d9b-a8df-5fb61eb926ac"
         },
         {
           "uuid": "326a41b7-9bce-453b-8783-1113f649663c",
           "name": "Other",
-          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+          "destination_node_uuid": "472a6f74-fd03-429a-a2e3-15969e18cfca"
         }
       ],
       "wait": {
-        "type": "msg"
+        "type": "msg",
+        "timeout": 300
       }
     },
     {
-      "uuid": "22d08636-1c30-43a1-9053-ec0de1488d49",
+      "uuid": "bd82ec05-6829-4d9b-a8df-5fb61eb926ac",
       "actions": [
         {
-          "uuid": "e62640f6-77e9-4276-8848-8a0c1a2ddbbb",
-          "headers": {
-            "Accept": "application/json"
-          },
-          "type": "call_webhook",
-          "url": "http://mockbin.org/bin/3ab86964-9ea2-4351-b12d-82b47f48a971/view",
-          "method": "POST",
-          "body": "{\n    \"flow\": @(json(run.flow)),\n    \"path\": @(json(run.path)),\n    \"results\": @(json(run.results)),\n    \"input\": @(json(run.input)),\n    \"channel\": @(json(run.input.channel))\n    \"contact\": @(json(contact))\n}"
-        }
-      ],
-      "router": {
-        "type": "switch",
-        "operand": "@run.webhook",
-        "cases": [
-          {
-            "uuid": "bd42f197-a361-4f5c-b274-fa59618cc36f",
-            "type": "has_webhook_status",
-            "arguments": [
-              "success"
-            ],
-            "exit_uuid": "9b78ea95-4376-4faf-8ea4-f67aec412d18"
-          },
-          {
-            "uuid": "1e46c4b3-2d97-4bb7-980b-1da7ef7eef9c",
-            "type": "has_webhook_status",
-            "arguments": [
-              "response_error"
-            ],
-            "exit_uuid": "3aa84bc3-2af4-416f-93b1-9d8fc433b420"
-          },
-          {
-            "uuid": "4c863bc5-8627-4457-adef-c1aaa057ebc0",
-            "type": "has_webhook_status",
-            "arguments": [
-              "connection_error"
-            ],
-            "exit_uuid": "fd0b28a4-b659-4b35-bcab-6f25dd495bb6"
-          }
-        ],
-        "default_exit_uuid": "3aa84bc3-2af4-416f-93b1-9d8fc433b420"
-      },
-      "exits": [
-        {
-          "uuid": "9b78ea95-4376-4faf-8ea4-f67aec412d18",
-          "name": "Success",
-          "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
-        },
-        {
-          "uuid": "3aa84bc3-2af4-416f-93b1-9d8fc433b420",
-          "name": "Failed",
-          "destination_node_uuid": "6bc05924-130e-4b4a-8211-167721a7fada"
-        },
-        {
-          "uuid": "fd0b28a4-b659-4b35-bcab-6f25dd495bb6",
-          "name": "Unreachable",
-          "destination_node_uuid": "6bc05924-130e-4b4a-8211-167721a7fada"
-        }
-      ],
-      "wait": null
-    },
-    {
-      "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-      "router": {
-        "type": "switch",
-        "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
-        "cases": [
-          {
-            "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
-            "type": "has_any_word",
-            "exit_uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
-            "arguments": [
-              "red, r"
-            ]
-          }
-        ],
-        "operand": "@run.results.color "
-      },
-      "exits": [
-        {
-          "name": "Red",
-          "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
-          "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227"
-        },
-        {
-          "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
-          "name": "Other",
-          "destination_node_uuid": "6bc05924-130e-4b4a-8211-167721a7fada"
-        }
-      ],
-      "actions": []
-    },
-    {
-      "uuid": "6bc05924-130e-4b4a-8211-167721a7fada",
-      "actions": [
-        {
-          "text": "Poor choice! Try again.",
+          "text": "Still waiting. Chicken or fish?",
           "type": "send_msg",
           "quick_replies": [],
-          "uuid": "82524cb8-8081-44d1-9502-87d54b7b0947"
+          "uuid": "847bf9c6-2188-4c06-98ed-7d76ee5791b5"
         }
       ],
       "exits": [
         {
-          "uuid": "5552aac3-5f23-4875-929a-d57082cda46a",
+          "uuid": "bc44c937-a956-42b3-a09b-ab26222c8b68",
           "destination_node_uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
           "name": null
         }
       ]
     },
     {
-      "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+      "uuid": "e6f61792-6158-489c-a92e-1110696714ad",
       "actions": [
         {
-          "uuid": "cd19e588-3383-4d54-b5df-8dbbc2b0d297",
+          "text": "Never eat the chicken!",
           "type": "send_msg",
-          "text": "Mine too!"
+          "quick_replies": [],
+          "uuid": "54828373-5dad-4803-a4e1-43d22c34a6c2"
+        },
+        {
+          "type": "add_contact_groups",
+          "groups": [
+            {
+              "uuid": "8d5cb215-76c8-42a9-bc7b-2e7b0201ab8c",
+              "name": "Chicken Eaters"
+            }
+          ],
+          "uuid": "40c46658-dca0-4ecc-8ea2-b178c8377f4c"
         }
       ],
       "exits": [
         {
-          "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
+          "uuid": "d75d6f54-7cf8-4e85-97c6-61f4864c0652",
+          "destination_node_uuid": null,
+          "name": null
+        }
+      ]
+    },
+    {
+      "uuid": "5fb0fdff-1013-4f1c-8141-e027e8e75e4f",
+      "actions": [
+        {
+          "text": "Mmmmm.. a nice piece of fish.",
+          "type": "send_msg",
+          "quick_replies": [],
+          "uuid": "a6e4c051-8939-4c2f-83b7-0a6c0e076560"
+        },
+        {
+          "type": "add_contact_groups",
+          "groups": [
+            {
+              "uuid": "4f3903e6-395e-4055-8645-738130c55aa3",
+              "name": "Fish Eaters"
+            }
+          ],
+          "uuid": "e5502a41-f240-4284-89bb-1d76691bf16b"
+        }
+      ],
+      "exits": [
+        {
+          "uuid": "f517f0a1-869b-4f41-92f1-3585709ee4e4",
           "destination_node_uuid": null,
           "name": null
         }
@@ -243,59 +186,57 @@
         "position": {
           "left": 0,
           "top": 0,
-          "bottom": 94,
+          "bottom": 116,
           "right": 220
+        }
+      },
+      "472a6f74-fd03-429a-a2e3-15969e18cfca": {
+        "position": {
+          "left": 600,
+          "top": 120,
+          "right": 820,
+          "bottom": 232
         }
       },
       "46e8d603-8e5d-4435-97dd-1333291aafca": {
         "type": "wait_for_response",
         "position": {
-          "left": 240,
-          "top": 80,
-          "right": 505,
-          "bottom": 170
+          "left": 160,
+          "top": 220,
+          "right": 466,
+          "bottom": 310
         }
       },
-      "bc978e00-2f3d-41f2-87c1-26b3f14e5925": {
+      "bd82ec05-6829-4d9b-a8df-5fb61eb926ac": {
         "position": {
-          "left": 320,
-          "top": 400,
-          "right": 540,
-          "bottom": 490
-        },
-        "type": "split_by_expression"
-      },
-      "6bc05924-130e-4b4a-8211-167721a7fada": {
-        "position": {
-          "left": 520,
-          "top": 520,
-          "right": 740,
-          "bottom": 614
+          "left": 620,
+          "top": 300,
+          "right": 840,
+          "bottom": 394
         }
       },
-      "e2ecc8de-9774-4b74-a0dc-ca8aea123227": {
-        "position": {
-          "left": 120,
-          "top": 620,
-          "right": 340,
-          "bottom": 714
-        }
-      },
-      "22d08636-1c30-43a1-9053-ec0de1488d49": {
-        "type": "split_by_webhook",
+      "e6f61792-6158-489c-a92e-1110696714ad": {
         "position": {
           "left": 60,
-          "top": 240,
-          "right": 313,
-          "bottom": 405
+          "top": 460,
+          "right": 280,
+          "bottom": 619
+        }
+      },
+      "5fb0fdff-1013-4f1c-8141-e027e8e75e4f": {
+        "position": {
+          "left": 300,
+          "top": 460,
+          "right": 520,
+          "bottom": 619
         }
       }
     },
     "stickies": {
       "aa9029a2-8aac-49b1-aaf9-09d6a6ee47e7": {
         "position": {
-          "left": 580,
-          "top": 120
+          "left": 240,
+          "top": 20
         },
         "title": "Take note!",
         "body": "Notes are improved in a few different ways:\n\n· New style\n· Delete confirmations\n· Five fabulous colors",

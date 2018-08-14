@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as styles from '~/components/flow/Flow.scss';
 import ConnectedNode from '~/components/flow/node/Node';
+import { getDraggedFrom } from '~/components/helpers';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
 import Simulator from '~/components/simulator/Simulator';
 import Sticky from '~/components/sticky/Sticky';
@@ -212,12 +213,11 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             // Wire up the drag from to our ghost node
             this.Plumber.recalculate(ghostNode.node.uuid);
 
-            if (ghostNode.inboundConnections) {
-                for (const fromExitUUID of Object.keys(ghostNode.inboundConnections)) {
-                    const fromNodeUUID = ghostNode.inboundConnections[fromExitUUID];
-                    this.Plumber.connect(fromNodeUUID + ':' + fromExitUUID, ghostNode.node.uuid);
-                }
-            }
+            const dragPoint = getDraggedFrom(ghostNode);
+            this.Plumber.connect(
+                dragPoint.nodeUUID + ':' + dragPoint.exitUUID,
+                ghostNode.node.uuid
+            );
 
             // Save our position for later
             const { left, top } = snapToGrid(
