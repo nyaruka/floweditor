@@ -1,5 +1,5 @@
 import mutate from 'immutability-helper';
-import { DragPoint } from '~/components/flow/node/Node';
+import { ghost } from '~/components/flow/node/Node.scss';
 import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
@@ -526,14 +526,16 @@ describe('Flow Manipulation', () => {
             // prep our store to show that we are editing
             const updatedStore = createMockStore({
                 ...store.getState(),
-
-                editorState: {
-                    pendingConnection: { exitUUID: 'node3_exit0', nodeUUID: 'node3' },
-                    createNodePosition: { left: 500, top: 500 }
-                },
                 nodeEditor: {
                     userAddingAction: true,
-                    settings: { originalNode: { node: { uuid: utils.createUUID() } } }
+                    settings: {
+                        originalNode: {
+                            node: { uuid: utils.createUUID() },
+                            ui: { position: { left: 500, top: 500 } },
+                            inboundConnections: { node3_exit0: 'node3' },
+                            ghost: true
+                        }
+                    }
                 }
             });
 
@@ -827,24 +829,6 @@ describe('Flow Manipulation', () => {
                 expect(store.getActions()).toMatchSnapshot();
             });
 
-            it('should rewire the old connection when canceling the editor', () => {
-                store = createMockStore({
-                    flowContext: { nodes: testNodes },
-                    editorState: {
-                        pendingConnection: {
-                            exitUUID: testNodes.node0.node.exits[0].uuid,
-                            nodeUUID: testNodes.node0.node.uuid
-                        } as DragPoint,
-                        createNodePosition: {}
-                    },
-                    nodeEditor: { actionToEdit: {}, settings: null }
-                });
-
-                const connectExit = jest.fn();
-                store.dispatch(onNodeEditorClose(true, connectExit));
-                expect(connectExit).toHaveBeenCalled();
-            });
-
             it('should only update things that are set', () => {
                 store.dispatch(resetNodeEditingState());
                 expect(store.getActions()).toMatchSnapshot();
@@ -854,12 +838,11 @@ describe('Flow Manipulation', () => {
                 // now try a store with all the things set
                 store = createMockStore({
                     flowContext: { nodes: testNodes },
-                    editorState: { pendingConnection: {}, createNodePosition: {} },
-                    nodeEditor: { actionToEdit: {}, settings: null }
+                    nodeEditor: { settings: {} },
+                    editorState: {}
                 });
 
                 store.dispatch(resetNodeEditingState());
-
                 expect(store.getActions()).toMatchSnapshot();
             });
         });
@@ -897,16 +880,16 @@ describe('Flow Manipulation', () => {
         });
 
         it('should create a new router on drag', () => {
+            const node = mutate(testNodes.node3, {
+                inboundConnections: { $set: { node2_exit0: 'node2' } },
+                ui: { $merge: { position: { left: 500, top: 600 } } },
+                ghost: utils.setTrue()
+            });
+
             store = createMockStore(
                 mutate(initialState, {
                     flowContext: { nodes: { $set: testNodes } },
-                    editorState: {
-                        createNodePosition: { $set: { left: 500, top: 600 } },
-                        pendingConnection: {
-                            $set: { nodeUUID: 'node2', exitUUID: 'node2_exit0' }
-                        }
-                    },
-                    nodeEditor: { settings: { $set: { originalNode: testNodes.node3 } } }
+                    nodeEditor: { settings: { $set: { originalNode: node } } }
                 })
             );
 
@@ -943,9 +926,12 @@ describe('Flow Manipulation', () => {
 
             const newRouter: RenderNode = {
                 node: {
-                    uuid: 'new_router',
+                    uuid: testNodes.node3.node.uuid,
                     actions: [],
-                    exits: [{ uuid: 'new_exit', destination_node_uuid: null }]
+                    exits: [{ uuid: 'new_exit', destination_node_uuid: null }],
+                    router: {
+                        type: RouterTypes.switch
+                    }
                 },
                 ui: { position: null },
                 inboundConnections: {}

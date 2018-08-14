@@ -564,13 +564,7 @@ export const handleTypeConfigChange = (typeConfig: Type) => (dispatch: DispatchW
 };
 
 export const resetNodeEditingState = () => (dispatch: DispatchWithState, getState: GetState) => {
-    dispatch(
-        mergeEditorState({
-            ghostNode: null,
-            pendingConnection: null,
-            createNodePosition: null
-        })
-    );
+    dispatch(mergeEditorState({ ghostNode: null }));
     dispatch(updateNodeEditorSettings(null));
 };
 
@@ -581,7 +575,6 @@ export const onUpdateAction = (action: AnyAction) => (
     timeStart('onUpdateAction');
 
     const {
-        editorState: { pendingConnection, createNodePosition },
         nodeEditor: { userAddingAction, settings },
         flowContext: {
             nodes,
@@ -596,8 +589,7 @@ export const onUpdateAction = (action: AnyAction) => (
     const { originalNode, originalAction } = settings;
 
     let updatedNodes = nodes;
-    const creatingNewNode =
-        pendingConnection && originalNode && pendingConnection.nodeUUID !== originalNode.node.uuid;
+    const creatingNewNode = originalNode !== null && originalNode.ghost;
 
     if (creatingNewNode) {
         const newNode: RenderNode = {
@@ -606,8 +598,8 @@ export const onUpdateAction = (action: AnyAction) => (
                 actions: [action],
                 exits: [{ uuid: createUUID(), destination_node_uuid: null, name: null }]
             },
-            ui: { position: createNodePosition },
-            inboundConnections: { [pendingConnection.exitUUID]: pendingConnection.nodeUUID }
+            ui: { position: originalNode.ui.position },
+            inboundConnections: originalNode.inboundConnections
         };
         updatedNodes = mutators.mergeNode(nodes, newNode);
     } else if (userAddingAction) {
@@ -684,22 +676,22 @@ export const onNodeEditorClose = (canceled: boolean, connectExit: Function) => (
     getState: GetState
 ) => {
     const {
-        flowContext: { nodes },
-        editorState: { pendingConnection }
+        flowContext: { nodes }
     } = getState();
 
     // Make sure we re-wire the old connection
     if (canceled) {
+        /*
         if (pendingConnection) {
             const renderNode = nodes[pendingConnection.nodeUUID];
             for (const exit of renderNode.node.exits) {
-                /* istanbul ignore else */
                 if (exit.uuid === pendingConnection.exitUUID) {
                     connectExit(renderNode.node, exit);
                     break;
                 }
             }
         }
+        */
     }
 
     dispatch(resetNodeEditingState());
@@ -755,20 +747,11 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     const [fromNodeUUID, fromExitUUID] = event.sourceId.split(':');
 
     const fromNode = nodes[fromNodeUUID];
-    const ghostNode = getGhostNode(fromNode, suggestedNameCount);
 
-    // Set our ghost spec so it gets rendered
-    // and save off our drag point for later
-    // TODO: can this use inboundConnections instead?
-    dispatch(
-        mergeEditorState({
-            ghostNode,
-            pendingConnection: {
-                nodeUUID: fromNodeUUID,
-                exitUUID: event.sourceId.split(':')[1]
-            }
-        })
-    );
+    // set our ghost node
+    const ghostNode = getGhostNode(fromNode, fromExitUUID, suggestedNameCount);
+    ghostNode.inboundConnections = { [fromExitUUID]: fromNodeUUID };
+    dispatch(mergeEditorState({ ghostNode }));
 };
 
 export const updateSticky = (uuid: string, sticky: StickyNote) => (
@@ -782,7 +765,7 @@ export const updateSticky = (uuid: string, sticky: StickyNote) => (
     dispatch(updateDefinition(updated));
 };
 
-export const onUpdateRouter = (node: RenderNode) => (
+export const onUpdateRouter = (renderNode: RenderNode) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
@@ -791,35 +774,35 @@ export const onUpdateRouter = (node: RenderNode) => (
             nodes,
             results: { resultMap }
         },
-        editorState: { pendingConnection, createNodePosition },
         nodeEditor: {
             settings: { originalNode, originalAction }
         }
     } = getState();
 
     const previousNode = nodes[originalNode.node.uuid];
-
     let updated = nodes;
-    if (createNodePosition) {
-        node.ui.position = createNodePosition;
-    } else {
+    if (previousNode) {
         const previousPosition = previousNode.ui.position;
-        node.ui.position = previousPosition;
+        renderNode.ui.position = previousPosition;
     }
 
-    if (pendingConnection) {
-        node.inboundConnections = { [pendingConnection.exitUUID]: pendingConnection.nodeUUID };
-        node.node = mutators.uniquifyNode(node.node);
+    if (originalNode.ghost) {
+        renderNode.inboundConnections = originalNode.inboundConnections;
+        const { left, top } = originalNode.ui.position;
+        renderNode.ui.position = { left, top };
+        renderNode.node = mutators.uniquifyNode(renderNode.node);
     }
 
     // update our result names map
     const resultsToUpdate = {
         ...resultMap
     };
-    if (node.node.router && node.node.router.result_name) {
-        resultsToUpdate[node.node.uuid] = generateResultQuery(node.node.router.result_name);
+    if (renderNode.node.router && renderNode.node.router.result_name) {
+        resultsToUpdate[renderNode.node.uuid] = generateResultQuery(
+            renderNode.node.router.result_name
+        );
     } else {
-        delete resultsToUpdate[node.node.uuid];
+        delete resultsToUpdate[renderNode.node.uuid];
     }
     dispatch(updateResultMap(resultsToUpdate));
 
@@ -830,10 +813,10 @@ export const onUpdateRouter = (node: RenderNode) => (
 
         if (actionToSplice) {
             // if we are splicing using the original top
-            node.ui.position.top = previousNode.ui.position.top;
+            renderNode.ui.position.top = previousNode.ui.position.top;
 
             return dispatch(
-                spliceInRouter(node, {
+                spliceInRouter(renderNode, {
                     nodeUUID: previousNode.node.uuid,
                     actionUUID: actionToSplice.uuid
                 })
@@ -841,19 +824,21 @@ export const onUpdateRouter = (node: RenderNode) => (
         }
 
         // don't recognize that action, let's add a new router node
-        const router = node.node.router as SwitchRouter;
-        const exitToUpdate = node.node.exits.find(
+        const router = renderNode.node.router as SwitchRouter;
+        const exitToUpdate = renderNode.node.exits.find(
             (exit: Exit) => exit.uuid === router.default_exit_uuid
         );
 
         exitToUpdate.destination_node_uuid = previousNode.node.exits[0].destination_node_uuid;
 
-        node.inboundConnections = { [previousNode.node.exits[0].uuid]: previousNode.node.uuid };
-        node.node = mutators.uniquifyNode(node.node);
-        node.ui.position.top = previousNode.ui.position.bottom;
-        updated = mutators.mergeNode(updated, node);
+        renderNode.inboundConnections = {
+            [previousNode.node.exits[0].uuid]: previousNode.node.uuid
+        };
+        renderNode.node = mutators.uniquifyNode(renderNode.node);
+        renderNode.ui.position.top = previousNode.ui.position.bottom;
+        updated = mutators.mergeNode(updated, renderNode);
     } else {
-        updated = mutators.mergeNode(updated, node);
+        updated = mutators.mergeNode(updated, renderNode);
     }
 
     dispatch(updateNodes(updated));

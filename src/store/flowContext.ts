@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateBaseLanguageAction,
@@ -22,7 +21,8 @@ export interface RenderNodeMap {
 export interface RenderNode {
     ui: UINode;
     node: FlowNode;
-    inboundConnections: { [uuid: string]: string };
+    inboundConnections: { [nodeUUID: string]: string };
+    ghost?: boolean;
 }
 
 export interface CompletionOption {

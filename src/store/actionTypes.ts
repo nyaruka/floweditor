@@ -1,10 +1,8 @@
-import { DragPoint } from '~/components/flow/node/Node';
 import { Type } from '~/config';
-import { AnyAction, FlowDefinition, FlowNode, FlowPosition } from '~/flowTypes';
+import { FlowDefinition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { LocalizedObject } from '~/services/Localization';
 import Constants from '~/store/constants';
-import { DragSelection, EditorState } from '~/store/editor';
+import { EditorState } from '~/store/editor';
 import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
@@ -55,15 +53,6 @@ interface UpdateDependenciesPayload {
     dependencies: FlowDefinition[];
 }
 
-interface UpdatePendingConnectionsPayload {
-    draggedTo: string;
-    draggedFrom: DragPoint;
-}
-
-interface RemovePendingConnectionPayload {
-    nodeUUID: string;
-}
-
 interface UpdateResultMapPayload {
     resultMap: ResultMap;
 }
@@ -76,30 +65,6 @@ interface UpdateNodeEditorOpenPayload {
     nodeEditorOpen: boolean;
 }
 
-interface UpdateGhostNodePayload {
-    ghostNode: RenderNode;
-}
-
-interface UpdateCreateNodePositionPayload {
-    createNodePosition: FlowPosition;
-}
-
-interface UpdatePendingConnectionPayload {
-    pendingConnection: DragPoint;
-}
-
-interface UpdateActionToEditPayload {
-    actionToEdit: AnyAction;
-}
-
-interface UpdateNodeToEditPayload {
-    nodeToEdit: FlowNode;
-}
-
-interface UpdateLocalizationsPayload {
-    localizations: LocalizedObject[];
-}
-
 interface UpdateDragGroupPayload {
     dragGroup: boolean;
 }
@@ -108,24 +73,8 @@ interface UpdateTypeConfigPayload {
     typeConfig: Type;
 }
 
-interface UpdateResultNamePayload {
-    resultName: string;
-}
-
-interface UpdateOperandPayload {
-    operand: string;
-}
-
 interface UpdateUserAddingActionPayload {
     userAddingAction: boolean;
-}
-
-interface UpdateShowResultNameActionPayload {
-    showResultName: boolean;
-}
-
-interface UpdateDragSelectionActionPayload {
-    dragSelection: DragSelection;
 }
 
 interface UpdateNodeEditorSettingsPayload {
@@ -177,16 +126,6 @@ export type UpdateDependenciesAction = DuxAction<
     UpdateDependenciesPayload
 >;
 
-export type UpdatePendingConnectionsAction = DuxAction<
-    Constants.UPDATE_PENDING_CONNECTIONS,
-    UpdatePendingConnectionsPayload
->;
-
-export type RemovePendingConnectionAction = DuxAction<
-    Constants.REMOVE_PENDING_CONNECTION,
-    RemovePendingConnectionPayload
->;
-
 export type UpdateResultMapAction = DuxAction<Constants.UPDATE_RESULT_MAP, UpdateResultMapPayload>;
 
 export type IncrementSuggestedResultNameCountAction = DuxAction<
@@ -198,11 +137,6 @@ export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPay
 export type UpdateNodeEditorOpenAction = DuxAction<
     Constants.UPDATE_NODE_EDITOR_OPEN,
     UpdateNodeEditorOpenPayload
->;
-
-export type UpdateCreateNodePositionAction = DuxAction<
-    Constants.UPDATE_CREATE_NODE_POSITION,
-    UpdateCreateNodePositionPayload
 >;
 
 export type UpdateDragGroupAction = DuxAction<Constants.UPDATE_DRAG_GROUP, UpdateDragGroupPayload>;
@@ -230,10 +164,6 @@ export type UpdateTranslating = (translating: boolean) => UpdateTranslatingActio
 
 export type UpdateLanguage = (language: Asset) => UpdateLanguageAction;
 
-export type UpdateCreateNodePosition = (
-    createNodePosition: FlowPosition
-) => UpdateCreateNodePositionAction;
-
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
 export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
@@ -254,13 +184,10 @@ type ActionTypes =
     | UpdateNodeDraggingAction
     | UpdateFlowsAction
     | UpdateDependenciesAction
-    | UpdatePendingConnectionsAction
-    | RemovePendingConnectionAction
     | UpdateResultMapAction
     | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
     | UpdateNodeEditorOpenAction
-    | UpdateCreateNodePositionAction
     | UpdateDragGroupAction
     | UpdateTypeConfigAction
     | UpdateUserAddingActionAction

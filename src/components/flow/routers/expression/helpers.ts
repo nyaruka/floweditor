@@ -1,4 +1,5 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { ExpressionRouterFormState } from '~/components/flow/routers/expression/ExpressionRouterForm';
 import {
     createCaseProps,
     createRenderNode,
@@ -10,8 +11,6 @@ import { Types } from '~/config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
-
-import { ExpressionRouterFormState } from '~/components/flow/routers/expression/ExpressionRouterForm';
 
 export const nodeToState = (settings: NodeEditorSettings): ExpressionRouterFormState => {
     let initialCases: CaseProps[] = [];
@@ -61,7 +60,8 @@ export const stateToNode = (
         settings.originalNode.node.uuid,
         router,
         exits,
-        Types.split_by_expression
+        Types.split_by_expression,
+        []
     );
 
     return newRenderNode;

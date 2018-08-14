@@ -202,6 +202,7 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
 
 export const getGhostNode = (
     fromNode: RenderNode,
+    fromExitUUID: string,
     suggestedResultNameCount: number
 ): RenderNode => {
     const ghostNode: FlowNode = {
@@ -234,7 +235,12 @@ export const getGhostNode = (
         };
     }
 
-    return { node: ghostNode, ui: { position: { left: 0, top: 0 } }, inboundConnections: null };
+    return {
+        node: ghostNode,
+        ui: { position: { left: 0, top: 0 } },
+        inboundConnections: { [fromExitUUID]: fromNode.node.uuid },
+        ghost: true
+    };
 };
 
 export interface FlowComponents {

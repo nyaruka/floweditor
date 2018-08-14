@@ -18,7 +18,10 @@ Array [
       "uuid": "a60a7c14-1488-4aa0-a2b9-1f26c1860d5d",
     },
     "originalNode": Object {
-      "inboundConnections": null,
+      "ghost": true,
+      "inboundConnections": Object {
+        "8c867b8f-f311-4b02-b36b-3688964bdc69": "059a8daa-0697-44a6-9486-2386cc417e9d",
+      },
       "node": Object {
         "actions": Array [
           Object {

@@ -206,16 +206,18 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      * existing node or on to empty space.
      */
     private onConnectorDrop(event: ConnectionEvent): boolean {
-        const { ghostNode, pendingConnection } = this.props.editorState;
+        const { ghostNode } = this.props.editorState;
         // Don't show the node editor if we a dragging back to where we were
         if (isRealValue(ghostNode) && !isDraggingBack(event)) {
             // Wire up the drag from to our ghost node
-            const dragPoint = pendingConnection;
             this.Plumber.recalculate(ghostNode.node.uuid);
-            this.Plumber.connect(
-                dragPoint.nodeUUID + ':' + dragPoint.exitUUID,
-                ghostNode.node.uuid
-            );
+
+            if (ghostNode.inboundConnections) {
+                for (const fromExitUUID of Object.keys(ghostNode.inboundConnections)) {
+                    const fromNodeUUID = ghostNode.inboundConnections[fromExitUUID];
+                    this.Plumber.connect(fromNodeUUID + ':' + fromExitUUID, ghostNode.node.uuid);
+                }
+            }
 
             // Save our position for later
             const { left, top } = snapToGrid(
@@ -223,9 +225,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 this.ghost.wrappedInstance.ele.offsetTop
             );
 
-            this.props.mergeEditorState({ createNodePosition: { left, top } });
             this.props.editorState.ghostNode.ui.position = { left, top };
-
             let originalAction = null;
             if (ghostNode.node.actions && ghostNode.node.actions.length === 1) {
                 originalAction = ghostNode.node.actions[0];

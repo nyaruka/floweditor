@@ -1,5 +1,3 @@
-import { DragPoint } from '~/components/flow/node/Node';
-import { FlowPosition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import ActionTypes, { UpdateEditorState } from '~/store/actionTypes';
 import Constants from '~/store/constants';
@@ -23,8 +21,6 @@ export interface EditorState {
     translating: boolean;
     fetchingFlow: boolean;
     nodeEditorOpen: boolean;
-    createNodePosition: FlowPosition;
-    pendingConnection: DragPoint;
     nodeDragging: boolean;
     ghostNode: RenderNode;
     dragGroup: boolean;
@@ -38,8 +34,6 @@ export const initialState: EditorState = {
     language: null,
     fetchingFlow: false,
     nodeEditorOpen: false,
-    createNodePosition: null,
-    pendingConnection: null,
     nodeDragging: false,
     ghostNode: null,
     dragSelection: null,
