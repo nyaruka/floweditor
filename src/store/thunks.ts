@@ -392,7 +392,7 @@ export const removeNode = (node: FlowNode) => (
         dispatch(updateResultMap(toKeep));
     }
 
-    const updated = mutators.removeNodeAndRemap(nodes, node.uuid);
+    const updated = mutators.removeNode(nodes, node.uuid);
     dispatch(updateNodes(updated));
     return updated;
 };
@@ -474,9 +474,12 @@ export const spliceInRouter = (
     } = getState();
     const previousNode = nodes[previousAction.nodeUUID];
 
+    // remove our old node, we'll make new ones
+    let updatedNodes = nodes;
+    updatedNodes = mutators.removeNode(updatedNodes, previousNode.node.uuid, false);
+
     newRouterNode.node = mutators.uniquifyNode(newRouterNode.node);
 
-    let updatedNodes = nodes;
     const actionIdx = getActionIndex(previousNode.node, previousAction.actionUUID);
 
     // we need to splice a wait node where our previousAction was
@@ -552,8 +555,6 @@ export const spliceInRouter = (
         );
     }
 
-    // remove our old node, we have better ones now
-    updatedNodes = mutators.removeNode(updatedNodes, previousNode.node.uuid);
     dispatch(updateNodes(updatedNodes));
     return updatedNodes;
 };

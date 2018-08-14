@@ -6,7 +6,7 @@ import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~
 import AssetService from '~/services/AssetService';
 import Constants from '~/store/constants';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
-import { getFlowComponents, getUniqueDestinations } from '~/store/helpers';
+import { getFlowComponents, getNodeWithAction, getUniqueDestinations } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { initialState } from '~/store/state';
 import {
@@ -446,7 +446,8 @@ describe('Flow Manipulation', () => {
             );
 
             const updatedNodes = store.dispatch(onUpdateAction(incomingAction));
-            expect(updatedNodes).toMatchSnapshot();
+            const node = getNodeWithAction(updatedNodes, incomingAction.uuid);
+            expect(node).toMatchSnapshot();
         });
 
         it('should throw if originalNode is null', () => {
