@@ -13,20 +13,8 @@ interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> 
 }
 
 // Payload types
-interface TranslatingPayload {
-    translating: boolean;
-}
-
-interface LanguagePayload {
-    language: Asset;
-}
-
 interface EditorStatePayload {
     editorState: EditorState;
-}
-
-interface FetchingFlowPayload {
-    fetchingFlow: boolean;
 }
 
 interface DefinitionPayload {
@@ -39,10 +27,6 @@ interface BaseLanguagePayload {
 
 interface LanguagesPayload {
     languages: Asset[];
-}
-
-interface NodeDraggingPayload {
-    nodeDragging: boolean;
 }
 
 interface UpdateFlowsPayload {
@@ -61,14 +45,6 @@ interface UpdateNodesPayload {
     nodes: { [uuid: string]: RenderNode };
 }
 
-interface UpdateNodeEditorOpenPayload {
-    nodeEditorOpen: boolean;
-}
-
-interface UpdateDragGroupPayload {
-    dragGroup: boolean;
-}
-
 interface UpdateTypeConfigPayload {
     typeConfig: Type;
 }
@@ -79,9 +55,6 @@ interface UpdateUserAddingActionPayload {
 
 interface UpdateNodeEditorSettingsPayload {
     settings: NodeEditorSettings;
-}
-interface UpdateTimeoutPayload {
-    timeout: number;
 }
 
 interface UpdateContactFieldsPayload {
@@ -94,16 +67,7 @@ export type UpdateNodeEditorSettings = DuxAction<
     UpdateNodeEditorSettingsPayload
 >;
 
-export type UpdateTranslatingAction = DuxAction<Constants.UPDATE_TRANSLATING, TranslatingPayload>;
-
-export type UpdateLanguageAction = DuxAction<Constants.UPDATE_LANGUAGE, LanguagePayload>;
-
 export type UpdateEditorState = DuxAction<Constants.UPDATE_EDITOR_STATE, EditorStatePayload>;
-
-export type UpdateFetchingFlowAction = DuxAction<
-    Constants.UPDATE_FETCHING_FLOW,
-    FetchingFlowPayload
->;
 
 export type UpdateBaseLanguageAction = DuxAction<
     Constants.UPDATE_BASE_LANGUAGE,
@@ -113,11 +77,6 @@ export type UpdateBaseLanguageAction = DuxAction<
 export type UpdateLanguagesAction = DuxAction<Constants.UPDATE_LANGUAGES, LanguagesPayload>;
 
 export type UpdateDefinitionAction = DuxAction<Constants.UPDATE_DEFINITION, DefinitionPayload>;
-
-export type UpdateNodeDraggingAction = DuxAction<
-    Constants.UPDATE_NODE_DRAGGING,
-    NodeDraggingPayload
->;
 
 export type UpdateFlowsAction = DuxAction<Constants.UPDATE_FLOWS, UpdateFlowsPayload>;
 
@@ -134,13 +93,6 @@ export type IncrementSuggestedResultNameCountAction = DuxAction<
 
 export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
 
-export type UpdateNodeEditorOpenAction = DuxAction<
-    Constants.UPDATE_NODE_EDITOR_OPEN,
-    UpdateNodeEditorOpenPayload
->;
-
-export type UpdateDragGroupAction = DuxAction<Constants.UPDATE_DRAG_GROUP, UpdateDragGroupPayload>;
-
 export type UpdateTypeConfigAction = DuxAction<
     Constants.UPDATE_TYPE_CONFIG,
     UpdateTypeConfigPayload
@@ -156,19 +108,9 @@ export type UpdateContactFieldsAction = DuxAction<
     UpdateContactFieldsPayload
 >;
 
-export type UpdateNodeDragging = (nodeDragging: boolean) => UpdateNodeDraggingAction;
-
-export type UpdateDragGroup = (dragGroup: boolean) => UpdateDragGroupAction;
-
-export type UpdateTranslating = (translating: boolean) => UpdateTranslatingAction;
-
-export type UpdateLanguage = (language: Asset) => UpdateLanguageAction;
-
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
 export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
-
-export type UpdateNodeEditorOpen = (nodeEditorOpen: boolean) => UpdateNodeEditorOpenAction;
 
 export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
 
@@ -177,18 +119,12 @@ export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNa
 type ActionTypes =
     | UpdateEditorState
     | UpdateNodeEditorSettings
-    | UpdateTranslatingAction
-    | UpdateLanguageAction
-    | UpdateFetchingFlowAction
     | UpdateDefinitionAction
-    | UpdateNodeDraggingAction
     | UpdateFlowsAction
     | UpdateDependenciesAction
     | UpdateResultMapAction
     | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
-    | UpdateNodeEditorOpenAction
-    | UpdateDragGroupAction
     | UpdateTypeConfigAction
     | UpdateUserAddingActionAction
     | UpdateBaseLanguageAction
