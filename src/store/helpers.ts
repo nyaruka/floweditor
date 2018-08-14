@@ -32,6 +32,17 @@ interface Reflow {
     bounds: Bounds;
 }
 
+export const getNodeWithAction = (nodes: RenderNodeMap, actionUUID: string): RenderNode => {
+    for (const nodeUUID of Object.keys(nodes)) {
+        const renderNode = nodes[nodeUUID];
+        for (const action of renderNode.node.actions) {
+            if (action.uuid === actionUUID) {
+                return renderNode;
+            }
+        }
+    }
+};
+
 export const getNode = (nodes: RenderNodeMap, nodeUUID: string) => {
     const node = nodes[nodeUUID];
     if (!node) {

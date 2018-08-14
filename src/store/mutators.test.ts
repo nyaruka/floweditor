@@ -1,7 +1,5 @@
 import { Types } from '~/config/typeConfigs';
 import { FlowDefinition, RouterTypes, SendMsg } from '~/flowTypes';
-import { createSendMsgAction } from '~/testUtils/assetCreators';
-
 import { getActionIndex, getExitIndex, getFlowComponents, getNode } from '~/store/helpers';
 import {
     addAction,
@@ -9,13 +7,14 @@ import {
     moveActionUp,
     removeAction,
     removeConnection,
-    removeNodeAndRemap,
+    removeNode,
     updateAction,
     updateConnection,
     updateDimensions,
     updateLocalization,
     updatePosition
 } from '~/store/mutators';
+import { createSendMsgAction } from '~/testUtils/assetCreators';
 
 describe('mutators', () => {
     const definition: FlowDefinition = require('~/test/flows/boring.json');
@@ -153,13 +152,13 @@ describe('mutators', () => {
 
     describe('removeNodeAndRemap()', () => {
         it('should remove action nodes', () => {
-            const updated = removeNodeAndRemap(nodes, 'node0');
+            const updated = removeNode(nodes, 'node0');
             expect(updated.node0).toBeUndefined();
             expect(Object.keys(updated.node1.inboundConnections)).not.toContain('node0_exit0');
         });
 
         it('should remove multi-exit router nodes', () => {
-            const updated = removeNodeAndRemap(nodes, 'node1');
+            const updated = removeNode(nodes, 'node1');
             expect(updated.node1).toBeUndefined();
         });
     });

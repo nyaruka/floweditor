@@ -117,7 +117,7 @@ export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap
 
     // if the node is already there, remove it first
     if (updatedNodes[node.node.uuid]) {
-        updatedNodes = removeNodeAndRemap(nodes, node.node.uuid);
+        updatedNodes = removeNode(nodes, node.node.uuid);
     }
 
     // add our node updted node
@@ -207,7 +207,7 @@ export const spliceInAction = (
     let updatedNodes = mergeNode(nodes, newNode);
 
     // remove our prevous node
-    updatedNodes = removeNode(updatedNodes, previousNode.node.uuid);
+    updatedNodes = removeNode(updatedNodes, previousNode.node.uuid, false);
 
     return updatedNodes;
 };
@@ -247,10 +247,6 @@ export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, actionUUID:
     });
 };
 
-export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
-    return mutate(nodes, unset([nodeUUID]));
-};
-
 /**
  * Removes a given node from our node map. Updates destinations for any exits that point to us
  * and removes any inboundConnections that reference our exits. Also will reroute connections
@@ -258,7 +254,11 @@ export const removeNode = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMa
  * @param nodes
  * @param nodeToRemove
  */
-export const removeNodeAndRemap = (nodes: RenderNodeMap, nodeUUID: string): RenderNodeMap => {
+export const removeNode = (
+    nodes: RenderNodeMap,
+    nodeUUID: string,
+    remap: boolean = true
+): RenderNodeMap => {
     const nodeToRemove = getNode(nodes, nodeUUID);
     let updatedNodes = nodes;
 
@@ -275,7 +275,7 @@ export const removeNodeAndRemap = (nodes: RenderNodeMap, nodeUUID: string): Rend
 
     // if we have a single destination, reroute those pointing to us
     let destination = null;
-    if (nodeToRemove.node.exits.length === 1) {
+    if (remap && nodeToRemove.node.exits.length === 1) {
         ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
     }
 

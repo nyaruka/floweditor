@@ -2,168 +2,33 @@
 
 exports[`Flow Manipulation actions should replace router node with a single-action node 1`] = `
 Object {
-  "b1f332f3-bdd3-4891-aec5-1843a712dbf1": Object {
-    "inboundConnections": Object {
-      "node0_exit0": "node0",
-    },
-    "node": Object {
-      "actions": Array [
-        Object {
-          "all_urns": false,
-          "text": "Hey!",
-          "type": "send_msg",
-          "uuid": "68b029c9-6400-4f46-947a-b61c619a7198",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "node2",
-          "name": null,
-          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-        },
-      ],
-      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 370,
-        "left": 0,
-        "right": 220,
-        "top": 280,
-      },
-    },
+  "inboundConnections": Object {
+    "node0_exit0": "node0",
   },
-  "node0": Object {
-    "inboundConnections": Object {},
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "Hi there, this is your first action!",
-          "type": "send_msg",
-          "uuid": "node0_action0",
-        },
-        Object {
-          "groups": Array [
-            Object {
-              "name": "Flow Participants",
-              "uuid": "group_0",
-            },
-          ],
-          "type": "add_contact_groups",
-          "uuid": "node0_action1",
-        },
-        Object {
-          "groups": Array [
-            Object {
-              "name": "Nonresponsive",
-              "uuid": "group_1",
-            },
-          ],
-          "type": "remove_contact_groups",
-          "uuid": "node0_action2",
-        },
-        Object {
-          "labels": Array [
-            Object {
-              "name": "Help",
-              "uuid": "label_0",
-            },
-            Object {
-              "name": "Feedback",
-              "uuid": "label_1",
-            },
-          ],
-          "type": "add_input_labels",
-          "uuid": "node0_action3",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-          "name": null,
-          "uuid": "node0_exit0",
-        },
-      ],
-      "uuid": "node0",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 254,
-        "left": 0,
-        "right": 220,
-        "top": 0,
+  "node": Object {
+    "actions": Array [
+      Object {
+        "all_urns": false,
+        "text": "Hey!",
+        "type": "send_msg",
+        "uuid": "68b029c9-6400-4f46-947a-b61c619a7198",
       },
-    },
+    ],
+    "exits": Array [
+      Object {
+        "destination_node_uuid": "node2",
+        "name": null,
+        "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      },
+    ],
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
-  "node2": Object {
-    "inboundConnections": Object {
-      "node1_exit0": "node1",
-      "node1_exit1": "node1",
-      "node1_exit2": "node1",
-    },
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "This has been really great.",
-          "type": "send_msg",
-          "uuid": "node2_action0",
-        },
-        Object {
-          "field": Object {
-            "key": "unknown_field",
-            "name": "Unknown Field",
-          },
-          "type": "set_contact_field",
-          "uuid": "node2_action1",
-          "value": "Some Value",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": "node3",
-          "name": null,
-          "uuid": "node2_exit0",
-        },
-      ],
-      "uuid": "node2",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 498,
-        "left": 0,
-        "right": 220,
-        "top": 400,
-      },
-    },
-  },
-  "node3": Object {
-    "inboundConnections": Object {
-      "node2_exit0": "node2",
-    },
-    "node": Object {
-      "actions": Array [
-        Object {
-          "text": "Thanks for playing!",
-          "type": "send_msg",
-          "uuid": "node3_action0",
-        },
-      ],
-      "exits": Array [
-        Object {
-          "destination_node_uuid": null,
-          "name": null,
-          "uuid": "node3_exit0",
-        },
-      ],
-      "uuid": "node3",
-    },
-    "ui": Object {
-      "position": Object {
-        "bottom": 598,
-        "left": 0,
-        "right": 220,
-        "top": 520,
-      },
+  "ui": Object {
+    "position": Object {
+      "bottom": 370,
+      "left": 0,
+      "right": 220,
+      "top": 280,
     },
   },
 }
