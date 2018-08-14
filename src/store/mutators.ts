@@ -1,5 +1,12 @@
-import { DefaultExitNames } from '~/components/flow/routers/constants';
-import { AnyAction, Dimensions, Exit, FlowDefinition, FlowNode, StickyNote } from '~/flowTypes';
+import {
+    AnyAction,
+    Dimensions,
+    FlowDefinition,
+    FlowNode,
+    RouterTypes,
+    StickyNote,
+    SwitchRouter
+} from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getActionIndex, getExitIndex, getNode } from '~/store/helpers';
@@ -14,8 +21,12 @@ export const uniquifyNode = (newNode: FlowNode): FlowNode => {
     return mutate(newNode, merge({ uuid: createUUID() }));
 };
 
-export const getOtherExit = (exits: Exit[]) =>
-    exits.find(({ name }) => name === DefaultExitNames.Other);
+export const getDefaultExit = (node: FlowNode) => {
+    if (node.router.type === RouterTypes.switch) {
+        const switchRouter = node.router as SwitchRouter;
+        return node.exits.find(exit => exit.uuid === switchRouter.default_exit_uuid);
+    }
+};
 
 /**
  * Update the destination for a specific exit. Updates destination_node_uuid and
@@ -178,26 +189,27 @@ export const spliceInAction = (
     nodeUUID: string,
     action: AnyAction
 ): RenderNodeMap => {
-    const { [nodeUUID]: originalRenderNode } = nodes;
-    const otherExit = getOtherExit(originalRenderNode.node.exits);
-    const newExits: Exit[] = otherExit ? [{ ...otherExit, name: null }] : [];
-    return mergeNode(
-        nodes,
-        mutate(originalRenderNode, {
-            node: {
-                // Append action to node
-                actions: { $set: [action] },
-                // Off any exit but the 'other', remove name to ensure it isn't rendered
-                exits: { $set: newExits },
-                // Off the node's router
-                $unset: ['router']
-            },
-            ui: {
-                // Off the ui type
-                $unset: ['type']
-            }
-        })
-    );
+    const { [nodeUUID]: previousNode } = nodes;
+
+    const otherExit = getDefaultExit(previousNode.node);
+    const destination = otherExit ? otherExit.destination_node_uuid : null;
+
+    const newNode: RenderNode = {
+        node: {
+            uuid: createUUID(),
+            actions: [action],
+            exits: [{ uuid: createUUID(), destination_node_uuid: destination, name: null }]
+        },
+        ui: { position: previousNode.ui.position },
+        inboundConnections: previousNode.inboundConnections
+    };
+
+    let updatedNodes = mergeNode(nodes, newNode);
+
+    // remove our prevous node
+    updatedNodes = removeNode(updatedNodes, previousNode.node.uuid);
+
+    return updatedNodes;
 };
 
 /** Removes a specific action from a node */
