@@ -15,7 +15,7 @@ import reducer, {
     updateDefinition,
     updateDependencies,
     updateLanguages,
-    updateNodes,
+    updateAllNodes,
     updateResultMap
 } from '~/store/flowContext';
 
@@ -177,7 +177,7 @@ describe('flowContext reducers', () => {
                     inboundConnections: {}
                 }
             };
-            const action = updateNodes(nodes);
+            const action = updateAllNodes(nodes);
 
             expect(reduce(action)).toEqual(nodes);
         });

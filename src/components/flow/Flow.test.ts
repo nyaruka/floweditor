@@ -39,11 +39,11 @@ const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 const baseProps: FlowStoreProps = {
     editorState: {
         ghostNode: null,
-        dragSelection: null,
-        nodeEditorOpen: false
+        dragSelection: null
     },
     mergeEditorState: jest.fn(),
     definition,
+    nodeEditorSettings: null,
     nodes: initialNodes,
     dependencies: [],
     ensureStartNode: jest.fn(),

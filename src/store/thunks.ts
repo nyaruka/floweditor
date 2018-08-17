@@ -23,11 +23,11 @@ import {
     incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
+    updateAllNodes,
     updateBaseLanguage,
     updateContactFields,
     updateDefinition,
     updateLanguages,
-    updateNodes,
     updateResultMap
 } from '~/store/flowContext';
 import {
@@ -167,7 +167,7 @@ export const initializeFlow = (
 
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
-    dispatch(updateNodes(flowComponents.renderNodeMap));
+    dispatch(updateAllNodes(flowComponents.renderNodeMap));
 
     // Take stock of existing results
     dispatch(updateResultMap(flowComponents.resultMap));
@@ -267,7 +267,7 @@ export const reflow = (current: RenderNodeMap = null) => (
 
         updated = dispatch(reflow(updated));
         if (current == null) {
-            dispatch(updateNodes(updated));
+            dispatch(updateAllNodes(updated));
         }
         return updated;
     }
@@ -294,7 +294,7 @@ export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
         flowContext: { nodes }
     } = getState();
     const updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
-    dispatch(updateNodes(updated));
+    dispatch(updateAllNodes(updated));
     markReflow(dispatch);
     return updated;
 };
@@ -311,7 +311,7 @@ export const addNode = (renderNode: RenderNode) => (
         flowContext: { nodes }
     } = getState();
     renderNode.node = mutators.uniquifyNode(renderNode.node);
-    dispatch(updateNodes(mutators.mergeNode(nodes, renderNode)));
+    dispatch(updateAllNodes(mutators.mergeNode(nodes, renderNode)));
     timeEnd('addNode');
     return renderNode;
 };
@@ -324,7 +324,7 @@ export const updateExitDestination = (nodeUUID: string, exitUUID: string, destin
         flowContext: { nodes }
     } = getState();
     const updated = mutators.updateConnection(nodes, nodeUUID, exitUUID, destination);
-    dispatch(updateNodes(updated));
+    dispatch(updateAllNodes(updated));
     return updated;
 };
 
@@ -393,7 +393,7 @@ export const removeNode = (node: FlowNode) => (
     }
 
     const updated = mutators.removeNode(nodes, node.uuid);
-    dispatch(updateNodes(updated));
+    dispatch(updateAllNodes(updated));
     return updated;
 };
 
@@ -439,7 +439,7 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     } else {
         // Otherwise, just remove that action
         const updated = mutators.removeAction(nodes, nodeUUID, action.uuid);
-        dispatch(updateNodes(updated));
+        dispatch(updateAllNodes(updated));
         return updated;
     }
 };
@@ -452,7 +452,7 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
         flowContext: { nodes }
     } = getState();
     const updated = mutators.moveActionUp(nodes, nodeUUID, action.uuid);
-    dispatch(updateNodes(updated));
+    dispatch(updateAllNodes(updated));
     return updated;
 };
 
@@ -555,7 +555,7 @@ export const spliceInRouter = (
         );
     }
 
-    dispatch(updateNodes(updatedNodes));
+    dispatch(updateAllNodes(updatedNodes));
     return updatedNodes;
 };
 
@@ -611,7 +611,7 @@ export const onUpdateAction = (action: AnyAction) => (
         updatedNodes = mutators.updateAction(nodes, originalNode.node.uuid, action, originalAction);
     }
 
-    dispatch(updateNodes(updatedNodes));
+    dispatch(updateAllNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
 
     // Add result to store.
@@ -669,7 +669,6 @@ export const onAddToNode = (node: FlowNode) => (
     dispatch(updateUserAddingAction(true));
     dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
     dispatch(mergeEditorState({ nodeDragging: false }));
-    dispatch(mergeEditorState({ nodeEditorOpen: true }));
 };
 
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
@@ -697,7 +696,7 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
     }
 
     const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top);
-    dispatch(updateNodes(updated));
+    dispatch(updateAllNodes(updated));
     markReflow(dispatch);
     return updated;
 };
@@ -816,7 +815,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         updated = mutators.mergeNode(updated, renderNode);
     }
 
-    dispatch(updateNodes(updated));
+    dispatch(updateAllNodes(updated));
 
     return updated;
 };
@@ -897,5 +896,4 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     dispatch(updateNodeEditorSettings(settings));
     dispatch(handleTypeConfigChange(determineTypeConfig(settings)));
     dispatch(mergeEditorState({ nodeDragging: false }));
-    dispatch(mergeEditorState({ nodeEditorOpen: true }));
 };

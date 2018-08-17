@@ -20,7 +20,6 @@ export interface EditorState {
     language: Asset;
     translating: boolean;
     fetchingFlow: boolean;
-    nodeEditorOpen: boolean;
     nodeDragging: boolean;
     ghostNode: RenderNode;
     dragGroup: boolean;
@@ -33,7 +32,6 @@ export const initialState: EditorState = {
     translating: false,
     language: null,
     fetchingFlow: false,
-    nodeEditorOpen: false,
     nodeDragging: false,
     ghostNode: null,
     dragSelection: null,

@@ -1,6 +1,5 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
-import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
@@ -17,7 +16,7 @@ import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowType
 import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/services/AssetService';
 import { DragEvent } from '~/services/Plumber';
-import { EditorState } from '~/store/editor';
+import { DebugState, DragSelection } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
 import {
@@ -40,7 +39,7 @@ import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 export interface NodePassedProps {
-    renderNode: RenderNode;
+    nodeUUID: string;
     Activity: ActivityManager;
     plumberRepaintForDuration: Function;
     plumberDraggable: Function;
@@ -57,7 +56,11 @@ export interface NodePassedProps {
 }
 
 export interface NodeStoreProps {
-    editorState: Partial<EditorState>;
+    translating: boolean;
+    dragSelection: DragSelection;
+    nodeDragging: boolean;
+    debug: DebugState;
+    renderNode: RenderNode;
     definition: FlowDefinition;
     languages: Asset[];
     onAddToNode: OnAddToNode;
@@ -101,18 +104,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return (this.ele = ref);
     }
 
-    public shouldComponentUpdate(nextProps: NodeProps, nextState: NodeState): boolean {
-        if (nextState.thisNodeDragging !== this.state.thisNodeDragging) {
-            return true;
-        }
-
-        if (!isEqual(nextProps, this.props)) {
-            return true;
-        }
-
-        return false;
-    }
-
     public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
         if (!this.props.ghost) {
             this.props.plumberRepaintForDuration();
@@ -130,7 +121,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     this.props.renderNode.ui.position.bottom !==
                         this.props.renderNode.ui.position.top + this.ele.clientHeight)
             ) {
-                if (!this.props.editorState.translating) {
+                if (!this.props.translating) {
                     this.updateDimensions();
                 }
             }
@@ -149,7 +140,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             (event: DragEvent) => this.onDrag(event),
             (event: DragEvent) => this.onDragStop(event),
             () => {
-                if (!this.props.editorState.translating) {
+                if (!this.props.translating) {
                     return true;
                 } else {
                     return false;
@@ -205,11 +196,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private onDragStart(event: any): boolean {
         // are we dragging a node not in our selection
-        if (
-            this.props.editorState.dragSelection &&
-            this.props.editorState.dragSelection.selected &&
-            !this.isSelected()
-        ) {
+        if (this.props.dragSelection && this.props.dragSelection.selected && !this.isSelected()) {
             this.props.mergeEditorState({ dragSelection: null });
             this.props.plumberClearDragSelection();
         }
@@ -258,7 +245,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     // Applies only to router nodes;
     // ./Action/Action handles click logic for Action nodes.
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
-        if (!this.props.editorState.nodeDragging) {
+        if (!this.props.nodeDragging) {
             this.props.onOpenNodeEditor({
                 originalNode: this.props.renderNode
             });
@@ -300,9 +287,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private isSelected(): boolean {
         return (
-            this.props.editorState.dragSelection &&
-            this.props.editorState.dragSelection.selected &&
-            this.props.editorState.dragSelection.selected[this.props.renderNode.node.uuid]
+            this.props.dragSelection &&
+            this.props.dragSelection.selected &&
+            this.props.dragSelection.selected[this.props.renderNode.node.uuid]
         );
     }
 
@@ -320,8 +307,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     /* istanbul ignore next */
     private renderDebug(): JSX.Element {
-        if (this.props.editorState.debug) {
-            if (this.props.editorState.debug.showUUIDs) {
+        if (this.props.debug) {
+            if (this.props.debug.showUUIDs) {
                 return (
                     <span
                         id={`uuid-${this.props.renderNode.node.uuid}`}
@@ -417,7 +404,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                         <div {...this.events}>
                             <TitleBar
                                 __className={shared[this.hasMissing() ? 'missing' : config.type]}
-                                showRemoval={!this.props.editorState.translating}
+                                showRemoval={!this.props.translating}
                                 onRemoval={this.onRemoval}
                                 title={title}
                             />
@@ -427,7 +414,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             }
         } else {
             // Don't show add actions option if we are translating
-            if (!this.props.editorState.translating) {
+            if (!this.props.translating) {
                 addActions = (
                     <a className={styles.add} onClick={this.onAddToNode}>
                         <span className="fe-add" />
@@ -442,9 +429,8 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             'plumb-drag': true,
             [styles.dragging]: this.state.thisNodeDragging,
             [styles.ghost]: this.props.ghost,
-            [styles.translating]: this.props.editorState.translating,
-            [styles.nondragged]:
-                this.props.editorState.nodeDragging && !this.state.thisNodeDragging,
+            [styles.translating]: this.props.translating,
+            [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging,
             [styles.selected]: this.isSelected()
         });
 
@@ -494,10 +480,21 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 }
 
-const mapStateToProps = ({ flowContext: { definition, languages }, editorState }: AppState) => ({
-    editorState: editorState as Partial<EditorState>,
+const mapStateToProps = (
+    {
+        flowContext: { nodes, definition, languages },
+        editorState: { translating, debug, dragSelection, nodeDragging, ghostNode }
+    }: AppState,
+    props: NodePassedProps
+) => ({
+    translating,
+    debug,
+    dragSelection,
+    nodeDragging,
     definition,
-    languages
+    languages,
+    renderNode:
+        ghostNode && ghostNode.node.uuid === props.nodeUUID ? ghostNode : nodes[props.nodeUUID]
 });
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
