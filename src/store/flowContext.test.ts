@@ -1,6 +1,4 @@
 import { FlowDefinition } from '~/flowTypes';
-import { English, Spanish } from '~/testUtils/assetCreators';
-
 import Constants from '~/store/constants';
 import reducer, {
     definition as definitionReducer,
@@ -15,9 +13,10 @@ import reducer, {
     updateDefinition,
     updateDependencies,
     updateLanguages,
-    updateAllNodes,
+    updateNodes,
     updateResultMap
 } from '~/store/flowContext';
+import { English, Spanish } from '~/testUtils/assetCreators';
 
 const boringFlow = require('~/test/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('~/test/flows/empty.json') as FlowDefinition;
@@ -177,7 +176,7 @@ describe('flowContext reducers', () => {
                     inboundConnections: {}
                 }
             };
-            const action = updateAllNodes(nodes);
+            const action = updateNodes(nodes);
 
             expect(reduce(action)).toEqual(nodes);
         });

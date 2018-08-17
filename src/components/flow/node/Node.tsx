@@ -486,16 +486,36 @@ const mapStateToProps = (
         editorState: { translating, debug, dragSelection, nodeDragging, ghostNode }
     }: AppState,
     props: NodePassedProps
-) => ({
-    translating,
-    debug,
-    dragSelection,
-    nodeDragging,
-    definition,
-    languages,
-    renderNode:
-        ghostNode && ghostNode.node.uuid === props.nodeUUID ? ghostNode : nodes[props.nodeUUID]
-});
+) => {
+    // console.log(props.nodeUUID, Object.keys(nodes));
+    let renderNode: RenderNode = null;
+
+    // if we match our ghost node use that
+    if (ghostNode && ghostNode.node.uuid === props.nodeUUID) {
+        renderNode = ghostNode;
+    }
+
+    // otherwise look up our node from the list
+    else if (props.nodeUUID in nodes) {
+        renderNode = nodes[props.nodeUUID];
+    }
+
+    if (!renderNode) {
+        throw Error("Couldn't find node for " + props.nodeUUID);
+    }
+
+    console.log(props.nodeUUID, renderNode);
+
+    return {
+        translating,
+        debug,
+        dragSelection,
+        nodeDragging,
+        definition,
+        languages,
+        renderNode
+    };
+};
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(

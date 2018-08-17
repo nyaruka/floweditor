@@ -3,7 +3,6 @@ import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
-    UpdateAllNodesAction,
     UpdateBaseLanguageAction,
     UpdateContactFieldsAction,
     UpdateDefinitionAction,
@@ -75,15 +74,8 @@ export const updateDefinition = (definition: FlowDefinition): UpdateDefinitionAc
     }
 });
 
-export const updateNodes = (nodes: RenderNode[]): UpdateNodesAction => ({
+export const updateNodes = (nodes: RenderNodeMap): UpdateNodesAction => ({
     type: Constants.UPDATE_NODES,
-    payload: {
-        nodes
-    }
-});
-
-export const updateAllNodes = (nodes: RenderNodeMap): UpdateAllNodesAction => ({
-    type: Constants.UPDATE_ALL_NODES,
     payload: {
         nodes
     }
@@ -141,22 +133,9 @@ export const definition = (
     }
 };
 
-export const allNodes = (state: {} = initialState.nodes, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_ALL_NODES:
-            return action.payload.nodes;
-        default:
-            return state;
-    }
-};
-
 export const nodes = (state: {} = initialState.nodes, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_NODES:
-            const nodesToUpdate = action.payload.nodes;
-            console.log(nodesToUpdate);
-            return state;
-        case Constants.UPDATE_ALL_NODES:
             return action.payload.nodes;
         default:
             return state;

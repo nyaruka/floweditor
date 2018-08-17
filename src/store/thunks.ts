@@ -23,11 +23,11 @@ import {
     incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
-    updateAllNodes,
     updateBaseLanguage,
     updateContactFields,
     updateDefinition,
     updateLanguages,
+    updateNodes,
     updateResultMap
 } from '~/store/flowContext';
 import {
@@ -167,7 +167,7 @@ export const initializeFlow = (
 
     // store our flow definition without any nodes
     dispatch(updateDefinition(mutators.pruneDefinition(definition)));
-    dispatch(updateAllNodes(flowComponents.renderNodeMap));
+    dispatch(updateNodes(flowComponents.renderNodeMap));
 
     // Take stock of existing results
     dispatch(updateResultMap(flowComponents.resultMap));
@@ -267,7 +267,7 @@ export const reflow = (current: RenderNodeMap = null) => (
 
         updated = dispatch(reflow(updated));
         if (current == null) {
-            dispatch(updateAllNodes(updated));
+            dispatch(updateNodes(updated));
         }
         return updated;
     }
@@ -294,7 +294,7 @@ export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
         flowContext: { nodes }
     } = getState();
     const updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
-    dispatch(updateAllNodes(updated));
+    dispatch(updateNodes(updated));
     markReflow(dispatch);
     return updated;
 };
@@ -311,7 +311,7 @@ export const addNode = (renderNode: RenderNode) => (
         flowContext: { nodes }
     } = getState();
     renderNode.node = mutators.uniquifyNode(renderNode.node);
-    dispatch(updateAllNodes(mutators.mergeNode(nodes, renderNode)));
+    dispatch(updateNodes(mutators.mergeNode(nodes, renderNode)));
     timeEnd('addNode');
     return renderNode;
 };
@@ -324,7 +324,7 @@ export const updateExitDestination = (nodeUUID: string, exitUUID: string, destin
         flowContext: { nodes }
     } = getState();
     const updated = mutators.updateConnection(nodes, nodeUUID, exitUUID, destination);
-    dispatch(updateAllNodes(updated));
+    dispatch(updateNodes(updated));
     return updated;
 };
 
@@ -393,7 +393,7 @@ export const removeNode = (node: FlowNode) => (
     }
 
     const updated = mutators.removeNode(nodes, node.uuid);
-    dispatch(updateAllNodes(updated));
+    dispatch(updateNodes(updated));
     return updated;
 };
 
@@ -439,7 +439,7 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     } else {
         // Otherwise, just remove that action
         const updated = mutators.removeAction(nodes, nodeUUID, action.uuid);
-        dispatch(updateAllNodes(updated));
+        dispatch(updateNodes(updated));
         return updated;
     }
 };
@@ -452,7 +452,7 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
         flowContext: { nodes }
     } = getState();
     const updated = mutators.moveActionUp(nodes, nodeUUID, action.uuid);
-    dispatch(updateAllNodes(updated));
+    dispatch(updateNodes(updated));
     return updated;
 };
 
@@ -555,7 +555,7 @@ export const spliceInRouter = (
         );
     }
 
-    dispatch(updateAllNodes(updatedNodes));
+    dispatch(updateNodes(updatedNodes));
     return updatedNodes;
 };
 
@@ -611,7 +611,7 @@ export const onUpdateAction = (action: AnyAction) => (
         updatedNodes = mutators.updateAction(nodes, originalNode.node.uuid, action, originalAction);
     }
 
-    dispatch(updateAllNodes(updatedNodes));
+    dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
 
     // Add result to store.
@@ -696,7 +696,7 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
     }
 
     const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top);
-    dispatch(updateAllNodes(updated));
+    dispatch(updateNodes(updated));
     markReflow(dispatch);
     return updated;
 };
@@ -815,7 +815,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         updated = mutators.mergeNode(updated, renderNode);
     }
 
-    dispatch(updateAllNodes(updated));
+    dispatch(updateNodes(updated));
 
     return updated;
 };

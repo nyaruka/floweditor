@@ -148,7 +148,7 @@ describe(Flow.name, () => {
 
         it('should render NodeEditor', () => {
             const { wrapper } = setup(true, {
-                editorState: { $merge: { nodeEditorOpen: true } }
+                nodeEditorSettings: { $set: { originalNode: null } }
             });
 
             expect(wrapper.find('Connect(NodeEditor)').props()).toMatchSnapshot();
@@ -156,8 +156,8 @@ describe(Flow.name, () => {
         });
 
         it('should render Simulator', () => {
-            const { wrapper, instance, props, context } = setup(
-                false,
+            const { wrapper } = setup(
+                true,
                 {},
                 {},
                 {
@@ -165,12 +165,7 @@ describe(Flow.name, () => {
                 }
             );
 
-            // if we let jest string this one for us it fails
-            // presumably it's hitting an OOM due to circular references
-            // and reporting it as a RangeError
-            // https://github.com/nodejs/node-v0.x-archive/issues/14170
-            expect(JSON.stringify(wrapper.find('Simulator').props(), null, 1)).toMatchSnapshot();
-            expect(wrapper.find('Simulator').html()).toMatchSnapshot();
+            expect(wrapper).toMatchSnapshot();
         });
 
         it('should render dragNode', () => {
@@ -180,23 +175,7 @@ describe(Flow.name, () => {
             const ghost = getSpecWrapper(wrapper, ghostNodeSpecId);
 
             expect(ghost.key()).toBe(props.editorState.ghostNode.node.uuid);
-            expect(ghost.props()).toEqual(
-                expect.objectContaining({
-                    ghost: true,
-                    renderNode: props.editorState.ghostNode,
-                    Activity: instance.Activity,
-                    plumberRepaintForDuration: instance.Plumber.repaintForDuration,
-                    plumberDraggable: instance.Plumber.draggable,
-                    plumberMakeTarget: instance.Plumber.makeTarget,
-                    plumberRemove: instance.Plumber.remove,
-                    plumberRecalculate: instance.Plumber.recalculate,
-                    plumberMakeSource: instance.Plumber.makeSource,
-                    plumberConnectExit: instance.Plumber.connectExit,
-                    plumberSetDragSelection: instance.Plumber.setDragSelection,
-                    plumberClearDragSelection: instance.Plumber.clearDragSelection,
-                    plumberRemoveFromDragSelection: instance.Plumber.removeFromDragSelection
-                })
-            );
+            expect(ghost).toMatchSnapshot();
         });
 
         it('should render drag selection box', () => {
@@ -320,11 +299,8 @@ describe(Flow.name, () => {
             });
 
             it('should do NodeEditor work if the user is not dragging back', () => {
-                const suspendedElementId = createUUID();
-                const ghostRefSpy = spyOn('ghostRef');
-
                 // tslint:disable-next-line:no-shadowed-variable
-                const { instance, props } = setup(false, {
+                const { instance, props } = setup(true, {
                     editorState: {
                         onOpenNodeEditor: setMock(),
                         ghostNode: set(ghostNodeFromWait)
@@ -338,7 +314,6 @@ describe(Flow.name, () => {
 
                 jest.runAllTimers();
 
-                expect(ghostRefSpy).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledTimes(1);
                 expect(instance.Plumber.recalculate).toHaveBeenCalledWith(
                     props.editorState.ghostNode.node.uuid

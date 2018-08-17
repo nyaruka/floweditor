@@ -223,10 +223,11 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             );
 
             // Save our position for later
-            const { left, top } = snapToGrid(
-                this.ghost.wrappedInstance.ele.offsetLeft,
-                this.ghost.wrappedInstance.ele.offsetTop
-            );
+            const { left, top } = (this.ghost &&
+                snapToGrid(
+                    this.ghost.wrappedInstance.ele.offsetLeft,
+                    this.ghost.wrappedInstance.ele.offsetTop
+                )) || { left: 0, top: 0 };
 
             this.props.editorState.ghostNode.ui.position = { left, top };
             let originalAction = null;
