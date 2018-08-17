@@ -39,7 +39,6 @@ export interface NodeEditorPassedProps {
 
 export interface NodeEditorStoreProps {
     language: Asset;
-    nodeEditorOpen: boolean;
     definition: FlowDefinition;
     translating: boolean;
     typeConfig: Type;
@@ -109,7 +108,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
         this.props.resetNodeEditingState();
         this.props.updateUserAddingAction(false);
-        this.props.mergeEditorState({ nodeEditorOpen: false });
     }
 
     private updateAction(action: Action): void {
@@ -121,7 +119,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     public render(): JSX.Element {
-        if (this.props.nodeEditorOpen) {
+        if (this.props.settings) {
             const { typeConfig } = this.props;
 
             // see if we should use the localization form
@@ -138,7 +136,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
                     };
 
                     return (
-                        <Modal width="600px" show={this.props.nodeEditorOpen}>
+                        <Modal width="600px" show={true}>
                             <LocalizationForm {...{ ...localizationProps }} />
                         </Modal>
                     );
@@ -156,7 +154,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             };
 
             return (
-                <Modal width="600px" show={this.props.nodeEditorOpen}>
+                <Modal width="600px" show={true}>
                     <Form {...{ ...formProps }} />
                 </Modal>
             );
@@ -172,11 +170,10 @@ const mapStateToProps = ({
         nodes,
         results: { suggestedNameCount }
     },
-    editorState: { language, translating, nodeEditorOpen },
+    editorState: { language, translating },
     nodeEditor: { typeConfig, settings }
 }: AppState) => ({
     language,
-    nodeEditorOpen,
     definition,
     nodes,
     translating,

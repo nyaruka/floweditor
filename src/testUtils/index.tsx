@@ -159,6 +159,7 @@ export const composeComponentTestUtils = <P extends {}>(
 
 export const prepMockDuxState = (): { testNodes: RenderNodeMap; mockDuxState: AppState } => {
     const testNodes = getFlowComponents(boring).renderNodeMap;
+
     return {
         testNodes,
         mockDuxState: {

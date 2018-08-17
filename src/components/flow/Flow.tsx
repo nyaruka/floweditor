@@ -17,6 +17,7 @@ import Plumber from '~/services/Plumber';
 import { DragSelection, EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
 import { getCollisions } from '~/store/helpers';
+import { NodeEditorSettings } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
     ConnectionEvent,
@@ -55,6 +56,8 @@ export interface FlowStoreProps {
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
     dependencies: FlowDefinition[];
+    nodeEditorSettings: NodeEditorSettings;
+
     ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
@@ -220,10 +223,11 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             );
 
             // Save our position for later
-            const { left, top } = snapToGrid(
-                this.ghost.wrappedInstance.ele.offsetLeft,
-                this.ghost.wrappedInstance.ele.offsetTop
-            );
+            const { left, top } = (this.ghost &&
+                snapToGrid(
+                    this.ghost.wrappedInstance.ele.offsetLeft,
+                    this.ghost.wrappedInstance.ele.offsetTop
+                )) || { left: 0, top: 0 };
 
             this.props.editorState.ghostNode.ui.position = { left, top };
             let originalAction = null;
@@ -256,7 +260,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 <ConnectedNode
                     key={uuid}
                     data-spec={nodeSpecId}
-                    renderNode={renderNode}
+                    nodeUUID={renderNode.node.uuid}
                     Activity={this.Activity}
                     plumberRepaintForDuration={this.Plumber.repaintForDuration}
                     plumberDraggable={this.Plumber.draggable}
@@ -296,7 +300,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 key={this.props.editorState.ghostNode.node.uuid}
                 data-spec={ghostNodeSpecId}
                 ghost={true}
-                renderNode={this.props.editorState.ghostNode}
+                nodeUUID={this.props.editorState.ghostNode.node.uuid}
                 Activity={this.Activity}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
                 plumberDraggable={this.Plumber.draggable}
@@ -319,7 +323,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getNodeEditor(): JSX.Element {
-        return renderIf(this.props.editorState.nodeEditorOpen)(
+        return renderIf(this.props.nodeEditorSettings !== null)(
             <ConnectedNodeEditor
                 plumberConnectExit={this.Plumber.connectExit}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
@@ -440,9 +444,11 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 /* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes },
-    editorState
+    editorState,
+    nodeEditor: { settings }
 }: AppState) => {
     return {
+        nodeEditorSettings: settings,
         definition,
         nodes,
         dependencies,

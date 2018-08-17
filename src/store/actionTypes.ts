@@ -3,7 +3,7 @@ import { FlowDefinition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import Constants from '~/store/constants';
 import { EditorState } from '~/store/editor';
-import { ContactFields, RenderNode, ResultMap } from '~/store/flowContext';
+import { ContactFields, RenderNodeMap, ResultMap } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 // Redux action generic
@@ -42,7 +42,7 @@ interface UpdateResultMapPayload {
 }
 
 interface UpdateNodesPayload {
-    nodes: { [uuid: string]: RenderNode };
+    nodes: RenderNodeMap;
 }
 
 interface UpdateTypeConfigPayload {

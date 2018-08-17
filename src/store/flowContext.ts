@@ -74,7 +74,7 @@ export const updateDefinition = (definition: FlowDefinition): UpdateDefinitionAc
     }
 });
 
-export const updateNodes = (nodes: { [uuid: string]: RenderNode }): UpdateNodesAction => ({
+export const updateNodes = (nodes: RenderNodeMap): UpdateNodesAction => ({
     type: Constants.UPDATE_NODES,
     payload: {
         nodes

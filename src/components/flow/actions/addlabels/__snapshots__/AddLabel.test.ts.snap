@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AddLabelsComp should display labels on action 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="nodeAsset"
     key="label-0"
@@ -34,5 +34,5 @@ exports[`AddLabelsComp should display labels on action 1`] = `
   >
     ...
   </div>
-</React.Fragment>
+</Fragment>
 `;

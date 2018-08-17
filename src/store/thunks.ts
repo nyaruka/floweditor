@@ -669,7 +669,6 @@ export const onAddToNode = (node: FlowNode) => (
     dispatch(updateUserAddingAction(true));
     dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
     dispatch(mergeEditorState({ nodeDragging: false }));
-    dispatch(mergeEditorState({ nodeEditorOpen: true }));
 };
 
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
@@ -897,5 +896,4 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     dispatch(updateNodeEditorSettings(settings));
     dispatch(handleTypeConfigChange(determineTypeConfig(settings)));
     dispatch(mergeEditorState({ nodeDragging: false }));
-    dispatch(mergeEditorState({ nodeEditorOpen: true }));
 };
