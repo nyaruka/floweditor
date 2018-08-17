@@ -5,8 +5,7 @@ import * as axios from 'axios';
 import update from 'immutability-helper';
 import * as React from 'react';
 import { ReactNode } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { FlowConsumer, FlowState } from '~/components/context/flow/FlowContext';
 import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
 import * as styles from '~/components/simulator/Simulator.scss';
 import { ConfigProviderContext } from '~/config';
@@ -14,10 +13,7 @@ import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, Group, Wait } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
 import AssetService, { getURL } from '~/services/AssetService';
-import { RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
-import AppState from '~/store/state';
-import { DispatchWithState } from '~/store/thunks';
 import { createUUID } from '~/utils';
 
 const ACTIVE = 'A';
@@ -27,17 +23,11 @@ interface Message {
     inbound: boolean;
 }
 
-export interface SimulatorStoreProps {
-    nodes: RenderNodeMap;
-    definition: FlowDefinition;
-}
-
-export interface SimulatorPassedProps {
+export interface SimulatorProps {
     Activity: any;
     plumberDraggable: Function;
+    flowState?: FlowState;
 }
-
-export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
 
 interface SimulatorState {
     visible: boolean;
@@ -116,7 +106,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         };
         this.bottomRef = this.bottomRef.bind(this);
         this.inputBoxRef = this.inputBoxRef.bind(this);
-        this.currentFlow = this.props.definition.uuid;
+        this.currentFlow = this.props.flowState.definition.uuid;
 
         bindCallbacks(this, {
             include: [/^on/, /^get/]
@@ -223,8 +213,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 this.getAssetService()
                     .getFlowAssets()
                     .update(
-                        this.props.definition.uuid,
-                        getCurrentDefinition(this.props.definition, this.props.nodes)
+                        this.props.flowState.definition.uuid,
+                        getCurrentDefinition(
+                            this.props.flowState.definition,
+                            this.props.flowState.nodes
+                        )
                     )
                     .then(() => {
                         const body: any = {
@@ -244,8 +237,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                     groups: []
                                 },
                                 flow: {
-                                    uuid: this.props.definition.uuid,
-                                    name: this.props.definition.uuid
+                                    uuid: this.props.flowState.definition.uuid,
+                                    name: this.props.flowState.definition.uuid
                                 },
                                 params: {},
                                 triggered_on: new Date().toISOString()
@@ -423,16 +416,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 }
 
-/* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { definition, nodes } }: AppState) => ({
-    definition,
-    nodes
-});
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) => bindActionCreators({}, dispatch);
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Simulator);
+export default React.forwardRef((props: any) => (
+    <FlowConsumer>{flowState => <Simulator {...props} flowState={flowState} />}</FlowConsumer>
+));

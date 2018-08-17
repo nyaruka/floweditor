@@ -19,7 +19,6 @@ export interface DebugState {
 export interface EditorState {
     language: Asset;
     translating: boolean;
-    fetchingFlow: boolean;
     nodeEditorOpen: boolean;
     nodeDragging: boolean;
     ghostNode: RenderNode;
@@ -32,7 +31,6 @@ export interface EditorState {
 export const initialState: EditorState = {
     translating: false,
     language: null,
-    fetchingFlow: false,
     nodeEditorOpen: false,
     nodeDragging: false,
     ghostNode: null,

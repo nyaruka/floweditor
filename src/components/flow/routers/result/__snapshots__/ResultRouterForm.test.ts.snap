@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ExpressionRouterForm initializes 1`] = `
+exports[`ResultRouterForm initializes 1`] = `
 <Dialog
   buttons={
     Object {
@@ -14,39 +14,32 @@ exports[`ExpressionRouterForm initializes 1`] = `
       },
     }
   }
-  headerClass="split_by_expression"
-  title="Split by Expression"
+  headerClass="split_by_run_result"
+  title="Split by Result"
 >
   <TypeList
     __className=""
     initialType={
       Object {
-        "description": "Split by a custom expression",
+        "description": "Split by a result in the flow",
         "form": undefined,
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
           "cases",
         ],
-        "name": "Split by Expression",
-        "type": "split_by_expression",
+        "name": "Split by Result",
+        "type": "split_by_run_result",
       }
     }
     onChange={[MockFunction]}
   />
   <p>
-    If the expression...
+    If the result...
   </p>
-  <TextInputElement
-    entry={
-      Object {
-        "value": "@run.input",
-      }
-    }
-    name="Operand"
-    onChange={[Function]}
-    showLabel={false}
-  />
+  <Component>
+    <Component />
+  </Component>
   <CaseList
     cases={
       Array [
@@ -58,9 +51,9 @@ exports[`ExpressionRouterForm initializes 1`] = `
             ],
             "exit_uuid": null,
             "type": "has_any_word",
-            "uuid": "generated_uuid_2",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
-          "uuid": "generated_uuid_2",
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
       ]
     }
@@ -81,7 +74,7 @@ exports[`ExpressionRouterForm initializes 1`] = `
 </Dialog>
 `;
 
-exports[`ExpressionRouterForm should render 1`] = `
+exports[`ResultRouterForm should render 1`] = `
 <Dialog
   buttons={
     Object {
@@ -95,39 +88,32 @@ exports[`ExpressionRouterForm should render 1`] = `
       },
     }
   }
-  headerClass="split_by_expression"
-  title="Split by Expression"
+  headerClass="split_by_run_result"
+  title="Split by Result"
 >
   <TypeList
     __className=""
     initialType={
       Object {
-        "description": "Split by a custom expression",
+        "description": "Split by a result in the flow",
         "form": undefined,
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
           "cases",
         ],
-        "name": "Split by Expression",
-        "type": "split_by_expression",
+        "name": "Split by Result",
+        "type": "split_by_run_result",
       }
     }
     onChange={[MockFunction]}
   />
   <p>
-    If the expression...
+    If the result...
   </p>
-  <TextInputElement
-    entry={
-      Object {
-        "value": "@run.input",
-      }
-    }
-    name="Operand"
-    onChange={[Function]}
-    showLabel={false}
-  />
+  <Component>
+    <Component />
+  </Component>
   <CaseList
     cases={Array []}
     data-spec="cases"
@@ -147,7 +133,7 @@ exports[`ExpressionRouterForm should render 1`] = `
 </Dialog>
 `;
 
-exports[`ExpressionRouterForm updates should save changes 1`] = `
+exports[`ResultRouterForm updates should save changes 1`] = `
 Object {
   "cases": Array [
     Object {
@@ -181,6 +167,7 @@ Object {
   "operand": Object {
     "value": "@run.input",
   },
+  "result": null,
   "resultName": Object {
     "value": "Favorite Color",
   },
@@ -188,7 +175,7 @@ Object {
 }
 `;
 
-exports[`ExpressionRouterForm updates should save changes 2`] = `
+exports[`ResultRouterForm updates should save changes 2`] = `
 Array [
   Object {
     "inboundConnections": Object {},
@@ -198,17 +185,17 @@ Array [
         Object {
           "destination_node_uuid": null,
           "name": "Red",
-          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
         Object {
           "destination_node_uuid": null,
           "name": "Green",
-          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
         Object {
           "destination_node_uuid": null,
           "name": "Other",
-          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         },
       ],
       "router": Object {
@@ -217,25 +204,25 @@ Array [
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "maroon",
             ],
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "type": "has_any_word",
           },
         ],
-        "default_exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "default_exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         "operand": "@run.input",
         "result_name": "Favorite Color",
         "type": "switch",
@@ -245,7 +232,7 @@ Array [
     },
     "ui": Object {
       "position": null,
-      "type": "split_by_expression",
+      "type": "split_by_run_result",
     },
   },
 ]

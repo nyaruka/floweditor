@@ -1,7 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { EditorConsumer, EditorState } from '~/components/context/editor/EditorContext';
+import { ConnectionEvent, FlowConsumer, FlowState } from '~/components/context/flow/FlowContext';
 import * as styles from '~/components/flow/Flow.scss';
 import ConnectedNode from '~/components/flow/node/Node';
 import { getDraggedFrom } from '~/components/helpers';
@@ -14,28 +14,9 @@ import { getActivity } from '~/external';
 import { FlowDefinition } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import Plumber from '~/services/Plumber';
-import { DragSelection, EditorState } from '~/store/editor';
-import { RenderNode } from '~/store/flowContext';
+import { DragSelection } from '~/store/editor';
+import { RenderNodeMap } from '~/store/flowContext';
 import { getCollisions } from '~/store/helpers';
-import AppState from '~/store/state';
-import {
-    ConnectionEvent,
-    DispatchWithState,
-    ensureStartNode,
-    EnsureStartNode,
-    mergeEditorState,
-    MergeEditorState,
-    NoParamsAC,
-    OnConnectionDrag,
-    onConnectionDrag,
-    OnOpenNodeEditor,
-    onOpenNodeEditor,
-    resetNodeEditingState,
-    UpdateConnection,
-    updateConnection,
-    updateSticky,
-    UpdateSticky
-} from '~/store/thunks';
 import { contextTypes } from '~/testUtils';
 import {
     createUUID,
@@ -48,19 +29,10 @@ import {
 } from '~/utils';
 import Debug from '~/utils/debug';
 
-export interface FlowStoreProps {
-    editorState: Partial<EditorState>;
-    mergeEditorState: MergeEditorState;
-
+export interface FlowProps {
     definition: FlowDefinition;
-    nodes: { [uuid: string]: RenderNode };
-    dependencies: FlowDefinition[];
-    ensureStartNode: EnsureStartNode;
-    updateConnection: UpdateConnection;
-    onOpenNodeEditor: OnOpenNodeEditor;
-    resetNodeEditingState: NoParamsAC;
-    onConnectionDrag: OnConnectionDrag;
-    updateSticky: UpdateSticky;
+    flowState?: FlowState;
+    editorState?: EditorState;
 }
 
 export interface Translations {
@@ -92,7 +64,7 @@ export const getDragStyle = (drag: DragSelection) => {
     };
 };
 
-export class Flow extends React.Component<FlowStoreProps, {}> {
+export class Flow extends React.Component<FlowProps> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
     private containerOffset = { left: 0, top: 0 };
@@ -107,18 +79,18 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         debug: fakePropType
     };
 
-    constructor(props: FlowStoreProps, context: ConfigProviderContext) {
+    constructor(props: FlowProps, context: ConfigProviderContext) {
         super(props, context);
 
         this.nodeContainerUUID = createUUID();
 
-        this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
+        this.Activity = new ActivityManager(props.flowState.definition.uuid, getActivity);
 
         this.Plumber = new Plumber();
 
         /* istanbul ignore next */
         if (context.debug) {
-            window.fe = new Debug(props, this.props.editorState.debug);
+            window.fe = new Debug(props.editorState, this.props.editorState.debug);
         }
 
         bindCallbacks(this, {
@@ -138,30 +110,34 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     public componentDidMount(): void {
         this.Plumber.bind('connection', (event: ConnectionEvent) =>
-            this.props.updateConnection(event.sourceId, event.targetId)
+            this.props.flowState.mutator.updateConnection(event.sourceId, event.targetId)
         );
+
         this.Plumber.bind('beforeDrag', (event: ConnectionEvent) =>
             this.beforeConnectionDrag(event)
         );
 
         this.Plumber.bind('connectionDrag', (event: ConnectionEvent) => {
-            this.props.onConnectionDrag(event);
+            this.props.flowState.mutator.updateConnectionDrag(event);
         });
 
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
             this.onConnectorDrop(event)
         );
+
         this.Plumber.bind(
             'beforeStartDetach',
             (event: ConnectionEvent) => !this.props.editorState.translating
         );
+
         this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => true);
+
         this.Plumber.bind('beforeDrop', (event: ConnectionEvent) =>
             this.onBeforeConnectorDrop(event)
         );
 
         // If we don't have any nodes, create our first one
-        this.props.ensureStartNode();
+        this.props.flowState.mutator.ensureStartNode();
 
         let offset = { left: 0, top: 0 };
 
@@ -186,7 +162,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      * Called right before a connector is dropped onto a new node
      */
     private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
-        this.props.resetNodeEditingState();
+        this.props.flowState.mutator.closeNodeEditor(true);
 
         if (event.sourceId.split(':')[0] === event.targetId) {
             console.error(event.targetId + ' cannot point to itself');
@@ -207,7 +183,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      * existing node or on to empty space.
      */
     private onConnectorDrop(event: ConnectionEvent): boolean {
-        const { ghostNode } = this.props.editorState;
+        const { ghostNode } = this.props.flowState;
         // Don't show the node editor if we a dragging back to where we were
         if (isRealValue(ghostNode) && !isDraggingBack(event)) {
             // Wire up the drag from to our ghost node
@@ -220,19 +196,16 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             );
 
             // Save our position for later
-            const { left, top } = snapToGrid(
-                this.ghost.wrappedInstance.ele.offsetLeft,
-                this.ghost.wrappedInstance.ele.offsetTop
-            );
+            const { left, top } = snapToGrid(this.ghost.ele.offsetLeft, this.ghost.ele.offsetTop);
 
-            this.props.editorState.ghostNode.ui.position = { left, top };
+            ghostNode.ui.position = { left, top };
             let originalAction = null;
             if (ghostNode.node.actions && ghostNode.node.actions.length === 1) {
                 originalAction = ghostNode.node.actions[0];
             }
 
             // Bring up the node editor
-            this.props.onOpenNodeEditor({
+            this.props.flowState.mutator.openNodeEditor({
                 originalNode: ghostNode,
                 originalAction
             });
@@ -249,9 +222,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         return !this.props.editorState.translating;
     }
 
-    private getNodes(): JSX.Element[] {
-        return Object.keys(this.props.nodes).map(uuid => {
-            const renderNode = this.props.nodes[uuid];
+    private getNodes(nodes: RenderNodeMap): JSX.Element[] {
+        return Object.keys(nodes).map(uuid => {
+            const renderNode = nodes[uuid];
             return (
                 <ConnectedNode
                     key={uuid}
@@ -274,7 +247,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getStickies(): JSX.Element[] {
-        const stickyMap = this.props.definition._ui.stickies || {};
+        const stickyMap = this.props.flowState.definition._ui.stickies || {};
         return Object.keys(stickyMap).map(uuid => {
             return (
                 <Sticky
@@ -290,13 +263,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getDragNode(): JSX.Element {
-        return isRealValue(this.props.editorState.ghostNode) ? (
+        return isRealValue(this.props.flowState.ghostNode) ? (
             <ConnectedNode
                 ref={this.ghostRef}
-                key={this.props.editorState.ghostNode.node.uuid}
+                key={this.props.flowState.ghostNode.node.uuid}
                 data-spec={ghostNodeSpecId}
                 ghost={true}
-                renderNode={this.props.editorState.ghostNode}
+                renderNode={this.props.flowState.ghostNode}
                 Activity={this.Activity}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
                 plumberDraggable={this.Plumber.draggable}
@@ -319,7 +292,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getNodeEditor(): JSX.Element {
-        return renderIf(this.props.editorState.nodeEditorOpen)(
+        return renderIf(this.props.flowState.nodeEditorOpen)(
             <ConnectedNodeEditor
                 plumberConnectExit={this.Plumber.connectExit}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
@@ -339,7 +312,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 event.clientY - this.containerOffset.top - NODE_PADDING * 2
             );
 
-            this.props.updateSticky(createUUID(), {
+            this.props.flowState.mutator.updateSticky(createUUID(), {
                 position: { left, top },
                 title: 'New Note',
                 body: '...'
@@ -349,7 +322,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.isClickOnCanvas(event)) {
-            this.props.mergeEditorState({
+            this.props.editorState.mutator.mergeEditorState({
                 dragSelection: {
                     startX: event.pageX - this.containerOffset.left,
                     startY: event.pageY - this.containerOffset.top,
@@ -369,13 +342,18 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             const right = Math.max(drag.startX, drag.currentX);
             const bottom = Math.max(drag.startY, drag.currentY);
 
-            this.props.mergeEditorState({
+            this.props.editorState.mutator.mergeEditorState({
                 dragSelection: {
                     startX: drag.startX,
                     startY: drag.startY,
                     currentX: event.pageX - this.containerOffset.left,
                     currentY: event.pageY - this.containerOffset.top,
-                    selected: getCollisions(this.props.nodes, { left, top, right, bottom })
+                    selected: getCollisions(this.props.flowState.nodes, {
+                        left,
+                        top,
+                        right,
+                        bottom
+                    })
                 }
             });
         }
@@ -383,7 +361,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     public onMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.props.editorState.dragSelection) {
-            this.props.mergeEditorState({
+            this.props.editorState.mutator.mergeEditorState({
                 dragSelection: {
                     startX: null,
                     startY: null,
@@ -430,42 +408,18 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 >
                     {this.getStickies()}
                     {this.getDragSelectionBox()}
-                    {this.getNodes()}
+                    <FlowConsumer>{flowState => this.getNodes(flowState.nodes)}</FlowConsumer>
                 </div>
             </>
         );
     }
 }
-
-/* istanbul ignore next */
-const mapStateToProps = ({
-    flowContext: { definition, dependencies, nodes },
-    editorState
-}: AppState) => {
-    return {
-        definition,
-        nodes,
-        dependencies,
-        editorState: editorState as Partial<EditorState>
-    };
-};
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators(
-        {
-            mergeEditorState,
-            ensureStartNode,
-            resetNodeEditingState,
-            onConnectionDrag,
-            onOpenNodeEditor,
-            updateConnection,
-            updateSticky
-        },
-        dispatch
-    );
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Flow);
+export default React.forwardRef((props: any) => (
+    <EditorConsumer>
+        {editorState => (
+            <FlowConsumer>
+                {flowState => <Flow {...props} flowState={flowState} editorState={editorState} />}
+            </FlowConsumer>
+        )}
+    </EditorConsumer>
+));

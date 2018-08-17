@@ -1,6 +1,7 @@
-import * as isEqual from 'fast-deep-equal';
+/* import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
+import MissingComp from '~/components/flow/actions/missing/Missing';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import {
@@ -42,12 +43,7 @@ import {
     getNode
 } from '~/store/helpers';
 import * as mutators from '~/store/mutators';
-import {
-    NodeEditorSettings,
-    updateNodeEditorSettings,
-    updateTypeConfig,
-    updateUserAddingAction
-} from '~/store/nodeEditor';
+import { NodeEditorSettings, updateNodeEditorSettings, updateTypeConfig } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import { createUUID, dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
 
@@ -166,8 +162,9 @@ export const initializeFlow = (
     }
 
     // store our flow definition without any nodes
-    dispatch(updateDefinition(mutators.pruneDefinition(definition)));
-    dispatch(updateNodes(flowComponents.renderNodeMap));
+    // dispatch(updateDefinition(mutators.pruneDefinition(definition)));
+    dispatch(updateDefinition(definition));
+    // dispatch(updateNodes(flowComponents.renderNodeMap));
 
     // Take stock of existing results
     dispatch(updateResultMap(flowComponents.resultMap));
@@ -299,9 +296,7 @@ export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
     return updated;
 };
 
-/**
- * @param renderNode Adds the given node, uniquifying its uuid
- */
+// @param renderNode Adds the given node, uniquifying its uuid
 export const addNode = (renderNode: RenderNode) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -417,22 +412,6 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
         // Node invalidation => ...
     }
 
-    /*
-
-    actions[] (
-        set_result_name,
-        send_msg,
-        send_broadcast,
-        set_contact_property,
-        set_contact_field,
-        split_by_expression,
-        call_webhook
-    )
-
-    router {} result_name
-
-    */
-
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
         return dispatch(removeNode(renderNode.node));
@@ -456,15 +435,15 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
     return updated;
 };
 
-/**
- * Splices a router into a list of actions creating up to three nodes where there
+//**
+ //* Splices a router into a list of actions creating up to three nodes where there
  * was once one node.
  * @param nodeUUID the node to replace
  * @param node the new node being added (shares the previous node uuid)
  * @param type the type of the new router
  * @param previousAction the previous action that is being replaced with our router
- * @returns a list of RenderNodes that were created
- */
+ //* @returns a list of RenderNodes that were created
+ //
 export const spliceInRouter = (
     newRouterNode: RenderNode,
     previousAction: { nodeUUID: string; actionUUID: string }
@@ -606,13 +585,13 @@ export const onUpdateAction = (action: AnyAction) => (
     } else if (userAddingAction) {
         updatedNodes = mutators.addAction(nodes, originalNode.node.uuid, action);
     } else if (originalNode.node.hasOwnProperty('router')) {
-        updatedNodes = mutators.spliceInAction(nodes, originalNode.node.uuid, action);
+        updatedNodes = mutators.replaceRouterWithAction(nodes, originalNode.node.uuid, action);
     } else {
         updatedNodes = mutators.updateAction(nodes, originalNode.node.uuid, action, originalAction);
     }
 
     dispatch(updateNodes(updatedNodes));
-    dispatch(updateUserAddingAction(false));
+    // dispatch(updateUserAddingAction(false));
 
     // Add result to store.
     if (action.type === Types.set_run_result) {
@@ -623,7 +602,10 @@ export const onUpdateAction = (action: AnyAction) => (
             // with a reference to the action's uuid. A single node may
             // contain one or more `set_run_result` actions, and they
             // may be identical.
-            [action.uuid]: `@run.results.${snakify(resultNameOnAction)}`
+            [action.uuid]: {
+                key: snakify(resultNameOnAction),
+                name: resultNameOnAction
+            }
         };
         dispatch(updateResultMap(newResultMap));
     }
@@ -641,7 +623,6 @@ export const onUpdateAction = (action: AnyAction) => (
 /**
  * Opens the NodeEditor in the state for adding to a provided node
  * @param node the node to add to
- */
 export const onAddToNode = (node: FlowNode) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -662,11 +643,12 @@ export const onAddToNode = (node: FlowNode) => (
         updateNodeEditorSettings({
             originalNode: getNode(nodes, node.uuid),
             originalAction: newAction,
-            showAdvanced: false
+            showAdvanced: false,
+            userAddingAction: true
         })
     );
 
-    dispatch(updateUserAddingAction(true));
+    // dispatch(updateUserAddingAction(true));
     dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
     dispatch(mergeEditorState({ nodeDragging: false }));
     dispatch(mergeEditorState({ nodeEditorOpen: true }));
@@ -677,7 +659,6 @@ export const onResetDragSelection = () => (dispatch: DispatchWithState, getState
         editorState: { dragSelection }
     } = getState();
 
-    /* istanbul ignore else */
     if (dragSelection && dragSelection.selected) {
         dispatch(mergeEditorState({ dragSelection: { selected: null } }));
     }
@@ -706,7 +687,6 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
  * Called when a connection begins to be dragged from an endpoint both
  * when a new connection is desired or when an existing one is being moved.
  * @param event
- */
 export const onConnectionDrag = (event: ConnectionEvent) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -823,14 +803,14 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
 
 /**
  * Debounce for triggered reflows
- */
+ 
 const markReflow = (dispatch: DispatchWithState) => {
     if (debounceReflow) {
         window.clearTimeout(debounceReflow);
     }
 
     debounceReflow = window.setTimeout(
-        /* istanbul ignore next */ () => {
+        () => {
             dispatch(reflow());
         },
         QUIET_REFLOW
@@ -851,6 +831,12 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 
     const { originalNode: renderNode } = settings;
     let { originalAction: action } = settings;
+
+    const type = action ? action.type : renderNode.ui.type;
+    if (type && getTypeConfig(type).component === MissingComp) {
+        alert(type + ' is not implemented');
+        return;
+    }
 
     const node = renderNode.node;
 
@@ -886,7 +872,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     let resultName = '';
 
     if (node.router) {
-        /* istanbul ignore else */
         if (node.router.result_name) {
             ({
                 router: { result_name: resultName }
@@ -896,6 +881,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 
     dispatch(updateNodeEditorSettings(settings));
     dispatch(handleTypeConfigChange(determineTypeConfig(settings)));
-    dispatch(mergeEditorState({ nodeDragging: false }));
-    dispatch(mergeEditorState({ nodeEditorOpen: true }));
+    dispatch(mergeEditorState({ nodeDragging: false, nodeEditorOpen: true }));
 };
+*/

@@ -1061,7 +1061,7 @@ exports[`CaseList render should render empty list 1`] = `
                                         <div
                                           className="singleOperand"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             autocomplete={true}
                                             data-spec="args-input"
                                             entry={
@@ -1073,72 +1073,55 @@ exports[`CaseList render should render empty list 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              autocomplete={true}
-                                              contactFields={Object {}}
-                                              data-spec="args-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "",
                                                 }
                                               }
                                               name="arguments"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "",
-                                                  }
-                                                }
-                                                name="arguments"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value=""
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value=""
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <div
                                           className="categorizeAs"
@@ -1148,7 +1131,7 @@ exports[`CaseList render should render empty list 1`] = `
                                         <div
                                           className="category"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             data-spec="exit-input"
                                             entry={
                                               Object {
@@ -1159,71 +1142,55 @@ exports[`CaseList render should render empty list 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              contactFields={Object {}}
-                                              data-spec="exit-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "",
                                                 }
                                               }
                                               name="exitName"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "",
-                                                  }
-                                                }
-                                                name="exitName"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value=""
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value=""
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <span
                                           className="fe-x removeIcon"
@@ -2970,7 +2937,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         <div
                                           className="singleOperand"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             autocomplete={true}
                                             data-spec="args-input"
                                             entry={
@@ -2982,72 +2949,55 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              autocomplete={true}
-                                              contactFields={Object {}}
-                                              data-spec="args-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "Red, r",
                                                 }
                                               }
                                               name="arguments"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "Red, r",
-                                                  }
-                                                }
-                                                name="arguments"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value="Red, r"
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value="Red, r"
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <div
                                           className="categorizeAs"
@@ -3057,7 +3007,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         <div
                                           className="category"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             data-spec="exit-input"
                                             entry={
                                               Object {
@@ -3068,71 +3018,55 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              contactFields={Object {}}
-                                              data-spec="exit-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "Red",
                                                 }
                                               }
                                               name="exitName"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "Red",
-                                                  }
-                                                }
-                                                name="exitName"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value="Red"
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value="Red"
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <span
                                           className="fe-x removeIcon"
@@ -3867,7 +3801,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         <div
                                           className="singleOperand"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             autocomplete={true}
                                             data-spec="args-input"
                                             entry={
@@ -3879,72 +3813,55 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              autocomplete={true}
-                                              contactFields={Object {}}
-                                              data-spec="args-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "Green, g",
                                                 }
                                               }
                                               name="arguments"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "Green, g",
-                                                  }
-                                                }
-                                                name="arguments"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value="Green, g"
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value="Green, g"
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <div
                                           className="categorizeAs"
@@ -3954,7 +3871,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         <div
                                           className="category"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             data-spec="exit-input"
                                             entry={
                                               Object {
@@ -3965,71 +3882,55 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              contactFields={Object {}}
-                                              data-spec="exit-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "Green",
                                                 }
                                               }
                                               name="exitName"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "Green",
-                                                  }
-                                                }
-                                                name="exitName"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value="Green"
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value="Green"
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <span
                                           className="fe-x removeIcon"
@@ -4748,7 +4649,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         <div
                                           className="singleOperand"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             autocomplete={true}
                                             data-spec="args-input"
                                             entry={
@@ -4760,72 +4661,55 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              autocomplete={true}
-                                              contactFields={Object {}}
-                                              data-spec="args-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "",
                                                 }
                                               }
                                               name="arguments"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "",
-                                                  }
-                                                }
-                                                name="arguments"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value=""
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value=""
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <div
                                           className="categorizeAs"
@@ -4835,7 +4719,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         <div
                                           className="category"
                                         >
-                                          <Connect(TextInputElement)
+                                          <TextInputElement
                                             data-spec="exit-input"
                                             entry={
                                               Object {
@@ -4846,71 +4730,55 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onChange={[Function]}
                                             showInvalid={false}
                                           >
-                                            <TextInputElement
-                                              contactFields={Object {}}
-                                              data-spec="exit-input"
-                                              dispatch={[Function]}
+                                            <FormElement
                                               entry={
                                                 Object {
                                                   "value": "",
                                                 }
                                               }
                                               name="exitName"
-                                              onChange={[Function]}
-                                              resultMap={Object {}}
-                                              showInvalid={false}
-                                              typeConfig={null}
                                             >
-                                              <FormElement
-                                                entry={
-                                                  Object {
-                                                    "value": "",
-                                                  }
-                                                }
-                                                name="exitName"
+                                              <div
+                                                className="ele"
                                               >
                                                 <div
-                                                  className="ele"
+                                                  className="wrapper"
                                                 >
+                                                  <input
+                                                    className="textinput"
+                                                    data-spec="input"
+                                                    onBlur={[Function]}
+                                                    onChange={[Function]}
+                                                    onKeyDown={[Function]}
+                                                    type="text"
+                                                    value=""
+                                                  />
                                                   <div
-                                                    className="wrapper"
+                                                    className="completion_container hidden"
+                                                    data-spec="completion-options"
+                                                    style={
+                                                      Object {
+                                                        "left": 0,
+                                                        "top": 0,
+                                                      }
+                                                    }
                                                   >
-                                                    <input
-                                                      className="textinput"
-                                                      data-spec="input"
-                                                      onBlur={[Function]}
-                                                      onChange={[Function]}
-                                                      onKeyDown={[Function]}
-                                                      type="text"
-                                                      value=""
+                                                    <ul
+                                                      className="option_list"
+                                                      data-spec="completion-list"
                                                     />
                                                     <div
-                                                      className="completion_container hidden"
-                                                      data-spec="completion-options"
-                                                      style={
-                                                        Object {
-                                                          "left": 0,
-                                                          "top": 0,
-                                                        }
-                                                      }
+                                                      className="help"
+                                                      data-spec="completion-help"
                                                     >
-                                                      <ul
-                                                        className="option_list"
-                                                        data-spec="completion-list"
-                                                      />
-                                                      <div
-                                                        className="help"
-                                                        data-spec="completion-help"
-                                                      >
-                                                        Tab to complete, enter to select
-                                                      </div>
+                                                      Tab to complete, enter to select
                                                     </div>
                                                   </div>
-                                                  <div />
                                                 </div>
-                                              </FormElement>
-                                            </TextInputElement>
-                                          </Connect(TextInputElement)>
+                                                <div />
+                                              </div>
+                                            </FormElement>
+                                          </TextInputElement>
                                         </div>
                                         <span
                                           className="fe-x removeIcon"

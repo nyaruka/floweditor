@@ -202,6 +202,9 @@ Array [
 
 exports[`helpers initializeFlow should find results in definition 1`] = `
 Object {
-  "node1": "@run.results.color",
+  "node1": Object {
+    "key": "color",
+    "name": "color",
+  },
 }
 `;

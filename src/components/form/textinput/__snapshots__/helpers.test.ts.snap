@@ -4667,31 +4667,31 @@ Array [
   },
   Object {
     "description": "Result for \\"Color\\"",
-    "name": "run.results.color",
+    "name": "run.results.run.results.color",
   },
   Object {
     "description": "Value for \\"Color\\"",
-    "name": "run.results.color.value",
+    "name": "run.results.run.results.color.value",
   },
   Object {
     "description": "Category for \\"Color\\"",
-    "name": "run.results.color.category",
+    "name": "run.results.run.results.color.category",
   },
   Object {
     "description": "Localized category for \\"Color\\"",
-    "name": "run.results.color.category_localized",
+    "name": "run.results.run.results.color.category_localized",
   },
   Object {
     "description": "Input for \\"Color\\"",
-    "name": "run.results.color.input",
+    "name": "run.results.run.results.color.input",
   },
   Object {
     "description": "Node UUID for \\"Color\\"",
-    "name": "run.results.color.node_uuid",
+    "name": "run.results.run.results.color.node_uuid",
   },
   Object {
     "description": "Time \\"Color\\" was created",
-    "name": "run.results.color.created_on",
+    "name": "run.results.run.results.color.created_on",
   },
 ]
 `;

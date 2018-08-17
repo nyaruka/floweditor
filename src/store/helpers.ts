@@ -83,9 +83,11 @@ export const getLocalizations = (
     if (node.router && node.router.type === RouterTypes.switch) {
         const router = node.router as SwitchRouter;
 
-        router.cases.forEach(kase =>
-            localizations.push(Localization.translate(kase, language, translations))
-        );
+        if (router.cases) {
+            router.cases.forEach(kase =>
+                localizations.push(Localization.translate(kase, language, translations))
+            );
+        }
 
         // Account for localized exits
         node.exits.forEach(exit => {
@@ -271,7 +273,9 @@ export const isGroupAction = (actionType: string) => {
     );
 };
 
-export const generateResultQuery = (resultName: string) => `@run.results.${snakify(resultName)}`;
+export const generateResultQuery = (resultName: string) => {
+    return { key: snakify(resultName), name: resultName };
+};
 
 /**
  * Processes an initial FlowDefinition for details necessary for the editor

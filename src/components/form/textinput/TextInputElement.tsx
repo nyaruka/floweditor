@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import setCaretPosition from 'get-input-selection';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import * as getCaretCoordinates from 'textarea-caret';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import * as shared from '~/components/form/FormElement.scss';
@@ -15,10 +14,8 @@ import {
     UnicodeCharMap
 } from '~/components/form/textinput/helpers';
 import * as styles from '~/components/form/textinput/TextInputElement.scss';
-import { Type, Types } from '~/config/typeConfigs';
-import { CompletionOption, ContactFields, ResultMap } from '~/store/flowContext';
+import { CompletionOption } from '~/store/flowContext';
 import { StringEntry } from '~/store/nodeEditor';
-import AppState from '~/store/state';
 
 export enum Count {
     SMS = 'SMS'
@@ -36,13 +33,7 @@ export interface HTMLTextElement {
     focus(): void;
 }
 
-export interface TextInputStoreProps {
-    typeConfig: Type;
-    resultMap: ResultMap;
-    contactFields: ContactFields;
-}
-
-export interface TextInputPassedProps extends FormElementProps {
+export interface TextInputProps extends FormElementProps {
     entry?: StringEntry;
     __className?: string;
     count?: Count;
@@ -54,8 +45,6 @@ export interface TextInputPassedProps extends FormElementProps {
     onChange?(value: string): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
-
-export type TextInputProps = TextInputStoreProps & TextInputPassedProps;
 
 export interface TextInputState {
     value: string;
@@ -92,7 +81,7 @@ const initialState: InitialState = {
 
 const cx = classNames.bind({ ...styles, ...shared });
 
-export class TextInputElement extends React.Component<TextInputProps, TextInputState> {
+export default class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
     private textEl: HTMLTextElement;
 
@@ -106,9 +95,9 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         this.state = {
             value: initial,
             options: getOptionsList(
-                this.props.autocomplete,
-                this.props.resultMap,
-                this.props.contactFields
+                this.props.autocomplete
+                // this.props.resultMap,
+                //this.props.contactFields
             ),
             ...initialState,
             ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
@@ -427,11 +416,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 />
             ) : null;
 
-        const sendMsgError =
-            this.hasErrors() &&
-            this.props.name === 'Message' &&
-            (this.props.typeConfig.type === Types.send_msg ||
-                this.props.typeConfig.type === Types.send_broadcast);
+        // const sendMsgError = this.hasErrors() && this.props.name === 'Message';
 
         // Make sure we're rendering the right text element
         const TextElement = this.props.textarea ? 'textarea' : ('input' as string);
@@ -450,7 +435,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 showLabel={this.props.showLabel}
                 // errors={this.state.errors}
                 entry={this.props.entry}
-                sendMsgError={sendMsgError}
+                // sendMsgError={sendMsgError}
             >
                 <div className={styles.wrapper}>
                     <TextElement
@@ -482,25 +467,3 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         );
     }
 }
-
-/* istanbul ignore next */
-const mapStateToProps = ({
-    flowContext: {
-        results: { resultMap },
-        contactFields
-    },
-    nodeEditor: { typeConfig }
-}: AppState) => ({
-    typeConfig,
-    resultMap,
-    contactFields
-});
-
-const ConnectedTextInputElement = connect(
-    mapStateToProps,
-    null,
-    null,
-    { withRef: true }
-)(TextInputElement);
-
-export default ConnectedTextInputElement;

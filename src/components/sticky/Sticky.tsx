@@ -1,25 +1,17 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import TextareaAutosize from 'react-autosize-textarea/lib';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { EditorConsumer, EditorState } from '~/components/context/editor/EditorContext';
+import { FlowConsumer, FlowState } from '~/components/context/flow/FlowContext';
 import * as styles from '~/components/sticky/Sticky.scss';
-import { FlowDefinition, StickyNote } from '~/flowTypes';
+import { StickyNote } from '~/flowTypes';
 import { DragEvent } from '~/services/Plumber';
-import AppState from '~/store/state';
-import {
-    DispatchWithState,
-    OnResetDragSelection,
-    onResetDragSelection,
-    UpdateSticky,
-    updateSticky
-} from '~/store/thunks';
 import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '~/utils';
 
 type DragFunction = (event: DragEvent) => void;
 export const STICKY_SPEC_ID: string = 'sticky-container';
 
-export interface StickyPassedProps {
+export interface StickyProps {
     uuid: string;
     sticky: StickyNote;
     plumberClearDragSelection: () => void;
@@ -31,15 +23,10 @@ export interface StickyPassedProps {
         stop: DragFunction,
         beforeDrag?: () => void
     ) => void;
-}
 
-export interface StickyStoreProps {
-    definition: FlowDefinition;
-    updateSticky: UpdateSticky;
-    onResetDragSelection: OnResetDragSelection;
+    flowState?: FlowState;
+    editorState?: EditorState;
 }
-
-export type StickyProps = StickyPassedProps & StickyStoreProps;
 
 /**
  * We have internal state to track as the user types so
@@ -66,7 +53,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     private debounceTextChanges: number;
     private showConfirmation: number;
 
-    constructor(props: StickyProps & StickyStoreProps) {
+    constructor(props: StickyProps) {
         super(props);
         bindCallbacks(this, {
             include: [/^on/, /^get/]
@@ -111,7 +98,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     public onDragStart(event: DragEvent): void {
         this.props.plumberClearDragSelection();
-        this.props.onResetDragSelection();
+        this.props.editorState.mutator.mergeEditorState({ dragSelection: null, dragGroup: false });
     }
 
     public onDrag(event: DragEvent): void {
@@ -125,7 +112,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         this.ele.style.top = `${top}px`;
 
         this.props.sticky.position = { left, top };
-        this.props.updateSticky(this.props.uuid, this.props.sticky);
+        this.props.flowState.mutator.updateSticky(this.props.uuid, this.props.sticky);
     }
 
     private onUpdateText(): void {
@@ -137,7 +124,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
             const updated = { ...this.props.sticky };
             updated.title = this.state.title;
             updated.body = this.state.body;
-            this.props.updateSticky(this.props.uuid, updated);
+            this.props.flowState.mutator.updateSticky(this.props.uuid, updated);
             this.debounceTextChanges = null;
         }, QUIET_NOTE);
     }
@@ -154,7 +141,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     public onClickRemove(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.state.showConfirmation) {
-            this.props.updateSticky(this.props.uuid, null);
+            this.props.flowState.mutator.updateSticky(this.props.uuid, null);
         } else {
             this.setState({ showConfirmation: true });
             this.showConfirmation = window.setTimeout(() => {
@@ -165,7 +152,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     private onChangeColor(color: string): void {
         this.props.sticky.color = color;
-        this.props.updateSticky(this.props.uuid, this.props.sticky);
+        this.props.flowState.mutator.updateSticky(this.props.uuid, this.props.sticky);
         this.setState({ color });
     }
 
@@ -244,19 +231,12 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 }
 
-/* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { definition } }: AppState) => ({
-    definition
-});
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) => {
-    return bindActionCreators({ updateSticky, onResetDragSelection }, dispatch);
-};
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { withRef: false }
-)(Sticky);
+export default React.forwardRef((props: StickyProps) => (
+    <EditorConsumer>
+        {editorState => (
+            <FlowConsumer>
+                {flowState => <Sticky {...props} flowState={flowState} editorState={editorState} />}
+            </FlowConsumer>
+        )}
+    </EditorConsumer>
+));

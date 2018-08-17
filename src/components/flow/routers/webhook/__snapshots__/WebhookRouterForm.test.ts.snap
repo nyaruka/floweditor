@@ -137,7 +137,7 @@ exports[`WebhookRouterForm should render 1`] = `
       <div
         className="url"
       >
-        <Connect(TextInputElement)
+        <TextInputElement
           autocomplete={true}
           entry={
             Object {

@@ -3,34 +3,25 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { EditorConsumer, EditorState } from '~/components/context/editor/EditorContext';
+import { FlowConsumer, FlowState } from '~/components/context/flow/FlowContext';
 import Counter from '~/components/counter/Counter';
 import * as styles from '~/components/flow/exit/Exit.scss';
-import { Exit, FlowNode, LocalizationMap } from '~/flowTypes';
+import { Exit, FlowNode } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
-import { Asset } from '~/services/AssetService';
-import AppState from '~/store/state';
-import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
 import { createClickHandler, getLocalization } from '~/utils';
 
-export interface ExitPassedProps {
+export interface ExitProps {
     exit: Exit;
     node: FlowNode;
     Activity: ActivityManager;
     plumberMakeSource: Function;
     plumberRemove: Function;
     plumberConnectExit: Function;
-}
 
-export interface ExitStoreProps {
-    translating: boolean;
-    language: Asset;
-    localization: LocalizationMap;
-    disconnectExit: DisconnectExit;
+    flowState?: FlowState;
+    editorState?: EditorState;
 }
-
-export type ExitProps = ExitPassedProps & ExitStoreProps;
 
 export interface ExitState {
     confirmDelete: boolean;
@@ -84,7 +75,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         event.preventDefault();
         event.stopPropagation();
 
-        if (this.props.exit.destination_node_uuid && !this.props.translating) {
+        if (this.props.exit.destination_node_uuid && !this.props.editorState.translating) {
             this.setState(
                 {
                     confirmDelete: true
@@ -108,7 +99,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             window.clearTimeout(this.timeout);
         }
 
-        this.props.disconnectExit(this.props.node.uuid, this.props.exit.uuid);
+        this.props.flowState.mutator.disconnectExit(this.props.node.uuid, this.props.exit.uuid);
     }
 
     private onUnmount(key: string): void {
@@ -118,7 +109,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private connect(): void {
         const classes: string[] = [];
 
-        if (this.props.translating) {
+        if (this.props.editorState.translating) {
             classes.push('translating');
         } else if (this.state.confirmDelete) {
             classes.push('confirm-delete');
@@ -150,29 +141,41 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     public render(): JSX.Element {
-        const localization = getLocalization(
-            this.props.exit,
-            this.props.localization,
-            this.props.language
-        );
-        const exit = this.props.translating ? (localization.getObject() as Exit) : this.props.exit;
+        const { translating } = this.props.editorState;
+
+        const localization =
+            translating &&
+            getLocalization(
+                this.props.exit,
+                this.props.flowState.definition.localization,
+                this.props.editorState.language
+            );
+
+        const exit = translating ? (localization.getObject() as Exit) : this.props.exit;
+
         const nameStyle = exit.name ? styles.name : '';
+
         const connected = this.props.exit.destination_node_uuid ? ' jtk-connected' : '';
+
         const dragNodeClasses = cx(styles.endpoint, connected);
+
         const confirmDelete =
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
+
         const confirm: JSX.Element = confirmDelete ? (
             <span {...createClickHandler(this.onDisconnect)} className="fe-x" />
         ) : null;
+
         const exitClasses: string = cx({
             [styles.exit]: true,
             ['plumb-exit']: true,
-            [styles.translating]: this.props.translating,
+            [styles.translating]: translating,
             [styles.unnamed_exit]: exit.name == null,
             [styles.missing_localization]:
-                exit.name && this.props.translating && !('name' in localization.localizedKeys),
+                exit.name && translating && !('name' in localization.localizedKeys),
             [styles.confirmDelete]: confirmDelete
         });
+
         const activity = this.getActivity();
         return (
             <div className={exitClasses}>
@@ -190,23 +193,14 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 }
 
-const mapStateToProps = ({
-    flowContext: {
-        definition: { localization }
-    },
-    editorState: { translating, language }
-}: AppState) => ({
-    translating,
-    language,
-    localization
-});
-
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators({ disconnectExit }, dispatch);
-
-const ConnectedExit = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ExitComp);
-
-export default ConnectedExit;
+export default React.forwardRef((props: ExitProps) => (
+    <EditorConsumer>
+        {editorState => (
+            <FlowConsumer>
+                {flowState => (
+                    <ExitComp {...props} flowState={flowState} editorState={editorState} />
+                )}
+            </FlowConsumer>
+        )}
+    </EditorConsumer>
+));

@@ -2,15 +2,14 @@ import {
     containerClasses,
     LanguageSelector,
     languageSelectorContainerSpecId,
-    LanguageSelectorStoreProps
+    LanguageSelectorProps
 } from '~/components/languageselector/LanguageSelector';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
-import { English, languages, Spanish } from '~/testUtils/assetCreators';
+import { English, Spanish } from '~/testUtils/assetCreators';
 
-const baseProps: LanguageSelectorStoreProps = {
-    language: English,
-    languages,
-    handleLanguageChange: jest.fn()
+const baseProps: LanguageSelectorProps = {
+    editorState: null,
+    flowState: null
 };
 
 const { setup } = composeComponentTestUtils(LanguageSelector, baseProps);
@@ -25,8 +24,8 @@ describe(LanguageSelector.name, () => {
             ).toBeTruthy();
             expect(wrapper.find('SelectSearch').props()).toEqual(
                 expect.objectContaining({
-                    initial: [props.language],
-                    localSearchOptions: props.languages,
+                    initial: [props.editorState.language],
+                    localSearchOptions: props.flowState.languages,
                     onChange: instance.handleLanguageChange,
                     searchable: false,
                     multi: false,
@@ -47,13 +46,13 @@ describe(LanguageSelector.name, () => {
 
                 instance.handleLanguageChange([Spanish]);
 
-                expect(props.handleLanguageChange).toHaveBeenCalledTimes(1);
-                expect(props.handleLanguageChange).toHaveBeenCalledWith(Spanish);
+                expect(props.editorState.mutator.mergeEditorState).toHaveBeenCalledTimes(1);
+                expect(props.editorState.mutator.mergeEditorState).toHaveBeenCalledWith(Spanish);
 
                 instance.handleLanguageChange([English]);
 
-                expect(props.handleLanguageChange).toHaveBeenCalledTimes(2);
-                expect(props.handleLanguageChange).toHaveBeenCalledWith(English);
+                expect(props.editorState.mutator.mergeEditorState).toHaveBeenCalledTimes(2);
+                expect(props.editorState.mutator.mergeEditorState).toHaveBeenCalledWith(English);
             });
         });
     });

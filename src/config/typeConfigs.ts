@@ -23,6 +23,7 @@ import ExpressionRouterForm from '~/components/flow/routers/expression/Expressio
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
+import ResultRouterForm from '~/components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { AnyAction, RouterTypes } from '~/flowTypes';
@@ -64,6 +65,7 @@ export const enum Types {
     send_broadcast = 'send_broadcast',
     start_flow = 'start_flow',
     start_session = 'start_session',
+    split_by_run_result = 'split_by_run_result',
     split_by_expression = 'split_by_expression',
     split_by_groups = 'split_by_groups',
     split_by_subflow = 'split_by_subflow',
@@ -89,7 +91,7 @@ export interface Type {
     name: string;
     description: string;
     component?: React.SFC<AnyAction>;
-    form?: React.ComponentClass<any>;
+    form?: any;
     aliases?: string[];
     localization?: React.ComponentClass<any>;
     localizeableKeys?: string[];
@@ -203,6 +205,14 @@ export const typeConfigList: Type[] = [
     },
 
     /** Routers */
+    {
+        type: Types.split_by_run_result,
+        name: 'Split by Result',
+        description: 'Split by a result in the flow',
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        form: ResultRouterForm
+    },
     {
         type: Types.split_by_expression,
         name: 'Split by Expression',

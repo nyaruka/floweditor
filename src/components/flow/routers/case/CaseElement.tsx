@@ -157,7 +157,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             };
 
             this.setState(updates as CaseElementState, () => {
-                this.category.wrappedInstance.setState({ value: updates.exitName }, () =>
+                this.category.setState({ value: updates.exitName }, () =>
                     this.handleChange(toFocus)
                 );
             });

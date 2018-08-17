@@ -1,3 +1,4 @@
+import { FlowState } from '~/components/context/flow/FlowContext';
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { Type } from '~/config/typeConfigs';
 import { AnyAction } from '~/flowTypes';
@@ -28,6 +29,8 @@ export interface RouterFormProps {
     // modal notifiers
     onTypeChange(config: Type): void;
     onClose(canceled: boolean): void;
+
+    flowState?: FlowState;
 }
 
 export interface LocalizationFormProps {

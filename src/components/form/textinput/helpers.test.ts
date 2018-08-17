@@ -1,4 +1,3 @@
-import { FlowDefinition } from '~/flowTypes';
 import { GSM, OPTIONS, TOP_LEVEL_OPTIONS } from '~/components/form/textinput/constants';
 import {
     cleanMsg,
@@ -8,6 +7,7 @@ import {
     isUnicode,
     pluralize
 } from '~/components/form/textinput/helpers';
+import { FlowDefinition } from '~/flowTypes';
 
 const definition: FlowDefinition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
@@ -79,7 +79,7 @@ describe('helpers', () => {
 
         it('should include result names if autocomplete arg is truthy', () => {
             const results = {
-                'ecc70717-dd25-4795-8dc2-0361265a1e29': '@run.results.color'
+                'ecc70717-dd25-4795-8dc2-0361265a1e29': { key: 'run.results.color', name: 'Color' }
             };
             const optionsList = getOptionsList(true, results);
             const expectedLength = OPTIONS.length + 7; // accounting for result (e.g. @run.results.result_1) and its properties (e.g. @run.results.result_1.value)

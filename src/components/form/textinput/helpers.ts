@@ -1,7 +1,6 @@
 import { split } from 'split-sms';
 import { GSM, OPTIONS } from '~/components/form/textinput/constants';
-import { CompletionOption, ContactFields, ResultMap } from '~/store/flowContext';
-import { titleCase } from '~/utils';
+import { CompletionOption, ContactFields, Result, ResultMap } from '~/store/flowContext';
 
 export interface UnicodeCharMap {
     [char: string]: boolean;
@@ -166,12 +165,13 @@ export const getResultPropertyOptions = (accessor: string, name: string) => [
 ];
 
 export const getResultOptions = (results: ResultMap) =>
-    [...new Set(Object.keys(results).map(uuid => results[uuid]))].reduce((options, query) => {
-        const accessor = query.replace(/^@/, '');
-        const name = titleCase(accessor.slice(accessor.lastIndexOf('.') + 1).replace(/_/g, ' '));
-        options.push(...getResultPropertyOptions(accessor, name));
-        return options;
-    }, []);
+    [...new Set(Object.keys(results).map(uuid => results[uuid]))].reduce(
+        (options, result: Result) => {
+            options.push(...getResultPropertyOptions(`run.results.${result.key}`, result.name));
+            return options;
+        },
+        []
+    );
 
 export const getContactFieldOptions = (contactFields: ContactFields) =>
     Object.keys(contactFields).reduce((contactFieldCompletionOptions, key) => {

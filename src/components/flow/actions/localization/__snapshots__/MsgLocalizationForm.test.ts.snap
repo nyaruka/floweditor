@@ -57,7 +57,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
           Hey!
         </div>
       </div>
-      <Connect(TextInputElement)
+      <TextInputElement
         autocomplete={true}
         count="SMS"
         entry={
@@ -134,7 +134,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
           Hey!
         </div>
       </div>
-      <Connect(TextInputElement)
+      <TextInputElement
         autocomplete={true}
         count="SMS"
         entry={

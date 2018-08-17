@@ -1,31 +1,6 @@
-import {
-    editorContainerSpecId,
-    editorSpecId,
-    FlowEditor,
-    FlowEditorStoreProps
-} from '~/components';
-import {
-    composeComponentTestUtils,
-    configProviderContext,
-    getSpecWrapper,
-    setMock
-} from '~/testUtils';
-import { English, languages } from '~/testUtils/assetCreators';
-import { set, setTrue } from '~/utils';
-
 const colorsFlow = require('~/test/flows/colors.json');
 
-const baseProps: FlowEditorStoreProps = {
-    language: English,
-    languages,
-    translating: false,
-    fetchingFlow: false,
-    definition: null,
-    dependencies: null,
-    fetchFlow: jest.fn(),
-    nodes: null
-};
-
+/*
 const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);
 
 describe('Root', () => {
@@ -89,3 +64,4 @@ describe('Root', () => {
         });
     });
 });
+*/

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StartFlowComp render should render flow name 1`] = `
-<React.Fragment>
+<Fragment>
   <div
     className="nodeAsset"
     key="da795777-db05-438c-a24a-1880b7f7a95f"
@@ -11,5 +11,5 @@ exports[`StartFlowComp render should render flow name 1`] = `
     />
     Colors
   </div>
-</React.Fragment>
+</Fragment>
 `;

@@ -68,7 +68,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     placeholder="Enter a group or contact..."
     searchPromptText="No matches"
   />
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     count="SMS"
     entry={
@@ -167,7 +167,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     placeholder="Enter a group or contact..."
     searchPromptText="No matches"
   />
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     count="SMS"
     entry={

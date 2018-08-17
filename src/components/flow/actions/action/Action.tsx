@@ -1,45 +1,28 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { EditorConsumer, EditorState } from '~/components/context/editor/EditorContext';
+import { FlowConsumer, FlowState } from '~/components/context/flow/FlowContext';
 import * as styles from '~/components/flow/actions/action/Action.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { Action, AnyAction, LocalizationMap } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
 import { RenderNode } from '~/store/flowContext';
-import AppState from '~/store/state';
-import {
-    ActionAC,
-    DispatchWithState,
-    moveActionUp,
-    OnOpenNodeEditor,
-    onOpenNodeEditor,
-    removeAction
-} from '~/store/thunks';
 import { createClickHandler, getLocalization } from '~/utils';
 
-export interface ActionWrapperPassedProps {
+export interface ActionProps {
+    renderNode: RenderNode;
     thisNodeDragging: boolean;
     first: boolean;
     action: AnyAction;
     localization: LocalizationMap;
     render: (action: AnyAction) => React.ReactNode;
-}
 
-export interface ActionWrapperStoreProps {
-    renderNode: RenderNode;
-    language: Asset;
-    translating: boolean;
-    onOpenNodeEditor: OnOpenNodeEditor;
-    removeAction: ActionAC;
-    moveActionUp: ActionAC;
+    editorState?: EditorState;
+    flowState?: FlowState;
 }
-
-export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperStoreProps;
 
 export const actionContainerSpecId = 'action-container';
 export const actionOverlaySpecId = 'action-overlay';
@@ -49,12 +32,12 @@ export const actionBodySpecId = 'action-body';
 const cx = classNames.bind({ ...shared, ...styles });
 
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
-export class ActionWrapper extends React.Component<ActionWrapperProps> {
+export class ActionWrapper extends React.Component<ActionProps> {
     public static contextTypes = {
         assetService: fakePropType
     };
 
-    constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
+    constructor(props: ActionProps, context: ConfigProviderContext) {
         super(props);
 
         bindCallbacks(this, {
@@ -71,7 +54,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         if (!this.props.thisNodeDragging) {
             event.preventDefault();
             event.stopPropagation();
-            this.props.onOpenNodeEditor({
+            this.props.flowState.mutator.openNodeEditor({
                 originalNode: this.props.renderNode,
                 originalAction: this.props.action,
                 showAdvanced
@@ -81,22 +64,22 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
-        this.props.removeAction(this.props.renderNode.node.uuid, this.props.action);
+        this.props.flowState.mutator.removeAction(this.props.renderNode, this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
         evt.stopPropagation();
 
-        this.props.moveActionUp(this.props.renderNode.node.uuid, this.props.action);
+        this.props.flowState.mutator.moveActionUp(this.props.renderNode, this.props.action);
     }
 
     public getAction(): Action {
         // if we are translating, us our localized version
-        if (this.props.translating) {
+        if (this.props.editorState.translating) {
             const localization = getLocalization(
                 this.props.action,
                 this.props.localization,
-                this.props.language
+                this.props.editorState.language
             );
             return localization.getObject() as AnyAction;
         }
@@ -108,7 +91,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const localizedKeys = [];
         let missingLocalization = false;
 
-        if (this.props.translating) {
+        if (this.props.editorState.translating) {
             if (
                 this.props.action.type === Types.send_msg ||
                 this.props.action.type === Types.send_broadcast
@@ -120,7 +103,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                 const localization = getLocalization(
                     this.props.action,
                     this.props.localization,
-                    this.props.language
+                    this.props.editorState.language
                 );
 
                 if (localization.isLocalized()) {
@@ -141,8 +124,9 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             [styles.has_router]:
                 this.props.renderNode.node.hasOwnProperty('router') &&
                 this.props.renderNode.node.router !== null,
-            [styles.translating]: this.props.translating,
-            [styles.not_localizable]: this.props.translating && localizedKeys.length === 0,
+            [styles.translating]: this.props.editorState.translating,
+            [styles.not_localizable]:
+                this.props.editorState.translating && localizedKeys.length === 0,
             [styles.missing_localization]: missingLocalization
         });
     }
@@ -153,8 +137,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const actionToInject = this.getAction();
         const titleBarClass = shared[this.props.action.type] || shared.missing;
         const actionClass = styles[this.props.action.type] || styles.missing;
-        const showRemoval = !this.props.translating;
-        const showMove = !this.props.first && !this.props.translating;
+        const showRemoval = !this.props.editorState.translating;
+        const showMove = !this.props.first && !this.props.editorState.translating;
 
         return (
             <div
@@ -181,33 +165,16 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 }
 
-/* istanbul ignore next */
-const mapStateToProps = ({
-    flowContext: {
-        languages,
-        definition: { localization }
-    },
-    editorState: { language, translating }
-}: AppState) => ({
-    language,
-    translating,
-    localization
-});
-
-/* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators(
-        {
-            onOpenNodeEditor,
-            removeAction,
-            moveActionUp
-        },
-        dispatch
-    );
-
-const ConnectedActionWrapper = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ActionWrapper);
-
-export default ConnectedActionWrapper;
+export default React.forwardRef((props: any) => (
+    <div>
+        <EditorConsumer>
+            {editorState => (
+                <FlowConsumer>
+                    {flowState => (
+                        <ActionWrapper {...props} flowState={flowState} editorState={editorState} />
+                    )}
+                </FlowConsumer>
+            )}
+        </EditorConsumer>
+    </div>
+));

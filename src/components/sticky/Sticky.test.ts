@@ -1,8 +1,7 @@
+import { Sticky, StickyProps } from '~/components/sticky/Sticky';
 import { FlowDefinition, StickyNote } from '~/flowTypes';
 import { composeComponentTestUtils, composeDuxState, setMock } from '~/testUtils';
 import { set } from '~/utils';
-
-import { Sticky, StickyProps } from '~/components/sticky/Sticky';
 
 jest.useFakeTimers();
 
@@ -19,12 +18,9 @@ const sticky: StickyNote = {
 const baseProps: StickyProps = {
     uuid: 'stickyA',
     sticky,
-    definition,
     plumberClearDragSelection: jest.fn(),
     plumberRemove: jest.fn(),
-    plumberDraggable: jest.fn(),
-    updateSticky: jest.fn(),
-    onResetDragSelection: jest.fn()
+    plumberDraggable: jest.fn()
 };
 
 const { setup } = composeComponentTestUtils(
@@ -126,8 +122,8 @@ describe(Sticky.name, () => {
             wrapper.find('.removeButton').simulate('click');
 
             // TODO: make mocks work
-            expect(props.updateSticky).toHaveBeenCalledTimes(1);
-            expect(props.updateSticky).toHaveBeenCalledWith('stickyA', null);
+            expect(props.flowState.mutator.updateSticky).toHaveBeenCalledTimes(1);
+            expect(props.flowState.mutator.updateSticky).toHaveBeenCalledWith('stickyA', null);
 
             // run through the end of the timer period and removal should go away
             jest.runAllTimers();
@@ -170,7 +166,7 @@ describe(Sticky.name, () => {
             instance.onDragStart({});
 
             expect(props.plumberClearDragSelection).toHaveBeenCalledTimes(1);
-            expect(props.onResetDragSelection).toHaveBeenCalledTimes(1);
+            expect(props.editorState.mutator.mergeEditorState).toHaveBeenCalledTimes(1);
         });
 
         it('should get coverage for a noop', () => {
@@ -186,7 +182,7 @@ describe(Sticky.name, () => {
 
             instance.onDragStop({ finalPos: [100, 200] });
 
-            expect(props.updateSticky).toHaveBeenCalledWith(props.uuid, {
+            expect(props.flowState.mutator.updateSticky).toHaveBeenCalledWith(props.uuid, {
                 body: 'Sticky Body',
                 color: 'blue',
                 position: { left: 100, top: 200 },

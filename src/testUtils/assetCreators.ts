@@ -344,7 +344,8 @@ export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => (
     nodeSettings: {
         originalNode: renderNode,
         originalAction: null
-    }
+    },
+    flowState: null
 });
 
 // tslint:disable-next-line:variable-name

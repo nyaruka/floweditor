@@ -33,7 +33,7 @@ exports[`SelectAssetElement can be configured to add options 1`] = `
 </FormElement>
 `;
 
-exports[`SelectAssetElement handles updates 1`] = `Object {}`;
+exports[`SelectAssetElement handles updates 1`] = `null`;
 
 exports[`SelectAssetElement renders 1`] = `
 <FormElement

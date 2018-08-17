@@ -29,8 +29,14 @@ export interface CompletionOption {
     name: string;
     description: string;
 }
+
+export interface Result {
+    name: string;
+    key: string;
+}
+
 export interface ResultMap {
-    [nodeOrActionUUID: string]: string;
+    [nodeOrActionUUID: string]: Result;
 }
 
 export interface Results {
@@ -74,12 +80,15 @@ export const updateDefinition = (definition: FlowDefinition): UpdateDefinitionAc
     }
 });
 
-export const updateNodes = (nodes: { [uuid: string]: RenderNode }): UpdateNodesAction => ({
-    type: Constants.UPDATE_NODES,
-    payload: {
-        nodes
-    }
-});
+export const updateNodes = (nodes: { [uuid: string]: RenderNode }): UpdateNodesAction => {
+    console.log('updating legacy...');
+    return {
+        type: Constants.UPDATE_NODES,
+        payload: {
+            nodes
+        }
+    };
+};
 
 export const updateDependencies = (dependencies: FlowDefinition[]): UpdateDependenciesAction => ({
     type: Constants.UPDATE_DEPENDENCIES,

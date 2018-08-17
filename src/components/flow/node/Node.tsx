@@ -2,39 +2,21 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
-import * as FlipMove from 'react-flip-move';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { EditorConsumer, EditorState } from '~/components/context/editor/EditorContext';
+import { FlowConsumer, FlowState } from '~/components/context/flow/FlowContext';
 import CounterComp from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
+import MissingComp from '~/components/flow/actions/missing/Missing';
 import ExitComp from '~/components/flow/exit/Exit';
 import * as styles from '~/components/flow/node/Node.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
+import { AnyAction, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
-import { Asset } from '~/services/AssetService';
 import { DragEvent } from '~/services/Plumber';
-import { EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
-import AppState from '~/store/state';
-import {
-    DispatchWithState,
-    mergeEditorState,
-    MergeEditorState,
-    OnAddToNode,
-    onAddToNode,
-    OnNodeMoved,
-    onNodeMoved,
-    OnOpenNodeEditor,
-    onOpenNodeEditor,
-    RemoveNode,
-    removeNode,
-    updateDimensions,
-    UpdateDimensions
-} from '~/store/thunks';
 import { ClickHandler, createClickHandler, snapToGrid, titleCase } from '~/utils';
 
 // TODO: Remove use of Function
@@ -52,20 +34,12 @@ export interface NodePassedProps {
     plumberSetDragSelection: Function;
     plumberClearDragSelection: Function;
     plumberRemoveFromDragSelection: Function;
-    ghostRef?: any;
     ghost?: boolean;
 }
 
 export interface NodeStoreProps {
-    editorState: Partial<EditorState>;
-    definition: FlowDefinition;
-    languages: Asset[];
-    onAddToNode: OnAddToNode;
-    onNodeMoved: OnNodeMoved;
-    onOpenNodeEditor: OnOpenNodeEditor;
-    removeNode: RemoveNode;
-    updateDimensions: UpdateDimensions;
-    mergeEditorState: MergeEditorState;
+    flowState?: FlowState;
+    editorState?: EditorState;
 }
 
 export type NodeProps = NodePassedProps & NodeStoreProps;
@@ -79,7 +53,7 @@ const cx = classNames.bind({ ...shared, ...styles });
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<NodeProps, NodeState> {
+export class Node extends React.Component<NodeProps, NodeState> {
     public ele: HTMLDivElement;
     private firstAction: any;
     private clicking: boolean;
@@ -144,7 +118,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.renderNode.node.uuid,
             (event: DragEvent) => {
                 this.onDragStart(event);
-                this.props.mergeEditorState({ nodeDragging: true });
+                this.props.editorState.mutator.mergeEditorState({ nodeDragging: true });
             },
             (event: DragEvent) => this.onDrag(event),
             (event: DragEvent) => this.onDragStop(event),
@@ -200,7 +174,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onAddToNode(): void {
-        this.props.onAddToNode(this.props.renderNode.node);
+        this.props.flowState.mutator.addToNode(this.props.renderNode);
     }
 
     private onDragStart(event: any): boolean {
@@ -210,7 +184,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             this.props.editorState.dragSelection.selected &&
             !this.isSelected()
         ) {
-            this.props.mergeEditorState({ dragSelection: null });
+            this.props.editorState.mutator.mergeEditorState({ dragSelection: null });
             this.props.plumberClearDragSelection();
         }
         this.setState({ thisNodeDragging: true });
@@ -222,7 +196,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onDragStop(event: DragEvent): void {
-        this.props.mergeEditorState({ nodeDragging: false });
+        this.props.editorState.mutator.mergeEditorState({ nodeDragging: false });
 
         event.e.preventDefault();
         event.e.stopPropagation();
@@ -240,14 +214,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         this.ele.style.top = `${top}px`;
 
         // Update our coordinates
-        this.props.onNodeMoved(this.props.renderNode.node.uuid, { left, top });
+        this.props.flowState.mutator.updateNodePosition(this.props.renderNode, { left, top });
         this.props.plumberRemoveFromDragSelection(this.props.renderNode.node.uuid);
     }
 
     private updateDimensions(): void {
         if (this.ele) {
             if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.updateDimensions(this.props.renderNode.node, {
+                this.props.flowState.mutator.updateNodeDimensions(this.props.renderNode, {
                     width: this.ele.clientWidth,
                     height: this.ele.clientHeight
                 });
@@ -259,7 +233,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     // ./Action/Action handles click logic for Action nodes.
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (!this.props.editorState.nodeDragging) {
-            this.props.onOpenNodeEditor({
+            this.props.flowState.mutator.openNodeEditor({
                 originalNode: this.props.renderNode
             });
         }
@@ -270,7 +244,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             event.preventDefault();
             event.stopPropagation();
         }
-        this.props.removeNode(this.props.renderNode.node);
+        this.props.flowState.mutator.removeNode(this.props.renderNode);
     }
 
     private onUnmount(key: string): void {
@@ -349,7 +323,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 const actionConfig = getTypeConfig(action.type);
 
                 if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
-                    const { component: ActionDiv } = actionConfig;
+                    const { component: ActionComponent } = actionConfig;
                     actions.push(
                         <ActionWrapper
                             {...firstRef}
@@ -358,7 +332,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                             thisNodeDragging={this.state.thisNodeDragging}
                             action={action}
                             first={idx === 0}
-                            render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
+                            render={(anyAction: AnyAction) => <ActionComponent {...anyAction} />}
                         />
                     );
                 }
@@ -366,7 +340,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 firstRef = {};
             });
 
-            actionList = (
+            /* actionList = (
                 <FlipMove
                     enterAnimation="fade"
                     leaveAnimation="fade"
@@ -376,7 +350,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 >
                     {actions}
                 </FlipMove>
-            );
+            );*/
+
+            actionList = <div>{actions}</div>;
         }
 
         let header: JSX.Element = null;
@@ -396,6 +372,10 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
             const config = getTypeConfig(type);
             let { name: title } = config;
+
+            if (config.component === MissingComp) {
+                title += ' ' + type;
+            }
 
             if (this.props.renderNode.node.router.type === RouterTypes.switch) {
                 const switchRouter = this.props.renderNode.node.router as SwitchRouter;
@@ -494,28 +474,14 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 }
 
-const mapStateToProps = ({ flowContext: { definition, languages }, editorState }: AppState) => ({
-    editorState: editorState as Partial<EditorState>,
-    definition,
-    languages
-});
-
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-    bindActionCreators(
-        {
-            onAddToNode,
-            onNodeMoved,
-            onOpenNodeEditor,
-            removeNode,
-            updateDimensions,
-            mergeEditorState
-        },
-        dispatch
-    );
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    null,
-    { withRef: true }
-)(NodeComp);
+export default React.forwardRef((props: NodeProps, ref: any) => (
+    <EditorConsumer>
+        {editorState => (
+            <FlowConsumer>
+                {flowState => (
+                    <Node {...props} flowState={flowState} editorState={editorState} ref={ref} />
+                )}
+            </FlowConsumer>
+        )}
+    </EditorConsumer>
+));

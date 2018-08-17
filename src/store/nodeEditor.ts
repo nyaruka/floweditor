@@ -133,6 +133,7 @@ export interface NodeEditorSettings {
     originalAction?: AnyAction;
     localizations?: LocalizedObject[];
     languages?: Asset[];
+    userAddingAction?: boolean;
 }
 
 export interface NodeEditor {
