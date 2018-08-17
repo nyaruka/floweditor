@@ -487,7 +487,6 @@ const mapStateToProps = (
     }: AppState,
     props: NodePassedProps
 ) => {
-    // console.log(props.nodeUUID, Object.keys(nodes));
     let renderNode: RenderNode = null;
 
     // if we match our ghost node use that
@@ -503,8 +502,6 @@ const mapStateToProps = (
     if (!renderNode) {
         throw Error("Couldn't find node for " + props.nodeUUID);
     }
-
-    console.log(props.nodeUUID, renderNode);
 
     return {
         translating,
