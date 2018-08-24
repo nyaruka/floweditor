@@ -55,7 +55,7 @@ textarea:focus, input:focus{
     .category {
         position: relative;
         input {
-            width: 120px;
+            width: 155px;
         }
     }
     &:hover {
@@ -79,11 +79,12 @@ textarea:focus, input:focus{
     color: #aaa;
     font-weight: bold;
     padding-top: 9px;
-    padding-right: 5px;
+    padding-right: 2px;
+    padding-left: 5px;
     float: left;
     opacity: 0;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 9px;
+    line-height: 9px;
 }
 
 .remove-icon {
@@ -94,8 +95,8 @@ textarea:focus, input:focus{
     line-height: 12px;
     cursor: pointer;
     
-    margin-left: 5px;
-    font-size: 12px;
+    margin-left: 2px;
+    font-size: 9px;
 }
 
 .empty {

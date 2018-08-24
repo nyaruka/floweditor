@@ -9,10 +9,13 @@ export const getIconForAssetType = (assetType: AssetType): JSX.Element => {
             return <span className="fe-label" />;
         case AssetType.Flow:
             return <span className="fe-split" />;
+        case AssetType.Scheme:
+            return <span className="fe-connection" />;
         case AssetType.Remove:
             return (
                 <>
-                    <span className="fe-trash" />&nbsp;
+                    <span className="fe-trash" />
+                    &nbsp;
                 </>
             );
         default:

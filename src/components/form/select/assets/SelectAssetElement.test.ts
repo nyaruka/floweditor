@@ -8,7 +8,8 @@ import * as utils from '~/utils';
 const { setup } = composeComponentTestUtils<SelectAssetElementProps>(SelectAssetElement, {
     name: 'Flow',
     entry: { value: ColorFlowAsset },
-    assets: null
+    assets: null,
+    searchable: true
 });
 
 mock(utils, 'createUUID', utils.seededUUIDs());

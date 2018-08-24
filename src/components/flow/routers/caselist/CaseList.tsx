@@ -11,6 +11,8 @@ import { Case } from '~/flowTypes';
 import { FormState, mergeForm } from '~/store/nodeEditor';
 import { reorderList } from '~/utils';
 
+import * as styles from './CaseList.scss';
+
 export enum DragCursor {
     move = 'move',
     pointer = 'pointer'
@@ -157,19 +159,21 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
     public render(): JSX.Element {
         const cases = this.renderCases();
         return (
-            <DragDropContext onDragEnd={this.handleDragEnd}>
-                <Droppable droppableId="droppable">
-                    {({ innerRef, placeholder }, { isDraggingOver }) => (
-                        <div
-                            ref={innerRef}
-                            style={getListStyle(isDraggingOver, cases.length === 1)}
-                        >
-                            {cases}
-                            {placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+            <div className={styles.caseList}>
+                <DragDropContext onDragEnd={this.handleDragEnd}>
+                    <Droppable droppableId="droppable">
+                        {({ innerRef, placeholder }, { isDraggingOver }) => (
+                            <div
+                                ref={innerRef}
+                                style={getListStyle(isDraggingOver, cases.length === 1)}
+                            >
+                                {cases}
+                                {placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            </div>
         );
     }
 }

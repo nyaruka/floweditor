@@ -19,7 +19,8 @@ export const createRenderNode = (
     exits: Exit[],
     type: Types,
     actions: Action[] = [],
-    wait: Wait = null
+    wait: Wait = null,
+    uiConfig: { [key: string]: string } = {}
 ): RenderNode => {
     return {
         node: {
@@ -31,7 +32,8 @@ export const createRenderNode = (
         },
         ui: {
             type,
-            position: null
+            position: null,
+            config: uiConfig
         },
         inboundConnections: {}
     };

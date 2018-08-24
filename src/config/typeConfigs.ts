@@ -20,6 +20,7 @@ import StartSessionForm from '~/components/flow/actions/startsession/StartSessio
 import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import ExpressionRouterForm from '~/components/flow/routers/expression/ExpressionRouterForm';
+import FieldRouterForm from '~/components/flow/routers/field/FieldRouterForm';
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
@@ -65,6 +66,7 @@ export const enum Types {
     start_flow = 'start_flow',
     start_session = 'start_session',
     split_by_expression = 'split_by_expression',
+    split_by_contact_field = 'split_by_contact_field',
     split_by_groups = 'split_by_groups',
     split_by_subflow = 'split_by_subflow',
     split_by_webhook = 'split_by_webhook',
@@ -100,6 +102,27 @@ export interface TypeMap {
 }
 
 export type GetTypeConfig = (type: string) => Type;
+
+export interface Scheme {
+    scheme: string;
+    name: string;
+}
+
+export const SCHEMES: Scheme[] = [
+    { scheme: 'ext', name: 'External ID' },
+    { scheme: 'facebook', name: 'Facebook ID' },
+    { scheme: 'fcm', name: 'Firebase ID' },
+    { scheme: 'jiochat', name: 'Jiochat ID' },
+    { scheme: 'line', name: 'Line ID' },
+    { scheme: 'mailto', name: 'Email Address' },
+    { scheme: 'tel', name: 'Phone Number' },
+    { scheme: 'telegram', name: 'Telegram ID' },
+    { scheme: 'twitter', name: 'Twitter Handle' },
+    { scheme: 'twitterid', name: 'Twitter ID' },
+    { scheme: 'wechat', name: 'Wechat ID' },
+    { scheme: 'whatsapp', name: 'Whatsapp Number' },
+    { scheme: 'viber', name: 'Viber ID' }
+];
 
 export const typeConfigList: Type[] = [
     /** Actions */
@@ -210,6 +233,14 @@ export const typeConfigList: Type[] = [
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits', 'cases'],
         form: ExpressionRouterForm
+    },
+    {
+        type: Types.split_by_contact_field,
+        name: 'Split by Contact Field',
+        description: 'Split by a contact field',
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        form: FieldRouterForm
     },
     {
         type: Types.split_by_groups,

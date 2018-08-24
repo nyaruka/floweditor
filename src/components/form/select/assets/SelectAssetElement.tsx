@@ -13,6 +13,7 @@ export interface SelectAssetElementProps extends FormElementProps {
     assets: Assets;
 
     add?: boolean;
+    searchable: boolean;
     onCreateOption?: NewOptionCreatorHandler;
     createPrompt?: string;
     clearable?: boolean;
@@ -58,6 +59,7 @@ export default class SelectAssetElement extends React.Component<SelectAssetEleme
                     onChange={this.handleChanged}
                     name={this.props.name}
                     assets={this.props.assets}
+                    searchable={this.props.searchable}
                     multi={false}
                     initial={[this.props.entry.value]}
                     localSearchOptions={this.props.localSearchOptions}

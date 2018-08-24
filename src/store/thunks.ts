@@ -893,7 +893,8 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
         }
     }
 
+    const typeConfig = determineTypeConfig(settings);
+    dispatch(handleTypeConfigChange(typeConfig));
     dispatch(updateNodeEditorSettings(settings));
-    dispatch(handleTypeConfigChange(determineTypeConfig(settings)));
     dispatch(mergeEditorState({ nodeDragging: false }));
 };

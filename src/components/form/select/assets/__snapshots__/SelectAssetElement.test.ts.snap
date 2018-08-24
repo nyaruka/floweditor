@@ -29,6 +29,7 @@ exports[`SelectAssetElement can be configured to add options 1`] = `
     multi={false}
     name="Flow"
     onChange={[Function]}
+    searchable={true}
   />
 </FormElement>
 `;
@@ -61,6 +62,7 @@ exports[`SelectAssetElement renders 1`] = `
     multi={false}
     name="Flow"
     onChange={[Function]}
+    searchable={true}
   />
 </FormElement>
 `;

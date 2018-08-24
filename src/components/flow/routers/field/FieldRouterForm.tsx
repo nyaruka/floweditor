@@ -1,14 +1,20 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { sortFieldsAndProperties } from '~/components/flow/actions/updatecontact/helpers';
+import { CONTACT_PROPERTIES } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { nodeToState, stateToNode } from '~/components/flow/routers/expression/helpers';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
-import TextInputElement from '~/components/form/textinput/TextInputElement';
+import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { FormState, StringEntry } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Scheme, SCHEMES } from '~/config/typeConfigs';
+import { Asset, AssetType } from '~/services/AssetService';
+import { AssetEntry, FormState, StringEntry } from '~/store/nodeEditor';
+
+import * as styles from './FieldRouterForm.scss';
+import { nodeToState, stateToNode } from './helpers';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -19,18 +25,27 @@ export enum InputToFocus {
     exit = 'exit'
 }
 
-export interface ExpressionRouterFormState extends FormState {
+export interface FieldRouterFormState extends FormState {
+    field: AssetEntry;
     cases: CaseProps[];
     resultName: StringEntry;
-    operand: StringEntry;
 }
 
 export const leadInSpecId = 'lead-in';
 
-export default class ExpressionRouterForm extends React.Component<
+export default class FieldRouterForm extends React.Component<
     RouterFormProps,
-    ExpressionRouterFormState
+    FieldRouterFormState
 > {
+    private ROUTABLE_FIELDS: Asset[] = [
+        ...CONTACT_PROPERTIES,
+        ...SCHEMES.map((scheme: Scheme) => ({
+            name: scheme.name,
+            id: scheme.scheme,
+            type: AssetType.Scheme
+        }))
+    ];
+
     constructor(props: RouterFormProps) {
         super(props);
 
@@ -41,12 +56,16 @@ export default class ExpressionRouterForm extends React.Component<
         });
     }
 
+    public static contextTypes = {
+        assetService: fakePropType
+    };
+
     private handleUpdateResultName(value: string): void {
         this.setState({ resultName: { value } });
     }
 
-    private handleOperandUpdated(value: string): void {
-        this.setState({ operand: validate('Operand', value, [validateRequired]) });
+    private handleFieldChanged(selected: Asset[]): void {
+        this.setState({ field: { value: selected[0] } });
     }
 
     private handleCasesUpdated(cases: CaseProps[]): void {
@@ -81,13 +100,20 @@ export default class ExpressionRouterForm extends React.Component<
                     initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
-                <p>If the expression...</p>
-                <TextInputElement
-                    name="Operand"
-                    showLabel={false}
-                    onChange={this.handleOperandUpdated}
-                    entry={this.state.operand}
-                />
+                <div className={styles.leadIn}>
+                    If the contact's
+                    <div className={`${styles.fieldSelect} select-medium`}>
+                        <SelectAssetElement
+                            name="Contact Field"
+                            searchable={false}
+                            entry={this.state.field}
+                            assets={this.context.assetService.getFieldAssets()}
+                            localSearchOptions={this.ROUTABLE_FIELDS}
+                            sortFunction={sortFieldsAndProperties}
+                            onChange={this.handleFieldChanged}
+                        />
+                    </div>
+                </div>
                 <CaseList
                     data-spec="cases"
                     cases={this.state.cases}

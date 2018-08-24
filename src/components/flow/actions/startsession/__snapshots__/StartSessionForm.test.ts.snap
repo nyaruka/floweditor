@@ -88,6 +88,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         name="Flow"
         onChange={[Function]}
         placeholder="Select the flow to start them in"
+        searchable={true}
       />
     </p>
   </div>
@@ -200,6 +201,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
         name="Flow"
         onChange={[Function]}
         placeholder="Select the flow to start them in"
+        searchable={true}
       />
     </p>
   </div>

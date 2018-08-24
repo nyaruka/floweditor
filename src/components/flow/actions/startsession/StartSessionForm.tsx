@@ -111,6 +111,7 @@ export default class StartSessionForm extends React.Component<
                         <SelectAssetElement
                             key="flow_select"
                             name="Flow"
+                            searchable={true}
                             placeholder="Select the flow to start them in"
                             entry={this.state.flow}
                             assets={this.context.assetService.getFlowAssets()}

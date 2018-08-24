@@ -255,6 +255,7 @@ Array [
       },
     },
     "ui": Object {
+      "config": Object {},
       "position": null,
       "type": "wait_for_response",
     },

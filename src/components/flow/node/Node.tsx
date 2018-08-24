@@ -387,7 +387,10 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             if (this.props.renderNode.node.router.type === RouterTypes.switch) {
                 const switchRouter = this.props.renderNode.node.router as SwitchRouter;
                 if (switchRouter.result_name) {
-                    if (this.props.renderNode.ui.type === Types.split_by_expression) {
+                    if (
+                        this.props.renderNode.ui.type === Types.split_by_expression ||
+                        this.props.renderNode.ui.type === Types.split_by_contact_field
+                    ) {
                         title = `Split by ${titleCase(switchRouter.result_name)}`;
                     } else if (this.props.renderNode.ui.type === Types.wait_for_response) {
                         title = `Wait for ${titleCase(switchRouter.result_name)}`;

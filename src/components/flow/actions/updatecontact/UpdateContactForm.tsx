@@ -30,19 +30,19 @@ export interface UpdateContactFormState extends FormState {
     fieldValue: StringEntry;
 }
 
-export const NAME_PROPERTY = {
+export const NAME_PROPERTY: Asset = {
     name: titleCase(ContactProperties.Name),
     id: ContactProperties.Name,
     type: AssetType.ContactProperty
 };
 
-export const CHANNEL_PROPERTY = {
+export const CHANNEL_PROPERTY: Asset = {
     name: titleCase(ContactProperties.Channel),
     id: ContactProperties.Channel,
     type: AssetType.ContactProperty
 };
 
-export const LANGUAGE_PROPERTY = {
+export const LANGUAGE_PROPERTY: Asset = {
     name: titleCase(ContactProperties.Language),
     id: ContactProperties.Language,
     type: AssetType.ContactProperty
@@ -184,6 +184,7 @@ export default class UpdateContactForm extends React.Component<
                 <SelectAssetElement
                     key="channel_select"
                     name="Channel"
+                    searchable={true}
                     placeholder="Select the channel to use for this contact"
                     entry={this.state.channel}
                     assets={this.context.assetService.getChannelAssets()}
@@ -198,6 +199,7 @@ export default class UpdateContactForm extends React.Component<
                 <SelectAssetElement
                     key="language_select"
                     name="Language"
+                    searchable={true}
                     placeholder="Select the language to use for this contact"
                     entry={this.state.language}
                     assets={this.context.assetService.getLanguageAssets()}
@@ -249,6 +251,7 @@ export default class UpdateContactForm extends React.Component<
                 <SelectAssetElement
                     name="Contact Field"
                     entry={this.state.field}
+                    searchable={true}
                     assets={this.context.assetService.getFieldAssets()}
                     localSearchOptions={CONTACT_PROPERTIES}
                     sortFunction={sortFieldsAndProperties}

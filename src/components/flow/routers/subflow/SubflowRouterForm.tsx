@@ -79,6 +79,7 @@ export default class SubflowRouterForm extends React.PureComponent<
                         key="flow_select"
                         name="Flow"
                         placeholder="Select the flow to enter"
+                        searchable={true}
                         entry={this.state.flow}
                         assets={this.context.assetService.getFlowAssets()}
                         onChange={this.handleFlowChanged}
