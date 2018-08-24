@@ -61,6 +61,7 @@ exports[`SubflowRouterForm render should render 1`] = `
       name="Flow"
       onChange={[Function]}
       placeholder="Select the flow to enter"
+      searchable={true}
     />
   </p>
 </Dialog>
@@ -122,6 +123,7 @@ Array [
       "wait": null,
     },
     "ui": Object {
+      "config": Object {},
       "position": null,
       "type": "split_by_subflow",
     },
@@ -185,6 +187,7 @@ Array [
       "wait": null,
     },
     "ui": Object {
+      "config": Object {},
       "position": null,
       "type": "split_by_subflow",
     },
@@ -258,6 +261,7 @@ Array [
       "wait": null,
     },
     "ui": Object {
+      "config": Object {},
       "position": null,
       "type": "split_by_subflow",
     },

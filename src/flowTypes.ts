@@ -256,6 +256,7 @@ export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
     type?: Types;
+    config?: { [key: string]: string };
 }
 
 export interface StickyNote {

@@ -244,6 +244,7 @@ Array [
       "wait": null,
     },
     "ui": Object {
+      "config": Object {},
       "position": null,
       "type": "split_by_expression",
     },

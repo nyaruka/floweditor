@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'floweditor';
   src:
-    url('fonts/floweditor.ttf?kuq63h') format('truetype'),
-    url('fonts/floweditor.woff?kuq63h') format('woff'),
-    url('fonts/floweditor.svg?kuq63h#floweditor') format('svg');
+    url('fonts/floweditor.ttf?1uhupk') format('truetype'),
+    url('fonts/floweditor.woff?1uhupk') format('woff'),
+    url('fonts/floweditor.svg?1uhupk#floweditor') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -23,6 +23,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fe-zap:before {
+  content: "\e900";
+}
 .fe-add:before {
   content: "\e901";
 }
@@ -274,6 +277,9 @@
 }
 .fe-split-horizontal:before {
   content: "\e920";
+}
+.fe-connection:before {
+  content: "\e921";
 }
 .fe-x:before {
   content: "\e92a";

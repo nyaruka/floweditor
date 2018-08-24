@@ -29,10 +29,7 @@
     background: $pink;
 }
 
-.add_input_labels {
-    background: $blue_baby;
-}
-
+.add_input_labels,
 .set_contact_name,
 .set_contact_field,
 .set_contact_language,
@@ -47,8 +44,9 @@
     background-image: repeating-linear-gradient(60deg, $color_1, $color_1 12px, $color_2 12px, $color_2 24px);
 }
 
-.subflow, .split_by_expression, .split_by_groups {
-    background: $gray;
+.subflow, .split_by_expression, .split_by_groups, .split_by_contact_field {
+    background: $light_gray;
+    color: $gray !important;
 }
 
 .call_webhook {

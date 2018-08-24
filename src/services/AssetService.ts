@@ -15,7 +15,8 @@ export enum AssetType {
     Language = 'language',
     Environment = 'environment',
     Remove = 'remove',
-    ContactProperty = 'property'
+    ContactProperty = 'property',
+    Scheme = 'scheme'
 }
 
 export const DEFAULT_LANGUAGE = { id: '', name: 'Default', type: AssetType.Language };

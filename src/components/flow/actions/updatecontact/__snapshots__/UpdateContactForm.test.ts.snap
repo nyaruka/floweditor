@@ -80,6 +80,7 @@ exports[`UpdateContactForm render initial for channel 1`] = `
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
+    searchable={true}
     sortFunction={[Function]}
   />
   <div
@@ -125,6 +126,7 @@ exports[`UpdateContactForm render initial for channel 1`] = `
       name="Channel"
       onChange={[Function]}
       placeholder="Select the channel to use for this contact"
+      searchable={true}
     />
   </div>
 </Dialog>
@@ -210,6 +212,7 @@ exports[`UpdateContactForm render initial for field 1`] = `
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
+    searchable={true}
     sortFunction={[Function]}
   />
   <div
@@ -311,6 +314,7 @@ exports[`UpdateContactForm render initial for language 1`] = `
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
+    searchable={true}
     sortFunction={[Function]}
   />
   <div
@@ -340,6 +344,7 @@ exports[`UpdateContactForm render initial for language 1`] = `
       name="Language"
       onChange={[Function]}
       placeholder="Select the language to use for this contact"
+      searchable={true}
     />
   </div>
 </Dialog>
@@ -425,6 +430,7 @@ exports[`UpdateContactForm render initial for name 1`] = `
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
+    searchable={true}
     sortFunction={[Function]}
   />
   <div
@@ -526,6 +532,7 @@ exports[`UpdateContactForm render should render an empty form with different act
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
+    searchable={true}
     sortFunction={[Function]}
   />
   <div
@@ -627,6 +634,7 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
+    searchable={true}
     sortFunction={[Function]}
   />
   <div

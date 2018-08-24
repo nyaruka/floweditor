@@ -52,8 +52,8 @@
     &.translating {
         .node {
             .actions {
-                border-bottom-left-radius: 7px;
-                border-bottom-right-radius: 7px;
+                border-bottom-left-radius: $curvature;
+                border-bottom-right-radius: $curvature;
                 overflow: hidden;
             }
 
@@ -84,7 +84,9 @@
     }
 
     .node {
-        border: 1px solid $borders;
+        // box-shadow: 0px 0px 0px 2px rgb(240, 240, 240); // $node_shadow_color;
+
+        border: 1px solid #8ed9ff; //  rgb(218, 218, 218);
         border-radius: $curvature;
         background: #fff;
         padding: 0;
@@ -96,11 +98,10 @@
         display: table;
 
         .cropped {
-            box-shadow: -1px -1px 0px 0px $node_shadow_color;
             overflow: hidden;
             min-width: $node_width;
-            border-top-left-radius: $curvature;
-            border-top-right-radius: $curvature;
+            border-top-left-radius: $curvature - 1px;
+            border-top-right-radius: $curvature - 1px;
         }
 
         .actions {
@@ -134,8 +135,6 @@
             color: $blue;
             text-decoration: none;
             background: #fff;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
             border-radius: 5px;
             line-height: 8px;
             font-size: 14px;
@@ -155,8 +154,6 @@
     position: absolute;
     background: $active_color;
     border: 1px solid $active_color - #111;
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
     border-radius: 12px;
     padding: 3px 5px;
     color: #fff;

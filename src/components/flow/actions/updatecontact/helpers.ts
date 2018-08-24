@@ -112,7 +112,7 @@ export const stateToAction = (
 export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
     // Name always goes first
     /* istanbul ignore else */
-    if (a === NAME_PROPERTY) {
+    if (a === NAME_PROPERTY && b !== NAME_PROPERTY) {
         return -1;
     }
     // go with alpha-sort for everthing else
@@ -120,9 +120,7 @@ export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
         return a.name.localeCompare(b.name);
     }
     // non-name non-fields go last
-    else if (a.type !== AssetType.Field) {
-        return 1;
-    }
+    return a.type.localeCompare(b.type);
 };
 
 export const fieldToAsset = (field: Field = { key: '', name: '' }): Asset => ({

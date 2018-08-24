@@ -129,6 +129,17 @@ Array [
     "type": "split_by_expression",
   },
   Object {
+    "description": "Split by a contact field",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+      "cases",
+    ],
+    "name": "Split by Contact Field",
+    "type": "split_by_contact_field",
+  },
+  Object {
     "description": "Split by group membership",
     "form": [Function],
     "localization": [Function],
@@ -282,6 +293,17 @@ Object {
     "form": [Function],
     "name": "Save Flow Result",
     "type": "set_run_result",
+  },
+  "split_by_contact_field": Object {
+    "description": "Split by a contact field",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+      "cases",
+    ],
+    "name": "Split by Contact Field",
+    "type": "split_by_contact_field",
   },
   "split_by_expression": Object {
     "description": "Split by a custom expression",
