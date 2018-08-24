@@ -23,6 +23,7 @@ import {
     incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
+    updateAssets,
     updateBaseLanguage,
     updateContactFields,
     updateDefinition,
@@ -142,6 +143,14 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
     return updated;
 };
 
+/* export const updateAssets = (assets: AssetMap) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): AssetMap => {
+    
+    return assets;
+};*/
+
 export const initializeFlow = (
     definition: FlowDefinition,
     assetService: AssetService,
@@ -152,6 +161,14 @@ export const initializeFlow = (
     if (assetService) {
         assetService.addFlowComponents(flowComponents);
     }
+
+    dispatch(
+        updateAssets({
+            results: {
+                items: flowComponents.resultsMap
+            }
+        })
+    );
 
     // Take stock of the flow's language settings
     if (flowComponents.baseLanguage) {

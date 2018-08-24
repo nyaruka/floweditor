@@ -17,7 +17,7 @@ import {
 } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
-import { RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
+import { AssetMap, RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
 import { createUUID, snakify } from '~/utils';
 
 export interface Bounds {
@@ -260,6 +260,7 @@ export interface FlowComponents {
     groups: Asset[];
     fields: Asset[];
     labels: Asset[];
+    resultsMap: AssetMap;
     baseLanguage: Asset;
 }
 
@@ -286,6 +287,7 @@ export const getFlowComponents = (
     const groups: Asset[] = [];
     const fields: Asset[] = [];
     const labels: Asset[] = [];
+    const results: Asset[] = [];
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
@@ -295,6 +297,8 @@ export const getFlowComponents = (
     const groupsMap: { [uuid: string]: string } = {};
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
     const labelsMap: { [uuid: string]: string } = {};
+
+    const resultsMap: { [key: string]: Asset } = {};
 
     for (const node of nodes) {
         if (!node.actions) {
@@ -312,6 +316,13 @@ export const getFlowComponents = (
         if (node.router) {
             if (node.router.result_name) {
                 resultMap[node.uuid] = generateResultQuery(node.router.result_name);
+
+                const key = snakify(node.router.result_name);
+                resultsMap[key] = {
+                    id: key,
+                    name: node.router.result_name,
+                    type: AssetType.Result
+                };
             }
         }
 
@@ -377,9 +388,13 @@ export const getFlowComponents = (
         labels.push({ name: labelsMap[uuid], id: uuid, type: AssetType.Label });
     }
 
+    for (const id of Object.keys(resultsMap)) {
+        results.push(resultsMap[id]);
+    }
+
     // determine flow language
     const baseLanguage = languages.find((lang: Asset) => lang.id === language);
-    return { renderNodeMap, resultMap, groups, fields, labels, baseLanguage };
+    return { renderNodeMap, resultMap, groups, fields, labels, baseLanguage, resultsMap };
 };
 
 /**

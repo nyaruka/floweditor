@@ -3,7 +3,7 @@ import { FlowDefinition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import Constants from '~/store/constants';
 import { EditorState } from '~/store/editor';
-import { ContactFields, RenderNodeMap, ResultMap } from '~/store/flowContext';
+import { AssetStore, ContactFields, RenderNodeMap, ResultMap } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 // Redux action generic
@@ -39,6 +39,10 @@ interface UpdateDependenciesPayload {
 
 interface UpdateResultMapPayload {
     resultMap: ResultMap;
+}
+
+interface UpdateAssetMapPayload {
+    assets: AssetStore;
 }
 
 interface UpdateNodesPayload {
@@ -87,6 +91,8 @@ export type UpdateDependenciesAction = DuxAction<
 
 export type UpdateResultMapAction = DuxAction<Constants.UPDATE_RESULT_MAP, UpdateResultMapPayload>;
 
+export type UpdateAssetsAction = DuxAction<Constants.UPDATE_ASSET_MAP, UpdateAssetMapPayload>;
+
 export type IncrementSuggestedResultNameCountAction = DuxAction<
     Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
 >;
@@ -123,6 +129,7 @@ type ActionTypes =
     | UpdateFlowsAction
     | UpdateDependenciesAction
     | UpdateResultMapAction
+    | UpdateAssetsAction
     | IncrementSuggestedResultNameCountAction
     | UpdateNodesAction
     | UpdateTypeConfigAction

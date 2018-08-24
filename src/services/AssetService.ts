@@ -9,6 +9,7 @@ export enum AssetType {
     Flow = 'flow',
     Group = 'group',
     Field = 'field',
+    Result = 'result',
     Contact = 'contact',
     URN = 'urn',
     Label = 'label',

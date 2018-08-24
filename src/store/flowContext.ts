@@ -3,6 +3,7 @@ import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
+    UpdateAssetsAction,
     UpdateBaseLanguageAction,
     UpdateContactFieldsAction,
     UpdateDefinitionAction,
@@ -42,6 +43,22 @@ export interface ContactFields {
     [snakedFieldName: string]: string;
 }
 
+export interface AssetStore {
+    [assetType: string]: Assets;
+}
+
+export interface AssetMap {
+    [id: string]: Asset;
+}
+
+export interface Assets {
+    // our local cache of assets
+    items: AssetMap;
+
+    // an optional endpoint to search for more
+    endpoint?: string;
+}
+
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
@@ -50,6 +67,7 @@ export interface FlowContext {
     contactFields: ContactFields;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
+    assets: AssetStore;
 }
 
 // Initial state
@@ -63,7 +81,8 @@ export const initialState: FlowContext = {
         suggestedNameCount: 1
     },
     contactFields: {},
-    nodes: {}
+    nodes: {},
+    assets: {}
 };
 
 // Action Creators
@@ -116,6 +135,13 @@ export const updateResultMap = (resultMap: ResultMap): UpdateResultMapAction => 
     }
 });
 
+export const updateAssets = (assets: AssetStore): UpdateAssetsAction => ({
+    type: Constants.UPDATE_ASSET_MAP,
+    payload: {
+        assets
+    }
+});
+
 export const incrementSuggestedResultNameCount = (): IncrementSuggestedResultNameCountAction => ({
     type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
 });
@@ -149,6 +175,15 @@ export const dependencies = (
     switch (action.type) {
         case Constants.UPDATE_DEPENDENCIES:
             return action.payload.dependencies;
+        default:
+            return state;
+    }
+};
+
+export const assets = (state: AssetStore = initialState.assets, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_ASSET_MAP:
+            return action.payload.assets;
         default:
             return state;
     }
@@ -218,6 +253,7 @@ export default combineReducers({
     definition,
     nodes,
     dependencies,
+    assets,
     results,
     baseLanguage,
     languages,

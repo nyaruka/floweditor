@@ -24,6 +24,7 @@ import FieldRouterForm from '~/components/flow/routers/field/FieldRouterForm';
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
+import ResultRouterForm from '~/components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { AnyAction, RouterTypes } from '~/flowTypes';
@@ -67,6 +68,7 @@ export const enum Types {
     start_session = 'start_session',
     split_by_expression = 'split_by_expression',
     split_by_contact_field = 'split_by_contact_field',
+    split_by_run_result = 'split_by_run_result',
     split_by_groups = 'split_by_groups',
     split_by_subflow = 'split_by_subflow',
     split_by_webhook = 'split_by_webhook',
@@ -241,6 +243,14 @@ export const typeConfigList: Type[] = [
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits', 'cases'],
         form: FieldRouterForm
+    },
+    {
+        type: Types.split_by_run_result,
+        name: 'Split by Flow Result',
+        description: 'Split by a result in this flow',
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        form: ResultRouterForm
     },
     {
         type: Types.split_by_groups,
