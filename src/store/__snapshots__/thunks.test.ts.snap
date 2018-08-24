@@ -238,6 +238,25 @@ exports[`Flow Manipulation node editor normal editing should edit router nodes 1
 Array [
   Object {
     "payload": Object {
+      "typeConfig": Object {
+        "aliases": Array [
+          "switch",
+        ],
+        "description": "Wait for the contact to respond",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
+        "name": "Wait for Response",
+        "type": "wait_for_response",
+      },
+    },
+    "type": "UPDATE_TYPE_CONFIG",
+  },
+  Object {
+    "payload": Object {
       "settings": Object {
         "languages": Array [],
         "localizations": Array [],
@@ -307,25 +326,6 @@ Array [
       },
     },
     "type": "UPDATE_NODE_EDITOR_SETTINGS",
-  },
-  Object {
-    "payload": Object {
-      "typeConfig": Object {
-        "aliases": Array [
-          "switch",
-        ],
-        "description": "Wait for the contact to respond",
-        "form": [Function],
-        "localization": [Function],
-        "localizeableKeys": Array [
-          "exits",
-          "cases",
-        ],
-        "name": "Wait for Response",
-        "type": "wait_for_response",
-      },
-    },
-    "type": "UPDATE_TYPE_CONFIG",
   },
   Object {
     "payload": Object {
