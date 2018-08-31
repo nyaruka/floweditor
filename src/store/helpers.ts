@@ -275,6 +275,17 @@ export const isGroupAction = (actionType: string) => {
 export const generateResultQuery = (resultName: string) => `@run.results.${snakify(resultName)}`;
 
 /**
+ * Converts a list of assets to a map keyed by their id
+ */
+export const assetListToMap = (assets: Asset[]) => {
+    const assetMap = {};
+    for (const asset of assets) {
+        assetMap[asset.id] = asset;
+    }
+    return assetMap;
+};
+
+/**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
 export const getFlowComponents = (

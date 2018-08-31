@@ -42,14 +42,14 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
         }
     }
 
-    private handleFilter(input: string): any[] {
+    /* private handleFilter(input: string): any[] {
         const inputText = input.toLocaleLowerCase();
         return Object.keys(this.props.assets.items)
             .map((key: string) => {
                 return { label: key, value: key };
             })
             .filter(option => option.label.toLocaleLowerCase().indexOf(inputText) > -1);
-    }
+    }*/
 
     public render(): JSX.Element {
         const createOptions: CreateOptions = {};
@@ -86,7 +86,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
                     placeholder={this.props.placeholder}
                     options={options}
                     onChange={this.handleChanged}
-                    isSearchable={false}
+                    isSearchable={this.props.searchable}
                     getOptionValue={(option: Asset) => option.id}
                     getOptionLabel={(option: Asset) => option.name}
                 />

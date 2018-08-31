@@ -1,22 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LanguageSelector render should render select control 1`] = `
+exports[`LanguageSelector render should render select control: asset selector 1`] = `
+Object {
+  "assets": Array [
+    Object {
+      "id": "eng",
+      "name": "English",
+      "type": "language",
+    },
+    Object {
+      "id": "spa",
+      "name": "Spanish",
+      "type": "language",
+    },
+    Object {
+      "id": "fra",
+      "name": "French",
+      "type": "language",
+    },
+  ],
+  "entry": Object {
+    "value": Object {
+      "id": "eng",
+      "name": "English",
+      "type": "language",
+    },
+  },
+  "name": "Language",
+  "onChange": [Function],
+  "placeholder": "Language",
+  "searchable": false,
+  "styles": Object {
+    "control": [Function],
+    "menuList": [Function],
+    "option": [Function],
+  },
+}
+`;
+
+exports[`LanguageSelector render should render select control: language selector 1`] = `
 <div
   className="languageSelector select-small"
   data-spec="language-selector-container"
 >
-  <SelectSearch
-    closeOnSelect={true}
-    initial={
-      Array [
-        Object {
-          "id": "eng",
-          "name": "English",
-          "type": "language",
-        },
-      ]
-    }
-    localSearchOptions={
+  <AssetSelector
+    assets={
       Array [
         Object {
           "id": "eng",
@@ -35,10 +63,26 @@ exports[`LanguageSelector render should render select control 1`] = `
         },
       ]
     }
-    multi={false}
-    name="Languages"
+    entry={
+      Object {
+        "value": Object {
+          "id": "eng",
+          "name": "English",
+          "type": "language",
+        },
+      }
+    }
+    name="Language"
     onChange={[Function]}
+    placeholder="Language"
     searchable={false}
+    styles={
+      Object {
+        "control": [Function],
+        "menuList": [Function],
+        "option": [Function],
+      }
+    }
   />
 </div>
 `;

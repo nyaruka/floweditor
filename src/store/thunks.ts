@@ -27,11 +27,11 @@ import {
     updateBaseLanguage,
     updateContactFields,
     updateDefinition,
-    updateLanguages,
     updateNodes,
     updateResultMap
 } from '~/store/flowContext';
 import {
+    assetListToMap,
     extractContactFields,
     FlowComponents,
     generateResultQuery,
@@ -162,22 +162,29 @@ export const initializeFlow = (
         assetService.addFlowComponents(flowComponents);
     }
 
+    let currentLanguages = languages;
+
+    // if we have an unset base language, inject our "Default" Language and set it
+    if (!flowComponents.baseLanguage) {
+        currentLanguages = mutators.addLanguage(languages, DEFAULT_LANGUAGE);
+    }
+
     dispatch(
         updateAssets({
             results: {
                 items: flowComponents.resultsMap
+            },
+            languages: {
+                items: assetListToMap(currentLanguages)
             }
         })
     );
 
     // Take stock of the flow's language settings
     if (flowComponents.baseLanguage) {
-        dispatch(updateLanguages(languages));
         dispatch(updateBaseLanguage(flowComponents.baseLanguage));
         dispatch(mergeEditorState({ language: flowComponents.baseLanguage }));
     } else {
-        // if we have an unset base language, inject our "Default" Language and set it
-        dispatch(updateLanguages(mutators.addLanguage(languages, DEFAULT_LANGUAGE)));
         dispatch(updateBaseLanguage(DEFAULT_LANGUAGE));
         dispatch(mergeEditorState({ language: DEFAULT_LANGUAGE }));
     }

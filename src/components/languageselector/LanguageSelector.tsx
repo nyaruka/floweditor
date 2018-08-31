@@ -1,34 +1,34 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import SelectSearch from '~/components/form/select/SelectSearch';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import { languageSelector } from '~/components/languageselector/LanguageSelector.scss';
 import { ConfigProviderContext } from '~/config';
-import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/services/AssetService';
+import { Assets } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store/thunks';
+import { small } from '~/utils/reactselect';
 
-export interface LanguageSelectorStoreProps {
+export interface LanguageSelectorProps {
     language: Asset;
-    languages: Asset[];
+    languages: Assets;
     handleLanguageChange: HandleLanguageChange;
 }
 
 export const containerClasses = `${languageSelector} select-small`;
 export const languageSelectorContainerSpecId = 'language-selector-container';
 
-export class LanguageSelector extends React.Component<LanguageSelectorStoreProps> {
-    public static contextTypes = {
-        assetService: fakePropType
-    };
-
-    constructor(props: LanguageSelectorStoreProps, context: ConfigProviderContext) {
+export class LanguageSelector extends React.Component<LanguageSelectorProps> {
+    constructor(props: LanguageSelectorProps, context: ConfigProviderContext) {
         super(props, context);
-        this.handleLanguageChange = this.handleLanguageChange.bind(this);
+        bindCallbacks(this, {
+            include: [/^handle/]
+        });
     }
 
-    private handleLanguageChange(selections: Asset[]): void {
+    public handleLanguageChanged(selections: Asset[]): void {
         const [language] = selections;
         this.props.handleLanguageChange(language);
     }
@@ -36,14 +36,14 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
     public render(): JSX.Element {
         return (
             <div className={containerClasses} data-spec={languageSelectorContainerSpecId}>
-                <SelectSearch
-                    localSearchOptions={this.props.languages}
+                <AssetSelector
+                    entry={{ value: this.props.language }}
+                    styles={small}
+                    name="Language"
+                    placeholder="Language"
                     searchable={false}
-                    multi={false}
-                    initial={[this.props.language]}
-                    name="Languages"
-                    closeOnSelect={true}
-                    onChange={this.handleLanguageChange}
+                    assets={this.props.languages}
+                    onChange={this.handleLanguageChanged}
                 />
             </div>
         );
@@ -51,9 +51,9 @@ export class LanguageSelector extends React.Component<LanguageSelectorStoreProps
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { languages }, editorState: { language } }: AppState) => ({
-    language,
-    languages
+const mapStateToProps = ({ flowContext: { assets }, editorState: { language } }: AppState) => ({
+    languages: assets.languages,
+    language
 });
 
 /* istanbul ignore next */

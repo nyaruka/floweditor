@@ -8,7 +8,6 @@ import ActionTypes, {
     UpdateContactFieldsAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
-    UpdateLanguagesAction,
     UpdateNodesAction,
     UpdateResultMapAction
 } from '~/store/actionTypes';
@@ -111,13 +110,6 @@ export const updateBaseLanguage = (baseLanguage: Asset): UpdateBaseLanguageActio
     type: Constants.UPDATE_BASE_LANGUAGE,
     payload: {
         baseLanguage
-    }
-});
-
-export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
-    type: Constants.UPDATE_LANGUAGES,
-    payload: {
-        languages
     }
 });
 
