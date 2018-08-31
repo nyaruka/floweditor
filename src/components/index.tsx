@@ -13,7 +13,7 @@ import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import AssetService, { Asset } from '~/services/AssetService';
 import createStore from '~/store/createStore';
-import { RenderNodeMap } from '~/store/flowContext';
+import { Assets, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
 import { DispatchWithState, FetchFlow, fetchFlow } from '~/store/thunks';
@@ -25,7 +25,7 @@ export interface FlowEditorContainerProps {
 
 export interface FlowEditorStoreProps {
     language: Asset;
-    languages: Asset[];
+    languages: Assets;
     translating: boolean;
     fetchingFlow: boolean;
     definition: FlowDefinition;
@@ -93,6 +93,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
     public render(): JSX.Element {
         /* <ConnectedFlowList /> */
+        console.log(this.props.languages);
         return (
             <div
                 id={editorContainerSpecId}
@@ -101,7 +102,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
             >
                 {this.getFooter()}
                 <div className={styles.editor} data-spec={editorSpecId}>
-                    {renderIf(this.props.languages.length > 0)(<ConnectedLanguageSelector />)}
+                    {renderIf(
+                        this.props.languages && Object.keys(this.props.languages.items).length > 0
+                    )(<ConnectedLanguageSelector />)}
                     {renderIf(
                         this.props.definition && this.props.language && !this.props.fetchingFlow
                     )(<ConnectedFlow />)}
@@ -112,17 +115,22 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, dependencies, languages, nodes },
+    flowContext: { definition, dependencies, nodes, assets },
     editorState: { translating, language, fetchingFlow }
-}: AppState) => ({
-    translating,
-    language,
-    fetchingFlow,
-    definition,
-    dependencies,
-    languages,
-    nodes
-});
+}: AppState) => {
+    const languages = assets ? assets.languages : null;
+
+    console.log(languages);
+    return {
+        translating,
+        language,
+        fetchingFlow,
+        definition,
+        dependencies,
+        nodes,
+        languages
+    };
+};
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(

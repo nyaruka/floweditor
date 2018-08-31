@@ -184,7 +184,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 /* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: {
-        languages,
         definition: { localization }
     },
     editorState: { language, translating }

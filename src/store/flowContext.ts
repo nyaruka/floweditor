@@ -61,7 +61,6 @@ export interface Assets {
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
-    languages: Asset[];
     results: Results;
     contactFields: ContactFields;
     definition: FlowDefinition;
@@ -74,7 +73,6 @@ export const initialState: FlowContext = {
     definition: null,
     dependencies: null,
     baseLanguage: null,
-    languages: [],
     results: {
         resultMap: {},
         suggestedNameCount: 1
@@ -214,15 +212,6 @@ export const baseLanguage = (state: Asset = initialState.baseLanguage, action: A
     }
 };
 
-export const languages = (state: Asset[] = initialState.languages, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_LANGUAGES:
-            return action.payload.languages;
-        default:
-            return state;
-    }
-};
-
 export const contactFields = (
     state: ContactFields = initialState.contactFields,
     action: ActionTypes
@@ -248,6 +237,5 @@ export default combineReducers({
     assets,
     results,
     baseLanguage,
-    languages,
     contactFields
 });

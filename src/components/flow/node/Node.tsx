@@ -14,7 +14,6 @@ import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
-import { Asset } from '~/services/AssetService';
 import { DragEvent } from '~/services/Plumber';
 import { DebugState, DragSelection } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
@@ -62,7 +61,6 @@ export interface NodeStoreProps {
     debug: DebugState;
     renderNode: RenderNode;
     definition: FlowDefinition;
-    languages: Asset[];
     onAddToNode: OnAddToNode;
     onNodeMoved: OnNodeMoved;
     onOpenNodeEditor: OnOpenNodeEditor;
@@ -485,7 +483,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
 const mapStateToProps = (
     {
-        flowContext: { nodes, definition, languages },
+        flowContext: { nodes, definition },
         editorState: { translating, debug, dragSelection, nodeDragging, ghostNode }
     }: AppState,
     props: NodePassedProps
@@ -512,7 +510,6 @@ const mapStateToProps = (
         dragSelection,
         nodeDragging,
         definition,
-        languages,
         renderNode
     };
 };

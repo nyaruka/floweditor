@@ -11,7 +11,7 @@ import ActionTypes, {
     UpdateUserAddingActionAction
 } from '~/store/actionTypes';
 import Constants from '~/store/constants';
-import { RenderNode } from '~/store/flowContext';
+import { Assets, RenderNode } from '~/store/flowContext';
 
 export interface ValidationFailure {
     message: string;
@@ -132,7 +132,7 @@ export interface NodeEditorSettings {
     showAdvanced?: boolean;
     originalAction?: AnyAction;
     localizations?: LocalizedObject[];
-    languages?: Asset[];
+    languages?: Assets;
 }
 
 export interface NodeEditor {

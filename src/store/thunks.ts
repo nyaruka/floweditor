@@ -870,8 +870,8 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 ) => {
     const {
         flowContext: {
-            languages,
-            definition: { localization }
+            definition: { localization },
+            assets
         },
         editorState: { language, translating }
     } = getState();
@@ -882,7 +882,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const node = renderNode.node;
 
     // stuff our localization objects in our settings
-    settings.languages = languages;
+    settings.languages = assets.languages;
     settings.localizations = [];
     if (translating) {
         let actionToTranslate = action;
