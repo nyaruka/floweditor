@@ -12,6 +12,7 @@ import { Operators } from '~/config/operatorConfigs';
 import { Case } from '~/flowTypes';
 import { FormState, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
 import { hasErrorType } from '~/utils';
+import { small } from '~/utils/reactselect';
 
 export interface CaseElementProps {
     kase: Case;
@@ -247,17 +248,17 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     <span className={`fe-chevrons-expand ${styles.dndIcon}`} />
                     <div className={styles.choice}>
                         <Select
-                            joinValues={true}
+                            styles={small}
                             data-spec="operator-list"
-                            name="operator"
-                            clearable={false}
+                            isClearable={false}
+                            menuPlacement="auto"
                             options={operatorConfigList}
-                            value={this.state.operatorConfig.type}
-                            valueKey="type"
-                            labelKey="verboseName"
-                            optionClassName="operator"
-                            searchable={false}
+                            getOptionLabel={(option: Operator) => option.verboseName}
+                            getOptionValue={(option: Operator) => option.type}
+                            isSearchable={false}
+                            name="operator"
                             onChange={this.handleOperatorChanged}
+                            value={this.state.operatorConfig}
                         />
                     </div>
                     <div

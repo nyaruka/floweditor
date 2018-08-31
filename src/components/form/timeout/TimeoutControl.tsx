@@ -1,12 +1,13 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import * as styles from '~/components/form/timeout/TimeoutControl.scss';
 import { renderIf } from '~/utils';
+import { small } from '~/utils/reactselect';
 
 export const TIMEOUT_OPTIONS = [
-    { value: 60, label: '1 minutes' },
+    { value: 60, label: '1 minute' },
     { value: 120, label: '2 minutes' },
     { value: 180, label: '3 minutes' },
     { value: 240, label: '4 minutes' },
@@ -42,7 +43,7 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
         });
     }
 
-    private getSelected(timeout: number): Option<number> {
+    private getSelected(timeout: number): any {
         for (const [idx, { value }] of TIMEOUT_OPTIONS.entries()) {
             if (value === timeout) {
                 return TIMEOUT_OPTIONS[idx];
@@ -68,7 +69,7 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
         }
     }
 
-    private handleTimeoutChanged(selected: Option): void {
+    private handleTimeoutChanged(selected: any): void {
         this.props.onChanged(selected.value as number);
     }
 
@@ -85,16 +86,18 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
                     />
                 </div>
                 {renderIf(this.isChecked())(
-                    <Select
-                        joinValues={true}
-                        name="timeout"
-                        className="select-small-timeout"
-                        clearable={false}
-                        searchable={false}
-                        value={this.getSelected(this.props.timeout)}
-                        onChange={this.handleTimeoutChanged}
-                        options={TIMEOUT_OPTIONS}
-                    />
+                    <div className={styles.dropDown}>
+                        <Select
+                            name="timeout"
+                            menuPlacement="auto"
+                            styles={small}
+                            isClearable={false}
+                            isSearchable={false}
+                            value={this.getSelected(this.props.timeout)}
+                            onChange={this.handleTimeoutChanged}
+                            options={TIMEOUT_OPTIONS}
+                        />
+                    </div>
                 )}
             </div>
         );

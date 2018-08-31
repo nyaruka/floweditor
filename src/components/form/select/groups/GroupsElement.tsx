@@ -1,14 +1,8 @@
 import * as React from 'react';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import SelectSearch from '~/components/form/select/SelectSearch';
-import { Asset, Assets, AssetType } from '~/services/AssetService';
-import {
-    composeCreateNewOption,
-    getSelectClassForEntry,
-    isOptionUnique,
-    isValidNewOption,
-    createUUID
-} from '~/utils';
+import { Asset, Assets } from '~/services/AssetService';
+import { getSelectClassForEntry } from '~/utils';
 
 export interface GroupOption {
     group: string;
@@ -24,10 +18,10 @@ export interface GroupsElementProps extends FormElementProps {
     helpText?: string;
 }
 
-export const createNewOption = composeCreateNewOption({
+/* export const createNewOption = composeCreateNewOption({
     idCb: () => createUUID(),
     type: AssetType.Group
-});
+});*/
 
 export const GROUP_PROMPT = 'New group: ';
 export const GROUP_PLACEHOLDER = 'Enter the name of an existing group...';
@@ -52,9 +46,6 @@ export default class GroupsElement extends React.Component<GroupsElementProps> {
         const createOptions: any = {};
 
         if (this.props.add) {
-            createOptions.isValidNewOption = isValidNewOption;
-            createOptions.isOptionUnique = isOptionUnique;
-            createOptions.createNewOption = createNewOption;
             createOptions.createPrompt = GROUP_PROMPT;
         }
 

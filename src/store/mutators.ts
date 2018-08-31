@@ -7,12 +7,12 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
-import { RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { Asset, AssetType } from '~/services/AssetService';
+import { AssetStore, RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getActionIndex, getExitIndex, getNode } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { LocalizationUpdates } from '~/store/thunks';
-import { createUUID, merge, push, set, snapToGrid, splice, unset } from '~/utils';
+import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from '~/utils';
 
 const mutate = require('immutability-helper');
 
@@ -26,6 +26,16 @@ export const getDefaultExit = (node: FlowNode) => {
         const switchRouter = node.router as SwitchRouter;
         return node.exits.find(exit => exit.uuid === switchRouter.default_exit_uuid);
     }
+};
+
+export const addFlowResult = (assets: AssetStore, result: string): AssetStore => {
+    const key = snakify(result);
+    const asset: Asset = { id: key, name: result, type: AssetType.Result };
+    return mutate(assets, {
+        results: {
+            items: merge({ [key]: asset })
+        }
+    });
 };
 
 /**

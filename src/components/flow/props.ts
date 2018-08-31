@@ -2,7 +2,7 @@ import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { Type } from '~/config/typeConfigs';
 import { AnyAction } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
+import { AssetStore, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export interface ActionFormProps {
@@ -21,6 +21,8 @@ export interface ActionFormProps {
 export interface RouterFormProps {
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
+
+    assets: AssetStore;
 
     // update handlers
     updateRouter(renderNode: RenderNode): void;

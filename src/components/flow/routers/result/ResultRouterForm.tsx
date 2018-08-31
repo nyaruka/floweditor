@@ -1,17 +1,16 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { sortFieldsAndProperties } from '~/components/flow/actions/updatecontact/helpers';
-import { CONTACT_PROPERTIES } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
-import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Scheme, SCHEMES } from '~/config/typeConfigs';
-import { Asset, AssetType } from '~/services/AssetService';
-import { AssetEntry, FormState, StringEntry } from '~/store/nodeEditor';
+import { Asset } from '~/services/AssetService';
+import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
+import { small } from '~/utils/reactselect';
 
 import { nodeToState, stateToNode } from './helpers';
 import * as styles from './ResultRouterForm.scss';
@@ -37,15 +36,6 @@ export default class ResultRouterForm extends React.Component<
     RouterFormProps,
     ResultRouterFormState
 > {
-    private ROUTABLE_FIELDS: Asset[] = [
-        ...CONTACT_PROPERTIES,
-        ...SCHEMES.map((scheme: Scheme) => ({
-            name: scheme.name,
-            id: scheme.scheme,
-            type: AssetType.Scheme
-        }))
-    ];
-
     constructor(props: RouterFormProps) {
         super(props);
 
@@ -64,8 +54,14 @@ export default class ResultRouterForm extends React.Component<
         this.setState({ resultName: { value } });
     }
 
-    private handleResultChanged(selected: Asset[]): void {
-        this.setState({ result: { value: selected[0] } });
+    private handleResultChanged(selected: Asset[]): boolean {
+        const updates: Partial<ResultRouterFormState> = {
+            result: validate('Result to split on', selected[0], [validateRequired])
+        };
+
+        const updated = mergeForm(this.state, updates);
+        this.setState(updated);
+        return updated.valid;
     }
 
     private handleCasesUpdated(cases: CaseProps[]): void {
@@ -73,7 +69,8 @@ export default class ResultRouterForm extends React.Component<
     }
 
     private handleSave(): void {
-        if (this.state.valid) {
+        const valid = this.handleResultChanged([this.state.result.value]);
+        if (valid) {
             this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
             this.props.onClose(false);
         }
@@ -100,19 +97,17 @@ export default class ResultRouterForm extends React.Component<
                     initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
-                <div className={styles.leadIn}>
-                    If the contact's
-                    <div className={`${styles.fieldSelect} select-medium`}>
-                        <SelectAssetElement
-                            name="Contact Field"
-                            searchable={false}
-                            entry={this.state.result}
-                            assets={this.context.assetService.getFieldAssets()}
-                            localSearchOptions={this.ROUTABLE_FIELDS}
-                            sortFunction={sortFieldsAndProperties}
-                            onChange={this.handleResultChanged}
-                        />
-                    </div>
+                <div className={styles.leadIn}>If the flow result</div>
+                <div className={styles.resultSelect}>
+                    <AssetSelector
+                        entry={this.state.result}
+                        styles={small}
+                        name="Flow Result"
+                        placeholder="Select Result"
+                        searchable={true}
+                        assets={this.props.assets.results}
+                        onChange={this.handleResultChanged}
+                    />
                 </div>
                 <CaseList
                     data-spec="cases"

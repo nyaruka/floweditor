@@ -34,8 +34,9 @@ export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState
         }
 
         const config = settings.originalNode.ui.config;
-        console.log(config);
-        result = { id: config.id, type: config.type, name: config.name };
+        if (config) {
+            result = { id: config.id, type: config.type, name: config.name };
+        }
     }
 
     return {
@@ -57,6 +58,7 @@ export const stateToNode = (
         optionalRouter.result_name = state.resultName.value;
     }
 
+    console.log(state);
     let operand = DEFAULT_OPERAND;
     const asset = state.result.value;
     if (asset.type === AssetType.URN) {

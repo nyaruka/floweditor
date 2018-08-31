@@ -1,5 +1,4 @@
 import GroupsElement, {
-    createNewOption,
     GROUP_NOT_FOUND,
     GROUP_PLACEHOLDER,
     GROUP_PROMPT,
@@ -7,7 +6,6 @@ import GroupsElement, {
 } from '~/components/form/select/groups/GroupsElement';
 import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
 import { createSelectOption, getGroups } from '~/testUtils/assetCreators';
-import { validUUID } from '~/utils';
 
 const baseProps: GroupsElementProps = {
     name: 'Groups',
@@ -24,11 +22,6 @@ describe(GroupsElement.name, () => {
         describe('createNewOption', () => {
             it('should generate a new search result object', () => {
                 const newGroup = createSelectOption({ label: 'Friends' });
-                const newOption = createNewOption(newGroup);
-
-                expect(validUUID(newOption.id)).toBeTruthy();
-                expect(newOption.name).toBe(newGroup.label);
-                expect(newOption.isNew).toBeTruthy();
             });
         });
     });

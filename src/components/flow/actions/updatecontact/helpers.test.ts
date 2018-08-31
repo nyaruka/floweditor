@@ -2,7 +2,6 @@ import {
     assetToChannel,
     assetToLanguage,
     channelToAsset,
-    createNewOption,
     fieldToAsset,
     languageToAsset,
     sortFieldsAndProperties
@@ -31,11 +30,5 @@ describe('UpdateContact.helpers', () => {
         });
         expect(languageToAsset({ iso: '', name: '' })).toEqual(removeAsset);
         expect(channelToAsset({ uuid: '', name: '' })).toEqual(removeAsset);
-    });
-
-    it('should create new options', () => {
-        expect(
-            createNewOption({ label: 'Label Name', labelKey: 'key', valueKey: 'value' })
-        ).toMatchSnapshot();
     });
 });

@@ -1,11 +1,11 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { NewOptionCreatorHandler } from 'react-select';
+import { AsyncCreatable } from 'react-select';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import SelectSearch from '~/components/form/select/SelectSearch';
 import { CreateOptions } from '~/flowTypes';
 import { Asset, Assets } from '~/services/AssetService';
-import { getSelectClassForEntry, isOptionUnique, isValidNewOption } from '~/utils';
+import { getSelectClassForEntry } from '~/utils';
 
 export interface SelectAssetElementProps extends FormElementProps {
     endpoint?: string;
@@ -14,7 +14,7 @@ export interface SelectAssetElementProps extends FormElementProps {
 
     add?: boolean;
     searchable: boolean;
-    onCreateOption?: NewOptionCreatorHandler;
+    onCreateOption?: any;
     createPrompt?: string;
     clearable?: boolean;
     notFoundText?: string;
@@ -38,14 +38,15 @@ export default class SelectAssetElement extends React.Component<SelectAssetEleme
         }
     }
 
+    private handleFilter(input: string): any[] {
+        return [];
+    }
     public render(): JSX.Element {
         const createOptions: CreateOptions = {};
 
         if (this.props.add) {
             createOptions.createNewOption = this.props.onCreateOption;
             createOptions.createPrompt = this.props.createPrompt || 'New: ';
-            createOptions.isValidNewOption = isValidNewOption;
-            createOptions.isOptionUnique = isOptionUnique;
         }
 
         return (
@@ -54,6 +55,20 @@ export default class SelectAssetElement extends React.Component<SelectAssetEleme
                 entry={this.props.entry}
                 showLabel={this.props.showLabel}
             >
+                <AsyncCreatable
+                    placeholder={this.props.placeholder}
+                    isSearchable={this.props.searchable}
+                    cacheOptions={true}
+                    defaultOptions={[]}
+                    loadOptions={(input: string) =>
+                        new Promise(resolve => {
+                            setTimeout(() => {
+                                resolve(this.handleFilter(input));
+                            }, 1000);
+                        })
+                    }
+                />
+
                 <SelectSearch
                     __className={getSelectClassForEntry(this.props.entry)}
                     onChange={this.handleChanged}

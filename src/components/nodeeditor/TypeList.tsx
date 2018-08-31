@@ -40,13 +40,12 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                 <p>When a contact arrives at this point in your flow...</p>
                 <div>
                     <Select
-                        joinValues={true}
                         value={this.state.config}
                         onChange={this.handleChangeType}
-                        valueKey="type"
-                        searchable={false}
-                        clearable={false}
-                        labelKey="description"
+                        isSearchable={false}
+                        isClearable={false}
+                        getOptionValue={(option: Type) => option.type}
+                        getOptionLabel={(option: Type) => option.description}
                         options={configsToDisplay}
                     />
                 </div>

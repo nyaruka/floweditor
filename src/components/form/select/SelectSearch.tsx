@@ -1,18 +1,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as isEqual from 'fast-deep-equal';
 import * as React from 'react';
-import Select, {
-    Async,
-    AsyncCreatable,
-    AutocompleteResult,
-    IsOptionUniqueHandler,
-    IsValidNewOptionHandler,
-    NewOptionCreatorHandler
-} from 'react-select';
-import SelectOption from '~/components/form/select/SelectOption';
-import SelectValue from '~/components/form/select/SelectValue';
 import { CreateOptions } from '~/flowTypes';
-import { Asset, Assets, AssetSearchResult, removeAsset } from '~/services/AssetService';
+import { Asset, Assets } from '~/services/AssetService';
 
 export interface SelectSearchProps {
     name?: string;
@@ -28,9 +18,9 @@ export interface SelectSearchProps {
     __className?: string;
     createPrompt?: string;
     onChange?(selections: Asset[]): void;
-    isValidNewOption?: IsValidNewOptionHandler;
-    isOptionUnique?: IsOptionUniqueHandler;
-    createNewOption?: NewOptionCreatorHandler;
+    isValidNewOption?: any;
+    isOptionUnique?: any;
+    createNewOption?: any;
     sortFunction?(a: Asset, b: Asset): number;
 }
 
@@ -115,6 +105,7 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
         return newResults;
     }
 
+    /*
     public search(term: string): Promise<AutocompleteResult> {
         let combined: Asset[] = [];
         if (this.props.localSearchOptions) {
@@ -162,6 +153,7 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
     ): void {
         this.search(input).then((result: AutocompleteResult) => callback(null, result));
     }
+    */
 
     private filterOption(option: Asset, term: string): boolean {
         return option.name && option.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
@@ -204,7 +196,8 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
         if (this.props.isOptionUnique) {
             createOptions.isOptionUnique = this.props.isOptionUnique;
         }
-
+        return <div>SelectSearch</div>;
+        /*
         if (this.props.createNewOption) {
             return (
                 <AsyncCreatable
@@ -261,6 +254,6 @@ export default class SelectSearch extends React.Component<SelectSearchProps, Sel
                     {...createOptions}
                 />
             );
-        }
+        }*/
     }
 }

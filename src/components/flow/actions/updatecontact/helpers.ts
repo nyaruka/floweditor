@@ -18,7 +18,6 @@ import {
 } from '~/flowTypes';
 import { Asset, AssetType, removeAsset } from '~/services/AssetService';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-import { composeCreateNewOption, snakify } from '~/utils';
 
 export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormState => {
     const state: UpdateContactFormState = {
@@ -175,7 +174,7 @@ export const channelToAsset = ({ uuid, name }: Channel) => {
     };
 };
 
-export const createNewOption = composeCreateNewOption({
+/* export const createNewOption = composeCreateNewOption({
     idCb: label => snakify(label),
     type: AssetType.Field
-});
+});*/

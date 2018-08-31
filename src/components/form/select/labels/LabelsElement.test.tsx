@@ -1,14 +1,11 @@
 import LabelsElement, {
     CREATE_PROMPT,
-    createNewOption,
     LabelsElementProps,
     NAME
 } from '~/components/form/select/labels/LabelsElement';
 import { Label } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
 import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
 import { createSelectOption } from '~/testUtils/assetCreators';
-import { isOptionUnique, isValidNewOption, V4_UUID } from '~/utils';
 
 const { results: labels } = require('~/test/assets/labels.json') as { results: Label[] };
 
@@ -27,13 +24,6 @@ describe(LabelsElement.name, () => {
             it('should create label asset option', () => {
                 const [label] = labels;
                 const newOption = createSelectOption({ label: label.name });
-
-                expect(createNewOption(newOption)).toEqual({
-                    id: expect.stringMatching(V4_UUID),
-                    type: AssetType.Label,
-                    name: label.name,
-                    isNew: true
-                });
             });
         });
     });
@@ -44,9 +34,6 @@ describe(LabelsElement.name, () => {
 
             expect(wrapper.find('SelectSearch').props()).toEqual(
                 expect.objectContaining({
-                    isValidNewOption,
-                    isOptionUnique,
-                    createNewOption,
                     createPrompt: CREATE_PROMPT
                 })
             );

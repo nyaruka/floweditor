@@ -4,6 +4,7 @@ import { Creatable as SelectCreatable } from 'react-select';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { StringArrayEntry } from '~/store/nodeEditor';
 import { getSelectClass } from '~/utils';
+import { tagging } from '~/utils/reactselect';
 
 export type TagList = Array<{ label: string; value: string }>;
 
@@ -62,19 +63,15 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
         return (
             <FormElement name={this.props.name} entry={this.props.entry}>
                 <SelectCreatable
-                    joinValues={true}
+                    styles={tagging}
                     className={className}
                     name={this.props.name}
                     placeholder={this.props.placeholder}
                     value={tags}
                     onChange={this.handleUpdateTags}
-                    multi={true}
-                    searchable={true}
-                    clearable={false}
-                    noResultsText={this.props.prompt}
-                    isValidNewOption={this.handleCheckValid}
-                    promptTextCreator={this.handleValidPrompt}
-                    arrowRenderer={this.arrowRenderer}
+                    isMulti={true}
+                    isSearchable={true}
+                    noOptionsMessage={() => this.props.prompt}
                     options={[]}
                 />
             </FormElement>

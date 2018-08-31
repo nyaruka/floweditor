@@ -1,9 +1,3 @@
-import {
-    IsOptionUniqueHandler,
-    IsValidNewOptionHandler,
-    NewOptionCreatorHandler,
-    PromptTextCreatorHandler
-} from 'react-select';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
@@ -309,11 +303,11 @@ export enum ValueType {
 }
 
 export interface CreateOptions {
-    promptTextCreator?: PromptTextCreatorHandler;
-    newOptionCreator?: NewOptionCreatorHandler;
-    isValidNewOption?: IsValidNewOptionHandler;
-    isOptionUnique?: IsOptionUniqueHandler;
-    createNewOption?: NewOptionCreatorHandler;
+    promptTextCreator?: any;
+    newOptionCreator?: any;
+    isValidNewOption?: any;
+    isOptionUnique?: any;
+    createNewOption?: any;
     createPrompt?: string;
 }
 

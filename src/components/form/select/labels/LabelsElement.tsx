@@ -2,15 +2,8 @@ import * as React from 'react';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import SelectSearch from '~/components/form/select/SelectSearch';
 import { CreateOptions } from '~/flowTypes';
-import { Asset, Assets, AssetType } from '~/services/AssetService';
-import {
-    composeCreateNewOption,
-    getSelectClassForEntry,
-    isOptionUnique,
-    isValidNewOption,
-    LabelIdCb,
-    createUUID
-} from '~/utils';
+import { Asset, Assets } from '~/services/AssetService';
+import { createUUID, getSelectClassForEntry, LabelIdCb } from '~/utils';
 
 export interface LabelsElementProps extends FormElementProps {
     assets: Assets;
@@ -31,11 +24,6 @@ export const CREATE_PROMPT = 'New label: ';
 
 export const labelIdCb: LabelIdCb = () => createUUID();
 
-export const createNewOption = composeCreateNewOption({
-    idCb: labelIdCb,
-    type: AssetType.Label
-});
-
 export default class LabelsElement extends React.Component<LabelsElementProps, LabelsElementState> {
     public static defaultProps = {
         name: NAME,
@@ -50,9 +38,6 @@ export default class LabelsElement extends React.Component<LabelsElementProps, L
 
     public render(): JSX.Element {
         const createOptions: CreateOptions = {
-            isValidNewOption,
-            isOptionUnique,
-            createNewOption,
             createPrompt: CREATE_PROMPT
         };
 

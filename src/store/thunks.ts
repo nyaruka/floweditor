@@ -763,7 +763,8 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     const {
         flowContext: {
             nodes,
-            results: { resultMap }
+            results: { resultMap },
+            assets
         },
         nodeEditor: {
             settings: { originalNode, originalAction }
@@ -792,6 +793,9 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         resultsToUpdate[renderNode.node.uuid] = generateResultQuery(
             renderNode.node.router.result_name
         );
+
+        const updatedAssets = mutators.addFlowResult(assets, renderNode.node.router.result_name);
+        dispatch(updateAssets(updatedAssets));
     } else {
         delete resultsToUpdate[renderNode.node.uuid];
     }

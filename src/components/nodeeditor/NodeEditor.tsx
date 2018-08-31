@@ -8,7 +8,7 @@ import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { IncrementSuggestedResultNameCount, UpdateUserAddingAction } from '~/store/actionTypes';
-import { incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
+import { AssetStore, incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, updateUserAddingAction } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
@@ -38,6 +38,7 @@ export interface NodeEditorPassedProps {
 }
 
 export interface NodeEditorStoreProps {
+    assets: AssetStore;
     language: Asset;
     definition: FlowDefinition;
     translating: boolean;
@@ -61,6 +62,8 @@ export interface FormProps {
     // our two ways of updating
     updateRouter(renderNode: RenderNode): void;
     updateAction(action: AnyAction): void;
+
+    assets: AssetStore;
 
     nodeSettings?: NodeEditorSettings;
     typeConfig?: Type;
@@ -145,6 +148,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
             const { form: Form } = typeConfig;
             const formProps: FormProps = {
+                assets: this.props.assets,
                 updateAction: this.updateAction,
                 updateRouter: this.updateRouter,
                 nodeSettings: this.props.settings,
@@ -168,7 +172,8 @@ const mapStateToProps = ({
     flowContext: {
         definition,
         nodes,
-        results: { suggestedNameCount }
+        results: { suggestedNameCount },
+        assets
     },
     editorState: { language, translating },
     nodeEditor: { typeConfig, settings }
@@ -179,7 +184,8 @@ const mapStateToProps = ({
     translating,
     typeConfig,
     suggestedNameCount,
-    settings
+    settings,
+    assets
 });
 
 /* istanbul ignore next */

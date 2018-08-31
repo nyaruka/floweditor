@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import {
-    createNewOption,
     initializeForm,
     sortFieldsAndProperties,
     stateToAction
@@ -257,7 +256,7 @@ export default class UpdateContactForm extends React.Component<
                     sortFunction={sortFieldsAndProperties}
                     onChange={this.handlePropertyChange}
                     add={true}
-                    onCreateOption={createNewOption}
+                    // onCreateOption={createNewOption}
                 />
 
                 <div className={styles.value}>{this.getValueWidget()}</div>

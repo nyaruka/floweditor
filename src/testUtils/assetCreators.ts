@@ -341,6 +341,7 @@ export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => (
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
     typeConfig: determineTypeConfig({ originalNode: renderNode }),
+    assets: {},
     nodeSettings: {
         originalNode: renderNode,
         originalAction: null
