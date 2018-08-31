@@ -12,6 +12,12 @@ exports[`SelectAssetElement can be configured to add options 1`] = `
   }
   name="Flow"
 >
+  <Async
+    cacheOptions={true}
+    defaultOptions={Array []}
+    isSearchable={true}
+    loadOptions={[Function]}
+  />
   <SelectSearch
     __className=""
     assets={null}
@@ -24,8 +30,6 @@ exports[`SelectAssetElement can be configured to add options 1`] = `
         },
       ]
     }
-    isOptionUnique={[Function]}
-    isValidNewOption={[Function]}
     multi={false}
     name="Flow"
     onChange={[Function]}
@@ -48,6 +52,12 @@ exports[`SelectAssetElement renders 1`] = `
   }
   name="Flow"
 >
+  <Async
+    cacheOptions={true}
+    defaultOptions={Array []}
+    isSearchable={true}
+    loadOptions={[Function]}
+  />
   <SelectSearch
     __className=""
     assets={null}

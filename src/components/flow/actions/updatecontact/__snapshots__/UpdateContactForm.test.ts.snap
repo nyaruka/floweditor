@@ -79,7 +79,6 @@ exports[`UpdateContactForm render initial for channel 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
-    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -211,7 +210,6 @@ exports[`UpdateContactForm render initial for field 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
-    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -313,7 +311,6 @@ exports[`UpdateContactForm render initial for language 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
-    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -429,7 +426,6 @@ exports[`UpdateContactForm render initial for name 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
-    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -531,7 +527,6 @@ exports[`UpdateContactForm render should render an empty form with different act
     }
     name="Contact Field"
     onChange={[Function]}
-    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -633,7 +628,6 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
     }
     name="Contact Field"
     onChange={[Function]}
-    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />

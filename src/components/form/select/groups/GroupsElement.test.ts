@@ -1,7 +1,6 @@
 import GroupsElement, {
     GROUP_NOT_FOUND,
     GROUP_PLACEHOLDER,
-    GROUP_PROMPT,
     GroupsElementProps
 } from '~/components/form/select/groups/GroupsElement';
 import { composeComponentTestUtils, configProviderContext } from '~/testUtils';
@@ -39,10 +38,6 @@ describe(GroupsElement.name, () => {
         it("should pass createOptions object if it's add prop is true", () => {
             const { wrapper, instance } = setup(true, { add: { $set: true } });
             const selectSearch = wrapper.find('SelectSearch');
-
-            expect(selectSearch.prop('isValidNewOption')).toEqual(expect.any(Function));
-            expect(selectSearch.prop('createNewOption')).toEqual(expect.any(Function));
-            expect(selectSearch.prop('createPrompt')).toBe(GROUP_PROMPT);
             expect(wrapper).toMatchSnapshot();
         });
     });

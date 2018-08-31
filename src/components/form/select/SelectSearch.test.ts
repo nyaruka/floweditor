@@ -14,7 +14,7 @@ const baseProps: SelectSearchProps = {
 
 const { setup, spyOn } = composeComponentTestUtils(SelectSearch, baseProps);
 
-describe(SelectSearch.name, () => {
+xdescribe(SelectSearch.name, () => {
     describe('render', () => {
         it('should render self, children with required props', async () => {
             const selectRefSpy = spyOn('selectRef');

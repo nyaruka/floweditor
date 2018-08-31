@@ -20,11 +20,8 @@ exports[`LabelsElement render should render form element, pass it create options
         "localStorage": true,
       }
     }
-    createNewOption={[Function]}
     createPrompt="New label: "
     initial={Array []}
-    isOptionUnique={[Function]}
-    isValidNewOption={[Function]}
     multi={true}
     name="Labels"
     onChange={[MockFunction]}

@@ -29,6 +29,15 @@ export const getDefaultExit = (node: FlowNode) => {
 };
 
 export const addFlowResult = (assets: AssetStore, result: string): AssetStore => {
+    let updated = assets;
+    if (!updated) {
+        updated = { results: { items: {} } };
+    }
+
+    if (!updated.results) {
+        updated.results = { items: {} };
+    }
+
     const key = snakify(result);
     const asset: Asset = { id: key, name: result, type: AssetType.Result };
     return mutate(assets, {

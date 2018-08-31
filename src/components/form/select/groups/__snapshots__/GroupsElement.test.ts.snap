@@ -15,11 +15,8 @@ exports[`GroupsElement render should pass createOptions object if it's add prop 
         "localStorage": true,
       }
     }
-    createNewOption={[Function]}
     createPrompt="New group: "
     initial={Array []}
-    isOptionUnique={[Function]}
-    isValidNewOption={[Function]}
     multi={true}
     name="Groups"
     onChange={[Function]}

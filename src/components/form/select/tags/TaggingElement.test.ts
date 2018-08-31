@@ -1,5 +1,5 @@
-import { composeComponentTestUtils } from '~/testUtils';
 import TaggingElement, { TaggingElementProps } from '~/components/form/select/tags/TaggingElement';
+import { composeComponentTestUtils } from '~/testUtils';
 
 const taggingElementProps: TaggingElementProps = {
     entry: { value: ['Red', 'Green', 'Blue'] },
@@ -21,9 +21,9 @@ describe(TaggingElement.name, () => {
             const { wrapper } = setup(false);
 
             const text = wrapper.text();
-            expect(text).toContain('×Red');
-            expect(text).toContain('×Green');
-            expect(text).toContain('×Blue');
+            expect(text).toContain('Red');
+            expect(text).toContain('Green');
+            expect(text).toContain('Blue');
             expect(text).toMatchSnapshot();
         });
     });
