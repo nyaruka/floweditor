@@ -129,7 +129,6 @@ export default class MsgLocalizationForm extends React.Component<
                                 prompt="Enter a Quick Reply"
                                 onChange={this.handleQuickRepliesUpdate}
                                 onCheckValid={() => true}
-                                onValidPrompt={(value: string) => `New Reply "${value}"`}
                                 entry={this.state.quickReplies}
                             />
                         </Dialog>

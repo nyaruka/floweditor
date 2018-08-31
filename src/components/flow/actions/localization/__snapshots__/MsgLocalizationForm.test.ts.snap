@@ -24,7 +24,6 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
         name="Replies"
         onChange={[Function]}
         onCheckValid={[Function]}
-        onValidPrompt={[Function]}
         placeholder="Quick Replies"
         prompt="Enter a Quick Reply"
       />
@@ -101,7 +100,6 @@ exports[`MsgLocalizationForm render should render 1`] = `
         name="Replies"
         onChange={[Function]}
         onCheckValid={[Function]}
-        onValidPrompt={[Function]}
         placeholder="Quick Replies"
         prompt="Enter a Quick Reply"
       />

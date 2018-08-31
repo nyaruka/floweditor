@@ -21,7 +21,9 @@ describe(SendEmailForm.name, () => {
 
     describe('updates', () => {
         it('should save changes', () => {
-            const { instance, props } = setup(true);
+            const component = setup(true);
+            const instance: SendEmailForm = component.instance;
+            const props: Partial<ActionFormProps> = component.props;
 
             instance.handleRecipientsChanged(['joe@domain.com', 'jane@domain.com']);
             instance.handleSubjectChanged('URGENT: I have a question');
@@ -35,24 +37,22 @@ describe(SendEmailForm.name, () => {
         });
 
         it('should validate emails', () => {
-            const { instance } = setup(true);
+            const component = setup(true);
+            const instance: SendEmailForm = component.instance;
+
             expect(instance.handleCheckValid('invalid')).toBeFalsy();
             expect(instance.handleCheckValid('invalid@')).toBeFalsy();
             expect(instance.handleCheckValid('valid@domain.com')).toBeTruthy();
         });
 
-        it('should have an email prompt', () => {
-            const { instance } = setup(true);
-            expect(instance.handleValidPrompt('joe@domain.com')).toBe(
-                'Send email to joe@domain.com'
-            );
-        });
-
         it('should allow switching from router', () => {
-            const { instance, props } = setup(true, {
+            const component = setup(true, {
                 $merge: { updateAction: jest.fn() },
                 nodeSettings: { $merge: { originalAction: null } }
             });
+
+            const instance: SendEmailForm = component.instance;
+            const props: Partial<ActionFormProps> = component.props;
 
             instance.handleRecipientsChanged(['joe@domain.com', 'jane@domain.com']);
             instance.handleSubjectChanged('URGENT: I have a question');
@@ -65,9 +65,12 @@ describe(SendEmailForm.name, () => {
 
     describe('cancel', () => {
         it('should cancel without changes', () => {
-            const { instance, props } = setup(true, {
+            const component = setup(true, {
                 $merge: { onClose: jest.fn(), updateAction: jest.fn() }
             });
+
+            const instance: SendEmailForm = component.instance;
+            const props: Partial<ActionFormProps> = component.props;
 
             instance.handleRecipientsChanged(['joe@domain.com']);
             instance.handleSubjectChanged('Bad mojo');

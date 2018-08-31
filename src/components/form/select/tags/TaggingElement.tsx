@@ -12,7 +12,6 @@ export interface TaggingElementProps extends FormElementProps {
     placeholder?: string;
     prompt: string;
     onChange?: (values: string[]) => void;
-    onValidPrompt: (value: string) => string;
     onCheckValid: (value: string) => boolean;
 }
 
@@ -39,11 +38,7 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
         }
     }
 
-    public handleValidPrompt(value: string): string {
-        return this.props.onValidPrompt(value);
-    }
-
-    public handleCheckValid({ label }: { label: string }): boolean {
+    public handleCheckValid(label: string): boolean {
         if (!label || label.trim().length === 0) {
             return false;
         }
@@ -71,6 +66,7 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
                     onChange={this.handleUpdateTags}
                     isMulti={true}
                     isSearchable={true}
+                    isValidNewOption={this.handleCheckValid}
                     noOptionsMessage={() => this.props.prompt}
                     options={[]}
                 />

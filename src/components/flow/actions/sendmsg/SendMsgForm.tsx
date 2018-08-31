@@ -126,7 +126,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                             prompt="Enter a Quick Reply"
                             onChange={this.handleQuickRepliesUpdate}
                             onCheckValid={() => true}
-                            onValidPrompt={(value: string) => `New Reply "${value}"`}
                             entry={this.state.quickReplies}
                         />
                         <CheckboxElement
