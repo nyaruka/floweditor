@@ -2,23 +2,25 @@
 
 exports[`LanguageSelector render should render select control: asset selector 1`] = `
 Object {
-  "assets": Array [
-    Object {
-      "id": "eng",
-      "name": "English",
-      "type": "language",
+  "assets": Object {
+    "items": Object {
+      "eng": Object {
+        "id": "eng",
+        "name": "English",
+        "type": "language",
+      },
+      "fra": Object {
+        "id": "fra",
+        "name": "French",
+        "type": "language",
+      },
+      "spa": Object {
+        "id": "spa",
+        "name": "Spanish",
+        "type": "language",
+      },
     },
-    Object {
-      "id": "spa",
-      "name": "Spanish",
-      "type": "language",
-    },
-    Object {
-      "id": "fra",
-      "name": "French",
-      "type": "language",
-    },
-  ],
+  },
   "entry": Object {
     "value": Object {
       "id": "eng",
@@ -45,23 +47,25 @@ exports[`LanguageSelector render should render select control: language selector
 >
   <AssetSelector
     assets={
-      Array [
-        Object {
-          "id": "eng",
-          "name": "English",
-          "type": "language",
+      Object {
+        "items": Object {
+          "eng": Object {
+            "id": "eng",
+            "name": "English",
+            "type": "language",
+          },
+          "fra": Object {
+            "id": "fra",
+            "name": "French",
+            "type": "language",
+          },
+          "spa": Object {
+            "id": "spa",
+            "name": "Spanish",
+            "type": "language",
+          },
         },
-        Object {
-          "id": "spa",
-          "name": "Spanish",
-          "type": "language",
-        },
-        Object {
-          "id": "fra",
-          "name": "French",
-          "type": "language",
-        },
-      ]
+      }
     }
     entry={
       Object {

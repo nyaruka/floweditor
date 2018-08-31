@@ -154,7 +154,8 @@ describe('utils', () => {
 
     describe('getLocalizations', () => {
         it('should return a localized object', () => {
-            languages.forEach((languageAsset: any) => {
+            Object.keys(languages.items).forEach((key: string) => {
+                const languageAsset = languages.items[key];
                 expect(
                     getLocalization(
                         sendMsgAction,

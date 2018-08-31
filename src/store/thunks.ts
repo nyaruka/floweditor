@@ -882,7 +882,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const node = renderNode.node;
 
     // stuff our localization objects in our settings
-    settings.languages = assets.languages;
     settings.localizations = [];
     if (translating) {
         let actionToTranslate = action;

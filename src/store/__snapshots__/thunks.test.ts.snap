@@ -258,7 +258,6 @@ Array [
   Object {
     "payload": Object {
       "settings": Object {
-        "languages": Array [],
         "localizations": Array [],
         "originalNode": Object {
           "inboundConnections": Object {

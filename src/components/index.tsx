@@ -120,7 +120,6 @@ const mapStateToProps = ({
 }: AppState) => {
     const languages = assets ? assets.languages : null;
 
-    console.log(languages);
     return {
         translating,
         language,

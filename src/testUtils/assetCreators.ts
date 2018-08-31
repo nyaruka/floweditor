@@ -38,7 +38,8 @@ import {
     WebhookExitNames
 } from '~/flowTypes';
 import { AssetType } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
+import { Assets, RenderNode } from '~/store/flowContext';
+import { assetListToMap } from '~/store/helpers';
 import { capitalize, createUUID } from '~/utils';
 
 const { results: groupsResults } = require('~/test/assets/groups.json');
@@ -597,4 +598,8 @@ export const ColorFlowAsset = {
 
 export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: AssetType.Label };
 
-export const languages = languagesResults.results.map((language: any) => languageToAsset(language));
+export const languages: Assets = {
+    items: assetListToMap(
+        languagesResults.results.map((language: any) => languageToAsset(language))
+    )
+};
