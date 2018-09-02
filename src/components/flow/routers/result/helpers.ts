@@ -58,7 +58,6 @@ export const stateToNode = (
         optionalRouter.result_name = state.resultName.value;
     }
 
-    console.log(state);
     let operand = DEFAULT_OPERAND;
     const asset = state.result.value;
     if (asset.type === AssetType.URN) {
