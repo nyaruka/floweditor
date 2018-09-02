@@ -37,33 +37,21 @@ exports[`SubflowRouterForm render should render 1`] = `
     }
     onChange={[MockFunction]}
   />
-  <p>
-    <SelectAssetElement
-      assets={
-        FlowAssets {
-          "assetType": "flow",
-          "assets": Object {},
-          "endpoint": "/assets/flows.json",
-          "idProperty": "uuid",
-          "localStorage": true,
-        }
+  <AssetSelector
+    entry={
+      Object {
+        "value": Object {
+          "id": "da795777-db05-438c-a24a-1880b7f7a95f",
+          "name": "Colors",
+          "type": "flow",
+        },
       }
-      entry={
-        Object {
-          "value": Object {
-            "id": "da795777-db05-438c-a24a-1880b7f7a95f",
-            "name": "Colors",
-            "type": "flow",
-          },
-        }
-      }
-      key="flow_select"
-      name="Flow"
-      onChange={[Function]}
-      placeholder="Select the flow to enter"
-      searchable={true}
-    />
-  </p>
+    }
+    name="Flow"
+    onChange={[Function]}
+    placeholder="Select a flow to start"
+    searchable={true}
+  />
 </Dialog>
 `;
 

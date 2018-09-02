@@ -179,6 +179,11 @@ export const initializeFlow = (
                 items: assetListToMap(currentLanguages),
                 id: 'iso'
             },
+            flows: {
+                endpoint: assetService.getFlowAssets().endpoint,
+                type: AssetType.Group,
+                items: {} // TODO: flow components should include flows
+            },
             groups: {
                 endpoint: assetService.getGroupAssets().endpoint,
                 type: AssetType.Group,

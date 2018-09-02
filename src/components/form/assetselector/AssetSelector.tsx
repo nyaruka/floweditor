@@ -67,7 +67,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
     }
 
     public handleLoadOptions(input: string, callback: CallbackFunction): void {
-        const matches = this.handleFilter(input);
+        const matches = this.handleLocalSearch(input);
 
         // then query against our endpoint to add to that list
         const assets = this.props.assets;
@@ -99,7 +99,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
         return asset.name.toLowerCase().includes(input);
     }
 
-    public handleFilter(inputValue: string): Asset[] {
+    public handleLocalSearch(inputValue: string): Asset[] {
         const search = inputValue.toLowerCase();
         return Object.keys(this.props.assets.items)
             .map(key => this.props.assets.items[key])
@@ -122,6 +122,14 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
     }
 
     public render(): JSX.Element {
+        // the default options should be true if there is an endpoint
+        let defaultOptions: any = this.props.assets.endpoint !== undefined;
+
+        // or it should be a list of local assets from an empty search
+        if (!defaultOptions) {
+            defaultOptions = this.handleLocalSearch('');
+        }
+
         return (
             <FormElement
                 name={this.props.name}
@@ -133,7 +141,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
                     value={this.props.entry.value}
                     components={{ Option: AssetOption }}
                     styles={this.props.styles}
-                    defaultOptions={true}
+                    defaultOptions={defaultOptions}
                     cacheOptions={true}
                     loadOptions={this.handleLoadOptions}
                     onChange={this.handleChanged}
