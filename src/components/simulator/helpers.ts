@@ -4,15 +4,13 @@ import { assetMapToList } from '~/store/helpers';
 import { createUUID } from '~/utils';
 
 const SIMULATOR_CHANNEL = {
-    id: createUUID(),
+    uuid: createUUID(),
     name: 'Simulator',
-    type: AssetType.Channel,
-    content: {
-        address: '+12065550000',
-        schemes: ['tel'],
-        roles: ['send', 'receive']
-    }
+    address: '+12065550000',
+    schemes: ['tel'],
+    roles: ['send', 'receive']
 };
+
 interface SimAsset {
     type: AssetType;
     url: string;
@@ -52,7 +50,7 @@ export const getSimulationAssets = (assets: AssetStore, flow: FlowDefinition): a
 
     simAssets.push({
         type: AssetType.Flow,
-        url: assets.flows.endpoint + `/${flow.uuid}/`,
+        url: assets.flows.endpoint + `${flow.uuid}/`,
         content: flow
     });
 

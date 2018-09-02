@@ -3,7 +3,7 @@ import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
-import { getAssets, getFlow } from '~/external';
+import { getAssets, getFlow, getURL } from '~/external';
 import {
     Action,
     AnyAction,
@@ -175,34 +175,34 @@ export const initializeFlow = (
     dispatch(
         updateAssets({
             channels: {
-                endpoint: endpoints.channels,
+                endpoint: getURL(endpoints.channels),
                 type: AssetType.Channel,
                 items: {} // TODO: flow components should include channels
             },
             languages: {
-                endpoint: endpoints.languages,
+                endpoint: getURL(endpoints.languages),
                 type: AssetType.Language,
                 items: assetListToMap(currentLanguages),
                 id: 'iso'
             },
             flows: {
-                endpoint: endpoints.flows,
+                endpoint: getURL(endpoints.flows),
                 type: AssetType.Flow,
                 items: {} // TODO: flow components should include flows
             },
             fields: {
-                endpoint: endpoints.fields,
+                endpoint: getURL(endpoints.fields),
                 type: AssetType.Field,
                 id: 'key',
                 items: assetListToMap(flowComponents.fields)
             },
             groups: {
-                endpoint: endpoints.groups,
+                endpoint: getURL(endpoints.groups),
                 type: AssetType.Group,
                 items: groups
             },
             labels: {
-                endpoint: endpoints.labels,
+                endpoint: getURL(endpoints.labels),
                 type: AssetType.Label,
                 items: assetListToMap(flowComponents.labels)
             },
@@ -211,7 +211,7 @@ export const initializeFlow = (
                 items: flowComponents.resultsMap
             },
             recipients: {
-                endpoint: endpoints.recipients,
+                endpoint: getURL(endpoints.recipients),
                 type: AssetType.Contact || AssetType.Group || AssetType.URN,
                 items: groups
             }

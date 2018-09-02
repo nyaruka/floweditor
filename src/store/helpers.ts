@@ -291,8 +291,11 @@ export const assetListToMap = (assets: Asset[]): AssetMap => {
     return assetMap;
 };
 
-export const assetMapToList = (assets: AssetMap): Asset[] => {
-    return Object.keys(assets).map(key => assets[key]);
+export const assetMapToList = (assets: AssetMap): any[] => {
+    return Object.keys(assets).map(key => {
+        const asset = assets[key];
+        return { uuid: asset.id, name: asset.name };
+    });
 };
 
 /**

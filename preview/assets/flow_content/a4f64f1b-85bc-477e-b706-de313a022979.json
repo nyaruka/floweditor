@@ -1,6 +1,7 @@
 {
   "name": "Colors",
   "language": "eng",
+  "type": "messaging",
   "uuid": "a4f64f1b-85bc-477e-b706-de313a022979",
   "localization": {},
   "nodes": [
