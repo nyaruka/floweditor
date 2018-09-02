@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Contact, Group, RecipientsAction } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
+import { Asset, AssetType } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
 

@@ -12,11 +12,10 @@ import reducer, {
     updateBaseLanguage,
     updateDefinition,
     updateDependencies,
-    updateLanguages,
     updateNodes,
     updateResultMap
 } from '~/store/flowContext';
-import { English, Spanish } from '~/testUtils/assetCreators';
+import { English } from '~/testUtils/assetCreators';
 
 const boringFlow = require('~/test/flows/boring.json') as FlowDefinition;
 const emptyFlow = require('~/test/flows/empty.json') as FlowDefinition;
@@ -86,20 +85,6 @@ describe('flowContext action creators', () => {
             };
 
             expect(updateBaseLanguage(English)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateLanguages', () => {
-        it('should create an action to update base language', () => {
-            const languages = [English, Spanish];
-            const expectedAction = {
-                type: Constants.UPDATE_LANGUAGES,
-                payload: {
-                    languages
-                }
-            };
-
-            expect(updateLanguages(languages)).toEqual(expectedAction);
         });
     });
 });

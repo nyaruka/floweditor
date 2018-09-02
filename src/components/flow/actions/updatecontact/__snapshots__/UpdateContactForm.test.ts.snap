@@ -38,27 +38,8 @@ exports[`UpdateContactForm render initial for channel 1`] = `
   <p>
     Select what to update
   </p>
-  <SelectAssetElement
-    add={true}
-    assets={
-      FieldAssets {
-        "assetType": "field",
-        "assets": Object {},
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "localStorage": true,
-      }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "channel",
-          "name": "Channel",
-          "type": "property",
-        },
-      }
-    }
-    localSearchOptions={
+  <AssetSelector
+    additionalOptions={
       Array [
         Object {
           "id": "name",
@@ -77,6 +58,15 @@ exports[`UpdateContactForm render initial for channel 1`] = `
         },
       ]
     }
+    entry={
+      Object {
+        "value": Object {
+          "id": "channel",
+          "name": "Channel",
+          "type": "property",
+        },
+      }
+    }
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
@@ -86,32 +76,7 @@ exports[`UpdateContactForm render initial for channel 1`] = `
   <div
     className="value"
   >
-    <SelectAssetElement
-      assets={
-        ChannelAssets {
-          "assetType": "channel",
-          "assets": Object {
-            "6934255e-446b-40d3-b2ca-c5f801bd2278": Object {
-              "content": Object {
-                "address": "+12065550000",
-                "roles": Array [
-                  "send",
-                  "receive",
-                ],
-                "schemes": Array [
-                  "tel",
-                ],
-              },
-              "id": "6934255e-446b-40d3-b2ca-c5f801bd2278",
-              "name": "Simulator",
-              "type": "channel",
-            },
-          },
-          "endpoint": "/assets/channels.json",
-          "idProperty": "uuid",
-          "localStorage": true,
-        }
-      }
+    <AssetSelector
       clearable={true}
       entry={
         Object {
@@ -122,7 +87,6 @@ exports[`UpdateContactForm render initial for channel 1`] = `
           },
         }
       }
-      key="channel_select"
       name="Channel"
       onChange={[Function]}
       placeholder="Select the channel to use for this contact"
@@ -170,27 +134,8 @@ exports[`UpdateContactForm render initial for field 1`] = `
   <p>
     Select what to update
   </p>
-  <SelectAssetElement
-    add={true}
-    assets={
-      FieldAssets {
-        "assetType": "field",
-        "assets": Object {},
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "localStorage": true,
-      }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "age",
-          "name": "Age",
-          "type": "field",
-        },
-      }
-    }
-    localSearchOptions={
+  <AssetSelector
+    additionalOptions={
       Array [
         Object {
           "id": "name",
@@ -208,6 +153,15 @@ exports[`UpdateContactForm render initial for field 1`] = `
           "type": "property",
         },
       ]
+    }
+    entry={
+      Object {
+        "value": Object {
+          "id": "age",
+          "name": "Age",
+          "type": "field",
+        },
+      }
     }
     name="Contact Field"
     onChange={[Function]}
@@ -272,27 +226,8 @@ exports[`UpdateContactForm render initial for language 1`] = `
   <p>
     Select what to update
   </p>
-  <SelectAssetElement
-    add={true}
-    assets={
-      FieldAssets {
-        "assetType": "field",
-        "assets": Object {},
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "localStorage": true,
-      }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "language",
-          "name": "Language",
-          "type": "property",
-        },
-      }
-    }
-    localSearchOptions={
+  <AssetSelector
+    additionalOptions={
       Array [
         Object {
           "id": "name",
@@ -311,6 +246,15 @@ exports[`UpdateContactForm render initial for language 1`] = `
         },
       ]
     }
+    entry={
+      Object {
+        "value": Object {
+          "id": "language",
+          "name": "Language",
+          "type": "property",
+        },
+      }
+    }
     name="Contact Field"
     onChange={[Function]}
     onCreateOption={[Function]}
@@ -320,16 +264,7 @@ exports[`UpdateContactForm render initial for language 1`] = `
   <div
     className="value"
   >
-    <SelectAssetElement
-      assets={
-        LanguageAssets {
-          "assetType": "language",
-          "assets": Object {},
-          "endpoint": "/assets/languages.json",
-          "idProperty": "iso",
-          "localStorage": true,
-        }
-      }
+    <AssetSelector
       clearable={true}
       entry={
         Object {
@@ -340,7 +275,6 @@ exports[`UpdateContactForm render initial for language 1`] = `
           },
         }
       }
-      key="language_select"
       name="Language"
       onChange={[Function]}
       placeholder="Select the language to use for this contact"
@@ -388,27 +322,8 @@ exports[`UpdateContactForm render initial for name 1`] = `
   <p>
     Select what to update
   </p>
-  <SelectAssetElement
-    add={true}
-    assets={
-      FieldAssets {
-        "assetType": "field",
-        "assets": Object {},
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "localStorage": true,
-      }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-      }
-    }
-    localSearchOptions={
+  <AssetSelector
+    additionalOptions={
       Array [
         Object {
           "id": "name",
@@ -426,6 +341,15 @@ exports[`UpdateContactForm render initial for name 1`] = `
           "type": "property",
         },
       ]
+    }
+    entry={
+      Object {
+        "value": Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      }
     }
     name="Contact Field"
     onChange={[Function]}
@@ -490,27 +414,8 @@ exports[`UpdateContactForm render should render an empty form with different act
   <p>
     Select what to update
   </p>
-  <SelectAssetElement
-    add={true}
-    assets={
-      FieldAssets {
-        "assetType": "field",
-        "assets": Object {},
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "localStorage": true,
-      }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-      }
-    }
-    localSearchOptions={
+  <AssetSelector
+    additionalOptions={
       Array [
         Object {
           "id": "name",
@@ -528,6 +433,15 @@ exports[`UpdateContactForm render should render an empty form with different act
           "type": "property",
         },
       ]
+    }
+    entry={
+      Object {
+        "value": Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      }
     }
     name="Contact Field"
     onChange={[Function]}
@@ -592,27 +506,8 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
   <p>
     Select what to update
   </p>
-  <SelectAssetElement
-    add={true}
-    assets={
-      FieldAssets {
-        "assetType": "field",
-        "assets": Object {},
-        "endpoint": "/assets/fields.json",
-        "idProperty": "key",
-        "localStorage": true,
-      }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "name",
-          "name": "Name",
-          "type": "property",
-        },
-      }
-    }
-    localSearchOptions={
+  <AssetSelector
+    additionalOptions={
       Array [
         Object {
           "id": "name",
@@ -630,6 +525,15 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
           "type": "property",
         },
       ]
+    }
+    entry={
+      Object {
+        "value": Object {
+          "id": "name",
+          "name": "Name",
+          "type": "property",
+        },
+      }
     }
     name="Contact Field"
     onChange={[Function]}
@@ -667,8 +571,8 @@ Object {
   },
   "field": Object {
     "value": Object {
-      "id": "name",
-      "name": "Name",
+      "id": "channel",
+      "name": "Channel",
       "type": "property",
     },
   },
@@ -696,6 +600,7 @@ Array [
     "type": "set_contact_channel",
     "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
   },
+  [Function],
 ]
 `;
 
@@ -706,6 +611,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
   },
+  [Function],
 ]
 `;
 
@@ -746,6 +652,7 @@ Array [
     "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
     "value": "12/25/00",
   },
+  [Function],
 ]
 `;
 
@@ -756,8 +663,8 @@ Object {
   },
   "field": Object {
     "value": Object {
-      "id": "name",
-      "name": "Name",
+      "id": "language",
+      "name": "Language",
       "type": "property",
     },
   },
@@ -782,6 +689,7 @@ Array [
     "type": "set_contact_language",
     "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
   },
+  [Function],
 ]
 `;
 
@@ -796,9 +704,9 @@ Object {
   },
   "field": Object {
     "value": Object {
-      "id": "age",
-      "name": "Age",
-      "type": "field",
+      "id": "channel",
+      "name": "Channel",
+      "type": "property",
     },
   },
   "fieldValue": Object {
@@ -822,6 +730,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -858,6 +767,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -868,9 +778,9 @@ Object {
   },
   "field": Object {
     "value": Object {
-      "id": "age",
-      "name": "Age",
-      "type": "field",
+      "id": "language",
+      "name": "Language",
+      "type": "property",
     },
   },
   "fieldValue": Object {
@@ -894,6 +804,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -904,9 +815,9 @@ Object {
   },
   "field": Object {
     "value": Object {
-      "id": "age",
-      "name": "Age",
-      "type": "field",
+      "id": "name",
+      "name": "Name",
+      "type": "property",
     },
   },
   "fieldValue": Object {
@@ -930,6 +841,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -945,9 +857,9 @@ Object {
   },
   "field": Object {
     "value": Object {
-      "id": "age",
-      "name": "Age",
-      "type": "field",
+      "id": "channel",
+      "name": "Channel",
+      "type": "property",
     },
   },
   "fieldValue": Object {

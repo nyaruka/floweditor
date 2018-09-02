@@ -1,44 +1,92 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LanguageSelector render should render select control 1`] = `
+exports[`LanguageSelector render should render select control: asset selector 1`] = `
+Object {
+  "assets": Object {
+    "items": Object {
+      "eng": Object {
+        "id": "eng",
+        "name": "English",
+        "type": "language",
+      },
+      "fra": Object {
+        "id": "fra",
+        "name": "French",
+        "type": "language",
+      },
+      "spa": Object {
+        "id": "spa",
+        "name": "Spanish",
+        "type": "language",
+      },
+    },
+    "type": "language",
+  },
+  "entry": Object {
+    "value": Object {
+      "id": "eng",
+      "name": "English",
+      "type": "language",
+    },
+  },
+  "name": "Language",
+  "onChange": [Function],
+  "searchable": false,
+  "styles": Object {
+    "control": [Function],
+    "menuList": [Function],
+    "option": [Function],
+  },
+}
+`;
+
+exports[`LanguageSelector render should render select control: language selector 1`] = `
 <div
   className="languageSelector select-small"
   data-spec="language-selector-container"
 >
-  <SelectSearch
-    closeOnSelect={true}
-    initial={
-      Array [
-        Object {
+  <AssetSelector
+    assets={
+      Object {
+        "items": Object {
+          "eng": Object {
+            "id": "eng",
+            "name": "English",
+            "type": "language",
+          },
+          "fra": Object {
+            "id": "fra",
+            "name": "French",
+            "type": "language",
+          },
+          "spa": Object {
+            "id": "spa",
+            "name": "Spanish",
+            "type": "language",
+          },
+        },
+        "type": "language",
+      }
+    }
+    entry={
+      Object {
+        "value": Object {
           "id": "eng",
           "name": "English",
           "type": "language",
         },
-      ]
+      }
     }
-    localSearchOptions={
-      Array [
-        Object {
-          "id": "eng",
-          "name": "English",
-          "type": "language",
-        },
-        Object {
-          "id": "spa",
-          "name": "Spanish",
-          "type": "language",
-        },
-        Object {
-          "id": "fra",
-          "name": "French",
-          "type": "language",
-        },
-      ]
-    }
-    multi={false}
-    name="Languages"
+    name="Language"
     onChange={[Function]}
     searchable={false}
+    styles={
+      Object {
+        "control": [Function],
+        "menuList": [Function],
+        "option": [Function],
+      }
+    }
   />
 </div>
 `;

@@ -33,18 +33,9 @@ exports[`AddLabelsForm render should render a base action 1`] = `
   <p
     data-spec="label"
   >
-    Select the label(s) to apply to the incoming message.
+    Select the labels to apply to the incoming message.
   </p>
-  <LabelsElement
-    assets={
-      LabelAssets {
-        "assetType": "label",
-        "assets": Object {},
-        "endpoint": "/assets/labels.json",
-        "idProperty": "uuid",
-        "localStorage": true,
-      }
-    }
+  <AssetSelector
     entry={
       Object {
         "value": Array [
@@ -61,11 +52,12 @@ exports[`AddLabelsForm render should render a base action 1`] = `
         ],
       }
     }
+    multi={true}
     name="Labels"
     onChange={[Function]}
+    onCreateOption={[Function]}
     placeholder="Enter the name of an existing label or create a new one"
-    required={true}
-    searchPromptText="Invalid label"
+    searchable={true}
   />
 </Dialog>
 `;
@@ -82,6 +74,7 @@ Array [
     "type": "add_input_labels",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -112,5 +105,6 @@ Array [
     "type": "add_input_labels",
     "uuid": "aa15ef19-da81-43d0-b6e5-84b47216aeb8",
   },
+  [Function],
 ]
 `;

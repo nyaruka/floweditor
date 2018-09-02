@@ -2,13 +2,12 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendbroadcast/helpers';
-import * as broadcastStyles from '~/components/flow/actions/sendbroadcast/SendBroadcast.scss';
 import { ActionFormProps } from '~/components/flow/props';
-import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
@@ -94,15 +93,15 @@ export default class SendBroadcastForm extends React.Component<
                     initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
-                <OmniboxElement
-                    data-spec="recipients"
-                    className={broadcastStyles.recipients}
+                <AssetSelector
                     name="Recipients"
-                    assets={this.context.assetService.getRecipients()}
+                    assets={this.props.assets.recipients}
                     entry={this.state.recipients}
-                    add={true}
+                    searchable={true}
+                    multi={true}
                     onChange={this.handleRecipientsChanged}
                 />
+                <p />
                 <TextInputElement
                     name="Message"
                     showLabel={false}

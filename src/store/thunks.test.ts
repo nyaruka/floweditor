@@ -3,7 +3,6 @@ import { ghost } from '~/components/flow/node/Node.scss';
 import { Operators } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
-import AssetService from '~/services/AssetService';
 import Constants from '~/store/constants';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { getFlowComponents, getNodeWithAction, getUniqueDestinations } from '~/store/helpers';
@@ -69,10 +68,7 @@ describe('Flow Manipulation', () => {
 
     describe('init', () => {
         it('should initialize definition', () => {
-            const assetService = new AssetService(config);
-            const { renderNodeMap, groups, fields } = store.dispatch(
-                initializeFlow(boring, assetService, [])
-            );
+            const { renderNodeMap } = store.dispatch(initializeFlow(boring, config.endpoints, []));
             expect(renderNodeMap).toMatchSnapshot('nodes');
             expect(store).toHaveReduxActions([Constants.UPDATE_NODES]);
         });

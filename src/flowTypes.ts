@@ -1,13 +1,6 @@
-import {
-    IsOptionUniqueHandler,
-    IsValidNewOptionHandler,
-    NewOptionCreatorHandler,
-    PromptTextCreatorHandler
-} from 'react-select';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
-import AssetService from '~/services/AssetService';
 
 export interface Languages {
     [iso: string]: string;
@@ -44,7 +37,6 @@ export interface FlowEditorConfig {
     endpoints: Endpoints;
     flow: string;
     debug?: boolean;
-    assetService?: AssetService;
     path?: string;
 }
 
@@ -309,11 +301,11 @@ export enum ValueType {
 }
 
 export interface CreateOptions {
-    promptTextCreator?: PromptTextCreatorHandler;
-    newOptionCreator?: NewOptionCreatorHandler;
-    isValidNewOption?: IsValidNewOptionHandler;
-    isOptionUnique?: IsOptionUniqueHandler;
-    createNewOption?: NewOptionCreatorHandler;
+    promptTextCreator?: any;
+    newOptionCreator?: any;
+    isValidNewOption?: any;
+    isOptionUnique?: any;
+    createNewOption?: any;
     createPrompt?: string;
 }
 

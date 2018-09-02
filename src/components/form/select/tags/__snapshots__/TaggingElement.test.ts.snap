@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TaggingElement render should render self, children 1`] = `"×Red ×Green ×Blue "`;
+exports[`TaggingElement render should render self, children 1`] = `"RedGreenBlue"`;

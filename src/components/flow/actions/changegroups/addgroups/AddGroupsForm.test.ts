@@ -25,9 +25,12 @@ describe(AddGroupsForm.name, () => {
 
     describe('updates', () => {
         it('should handle updates and save', () => {
-            const { instance, props } = setup();
+            const component = setup();
 
-            instance.handleGroupsChange([SubscribersGroup]);
+            const instance: AddGroupsForm = component.instance;
+            const props: Partial<ActionFormProps> = component.props;
+
+            instance.handleGroupsChanged([SubscribersGroup]);
             instance.handleSave();
 
             expect(props.updateAction).toHaveBeenCalled();
@@ -35,12 +38,15 @@ describe(AddGroupsForm.name, () => {
         });
 
         it('should allow switching from router', () => {
-            const { instance, props } = setup(true, {
+            const component = setup(true, {
                 $merge: { updateAction: jest.fn() },
                 nodeSettings: { $merge: { originalAction: null } }
             });
 
-            instance.handleGroupsChange([SubscribersGroup]);
+            const instance: AddGroupsForm = component.instance;
+            const props: Partial<ActionFormProps> = component.props;
+
+            instance.handleGroupsChanged([SubscribersGroup]);
             instance.handleSave();
             expect(props.updateAction).toMatchSnapshot('switch from router');
         });

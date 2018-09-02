@@ -37,8 +37,8 @@ import {
     WaitTypes,
     WebhookExitNames
 } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
+import { Assets, AssetType, RenderNode } from '~/store/flowContext';
+import { assetListToMap } from '~/store/helpers';
 import { capitalize, createUUID } from '~/utils';
 
 const { results: groupsResults } = require('~/test/assets/groups.json');
@@ -326,6 +326,7 @@ export const createWebhookRouterNode = (): FlowNode => ({
 });
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
+    assets: {},
     updateAction: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
@@ -341,6 +342,7 @@ export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => (
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
     typeConfig: determineTypeConfig({ originalNode: renderNode }),
+    assets: {},
     nodeSettings: {
         originalNode: renderNode,
         originalAction: null
@@ -596,4 +598,9 @@ export const ColorFlowAsset = {
 
 export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: AssetType.Label };
 
-export const languages = languagesResults.results.map((language: any) => languageToAsset(language));
+export const languages: Assets = {
+    items: assetListToMap(
+        languagesResults.results.map((language: any) => languageToAsset(language))
+    ),
+    type: AssetType.Language
+};

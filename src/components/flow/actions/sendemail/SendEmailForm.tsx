@@ -65,7 +65,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
         return updated.valid;
     }
 
-    private handleSave(): void {
+    public handleSave(): void {
         // validate in case they never updated an empty field
         const valid = this.handleUpdate({
             recipients: this.state.recipients.value,
@@ -81,18 +81,14 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
         }
     }
 
-    private getButtons(): ButtonSet {
+    public getButtons(): ButtonSet {
         return {
             primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }
 
-    private handleValidPrompt(value: string): string {
-        return `Send email to ${value}`;
-    }
-
-    private handleCheckValid(value: string): boolean {
+    public handleCheckValid(value: string): boolean {
         return EMAIL_PATTERN.test(value);
     }
 
@@ -115,7 +111,6 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
                         placeholder="To"
                         prompt="Enter e-mail address"
                         onCheckValid={this.handleCheckValid}
-                        onValidPrompt={this.handleValidPrompt}
                         entry={this.state.recipients}
                         onChange={this.handleRecipientsChanged}
                     />

@@ -1,4 +1,5 @@
 import RemoveGroupsForm from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
+import { ActionFormProps } from '~/components/flow/props';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import {
     createRemoveGroupsAction,
@@ -24,9 +25,12 @@ describe(RemoveGroupsForm.name, () => {
 
     describe('updates', () => {
         it('should handle updates and save', () => {
-            const { instance, props } = setup(true, { $merge: { updateAction: jest.fn() } });
+            const components = setup(true, { $merge: { updateAction: jest.fn() } });
 
-            instance.handleGroupsChange([SubscribersGroup]);
+            const instance: RemoveGroupsForm = components.instance;
+            const props: Partial<ActionFormProps> = components.props;
+
+            instance.handleGroupsChanged([SubscribersGroup]);
             instance.handleSave();
 
             expect(props.updateAction).toHaveBeenCalled();
@@ -34,7 +38,10 @@ describe(RemoveGroupsForm.name, () => {
         });
 
         it('should handle remove from all groups', () => {
-            const { instance, props } = setup(true, { $merge: { updateAction: jest.fn() } });
+            const components = setup(true, { $merge: { updateAction: jest.fn() } });
+
+            const instance: RemoveGroupsForm = components.instance;
+            const props: Partial<ActionFormProps> = components.props;
 
             instance.handleRemoveAllUpdate(true);
             instance.handleSave();
@@ -44,12 +51,15 @@ describe(RemoveGroupsForm.name, () => {
         });
 
         it('should allow switching from router', () => {
-            const { instance, props } = setup(true, {
+            const components = setup(true, {
                 $merge: { updateAction: jest.fn() },
                 nodeSettings: { $merge: { originalAction: null } }
             });
 
-            instance.handleGroupsChange([SubscribersGroup]);
+            const instance: RemoveGroupsForm = components.instance;
+            const props: Partial<ActionFormProps> = components.props;
+
+            instance.handleGroupsChanged([SubscribersGroup]);
             instance.handleSave();
             expect(props.updateAction).toMatchSnapshot('switch from router');
         });

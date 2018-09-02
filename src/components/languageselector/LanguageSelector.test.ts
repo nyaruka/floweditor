@@ -2,12 +2,12 @@ import {
     containerClasses,
     LanguageSelector,
     languageSelectorContainerSpecId,
-    LanguageSelectorStoreProps
+    LanguageSelectorProps
 } from '~/components/languageselector/LanguageSelector';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import { English, languages, Spanish } from '~/testUtils/assetCreators';
 
-const baseProps: LanguageSelectorStoreProps = {
+const baseProps: LanguageSelectorProps = {
     language: English,
     languages,
     handleLanguageChange: jest.fn()
@@ -18,40 +18,31 @@ const { setup } = composeComponentTestUtils(LanguageSelector, baseProps);
 describe(LanguageSelector.name, () => {
     describe('render', () => {
         it('should render select control', () => {
-            const { wrapper, instance, props } = setup();
+            const { wrapper } = setup();
 
             expect(
                 getSpecWrapper(wrapper, languageSelectorContainerSpecId).hasClass(containerClasses)
             ).toBeTruthy();
-            expect(wrapper.find('SelectSearch').props()).toEqual(
-                expect.objectContaining({
-                    initial: [props.language],
-                    localSearchOptions: props.languages,
-                    onChange: instance.handleLanguageChange,
-                    searchable: false,
-                    multi: false,
-                    name: 'Languages',
-                    closeOnSelect: true
-                })
-            );
-            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find('AssetSelector').props()).toMatchSnapshot('asset selector');
+            expect(wrapper).toMatchSnapshot('language selector');
         });
     });
 
     describe('instance methods', () => {
         describe('onChange', () => {
             it('should call action creators that update language, translating state', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    handleLanguageChange: setMock()
+                const component = setup(true, {
+                    handleLanguageChanged: setMock()
                 });
 
-                instance.handleLanguageChange([Spanish]);
+                const instance: LanguageSelector = component.instance;
+                const props: Partial<LanguageSelectorProps> = component.props;
 
+                instance.handleLanguageChanged([Spanish]);
                 expect(props.handleLanguageChange).toHaveBeenCalledTimes(1);
                 expect(props.handleLanguageChange).toHaveBeenCalledWith(Spanish);
 
-                instance.handleLanguageChange([English]);
-
+                instance.handleLanguageChanged([English]);
                 expect(props.handleLanguageChange).toHaveBeenCalledTimes(2);
                 expect(props.handleLanguageChange).toHaveBeenCalledWith(English);
             });

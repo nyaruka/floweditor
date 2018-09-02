@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
 import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
+    UpdateAssetsAction,
     UpdateBaseLanguageAction,
     UpdateContactFieldsAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
-    UpdateLanguagesAction,
     UpdateNodesAction,
     UpdateResultMapAction
 } from '~/store/actionTypes';
@@ -42,14 +41,67 @@ export interface ContactFields {
     [snakedFieldName: string]: string;
 }
 
+export enum AssetType {
+    Channel = 'channel',
+    Flow = 'flow',
+    Group = 'group',
+    Field = 'field',
+    Result = 'result',
+    Contact = 'contact',
+    URN = 'urn',
+    Label = 'label',
+    Language = 'language',
+    Environment = 'environment',
+    Remove = 'remove',
+    ContactProperty = 'property',
+    Scheme = 'scheme'
+}
+
+export interface Asset {
+    id: string;
+    name: string;
+    type: AssetType;
+
+    isNew?: boolean;
+    content?: any;
+}
+
+export const REMOVE_VALUE_ASSET = {
+    id: AssetType.Remove,
+    name: 'Remove Value',
+    type: AssetType.Remove
+};
+export const DEFAULT_LANGUAGE = { id: '', name: 'Default', type: AssetType.Language };
+
+export interface AssetStore {
+    [assetType: string]: Assets;
+}
+
+export interface AssetMap {
+    [id: string]: Asset;
+}
+
+export interface Assets {
+    // our local cache of assets
+    items: AssetMap;
+
+    type: AssetType;
+
+    // an optional endpoint to search for more
+    endpoint?: string;
+
+    // option name for the id when fetching remotely
+    id?: string;
+}
+
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
-    languages: Asset[];
     results: Results;
     contactFields: ContactFields;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
+    assets: AssetStore;
 }
 
 // Initial state
@@ -57,13 +109,13 @@ export const initialState: FlowContext = {
     definition: null,
     dependencies: null,
     baseLanguage: null,
-    languages: [],
     results: {
         resultMap: {},
         suggestedNameCount: 1
     },
     contactFields: {},
-    nodes: {}
+    nodes: {},
+    assets: {}
 };
 
 // Action Creators
@@ -95,13 +147,6 @@ export const updateBaseLanguage = (baseLanguage: Asset): UpdateBaseLanguageActio
     }
 });
 
-export const updateLanguages = (languages: Asset[]): UpdateLanguagesAction => ({
-    type: Constants.UPDATE_LANGUAGES,
-    payload: {
-        languages
-    }
-});
-
 export const updateContactFields = (contactFields: ContactFields): UpdateContactFieldsAction => ({
     type: Constants.UPDATE_CONTACT_FIELDS,
     payload: {
@@ -113,6 +158,13 @@ export const updateResultMap = (resultMap: ResultMap): UpdateResultMapAction => 
     type: Constants.UPDATE_RESULT_MAP,
     payload: {
         resultMap
+    }
+});
+
+export const updateAssets = (assets: AssetStore): UpdateAssetsAction => ({
+    type: Constants.UPDATE_ASSET_MAP,
+    payload: {
+        assets
     }
 });
 
@@ -154,6 +206,15 @@ export const dependencies = (
     }
 };
 
+export const assets = (state: AssetStore = initialState.assets, action: ActionTypes) => {
+    switch (action.type) {
+        case Constants.UPDATE_ASSET_MAP:
+            return action.payload.assets;
+        default:
+            return state;
+    }
+};
+
 export const resultMap = (
     state: ResultMap = initialState.results.resultMap,
     action: ActionTypes
@@ -187,15 +248,6 @@ export const baseLanguage = (state: Asset = initialState.baseLanguage, action: A
     }
 };
 
-export const languages = (state: Asset[] = initialState.languages, action: ActionTypes) => {
-    switch (action.type) {
-        case Constants.UPDATE_LANGUAGES:
-            return action.payload.languages;
-        default:
-            return state;
-    }
-};
-
 export const contactFields = (
     state: ContactFields = initialState.contactFields,
     action: ActionTypes
@@ -218,8 +270,8 @@ export default combineReducers({
     definition,
     nodes,
     dependencies,
+    assets,
     results,
     baseLanguage,
-    languages,
     contactFields
 });

@@ -1,4 +1,4 @@
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import ActionTypes, { UpdateEditorState } from '~/store/actionTypes';
 import Constants from '~/store/constants';
 import { RenderNode } from '~/store/flowContext';

@@ -9,8 +9,7 @@ import TitleBar from '~/components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { Action, AnyAction, LocalizationMap } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
+import { Asset, RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
 import {
     ActionAC,
@@ -184,7 +183,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 /* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: {
-        languages,
         definition: { localization }
     },
     editorState: { language, translating }

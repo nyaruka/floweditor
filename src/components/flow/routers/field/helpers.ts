@@ -10,8 +10,7 @@ import {
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Types } from '~/config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
+import { AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
 export const nodeToState = (settings: NodeEditorSettings): FieldRouterFormState => {

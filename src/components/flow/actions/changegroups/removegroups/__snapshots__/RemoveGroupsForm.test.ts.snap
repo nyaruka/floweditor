@@ -36,17 +36,8 @@ exports[`RemoveGroupsForm render should render 1`] = `
     >
       Select the group(s) to remove the contact from.
     </p>
-    <GroupsElement
-      add={false}
-      assets={
-        GroupAssets {
-          "assetType": "group",
-          "assets": Object {},
-          "endpoint": "/assets/groups.json",
-          "idProperty": "uuid",
-          "localStorage": true,
-        }
-      }
+    <AssetSelector
+      createPrefix="Create Group: "
       entry={
         Object {
           "value": Array [
@@ -78,10 +69,10 @@ exports[`RemoveGroupsForm render should render 1`] = `
           ],
         }
       }
+      multi={true}
       name="Groups"
       onChange={[Function]}
-      placeholder="Enter the name an existing group"
-      searchPromptText="Enter the name of an existing group"
+      searchable={true}
     />
   </div>
   <CheckboxElement

@@ -2,7 +2,7 @@ import { getActionUUID, getRecipients } from '~/components/flow/actions/helpers'
 import { StartSessionFormState } from '~/components/flow/actions/startsession/StartSessionForm';
 import { Types } from '~/config/typeConfigs';
 import { StartSession } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
+import { Asset, AssetType } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const initializeForm = (settings: NodeEditorSettings): StartSessionFormState => {

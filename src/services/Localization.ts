@@ -1,5 +1,5 @@
 import { Action, Case, Exit, Language } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 
 export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};

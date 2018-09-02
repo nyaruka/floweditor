@@ -11,9 +11,8 @@ import ConnectedLanguageSelector from '~/components/languageselector/LanguageSel
 import ConfigProvider from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
-import AssetService, { Asset } from '~/services/AssetService';
 import createStore from '~/store/createStore';
-import { RenderNodeMap } from '~/store/flowContext';
+import { Asset, Assets, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
 import { DispatchWithState, FetchFlow, fetchFlow } from '~/store/thunks';
@@ -25,7 +24,7 @@ export interface FlowEditorContainerProps {
 
 export interface FlowEditorStoreProps {
     language: Asset;
-    languages: Asset[];
+    languages: Assets;
     translating: boolean;
     fetchingFlow: boolean;
     definition: FlowDefinition;
@@ -38,9 +37,8 @@ const hotStore = createStore();
 
 // Root container, wires up context-providers
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
-    const assetService = new AssetService(config);
     return (
-        <ConfigProvider config={{ ...config, assetService }}>
+        <ConfigProvider config={{ ...config }}>
             <ReduxProvider store={hotStore}>
                 <ConnectedFlowEditor />
             </ReduxProvider>
@@ -50,7 +48,7 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
 
 export const contextTypes = {
     flow: fakePropType,
-    assetService: fakePropType
+    endpoints: fakePropType
 };
 
 export const editorContainerSpecId = 'editor-container';
@@ -70,7 +68,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public componentDidMount(): void {
-        this.props.fetchFlow(this.context.assetService, this.context.flow);
+        this.props.fetchFlow(this.context.endpoints, this.context.flow);
     }
 
     private handleDownloadClicked(): void {
@@ -101,7 +99,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
             >
                 {this.getFooter()}
                 <div className={styles.editor} data-spec={editorSpecId}>
-                    {renderIf(this.props.languages.length > 0)(<ConnectedLanguageSelector />)}
+                    {renderIf(
+                        this.props.languages && Object.keys(this.props.languages.items).length > 0
+                    )(<ConnectedLanguageSelector />)}
                     {renderIf(
                         this.props.definition && this.props.language && !this.props.fetchingFlow
                     )(<ConnectedFlow />)}
@@ -112,17 +112,21 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, dependencies, languages, nodes },
+    flowContext: { definition, dependencies, nodes, assets },
     editorState: { translating, language, fetchingFlow }
-}: AppState) => ({
-    translating,
-    language,
-    fetchingFlow,
-    definition,
-    dependencies,
-    languages,
-    nodes
-});
+}: AppState) => {
+    const languages = assets ? assets.languages : null;
+
+    return {
+        translating,
+        language,
+        fetchingFlow,
+        definition,
+        dependencies,
+        nodes,
+        languages
+    };
+};
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(

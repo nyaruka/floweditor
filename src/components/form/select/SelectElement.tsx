@@ -17,12 +17,11 @@ export default class SelectElement extends React.Component<SelectElementProps> {
         return (
             <FormElement name={this.props.name} entry={this.props.entry}>
                 <Select
-                    joinValues={true}
                     name={this.props.name}
                     value={this.props.entry.value}
                     onChange={this.props.onChange}
-                    searchable={false}
-                    clearable={false}
+                    isSearchable={false}
+                    isClearable={false}
                     options={this.props.options}
                 />
             </FormElement>

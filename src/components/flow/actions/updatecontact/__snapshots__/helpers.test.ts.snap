@@ -1,14 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UpdateContact.helpers should create new options 1`] = `
-Object {
-  "id": "label_name",
-  "isNew": true,
-  "name": "Label Name",
-  "type": "field",
-}
-`;
-
 exports[`UpdateContact.helpers should sort options 1`] = `
 Array [
   Object {

@@ -4,12 +4,7 @@ import {
     FlowEditor,
     FlowEditorStoreProps
 } from '~/components';
-import {
-    composeComponentTestUtils,
-    configProviderContext,
-    getSpecWrapper,
-    setMock
-} from '~/testUtils';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
 import { English, languages } from '~/testUtils/assetCreators';
 import { set, setTrue } from '~/utils';
 
@@ -74,17 +69,14 @@ describe('Root', () => {
             });
 
             it('should call action creators', () => {
-                const { wrapper, props } = setup(true, {
+                const { props } = setup(true, {
                     updateLanguage: setMock(),
                     fetchFlow: setMock(),
                     fetchFlows: setMock()
                 });
 
                 expect(props.fetchFlow).toHaveBeenCalledTimes(1);
-                expect(props.fetchFlow).toHaveBeenCalledWith(
-                    configProviderContext.assetService,
-                    configProviderContext.flow
-                );
+                expect(props.fetchFlow).toMatchCallSnapshot();
             });
         });
     });

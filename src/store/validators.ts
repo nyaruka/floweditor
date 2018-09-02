@@ -1,5 +1,5 @@
 import { isValidURL } from '~/components/form/textinput/helpers';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import { FormEntry, ValidationFailure } from '~/store/nodeEditor';
 
 export type FormInput = string | string[] | number | Asset | Asset[];

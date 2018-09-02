@@ -3,10 +3,12 @@ import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
+import { getAssets, getFlow, getURL } from '~/external';
 import {
     Action,
     AnyAction,
     Dimensions,
+    Endpoints,
     Exit,
     FlowDefinition,
     FlowNode,
@@ -17,21 +19,23 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import AssetService, { Asset, DEFAULT_LANGUAGE } from '~/services/AssetService';
 import { EditorState, updateEditorState } from '~/store/editor';
 import {
+    Asset,
+    AssetType,
+    DEFAULT_LANGUAGE,
     incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
+    updateAssets,
     updateBaseLanguage,
     updateContactFields,
     updateDefinition,
-    updateLanguages,
     updateNodes,
     updateResultMap
 } from '~/store/flowContext';
 import {
-    extractContactFields,
+    assetListToMap,
     FlowComponents,
     generateResultQuery,
     getActionIndex,
@@ -49,7 +53,7 @@ import {
     updateUserAddingAction
 } from '~/store/nodeEditor';
 import AppState from '~/store/state';
-import { createUUID, dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
+import { createUUID, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -75,7 +79,7 @@ export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (node: FlowNode, dimensions: Dimensions) => Thunk<RenderNodeMap>;
 
-export type FetchFlow = (assetService: AssetService, uuid: string) => Thunk<Promise<void>>;
+export type FetchFlow = (endpoints: Endpoints, uuid: string) => Thunk<Promise<void>>;
 
 export type EnsureStartNode = () => Thunk<RenderNode>;
 
@@ -92,7 +96,10 @@ export type OnUpdateLocalizations = (
 
 export type UpdateSticky = (stickyUUID: string, sticky: StickyNote) => Thunk<void>;
 
-export type OnUpdateAction = (action: AnyAction) => Thunk<RenderNodeMap>;
+export type OnUpdateAction = (
+    action: AnyAction,
+    onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
+) => Thunk<RenderNodeMap>;
 
 export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk<RenderNodeMap>;
 
@@ -142,25 +149,80 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
     return updated;
 };
 
+/* export const updateAssets = (assets: AssetMap) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): AssetMap => {
+    
+    return assets;
+};*/
+
 export const initializeFlow = (
     definition: FlowDefinition,
-    assetService: AssetService,
+    endpoints: Endpoints,
     languages: Asset[] = []
 ) => (dispatch: DispatchWithState, getState: GetState): FlowComponents => {
     const flowComponents = getFlowComponents(definition, languages);
 
-    if (assetService) {
-        assetService.addFlowComponents(flowComponents);
+    let currentLanguages = languages;
+
+    // if we have an unset base language, inject our "Default" Language and set it
+    if (!flowComponents.baseLanguage) {
+        currentLanguages = mutators.addLanguage(languages, DEFAULT_LANGUAGE);
     }
+
+    const groups = assetListToMap(flowComponents.groups);
+    dispatch(
+        updateAssets({
+            channels: {
+                endpoint: getURL(endpoints.channels),
+                type: AssetType.Channel,
+                items: {} // TODO: flow components should include channels
+            },
+            languages: {
+                endpoint: getURL(endpoints.languages),
+                type: AssetType.Language,
+                items: assetListToMap(currentLanguages),
+                id: 'iso'
+            },
+            flows: {
+                endpoint: getURL(endpoints.flows),
+                type: AssetType.Flow,
+                items: {} // TODO: flow components should include flows
+            },
+            fields: {
+                endpoint: getURL(endpoints.fields),
+                type: AssetType.Field,
+                id: 'key',
+                items: assetListToMap(flowComponents.fields)
+            },
+            groups: {
+                endpoint: getURL(endpoints.groups),
+                type: AssetType.Group,
+                items: groups
+            },
+            labels: {
+                endpoint: getURL(endpoints.labels),
+                type: AssetType.Label,
+                items: assetListToMap(flowComponents.labels)
+            },
+            results: {
+                type: AssetType.Result,
+                items: flowComponents.resultsMap
+            },
+            recipients: {
+                endpoint: getURL(endpoints.recipients),
+                type: AssetType.Contact || AssetType.Group || AssetType.URN,
+                items: groups
+            }
+        })
+    );
 
     // Take stock of the flow's language settings
     if (flowComponents.baseLanguage) {
-        dispatch(updateLanguages(languages));
         dispatch(updateBaseLanguage(flowComponents.baseLanguage));
         dispatch(mergeEditorState({ language: flowComponents.baseLanguage }));
     } else {
-        // if we have an unset base language, inject our "Default" Language and set it
-        dispatch(updateLanguages(mutators.addLanguage(languages, DEFAULT_LANGUAGE)));
         dispatch(updateBaseLanguage(DEFAULT_LANGUAGE));
         dispatch(mergeEditorState({ language: DEFAULT_LANGUAGE }));
     }
@@ -180,30 +242,18 @@ export const initializeFlow = (
     return flowComponents;
 };
 
-export const fetchFlow = (assetService: AssetService, uuid: string) => async (
+export const fetchFlow = (endpoints: Endpoints, uuid: string) => async (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     dispatch(mergeEditorState({ fetchingFlow: true }));
 
-    const [flows, environment, fields, languages] = await Promise.all([
-        assetService.getFlowAssets().get(uuid),
-        assetService.getEnvironmentAssets().get(''),
-        assetService.getFieldAssets().get(''),
-        assetService.getLanguageAssets().search('')
+    const [flow, languages] = await Promise.all([
+        getFlow(endpoints, uuid),
+        getAssets(endpoints.languages, AssetType.Language, 'iso')
     ]);
 
-    dispatch(initializeFlow(flows.content, assetService, languages.results));
-    const fieldsToDedupe = [...fields.content];
-    const existingFields = extractContactFields(flows.content.nodes);
-    if (existingFields.length) {
-        fieldsToDedupe.push(...existingFields);
-    }
-    const contactFields = dedupe(fieldsToDedupe).reduce((contactFieldMap, field) => {
-        contactFieldMap[field.key] = field.name;
-        return contactFieldMap;
-    }, {});
-    dispatch(updateContactFields(contactFields));
+    dispatch(initializeFlow(flow.content, endpoints, languages));
 };
 
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
@@ -569,10 +619,10 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     dispatch(updateNodeEditorSettings(null));
 };
 
-export const onUpdateAction = (action: AnyAction) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
+export const onUpdateAction = (
+    action: AnyAction,
+    onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
+) => (dispatch: DispatchWithState, getState: GetState) => {
     timeStart('onUpdateAction');
 
     const {
@@ -635,6 +685,10 @@ export const onUpdateAction = (action: AnyAction) => (
     }
 
     timeEnd('onUpdateAction');
+
+    if (onUpdated) {
+        onUpdated(dispatch, getState);
+    }
     return updatedNodes;
 };
 
@@ -746,7 +800,8 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     const {
         flowContext: {
             nodes,
-            results: { resultMap }
+            results: { resultMap },
+            assets
         },
         nodeEditor: {
             settings: { originalNode, originalAction }
@@ -775,6 +830,9 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         resultsToUpdate[renderNode.node.uuid] = generateResultQuery(
             renderNode.node.router.result_name
         );
+
+        const updatedAssets = mutators.addFlowResult(assets, renderNode.node.router.result_name);
+        dispatch(updateAssets(updatedAssets));
     } else {
         delete resultsToUpdate[renderNode.node.uuid];
     }
@@ -842,8 +900,8 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 ) => {
     const {
         flowContext: {
-            languages,
-            definition: { localization }
+            definition: { localization },
+            assets
         },
         editorState: { language, translating }
     } = getState();
@@ -854,7 +912,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const node = renderNode.node;
 
     // stuff our localization objects in our settings
-    settings.languages = languages;
     settings.localizations = [];
     if (translating) {
         let actionToTranslate = action;

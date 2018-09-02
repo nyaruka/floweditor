@@ -2,13 +2,12 @@ import {
     assetToChannel,
     assetToLanguage,
     channelToAsset,
-    createNewOption,
     fieldToAsset,
     languageToAsset,
     sortFieldsAndProperties
 } from '~/components/flow/actions/updatecontact/helpers';
 import { CONTACT_PROPERTIES } from '~/components/flow/actions/updatecontact/UpdateContactForm';
-import { removeAsset } from '~/services/AssetService';
+import { REMOVE_VALUE_ASSET } from '~/store/flowContext';
 
 describe('UpdateContact.helpers', () => {
     it('should sort options', () => {
@@ -20,8 +19,8 @@ describe('UpdateContact.helpers', () => {
     });
 
     it('should return remove asset', () => {
-        expect(assetToChannel(removeAsset)).toEqual({});
-        expect(assetToLanguage(removeAsset)).toEqual('');
+        expect(assetToChannel(REMOVE_VALUE_ASSET)).toEqual({});
+        expect(assetToLanguage(REMOVE_VALUE_ASSET)).toEqual('');
 
         expect(fieldToAsset()).toEqual({ id: '', name: '', type: 'field' });
         expect(fieldToAsset({ key: 'gender', name: 'Gender' })).toEqual({
@@ -29,13 +28,7 @@ describe('UpdateContact.helpers', () => {
             name: 'Gender',
             type: 'field'
         });
-        expect(languageToAsset({ iso: '', name: '' })).toEqual(removeAsset);
-        expect(channelToAsset({ uuid: '', name: '' })).toEqual(removeAsset);
-    });
-
-    it('should create new options', () => {
-        expect(
-            createNewOption({ label: 'Label Name', labelKey: 'key', valueKey: 'value' })
-        ).toMatchSnapshot();
+        expect(languageToAsset({ iso: '', name: '' })).toEqual(REMOVE_VALUE_ASSET);
+        expect(channelToAsset({ uuid: '', name: '' })).toEqual(REMOVE_VALUE_ASSET);
     });
 });

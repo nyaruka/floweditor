@@ -1,9 +1,7 @@
-// tslint:disable:no-shadowed-variable
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
 import { Type } from '~/config';
 import { AnyAction } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
 import { LocalizedObject } from '~/services/Localization';
 import ActionTypes, {
     UpdateNodeEditorSettings,
@@ -11,8 +9,9 @@ import ActionTypes, {
     UpdateUserAddingActionAction
 } from '~/store/actionTypes';
 import Constants from '~/store/constants';
-import { RenderNode } from '~/store/flowContext';
+import { Asset, RenderNode } from '~/store/flowContext';
 
+// tslint:disable:no-shadowed-variable
 export interface ValidationFailure {
     message: string;
 }
@@ -132,7 +131,6 @@ export interface NodeEditorSettings {
     showAdvanced?: boolean;
     originalAction?: AnyAction;
     localizations?: LocalizedObject[];
-    languages?: Asset[];
 }
 
 export interface NodeEditor {

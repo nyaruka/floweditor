@@ -1,14 +1,9 @@
 import { Query } from 'immutability-helper';
 import * as React from 'react';
-import {
-    IsOptionUniqueHandler,
-    IsValidNewOptionHandler,
-    NewOptionCreatorHandler
-} from 'react-select';
 import { v4 as generateUUID } from 'uuid';
 import { Action, Case, ContactProperties, Exit, LocalizationMap } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
+import { Asset } from '~/store/flowContext';
 import { FormEntry } from '~/store/nodeEditor';
 import * as variables from '~/variables.scss';
 
@@ -282,12 +277,12 @@ export const optionExists = (newOptName: string, options: any[]) =>
         ? true
         : false;
 
-export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
+/* export const isOptionUnique: IsOptionUniqueHandler = ({ option, options, labelKey, valueKey }) =>
     !propertyExists(option.name) && !optionExists(option.name, options);
 
 export const isValidNewOption: IsValidNewOptionHandler = ({ label }) => isValidLabel(label);
-
-export const composeCreateNewOption = ({
+*/
+/* export const composeCreateNewOption = ({
     idCb,
     type
 }: {
@@ -298,7 +293,7 @@ export const composeCreateNewOption = ({
     name: label,
     type,
     isNew: true
-});
+});*/
 
 /**
  * Deduplicate values in an array.

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { operatorConfigList } from '~/config';
 import { ContactProperties } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
 import { languages } from '~/testUtils/assetCreators';
 import {
     addCommas,
@@ -11,9 +10,7 @@ import {
     getLocalization,
     getSelectClass,
     hasErrorType,
-    isOptionUnique,
     isRealValue,
-    isValidNewOption,
     jsonEqual,
     merge,
     optionExists,
@@ -157,7 +154,8 @@ describe('utils', () => {
 
     describe('getLocalizations', () => {
         it('should return a localized object', () => {
-            languages.forEach((languageAsset: any) => {
+            Object.keys(languages.items).forEach((key: string) => {
+                const languageAsset = languages.items[key];
                 expect(
                     getLocalization(
                         sendMsgAction,
@@ -293,47 +291,5 @@ describe('utils', () => {
             valueKey: 'id',
             options: [] as any[]
         };
-
-        it('should return true if new option is unique', () => {
-            const newOption = {
-                id: '2e020526-06a7-4acc-8f3f-90b4ceffdd91',
-                name: 'Age',
-                type: AssetType.Field
-            };
-
-            expect(
-                isOptionUnique({
-                    ...isOptionUniqueSignature,
-                    option: newOption
-                })
-            ).toBeTruthy();
-        });
-
-        it('should return false if new option is not unique', () => {
-            const newOption = {
-                id: 'name',
-                name: 'Name',
-                type: AssetType.ContactProperty
-            };
-
-            expect(
-                isOptionUnique({
-                    ...isOptionUniqueSignature,
-                    option: newOption
-                })
-            ).toBeFalsy();
-        });
-    });
-
-    describe('isValidNewOption', () => {
-        it('should return false if new option is invalid', () => {
-            expect(isValidNewOption({ label: '$$$' })).toBeFalsy();
-        });
-
-        it('should return true if new option is valid', () => {
-            const newOption = { label: 'valid label' };
-
-            expect(isValidNewOption(newOption)).toBeTruthy();
-        });
     });
 });

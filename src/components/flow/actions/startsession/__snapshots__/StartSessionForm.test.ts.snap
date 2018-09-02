@@ -47,50 +47,29 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
     onChange={[MockFunction]}
   />
   <div>
-    <OmniboxElement
-      add={true}
-      assets={
-        RecipientAssets {
-          "assets": Object {},
-          "endpoint": "/assets/recipients.json",
-          "idProperty": "uuid",
-          "localStorage": true,
-        }
-      }
-      data-spec="recipients"
+    <AssetSelector
       entry={
         Object {
           "value": Array [],
         }
       }
+      multi={true}
       name="Recipients"
       onChange={[Function]}
-      placeholder="Enter a group or contact..."
-      searchPromptText="No matches"
+      searchable={true}
     />
-    <p>
-      <SelectAssetElement
-        assets={
-          FlowAssets {
-            "assetType": "flow",
-            "assets": Object {},
-            "endpoint": "/assets/flows.json",
-            "idProperty": "uuid",
-            "localStorage": true,
-          }
+    <p />
+    <AssetSelector
+      entry={
+        Object {
+          "value": null,
         }
-        entry={
-          Object {
-            "value": null,
-          }
-        }
-        key="flow_select"
-        name="Flow"
-        onChange={[Function]}
-        placeholder="Select the flow to start them in"
-        searchable={true}
-      />
-    </p>
+      }
+      name="Flow"
+      onChange={[Function]}
+      placeholder="Select the flow to start"
+      searchable={true}
+    />
   </div>
 </Dialog>
 `;

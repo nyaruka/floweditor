@@ -7,14 +7,15 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getSimulationAssets } from '~/components/simulator/helpers';
 import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
 import * as styles from '~/components/simulator/Simulator.scss';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
+import { getURL } from '~/external';
 import { FlowDefinition, Group, Wait } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
-import AssetService, { getURL } from '~/services/AssetService';
-import { RenderNodeMap } from '~/store/flowContext';
+import { AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
@@ -30,6 +31,7 @@ interface Message {
 export interface SimulatorStoreProps {
     nodes: RenderNodeMap;
     definition: FlowDefinition;
+    assets: AssetStore;
 }
 
 export interface SimulatorPassedProps {
@@ -96,8 +98,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private bottom: any;
 
     public static contextTypes = {
-        endpoints: fakePropType,
-        assetService: fakePropType
+        endpoints: fakePropType
     };
 
     constructor(props: SimulatorProps, context: ConfigProviderContext) {
@@ -121,10 +122,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         bindCallbacks(this, {
             include: [/^on/, /^get/]
         });
-    }
-
-    private getAssetService(): AssetService {
-        return this.context.assetService;
     }
 
     private bottomRef(ref: any): void {
@@ -220,47 +217,44 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 events: []
             },
             () => {
-                this.getAssetService()
-                    .getFlowAssets()
-                    .update(
-                        this.props.definition.uuid,
+                // this.props.definition.uuid,
+                // getCurrentDefinition(this.props.definition, this.props.nodes)
+                const body: any = {
+                    contact: this.state.contact,
+                    trigger: {
+                        type: 'manual',
+                        environment: {
+                            date_format: 'DD-MM-YYYY',
+                            time_format: 'hh:mm',
+                            timezone: 'America/New_York',
+                            languages: []
+                        },
+                        contact: {
+                            uuid: createUUID(),
+                            urns: ['tel:+12065551212'],
+                            fields: {},
+                            groups: []
+                        },
+                        flow: {
+                            uuid: this.props.definition.uuid,
+                            name: this.props.definition.uuid
+                        },
+                        params: {},
+                        triggered_on: new Date().toISOString()
+                    },
+                    ...getSimulationAssets(
+                        this.props.assets,
                         getCurrentDefinition(this.props.definition, this.props.nodes)
                     )
-                    .then(() => {
-                        const body: any = {
-                            contact: this.state.contact,
-                            trigger: {
-                                type: 'manual',
-                                environment: {
-                                    date_format: 'DD-MM-YYYY',
-                                    time_format: 'hh:mm',
-                                    timezone: 'America/New_York',
-                                    languages: []
-                                },
-                                contact: {
-                                    uuid: createUUID(),
-                                    urns: ['tel:+12065551212'],
-                                    fields: {},
-                                    groups: []
-                                },
-                                flow: {
-                                    uuid: this.props.definition.uuid,
-                                    name: this.props.definition.uuid
-                                },
-                                params: {},
-                                triggered_on: new Date().toISOString()
-                            },
-                            ...this.getAssetService().getSimulationAssets()
-                        };
+                };
 
-                        axios.default
-                            .post(
-                                getURL(this.context.endpoints.simulateStart),
-                                JSON.stringify(body, null, 2)
-                            )
-                            .then((response: axios.AxiosResponse) => {
-                                this.updateRunContext(body, response.data as RunContext);
-                            });
+                axios.default
+                    .post(
+                        getURL(this.context.endpoints.simulateStart),
+                        JSON.stringify(body, null, 2)
+                    )
+                    .then((response: axios.AxiosResponse) => {
+                        this.updateRunContext(body, response.data as RunContext);
                     });
             }
         );
@@ -297,7 +291,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             session: this.state.session,
             contact: this.state.session.contact,
             events: [newMessage],
-            ...this.getAssetService().getSimulationAssets()
+            ...getSimulationAssets(
+                this.props.assets,
+                getCurrentDefinition(this.props.definition, this.props.nodes)
+            )
         };
 
         axios.default
@@ -424,7 +421,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { definition, nodes } }: AppState) => ({
+const mapStateToProps = ({ flowContext: { definition, nodes, assets } }: AppState) => ({
+    assets,
     definition,
     nodes
 });

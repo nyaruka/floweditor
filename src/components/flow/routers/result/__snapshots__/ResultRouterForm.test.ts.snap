@@ -1,0 +1,374 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResultRouterForm initializes 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="split_by_contact_field"
+  title="Split by Contact Field"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Split by a contact field",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
+        "name": "Split by Contact Field",
+        "type": "split_by_contact_field",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="leadIn"
+  >
+    If the contact's
+    <div
+      className="fieldSelect select-medium"
+    >
+      <SelectAssetElement
+        assets={
+          FieldAssets {
+            "assetType": "field",
+            "assets": Object {},
+            "endpoint": "/assets/fields.json",
+            "idProperty": "key",
+            "localStorage": true,
+          }
+        }
+        entry={
+          Object {
+            "value": null,
+          }
+        }
+        localSearchOptions={
+          Array [
+            Object {
+              "id": "name",
+              "name": "Name",
+              "type": "property",
+            },
+            Object {
+              "id": "language",
+              "name": "Language",
+              "type": "property",
+            },
+            Object {
+              "id": "channel",
+              "name": "Channel",
+              "type": "property",
+            },
+            Object {
+              "id": "ext",
+              "name": "External ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "facebook",
+              "name": "Facebook ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "fcm",
+              "name": "Firebase ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "jiochat",
+              "name": "Jiochat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "line",
+              "name": "Line ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "mailto",
+              "name": "Email Address",
+              "type": "scheme",
+            },
+            Object {
+              "id": "tel",
+              "name": "Phone Number",
+              "type": "scheme",
+            },
+            Object {
+              "id": "telegram",
+              "name": "Telegram ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "twitter",
+              "name": "Twitter Handle",
+              "type": "scheme",
+            },
+            Object {
+              "id": "twitterid",
+              "name": "Twitter ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "wechat",
+              "name": "Wechat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "whatsapp",
+              "name": "Whatsapp Number",
+              "type": "scheme",
+            },
+            Object {
+              "id": "viber",
+              "name": "Viber ID",
+              "type": "scheme",
+            },
+          ]
+        }
+        name="Contact Field"
+        onChange={[Function]}
+        searchable={false}
+        sortFunction={[Function]}
+      />
+    </div>
+  </div>
+  <CaseList
+    cases={Array []}
+    data-spec="cases"
+    onCasesUpdated={[Function]}
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`ResultRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="split_by_contact_field"
+  title="Split by Contact Field"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Split by a contact field",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
+        "name": "Split by Contact Field",
+        "type": "split_by_contact_field",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="leadIn"
+  >
+    If the contact's
+    <div
+      className="fieldSelect select-medium"
+    >
+      <SelectAssetElement
+        assets={
+          FieldAssets {
+            "assetType": "field",
+            "assets": Object {},
+            "endpoint": "/assets/fields.json",
+            "idProperty": "key",
+            "localStorage": true,
+          }
+        }
+        entry={
+          Object {
+            "value": null,
+          }
+        }
+        localSearchOptions={
+          Array [
+            Object {
+              "id": "name",
+              "name": "Name",
+              "type": "property",
+            },
+            Object {
+              "id": "language",
+              "name": "Language",
+              "type": "property",
+            },
+            Object {
+              "id": "channel",
+              "name": "Channel",
+              "type": "property",
+            },
+            Object {
+              "id": "ext",
+              "name": "External ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "facebook",
+              "name": "Facebook ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "fcm",
+              "name": "Firebase ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "jiochat",
+              "name": "Jiochat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "line",
+              "name": "Line ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "mailto",
+              "name": "Email Address",
+              "type": "scheme",
+            },
+            Object {
+              "id": "tel",
+              "name": "Phone Number",
+              "type": "scheme",
+            },
+            Object {
+              "id": "telegram",
+              "name": "Telegram ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "twitter",
+              "name": "Twitter Handle",
+              "type": "scheme",
+            },
+            Object {
+              "id": "twitterid",
+              "name": "Twitter ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "wechat",
+              "name": "Wechat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "whatsapp",
+              "name": "Whatsapp Number",
+              "type": "scheme",
+            },
+            Object {
+              "id": "viber",
+              "name": "Viber ID",
+              "type": "scheme",
+            },
+          ]
+        }
+        name="Contact Field"
+        onChange={[Function]}
+        searchable={false}
+        sortFunction={[Function]}
+      />
+    </div>
+  </div>
+  <CaseList
+    cases={Array []}
+    data-spec="cases"
+    onCasesUpdated={[Function]}
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`ResultRouterForm updates should save changes 1`] = `
+Object {
+  "cases": Array [
+    Object {
+      "exitName": "Red",
+      "kase": Object {
+        "arguments": Array [
+          "red",
+        ],
+        "type": "has_any_word",
+      },
+    },
+    Object {
+      "exitName": "Red",
+      "kase": Object {
+        "arguments": Array [
+          "maroon",
+        ],
+        "type": "has_any_word",
+      },
+    },
+    Object {
+      "exitName": "Green",
+      "kase": Object {
+        "arguments": Array [
+          "green",
+        ],
+        "type": "has_any_word",
+      },
+    },
+  ],
+  "result": Object {
+    "value": null,
+  },
+  "resultName": Object {
+    "value": "Favorite Color",
+  },
+  "valid": true,
+}
+`;

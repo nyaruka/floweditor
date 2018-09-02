@@ -11,8 +11,7 @@ import {
     StartFlowExitNames,
     SwitchRouter
 } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
+import { Asset, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
 

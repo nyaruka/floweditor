@@ -1,4 +1,5 @@
 import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
+import { ActionFormProps } from '~/components/flow/props';
 import { Label } from '~/flowTypes';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import {
@@ -29,9 +30,11 @@ describe(AddLabelsForm.name, () => {
 
     describe('updates', () => {
         it('should update and save', () => {
-            const { instance, props } = setup(true);
+            const component = setup(true);
+            const instance: AddLabelsForm = component.instance;
+            const props: Partial<ActionFormProps> = component.props;
 
-            instance.handleLabelChange([FeedbackLabel]);
+            instance.handleLabelsChanged([FeedbackLabel]);
             expect(instance.state).toMatchSnapshot();
             instance.handleSave();
 
@@ -40,12 +43,15 @@ describe(AddLabelsForm.name, () => {
         });
 
         it('should allow switching from router', () => {
-            const { instance, props } = setup(true, {
+            const component = setup(true, {
                 $merge: { updateAction: jest.fn() },
                 nodeSettings: { $merge: { originalAction: null } }
             });
 
-            instance.handleLabelChange([FeedbackLabel]);
+            const instance: AddLabelsForm = component.instance;
+            const props: Partial<ActionFormProps> = component.props;
+
+            instance.handleLabelsChanged([FeedbackLabel]);
             instance.handleSave();
             expect(props.updateAction).toMatchCallSnapshot('switch from router');
         });

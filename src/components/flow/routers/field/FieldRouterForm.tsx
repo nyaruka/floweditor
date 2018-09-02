@@ -5,13 +5,14 @@ import { sortFieldsAndProperties } from '~/components/flow/actions/updatecontact
 import { CONTACT_PROPERTIES } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
-import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Scheme, SCHEMES } from '~/config/typeConfigs';
-import { Asset, AssetType } from '~/services/AssetService';
+import { Asset, AssetType } from '~/store/flowContext';
 import { AssetEntry, FormState, StringEntry } from '~/store/nodeEditor';
+import { small } from '~/utils/reactselect';
 
 import * as styles from './FieldRouterForm.scss';
 import { nodeToState, stateToNode } from './helpers';
@@ -103,12 +104,13 @@ export default class FieldRouterForm extends React.Component<
                 <div className={styles.leadIn}>
                     If the contact's
                     <div className={`${styles.fieldSelect} select-medium`}>
-                        <SelectAssetElement
+                        <AssetSelector
                             name="Contact Field"
-                            searchable={false}
+                            styles={small}
+                            assets={this.props.assets.fields}
+                            additionalOptions={this.ROUTABLE_FIELDS}
                             entry={this.state.field}
-                            assets={this.context.assetService.getFieldAssets()}
-                            localSearchOptions={this.ROUTABLE_FIELDS}
+                            searchable={true}
                             sortFunction={sortFieldsAndProperties}
                             onChange={this.handleFieldChanged}
                         />

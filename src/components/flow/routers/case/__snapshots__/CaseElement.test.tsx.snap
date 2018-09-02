@@ -80,42 +80,18 @@ exports[`CaseElement render renders no argument rules 1`] = `
     <div
       className="choice"
     >
-      <Select
-        arrowRenderer={[Function]}
-        autosize={true}
-        backspaceRemoves={true}
-        backspaceToRemoveMessage="Press backspace to remove {label}"
-        clearAllText="Clear all"
-        clearRenderer={[Function]}
-        clearValueText="Clear value"
-        clearable={false}
-        closeOnSelect={true}
+      <StateManager
         data-spec="operator-list"
-        deleteRemoves={true}
-        delimiter=","
-        disabled={false}
-        escapeClearsValue={true}
-        filterOptions={[Function]}
-        ignoreAccents={true}
-        ignoreCase={true}
-        inputProps={Object {}}
-        isLoading={false}
-        joinValues={true}
-        labelKey="verboseName"
-        matchPos="any"
-        matchProp="any"
-        menuBuffer={0}
-        menuRenderer={[Function]}
-        multi={false}
+        defaultInputValue=""
+        defaultMenuIsOpen={false}
+        defaultValue={null}
+        getOptionLabel={[Function]}
+        getOptionValue={[Function]}
+        isClearable={false}
+        isSearchable={false}
+        menuPlacement="auto"
         name="operator"
-        noResultsText="No results found"
-        onBlurResetsInput={true}
         onChange={[Function]}
-        onCloseResetsInput={true}
-        onSelectResetsInput={true}
-        openOnClick={true}
-        optionClassName="operator"
-        optionComponent={[Function]}
         options={
           Array [
             Object {
@@ -247,19 +223,21 @@ exports[`CaseElement render renders no argument rules 1`] = `
             },
           ]
         }
-        pageSize={5}
-        placeholder="Select..."
-        removeSelected={true}
-        required={false}
-        rtl={false}
-        scrollMenuIntoView={true}
-        searchable={false}
-        simpleValue={false}
-        tabSelectsValue={true}
-        trimFilter={true}
-        value="has_number"
-        valueComponent={[Function]}
-        valueKey="type"
+        styles={
+          Object {
+            "control": [Function],
+            "menuList": [Function],
+            "option": [Function],
+          }
+        }
+        value={
+          Object {
+            "categoryName": "Has Number",
+            "operands": 0,
+            "type": "has_number",
+            "verboseName": "has a number",
+          }
+        }
       />
     </div>
     <div
@@ -309,42 +287,18 @@ exports[`CaseElement render should render empty case 1`] = `
     <div
       className="choice"
     >
-      <Select
-        arrowRenderer={[Function]}
-        autosize={true}
-        backspaceRemoves={true}
-        backspaceToRemoveMessage="Press backspace to remove {label}"
-        clearAllText="Clear all"
-        clearRenderer={[Function]}
-        clearValueText="Clear value"
-        clearable={false}
-        closeOnSelect={true}
+      <StateManager
         data-spec="operator-list"
-        deleteRemoves={true}
-        delimiter=","
-        disabled={false}
-        escapeClearsValue={true}
-        filterOptions={[Function]}
-        ignoreAccents={true}
-        ignoreCase={true}
-        inputProps={Object {}}
-        isLoading={false}
-        joinValues={true}
-        labelKey="verboseName"
-        matchPos="any"
-        matchProp="any"
-        menuBuffer={0}
-        menuRenderer={[Function]}
-        multi={false}
+        defaultInputValue=""
+        defaultMenuIsOpen={false}
+        defaultValue={null}
+        getOptionLabel={[Function]}
+        getOptionValue={[Function]}
+        isClearable={false}
+        isSearchable={false}
+        menuPlacement="auto"
         name="operator"
-        noResultsText="No results found"
-        onBlurResetsInput={true}
         onChange={[Function]}
-        onCloseResetsInput={true}
-        onSelectResetsInput={true}
-        openOnClick={true}
-        optionClassName="operator"
-        optionComponent={[Function]}
         options={
           Array [
             Object {
@@ -476,19 +430,20 @@ exports[`CaseElement render should render empty case 1`] = `
             },
           ]
         }
-        pageSize={5}
-        placeholder="Select..."
-        removeSelected={true}
-        required={false}
-        rtl={false}
-        scrollMenuIntoView={true}
-        searchable={false}
-        simpleValue={false}
-        tabSelectsValue={true}
-        trimFilter={true}
-        value="has_any_word"
-        valueComponent={[Function]}
-        valueKey="type"
+        styles={
+          Object {
+            "control": [Function],
+            "menuList": [Function],
+            "option": [Function],
+          }
+        }
+        value={
+          Object {
+            "operands": 1,
+            "type": "has_any_word",
+            "verboseName": "has any of the words",
+          }
+        }
       />
     </div>
     <div
