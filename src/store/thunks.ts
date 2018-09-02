@@ -17,7 +17,7 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import AssetService, { Asset, DEFAULT_LANGUAGE } from '~/services/AssetService';
+import AssetService, { Asset, AssetType, DEFAULT_LANGUAGE } from '~/services/AssetService';
 import { EditorState, updateEditorState } from '~/store/editor';
 import {
     incrementSuggestedResultNameCount,
@@ -93,7 +93,10 @@ export type OnUpdateLocalizations = (
 
 export type UpdateSticky = (stickyUUID: string, sticky: StickyNote) => Thunk<void>;
 
-export type OnUpdateAction = (action: AnyAction) => Thunk<RenderNodeMap>;
+export type OnUpdateAction = (
+    action: AnyAction,
+    onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
+) => Thunk<RenderNodeMap>;
 
 export type ActionAC = (nodeUUID: string, action: AnyAction) => Thunk<RenderNodeMap>;
 
@@ -171,11 +174,18 @@ export const initializeFlow = (
 
     dispatch(
         updateAssets({
-            results: {
-                items: flowComponents.resultsMap
-            },
             languages: {
+                type: AssetType.Language,
                 items: assetListToMap(currentLanguages)
+            },
+            groups: {
+                endpoint: assetService.getGroupAssets().endpoint,
+                type: AssetType.Group,
+                items: assetListToMap(flowComponents.groups)
+            },
+            results: {
+                type: AssetType.Result,
+                items: flowComponents.resultsMap
             }
         })
     );
@@ -593,10 +603,10 @@ export const resetNodeEditingState = () => (dispatch: DispatchWithState, getStat
     dispatch(updateNodeEditorSettings(null));
 };
 
-export const onUpdateAction = (action: AnyAction) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-) => {
+export const onUpdateAction = (
+    action: AnyAction,
+    onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
+) => (dispatch: DispatchWithState, getState: GetState) => {
     timeStart('onUpdateAction');
 
     const {
@@ -659,6 +669,10 @@ export const onUpdateAction = (action: AnyAction) => (
     }
 
     timeEnd('onUpdateAction');
+
+    if (onUpdated) {
+        onUpdated(dispatch, getState);
+    }
     return updatedNodes;
 };
 

@@ -9,7 +9,7 @@ import {
 } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
 import { AssetStore, RenderNode, RenderNodeMap } from '~/store/flowContext';
-import { getActionIndex, getExitIndex, getNode } from '~/store/helpers';
+import { assetListToMap, getActionIndex, getExitIndex, getNode } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { LocalizationUpdates } from '~/store/thunks';
 import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from '~/utils';
@@ -28,14 +28,28 @@ export const getDefaultExit = (node: FlowNode) => {
     }
 };
 
+export const addGroups = (assets: AssetStore, groups: Asset[]): AssetStore => {
+    const groupMap = assetListToMap(groups);
+    const updated = mutate(assets, {
+        groups: {
+            items: {
+                $merge: groupMap
+            }
+        }
+    });
+    return updated;
+};
+
 export const addFlowResult = (assets: AssetStore, result: string): AssetStore => {
     let updated = assets;
+
+    // TODO: initialize these to empties further up to avoid this
     if (!updated) {
-        updated = { results: { items: {} } };
+        updated = { results: { items: {}, type: AssetType.Result } };
     }
 
     if (!updated.results) {
-        updated.results = { items: {} };
+        updated.results = { items: {}, type: AssetType.Result };
     }
 
     const key = snakify(result);

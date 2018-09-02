@@ -37,12 +37,11 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
         return (
             <div className={containerClasses} data-spec={languageSelectorContainerSpecId}>
                 <AssetSelector
-                    entry={{ value: this.props.language }}
-                    styles={small}
                     name="Language"
-                    placeholder="Language"
-                    searchable={false}
+                    styles={small}
                     assets={this.props.languages}
+                    entry={{ value: this.props.language }}
+                    searchable={false}
                     onChange={this.handleLanguageChanged}
                 />
             </div>

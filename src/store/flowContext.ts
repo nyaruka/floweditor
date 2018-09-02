@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
+import { Asset, AssetType } from '~/services/AssetService';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateAssetsAction,
@@ -53,6 +53,8 @@ export interface AssetMap {
 export interface Assets {
     // our local cache of assets
     items: AssetMap;
+
+    type: AssetType;
 
     // an optional endpoint to search for more
     endpoint?: string;

@@ -327,6 +327,7 @@ export const createWebhookRouterNode = (): FlowNode => ({
 });
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
+    assets: {},
     updateAction: jest.fn(),
     onClose: jest.fn(),
     onTypeChange: jest.fn(),
@@ -601,5 +602,6 @@ export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: Ass
 export const languages: Assets = {
     items: assetListToMap(
         languagesResults.results.map((language: any) => languageToAsset(language))
-    )
+    ),
+    type: AssetType.Language
 };

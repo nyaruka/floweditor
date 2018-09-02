@@ -13,8 +13,9 @@ import { NodeEditorSettings, updateUserAddingAction } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
     DispatchWithState,
-    handleTypeConfigChange,
+    GetState,
     HandleTypeConfigChange,
+    handleTypeConfigChange,
     LocalizationUpdates,
     MergeEditorState,
     mergeEditorState,
@@ -113,8 +114,11 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.updateUserAddingAction(false);
     }
 
-    private updateAction(action: Action): void {
-        this.props.onUpdateAction(action);
+    private updateAction(
+        action: Action,
+        onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
+    ): void {
+        this.props.onUpdateAction(action, onUpdated);
     }
 
     private updateRouter(renderNode: RenderNode): void {

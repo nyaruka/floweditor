@@ -20,6 +20,7 @@ Object {
         "type": "language",
       },
     },
+    "type": "language",
   },
   "entry": Object {
     "value": Object {
@@ -30,7 +31,6 @@ Object {
   },
   "name": "Language",
   "onChange": [Function],
-  "placeholder": "Language",
   "searchable": false,
   "styles": Object {
     "control": [Function],
@@ -65,6 +65,7 @@ exports[`LanguageSelector render should render select control: language selector
             "type": "language",
           },
         },
+        "type": "language",
       }
     }
     entry={
@@ -78,7 +79,6 @@ exports[`LanguageSelector render should render select control: language selector
     }
     name="Language"
     onChange={[Function]}
-    placeholder="Language"
     searchable={false}
     styles={
       Object {

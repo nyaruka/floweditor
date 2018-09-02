@@ -277,7 +277,7 @@ export const generateResultQuery = (resultName: string) => `@run.results.${snaki
 /**
  * Converts a list of assets to a map keyed by their id
  */
-export const assetListToMap = (assets: Asset[]) => {
+export const assetListToMap = (assets: Asset[]): AssetMap => {
     const assetMap = {};
     for (const asset of assets) {
         assetMap[asset.id] = asset;
@@ -309,7 +309,7 @@ export const getFlowComponents = (
     const fieldsMap: { [key: string]: { key: string; name: string } } = {};
     const labelsMap: { [uuid: string]: string } = {};
 
-    const resultsMap: { [key: string]: Asset } = {};
+    const resultsMap: AssetMap = {};
 
     for (const node of nodes) {
         if (!node.actions) {

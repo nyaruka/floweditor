@@ -93,7 +93,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
     public render(): JSX.Element {
         /* <ConnectedFlowList /> */
-        console.log(this.props.languages);
         return (
             <div
                 id={editorContainerSpecId}

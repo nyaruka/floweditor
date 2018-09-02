@@ -4,14 +4,19 @@ import { AnyAction } from '~/flowTypes';
 import { Asset } from '~/services/AssetService';
 import { AssetStore, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { DispatchWithState, GetState } from '~/store/thunks';
 
 export interface ActionFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
+    assets: AssetStore;
 
     // update handlers
-    updateAction(action: AnyAction): void;
+    updateAction(
+        action: AnyAction,
+        onUpdated?: (dispatch: DispatchWithState, getState: GetState) => void
+    ): void;
 
     // modal notifiers
     onTypeChange(config: Type): void;
