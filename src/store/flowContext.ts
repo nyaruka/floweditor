@@ -58,6 +58,9 @@ export interface Assets {
 
     // an optional endpoint to search for more
     endpoint?: string;
+
+    // option name for the id when fetching remotely
+    id?: string;
 }
 
 export interface FlowContext {

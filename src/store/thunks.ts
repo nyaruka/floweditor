@@ -176,7 +176,8 @@ export const initializeFlow = (
         updateAssets({
             languages: {
                 type: AssetType.Language,
-                items: assetListToMap(currentLanguages)
+                items: assetListToMap(currentLanguages),
+                id: 'iso'
             },
             groups: {
                 endpoint: assetService.getGroupAssets().endpoint,
