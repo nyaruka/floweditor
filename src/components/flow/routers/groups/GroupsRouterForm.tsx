@@ -4,8 +4,8 @@ import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { RouterFormProps } from '~/components/flow/props';
 import { GROUP_LABEL } from '~/components/flow/routers/constants';
 import { nodeToState, stateToNode } from '~/components/flow/routers/groups/helpers';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
-import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/services/AssetService';
@@ -90,12 +90,13 @@ export default class GroupsRouterForm extends React.Component<
                     onChange={this.props.onTypeChange}
                 />
                 <p>{GROUP_LABEL}</p>
-                <GroupsElement
+                <AssetSelector
                     name="Groups"
-                    assets={this.context.assetService.getGroupAssets()}
-                    add={false}
-                    onChange={this.handleGroupsChanged}
+                    assets={this.props.assets.groups}
                     entry={this.state.groups}
+                    searchable={true}
+                    onChange={this.handleGroupsChanged}
+                    multi={true}
                 />
                 <OptionalTextInput
                     name="Result Name"

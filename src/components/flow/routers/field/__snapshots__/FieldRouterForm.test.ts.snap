@@ -41,26 +41,8 @@ exports[`FieldRouterForm initializes 1`] = `
     <div
       className="fieldSelect select-medium"
     >
-      <SelectAssetElement
-        assets={
-          FieldAssets {
-            "assetType": "field",
-            "assets": Object {},
-            "endpoint": "/assets/fields.json",
-            "idProperty": "key",
-            "localStorage": true,
-          }
-        }
-        entry={
-          Object {
-            "value": Object {
-              "id": "favorite_color",
-              "name": undefined,
-              "type": "field",
-            },
-          }
-        }
-        localSearchOptions={
+      <AssetSelector
+        additionalOptions={
           Array [
             Object {
               "id": "name",
@@ -144,10 +126,26 @@ exports[`FieldRouterForm initializes 1`] = `
             },
           ]
         }
+        entry={
+          Object {
+            "value": Object {
+              "id": "favorite_color",
+              "name": undefined,
+              "type": "field",
+            },
+          }
+        }
         name="Contact Field"
         onChange={[Function]}
-        searchable={false}
+        searchable={true}
         sortFunction={[Function]}
+        styles={
+          Object {
+            "control": [Function],
+            "menuList": [Function],
+            "option": [Function],
+          }
+        }
       />
     </div>
   </div>
@@ -226,26 +224,8 @@ exports[`FieldRouterForm should render 1`] = `
     <div
       className="fieldSelect select-medium"
     >
-      <SelectAssetElement
-        assets={
-          FieldAssets {
-            "assetType": "field",
-            "assets": Object {},
-            "endpoint": "/assets/fields.json",
-            "idProperty": "key",
-            "localStorage": true,
-          }
-        }
-        entry={
-          Object {
-            "value": Object {
-              "id": "favorite_color",
-              "name": undefined,
-              "type": "field",
-            },
-          }
-        }
-        localSearchOptions={
+      <AssetSelector
+        additionalOptions={
           Array [
             Object {
               "id": "name",
@@ -329,10 +309,26 @@ exports[`FieldRouterForm should render 1`] = `
             },
           ]
         }
+        entry={
+          Object {
+            "value": Object {
+              "id": "favorite_color",
+              "name": undefined,
+              "type": "field",
+            },
+          }
+        }
         name="Contact Field"
         onChange={[Function]}
-        searchable={false}
+        searchable={true}
         sortFunction={[Function]}
+        styles={
+          Object {
+            "control": [Function],
+            "menuList": [Function],
+            "option": [Function],
+          }
+        }
       />
     </div>
   </div>

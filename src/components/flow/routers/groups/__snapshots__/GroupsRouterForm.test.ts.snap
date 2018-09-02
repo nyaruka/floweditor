@@ -76,17 +76,7 @@ exports[`GroupsRouterForm render should render 1`] = `
   <p>
     Select the group(s) you'd like to split by below
   </p>
-  <GroupsElement
-    add={false}
-    assets={
-      GroupAssets {
-        "assetType": "group",
-        "assets": Object {},
-        "endpoint": "/assets/groups.json",
-        "idProperty": "uuid",
-        "localStorage": true,
-      }
-    }
+  <AssetSelector
     entry={
       Object {
         "value": Array [
@@ -118,10 +108,10 @@ exports[`GroupsRouterForm render should render 1`] = `
         ],
       }
     }
+    multi={true}
     name="Groups"
     onChange={[Function]}
-    placeholder="Enter the name of an existing group..."
-    searchPromptText="Invalid group"
+    searchable={true}
   />
   <OptionalTextInput
     helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"

@@ -155,6 +155,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
                     loadOptions={this.handleLoadOptions}
                     onChange={this.handleChanged}
                     isMulti={this.props.multi}
+                    isClearable={false}
                     isSearchable={this.props.searchable}
                     isValidNewOption={this.handleCheckValid}
                     formatCreateLabel={this.handleCreatePrompt}
