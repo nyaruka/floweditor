@@ -143,9 +143,11 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
                     formatCreateLabel={this.handleCreatePrompt}
                     getNewOptionData={this.handleCreateNewOption}
                     onCreateOption={this.props.onCreateOption}
-                    noOptionsMessage={(obj: { inputValue: string }) => this.props.noOptionsMessage}
                     getOptionValue={(option: Asset) => option.id}
                     getOptionLabel={(option: Asset) => option.name}
+                    noOptionsMessage={(obj: { inputValue: string }) =>
+                        this.props.noOptionsMessage || `No ${this.props.name} Found`
+                    }
                 />
             </FormElement>
         );

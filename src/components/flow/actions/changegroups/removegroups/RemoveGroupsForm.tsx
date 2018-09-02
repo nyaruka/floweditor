@@ -8,8 +8,8 @@ import {
 } from '~/components/flow/actions/changegroups/removegroups/helpers';
 import * as styles from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm.scss';
 import { ActionFormProps } from '~/components/flow/props';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
-import GroupsElement from '~/components/form/select/groups/GroupsElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
@@ -45,7 +45,7 @@ export default class RemoveGroupsForm extends React.Component<
     }
 
     public handleSave(): void {
-        const valid = this.handleGroupsChange(this.state.groups.value);
+        const valid = this.handleGroupsChanged(this.state.groups.value);
         if (valid) {
             const newAction = stateToAction(this.props.nodeSettings, this.state);
             this.props.updateAction(newAction as ChangeGroups);
@@ -75,7 +75,7 @@ export default class RemoveGroupsForm extends React.Component<
         return updated.valid;
     }
 
-    public handleGroupsChange(groups: Asset[]): boolean {
+    public handleGroupsChanged(groups: Asset[]): boolean {
         return this.handleUpdate({ groups });
     }
 
@@ -107,14 +107,14 @@ export default class RemoveGroupsForm extends React.Component<
                 {renderIf(!this.state.removeAll)(
                     <div>
                         <p data-spec={labelSpecId}>{LABEL}</p>
-                        <GroupsElement
+                        <AssetSelector
                             name="Groups"
-                            placeholder={PLACEHOLDER}
-                            assets={this.context.assetService.getGroupAssets()}
-                            searchPromptText={NOT_FOUND}
-                            onChange={this.handleGroupsChange}
+                            createPrefix="Create Group: "
+                            assets={this.props.assets.groups}
                             entry={this.state.groups}
-                            add={false}
+                            searchable={true}
+                            onChange={this.handleGroupsChanged}
+                            multi={true}
                         />
                     </div>
                 )}
