@@ -3,8 +3,7 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/startsession/helpers';
 import { ActionFormProps } from '~/components/flow/props';
-import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
-import OmniboxElement from '~/components/form/select/omnibox/OmniboxElement';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/services/AssetService';
@@ -99,25 +98,23 @@ export default class StartSessionForm extends React.Component<
                     onChange={this.props.onTypeChange}
                 />
                 <div>
-                    <OmniboxElement
-                        data-spec="recipients"
+                    <AssetSelector
                         name="Recipients"
-                        assets={this.context.assetService.getRecipients()}
-                        onChange={this.handleRecipientsChanged}
+                        assets={this.props.assets.recipients}
                         entry={this.state.recipients}
-                        add={true}
+                        searchable={true}
+                        multi={true}
+                        onChange={this.handleRecipientsChanged}
                     />
-                    <p>
-                        <SelectAssetElement
-                            key="flow_select"
-                            name="Flow"
-                            searchable={true}
-                            placeholder="Select the flow to start them in"
-                            entry={this.state.flow}
-                            assets={this.context.assetService.getFlowAssets()}
-                            onChange={this.handleFlowChanged}
-                        />
-                    </p>
+                    <p />
+                    <AssetSelector
+                        name="Flow"
+                        placeholder="Select the flow to start"
+                        assets={this.props.assets.flows}
+                        entry={this.state.flow}
+                        searchable={true}
+                        onChange={this.handleFlowChanged}
+                    />
                 </div>
             </Dialog>
         );

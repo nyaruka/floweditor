@@ -49,7 +49,7 @@ exports[`SubflowRouterForm render should render 1`] = `
     }
     name="Flow"
     onChange={[Function]}
-    placeholder="Select a flow to start"
+    placeholder="Select the flow to start"
     searchable={true}
   />
 </Dialog>

@@ -172,6 +172,7 @@ export const initializeFlow = (
         currentLanguages = mutators.addLanguage(languages, DEFAULT_LANGUAGE);
     }
 
+    const groups = assetListToMap(flowComponents.groups);
     dispatch(
         updateAssets({
             languages: {
@@ -187,11 +188,16 @@ export const initializeFlow = (
             groups: {
                 endpoint: assetService.getGroupAssets().endpoint,
                 type: AssetType.Group,
-                items: assetListToMap(flowComponents.groups)
+                items: groups
             },
             results: {
                 type: AssetType.Result,
                 items: flowComponents.resultsMap
+            },
+            recipients: {
+                endpoint: assetService.getRecipients().endpoint,
+                type: AssetType.Contact || AssetType.Group || AssetType.URN,
+                items: groups
             }
         })
     );

@@ -46,28 +46,18 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     }
     onChange={[MockFunction]}
   />
-  <OmniboxElement
-    add={true}
-    assets={
-      RecipientAssets {
-        "assets": Object {},
-        "endpoint": "/assets/recipients.json",
-        "idProperty": "uuid",
-        "localStorage": true,
-      }
-    }
-    className="recipients"
-    data-spec="recipients"
+  <AssetSelector
     entry={
       Object {
         "value": Array [],
       }
     }
+    multi={true}
     name="Recipients"
     onChange={[Function]}
-    placeholder="Enter a group or contact..."
-    searchPromptText="No matches"
+    searchable={true}
   />
+  <p />
   <Connect(TextInputElement)
     autocomplete={true}
     count="SMS"

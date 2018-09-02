@@ -76,7 +76,7 @@ export default class SubflowRouterForm extends React.PureComponent<
                 />
                 <AssetSelector
                     name="Flow"
-                    placeholder="Select a flow to start"
+                    placeholder="Select the flow to start"
                     assets={this.props.assets.flows}
                     entry={this.state.flow}
                     searchable={true}
