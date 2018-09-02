@@ -7,6 +7,7 @@ import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType } from 'react-select/lib/types';
 import { sortByName } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
+import { getIconForAssetType } from '~/components/form/select/helper';
 import { Asset, removeAsset } from '~/services/AssetService';
 import { Assets } from '~/store/flowContext';
 
@@ -18,7 +19,9 @@ const AssetOption = (props: OptionProps<Asset>) => {
     // TODO: add styling for different asset types
     return !props.isDisabled ? (
         <div ref={props.innerRef} {...props.innerProps}>
-            <components.Option {...props}>{asset.name}</components.Option>
+            <components.Option {...props}>
+                {getIconForAssetType(asset.type)} {asset.name}
+            </components.Option>
         </div>
     ) : null;
 };

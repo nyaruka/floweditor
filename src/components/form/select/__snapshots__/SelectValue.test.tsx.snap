@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`SelectValue render should render group option with icon: group 1`] = `"<div class=\\"Select-value\\"><span data-spec=\\"remove-button\\" class=\\"Select-value-icon\\">x</span><span class=\\"Select-value-label\\"><span class=\\"fe-group\\"></span> My Group</span></div>"`;
-
-exports[`SelectValue render should render group option with icon: urn 1`] = `"<div class=\\"Select-value\\"><span data-spec=\\"remove-button\\" class=\\"Select-value-icon\\">x</span><span class=\\"Select-value-label\\"> My URN</span></div>"`;
-
-exports[`SelectValue render should render user option: contact 1`] = `"<div class=\\"Select-value\\"><span data-spec=\\"remove-button\\" class=\\"Select-value-icon\\">x</span><span class=\\"Select-value-label\\"> My Contact</span></div>"`;
