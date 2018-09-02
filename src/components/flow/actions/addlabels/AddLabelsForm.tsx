@@ -1,21 +1,21 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { initializeForm, stateToAction } from '~/components/flow/actions/addlabels/helpers';
 import { ActionFormProps } from '~/components/flow/props';
-import LabelsElement from '~/components/form/select/labels/LabelsElement';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Asset } from '~/services/AssetService';
+import { Asset, AssetType } from '~/services/AssetService';
 import { AssetArrayEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
+import { createUUID } from '~/utils';
+
+import { initializeForm, onUpdated, stateToAction } from './helpers';
 
 export interface AddLabelsFormState extends FormState {
     labels: AssetArrayEntry;
 }
 
-export const LABEL = 'Select the label(s) to apply to the incoming message.';
-export const PLACEHOLDER = 'Enter the name of an existing label or create a new one';
 export const controlLabelSpecId = 'label';
 
 export default class AddLabelsForm extends React.PureComponent<
@@ -36,15 +36,15 @@ export default class AddLabelsForm extends React.PureComponent<
     }
 
     public handleSave(): void {
-        const valid = this.handleLabelChange(this.state.labels.value);
+        const valid = this.handleLabelsChanged(this.state.labels.value);
         if (valid) {
             const newAction = stateToAction(this.props.nodeSettings, this.state);
-            this.props.updateAction(newAction);
+            this.props.updateAction(newAction, onUpdated);
             this.props.onClose(false);
         }
     }
 
-    public handleLabelChange(selected: Asset[]): boolean {
+    public handleLabelsChanged(selected: Asset[]): boolean {
         const updates: Partial<AddLabelsFormState> = {
             labels: validate('Labels', selected, [validateRequired])
         };
@@ -61,6 +61,11 @@ export default class AddLabelsForm extends React.PureComponent<
         };
     }
 
+    public handleLabelCreated(name: string): void {
+        const group = { id: createUUID(), name, type: AssetType.Label };
+        this.handleLabelsChanged(this.state.labels.value.concat(group));
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
         return (
@@ -74,13 +79,19 @@ export default class AddLabelsForm extends React.PureComponent<
                     initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
-                <p data-spec={controlLabelSpecId}>{LABEL}</p>
-                <LabelsElement
+                <p data-spec={controlLabelSpecId}>
+                    Select the labels to apply to the incoming message.
+                </p>
+
+                <AssetSelector
                     name="Labels"
-                    placeholder={PLACEHOLDER}
-                    assets={this.context.assetService.getLabelAssets()}
+                    placeholder="Enter the name of an existing label or create a new one"
+                    assets={this.props.assets.labels}
                     entry={this.state.labels}
-                    onChange={this.handleLabelChange}
+                    searchable={true}
+                    multi={true}
+                    onChange={this.handleLabelsChanged}
+                    onCreateOption={this.handleLabelCreated}
                 />
             </Dialog>
         );

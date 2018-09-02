@@ -28,12 +28,12 @@ export const getDefaultExit = (node: FlowNode) => {
     }
 };
 
-export const addGroups = (assets: AssetStore, groups: Asset[]): AssetStore => {
-    const groupMap = assetListToMap(groups);
+export const addAssets = (type: AssetType, assets: AssetStore, labels: Asset[]): AssetStore => {
+    const assetMap = assetListToMap(labels);
     const updated = mutate(assets, {
-        groups: {
+        [type]: {
             items: {
-                $merge: groupMap
+                $merge: assetMap
             }
         }
     });

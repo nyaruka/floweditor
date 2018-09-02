@@ -190,6 +190,11 @@ export const initializeFlow = (
                 type: AssetType.Group,
                 items: groups
             },
+            labels: {
+                endpoint: assetService.getLabelAssets().endpoint,
+                type: AssetType.Label,
+                items: assetListToMap(flowComponents.labels)
+            },
             results: {
                 type: AssetType.Result,
                 items: flowComponents.resultsMap

@@ -3,7 +3,10 @@ import { getActionUUID } from '~/components/flow/actions/helpers';
 import { Types } from '~/config/typeConfigs';
 import { AddLabels } from '~/flowTypes';
 import { Asset, AssetType } from '~/services/AssetService';
+import { updateAssets } from '~/store/flowContext';
+import * as mutators from '~/store/mutators';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { DispatchWithState, GetState } from '~/store/thunks';
 
 export const initializeForm = (settings: NodeEditorSettings): AddLabelsFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.add_input_labels) {
@@ -39,4 +42,12 @@ export const getAsset = (assets: Asset[], type: AssetType): any[] => {
     return assets.filter((asset: Asset) => asset.type === type).map((asset: Asset) => {
         return { uuid: asset.id, name: asset.name };
     });
+};
+
+export const onUpdated = (dispatch: DispatchWithState, getState: GetState): void => {
+    const {
+        flowContext: { assets }
+    } = getState();
+
+    dispatch(updateAssets(mutators.addAssets(AssetType.Label, assets, this.state.labels.value)));
 };
