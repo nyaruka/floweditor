@@ -175,6 +175,11 @@ export const initializeFlow = (
     const groups = assetListToMap(flowComponents.groups);
     dispatch(
         updateAssets({
+            channels: {
+                endpoint: assetService.getChannelAssets().endpoint,
+                type: AssetType.Channel,
+                items: {} // TODO: flow components should include channels
+            },
             languages: {
                 type: AssetType.Language,
                 items: assetListToMap(currentLanguages),
@@ -184,6 +189,12 @@ export const initializeFlow = (
                 endpoint: assetService.getFlowAssets().endpoint,
                 type: AssetType.Group,
                 items: {} // TODO: flow components should include flows
+            },
+            fields: {
+                endpoint: assetService.getFieldAssets().endpoint,
+                type: AssetType.Field,
+                id: 'key',
+                items: assetListToMap(flowComponents.fields)
             },
             groups: {
                 endpoint: assetService.getGroupAssets().endpoint,

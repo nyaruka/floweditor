@@ -7,7 +7,7 @@ import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType } from 'react-select/lib/types';
 import { sortByName } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
-import { Asset } from '~/services/AssetService';
+import { Asset, removeAsset } from '~/services/AssetService';
 import { Assets } from '~/store/flowContext';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
@@ -26,6 +26,9 @@ const AssetOption = (props: OptionProps<Asset>) => {
 export interface AssetSelectorProps extends FormElementProps {
     assets: Assets;
     onChange: (selected: Asset[]) => void;
+
+    // more options to consider when searching
+    additionalOptions?: Asset[];
 
     // add custom styling
     styles?: StylesConfig;
@@ -91,7 +94,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
                 }
             }
 
-            callback(matches.sort(this.props.sortFunction || sortByName));
+            const remove: Asset[] = this.props.clearable ? [removeAsset] : [];
+            callback(remove.concat(matches.sort(this.props.sortFunction || sortByName)));
         });
     }
 
@@ -101,8 +105,13 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
 
     public handleLocalSearch(inputValue: string): Asset[] {
         const search = inputValue.toLowerCase();
-        return Object.keys(this.props.assets.items)
+        const matches = Object.keys(this.props.assets.items)
             .map(key => this.props.assets.items[key])
+            .filter((asset: Asset) => this.isMatch(search, asset));
+
+        // include our additional matches if we have any
+        return matches
+            .concat(this.props.additionalOptions || [])
             .filter((asset: Asset) => this.isMatch(search, asset));
     }
 

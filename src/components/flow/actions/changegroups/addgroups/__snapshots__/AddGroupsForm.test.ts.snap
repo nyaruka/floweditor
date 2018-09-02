@@ -33,7 +33,7 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
   <p
     data-spec="label"
   >
-     Select the group(s) to add the contact to.
+    Select the group(s) to add the contact to.
   </p>
   <AssetSelector
     createPrefix="Create Group: "

@@ -7,7 +7,7 @@ import {
     stateToAction
 } from '~/components/flow/actions/updatecontact/helpers';
 import { ActionFormProps } from '~/components/flow/props';
-import SelectAssetElement from '~/components/form/select/assets/SelectAssetElement';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
@@ -111,11 +111,18 @@ export default class UpdateContactForm extends React.Component<
         if (selection.type === AssetType.ContactProperty) {
             switch (selection.id) {
                 case ContactProperties.Name:
-                    return this.handleUpdate({ type: Types.set_contact_name, name: '' });
+                    return this.handleUpdate({
+                        field: selection,
+                        type: Types.set_contact_name,
+                        name: ''
+                    });
                 case ContactProperties.Language:
-                    return this.handleUpdate({ type: Types.set_contact_language });
+                    return this.handleUpdate({
+                        field: selection,
+                        type: Types.set_contact_language
+                    });
                 case ContactProperties.Channel:
-                    return this.handleUpdate({ type: Types.set_contact_channel });
+                    return this.handleUpdate({ field: selection, type: Types.set_contact_channel });
             }
         }
         return this.handleUpdate({
@@ -180,30 +187,28 @@ export default class UpdateContactForm extends React.Component<
     private getValueWidget(): JSX.Element {
         if (this.state.type === Types.set_contact_channel) {
             return (
-                <SelectAssetElement
-                    key="channel_select"
+                <AssetSelector
                     name="Channel"
-                    searchable={true}
                     placeholder="Select the channel to use for this contact"
+                    assets={this.props.assets.channels}
                     entry={this.state.channel}
-                    assets={this.context.assetService.getChannelAssets()}
-                    onChange={this.handleChannelUpdate}
+                    searchable={true}
                     clearable={true}
+                    onChange={this.handleChannelUpdate}
                 />
             );
         }
 
         if (this.state.type === Types.set_contact_language) {
             return (
-                <SelectAssetElement
-                    key="language_select"
+                <AssetSelector
                     name="Language"
-                    searchable={true}
                     placeholder="Select the language to use for this contact"
+                    assets={this.props.assets.languages}
                     entry={this.state.language}
-                    assets={this.context.assetService.getLanguageAssets()}
-                    onChange={this.handleLanguageUpdate}
+                    searchable={true}
                     clearable={true}
+                    onChange={this.handleLanguageUpdate}
                 />
             );
         } else if (this.state.type === Types.set_contact_name) {
@@ -247,16 +252,14 @@ export default class UpdateContactForm extends React.Component<
                 />
 
                 <p>Select what to update</p>
-                <SelectAssetElement
+                <AssetSelector
                     name="Contact Field"
+                    assets={this.props.assets.fields}
+                    additionalOptions={CONTACT_PROPERTIES}
                     entry={this.state.field}
                     searchable={true}
-                    assets={this.context.assetService.getFieldAssets()}
-                    localSearchOptions={CONTACT_PROPERTIES}
                     sortFunction={sortFieldsAndProperties}
                     onChange={this.handlePropertyChange}
-                    add={true}
-                    // onCreateOption={createNewOption}
                 />
 
                 <div className={styles.value}>{this.getValueWidget()}</div>

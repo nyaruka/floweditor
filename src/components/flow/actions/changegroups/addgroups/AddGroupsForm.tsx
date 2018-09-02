@@ -14,9 +14,6 @@ import { createUUID } from '~/utils';
 import { ChangeGroupsFormState, labelSpecId } from '../helpers';
 import { initializeForm, onUpdated, stateToAction } from './helpers';
 
-export const LABEL = ' Select the group(s) to add the contact to.';
-export const PLACEHOLDER = 'Enter the name of an existing group or create a new one';
-
 export default class AddGroupsForm extends React.Component<ActionFormProps, ChangeGroupsFormState> {
     public static contextTypes = {
         assetService: fakePropType
@@ -75,7 +72,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
                     initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
-                <p data-spec={labelSpecId}>{LABEL}</p>
+                <p data-spec={labelSpecId}>Select the group(s) to add the contact to.</p>
 
                 <AssetSelector
                     name="Groups"
