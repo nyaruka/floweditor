@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
 import ActionTypes, {
     IncrementSuggestedResultNameCountAction,
     UpdateAssetsAction,
@@ -41,6 +40,38 @@ export interface Results {
 export interface ContactFields {
     [snakedFieldName: string]: string;
 }
+
+export enum AssetType {
+    Channel = 'channel',
+    Flow = 'flow',
+    Group = 'group',
+    Field = 'field',
+    Result = 'result',
+    Contact = 'contact',
+    URN = 'urn',
+    Label = 'label',
+    Language = 'language',
+    Environment = 'environment',
+    Remove = 'remove',
+    ContactProperty = 'property',
+    Scheme = 'scheme'
+}
+
+export interface Asset {
+    id: string;
+    name: string;
+    type: AssetType;
+
+    isNew?: boolean;
+    content?: any;
+}
+
+export const REMOVE_VALUE_ASSET = {
+    id: AssetType.Remove,
+    name: 'Remove Value',
+    type: AssetType.Remove
+};
+export const DEFAULT_LANGUAGE = { id: '', name: 'Default', type: AssetType.Language };
 
 export interface AssetStore {
     [assetType: string]: Assets;

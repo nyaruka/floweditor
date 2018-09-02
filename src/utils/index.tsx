@@ -2,8 +2,8 @@ import { Query } from 'immutability-helper';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
 import { Action, Case, ContactProperties, Exit, LocalizationMap } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
+import { Asset } from '~/store/flowContext';
 import { FormEntry } from '~/store/nodeEditor';
 import * as variables from '~/variables.scss';
 

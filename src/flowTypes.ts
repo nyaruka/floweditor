@@ -1,7 +1,6 @@
 import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
-import AssetService from '~/services/AssetService';
 
 export interface Languages {
     [iso: string]: string;
@@ -38,7 +37,6 @@ export interface FlowEditorConfig {
     endpoints: Endpoints;
     flow: string;
     debug?: boolean;
-    assetService?: AssetService;
     path?: string;
 }
 

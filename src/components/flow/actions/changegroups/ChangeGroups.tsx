@@ -2,7 +2,7 @@ import * as React from 'react';
 import { renderAssetList } from '~/components/flow/actions/helpers';
 import { Types } from '~/config/typeConfigs';
 import { ChangeGroups } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
+import { AssetType } from '~/store/flowContext';
 
 export const removeAllSpecId = 'remove_from_all';
 export const contentSpecId = 'content';

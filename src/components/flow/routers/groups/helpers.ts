@@ -5,8 +5,7 @@ import { GROUPS_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import { FlowNode, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
-import { RenderNode } from '~/store/flowContext';
+import { Asset, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const nodeToState = (settings: NodeEditorSettings): GroupsRouterFormState => {

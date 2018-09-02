@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { getRecipients, renderAssetList } from '~/components/flow/actions/helpers';
 import { StartSession } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
+import { AssetType } from '~/store/flowContext';
 
 const styles = require('./StartSession.scss');
 

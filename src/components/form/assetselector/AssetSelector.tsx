@@ -1,5 +1,4 @@
 import { react as bindCallbacks } from 'auto-bind';
-import axios, { AxiosResponse } from 'axios';
 import * as React from 'react';
 import { AsyncCreatable, components } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
@@ -8,8 +7,8 @@ import { OptionsType } from 'react-select/lib/types';
 import { sortByName } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { getIconForAssetType } from '~/components/form/select/helper';
-import { Asset, removeAsset } from '~/services/AssetService';
-import { Assets } from '~/store/flowContext';
+import { getAssets } from '~/external';
+import { Asset, Assets, REMOVE_VALUE_ASSET } from '~/store/flowContext';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
@@ -73,7 +72,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
     }
 
     public handleLoadOptions(input: string, callback: CallbackFunction): void {
-        const matches = this.handleLocalSearch(input);
+        let matches = this.handleLocalSearch(input);
 
         // then query against our endpoint to add to that list
         const assets = this.props.assets;
@@ -82,23 +81,14 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
             url += '?query=' + encodeURIComponent(input);
         }
 
-        const id = assets.id || 'uuid';
-        axios.get(url).then((response: AxiosResponse) => {
-            // Only attempt to match if response contains a list of externally-fetched assets
-            if (response.data) {
-                for (const result of response.data.results) {
-                    if (this.isMatch(input, result)) {
-                        matches.push({
-                            name: result.name,
-                            id: result[id],
-                            type: assets.type
-                        });
-                    }
-                }
-            }
+        getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
+            matches = matches.concat(
+                remoteAssets.filter((asset: Asset) => this.isMatch(input, asset))
+            );
 
-            const remove: Asset[] = this.props.clearable ? [removeAsset] : [];
-            callback(remove.concat(matches.sort(this.props.sortFunction || sortByName)));
+            // tack on our removal asset if we are clearable
+            const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
+            callback(removalAsset.concat(matches.sort(this.props.sortFunction || sortByName)));
         });
     }
 

@@ -1,4 +1,4 @@
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 
 /**
  * Sorts all search results by name

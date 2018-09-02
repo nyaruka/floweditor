@@ -1,6 +1,6 @@
 import { Type } from '~/config';
 import { FlowDefinition } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import Constants from '~/store/constants';
 import { EditorState } from '~/store/editor';
 import { AssetStore, ContactFields, RenderNodeMap, ResultMap } from '~/store/flowContext';

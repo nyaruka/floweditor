@@ -5,7 +5,7 @@ import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/operatorConfigs';
 import { Types } from '~/config/typeConfigs';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
+import { AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';

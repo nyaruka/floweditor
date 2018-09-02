@@ -4,7 +4,7 @@ import UpdateContactForm, {
     NAME_PROPERTY
 } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { ActionFormProps } from '~/components/flow/props';
-import { AssetType } from '~/services/AssetService';
+import { AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import {
     createAddGroupsAction,

@@ -8,7 +8,6 @@ import thunk from 'redux-thunk';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
-import AssetService from '~/services/AssetService';
 import createStore from '~/store/createStore';
 import { RenderNodeMap } from '~/store/flowContext';
 import { getFlowComponents } from '~/store/helpers';
@@ -54,7 +53,6 @@ const flowEditorConfig: FlowEditorConfig = config;
 export const configProviderContext: ConfigProviderContext = {
     endpoints: flowEditorConfig.endpoints,
     flow: flowEditorConfig.flow,
-    assetService: new AssetService(flowEditorConfig),
     debug: flowEditorConfig.debug
 };
 

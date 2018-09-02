@@ -13,10 +13,12 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Types } from '~/config/typeConfigs';
 import { ContactProperties } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
+import { Asset, AssetType, updateAssets } from '~/store/flowContext';
+import * as mutators from '~/store/mutators';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
-import { titleCase } from '~/utils';
+import { createUUID, titleCase } from '~/utils';
 
 const styles = require('./UpdateContact.scss');
 
@@ -148,6 +150,19 @@ export default class UpdateContactForm extends React.Component<
         return this.handleUpdate({ name });
     }
 
+    private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
+        const {
+            flowContext: { assets }
+        } = getState();
+
+        dispatch(updateAssets(mutators.addAssets('fields', assets, [this.state.field.value])));
+    }
+
+    public handleFieldAdded(name: string): void {
+        const newField = { id: createUUID(), name, type: AssetType.Field };
+        this.handlePropertyChange([newField]);
+    }
+
     private handleSave(): void {
         let valid = this.state.valid;
 
@@ -163,13 +178,10 @@ export default class UpdateContactForm extends React.Component<
 
         if (valid) {
             // do the saving!
-            this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
-
-            // make sure any new fields are added to our local store
-            if (this.state.type === Types.set_contact_field) {
-                this.context.assetService.getFieldAssets().add(this.state.field);
-            }
-
+            this.props.updateAction(
+                stateToAction(this.props.nodeSettings, this.state),
+                this.onUpdated
+            );
             this.props.onClose(true);
         }
     }
@@ -260,6 +272,7 @@ export default class UpdateContactForm extends React.Component<
                     searchable={true}
                     sortFunction={sortFieldsAndProperties}
                     onChange={this.handlePropertyChange}
+                    onCreateOption={this.handleFieldAdded}
                 />
 
                 <div className={styles.value}>{this.getValueWidget()}</div>

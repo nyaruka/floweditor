@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { renderAssetList } from '~/components/flow/actions/helpers';
 import { AddLabels } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
+import { AssetType } from '~/store/flowContext';
 
 export const MAX_TO_SHOW = 3;
 

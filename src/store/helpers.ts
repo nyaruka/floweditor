@@ -15,9 +15,15 @@ import {
     UIMetaData,
     WaitTypes
 } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
 import Localization, { LocalizedObject } from '~/services/Localization';
-import { AssetMap, RenderNode, RenderNodeMap, ResultMap } from '~/store/flowContext';
+import {
+    Asset,
+    AssetMap,
+    AssetType,
+    RenderNode,
+    RenderNodeMap,
+    ResultMap
+} from '~/store/flowContext';
 import { createUUID, snakify } from '~/utils';
 
 export interface Bounds {
@@ -283,6 +289,10 @@ export const assetListToMap = (assets: Asset[]): AssetMap => {
         assetMap[asset.id] = asset;
     }
     return assetMap;
+};
+
+export const assetMapToList = (assets: AssetMap): Asset[] => {
+    return Object.keys(assets).map(key => assets[key]);
 };
 
 /**

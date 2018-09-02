@@ -1,6 +1,6 @@
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
 import { ActionFormProps } from '~/components/flow/props';
-import { AssetType } from '~/services/AssetService';
+import { AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, getSpecWrapper, mock } from '~/testUtils';
 import {
     createStartSessionAction,

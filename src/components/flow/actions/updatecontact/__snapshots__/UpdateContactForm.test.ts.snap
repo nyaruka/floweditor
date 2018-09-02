@@ -69,6 +69,7 @@ exports[`UpdateContactForm render initial for channel 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
+    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -164,6 +165,7 @@ exports[`UpdateContactForm render initial for field 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
+    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -255,6 +257,7 @@ exports[`UpdateContactForm render initial for language 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
+    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -350,6 +353,7 @@ exports[`UpdateContactForm render initial for name 1`] = `
     }
     name="Contact Field"
     onChange={[Function]}
+    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -441,6 +445,7 @@ exports[`UpdateContactForm render should render an empty form with different act
     }
     name="Contact Field"
     onChange={[Function]}
+    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -532,6 +537,7 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
     }
     name="Contact Field"
     onChange={[Function]}
+    onCreateOption={[Function]}
     searchable={true}
     sortFunction={[Function]}
   />
@@ -594,6 +600,7 @@ Array [
     "type": "set_contact_channel",
     "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
   },
+  [Function],
 ]
 `;
 
@@ -604,6 +611,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
   },
+  [Function],
 ]
 `;
 
@@ -644,6 +652,7 @@ Array [
     "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
     "value": "12/25/00",
   },
+  [Function],
 ]
 `;
 
@@ -680,6 +689,7 @@ Array [
     "type": "set_contact_language",
     "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
   },
+  [Function],
 ]
 `;
 
@@ -720,6 +730,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -756,6 +767,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -792,6 +804,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 
@@ -828,6 +841,7 @@ Array [
     "type": "set_contact_name",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
+  [Function],
 ]
 `;
 

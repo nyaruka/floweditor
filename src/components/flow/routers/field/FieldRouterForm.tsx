@@ -10,7 +10,7 @@ import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput'
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Scheme, SCHEMES } from '~/config/typeConfigs';
-import { Asset, AssetType } from '~/services/AssetService';
+import { Asset, AssetType } from '~/store/flowContext';
 import { AssetEntry, FormState, StringEntry } from '~/store/nodeEditor';
 import { small } from '~/utils/reactselect';
 

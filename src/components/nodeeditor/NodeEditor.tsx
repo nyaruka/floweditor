@@ -6,7 +6,7 @@ import { getDraggedFrom } from '~/components/helpers';
 import Modal from '~/components/modal/Modal';
 import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import { IncrementSuggestedResultNameCount, UpdateUserAddingAction } from '~/store/actionTypes';
 import { AssetStore, incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, updateUserAddingAction } from '~/store/nodeEditor';

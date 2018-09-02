@@ -9,7 +9,7 @@ import Counter from '~/components/counter/Counter';
 import * as styles from '~/components/flow/exit/Exit.scss';
 import { Exit, FlowNode, LocalizationMap } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
 import { createClickHandler, getLocalization } from '~/utils';

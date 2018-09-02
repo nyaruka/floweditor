@@ -1,5 +1,5 @@
 import { Group } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
+import { Asset, AssetType } from '~/store/flowContext';
 import { AssetArrayEntry, FormState } from '~/store/nodeEditor';
 
 export const labelSpecId = 'label';

@@ -37,8 +37,7 @@ import {
     WaitTypes,
     WebhookExitNames
 } from '~/flowTypes';
-import { AssetType } from '~/services/AssetService';
-import { Assets, RenderNode } from '~/store/flowContext';
+import { Assets, AssetType, RenderNode } from '~/store/flowContext';
 import { assetListToMap } from '~/store/helpers';
 import { capitalize, createUUID } from '~/utils';
 

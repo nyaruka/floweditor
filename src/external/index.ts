@@ -1,7 +1,8 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
-import { FlowDefinition } from '~/flowTypes';
+import { Endpoints, FlowDefinition } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
+import { Asset, AssetType } from '~/store/flowContext';
 
 export interface FlowDetails {
     uuid: string;
@@ -35,3 +36,64 @@ export const getActivity = (
             .then((response: AxiosResponse) => resolve(response.data as Activity))
             .catch(error => reject(error))
     );
+
+export const getAssets = (url: string, type: AssetType, id: string): Promise<Asset[]> =>
+    new Promise<Asset[]>((resolve, reject) => {
+        axios
+            .get(url)
+            .then((response: AxiosResponse) => {
+                const assets: Asset[] = response.data.results.map((result: any) => {
+                    return {
+                        name: result.name,
+                        id: result[id],
+                        type
+                    };
+                });
+                resolve(assets);
+            })
+            .catch(error => reject(error));
+    });
+
+export const getFlow = (endpoints: Endpoints, uuid: string): Promise<Asset> =>
+    new Promise<Asset>((resolve, reject) => {
+        const url = `${endpoints.flows}/${uuid}/`;
+        axios
+            .get(url)
+            .then((response: AxiosResponse) => {
+                const flow = response.data;
+                const name = flow.name || '';
+                const asset = {
+                    id: uuid,
+                    name,
+                    type: this.assetType,
+                    content: flow
+                };
+                return resolve(asset);
+            })
+            .catch(error => reject(error));
+    });
+
+export const getBaseURL = (): string => {
+    const location = window.location;
+    return (
+        location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '')
+    );
+};
+
+export const getURL = (path: string): string => {
+    let url = path;
+    if (!url.endsWith('/')) {
+        url += '/';
+    }
+
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+        return url;
+    }
+
+    // Set url for netlify deployments
+    if (process.env.NODE_ENV === 'preview') {
+        url = '/.netlify/functions/' + url;
+    }
+
+    return `${getBaseURL() + url}`;
+};

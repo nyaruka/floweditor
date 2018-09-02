@@ -7,8 +7,7 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
-import { AssetStore, RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { Asset, AssetStore, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { assetListToMap, getActionIndex, getExitIndex, getNode } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { LocalizationUpdates } from '~/store/thunks';
@@ -28,9 +27,9 @@ export const getDefaultExit = (node: FlowNode) => {
     }
 };
 
-export const addAssets = (type: AssetType, assets: AssetStore, labels: Asset[]): AssetStore => {
-    const assetMap = assetListToMap(labels);
-    const updated = mutate(assets, {
+export const addAssets = (type: string, store: AssetStore, assets: Asset[]): AssetStore => {
+    const assetMap = assetListToMap(assets);
+    const updated = mutate(store, {
         [type]: {
             items: {
                 $merge: assetMap

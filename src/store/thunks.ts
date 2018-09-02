@@ -3,10 +3,12 @@ import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
+import { getAssets, getFlow } from '~/external';
 import {
     Action,
     AnyAction,
     Dimensions,
+    Endpoints,
     Exit,
     FlowDefinition,
     FlowNode,
@@ -17,9 +19,11 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import AssetService, { Asset, AssetType, DEFAULT_LANGUAGE } from '~/services/AssetService';
 import { EditorState, updateEditorState } from '~/store/editor';
 import {
+    Asset,
+    AssetType,
+    DEFAULT_LANGUAGE,
     incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
@@ -32,7 +36,6 @@ import {
 } from '~/store/flowContext';
 import {
     assetListToMap,
-    extractContactFields,
     FlowComponents,
     generateResultQuery,
     getActionIndex,
@@ -50,7 +53,7 @@ import {
     updateUserAddingAction
 } from '~/store/nodeEditor';
 import AppState from '~/store/state';
-import { createUUID, dedupe, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
+import { createUUID, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -76,7 +79,7 @@ export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (node: FlowNode, dimensions: Dimensions) => Thunk<RenderNodeMap>;
 
-export type FetchFlow = (assetService: AssetService, uuid: string) => Thunk<Promise<void>>;
+export type FetchFlow = (endpoints: Endpoints, uuid: string) => Thunk<Promise<void>>;
 
 export type EnsureStartNode = () => Thunk<RenderNode>;
 
@@ -156,14 +159,10 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
 
 export const initializeFlow = (
     definition: FlowDefinition,
-    assetService: AssetService,
+    endpoints: Endpoints,
     languages: Asset[] = []
 ) => (dispatch: DispatchWithState, getState: GetState): FlowComponents => {
     const flowComponents = getFlowComponents(definition, languages);
-
-    if (assetService) {
-        assetService.addFlowComponents(flowComponents);
-    }
 
     let currentLanguages = languages;
 
@@ -176,33 +175,34 @@ export const initializeFlow = (
     dispatch(
         updateAssets({
             channels: {
-                endpoint: assetService.getChannelAssets().endpoint,
+                endpoint: endpoints.channels,
                 type: AssetType.Channel,
                 items: {} // TODO: flow components should include channels
             },
             languages: {
+                endpoint: endpoints.languages,
                 type: AssetType.Language,
                 items: assetListToMap(currentLanguages),
                 id: 'iso'
             },
             flows: {
-                endpoint: assetService.getFlowAssets().endpoint,
-                type: AssetType.Group,
+                endpoint: endpoints.flows,
+                type: AssetType.Flow,
                 items: {} // TODO: flow components should include flows
             },
             fields: {
-                endpoint: assetService.getFieldAssets().endpoint,
+                endpoint: endpoints.fields,
                 type: AssetType.Field,
                 id: 'key',
                 items: assetListToMap(flowComponents.fields)
             },
             groups: {
-                endpoint: assetService.getGroupAssets().endpoint,
+                endpoint: endpoints.groups,
                 type: AssetType.Group,
                 items: groups
             },
             labels: {
-                endpoint: assetService.getLabelAssets().endpoint,
+                endpoint: endpoints.labels,
                 type: AssetType.Label,
                 items: assetListToMap(flowComponents.labels)
             },
@@ -211,7 +211,7 @@ export const initializeFlow = (
                 items: flowComponents.resultsMap
             },
             recipients: {
-                endpoint: assetService.getRecipients().endpoint,
+                endpoint: endpoints.recipients,
                 type: AssetType.Contact || AssetType.Group || AssetType.URN,
                 items: groups
             }
@@ -242,30 +242,18 @@ export const initializeFlow = (
     return flowComponents;
 };
 
-export const fetchFlow = (assetService: AssetService, uuid: string) => async (
+export const fetchFlow = (endpoints: Endpoints, uuid: string) => async (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
     dispatch(mergeEditorState({ fetchingFlow: true }));
 
-    const [flows, environment, fields, languages] = await Promise.all([
-        assetService.getFlowAssets().get(uuid),
-        assetService.getEnvironmentAssets().get(''),
-        assetService.getFieldAssets().get(''),
-        assetService.getLanguageAssets().search('')
+    const [flow, languages] = await Promise.all([
+        getFlow(endpoints, uuid),
+        getAssets(endpoints.languages, AssetType.Language, 'iso')
     ]);
 
-    dispatch(initializeFlow(flows.content, assetService, languages.results));
-    const fieldsToDedupe = [...fields.content];
-    const existingFields = extractContactFields(flows.content.nodes);
-    if (existingFields.length) {
-        fieldsToDedupe.push(...existingFields);
-    }
-    const contactFields = dedupe(fieldsToDedupe).reduce((contactFieldMap, field) => {
-        contactFieldMap[field.key] = field.name;
-        return contactFieldMap;
-    }, {});
-    dispatch(updateContactFields(contactFields));
+    dispatch(initializeFlow(flow.content, endpoints, languages));
 };
 
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {

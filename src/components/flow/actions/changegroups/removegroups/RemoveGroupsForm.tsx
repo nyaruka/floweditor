@@ -13,7 +13,7 @@ import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import { mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 import { renderIf } from '~/utils';

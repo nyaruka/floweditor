@@ -2,8 +2,7 @@ import { AddLabelsFormState } from '~/components/flow/actions/addlabels/AddLabel
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { Types } from '~/config/typeConfigs';
 import { AddLabels } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
-import { updateAssets } from '~/store/flowContext';
+import { Asset, AssetType, updateAssets } from '~/store/flowContext';
 import * as mutators from '~/store/mutators';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';

@@ -6,13 +6,15 @@ import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
-import { Asset, AssetType } from '~/services/AssetService';
+import { Asset, AssetType, updateAssets } from '~/store/flowContext';
+import * as mutators from '~/store/mutators';
 import { mergeForm } from '~/store/nodeEditor';
+import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
 import { createUUID } from '~/utils';
 
 import { ChangeGroupsFormState, labelSpecId } from '../helpers';
-import { initializeForm, onUpdated, stateToAction } from './helpers';
+import { initializeForm, stateToAction } from './helpers';
 
 export default class AddGroupsForm extends React.Component<ActionFormProps, ChangeGroupsFormState> {
     public static contextTypes = {
@@ -28,11 +30,19 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
         });
     }
 
+    private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
+        const {
+            flowContext: { assets }
+        } = getState();
+
+        dispatch(updateAssets(mutators.addAssets('groups', assets, this.state.groups.value)));
+    }
+
     public handleSave(): void {
         const valid = this.handleGroupsChanged(this.state.groups.value);
         if (valid) {
             const newAction = stateToAction(this.props.nodeSettings, this.state);
-            this.props.updateAction(newAction as ChangeGroups, onUpdated);
+            this.props.updateAction(newAction as ChangeGroups, this.onUpdated);
             this.props.onClose(false);
         }
     }
@@ -48,8 +58,8 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     }
 
     public handleGroupAdded(name: string): void {
-        const group = { id: createUUID(), name, type: AssetType.Group };
-        this.handleGroupsChanged(this.state.groups.value.concat(group));
+        const newGroup = { id: createUUID(), name, type: AssetType.Group };
+        this.handleGroupsChanged(this.state.groups.value.concat(newGroup));
     }
 
     private getButtons(): ButtonSet {

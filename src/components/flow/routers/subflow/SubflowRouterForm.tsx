@@ -6,7 +6,7 @@ import { nodeToState, stateToNode } from '~/components/flow/routers/subflow/help
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Asset } from '~/services/AssetService';
+import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 

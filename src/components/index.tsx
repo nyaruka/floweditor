@@ -11,9 +11,8 @@ import ConnectedLanguageSelector from '~/components/languageselector/LanguageSel
 import ConfigProvider from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
-import AssetService, { Asset } from '~/services/AssetService';
 import createStore from '~/store/createStore';
-import { Assets, RenderNodeMap } from '~/store/flowContext';
+import { Asset, Assets, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
 import { DispatchWithState, FetchFlow, fetchFlow } from '~/store/thunks';
@@ -38,9 +37,8 @@ const hotStore = createStore();
 
 // Root container, wires up context-providers
 const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
-    const assetService = new AssetService(config);
     return (
-        <ConfigProvider config={{ ...config, assetService }}>
+        <ConfigProvider config={{ ...config }}>
             <ReduxProvider store={hotStore}>
                 <ConnectedFlowEditor />
             </ReduxProvider>
@@ -50,7 +48,7 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
 
 export const contextTypes = {
     flow: fakePropType,
-    assetService: fakePropType
+    endpoints: fakePropType
 };
 
 export const editorContainerSpecId = 'editor-container';
@@ -70,7 +68,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public componentDidMount(): void {
-        this.props.fetchFlow(this.context.assetService, this.context.flow);
+        this.props.fetchFlow(this.context.endpoints, this.context.flow);
     }
 
     private handleDownloadClicked(): void {

@@ -16,7 +16,7 @@ import {
     SetContactLanguage,
     SetContactName
 } from '~/flowTypes';
-import { Asset, AssetType, removeAsset } from '~/services/AssetService';
+import { Asset, AssetType, REMOVE_VALUE_ASSET } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormState => {
@@ -134,7 +134,7 @@ export const assetToField = (asset: Asset): Field => ({
 });
 
 export const assetToChannel = (asset: Asset): any => {
-    if (asset.id === removeAsset.id) {
+    if (asset.id === REMOVE_VALUE_ASSET.id) {
         return {};
     }
 
@@ -145,7 +145,7 @@ export const assetToChannel = (asset: Asset): any => {
 };
 
 export const assetToLanguage = (asset: Asset): string => {
-    if (asset.id === removeAsset.id) {
+    if (asset.id === REMOVE_VALUE_ASSET.id) {
         return '';
     }
     return asset.id;
@@ -153,7 +153,7 @@ export const assetToLanguage = (asset: Asset): string => {
 
 export const languageToAsset = ({ iso, name }: Language) => {
     if (!iso || iso.length === 0) {
-        return removeAsset;
+        return REMOVE_VALUE_ASSET;
     }
 
     return {
@@ -165,7 +165,7 @@ export const languageToAsset = ({ iso, name }: Language) => {
 
 export const channelToAsset = ({ uuid, name }: Channel) => {
     if (!uuid) {
-        return removeAsset;
+        return REMOVE_VALUE_ASSET;
     }
     return {
         id: uuid,
