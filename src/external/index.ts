@@ -46,7 +46,7 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
                     return {
                         name: result.name,
                         id: result[id],
-                        type
+                        type: result.type || type
                     };
                 });
                 resolve(assets);

@@ -9,6 +9,7 @@ import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { getIconForAssetType } from '~/components/form/select/helper';
 import { getAssets } from '~/external';
 import { Asset, Assets, REMOVE_VALUE_ASSET } from '~/store/flowContext';
+import { uniqueBy } from '~/utils';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
@@ -58,7 +59,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
     constructor(props: AssetSelectorProps) {
         super(props);
         bindCallbacks(this, {
-            include: [/^get/, /^on/, /^is/, /^handle/]
+            include: [/^is/, /^handle/]
         });
     }
 
@@ -72,7 +73,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
     }
 
     public handleLoadOptions(input: string, callback: CallbackFunction): void {
-        let matches = this.handleLocalSearch(input);
+        const localMatches = this.handleLocalSearch(input);
 
         // then query against our endpoint to add to that list
         const assets = this.props.assets;
@@ -82,13 +83,14 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
         }
 
         getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
-            matches = matches.concat(
-                remoteAssets.filter((asset: Asset) => this.isMatch(input, asset))
-            );
-
-            // tack on our removal asset if we are clearable
+            const remoteMatches = remoteAssets.filter((asset: Asset) => this.isMatch(input, asset));
             const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
-            callback(removalAsset.concat(matches.sort(this.props.sortFunction || sortByName)));
+
+            // concat them all together and uniquify them
+            const matches = uniqueBy(localMatches.concat(remoteMatches).concat(removalAsset), 'id');
+
+            // sort our results and callback
+            callback(matches.sort(this.props.sortFunction || sortByName));
         });
     }
 
