@@ -79,7 +79,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
         const assets = this.props.assets;
         let url = assets.endpoint;
         if (input) {
-            url += '?query=' + encodeURIComponent(input);
+            url += url.indexOf('?') < 0 ? '?' : '&';
+            url += 'search=' + encodeURIComponent(input);
         }
 
         getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
@@ -130,8 +131,17 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
         let defaultOptions: any = this.props.assets.endpoint !== undefined;
 
         // or it should be a list of local assets from an empty search
+        let value = this.props.entry.value;
         if (!defaultOptions) {
             defaultOptions = this.handleLocalSearch('');
+
+            // if our value doesn't have a name, try to find it
+            if (!value.name && value.id) {
+                const existing = defaultOptions.find((asset: Asset) => asset.id === value.id);
+                if (existing) {
+                    value = existing;
+                }
+            }
         }
 
         return (
@@ -142,7 +152,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
             >
                 <AsyncCreatable
                     placeholder={this.props.placeholder || 'Select ' + this.props.name}
-                    value={this.props.entry.value}
+                    value={value}
                     components={{ Option: AssetOption }}
                     styles={this.props.styles}
                     defaultOptions={defaultOptions}

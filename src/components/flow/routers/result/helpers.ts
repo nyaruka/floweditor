@@ -34,7 +34,7 @@ export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState
 
         const config = settings.originalNode.ui.config;
         if (config) {
-            result = { id: config.id, type: config.type, name: config.name };
+            result = { id: config.id, type: config.type };
         }
     }
 

@@ -213,7 +213,8 @@ export const initializeFlow = (
             recipients: {
                 endpoint: getURL(endpoints.recipients),
                 type: AssetType.Contact || AssetType.Group || AssetType.URN,
-                items: groups
+                items: groups,
+                id: 'id'
             }
         })
     );

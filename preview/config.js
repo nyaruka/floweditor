@@ -12,7 +12,7 @@ if (process.env.RAPID_FLOW) {
         endpoints: {
             flows: base + 'flow',
             groups: base + 'group',
-            recipients: '/contact/omnibox/',
+            recipients: '/contact/omnibox?types=gcu',
             fields: base + 'field',
             labels: base + 'label',
             languages: base + 'language',

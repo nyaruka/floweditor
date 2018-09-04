@@ -44,7 +44,7 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
             .then((response: AxiosResponse) => {
                 const assets: Asset[] = response.data.results.map((result: any) => {
                     return {
-                        name: result.name,
+                        name: result.name || result.text,
                         id: result[id],
                         type: result.type || type
                     };
@@ -82,7 +82,7 @@ export const getBaseURL = (): string => {
 
 export const getURL = (path: string): string => {
     let url = path;
-    if (!url.endsWith('/')) {
+    if (!url.endsWith('/') && url.indexOf('?') === -1) {
         url += '/';
     }
 
