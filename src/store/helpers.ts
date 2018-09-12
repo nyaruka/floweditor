@@ -92,16 +92,18 @@ export const getLocalizations = (
         router.cases.forEach(kase =>
             localizations.push(Localization.translate(kase, language, translations))
         );
-
-        // Account for localized exits
-        node.exits.forEach(exit => {
-            localizations.push(Localization.translate(exit, language, translations));
-        });
     }
 
     if (action) {
         localizations.push(Localization.translate(action, language, translations));
     }
+
+    // Account for localized exits
+    node.exits.forEach(exit => {
+        if (exit.name) {
+            localizations.push(Localization.translate(exit, language, translations));
+        }
+    });
 
     return localizations;
 };

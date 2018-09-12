@@ -1,5 +1,6 @@
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
+import { SelectOption } from '~/components/form/select/SelectElement';
 import { Type } from '~/config';
 import { AnyAction } from '~/flowTypes';
 import { LocalizedObject } from '~/services/Localization';
@@ -19,6 +20,14 @@ export interface ValidationFailure {
 export interface FormEntry {
     value: any;
     validationFailures?: ValidationFailure[];
+}
+
+export interface SelectOptionEntry extends FormEntry {
+    value: SelectOption;
+}
+
+export interface NumberEntry extends FormEntry {
+    value: number;
 }
 
 export interface StringEntry extends FormEntry {
