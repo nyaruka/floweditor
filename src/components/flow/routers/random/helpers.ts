@@ -5,7 +5,7 @@ import { Types } from '~/config/typeConfigs';
 import { Exit, Router, RouterTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
-import { range } from '~/utils';
+import { createUUID, range } from '~/utils';
 
 export const BUCKET_OPTIONS: SelectOption[] = range(2, 11).map((count: number) => {
     return { value: count + '', label: count + ' buckets' };
@@ -35,6 +35,8 @@ export const nodeToState = (settings: NodeEditorSettings): RandomRouterFormState
         // use any existing random buckets if we have any
         exits = settings.originalNode.node.exits;
     }
+
+    exits = fillOutExits(exits, buckets);
 
     return {
         exits,
@@ -68,4 +70,13 @@ export const stateToNode = (
     );
 
     return newRenderNode;
+};
+
+export const fillOutExits = (exits: Exit[], buckets: number): Exit[] => {
+    // add any that we still need
+    return exits.concat(
+        range(exits.length, buckets).map((idx: number) => {
+            return { uuid: createUUID(), name: `Bucket ${idx + 1}` };
+        })
+    );
 };

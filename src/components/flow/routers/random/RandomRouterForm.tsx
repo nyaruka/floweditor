@@ -9,10 +9,9 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Exit } from '~/flowTypes';
 import { FormState, mergeForm, SelectOptionEntry, StringEntry } from '~/store/nodeEditor';
-import { createUUID, range } from '~/utils';
 import { small } from '~/utils/reactselect';
 
-import { BUCKET_OPTIONS, nodeToState, stateToNode } from './helpers';
+import { BUCKET_OPTIONS, fillOutExits, nodeToState, stateToNode } from './helpers';
 import * as styles from './RandomRouterForm.scss';
 
 // TODO: Remove use of Function
@@ -65,11 +64,7 @@ export default class RandomRouterForm extends React.Component<
         exits = exits.slice(0, count);
 
         // add any that we still need
-        exits = exits.concat(
-            range(exits.length, count).map((idx: number) => {
-                return { uuid: createUUID(), name: `Bucket ${idx + 1}` };
-            })
-        );
+        exits = fillOutExits(exits, count);
 
         const updates: Partial<RandomRouterFormState> = {
             bucketChoice: { value: selected }
