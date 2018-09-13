@@ -23,6 +23,7 @@ import ExpressionRouterForm from '~/components/flow/routers/expression/Expressio
 import FieldRouterForm from '~/components/flow/routers/field/FieldRouterForm';
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
+import RandomRouterForm from '~/components/flow/routers/random/RandomRouterForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
 import ResultRouterForm from '~/components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
@@ -70,6 +71,7 @@ export const enum Types {
     split_by_contact_field = 'split_by_contact_field',
     split_by_run_result = 'split_by_run_result',
     split_by_groups = 'split_by_groups',
+    split_by_random = 'split_by_random',
     split_by_subflow = 'split_by_subflow',
     split_by_webhook = 'split_by_webhook',
     wait_for_response = 'wait_for_response',
@@ -251,6 +253,14 @@ export const typeConfigList: Type[] = [
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits', 'cases'],
         form: ResultRouterForm
+    },
+    {
+        type: Types.split_by_random,
+        name: 'Split Randomly',
+        description: 'Split them into a random bucket',
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
+        form: RandomRouterForm
     },
     {
         type: Types.split_by_groups,

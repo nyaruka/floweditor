@@ -70,7 +70,8 @@ export interface Exit {
 }
 
 export enum RouterTypes {
-    switch = 'switch'
+    switch = 'switch',
+    random = 'random'
 }
 
 export interface Router {
@@ -248,7 +249,7 @@ export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
     type?: Types;
-    config?: { [key: string]: string };
+    config?: { [key: string]: any };
 }
 
 export interface StickyNote {
