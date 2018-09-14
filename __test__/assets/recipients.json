@@ -23,11 +23,6 @@
             "name": "Anne",
             "id": "673fa0f6-dffd-4e7d-bcc1-e5709374354f",
             "type": "contact"
-        },
-        {
-            "name": "+1 (206) 555-1212",
-            "id": "tel:+12065551212",
-            "type": "urn"
         }
     ],
     "err": "nil",
