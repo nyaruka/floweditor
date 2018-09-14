@@ -33,8 +33,8 @@ export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState
         }
 
         const config = settings.originalNode.ui.config;
-        if (config) {
-            result = { id: config.id, type: config.type };
+        if (config && config.operand) {
+            result = { id: config.operand.id, type: config.operand.type };
         }
     }
 
@@ -83,9 +83,11 @@ export const stateToNode = (
         [],
         null,
         {
-            id: asset.id,
-            type: asset.type,
-            name: asset.name
+            operand: {
+                id: asset.id,
+                type: asset.type,
+                name: asset.name
+            }
         }
     );
 

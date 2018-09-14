@@ -90,6 +90,16 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
             // concat them all together and uniquify them
             const matches = uniqueBy(localMatches.concat(remoteMatches).concat(removalAsset), 'id');
 
+            // if we don't have a name yet for our entry, look in our results for one
+            if (this.props.entry.value && !this.props.entry.value.name) {
+                const existing = matches.find(
+                    (asset: Asset) => asset.id === this.props.entry.value.id
+                );
+                if (existing) {
+                    this.props.onChange([existing]);
+                }
+            }
+
             // sort our results and callback
             callback(matches.sort(this.props.sortFunction || sortByName));
         });
