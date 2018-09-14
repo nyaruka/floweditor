@@ -4,12 +4,13 @@ import { AsyncCreatable, components } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType } from 'react-select/lib/types';
-import { sortByName } from '~/components/form/assetselector/helpers';
+import { sortByName, searchAssets, isMatch } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { getIconForAssetType } from '~/components/form/select/helper';
 import { getAssets } from '~/external';
-import { Asset, Assets, REMOVE_VALUE_ASSET } from '~/store/flowContext';
+import { Asset, Assets, REMOVE_VALUE_ASSET, AssetMap } from '~/store/flowContext';
 import { uniqueBy } from '~/utils';
+import { AssetEntry } from '~/store/nodeEditor';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
@@ -55,12 +56,49 @@ export interface AssetSelectorProps extends FormElementProps {
     sortFunction?(a: Asset, b: Asset): number;
 }
 
-export default class AssetSelector extends React.Component<AssetSelectorProps> {
+interface AssetSelectorState {
+    defaultOptions: Asset[];
+    entry: AssetEntry;
+}
+
+export default class AssetSelector extends React.Component<AssetSelectorProps, AssetSelectorState> {
     constructor(props: AssetSelectorProps) {
         super(props);
         bindCallbacks(this, {
             include: [/^is/, /^handle/]
         });
+
+        let defaultOptions: Asset[] = [];
+
+        // or it should be a list of local assets from an empty search
+        if (!props.assets.endpoint) {
+            defaultOptions = searchAssets('', props.assets.items);
+        }
+
+        this.state = {
+            defaultOptions,
+            entry: this.props.entry
+        };
+    }
+
+    public static getDerivedStateFromProps(
+        nextProps: AssetSelectorProps,
+        prevState: AssetSelectorState
+    ): Partial<AssetSelectorState> {
+        // the default options should be true if there is an endpoint
+        let entry = nextProps.entry;
+
+        // if we don't know our entry name, look for it
+        if (prevState.defaultOptions && entry.value && !entry.value.name) {
+            const existing = prevState.defaultOptions.find(
+                (asset: Asset) => asset.id === entry.value.id
+            );
+            if (existing) {
+                entry = { value: existing };
+            }
+        }
+
+        return { entry };
     }
 
     private handleChanged(selected: any): void {
@@ -73,7 +111,11 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
     }
 
     public handleLoadOptions(input: string, callback: CallbackFunction): void {
-        const localMatches = this.handleLocalSearch(input);
+        const localMatches = searchAssets(
+            input,
+            this.props.assets.items,
+            this.props.additionalOptions
+        );
 
         // then query against our endpoint to add to that list
         const assets = this.props.assets;
@@ -84,49 +126,25 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
         }
 
         getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
-            const remoteMatches = remoteAssets.filter((asset: Asset) => this.isMatch(input, asset));
+            const remoteMatches = remoteAssets.filter((asset: Asset) => isMatch(input, asset));
             const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
 
             // concat them all together and uniquify them
             const matches = uniqueBy(localMatches.concat(remoteMatches).concat(removalAsset), 'id');
 
             // if we don't know our initial name, look for it
-            this.checkForNoNameInitial(matches);
+            if (this.props.entry.value && !this.props.entry.value.name) {
+                const existing = matches.find(
+                    (asset: Asset) => asset.id === this.props.entry.value.id
+                );
+                if (existing) {
+                    this.props.onChange([existing]);
+                }
+            }
 
             // sort our results and callback
             callback(matches.sort(this.props.sortFunction || sortByName));
         });
-    }
-
-    private checkForNoNameInitial(assets: Asset[]): void {
-        // if we don't know our initial name, look for it
-        if (this.props.entry.value && !this.props.entry.value.name) {
-            const existing = assets.find((asset: Asset) => asset.id === this.props.entry.value.id);
-            if (existing) {
-                this.props.onChange([existing]);
-            }
-        }
-    }
-
-    private isMatch(input: string, asset: Asset): boolean {
-        return asset.name.toLowerCase().includes(input);
-    }
-
-    public handleLocalSearch(inputValue: string): Asset[] {
-        const search = inputValue.toLowerCase();
-        let matches = Object.keys(this.props.assets.items)
-            .map(key => this.props.assets.items[key])
-            .filter((asset: Asset) => this.isMatch(search, asset));
-
-        // include our additional matches if we have any
-        matches = matches
-            .concat(this.props.additionalOptions || [])
-            .filter((asset: Asset) => this.isMatch(search, asset));
-
-        // if we don't know our initial name, look for it
-        this.checkForNoNameInitial(matches);
-
-        return matches;
     }
 
     public handleCheckValid(inputValue: string): boolean {
@@ -150,7 +168,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
 
         // or it should be a list of local assets from an empty search
         if (!defaultOptions) {
-            defaultOptions = this.handleLocalSearch('');
+            defaultOptions = this.state.defaultOptions;
         }
 
         return (
@@ -161,7 +179,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
             >
                 <AsyncCreatable
                     placeholder={this.props.placeholder || 'Select ' + this.props.name}
-                    value={this.props.entry.value}
+                    value={this.state.entry.value}
                     components={{ Option: AssetOption }}
                     styles={this.props.styles}
                     defaultOptions={defaultOptions}
