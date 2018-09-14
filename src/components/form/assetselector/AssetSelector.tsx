@@ -90,19 +90,22 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
             // concat them all together and uniquify them
             const matches = uniqueBy(localMatches.concat(remoteMatches).concat(removalAsset), 'id');
 
-            // if we don't have a name yet for our entry, look in our results for one
-            if (this.props.entry.value && !this.props.entry.value.name) {
-                const existing = matches.find(
-                    (asset: Asset) => asset.id === this.props.entry.value.id
-                );
-                if (existing) {
-                    this.props.onChange([existing]);
-                }
-            }
+            // if we don't know our initial name, look for it
+            this.checkForNoNameInitial(matches);
 
             // sort our results and callback
             callback(matches.sort(this.props.sortFunction || sortByName));
         });
+    }
+
+    private checkForNoNameInitial(assets: Asset[]): void {
+        // if we don't know our initial name, look for it
+        if (this.props.entry.value && !this.props.entry.value.name) {
+            const existing = assets.find((asset: Asset) => asset.id === this.props.entry.value.id);
+            if (existing) {
+                this.props.onChange([existing]);
+            }
+        }
     }
 
     private isMatch(input: string, asset: Asset): boolean {
@@ -111,14 +114,19 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
 
     public handleLocalSearch(inputValue: string): Asset[] {
         const search = inputValue.toLowerCase();
-        const matches = Object.keys(this.props.assets.items)
+        let matches = Object.keys(this.props.assets.items)
             .map(key => this.props.assets.items[key])
             .filter((asset: Asset) => this.isMatch(search, asset));
 
         // include our additional matches if we have any
-        return matches
+        matches = matches
             .concat(this.props.additionalOptions || [])
             .filter((asset: Asset) => this.isMatch(search, asset));
+
+        // if we don't know our initial name, look for it
+        this.checkForNoNameInitial(matches);
+
+        return matches;
     }
 
     public handleCheckValid(inputValue: string): boolean {
@@ -141,17 +149,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
         let defaultOptions: any = this.props.assets.endpoint !== undefined;
 
         // or it should be a list of local assets from an empty search
-        let value = this.props.entry.value;
         if (!defaultOptions) {
             defaultOptions = this.handleLocalSearch('');
-
-            // if our value doesn't have a name, try to find it
-            if (!value.name && value.id) {
-                const existing = defaultOptions.find((asset: Asset) => asset.id === value.id);
-                if (existing) {
-                    value = existing;
-                }
-            }
         }
 
         return (
@@ -162,7 +161,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps> {
             >
                 <AsyncCreatable
                     placeholder={this.props.placeholder || 'Select ' + this.props.name}
-                    value={value}
+                    value={this.props.entry.value}
                     components={{ Option: AssetOption }}
                     styles={this.props.styles}
                     defaultOptions={defaultOptions}
