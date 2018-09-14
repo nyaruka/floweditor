@@ -21,8 +21,10 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
                 position: { left: 0, top: 0 },
                 type: Types.split_by_contact_field,
                 config: {
-                    id: 'favorite_color',
-                    type: AssetType.Field
+                    operand: {
+                        id: 'favorite_color',
+                        type: AssetType.Field
+                    }
                 }
             }
         })
@@ -65,8 +67,10 @@ describe(FieldRouterForm.name, () => {
                             position: { left: 0, top: 0 },
                             type: Types.split_by_contact_field,
                             config: {
-                                id: 'favorite_color',
-                                type: AssetType.Field
+                                operand: {
+                                    id: 'favorite_color',
+                                    type: AssetType.Field
+                                }
                             }
                         }
                     })

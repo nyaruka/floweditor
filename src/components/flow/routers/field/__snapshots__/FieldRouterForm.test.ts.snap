@@ -453,9 +453,11 @@ Array [
     },
     "ui": Object {
       "config": Object {
-        "id": "favorite_color",
-        "name": undefined,
-        "type": "field",
+        "operand": Object {
+          "id": "favorite_color",
+          "name": undefined,
+          "type": "field",
+        },
       },
       "position": null,
       "type": "split_by_contact_field",
