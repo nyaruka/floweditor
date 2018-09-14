@@ -1,28 +1,30 @@
 {
-	"total": 5,
-	"results": [{
-		"name": "Adolescents",
-		"uuid": "e899b840-f5f8-42ff-b930-63d02415ab8f",
-		"type": "group",
-		"extra": 121
-	},{
-		"name": "Cat Fanciers",
-		"uuid": "eae05fb1-3021-4df2-a443-db8356b953fa",
-		"type": "group",
-		"extra": 212
-	},
-	{
-		"name": "Dog Lovers",
-		"uuid": "ec5c906d-6225-4106-b03f-60a0c1571dc7",
-		"type": "group",
-		"extra": 23
-	},
-	{
-		"name": "Anne",
-		"uuid": "673fa0f6-dffd-4e7d-bcc1-e5709374354f",
-		"type": "contact"
-
-	}],
-	"err": "nil",
-	"more": false
+    "total": 5,
+    "results": [
+        {
+            "name": "Adolescents",
+            "uuid": "e899b840-f5f8-42ff-b930-63d02415ab8f",
+            "type": "group",
+            "extra": 121
+        },
+        {
+            "name": "Cat Fanciers",
+            "uuid": "eae05fb1-3021-4df2-a443-db8356b953fa",
+            "type": "group",
+            "extra": 212
+        },
+        {
+            "name": "Dog Lovers",
+            "uuid": "ec5c906d-6225-4106-b03f-60a0c1571dc7",
+            "type": "group",
+            "extra": 23
+        },
+        {
+            "name": "Anne",
+            "uuid": "673fa0f6-dffd-4e7d-bcc1-e5709374354f",
+            "type": "contact"
+        }
+    ],
+    "err": "nil",
+    "more": false
 }

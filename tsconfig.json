@@ -1,24 +1,24 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths" : {
-      "~/*":  ["./src/*"]
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "~/*": ["./src/*"]
+        },
+        "moduleResolution": "node",
+        "jsx": "react",
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "outDir": "lib",
+        "preserveConstEnums": true,
+        "removeComments": false,
+        "target": "es5",
+        "downlevelIteration": true,
+        "module": "commonjs",
+        "alwaysStrict": true,
+        "lib": ["es6", "dom"]
     },
-    "moduleResolution": "node",
-    "jsx": "react",
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "outDir": "lib",
-    "preserveConstEnums": true,
-    "removeComments": false,
-    "target": "es5",
-    "downlevelIteration": true,
-    "module": "commonjs",
-    "alwaysStrict": true,
-    "lib": ["es6", "dom"]
-  },
-  "include": ["./src/**/*.ts*"],
-  "exclude": ["node_modules", "__mocks__", "lib"]
+    "include": ["./src/**/*.ts*"],
+    "exclude": ["node_modules", "__mocks__", "lib"]
 }
