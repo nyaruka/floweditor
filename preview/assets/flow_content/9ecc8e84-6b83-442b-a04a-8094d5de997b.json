@@ -127,8 +127,7 @@
                 {
                     "uuid": "225a67f4-28b5-4819-a25b-eb9a0ecea11d",
                     "type": "send_email",
-                    "body":
-                        "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @run.results.phone",
+                    "body": "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @run.results.phone",
                     "subject": "New Issue",
                     "addresses": ["support@acme.co"]
                 },
@@ -189,7 +188,6 @@
                     "name": "Unreachable",
                     "destination_node_uuid": null
                 }
-
             ],
             "actions": [
                 {
@@ -198,7 +196,7 @@
                     "url": "http://google.com",
                     "headers": {},
                     "method": "POST",
-                    "body":"{\n  \"contact\": @(json(contact.uuid)),\n  \"contact_urn\": @(json(contact.urns)),\n  \"message\": @(json(run.input.text)),\n  \"flow\": @(json(run.flow.uuid)),\n  \"flow_name\": @(json(run.flow.name))\n}"
+                    "body": "{\n  \"contact\": @(json(contact.uuid)),\n  \"contact_urn\": @(json(contact.urns)),\n  \"message\": @(json(run.input.text)),\n  \"flow\": @(json(run.flow.uuid)),\n  \"flow_name\": @(json(run.flow.name))\n}"
                 }
             ]
         }

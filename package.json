@@ -111,7 +111,7 @@
     "netlify-lambda": "0.4.0",
     "node-sass": "4.9.2",
     "postcss-loader": "2.1.6",
-    "prettier": "1.14.0",
+    "prettier": "1.14.2",
     "raf": "3.4.0",
     "react": "16.4.2",
     "react-addons-shallow-compare": "15.6.2",
