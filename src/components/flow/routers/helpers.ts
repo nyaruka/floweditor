@@ -20,7 +20,7 @@ export const createRenderNode = (
     type: Types,
     actions: Action[] = [],
     wait: Wait = null,
-    uiConfig: { [key: string]: string } = {}
+    uiConfig: { [key: string]: any } = {}
 ): RenderNode => {
     return {
         node: {

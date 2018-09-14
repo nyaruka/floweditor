@@ -32,8 +32,8 @@ export const nodeToState = (settings: NodeEditorSettings): FieldRouterFormState 
             resultName = { value: router.result_name || '' };
         }
 
-        const config = settings.originalNode.ui.config;
-        field = { id: config.id, type: config.type, name: config.name };
+        const operand = settings.originalNode.ui.config.operand;
+        field = { id: operand.id, type: operand.type, name: operand.name };
     }
 
     return {
@@ -81,9 +81,11 @@ export const stateToNode = (
         [],
         null,
         {
-            id: asset.id,
-            type: asset.type,
-            name: asset.name
+            operand: {
+                id: asset.id,
+                type: asset.type,
+                name: asset.name
+            }
         }
     );
 
