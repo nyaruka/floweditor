@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
@@ -12,22 +12,27 @@ import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEdito
 import { validate, validateRequired } from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
-import { nodeToState, stateToNode } from './helpers';
+import {
+    nodeToState,
+    stateToNode,
+    FIELD_NUMBER_OPTIONS,
+    getFieldOption,
+    getDelimiterOption,
+    DELIMITER_OPTIONS
+} from './helpers';
 import * as styles from './ResultRouterForm.scss';
-
-// TODO: Remove use of Function
-// tslint:disable:ban-types
-export enum InputToFocus {
-    args = 'args',
-    min = 'min',
-    max = 'max',
-    exit = 'exit'
-}
+import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
+import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
+import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
 
 export interface ResultRouterFormState extends FormState {
     result: AssetEntry;
     cases: CaseProps[];
     resultName: StringEntry;
+    shouldDelimit: boolean;
+
+    fieldNumber: number;
+    delimiter: string;
 }
 
 export const leadInSpecId = 'lead-in';
@@ -83,20 +88,21 @@ export default class ResultRouterForm extends React.Component<
         };
     }
 
-    public renderEdit(): JSX.Element {
-        const typeConfig = this.props.typeConfig;
+    private handleShouldDelimitChanged(checked: boolean): void {
+        this.setState({ shouldDelimit: checked });
+    }
 
+    private handleFieldNumberChanged(selected: SelectOption): void {
+        this.setState({ fieldNumber: parseInt(selected.value, 10) });
+    }
+
+    private handleDelimiterChanged(selected: SelectOption): void {
+        this.setState({ delimiter: selected.value });
+    }
+
+    private renderField(): JSX.Element {
         return (
-            <Dialog
-                title={typeConfig.name}
-                headerClass={typeConfig.type}
-                buttons={this.getButtons()}
-            >
-                <TypeList
-                    __className=""
-                    initialType={typeConfig}
-                    onChange={this.props.onTypeChange}
-                />
+            <>
                 <div className={styles.leadIn}>If the flow result</div>
                 <div className={styles.resultSelect}>
                     <AssetSelector
@@ -109,23 +115,105 @@ export default class ResultRouterForm extends React.Component<
                         onChange={this.handleResultChanged}
                     />
                 </div>
-                <CaseList
-                    data-spec="cases"
-                    cases={this.state.cases}
-                    onCasesUpdated={this.handleCasesUpdated}
-                />
-                <OptionalTextInput
-                    name="Result Name"
-                    value={this.state.resultName}
-                    onChange={this.handleUpdateResultName}
-                    toggleText="Save as.."
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                />
-            </Dialog>
+            </>
         );
     }
 
+    private renderFieldDelimited(): JSX.Element {
+        return (
+            <>
+                <div className={styles.leadIn}>If the</div>
+                <div className={styles.fieldNumber}>
+                    <SelectElement
+                        styles={small}
+                        name="Field Number"
+                        entry={{ value: getFieldOption(this.state.fieldNumber) }}
+                        onChange={this.handleFieldNumberChanged}
+                        options={FIELD_NUMBER_OPTIONS}
+                    />
+                </div>
+                <div className={styles.leadInSub}>field of</div>
+                <div className={styles.resultSelectDelimited}>
+                    <AssetSelector
+                        entry={this.state.result}
+                        styles={small}
+                        name="Flow Result"
+                        placeholder="Select Result"
+                        searchable={true}
+                        assets={this.props.assets.results}
+                        onChange={this.handleResultChanged}
+                    />
+                </div>
+                <div className={styles.leadInSub}>delimited by</div>
+                <div className={styles.delimiter}>
+                    <SelectElement
+                        styles={small}
+                        name="Delimiter"
+                        entry={{ value: getDelimiterOption(this.state.delimiter) }}
+                        onChange={this.handleDelimiterChanged}
+                        options={DELIMITER_OPTIONS}
+                    />
+                </div>
+            </>
+        );
+    }
+
+    public renderEdit(): FlipperProps {
+        const typeConfig = this.props.typeConfig;
+
+        return {
+            front: (
+                <Dialog
+                    title={typeConfig.name}
+                    headerClass={typeConfig.type}
+                    buttons={this.getButtons()}
+                >
+                    <TypeList
+                        __className=""
+                        initialType={typeConfig}
+                        onChange={this.props.onTypeChange}
+                    />
+
+                    {this.state.shouldDelimit ? this.renderFieldDelimited() : this.renderField()}
+
+                    <CaseList
+                        data-spec="cases"
+                        cases={this.state.cases}
+                        onCasesUpdated={this.handleCasesUpdated}
+                    />
+                    <OptionalTextInput
+                        name="Result Name"
+                        value={this.state.resultName}
+                        onChange={this.handleUpdateResultName}
+                        toggleText="Save as.."
+                        helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+                    />
+                </Dialog>
+            ),
+            back: (
+                <Dialog
+                    title={typeConfig.name}
+                    headerClass={typeConfig.type}
+                    headerStyle={HeaderStyle.BARBER}
+                    subtitle="Advanced Settings"
+                    buttons={this.getButtons()}
+                    headerIcon="fe-cog"
+                >
+                    <div className={styles.shouldDelimit}>
+                        <CheckboxElement
+                            name="Delimit"
+                            title="Delimit Result"
+                            checked={this.state.shouldDelimit}
+                            description="Evaluate your rules against a delimited part of your result"
+                            onChange={this.handleShouldDelimitChanged}
+                        />
+                    </div>
+                </Dialog>
+            )
+        };
+    }
+
     public render(): JSX.Element {
-        return this.renderEdit();
+        return <Flipper {...this.renderEdit()} />;
     }
 }

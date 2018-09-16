@@ -12,6 +12,27 @@ import { AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
 import { ResultRouterFormState } from './ResultRouterForm';
+import { SelectOption } from '~/components/form/select/SelectElement';
+
+export const FIELD_NUMBER_OPTIONS: SelectOption[] = [
+    { value: '1', label: 'first' },
+    { value: '2', label: 'second' },
+    { value: '3', label: 'third' }
+];
+
+export const getFieldOption = (value: number): SelectOption => {
+    return FIELD_NUMBER_OPTIONS.find((option: SelectOption) => option.value === '' + value);
+};
+
+export const DELIMITER_OPTIONS: SelectOption[] = [
+    { value: ' ', label: 'spaces' },
+    { value: '.', label: 'periods' },
+    { value: '+', label: 'plusses' }
+];
+
+export const getDelimiterOption = (value: string): SelectOption => {
+    return DELIMITER_OPTIONS.find((option: SelectOption) => option.value === value);
+};
 
 export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState => {
     let initialCases: CaseProps[] = [];
@@ -21,7 +42,10 @@ export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState
 
     let result: any = null;
 
-    if (settings.originalNode && settings.originalNode.ui.type === Types.split_by_run_result) {
+    if (
+        (settings.originalNode && settings.originalNode.ui.type === Types.split_by_run_result) ||
+        settings.originalNode.ui.type === Types.split_by_run_result_delimited
+    ) {
         const router = settings.originalNode.node.router as SwitchRouter;
 
         if (router) {
@@ -42,6 +66,9 @@ export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState
         cases: initialCases,
         resultName,
         result: { value: result },
+        shouldDelimit: true,
+        fieldNumber: 1,
+        delimiter: ' ',
         valid: true
     };
 };

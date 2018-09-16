@@ -70,6 +70,7 @@ export const enum Types {
     split_by_expression = 'split_by_expression',
     split_by_contact_field = 'split_by_contact_field',
     split_by_run_result = 'split_by_run_result',
+    split_by_run_result_delimited = 'split_by_run_result_delimited',
     split_by_groups = 'split_by_groups',
     split_by_random = 'split_by_random',
     split_by_subflow = 'split_by_subflow',
@@ -248,6 +249,7 @@ export const typeConfigList: Type[] = [
     },
     {
         type: Types.split_by_run_result,
+        aliases: [Types.split_by_run_result_delimited],
         name: 'Split by Flow Result',
         description: 'Split by a result in this flow',
         localization: RouterLocalizationForm,
@@ -256,7 +258,7 @@ export const typeConfigList: Type[] = [
     },
     {
         type: Types.split_by_random,
-        name: 'Split Randomly',
+        name: 'Split by ',
         description: 'Split them into a random bucket',
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits'],
