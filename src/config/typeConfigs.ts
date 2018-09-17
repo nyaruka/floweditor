@@ -70,6 +70,7 @@ export const enum Types {
     split_by_expression = 'split_by_expression',
     split_by_contact_field = 'split_by_contact_field',
     split_by_run_result = 'split_by_run_result',
+    split_by_run_result_delimited = 'split_by_run_result_delimited',
     split_by_groups = 'split_by_groups',
     split_by_random = 'split_by_random',
     split_by_subflow = 'split_by_subflow',
@@ -144,6 +145,15 @@ export const typeConfigList: Type[] = [
         localization: MsgLocalizationForm,
         localizeableKeys: ['text', 'quick_replies'],
         component: SendMsgComp
+    },
+    {
+        type: Types.wait_for_response,
+        name: 'Wait for Response',
+        description: 'Wait for the contact to respond',
+        form: ResponseRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        aliases: [RouterTypes.switch]
     },
     {
         type: Types.send_broadcast,
@@ -248,8 +258,9 @@ export const typeConfigList: Type[] = [
     },
     {
         type: Types.split_by_run_result,
+        aliases: [Types.split_by_run_result_delimited],
         name: 'Split by Flow Result',
-        description: 'Split by a result in this flow',
+        description: 'Split by a result in the flow',
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits', 'cases'],
         form: ResultRouterForm
@@ -257,7 +268,7 @@ export const typeConfigList: Type[] = [
     {
         type: Types.split_by_random,
         name: 'Split Randomly',
-        description: 'Split them into a random bucket',
+        description: 'Split by random chance',
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits'],
         form: RandomRouterForm
@@ -269,16 +280,8 @@ export const typeConfigList: Type[] = [
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits'],
         form: GroupsRouterForm
-    },
-    {
-        type: Types.wait_for_response,
-        name: 'Wait for Response',
-        description: 'Wait for the contact to respond',
-        form: ResponseRouterForm,
-        localization: RouterLocalizationForm,
-        localizeableKeys: ['exits', 'cases'],
-        aliases: [RouterTypes.switch]
     }
+
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
 

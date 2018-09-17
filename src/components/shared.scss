@@ -16,7 +16,8 @@
     background: $red;
 }
 
-.send_email, .send_broadcast {
+.send_email,
+.send_broadcast {
     background: $purple;
 }
 
@@ -25,7 +26,8 @@
     background: $blue;
 }
 
-.start_flow, .start_session {
+.start_flow,
+.start_session {
     background: $pink;
 }
 
@@ -41,17 +43,22 @@
 .missing {
     $color_1: rgba(243, 78, 78, 0.6);
     $color_2: rgba(228, 37, 37, 0.4);
-    background-image: repeating-linear-gradient(60deg, $color_1, $color_1 12px, $color_2 12px, $color_2 24px);
+    background-image: repeating-linear-gradient(
+        60deg,
+        $color_1,
+        $color_1 12px,
+        $color_2 12px,
+        $color_2 24px
+    );
 }
 
-.subflow, 
+.subflow,
 .split_by_random,
-.split_by_expression, 
-.split_by_groups, 
-.split_by_contact_field, 
+.split_by_expression,
+.split_by_groups,
+.split_by_contact_field,
 .split_by_run_result {
-    background: $light_gray;
-    color: $gray !important;
+    background: $dark_gray;
 }
 
 .call_webhook {
@@ -63,21 +70,18 @@
 }
 
 .url {
-    width: $node_width
+    width: $node_width;
 }
 
 .node_asset {
-
     .node_group {
         padding-right: 5px;
     }
 
     .node_label {
-        padding-right: 5px
+        padding-right: 5px;
     }
-
 }
-
 
 .advanced_title {
     font-size: 12px;

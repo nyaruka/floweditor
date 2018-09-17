@@ -1,4 +1,4 @@
-@import "./palette_ec.scss";
+@import './palette_ec.scss';
 
 // how big our blocks are
 $grid_size: 20;
@@ -11,10 +11,18 @@ $action_padding: 10px;
 // how much extra room to add during reflow
 $node_spacing: 20;
 
-:export { grid_size: $grid_size; }
-:export { node_spacing: $node_spacing; }
-:export { node_padding: $node_padding; }
-:export { background-size: $node_spacing; }
+:export {
+    grid_size: $grid_size;
+}
+:export {
+    node_spacing: $node_spacing;
+}
+:export {
+    node_padding: $node_padding;
+}
+:export {
+    background-size: $node_spacing;
+}
 
 // generic colors
 $link_color: rgb(52, 152, 219);
@@ -22,20 +30,21 @@ $blue_selected: rgb(230, 247, 255);
 $blue_baby: #80b9fb;
 $blue_bold: rgb(52, 152, 219);
 $light_gray: #e6e6e6;
-$light_gray_2: $light_gray+#111;
+$light_gray_2: $light_gray + #111;
+$dark_gray: #aaa;
 $med_gray: #ccc;
 
 // specific color styling
 $node_shadow: 4px 4px 0px 0px;
 $node_shadow_color: rgba(99, 184, 226, 0.1);
-$node_shadow_hover: rgba(145, 218, 255, .25);
+$node_shadow_hover: rgba(145, 218, 255, 0.25);
 $selection_square: rgb(173, 216, 230);
-$selected: rgba(52, 152, 219, .5);
+$selected: rgba(52, 152, 219, 0.5);
 $connector_color: rgb(142, 217, 255);
 $removal_confirmation: $red;
 $path_color: #fff;
 $text_color: #666;
-$borders: rgba(224, 224, 224, .6);
+$borders: rgba(224, 224, 224, 0.6);
 $active_color: $blue_bold;
 $activity_color: $light_gray_2;
 $terminal_color: $red;
@@ -45,16 +54,15 @@ $placeholder_color: $light_gray;
 // sticky notes
 $sticky_yellow: rgb(255, 249, 194);
 $sticky_blue: rgb(230, 247, 255);
-$sticky_purple:rgb(251, 205, 255);
-$sticky_gray:rgb(243, 243, 243);
-$sticky_green:rgb(219, 255, 173);
-
+$sticky_purple: rgb(251, 205, 255);
+$sticky_gray: rgb(243, 243, 243);
+$sticky_green: rgb(219, 255, 173);
 
 // properties
 $node_width: 198px;
 $curvature: 10px;
 
-$shadow_color: rgba(0, 0, 0, .15);
+$shadow_color: rgba(0, 0, 0, 0.15);
 $shadow_down: 0 2px 8px $shadow_color;
 
 // localization
@@ -66,7 +74,7 @@ $translation_missing: #da8d7a;
 // buttons
 $button_light: $blue;
 $button_dark: $blue - #111;
-$button_hover: $blue+#111;
+$button_hover: $blue + #111;
 
 // z index ordering
 $z_connectors: 100;
@@ -82,4 +90,3 @@ $z_simulator: 999;
 $z_footer: 1000;
 $z_modal: 2000;
 $z_completion: 2100;
-
