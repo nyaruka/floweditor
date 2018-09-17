@@ -147,6 +147,15 @@ export const typeConfigList: Type[] = [
         component: SendMsgComp
     },
     {
+        type: Types.wait_for_response,
+        name: 'Wait for Response',
+        description: 'Wait for the contact to respond',
+        form: ResponseRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        aliases: [RouterTypes.switch]
+    },
+    {
         type: Types.send_broadcast,
         name: 'Send Broadcast',
         description: 'Send somebody else a message',
@@ -251,15 +260,15 @@ export const typeConfigList: Type[] = [
         type: Types.split_by_run_result,
         aliases: [Types.split_by_run_result_delimited],
         name: 'Split by Flow Result',
-        description: 'Split by a result in this flow',
+        description: 'Split by a result in the flow',
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits', 'cases'],
         form: ResultRouterForm
     },
     {
         type: Types.split_by_random,
-        name: 'Split by ',
-        description: 'Split them into a random bucket',
+        name: 'Split Randomly',
+        description: 'Split by random chance',
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits'],
         form: RandomRouterForm
@@ -271,16 +280,8 @@ export const typeConfigList: Type[] = [
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits'],
         form: GroupsRouterForm
-    },
-    {
-        type: Types.wait_for_response,
-        name: 'Wait for Response',
-        description: 'Wait for the contact to respond',
-        form: ResponseRouterForm,
-        localization: RouterLocalizationForm,
-        localizeableKeys: ['exits', 'cases'],
-        aliases: [RouterTypes.switch]
     }
+
     // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
 

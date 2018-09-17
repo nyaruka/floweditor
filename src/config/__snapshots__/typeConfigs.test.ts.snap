@@ -21,6 +21,20 @@ Array [
     "type": "send_msg",
   },
   Object {
+    "aliases": Array [
+      "switch",
+    ],
+    "description": "Wait for the contact to respond",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+      "cases",
+    ],
+    "name": "Wait for Response",
+    "type": "wait_for_response",
+  },
+  Object {
     "component": [Function],
     "description": "Send somebody else a message",
     "form": [Function],
@@ -140,7 +154,10 @@ Array [
     "type": "split_by_contact_field",
   },
   Object {
-    "description": "Split by a result in this flow",
+    "aliases": Array [
+      "split_by_run_result_delimited",
+    ],
+    "description": "Split by a result in the flow",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -151,7 +168,7 @@ Array [
     "type": "split_by_run_result",
   },
   Object {
-    "description": "Split them into a random bucket",
+    "description": "Split by random chance",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -169,20 +186,6 @@ Array [
     ],
     "name": "Split by Group Membership",
     "type": "split_by_groups",
-  },
-  Object {
-    "aliases": Array [
-      "switch",
-    ],
-    "description": "Wait for the contact to respond",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "exits",
-      "cases",
-    ],
-    "name": "Wait for Response",
-    "type": "wait_for_response",
   },
 ]
 `;
@@ -348,7 +351,7 @@ Object {
     "type": "split_by_groups",
   },
   "split_by_random": Object {
-    "description": "Split them into a random bucket",
+    "description": "Split by random chance",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -358,7 +361,24 @@ Object {
     "type": "split_by_random",
   },
   "split_by_run_result": Object {
-    "description": "Split by a result in this flow",
+    "aliases": Array [
+      "split_by_run_result_delimited",
+    ],
+    "description": "Split by a result in the flow",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+      "cases",
+    ],
+    "name": "Split by Flow Result",
+    "type": "split_by_run_result",
+  },
+  "split_by_run_result_delimited": Object {
+    "aliases": Array [
+      "split_by_run_result_delimited",
+    ],
+    "description": "Split by a result in the flow",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
