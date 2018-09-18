@@ -212,12 +212,14 @@
         ],
         "nodes": {
             "24afc61e-e528-4ac0-b887-78cebd39f12b": {
+                "type": "execute_actions",
                 "position": {
                     "left": 0,
                     "top": 0
                 }
             },
             "d642b014-3c91-418f-ad5b-0fb4f8c5ee60": {
+                "type": "execute_actions",
                 "position": {
                     "left": 300,
                     "top": 180
@@ -225,6 +227,7 @@
                 "type": "wait_for_response"
             },
             "7a19060d-6d93-4217-a4e5-9cbd479be051": {
+                "type": "execute_actions",
                 "position": {
                     "left": 0,
                     "top": 260
@@ -238,6 +241,7 @@
                 "type": "wait_for_response"
             },
             "a8a09d00-7cab-4375-9d44-58f6783732f6": {
+                "type": "execute_actions",
                 "position": {
                     "left": 0,
                     "top": 540
@@ -248,7 +252,7 @@
                     "left": 300,
                     "top": 700
                 },
-                "type": "webhook"
+                "type": "split_by_webhook"
             }
         }
     }

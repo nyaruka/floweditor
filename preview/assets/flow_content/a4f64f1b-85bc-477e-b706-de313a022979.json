@@ -175,6 +175,7 @@
     "_ui": {
         "nodes": {
             "4fac7935-d13b-4b36-bf15-98075dca822a": {
+                "type": "execute_actions",
                 "position": {
                     "left": 0,
                     "top": 0,
@@ -183,6 +184,7 @@
                 }
             },
             "472a6f74-fd03-429a-a2e3-15969e18cfca": {
+                "type": "execute_actions",
                 "position": {
                     "left": 600,
                     "top": 120,
@@ -200,6 +202,7 @@
                 }
             },
             "bd82ec05-6829-4d9b-a8df-5fb61eb926ac": {
+                "type": "execute_actions",
                 "position": {
                     "left": 620,
                     "top": 300,
@@ -208,6 +211,7 @@
                 }
             },
             "e6f61792-6158-489c-a92e-1110696714ad": {
+                "type": "execute_actions",
                 "position": {
                     "left": 60,
                     "top": 460,
@@ -216,6 +220,7 @@
                 }
             },
             "5fb0fdff-1013-4f1c-8141-e027e8e75e4f": {
+                "type": "execute_actions",
                 "position": {
                     "left": 300,
                     "top": 460,
