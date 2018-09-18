@@ -541,6 +541,62 @@ export const createSubflowNode = (
         ui: { position: { left: 0, top: 0 }, type: Types.split_by_subflow }
     });
 
+export const createResthookNode = (
+    callResthookAction: CallResthook,
+    uuid: string = 'e4e66707-8798-4760-ba10-ab25c3da767c',
+    exitUUIDs: string[] = [
+        '054be440-a819-4bcf-898e-d18084ab7f4e',
+        '70dbfd3f-a501-42cb-b53d-3c4290ab8d58',
+        '5edcac28-a5f2-4fc2-81c4-d5d184d6560c'
+    ]
+): RenderNode =>
+    createRenderNode({
+        actions: [callResthookAction],
+        exits: [
+            createExit({
+                uuid: exitUUIDs[0],
+                name: WebhookExitNames.Success,
+                destination_node_uuid: createUUID()
+            }),
+            createExit({
+                uuid: exitUUIDs[1],
+                name: WebhookExitNames.Failure,
+                destination_node_uuid: createUUID()
+            }),
+            createExit({
+                uuid: exitUUIDs[2],
+                name: WebhookExitNames.Unreachable,
+                destination_node_uuid: createUUID()
+            })
+        ],
+        uuid,
+        router: createSwitchRouter({
+            cases: [
+                createCase({
+                    uuid: '0d377671-c887-46df-a08a-22589cd50554',
+                    type: Operators.has_webhook_status,
+                    exit_uuid: exitUUIDs[0],
+                    args: ['success']
+                }),
+                createCase({
+                    uuid: '4be01054-1592-4193-8abd-b673e9ae8dcc',
+                    type: Operators.has_webhook_status,
+                    exit_uuid: exitUUIDs[1],
+                    args: ['response_error']
+                }),
+                createCase({
+                    uuid: '4a6149dc-042b-4f2b-a7b5-ba6e86a5e72d',
+                    type: Operators.has_webhook_status,
+                    exit_uuid: exitUUIDs[2],
+                    args: ['response_failure']
+                })
+            ],
+            operand: '@child',
+            default_exit_uuid: null
+        }),
+        ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook }
+    });
+
 export const createGroupsRouterNode = (
     groups: Group[] = groupsResults,
     uuid: string = 'c51231fa-5efd-416a-abe9-d5aedbfe33e4'
@@ -608,6 +664,8 @@ export const ColorFlowAsset = {
     name: 'Favorite Color',
     uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56'
 };
+
+export const ResthookAsset = { id: 'new-resthook', name: 'new-resthook', type: AssetType.Resthook };
 
 export const FeedbackLabel = { name: 'Feedback', id: 'feedback_label', type: AssetType.Label };
 

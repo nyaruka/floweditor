@@ -59,7 +59,7 @@ export const stateToNode = (
     } else {
         // Otherwise, let's create some new ones
         // Otherwise, let's create some new ones
-        exits.push(
+        exits = [
             {
                 uuid: createUUID(),
                 name: WebhookExitNames.Success,
@@ -75,7 +75,7 @@ export const stateToNode = (
                 name: WebhookExitNames.Unreachable,
                 destination_node_uuid: null
             }
-        );
+        ];
 
         cases = [
             {

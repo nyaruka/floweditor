@@ -54,7 +54,7 @@ export default class ResthookRouterForm extends React.PureComponent<
         }
     }
 
-    private getButtons(): ButtonSet {
+    public getButtons(): ButtonSet {
         return {
             primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
