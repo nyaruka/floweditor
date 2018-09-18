@@ -10,6 +10,7 @@ if (process.env.RAPID_FLOW) {
         flow: process.env.RAPID_FLOW,
         localStorage: true,
         endpoints: {
+            resthooks: base + 'resthook',
             flows: base + 'flow',
             groups: base + 'group',
             recipients: '/contact/omnibox?types=gcu',
@@ -29,6 +30,7 @@ if (process.env.RAPID_FLOW) {
             ? Object.assign({}, config, {
                   localStorage: true,
                   endpoints: {
+                      resthooks: 'resthooks',
                       flows: 'flows',
                       groups: 'groups',
                       recipients: 'recipients',
@@ -45,6 +47,7 @@ if (process.env.RAPID_FLOW) {
             : Object.assign({}, config, {
                   localStorage: true,
                   endpoints: {
+                      resthooks: '/assets/resthooks',
                       flows: '/assets/flow',
                       groups: '/assets/group',
                       recipients: '/assets/recipient',

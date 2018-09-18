@@ -44,7 +44,7 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
             .then((response: AxiosResponse) => {
                 const assets: Asset[] = response.data.results.map((result: any) => {
                     return {
-                        name: result.name || result.text,
+                        name: result.name || result.text || result[id],
                         id: result[id],
                         type: result.type || type
                     };

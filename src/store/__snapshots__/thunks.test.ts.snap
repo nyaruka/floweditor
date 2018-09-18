@@ -1027,6 +1027,7 @@ Array [
               "left": 0,
               "top": 0,
             },
+            "type": "wait_for_response",
           },
         },
         "language": null,

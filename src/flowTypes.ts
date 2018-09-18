@@ -19,6 +19,7 @@ export interface Environment {
 }
 
 export interface Endpoints {
+    resthooks: string;
     fields: string;
     groups: string;
     recipients: string;
@@ -211,6 +212,10 @@ export interface SetRunResult extends Action {
 
 export interface Headers {
     [name: string]: string;
+}
+
+export interface CallResthook extends Action {
+    resthook: string;
 }
 
 export interface CallWebhook extends Action {

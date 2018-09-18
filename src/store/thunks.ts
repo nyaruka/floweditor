@@ -215,6 +215,12 @@ export const initializeFlow = (
                 type: AssetType.Contact || AssetType.Group || AssetType.URN,
                 items: groups,
                 id: 'id'
+            },
+            resthooks: {
+                endpoint: getURL(endpoints.resthooks),
+                type: AssetType.Resthook,
+                id: 'slug',
+                items: {}
             }
         })
     );
@@ -650,7 +656,7 @@ export const onUpdateAction = (
                 actions: [action],
                 exits: [{ uuid: createUUID(), destination_node_uuid: null, name: null }]
             },
-            ui: { position: originalNode.ui.position },
+            ui: { position: originalNode.ui.position, type: Types.execute_actions },
             inboundConnections: originalNode.inboundConnections
         };
         updatedNodes = mutators.mergeNode(nodes, newNode);

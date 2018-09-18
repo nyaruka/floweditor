@@ -235,6 +235,8 @@ export const getGhostNode = (
         ]
     };
 
+    let type = Types.execute_actions;
+
     // Add an action if we are coming from a split
     if (fromNode.node.wait || fromNode.ui.type === Types.split_by_webhook) {
         const replyAction = {
@@ -252,11 +254,12 @@ export const getGhostNode = (
             type: RouterTypes.switch,
             result_name: getSuggestedResultName(suggestedResultNameCount)
         };
+        type = Types.wait_for_response;
     }
 
     return {
         node: ghostNode,
-        ui: { position: { left: 0, top: 0 } },
+        ui: { position: { left: 0, top: 0 }, type },
         inboundConnections: { [fromExitUUID]: fromNode.node.uuid },
         ghost: true
     };

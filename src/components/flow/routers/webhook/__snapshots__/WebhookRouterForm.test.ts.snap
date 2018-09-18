@@ -203,7 +203,7 @@ Object {
     Object {
       "value": Object {
         "name": "",
-        "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+        "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         "value": "",
       },
     },
@@ -229,7 +229,7 @@ Object {
     Object {
       "value": Object {
         "name": "",
-        "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+        "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         "value": "",
       },
     },
@@ -337,24 +337,24 @@ Array [
           "method": "POST",
           "type": "call_webhook",
           "url": "http://domain.com/",
-          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          "uuid": "a564374c-ee42-4f13-8fc3-cda99f43b6ae",
         },
       ],
       "exits": Array [
         Object {
           "destination_node_uuid": null,
           "name": "Success",
-          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          "uuid": "34bab8f0-4efa-40b7-a3c1-39ce856ea740",
         },
         Object {
           "destination_node_uuid": null,
           "name": "Failed",
-          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+          "uuid": "ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5",
         },
         Object {
           "destination_node_uuid": null,
           "name": "Unreachable",
-          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          "uuid": "023db634-a097-4351-8662-8447d971ff74",
         },
       ],
       "router": Object {
@@ -363,28 +363,28 @@ Array [
             "arguments": Array [
               "success",
             ],
-            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-            "type": "has_webhook_status",
-            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+            "exit_uuid": "34bab8f0-4efa-40b7-a3c1-39ce856ea740",
+            "type": "is_text_eq",
+            "uuid": "89f9a8c0-e399-4c49-8409-43e37c318423",
           },
           Object {
             "arguments": Array [
               "response_error",
             ],
-            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-            "type": "has_webhook_status",
-            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+            "exit_uuid": "ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5",
+            "type": "is_text_eq",
+            "uuid": "62e70441-a846-461d-8d57-4538d726b209",
           },
           Object {
             "arguments": Array [
               "connection_error",
             ],
-            "exit_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
-            "type": "has_webhook_status",
-            "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+            "exit_uuid": "023db634-a097-4351-8662-8447d971ff74",
+            "type": "is_text_eq",
+            "uuid": "eeb6ae86-f2ac-4ed2-a3b0-b211e0e5d4b3",
           },
         ],
-        "default_exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "default_exit_uuid": "ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5",
         "operand": "@run.webhook",
         "type": "switch",
       },
