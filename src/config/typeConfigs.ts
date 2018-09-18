@@ -29,6 +29,8 @@ import ResultRouterForm from '~/components/flow/routers/result/ResultRouterForm'
 import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { AnyAction, RouterTypes } from '~/flowTypes';
+import ResthookRouterForm from '~/components/flow/routers/resthook/ResthookRouterForm';
+import CallResthookComp from '~/components/flow/actions/callresthook/CallResthook';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -52,6 +54,7 @@ start_session	            start_session	            session_triggered
 */
 
 export const enum Types {
+    execute_actions = 'execute_actions',
     add_contact_urn = 'add_contact_urn',
     add_contact_groups = 'add_contact_groups',
     add_input_labels = 'add_input_labels',
@@ -61,6 +64,7 @@ export const enum Types {
     set_contact_name = 'set_contact_name',
     set_contact_language = 'set_contact_language',
     set_run_result = 'set_run_result',
+    call_resthook = 'call_resthook',
     call_webhook = 'call_webhook',
     send_msg = 'send_msg',
     send_email = 'send_email',
@@ -73,6 +77,7 @@ export const enum Types {
     split_by_run_result_delimited = 'split_by_run_result_delimited',
     split_by_groups = 'split_by_groups',
     split_by_random = 'split_by_random',
+    split_by_resthook = 'split_by_resthook',
     split_by_subflow = 'split_by_subflow',
     split_by_webhook = 'split_by_webhook',
     wait_for_response = 'wait_for_response',
@@ -218,6 +223,16 @@ export const typeConfigList: Type[] = [
         localizeableKeys: ['exits'],
         component: CallWebhookComp,
         aliases: [Types.split_by_webhook]
+    },
+    {
+        type: Types.call_resthook,
+        name: 'Call Zapier',
+        description: 'Call Zapier',
+        form: ResthookRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
+        component: CallResthookComp,
+        aliases: [Types.split_by_resthook]
     },
     {
         type: Types.start_flow,

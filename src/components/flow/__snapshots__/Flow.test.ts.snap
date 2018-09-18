@@ -43,6 +43,7 @@ Array [
           "left": 0,
           "top": 0,
         },
+        "type": "execute_actions",
       },
     },
   },

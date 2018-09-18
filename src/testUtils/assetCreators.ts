@@ -35,7 +35,8 @@ import {
     UINode,
     Wait,
     WaitTypes,
-    WebhookExitNames
+    WebhookExitNames,
+    CallResthook
 } from '~/flowTypes';
 import { Assets, AssetType, RenderNode } from '~/store/flowContext';
 import { assetListToMap } from '~/store/helpers';
@@ -85,6 +86,18 @@ export const createSendEmailAction = ({
     subject,
     body,
     addresses
+});
+
+export const createCallResthookAction = ({
+    uuid = '35a6eff8-dd6e-4e07-b605-73da32c83c9c',
+    resthook = 'my-resthook'
+}: {
+    uuid?: string;
+    resthook?: string;
+} = {}): CallResthook => ({
+    uuid,
+    type: Types.call_resthook,
+    resthook
 });
 
 export const createCallWebhookAction = ({

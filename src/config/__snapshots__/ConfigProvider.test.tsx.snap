@@ -12,6 +12,7 @@ Object {
     "labels": "/assets/labels.json",
     "languages": "/assets/languages.json",
     "recipients": "/assets/recipients.json",
+    "resthooks": "/assets/resthooks.json",
     "simulateResume": "",
     "simulateStart": "",
   },

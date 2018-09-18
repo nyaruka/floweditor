@@ -371,7 +371,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         if (
             !this.props.renderNode.node.actions ||
             !this.props.renderNode.node.actions.length ||
-            this.props.renderNode.ui.type != null
+            this.props.renderNode.ui.type !== Types.execute_actions
         ) {
             let type = this.props.renderNode.node.router.type;
 

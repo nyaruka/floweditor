@@ -7,6 +7,7 @@ module.exports =
         ? Object.assign({}, config, {
               localStorage: true,
               endpoints: {
+                  resthooks: 'resthooks',
                   flows: 'flows',
                   groups: 'groups',
                   recipients: 'recipients',
@@ -23,6 +24,7 @@ module.exports =
         : Object.assign({}, config, {
               localStorage: true,
               endpoints: {
+                  resthooks: '/assets/resthooks.json',
                   flows: '/assets/flows.json',
                   groups: '/assets/groups.json',
                   fields: '/assets/fields.json',

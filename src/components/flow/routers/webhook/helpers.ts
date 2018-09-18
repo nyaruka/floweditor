@@ -31,6 +31,16 @@ export const METHOD_OPTIONS: MethodOption[] = [
     { value: Methods.PUT, label: Methods.PUT }
 ];
 
+export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => {
+    const action =
+        settings.originalAction ||
+        (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+
+    if (action.type === Types.call_webhook) {
+        return action as CallWebhook;
+    }
+};
+
 export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormState => {
     const state: WebhookRouterFormState = {
         headers: [
@@ -49,10 +59,10 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
     };
 
     if (settings.originalNode.ui.type === Types.split_by_webhook) {
-        const action = settings.originalAction as CallWebhook;
+        const action = getOriginalAction(settings);
 
         // add in our headers
-        for (const name of Object.keys(action.headers)) {
+        for (const name of Object.keys(action.headers || [])) {
             state.headers.unshift({
                 value: {
                     uuid: createUUID(),
@@ -83,8 +93,10 @@ export const stateToNode = (
     }
 
     let uuid = createUUID();
-    if (settings.originalAction && settings.originalAction.type === Types.call_webhook) {
-        uuid = settings.originalAction.uuid;
+
+    const originalAction = getOriginalAction(settings);
+    if (originalAction) {
+        uuid = originalAction.uuid;
     }
 
     const newAction: CallWebhook = {
@@ -103,10 +115,8 @@ export const stateToNode = (
     const exits: Exit[] = [];
     let cases: Case[] = [];
 
-    const renderNode = settings.originalNode;
-
     // If we were already a webhook, lean on those exits and cases
-    if (renderNode && renderNode.ui.type === Types.split_by_webhook) {
+    if (originalAction) {
         settings.originalNode.node.exits.forEach((exit: any) => exits.push(exit));
         (settings.originalNode.node.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
     } else {

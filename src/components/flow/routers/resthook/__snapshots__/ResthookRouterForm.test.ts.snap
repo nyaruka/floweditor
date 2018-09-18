@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubflowRouterForm render should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="start_flow"
+  title="Start a Flow"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "split_by_subflow",
+        ],
+        "component": [Function],
+        "description": "Enter another flow",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Start a Flow",
+        "type": "start_flow",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <AssetSelector
+    entry={
+      Object {
+        "value": Object {
+          "id": "da795777-db05-438c-a24a-1880b7f7a95f",
+          "name": "Colors",
+          "type": "flow",
+        },
+      }
+    }
+    name="Flow"
+    onChange={[Function]}
+    placeholder="Select the flow to start"
+    searchable={true}
+  />
+</Dialog>
+`;
+
+exports[`SubflowRouterForm updates coverts from other node types 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow": Object {
+            "name": "Favorite Color",
+            "uuid": undefined,
+          },
+          "type": "start_flow",
+          "uuid": "d4a3a01c-1dee-4324-b107-4ac7a21d836f",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "child.run.status",
+              "completed",
+            ],
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "type": "is_text_eq",
+            "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          },
+          Object {
+            "arguments": Array [
+              "child.run.status",
+              "expired",
+            ],
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "type": "is_text_eq",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
+      "wait": null,
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_subflow",
+    },
+  },
+]
+`;
+
+exports[`SubflowRouterForm updates creates its own action uuid if necessary 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow": Object {
+            "name": "Favorite Color",
+            "uuid": undefined,
+          },
+          "type": "start_flow",
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Complete",
+          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Expired",
+          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "child.run.status",
+              "completed",
+            ],
+            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "type": "is_text_eq",
+            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+          },
+          Object {
+            "arguments": Array [
+              "child.run.status",
+              "expired",
+            ],
+            "exit_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "type": "is_text_eq",
+            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
+      "wait": null,
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_subflow",
+    },
+  },
+]
+`;
+
+exports[`SubflowRouterForm updates should update and save 1`] = `
+Object {
+  "flow": Object {
+    "value": Object {
+      "name": "Favorite Color",
+      "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
+    },
+  },
+  "valid": true,
+}
+`;
+
+exports[`SubflowRouterForm updates should update and save 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "flow": Object {
+            "name": "Favorite Color",
+            "uuid": undefined,
+          },
+          "type": "start_flow",
+          "uuid": "d4a3a01c-1dee-4324-b107-4ac7a21d836f",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "destination-completed",
+          "name": "Complete",
+          "uuid": "054be440-a819-4bcf-898e-d18084ab7f4e",
+        },
+        Object {
+          "destination_node_uuid": "destination-expired",
+          "name": "Expired",
+          "uuid": "70dbfd3f-a501-42cb-b53d-3c4290ab8d58",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "C",
+            ],
+            "exit_uuid": "054be440-a819-4bcf-898e-d18084ab7f4e",
+            "type": "has_run_status",
+            "uuid": "0d377671-c887-46df-a08a-22589cd50554",
+          },
+          Object {
+            "arguments": Array [
+              "E",
+            ],
+            "exit_uuid": "70dbfd3f-a501-42cb-b53d-3c4290ab8d58",
+            "type": "has_run_status",
+            "uuid": "4be01054-1592-4193-8abd-b673e9ae8dcc",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
+      "wait": null,
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_subflow",
+    },
+  },
+]
+`;
