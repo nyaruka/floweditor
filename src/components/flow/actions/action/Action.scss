@@ -29,6 +29,7 @@
     &.set_run_result,
     &.send_email,
     &.send_broadcast,
+    &.transfer_airtime,
     &.missing,
     &.start_flow {
         width: $node_width - $action_padding * 2;

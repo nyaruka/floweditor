@@ -19,6 +19,7 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
+import { currencies } from '~/store/currencies';
 import { EditorState, updateEditorState } from '~/store/editor';
 import {
     Asset,
@@ -221,6 +222,11 @@ export const initializeFlow = (
                 type: AssetType.Resthook,
                 id: 'slug',
                 items: {}
+            },
+            currencies: {
+                type: AssetType.Currency,
+                id: 'id',
+                items: currencies
             }
         })
     );

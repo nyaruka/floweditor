@@ -1,0 +1,262 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AirtimeRouterForm render should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="transfer_airtime"
+  title="Send Airtime"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "split_by_airtime",
+        ],
+        "component": [Function],
+        "description": "Send the contact airtime",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Send Airtime",
+        "type": "transfer_airtime",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div>
+    <CurrencyElement
+      exclude={
+        Array [
+          Object {
+            "value": Object {
+              "amount": "1.5",
+              "code": "USD",
+            },
+          },
+        ]
+      }
+      index={0}
+      key="currency_0"
+      onChange={[Function]}
+      onRemove={[Function]}
+      transfer={
+        Object {
+          "value": Object {
+            "amount": "1.5",
+            "code": "USD",
+          },
+        }
+      }
+    />
+    <CurrencyElement
+      exclude={
+        Array [
+          Object {
+            "value": Object {
+              "amount": "1.5",
+              "code": "USD",
+            },
+          },
+        ]
+      }
+      index={-1}
+      key="currency_-1"
+      onChange={[Function]}
+      onRemove={[Function]}
+      transfer={
+        Object {
+          "value": Object {
+            "amount": "",
+            "code": null,
+          },
+        }
+      }
+    />
+  </div>
+</Dialog>
+`;
+
+exports[`AirtimeRouterForm updates coverts from other node types 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "amounts": Object {
+            "USD": 1.5,
+          },
+          "type": "transfer_airtime",
+          "uuid": "35a6eff8-dd6e-4e07-b605-73da32c83c9c",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+          "name": "Success",
+          "uuid": "054be440-a819-4bcf-898e-d18084ab7f4e",
+        },
+        Object {
+          "destination_node_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          "name": "Failed",
+          "uuid": "70dbfd3f-a501-42cb-b53d-3c4290ab8d58",
+        },
+        Object {
+          "destination_node_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "name": "Unreachable",
+          "uuid": "5edcac28-a5f2-4fc2-81c4-d5d184d6560c",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "success",
+            ],
+            "exit_uuid": "054be440-a819-4bcf-898e-d18084ab7f4e",
+            "type": "has_webhook_status",
+            "uuid": "0d377671-c887-46df-a08a-22589cd50554",
+          },
+          Object {
+            "arguments": Array [
+              "response_error",
+            ],
+            "exit_uuid": "70dbfd3f-a501-42cb-b53d-3c4290ab8d58",
+            "type": "has_webhook_status",
+            "uuid": "4be01054-1592-4193-8abd-b673e9ae8dcc",
+          },
+          Object {
+            "arguments": Array [
+              "response_failure",
+            ],
+            "exit_uuid": "5edcac28-a5f2-4fc2-81c4-d5d184d6560c",
+            "type": "has_webhook_status",
+            "uuid": "4a6149dc-042b-4f2b-a7b5-ba6e86a5e72d",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
+      "wait": null,
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_airtime",
+    },
+  },
+]
+`;
+
+exports[`AirtimeRouterForm updates creates its own action uuid if necessary 1`] = `undefined`;
+
+exports[`AirtimeRouterForm updates should update and save 1`] = `
+Object {
+  "amounts": Array [
+    Object {
+      "value": Object {
+        "amount": "1.5",
+        "code": "USD",
+      },
+    },
+    Object {
+      "value": Object {
+        "amount": "",
+        "code": "USD",
+      },
+    },
+  ],
+  "valid": false,
+  "validationFailures": Array [],
+}
+`;
+
+exports[`AirtimeRouterForm updates should update and save 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "amounts": Object {
+            "USD": 1.5,
+          },
+          "type": "transfer_airtime",
+          "uuid": "35a6eff8-dd6e-4e07-b605-73da32c83c9c",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+          "name": "Success",
+          "uuid": "054be440-a819-4bcf-898e-d18084ab7f4e",
+        },
+        Object {
+          "destination_node_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          "name": "Failed",
+          "uuid": "70dbfd3f-a501-42cb-b53d-3c4290ab8d58",
+        },
+        Object {
+          "destination_node_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "name": "Unreachable",
+          "uuid": "5edcac28-a5f2-4fc2-81c4-d5d184d6560c",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "success",
+            ],
+            "exit_uuid": "054be440-a819-4bcf-898e-d18084ab7f4e",
+            "type": "has_webhook_status",
+            "uuid": "0d377671-c887-46df-a08a-22589cd50554",
+          },
+          Object {
+            "arguments": Array [
+              "response_error",
+            ],
+            "exit_uuid": "70dbfd3f-a501-42cb-b53d-3c4290ab8d58",
+            "type": "has_webhook_status",
+            "uuid": "4be01054-1592-4193-8abd-b673e9ae8dcc",
+          },
+          Object {
+            "arguments": Array [
+              "response_failure",
+            ],
+            "exit_uuid": "5edcac28-a5f2-4fc2-81c4-d5d184d6560c",
+            "type": "has_webhook_status",
+            "uuid": "4a6149dc-042b-4f2b-a7b5-ba6e86a5e72d",
+          },
+        ],
+        "default_exit_uuid": null,
+        "operand": "@child",
+        "type": "switch",
+      },
+      "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
+      "wait": null,
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_airtime",
+    },
+  },
+]
+`;

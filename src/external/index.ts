@@ -37,8 +37,12 @@ export const getActivity = (
             .catch(error => reject(error))
     );
 
-export const getAssets = (url: string, type: AssetType, id: string): Promise<Asset[]> =>
-    new Promise<Asset[]>((resolve, reject) => {
+export const getAssets = (url: string, type: AssetType, id: string): Promise<Asset[]> => {
+    if (!url) {
+        return new Promise<Asset[]>((resolve, reject) => resolve([]));
+    }
+
+    return new Promise<Asset[]>((resolve, reject) => {
         axios
             .get(url)
             .then((response: AxiosResponse) => {
@@ -53,6 +57,7 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
             })
             .catch(error => reject(error));
     });
+};
 
 export const getFlow = (endpoints: Endpoints, uuid: string): Promise<Asset> =>
     new Promise<Asset>((resolve, reject) => {
