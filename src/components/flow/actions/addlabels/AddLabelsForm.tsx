@@ -5,12 +5,14 @@ import { ActionFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Asset, AssetType } from '~/store/flowContext';
+import { Asset, AssetType, updateAssets } from '~/store/flowContext';
+import * as mutators from '~/store/mutators';
 import { AssetArrayEntry, FormState, mergeForm } from '~/store/nodeEditor';
+import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
 import { createUUID } from '~/utils';
 
-import { initializeForm, onUpdated, stateToAction } from './helpers';
+import { initializeForm, stateToAction } from './helpers';
 
 export interface AddLabelsFormState extends FormState {
     labels: AssetArrayEntry;
@@ -35,11 +37,20 @@ export default class AddLabelsForm extends React.PureComponent<
         });
     }
 
+    private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
+        const {
+            flowContext: { assets }
+        } = getState();
+
+        dispatch(updateAssets(mutators.addAssets('labels', assets, this.state.labels.value)));
+    }
+
     public handleSave(): void {
         const valid = this.handleLabelsChanged(this.state.labels.value);
+
         if (valid) {
             const newAction = stateToAction(this.props.nodeSettings, this.state);
-            this.props.updateAction(newAction, onUpdated);
+            this.props.updateAction(newAction, this.onUpdated);
             this.props.onClose(false);
         }
     }

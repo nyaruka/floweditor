@@ -1,0 +1,13 @@
+@import '~/variables.scss';
+
+.code {
+    display: inline-block;
+    font-size: 80%;
+    color: $gray;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.amount {
+    display: inline-block;
+}

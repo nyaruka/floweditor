@@ -4,24 +4,32 @@ import { AsyncCreatable, components } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType } from 'react-select/lib/types';
-import { sortByName, searchAssets, isMatch } from '~/components/form/assetselector/helpers';
+import { isMatch, searchAssets, sortByName } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { getIconForAssetType } from '~/components/form/select/helper';
 import { getAssets } from '~/external';
-import { Asset, Assets, REMOVE_VALUE_ASSET, AssetMap } from '~/store/flowContext';
-import { uniqueBy } from '~/utils';
+import { Asset, Assets, AssetType, REMOVE_VALUE_ASSET } from '~/store/flowContext';
 import { AssetEntry } from '~/store/nodeEditor';
+import { uniqueBy } from '~/utils';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
 const AssetOption = (props: OptionProps<Asset>) => {
     const asset = (props as any).data as Asset;
 
+    const prefix = '';
+    let suffix = '';
+    if (asset.type === AssetType.Currency) {
+        suffix = ` (${asset.id})`;
+    }
+
     // TODO: add styling for different asset types
     return !props.isDisabled ? (
         <div ref={props.innerRef} {...props.innerProps}>
             <components.Option {...props}>
+                {prefix}
                 {getIconForAssetType(asset.type)} {asset.name}
+                {suffix}
             </components.Option>
         </div>
     ) : null;
@@ -30,6 +38,9 @@ const AssetOption = (props: OptionProps<Asset>) => {
 export interface AssetSelectorProps extends FormElementProps {
     assets: Assets;
     onChange: (selected: Asset[]) => void;
+
+    // list of ids to exclude from matches
+    excludeOptions?: string[];
 
     // more options to consider when searching
     additionalOptions?: Asset[];
@@ -114,19 +125,22 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         const localMatches = searchAssets(
             input,
             this.props.assets.items,
-            this.props.additionalOptions
+            this.props.additionalOptions,
+            this.props.excludeOptions
         );
 
         // then query against our endpoint to add to that list
         const assets = this.props.assets;
         let url = assets.endpoint;
-        if (input) {
+        if (url && input) {
             url += url.indexOf('?') < 0 ? '?' : '&';
             url += 'search=' + encodeURIComponent(input);
         }
 
         getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
-            const remoteMatches = remoteAssets.filter((asset: Asset) => isMatch(input, asset));
+            const remoteMatches = remoteAssets.filter((asset: Asset) =>
+                isMatch(input, asset, this.props.excludeOptions)
+            );
             const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
 
             // concat them all together and uniquify them
@@ -169,6 +183,15 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         // or it should be a list of local assets from an empty search
         if (!defaultOptions) {
             defaultOptions = this.state.defaultOptions;
+
+            if (this.props.excludeOptions) {
+                defaultOptions = searchAssets(
+                    '',
+                    this.props.assets.items,
+                    this.props.additionalOptions,
+                    this.props.excludeOptions
+                );
+            }
         }
 
         return (

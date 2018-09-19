@@ -1,0 +1,32 @@
+.transfer {
+    margin-top: 10px;
+
+    .currency {
+        display: inline-block;
+        width: 200px;
+    }
+
+    .amount {
+        display: inline-block;
+        width: 200px;
+        margin-left: 10px;
+        input {
+            font-size: 12px;
+            height: 28px;
+        }
+    }
+
+    .remove {
+        display: inline-block;
+        font-size: 10px;
+        padding-left: 5px;
+        visibility: hidden;
+        cursor: pointer;
+    }
+
+    &:hover {
+        .remove {
+            visibility: visible;
+        }
+    }
+}

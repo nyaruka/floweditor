@@ -19,11 +19,6 @@ export default class ResthookRouterForm extends React.PureComponent<
     RouterFormProps,
     ResthookRouterFormState
 > {
-    public static contextTypes = {
-        endpoints: fakePropType,
-        assetService: fakePropType
-    };
-
     constructor(props: RouterFormProps) {
         super(props);
 

@@ -1,5 +1,6 @@
 import AddLabelsComp from '~/components/flow/actions/addlabels/AddLabels';
 import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
+import CallResthookComp from '~/components/flow/actions/callresthook/CallResthook';
 import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';
 import AddGroupsForm from '~/components/flow/actions/changegroups/addgroups/AddGroupsForm';
 import ChangeGroupsComp from '~/components/flow/actions/changegroups/ChangeGroups';
@@ -17,20 +18,21 @@ import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResul
 import StartFlowComp from '~/components/flow/actions/startflow/StartFlow';
 import StartSessionComp from '~/components/flow/actions/startsession/StartSession';
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
+import TransferAirtimeComp from '~/components/flow/actions/transferairtime/TransferAirtime';
 import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import AirtimeRouterForm from '~/components/flow/routers/airtime/AirtimeRouterForm';
 import ExpressionRouterForm from '~/components/flow/routers/expression/ExpressionRouterForm';
 import FieldRouterForm from '~/components/flow/routers/field/FieldRouterForm';
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import RandomRouterForm from '~/components/flow/routers/random/RandomRouterForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
+import ResthookRouterForm from '~/components/flow/routers/resthook/ResthookRouterForm';
 import ResultRouterForm from '~/components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { AnyAction, RouterTypes } from '~/flowTypes';
-import ResthookRouterForm from '~/components/flow/routers/resthook/ResthookRouterForm';
-import CallResthookComp from '~/components/flow/actions/callresthook/CallResthook';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -71,6 +73,8 @@ export const enum Types {
     send_broadcast = 'send_broadcast',
     start_flow = 'start_flow',
     start_session = 'start_session',
+    transfer_airtime = 'transfer_airtime',
+    split_by_airtime = 'split_by_airtime',
     split_by_expression = 'split_by_expression',
     split_by_contact_field = 'split_by_contact_field',
     split_by_run_result = 'split_by_run_result',
@@ -252,6 +256,16 @@ export const typeConfigList: Type[] = [
         localizeableKeys: ['exits'],
         form: StartSessionForm,
         component: StartSessionComp
+    },
+    {
+        type: Types.transfer_airtime,
+        name: 'Send Airtime',
+        description: 'Send the contact airtime',
+        form: AirtimeRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
+        component: TransferAirtimeComp,
+        aliases: [Types.split_by_airtime]
     },
 
     /** Routers */

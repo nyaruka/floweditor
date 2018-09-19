@@ -146,6 +146,20 @@ Array [
     "type": "start_session",
   },
   Object {
+    "aliases": Array [
+      "split_by_airtime",
+    ],
+    "component": [Function],
+    "description": "Send the contact airtime",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Send Airtime",
+    "type": "transfer_airtime",
+  },
+  Object {
     "description": "Split by a custom expression",
     "form": [Function],
     "localization": [Function],
@@ -346,6 +360,20 @@ Object {
     "name": "Save Flow Result",
     "type": "set_run_result",
   },
+  "split_by_airtime": Object {
+    "aliases": Array [
+      "split_by_airtime",
+    ],
+    "component": [Function],
+    "description": "Send the contact airtime",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Send Airtime",
+    "type": "transfer_airtime",
+  },
   "split_by_contact_field": Object {
     "description": "Split by a contact field",
     "form": [Function],
@@ -496,6 +524,20 @@ Object {
     ],
     "name": "Wait for Response",
     "type": "wait_for_response",
+  },
+  "transfer_airtime": Object {
+    "aliases": Array [
+      "split_by_airtime",
+    ],
+    "component": [Function],
+    "description": "Send the contact airtime",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Send Airtime",
+    "type": "transfer_airtime",
   },
   "wait_for_response": Object {
     "aliases": Array [

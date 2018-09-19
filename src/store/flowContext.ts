@@ -43,6 +43,7 @@ export interface ContactFields {
 
 export enum AssetType {
     Channel = 'channel',
+    Currency = 'currency',
     Flow = 'flow',
     Group = 'group',
     Field = 'field',
