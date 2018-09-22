@@ -72,6 +72,8 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     height: 37px;
+    letter-spacing: 0.03em;
+    line-height: 1.3em;
 
     &::-webkit-input-placeholder {
         color: $placeholder_color;

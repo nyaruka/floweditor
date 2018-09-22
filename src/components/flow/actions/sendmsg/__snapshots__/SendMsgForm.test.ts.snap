@@ -4,6 +4,18 @@ exports[`SendMsgForm render should render 1`] = `
 <Flipper
   back={
     <Dialog
+      buttons={
+        Object {
+          "primary": Object {
+            "name": "Ok",
+            "onClick": [Function],
+          },
+          "secondary": Object {
+            "name": "Cancel",
+            "onClick": [Function],
+          },
+        }
+      }
       headerClass="send_msg"
       headerIcon="fe-cog"
       headerStyle="barber"
@@ -25,6 +37,65 @@ exports[`SendMsgForm render should render 1`] = `
         placeholder="Quick Replies"
         prompt="Enter a Quick Reply"
       />
+      <p>
+        Attachments are used to send pictures or other media with your message
+      </p>
+      <React.Fragment>
+        <div
+          className="urlAttachment"
+        >
+          <div
+            className="typeChoice"
+          >
+            <SelectElement
+              entry={
+                Object {
+                  "value": null,
+                }
+              }
+              name="Type Options"
+              onChange={[Function]}
+              options={
+                Array [
+                  Object {
+                    "label": "Image URL",
+                    "value": "image",
+                  },
+                  Object {
+                    "label": "Audio URL",
+                    "value": "audio",
+                  },
+                  Object {
+                    "label": "Video URL",
+                    "value": "video",
+                  },
+                  Object {
+                    "label": "Upload Attachment",
+                    "value": "upload",
+                  },
+                ]
+              }
+              placeholder="Add Attachment"
+              styles={
+                Object {
+                  "control": [Function],
+                  "menuList": [Function],
+                  "option": [Function],
+                }
+              }
+            />
+          </div>
+        </div>
+        <input
+          onChange={[Function]}
+          style={
+            Object {
+              "display": "none",
+            }
+          }
+          type="file"
+        />
+      </React.Fragment>
       <CheckboxElement
         checked={false}
         description="Send a message to all destinations known for this contact."
@@ -84,6 +155,9 @@ exports[`SendMsgForm render should render 1`] = `
         showLabel={false}
         textarea={true}
       />
+      <div
+        className="quickReplySummary"
+      />
     </Dialog>
   }
 />
@@ -93,16 +167,18 @@ exports[`SendMsgForm updates should allow switching from router 1`] = `
 Array [
   Object {
     "all_urns": false,
+    "attachments": Array [],
     "quick_replies": Array [],
     "text": "What is your favorite color?",
     "type": "send_msg",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
   },
 ]
 `;
 
 exports[`SendMsgForm updates should save changes 1`] = `
 Object {
+  "attachments": Array [],
   "quickReplies": Object {
     "value": Array [
       "red",
@@ -122,6 +198,7 @@ exports[`SendMsgForm updates should save changes 2`] = `
 Array [
   Object {
     "all_urns": true,
+    "attachments": Array [],
     "quick_replies": Array [
       "red",
       "green",

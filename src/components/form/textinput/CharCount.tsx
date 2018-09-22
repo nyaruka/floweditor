@@ -1,7 +1,7 @@
-import * as React from 'react';
 import * as classNames from 'classnames/bind';
+import * as React from 'react';
 import * as styles from '~/components/form/textinput/CharCount.scss';
-import { UnicodeCharMap, pluralize } from '~/components/form/textinput/helpers';
+import { pluralize, UnicodeCharMap } from '~/components/form/textinput/helpers';
 import UnicodeList from '~/components/form/textinput/UnicodeList';
 
 interface CharCountProps {
@@ -26,9 +26,13 @@ const CharCount: React.SFC<CharCountProps> = ({ count, parts, unicodeChars }) =>
                 {parts}
                 <span className={toolTipTextClasses}>
                     This message will be about <b>{count}</b> {pluralize(count, 'character')} long.
-                    We estimate it will take <b>{parts}</b> {pluralize(parts, 'segment')} to send
+                    We estimate it will take <b>{parts}</b> {pluralize(parts, 'message')} to send
                     over SMS.
                     {hasUnicode && <UnicodeList unicodeChars={unicodeChars} />}
+                    <div className={styles.finePrint}>
+                        Using variables may result in longer messages that require more messages to
+                        send over SMS.
+                    </div>
                 </span>
             </div>
         </div>

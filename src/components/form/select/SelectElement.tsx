@@ -4,7 +4,7 @@ import { StylesConfig } from 'react-select/lib/styles';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 
 interface SelectElementProps extends FormElementProps {
-    onChange(value: any): void;
+    onChange?(value: any): void;
     options: any;
     placeholder?: string;
     styles?: StylesConfig;
@@ -24,6 +24,8 @@ export default class SelectElement extends React.Component<SelectElementProps> {
         return (
             <FormElement name={this.props.name} entry={this.props.entry}>
                 <Select
+                    isDisabled={this.props.onChange === undefined}
+                    placeholder={this.props.placeholder}
                     styles={this.props.styles}
                     name={this.props.name}
                     value={this.props.entry.value}

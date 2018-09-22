@@ -19,6 +19,7 @@ export interface Environment {
 }
 
 export interface Endpoints {
+    attachments: string;
     resthooks: string;
     fields: string;
     groups: string;
@@ -184,6 +185,7 @@ export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
     quick_replies?: string[];
+    attachments?: string[];
 }
 
 export interface BroadcastMsg extends RecipientsAction {

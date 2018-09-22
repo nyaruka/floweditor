@@ -28,8 +28,13 @@ exports[`CharCount > render > should display count 1`] = `
         2
       </b>
        
-      segments
+      messages
        to send over SMS.
+      <div
+        className="finePrint"
+      >
+        Using variables may result in longer messages that require more messages to send over SMS.
+      </div>
     </span>
   </div>
 </div>

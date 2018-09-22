@@ -2,20 +2,23 @@ import * as React from 'react';
 import Pill from '~/components/pill/Pill';
 import { SendMsg } from '~/flowTypes';
 
+import * as styles from './SendMsg.scss';
+
 export const PLACEHOLDER = 'Send a message to the contact';
 
 const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
     if (action.text) {
         let replies = null;
-        if (action.quick_replies) {
+
+        if ((action.quick_replies || []).length > 0) {
             replies = (
-                <div>
+                <div className={styles.quickReplies}>
                     {action.quick_replies.map(reply => (
                         <Pill
                             maxLength={20}
                             advanced={true}
-                            text={reply}
                             key={action.uuid + reply}
+                            text={reply}
                         />
                     ))}
                 </div>
@@ -24,8 +27,13 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
 
         return (
             <>
-                <div>{action.text}</div>
-                {replies}
+                <div>
+                    {action.text}
+                    {action.attachments && action.attachments.length > 0 ? (
+                        <span data-advanced={true} className="fe-paperclip" />
+                    ) : null}
+                </div>
+                <div className={styles.summary}>{replies}</div>
             </>
         );
     }
