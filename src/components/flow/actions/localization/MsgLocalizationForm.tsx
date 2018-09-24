@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
-import Flipper from '~/components/flipper/Flipper';
+import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/action/Action.scss';
 import { initializeLocalizedForm } from '~/components/flow/actions/sendmsg/helpers';
 import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
@@ -84,11 +83,33 @@ export default class MsgLocalizationForm extends React.Component<
 
     public render(): JSX.Element {
         const typeConfig = determineTypeConfig(this.props.nodeSettings);
-        const msgForm = (
+        const tabs: Tab[] = [];
+
+        if (typeConfig.localizeableKeys.indexOf('quick_replies') > -1) {
+            tabs.push({
+                name: 'Quick Replies',
+                body: (
+                    <>
+                        <p>{this.props.language.name} Quick Replies</p>
+                        <TaggingElement
+                            name="Replies"
+                            placeholder="Quick Replies"
+                            prompt="Enter a Quick Reply"
+                            onChange={this.handleQuickRepliesUpdate}
+                            onCheckValid={() => true}
+                            entry={this.state.quickReplies}
+                        />
+                    </>
+                )
+            });
+        }
+
+        return (
             <Dialog
                 title={typeConfig.name}
                 headerClass={typeConfig.type}
                 buttons={this.getButtons()}
+                tabs={tabs}
             >
                 <div data-spec="translation-container">
                     <div data-spec="text-to-translate" className={styles.translate_from}>
@@ -109,34 +130,5 @@ export default class MsgLocalizationForm extends React.Component<
                 />
             </Dialog>
         );
-
-        if (typeConfig.localizeableKeys.indexOf('quick_replies') > -1) {
-            return (
-                <Flipper
-                    front={msgForm}
-                    back={
-                        <Dialog
-                            title={typeConfig.name}
-                            subtitle="Advanced Settings"
-                            headerStyle={HeaderStyle.BARBER}
-                            headerClass={typeConfig.type}
-                            headerIcon="fe-cog"
-                        >
-                            <p>Enter any {this.props.language.name} Quick Replies</p>
-                            <TaggingElement
-                                name="Replies"
-                                placeholder="Quick Replies"
-                                prompt="Enter a Quick Reply"
-                                onChange={this.handleQuickRepliesUpdate}
-                                onCheckValid={() => true}
-                                entry={this.state.quickReplies}
-                            />
-                        </Dialog>
-                    }
-                />
-            );
-        } else {
-            return msgForm;
-        }
     }
 }
