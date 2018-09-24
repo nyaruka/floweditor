@@ -1,10 +1,12 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
+import Dialog, { ButtonSet, HeaderStyle, Tab } from '~/components/dialog/Dialog';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
+import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
+import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
@@ -13,17 +15,14 @@ import { validate, validateRequired } from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
 import {
-    nodeToState,
-    stateToNode,
+    DELIMITER_OPTIONS,
     FIELD_NUMBER_OPTIONS,
-    getFieldOption,
     getDelimiterOption,
-    DELIMITER_OPTIONS
+    getFieldOption,
+    nodeToState,
+    stateToNode
 } from './helpers';
 import * as styles from './ResultRouterForm.scss';
-import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
-import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
-import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
 
 export interface ResultRouterFormState extends FormState {
     result: AssetEntry;
@@ -158,62 +157,64 @@ export default class ResultRouterForm extends React.Component<
         );
     }
 
-    public renderEdit(): FlipperProps {
+    public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
-        return {
-            front: (
-                <Dialog
-                    title={typeConfig.name}
-                    headerClass={typeConfig.type}
-                    buttons={this.getButtons()}
-                >
-                    <TypeList
-                        __className=""
-                        initialType={typeConfig}
-                        onChange={this.props.onTypeChange}
-                    />
+        const back = (
+            <Dialog
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
+                headerStyle={HeaderStyle.BARBER}
+                subtitle="Advanced Settings"
+                buttons={this.getButtons()}
+                headerIcon="fe-cog"
+            />
+        );
 
-                    {this.state.shouldDelimit ? this.renderFieldDelimited() : this.renderField()}
-
-                    <CaseList
-                        data-spec="cases"
-                        cases={this.state.cases}
-                        onCasesUpdated={this.handleCasesUpdated}
+        const advanced: Tab = {
+            name: 'Advanced',
+            body: (
+                <div className={styles.shouldDelimit}>
+                    <CheckboxElement
+                        name="Delimit"
+                        title="Delimit Result"
+                        checked={this.state.shouldDelimit}
+                        description="Evaluate your rules against a delimited part of your result"
+                        onChange={this.handleShouldDelimitChanged}
                     />
-                    <OptionalTextInput
-                        name="Result Name"
-                        value={this.state.resultName}
-                        onChange={this.handleUpdateResultName}
-                        toggleText="Save as.."
-                        helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                    />
-                </Dialog>
+                </div>
             ),
-            back: (
-                <Dialog
-                    title={typeConfig.name}
-                    headerClass={typeConfig.type}
-                    headerStyle={HeaderStyle.BARBER}
-                    subtitle="Advanced Settings"
-                    buttons={this.getButtons()}
-                    headerIcon="fe-cog"
-                >
-                    <div className={styles.shouldDelimit}>
-                        <CheckboxElement
-                            name="Delimit"
-                            title="Delimit Result"
-                            checked={this.state.shouldDelimit}
-                            description="Evaluate your rules against a delimited part of your result"
-                            onChange={this.handleShouldDelimitChanged}
-                        />
-                    </div>
-                </Dialog>
-            )
+            checked: this.state.shouldDelimit
         };
-    }
 
-    public render(): JSX.Element {
-        return <Flipper {...this.renderEdit()} />;
+        return (
+            <Dialog
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
+                buttons={this.getButtons()}
+                tabs={[advanced]}
+            >
+                <TypeList
+                    __className=""
+                    initialType={typeConfig}
+                    onChange={this.props.onTypeChange}
+                />
+
+                {this.state.shouldDelimit ? this.renderFieldDelimited() : this.renderField()}
+
+                <CaseList
+                    data-spec="cases"
+                    cases={this.state.cases}
+                    onCasesUpdated={this.handleCasesUpdated}
+                />
+                <OptionalTextInput
+                    name="Result Name"
+                    value={this.state.resultName}
+                    onChange={this.handleUpdateResultName}
+                    toggleText="Save as.."
+                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+                />
+            </Dialog>
+        );
     }
 }
