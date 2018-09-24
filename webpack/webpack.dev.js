@@ -33,6 +33,10 @@ if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
         target: 'http://localhost:8000'
     };
 
+    proxy['/flow/upload_media_action/*'] = {
+        target: 'http://localhost:8000'
+    };
+
     proxy['/contact/omnibox'] = {
         target: 'http://localhost:8000'
     };

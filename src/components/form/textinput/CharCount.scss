@@ -1,4 +1,4 @@
-@import '../../../variables.scss';
+@import '~/variables.scss';
 
 .count {
     text-align: right;
@@ -10,6 +10,13 @@
     display: inline-block;
     font-size: 14px;
     min-width: 50px;
+}
+
+.fine-print {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 13px;
+    color: $gray + #333;
 }
 
 .divider {

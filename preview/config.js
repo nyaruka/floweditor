@@ -10,6 +10,7 @@ if (process.env.RAPID_FLOW) {
         flow: process.env.RAPID_FLOW,
         localStorage: true,
         endpoints: {
+            attachments: '/flow/upload_media_action/' + process.env.RAPID_ORG + '/',
             resthooks: base + 'resthook',
             flows: base + 'flow',
             groups: base + 'group',
@@ -30,6 +31,7 @@ if (process.env.RAPID_FLOW) {
             ? Object.assign({}, config, {
                   localStorage: true,
                   endpoints: {
+                      attachments: '',
                       resthooks: 'resthooks',
                       flows: 'flows',
                       groups: 'groups',
@@ -47,6 +49,7 @@ if (process.env.RAPID_FLOW) {
             : Object.assign({}, config, {
                   localStorage: true,
                   endpoints: {
+                      attachments: '/',
                       resthooks: '/assets/resthooks',
                       flows: '/assets/flow',
                       groups: '/assets/group',

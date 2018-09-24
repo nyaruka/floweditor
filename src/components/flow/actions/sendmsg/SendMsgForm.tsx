@@ -1,4 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
+import axios from 'axios';
+import mutate from 'immutability-helper';
 import * as React from 'react';
 import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
 import Flipper from '~/components/flipper/Flipper';
@@ -6,19 +8,50 @@ import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { ActionFormProps } from '~/components/flow/props';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
+import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
+import Pill from '~/components/pill/Pill';
+import { fakePropType } from '~/config/ConfigProvider';
 import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
+import { createUUID } from '~/utils';
+import { small } from '~/utils/reactselect';
+
+import * as styles from './SendMsgForm.scss';
+
+const MAX_ATTACHMENTS = 5;
+
+const TYPE_OPTIONS: SelectOption[] = [
+    { value: 'image', label: 'Image URL' },
+    { value: 'audio', label: 'Audio URL' },
+    { value: 'video', label: 'Video URL' }
+];
+
+const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', label: 'Upload Attachment' }]);
+
+const getAttachmentTypeOption = (type: string): SelectOption => {
+    return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
+};
+
+export interface Attachment {
+    type: string;
+    url: string;
+    uploaded?: boolean;
+}
 
 export interface SendMsgFormState extends FormState {
     text: StringEntry;
     quickReplies: StringArrayEntry;
     sendAll: boolean;
+    attachments: Attachment[];
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
+    private flipper: Flipper;
+    private filePicker: any;
+
     constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings);
@@ -26,6 +59,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             include: [/^handle/, /^on/]
         });
     }
+
+    public static contextTypes = {
+        endpoints: fakePropType
+    };
 
     private handleUpdate(keys: {
         text?: string;
@@ -77,6 +114,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         }
     }
 
+    public handleAttachmentRemoved(index: number): void {
+        // we found a match, merge us in
+        const updated: any = mutate(this.state.attachments, {
+            $splice: [[index, 1]]
+        });
+        this.setState({ attachments: updated });
+    }
+
     private getButtons(): ButtonSet {
         return {
             primary: { name: 'Ok', onClick: this.handleSave },
@@ -84,10 +129,176 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         };
     }
 
+    private renderUpload(index: number, attachment: Attachment): JSX.Element {
+        return (
+            <div
+                className={styles.urlAttachment}
+                key={index > -1 ? 'url_attachment_' + index : createUUID()}
+            >
+                <div className={styles.typeChoice}>
+                    <SelectElement
+                        name="Type"
+                        styles={small}
+                        entry={{
+                            value: { label: attachment.type }
+                        }}
+                        options={TYPE_OPTIONS}
+                    />
+                </div>
+                <div className={styles.url}>
+                    <span className={styles.upload}>
+                        <Pill
+                            icon="fe-download"
+                            text=" Download"
+                            large={true}
+                            onClick={() => {
+                                window.open(attachment.url, '_blank');
+                            }}
+                        />
+                        <div className={styles.removeUpload}>
+                            <Pill
+                                icon="fe-x"
+                                text=" Remove"
+                                large={true}
+                                onClick={() => {
+                                    this.handleAttachmentRemoved(index);
+                                }}
+                            />
+                        </div>
+                    </span>
+                </div>
+            </div>
+        );
+    }
+
+    private handleUploadFile(files: FileList): void {
+        console.log(this.context.endpoints.attachments);
+        console.log(files);
+        let attachments: any = this.state.attachments;
+
+        const data = new FormData();
+        data.append('file', files[0]);
+        axios
+            .post(this.context.endpoints.attachments, data)
+            .then(response => {
+                attachments = mutate(attachments, {
+                    $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+                });
+                this.setState({ attachments });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    private renderAttachment(index: number, attachment: Attachment): JSX.Element {
+        let attachments: any = this.state.attachments;
+        return (
+            <div
+                className={styles.urlAttachment}
+                key={index > -1 ? 'url_attachment_' + index : createUUID()}
+            >
+                <div className={styles.typeChoice}>
+                    <SelectElement
+                        styles={small}
+                        name="Type Options"
+                        placeholder="Add Attachment"
+                        entry={{
+                            value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+                        }}
+                        onChange={(option: any) => {
+                            if (option.value === 'upload') {
+                                window.setTimeout(() => {
+                                    this.filePicker.click();
+                                }, 200);
+                            } else {
+                                if (index === -1) {
+                                    attachments = mutate(attachments, {
+                                        $push: [{ type: option.value, url: '' }]
+                                    });
+                                } else {
+                                    attachments = mutate(attachments, {
+                                        [index]: {
+                                            $set: { type: option.value, url: attachment.url }
+                                        }
+                                    });
+                                }
+                                this.setState({ attachments });
+                            }
+                        }}
+                        options={index > -1 ? TYPE_OPTIONS : NEW_TYPE_OPTIONS}
+                    />
+                </div>
+                {index > -1 ? (
+                    <>
+                        <div className={styles.url}>
+                            <TextInputElement
+                                placeholder="URL"
+                                name="url"
+                                onChange={(value: string) => {
+                                    attachments = mutate(attachments, {
+                                        [index]: { $set: { type: attachment.type, url: value } }
+                                    });
+                                    this.setState({ attachments });
+                                }}
+                                entry={{ value: attachment.url }}
+                                autocomplete={true}
+                            />
+                        </div>
+                        <div className={styles.remove}>
+                            <Pill
+                                icon="fe-x"
+                                text=" Remove"
+                                large={true}
+                                onClick={() => {
+                                    this.handleAttachmentRemoved(index);
+                                }}
+                            />
+                        </div>
+                    </>
+                ) : null}
+            </div>
+        );
+    }
+
+    private renderAttachments(): JSX.Element {
+        const urlComponents = this.state.attachments.map(
+            (attachment, index: number) =>
+                attachment.uploaded
+                    ? this.renderUpload(index, attachment)
+                    : this.renderAttachment(index, attachment)
+        );
+
+        const emptyOption =
+            this.state.attachments.length < MAX_ATTACHMENTS
+                ? this.renderAttachment(-1, { url: '', type: '' })
+                : null;
+        return (
+            <>
+                {urlComponents}
+                {emptyOption}
+                <input
+                    style={{
+                        display: 'none'
+                    }}
+                    ref={ele => {
+                        this.filePicker = ele;
+                    }}
+                    type="file"
+                    onChange={e => this.handleUploadFile(e.target.files)}
+                />
+            </>
+        );
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
+
         return (
             <Flipper
+                ref={(ref: any) => {
+                    this.flipper = ref;
+                }}
                 front={
                     <Dialog
                         title={typeConfig.name}
@@ -109,6 +320,33 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                             focus={true}
                             textarea={true}
                         />
+                        <div className={styles.quickReplySummary}>
+                            {this.state.attachments.length > 0 ? (
+                                <Pill
+                                    onClick={() => {
+                                        this.flipper.handleFlip();
+                                    }}
+                                    icon="fe-paperclip"
+                                    maxLength={20}
+                                    advanced={true}
+                                    key="form_attachments"
+                                    text="Attachments"
+                                    large={true}
+                                />
+                            ) : null}
+                            {this.state.quickReplies.value.length > 0 ? (
+                                <Pill
+                                    onClick={() => {
+                                        this.flipper.handleFlip();
+                                    }}
+                                    maxLength={20}
+                                    advanced={true}
+                                    key="quick_replies"
+                                    text="Quick Replies"
+                                    large={true}
+                                />
+                            ) : null}
+                        </div>
                     </Dialog>
                 }
                 back={
@@ -117,6 +355,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                         subtitle="Advanced Settings"
                         headerStyle={HeaderStyle.BARBER}
                         headerClass={typeConfig.type}
+                        buttons={this.getButtons()}
                         headerIcon="fe-cog"
                     >
                         <p>Quick Replies are made into buttons for supported channels</p>
@@ -128,6 +367,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                             onCheckValid={() => true}
                             entry={this.state.quickReplies}
                         />
+                        <p>
+                            Attachments are used to send pictures or other media with your message
+                        </p>
+                        {this.renderAttachments()}
+
                         <CheckboxElement
                             name="All Destinations"
                             title="All Destinations"

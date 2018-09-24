@@ -1,0 +1,14 @@
+@import '~/variables.scss';
+
+.quick-replies {
+    display: inline-block;
+}
+
+.attachment {
+    font-size: 20px;
+    color: $light_gray;
+}
+
+.summary {
+    margin-top: 5px;
+}

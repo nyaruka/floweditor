@@ -13,5 +13,8 @@ exports[`SendMsgComp render should render text prop when passed 1`] = `
   <div>
     Hey!
   </div>
+  <div
+    className="summary"
+  />
 </Fragment>
 `;

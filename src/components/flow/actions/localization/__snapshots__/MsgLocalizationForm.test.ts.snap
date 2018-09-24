@@ -154,6 +154,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
 
 exports[`MsgLocalizationForm updates should save changes 1`] = `
 Object {
+  "attachments": Array [],
   "quickReplies": Object {
     "value": Array [
       "red",

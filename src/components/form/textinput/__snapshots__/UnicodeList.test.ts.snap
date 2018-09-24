@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UnicodeList render should render self, children with base props 1`] = `
-<div
+<span
   data-spec="unicode-list-container"
 >
    Note that your message may require more segments to send because it contains the following characters:
@@ -22,5 +22,5 @@ exports[`UnicodeList render should render self, children with base props 1`] = `
       👍
     </span>
   </div>
-</div>
+</span>
 `;

@@ -2,7 +2,7 @@
 
 exports[`Pill renders 1`] = `
 <div
-  className="pill"
+  className="pill "
   data-advanced={false}
 >
   This is my...
@@ -11,9 +11,8 @@ exports[`Pill renders 1`] = `
 
 exports[`Pill treats @ text differently 1`] = `
 <div
-  className="pill"
+  className="pill "
   data-advanced={false}
-  title="@(CONCAT(contact.name, contact.age))"
 >
   @(exp)
 </div>

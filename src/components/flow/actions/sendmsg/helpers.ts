@@ -1,5 +1,5 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
-import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
+import { Attachment, SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from '~/config/typeConfigs';
 import { SendMsg } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
@@ -7,7 +7,22 @@ import { NodeEditorSettings } from '~/store/nodeEditor';
 export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
         const action = settings.originalAction as SendMsg;
+        const attachments: Attachment[] = [];
+        (action.attachments || []).forEach((attachmentString: string) => {
+            const splitPoint = attachmentString.indexOf(':');
+
+            const type = attachmentString.substring(0, splitPoint);
+            const attachment = {
+                type,
+                url: attachmentString.substring(splitPoint + 1),
+                uploaded: type.indexOf('/') > -1
+            };
+
+            attachments.push(attachment);
+        });
+
         return {
+            attachments,
             text: { value: action.text },
             quickReplies: { value: action.quick_replies || [] },
             sendAll: action.all_urns,
@@ -16,6 +31,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
     }
 
     return {
+        attachments: [],
         text: { value: '' },
         quickReplies: { value: [] },
         sendAll: false,
@@ -24,7 +40,12 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
 };
 
 export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormState): SendMsg => {
+    const attachments = state.attachments
+        .filter((attachment: Attachment) => attachment.url.trim().length > 0)
+        .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
+
     return {
+        attachments,
         text: state.text.value,
         type: Types.send_msg,
         all_urns: state.sendAll,
@@ -45,6 +66,7 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): SendMsgFo
         if (localized.isLocalized()) {
             const action = settings.localizations[0].getObject() as SendMsg;
             return {
+                attachments: [],
                 text: { value: action.text },
                 quickReplies: { value: action.quick_replies || [] },
                 sendAll: action.all_urns,
@@ -54,6 +76,7 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): SendMsgFo
     }
 
     return {
+        attachments: [],
         text: { value: '' },
         quickReplies: { value: [] },
         sendAll: false,
