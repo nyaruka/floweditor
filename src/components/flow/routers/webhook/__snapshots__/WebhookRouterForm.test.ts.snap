@@ -1,200 +1,165 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WebhookRouterForm should render 1`] = `
-<Flipper
-  back={
-    <Dialog
-      buttons={
-        Object {
-          "primary": Object {
-            "name": "Ok",
-            "onClick": [Function],
-          },
-          "secondary": Object {
-            "name": "Cancel",
-            "onClick": [Function],
-          },
-        }
-      }
-      headerClass="call_webhook"
-      headerIcon="fe-cog"
-      headerStyle="barber"
-      subtitle="Advanced Settings"
-      title="Call Webhook"
-    >
-      <h4
-        className="headers_title"
-      >
-        Headers
-      </h4>
-      <p
-        className="info"
-      >
-        Add any additional headers below that you would like to send along with your request.
-      </p>
-      <FlipMovePropConverter
-        delay={0}
-        disableAllAnimations={false}
-        duration={100}
-        easing="ease-out"
-        enterAnimation="elevator"
-        getPosition={[Function]}
-        leaveAnimation="elevator"
-        maintainContainerHeight={false}
-        staggerDelayBy={0}
-        staggerDurationBy={0}
-        typeName="div"
-        verticalAlignment="top"
-      >
-        <div>
-          <HeaderElement
-            entry={
-              Object {
-                "value": Object {
-                  "name": "",
-                  "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-                  "value": "",
-                },
-              }
-            }
-            index={0}
-            onChange={[Function]}
-            onRemove={[Function]}
-          />
-        </div>
-      </FlipMovePropConverter>
-    </Dialog>
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
   }
-  front={
-    <Dialog
-      buttons={
+  headerClass="call_webhook"
+  tabs={
+    Array [
+      Object {
+        "body": <React.Fragment>
+          <p
+            className="info"
+          >
+            Add any additional headers below that you would like to send along with your request.
+          </p>
+          <FlipMovePropConverter
+            delay={0}
+            disableAllAnimations={false}
+            duration={100}
+            easing="ease-out"
+            enterAnimation="elevator"
+            getPosition={[Function]}
+            leaveAnimation="elevator"
+            maintainContainerHeight={false}
+            staggerDelayBy={0}
+            staggerDurationBy={0}
+            typeName="div"
+            verticalAlignment="top"
+          >
+            <div>
+              <HeaderElement
+                entry={
+                  Object {
+                    "value": Object {
+                      "name": "",
+                      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+                      "value": "",
+                    },
+                  }
+                }
+                index={0}
+                onChange={[Function]}
+                onRemove={[Function]}
+              />
+            </div>
+          </FlipMovePropConverter>
+        </React.Fragment>,
+        "checked": false,
+        "name": "HTTP Headers",
+      },
+    ]
+  }
+  title="Call Webhook"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "split_by_webhook",
+        ],
+        "component": [Function],
+        "description": "Call a webook",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Call Webhook",
+        "type": "call_webhook",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="method"
+  >
+    <SelectElement
+      entry={
         Object {
-          "primary": Object {
-            "name": "Ok",
-            "onClick": [Function],
-          },
-          "secondary": Object {
-            "name": "Cancel",
-            "onClick": [Function],
+          "value": Object {
+            "label": "GET",
+            "value": "GET",
           },
         }
       }
-      headerClass="call_webhook"
-      title="Call Webhook"
-    >
-      <TypeList
-        __className=""
-        initialType={
+      name="MethodMap"
+      onChange={[Function]}
+      options={
+        Array [
           Object {
-            "aliases": Array [
-              "split_by_webhook",
-            ],
-            "component": [Function],
-            "description": "Call a webook",
-            "form": undefined,
-            "localization": [Function],
-            "localizeableKeys": Array [
-              "exits",
-            ],
-            "name": "Call Webhook",
-            "type": "call_webhook",
-          }
+            "label": "GET",
+            "value": "GET",
+          },
+          Object {
+            "label": "POST",
+            "value": "POST",
+          },
+          Object {
+            "label": "PUT",
+            "value": "PUT",
+          },
+        ]
+      }
+    />
+  </div>
+  <div
+    className="url"
+  >
+    <Connect(TextInputElement)
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "",
         }
-        onChange={[MockFunction]}
-      />
-      <div
-        className="method"
+      }
+      name="URL"
+      onChange={[Function]}
+      placeholder="Enter a URL"
+    />
+  </div>
+  <div
+    className="instructions"
+  >
+    <p>
+      If your server responds with JSON, each property will be added to the Flow.
+    </p>
+    <pre
+      className="code"
+    >
+      { "product": "Solar Charging Kit", "stock level": 32 }
+    </pre>
+    <p>
+      In this example
+       
+      <span
+        className="example"
       >
-        <SelectElement
-          entry={
-            Object {
-              "value": Object {
-                "label": "GET",
-                "value": "GET",
-              },
-            }
-          }
-          name="MethodMap"
-          onChange={[Function]}
-          options={
-            Array [
-              Object {
-                "label": "GET",
-                "value": "GET",
-              },
-              Object {
-                "label": "POST",
-                "value": "POST",
-              },
-              Object {
-                "label": "PUT",
-                "value": "PUT",
-              },
-            ]
-          }
-        />
-      </div>
-      <div
-        className="url"
+        @webhook.json.product
+      </span>
+       and
+       
+      <span
+        className="example"
       >
-        <Connect(TextInputElement)
-          autocomplete={true}
-          entry={
-            Object {
-              "value": "",
-            }
-          }
-          name="URL"
-          onChange={[Function]}
-          placeholder="Enter a URL"
-        />
-      </div>
-      <div
-        className="instructions"
-      >
-        <p>
-          <React.Fragment>
-            If you need to, you can also
-             
-            <span
-              className="link"
-              onClick={[Function]}
-            >
-              configure the headers
-            </span>
-             
-            of your request.
-             
-          </React.Fragment>
-          If your server responds with JSON, each property will be added to the Flow.
-        </p>
-        <pre
-          className="code"
-        >
-          { "product": "Solar Charging Kit", "stock level": 32 }
-        </pre>
-        <p>
-          In this example
-           
-          <span
-            className="example"
-          >
-            @webhook.json.product
-          </span>
-           and
-           
-          <span
-            className="example"
-          >
-            @webhook.json["stock level"]
-          </span>
-           
-          would be available in all future steps.
-        </p>
-      </div>
-    </Dialog>
-  }
-/>
+        @webhook.json["stock level"]
+      </span>
+       would be available in all future steps.
+    </p>
+  </div>
+</Dialog>
 `;
 
 exports[`WebhookRouterForm updates should repopulate post body 1`] = `
@@ -254,12 +219,6 @@ Object {
 }
 `;
 
-exports[`WebhookRouterForm updates should save changes: after flipped 1`] = `
-Object {
-  "flipped": true,
-}
-`;
-
 exports[`WebhookRouterForm updates should save changes: after header removed 1`] = `
 Object {
   "headers": Array [
@@ -283,12 +242,6 @@ Object {
     "value": "",
   },
   "valid": true,
-}
-`;
-
-exports[`WebhookRouterForm updates should save changes: flipped back 1`] = `
-Object {
-  "flipped": false,
 }
 `;
 

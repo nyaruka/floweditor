@@ -1,155 +1,143 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MsgLocalizationForm inits inits with initial values 1`] = `
-<Flipper
-  back={
-    <Dialog
-      headerClass="send_msg"
-      headerIcon="fe-cog"
-      headerStyle="barber"
-      subtitle="Advanced Settings"
-      title="Send Message"
-    >
-      <p>
-        Enter any 
-        Spanish
-         Quick Replies
-      </p>
-      <TaggingElement
-        entry={
-          Object {
-            "value": Array [],
-          }
-        }
-        name="Replies"
-        onChange={[Function]}
-        onCheckValid={[Function]}
-        placeholder="Quick Replies"
-        prompt="Enter a Quick Reply"
-      />
-    </Dialog>
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
   }
-  front={
-    <Dialog
-      buttons={
-        Object {
-          "primary": Object {
-            "name": "Ok",
-            "onClick": [Function],
-          },
-          "secondary": Object {
-            "name": "Cancel",
-            "onClick": [Function],
-          },
-        }
+  headerClass="send_msg"
+  tabs={
+    Array [
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Spanish
+             Quick Replies
+          </p>
+          <TaggingElement
+            entry={
+              Object {
+                "value": Array [],
+              }
+            }
+            name="Replies"
+            onChange={[Function]}
+            onCheckValid={[Function]}
+            placeholder="Quick Replies"
+            prompt="Enter a Quick Reply"
+          />
+        </React.Fragment>,
+        "name": "Quick Replies",
+      },
+    ]
+  }
+  title="Send Message"
+>
+  <div
+    data-spec="translation-container"
+  >
+    <div
+      className="translate_from"
+      data-spec="text-to-translate"
+    >
+      Hey!
+    </div>
+  </div>
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    entry={
+      Object {
+        "value": "¡hola!",
       }
-      headerClass="send_msg"
-      title="Send Message"
-    >
-      <div
-        data-spec="translation-container"
-      >
-        <div
-          className="translate_from"
-          data-spec="text-to-translate"
-        >
-          Hey!
-        </div>
-      </div>
-      <Connect(TextInputElement)
-        autocomplete={true}
-        count="SMS"
-        entry={
-          Object {
-            "value": "¡hola!",
-          }
-        }
-        focus={true}
-        name="Message"
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-        textarea={true}
-      />
-    </Dialog>
-  }
-/>
+    }
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    placeholder="Spanish Translation"
+    showLabel={false}
+    textarea={true}
+  />
+</Dialog>
 `;
 
 exports[`MsgLocalizationForm render should render 1`] = `
-<Flipper
-  back={
-    <Dialog
-      headerClass="send_msg"
-      headerIcon="fe-cog"
-      headerStyle="barber"
-      subtitle="Advanced Settings"
-      title="Send Message"
-    >
-      <p>
-        Enter any 
-        Spanish
-         Quick Replies
-      </p>
-      <TaggingElement
-        entry={
-          Object {
-            "value": Array [],
-          }
-        }
-        name="Replies"
-        onChange={[Function]}
-        onCheckValid={[Function]}
-        placeholder="Quick Replies"
-        prompt="Enter a Quick Reply"
-      />
-    </Dialog>
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
   }
-  front={
-    <Dialog
-      buttons={
-        Object {
-          "primary": Object {
-            "name": "Ok",
-            "onClick": [Function],
-          },
-          "secondary": Object {
-            "name": "Cancel",
-            "onClick": [Function],
-          },
-        }
+  headerClass="send_msg"
+  tabs={
+    Array [
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Spanish
+             Quick Replies
+          </p>
+          <TaggingElement
+            entry={
+              Object {
+                "value": Array [],
+              }
+            }
+            name="Replies"
+            onChange={[Function]}
+            onCheckValid={[Function]}
+            placeholder="Quick Replies"
+            prompt="Enter a Quick Reply"
+          />
+        </React.Fragment>,
+        "name": "Quick Replies",
+      },
+    ]
+  }
+  title="Send Message"
+>
+  <div
+    data-spec="translation-container"
+  >
+    <div
+      className="translate_from"
+      data-spec="text-to-translate"
+    >
+      Hey!
+    </div>
+  </div>
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    entry={
+      Object {
+        "value": "",
       }
-      headerClass="send_msg"
-      title="Send Message"
-    >
-      <div
-        data-spec="translation-container"
-      >
-        <div
-          className="translate_from"
-          data-spec="text-to-translate"
-        >
-          Hey!
-        </div>
-      </div>
-      <Connect(TextInputElement)
-        autocomplete={true}
-        count="SMS"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        focus={true}
-        name="Message"
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-        textarea={true}
-      />
-    </Dialog>
-  }
-/>
+    }
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    placeholder="Spanish Translation"
+    showLabel={false}
+    textarea={true}
+  />
+</Dialog>
 `;
 
 exports[`MsgLocalizationForm updates should save changes 1`] = `
