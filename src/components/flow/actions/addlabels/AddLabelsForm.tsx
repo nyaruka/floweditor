@@ -97,7 +97,7 @@ export default class AddLabelsForm extends React.PureComponent<
                 <AssetSelector
                     name="Labels"
                     placeholder="Enter the name of an existing label or create a new one"
-                    assets={this.props.assets.labels}
+                    assets={this.props.assetStore.labels}
                     entry={this.state.labels}
                     searchable={true}
                     multi={true}

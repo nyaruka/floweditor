@@ -95,7 +95,7 @@ export default class SendBroadcastForm extends React.Component<
                 />
                 <AssetSelector
                     name="Recipients"
-                    assets={this.props.assets.recipients}
+                    assets={this.props.assetStore.recipients}
                     entry={this.state.recipients}
                     searchable={true}
                     multi={true}

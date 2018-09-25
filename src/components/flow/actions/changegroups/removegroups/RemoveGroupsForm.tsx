@@ -110,7 +110,7 @@ export default class RemoveGroupsForm extends React.Component<
                         <AssetSelector
                             name="Groups"
                             createPrefix="Create Group: "
-                            assets={this.props.assets.groups}
+                            assets={this.props.assetStore.groups}
                             entry={this.state.groups}
                             searchable={true}
                             onChange={this.handleGroupsChanged}

@@ -1,8 +1,7 @@
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { Type } from '~/config/typeConfigs';
 import { AnyAction } from '~/flowTypes';
-import { Asset } from '~/store/flowContext';
-import { AssetStore, RenderNode } from '~/store/flowContext';
+import { Asset, AssetStore, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';
 
@@ -10,7 +9,7 @@ export interface ActionFormProps {
     // action details
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
-    assets: AssetStore;
+    assetStore: AssetStore;
 
     // update handlers
     updateAction(
