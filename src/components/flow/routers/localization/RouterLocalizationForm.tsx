@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
-import Flipper from '~/components/flipper/Flipper';
+import Dialog, { ButtonSet, HeaderStyle, Tab } from '~/components/dialog/Dialog';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { LocalizationFormProps } from '~/components/flow/props';
 import {
@@ -183,11 +182,30 @@ export default class RouterLocalizationForm extends React.Component<
 
     public render(): JSX.Element {
         const typeConfig = determineTypeConfig(this.props.nodeSettings);
+
+        const tabs: Tab[] = [];
+
+        if (this.state.cases.length > 0) {
+            tabs.push({
+                name: 'Rule Translations',
+                body: (
+                    <>
+                        <p data-spec="instructions">
+                            Sometimes languages need special rules to route things properly. If a
+                            translation is not provided, the original rule will be used.
+                        </p>
+                        {this.renderCases()}
+                    </>
+                )
+            });
+        }
+
         const exits = (
             <Dialog
                 title={`${this.props.language.name} Category Names`}
                 headerClass={typeConfig.type}
                 buttons={this.getButtons()}
+                tabs={tabs}
             >
                 <p data-spec="instructions">
                     When category names are referenced later in the flow, the appropriate language
@@ -198,31 +216,25 @@ export default class RouterLocalizationForm extends React.Component<
             </Dialog>
         );
 
+        const back = (
+            <Dialog
+                title={`${this.props.language.name} Rules`}
+                headerStyle={HeaderStyle.BARBER}
+                headerClass={typeConfig.type}
+                headerIcon="fe-cog"
+                subtitle="Advanced Settings"
+                buttons={this.getButtons()}
+            >
+                <p data-spec="instructions">
+                    Sometimes languages need special rules to route things properly. If a
+                    translation is not provided, the original rule will be used.
+                </p>
+                {this.renderCases()}
+            </Dialog>
+        );
+
         // if we have cases, use a flipper
-        if (this.state.cases.length > 0) {
-            return (
-                <Flipper
-                    front={exits}
-                    back={
-                        <Dialog
-                            title={`${this.props.language.name} Rules`}
-                            headerStyle={HeaderStyle.BARBER}
-                            headerClass={typeConfig.type}
-                            headerIcon="fe-cog"
-                            subtitle="Advanced Settings"
-                            buttons={this.getButtons()}
-                        >
-                            <p data-spec="instructions">
-                                Sometimes languages need special rules to route things properly. If
-                                a translation is not provided, the original rule will be used.
-                            </p>
-                            {this.renderCases()}
-                        </Dialog>
-                    }
-                />
-            );
-        } else {
-            return exits;
-        }
+
+        return exits;
     }
 }

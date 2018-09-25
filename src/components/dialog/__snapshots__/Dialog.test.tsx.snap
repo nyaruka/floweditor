@@ -6,6 +6,7 @@ exports[`Dialog should render 1`] = `
 >
   <div
     className="header header-class iconed barber"
+    onClick={[Function]}
   >
     <span
       className="headerIcon fe-icon"
@@ -63,7 +64,7 @@ exports[`Dialog should render 1`] = `
         <Button
           key="1"
           name="Ok"
-          onClick={[MockFunction]}
+          onClick={[Function]}
           type="primary"
         />
       </div>

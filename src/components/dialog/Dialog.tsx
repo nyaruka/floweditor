@@ -16,6 +16,14 @@ export interface ButtonSet {
     tertiary?: ButtonProps;
 }
 
+export interface Tab {
+    name: string;
+    body: JSX.Element;
+    hasErrors?: boolean;
+    icon?: string;
+    checked?: boolean;
+}
+
 interface Buttons {
     leftButtons: JSX.Element[];
     rightButtons: JSX.Element[];
@@ -30,19 +38,45 @@ export interface DialogProps {
     buttons?: ButtonSet;
     gutter?: JSX.Element;
     noPadding?: boolean;
+    tabs?: Tab[];
+}
+
+export interface DialogState {
+    activeTab: number;
 }
 
 /**
  * A component that has a front and back and can flip back and forth between them
  */
-export default class Dialog extends React.Component<DialogProps> {
+export default class Dialog extends React.Component<DialogProps, DialogState> {
     constructor(props: DialogProps) {
         super(props);
+        this.state = {
+            activeTab: -1
+        };
+    }
+
+    public showTab(index: number): void {
+        this.setState({ activeTab: index });
+    }
+
+    private handlePrimaryButton(onClick: any): void {
+        onClick();
+
+        // focus on a tab with errors
+        this.props.tabs.forEach((tab: Tab, index: number) => {
+            if (tab.hasErrors) {
+                this.setState({ activeTab: index });
+                return;
+            }
+        });
+
+        // or focus on the main content
+        this.setState({ activeTab: -1 });
     }
 
     private getButtons(): Buttons {
         const rightButtons: JSX.Element[] = [];
-
         const buttons = this.props.buttons || { primary: null, secondary: null, tertiary: null };
 
         if (buttons.secondary) {
@@ -53,7 +87,14 @@ export default class Dialog extends React.Component<DialogProps> {
 
         if (buttons.primary) {
             rightButtons.push(
-                <Button key={1} {...this.props.buttons.primary} type={ButtonTypes.primary} />
+                <Button
+                    key={1}
+                    onClick={() => {
+                        this.handlePrimaryButton(buttons.primary.onClick);
+                    }}
+                    name={buttons.primary.name}
+                    type={ButtonTypes.primary}
+                />
             );
         }
 
@@ -72,6 +113,11 @@ export default class Dialog extends React.Component<DialogProps> {
 
     public render(): JSX.Element {
         const headerClasses = [styles.header];
+
+        if (this.state.activeTab > -1) {
+            headerClasses.push(styles.clickable);
+        }
+
         if (this.props.headerClass) {
             headerClasses.push(shared[this.props.headerClass]);
         }
@@ -89,7 +135,39 @@ export default class Dialog extends React.Component<DialogProps> {
 
         return (
             <div className={activeClasses.join(' ')}>
-                <div className={headerClasses.join(' ')}>
+                {(this.props.tabs || []).length > 0 ? (
+                    <div className={styles.tabs}>
+                        {(this.props.tabs || []).map((tab: Tab, index: number) => (
+                            <div
+                                key={'tab_' + tab.name}
+                                className={
+                                    styles.tab +
+                                    ' ' +
+                                    (index === this.state.activeTab ? styles.active : '')
+                                }
+                                onClick={(evt: React.MouseEvent<HTMLDivElement>) => {
+                                    evt.stopPropagation();
+                                    this.setState({ activeTab: index });
+                                }}
+                            >
+                                {tab.name}{' '}
+                                {tab.icon ? (
+                                    <span className={styles.tabIcon + ' ' + tab.icon} />
+                                ) : null}
+                                {tab.checked ? (
+                                    <span className={styles.tabIcon + ' fe-check'} />
+                                ) : null}
+                            </div>
+                        ))}
+                    </div>
+                ) : null}
+                <div
+                    onClick={() => {
+                        this.setState({ activeTab: -1 });
+                    }}
+                    className={headerClasses.join(' ')}
+                >
+                    {this.state.activeTab > -1 ? <div className={styles.headerOverlay} /> : null}
                     {renderIf(this.props.headerIcon !== undefined)(
                         <span className={`${styles.headerIcon} ${this.props.headerIcon}`} />
                     )}
@@ -99,7 +177,9 @@ export default class Dialog extends React.Component<DialogProps> {
                     </div>
                 </div>
                 <div className={this.props.noPadding ? '' : styles.content}>
-                    {this.props.children}
+                    {this.state.activeTab > -1
+                        ? this.props.tabs[this.state.activeTab].body
+                        : this.props.children}
                 </div>
 
                 <div className={styles.footer}>

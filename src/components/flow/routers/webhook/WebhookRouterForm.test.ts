@@ -43,17 +43,10 @@ describe(WebhookRouterForm.name, () => {
             instance.handleHeaderRemoved(header);
             expect(instance.state).toMatchSnapshot('after header removed');
 
-            // flip us over
-            instance.handleFlip();
-            expect(instance.flipper.state).toMatchSnapshot('after flipped');
-
             // trying to save without a url won't continue
             instance.handleSave();
             expect(props.onClose).not.toHaveBeenCalled();
             expect(props.updateRouter).not.toHaveBeenCalled();
-
-            // this should flip us back to the front
-            expect(instance.flipper.state).toMatchSnapshot('flipped back');
 
             // finally update our url, and save
             instance.handleUrlUpdate('http://domain.com/');

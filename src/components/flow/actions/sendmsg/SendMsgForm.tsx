@@ -2,8 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import axios from 'axios';
 import mutate from 'immutability-helper';
 import * as React from 'react';
-import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
-import Flipper from '~/components/flipper/Flipper';
+import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg/helpers';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { ActionFormProps } from '~/components/flow/props';
@@ -49,7 +48,6 @@ export interface SendMsgFormState extends FormState {
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
-    private flipper: Flipper;
     private filePicker: any;
 
     constructor(props: ActionFormProps) {
@@ -172,8 +170,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     private handleUploadFile(files: FileList): void {
-        console.log(this.context.endpoints.attachments);
-        console.log(files);
         let attachments: any = this.state.attachments;
 
         const data = new FormData();
@@ -262,7 +258,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     private renderAttachments(): JSX.Element {
-        const urlComponents = this.state.attachments.map(
+        const attachments = this.state.attachments.map(
             (attachment, index: number) =>
                 attachment.uploaded
                     ? this.renderUpload(index, attachment)
@@ -275,7 +271,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                 : null;
         return (
             <>
-                {urlComponents}
+                <p>
+                    Add up to {MAX_ATTACHMENTS} to each message. Each attachment can be a file you
+                    upload or a dynamic URL using expressions and variables from your Flow.
+                </p>
+                {attachments}
                 {emptyOption}
                 <input
                     style={{
@@ -294,96 +294,72 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
-        return (
-            <Flipper
-                ref={(ref: any) => {
-                    this.flipper = ref;
-                }}
-                front={
-                    <Dialog
-                        title={typeConfig.name}
-                        headerClass={typeConfig.type}
-                        buttons={this.getButtons()}
-                    >
-                        <TypeList
-                            __className=""
-                            initialType={typeConfig}
-                            onChange={this.props.onTypeChange}
-                        />
-                        <TextInputElement
-                            name="Message"
-                            showLabel={false}
-                            count={Count.SMS}
-                            onChange={this.handleMessageUpdate}
-                            entry={this.state.text}
-                            autocomplete={true}
-                            focus={true}
-                            textarea={true}
-                        />
-                        <div className={styles.quickReplySummary}>
-                            {this.state.attachments.length > 0 ? (
-                                <Pill
-                                    onClick={() => {
-                                        this.flipper.handleFlip();
-                                    }}
-                                    icon="fe-paperclip"
-                                    maxLength={20}
-                                    advanced={true}
-                                    key="form_attachments"
-                                    text="Attachments"
-                                    large={true}
-                                />
-                            ) : null}
-                            {this.state.quickReplies.value.length > 0 ? (
-                                <Pill
-                                    onClick={() => {
-                                        this.flipper.handleFlip();
-                                    }}
-                                    maxLength={20}
-                                    advanced={true}
-                                    key="quick_replies"
-                                    text="Quick Replies"
-                                    large={true}
-                                />
-                            ) : null}
-                        </div>
-                    </Dialog>
-                }
-                back={
-                    <Dialog
-                        title={typeConfig.name}
-                        subtitle="Advanced Settings"
-                        headerStyle={HeaderStyle.BARBER}
-                        headerClass={typeConfig.type}
-                        buttons={this.getButtons()}
-                        headerIcon="fe-cog"
-                    >
-                        <p>Quick Replies are made into buttons for supported channels</p>
-                        <TaggingElement
-                            name="Replies"
-                            placeholder="Quick Replies"
-                            prompt="Enter a Quick Reply"
-                            onChange={this.handleQuickRepliesUpdate}
-                            onCheckValid={() => true}
-                            entry={this.state.quickReplies}
-                        />
-                        <p>
-                            Attachments are used to send pictures or other media with your message
-                        </p>
-                        {this.renderAttachments()}
+        const quickReplies: Tab = {
+            name: 'Quick Replies',
+            body: (
+                <>
+                    <p>
+                        Quick Replies are made into buttons for supported channels. For example,
+                        when asking a question, you might add a Quick Reply for "Yes" and one for
+                        "No".
+                    </p>
+                    <TaggingElement
+                        name="Replies"
+                        placeholder="Quick Replies"
+                        prompt="Enter a Quick Reply"
+                        onChange={this.handleQuickRepliesUpdate}
+                        onCheckValid={() => true}
+                        entry={this.state.quickReplies}
+                    />
+                </>
+            ),
+            checked: this.state.quickReplies.value.length > 0
+        };
 
-                        <CheckboxElement
-                            name="All Destinations"
-                            title="All Destinations"
-                            labelClassName={localStyles.checkbox}
-                            checked={this.state.sendAll}
-                            description="Send a message to all destinations known for this contact."
-                            onChange={this.handleSendAllUpdate}
-                        />
-                    </Dialog>
-                }
-                flipped={this.props.nodeSettings.showAdvanced}
-            />
+        const attachments: Tab = {
+            name: 'Attachments',
+            body: this.renderAttachments(),
+            checked: this.state.attachments.length > 0
+        };
+
+        const advanced: Tab = {
+            name: 'Advanced',
+            body: (
+                <CheckboxElement
+                    name="All Destinations"
+                    title="All Destinations"
+                    labelClassName={localStyles.checkbox}
+                    checked={this.state.sendAll}
+                    description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+                    onChange={this.handleSendAllUpdate}
+                />
+            ),
+            checked: this.state.sendAll
+        };
+
+        return (
+            <Dialog
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
+                buttons={this.getButtons()}
+                tabs={[quickReplies, attachments, advanced]}
+            >
+                <TypeList
+                    __className=""
+                    initialType={typeConfig}
+                    onChange={this.props.onTypeChange}
+                />
+                <TextInputElement
+                    name="Message"
+                    showLabel={false}
+                    count={Count.SMS}
+                    onChange={this.handleMessageUpdate}
+                    entry={this.state.text}
+                    autocomplete={true}
+                    focus={true}
+                    textarea={true}
+                />
+            </Dialog>
         );
     }
 }

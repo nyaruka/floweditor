@@ -1,166 +1,157 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SendMsgForm render should render 1`] = `
-<Flipper
-  back={
-    <Dialog
-      buttons={
-        Object {
-          "primary": Object {
-            "name": "Ok",
-            "onClick": [Function],
-          },
-          "secondary": Object {
-            "name": "Cancel",
-            "onClick": [Function],
-          },
-        }
-      }
-      headerClass="send_msg"
-      headerIcon="fe-cog"
-      headerStyle="barber"
-      subtitle="Advanced Settings"
-      title="Send Message"
-    >
-      <p>
-        Quick Replies are made into buttons for supported channels
-      </p>
-      <TaggingElement
-        entry={
-          Object {
-            "value": Array [],
-          }
-        }
-        name="Replies"
-        onChange={[Function]}
-        onCheckValid={[Function]}
-        placeholder="Quick Replies"
-        prompt="Enter a Quick Reply"
-      />
-      <p>
-        Attachments are used to send pictures or other media with your message
-      </p>
-      <React.Fragment>
-        <div
-          className="urlAttachment"
-        >
-          <div
-            className="typeChoice"
-          >
-            <SelectElement
-              entry={
-                Object {
-                  "value": null,
-                }
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="send_msg"
+  tabs={
+    Array [
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
+          </p>
+          <TaggingElement
+            entry={
+              Object {
+                "value": Array [],
               }
-              name="Type Options"
-              onChange={[Function]}
-              options={
-                Array [
-                  Object {
-                    "label": "Image URL",
-                    "value": "image",
-                  },
-                  Object {
-                    "label": "Audio URL",
-                    "value": "audio",
-                  },
-                  Object {
-                    "label": "Video URL",
-                    "value": "video",
-                  },
-                  Object {
-                    "label": "Upload Attachment",
-                    "value": "upload",
-                  },
-                ]
-              }
-              placeholder="Add Attachment"
-              styles={
-                Object {
-                  "control": [Function],
-                  "menuList": [Function],
-                  "option": [Function],
-                }
-              }
-            />
-          </div>
-        </div>
-        <input
-          onChange={[Function]}
-          style={
-            Object {
-              "display": "none",
             }
-          }
-          type="file"
-        />
-      </React.Fragment>
-      <CheckboxElement
-        checked={false}
-        description="Send a message to all destinations known for this contact."
-        labelClassName="checkbox"
-        name="All Destinations"
-        onChange={[Function]}
-        title="All Destinations"
-      />
-    </Dialog>
+            name="Replies"
+            onChange={[Function]}
+            onCheckValid={[Function]}
+            placeholder="Quick Replies"
+            prompt="Enter a Quick Reply"
+          />
+        </React.Fragment>,
+        "checked": false,
+        "name": "Quick Replies",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
+            Add up to 
+            5
+             to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+          </p>
+          <div
+            className="urlAttachment"
+          >
+            <div
+              className="typeChoice"
+            >
+              <SelectElement
+                entry={
+                  Object {
+                    "value": null,
+                  }
+                }
+                name="Type Options"
+                onChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "label": "Image URL",
+                      "value": "image",
+                    },
+                    Object {
+                      "label": "Audio URL",
+                      "value": "audio",
+                    },
+                    Object {
+                      "label": "Video URL",
+                      "value": "video",
+                    },
+                    Object {
+                      "label": "Upload Attachment",
+                      "value": "upload",
+                    },
+                  ]
+                }
+                placeholder="Add Attachment"
+                styles={
+                  Object {
+                    "control": [Function],
+                    "menuList": [Function],
+                    "option": [Function],
+                  }
+                }
+              />
+            </div>
+          </div>
+          <input
+            onChange={[Function]}
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            type="file"
+          />
+        </React.Fragment>,
+        "checked": false,
+        "name": "Attachments",
+      },
+      Object {
+        "body": <CheckboxElement
+          checked={false}
+          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+          labelClassName="checkbox"
+          name="All Destinations"
+          onChange={[Function]}
+          title="All Destinations"
+        />,
+        "checked": false,
+        "name": "Advanced",
+      },
+    ]
   }
-  front={
-    <Dialog
-      buttons={
-        Object {
-          "primary": Object {
-            "name": "Ok",
-            "onClick": [Function],
-          },
-          "secondary": Object {
-            "name": "Cancel",
-            "onClick": [Function],
-          },
-        }
+  title="Send Message"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Send the contact a message",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "text",
+          "quick_replies",
+        ],
+        "name": "Send Message",
+        "type": "send_msg",
       }
-      headerClass="send_msg"
-      title="Send Message"
-    >
-      <TypeList
-        __className=""
-        initialType={
-          Object {
-            "component": [Function],
-            "description": "Send the contact a message",
-            "form": undefined,
-            "localization": [Function],
-            "localizeableKeys": Array [
-              "text",
-              "quick_replies",
-            ],
-            "name": "Send Message",
-            "type": "send_msg",
-          }
-        }
-        onChange={[MockFunction]}
-      />
-      <Connect(TextInputElement)
-        autocomplete={true}
-        count="SMS"
-        entry={
-          Object {
-            "value": "Hey!",
-          }
-        }
-        focus={true}
-        name="Message"
-        onChange={[Function]}
-        showLabel={false}
-        textarea={true}
-      />
-      <div
-        className="quickReplySummary"
-      />
-    </Dialog>
-  }
-/>
+    }
+    onChange={[MockFunction]}
+  />
+  <Connect(TextInputElement)
+    autocomplete={true}
+    count="SMS"
+    entry={
+      Object {
+        "value": "Hey!",
+      }
+    }
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    showLabel={false}
+    textarea={true}
+  />
+</Dialog>
 `;
 
 exports[`SendMsgForm updates should allow switching from router 1`] = `

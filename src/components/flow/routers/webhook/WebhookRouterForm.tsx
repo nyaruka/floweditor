@@ -1,8 +1,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import FlipMove = require('react-flip-move');
-import Dialog, { ButtonSet, HeaderStyle } from '~/components/dialog/Dialog';
-import Flipper, { FlipperProps } from '~/components/flipper/Flipper';
+import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
+import Flipper from '~/components/flipper/Flipper';
 import { RouterFormProps } from '~/components/flow/props';
 import HeaderElement, { Header } from '~/components/flow/routers/webhook/header/HeaderElement';
 import {
@@ -185,7 +185,7 @@ export default class WebhookRouterForm extends React.Component<
         );
     }
 
-    private renderEdit(): FlipperProps {
+    private renderEdit(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
         const headerElements: JSX.Element[] = this.state.headers.map(
@@ -203,83 +203,12 @@ export default class WebhookRouterForm extends React.Component<
             }
         );
 
-        const method = this.state.method.value.value;
-        const needsBody = method === Methods.POST || method === Methods.PUT;
-        const bodyForm: JSX.Element = needsBody ? (
-            <div key="post_body" className={styles.bodyForm}>
-                <h4>{this.state.method.value.label} Body</h4>
-                <p>Modify the body of your {this.state.method.value.label} request.</p>
-                <TextInputElement
-                    __className={styles.reqBody}
-                    name="Body"
-                    showLabel={false}
-                    entry={this.state.postBody}
-                    onChange={this.handlePostBodyUpdate}
-                    helpText={`Modify the body of the ${this.state.method.value.label} 
-                        request that will be sent to your webhook.`}
-                    autocomplete={true}
-                    textarea={true}
-                />
-            </div>
-        ) : null;
+        const tabs: Tab[] = [];
 
-        return {
-            front: (
-                <Dialog
-                    title={typeConfig.name}
-                    headerClass={typeConfig.type}
-                    buttons={this.getButtons()}
-                >
-                    <TypeList
-                        __className=""
-                        initialType={typeConfig}
-                        onChange={this.props.onTypeChange}
-                    />
-                    <div className={styles.method}>
-                        <SelectElement
-                            name="MethodMap"
-                            entry={this.state.method}
-                            onChange={this.handleMethodUpdate}
-                            options={METHOD_OPTIONS}
-                        />
-                    </div>
-                    <div className={styles.url}>
-                        <TextInputElement
-                            name="URL"
-                            placeholder="Enter a URL"
-                            entry={this.state.url}
-                            onChange={this.handleUrlUpdate}
-                            autocomplete={true}
-                        />
-                    </div>
-                    <div className={styles.instructions}>
-                        <p>
-                            {this.getSummary()}
-                            If your server responds with JSON, each property will be added to the
-                            Flow.
-                        </p>
-                        <pre className={styles.code}>
-                            {'{ "product": "Solar Charging Kit", "stock level": 32 }'}
-                        </pre>
-                        <p>
-                            In this example{' '}
-                            <span className={styles.example}>@webhook.json.product</span> and{' '}
-                            <span className={styles.example}>@webhook.json["stock level"]</span>{' '}
-                            would be available in all future steps.
-                        </p>
-                    </div>
-                </Dialog>
-            ),
-            back: (
-                <Dialog
-                    title={typeConfig.name}
-                    subtitle="Advanced Settings"
-                    buttons={this.getButtons()}
-                    headerStyle={HeaderStyle.BARBER}
-                    headerClass={typeConfig.type}
-                    headerIcon="fe-cog"
-                >
-                    <h4 className={styles.headers_title}>Headers</h4>
+        tabs.push({
+            name: 'HTTP Headers',
+            body: (
+                <>
                     <p className={styles.info}>
                         Add any additional headers below that you would like to send along with your
                         request.
@@ -292,10 +221,81 @@ export default class WebhookRouterForm extends React.Component<
                     >
                         {headerElements}
                     </FlipMove>
-                    {bodyForm}
-                </Dialog>
-            )
-        };
+                </>
+            ),
+            checked: this.state.headers.length > 1
+        });
+
+        const method = this.state.method.value.value;
+        if (method === Methods.POST || method === Methods.PUT) {
+            tabs.push({
+                name: 'POST Body',
+                body: (
+                    <div key="post_body" className={styles.bodyForm}>
+                        <h4>{this.state.method.value.label} Body</h4>
+                        <p>Modify the body of your {this.state.method.value.label} request.</p>
+                        <TextInputElement
+                            __className={styles.reqBody}
+                            name="Body"
+                            showLabel={false}
+                            entry={this.state.postBody}
+                            onChange={this.handlePostBodyUpdate}
+                            helpText={`Modify the body of the ${this.state.method.value.label} 
+                        request that will be sent to your webhook.`}
+                            autocomplete={true}
+                            textarea={true}
+                        />
+                    </div>
+                ),
+                checked: this.state.postBody.value !== DEFAULT_BODY
+            });
+        }
+
+        return (
+            <Dialog
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
+                buttons={this.getButtons()}
+                tabs={tabs}
+            >
+                <TypeList
+                    __className=""
+                    initialType={typeConfig}
+                    onChange={this.props.onTypeChange}
+                />
+                <div className={styles.method}>
+                    <SelectElement
+                        name="MethodMap"
+                        entry={this.state.method}
+                        onChange={this.handleMethodUpdate}
+                        options={METHOD_OPTIONS}
+                    />
+                </div>
+                <div className={styles.url}>
+                    <TextInputElement
+                        name="URL"
+                        placeholder="Enter a URL"
+                        entry={this.state.url}
+                        onChange={this.handleUrlUpdate}
+                        autocomplete={true}
+                    />
+                </div>
+                <div className={styles.instructions}>
+                    <p>
+                        If your server responds with JSON, each property will be added to the Flow.
+                    </p>
+                    <pre className={styles.code}>
+                        {'{ "product": "Solar Charging Kit", "stock level": 32 }'}
+                    </pre>
+                    <p>
+                        In this example{' '}
+                        <span className={styles.example}>@webhook.json.product</span> and{' '}
+                        <span className={styles.example}>@webhook.json["stock level"]</span> would
+                        be available in all future steps.
+                    </p>
+                </div>
+            </Dialog>
+        );
     }
 
     private handleFlip(): void {
@@ -303,13 +303,6 @@ export default class WebhookRouterForm extends React.Component<
     }
 
     public render(): JSX.Element {
-        return (
-            <Flipper
-                ref={flipper => {
-                    this.flipper = flipper;
-                }}
-                {...this.renderEdit()}
-            />
-        );
+        return this.renderEdit();
     }
 }
