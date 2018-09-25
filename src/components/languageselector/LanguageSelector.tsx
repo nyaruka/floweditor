@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import { languageSelector } from '~/components/languageselector/LanguageSelector.scss';
 import { ConfigProviderContext } from '~/config';
-import { Asset } from '~/store/flowContext';
-import { Assets } from '~/store/flowContext';
+import { Asset, Assets } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store/thunks';
 import { small } from '~/utils/reactselect';
@@ -50,8 +49,8 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { assets }, editorState: { language } }: AppState) => ({
-    languages: assets.languages,
+const mapStateToProps = ({ flowContext: { assetStore }, editorState: { language } }: AppState) => ({
+    languages: assetStore.languages,
     language
 });
 

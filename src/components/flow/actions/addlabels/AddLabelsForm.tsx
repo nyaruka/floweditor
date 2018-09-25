@@ -39,10 +39,10 @@ export default class AddLabelsForm extends React.PureComponent<
 
     private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
         const {
-            flowContext: { assets }
+            flowContext: { assetStore }
         } = getState();
 
-        dispatch(updateAssets(mutators.addAssets('labels', assets, this.state.labels.value)));
+        dispatch(updateAssets(mutators.addAssets('labels', assetStore, this.state.labels.value)));
     }
 
     public handleSave(): void {
@@ -97,7 +97,7 @@ export default class AddLabelsForm extends React.PureComponent<
                 <AssetSelector
                     name="Labels"
                     placeholder="Enter the name of an existing label or create a new one"
-                    assets={this.props.assets.labels}
+                    assets={this.props.assetStore.labels}
                     entry={this.state.labels}
                     searchable={true}
                     multi={true}

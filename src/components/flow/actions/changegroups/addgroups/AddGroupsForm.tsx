@@ -32,10 +32,10 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
 
     private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
         const {
-            flowContext: { assets }
+            flowContext: { assetStore }
         } = getState();
 
-        dispatch(updateAssets(mutators.addAssets('groups', assets, this.state.groups.value)));
+        dispatch(updateAssets(mutators.addAssets('groups', assetStore, this.state.groups.value)));
     }
 
     public handleSave(): void {
@@ -87,7 +87,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
                 <AssetSelector
                     name="Groups"
                     createPrefix="Create Group: "
-                    assets={this.props.assets.groups}
+                    assets={this.props.assetStore.groups}
                     entry={this.state.groups}
                     searchable={true}
                     onChange={this.handleGroupsChanged}

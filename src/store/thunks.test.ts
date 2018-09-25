@@ -13,7 +13,6 @@ import {
     disconnectExit,
     ensureStartNode,
     handleTypeConfigChange,
-    initializeFlow,
     LocalizationUpdates,
     moveActionUp,
     onAddToNode,
@@ -67,12 +66,6 @@ describe('Flow Manipulation', () => {
     });
 
     describe('init', () => {
-        it('should initialize definition', () => {
-            const { renderNodeMap } = store.dispatch(initializeFlow(boring, config.endpoints, []));
-            expect(renderNodeMap).toMatchSnapshot('nodes');
-            expect(store).toHaveReduxActions([Constants.UPDATE_NODES]);
-        });
-
         it('should update localizations', () => {
             const updatedStore = createMockStore({
                 flowContext: { definition: boring }
@@ -325,31 +318,6 @@ describe('Flow Manipulation', () => {
                     expect(nodes).toMatchSnapshot('Remove ' + nodeUUID);
                 });
             }
-
-            it("should remove node's result name from our results completion option map", () => {
-                const { resultMap, renderNodeMap } = getFlowComponents(boring);
-                const expectedResultNames = mutate(resultMap, {
-                    $unset: [testNodes.node1.node.uuid]
-                });
-
-                // Store should have result completion option map
-                store = createMockStore(
-                    mutate(initialState, {
-                        flowContext: {
-                            nodes: { $set: renderNodeMap },
-                            results: {
-                                resultMap: { $set: resultMap }
-                            }
-                        }
-                    })
-                );
-
-                store.dispatch(removeNode(testNodes.node1.node));
-
-                expect(store).toHavePayload(Constants.UPDATE_RESULT_MAP, {
-                    resultMap: expectedResultNames
-                });
-            });
         });
     });
 
@@ -719,39 +687,6 @@ describe('Flow Manipulation', () => {
                 expect(store).toHavePayload(Constants.UPDATE_TYPE_CONFIG, {
                     typeConfig: newTypeConfig
                 });
-            });
-
-            it('should generate a suggested result name', () => {
-                const { renderNodeMap, resultMap } = getFlowComponents(boring);
-                const newTypeConfig = getTypeConfig(Types.wait_for_response);
-                const {
-                    nodes: [originalNode]
-                } = boring;
-                const {
-                    actions: [originalAction]
-                } = originalNode;
-                const suggestedNameCount = Object.keys(resultMap).length;
-
-                store = createMockStore(
-                    mutate(initialState, {
-                        flowContext: {
-                            nodes: { $set: renderNodeMap },
-                            results: {
-                                suggestedNameCount: { $set: suggestedNameCount }
-                            }
-                        },
-                        nodeEditor: {
-                            settings: {
-                                $set: {
-                                    originalNode
-                                }
-                            }
-                        }
-                    })
-                );
-
-                // store.dispatch(handleTypeConfigChange(newTypeConfig, originalAction));
-                // expect(store).toHaveReduxActions(expectedActions);
             });
 
             it('should edit an existing action', () => {

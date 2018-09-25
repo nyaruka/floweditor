@@ -1,5 +1,3 @@
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 import { react as bindCallbacks } from 'auto-bind';
 import * as axios from 'axios';
 import update from 'immutability-helper';
@@ -21,6 +19,8 @@ import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
 import { createUUID } from '~/utils';
 
+// TODO: Remove use of Function
+// tslint:disable:ban-types
 const ACTIVE = 'A';
 
 interface Message {
@@ -31,7 +31,7 @@ interface Message {
 export interface SimulatorStoreProps {
     nodes: RenderNodeMap;
     definition: FlowDefinition;
-    assets: AssetStore;
+    assetStore: AssetStore;
 }
 
 export interface SimulatorPassedProps {
@@ -243,7 +243,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                         triggered_on: new Date().toISOString()
                     },
                     ...getSimulationAssets(
-                        this.props.assets,
+                        this.props.assetStore,
                         getCurrentDefinition(this.props.definition, this.props.nodes)
                     )
                 };
@@ -292,7 +292,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             contact: this.state.session.contact,
             events: [newMessage],
             ...getSimulationAssets(
-                this.props.assets,
+                this.props.assetStore,
                 getCurrentDefinition(this.props.definition, this.props.nodes)
             )
         };
@@ -421,8 +421,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { definition, nodes, assets } }: AppState) => ({
-    assets,
+const mapStateToProps = ({ flowContext: { definition, nodes, assetStore } }: AppState) => ({
+    assetStore,
     definition,
     nodes
 });

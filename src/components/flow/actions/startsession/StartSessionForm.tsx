@@ -100,7 +100,7 @@ export default class StartSessionForm extends React.Component<
                 <div>
                     <AssetSelector
                         name="Recipients"
-                        assets={this.props.assets.recipients}
+                        assets={this.props.assetStore.recipients}
                         entry={this.state.recipients}
                         searchable={true}
                         multi={true}
@@ -110,7 +110,7 @@ export default class StartSessionForm extends React.Component<
                     <AssetSelector
                         name="Flow"
                         placeholder="Select the flow to start"
-                        assets={this.props.assets.flows}
+                        assets={this.props.assetStore.flows}
                         entry={this.state.flow}
                         searchable={true}
                         onChange={this.handleFlowChanged}

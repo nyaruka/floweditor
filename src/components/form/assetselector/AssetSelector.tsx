@@ -4,10 +4,10 @@ import { AsyncCreatable, components } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType } from 'react-select/lib/types';
-import { isMatch, searchAssets, sortByName } from '~/components/form/assetselector/helpers';
+import { sortByName } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { getIconForAssetType } from '~/components/form/select/helper';
-import { getAssets } from '~/external';
+import { getAssets, isMatch, searchAssetMap } from '~/external';
 import { Asset, Assets, AssetType, REMOVE_VALUE_ASSET } from '~/store/flowContext';
 import { AssetEntry } from '~/store/nodeEditor';
 import { uniqueBy } from '~/utils';
@@ -83,7 +83,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
         // or it should be a list of local assets from an empty search
         if (!props.assets.endpoint) {
-            defaultOptions = searchAssets('', props.assets.items);
+            defaultOptions = searchAssetMap('', props.assets.items);
         }
 
         this.state = {
@@ -122,43 +122,52 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
 
     public handleLoadOptions(input: string, callback: CallbackFunction): void {
-        const localMatches = searchAssets(
+        const localMatches = searchAssetMap(
             input,
             this.props.assets.items,
             this.props.additionalOptions,
             this.props.excludeOptions
         );
 
-        // then query against our endpoint to add to that list
         const assets = this.props.assets;
-        let url = assets.endpoint;
-        if (url && input) {
-            url += url.indexOf('?') < 0 ? '?' : '&';
-            url += 'search=' + encodeURIComponent(input);
-        }
 
-        getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
-            const remoteMatches = remoteAssets.filter((asset: Asset) =>
-                isMatch(input, asset, this.props.excludeOptions)
-            );
-            const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
-
-            // concat them all together and uniquify them
-            const matches = uniqueBy(localMatches.concat(remoteMatches).concat(removalAsset), 'id');
-
-            // if we don't know our initial name, look for it
-            if (this.props.entry.value && !this.props.entry.value.name) {
-                const existing = matches.find(
-                    (asset: Asset) => asset.id === this.props.entry.value.id
-                );
-                if (existing) {
-                    this.props.onChange([existing]);
-                }
+        // then query against our endpoint to add to that list if we weren't prefetched
+        if (!assets.prefetched) {
+            let url = assets.endpoint;
+            if (url && input) {
+                url += url.indexOf('?') < 0 ? '?' : '&';
+                url += 'search=' + encodeURIComponent(input);
             }
 
-            // sort our results and callback
-            callback(matches.sort(this.props.sortFunction || sortByName));
-        });
+            getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
+                const remoteMatches = remoteAssets.filter((asset: Asset) =>
+                    isMatch(input, asset, this.props.excludeOptions)
+                );
+                const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
+
+                // concat them all together and uniquify them
+                const matches = uniqueBy(
+                    localMatches.concat(remoteMatches).concat(removalAsset),
+                    'id'
+                );
+
+                // if we don't know our initial name, look for it
+                if (this.props.entry.value && !this.props.entry.value.name) {
+                    const existing = matches.find(
+                        (asset: Asset) => asset.id === this.props.entry.value.id
+                    );
+                    if (existing) {
+                        this.props.onChange([existing]);
+                    }
+                }
+
+                // sort our results and callback
+                callback(matches.sort(this.props.sortFunction || sortByName));
+            });
+        } else {
+            // only local matches
+            callback(localMatches.sort(this.props.sortFunction || sortByName));
+        }
     }
 
     public handleCheckValid(inputValue: string): boolean {
@@ -185,7 +194,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             defaultOptions = this.state.defaultOptions;
 
             if (this.props.excludeOptions) {
-                defaultOptions = searchAssets(
+                defaultOptions = searchAssetMap(
                     '',
                     this.props.assets.items,
                     this.props.additionalOptions,

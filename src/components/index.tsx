@@ -55,7 +55,7 @@ export const editorContainerSpecId = 'editor-container';
 export const editorSpecId = 'editor';
 
 /**
- * A navigable list of flows for an account
+ * The main editor view for editing a flow
  */
 export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     public static contextTypes = contextTypes;
@@ -112,10 +112,10 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-    flowContext: { definition, dependencies, nodes, assets },
+    flowContext: { definition, dependencies, nodes, assetStore },
     editorState: { translating, language, fetchingFlow }
 }: AppState) => {
-    const languages = assets ? assets.languages : null;
+    const languages = assetStore ? assetStore.languages : null;
 
     return {
         translating,

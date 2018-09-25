@@ -3,7 +3,7 @@ import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
-import { getAssets, getFlow, getURL } from '~/external';
+import { createAssetStore, getFlow } from '~/external';
 import {
     Action,
     AnyAction,
@@ -15,36 +15,29 @@ import {
     FlowPosition,
     SendMsg,
     SetContactField,
-    SetRunResult,
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import { currencies } from '~/store/currencies';
 import { EditorState, updateEditorState } from '~/store/editor';
 import {
     Asset,
-    AssetType,
     DEFAULT_LANGUAGE,
-    incrementSuggestedResultNameCount,
     RenderNode,
     RenderNodeMap,
     updateAssets,
     updateBaseLanguage,
     updateContactFields,
     updateDefinition,
-    updateNodes,
-    updateResultMap
+    updateNodes
 } from '~/store/flowContext';
 import {
-    assetListToMap,
-    FlowComponents,
-    generateResultQuery,
     getActionIndex,
     getCollision,
     getFlowComponents,
     getGhostNode,
     getLocalizations,
-    getNode
+    getNode,
+    mergeAssetMaps
 } from '~/store/helpers';
 import * as mutators from '~/store/mutators';
 import {
@@ -54,7 +47,7 @@ import {
     updateUserAddingAction
 } from '~/store/nodeEditor';
 import AppState from '~/store/state';
-import { createUUID, NODE_SPACING, snakify, timeEnd, timeStart } from '~/utils';
+import { createUUID, NODE_SPACING, timeEnd, timeStart } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -150,123 +143,57 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
     return updated;
 };
 
-/* export const updateAssets = (assets: AssetMap) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): AssetMap => {
-    
-    return assets;
-};*/
-
-export const initializeFlow = (
-    definition: FlowDefinition,
-    endpoints: Endpoints,
-    languages: Asset[] = []
-) => (dispatch: DispatchWithState, getState: GetState): FlowComponents => {
-    const flowComponents = getFlowComponents(definition, languages);
-
-    let currentLanguages = languages;
-
-    // if we have an unset base language, inject our "Default" Language and set it
-    if (!flowComponents.baseLanguage) {
-        currentLanguages = mutators.addLanguage(languages, DEFAULT_LANGUAGE);
-    }
-
-    const groups = assetListToMap(flowComponents.groups);
-    dispatch(
-        updateAssets({
-            channels: {
-                endpoint: getURL(endpoints.channels),
-                type: AssetType.Channel,
-                items: {} // TODO: flow components should include channels
-            },
-            languages: {
-                endpoint: getURL(endpoints.languages),
-                type: AssetType.Language,
-                items: assetListToMap(currentLanguages),
-                id: 'iso'
-            },
-            flows: {
-                endpoint: getURL(endpoints.flows),
-                type: AssetType.Flow,
-                items: {} // TODO: flow components should include flows
-            },
-            fields: {
-                endpoint: getURL(endpoints.fields),
-                type: AssetType.Field,
-                id: 'key',
-                items: assetListToMap(flowComponents.fields)
-            },
-            groups: {
-                endpoint: getURL(endpoints.groups),
-                type: AssetType.Group,
-                items: groups
-            },
-            labels: {
-                endpoint: getURL(endpoints.labels),
-                type: AssetType.Label,
-                items: assetListToMap(flowComponents.labels)
-            },
-            results: {
-                type: AssetType.Result,
-                items: flowComponents.resultsMap
-            },
-            recipients: {
-                endpoint: getURL(endpoints.recipients),
-                type: AssetType.Contact || AssetType.Group || AssetType.URN,
-                items: groups,
-                id: 'id'
-            },
-            resthooks: {
-                endpoint: getURL(endpoints.resthooks),
-                type: AssetType.Resthook,
-                id: 'slug',
-                items: {}
-            },
-            currencies: {
-                type: AssetType.Currency,
-                id: 'id',
-                items: currencies
-            }
-        })
-    );
-
-    // Take stock of the flow's language settings
-    if (flowComponents.baseLanguage) {
-        dispatch(updateBaseLanguage(flowComponents.baseLanguage));
-        dispatch(mergeEditorState({ language: flowComponents.baseLanguage }));
-    } else {
-        dispatch(updateBaseLanguage(DEFAULT_LANGUAGE));
-        dispatch(mergeEditorState({ language: DEFAULT_LANGUAGE }));
-    }
-
-    // store our flow definition without any nodes
-    dispatch(updateDefinition(mutators.pruneDefinition(definition)));
-    dispatch(updateNodes(flowComponents.renderNodeMap));
-
-    // Take stock of existing results
-    dispatch(updateResultMap(flowComponents.resultMap));
-    // tslint:disable-next-line:forin
-    for (const key in flowComponents.resultMap) {
-        dispatch(incrementSuggestedResultNameCount());
-    }
-
-    dispatch(mergeEditorState({ fetchingFlow: false }));
-    return flowComponents;
-};
-
+/**
+ * Fetches a flow. Fetches all assets as well if the haven't been initialized yet
+ * @param endpoints where our assets live
+ * @param uuid the uuid for the flow to fetch
+ */
 export const fetchFlow = (endpoints: Endpoints, uuid: string) => async (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
+    // mark us as underway
     dispatch(mergeEditorState({ fetchingFlow: true }));
 
-    const [flow, languages] = await Promise.all([
-        getFlow(endpoints, uuid),
-        getAssets(endpoints.languages, AssetType.Language, 'iso')
-    ]);
+    // first see if we need our asset store initialized
+    let {
+        flowContext: { assetStore }
+    } = getState();
 
-    dispatch(initializeFlow(flow.content, endpoints, languages));
+    if (!Object.keys(assetStore).length) {
+        assetStore = await createAssetStore(endpoints);
+    }
+
+    const flow = await getFlow(assetStore.flows, uuid);
+    const definition = flow.content as FlowDefinition;
+
+    // add assets we found in our flow to our asset store
+    const components = getFlowComponents(definition);
+    mergeAssetMaps(assetStore.fields.items, components.fields);
+    mergeAssetMaps(assetStore.groups.items, components.groups);
+    mergeAssetMaps(assetStore.labels.items, components.labels);
+    mergeAssetMaps(assetStore.results.items, components.results);
+
+    // initialize our language
+    let language: Asset;
+    if (flow.content.language) {
+        language = assetStore.languages.items[flow.content.language];
+    }
+
+    if (!language) {
+        language = DEFAULT_LANGUAGE;
+        dispatch(mergeEditorState({ language: DEFAULT_LANGUAGE }));
+    }
+
+    dispatch(updateBaseLanguage(language));
+
+    // store our flow definition without any nodes
+    dispatch(updateDefinition(mutators.pruneDefinition(definition)));
+    dispatch(updateNodes(components.renderNodeMap));
+
+    // finally update our assets, and mark us as fetched
+    dispatch(updateAssets(assetStore));
+    dispatch(mergeEditorState({ language, fetchingFlow: false }));
 };
 
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {
@@ -445,16 +372,10 @@ export const removeNode = (node: FlowNode) => (
 ): RenderNodeMap => {
     // Remove result name if node has one
     const {
-        flowContext: {
-            nodes,
-            results: { resultMap }
-        }
+        flowContext: { nodes }
     } = getState();
-    if (resultMap.hasOwnProperty(node.uuid)) {
-        const toKeep = mutate(resultMap, { $unset: [node.uuid] });
-        dispatch(updateResultMap(toKeep));
-    }
 
+    // TODO: update asset store to remove results that no longer exist
     const updated = mutators.removeNode(nodes, node.uuid);
     dispatch(updateNodes(updated));
     return updated;
@@ -465,36 +386,11 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: {
-            nodes,
-            results: { resultMap }
-        }
+        flowContext: { nodes }
     } = getState();
     const renderNode = nodes[nodeUUID];
 
-    // Remove result from store
-    if (action.type === Types.set_run_result) {
-        const toKeep = mutate(resultMap, { $unset: [action.uuid] });
-        dispatch(updateResultMap(toKeep));
-
-        // Node invalidation => ...
-    }
-
-    /*
-
-    actions[] (
-        set_result_name,
-        send_msg,
-        send_broadcast,
-        set_contact_property,
-        set_contact_field,
-        split_by_expression,
-        call_webhook
-    )
-
-    router {} result_name
-
-    */
+    // TODO: update asset store to remove results that no longer exist
 
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
@@ -640,11 +536,7 @@ export const onUpdateAction = (
 
     const {
         nodeEditor: { userAddingAction, settings },
-        flowContext: {
-            nodes,
-            results: { resultMap },
-            contactFields
-        }
+        flowContext: { nodes, contactFields }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -678,7 +570,7 @@ export const onUpdateAction = (
     dispatch(updateUserAddingAction(false));
 
     // Add result to store.
-    if (action.type === Types.set_run_result) {
+    /* if (action.type === Types.set_run_result) {
         const { name: resultNameOnAction } = action as SetRunResult;
         const newResultMap = {
             ...resultMap,
@@ -689,7 +581,7 @@ export const onUpdateAction = (
             [action.uuid]: `@run.results.${snakify(resultNameOnAction)}`
         };
         dispatch(updateResultMap(newResultMap));
-    }
+    }*/
 
     // Add contact field to our store.
     if (action.type === Types.set_contact_field) {
@@ -778,10 +670,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     getState: GetState
 ) => {
     const {
-        flowContext: {
-            nodes,
-            results: { suggestedNameCount }
-        }
+        flowContext: { nodes, assetStore }
     } = getState();
 
     // We finished dragging a ghost node, create the spec for our new ghost component
@@ -789,8 +678,18 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
 
     const fromNode = nodes[fromNodeUUID];
 
+    const names = Object.keys(assetStore.results ? assetStore.results.items : {});
+
+    let resultCount = names.length + 1;
+    let key = `result_${resultCount}`;
+
+    while (names.find((name: string) => name === key)) {
+        resultCount++;
+        key = `result_${resultCount}`;
+    }
+
     // set our ghost node
-    const ghostNode = getGhostNode(fromNode, fromExitUUID, suggestedNameCount);
+    const ghostNode = getGhostNode(fromNode, fromExitUUID, resultCount);
     ghostNode.inboundConnections = { [fromExitUUID]: fromNodeUUID };
     dispatch(mergeEditorState({ ghostNode }));
 };
@@ -811,11 +710,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: {
-            nodes,
-            results: { resultMap },
-            assets
-        },
+        flowContext: { nodes, assetStore },
         nodeEditor: {
             settings: { originalNode, originalAction }
         }
@@ -835,21 +730,14 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         renderNode.node = mutators.uniquifyNode(renderNode.node);
     }
 
-    // update our result names map
-    const resultsToUpdate = {
-        ...resultMap
-    };
+    // update our results
     if (renderNode.node.router && renderNode.node.router.result_name) {
-        resultsToUpdate[renderNode.node.uuid] = generateResultQuery(
+        const updatedAssets = mutators.addFlowResult(
+            assetStore,
             renderNode.node.router.result_name
         );
-
-        const updatedAssets = mutators.addFlowResult(assets, renderNode.node.router.result_name);
         dispatch(updateAssets(updatedAssets));
-    } else {
-        delete resultsToUpdate[renderNode.node.uuid];
     }
-    dispatch(updateResultMap(resultsToUpdate));
 
     if (originalNode && originalAction && previousNode) {
         const actionToSplice = previousNode.node.actions.find(
@@ -914,7 +802,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const {
         flowContext: {
             definition: { localization },
-            assets
+            assetStore
         },
         editorState: { language, translating }
     } = getState();

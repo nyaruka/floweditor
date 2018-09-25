@@ -1,16 +1,13 @@
 import setCaretPosition from 'get-input-selection';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { ContactFields, ResultMap } from '~/store/flowContext';
-import { composeComponentTestUtils } from '~/testUtils';
-
 import { KeyValues, OPTIONS } from '~/components/form/textinput/constants';
 import { TextInputElement, TextInputProps } from '~/components/form/textinput/TextInputElement';
+import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { composeComponentTestUtils } from '~/testUtils';
 
 const baseProps: TextInputProps = {
     name: 'Message',
     typeConfig: getTypeConfig(Types.send_msg),
-    resultMap: {} as ResultMap,
-    contactFields: {} as ContactFields
+    assetStore: {}
 };
 
 const { setup, spyOn } = composeComponentTestUtils(TextInputElement, baseProps);

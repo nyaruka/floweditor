@@ -3,17 +3,13 @@ import Constants from '~/store/constants';
 import reducer, {
     definition as definitionReducer,
     dependencies as dependenciesReducer,
-    incrementSuggestedResultNameCount,
     initialState,
     nodes as nodesReducer,
     RenderNodeMap,
-    resultMap as resultMapReducer,
-    suggestedNameCount as suggestedNameCountReducer,
     updateBaseLanguage,
     updateDefinition,
     updateDependencies,
-    updateNodes,
-    updateResultMap
+    updateNodes
 } from '~/store/flowContext';
 import { English } from '~/testUtils/assetCreators';
 
@@ -49,29 +45,6 @@ describe('flowContext action creators', () => {
             };
 
             expect(updateDependencies(dependencies)).toEqual(expectedAction);
-        });
-    });
-
-    describe('updateResultMap', () => {
-        it('should create an action to update resultMap state', () => {
-            const expectedAction = {
-                type: Constants.UPDATE_RESULT_MAP,
-                payload: {
-                    resultMap: results
-                }
-            };
-
-            expect(updateResultMap(results)).toEqual(expectedAction);
-        });
-    });
-
-    describe('incrementSuggestedResultNameCount', () => {
-        it('should create an action to increment suggestedNameCount state', () => {
-            const expectedAction = {
-                type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
-            };
-
-            expect(incrementSuggestedResultNameCount()).toEqual(expectedAction);
         });
     });
 
@@ -115,34 +88,6 @@ describe('flowContext reducers', () => {
             const action = updateDependencies(dependencies);
 
             expect(reduce(action)).toEqual(dependencies);
-        });
-    });
-
-    describe('resultMap reducer', () => {
-        const reduce = (action: any) => resultMapReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.results.resultMap);
-        });
-
-        it('should handle UPDATE_RESULTS', () => {
-            const action = updateResultMap(results);
-
-            expect(reduce(action)).toEqual(results);
-        });
-    });
-
-    describe('suggestedNameCount reducer', () => {
-        const reduce = (action: any) => suggestedNameCountReducer(undefined, action);
-
-        it('should return initial state', () => {
-            expect(reduce({})).toEqual(initialState.results.suggestedNameCount);
-        });
-
-        it('should handle UPDATE_RESULTS', () => {
-            const action = incrementSuggestedResultNameCount();
-
-            expect(reduce(action)).toBe(2);
         });
     });
 

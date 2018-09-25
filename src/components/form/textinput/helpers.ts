@@ -1,7 +1,6 @@
 import { split } from 'split-sms';
 import { GSM, OPTIONS } from '~/components/form/textinput/constants';
-import { CompletionOption, ContactFields, ResultMap } from '~/store/flowContext';
-import { titleCase } from '~/utils';
+import { AssetMap, AssetStore, CompletionOption } from '~/store/flowContext';
 
 export interface UnicodeCharMap {
     [char: string]: boolean;
@@ -156,44 +155,38 @@ export const getResultPropertyOptions = (accessor: string, name: string) => [
         description: `Input for "${name}"`
     },
     {
-        name: `${accessor}.node_uuid`,
-        description: `Node UUID for "${name}"`
-    },
-    {
         name: `${accessor}.created_on`,
         description: `Time "${name}" was created`
     }
 ];
 
-export const getResultOptions = (results: ResultMap) =>
+/* export const getResultOptions = (results: ResultMap) =>
     [...new Set(Object.keys(results).map(uuid => results[uuid]))].reduce((options, query) => {
         const accessor = query.replace(/^@/, '');
         const name = titleCase(accessor.slice(accessor.lastIndexOf('.') + 1).replace(/_/g, ' '));
         options.push(...getResultPropertyOptions(accessor, name));
         return options;
     }, []);
+*/
 
-export const getContactFieldOptions = (contactFields: ContactFields) =>
-    Object.keys(contactFields).reduce((contactFieldCompletionOptions, key) => {
-        const { [key]: name } = contactFields;
+export const getContactFieldOptions = (assets: AssetMap) =>
+    Object.keys(assets).reduce((contactFieldCompletionOptions, key) => {
+        const { [key]: asset } = assets;
         const accessors = ['', 'parent.', 'run.', 'child.'];
         accessors.forEach(accessor =>
             contactFieldCompletionOptions.push({
                 name: `${accessor}contact.fields.${key}`,
-                description: `The value held in a contact's "${name}" field`
+                description: `${asset.name} for the contact.`
             })
         );
         return contactFieldCompletionOptions;
     }, []);
 
-export const getOptionsList = (
-    autocomplete: boolean,
-    results: ResultMap = {},
-    contactFields: ContactFields = {}
-): CompletionOption[] =>
-    autocomplete
-        ? [...OPTIONS, ...getResultOptions(results), ...getContactFieldOptions(contactFields)]
+export const getOptionsList = (autocomplete: boolean, assets: AssetStore): CompletionOption[] => {
+    return autocomplete
+        ? [...OPTIONS, ...getContactFieldOptions(assets.fields ? assets.fields.items : {})]
         : OPTIONS;
+};
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
     `${noun}${count !== 1 ? suffix : ''}`;

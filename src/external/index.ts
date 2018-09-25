@@ -2,7 +2,9 @@
 import axios, { AxiosResponse } from 'axios';
 import { Endpoints, FlowDefinition } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
-import { Asset, AssetType } from '~/store/flowContext';
+import { currencies } from '~/store/currencies';
+import { Asset, AssetMap, Assets, AssetStore, AssetType } from '~/store/flowContext';
+import { assetListToMap } from '~/store/helpers';
 
 export interface FlowDetails {
     uuid: string;
@@ -59,9 +61,119 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
     });
 };
 
-export const getFlow = (endpoints: Endpoints, uuid: string): Promise<Asset> =>
-    new Promise<Asset>((resolve, reject) => {
-        const url = `${endpoints.flows}/${uuid}/`;
+export const isMatch = (input: string, asset: Asset, exclude: string[]): boolean => {
+    if ((exclude || []).find((id: string) => asset.id === id)) {
+        return false;
+    }
+
+    return asset.name.toLowerCase().includes(input);
+};
+
+/**
+ * Searches an AssetMap for a substring
+ */
+export const searchAssetMap = (
+    query: string,
+    assets: AssetMap,
+    additionalOptions?: Asset[],
+    excludeOptions?: string[]
+): Asset[] => {
+    const search = query.toLowerCase();
+    let matches = Object.keys(assets)
+        .map(key => assets[key])
+        .filter((asset: Asset) => isMatch(search, asset, excludeOptions));
+
+    // include our additional matches if we have any
+    matches = matches
+        .concat(additionalOptions || [])
+        .filter((asset: Asset) => isMatch(search, asset, excludeOptions));
+
+    return matches;
+};
+
+export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
+    return new Promise<AssetStore>((resolve, reject) => {
+        const assetStore: AssetStore = {
+            channels: {
+                endpoint: getURL(endpoints.channels),
+                type: AssetType.Channel,
+                items: {}
+            },
+            languages: {
+                endpoint: getURL(endpoints.languages),
+                type: AssetType.Language,
+                items: {},
+                id: 'iso'
+            },
+            flows: {
+                endpoint: getURL(endpoints.flows),
+                type: AssetType.Flow,
+                items: {}
+            },
+            fields: {
+                endpoint: getURL(endpoints.fields),
+                type: AssetType.Field,
+                id: 'key',
+                items: {}
+            },
+            groups: {
+                endpoint: getURL(endpoints.groups),
+                type: AssetType.Group,
+                items: {}
+            },
+            labels: {
+                endpoint: getURL(endpoints.labels),
+                type: AssetType.Label,
+                items: {}
+            },
+            results: {
+                type: AssetType.Result,
+                items: {}
+            },
+            recipients: {
+                endpoint: getURL(endpoints.recipients),
+                type: AssetType.Contact || AssetType.Group || AssetType.URN,
+                items: {},
+                id: 'id'
+            },
+            resthooks: {
+                endpoint: getURL(endpoints.resthooks),
+                type: AssetType.Resthook,
+                id: 'slug',
+                items: {}
+            },
+            currencies: {
+                type: AssetType.Currency,
+                id: 'id',
+                items: currencies,
+                prefetched: true
+            }
+        };
+
+        // prefetch some of our assets
+        const fetches: any[] = [];
+        ['languages', 'fields', 'groups'].forEach((storeId: string) => {
+            const store = assetStore[storeId];
+            fetches.push(
+                getAssets(store.endpoint, store.type, store.id || 'uuid').then(
+                    (assets: Asset[]) => {
+                        store.items = assetListToMap(assets);
+                        store.prefetched = true;
+                    }
+                )
+            );
+        });
+
+        // wait for our prefetches to finish
+        Promise.all(fetches);
+
+        resolve(assetStore);
+    });
+};
+
+export const getFlow = (flows: Assets, uuid: string): Promise<Asset> => {
+    return new Promise<Asset>((resolve, reject) => {
+        const url = `${flows.endpoint}${uuid}/`;
         axios
             .get(url)
             .then((response: AxiosResponse) => {
@@ -77,6 +189,7 @@ export const getFlow = (endpoints: Endpoints, uuid: string): Promise<Asset> =>
             })
             .catch(error => reject(error));
     });
+};
 
 export const getBaseURL = (): string => {
     const location = window.location;
@@ -100,5 +213,6 @@ export const getURL = (path: string): string => {
         url = '/.netlify/functions/' + url;
     }
 
-    return `${getBaseURL() + url}`;
+    const result = `${getBaseURL() + url}`;
+    return result;
 };

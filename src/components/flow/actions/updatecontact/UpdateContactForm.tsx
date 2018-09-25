@@ -152,10 +152,10 @@ export default class UpdateContactForm extends React.Component<
 
     private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
         const {
-            flowContext: { assets }
+            flowContext: { assetStore }
         } = getState();
 
-        dispatch(updateAssets(mutators.addAssets('fields', assets, [this.state.field.value])));
+        dispatch(updateAssets(mutators.addAssets('fields', assetStore, [this.state.field.value])));
     }
 
     public handleFieldAdded(name: string): void {
@@ -202,7 +202,7 @@ export default class UpdateContactForm extends React.Component<
                 <AssetSelector
                     name="Channel"
                     placeholder="Select the channel to use for this contact"
-                    assets={this.props.assets.channels}
+                    assets={this.props.assetStore.channels}
                     entry={this.state.channel}
                     searchable={true}
                     clearable={true}
@@ -216,7 +216,7 @@ export default class UpdateContactForm extends React.Component<
                 <AssetSelector
                     name="Language"
                     placeholder="Select the language to use for this contact"
-                    assets={this.props.assets.languages}
+                    assets={this.props.assetStore.languages}
                     entry={this.state.language}
                     searchable={true}
                     clearable={true}
@@ -266,7 +266,7 @@ export default class UpdateContactForm extends React.Component<
                 <p>Select what to update</p>
                 <AssetSelector
                     name="Contact Field"
-                    assets={this.props.assets.fields}
+                    assets={this.props.assetStore.fields}
                     additionalOptions={CONTACT_PROPERTIES}
                     entry={this.state.field}
                     searchable={true}
