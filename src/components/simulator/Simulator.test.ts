@@ -2,7 +2,7 @@ import { Simulator, SimulatorProps } from '~/components/simulator/Simulator';
 import { composeComponentTestUtils } from '~/testUtils';
 
 const { setup } = composeComponentTestUtils<SimulatorProps>(Simulator, {
-    assets: {},
+    assetStore: {},
     nodes: {},
     definition: {
         name: 'Simulate this',

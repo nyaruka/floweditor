@@ -1,14 +1,12 @@
 import { combineReducers } from 'redux';
 import { FlowDefinition, FlowNode, UINode } from '~/flowTypes';
 import ActionTypes, {
-    IncrementSuggestedResultNameCountAction,
     UpdateAssetsAction,
     UpdateBaseLanguageAction,
     UpdateContactFieldsAction,
     UpdateDefinitionAction,
     UpdateDependenciesAction,
-    UpdateNodesAction,
-    UpdateResultMapAction
+    UpdateNodesAction
 } from '~/store/actionTypes';
 import Constants from '~/store/constants';
 
@@ -27,14 +25,6 @@ export interface RenderNode {
 export interface CompletionOption {
     name: string;
     description: string;
-}
-export interface ResultMap {
-    [nodeOrActionUUID: string]: string;
-}
-
-export interface Results {
-    resultMap: ResultMap;
-    suggestedNameCount: number;
 }
 
 export interface ContactFields {
@@ -94,16 +84,18 @@ export interface Assets {
 
     // option name for the id when fetching remotely
     id?: string;
+
+    // have our assets already been loaded
+    prefetched?: boolean;
 }
 
 export interface FlowContext {
     dependencies: FlowDefinition[];
     baseLanguage: Asset;
-    results: Results;
     contactFields: ContactFields;
     definition: FlowDefinition;
     nodes: { [uuid: string]: RenderNode };
-    assets: AssetStore;
+    assetStore: AssetStore;
 }
 
 // Initial state
@@ -111,13 +103,9 @@ export const initialState: FlowContext = {
     definition: null,
     dependencies: null,
     baseLanguage: null,
-    results: {
-        resultMap: {},
-        suggestedNameCount: 1
-    },
     contactFields: {},
     nodes: {},
-    assets: {}
+    assetStore: {}
 };
 
 // Action Creators
@@ -156,22 +144,11 @@ export const updateContactFields = (contactFields: ContactFields): UpdateContact
     }
 });
 
-export const updateResultMap = (resultMap: ResultMap): UpdateResultMapAction => ({
-    type: Constants.UPDATE_RESULT_MAP,
-    payload: {
-        resultMap
-    }
-});
-
 export const updateAssets = (assets: AssetStore): UpdateAssetsAction => ({
     type: Constants.UPDATE_ASSET_MAP,
     payload: {
         assets
     }
-});
-
-export const incrementSuggestedResultNameCount = (): IncrementSuggestedResultNameCountAction => ({
-    type: Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
 });
 
 // Reducers
@@ -208,34 +185,10 @@ export const dependencies = (
     }
 };
 
-export const assets = (state: AssetStore = initialState.assets, action: ActionTypes) => {
+export const assetStore = (state: AssetStore = initialState.assetStore, action: ActionTypes) => {
     switch (action.type) {
         case Constants.UPDATE_ASSET_MAP:
             return action.payload.assets;
-        default:
-            return state;
-    }
-};
-
-export const resultMap = (
-    state: ResultMap = initialState.results.resultMap,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.UPDATE_RESULT_MAP:
-            return action.payload.resultMap;
-        default:
-            return state;
-    }
-};
-
-export const suggestedNameCount = (
-    state: number = initialState.results.suggestedNameCount,
-    action: ActionTypes
-) => {
-    switch (action.type) {
-        case Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT:
-            return state + 1;
         default:
             return state;
     }
@@ -262,18 +215,12 @@ export const contactFields = (
     }
 };
 
-export const results = combineReducers({
-    resultMap,
-    suggestedNameCount
-});
-
 // Root reducer
 export default combineReducers({
     definition,
     nodes,
     dependencies,
-    assets,
-    results,
+    assetStore,
     baseLanguage,
     contactFields
 });

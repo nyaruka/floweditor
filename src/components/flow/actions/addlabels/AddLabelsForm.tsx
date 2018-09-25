@@ -39,10 +39,10 @@ export default class AddLabelsForm extends React.PureComponent<
 
     private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
         const {
-            flowContext: { assets }
+            flowContext: { assetStore }
         } = getState();
 
-        dispatch(updateAssets(mutators.addAssets('labels', assets, this.state.labels.value)));
+        dispatch(updateAssets(mutators.addAssets('labels', assetStore, this.state.labels.value)));
     }
 
     public handleSave(): void {

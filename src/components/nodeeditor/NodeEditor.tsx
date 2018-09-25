@@ -6,9 +6,8 @@ import { getDraggedFrom } from '~/components/helpers';
 import Modal from '~/components/modal/Modal';
 import { Type } from '~/config/typeConfigs';
 import { Action, AnyAction, FlowDefinition } from '~/flowTypes';
-import { Asset } from '~/store/flowContext';
-import { IncrementSuggestedResultNameCount, UpdateUserAddingAction } from '~/store/actionTypes';
-import { AssetStore, incrementSuggestedResultNameCount, RenderNode } from '~/store/flowContext';
+import { UpdateUserAddingAction } from '~/store/actionTypes';
+import { Asset, AssetStore, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, updateUserAddingAction } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
@@ -39,12 +38,11 @@ export interface NodeEditorPassedProps {
 }
 
 export interface NodeEditorStoreProps {
-    assets: AssetStore;
+    assetStore: AssetStore;
     language: Asset;
     definition: FlowDefinition;
     translating: boolean;
     typeConfig: Type;
-    suggestedNameCount: number;
     settings: NodeEditorSettings;
     nodes: { [uuid: string]: RenderNode };
     handleTypeConfigChange: HandleTypeConfigChange;
@@ -54,7 +52,6 @@ export interface NodeEditorStoreProps {
     onUpdateAction: OnUpdateAction;
     onUpdateRouter: OnUpdateRouter;
     updateUserAddingAction: UpdateUserAddingAction;
-    incrementSuggestedResultNameCount: IncrementSuggestedResultNameCount;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
@@ -64,7 +61,7 @@ export interface FormProps {
     updateRouter(renderNode: RenderNode): void;
     updateAction(action: AnyAction): void;
 
-    assets: AssetStore;
+    assetStore: AssetStore;
 
     nodeSettings?: NodeEditorSettings;
     typeConfig?: Type;
@@ -152,7 +149,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
             const { form: Form } = typeConfig;
             const formProps: FormProps = {
-                assets: this.props.assets,
+                assetStore: this.props.assetStore,
                 updateAction: this.updateAction,
                 updateRouter: this.updateRouter,
                 nodeSettings: this.props.settings,
@@ -173,12 +170,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-    flowContext: {
-        definition,
-        nodes,
-        results: { suggestedNameCount },
-        assets
-    },
+    flowContext: { definition, nodes, assetStore },
     editorState: { language, translating },
     nodeEditor: { typeConfig, settings }
 }: AppState) => ({
@@ -187,9 +179,8 @@ const mapStateToProps = ({
     nodes,
     translating,
     typeConfig,
-    suggestedNameCount,
     settings,
-    assets
+    assetStore
 });
 
 /* istanbul ignore next */
@@ -202,8 +193,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onUpdateLocalizations,
             onUpdateAction,
             onUpdateRouter,
-            updateUserAddingAction,
-            incrementSuggestedResultNameCount
+            updateUserAddingAction
         },
         dispatch
     );

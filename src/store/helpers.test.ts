@@ -1,7 +1,6 @@
 import { Types } from '~/config/typeConfigs';
 import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '~/flowTypes';
 import {
-    generateResultQuery,
     getCollisions,
     getFlowComponents,
     getGhostNode,
@@ -19,34 +18,17 @@ describe('helpers', () => {
     describe('initializeFlow', () => {
         it('should find groups in definition', () => {
             const flowDetails = getFlowComponents(definition);
-            expect(flowDetails.groups).toEqual([
-                { name: 'Flow Participants', id: 'group_0', type: 'group' },
-                { name: 'Nonresponsive', id: 'group_1', type: 'group' }
-            ]);
+            expect(flowDetails.groups).toMatchSnapshot();
         });
 
         it('should find fields in definition', () => {
             const flowDetails = getFlowComponents(definition);
-            expect(flowDetails.fields).toEqual([
-                { name: 'Unknown Field', id: 'unknown_field', type: 'field' }
-            ]);
+            expect(flowDetails.fields).toMatchSnapshot();
         });
 
         it('should find labels in definition', () => {
             const flowDetails = getFlowComponents(definition);
-            expect(flowDetails.labels).toEqual([
-                { name: 'Help', id: 'label_0', type: 'label' },
-                { name: 'Feedback', id: 'label_1', type: 'label' }
-            ]);
-        });
-
-        it('should find results in definition', () => {
-            const { resultMap } = getFlowComponents(definition);
-            const expectedOutput = {
-                node1: generateResultQuery(definition.nodes[1].router.result_name)
-            };
-            expect(resultMap).toEqual(expectedOutput);
-            expect(resultMap).toMatchSnapshot();
+            expect(flowDetails.labels).toMatchSnapshot();
         });
     });
 

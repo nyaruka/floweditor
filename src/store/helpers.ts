@@ -11,19 +11,13 @@ import {
     FlowPosition,
     RouterTypes,
     SetContactField,
+    SetRunResult,
     SwitchRouter,
     UIMetaData,
     WaitTypes
 } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
-import {
-    Asset,
-    AssetMap,
-    AssetType,
-    RenderNode,
-    RenderNodeMap,
-    ResultMap
-} from '~/store/flowContext';
+import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { createUUID, snakify } from '~/utils';
 
 export interface Bounds {
@@ -267,12 +261,10 @@ export const getGhostNode = (
 
 export interface FlowComponents {
     renderNodeMap: RenderNodeMap;
-    resultMap: ResultMap;
-    groups: Asset[];
-    fields: Asset[];
-    labels: Asset[];
-    resultsMap: AssetMap;
-    baseLanguage: Asset;
+    groups: AssetMap;
+    fields: AssetMap;
+    labels: AssetMap;
+    results: AssetMap;
 }
 
 export const isGroupAction = (actionType: string) => {
@@ -306,28 +298,16 @@ export const assetMapToList = (assets: AssetMap): any[] => {
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowComponents = (
-    { language, nodes, _ui }: FlowDefinition,
-    languages: Asset[] = []
-): FlowComponents => {
+export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponents => {
     const renderNodeMap: RenderNodeMap = {};
-
-    // our groups and fields referenced within
-    const groups: Asset[] = [];
-    const fields: Asset[] = [];
-    const labels: Asset[] = [];
-    const results: Asset[] = [];
 
     // initialize our nodes
     const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
 
-    const resultMap: ResultMap = {};
-
-    const groupsMap: { [uuid: string]: string } = {};
-    const fieldsMap: { [key: string]: { key: string; name: string } } = {};
-    const labelsMap: { [uuid: string]: string } = {};
-
-    const resultsMap: AssetMap = {};
+    const groups: AssetMap = {};
+    const fields: AssetMap = {};
+    const labels: AssetMap = {};
+    const results: AssetMap = {};
 
     for (const node of nodes) {
         if (!node.actions) {
@@ -341,15 +321,12 @@ export const getFlowComponents = (
             inboundConnections: {}
         };
 
-        // get existing result names
         if (node.router) {
             if (node.router.result_name) {
-                resultMap[node.uuid] = generateResultQuery(node.router.result_name);
-
                 const key = snakify(node.router.result_name);
-                resultsMap[key] = {
-                    id: key,
+                results[key] = {
                     name: node.router.result_name,
+                    id: key,
                     type: AssetType.Result
                 };
             }
@@ -366,7 +343,11 @@ export const getFlowComponents = (
 
                 /* istanbul ignore else */
                 if (exit) {
-                    groupsMap[groupUUID] = exit.name;
+                    groups[groupUUID] = {
+                        name: exit.name,
+                        id: groupUUID,
+                        type: AssetType.Group
+                    };
                 }
             }
         }
@@ -374,15 +355,35 @@ export const getFlowComponents = (
         for (const action of node.actions) {
             if (isGroupAction(action.type)) {
                 for (const group of (action as ChangeGroups).groups) {
-                    groupsMap[group.uuid] = group.name;
+                    groups[group.uuid] = {
+                        name: group.name,
+                        id: group.uuid,
+                        type: AssetType.Group
+                    };
                 }
             } else if (action.type === Types.set_contact_field) {
                 const fieldAction = action as SetContactField;
-                fieldsMap[fieldAction.field.key] = fieldAction.field;
+                fields[fieldAction.field.key] = {
+                    name: fieldAction.field.name,
+                    id: fieldAction.field.key,
+                    type: AssetType.Field
+                };
             } else if (action.type === Types.add_input_labels) {
                 for (const label of (action as AddLabels).labels) {
-                    labelsMap[label.uuid] = label.name;
+                    labels[label.uuid] = {
+                        name: label.name,
+                        id: label.uuid,
+                        type: AssetType.Label
+                    };
                 }
+            } else if (action.type === Types.set_run_result) {
+                const resultAction = action as SetRunResult;
+                const key = snakify(resultAction.name);
+                fields[key] = {
+                    name: resultAction.name,
+                    id: key,
+                    type: AssetType.Result
+                };
             }
         }
 
@@ -405,25 +406,7 @@ export const getFlowComponents = (
         renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
     }
 
-    for (const uuid of Object.keys(groupsMap)) {
-        groups.push({ name: groupsMap[uuid], id: uuid, type: AssetType.Group });
-    }
-
-    for (const key of Object.keys(fieldsMap)) {
-        fields.push({ name: fieldsMap[key].name, id: key, type: AssetType.Field });
-    }
-
-    for (const uuid of Object.keys(labelsMap)) {
-        labels.push({ name: labelsMap[uuid], id: uuid, type: AssetType.Label });
-    }
-
-    for (const id of Object.keys(resultsMap)) {
-        results.push(resultsMap[id]);
-    }
-
-    // determine flow language
-    const baseLanguage = languages.find((lang: Asset) => lang.id === language);
-    return { renderNodeMap, resultMap, groups, fields, labels, baseLanguage, resultsMap };
+    return { renderNodeMap, groups, fields, labels, results };
 };
 
 /**
@@ -438,3 +421,10 @@ export const extractContactFields = (nodes: FlowNode[]): Asset[] =>
         });
         return fieldList;
     }, []);
+
+/** Adds all the items from toAdd if that don't already exist in assets */
+export const mergeAssetMaps = (assets: AssetMap, toAdd: AssetMap): void => {
+    Object.keys(toAdd).forEach((key: string) => {
+        assets[key] = assets[key] || toAdd[key];
+    });
+};

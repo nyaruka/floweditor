@@ -152,10 +152,10 @@ export default class UpdateContactForm extends React.Component<
 
     private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
         const {
-            flowContext: { assets }
+            flowContext: { assetStore }
         } = getState();
 
-        dispatch(updateAssets(mutators.addAssets('fields', assets, [this.state.field.value])));
+        dispatch(updateAssets(mutators.addAssets('fields', assetStore, [this.state.field.value])));
     }
 
     public handleFieldAdded(name: string): void {

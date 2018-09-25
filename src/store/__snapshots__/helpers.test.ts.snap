@@ -200,8 +200,42 @@ Array [
 ]
 `;
 
-exports[`helpers initializeFlow should find results in definition 1`] = `
+exports[`helpers initializeFlow should find fields in definition 1`] = `
 Object {
-  "node1": "@run.results.color",
+  "unknown_field": Object {
+    "id": "unknown_field",
+    "name": "Unknown Field",
+    "type": "field",
+  },
+}
+`;
+
+exports[`helpers initializeFlow should find groups in definition 1`] = `
+Object {
+  "group_0": Object {
+    "id": "group_0",
+    "name": "Flow Participants",
+    "type": "group",
+  },
+  "group_1": Object {
+    "id": "group_1",
+    "name": "Nonresponsive",
+    "type": "group",
+  },
+}
+`;
+
+exports[`helpers initializeFlow should find labels in definition 1`] = `
+Object {
+  "label_0": Object {
+    "id": "label_0",
+    "name": "Help",
+    "type": "label",
+  },
+  "label_1": Object {
+    "id": "label_1",
+    "name": "Feedback",
+    "type": "label",
+  },
 }
 `;

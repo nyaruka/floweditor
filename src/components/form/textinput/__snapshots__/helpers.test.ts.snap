@@ -4666,32 +4666,20 @@ Array [
     "name": "trigger.params",
   },
   Object {
-    "description": "Result for \\"Color\\"",
-    "name": "run.results.color",
+    "description": "Color for the contact.",
+    "name": "contact.fields.color",
   },
   Object {
-    "description": "Value for \\"Color\\"",
-    "name": "run.results.color.value",
+    "description": "Color for the contact.",
+    "name": "parent.contact.fields.color",
   },
   Object {
-    "description": "Category for \\"Color\\"",
-    "name": "run.results.color.category",
+    "description": "Color for the contact.",
+    "name": "run.contact.fields.color",
   },
   Object {
-    "description": "Localized category for \\"Color\\"",
-    "name": "run.results.color.category_localized",
-  },
-  Object {
-    "description": "Input for \\"Color\\"",
-    "name": "run.results.color.input",
-  },
-  Object {
-    "description": "Node UUID for \\"Color\\"",
-    "name": "run.results.color.node_uuid",
-  },
-  Object {
-    "description": "Time \\"Color\\" was created",
-    "name": "run.results.color.created_on",
+    "description": "Color for the contact.",
+    "name": "child.contact.fields.color",
   },
 ]
 `;
