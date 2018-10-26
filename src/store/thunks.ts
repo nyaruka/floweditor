@@ -18,7 +18,7 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import { EditorState, updateEditorState } from '~/store/editor';
+import { EditorState, EMPTY_DRAG_STATE, updateEditorState } from '~/store/editor';
 import {
     Asset,
     DEFAULT_LANGUAGE,
@@ -68,6 +68,8 @@ export type OnResetDragSelection = () => Thunk<void>;
 export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<RenderNodeMap>;
 
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
+
+export type OnUpdatePosition = (nodeUUID: string, position: FlowPosition) => Thunk<RenderNodeMap>;
 
 export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
@@ -627,7 +629,7 @@ export const onAddToNode = (node: FlowNode) => (
 
     dispatch(updateUserAddingAction(true));
     dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
-    dispatch(mergeEditorState({ nodeDragging: false }));
+    dispatch(mergeEditorState(EMPTY_DRAG_STATE));
 };
 
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
@@ -637,8 +639,20 @@ export const onResetDragSelection = () => (dispatch: DispatchWithState, getState
 
     /* istanbul ignore else */
     if (dragSelection && dragSelection.selected) {
-        dispatch(mergeEditorState({ dragSelection: { selected: null } }));
+        dispatch(mergeEditorState(EMPTY_DRAG_STATE));
     }
+};
+
+export const onUpdatePosition = (nodeUUID: string, position: FlowPosition) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): RenderNodeMap => {
+    const {
+        flowContext: { nodes }
+    } = getState();
+    const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top, false);
+    dispatch(updateNodes(updated));
+    return updated;
 };
 
 export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
@@ -651,7 +665,7 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
     } = getState();
 
     if (dragSelection && dragSelection.selected) {
-        dispatch(mergeEditorState({ dragSelection: { selected: null } }));
+        dispatch(mergeEditorState(EMPTY_DRAG_STATE));
     }
 
     const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top);
@@ -854,5 +868,5 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const typeConfig = determineTypeConfig(settings);
     dispatch(handleTypeConfigChange(typeConfig));
     dispatch(updateNodeEditorSettings(settings));
-    dispatch(mergeEditorState({ nodeDragging: false }));
+    dispatch(mergeEditorState(EMPTY_DRAG_STATE));
 };

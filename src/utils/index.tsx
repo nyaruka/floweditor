@@ -172,7 +172,8 @@ export interface ClickHandler {
  * @param onClick
  */
 export const createClickHandler = (
-    onClick: (event: React.MouseEvent<HTMLDivElement>) => void
+    onClick: (event: React.MouseEvent<HTMLDivElement>) => void,
+    shouldCancelClick: () => boolean = null
 ): ClickHandler => {
     return {
         onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => {
@@ -180,7 +181,36 @@ export const createClickHandler = (
         },
         onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => {
             if (this._clicked) {
-                onClick(event);
+                console.log('clicked.. ', shouldCancelClick());
+                if (!shouldCancelClick || !shouldCancelClick()) {
+                    onClick(event);
+                }
+            }
+            this._clicked = false;
+        }
+    };
+};
+
+export interface DragHandler {
+    onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
+    onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+/**
+ * Creates a simple click handler via onMouseDown and onMouseUp.
+ * This is a necessity in order to let jsPlumb manage our element dragging.
+ * @param onClick
+ */
+export const createDragHandler = (
+    onDragStop: (event: React.MouseEvent<HTMLDivElement>) => void
+): DragHandler => {
+    return {
+        onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => {
+            this._clicked = true;
+        },
+        onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => {
+            if (this._clicked) {
+                onDragStop(event);
             }
             this._clicked = false;
         }

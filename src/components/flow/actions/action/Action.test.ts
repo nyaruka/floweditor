@@ -36,6 +36,7 @@ const localization = {
 
 const baseProps: ActionWrapperProps = {
     thisNodeDragging: false,
+    dragging: false,
     localization,
     first: true,
     action: sendMsgAction,

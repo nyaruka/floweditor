@@ -1,17 +1,17 @@
-@import "~/variables.scss";
+@import '~/variables.scss';
 
 .node_container {
     padding: $node_padding + px;
     z-index: $z_nodes;
     position: absolute;
-    transition: top 200ms ease-out;
+    // transition: top 200ms ease-out;
 
     .uuid {
         user-select: text;
         position: absolute;
         z-index: 10000;
         white-space: nowrap;
-        background: #ffffffDD;
+        background: #ffffffdd;
         padding: 3px;
         border-radius: 3px;
         cursor: pointer;
@@ -21,7 +21,7 @@
         font-family: monospace;
         left: 16px;
         &:hover {
-            background: #ffffffFF;
+            background: #ffffffff;
         }
     }
 
@@ -33,19 +33,19 @@
             .add {
                 visibility: hidden !important;
             }
-            
+
             border-radius: $curvature;
         }
     }
 
     &.ghost {
-        opacity: .5;
+        opacity: 0.5;
         transition: none;
         z-index: $z_dragging;
     }
 
     &.nondragged {
-        opacity: .6;
+        opacity: 0.6;
         transition: opacity 400ms ease;
     }
 
@@ -118,7 +118,7 @@
                 display: table-row;
                 height: 7px;
                 &:after {
-                    content: "";
+                    content: '';
                     display: table;
                     clear: both;
                 }

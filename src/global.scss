@@ -1,5 +1,5 @@
-@import "../fonts/floweditor/style.css";
-@import "./variables.scss";
+@import '../fonts/floweditor/style.css';
+@import './variables.scss';
 
 body {
     margin: 0;
@@ -22,7 +22,7 @@ body {
     }
 
     .ReactModal__Overlay {
-        background-color: rgba(0, 0, 0, .6) !important;
+        background-color: rgba(0, 0, 0, 0.6) !important;
         z-index: $z_modal;
     }
 
@@ -34,13 +34,13 @@ body {
         overflow-y: scroll !important;
         margin: 0 0 5px !important;
 
-        // position: fixed !important; 
+        // position: fixed !important;
         // overflow-y: scroll !important;
         // width: 100% !important;
     }
 
     .ReactModal__Overlay {
-        background-color: rgba(0, 0, 0, .6) !important;
+        background-color: rgba(0, 0, 0, 0.6) !important;
         z-index: $z_modal;
     }
 
@@ -55,7 +55,7 @@ body {
         }
     }
 
-    .ReactModalPortal>div {
+    .ReactModalPortal > div {
         opacity: 0;
     }
 
@@ -153,7 +153,7 @@ body {
 
     #simulator.jtk-drag {
         transform: scale(1.02);
-        transition: all .05s ease-out;
+        transition: all 0.05s ease-out;
     }
 
     // jsplumb, no text selection while dragging
@@ -180,7 +180,7 @@ body {
 
         path {
             stroke: $connector_color;
-            stroke-width: 1px;
+            stroke-width: 2px;
 
             &.jtk-arrow {
                 fill: $connector_color;
@@ -206,6 +206,9 @@ body {
 
     .jtk-endpoint {
         z-index: $z_endpoints;
+        stroke-width: 2px;
+        width: 16px;
+        height: 16px;
     }
 
     .plumb-exit .jtk-connected {

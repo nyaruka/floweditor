@@ -33,6 +33,7 @@ export interface ActionWrapperStoreProps {
     renderNode: RenderNode;
     language: Asset;
     translating: boolean;
+    dragging: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeAction: ActionAC;
     moveActionUp: ActionAC;
@@ -162,7 +163,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                 data-spec={actionContainerSpecId}
             >
                 <div className={styles.overlay} data-spec={actionOverlaySpecId} />
-                <div {...createClickHandler(this.onClick)} data-spec={actionInteractiveDivSpecId}>
+                <div
+                    {...createClickHandler(this.onClick, () => this.props.dragging)}
+                    data-spec={actionInteractiveDivSpecId}
+                >
                     <TitleBar
                         __className={titleBarClass}
                         title={name}
@@ -185,11 +189,12 @@ const mapStateToProps = ({
     flowContext: {
         definition: { localization }
     },
-    editorState: { language, translating }
+    editorState: { language, translating, dragActive }
 }: AppState) => ({
     language,
     translating,
-    localization
+    localization,
+    dragging: dragActive
 });
 
 /* istanbul ignore next */

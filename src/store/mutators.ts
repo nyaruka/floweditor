@@ -355,14 +355,19 @@ export const updatePosition = (
     nodes: RenderNodeMap,
     nodeUUID: string,
     left: number,
-    top: number
+    top: number,
+    snap: boolean = true
 ): RenderNodeMap => {
     const lastPos = getNode(nodes, nodeUUID).ui.position;
     const width = lastPos.right - lastPos.left;
     const height = lastPos.bottom - lastPos.top;
 
     // make sure we are on the grid
-    const adjusted = snapToGrid(left, top);
+    let adjusted = { left, top };
+
+    if (snap) {
+        adjusted = snapToGrid(left, top);
+    }
 
     return mutate(nodes, {
         [nodeUUID]: {

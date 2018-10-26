@@ -38,8 +38,7 @@ const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
     editorState: {
-        ghostNode: null,
-        dragSelection: null
+        ghostNode: null
     },
     mergeEditorState: jest.fn(),
     definition,
@@ -49,6 +48,7 @@ const baseProps: FlowStoreProps = {
     ensureStartNode: jest.fn(),
     updateConnection: jest.fn(),
     onOpenNodeEditor: jest.fn(),
+    onUpdatePosition: jest.fn(),
     resetNodeEditingState: jest.fn(),
     onConnectionDrag: jest.fn(),
     updateSticky: jest.fn()
@@ -88,8 +88,8 @@ describe(Flow.name, () => {
         currentX: 500,
         currentY: 302,
         selected: {
-            '46e8d603-8e5d-4435-97dd-1333291aafca': true,
-            'bc978e00-2f3d-41f2-87c1-26b3f14e5925': true
+            '46e8d603-8e5d-4435-97dd-1333291aafca': { left: 500, top: 300 },
+            'bc978e00-2f3d-41f2-87c1-26b3f14e5925': { left: 300, top: 200 }
         }
     };
 

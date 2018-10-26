@@ -160,12 +160,12 @@ export const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
 export const getCollisions = (
     nodes: RenderNodeMap,
     box: FlowPosition
-): { [uuid: string]: boolean } => {
+): { [uuid: string]: FlowPosition } => {
     const collisions = {};
     for (const nodeUUID of Object.keys(nodes)) {
         const node = nodes[nodeUUID];
         if (collides(box, node.ui.position)) {
-            collisions[node.node.uuid] = true;
+            collisions[node.node.uuid] = node.ui.position;
         }
     }
     return collisions;

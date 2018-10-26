@@ -1,7 +1,7 @@
-import { Asset } from '~/store/flowContext';
+import { FlowPosition } from '~/flowTypes';
 import ActionTypes, { UpdateEditorState } from '~/store/actionTypes';
 import Constants from '~/store/constants';
-import { RenderNode } from '~/store/flowContext';
+import { Asset, RenderNode } from '~/store/flowContext';
 
 // tslint:disable:no-shadowed-variable
 export interface DragSelection {
@@ -9,7 +9,7 @@ export interface DragSelection {
     startY?: number;
     currentX?: number;
     currentY?: number;
-    selected?: { [uuid: string]: boolean };
+    selected?: { [uuid: string]: FlowPosition };
 }
 
 export interface DebugState {
@@ -20,22 +20,37 @@ export interface EditorState {
     language: Asset;
     translating: boolean;
     fetchingFlow: boolean;
-    nodeDragging: boolean;
     ghostNode: RenderNode;
+    dragActive: boolean;
+    dragStartTime: number;
+    dragDownPosition: FlowPosition;
+    dragNodeUUID: string;
     dragGroup: boolean;
     dragSelection: DragSelection;
     debug?: DebugState;
 }
+
+export const EMPTY_DRAG_STATE: any = {
+    dragStartTime: 0,
+    dragDownPosition: null,
+    dragActive: false,
+    dragNodeUUID: null,
+    dragGroup: false,
+    dragSelection: null
+};
 
 // Initial state
 export const initialState: EditorState = {
     translating: false,
     language: null,
     fetchingFlow: false,
-    nodeDragging: false,
-    ghostNode: null,
-    dragSelection: null,
+    dragStartTime: 0,
+    dragDownPosition: null,
+    dragActive: false,
+    dragNodeUUID: null,
     dragGroup: false,
+    dragSelection: null,
+    ghostNode: null,
     debug: null
 };
 

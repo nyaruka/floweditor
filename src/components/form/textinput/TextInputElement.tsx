@@ -110,6 +110,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };
 
+        console.log(this.state.options);
+
         bindCallbacks(this, {
             include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
         });

@@ -11,7 +11,7 @@ import Sticky from '~/components/sticky/Sticky';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { getActivity } from '~/external';
-import { FlowDefinition } from '~/flowTypes';
+import { FlowDefinition, FlowPosition } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import Plumber from '~/services/Plumber';
 import { DragSelection, EditorState } from '~/store/editor';
@@ -31,6 +31,8 @@ import {
     onConnectionDrag,
     OnOpenNodeEditor,
     onOpenNodeEditor,
+    OnUpdatePosition,
+    onUpdatePosition,
     resetNodeEditingState,
     UpdateConnection,
     updateConnection,
@@ -61,6 +63,7 @@ export interface FlowStoreProps {
     ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
+    onUpdatePosition: OnUpdatePosition;
     resetNodeEditingState: NoParamsAC;
     onConnectionDrag: OnConnectionDrag;
     updateSticky: UpdateSticky;
@@ -257,22 +260,41 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         return Object.keys(this.props.nodes).map(uuid => {
             const renderNode = this.props.nodes[uuid];
             return (
-                <ConnectedNode
+                <div
                     key={uuid}
-                    data-spec={nodeSpecId}
-                    nodeUUID={renderNode.node.uuid}
-                    Activity={this.Activity}
-                    plumberRepaintForDuration={this.Plumber.repaintForDuration}
-                    plumberDraggable={this.Plumber.draggable}
-                    plumberMakeTarget={this.Plumber.makeTarget}
-                    plumberRemove={this.Plumber.remove}
-                    plumberRecalculate={this.Plumber.recalculate}
-                    plumberMakeSource={this.Plumber.makeSource}
-                    plumberConnectExit={this.Plumber.connectExit}
-                    plumberSetDragSelection={this.Plumber.setDragSelection}
-                    plumberClearDragSelection={this.Plumber.clearDragSelection}
-                    plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
-                />
+                    /*{...createClickHandler(() => {
+                        console.log('do it');
+                    })}*/
+
+                    onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                        // this.props.mergeEditorState({});
+                        this.onDragNodeStart(renderNode, {
+                            left:
+                                event.pageX -
+                                this.containerOffset.left -
+                                renderNode.ui.position.left,
+                            top: event.pageY - this.containerOffset.top - renderNode.ui.position.top
+                        });
+                    }}
+                    onMouseUp={() => this.onDragNodeStop(renderNode.node.uuid)}
+                >
+                    <ConnectedNode
+                        data-spec={nodeSpecId}
+                        nodeUUID={renderNode.node.uuid}
+                        Activity={this.Activity}
+                        plumberRepaintForDuration={this.Plumber.repaintForDuration}
+                        plumberDraggable={this.Plumber.draggable}
+                        plumberMakeTarget={this.Plumber.makeTarget}
+                        plumberRemove={this.Plumber.remove}
+                        plumberRecalculate={this.Plumber.recalculate}
+                        plumberMakeSource={this.Plumber.makeSource}
+                        plumberConnectExit={this.Plumber.connectExit}
+                        plumberUpdateClass={this.Plumber.updateClass}
+                        plumberSetDragSelection={this.Plumber.setDragSelection}
+                        plumberClearDragSelection={this.Plumber.clearDragSelection}
+                        plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
+                    />
+                </div>
             );
         });
     }
@@ -312,6 +334,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 plumberClearDragSelection={this.Plumber.clearDragSelection}
                 plumberSetDragSelection={this.Plumber.setDragSelection}
                 plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
+                plumberUpdateClass={this.Plumber.updateClass}
             />
         ) : null;
     }
@@ -383,6 +406,20 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 }
             });
         }
+
+        if (this.props.editorState.dragActive) {
+            console.log('dragging..');
+            this.props.onUpdatePosition(this.props.editorState.dragNodeUUID, {
+                left:
+                    event.clientX -
+                    this.containerOffset.left -
+                    this.props.editorState.dragDownPosition.left,
+                top:
+                    event.clientY -
+                    this.containerOffset.top -
+                    this.props.editorState.dragDownPosition.top
+            });
+        }
     }
 
     public onMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
@@ -397,9 +434,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 }
             });
 
-            if (this.props.editorState.dragSelection.selected) {
-                this.Plumber.setDragSelection(this.props.editorState.dragSelection.selected);
-            }
+            // if (this.props.editorState.dragSelection.selected) {
+            // this.Plumber.setDragSelection(this.props.editorState.dragSelection.selected);
+            // }
         }
     }
 
@@ -414,6 +451,38 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             );
         }
         return null;
+    }
+
+    private onDragNodeStart(renderNode: RenderNode, position: FlowPosition): void {
+        const selection = this.props.editorState.dragSelection || {};
+        let selected = selection.selected || {};
+        if (selected) {
+            selected[renderNode.node.uuid] = renderNode.ui.position;
+        } else {
+            selected = { [renderNode.node.uuid]: renderNode.ui.position };
+        }
+
+        this.props.mergeEditorState({
+            dragNodeUUID: renderNode.node.uuid,
+            dragDownPosition: position,
+            dragActive: true,
+            dragSelection: {
+                selected
+            }
+        });
+    }
+
+    private onDragNodeDrag(e: React.MouseEvent<HTMLDivElement>): void {}
+
+    private onDragNodeStop(uuid: string): void {
+        console.log('stopping:', uuid);
+        // this.setState({ thisNodeDragging: false });
+        this.props.mergeEditorState({
+            dragNodeUUID: null,
+            dragDownPosition: null,
+            dragSelection: null,
+            dragActive: false
+        });
     }
 
     public render(): JSX.Element {
@@ -465,6 +534,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             resetNodeEditingState,
             onConnectionDrag,
             onOpenNodeEditor,
+            onUpdatePosition,
             updateConnection,
             updateSticky
         },
