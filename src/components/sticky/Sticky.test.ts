@@ -1,8 +1,7 @@
+import { Sticky, StickyProps } from '~/components/sticky/Sticky';
 import { FlowDefinition, StickyNote } from '~/flowTypes';
 import { composeComponentTestUtils, composeDuxState, setMock } from '~/testUtils';
 import { set } from '~/utils';
-
-import { Sticky, StickyProps } from '~/components/sticky/Sticky';
 
 jest.useFakeTimers();
 
@@ -20,9 +19,6 @@ const baseProps: StickyProps = {
     uuid: 'stickyA',
     sticky,
     definition,
-    plumberClearDragSelection: jest.fn(),
-    plumberRemove: jest.fn(),
-    plumberDraggable: jest.fn(),
     updateSticky: jest.fn(),
     onResetDragSelection: jest.fn()
 };
@@ -147,18 +143,6 @@ describe(Sticky.name, () => {
         });
     });
 
-    describe('mounting', () => {
-        it('should deregister from plumber on unmount', () => {
-            const { wrapper, props } = setup(true, {
-                plumberRemove: setMock()
-            });
-
-            wrapper.unmount();
-
-            expect(props.plumberRemove).toHaveBeenCalledTimes(1);
-        });
-    });
-
     describe('dragging', () => {
         it('should reset drag select on drag start', () => {
             const { props, instance } = setup(true, {
@@ -169,7 +153,6 @@ describe(Sticky.name, () => {
             // start dragging
             instance.onDragStart({});
 
-            expect(props.plumberClearDragSelection).toHaveBeenCalledTimes(1);
             expect(props.onResetDragSelection).toHaveBeenCalledTimes(1);
         });
 

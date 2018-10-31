@@ -213,9 +213,12 @@ describe('Flow Manipulation', () => {
             store.dispatch(onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 }));
             expect(store).toHavePayload(Constants.UPDATE_EDITOR_STATE, {
                 editorState: {
-                    dragSelection: {
-                        selected: null
-                    }
+                    dragSelection: null,
+                    dragStartTime: 0,
+                    dragDownPosition: null,
+                    dragActive: false,
+                    dragNodeUUID: null,
+                    dragGroup: false
                 }
             });
         });
@@ -231,9 +234,12 @@ describe('Flow Manipulation', () => {
             store.dispatch(onResetDragSelection());
             expect(store).toHavePayload(Constants.UPDATE_EDITOR_STATE, {
                 editorState: {
-                    dragSelection: {
-                        selected: null
-                    }
+                    dragSelection: null,
+                    dragStartTime: 0,
+                    dragDownPosition: null,
+                    dragActive: false,
+                    dragNodeUUID: null,
+                    dragGroup: false
                 }
             });
         });

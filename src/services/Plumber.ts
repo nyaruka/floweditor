@@ -63,11 +63,11 @@ export default class Plumber {
             Connector: [
                 'Flowchart',
                 {
-                    stub: 20,
+                    stub: 16,
                     midpoint: 0.25,
                     alwaysRespectStubs: true,
                     gap: [0, 0],
-                    cornerRadius: 10
+                    cornerRadius: 6
                 }
             ],
             ConnectionOverlays: [
@@ -86,7 +86,6 @@ export default class Plumber {
         });
 
         this.debug = this.debug.bind(this);
-        this.draggable = this.draggable.bind(this);
         this.setSourceEnabled = this.setSourceEnabled.bind(this);
         this.makeSource = this.makeSource.bind(this);
         this.makeTarget = this.makeTarget.bind(this);
@@ -113,39 +112,6 @@ export default class Plumber {
 
     public debug(): any {
         return this.jsPlumb;
-    }
-
-    public draggable(
-        uuid: string,
-        start: Function = null,
-        drag: Function = null,
-        stop: Function = null,
-        beforeDrag: Function = null
-    ): void {
-        const handlers: any = {};
-
-        if (start) {
-            handlers.start = start;
-        }
-
-        if (drag) {
-            handlers.drag = drag;
-        }
-
-        if (stop) {
-            handlers.stop = stop;
-        }
-
-        if (beforeDrag) {
-            handlers.canDrag = () => beforeDrag();
-        }
-
-        this.jsPlumb.draggable(uuid, {
-            containment: false,
-            consumeFilteredEvents: false,
-            consumeStartEvent: false,
-            ...handlers
-        });
     }
 
     public setSourceEnabled(uuid: string, enabled: boolean): void {
@@ -303,7 +269,6 @@ export default class Plumber {
     }
 
     public repaint(uuid?: string): void {
-        console.log('repaint');
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
@@ -323,16 +288,15 @@ export default class Plumber {
     }
 
     public recalculate(uuid?: string): void {
-        console.log('recalc', uuid);
-        window.setTimeout(() => {
-            this.jsPlumb.revalidate(uuid);
-            if (uuid) {
-                this.jsPlumb.recalculateOffsets(uuid);
-            } else {
-                this.jsPlumb.recalculateOffsets();
-            }
-            this.jsPlumb.repaint(uuid);
-        }, 0);
+        // window.setTimeout(() => {
+        this.jsPlumb.revalidate(uuid);
+        /*if (uuid) {
+            this.jsPlumb.recalculateOffsets(uuid);
+        } else {
+            this.jsPlumb.recalculateOffsets();
+        }
+        this.jsPlumb.repaint(uuid);*/
+        // }, 0);
     }
 
     public reset(): void {

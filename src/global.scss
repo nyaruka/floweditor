@@ -196,10 +196,12 @@ body {
             }
         }
 
-        &.translating path {
-            stroke: $translation_connector;
-            &.jtk-arrow {
-                fill: $translation_connector;
+        &.translating {
+            path {
+                stroke: $translation_connector;
+                &.jtk-arrow {
+                    fill: $translation_connector;
+                }
             }
         }
     }

@@ -110,9 +110,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
-        event.preventDefault();
-        event.stopPropagation();
-
         if (this.props.exit.destination_node_uuid && !this.props.translating) {
             this.setState(
                 {
@@ -130,9 +127,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     private onDisconnect(event: React.MouseEvent<HTMLDivElement>): void {
-        event.stopPropagation();
-        event.preventDefault();
-
         if (this.timeout) {
             window.clearTimeout(this.timeout);
         }
@@ -146,8 +140,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
     private connect(): void {
         const classes: string[] = [];
-
-        console.log('Reconnecting', this.props.exit.uuid);
 
         /* if (this.props.translating) {
             classes.push('translating');

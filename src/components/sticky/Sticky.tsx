@@ -22,15 +22,6 @@ export const STICKY_SPEC_ID: string = 'sticky-container';
 export interface StickyPassedProps {
     uuid: string;
     sticky: StickyNote;
-    plumberClearDragSelection: () => void;
-    plumberRemove: (uuid: string) => void;
-    plumberDraggable: (
-        uuid: string,
-        start: DragFunction,
-        drag: DragFunction,
-        stop: DragFunction,
-        beforeDrag?: () => void
-    ) => void;
 }
 
 export interface StickyStoreProps {
@@ -84,22 +75,9 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         return (this.ele = ref);
     }
 
-    public componentDidMount(): void {
-        /* istanbul ignore next */
-        this.props.plumberDraggable(
-            this.props.uuid,
-            (event: DragEvent) => this.onDragStart(event),
-            (event: DragEvent) => this.onDrag(event),
-            (event: DragEvent) => this.onDragStop(event),
-            () => {
-                return true;
-            }
-        );
-    }
+    public componentDidMount(): void {}
 
     public componentWillUnmount(): void {
-        this.props.plumberRemove(this.props.uuid);
-
         if (this.showConfirmation) {
             window.clearTimeout(this.showConfirmation);
         }
@@ -110,7 +88,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     public onDragStart(event: DragEvent): void {
-        this.props.plumberClearDragSelection();
         this.props.onResetDragSelection();
     }
 

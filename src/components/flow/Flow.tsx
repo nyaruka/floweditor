@@ -29,10 +29,10 @@ import {
     NoParamsAC,
     OnConnectionDrag,
     onConnectionDrag,
+    OnDragSelection,
+    onDragSelection,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    OnUpdatePosition,
-    onUpdatePosition,
     resetNodeEditingState,
     UpdateConnection,
     updateConnection,
@@ -63,7 +63,7 @@ export interface FlowStoreProps {
     ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
-    onUpdatePosition: OnUpdatePosition;
+    onDragSelection: OnDragSelection;
     resetNodeEditingState: NoParamsAC;
     onConnectionDrag: OnConnectionDrag;
     updateSticky: UpdateSticky;
@@ -73,6 +73,7 @@ export interface Translations {
     [uuid: string]: any;
 }
 
+export const DRAG_THRESHOLD = 8;
 export const REPAINT_TIMEOUT = 500;
 export const GHOST_POSITION_INITIAL = { left: -1000, top: -1000 };
 
@@ -276,23 +277,22 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                             top: event.pageY - this.containerOffset.top - renderNode.ui.position.top
                         });
                     }}
-                    onMouseUp={() => this.onDragNodeStop(renderNode.node.uuid)}
+                    onMouseUp={(event: React.MouseEvent<HTMLDivElement>) => {
+                        this.onDragNodeStop(renderNode.node.uuid);
+                    }}
                 >
                     <ConnectedNode
+                        key={renderNode.node.uuid}
                         data-spec={nodeSpecId}
                         nodeUUID={renderNode.node.uuid}
                         Activity={this.Activity}
                         plumberRepaintForDuration={this.Plumber.repaintForDuration}
-                        plumberDraggable={this.Plumber.draggable}
                         plumberMakeTarget={this.Plumber.makeTarget}
                         plumberRemove={this.Plumber.remove}
                         plumberRecalculate={this.Plumber.recalculate}
                         plumberMakeSource={this.Plumber.makeSource}
                         plumberConnectExit={this.Plumber.connectExit}
                         plumberUpdateClass={this.Plumber.updateClass}
-                        plumberSetDragSelection={this.Plumber.setDragSelection}
-                        plumberClearDragSelection={this.Plumber.clearDragSelection}
-                        plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
                     />
                 </div>
             );
@@ -302,16 +302,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private getStickies(): JSX.Element[] {
         const stickyMap = this.props.definition._ui.stickies || {};
         return Object.keys(stickyMap).map(uuid => {
-            return (
-                <Sticky
-                    key={uuid}
-                    uuid={uuid}
-                    sticky={stickyMap[uuid]}
-                    plumberClearDragSelection={this.Plumber.clearDragSelection}
-                    plumberDraggable={this.Plumber.draggable}
-                    plumberRemove={this.Plumber.remove}
-                />
-            );
+            return <Sticky key={uuid} uuid={uuid} sticky={stickyMap[uuid]} />;
         });
     }
 
@@ -325,15 +316,11 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 nodeUUID={this.props.editorState.ghostNode.node.uuid}
                 Activity={this.Activity}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
-                plumberDraggable={this.Plumber.draggable}
                 plumberMakeTarget={this.Plumber.makeTarget}
                 plumberRemove={this.Plumber.remove}
                 plumberRecalculate={this.Plumber.recalculate}
                 plumberMakeSource={this.Plumber.makeSource}
                 plumberConnectExit={this.Plumber.connectExit}
-                plumberClearDragSelection={this.Plumber.clearDragSelection}
-                plumberSetDragSelection={this.Plumber.setDragSelection}
-                plumberRemoveFromDragSelection={this.Plumber.removeFromDragSelection}
                 plumberUpdateClass={this.Plumber.updateClass}
             />
         ) : null;
@@ -341,7 +328,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private getSimulator(): JSX.Element {
         return renderIf(this.context.endpoints && this.context.endpoints.simulateStart)(
-            <Simulator Activity={this.Activity} plumberDraggable={this.Plumber.draggable} />
+            <Simulator Activity={this.Activity} />
         );
     }
 
@@ -407,23 +394,53 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             });
         }
 
-        if (this.props.editorState.dragActive) {
-            console.log('dragging..');
-            this.props.onUpdatePosition(this.props.editorState.dragNodeUUID, {
-                left:
-                    event.clientX -
-                    this.containerOffset.left -
-                    this.props.editorState.dragDownPosition.left,
-                top:
-                    event.clientY -
-                    this.containerOffset.top -
-                    this.props.editorState.dragDownPosition.top
-            });
+        if (this.props.editorState.dragNodeUUID) {
+            const startPosition = this.props.editorState.dragActive
+                ? this.props.editorState.dragSelection.selected[this.props.editorState.dragNodeUUID]
+                : this.props.nodes[this.props.editorState.dragNodeUUID].ui.position;
+
+            const xd =
+                event.pageX -
+                this.containerOffset.left -
+                this.props.editorState.dragDownPosition.left -
+                startPosition.left;
+
+            const yd =
+                event.pageY -
+                this.containerOffset.top -
+                this.props.editorState.dragDownPosition.top -
+                startPosition.top;
+
+            if (this.props.editorState.dragActive) {
+                this.props.onDragSelection({ left: xd, top: yd });
+            } else {
+                if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
+                    const renderNode = this.props.nodes[this.props.editorState.dragNodeUUID];
+                    const selection = this.props.editorState.dragSelection || {};
+                    let selected = selection.selected || {};
+                    if (!(renderNode.node.uuid in selected)) {
+                        selected = { [renderNode.node.uuid]: renderNode.ui.position };
+                    }
+
+                    this.props.mergeEditorState({
+                        dragActive: true,
+                        dragSelection: {
+                            selected
+                        }
+                    });
+                }
+            }
         }
     }
 
     public onMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
-        if (this.props.editorState.dragSelection) {
+        if (this.props.editorState.dragNodeUUID) {
+            this.props.mergeEditorState({
+                dragNodeUUID: null
+            });
+        }
+
+        if (this.props.editorState.dragSelection && this.props.editorState.dragSelection.startX) {
             this.props.mergeEditorState({
                 dragSelection: {
                     startX: null,
@@ -454,21 +471,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private onDragNodeStart(renderNode: RenderNode, position: FlowPosition): void {
-        const selection = this.props.editorState.dragSelection || {};
-        let selected = selection.selected || {};
-        if (selected) {
-            selected[renderNode.node.uuid] = renderNode.ui.position;
-        } else {
-            selected = { [renderNode.node.uuid]: renderNode.ui.position };
-        }
-
         this.props.mergeEditorState({
             dragNodeUUID: renderNode.node.uuid,
-            dragDownPosition: position,
-            dragActive: true,
-            dragSelection: {
-                selected
-            }
+            dragDownPosition: position
         });
     }
 
@@ -534,7 +539,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             resetNodeEditingState,
             onConnectionDrag,
             onOpenNodeEditor,
-            onUpdatePosition,
+            onDragSelection,
             updateConnection,
             updateSticky
         },

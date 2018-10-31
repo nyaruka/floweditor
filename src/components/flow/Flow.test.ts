@@ -48,7 +48,7 @@ const baseProps: FlowStoreProps = {
     ensureStartNode: jest.fn(),
     updateConnection: jest.fn(),
     onOpenNodeEditor: jest.fn(),
-    onUpdatePosition: jest.fn(),
+    onDragSelection: jest.fn(),
     resetNodeEditingState: jest.fn(),
     onConnectionDrag: jest.fn(),
     updateSticky: jest.fn()
@@ -443,23 +443,6 @@ describe(Flow.name, () => {
                         selected: props.editorState.dragSelection.selected
                     }
                 });
-            });
-
-            it('notify jsplumb of the drag selection if nodes selected', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    editorState: {
-                        updateDragSelection: setMock(),
-                        dragSelection: set(dragSelection)
-                    }
-                });
-                const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
-
-                nodesContainer.simulate('mouseUp');
-
-                expect(instance.Plumber.setDragSelection).toHaveBeenCalledTimes(1);
-                expect(instance.Plumber.setDragSelection).toHaveBeenCalledWith(
-                    props.editorState.dragSelection.selected
-                );
             });
 
             it('should not call updateDragSelection, notify jsplumb of selection if no selection exists', () => {

@@ -80,13 +80,12 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
-        evt.stopPropagation();
+        // evt.stopPropagation();
         this.props.removeAction(this.props.renderNode.node.uuid, this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
-        evt.stopPropagation();
-
+        // evt.stopPropagation();
         this.props.moveActionUp(this.props.renderNode.node.uuid, this.props.action);
     }
 
@@ -174,6 +173,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                         showRemoval={showRemoval}
                         showMove={showMove}
                         onMoveUp={this.onMoveUp}
+                        shouldCancelClick={() => this.props.dragging}
                     />
                     <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
                         {this.props.render(actionToInject)}

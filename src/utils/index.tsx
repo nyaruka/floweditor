@@ -172,16 +172,16 @@ export interface ClickHandler {
  * @param onClick
  */
 export const createClickHandler = (
-    onClick: (event: React.MouseEvent<HTMLDivElement>) => void,
+    onClick: (event: React.MouseEvent<HTMLElement>) => void,
     shouldCancelClick: () => boolean = null
 ): ClickHandler => {
     return {
-        onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => {
+        onMouseDown: (event: React.MouseEvent<HTMLElement>) => {
             this._clicked = true;
         },
-        onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => {
+        onMouseUp: (event: React.MouseEvent<HTMLElement>) => {
             if (this._clicked) {
-                console.log('clicked.. ', shouldCancelClick());
+                // console.log('clicked.. ', shouldCancelClick());
                 if (!shouldCancelClick || !shouldCancelClick()) {
                     onClick(event);
                 }

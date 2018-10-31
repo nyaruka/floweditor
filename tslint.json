@@ -7,6 +7,7 @@
         "tslint-config-prettier"
     ],
     "rules": {
+        "forin": false,
         "no-console": false,
         "no-unused-variable": true,
         "no-var-keyword": true,

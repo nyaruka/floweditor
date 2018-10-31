@@ -1,9 +1,8 @@
-@import "../variables.scss";
+@import '../variables.scss';
 
 $background_offset: ($grid_size / 2) + ($node_padding) + px;
 
 .editor {
-
     padding-top: 20px;
     padding-left: 20px;
     position: relative;
@@ -18,26 +17,55 @@ $background_offset: ($grid_size / 2) + ($node_padding) + px;
     background-color: #f9f9f9;
     background-position: $background_offset $background_offset;
     $color_1: rgba(61, 177, 255, 0.15);
-    background-image: linear-gradient(0deg, transparent 24%, $color_1 25%, $color_1 26%, transparent 27%, transparent 74%, $color_1 75%, $color_1 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, $color_1 25%, $color_1 26%, transparent 27%, transparent 74%, $color_1 75%, $color_1 76%, transparent 77%, transparent);
+    background-image: linear-gradient(
+            0deg,
+            transparent 24%,
+            $color_1 25%,
+            $color_1 26%,
+            transparent 27%,
+            transparent 74%,
+            $color_1 75%,
+            $color_1 76%,
+            transparent 77%,
+            transparent
+        ),
+        linear-gradient(
+            90deg,
+            transparent 24%,
+            $color_1 25%,
+            $color_1 26%,
+            transparent 27%,
+            transparent 74%,
+            $color_1 75%,
+            $color_1 76%,
+            transparent 77%,
+            transparent
+        );
     background-size: ($grid_size * 2) + px ($grid_size * 2) + px;
 }
 
 .translating {
     .editor {
-        $color_1: rgba(0, 0, 0, .02);
-        $color_2: rgba(0, 0, 0, .01);
-        background: repeating-linear-gradient(-60deg, $color_1, $color_1 3px, $color_2 3px, $color_2 6px); // background: rgba(200, 200, 200, .3);
+        $color_1: rgba(0, 0, 0, 0.02);
+        $color_2: rgba(0, 0, 0, 0.01);
+        background: repeating-linear-gradient(
+            -60deg,
+            $color_1,
+            $color_1 3px,
+            $color_2 3px,
+            $color_2 6px
+        ); // background: rgba(200, 200, 200, .3);
     }
     svg path {
         stroke: $translation_connector !important;
-        fill: $translation_connector !important;
+        // fill: $translation_connector !important;
     }
 }
 
 .footer {
     bottom: 0px;
     position: fixed;
-    width: 100%; 
+    width: 100%;
     height: 52px;
     z-index: $z_footer;
     background: #fff;
@@ -46,6 +74,6 @@ $background_offset: ($grid_size / 2) + ($node_padding) + px;
     .download-button {
         position: absolute;
         right: 10px;
-        top: 10px
+        top: 10px;
     }
 }

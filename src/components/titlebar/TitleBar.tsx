@@ -9,6 +9,7 @@ export interface TitleBarProps {
     showRemoval?: boolean;
     showMove?: boolean;
     onMoveUp?(event: React.MouseEvent<HTMLDivElement>): any;
+    shouldCancelClick?: () => boolean;
 }
 
 interface TitleBarState {
@@ -48,11 +49,6 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
     }
 
     public onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
         this.setState({
             confirmingRemoval: true
         });
@@ -73,7 +69,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             moveArrow = (
                 <div
                     className={styles.upButton}
-                    {...createClickHandler(this.props.onMoveUp)}
+                    {...createClickHandler(this.props.onMoveUp, this.props.shouldCancelClick)}
                     data-spec={moveIconSpecId}
                 >
                     <span className="fe-arrow-up" />
@@ -93,7 +89,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             remove = (
                 <div
                     className={styles.removeButton}
-                    {...createClickHandler(this.onConfirmRemoval)}
+                    {...createClickHandler(this.onConfirmRemoval, this.props.shouldCancelClick)}
                     data-spec={removeIconSpecId}
                 >
                     <span className="fe-x" />
@@ -112,7 +108,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                 <div className={styles.removeConfirm} data-spec={confirmationSpecId}>
                     <div
                         className={styles.removeButton}
-                        {...createClickHandler(this.props.onRemoval)}
+                        {...createClickHandler(this.props.onRemoval, this.props.shouldCancelClick)}
                         data-spec={confirmRemovalSpecId}
                     >
                         <span className="fe-x" />

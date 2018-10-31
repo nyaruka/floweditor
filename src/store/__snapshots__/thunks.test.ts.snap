@@ -130,12 +130,15 @@ Array [
     "payload": Object {
       "editorState": Object {
         "debug": null,
+        "dragActive": false,
+        "dragDownPosition": null,
         "dragGroup": false,
+        "dragNodeUUID": null,
         "dragSelection": null,
+        "dragStartTime": 0,
         "fetchingFlow": false,
         "ghostNode": null,
         "language": null,
-        "nodeDragging": false,
         "translating": false,
       },
     },
@@ -150,12 +153,15 @@ Array [
     "payload": Object {
       "editorState": Object {
         "debug": null,
+        "dragActive": false,
+        "dragDownPosition": null,
         "dragGroup": false,
+        "dragNodeUUID": null,
         "dragSelection": null,
+        "dragStartTime": 0,
         "fetchingFlow": false,
         "ghostNode": null,
         "language": null,
-        "nodeDragging": false,
         "translating": false,
       },
     },
@@ -796,8 +802,12 @@ Array [
     "payload": Object {
       "editorState": Object {
         "debug": null,
+        "dragActive": false,
+        "dragDownPosition": null,
         "dragGroup": false,
+        "dragNodeUUID": null,
         "dragSelection": null,
+        "dragStartTime": 0,
         "fetchingFlow": false,
         "ghostNode": Object {
           "ghost": true,
@@ -831,7 +841,6 @@ Array [
           },
         },
         "language": null,
-        "nodeDragging": false,
         "translating": false,
       },
     },

@@ -69,7 +69,7 @@ export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<Render
 
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
 
-export type OnUpdatePosition = (nodeUUID: string, position: FlowPosition) => Thunk<RenderNodeMap>;
+export type OnDragSelection = (delta: FlowPosition) => Thunk<RenderNodeMap>;
 
 export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
@@ -643,14 +643,27 @@ export const onResetDragSelection = () => (dispatch: DispatchWithState, getState
     }
 };
 
-export const onUpdatePosition = (nodeUUID: string, position: FlowPosition) => (
+export const onDragSelection = (delta: FlowPosition) => (
     dispatch: DispatchWithState,
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes }
+        flowContext: { nodes },
+        editorState: { dragSelection }
     } = getState();
-    const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top, false);
+
+    let updated = nodes;
+    for (const uuid in dragSelection.selected) {
+        const startPosition = dragSelection.selected[uuid];
+        updated = mutators.updatePosition(
+            updated,
+            uuid,
+            startPosition.left + delta.left,
+            startPosition.top + delta.top,
+            false
+        );
+    }
+
     dispatch(updateNodes(updated));
     return updated;
 };
