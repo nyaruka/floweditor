@@ -69,8 +69,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             target && target.attributes && target.getAttribute('data-advanced') === 'true';
 
         if (!this.props.thisNodeDragging) {
-            event.preventDefault();
-            event.stopPropagation();
+            // event.preventDefault();
+            // event.stopPropagation();
             this.props.onOpenNodeEditor({
                 originalNode: this.props.renderNode,
                 originalAction: this.props.action,

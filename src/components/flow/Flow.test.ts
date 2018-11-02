@@ -1,12 +1,9 @@
 import {
-    dragSelectSpecId,
     Flow,
     FlowStoreProps,
     getDragStyle,
     ghostNodeSpecId,
     isDraggingBack,
-    nodesContainerSpecId,
-    nodeSpecId,
     REPAINT_TIMEOUT
 } from '~/components/flow/Flow';
 import { getDraggedFrom } from '~/components/helpers';
@@ -121,31 +118,6 @@ describe(Flow.name, () => {
     });
 
     describe('render', () => {
-        it('should render self, children with base props', () => {
-            const { wrapper, instance, props } = setup();
-            const nodeList = getSpecWrapper(wrapper, nodeSpecId);
-            const nodeContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
-
-            expect(nodeContainer.hasClass('nodeList')).toBeTruthy();
-            expect(nodeContainer.props()).toEqual(
-                expect.objectContaining({
-                    onMouseDown: instance.onMouseDown,
-                    onMouseMove: instance.onMouseMove,
-                    onMouseUp: instance.onMouseUp
-                })
-            );
-            expect(nodeList.length).toBe(props.definition.nodes.length);
-            nodeList.forEach((node: any, idx: number) => {
-                const renderMapKeys = Object.keys(props.nodes);
-                const nodeUUID = renderMapKeys[idx];
-                const renderNode = props.nodes[nodeUUID];
-
-                expect(node.key()).toBe(nodeUUID);
-                expect(node.props()).toMatchSnapshot();
-            });
-            expect(wrapper).toMatchSnapshot();
-        });
-
         it('should render NodeEditor', () => {
             const { wrapper } = setup(true, {
                 nodeEditorSettings: { $set: { originalNode: null } }
@@ -176,17 +148,6 @@ describe(Flow.name, () => {
 
             expect(ghost.key()).toBe(props.editorState.ghostNode.node.uuid);
             expect(ghost).toMatchSnapshot();
-        });
-
-        it('should render drag selection box', () => {
-            const { wrapper, props } = setup(true, {
-                editorState: { dragSelection: set(dragSelection) }
-            });
-            const drag = getSpecWrapper(wrapper, dragSelectSpecId);
-
-            expect(drag.hasClass('dragSelection')).toBeTruthy();
-            expect(drag.prop('style')).toEqual(getDragStyle(props.editorState.dragSelection));
-            expect(wrapper).toMatchSnapshot();
         });
     });
 
@@ -338,124 +299,6 @@ describe(Flow.name, () => {
                 expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(
                     !props.editorState.translating
                 );
-            });
-        });
-
-        describe('onMouseDown', () => {
-            it('should call updateDragSelection prop', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    updateDragSelection: setMock(),
-                    mergeEditorState: setMock()
-                });
-
-                const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
-
-                const mockMouseDownEvent = {
-                    pageX: 138,
-                    pageY: 307,
-                    target: { id: nodesContainer.props().id }
-                };
-
-                nodesContainer.simulate('mouseDown', mockMouseDownEvent);
-
-                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
-                expect(props.mergeEditorState).toHaveBeenCalledWith({
-                    dragSelection: {
-                        startX: mockMouseDownEvent.pageX,
-                        startY: mockMouseDownEvent.pageY,
-                        currentX: mockMouseDownEvent.pageX,
-                        currentY: mockMouseDownEvent.pageY,
-                        selected: null
-                    }
-                });
-            });
-        });
-
-        describe('onMouseMove', () => {
-            it('should call updateDragSelection prop if user is creating a drag selection', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    editorState: {
-                        updateDragSelection: setMock(),
-                        dragSelection: set(dragSelection)
-                    },
-                    mergeEditorState: setMock()
-                });
-                const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
-
-                const mockMouseMoveEvent = {
-                    pageX: 519,
-                    pageY: 372,
-                    target: { id: nodesContainer.props().id }
-                };
-
-                instance.containerOffset = {
-                    left: 20,
-                    top: 70
-                };
-
-                nodesContainer.simulate('mouseMove', mockMouseMoveEvent);
-
-                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
-                expect(props.mergeEditorState).toHaveBeenCalledWith({
-                    dragSelection: {
-                        startX: props.editorState.dragSelection.startX,
-                        startY: props.editorState.dragSelection.startY,
-                        currentX: mockMouseMoveEvent.pageX - instance.containerOffset.left,
-                        currentY: mockMouseMoveEvent.pageY - instance.containerOffset.top,
-                        selected: {}
-                    }
-                });
-            });
-
-            it('should not call updateDragSelection prop if user is not creating a drag selection', () => {
-                const { wrapper, props } = setup(true, {
-                    updateDragSelection: setMock(),
-                    mergeEditorState: setMock()
-                });
-                const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
-
-                nodesContainer.simulate('mouseMove');
-
-                expect(props.mergeEditorState).not.toHaveBeenCalled();
-            });
-        });
-
-        describe('onMouseUp', () => {
-            it('should call updateDragSelection if user is creating a drag selection', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    updateDragSelection: setMock(),
-                    editorState: {
-                        dragSelection: set(dragSelection)
-                    },
-                    mergeEditorState: setMock()
-                });
-                const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
-
-                nodesContainer.simulate('mouseUp');
-
-                expect(props.mergeEditorState).toHaveBeenCalledTimes(1);
-                expect(props.mergeEditorState).toHaveBeenCalledWith({
-                    dragSelection: {
-                        startX: null,
-                        startY: null,
-                        currentX: null,
-                        currentY: null,
-                        selected: props.editorState.dragSelection.selected
-                    }
-                });
-            });
-
-            it('should not call updateDragSelection, notify jsplumb of selection if no selection exists', () => {
-                const { wrapper, instance, props } = setup(true, {
-                    updateDragSelection: setMock(),
-                    mergeEditorState: setMock()
-                });
-                const nodesContainer = getSpecWrapper(wrapper, nodesContainerSpecId);
-
-                nodesContainer.simulate('mouseUp');
-
-                expect(props.mergeEditorState).not.toHaveBeenCalled();
-                expect(instance.Plumber.setDragSelection).not.toHaveBeenCalled();
             });
         });
     });

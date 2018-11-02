@@ -9,11 +9,14 @@ export interface DragSelection {
     startY?: number;
     currentX?: number;
     currentY?: number;
-    selected?: { [uuid: string]: FlowPosition };
 }
 
 export interface DebugState {
     showUUIDs: boolean;
+}
+
+export interface CanvasPositions {
+    [uuid: string]: FlowPosition;
 }
 
 export interface EditorState {
@@ -28,6 +31,8 @@ export interface EditorState {
     dragGroup: boolean;
     dragSelection: DragSelection;
     debug?: DebugState;
+
+    canvasSelections: CanvasPositions;
 }
 
 export const EMPTY_DRAG_STATE: any = {
@@ -51,7 +56,8 @@ export const initialState: EditorState = {
     dragGroup: false,
     dragSelection: null,
     ghostNode: null,
-    debug: null
+    debug: null,
+    canvasSelections: {}
 };
 
 // Action Creator

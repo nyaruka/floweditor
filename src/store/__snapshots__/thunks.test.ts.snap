@@ -129,6 +129,7 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "canvasSelections": Object {},
         "debug": null,
         "dragActive": false,
         "dragDownPosition": null,
@@ -152,6 +153,7 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "canvasSelections": Object {},
         "debug": null,
         "dragActive": false,
         "dragDownPosition": null,
@@ -801,6 +803,7 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "canvasSelections": Object {},
         "debug": null,
         "dragActive": false,
         "dragDownPosition": null,

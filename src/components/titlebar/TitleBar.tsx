@@ -108,7 +108,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                 <div className={styles.removeConfirm} data-spec={confirmationSpecId}>
                     <div
                         className={styles.removeButton}
-                        {...createClickHandler(this.props.onRemoval, this.props.shouldCancelClick)}
+                        {...createClickHandler(this.props.onRemoval)}
                         data-spec={confirmRemovalSpecId}
                     >
                         <span className="fe-x" />

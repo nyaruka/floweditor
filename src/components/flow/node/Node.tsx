@@ -14,7 +14,7 @@ import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
-import { DebugState, DragSelection } from '~/store/editor';
+import { CanvasPositions, DebugState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
 import {
@@ -53,7 +53,7 @@ export interface NodePassedProps {
 export interface NodeStoreProps {
     translating: boolean;
     dragActive: boolean;
-    dragSelection: DragSelection;
+    canvasSelections: CanvasPositions;
     debug: DebugState;
     renderNode: RenderNode;
     definition: FlowDefinition;
@@ -131,23 +131,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     public componentDidMount(): void {
-        /*this.props.plumberDraggable(
-            this.props.renderNode.node.uuid,
-            (event: DragEvent) => {
-                this.onDragStart(event);
-                this.props.mergeEditorState({ nodeDragging: true });
-            },
-            (event: DragEvent) => this.onDrag(event),
-            (event: DragEvent) => this.onDragStop(event),
-            () => {
-                if (!this.props.translating) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        );*/
-
         // Make ourselves a target
         this.props.plumberMakeTarget(this.props.renderNode.node.uuid);
 
@@ -170,7 +153,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 }
             });
         } else {
-            // this.updateDimensions();
+            this.updateDimensions();
         }
     }
 
@@ -197,7 +180,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     private updateDimensions(): void {
         if (this.ele) {
             if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.updateDimensions(this.props.renderNode.node, {
+                this.props.updateDimensions(this.props.renderNode.node.uuid, {
                     width: this.ele.clientWidth,
                     height: this.ele.clientHeight
                 });
@@ -249,9 +232,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private isSelected(): boolean {
         return (
-            this.props.dragSelection &&
-            this.props.dragSelection.selected &&
-            this.props.dragSelection.selected[this.props.renderNode.node.uuid] != null
+            this.props.canvasSelections && this.props.canvasSelections[this.props.nodeUUID] != null
         );
     }
 
@@ -408,16 +389,10 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 ? styles.unnamed_exit
                 : '';
 
-        const style = {
-            left: this.props.renderNode.ui.position.left,
-            top: this.props.renderNode.ui.position.top
-        };
-
         const uuid: JSX.Element = this.renderDebug();
 
         return (
             <div
-                style={style}
                 id={this.props.renderNode.node.uuid}
                 className={`${styles.node_container} ${classes}`}
                 ref={this.eleRef}
@@ -451,7 +426,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 const mapStateToProps = (
     {
         flowContext: { nodes, definition },
-        editorState: { translating, debug, ghostNode, dragSelection, dragActive }
+        editorState: { translating, debug, ghostNode, canvasSelections, dragActive }
     }: AppState,
     props: NodePassedProps
 ) => {
@@ -475,7 +450,7 @@ const mapStateToProps = (
         translating,
         debug,
         dragActive,
-        dragSelection,
+        canvasSelections,
         definition,
         renderNode
     };

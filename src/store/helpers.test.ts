@@ -57,7 +57,7 @@ describe('helpers', () => {
 
         it('should identify collisions', () => {
             const collides = (box: FlowPosition, collisions: string[]) => {
-                expect(Object.keys(getCollisions(nodes, box))).toEqual(collisions);
+                expect(Object.keys(getCollisions(nodes, {}, box))).toEqual(collisions);
             };
 
             collides({ left: 0, top: 0, right: 200, bottom: 150 }, ['node0']);

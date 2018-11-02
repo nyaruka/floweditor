@@ -3,7 +3,7 @@
 .node_container {
     padding: $node_padding + px;
     z-index: $z_nodes;
-    position: absolute;
+    position: relative;
     // transition: top 200ms ease-out;
 
     .uuid {

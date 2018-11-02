@@ -138,8 +138,6 @@ describe(ActionWrapper.name, () => {
                 interactiveDiv.simulate('mouseUp', mockEvent);
 
                 expect(onClickSpy).toHaveBeenCalledTimes(1);
-                expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1);
-                expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
 
                 onClickSpy.mockRestore();
             });

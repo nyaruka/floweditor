@@ -12,6 +12,7 @@ import {
     RouterTypes,
     SetContactField,
     SetRunResult,
+    StickyNote,
     SwitchRouter,
     UIMetaData,
     WaitTypes
@@ -143,6 +144,18 @@ export const getCurrentDefinition = (
     };
 };
 
+export const newPosition = (left: number, top: number): FlowPosition => {
+    return { left, top };
+};
+
+export const addPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {
+    return { left: a.left + b.left, top: a.top + b.top };
+};
+
+export const subtractPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {
+    return { left: a.left - b.left, top: a.top - b.top };
+};
+
 export const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
     const sorted: RenderNode[] = [];
     Object.keys(nodes).forEach((nodeUUID: string) => {
@@ -159,6 +172,7 @@ export const getOrderedNodes = (nodes: RenderNodeMap): RenderNode[] => {
 
 export const getCollisions = (
     nodes: RenderNodeMap,
+    stickies: { [key: string]: StickyNote },
     box: FlowPosition
 ): { [uuid: string]: FlowPosition } => {
     const collisions = {};
@@ -168,6 +182,14 @@ export const getCollisions = (
             collisions[node.node.uuid] = node.ui.position;
         }
     }
+
+    for (const uuid in stickies) {
+        const sticky = stickies[uuid];
+        if (collides(box, sticky.position)) {
+            collisions[uuid] = sticky.position;
+        }
+    }
+
     return collisions;
 };
 

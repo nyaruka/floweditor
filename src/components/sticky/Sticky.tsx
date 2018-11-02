@@ -6,11 +6,14 @@ import { bindActionCreators } from 'redux';
 import * as styles from '~/components/sticky/Sticky.scss';
 import { FlowDefinition, StickyNote } from '~/flowTypes';
 import { DragEvent } from '~/services/Plumber';
+import { CanvasPositions } from '~/store/editor';
 import AppState from '~/store/state';
 import {
     DispatchWithState,
     OnResetDragSelection,
     onResetDragSelection,
+    UpdateDimensions,
+    updateDimensions,
     UpdateSticky,
     updateSticky
 } from '~/store/thunks';
@@ -26,7 +29,9 @@ export interface StickyPassedProps {
 
 export interface StickyStoreProps {
     definition: FlowDefinition;
+    canvasSelections: CanvasPositions;
     updateSticky: UpdateSticky;
+    updateDimensions: UpdateDimensions;
     onResetDragSelection: OnResetDragSelection;
 }
 
@@ -60,7 +65,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     constructor(props: StickyProps & StickyStoreProps) {
         super(props);
         bindCallbacks(this, {
-            include: [/^on/, /^get/]
+            include: [/^on/, /^get/, /^is/]
         });
 
         this.state = {
@@ -71,11 +76,24 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         };
     }
 
+    private isSelected(): boolean {
+        return this.props.canvasSelections && this.props.canvasSelections[this.props.uuid] != null;
+    }
+
     private onRef(ref: HTMLDivElement): HTMLDivElement {
         return (this.ele = ref);
     }
 
-    public componentDidMount(): void {}
+    public componentDidMount(): void {
+        if (this.ele) {
+            if (this.ele.clientWidth && this.ele.clientHeight) {
+                this.props.updateDimensions(this.props.uuid, {
+                    width: this.ele.clientWidth,
+                    height: this.ele.clientHeight
+                });
+            }
+        }
+    }
 
     public componentWillUnmount(): void {
         if (this.showConfirmation) {
@@ -180,6 +198,11 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
             this.props.sticky.color = 'yellow';
         }
 
+        const stickyClasses = [styles.sticky];
+        if (this.isSelected()) {
+            stickyClasses.push(styles.selected);
+        }
+
         containerClasses.push(COLOR_OPTIONS[this.props.sticky.color]);
         const colorChooser = this.getColorChooser();
 
@@ -190,12 +213,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
                 data-spec={STICKY_SPEC_ID}
                 ref={this.onRef}
                 id={this.props.uuid}
-                style={{
-                    left: sticky.position.left,
-                    top: sticky.position.top
-                }}
             >
-                <div className={styles.sticky}>
+                <div className={stickyClasses.join(' ')}>
                     <div className={titleClasses.join(' ')}>
                         <div className={styles.removeButton} onClick={this.onClickRemove}>
                             <span className="fe-x" />
@@ -222,13 +241,17 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { definition } }: AppState) => ({
-    definition
+const mapStateToProps = ({
+    flowContext: { definition },
+    editorState: { canvasSelections }
+}: AppState) => ({
+    definition,
+    canvasSelections
 });
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) => {
-    return bindActionCreators({ updateSticky, onResetDragSelection }, dispatch);
+    return bindActionCreators({ updateSticky, onResetDragSelection, updateDimensions }, dispatch);
 };
 
 export default connect(

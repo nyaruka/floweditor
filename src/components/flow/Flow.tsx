@@ -2,7 +2,8 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as styles from '~/components/flow/Flow.scss';
+import { Canvas } from '~/components/canvas/Canvas';
+import { CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
 import ConnectedNode from '~/components/flow/node/Node';
 import { getDraggedFrom } from '~/components/helpers';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
@@ -73,7 +74,7 @@ export interface Translations {
     [uuid: string]: any;
 }
 
-export const DRAG_THRESHOLD = 8;
+export const DRAG_THRESHOLD = 5;
 export const REPAINT_TIMEOUT = 500;
 export const GHOST_POSITION_INITIAL = { left: -1000, top: -1000 };
 
@@ -129,7 +130,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         }
 
         bindCallbacks(this, {
-            include: [/Ref$/, /^on/, /^is/]
+            include: [/Ref$/, /^on/, /^is/, /^get/]
         });
 
         timeStart('RenderAndPlumb');
@@ -257,30 +258,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         return !this.props.editorState.translating;
     }
 
-    private getNodes(): JSX.Element[] {
+    private getNodes(): CanvasDraggableProps[] {
         return Object.keys(this.props.nodes).map(uuid => {
             const renderNode = this.props.nodes[uuid];
-            return (
-                <div
-                    key={uuid}
-                    /*{...createClickHandler(() => {
-                        console.log('do it');
-                    })}*/
-
-                    onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
-                        // this.props.mergeEditorState({});
-                        this.onDragNodeStart(renderNode, {
-                            left:
-                                event.pageX -
-                                this.containerOffset.left -
-                                renderNode.ui.position.left,
-                            top: event.pageY - this.containerOffset.top - renderNode.ui.position.top
-                        });
-                    }}
-                    onMouseUp={(event: React.MouseEvent<HTMLDivElement>) => {
-                        this.onDragNodeStop(renderNode.node.uuid);
-                    }}
-                >
+            return {
+                uuid,
+                position: renderNode.ui.position,
+                ele: (
                     <ConnectedNode
                         key={renderNode.node.uuid}
                         data-spec={nodeSpecId}
@@ -294,15 +278,19 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                         plumberConnectExit={this.Plumber.connectExit}
                         plumberUpdateClass={this.Plumber.updateClass}
                     />
-                </div>
-            );
+                )
+            };
         });
     }
 
-    private getStickies(): JSX.Element[] {
+    private getStickies(): CanvasDraggableProps[] {
         const stickyMap = this.props.definition._ui.stickies || {};
         return Object.keys(stickyMap).map(uuid => {
-            return <Sticky key={uuid} uuid={uuid} sticky={stickyMap[uuid]} />;
+            return {
+                uuid,
+                ele: <Sticky key={uuid} uuid={uuid} sticky={stickyMap[uuid]} />,
+                position: stickyMap[uuid].position
+            };
         });
     }
 
@@ -361,156 +349,35 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         }
     }
 
-    public onMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
-        if (this.isClickOnCanvas(event)) {
-            this.props.mergeEditorState({
-                dragSelection: {
-                    startX: event.pageX - this.containerOffset.left,
-                    startY: event.pageY - this.containerOffset.top,
-                    currentX: event.pageX - this.containerOffset.left,
-                    currentY: event.pageY - this.containerOffset.top,
-                    selected: null
-                }
-            });
-        }
-    }
-
-    public onMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
-        if (this.props.editorState.dragSelection && this.props.editorState.dragSelection.startX) {
-            const drag = this.props.editorState.dragSelection;
-            const left = Math.min(drag.startX, drag.currentX);
-            const top = Math.min(drag.startY, drag.currentY);
-            const right = Math.max(drag.startX, drag.currentX);
-            const bottom = Math.max(drag.startY, drag.currentY);
-
-            this.props.mergeEditorState({
-                dragSelection: {
-                    startX: drag.startX,
-                    startY: drag.startY,
-                    currentX: event.pageX - this.containerOffset.left,
-                    currentY: event.pageY - this.containerOffset.top,
-                    selected: getCollisions(this.props.nodes, { left, top, right, bottom })
-                }
-            });
+    private getCurrentPosition(uuid: string): FlowPosition {
+        const renderNode = this.props.nodes[uuid];
+        if (renderNode) {
+            return renderNode.ui.position;
         }
 
-        if (this.props.editorState.dragNodeUUID) {
-            const startPosition = this.props.editorState.dragActive
-                ? this.props.editorState.dragSelection.selected[this.props.editorState.dragNodeUUID]
-                : this.props.nodes[this.props.editorState.dragNodeUUID].ui.position;
-
-            const xd =
-                event.pageX -
-                this.containerOffset.left -
-                this.props.editorState.dragDownPosition.left -
-                startPosition.left;
-
-            const yd =
-                event.pageY -
-                this.containerOffset.top -
-                this.props.editorState.dragDownPosition.top -
-                startPosition.top;
-
-            if (this.props.editorState.dragActive) {
-                this.props.onDragSelection({ left: xd, top: yd });
-            } else {
-                if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
-                    const renderNode = this.props.nodes[this.props.editorState.dragNodeUUID];
-                    const selection = this.props.editorState.dragSelection || {};
-                    let selected = selection.selected || {};
-                    if (!(renderNode.node.uuid in selected)) {
-                        selected = { [renderNode.node.uuid]: renderNode.ui.position };
-                    }
-
-                    this.props.mergeEditorState({
-                        dragActive: true,
-                        dragSelection: {
-                            selected
-                        }
-                    });
-                }
-            }
+        const sticky = this.props.definition._ui.stickies[uuid];
+        if (sticky) {
+            return sticky.position;
         }
-    }
-
-    public onMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
-        if (this.props.editorState.dragNodeUUID) {
-            this.props.mergeEditorState({
-                dragNodeUUID: null
-            });
-        }
-
-        if (this.props.editorState.dragSelection && this.props.editorState.dragSelection.startX) {
-            this.props.mergeEditorState({
-                dragSelection: {
-                    startX: null,
-                    startY: null,
-                    currentX: null,
-                    currentY: null,
-                    selected: this.props.editorState.dragSelection.selected
-                }
-            });
-
-            // if (this.props.editorState.dragSelection.selected) {
-            // this.Plumber.setDragSelection(this.props.editorState.dragSelection.selected);
-            // }
-        }
-    }
-
-    public getDragSelectionBox(): JSX.Element {
-        if (this.props.editorState.dragSelection && this.props.editorState.dragSelection.startX) {
-            return (
-                <div
-                    data-spec={dragSelectSpecId}
-                    className={styles.dragSelection}
-                    style={{ ...getDragStyle(this.props.editorState.dragSelection) }}
-                />
-            );
-        }
-        return null;
-    }
-
-    private onDragNodeStart(renderNode: RenderNode, position: FlowPosition): void {
-        this.props.mergeEditorState({
-            dragNodeUUID: renderNode.node.uuid,
-            dragDownPosition: position
-        });
-    }
-
-    private onDragNodeDrag(e: React.MouseEvent<HTMLDivElement>): void {}
-
-    private onDragNodeStop(uuid: string): void {
-        console.log('stopping:', uuid);
-        // this.setState({ thisNodeDragging: false });
-        this.props.mergeEditorState({
-            dragNodeUUID: null,
-            dragDownPosition: null,
-            dragSelection: null,
-            dragActive: false
-        });
     }
 
     public render(): JSX.Element {
         return (
-            <>
+            <Canvas
+                dragActive={this.props.editorState.dragActive}
+                canvasSelections={this.props.editorState.canvasSelections}
+                mergeEditorState={this.props.mergeEditorState}
+                draggables={this.getStickies().concat(this.getNodes())}
+                getCurrentPosition={this.getCurrentPosition}
+                onUpdateDragPositions={this.props.onDragSelection}
+                onCheckCollisions={(box: FlowPosition) => {
+                    return getCollisions(this.props.nodes, this.props.definition._ui.stickies, box);
+                }}
+            >
                 {this.getSimulator()}
                 {this.getDragNode()}
                 {this.getNodeEditor()}
-                <div
-                    ref={this.onRef}
-                    id={this.nodeContainerUUID}
-                    className={styles.nodeList}
-                    data-spec={nodesContainerSpecId}
-                    onMouseDown={this.onMouseDown}
-                    onMouseMove={this.onMouseMove}
-                    onMouseUp={this.onMouseUp}
-                    onDoubleClick={this.onDoubleClick}
-                >
-                    {this.getStickies()}
-                    {this.getDragSelectionBox()}
-                    {this.getNodes()}
-                </div>
-            </>
+            </Canvas>
         );
     }
 }

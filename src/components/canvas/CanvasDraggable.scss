@@ -1,0 +1,9 @@
+@import '~/variables.scss';
+
+.draggable {
+    position: absolute;
+}
+
+.selected {
+    z-index: $z_dragging;
+}
