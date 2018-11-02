@@ -58,455 +58,465 @@ Object {
 `;
 
 exports[`Flow render should render NodeEditor 2`] = `
-<Canvas
-  draggables={
-    Array [
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="4fac7935-d13b-4b36-bf15-98075dca822a"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 0,
-          "top": 0,
-        },
-        "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="46e8d603-8e5d-4435-97dd-1333291aafca"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 300,
-          "top": 120,
-        },
-        "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="bc978e00-2f3d-41f2-87c1-26b3f14e5925"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 440,
-          "top": 240,
-        },
-        "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="e2ecc8de-9774-4b74-a0dc-ca8aea123227"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 200,
-          "top": 340,
-        },
-        "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 680,
-          "top": 340,
-        },
-        "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="882f8022-7256-4b1c-abf3-7b180f5e7e24"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 640,
-          "top": 460,
-        },
-        "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="059a8daa-0697-44a6-9486-2386cc417e9d"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 300,
-          "top": 520,
-        },
-        "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
-      },
-    ]
-  }
-  getCurrentPosition={[Function]}
-  mergeEditorState={[MockFunction]}
-  onCheckCollisions={[Function]}
-  onUpdateDragPositions={[MockFunction]}
+<div
+  onDoubleClick={[Function]}
 >
-  <Connect(NodeEditor)
-    plumberConnectExit={[MockFunction]}
-    plumberRepaintForDuration={[MockFunction]}
-  />
-</Canvas>
+  <Canvas
+    draggables={
+      Array [
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="4fac7935-d13b-4b36-bf15-98075dca822a"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 0,
+            "top": 0,
+          },
+          "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="46e8d603-8e5d-4435-97dd-1333291aafca"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 300,
+            "top": 120,
+          },
+          "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 440,
+            "top": 240,
+          },
+          "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="e2ecc8de-9774-4b74-a0dc-ca8aea123227"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 200,
+            "top": 340,
+          },
+          "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 680,
+            "top": 340,
+          },
+          "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="882f8022-7256-4b1c-abf3-7b180f5e7e24"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 640,
+            "top": 460,
+          },
+          "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="059a8daa-0697-44a6-9486-2386cc417e9d"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 300,
+            "top": 520,
+          },
+          "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+        },
+      ]
+    }
+    getCurrentPosition={[Function]}
+    mergeEditorState={[MockFunction]}
+    onCheckCollisions={[Function]}
+    onUpdateDragPositions={[MockFunction]}
+    uuid="6f87dde3-5df3-4935-8585-2656df068d61"
+  >
+    <Connect(NodeEditor)
+      plumberConnectExit={[MockFunction]}
+      plumberRepaintForDuration={[MockFunction]}
+    />
+  </Canvas>
+</div>
 `;
 
 exports[`Flow render should render Simulator 1`] = `
-<Canvas
-  draggables={
-    Array [
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="4fac7935-d13b-4b36-bf15-98075dca822a"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 0,
-          "top": 0,
-        },
-        "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="46e8d603-8e5d-4435-97dd-1333291aafca"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 300,
-          "top": 120,
-        },
-        "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="bc978e00-2f3d-41f2-87c1-26b3f14e5925"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 440,
-          "top": 240,
-        },
-        "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="e2ecc8de-9774-4b74-a0dc-ca8aea123227"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 200,
-          "top": 340,
-        },
-        "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 680,
-          "top": 340,
-        },
-        "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="882f8022-7256-4b1c-abf3-7b180f5e7e24"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 640,
-          "top": 460,
-        },
-        "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
-      },
-      Object {
-        "ele": <Connect(NodeComp)
-          Activity={
-            Object {
-              "clearSimulation": [MockFunction],
-              "deregister": [MockFunction],
-              "getActiveCount": [MockFunction],
-              "getActivity": [MockFunction],
-              "getPathCount": [MockFunction],
-              "notifyListeners": [MockFunction],
-              "registerListener": [MockFunction],
-              "setSimulation": [MockFunction],
-            }
-          }
-          data-spec="node"
-          nodeUUID="059a8daa-0697-44a6-9486-2386cc417e9d"
-          plumberConnectExit={[MockFunction]}
-          plumberMakeSource={[MockFunction]}
-          plumberMakeTarget={[MockFunction]}
-          plumberRecalculate={[MockFunction]}
-          plumberRemove={[MockFunction]}
-          plumberRepaintForDuration={[MockFunction]}
-        />,
-        "position": Object {
-          "left": 300,
-          "top": 520,
-        },
-        "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
-      },
-    ]
-  }
-  getCurrentPosition={[Function]}
-  mergeEditorState={[MockFunction]}
-  onCheckCollisions={[Function]}
-  onUpdateDragPositions={[MockFunction]}
+<div
+  onDoubleClick={[Function]}
 >
-  <Connect(Simulator)
-    Activity={
-      Object {
-        "clearSimulation": [MockFunction],
-        "deregister": [MockFunction],
-        "getActiveCount": [MockFunction],
-        "getActivity": [MockFunction],
-        "getPathCount": [MockFunction],
-        "notifyListeners": [MockFunction],
-        "registerListener": [MockFunction],
-        "setSimulation": [MockFunction],
-      }
+  <Canvas
+    draggables={
+      Array [
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="4fac7935-d13b-4b36-bf15-98075dca822a"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 0,
+            "top": 0,
+          },
+          "uuid": "4fac7935-d13b-4b36-bf15-98075dca822a",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="46e8d603-8e5d-4435-97dd-1333291aafca"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 300,
+            "top": 120,
+          },
+          "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 440,
+            "top": 240,
+          },
+          "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="e2ecc8de-9774-4b74-a0dc-ca8aea123227"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 200,
+            "top": 340,
+          },
+          "uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 680,
+            "top": 340,
+          },
+          "uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="882f8022-7256-4b1c-abf3-7b180f5e7e24"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 640,
+            "top": 460,
+          },
+          "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+        },
+        Object {
+          "ele": <Connect(NodeComp)
+            Activity={
+              Object {
+                "clearSimulation": [MockFunction],
+                "deregister": [MockFunction],
+                "getActiveCount": [MockFunction],
+                "getActivity": [MockFunction],
+                "getPathCount": [MockFunction],
+                "notifyListeners": [MockFunction],
+                "registerListener": [MockFunction],
+                "setSimulation": [MockFunction],
+              }
+            }
+            data-spec="node"
+            nodeUUID="059a8daa-0697-44a6-9486-2386cc417e9d"
+            plumberConnectExit={[MockFunction]}
+            plumberMakeSource={[MockFunction]}
+            plumberMakeTarget={[MockFunction]}
+            plumberRecalculate={[MockFunction]}
+            plumberRemove={[MockFunction]}
+            plumberRepaintForDuration={[MockFunction]}
+          />,
+          "position": Object {
+            "left": 300,
+            "top": 520,
+          },
+          "uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+        },
+      ]
     }
-  />
-</Canvas>
+    getCurrentPosition={[Function]}
+    mergeEditorState={[MockFunction]}
+    onCheckCollisions={[Function]}
+    onUpdateDragPositions={[MockFunction]}
+    uuid="44f05c10-0ec0-41ab-aed7-c65267337df7"
+  >
+    <Connect(Simulator)
+      Activity={
+        Object {
+          "clearSimulation": [MockFunction],
+          "deregister": [MockFunction],
+          "getActiveCount": [MockFunction],
+          "getActivity": [MockFunction],
+          "getPathCount": [MockFunction],
+          "notifyListeners": [MockFunction],
+          "registerListener": [MockFunction],
+          "setSimulation": [MockFunction],
+        }
+      }
+    />
+  </Canvas>
+</div>
 `;
 
 exports[`Flow render should render dragNode 1`] = `

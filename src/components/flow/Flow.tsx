@@ -331,14 +331,20 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private isClickOnCanvas(event: React.MouseEvent<HTMLDivElement>): boolean {
         // TODO: not sure the TS-safe way to access id here
+        console.log((event.target as any).id, this.nodeContainerUUID);
         return (event.target as any).id === this.nodeContainerUUID;
     }
 
     private onDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.isClickOnCanvas(event)) {
-            const { left, top } = snapToGrid(
+            /*const { left, top } = snapToGrid(
                 event.clientX - this.containerOffset.left - 100 + NODE_PADDING,
                 event.clientY - this.containerOffset.top - NODE_PADDING * 2
+            );*/
+
+            const { left, top } = snapToGrid(
+                event.pageX - this.containerOffset.left - 100 + NODE_PADDING,
+                event.pageY - this.containerOffset.top - NODE_PADDING * 2 - 80
             );
 
             this.props.updateSticky(createUUID(), {
@@ -363,21 +369,28 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     public render(): JSX.Element {
         return (
-            <Canvas
-                dragActive={this.props.editorState.dragActive}
-                canvasSelections={this.props.editorState.canvasSelections}
-                mergeEditorState={this.props.mergeEditorState}
-                draggables={this.getStickies().concat(this.getNodes())}
-                getCurrentPosition={this.getCurrentPosition}
-                onUpdateDragPositions={this.props.onDragSelection}
-                onCheckCollisions={(box: FlowPosition) => {
-                    return getCollisions(this.props.nodes, this.props.definition._ui.stickies, box);
-                }}
-            >
-                {this.getSimulator()}
-                {this.getDragNode()}
-                {this.getNodeEditor()}
-            </Canvas>
+            <div onDoubleClick={this.onDoubleClick}>
+                <Canvas
+                    uuid={this.nodeContainerUUID}
+                    dragActive={this.props.editorState.dragActive}
+                    canvasSelections={this.props.editorState.canvasSelections}
+                    mergeEditorState={this.props.mergeEditorState}
+                    draggables={this.getStickies().concat(this.getNodes())}
+                    getCurrentPosition={this.getCurrentPosition}
+                    onUpdateDragPositions={this.props.onDragSelection}
+                    onCheckCollisions={(box: FlowPosition) => {
+                        return getCollisions(
+                            this.props.nodes,
+                            this.props.definition._ui.stickies,
+                            box
+                        );
+                    }}
+                >
+                    {this.getSimulator()}
+                    {this.getDragNode()}
+                    {this.getNodeEditor()}
+                </Canvas>
+            </div>
         );
     }
 }
