@@ -33,6 +33,7 @@ export interface ActionWrapperStoreProps {
     renderNode: RenderNode;
     language: Asset;
     translating: boolean;
+    dragging: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeAction: ActionAC;
     moveActionUp: ActionAC;
@@ -68,8 +69,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             target && target.attributes && target.getAttribute('data-advanced') === 'true';
 
         if (!this.props.thisNodeDragging) {
-            event.preventDefault();
-            event.stopPropagation();
+            // event.preventDefault();
+            // event.stopPropagation();
             this.props.onOpenNodeEditor({
                 originalNode: this.props.renderNode,
                 originalAction: this.props.action,
@@ -79,13 +80,12 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
-        evt.stopPropagation();
+        // evt.stopPropagation();
         this.props.removeAction(this.props.renderNode.node.uuid, this.props.action);
     }
 
     private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
-        evt.stopPropagation();
-
+        // evt.stopPropagation();
         this.props.moveActionUp(this.props.renderNode.node.uuid, this.props.action);
     }
 
@@ -162,7 +162,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                 data-spec={actionContainerSpecId}
             >
                 <div className={styles.overlay} data-spec={actionOverlaySpecId} />
-                <div {...createClickHandler(this.onClick)} data-spec={actionInteractiveDivSpecId}>
+                <div
+                    {...createClickHandler(this.onClick, () => this.props.dragging)}
+                    data-spec={actionInteractiveDivSpecId}
+                >
                     <TitleBar
                         __className={titleBarClass}
                         title={name}
@@ -170,6 +173,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                         showRemoval={showRemoval}
                         showMove={showMove}
                         onMoveUp={this.onMoveUp}
+                        shouldCancelClick={() => this.props.dragging}
                     />
                     <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
                         {this.props.render(actionToInject)}
@@ -185,11 +189,12 @@ const mapStateToProps = ({
     flowContext: {
         definition: { localization }
     },
-    editorState: { language, translating }
+    editorState: { language, translating, dragActive }
 }: AppState) => ({
     language,
     translating,
-    localization
+    localization,
+    dragging: dragActive
 });
 
 /* istanbul ignore next */

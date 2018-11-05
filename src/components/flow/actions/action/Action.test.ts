@@ -36,6 +36,7 @@ const localization = {
 
 const baseProps: ActionWrapperProps = {
     thisNodeDragging: false,
+    dragging: false,
     localization,
     first: true,
     action: sendMsgAction,
@@ -63,14 +64,7 @@ describe(ActionWrapper.name, () => {
             expect(actionContainer.hasClass('action')).toBeTruthy();
             expect(getSpecWrapper(wrapper, actionOverlaySpecId).hasClass('overlay')).toBeTruthy();
             expect(getSpecWrapper(wrapper, actionInteractiveDivSpecId).exists()).toBeTruthy();
-            expect(wrapper.find('TitleBar').props()).toEqual({
-                __className: props.action.type,
-                title: name,
-                onRemoval: instance.onRemoval,
-                showRemoval: true,
-                showMove: false,
-                onMoveUp: instance.onMoveUp
-            });
+            expect(wrapper.find('TitleBar').props()).toMatchSnapshot();
             expect(getSpecWrapper(wrapper, actionBodySpecId).hasClass('body')).toBeTruthy();
             expect(props.render).toHaveBeenCalledTimes(1);
             expect(props.render).toHaveBeenCalledWith(props.action);
@@ -144,8 +138,6 @@ describe(ActionWrapper.name, () => {
                 interactiveDiv.simulate('mouseUp', mockEvent);
 
                 expect(onClickSpy).toHaveBeenCalledTimes(1);
-                expect(mockEvent.preventDefault).toHaveBeenCalledTimes(1);
-                expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
 
                 onClickSpy.mockRestore();
             });
@@ -183,7 +175,6 @@ describe(ActionWrapper.name, () => {
 
                 instance.onRemoval(mockEvent);
 
-                expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(props.removeAction).toHaveBeenCalledTimes(1);
                 expect(props.removeAction).toHaveBeenCalledWith(
                     props.renderNode.node.uuid,
@@ -203,7 +194,6 @@ describe(ActionWrapper.name, () => {
 
                 instance.onMoveUp(mockEvent);
 
-                expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
                 expect(props.moveActionUp).toHaveBeenCalledTimes(1);
                 expect(props.moveActionUp).toHaveBeenCalledWith(
                     props.renderNode.node.uuid,

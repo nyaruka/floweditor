@@ -19,7 +19,6 @@ import {
     onConnectionDrag,
     onNodeMoved,
     onOpenNodeEditor,
-    onResetDragSelection,
     onUpdateAction,
     onUpdateLocalizations,
     onUpdateRouter,
@@ -29,7 +28,6 @@ import {
     resetNodeEditingState,
     spliceInRouter,
     updateConnection,
-    updateDimensions,
     updateExitDestination,
     updateSticky
 } from '~/store/thunks';
@@ -202,42 +200,6 @@ describe('Flow Manipulation', () => {
             });
         });
 
-        it('should clear the drag selection when a node is moved', () => {
-            // prep our store to show that we are editing
-            store = createMockStore({
-                flowContext: { nodes: testNodes },
-                editorState: { dragSelection: { selected: { nodeA: true } } },
-                nodeEditor: { settings: null }
-            });
-
-            store.dispatch(onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 }));
-            expect(store).toHavePayload(Constants.UPDATE_EDITOR_STATE, {
-                editorState: {
-                    dragSelection: {
-                        selected: null
-                    }
-                }
-            });
-        });
-
-        it('should clear drag selection', () => {
-            // prep our store to show that we are editing
-            store = createMockStore({
-                flowContext: { nodes: testNodes },
-                editorState: { dragSelection: { selected: { nodeA: true } } },
-                nodeEditor: { settings: null }
-            });
-
-            store.dispatch(onResetDragSelection());
-            expect(store).toHavePayload(Constants.UPDATE_EDITOR_STATE, {
-                editorState: {
-                    dragSelection: {
-                        selected: null
-                    }
-                }
-            });
-        });
-
         it('should store a pending connection when starting a drag', () => {
             // mock(utils, 'createUUID', utils.seededUUIDs());
             store.dispatch(
@@ -252,19 +214,6 @@ describe('Flow Manipulation', () => {
                 })
             );
             expect(store.getActions()).toMatchSnapshot();
-        });
-
-        it('should update dimensions', () => {
-            const updated = store.dispatch(
-                updateDimensions(testNodes.node0.node, { width: 300, height: 600 })
-            );
-
-            expect(updated.node0.ui.position).toEqual({
-                left: 0,
-                top: 0,
-                right: 300,
-                bottom: 600
-            });
         });
 
         it('should create a start node if needed', () => {

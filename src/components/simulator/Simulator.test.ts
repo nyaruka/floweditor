@@ -12,8 +12,7 @@ const { setup } = composeComponentTestUtils<SimulatorProps>(Simulator, {
         language: null,
         _ui: null
     },
-    Activity: null,
-    plumberDraggable: jest.fn()
+    Activity: null
 });
 
 describe(Simulator.name, () => {

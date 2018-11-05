@@ -1,26 +1,16 @@
 @import '~/variables.scss';
 
-.loading {
-    visibility: hidden;
-    height: inherit;
-}
-
-.loaded {
-    height: inherit;
+.canvas {
     position: relative;
-}
-
-.nodeList {
     height: 10000px;
-    position: relative;
-    user-select: none;
+    width: 100%;
 }
 
 .dragSelection {
     position: absolute;
-    background: red;
+    background: $selection_square;
     border: 0px solid $selection_square - #222;
-    opacity: 0;
+    opacity: 0.2;
     pointer-events: none;
     z-index: $z_selection;
 }

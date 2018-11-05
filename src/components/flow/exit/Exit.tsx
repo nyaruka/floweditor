@@ -21,10 +21,12 @@ export interface ExitPassedProps {
     plumberMakeSource: Function;
     plumberRemove: Function;
     plumberConnectExit: Function;
+    plumberUpdateClass: Function;
 }
 
 export interface ExitStoreProps {
     translating: boolean;
+    dragging: boolean;
     language: Asset;
     localization: LocalizationMap;
     disconnectExit: DisconnectExit;
@@ -65,13 +67,40 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     public componentDidUpdate(prevProps: ExitProps): void {
-        this.connect();
+        if (
+            !this.props.exit.destination_node_uuid ||
+            this.props.exit.destination_node_uuid !== prevProps.exit.destination_node_uuid
+        ) {
+            this.connect();
+            this.setState({ confirmDelete: false });
+        }
+
+        this.props.plumberUpdateClass(
+            this.props.node,
+            this.props.exit,
+            'confirm-delete',
+            this.state.confirmDelete
+        );
+
+        /*
+        console.log(prevProps.exit.destination_node_uuid, this.props.exit.destination_node_uuid);
 
         if (prevProps.exit.destination_node_uuid && !this.props.exit.destination_node_uuid) {
             if (this.state.confirmDelete) {
                 this.setState({ confirmDelete: false });
             }
-        }
+        } else {
+            if (prevProps.exit.destination_node_uuid !== this.props.exit.destination_node_uuid) {
+                this.connect();
+            } else {
+                this.props.plumberUpdateClass(
+                    this.props.node,
+                    this.props.exit,
+                    'confirm-delete',
+                    this.state.confirmDelete
+                );
+            }
+        }*/
     }
 
     public componentWillUnmount(): void {
@@ -81,9 +110,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     private onClick(event: React.MouseEvent<HTMLDivElement>): void {
-        event.preventDefault();
-        event.stopPropagation();
-
         if (this.props.exit.destination_node_uuid && !this.props.translating) {
             this.setState(
                 {
@@ -101,9 +127,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     private onDisconnect(event: React.MouseEvent<HTMLDivElement>): void {
-        event.stopPropagation();
-        event.preventDefault();
-
         if (this.timeout) {
             window.clearTimeout(this.timeout);
         }
@@ -118,13 +141,13 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private connect(): void {
         const classes: string[] = [];
 
-        if (this.props.translating) {
+        /* if (this.props.translating) {
             classes.push('translating');
         } else if (this.state.confirmDelete) {
             classes.push('confirm-delete');
-        }
+        }*/
 
-        this.props.plumberConnectExit(this.props.node, this.props.exit, classes.join(' '));
+        this.props.plumberConnectExit(this.props.node, this.props.exit);
     }
 
     private getCount(): number {
@@ -162,7 +185,10 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const confirmDelete =
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_node_uuid');
         const confirm: JSX.Element = confirmDelete ? (
-            <span {...createClickHandler(this.onDisconnect)} className="fe-x" />
+            <div
+                {...createClickHandler(this.onDisconnect, () => this.props.dragging)}
+                className="fe-x"
+            />
         ) : null;
         const exitClasses: string = cx({
             [styles.exit]: true,
@@ -178,7 +204,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             <div className={exitClasses}>
                 <div className={nameStyle}>{exit.name}</div>
                 <div
-                    {...createClickHandler(this.onClick)}
+                    {...createClickHandler(this.onClick, () => this.props.dragging)}
                     id={`${this.props.node.uuid}:${this.props.exit.uuid}`}
                     className={dragNodeClasses}
                 >
@@ -194,8 +220,9 @@ const mapStateToProps = ({
     flowContext: {
         definition: { localization }
     },
-    editorState: { translating, language }
+    editorState: { translating, language, dragActive }
 }: AppState) => ({
+    dragging: dragActive,
     translating,
     language,
     localization

@@ -36,7 +36,6 @@ export interface SimulatorStoreProps {
 
 export interface SimulatorPassedProps {
     Activity: any;
-    plumberDraggable: Function;
 }
 
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
@@ -319,9 +318,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         this.startFlow();
     }
 
-    public componentDidMount(): void {
-        this.props.plumberDraggable('simulator');
-    }
+    public componentDidMount(): void {}
 
     public componentDidUpdate(prevProps: SimulatorProps): void {
         if (this.bottom) {

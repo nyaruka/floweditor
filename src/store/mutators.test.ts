@@ -1,6 +1,12 @@
 import { Types } from '~/config/typeConfigs';
 import { FlowDefinition, RouterTypes, SendMsg } from '~/flowTypes';
-import { getActionIndex, getExitIndex, getFlowComponents, getNode } from '~/store/helpers';
+import {
+    getActionIndex,
+    getExitIndex,
+    getFlowComponents,
+    getNode,
+    newPosition
+} from '~/store/helpers';
 import {
     addAction,
     mergeNode,
@@ -10,8 +16,8 @@ import {
     removeNode,
     updateAction,
     updateConnection,
-    updateDimensions,
     updateLocalization,
+    updateNodeDimensions,
     updatePosition
 } from '~/store/mutators';
 import { createSendMsgAction } from '~/testUtils/assetCreators';
@@ -180,7 +186,7 @@ describe('mutators', () => {
     });
 
     it('should updatePosition()', () => {
-        const updated = updatePosition(nodes, 'node0', 500, 1000);
+        const updated = updatePosition(nodes, 'node0', newPosition(500, 1000));
         expect(updated.node0.ui.position).toEqual({
             left: 500,
             top: 1000,
@@ -190,7 +196,7 @@ describe('mutators', () => {
     });
 
     it('should updateDimensions()', () => {
-        const updated = updateDimensions(nodes, 'node0', { width: 250, height: 350 });
+        const updated = updateNodeDimensions(nodes, 'node0', { width: 250, height: 350 });
         expect(updated.node0.ui.position).toEqual({ left: 0, top: 0, right: 250, bottom: 350 });
     });
 

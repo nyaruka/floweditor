@@ -4,12 +4,12 @@
 $grid_size: 20;
 
 // buffer to bump out connections
-$node_padding: 10;
+$node_padding: 3;
 
 $action_padding: 10px;
 
 // how much extra room to add during reflow
-$node_spacing: 20;
+$node_spacing: 10;
 
 :export {
     grid_size: $grid_size;
@@ -40,7 +40,7 @@ $node_shadow_color: rgba(99, 184, 226, 0.1);
 $node_shadow_hover: rgba(145, 218, 255, 0.25);
 $selection_square: rgb(173, 216, 230);
 $selected: rgba(52, 152, 219, 0.5);
-$connector_color: rgb(142, 217, 255);
+$connector_color: rgb(158, 223, 255);
 $removal_confirmation: $red;
 $path_color: #fff;
 $text_color: #666;

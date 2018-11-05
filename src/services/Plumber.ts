@@ -56,31 +56,36 @@ export default class Plumber {
             DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
-            PaintStyle: { strokeWidth: 1, outlineWidth: 1, outlineStroke: '#fff' },
+            PaintStyle: { strokeWidth: 6, outlineWidth: 1, outlineStroke: '#fff' },
             ConnectorHoverStyle: { stroke: '#27ae60' },
             ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,
             Connector: [
                 'Flowchart',
                 {
-                    stub: 12,
-                    midpoint: 0.55,
+                    stub: 16,
+                    midpoint: 0.25,
                     alwaysRespectStubs: true,
                     gap: [0, 0],
-                    cornerRadius: 5
+                    cornerRadius: 6
                 }
             ],
             ConnectionOverlays: [
                 [
-                    'PlainArrow',
-                    { location: 0.9999, width: 8, length: 8, foldback: 1, cssClass: 'jtk-arrow' }
+                    'Arrow',
+                    {
+                        location: 1,
+                        width: 8,
+                        length: 8,
+                        foldback: 1,
+                        cssClass: 'jtk-arrow'
+                    }
                 ]
             ],
             Container: 'editor-container'
         });
 
         this.debug = this.debug.bind(this);
-        this.draggable = this.draggable.bind(this);
         this.setSourceEnabled = this.setSourceEnabled.bind(this);
         this.makeSource = this.makeSource.bind(this);
         this.makeTarget = this.makeTarget.bind(this);
@@ -99,6 +104,7 @@ export default class Plumber {
         this.repaint = this.repaint.bind(this);
         this.recalculate = this.recalculate.bind(this);
         this.reset = this.reset.bind(this);
+        this.updateClass = this.updateClass.bind(this);
 
         // if our browser resizes, make sure to repaint accordingly
         window.onresize = () => this.jsPlumb.repaintEverything();
@@ -106,39 +112,6 @@ export default class Plumber {
 
     public debug(): any {
         return this.jsPlumb;
-    }
-
-    public draggable(
-        uuid: string,
-        start: Function = null,
-        drag: Function = null,
-        stop: Function = null,
-        beforeDrag: Function = null
-    ): void {
-        const handlers: any = {};
-
-        if (start) {
-            handlers.start = start;
-        }
-
-        if (drag) {
-            handlers.drag = drag;
-        }
-
-        if (stop) {
-            handlers.stop = stop;
-        }
-
-        if (beforeDrag) {
-            handlers.canDrag = () => beforeDrag();
-        }
-
-        this.jsPlumb.draggable(uuid, {
-            containment: false,
-            consumeFilteredEvents: false,
-            consumeStartEvent: false,
-            ...handlers
-        });
     }
 
     public setSourceEnabled(uuid: string, enabled: boolean): void {
@@ -154,7 +127,21 @@ export default class Plumber {
     }
 
     public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
-        this.connect(`${node.uuid}:${exit.uuid}`, exit.destination_node_uuid, className);
+        this.connect(
+            `${node.uuid}:${exit.uuid}`,
+            exit.destination_node_uuid,
+            className
+        );
+    }
+
+    public updateClass(node: FlowNode, exit: Exit, className: string, add: boolean): void {
+        const source = `${node.uuid}:${exit.uuid}`;
+        const connection = this.jsPlumb.select({ source });
+        if (add) {
+            connection.addClass(className);
+        } else {
+            connection.removeClass(className);
+        }
     }
 
     public removeFromDragSelection(uuid: string): void {
@@ -282,7 +269,6 @@ export default class Plumber {
     }
 
     public repaint(uuid?: string): void {
-        console.log('repaint');
         if (!uuid) {
             this.jsPlumb.recalculateOffsets();
             this.jsPlumb.repaintEverything();
@@ -302,15 +288,15 @@ export default class Plumber {
     }
 
     public recalculate(uuid?: string): void {
-        window.setTimeout(() => {
-            this.jsPlumb.revalidate(uuid);
-            if (uuid) {
-                this.jsPlumb.recalculateOffsets(uuid);
-            } else {
-                this.jsPlumb.recalculateOffsets();
-            }
-            this.jsPlumb.repaint(uuid);
-        }, 0);
+        // window.setTimeout(() => {
+        this.jsPlumb.revalidate(uuid);
+        /*if (uuid) {
+            this.jsPlumb.recalculateOffsets(uuid);
+        } else {
+            this.jsPlumb.recalculateOffsets();
+        }
+        this.jsPlumb.repaint(uuid);*/
+        // }, 0);
     }
 
     public reset(): void {

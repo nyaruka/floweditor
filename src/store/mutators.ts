@@ -3,6 +3,7 @@ import {
     Dimensions,
     FlowDefinition,
     FlowNode,
+    FlowPosition,
     RouterTypes,
     StickyNote,
     SwitchRouter
@@ -354,15 +355,21 @@ export const removeNode = (
 export const updatePosition = (
     nodes: RenderNodeMap,
     nodeUUID: string,
-    left: number,
-    top: number
+    position: FlowPosition,
+    snap: boolean = true
 ): RenderNodeMap => {
     const lastPos = getNode(nodes, nodeUUID).ui.position;
     const width = lastPos.right - lastPos.left;
     const height = lastPos.bottom - lastPos.top;
 
+    const { left, top } = position;
+
     // make sure we are on the grid
-    const adjusted = snapToGrid(left, top);
+    let adjusted = { left, top };
+
+    if (snap) {
+        adjusted = snapToGrid(left, top);
+    }
 
     return mutate(nodes, {
         [nodeUUID]: {
@@ -378,13 +385,52 @@ export const updatePosition = (
     });
 };
 
+export const updateStickyNotePosition = (
+    definition: FlowDefinition,
+    stickyUUID: string,
+    position: FlowPosition,
+    snap: boolean = true
+): FlowDefinition => {
+    if (!definition._ui.stickies) {
+        definition._ui.stickies = {};
+    }
+
+    const lastPos = definition._ui.stickies[stickyUUID].position;
+    const width = lastPos.right - lastPos.left;
+    const height = lastPos.bottom - lastPos.top;
+
+    const { left, top } = position;
+
+    // make sure we are on the grid
+    let adjusted = { left, top };
+
+    if (snap) {
+        adjusted = snapToGrid(left, top);
+    }
+
+    return mutate(definition, {
+        _ui: {
+            stickies: {
+                [stickyUUID]: {
+                    position: set({
+                        left: adjusted.left,
+                        top: adjusted.top,
+                        right: adjusted.left + width,
+                        bottom: adjusted.top + height
+                    })
+                }
+            }
+        }
+    });
+};
+
 /**
  * Update the dimensions for a specific node
  * @param nodes
  * @param nodeUUID
  * @param dimensions
  */
-export const updateDimensions = (
+export const updateNodeDimensions = (
     nodes: RenderNodeMap,
     nodeUUID: string,
     dimensions: Dimensions
@@ -397,6 +443,32 @@ export const updateDimensions = (
                     bottom: node.ui.position.top + dimensions.height,
                     right: node.ui.position.left + dimensions.width
                 })
+            }
+        }
+    });
+};
+
+/**
+ * Update the dimensions for a specific sticky
+ * @param definition
+ * @param uuuid
+ * @param dimensions
+ */
+export const updateStickyDimensions = (
+    definition: FlowDefinition,
+    uuid: string,
+    dimensions: Dimensions
+): FlowDefinition => {
+    const position = definition._ui.stickies[uuid].position;
+    return mutate(definition, {
+        _ui: {
+            stickies: {
+                [uuid]: {
+                    position: merge({
+                        bottom: position.top + dimensions.height,
+                        right: position.left + dimensions.width
+                    })
+                }
             }
         }
     });

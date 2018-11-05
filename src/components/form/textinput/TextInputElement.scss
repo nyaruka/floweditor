@@ -6,6 +6,8 @@
     padding: 0;
     max-height: 300px;
     margin-bottom: 0px;
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 
 .option_description {
@@ -31,13 +33,14 @@
 }
 
 .completion_container {
+    overflow: hidden;
     position: absolute;
     background: #fff;
     margin-top: 20px;
     width: 250px;
     border-radius: 4px;
     -webkit-box-shadow: $shadow_down;
-            box-shadow: $shadow_down;
+    box-shadow: $shadow_down;
     z-index: $z_completion;
 }
 
@@ -67,7 +70,7 @@
     overflow: none;
     outline: none;
     -webkit-box-shadow: none;
-    box-shadow: inset 1px 1px 2px 0 hsla(0, 0%, 0%, .08);
+    box-shadow: inset 1px 1px 2px 0 hsla(0, 0%, 0%, 0.08);
     padding: 10px 10px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;

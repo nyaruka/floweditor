@@ -18,7 +18,7 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import { EditorState, updateEditorState } from '~/store/editor';
+import { CanvasPositions, EditorState, EMPTY_DRAG_STATE, updateEditorState } from '~/store/editor';
 import {
     Asset,
     DEFAULT_LANGUAGE,
@@ -31,13 +31,15 @@ import {
     updateNodes
 } from '~/store/flowContext';
 import {
+    addPosition,
     getActionIndex,
     getCollision,
     getFlowComponents,
     getGhostNode,
     getLocalizations,
     getNode,
-    mergeAssetMaps
+    mergeAssetMaps,
+    newPosition
 } from '~/store/helpers';
 import * as mutators from '~/store/mutators';
 import {
@@ -69,9 +71,15 @@ export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<Render
 
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
 
+export type OnDragSelection = (
+    delta: FlowPosition,
+    positions: CanvasPositions,
+    snap: boolean
+) => Thunk<RenderNodeMap>;
+
 export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
-export type UpdateDimensions = (node: FlowNode, dimensions: Dimensions) => Thunk<RenderNodeMap>;
+export type UpdateDimensions = (uuid: string, dimensions: Dimensions) => Thunk<void>;
 
 export type FetchFlow = (endpoints: Endpoints, uuid: string) => Thunk<Promise<void>>;
 
@@ -234,8 +242,7 @@ export const reflow = (current: RenderNodeMap = null) => (
         let updated = mutators.updatePosition(
             nodes,
             bottom.node.uuid,
-            bottom.ui.position.left,
-            top.ui.position.bottom + NODE_SPACING
+            newPosition(bottom.ui.position.left, top.ui.position.bottom + NODE_SPACING)
         );
 
         if (cascade) {
@@ -248,8 +255,7 @@ export const reflow = (current: RenderNodeMap = null) => (
             updated = mutators.updatePosition(
                 updated,
                 cascade.node.uuid,
-                cascade.ui.position.left,
-                cascadeTop
+                newPosition(cascade.ui.position.left, cascadeTop)
             );
         }
 
@@ -276,17 +282,24 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     return updated;
 };
 
-export const updateDimensions = (node: FlowNode, dimensions: Dimensions) => (
+export const updateDimensions = (uuid: string, dimensions: Dimensions) => (
     dispatch: DispatchWithState,
     getState: GetState
-): RenderNodeMap => {
+): void => {
     const {
-        flowContext: { nodes }
+        flowContext: { nodes, definition }
     } = getState();
-    const updated = mutators.updateDimensions(nodes, node.uuid, dimensions);
-    dispatch(updateNodes(updated));
+
+    if (uuid in nodes) {
+        const updated = mutators.updateNodeDimensions(nodes, uuid, dimensions);
+        dispatch(updateNodes(updated));
+    } else if (uuid in definition._ui.stickies) {
+        const updated = mutators.updateStickyDimensions(definition, uuid, dimensions);
+
+        // TODO: TypeError: Cannot read property 'redraw' of undefined
+        dispatch(updateDefinition(updated));
+    }
     markReflow(dispatch);
-    return updated;
 };
 
 /**
@@ -627,7 +640,7 @@ export const onAddToNode = (node: FlowNode) => (
 
     dispatch(updateUserAddingAction(true));
     dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
-    dispatch(mergeEditorState({ nodeDragging: false }));
+    dispatch(mergeEditorState(EMPTY_DRAG_STATE));
 };
 
 export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
@@ -636,9 +649,59 @@ export const onResetDragSelection = () => (dispatch: DispatchWithState, getState
     } = getState();
 
     /* istanbul ignore else */
-    if (dragSelection && dragSelection.selected) {
-        dispatch(mergeEditorState({ dragSelection: { selected: null } }));
+    /*if (dragSelection && dragSelection.selected) {
+        dispatch(mergeEditorState(EMPTY_DRAG_STATE));
+    }*/
+};
+
+export const onDragSelection = (delta: FlowPosition, positions: CanvasPositions, snap: boolean) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): RenderNodeMap => {
+    const {
+        flowContext: { nodes, definition }
+    } = getState();
+
+    let updatedDefinition = definition;
+    let updatedNodes = nodes;
+
+    let updatedNodePosition = false;
+    let updatedStickyPosition = false;
+
+    for (const uuid in positions) {
+        const startPosition = positions[uuid];
+        if (updatedNodes[uuid]) {
+            updatedNodes = mutators.updatePosition(
+                updatedNodes,
+                uuid,
+                addPosition(startPosition, delta),
+                snap
+            );
+            updatedNodePosition = true;
+        } else if (updatedDefinition._ui.stickies[uuid]) {
+            updatedDefinition = mutators.updateStickyNotePosition(
+                updatedDefinition,
+                uuid,
+                addPosition(startPosition, delta),
+                snap
+            );
+            updatedStickyPosition = true;
+        }
     }
+
+    if (updatedNodePosition) {
+        dispatch(updateNodes(updatedNodes));
+    }
+
+    if (updatedStickyPosition) {
+        dispatch(updateDefinition(updatedDefinition));
+    }
+
+    if (snap) {
+        markReflow(dispatch);
+    }
+
+    return updatedNodes;
 };
 
 export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
@@ -650,11 +713,11 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
         editorState: { dragSelection }
     } = getState();
 
-    if (dragSelection && dragSelection.selected) {
-        dispatch(mergeEditorState({ dragSelection: { selected: null } }));
-    }
+    /* if (dragSelection && dragSelection.selected) {
+        dispatch(mergeEditorState(EMPTY_DRAG_STATE));
+    }*/
 
-    const updated = mutators.updatePosition(nodes, nodeUUID, position.left, position.top);
+    const updated = mutators.updatePosition(nodes, nodeUUID, position);
     dispatch(updateNodes(updated));
     markReflow(dispatch);
     return updated;
@@ -854,5 +917,5 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     const typeConfig = determineTypeConfig(settings);
     dispatch(handleTypeConfigChange(typeConfig));
     dispatch(updateNodeEditorSettings(settings));
-    dispatch(mergeEditorState({ nodeDragging: false }));
+    dispatch(mergeEditorState(EMPTY_DRAG_STATE));
 };
