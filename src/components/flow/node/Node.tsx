@@ -126,6 +126,22 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         }
     }
 
+    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
+        // when our exits change, we need to recalculate the endpoints
+        if (!this.props.ghost) {
+            try {
+                this.props.plumberRecalculate(this.props.renderNode.node.uuid);
+                for (const exit of this.props.renderNode.node.exits) {
+                    this.props.plumberRecalculate(
+                        this.props.renderNode.node.uuid + ':' + exit.uuid
+                    );
+                }
+            } catch (error) {
+                // console.log(error);
+            }
+        }
+    }
+
     public componentWillUnmount(): void {
         this.props.plumberRemove(this.props.renderNode.node.uuid);
     }
