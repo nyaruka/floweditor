@@ -92,7 +92,7 @@ export default class GroupsRouterForm extends React.Component<
                 <p>{GROUP_LABEL}</p>
                 <AssetSelector
                     name="Groups"
-                    assets={this.props.assets.groups}
+                    assets={this.props.assetStore.groups}
                     entry={this.state.groups}
                     searchable={true}
                     onChange={this.handleGroupsChanged}
