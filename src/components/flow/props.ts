@@ -26,7 +26,7 @@ export interface RouterFormProps {
     nodeSettings: NodeEditorSettings;
     typeConfig: Type;
 
-    assets: AssetStore;
+    assetStore: AssetStore;
 
     // update handlers
     updateRouter(renderNode: RenderNode): void;

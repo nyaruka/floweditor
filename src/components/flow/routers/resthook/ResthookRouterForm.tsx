@@ -4,10 +4,10 @@ import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { RouterFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
+
 import { nodeToState, stateToNode } from './helpers';
 
 // TODO: Remove use of Function
@@ -72,7 +72,7 @@ export default class ResthookRouterForm extends React.PureComponent<
                 <AssetSelector
                     name="Resthook"
                     placeholder="Select the resthook to call"
-                    assets={this.props.assets.resthooks}
+                    assets={this.props.assetStore.resthooks}
                     entry={this.state.resthook}
                     searchable={true}
                     onChange={this.handleResthookChanged}

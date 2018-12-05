@@ -107,7 +107,7 @@ export default class FieldRouterForm extends React.Component<
                         <AssetSelector
                             name="Contact Field"
                             styles={small}
-                            assets={this.props.assets.fields}
+                            assets={this.props.assetStore.fields}
                             additionalOptions={this.ROUTABLE_FIELDS}
                             entry={this.state.field}
                             searchable={true}

@@ -1,11 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import {
-    initializeForm,
-    sortFieldsAndProperties,
-    stateToAction
-} from '~/components/flow/actions/updatecontact/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
@@ -19,6 +14,8 @@ import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEdito
 import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
 import { createUUID, titleCase } from '~/utils';
+
+import { initializeForm, sortFieldsAndProperties, stateToAction } from './helpers';
 
 const styles = require('./UpdateContact.scss');
 
