@@ -103,6 +103,7 @@ export default class Plumber {
         this.bind = this.bind.bind(this);
         this.repaint = this.repaint.bind(this);
         this.recalculate = this.recalculate.bind(this);
+        this.recalculateUUIDs = this.recalculateUUIDs.bind(this);
         this.reset = this.reset.bind(this);
         this.updateClass = this.updateClass.bind(this);
 
@@ -285,6 +286,14 @@ export default class Plumber {
         } else if (this.jsPlumb.isTarget(uuid)) {
             this.jsPlumb.deleteConnectionsForElement(uuid);
         }
+    }
+
+    public recalculateUUIDs(uuids: string[]): void {
+        this.jsPlumb.batch(() => {
+            uuids.forEach((uuid: string) => {
+                this.jsPlumb.revalidate(uuid);
+            });
+        });
     }
 
     public recalculate(uuid?: string): void {

@@ -12,12 +12,11 @@ import Sticky from '~/components/sticky/Sticky';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { getActivity } from '~/external';
-import { FlowDefinition, FlowPosition } from '~/flowTypes';
+import { Exit, FlowDefinition, FlowPosition } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import Plumber from '~/services/Plumber';
 import { DragSelection, EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
-import { getCollisions } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
@@ -264,8 +263,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             return {
                 uuid,
                 position: renderNode.ui.position,
-                ele: (
+                ele: (selected: boolean) => (
                     <ConnectedNode
+                        selected={selected}
                         key={renderNode.node.uuid}
                         data-spec={nodeSpecId}
                         nodeUUID={renderNode.node.uuid}
@@ -288,7 +288,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         return Object.keys(stickyMap).map(uuid => {
             return {
                 uuid,
-                ele: <Sticky key={uuid} uuid={uuid} sticky={stickyMap[uuid]} />,
+                ele: (selected: boolean) => (
+                    <Sticky key={uuid} uuid={uuid} sticky={stickyMap[uuid]} selected={selected} />
+                ),
                 position: stickyMap[uuid].position
             };
         });
@@ -296,21 +298,24 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private getDragNode(): JSX.Element {
         return isRealValue(this.props.editorState.ghostNode) ? (
-            <ConnectedNode
-                ref={this.ghostRef}
-                key={this.props.editorState.ghostNode.node.uuid}
-                data-spec={ghostNodeSpecId}
-                ghost={true}
-                nodeUUID={this.props.editorState.ghostNode.node.uuid}
-                Activity={this.Activity}
-                plumberRepaintForDuration={this.Plumber.repaintForDuration}
-                plumberMakeTarget={this.Plumber.makeTarget}
-                plumberRemove={this.Plumber.remove}
-                plumberRecalculate={this.Plumber.recalculate}
-                plumberMakeSource={this.Plumber.makeSource}
-                plumberConnectExit={this.Plumber.connectExit}
-                plumberUpdateClass={this.Plumber.updateClass}
-            />
+            <div style={{ position: 'absolute', display: 'block' }}>
+                <ConnectedNode
+                    selected={false}
+                    ref={this.ghostRef}
+                    key={this.props.editorState.ghostNode.node.uuid}
+                    data-spec={ghostNodeSpecId}
+                    ghost={true}
+                    nodeUUID={this.props.editorState.ghostNode.node.uuid}
+                    Activity={this.Activity}
+                    plumberRepaintForDuration={this.Plumber.repaintForDuration}
+                    plumberMakeTarget={this.Plumber.makeTarget}
+                    plumberRemove={this.Plumber.remove}
+                    plumberRecalculate={this.Plumber.recalculate}
+                    plumberMakeSource={this.Plumber.makeSource}
+                    plumberConnectExit={this.Plumber.connectExit}
+                    plumberUpdateClass={this.Plumber.updateClass}
+                />
+            </div>
         ) : null;
     }
 
@@ -331,7 +336,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private isClickOnCanvas(event: React.MouseEvent<HTMLDivElement>): boolean {
         // TODO: not sure the TS-safe way to access id here
-        console.log((event.target as any).id, this.nodeContainerUUID);
         return (event.target as any).id === this.nodeContainerUUID;
     }
 
@@ -365,26 +369,33 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         if (sticky) {
             return sticky.position;
         }
+
+        return { left: 0, top: 0 };
     }
 
     public render(): JSX.Element {
+        const draggables = this.getStickies().concat(this.getNodes());
+
         return (
             <div onDoubleClick={this.onDoubleClick}>
                 <Canvas
+                    onDragged={(uuids: string[]) => {
+                        uuids.forEach((uuid: string) => {
+                            if (uuid in this.props.nodes) {
+                                this.props.nodes[uuid].node.exits.forEach((exit: Exit) => {
+                                    if (exit.destination_node_uuid) {
+                                        uuids.push(uuid + ':' + exit.uuid);
+                                    }
+                                });
+                            }
+                        });
+                        this.Plumber.recalculateUUIDs(uuids);
+                    }}
                     uuid={this.nodeContainerUUID}
                     dragActive={this.props.editorState.dragActive}
-                    canvasSelections={this.props.editorState.canvasSelections}
                     mergeEditorState={this.props.mergeEditorState}
-                    draggables={this.getStickies().concat(this.getNodes())}
-                    getCurrentPosition={this.getCurrentPosition}
+                    draggables={draggables}
                     onUpdateDragPositions={this.props.onDragSelection}
-                    onCheckCollisions={(box: FlowPosition) => {
-                        return getCollisions(
-                            this.props.nodes,
-                            this.props.definition._ui.stickies,
-                            box
-                        );
-                    }}
                 >
                     {this.getSimulator()}
                     {this.getDragNode()}

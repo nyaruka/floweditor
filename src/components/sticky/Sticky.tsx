@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux';
 import * as styles from '~/components/sticky/Sticky.scss';
 import { FlowDefinition, StickyNote } from '~/flowTypes';
 import { DragEvent } from '~/services/Plumber';
-import { CanvasPositions } from '~/store/editor';
 import AppState from '~/store/state';
 import {
     DispatchWithState,
@@ -25,11 +24,11 @@ export const STICKY_SPEC_ID: string = 'sticky-container';
 export interface StickyPassedProps {
     uuid: string;
     sticky: StickyNote;
+    selected: boolean;
 }
 
 export interface StickyStoreProps {
     definition: FlowDefinition;
-    canvasSelections: CanvasPositions;
     updateSticky: UpdateSticky;
     updateDimensions: UpdateDimensions;
     onResetDragSelection: OnResetDragSelection;
@@ -77,7 +76,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     private isSelected(): boolean {
-        return this.props.canvasSelections && this.props.canvasSelections[this.props.uuid] != null;
+        return this.props.selected;
     }
 
     private onRef(ref: HTMLDivElement): HTMLDivElement {
@@ -241,12 +240,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({
-    flowContext: { definition },
-    editorState: { canvasSelections }
-}: AppState) => ({
-    definition,
-    canvasSelections
+const mapStateToProps = ({ flowContext: { definition } }: AppState) => ({
+    definition
 });
 
 /* istanbul ignore next */

@@ -14,7 +14,7 @@ import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
-import { CanvasPositions, DebugState } from '~/store/editor';
+import { DebugState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
 import {
@@ -46,6 +46,7 @@ export interface NodePassedProps {
     plumberMakeSource: Function;
     plumberConnectExit: Function;
     plumberUpdateClass: Function;
+    selected: boolean;
     ghostRef?: any;
     ghost?: boolean;
 }
@@ -53,7 +54,6 @@ export interface NodePassedProps {
 export interface NodeStoreProps {
     translating: boolean;
     dragActive: boolean;
-    canvasSelections: CanvasPositions;
     debug: DebugState;
     renderNode: RenderNode;
     definition: FlowDefinition;
@@ -101,35 +101,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return (this.ele = ref);
     }
 
-    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
-        if (!this.props.ghost) {
-            try {
-                this.props.plumberRecalculate(this.props.renderNode.node.uuid);
-                for (const exit of this.props.renderNode.node.exits) {
-                    this.props.plumberRecalculate(
-                        this.props.renderNode.node.uuid + ':' + exit.uuid
-                    );
-                }
-            } catch (error) {
-                console.log(error);
-            }
-
-            if (
-                !this.props.renderNode.ui.position ||
-                (this.props.renderNode.ui.position.right !==
-                    this.props.renderNode.ui.position.left + this.ele.clientWidth ||
-                    this.props.renderNode.ui.position.bottom !==
-                        this.props.renderNode.ui.position.top + this.ele.clientHeight)
-            ) {
-                if (!this.props.translating) {
-                    this.updateDimensions();
-                }
-            }
-        } else {
-            this.props.plumberRecalculate(this.props.renderNode.node.uuid);
-        }
-    }
-
     public componentDidMount(): void {
         // Make ourselves a target
         this.props.plumberMakeTarget(this.props.renderNode.node.uuid);
@@ -152,8 +123,22 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     nodeEle.show();
                 }
             });
-        } else {
-            this.updateDimensions();
+        }
+    }
+
+    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
+        // when our exits change, we need to recalculate the endpoints
+        if (!this.props.ghost) {
+            try {
+                this.props.plumberRecalculate(this.props.renderNode.node.uuid);
+                for (const exit of this.props.renderNode.node.exits) {
+                    this.props.plumberRecalculate(
+                        this.props.renderNode.node.uuid + ':' + exit.uuid
+                    );
+                }
+            } catch (error) {
+                // console.log(error);
+            }
         }
     }
 
@@ -231,9 +216,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private isSelected(): boolean {
-        return (
-            this.props.canvasSelections && this.props.canvasSelections[this.props.nodeUUID] != null
-        );
+        return this.props.selected;
     }
 
     private hasMissing(): boolean {
@@ -426,7 +409,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 const mapStateToProps = (
     {
         flowContext: { nodes, definition },
-        editorState: { translating, debug, ghostNode, canvasSelections, dragActive }
+        editorState: { translating, debug, ghostNode, dragActive }
     }: AppState,
     props: NodePassedProps
 ) => {
@@ -450,7 +433,6 @@ const mapStateToProps = (
         translating,
         debug,
         dragActive,
-        canvasSelections,
         definition,
         renderNode
     };
