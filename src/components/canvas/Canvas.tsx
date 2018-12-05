@@ -1,10 +1,16 @@
 import { react as bindCallbacks } from 'auto-bind';
+import mutate from 'immutability-helper';
 import * as React from 'react';
 import { CanvasDraggable, CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
+import { draggable } from '~/components/canvas/CanvasDraggable.scss';
+import { getCollisions } from '~/components/canvas/helpers';
 import { DRAG_THRESHOLD } from '~/components/flow/Flow';
-import { FlowPosition } from '~/flowTypes';
+import { dragGroup } from '~/components/flow/node/Node.scss';
+import { Dimensions, FlowPosition } from '~/flowTypes';
 import { CanvasPositions, DragSelection } from '~/store/editor';
+import { addPosition } from '~/store/helpers';
 import { MergeEditorState } from '~/store/thunks';
+import { snapPositionToGrid } from '~/utils';
 
 import * as styles from './Canvas.scss';
 
@@ -12,14 +18,12 @@ interface CanvasProps {
     uuid: string;
     dragActive: boolean;
     draggables: CanvasDraggableProps[];
-    getCurrentPosition: (uuid: string) => FlowPosition;
+    onDragged: (draggedUUIDs: string[]) => void;
     onUpdateDragPositions: (
         delta: FlowPosition,
         originalPositions: CanvasPositions,
         snap: boolean
     ) => void;
-    onCheckCollisions: (box: FlowPosition) => CanvasPositions;
-    canvasSelections: CanvasPositions;
     mergeEditorState: MergeEditorState;
 }
 
@@ -29,9 +33,11 @@ interface CanvasState {
     dragGroup: boolean;
     dragSelection: DragSelection;
     uuid: string;
+    positions: CanvasPositions;
+    selected: CanvasPositions;
 }
 
-export class Canvas extends React.Component<CanvasProps, CanvasState> {
+export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     private ele: HTMLDivElement;
     private parentOffset: FlowPosition;
 
@@ -41,12 +47,19 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
     constructor(props: CanvasProps) {
         super(props);
 
+        const positions: { [uuid: string]: FlowPosition } = {};
+        this.props.draggables.forEach((draggable: CanvasDraggableProps) => {
+            positions[draggable.uuid] = draggable.position;
+        });
+
         this.state = {
             dragDownPosition: null,
             dragUUID: null,
             dragGroup: false,
             dragSelection: null,
-            uuid: this.props.uuid
+            uuid: this.props.uuid,
+            selected: {},
+            positions
         };
 
         bindCallbacks(this, {
@@ -109,7 +122,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
             const right = Math.max(drag.startX, drag.currentX);
             const bottom = Math.max(drag.startY, drag.currentY);
 
-            const selected = this.props.onCheckCollisions({ left, top, right, bottom });
+            const selected = getCollisions(this.state.positions, { left, top, right, bottom });
+
             this.setState({
                 dragSelection: {
                     startX: drag.startX,
@@ -119,7 +133,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
                 }
             });
 
-            this.props.mergeEditorState({ canvasSelections: selected });
+            this.setState({ selected });
 
             if (Object.keys(selected).length > 0) {
                 this.justSelected = true;
@@ -128,46 +142,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
         if (this.state.dragUUID) {
             this.updatePositions(event, false);
-        }
-    }
-
-    private updatePositions(event: React.MouseEvent<HTMLDivElement>, snap: boolean): void {
-        const { dragUUID } = this.state;
-
-        const startPosition = this.props.dragActive
-            ? this.props.canvasSelections[dragUUID]
-            : this.props.getCurrentPosition(dragUUID);
-
-        const xd =
-            event.pageX -
-            this.parentOffset.left -
-            this.state.dragDownPosition.left -
-            startPosition.left;
-
-        const yd =
-            event.pageY -
-            this.parentOffset.top -
-            this.state.dragDownPosition.top -
-            startPosition.top;
-
-        if (this.props.dragActive) {
-            this.props.onUpdateDragPositions(
-                { left: xd, top: yd },
-                this.props.canvasSelections,
-                snap
-            );
-        } else {
-            if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
-                let selected = this.props.canvasSelections;
-                if (!(this.state.dragUUID in selected)) {
-                    selected = { [dragUUID]: this.props.getCurrentPosition(dragUUID) };
-                }
-
-                this.props.mergeEditorState({
-                    dragActive: true,
-                    canvasSelections: selected
-                });
-            }
         }
     }
 
@@ -183,9 +157,10 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
 
         if (!this.justSelected) {
             this.props.mergeEditorState({
-                canvasSelections: {},
                 dragActive: false
             });
+
+            this.setState({ selected: {} });
         }
 
         if (this.state.dragSelection && this.state.dragSelection.startX) {
@@ -200,6 +175,85 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
         }
 
         this.justSelected = false;
+    }
+
+    private handleUpdateDimensions(uuid: string, dimensions: Dimensions): void {
+        let pos = this.state.positions[uuid];
+
+        if (!pos) {
+            pos = this.props.draggables.find((item: CanvasDraggableProps) => item.uuid === uuid)
+                .position;
+        }
+
+        const newPosition = {
+            left: pos.left,
+            top: pos.top,
+            right: pos.left + dimensions.width,
+            bottom: pos.top + dimensions.height
+        };
+
+        if (newPosition.right !== pos.right || newPosition.bottom !== pos.bottom) {
+            const newPositions = mutate(this.state.positions, {
+                $merge: {
+                    [uuid]: newPosition
+                }
+            });
+
+            this.setState({ positions: newPositions });
+        }
+    }
+
+    private updatePositions(event: React.MouseEvent<HTMLDivElement>, snap: boolean): void {
+        const { dragUUID } = this.state;
+
+        const startPosition = this.props.dragActive
+            ? this.state.selected[dragUUID]
+            : this.state.positions[dragUUID];
+
+        const xd =
+            event.pageX -
+            this.parentOffset.left -
+            this.state.dragDownPosition.left -
+            startPosition.left;
+
+        const yd =
+            event.pageY -
+            this.parentOffset.top -
+            this.state.dragDownPosition.top -
+            startPosition.top;
+
+        if (this.props.dragActive) {
+            const uuids = Object.keys(this.state.selected);
+
+            let newPositions = this.state.positions;
+            const delta = { left: xd, top: yd };
+            uuids.forEach((uuid: string) => {
+                let newPosition = addPosition(this.state.selected[uuid], delta);
+                if (snap) {
+                    newPosition = snapPositionToGrid(newPosition);
+                }
+                newPositions = mutate(newPositions, {
+                    $merge: { [uuid]: newPosition }
+                });
+            });
+
+            this.setState({ positions: newPositions });
+
+            this.props.onDragged(uuids);
+        } else {
+            if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
+                let selected = this.state.selected;
+                if (!(this.state.dragUUID in selected)) {
+                    selected = { [dragUUID]: this.state.positions[dragUUID] };
+                }
+
+                this.props.mergeEditorState({
+                    dragActive: true
+                });
+
+                this.setState({ selected });
+            }
+        }
     }
 
     private handleDragStart(uuid: string, position: FlowPosition): void {
@@ -236,15 +290,21 @@ export class Canvas extends React.Component<CanvasProps, CanvasState> {
                 onMouseMove={this.handleMouseMove}
                 onMouseUp={this.handleMouseUp}
             >
-                {this.props.draggables.map((draggable: CanvasDraggableProps) => (
-                    <CanvasDraggable
-                        selected={!!this.props.canvasSelections[draggable.uuid]}
-                        key={draggable.ele.key}
-                        {...draggable}
-                        onDragStart={this.handleDragStart}
-                        onDragStop={this.handleDragStop}
-                    />
-                ))}
+                {this.props.draggables.map((draggable: CanvasDraggableProps) => {
+                    const pos = this.state.positions[draggable.uuid] || draggable.position;
+                    return (
+                        <CanvasDraggable
+                            key={'draggable_' + draggable.uuid}
+                            uuid={draggable.uuid}
+                            updateDimensions={this.handleUpdateDimensions}
+                            position={pos}
+                            selected={!!this.state.selected[draggable.uuid]}
+                            ele={draggable.ele}
+                            onDragStart={this.handleDragStart}
+                            onDragStop={this.handleDragStop}
+                        />
+                    );
+                })}
                 {this.props.children}
                 {this.renderSelectionBox()}
             </div>

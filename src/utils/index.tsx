@@ -1,7 +1,7 @@
 import { Query } from 'immutability-helper';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import { Action, Case, ContactProperties, Exit, LocalizationMap } from '~/flowTypes';
+import { Action, Case, ContactProperties, Exit, FlowPosition, LocalizationMap } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { Asset } from '~/store/flowContext';
 import { FormEntry } from '~/store/nodeEditor';
@@ -55,6 +55,38 @@ export const snapToGrid = (left: number, top: number): { left: number; top: numb
     return {
         left: Math.max(left + leftAdjust, 0),
         top: Math.max(top + topAdjust, 0)
+    };
+};
+
+/**
+ * Adjusts the position offsets to a grid
+ */
+export const snapPositionToGrid = (position: FlowPosition): FlowPosition => {
+    let leftAdjust = position.left % GRID_SIZE;
+    let topAdjust = position.top % GRID_SIZE;
+
+    if (leftAdjust > GRID_SIZE / 3) {
+        leftAdjust = GRID_SIZE - leftAdjust;
+    } else {
+        leftAdjust = leftAdjust * -1;
+    }
+
+    if (topAdjust > GRID_SIZE / 3) {
+        topAdjust = GRID_SIZE - topAdjust;
+    } else {
+        topAdjust = topAdjust * -1;
+    }
+
+    const left = Math.max(position.left + leftAdjust, 0);
+    const top = Math.max(position.top + topAdjust, 0);
+    const right = left + position.right - position.left;
+    const bottom = top + position.bottom - position.top;
+
+    return {
+        left,
+        top,
+        right,
+        bottom
     };
 };
 

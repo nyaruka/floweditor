@@ -31,8 +31,6 @@ export interface EditorState {
     dragGroup: boolean;
     dragSelection: DragSelection;
     debug?: DebugState;
-
-    canvasSelections: CanvasPositions;
 }
 
 export const EMPTY_DRAG_STATE: any = {
@@ -56,8 +54,7 @@ export const initialState: EditorState = {
     dragGroup: false,
     dragSelection: null,
     ghostNode: null,
-    debug: null,
-    canvasSelections: {}
+    debug: null
 };
 
 // Action Creator

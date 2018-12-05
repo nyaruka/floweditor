@@ -19,7 +19,7 @@ const baseProps: StickyProps = {
     uuid: 'stickyA',
     sticky,
     definition,
-    canvasSelections: {},
+    selected: false,
     updateSticky: jest.fn(),
     updateDimensions: jest.fn(),
     onResetDragSelection: jest.fn()

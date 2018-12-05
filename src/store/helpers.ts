@@ -149,7 +149,14 @@ export const newPosition = (left: number, top: number): FlowPosition => {
 };
 
 export const addPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {
-    return { left: a.left + b.left, top: a.top + b.top };
+    const width = a.right - a.left;
+    const height = a.bottom - a.top;
+    return {
+        left: a.left + b.left,
+        top: a.top + b.top,
+        right: a.left + b.left + width,
+        bottom: a.top + b.top + height
+    };
 };
 
 export const subtractPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {
