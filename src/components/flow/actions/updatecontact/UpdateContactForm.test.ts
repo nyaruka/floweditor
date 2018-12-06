@@ -1,9 +1,10 @@
-import UpdateContactForm, {
+import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import {
+    ActionFormProps,
     CHANNEL_PROPERTY,
     LANGUAGE_PROPERTY,
     NAME_PROPERTY
-} from '~/components/flow/actions/updatecontact/UpdateContactForm';
-import { ActionFormProps } from '~/components/flow/props';
+} from '~/components/flow/props';
 import { AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import {

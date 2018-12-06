@@ -1,4 +1,4 @@
-import { NAME_PROPERTY } from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import { NAME_PROPERTY } from '~/components/flow/props';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { FieldRouterFormState } from '~/components/flow/routers/field/FieldRouterForm';
 import {
