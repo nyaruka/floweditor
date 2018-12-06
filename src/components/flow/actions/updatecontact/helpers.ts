@@ -1,10 +1,5 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
-import {
-    CHANNEL_PROPERTY,
-    LANGUAGE_PROPERTY,
-    NAME_PROPERTY,
-    UpdateContactFormState
-} from '~/components/flow/actions/updatecontact/UpdateContactForm';
+import { CHANNEL_PROPERTY, LANGUAGE_PROPERTY, NAME_PROPERTY } from '~/components/flow/props';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import {
     Channel,
@@ -17,7 +12,16 @@ import {
     SetContactName
 } from '~/flowTypes';
 import { Asset, AssetType, REMOVE_VALUE_ASSET } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
+import { AssetEntry, FormState, NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
+
+export interface UpdateContactFormState extends FormState {
+    type: Types;
+    name: StringEntry;
+    channel: AssetEntry;
+    language: AssetEntry;
+    field: AssetEntry;
+    fieldValue: StringEntry;
+}
 
 export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormState => {
     const state: UpdateContactFormState = {

@@ -1,9 +1,10 @@
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
 import { Type } from '~/config/typeConfigs';
-import { AnyAction } from '~/flowTypes';
-import { Asset, AssetStore, RenderNode } from '~/store/flowContext';
+import { AnyAction, ContactProperties } from '~/flowTypes';
+import { Asset, AssetStore, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';
+import { titleCase } from '~/utils';
 
 export interface ActionFormProps {
     // action details
@@ -42,3 +43,21 @@ export interface LocalizationFormProps {
     updateLocalizations(languageCode: string, localizations: any[]): UpdateLocalizations;
     onClose(canceled: boolean): void;
 }
+
+export const NAME_PROPERTY: Asset = {
+    name: titleCase(ContactProperties.Name),
+    id: ContactProperties.Name,
+    type: AssetType.ContactProperty
+};
+
+export const CHANNEL_PROPERTY: Asset = {
+    name: titleCase(ContactProperties.Channel),
+    id: ContactProperties.Channel,
+    type: AssetType.ContactProperty
+};
+
+export const LANGUAGE_PROPERTY: Asset = {
+    name: titleCase(ContactProperties.Language),
+    id: ContactProperties.Language,
+    type: AssetType.ContactProperty
+};

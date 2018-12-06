@@ -87,6 +87,7 @@ exports[`UpdateContactForm render initial for channel 1`] = `
           },
         }
       }
+      key="select_channel"
       name="Channel"
       onChange={[Function]}
       placeholder="Select the channel to use for this contact"
@@ -275,6 +276,7 @@ exports[`UpdateContactForm render initial for language 1`] = `
           },
         }
       }
+      key="select_language"
       name="Language"
       onChange={[Function]}
       placeholder="Select the language to use for this contact"

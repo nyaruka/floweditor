@@ -1,7 +1,18 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { ActionFormProps } from '~/components/flow/props';
+import {
+    initializeForm,
+    sortFieldsAndProperties,
+    stateToAction,
+    UpdateContactFormState
+} from '~/components/flow/actions/updatecontact/helpers';
+import {
+    ActionFormProps,
+    CHANNEL_PROPERTY,
+    LANGUAGE_PROPERTY,
+    NAME_PROPERTY
+} from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
@@ -10,41 +21,12 @@ import { Types } from '~/config/typeConfigs';
 import { ContactProperties } from '~/flowTypes';
 import { Asset, AssetType, updateAssets } from '~/store/flowContext';
 import * as mutators from '~/store/mutators';
-import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import { mergeForm } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
-import { createUUID, titleCase } from '~/utils';
+import { createUUID } from '~/utils';
 
-import { initializeForm, sortFieldsAndProperties, stateToAction } from './helpers';
-
-const styles = require('./UpdateContact.scss');
-
-export interface UpdateContactFormState extends FormState {
-    type: Types;
-    name: StringEntry;
-    channel: AssetEntry;
-    language: AssetEntry;
-    field: AssetEntry;
-    fieldValue: StringEntry;
-}
-
-export const NAME_PROPERTY: Asset = {
-    name: titleCase(ContactProperties.Name),
-    id: ContactProperties.Name,
-    type: AssetType.ContactProperty
-};
-
-export const CHANNEL_PROPERTY: Asset = {
-    name: titleCase(ContactProperties.Channel),
-    id: ContactProperties.Channel,
-    type: AssetType.ContactProperty
-};
-
-export const LANGUAGE_PROPERTY: Asset = {
-    name: titleCase(ContactProperties.Language),
-    id: ContactProperties.Language,
-    type: AssetType.ContactProperty
-};
+import * as styles from './UpdateContact.scss';
 
 export const CONTACT_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, CHANNEL_PROPERTY];
 
@@ -152,7 +134,11 @@ export default class UpdateContactForm extends React.Component<
             flowContext: { assetStore }
         } = getState();
 
-        dispatch(updateAssets(mutators.addAssets('fields', assetStore, [this.state.field.value])));
+        if (this.state.field.value.type === AssetType.Field) {
+            dispatch(
+                updateAssets(mutators.addAssets('fields', assetStore, [this.state.field.value]))
+            );
+        }
     }
 
     public handleFieldAdded(name: string): void {
@@ -197,6 +183,7 @@ export default class UpdateContactForm extends React.Component<
         if (this.state.type === Types.set_contact_channel) {
             return (
                 <AssetSelector
+                    key="select_channel"
                     name="Channel"
                     placeholder="Select the channel to use for this contact"
                     assets={this.props.assetStore.channels}
@@ -211,6 +198,7 @@ export default class UpdateContactForm extends React.Component<
         if (this.state.type === Types.set_contact_language) {
             return (
                 <AssetSelector
+                    key="select_language"
                     name="Language"
                     placeholder="Select the language to use for this contact"
                     assets={this.props.assetStore.languages}
