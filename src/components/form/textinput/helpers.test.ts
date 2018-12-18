@@ -54,11 +54,11 @@ describe('helpers', () => {
 
     describe('filterOptions', () => {
         it('should return top-level options if not passed a query', () =>
-            expect(filterOptions(OPTIONS)).toEqual(TOP_LEVEL_OPTIONS));
+            expect(filterOptions(OPTIONS, '', true)).toEqual(TOP_LEVEL_OPTIONS));
 
         Object.keys(optionQueryMap).forEach(query =>
             it(`should filter options for "${query}"`, () =>
-                expect(filterOptions(OPTIONS, query)).toMatchSnapshot())
+                expect(filterOptions(OPTIONS, query, true)).toMatchSnapshot())
         );
     });
 

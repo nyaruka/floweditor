@@ -8,6 +8,7 @@ import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import * as shared from '~/components/form/FormElement.scss';
 import CharCount from '~/components/form/textinput/CharCount';
 import { COMPLETION_HELP, KeyValues } from '~/components/form/textinput/constants';
+import ExcellentParser from '~/components/form/textinput/ExcellentParser';
 import {
     filterOptions,
     getMsgStats,
@@ -68,6 +69,7 @@ export interface TextInputState {
     parts?: string[];
     characterCount?: number;
     unicodeChars?: UnicodeCharMap;
+    fn?: CompletionOption;
 }
 
 type InitialState = Pick<
@@ -94,6 +96,7 @@ const cx = classNames.bind({ ...styles, ...shared });
 export class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
     private textEl: HTMLTextElement;
+    private parser: ExcellentParser;
 
     constructor(props: TextInputProps) {
         super(props);
@@ -109,6 +112,17 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             ...initialState,
             ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };
+
+        this.parser = new ExcellentParser('@', [
+            'channel',
+            'child',
+            'parent',
+            'contact',
+            'date',
+            'extra',
+            'flow',
+            'step'
+        ]);
 
         // console.log(this.state.options);
 
@@ -192,17 +206,24 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                         0,
                         this.state.caretOffset - this.state.query.length
                     );
-                    newValue += option.name;
+
+                    if (option.signature) {
+                        newValue += option.signature.substring(
+                            0,
+                            option.signature.indexOf('(') + 1
+                        );
+                    } else {
+                        newValue += option.name;
+                    }
 
                     const newCaret = newValue.length;
-                    newValue += this.state.value.substr(this.state.caretOffset);
 
                     let query = '';
                     let completionVisible = false;
                     const matches: CompletionOption[] = [];
                     if (event.key === KeyValues.KEY_TAB) {
                         query = option.name;
-                        matches.push(...filterOptions(this.state.options, query));
+                        matches.push(...filterOptions(this.state.options, query, true));
                         completionVisible = matches.length > 0;
                     }
 
@@ -229,41 +250,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 }
                 break;
             case KeyValues.KEY_BACKSPACE:
-                // Iterate backwards on our value until we reach either a space or @
-                const caret = event.currentTarget.selectionStart - 1;
-                for (let i = caret - 1; i >= 0; i--) {
-                    const curr = this.state.value[i];
-                    /** Space, don't do anything but break out */
-                    if (curr === ' ') {
-                        break;
-                    }
-
-                    // if '@' we display completion menu again
-                    if (curr === '@') {
-                        const query = this.state.value.substr(i + 1, caret - i - 1);
-                        const matches = filterOptions(this.state.options, query);
-                        const completionVisible = matches.length > 0;
-                        return this.setState({
-                            query,
-                            matches,
-                            caretOffset: caret,
-                            completionVisible,
-                            selectedOptionIndex: 0,
-                            caretCoordinates: getCaretCoordinates(this.textEl, i)
-                        });
-                    }
-                }
-
-                // We are visible still but really shouldn't be, clear out
-                if (this.state.completionVisible) {
-                    this.setState({
-                        query: '',
-                        matches: [],
-                        caretOffset: caret,
-                        completionVisible: false,
-                        selectedOptionIndex: 0
-                    });
-                }
+                // go backwards on our value until we reach either a space or @
+                this.executeQuery(
+                    event.currentTarget.value,
+                    event.currentTarget.selectionStart - 1
+                );
                 break;
             case KeyValues.KEY_SPACE:
                 this.setState({
@@ -286,25 +277,63 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         );
     }
 
+    private executeQuery(value: string, position: number): Partial<TextInputState> {
+        // go backwards until we have a query
+        const caret = position - 1;
+        const expression = this.parser.expressionContext(value.substr(0, position));
+
+        let fn: CompletionOption = null;
+        if (expression !== null) {
+            const includeFunctions = expression.startsWith('(');
+
+            if (includeFunctions) {
+                const functionQuery = this.parser.functionContext(expression);
+                if (functionQuery) {
+                    const fns = filterOptions(this.state.options, functionQuery, includeFunctions);
+                    if (fns.length > 0) {
+                        fn = fns[0];
+                    }
+                }
+            }
+
+            for (let i = expression.length; i >= 0; i--) {
+                const curr = expression[i];
+                if (curr === '@' || curr === '(' || curr === ' ' || i === 0) {
+                    // don't include open parens or spaces
+                    if (curr === '(' || curr === ' ') {
+                        i++;
+                    }
+
+                    const query = expression.substr(i, expression.length - i);
+                    const matches = filterOptions(this.state.options, query, includeFunctions);
+
+                    const completionVisible = matches.length > 0;
+                    return {
+                        query,
+                        matches,
+                        caretOffset: caret,
+                        completionVisible,
+                        selectedOptionIndex: 0,
+                        caretCoordinates: getCaretCoordinates(this.textEl, position - query.length),
+                        fn,
+                        value
+                    };
+                }
+            }
+        }
+        return {
+            query: null,
+            completionVisible: false,
+            matches: [],
+            selectedOptionIndex: 0
+        };
+    }
+
     private handleChange({
         currentTarget: { value, selectionStart }
     }: React.ChangeEvent<HTMLTextElement>): void {
-        const updates: Partial<TextInputState> = {
-            value
-        };
-
         if (this.props.autocomplete) {
-            if (this.state.completionVisible) {
-                let query = value.substring(0, selectionStart);
-                const lastIdx = query.lastIndexOf('@');
-
-                if (lastIdx > -1) {
-                    query = query.substring(lastIdx + 1);
-                }
-
-                updates.query = query;
-                updates.matches = filterOptions(this.state.options, query);
-            }
+            const updates: Partial<TextInputState> = this.executeQuery(value, selectionStart);
 
             if (this.props.count === Count.SMS) {
                 const { parts, characterCount, unicodeChars } = getMsgStats(value, true);
@@ -316,9 +345,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
             updates.caretOffset = selectionStart;
             updates.selectedOptionIndex = 0;
+            this.setState(updates as TextInputState);
         }
-
-        this.setState(updates as TextInputState);
 
         if (this.props.onChange) {
             this.props.onChange(value);
@@ -351,15 +379,30 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         this.textEl.selectionStart = length;
     }
 
-    private getOption({ name, description }: CompletionOption, selected: boolean): JSX.Element {
-        const optionName = <div data-spec="option-name">{name}</div>;
+    private getOption(option: CompletionOption, selected: boolean): JSX.Element {
+        const optionName = <div data-spec="option-name">{option.signature || option.name}</div>;
 
+        // render a function
+        if (option.signature) {
+            if (selected) {
+                return (
+                    <>
+                        {optionName}
+                        <div data-spec="option-desc" className={styles.option_description}>
+                            {option.summary}
+                        </div>
+                    </>
+                );
+            }
+        }
+
+        // otherwise, a variable completion
         if (selected) {
             return (
                 <>
                     {optionName}
                     <div data-spec="option-desc" className={styles.option_description}>
-                        {description}
+                        {option.description}
                     </div>
                 </>
             );
@@ -383,7 +426,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     <li
                         ref={this.selectedElRef}
                         className={optionClasses.join(' ')}
-                        key={option.name}
+                        key={option.signature || option.name}
                     >
                         {this.getOption(option, true)}
                     </li>
@@ -391,7 +434,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             }
 
             return (
-                <li className={optionClasses.join(' ')} key={option.name}>
+                <li className={optionClasses.join(' ')} key={option.signature || option.name}>
                     {this.getOption(option, false)}
                 </li>
             );
@@ -404,6 +447,58 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             this.props.entry.validationFailures &&
             this.props.entry.validationFailures.length > 0
         );
+    }
+
+    private getQuery(expression: string): string {
+        let parsed = this.parser.expressionContext(expression);
+        if (parsed === null) {
+            parsed = expression;
+        }
+
+        return parsed.substr(
+            Math.max(parsed.lastIndexOf(' '), parsed.lastIndexOf('('), parsed.lastIndexOf('@')) + 1
+        );
+    }
+
+    private getTextElement(): JSX.Element {
+        const textElClasses = cx({
+            [styles.textinput]: true,
+            [shared.invalid]: this.hasErrors() || this.props.showInvalid === true
+        });
+
+        let text = this.state.value;
+        if (this.props.entry) {
+            text = this.props.entry.value;
+        }
+
+        if (this.props.textarea) {
+            return (
+                <textarea
+                    data-spec="input"
+                    ref={this.textElRef}
+                    className={textElClasses}
+                    value={text}
+                    onChange={this.handleChange}
+                    onBlur={this.onBlur}
+                    onKeyDown={this.onKeyDown}
+                    placeholder={this.props.placeholder}
+                />
+            );
+        } else {
+            return (
+                <input
+                    data-spec="input"
+                    ref={this.textElRef}
+                    type="text"
+                    className={textElClasses}
+                    value={text}
+                    onChange={this.handleChange}
+                    onBlur={this.onBlur}
+                    onKeyDown={this.onKeyDown}
+                    placeholder={this.props.placeholder}
+                />
+            );
+        }
     }
 
     public render(): JSX.Element {
@@ -451,17 +546,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 sendMsgError={sendMsgError}
             >
                 <div className={styles.wrapper}>
-                    <TextElement
-                        data-spec="input"
-                        ref={this.textElRef}
-                        type={inputType}
-                        className={textElClasses}
-                        value={text}
-                        onChange={this.handleChange}
-                        onBlur={this.onBlur}
-                        onKeyDown={this.onKeyDown}
-                        placeholder={this.props.placeholder}
-                    />
+                    {this.getTextElement()}
                     <div
                         className={completionClasses}
                         style={{

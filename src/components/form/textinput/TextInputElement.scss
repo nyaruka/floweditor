@@ -32,6 +32,17 @@
     }
 }
 
+.function_help {
+    overflow: hidden;
+    position: absolute;
+    background: #fff;
+    width: 250px;
+    border-radius: 4px;
+    -webkit-box-shadow: $shadow_down;
+    box-shadow: $shadow_down;
+    z-index: $z_completion;
+}
+
 .completion_container {
     overflow: hidden;
     position: absolute;

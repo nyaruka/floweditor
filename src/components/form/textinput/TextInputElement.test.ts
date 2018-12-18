@@ -1,9 +1,14 @@
 import setCaretPosition from 'get-input-selection';
-import { KeyValues, OPTIONS } from '~/components/form/textinput/constants';
-import { TextInputElement, TextInputProps } from '~/components/form/textinput/TextInputElement';
+import { KeyValues } from '~/components/form/textinput/constants';
+import {
+    TextInputElement,
+    TextInputProps,
+    TextInputState
+} from '~/components/form/textinput/TextInputElement';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { composeComponentTestUtils } from '~/testUtils';
 
+// import { wrapper } from '~/components/form/textinput/TextInputElement.scss';
 const baseProps: TextInputProps = {
     name: 'Message',
     typeConfig: getTypeConfig(Types.send_msg),
@@ -16,164 +21,224 @@ jest.mock('get-input-selection', () => ({
     default: jest.fn()
 }));
 
+const mockEvent = {
+    preventDefault(): void {
+        return;
+    },
+    stopPropagation(): void {
+        return;
+    }
+};
+
+const simulateString = (wrap: any, keys: string) => {
+    const input = wrap.find('textarea');
+    let presses = wrap.instance().textEl.value;
+    for (const key of keys) {
+        input.prop('onKeyDown')({
+            ...mockEvent,
+            key
+        });
+
+        presses += key;
+
+        input.prop('onChange')({
+            currentTarget: {
+                value: presses,
+                selectionStart: presses.length
+            }
+        });
+    }
+};
+
+const simulateKey = (wrap: any, key: KeyValues, ctrlKey: boolean = false) => {
+    if (key === KeyValues.KEY_AT) {
+        simulateString(wrap, key);
+    } else {
+        const input = wrap.find('textarea');
+        input.prop('onKeyDown')({
+            ...mockEvent,
+            key,
+            ctrlKey
+        });
+    }
+};
+
+const getState = (wrap: any): TextInputState => {
+    return wrap.instance().state as TextInputState;
+};
+
+const createWrapper = () => {
+    return setup(false, {
+        $merge: {
+            onChange: jest.fn(),
+            textarea: true,
+            autocomplete: true
+        }
+    }).wrapper;
+};
+
 describe(TextInputElement.name, () => {
     afterEach(() => {
         setCaretPosition.mockReset();
     });
 
-    const contactOptionName = OPTIONS[0].name;
-    const contactTopLevelOption = `@${contactOptionName}`;
-    const contactAttribQuery = contactTopLevelOption.slice(0, 2);
-    const mockEvent = {
-        preventDefault(): void {
-            return;
-        },
-        stopPropagation(): void {
-            return;
-        }
-    };
+    describe('function context', () => {
+        it('should use the most recent incomplete function', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@(max(default(contact.rank, cont');
 
-    it('should handle completion option selection w/ "Tab" key', () => {
-        const setStateSpy = spyOn('setState');
-        const { wrapper, props } = setup(false, {
-            $merge: {
-                onChange: jest.fn(),
-                textarea: true,
-                autocomplete: true
-            }
-        });
-        const input = wrapper.find('textarea');
-
-        // Bring up completion menu
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            key: KeyValues.KEY_AT
+            const state = getState(wrapper);
+            expect(state.completionVisible).toBeTruthy();
+            expect(state.query).toEqual('cont');
+            expect(state.matches.length).toBe(1);
+            expect(state.fn.signature).toEqual('default(value, default)');
         });
 
-        // Trigger filter for contact options
-        // Issue related to approach: https://github.com/airbnb/enzyme/issues/364
-        input.prop('onChange')({
-            currentTarget: {
-                value: contactAttribQuery,
-                selectionStart: contactAttribQuery.length
-            }
+        it('should use fold back on function completion', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@(max(default(contact.rank, contact.age), ');
+
+            const state = getState(wrapper);
+            expect(state.query).toEqual('');
+            expect(state.fn.signature).toEqual('max(values...)');
         });
-
-        // Complete expression
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            key: KeyValues.KEY_TAB
-        });
-
-        expect(setStateSpy).toHaveBeenCalledTimes(3);
-        expect(props.onChange).toHaveBeenCalledTimes(2);
-        expect(props.onChange).toHaveBeenCalledWith(contactAttribQuery);
-        expect(props.onChange).toHaveBeenCalledWith(contactTopLevelOption);
-        expect(setCaretPosition).toHaveBeenCalledTimes(1);
-        expect(setCaretPosition).toHaveBeenCalledWith(
-            wrapper.instance().textEl,
-            contactTopLevelOption.length
-        );
-
-        setStateSpy.mockRestore();
     });
 
-    it('should handle completion option selection w/ "Enter" key', () => {
-        const setStateSpy = spyOn('setState');
-        const { wrapper, props } = setup(false, {
-            $merge: {
-                onChange: jest.fn(),
-                textarea: true,
-                autocomplete: true
-            }
-        });
-        const input = wrapper.find('textarea');
+    describe('filtering', () => {
+        it('should bring up completion menu for top level options', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@');
 
-        // Bring up completion menu
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            key: KeyValues.KEY_AT
+            const state = getState(wrapper);
+            expect(state.completionVisible).toBeTruthy();
+            expect(state.query).toEqual('');
+            expect(state.caretOffset).toEqual(1);
+
+            // should show all top level options
+            expect(state.matches.length).toBe(5);
         });
 
-        // Trigger filter for contact options
-        input.prop('onChange')({
-            currentTarget: { value: contactAttribQuery, selectionStart: contactAttribQuery.length }
+        it('should show filter options', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@co');
+
+            const state = getState(wrapper);
+            expect(state.completionVisible).toBeTruthy();
+            expect(state.query).toEqual('co');
+            expect(state.caretOffset).toEqual(3);
+
+            // only our contact option should be there
+            expect(state.matches.length).toBe(1);
         });
 
-        // Complete expression
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            key: KeyValues.KEY_ENTER
+        it('should not match functions without open paren', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@max');
+
+            const state = getState(wrapper);
+            expect(state.matches.length).toBe(0);
+            expect(state.completionVisible).toBeFalsy();
         });
 
-        expect(setStateSpy).toHaveBeenCalledTimes(3);
-        expect(props.onChange).toHaveBeenCalledTimes(2);
-        expect(props.onChange).toHaveBeenCalledWith(contactAttribQuery);
-        expect(props.onChange).toHaveBeenCalledWith(contactTopLevelOption);
-        expect(setCaretPosition).toHaveBeenCalledTimes(1);
-        expect(setCaretPosition).toHaveBeenCalledWith(
-            wrapper.instance().textEl,
-            contactTopLevelOption.length
-        );
+        it('should bring up completion menu for top level options and functions', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@(');
 
-        setStateSpy.mockRestore();
+            const state = getState(wrapper);
+            // should show all top level options and functions
+            expect(state.matches.length).toBeGreaterThan(60);
+            expect(state.completionVisible).toBeTruthy();
+        });
+
+        it('should bring up functions within text', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, 'some text @(');
+
+            const state = getState(wrapper);
+            // should show all top level options and functions
+            expect(state.matches.length).toBeGreaterThan(60);
+            expect(state.completionVisible).toBeTruthy();
+        });
     });
 
-    it('should handle completion navigation w/ OSX shortcuts, arrow keys', () => {
-        const setSelectionSpy = spyOn('setSelection');
-        const { wrapper, props } = setup(false, {
-            $merge: {
-                onChange: jest.fn(),
-                textarea: true,
-                autocomplete: true
-            }
-        });
-        const input = wrapper.find('textarea');
+    describe('navigation', () => {
+        it('should filter after tabbing', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@cont');
+            simulateKey(wrapper, KeyValues.KEY_TAB);
+            simulateString(wrapper, '.fir');
 
-        // Bring up completion menu
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            key: KeyValues.KEY_AT
-        });
+            const state = getState(wrapper);
+            expect(state.completionVisible).toBeTruthy();
+            expect(state.query).toEqual('contact.fir');
+            expect(state.caretOffset).toEqual(12);
 
-        input.prop('onChange')({
-            currentTarget: { value: KeyValues.KEY_AT, selectionStart: 1 }
+            // tabbing forward should give us all our contact options
+            expect(state.matches.length).toBe(1);
+            expect(state.matches[0].name).toBe('contact.first_name');
         });
 
-        // Move down w/ 'ArrowDown' key
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            key: KeyValues.KEY_DOWN
+        it('should handle completion w/ "Enter" key', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@cont');
+            simulateKey(wrapper, KeyValues.KEY_ENTER);
+
+            const state = getState(wrapper);
+            expect(state.completionVisible).toBeFalsy();
+            expect(state.query).toEqual('');
+            expect(state.caretOffset).toEqual(8);
+            expect(state.matches.length).toBe(0);
         });
 
-        // Move down w/ 'ctrl + n' macos shortcut
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            ctrlKey: true,
-            key: KeyValues.KEY_N
+        it('should allow navigation with arrow keys', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@c');
+
+            simulateKey(wrapper, KeyValues.KEY_DOWN);
+            let state = getState(wrapper);
+            expect(state.selectedOptionIndex).toBe(1);
+
+            simulateKey(wrapper, KeyValues.KEY_UP);
+            state = getState(wrapper);
+            expect(state.selectedOptionIndex).toBe(0);
         });
 
-        expect(setSelectionSpy).toHaveBeenCalledTimes(2);
-        expect(setSelectionSpy).toHaveBeenCalledWith(1);
-        expect(setSelectionSpy).toHaveBeenCalledWith(2);
+        it('should allow navigation with OSX shortcuts', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@c');
 
-        // Move down w/ 'ArrowUp' key
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            key: KeyValues.KEY_UP
+            simulateKey(wrapper, KeyValues.KEY_N, true);
+            let state = getState(wrapper);
+            expect(state.selectedOptionIndex).toBe(1);
+
+            simulateKey(wrapper, KeyValues.KEY_P, true);
+            state = getState(wrapper);
+            expect(state.selectedOptionIndex).toBe(0);
         });
 
-        // Move down w/ 'ctrl + p' macos shortcut
-        input.prop('onKeyDown')({
-            ...mockEvent,
-            ctrlKey: true,
-            key: KeyValues.KEY_P
+        it('should handle completion w/ "Tab" key', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@cont');
+            simulateKey(wrapper, KeyValues.KEY_TAB);
+
+            const state = getState(wrapper);
+            expect(state.completionVisible).toBeTruthy();
+            expect(state.query).toEqual('contact');
+            expect(state.caretOffset).toEqual(8);
+
+            // tabbing forward should give us all our contact options
+            expect(state.matches.length).toBe(8);
         });
+    });
 
-        expect(setSelectionSpy).toHaveBeenCalledTimes(4);
-        expect(setSelectionSpy).toHaveBeenCalledWith(1);
-        expect(setSelectionSpy).toHaveBeenCalledWith(0);
+    describe('visibility', () => {
+        it('should hide if outside completed expression', () => {
+            const wrapper = createWrapper();
+            simulateString(wrapper, '@(max(contact.first, contact.second)) ');
 
-        setSelectionSpy.mockRestore();
+            const state = getState(wrapper);
+            expect(state.completionVisible).toBeFalsy();
+            expect(state.matches.length).toBe(0);
+        });
     });
 });

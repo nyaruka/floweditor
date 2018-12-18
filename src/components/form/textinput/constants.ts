@@ -1,5 +1,7 @@
 import { CompletionOption } from '~/store/flowContext';
 
+import * as xlnt from './functions.json';
+
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
 export enum KeyValues {
     KEY_AT = '@',
@@ -209,7 +211,8 @@ export const OPTIONS: CompletionOption[] = [
     ...RUN_OPTIONS,
     ...CHILD_OPTIONS,
     ...PARENT_OPTIONS,
-    ...TRIGGER_OPTIONS
+    ...TRIGGER_OPTIONS,
+    ...xlnt
 ];
 
 export const TOP_LEVEL_OPTIONS = OPTIONS.filter(

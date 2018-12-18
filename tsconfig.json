@@ -13,6 +13,7 @@
         "outDir": "lib",
         "preserveConstEnums": true,
         "removeComments": false,
+        "resolveJsonModule": true,
         "target": "es5",
         "downlevelIteration": true,
         "module": "commonjs",

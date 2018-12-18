@@ -25,6 +25,11 @@ export interface RenderNode {
 export interface CompletionOption {
     name: string;
     description: string;
+
+    // functions
+    signature?: string;
+    summary?: string;
+    detail?: string;
 }
 
 export interface ContactFields {
