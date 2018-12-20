@@ -1,4 +1,4 @@
-import { CompletionOption } from '~/store/flowContext';
+import { CompletionOption, getCompletionName } from '~/store/flowContext';
 
 import * as xlnt from './functions.json';
 
@@ -9,11 +9,15 @@ export enum KeyValues {
     KEY_ENTER = 'Enter',
     KEY_UP = 'ArrowUp',
     KEY_DOWN = 'ArrowDown',
+    KEY_RIGHT = 'ArrowRight',
+    KEY_LEFT = 'ArrowLeft',
     KEY_TAB = 'Tab',
     KEY_ESC = 'Escape',
     KEY_BACKSPACE = 'Backspace',
     KEY_N = 'n',
-    KEY_P = 'p'
+    KEY_P = 'p',
+    KEY_F = 'f',
+    KEY_B = 'b'
 }
 
 export enum TopLevelVariables {
@@ -32,94 +36,94 @@ export const MAX_UNICODE_MULTI = 67;
 
 export const COMPLETION_HELP = 'Tab to complete, enter to select';
 
-export const getFlowOptions = (accessor: string = '') => {
+export const getFlowOptions = (accessor: string = ''): CompletionOption[] => {
     const prefix = accessor ? accessor : TopLevelVariables.run;
     return [
-        { name: `${prefix}.flow`, description: `The flow in which a ${accessor} run takes place` },
+        { name: `${prefix}.flow`, summary: `The flow in which a ${accessor} run takes place` },
         {
             name: `${prefix}.flow.uuid`,
-            description: `The UUID of the flow in which a ${accessor} run takes place`
+            summary: `The UUID of the flow in which a ${accessor} run takes place`
         },
         {
             name: `${prefix}.flow.name`,
-            description: `The name of the flow in which a ${accessor} run takes place`
+            summary: `The name of the flow in which a ${accessor} run takes place`
         },
         {
             name: `${prefix}.flow.revision`,
-            description: `The revision number of the flow in which a ${accessor} run takes place`
+            summary: `The revision number of the flow in which a ${accessor} run takes place`
         }
     ];
 };
 
-export const getWebhookOptions = (accessor: string = '') => {
+export const getWebhookOptions = (accessor: string = ''): CompletionOption[] => {
     const prefix = accessor ? accessor : TopLevelVariables.run;
     return [
         {
             name: `${prefix}.webhook`,
-            description: `The body of the response to the last webhook request made in a ${accessor} run`
+            summary: `The body of the response to the last webhook request made in a ${accessor} run`
         },
         {
             name: `${prefix}.webhook.status`,
-            description: `The status of the last webhook request made in a ${accessor} run`
+            summary: `The status of the last webhook request made in a ${accessor} run`
         },
         {
             name: `${prefix}.webhook.status_code`,
-            description: `The status code returned from the last webhook request made in a ${accessor} run`
+            summary: `The status code returned from the last webhook request made in a ${accessor} run`
         },
         {
             name: `${prefix}.webhook.url`,
-            description: `The URL that was called by the last webhook request in a ${accessor} run`
+            summary: `The URL that was called by the last webhook request in a ${accessor} run`
         },
         {
             name: `${prefix}.webhook.body`,
-            description: `The body of the last webhook request made in a ${accessor} run`
+            summary: `The body of the last webhook request made in a ${accessor} run`
         },
         {
             name: `${prefix}.webhook.json`,
-            description: `The JSON parsed body of the response to the last webhook request in a ${accessor} run, can access subelements`
+            summary: `The JSON parsed body of the response to the last webhook request in a ${accessor} run, can access subelements`
         },
         {
             name: `${prefix}.webhook.request`,
-            description: `The raw request last made in a ${accessor} run, including headers`
+            summary: `The raw request last made in a ${accessor} run, including headers`
         },
         {
             name: `${prefix}.webhook.response`,
-            description: `The raw response last received in a ${accessor} run, including headers`
+            summary: `The raw response last received in a ${accessor} run, including headers`
         },
-        { name: `${prefix}.results`, description: `Results collected in a ${accessor} run` }
+        { name: `${prefix}.results`, summary: `Results collected in a ${accessor} run` }
     ];
 };
 
-export const getInputOptions = (accessor: string = '') => {
+export const getInputOptions = (accessor: string = ''): CompletionOption[] => {
     const prefix = accessor ? accessor : TopLevelVariables.run;
     return [
-        { name: `${prefix}.input`, description: `A ${accessor} run's last input` },
-        { name: `${prefix}.input.uuid`, description: `The UUID of a ${accessor} run's last input` },
-        { name: `${prefix}.input.type`, description: `The type of a ${accessor} run's last input` },
+        { name: `${prefix}.input`, summary: `A ${accessor} run's last input` },
+        { name: `${prefix}.input.uuid`, summary: `The UUID of a ${accessor} run's last input` },
+        { name: `${prefix}.input.type`, summary: `The type of a ${accessor} run's last input` },
         {
             name: `${prefix}.input.channel`,
-            description: `The channel a ${accessor} run's last input was received on`
+            summary: `The channel a ${accessor} run's last input was received on`
         },
         {
             name: `${prefix}.input.created_on`,
-            description: `The time a ${accessor} run's last input was created`
+            summary: `The time a ${accessor} run's last input was created`
         },
         {
             name: `${prefix}.input.text`,
-            description: `The text of a ${accessor} run's last message`
+            summary: `The text of a ${accessor} run's last message`
         },
         {
             name: `${prefix}.input.attachments`,
-            description: `The attachments on a ${accessor} run's last message`
+            summary: `The attachments on a ${accessor} run's last message`
         },
         {
             name: `${prefix}.input.urn`,
-            description: `The URN a ${accessor} run's last input was received on`
+            summary: `The URN a ${accessor} run's last input was received on`
         }
     ];
 };
 
-export const getContactOptions = (accessor?: string) => {
+export const getContactOptions = (accessor?: string): CompletionOption[] => {
     const prefix = accessor ? `${accessor}.` : '';
     const descriptor = accessor
         ? accessor === TopLevelVariables.run
@@ -127,54 +131,54 @@ export const getContactOptions = (accessor?: string) => {
             : `${accessor} run's`
         : '';
     return [
-        { name: `${prefix}contact`, description: `The name of a ${descriptor} contact` },
-        { name: `${prefix}contact.name`, description: `The name of a ${descriptor} contact` },
+        { name: `${prefix}contact`, summary: `The name of a ${descriptor} contact` },
+        { name: `${prefix}contact.name`, summary: `The name of a ${descriptor} contact` },
         {
             name: `${prefix}contact.first_name`,
-            description: `The first name of a ${descriptor} contact`
+            summary: `The first name of a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.language`,
-            description: `The language code for a ${descriptor} contact`
+            summary: `The language code for a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.fields`,
-            description: `Custom fields on a ${descriptor} contact`
+            summary: `Custom fields on a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.groups`,
-            description: `The groups a ${descriptor} contact is a member of`
+            summary: `The groups a ${descriptor} contact is a member of`
         },
-        { name: `${prefix}contact.urns`, description: `URNs on a ${descriptor} contact` },
+        { name: `${prefix}contact.urns`, summary: `URNs on a ${descriptor} contact` },
         {
             name: `${prefix}contact.urns.tel`,
-            description: `The preferred telephone number for a ${descriptor} contact`
+            summary: `The preferred telephone number for a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.urns.telegram`,
-            description: `The preferred telegram id for a ${descriptor} contact`
+            summary: `The preferred telegram id for a ${descriptor} contact`
         },
         {
             name: `${prefix}contact.channel`,
-            description: `A ${descriptor} contact's preferred channel`
+            summary: `A ${descriptor} contact's preferred channel`
         },
         {
             name: `${prefix}contact.channel.uuid`,
-            description: `The UUID of a ${descriptor} contact's preferred channel`
+            summary: `The UUID of a ${descriptor} contact's preferred channel`
         },
         {
             name: `${prefix}contact.channel.name`,
-            description: `The name of a ${descriptor} contact's preferred channel`
+            summary: `The name of a ${descriptor} contact's preferred channel`
         },
         {
             name: `${prefix}contact.channel.address`,
-            description: `The address of a ${descriptor} contact's preferred channel`
+            summary: `The address of a ${descriptor} contact's preferred channel`
         }
     ];
 };
 
 export const RUN_OPTIONS: CompletionOption[] = [
-    { name: TopLevelVariables.run, description: 'A run in this flow' },
+    { name: TopLevelVariables.run, summary: 'A run in this flow' },
     ...getFlowOptions(),
     ...getContactOptions(TopLevelVariables.run),
     ...getInputOptions(),
@@ -182,7 +186,7 @@ export const RUN_OPTIONS: CompletionOption[] = [
 ];
 
 export const CHILD_OPTIONS: CompletionOption[] = [
-    { name: TopLevelVariables.child, description: 'Run details collected in a child flow, if any' },
+    { name: TopLevelVariables.child, summary: 'Run details collected in a child flow, if any' },
     ...getFlowOptions(TopLevelVariables.child),
     ...getContactOptions(TopLevelVariables.child),
     ...getInputOptions(TopLevelVariables.child),
@@ -192,7 +196,7 @@ export const CHILD_OPTIONS: CompletionOption[] = [
 export const PARENT_OPTIONS: CompletionOption[] = [
     {
         name: TopLevelVariables.parent,
-        description: 'Run details collected by a parent flow, if any'
+        summary: 'Run details collected by a parent flow, if any'
     },
     ...getFlowOptions(TopLevelVariables.parent),
     ...getContactOptions(TopLevelVariables.parent),
@@ -201,9 +205,9 @@ export const PARENT_OPTIONS: CompletionOption[] = [
 ];
 
 export const TRIGGER_OPTIONS: CompletionOption[] = [
-    { name: 'trigger', description: 'A trigger that initiated a session' },
-    { name: 'trigger.type', description: 'The type of a trigger, one of “manual” or “flow”' },
-    { name: 'trigger.params', description: 'The parameters passed to a trigger' }
+    { name: 'trigger', summary: 'A trigger that initiated a session' },
+    { name: 'trigger.type', summary: 'The type of a trigger, one of “manual” or “flow”' },
+    { name: 'trigger.params', summary: 'The parameters passed to a trigger' }
 ];
 
 export const OPTIONS: CompletionOption[] = [
@@ -215,15 +219,17 @@ export const OPTIONS: CompletionOption[] = [
     ...xlnt
 ];
 
-export const TOP_LEVEL_OPTIONS = OPTIONS.filter(
-    ({ name }) =>
+export const TOP_LEVEL_OPTIONS = OPTIONS.filter((option: CompletionOption) => {
+    const name = getCompletionName(option);
+    return (
         name === TopLevelVariables.contact ||
         name === TopLevelVariables.input ||
         name === TopLevelVariables.run ||
         name === TopLevelVariables.parent ||
         name === TopLevelVariables.child ||
         name === TopLevelVariables.trigger
-);
+    );
+});
 
 export const GSM: { [key: string]: number } = {
     // char: charCode

@@ -52,7 +52,7 @@ const isValidStart = (
 /**
  * Determines whether the given character is a word character, i.e. \w in a regex
  */
-const isWordChar = (ch: string | 0): boolean => {
+export const isWordChar = (ch: string | 0): boolean => {
     return (
         (ch >= 'a' && ch <= 'z') ||
         (ch >= 'A' && ch <= 'Z') ||

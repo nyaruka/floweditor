@@ -84,7 +84,7 @@ export const composeSetup = <P extends {}>(
     }
 
     if (Object.keys(contextOverrides).length > 0) {
-        context = mutate(context, contextOverrides);
+        context = mutate(context, contextOverrides as ConfigProviderContext);
     }
 
     const childContextTypes: { [contextProp: string]: Function } = mutate(

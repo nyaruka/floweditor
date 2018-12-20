@@ -24,13 +24,20 @@ export interface RenderNode {
 
 export interface CompletionOption {
     name: string;
-    description: string;
+    summary: string;
 
     // functions
     signature?: string;
-    summary?: string;
     detail?: string;
 }
+
+export const getCompletionName = (option: CompletionOption): string => {
+    return option.name || option.signature.substr(0, option.signature.indexOf('('));
+};
+
+export const getCompletionSignature = (option: CompletionOption): string => {
+    return option.signature.substr(option.signature.indexOf('('));
+};
 
 export interface ContactFields {
     [snakedFieldName: string]: string;

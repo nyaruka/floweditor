@@ -10,10 +10,19 @@
     margin-block-end: 0;
 }
 
-.option_description {
+.option_summary {
     font-size: 12px;
     padding: 3px 0;
     font-weight: 300;
+}
+
+.option_signature {
+    font-weight: 400;
+    font-size: 13px;
+    padding-bottom: 8px;
+    padding-top: 3px;
+    display: inline-block;
+    padding-left: 3px;
 }
 
 .option {
@@ -22,6 +31,8 @@
     padding: 5px;
     font-size: 14px;
     &.selected {
+        padding-top: 10px;
+        padding-top: 10px;
         border-color: $blue_selected;
         background: $blue_selected;
         color: $text_color;
@@ -30,6 +41,12 @@
             border-top-color: transparent !important;
         }
     }
+}
+
+.fn_marker {
+    display: inline-block;
+    padding-right: 5px;
+    font-style: italic;
 }
 
 .function_help {

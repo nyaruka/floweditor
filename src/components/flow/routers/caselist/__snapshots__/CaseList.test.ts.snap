@@ -3660,7 +3660,9 @@ exports[`CaseList render should render empty list 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value=""
                                                       />
@@ -3744,7 +3746,9 @@ exports[`CaseList render should render empty list 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value=""
                                                       />
@@ -8145,7 +8149,9 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value="Red, r"
                                                       />
@@ -8229,7 +8235,9 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value="Red"
                                                       />
@@ -11578,7 +11586,9 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value="Green, g"
                                                       />
@@ -11662,7 +11672,9 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value="Green"
                                                       />
@@ -14995,7 +15007,9 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value=""
                                                       />
@@ -15079,7 +15093,9 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         data-spec="input"
                                                         onBlur={[Function]}
                                                         onChange={[Function]}
+                                                        onClick={[Function]}
                                                         onKeyDown={[Function]}
+                                                        onKeyUp={[Function]}
                                                         type="text"
                                                         value=""
                                                       />
