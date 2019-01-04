@@ -22,13 +22,19 @@ export interface RenderNode {
     ghost?: boolean;
 }
 
+export interface FunctionExample {
+    template: string;
+    output: string;
+}
+
 export interface CompletionOption {
-    name: string;
+    name?: string;
     summary: string;
 
     // functions
     signature?: string;
     detail?: string;
+    examples?: FunctionExample[];
 }
 
 export const getCompletionName = (option: CompletionOption): string => {

@@ -35,12 +35,7 @@ export interface Coordinates {
     top: number;
 }
 
-export interface HTMLTextElement {
-    value: string;
-    selectionStart: number;
-    selectionEnd: number;
-    focus(): void;
-}
+type HTMLTextElement = HTMLTextAreaElement | HTMLInputElement;
 
 export interface TextInputStoreProps {
     typeConfig: Type;
@@ -461,32 +456,47 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         this.textEl.selectionStart = length;
     }
 
-    private getOption(option: CompletionOption, selected: boolean): JSX.Element {
+    private getOption(
+        option: CompletionOption,
+        showSummary: boolean = false,
+        showExamples: boolean = false
+    ): JSX.Element {
         const name = getCompletionName(option);
 
         let summary = null;
+        let examples = null;
 
-        if (selected) {
+        if (showSummary) {
             summary = (
-                <div data-spec="option-desc" className={styles.option_summary}>
+                <div data-spec="option-summary" className={styles.optionSummary}>
                     {option.summary}
+                </div>
+            );
+        }
+
+        if (showExamples) {
+            examples = (
+                <div data-spec="option-example" className={styles.optionExample}>
+                    <div className={styles.forExample}>EXAMPLE</div>
+                    {option.examples[0].template}
                 </div>
             );
         }
 
         return (
             <>
-                <div data-spec="option-name">
+                <div data-spec="option-name" className={styles.optionName}>
                     {option.signature ? <div className={styles.fnMarker}>ƒ</div> : null}
                     {name}
 
-                    {selected && option.signature ? (
+                    {showSummary && option.signature ? (
                         <div className={styles.option_signature}>
                             {getCompletionSignature(option)}
                         </div>
                     ) : null}
                 </div>
                 {summary}
+                {examples}
             </>
         );
     }
@@ -527,6 +537,13 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             this.props.entry.validationFailures &&
             this.props.entry.validationFailures.length > 0
         );
+    }
+
+    private getScroll(): number {
+        if (this.textEl) {
+            return this.textEl.scrollTop;
+        }
+        return 0;
     }
 
     private getTextElement(): JSX.Element {
@@ -576,7 +593,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
     public render(): JSX.Element {
         const completionClasses = cx({
-            [styles.completion_container]: true,
+            [styles.completionContainer]: true,
+            [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
+        });
+
+        const fnClasses = cx({
+            [styles.fnContainer]: true,
             [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
         });
         const options: JSX.Element[] = this.getOptions();
@@ -607,10 +629,22 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             >
                 <div className={styles.wrapper}>
                     {this.getTextElement()}
+                    {this.state.fn ? (
+                        <div
+                            className={fnClasses}
+                            style={{
+                                top: this.state.caretCoordinates.top - this.getScroll() - 105,
+                                left: this.state.caretCoordinates.left,
+                                height: 100
+                            }}
+                        >
+                            {this.getOption(this.state.fn, true, true)}
+                        </div>
+                    ) : null}
                     <div
                         className={completionClasses}
                         style={{
-                            top: this.state.caretCoordinates.top,
+                            top: this.state.caretCoordinates.top - this.getScroll(),
                             left: this.state.caretCoordinates.left
                         }}
                         data-spec="completion-options"

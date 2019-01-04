@@ -19,7 +19,6 @@
 .option_signature {
     font-weight: 400;
     font-size: 13px;
-    padding-bottom: 8px;
     padding-top: 3px;
     display: inline-block;
     padding-left: 3px;
@@ -70,6 +69,53 @@
     -webkit-box-shadow: $shadow_down;
     box-shadow: $shadow_down;
     z-index: $z_completion;
+}
+
+.fn_container {
+    overflow: hidden;
+    position: absolute;
+    background: $light_gray_2;
+    width: 250px;
+    border-radius: 4px;
+    z-index: $z_completion;
+    border: 1px solid $light_gray;
+
+    .for_example {
+        font-size: 75%;
+    }
+
+    .option_name {
+        padding: 7px 8px;
+        background: $light_gray_2 - #111;
+        color: $gray;
+        font-size: 85%;
+    }
+
+    .option_signature {
+        font-size: 75%;
+    }
+
+    .option_summary {
+        padding: 7px;
+        font-size: 85%;
+    }
+
+    .option_example {
+        font-size: 66%;
+        padding: 0px 7px;
+    }
+}
+
+.fn_signature {
+    color: #e6e6e6;
+    background: $gray;
+
+    padding: 8px;
+}
+
+.fn_example {
+    font-size: 11px;
+    padding: 8px;
 }
 
 .wrapper {
