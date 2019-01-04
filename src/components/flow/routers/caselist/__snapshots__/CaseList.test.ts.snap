@@ -133,7 +133,7 @@ exports[`CaseList render should render empty list 1`] = `
                                 value=""
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -173,7 +173,7 @@ exports[`CaseList render should render empty list 1`] = `
                                 value=""
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -301,7 +301,7 @@ exports[`CaseList render should render empty list 1`] = `
                                   value=""
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -341,7 +341,7 @@ exports[`CaseList render should render empty list 1`] = `
                                   value=""
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -499,7 +499,7 @@ exports[`CaseList render should render empty list 1`] = `
                                       value=""
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -539,7 +539,7 @@ exports[`CaseList render should render empty list 1`] = `
                                       value=""
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -659,7 +659,7 @@ exports[`CaseList render should render empty list 1`] = `
                                         value=""
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -699,7 +699,7 @@ exports[`CaseList render should render empty list 1`] = `
                                         value=""
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -3667,7 +3667,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                         value=""
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
@@ -3753,7 +3753,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                         value=""
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
@@ -3971,7 +3971,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                 value="Red, r"
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -4011,7 +4011,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                 value="Red"
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -4129,7 +4129,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                 value="Green, g"
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -4169,7 +4169,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                 value="Green"
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -4284,7 +4284,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                 value=""
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -4324,7 +4324,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                 value=""
                               />
                               <div
-                                class="completion_container hidden"
+                                class="completionContainer hidden"
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
@@ -4457,7 +4457,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                   value="Red, r"
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -4497,7 +4497,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                   value="Red"
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -4615,7 +4615,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                   value="Green, g"
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -4655,7 +4655,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                   value="Green"
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -4770,7 +4770,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                   value=""
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -4810,7 +4810,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                   value=""
                                 />
                                 <div
-                                  class="completion_container hidden"
+                                  class="completionContainer hidden"
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
@@ -4975,7 +4975,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                       value="Red, r"
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -5015,7 +5015,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                       value="Red"
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -5138,7 +5138,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         value="Red, r"
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -5178,7 +5178,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         value="Red"
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -8156,7 +8156,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         value="Red, r"
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
@@ -8242,7 +8242,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         value="Red"
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
@@ -8412,7 +8412,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                       value="Green, g"
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -8452,7 +8452,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                       value="Green"
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -8575,7 +8575,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         value="Green, g"
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -8615,7 +8615,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         value="Green"
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -11593,7 +11593,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         value="Green, g"
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
@@ -11679,7 +11679,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         value="Green"
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
@@ -11846,7 +11846,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                       value=""
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -11886,7 +11886,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                       value=""
                                     />
                                     <div
-                                      class="completion_container hidden"
+                                      class="completionContainer hidden"
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
@@ -12006,7 +12006,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         value=""
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -12046,7 +12046,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                         value=""
                                       />
                                       <div
-                                        class="completion_container hidden"
+                                        class="completionContainer hidden"
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
@@ -15014,7 +15014,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         value=""
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
@@ -15100,7 +15100,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         value=""
                                                       />
                                                       <div
-                                                        className="completion_container hidden"
+                                                        className="completionContainer hidden"
                                                         data-spec="completion-options"
                                                         style={
                                                           Object {
