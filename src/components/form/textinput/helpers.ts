@@ -121,15 +121,24 @@ export const isValidURL = (str: string): boolean => {
 
 export const filterOptions = (
     options: CompletionOption[],
-    query: string = ''
+    query: string = '',
+    includeFunctions: boolean
 ): CompletionOption[] => {
     const search = query.toLowerCase();
-    return options.filter(({ name: optionName }: CompletionOption) => {
-        const rest = optionName.substr(search.length);
-        return (
-            optionName.indexOf(search) === 0 &&
-            (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
-        );
+    return options.filter((option: CompletionOption) => {
+        if (includeFunctions) {
+            if (option.signature) {
+                return option.signature.indexOf(search) === 0;
+            }
+        }
+
+        if (option.name) {
+            const rest = option.name.substr(search.length);
+            return (
+                option.name.indexOf(search) === 0 &&
+                (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
+            );
+        }
     });
 };
 

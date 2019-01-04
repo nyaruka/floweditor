@@ -8,11 +8,13 @@ import {
     pluralize
 } from '~/components/form/textinput/helpers';
 import { FlowDefinition } from '~/flowTypes';
-import { AssetType } from '~/store/flowContext';
+import { AssetType, CompletionOption, getCompletionName } from '~/store/flowContext';
 
 const definition: FlowDefinition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const optionQueryMap = OPTIONS.reduce((argMap, { name }) => {
+const optionQueryMap = OPTIONS.reduce((argMap, option: CompletionOption) => {
+    const name = getCompletionName(option);
+
     const lastIndex = name.lastIndexOf('.');
     if (lastIndex > -1) {
         argMap[name.slice(0, lastIndex + 2)] = true;
@@ -54,11 +56,11 @@ describe('helpers', () => {
 
     describe('filterOptions', () => {
         it('should return top-level options if not passed a query', () =>
-            expect(filterOptions(OPTIONS)).toEqual(TOP_LEVEL_OPTIONS));
+            expect(filterOptions(OPTIONS, '', false)).toEqual(TOP_LEVEL_OPTIONS));
 
         Object.keys(optionQueryMap).forEach(query =>
             it(`should filter options for "${query}"`, () =>
-                expect(filterOptions(OPTIONS, query)).toMatchSnapshot())
+                expect(filterOptions(OPTIONS, query, true)).toMatchSnapshot())
         );
     });
 
@@ -75,7 +77,6 @@ describe('helpers', () => {
     describe('getOptionsList', () => {
         it('should include only our predefined options if autocomplete arg is falsy', () => {
             expect(getOptionsList(false, {}).length).toBe(OPTIONS.length);
-            expect(getOptionsList(false, {})).toMatchSnapshot();
         });
 
         it('should include result names if autocomplete arg is truthy', () => {
@@ -94,7 +95,6 @@ describe('helpers', () => {
             const expectedLength = OPTIONS.length + 4; // accounting for field and its properties
 
             expect(optionsList.length).toBe(expectedLength);
-            expect(optionsList).toMatchSnapshot();
         });
     });
 });

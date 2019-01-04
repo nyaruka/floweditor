@@ -22,10 +22,28 @@ export interface RenderNode {
     ghost?: boolean;
 }
 
-export interface CompletionOption {
-    name: string;
-    description: string;
+export interface FunctionExample {
+    template: string;
+    output: string;
 }
+
+export interface CompletionOption {
+    name?: string;
+    summary: string;
+
+    // functions
+    signature?: string;
+    detail?: string;
+    examples?: FunctionExample[];
+}
+
+export const getCompletionName = (option: CompletionOption): string => {
+    return option.name || option.signature.substr(0, option.signature.indexOf('('));
+};
+
+export const getCompletionSignature = (option: CompletionOption): string => {
+    return option.signature.substr(option.signature.indexOf('('));
+};
 
 export interface ContactFields {
     [snakedFieldName: string]: string;

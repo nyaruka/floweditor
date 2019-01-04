@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextInputElement completion should complete in the middle of text 1`] = `
+Array [
+  Object {
+    "name": "contact",
+    "summary": "The name of a  contact",
+  },
+  Object {
+    "name": "contact.name",
+    "summary": "The name of a  contact",
+  },
+  Object {
+    "name": "contact.first_name",
+    "summary": "The first name of a  contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "The language code for a  contact",
+  },
+  Object {
+    "name": "contact.fields",
+    "summary": "Custom fields on a  contact",
+  },
+  Object {
+    "name": "contact.groups",
+    "summary": "The groups a  contact is a member of",
+  },
+  Object {
+    "name": "contact.urns",
+    "summary": "URNs on a  contact",
+  },
+  Object {
+    "name": "contact.channel",
+    "summary": "A  contact's preferred channel",
+  },
+]
+`;
+
+exports[`TextInputElement completion should handle completion w/ "Tab" key 1`] = `
+Array [
+  Object {
+    "name": "contact",
+    "summary": "The name of a  contact",
+  },
+  Object {
+    "name": "contact.name",
+    "summary": "The name of a  contact",
+  },
+  Object {
+    "name": "contact.first_name",
+    "summary": "The first name of a  contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "The language code for a  contact",
+  },
+  Object {
+    "name": "contact.fields",
+    "summary": "Custom fields on a  contact",
+  },
+  Object {
+    "name": "contact.groups",
+    "summary": "The groups a  contact is a member of",
+  },
+  Object {
+    "name": "contact.urns",
+    "summary": "URNs on a  contact",
+  },
+  Object {
+    "name": "contact.channel",
+    "summary": "A  contact's preferred channel",
+  },
+]
+`;
+
+exports[`TextInputElement filtering should bring up completion menu for top level options 1`] = `
+Array [
+  Object {
+    "name": "contact",
+    "summary": "The name of a  contact",
+  },
+  Object {
+    "name": "run",
+    "summary": "A run in this flow",
+  },
+  Object {
+    "name": "child",
+    "summary": "Run details collected in a child flow, if any",
+  },
+  Object {
+    "name": "parent",
+    "summary": "Run details collected by a parent flow, if any",
+  },
+  Object {
+    "name": "trigger",
+    "summary": "A trigger that initiated a session",
+  },
+]
+`;
+
+exports[`TextInputElement filtering should show filter at the second level 1`] = `
+Array [
+  Object {
+    "name": "contact.first_name",
+    "summary": "The first name of a  contact",
+  },
+]
+`;
+
+exports[`TextInputElement filtering should show filter options 1`] = `
+Array [
+  Object {
+    "name": "contact",
+    "summary": "The name of a  contact",
+  },
+]
+`;
+
+exports[`TextInputElement function context should use the most recent incomplete function 1`] = `
+Array [
+  Object {
+    "name": "contact",
+    "summary": "The name of a  contact",
+  },
+]
+`;
+
+exports[`TextInputElement navigation should filter after tabbing 1`] = `
+Array [
+  Object {
+    "name": "contact.first_name",
+    "summary": "The first name of a  contact",
+  },
+]
+`;
