@@ -2,15 +2,15 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Select from 'react-select';
 import * as styles from '~/components/flow/routers/case/CaseElement.scss';
-import { getExitName, getMinMax } from '~/components/flow/routers/case/helpers';
+import { initializeForm, validateCase } from '~/components/flow/routers/case/helpers';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { InputToFocus } from '~/components/flow/routers/response/ResponseRouterForm';
 import FormElement from '~/components/form/FormElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { getOperatorConfig, Operator, operatorConfigList } from '~/config';
+import { Operator, operatorConfigList } from '~/config';
 import { Operators } from '~/config/operatorConfigs';
 import { Case } from '~/flowTypes';
-import { FormState, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
+import { FormState, StringEntry } from '~/store/nodeEditor';
 import { hasErrorType } from '~/utils';
 import { small } from '~/utils/reactselect';
 
@@ -19,15 +19,21 @@ export interface CaseElementProps {
     exitName: string;
     name?: string; // satisfy form widget props
     onRemove?(uuid: string): void;
-    onChange?(c: CaseProps, type?: InputToFocus): void;
+    onChange?(c: CaseProps): void;
 }
 
-interface CaseElementState extends FormState {
+export interface CaseElementState extends FormState {
     errors: string[];
     operatorConfig: Operator;
-    arguments: StringArrayEntry;
     exitName: StringEntry;
     exitNameEdited: boolean;
+
+    // for string based args
+    argument: StringEntry;
+
+    // for numeric operators
+    min: StringEntry;
+    max: StringEntry;
 }
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
@@ -36,14 +42,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     constructor(props: CaseElementProps) {
         super(props);
 
-        this.state = {
-            errors: [],
-            operatorConfig: getOperatorConfig(this.props.kase.type),
-            arguments: { value: this.props.kase.arguments || [] },
-            exitName: { value: this.props.exitName || '' },
-            exitNameEdited: false,
-            valid: true
-        };
+        this.state = initializeForm(props);
 
         bindCallbacks(this, {
             include: [/Ref$/, /^handle/, /^get/]
@@ -54,25 +53,75 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         return (this.category = ref);
     }
 
+    private getArgumentArray(): string[] {
+        return this.state.operatorConfig.type === Operators.has_number_between
+            ? [this.state.min.value, this.state.max.value]
+            : [this.state.argument.value];
+    }
+
     private handleOperatorChanged(operatorConfig: Operator): void {
-        const exitName = this.state.exitNameEdited
-            ? this.state.exitName.value
-            : getExitName(this.state.exitName.value, operatorConfig, this.state.arguments.value);
-
-        const updates: Partial<CaseElementState> = {
+        const updates = validateCase({
             operatorConfig,
-            exitName: { value: exitName }
-        };
+            argument: this.state.argument.value,
+            min: this.state.min.value,
+            max: this.state.max.value,
+            exitName: this.state.exitName.value,
+            exitEdited: this.state.exitNameEdited
+        });
 
-        if (operatorConfig.type === Operators.has_number_between) {
-            updates.arguments = { value: ['', ''] };
-        }
+        this.setState(updates as CaseElementState, () => this.handleChange());
+    }
 
-        this.setState(updates as CaseElementState, () =>
-            this.category.wrappedInstance.setState({ value: updates.exitName }, () =>
-                this.props.onChange(this.getCaseProps())
-            )
-        );
+    private handleArgumentChanged(value: string, input?: InputToFocus): void {
+        const updates = validateCase({
+            operatorConfig: this.state.operatorConfig,
+            argument: value,
+            exitName: this.state.exitName.value,
+            exitEdited: this.state.exitNameEdited
+        });
+
+        this.setState(updates as CaseElementState, () => this.handleChange());
+    }
+
+    private handleMinChanged(value: string): void {
+        const updates = validateCase({
+            operatorConfig: this.state.operatorConfig,
+            min: value,
+            max: this.state.max.value,
+            exitName: this.state.exitName.value,
+            exitEdited: this.state.exitNameEdited
+        });
+
+        this.setState(updates as CaseElementState, () => this.handleChange());
+    }
+
+    private handleMaxChanged(value: string): void {
+        const updates = validateCase({
+            operatorConfig: this.state.operatorConfig,
+            min: this.state.min.value,
+            max: value,
+            exitName: this.state.exitName.value,
+            exitEdited: this.state.exitNameEdited
+        });
+
+        this.setState(updates as CaseElementState, () => this.handleChange());
+    }
+
+    private handleExitChanged(value: string): void {
+        const updates = validateCase({
+            operatorConfig: this.state.operatorConfig,
+            argument: this.state.argument.value,
+            min: this.state.min.value,
+            max: this.state.max.value,
+            exitName: value,
+            exitEdited: true
+        });
+
+        this.setState(updates as CaseElementState, () => this.handleChange());
+    }
+
+    private handleRemoveClicked(): void {
+        this.props.onRemove(this.props.kase.uuid);
     }
 
     private getCaseProps(): CaseProps {
@@ -80,7 +129,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             uuid: this.props.kase.uuid,
             exitName: this.state.exitName.value,
             kase: {
-                arguments: this.state.arguments.value,
+                arguments: this.getArgumentArray(),
                 type: this.state.operatorConfig.type,
                 uuid: this.props.kase.uuid,
 
@@ -90,124 +139,44 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         };
     }
 
-    private handleExitChanged(exitName: string): void {
-        this.setState(
-            {
-                exitName: { value: exitName },
-                exitNameEdited: true
-            },
-            () => this.handleChange(InputToFocus.exit)
-        );
-    }
-
-    private handleRemoveClicked(): void {
-        this.props.onRemove(this.props.kase.uuid);
-    }
-
-    private handleMinChanged(value: string): void {
-        this.handleArgumentChanged(value, InputToFocus.min);
-    }
-
-    private handleMaxChanged(value: string): void {
-        this.handleArgumentChanged(value, InputToFocus.max);
-    }
-
-    private handleArgumentChanged(value: string, input?: InputToFocus): void {
-        let toFocus: InputToFocus;
-        const updates: Partial<CaseElementState> = {};
-
-        if (input) {
-            if (input === InputToFocus.min) {
-                toFocus = InputToFocus.min;
-                updates.arguments = {
-                    value: this.state.arguments.value.length
-                        ? [value, this.state.arguments.value[1] || '']
-                        : [value]
-                };
-            } else if (input === InputToFocus.max) {
-                toFocus = InputToFocus.max;
-                updates.arguments = {
-                    value: this.state.arguments.value.length
-                        ? [this.state.arguments.value[0], value]
-                        : [value]
-                };
-            }
-
-            updates.exitName = {
-                value: this.state.exitNameEdited
-                    ? this.state.exitName.value
-                    : getExitName(
-                          this.state.exitName.value,
-                          this.state.operatorConfig,
-                          updates.arguments.value
-                      )
-            };
-
-            this.setState(updates as CaseElementState, () => this.handleChange(toFocus));
-        } else {
-            toFocus = InputToFocus.args;
-            updates.arguments = { value: [value] };
-            updates.exitName = {
-                value: this.state.exitNameEdited
-                    ? this.state.exitName.value
-                    : getExitName(
-                          this.state.exitName.value,
-                          this.state.operatorConfig,
-                          updates.arguments.value
-                      )
-            };
-
-            this.setState(updates as CaseElementState, () => {
-                this.category.wrappedInstance.setState({ value: updates.exitName }, () =>
-                    this.handleChange(toFocus)
-                );
-            });
-        }
-    }
-
-    private handleChange(focus: InputToFocus): void {
+    private handleChange(): void {
         // If the case doesn't have arguments & an exit name, remove it
-        if (
-            (!this.state.arguments.value.length ||
-                // Accounting for two-arg cases
-                (!this.state.arguments.value[0] && !this.state.arguments.value[1])) &&
-            !this.state.exitName.value
-        ) {
-            this.handleRemoveClicked();
-        } else {
-            this.props.onChange(this.getCaseProps(), focus);
+        if (!this.state.exitName.value) {
+            // see if we are clearing out a between
+            if (this.state.operatorConfig.type === Operators.has_number_between) {
+                if (!this.state.min.value && !this.state.max.value) {
+                    // this.handleRemoveClicked();
+                    // return;
+                }
+            }
+            // see if we are clearing out a single operand
+            else {
+                if (!this.state.argument.value) {
+                    // this.handleRemoveClicked();
+                    // return;
+                }
+            }
         }
+
+        this.props.onChange(this.getCaseProps());
     }
 
     private renderArguments(): JSX.Element {
         if (this.state.operatorConfig.operands > 0) {
             // First pass at displaying, handling Operators.has_number_between inputs
             if (this.state.operatorConfig.operands > 1) {
-                const { min: minVal, max: maxVal } = getMinMax(this.props.kase.arguments);
                 return (
                     <React.Fragment>
                         <TextInputElement
                             name="arguments"
                             onChange={this.handleMinChanged}
-                            entry={{ value: minVal }}
-                            showInvalid={hasErrorType(this.state.errors, [
-                                /Minimum value must/,
-                                /argument/,
-                                /rules/,
-                                /equal/,
-                                /more/
-                            ])}
+                            entry={this.state.min}
                         />
                         <span className={styles.divider}>and</span>
                         <TextInputElement
                             name="arguments"
                             onChange={this.handleMaxChanged}
-                            entry={{ value: maxVal }}
-                            showInvalid={hasErrorType(this.state.errors, [
-                                /Maximum value must/,
-                                /argument/,
-                                /rules/
-                            ])}
+                            entry={this.state.max}
                         />
                     </React.Fragment>
                 );
@@ -217,17 +186,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         data-spec="args-input"
                         name="arguments"
                         onChange={this.handleArgumentChanged}
-                        entry={{
-                            value: this.state.arguments.value.length
-                                ? this.state.arguments.value[0]
-                                : ''
-                        }}
+                        entry={this.state.argument}
                         autocomplete={true}
-                        showInvalid={hasErrorType(this.state.errors, [
-                            /argument/,
-                            /rules/,
-                            /number/
-                        ])}
                     />
                 );
             }

@@ -1,16 +1,78 @@
-import { operatorConfigList, Operators } from '~/config/operatorConfigs';
 import {
-    prefix,
-    composeExitName,
+    getExitName,
     getMinMax,
     isFloat,
     isInt,
+    parseNum,
+    prefix,
     strContainsNum,
-    parseNum
+    validateCase
 } from '~/components/flow/routers/case/helpers';
-import { titleCase } from '~/utils';
+import { getOperatorConfig, operatorConfigList, Operators } from '~/config/operatorConfigs';
 
 describe('helpers', () => {
+    describe('validateCase', () => {
+        it('requires arguments when exit is set', () => {
+            expect(
+                validateCase({
+                    operatorConfig: getOperatorConfig(Operators.has_any_word),
+                    exitName: 'My Exit',
+                    exitEdited: true
+                })
+            ).toMatchSnapshot();
+        });
+
+        it('does not require arguments without an exit', () => {
+            expect(
+                validateCase({
+                    operatorConfig: getOperatorConfig(Operators.has_any_word)
+                })
+            ).toMatchSnapshot();
+        });
+
+        it('suggests operator exit names for no operands', () => {
+            expect(
+                validateCase({
+                    operatorConfig: getOperatorConfig(Operators.has_text)
+                })
+            ).toMatchSnapshot();
+        });
+
+        it('suggests min - max exits', () => {
+            expect(
+                validateCase({
+                    operatorConfig: getOperatorConfig(Operators.has_number_between),
+                    min: '5',
+                    max: '40'
+                })
+            ).toMatchSnapshot();
+        });
+
+        it('cross validates min - max', () => {
+            expect(
+                validateCase({
+                    operatorConfig: getOperatorConfig(Operators.has_number_between),
+                    min: '50',
+                    max: '3'
+                })
+            ).toMatchSnapshot();
+        });
+
+        it('does not suggest an empty range for exit name, ie " - "', () => {
+            expect(
+                validateCase({
+                    operatorConfig: getOperatorConfig(Operators.has_number_between)
+                }).exitName.value
+            ).toEqual('');
+
+            expect(
+                validateCase({
+                    operatorConfig: getOperatorConfig(Operators.has_number_between)
+                })
+            ).toMatchSnapshot();
+        });
+    });
+
     describe('prefix', () =>
         operatorConfigList.forEach(({ verboseName, type }) =>
             it(`should prefix "${verboseName}" operator appropriately`, () => {
@@ -20,36 +82,69 @@ describe('helpers', () => {
             })
         ));
 
-    describe('composeExitName', () => {
-        const operatorType = Operators.has_any_word;
-        const strArgOperators = operatorConfigList.slice(0, 6);
-        let args = [['tomato, t'], ['papayawhip'], []];
-
-        it('should handle empty arg lists appropriately', () =>
-            expect(composeExitName(operatorType, args[2], '')).toBe(''));
-
-        it('should return the first arg in list, capitalized', () => {
-            args = args.slice(0, 2);
-            strArgOperators.forEach(({ type }) =>
-                args.slice(0, 2).forEach(argList => {
-                    const [firstArg] = argList[0].split(',');
-                    expect(composeExitName(type, argList, '')).toBe(titleCase(firstArg));
+    describe('getExitName', () => {
+        it('should create range exit name', () => {
+            expect(
+                getExitName({
+                    operatorConfig: getOperatorConfig(Operators.has_number_between),
+                    min: { value: '5' },
+                    max: { value: '10' }
                 })
-            );
+            ).toBe('5 - 10');
         });
 
-        it('should return exit name in the format "min - max" if operator', () => {
-            [['1', '2'], ['', '2'], ['1', ''], []].forEach(argList => {
-                expect(
-                    composeExitName(Operators.has_number_between, argList, '').indexOf('-') > -1
-                ).toBeTruthy();
-            });
+        it('should defer to edited exit names', () => {
+            expect(
+                getExitName({
+                    operatorConfig: getOperatorConfig(Operators.has_number_between),
+                    min: { value: '5' },
+                    max: { value: '10' },
+                    exitName: { value: 'My Exit' },
+                    exitNameEdited: true
+                })
+            ).toBe('My Exit');
+
+            expect(
+                getExitName({
+                    operatorConfig: getOperatorConfig(Operators.has_number),
+                    exitName: { value: 'My Exit' },
+                    exitNameEdited: true
+                })
+            ).toBe('My Exit');
         });
 
-        it("should return newExitName if it's truthy and operator is 'has_number_between'", () => {
-            expect(composeExitName(Operators.has_number_between, ['1', '2'], 'Violet')).toBe(
-                'Violet'
-            );
+        it('should use operator names as necessary', () => {
+            expect(
+                getExitName({
+                    operatorConfig: getOperatorConfig(Operators.has_number)
+                })
+            ).toBe('Has Number');
+        });
+
+        it('should generate names for single operands', () => {
+            expect(
+                getExitName({
+                    operatorConfig: getOperatorConfig(Operators.has_any_word),
+                    argument: { value: 'color red green blue' }
+                })
+            ).toBe('Color');
+        });
+
+        it('should have empty categories without argument', () => {
+            expect(
+                getExitName({
+                    operatorConfig: getOperatorConfig(Operators.has_any_word)
+                })
+            ).toBe('');
+        });
+
+        it('should have empty categories with empty argument', () => {
+            expect(
+                getExitName({
+                    operatorConfig: getOperatorConfig(Operators.has_any_word),
+                    argument: { value: '' }
+                })
+            ).toBe('');
         });
     });
 

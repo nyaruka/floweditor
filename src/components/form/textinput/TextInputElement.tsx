@@ -546,6 +546,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         return 0;
     }
 
+    private getError(): string {
+        return this.props.entry.validationFailures && this.props.entry.validationFailures.length > 0
+            ? this.props.entry.validationFailures[0].message
+            : null;
+    }
+
     private getTextElement(): JSX.Element {
         const textElClasses = cx({
             [styles.textinput]: true,

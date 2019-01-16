@@ -9,10 +9,10 @@ const { setup } = composeComponentTestUtils<CaseElementProps>(CaseElement, {
     kase: {
         uuid: caseUUID,
         type: Operators.has_any_word,
-        arguments: ['Red, r'],
+        arguments: [''],
         exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
     },
-    exitName: 'Red',
+    exitName: '',
     onRemove: jest.fn(),
     onChange: jest.fn()
 });
@@ -46,7 +46,7 @@ describe(CaseElement.name, () => {
             expect(instance.state).toMatchSnapshot();
         });
 
-        it('should should set two arguments for numeric range', () => {
+        it('should should set arguments for numeric range', () => {
             const { instance } = setup(false);
             instance.handleOperatorChanged(getOperatorConfig(Operators.has_number_between));
             expect(instance.state).toMatchSnapshot();
@@ -71,12 +71,6 @@ describe(CaseElement.name, () => {
             const { instance } = setup(false);
             instance.handleArgumentChanged('Green');
             expect(instance.state).toMatchSnapshot();
-        });
-
-        it('clears empty casese', () => {
-            const { instance, props } = setup(false, { onRemove: setMock() });
-            instance.handleArgumentChanged('');
-            expect(props.onRemove).toHaveBeenCalled();
         });
 
         it('handles multiple argument change', () => {

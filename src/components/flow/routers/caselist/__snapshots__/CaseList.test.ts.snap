@@ -149,7 +149,6 @@ exports[`CaseList render should render empty list 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <div
@@ -189,14 +188,12 @@ exports[`CaseList render should render empty list 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <span
                           class="fe-x removeIcon"
                         />
                       </div>
-                      <div />
                     </div>
                   </div>
                 </div>
@@ -317,7 +314,6 @@ exports[`CaseList render should render empty list 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <div
@@ -357,14 +353,12 @@ exports[`CaseList render should render empty list 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <span
                             class="fe-x removeIcon"
                           />
                         </div>
-                        <div />
                       </div>
                     </div>
                   </div>
@@ -515,7 +509,6 @@ exports[`CaseList render should render empty list 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <div
@@ -555,14 +548,12 @@ exports[`CaseList render should render empty list 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <span
                                 class="fe-x removeIcon"
                               />
                             </div>
-                            <div />
                           </div>
                         </div>
                       }
@@ -675,7 +666,6 @@ exports[`CaseList render should render empty list 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <div
@@ -715,14 +705,12 @@ exports[`CaseList render should render empty list 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <span
                                   class="fe-x removeIcon"
                                 />
                               </div>
-                              <div />
                             </div>
                           </div>
                         }
@@ -3624,7 +3612,6 @@ exports[`CaseList render should render empty list 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
-                                              showInvalid={false}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -3638,7 +3625,6 @@ exports[`CaseList render should render empty list 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
-                                                showInvalid={false}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
@@ -3688,7 +3674,6 @@ exports[`CaseList render should render empty list 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -3774,7 +3759,6 @@ exports[`CaseList render should render empty list 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -3785,7 +3769,6 @@ exports[`CaseList render should render empty list 1`] = `
                                             onClick={[Function]}
                                           />
                                         </div>
-                                        <div />
                                       </div>
                                     </FormElement>
                                   </CaseElement>
@@ -3987,7 +3970,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <div
@@ -4027,14 +4009,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <span
                           class="fe-x removeIcon"
                         />
                       </div>
-                      <div />
                     </div>
                   </div>
                 </div>
@@ -4145,7 +4125,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <div
@@ -4185,14 +4164,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <span
                           class="fe-x removeIcon"
                         />
                       </div>
-                      <div />
                     </div>
                   </div>
                 </div>
@@ -4300,7 +4277,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <div
@@ -4340,14 +4316,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                 </div>
                               </div>
                             </div>
-                            <div />
                           </div>
                         </div>
                         <span
                           class="fe-x removeIcon"
                         />
                       </div>
-                      <div />
                     </div>
                   </div>
                 </div>
@@ -4473,7 +4447,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <div
@@ -4513,14 +4486,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <span
                             class="fe-x removeIcon"
                           />
                         </div>
-                        <div />
                       </div>
                     </div>
                   </div>
@@ -4631,7 +4602,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <div
@@ -4671,14 +4641,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <span
                             class="fe-x removeIcon"
                           />
                         </div>
-                        <div />
                       </div>
                     </div>
                   </div>
@@ -4786,7 +4754,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <div
@@ -4826,14 +4793,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                   </div>
                                 </div>
                               </div>
-                              <div />
                             </div>
                           </div>
                           <span
                             class="fe-x removeIcon"
                           />
                         </div>
-                        <div />
                       </div>
                     </div>
                   </div>
@@ -4991,7 +4956,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <div
@@ -5031,14 +4995,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <span
                                 class="fe-x removeIcon"
                               />
                             </div>
-                            <div />
                           </div>
                         </div>
                       }
@@ -5154,7 +5116,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <div
@@ -5194,14 +5155,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <span
                                   class="fe-x removeIcon"
                                 />
                               </div>
-                              <div />
                             </div>
                           </div>
                         }
@@ -8113,7 +8072,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
-                                              showInvalid={false}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -8127,7 +8085,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
-                                                showInvalid={false}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
@@ -8177,7 +8134,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -8263,7 +8219,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -8274,7 +8229,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onClick={[Function]}
                                           />
                                         </div>
-                                        <div />
                                       </div>
                                     </FormElement>
                                   </CaseElement>
@@ -8428,7 +8382,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <div
@@ -8468,14 +8421,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <span
                                 class="fe-x removeIcon"
                               />
                             </div>
-                            <div />
                           </div>
                         </div>
                       }
@@ -8591,7 +8542,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <div
@@ -8631,14 +8581,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <span
                                   class="fe-x removeIcon"
                                 />
                               </div>
-                              <div />
                             </div>
                           </div>
                         }
@@ -11550,7 +11498,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
-                                              showInvalid={false}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -11564,7 +11511,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
-                                                showInvalid={false}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
@@ -11614,7 +11560,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -11700,7 +11645,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -11711,7 +11655,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onClick={[Function]}
                                           />
                                         </div>
-                                        <div />
                                       </div>
                                     </FormElement>
                                   </CaseElement>
@@ -11862,7 +11805,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <div
@@ -11902,14 +11844,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                       </div>
                                     </div>
                                   </div>
-                                  <div />
                                 </div>
                               </div>
                               <span
                                 class="fe-x removeIcon"
                               />
                             </div>
-                            <div />
                           </div>
                         </div>
                       }
@@ -12022,7 +11962,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <div
@@ -12062,14 +12001,12 @@ exports[`CaseList render should render list of cases 1`] = `
                                         </div>
                                       </div>
                                     </div>
-                                    <div />
                                   </div>
                                 </div>
                                 <span
                                   class="fe-x removeIcon"
                                 />
                               </div>
-                              <div />
                             </div>
                           </div>
                         }
@@ -14971,7 +14908,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
-                                              showInvalid={false}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -14985,7 +14921,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
-                                                showInvalid={false}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
@@ -15035,7 +14970,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -15121,7 +15055,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         </div>
                                                       </div>
                                                     </div>
-                                                    <div />
                                                   </div>
                                                 </FormElement>
                                               </TextInputElement>
@@ -15132,7 +15065,6 @@ exports[`CaseList render should render list of cases 1`] = `
                                             onClick={[Function]}
                                           />
                                         </div>
-                                        <div />
                                       </div>
                                     </FormElement>
                                   </CaseElement>

@@ -45,3 +45,157 @@ exports[`helpers prefix should prefix "is in the group" operator appropriately 1
 exports[`helpers prefix should prefix "is not empty" operator appropriately 1`] = `""`;
 
 exports[`helpers prefix should prefix "starts with" operator appropriately 1`] = `""`;
+
+exports[`helpers validateCase cross validates min - max 1`] = `
+Object {
+  "argument": Object {
+    "value": "",
+  },
+  "exitName": Object {
+    "value": "50 - 3",
+  },
+  "exitNameEdited": false,
+  "max": Object {
+    "validationFailures": Array [
+      Object {
+        "message": "Maximum value must be a more than the minimum",
+      },
+    ],
+    "value": "3",
+  },
+  "min": Object {
+    "validationFailures": Array [
+      Object {
+        "message": "Minimum value must be a less than the maximum",
+      },
+    ],
+    "value": "50",
+  },
+  "operatorConfig": Object {
+    "operands": 2,
+    "type": "has_number_between",
+    "verboseName": "has a number between",
+  },
+}
+`;
+
+exports[`helpers validateCase does not require arguments without an exit 1`] = `
+Object {
+  "argument": Object {
+    "value": "",
+  },
+  "exitName": Object {
+    "value": "",
+  },
+  "exitNameEdited": false,
+  "max": Object {
+    "value": "",
+  },
+  "min": Object {
+    "value": "",
+  },
+  "operatorConfig": Object {
+    "operands": 1,
+    "type": "has_any_word",
+    "verboseName": "has any of the words",
+  },
+}
+`;
+
+exports[`helpers validateCase does not suggest an empty range for exit name, ie " - " 1`] = `
+Object {
+  "argument": Object {
+    "value": "",
+  },
+  "exitName": Object {
+    "value": "",
+  },
+  "exitNameEdited": false,
+  "max": Object {
+    "value": "",
+  },
+  "min": Object {
+    "value": "",
+  },
+  "operatorConfig": Object {
+    "operands": 2,
+    "type": "has_number_between",
+    "verboseName": "has a number between",
+  },
+}
+`;
+
+exports[`helpers validateCase requires arguments when exit is set 1`] = `
+Object {
+  "argument": Object {
+    "validationFailures": Array [
+      Object {
+        "message": "Value is required",
+      },
+    ],
+    "value": "",
+  },
+  "exitName": Object {
+    "value": "My Exit",
+  },
+  "exitNameEdited": true,
+  "max": Object {
+    "value": "",
+  },
+  "min": Object {
+    "value": "",
+  },
+  "operatorConfig": Object {
+    "operands": 1,
+    "type": "has_any_word",
+    "verboseName": "has any of the words",
+  },
+}
+`;
+
+exports[`helpers validateCase suggests min - max exits 1`] = `
+Object {
+  "argument": Object {
+    "value": "",
+  },
+  "exitName": Object {
+    "value": "5 - 40",
+  },
+  "exitNameEdited": false,
+  "max": Object {
+    "value": "40",
+  },
+  "min": Object {
+    "value": "5",
+  },
+  "operatorConfig": Object {
+    "operands": 2,
+    "type": "has_number_between",
+    "verboseName": "has a number between",
+  },
+}
+`;
+
+exports[`helpers validateCase suggests operator exit names for no operands 1`] = `
+Object {
+  "argument": Object {
+    "value": "",
+  },
+  "exitName": Object {
+    "value": "Has Text",
+  },
+  "exitNameEdited": false,
+  "max": Object {
+    "value": "",
+  },
+  "min": Object {
+    "value": "",
+  },
+  "operatorConfig": Object {
+    "categoryName": "Has Text",
+    "operands": 0,
+    "type": "has_text",
+    "verboseName": "has some text",
+  },
+}
+`;

@@ -1,6 +1,42 @@
+import { getOperatorConfig, Operator, Operators } from '~/config/operatorConfigs';
+import {
+    validate,
+    validateLessThan,
+    validateMoreThan,
+    validateNumeric,
+    validateRequired
+} from '~/store/validators';
 import { titleCase } from '~/utils';
-import { Operators, Operator } from '~/config/operatorConfigs';
 
+import { CaseElementProps, CaseElementState } from './CaseElement';
+
+export const initializeForm = (props: CaseElementProps): CaseElementState => {
+    return {
+        errors: [],
+        operatorConfig: getOperatorConfig(props.kase.type),
+        argument: {
+            value:
+                props.kase.arguments && props.kase.arguments.length === 1
+                    ? props.kase.arguments[0]
+                    : ''
+        },
+        min: {
+            value:
+                props.kase.arguments && props.kase.arguments.length === 2
+                    ? props.kase.arguments[0]
+                    : ''
+        },
+        max: {
+            value:
+                props.kase.arguments && props.kase.arguments.length === 2
+                    ? props.kase.arguments[1]
+                    : ''
+        },
+        exitName: { value: props.exitName || '' },
+        exitNameEdited: !!props.exitName,
+        valid: true
+    };
+};
 /**
  * Determines prefix for case's exit name
  */
@@ -70,7 +106,7 @@ export const strContainsNum = (str: string): boolean => {
 };
 
 export const parseNum = (str: string): number => {
-    const trimmed = str.trim();
+    const trimmed = (str || '').trim();
     if (isFloat(trimmed)) {
         return parseFloat(str);
     } else if (isInt(trimmed)) {
@@ -78,58 +114,97 @@ export const parseNum = (str: string): number => {
     }
 };
 
-/**
- * Applies prefix, title case to operator
- */
-export const composeExitName = (
-    operatorType: string,
-    newArgList: string[],
-    newExitName: string
-): string => {
-    if (operatorType === Operators.has_number_between) {
-        if (newExitName && !/-/.test(newExitName)) {
-            return newExitName;
-        }
-        const { min, max } = getMinMax(newArgList);
+export const validateCase = (keys: {
+    operatorConfig: Operator;
+    argument?: string;
+    min?: string;
+    max?: string;
+    exitName?: string;
+    exitEdited?: boolean;
+}): Partial<CaseElementState> => {
+    // when the exit is set, our arguments become required
+    const validators = keys.exitEdited && keys.exitName ? [validateRequired] : [];
 
-        return `${min ? min : newArgList[0] || ''} - ${max ? max : newArgList[1] || ''}`;
+    const updates: Partial<CaseElementState> = {
+        operatorConfig: keys.operatorConfig
+    };
+
+    if (keys.operatorConfig.operands > 0) {
+        switch (keys.operatorConfig.type) {
+            case Operators.has_number_eq:
+            case Operators.has_number_gt:
+            case Operators.has_number_gte:
+            case Operators.has_number_lt:
+            case Operators.has_number_lte:
+                validators.push(validateNumeric);
+                break;
+        }
+
+        if (keys.operatorConfig.type === Operators.has_number_between) {
+            updates.min = validate(
+                'Minimum value',
+                keys.min || '',
+                validators.concat([
+                    validateNumeric,
+                    validateLessThan(parseFloat(keys.max), 'the maximum')
+                ])
+            );
+
+            updates.max = validate(
+                'Maximum value',
+                keys.max || '',
+                validators.concat([
+                    validateNumeric,
+                    validateMoreThan(parseFloat(keys.min), 'the minimum')
+                ])
+            );
+
+            updates.argument = { value: '' };
+        } else {
+            updates.min = { value: '' };
+            updates.max = { value: '' };
+            updates.argument = validate('Value', keys.argument || '', validators);
+        }
+    } else {
+        // no operand clear them all
+        updates.min = { value: '' };
+        updates.max = { value: '' };
+        updates.argument = { value: '' };
     }
 
-    const pre = prefix(operatorType);
+    updates.exitNameEdited = !!keys.exitEdited;
+    updates.exitName = { value: updates.exitNameEdited ? keys.exitName : getExitName(updates) };
 
-    if (newArgList.length) {
-        const [firstArg] = newArgList;
-        const words = firstArg.match(/\w+/g);
+    return updates;
+};
+
+export const getExitName = (state: Partial<CaseElementState>): string => {
+    if (state.exitNameEdited) {
+        return state.exitName.value;
+    }
+
+    if (state.operatorConfig.operands === 0) {
+        return state.operatorConfig.categoryName;
+    }
+
+    if (
+        state.operatorConfig.type === Operators.has_number_between &&
+        state.min.value &&
+        state.max.value
+    ) {
+        return `${state.min.value} - ${state.max.value}`;
+    }
+
+    if (state.argument && state.argument.value) {
+        const pre = prefix(state.operatorConfig.type);
+        const words = state.argument.value.match(/\w+/g);
 
         if (words && words.length > 0) {
             const [firstWord] = words;
             return pre + titleCase(firstWord);
         }
 
-        return pre + titleCase(firstArg);
-    } else {
-        return pre;
+        return pre + titleCase(state.argument.value);
     }
-};
-
-/**
- * Returns the right exit name for a given case
- */
-export const getExitName = (
-    exitName: string,
-    operatorConfig: Operator,
-    newArgList: string[] = []
-): string => {
-    // Don't reassign func params
-    let newExitName = exitName;
-
-    if (newArgList.length >= 0 && !operatorConfig.categoryName) {
-        newExitName = composeExitName(operatorConfig.type, newArgList, newExitName);
-    } else if (!newExitName && operatorConfig.categoryName) {
-        // Some operators don't expect args
-        // Use the operator's default category name
-        ({ categoryName: newExitName } = operatorConfig);
-    }
-
-    return newExitName;
+    return '';
 };

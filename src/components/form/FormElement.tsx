@@ -54,17 +54,18 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
             const errors = this.props.entry.validationFailures.map((failure, idx) => {
                 const className = cx({
                     [styles.error]: true,
-                    [styles.sendMsgError]: this.props.sendMsgError === true,
-                    [styles.kaseError]: this.props.kaseError === true,
-                    [styles.attribError]: this.props.attribError === true
+                    [styles.sendMsgError]: this.props.sendMsgError === true
+                    // [styles.kaseError]: this.props.kaseError === true,
+                    // [styles.attribError]: this.props.attribError === true
                 });
                 return (
                     <div key={idx} className={className}>
-                        {failure.message}
+                        <div className={styles.arrowUp} />
+                        <div>{failure.message}</div>
                     </div>
                 );
             });
-            return <div className={styles.error}>{errors}</div>;
+            return <div className={styles.errorList}>{errors}</div>;
         }
         return null;
     }
@@ -84,10 +85,8 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
             <div className={className}>
                 {name}
                 {this.props.children}
-                <div>
-                    {helpText}
-                    {errorsToDisplay}
-                </div>
+                {helpText}
+                {errorsToDisplay}
             </div>
         );
     }
