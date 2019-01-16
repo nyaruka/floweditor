@@ -159,21 +159,31 @@ export const validateCase = (keys: {
                 ])
             );
 
-            updates.argument = { value: '' };
+            updates.argument = { value: '', validationFailures: [] };
         } else {
-            updates.min = { value: '' };
-            updates.max = { value: '' };
+            updates.min = { value: '', validationFailures: [] };
+            updates.max = { value: '', validationFailures: [] };
             updates.argument = validate('Value', keys.argument || '', validators);
         }
     } else {
         // no operand clear them all
-        updates.min = { value: '' };
-        updates.max = { value: '' };
-        updates.argument = { value: '' };
+        updates.min = { value: '', validationFailures: [] };
+        updates.max = { value: '', validationFailures: [] };
+        updates.argument = { value: '', validationFailures: [] };
     }
 
     updates.exitNameEdited = !!keys.exitEdited;
-    updates.exitName = { value: updates.exitNameEdited ? keys.exitName : getExitName(updates) };
+    updates.exitName = validate(
+        'Category',
+        updates.exitNameEdited ? keys.exitName : getExitName(updates),
+        updates.argument.value || (updates.min.value && updates.max.value) ? [validateRequired] : []
+    );
+
+    updates.valid =
+        updates.min.validationFailures.length === 0 &&
+        updates.max.validationFailures.length === 0 &&
+        updates.argument.validationFailures.length === 0 &&
+        updates.exitName.validationFailures.length === 0;
 
     return updates;
 };

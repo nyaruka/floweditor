@@ -5,6 +5,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -170,6 +171,7 @@ exports[`RouterLocalizationForm should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

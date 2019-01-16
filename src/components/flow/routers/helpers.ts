@@ -58,7 +58,8 @@ export const createCaseProps = (cases: Case[], exits: Exit[]): CaseProps[] => {
             return {
                 uuid: kase.uuid,
                 kase,
-                exitName: matchingExit ? matchingExit.name : null
+                exitName: matchingExit ? matchingExit.name : null,
+                valid: true
             };
         });
 };

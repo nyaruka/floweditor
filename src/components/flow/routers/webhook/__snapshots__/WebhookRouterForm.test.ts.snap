@@ -5,6 +5,7 @@ exports[`WebhookRouterForm should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -182,6 +183,7 @@ Object {
     "value": null,
   },
   "url": Object {
+    "validationFailures": Array [],
     "value": "http://domain.com/",
   },
   "valid": true,
@@ -213,6 +215,7 @@ Object {
 }",
   },
   "url": Object {
+    "validationFailures": Array [],
     "value": "http://domain.com/",
   },
   "valid": true,

@@ -15,6 +15,7 @@ exports[`CaseList render should render empty list 1`] = `
           "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
         "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "valid": true,
       },
     ]
   }
@@ -795,6 +796,7 @@ exports[`CaseList render should render empty list 1`] = `
                                     onChange={[Function]}
                                     onRemove={[Function]}
                                     uuid="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
+                                    valid={true}
                                   >
                                     <FormElement
                                       __className="group"
@@ -3806,6 +3808,7 @@ exports[`CaseList render should render list of cases 1`] = `
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
         "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        "valid": true,
       },
       Object {
         "exitName": "Green",
@@ -3818,6 +3821,7 @@ exports[`CaseList render should render list of cases 1`] = `
           "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "valid": true,
       },
       Object {
         "exitName": "",
@@ -3830,6 +3834,7 @@ exports[`CaseList render should render list of cases 1`] = `
           "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "valid": true,
       },
     ]
   }
@@ -5255,6 +5260,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                     onChange={[Function]}
                                     onRemove={[Function]}
                                     uuid="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+                                    valid={true}
                                   >
                                     <FormElement
                                       __className="group"
@@ -8681,6 +8687,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                     onChange={[Function]}
                                     onRemove={[Function]}
                                     uuid="061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                                    valid={true}
                                   >
                                     <FormElement
                                       __className="group"
@@ -12091,6 +12098,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                     onChange={[Function]}
                                     onRemove={[Function]}
                                     uuid="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+                                    valid={true}
                                   >
                                     <FormElement
                                       __className="group"
@@ -15101,6 +15109,7 @@ Object {
         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
       "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      "valid": true,
     },
     Object {
       "exitName": "Red",
@@ -15113,6 +15122,7 @@ Object {
         "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       },
       "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+      "valid": true,
     },
     Object {
       "exitName": "",
@@ -15125,6 +15135,7 @@ Object {
         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },
       "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+      "valid": true,
     },
   ],
   "valid": true,
@@ -15145,6 +15156,7 @@ Object {
         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
       "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      "valid": true,
     },
     Object {
       "exitName": "",
@@ -15157,6 +15169,7 @@ Object {
         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },
       "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+      "valid": true,
     },
   ],
   "valid": true,
@@ -15177,6 +15190,7 @@ Object {
         "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       },
       "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+      "valid": true,
     },
     Object {
       "exitName": "Green",
@@ -15189,6 +15203,7 @@ Object {
         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
       "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      "valid": true,
     },
     Object {
       "exitName": "",
@@ -15201,6 +15216,7 @@ Object {
         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },
       "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+      "valid": true,
     },
   ],
   "valid": true,

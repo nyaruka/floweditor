@@ -5,6 +5,7 @@ exports[`AirtimeRouterForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },

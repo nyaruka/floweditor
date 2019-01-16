@@ -3,17 +3,21 @@
 exports[`CaseElement operator changes should handle updates 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "errors": Array [],
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -28,17 +32,21 @@ Object {
 exports[`CaseElement operator changes should should set arguments for numeric range 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "errors": Array [],
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -62,13 +70,16 @@ Object {
   },
   "errors": Array [],
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "My Exit Name",
   },
   "exitNameEdited": true,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -76,7 +87,7 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
   },
-  "valid": true,
+  "valid": false,
 }
 `;
 
@@ -508,17 +519,21 @@ exports[`CaseElement render should render empty case 1`] = `
 exports[`CaseElement update handles argument change 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "Green",
   },
   "errors": Array [],
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "Green",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -533,17 +548,21 @@ Object {
 exports[`CaseElement update handles multiple argument change 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "errors": Array [],
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "1 - 100",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "100",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "1",
   },
   "operatorConfig": Object {

@@ -17,6 +17,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
   buttons={
     Object {
       "primary": Object {
+        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -210,6 +211,7 @@ Array [
 exports[`StartSessionForm updates should save changes 1`] = `
 Object {
   "flow": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "my_flow",
       "name": "My Flow",
@@ -217,6 +219,7 @@ Object {
     },
   },
   "recipients": Object {
+    "validationFailures": Array [],
     "value": Array [
       Object {
         "id": "68223118-109f-442a-aed3-7bb3e1eab687",

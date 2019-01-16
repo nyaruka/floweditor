@@ -135,7 +135,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
                 // if the exit name changed, we'll need to recompute our exit
                 exit_uuid: this.state.exitNameEdited ? null : this.props.kase.exit_uuid
-            }
+            },
+            valid: this.state.valid
         };
     }
 

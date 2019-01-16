@@ -49,9 +49,11 @@ exports[`helpers prefix should prefix "starts with" operator appropriately 1`] =
 exports[`helpers validateCase cross validates min - max 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "50 - 3",
   },
   "exitNameEdited": false,
@@ -76,22 +78,27 @@ Object {
     "type": "has_number_between",
     "verboseName": "has a number between",
   },
+  "valid": false,
 }
 `;
 
 exports[`helpers validateCase does not require arguments without an exit 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -99,22 +106,27 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
   },
+  "valid": true,
 }
 `;
 
 exports[`helpers validateCase does not suggest an empty range for exit name, ie " - " 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -122,6 +134,7 @@ Object {
     "type": "has_number_between",
     "verboseName": "has a number between",
   },
+  "valid": true,
 }
 `;
 
@@ -136,13 +149,16 @@ Object {
     "value": "",
   },
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "My Exit",
   },
   "exitNameEdited": true,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -150,22 +166,27 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
   },
+  "valid": false,
 }
 `;
 
 exports[`helpers validateCase suggests min - max exits 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "5 - 40",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "40",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "5",
   },
   "operatorConfig": Object {
@@ -173,22 +194,27 @@ Object {
     "type": "has_number_between",
     "verboseName": "has a number between",
   },
+  "valid": true,
 }
 `;
 
 exports[`helpers validateCase suggests operator exit names for no operands 1`] = `
 Object {
   "argument": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "Has Text",
   },
   "exitNameEdited": false,
   "max": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "min": Object {
+    "validationFailures": Array [],
     "value": "",
   },
   "operatorConfig": Object {
@@ -197,5 +223,6 @@ Object {
     "type": "has_text",
     "verboseName": "has some text",
   },
+  "valid": true,
 }
 `;

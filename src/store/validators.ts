@@ -67,12 +67,7 @@ export const validate = (
         allFailures = allFailures.concat(validation.failures);
     });
 
-    const formEntry: FormEntry = { value };
-    if (allFailures.length > 0) {
-        formEntry.validationFailures = allFailures;
-    }
-
-    return formEntry;
+    return { value, validationFailures: allFailures };
 };
 
 export const validateRequired: ValidatorFunc = (name: string, input: FormInput) => {

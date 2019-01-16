@@ -13,7 +13,8 @@ export const createEmptyCase = (): CaseProps => {
             arguments: [''],
             exit_uuid: null
         },
-        exitName: ''
+        exitName: '',
+        valid: true
     };
 };
 

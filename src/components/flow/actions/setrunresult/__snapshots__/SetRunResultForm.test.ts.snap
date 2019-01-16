@@ -5,6 +5,7 @@ exports[`SetRunResultForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -91,13 +92,16 @@ Array [
 exports[`SetRunResultForm updates should save changes 1`] = `
 Object {
   "category": Object {
+    "validationFailures": Array [],
     "value": "Result Category",
   },
   "name": Object {
+    "validationFailures": Array [],
     "value": "Result Name",
   },
   "valid": true,
   "value": Object {
+    "validationFailures": Array [],
     "value": "Result Value",
   },
 }

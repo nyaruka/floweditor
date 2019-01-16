@@ -5,6 +5,7 @@ exports[`SendMsgForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -171,6 +172,7 @@ exports[`SendMsgForm updates should save changes 1`] = `
 Object {
   "attachments": Array [],
   "quickReplies": Object {
+    "validationFailures": Array [],
     "value": Array [
       "red",
       "green",
@@ -179,6 +181,7 @@ Object {
   },
   "sendAll": true,
   "text": Object {
+    "validationFailures": Array [],
     "value": "What is your favorite color?",
   },
   "valid": true,

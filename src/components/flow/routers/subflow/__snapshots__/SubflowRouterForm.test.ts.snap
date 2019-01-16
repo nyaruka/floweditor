@@ -5,6 +5,7 @@ exports[`SubflowRouterForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -186,6 +187,7 @@ Array [
 exports[`SubflowRouterForm updates should update and save 1`] = `
 Object {
   "flow": Object {
+    "validationFailures": Array [],
     "value": Object {
       "name": "Favorite Color",
       "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",

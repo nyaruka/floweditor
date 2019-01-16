@@ -81,7 +81,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
         if (buttons.secondary) {
             rightButtons.push(
-                <Button key={0} {...buttons.secondary} type={ButtonTypes.secondary} />
+                <Button key={0} type={ButtonTypes.secondary} {...buttons.secondary} />
             );
         }
 
@@ -93,6 +93,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                         this.handlePrimaryButton(buttons.primary.onClick);
                     }}
                     name={buttons.primary.name}
+                    disabled={buttons.primary.disabled}
                     type={ButtonTypes.primary}
                 />
             );
@@ -102,7 +103,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
         // Our left most button if we have one
         if (buttons.tertiary) {
-            leftButtons.push(<Button key={0} {...buttons.tertiary} type={ButtonTypes.tertiary} />);
+            leftButtons.push(<Button key={0} type={ButtonTypes.tertiary} {...buttons.tertiary} />);
         }
 
         return {

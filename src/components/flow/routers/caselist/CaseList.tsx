@@ -22,6 +22,7 @@ export interface CaseProps {
     uuid: string;
     kase: Case;
     exitName: string;
+    valid: boolean;
 }
 
 export interface CaseListProps {
@@ -66,6 +67,9 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         if (keys.hasOwnProperty('caseProps')) {
             updates.currentCases = [keys.caseProps];
             ensureEmptyCase = true;
+            if (!keys.caseProps.valid) {
+                updates.valid = false;
+            }
         }
 
         let toRemove: any[] = [];

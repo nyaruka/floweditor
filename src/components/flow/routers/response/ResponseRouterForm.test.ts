@@ -78,9 +78,21 @@ describe(ResponseRouterForm.name, () => {
             instance.handleUpdateTimeout(180);
             instance.handleUpdateResultName('Favorite Color');
             instance.handleCasesUpdated([
-                { kase: { type: Operators.has_any_word, arguments: ['red'] }, exitName: 'Red' },
-                { kase: { type: Operators.has_any_word, arguments: ['maroon'] }, exitName: 'Red' },
-                { kase: { type: Operators.has_any_word, arguments: ['green'] }, exitName: 'Green' }
+                {
+                    kase: { type: Operators.has_any_word, arguments: ['red'] },
+                    exitName: 'Red',
+                    valid: true
+                },
+                {
+                    kase: { type: Operators.has_any_word, arguments: ['maroon'] },
+                    exitName: 'Red',
+                    valid: true
+                },
+                {
+                    kase: { type: Operators.has_any_word, arguments: ['green'] },
+                    exitName: 'Green',
+                    valid: true
+                }
             ] as CaseProps[]);
 
             expect(instance.state).toMatchSnapshot();
