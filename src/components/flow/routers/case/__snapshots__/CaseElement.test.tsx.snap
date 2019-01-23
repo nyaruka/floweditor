@@ -2,16 +2,24 @@
 
 exports[`CaseElement operator changes should handle updates 1`] = `
 Object {
-  "arguments": Object {
-    "value": Array [
-      "Red, r",
-    ],
+  "argument": Object {
+    "validationFailures": Array [],
+    "value": "",
   },
   "errors": Array [],
   "exitName": Object {
-    "value": "Red",
+    "validationFailures": Array [],
+    "value": "",
   },
   "exitNameEdited": false,
+  "max": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
+  "min": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "operatorConfig": Object {
     "operands": 1,
     "type": "has_any_word",
@@ -21,19 +29,26 @@ Object {
 }
 `;
 
-exports[`CaseElement operator changes should should set two arguments for numeric range 1`] = `
+exports[`CaseElement operator changes should should set arguments for numeric range 1`] = `
 Object {
-  "arguments": Object {
-    "value": Array [
-      "",
-      "",
-    ],
+  "argument": Object {
+    "validationFailures": Array [],
+    "value": "",
   },
   "errors": Array [],
   "exitName": Object {
-    "value": "Red",
+    "validationFailures": Array [],
+    "value": "",
   },
   "exitNameEdited": false,
+  "max": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
+  "min": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "operatorConfig": Object {
     "operands": 2,
     "type": "has_number_between",
@@ -45,22 +60,34 @@ Object {
 
 exports[`CaseElement operator changes shouldnt update exit if it has been edited 1`] = `
 Object {
-  "arguments": Object {
-    "value": Array [
-      "Red, r",
+  "argument": Object {
+    "validationFailures": Array [
+      Object {
+        "message": "Value is required",
+      },
     ],
+    "value": "",
   },
   "errors": Array [],
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "My Exit Name",
   },
   "exitNameEdited": true,
+  "max": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
+  "min": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "operatorConfig": Object {
     "operands": 1,
     "type": "has_any_word",
     "verboseName": "has any of the words",
   },
-  "valid": true,
+  "valid": false,
 }
 `;
 
@@ -255,7 +282,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
         data-spec="exit-input"
         entry={
           Object {
-            "value": "Red",
+            "value": "",
           }
         }
         name="exitName"
@@ -454,12 +481,11 @@ exports[`CaseElement render should render empty case 1`] = `
         data-spec="args-input"
         entry={
           Object {
-            "value": "Red, r",
+            "value": "",
           }
         }
         name="arguments"
         onChange={[Function]}
-        showInvalid={false}
       />
     </div>
     <div
@@ -474,7 +500,7 @@ exports[`CaseElement render should render empty case 1`] = `
         data-spec="exit-input"
         entry={
           Object {
-            "value": "Red",
+            "value": "",
           }
         }
         name="exitName"
@@ -492,16 +518,24 @@ exports[`CaseElement render should render empty case 1`] = `
 
 exports[`CaseElement update handles argument change 1`] = `
 Object {
-  "arguments": Object {
-    "value": Array [
-      "Green",
-    ],
+  "argument": Object {
+    "validationFailures": Array [],
+    "value": "Green",
   },
   "errors": Array [],
   "exitName": Object {
+    "validationFailures": Array [],
     "value": "Green",
   },
   "exitNameEdited": false,
+  "max": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
+  "min": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "operatorConfig": Object {
     "operands": 1,
     "type": "has_any_word",
@@ -513,17 +547,24 @@ Object {
 
 exports[`CaseElement update handles multiple argument change 1`] = `
 Object {
-  "arguments": Object {
-    "value": Array [
-      "1",
-      "100",
-    ],
+  "argument": Object {
+    "validationFailures": Array [],
+    "value": "",
   },
   "errors": Array [],
   "exitName": Object {
-    "value": "Red",
+    "validationFailures": Array [],
+    "value": "1 - 100",
   },
   "exitNameEdited": false,
+  "max": Object {
+    "validationFailures": Array [],
+    "value": "100",
+  },
+  "min": Object {
+    "validationFailures": Array [],
+    "value": "1",
+  },
   "operatorConfig": Object {
     "operands": 2,
     "type": "has_number_between",

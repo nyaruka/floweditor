@@ -5,6 +5,7 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

@@ -2,7 +2,7 @@
 
 exports[`Button render should render self, children with base props 1`] = `
 <div
-  className="btn primary"
+  className="btn primary "
   onClick={[MockFunction]}
 >
   Save

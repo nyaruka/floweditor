@@ -17,6 +17,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
   buttons={
     Object {
       "primary": Object {
+        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -177,6 +178,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
 exports[`SendBroadcastForm updates handles recipent change 1`] = `
 Object {
   "recipients": Object {
+    "validationFailures": Array [],
     "value": Array [
       Object {
         "id": "group-0",
@@ -223,6 +225,7 @@ Object {
     ],
   },
   "text": Object {
+    "validationFailures": Array [],
     "value": "Message to Group",
   },
   "valid": true,

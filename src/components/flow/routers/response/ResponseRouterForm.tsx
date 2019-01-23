@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { determineTypeConfig } from '~/components/flow/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { nodeToState, stateToNode } from '~/components/flow/routers/response/helpers';
@@ -50,7 +49,8 @@ export default class ResponseRouterForm extends React.Component<
     }
 
     private handleCasesUpdated(cases: CaseProps[]): void {
-        this.setState({ cases });
+        const invalidCase = cases.find((caseProps: CaseProps) => !caseProps.valid);
+        this.setState({ cases, valid: !invalidCase });
     }
 
     private handleSave(): void {
@@ -62,7 +62,7 @@ export default class ResponseRouterForm extends React.Component<
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave },
+            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }

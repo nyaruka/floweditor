@@ -72,5 +72,6 @@ export const groupsToCases = (groups: Asset[] = []): CaseProps[] =>
             arguments: [id],
             exit_uuid: ''
         },
-        exitName: name
+        exitName: name,
+        valid: true
     }));

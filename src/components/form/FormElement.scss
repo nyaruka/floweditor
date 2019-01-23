@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import '../../variables.scss';
 
 .ele {
     position: relative;
@@ -11,6 +11,55 @@
     }
     &:focus {
         outline: none;
+    }
+
+    > .error-list {
+        > .error {
+            visibility: hidden;
+            position: absolute;
+            z-index: 30000;
+            background: #fff;
+            border: 1px solid tomato;
+            border-radius: 5px;
+            padding: 2px 5px;
+            margin: 0;
+            line-height: 13px;
+            margin-top: 9px;
+            font-size: 10px;
+            width: 100px;
+            text-align: center;
+
+            color: $error_color;
+
+            .arrow-up {
+                width: 0px;
+                height: 0px;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                border-bottom: 5px solid tomato;
+                position: absolute;
+                margin-top: -7px;
+            }
+
+            &.send-msg-error {
+                margin-top: -15px;
+            }
+
+            .kase-error {
+                // padding-left: 15px;
+            }
+            .attrib-error {
+                // padding-bottom: 10px;
+            }
+        }
+    }
+
+    &:hover {
+        // we could also show errors if an input gains focus
+        // down our tree with &:focus-within here
+        > .error-list > .error {
+            visibility: visible;
+        }
     }
 }
 
@@ -27,29 +76,12 @@
     border-radius: 4px;
     box-shadow: 0 0 0 3px rgba(255, 196, 186, 0.5) !important;
 
-    -webkit-transition: all 0.30s ease-in-out;
-    -moz-transition: all 0.30s ease-in-out;
-    -ms-transition: all 0.30s ease-in-out;
-    -o-transition: all 0.30s ease-in-out;
-    transition: all 0.30s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     outline: none;
-}
-
-.error {
-    color: $error_color;
-    font-size: 11px;
-    padding-top: 5px;
-    padding-left: 2px;
-    .send-msg-error {
-        padding-top: 0px;
-        margin-top: -25px;
-    }
-    .kase-error {
-        padding-left: 15px;
-    }
-    .attrib-error {
-        padding-bottom: 10px;
-    }
 }
 
 .help_text {

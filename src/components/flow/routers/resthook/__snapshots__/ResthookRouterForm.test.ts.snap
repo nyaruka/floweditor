@@ -5,6 +5,7 @@ exports[`ResthookRouterForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -202,6 +203,7 @@ Array [
 exports[`ResthookRouterForm updates should update and save 1`] = `
 Object {
   "resthook": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "new-resthook",
       "name": "new-resthook",

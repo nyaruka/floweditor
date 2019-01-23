@@ -5,6 +5,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -75,6 +76,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -144,6 +146,7 @@ exports[`MsgLocalizationForm updates should save changes 1`] = `
 Object {
   "attachments": Array [],
   "quickReplies": Object {
+    "validationFailures": Array [],
     "value": Array [
       "red",
       "green",
@@ -152,6 +155,7 @@ Object {
   },
   "sendAll": false,
   "text": Object {
+    "validationFailures": Array [],
     "value": "What is your favorite color?",
   },
   "valid": true,

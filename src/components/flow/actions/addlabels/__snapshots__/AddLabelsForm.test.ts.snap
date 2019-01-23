@@ -5,6 +5,7 @@ exports[`AddLabelsForm render should render a base action 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -81,6 +82,7 @@ Array [
 exports[`AddLabelsForm updates should update and save 1`] = `
 Object {
   "labels": Object {
+    "validationFailures": Array [],
     "value": Array [
       Object {
         "id": "feedback_label",

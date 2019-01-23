@@ -64,7 +64,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave },
+            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }

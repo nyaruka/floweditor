@@ -5,6 +5,7 @@ exports[`FieldRouterForm initializes 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -163,6 +164,7 @@ exports[`FieldRouterForm initializes 1`] = `
             "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
           "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          "valid": true,
         },
       ]
     }
@@ -188,6 +190,7 @@ exports[`FieldRouterForm should render 1`] = `
   buttons={
     Object {
       "primary": Object {
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

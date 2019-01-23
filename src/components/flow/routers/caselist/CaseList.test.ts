@@ -19,7 +19,8 @@ const { setup } = composeComponentTestUtils<CaseListProps>(CaseList, {
                 arguments: ['Red, r'],
                 exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
             },
-            exitName: 'Red'
+            exitName: 'Red',
+            valid: true
         },
         {
             uuid: caseUUID2,
@@ -29,7 +30,8 @@ const { setup } = composeComponentTestUtils<CaseListProps>(CaseList, {
                 arguments: ['Green, g'],
                 exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
             },
-            exitName: 'Green'
+            exitName: 'Green',
+            valid: true
         }
     ],
     onCasesUpdated: jest.fn()
