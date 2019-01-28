@@ -1,3 +1,6 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=ef6c15eb32fb7490174990f990988f6b31c1759f69cf247086507c48bae9df83
 language: node_js
 node_js:
   - 10
@@ -7,5 +10,12 @@ cache:
 install:
   - npm ci --no-optional
   - npm i -g codecov
-after_success:
-  - codecov --file=coverage/lcov.info --disable=search,gcov
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+# after_success:
+#   - codecov --file=coverage/lcov.info --disable=search,gcov
