@@ -18,7 +18,7 @@ const baseProps: CanvasProps = {
 
 const { setup } = composeComponentTestUtils(Canvas, baseProps);
 
-xdescribe(Canvas.name, () => {
+describe(Canvas.name, () => {
     it('render default', () => {
         const { wrapper } = setup();
         expect(wrapper).toMatchSnapshot();
