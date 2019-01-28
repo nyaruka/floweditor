@@ -13,6 +13,7 @@ export interface ConfigProviderContext {
     endpoints: Endpoints;
     flow: string;
     debug: boolean;
+    showDownload: boolean;
 }
 
 // ----------------------------------------------------------------------------------------------
@@ -26,7 +27,8 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
         assetService: fakePropType,
         endpoints: fakePropType,
         flow: fakePropType,
-        debug: fakePropType
+        debug: fakePropType,
+        showDownload: fakePropType
     };
 
     constructor(props: ConfigProviderProps) {
@@ -43,7 +45,8 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
         return {
             endpoints: this.props.config.endpoints,
             flow: this.props.config.flow,
-            debug: this.props.config.debug
+            debug: this.props.config.debug,
+            showDownload: this.props.config.showDownload
         };
     }
 

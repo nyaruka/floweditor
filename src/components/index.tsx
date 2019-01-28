@@ -48,7 +48,8 @@ const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) =>
 
 export const contextTypes = {
     flow: fakePropType,
-    endpoints: fakePropType
+    endpoints: fakePropType,
+    showDownload: fakePropType
 };
 
 export const editorContainerSpecId = 'editor-container';
@@ -76,7 +77,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public getFooter(): JSX.Element {
-        return (
+        return this.context.showDownload ? (
             <div className={styles.footer}>
                 <div className={styles.downloadButton}>
                     <Button
@@ -86,7 +87,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                     />
                 </div>
             </div>
-        );
+        ) : null;
     }
 
     public render(): JSX.Element {

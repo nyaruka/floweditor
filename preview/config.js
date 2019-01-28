@@ -9,6 +9,7 @@ if (process.env.RAPID_FLOW) {
     module.exports = Object.assign({}, config, {
         flow: process.env.RAPID_FLOW,
         localStorage: true,
+        showDownload: true,
         endpoints: {
             attachments: '/flow/upload_media_action/' + process.env.RAPID_ORG + '/',
             resthooks: base + 'resthook',
@@ -30,6 +31,7 @@ if (process.env.RAPID_FLOW) {
         process.env.NODE_ENV === 'preview'
             ? Object.assign({}, config, {
                   localStorage: true,
+                  showDownload: true,
                   endpoints: {
                       attachments: '',
                       resthooks: 'resthooks',
@@ -48,6 +50,7 @@ if (process.env.RAPID_FLOW) {
               })
             : Object.assign({}, config, {
                   localStorage: true,
+                  showDownload: true,
                   endpoints: {
                       attachments: '/',
                       resthooks: '/assets/resthooks',

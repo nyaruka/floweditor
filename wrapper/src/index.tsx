@@ -7,9 +7,6 @@ import { render } from 'react-dom';
 
 import FlowEditor from '../../src/';
 
-// const config = require('../config');
-// config.flow = root.getAttribute('uuid') || config.flow;
-
 const showFlowEditor = (ele: any, flowUUID: string) => {
     const base = '/flow/assets/1/' + new Date().getTime() + '/';
     const config = {
@@ -31,8 +28,8 @@ const showFlowEditor = (ele: any, flowUUID: string) => {
             simulateResume: '/flow/resume'
         }
     };
+
     render(<FlowEditor config={config} />, ele);
-    console.log('showing editor!');
 };
 
 module.exports = showFlowEditor;
