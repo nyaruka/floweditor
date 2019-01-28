@@ -36,7 +36,8 @@ export const contextTypes: { [key: string]: Function } = {
     endpoints: fakePropType,
     flow: fakePropType,
     assetService: fakePropType,
-    debug: fakePropType
+    debug: fakePropType,
+    showDownload: fakePropType
 };
 
 export const baseState: AppState = mutate(initialState, {

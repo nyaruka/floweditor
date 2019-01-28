@@ -6,6 +6,7 @@ module.exports =
     process.env.NODE_ENV === 'production'
         ? Object.assign({}, config, {
               localStorage: true,
+              showDownload: true,
               endpoints: {
                   resthooks: 'resthooks',
                   flows: 'flows',
@@ -23,6 +24,7 @@ module.exports =
           })
         : Object.assign({}, config, {
               localStorage: true,
+              showDownload: true,
               endpoints: {
                   resthooks: '/assets/resthooks.json',
                   flows: '/assets/flows.json',
