@@ -53,6 +53,7 @@ const devConfig = {
         contentBase: [join(__dirname, '../preview/src')],
         compress: true,
         port: DEV_SERVER_PORT,
+        disableHostCheck: true,
         before: function(app) {
             app.get('/assets/**', function(req, res) {
                 const url = req._parsedUrl.pathname.replace(/(^\/assets\/)|(\/$)/g, '');

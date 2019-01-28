@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { CanvasDraggable, CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
-import { draggable } from '~/components/canvas/CanvasDraggable.scss';
 import { getCollisions } from '~/components/canvas/helpers';
 import { DRAG_THRESHOLD } from '~/components/flow/Flow';
 import { dragGroup } from '~/components/flow/node/Node.scss';
@@ -14,7 +13,9 @@ import { snapPositionToGrid } from '~/utils';
 
 import * as styles from './Canvas.scss';
 
-interface CanvasProps {
+export const CANVAS_PADDING = 300;
+
+export interface CanvasProps {
     uuid: string;
     dragActive: boolean;
     draggables: CanvasDraggableProps[];
@@ -53,13 +54,18 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     constructor(props: CanvasProps) {
         super(props);
 
+        let height = 1000;
+
         const positions: { [uuid: string]: FlowPosition } = {};
         this.props.draggables.forEach((draggable: CanvasDraggableProps) => {
             positions[draggable.uuid] = draggable.position;
+            if (draggable.position.bottom) {
+                height = Math.max(height, draggable.position.bottom + CANVAS_PADDING);
+            }
         });
 
         this.state = {
-            height: 1000,
+            height,
             dragDownPosition: null,
             dragUUID: null,
             dragGroup: false,
@@ -203,7 +209,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
         this.justSelected = false;
     }
 
-    private handleUpdateDimensions(uuid: string, dimensions: Dimensions): void {
+    public handleUpdateDimensions(uuid: string, dimensions: Dimensions): void {
         let pos = this.state.positions[uuid];
 
         if (!pos) {
@@ -218,14 +224,21 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             bottom: pos.top + dimensions.height
         };
 
-        if (newPosition.right !== pos.right || newPosition.bottom !== pos.bottom) {
-            const newPositions = mutate(this.state.positions, {
-                $merge: {
-                    [uuid]: newPosition
-                }
-            });
+        if (newPosition.bottom !== pos.bottom || newPosition.right !== pos.right) {
+            if (newPosition.right !== pos.right || newPosition.bottom !== pos.bottom) {
+                const newPositions = mutate(this.state.positions, {
+                    $merge: {
+                        [uuid]: newPosition
+                    }
+                });
 
-            this.setState({ positions: newPositions });
+                this.setState((prevState: CanvasState) => {
+                    return {
+                        positions: newPositions,
+                        height: Math.max(newPosition.bottom + CANVAS_PADDING, prevState.height)
+                    };
+                });
+            }
         }
     }
 
@@ -271,7 +284,12 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             });
 
             this.setState(
-                { positions: newPositions, height: Math.max(this.state.height, lowestNode + 300) },
+                (prevState: CanvasState) => {
+                    return {
+                        positions: newPositions,
+                        height: Math.max(prevState.height, lowestNode + CANVAS_PADDING)
+                    };
+                },
                 () => {
                     // check if we need to scroll our canvas
                     if (!this.isScrolling) {

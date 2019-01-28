@@ -3,7 +3,6 @@
 $background_offset: ($grid_size / 2) + ($node_padding) + px;
 
 .canvas_container {
-    overflow-y: scroll;
     padding: 20px;
     background-color: #f9f9f9;
     background-position: $background_offset $background_offset;

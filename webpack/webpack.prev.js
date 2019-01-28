@@ -38,7 +38,6 @@ const prevConfig = {
                 include: [paths.components],
                 use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
             },
-
             {
                 test: /\.(sa|sc|c)ss$/,
                 include: [paths.src],
