@@ -14,7 +14,7 @@ const pascalCase = str => require('camelcase')(str, { pascalCase: true });
 
 const name = pkgName();
 
-const prodConfig = {
+let prodConfig = {
     mode: 'production',
     entry: {
         [name]: paths.lib,
@@ -33,10 +33,7 @@ const prodConfig = {
             NODE_ENV: 'production'
         }),
         new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: '[name].[hash].css',
-            chunkFilename: '[id].[hash].css'
+            filename: 'flow-editor-styles.css'
         }),
         new ModuleConcatenationPlugin(),
         uglifyPlugin,
@@ -45,7 +42,14 @@ const prodConfig = {
     module: {
         rules: [
             {
+                test: /\.s?css$/,
+                include: [paths.components],
+                use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
+            },
+            {
                 test: /\.(sa|sc|c)ss$/,
+                include: [paths.src],
+                exclude: [paths.components],
                 use: [MiniCssExtractPlugin.loader, 'css-loader', postCSSLoader, 'sass-loader']
             },
             {
@@ -78,8 +82,33 @@ const prodConfig = {
     }
 };
 
-module.exports = smartStrategy({
+let fnConfig = {
+    mode: 'production',
+    entry: './wrapper/src',
+    output: {
+        libraryTarget: 'var',
+        library: 'showFlowEditor',
+        path: paths.umd,
+        filename: 'wrapper.js'
+    },
+    resolve: {
+        alias: {
+            '~': paths.src
+        }
+    },
+    externals: {}
+};
+
+prodConfig = smartStrategy({
     output: 'replace',
     plugins: 'append',
     'module.rules': 'append'
 })(commonConfig, prodConfig);
+
+fnConfig = smartStrategy({
+    output: 'replace',
+    'resolve.alias': 'replace',
+    externals: 'replace'
+})(prodConfig, fnConfig);
+
+module.exports = [prodConfig, fnConfig];

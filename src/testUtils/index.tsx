@@ -36,7 +36,8 @@ export const contextTypes: { [key: string]: Function } = {
     endpoints: fakePropType,
     flow: fakePropType,
     assetService: fakePropType,
-    debug: fakePropType
+    debug: fakePropType,
+    showDownload: fakePropType
 };
 
 export const baseState: AppState = mutate(initialState, {
@@ -53,7 +54,8 @@ const flowEditorConfig: FlowEditorConfig = config;
 export const configProviderContext: ConfigProviderContext = {
     endpoints: flowEditorConfig.endpoints,
     flow: flowEditorConfig.flow,
-    debug: flowEditorConfig.debug
+    debug: flowEditorConfig.debug,
+    showDownload: flowEditorConfig.showDownload
 };
 
 export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>

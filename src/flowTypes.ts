@@ -38,6 +38,7 @@ export interface FlowEditorConfig {
     localStorage: boolean;
     endpoints: Endpoints;
     flow: string;
+    showDownload?: boolean;
     debug?: boolean;
     path?: string;
 }
