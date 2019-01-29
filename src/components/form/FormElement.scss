@@ -18,27 +18,26 @@
             visibility: hidden;
             position: absolute;
             z-index: 30000;
-            background: #fff;
-            border: 1px solid tomato;
+            background: $error_color + #333;
+            border: 2px solid $error_color;
             border-radius: 5px;
-            padding: 2px 5px;
+            padding: 7px 7px;
             margin: 0;
-            line-height: 13px;
-            margin-top: 9px;
-            font-size: 10px;
+            margin-left: -4px;
+            margin-top: 10px;
+            font-size: 14px;
             width: 100px;
             text-align: center;
-
-            color: $error_color;
+            color: #fff;
 
             .arrow-up {
                 width: 0px;
                 height: 0px;
-                border-left: 5px solid transparent;
-                border-right: 5px solid transparent;
-                border-bottom: 5px solid tomato;
+                border-left: 8px solid transparent;
+                border-right: 8px solid transparent;
+                border-bottom: 8px solid tomato;
                 position: absolute;
-                margin-top: -7px;
+                margin-top: -15px;
             }
 
             &.send-msg-error {
