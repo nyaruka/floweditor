@@ -17,7 +17,7 @@ const showFlowEditor = (ele: any, flowUUID: string) => {
             resthooks: base + 'resthook',
             flows: base + 'flow',
             groups: base + 'group',
-            recipients: '/contact/omnibox?types=gcu',
+            recipients: '/contact/omnibox?v=2&types=gcu',
             fields: base + 'field',
             labels: base + 'label',
             languages: base + 'language',
