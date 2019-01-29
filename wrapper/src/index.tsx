@@ -6,29 +6,9 @@ import * as React from 'react';
 import { render } from 'react-dom';
 
 import FlowEditor from '../../src/';
+import { FlowEditorConfig } from '../../src/flowTypes';
 
-const showFlowEditor = (ele: any, flowUUID: string) => {
-    const base = '/flow/assets/1/' + new Date().getTime() + '/';
-    const config = {
-        flow: flowUUID,
-        localStorage: true,
-        endpoints: {
-            attachments: '/flow/upload_media_action/1/',
-            resthooks: base + 'resthook',
-            flows: base + 'flow',
-            groups: base + 'group',
-            recipients: '/contact/omnibox?v=2&types=gcu',
-            fields: base + 'field',
-            labels: base + 'label',
-            languages: base + 'language',
-            channels: base + 'channel',
-            environment: base + 'environment',
-            activity: '',
-            simulateStart: '/flow/start',
-            simulateResume: '/flow/resume'
-        }
-    };
-
+const showFlowEditor = (ele: any, config: FlowEditorConfig) => {
     render(<FlowEditor config={config} />, ele);
 };
 
