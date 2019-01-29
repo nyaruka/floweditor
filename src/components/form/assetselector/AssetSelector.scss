@@ -1,0 +1,15 @@
+@import '~/variables.scss';
+
+.selection {
+    input {
+        outline: none;
+        border: none;
+        box-shadow: none;
+
+        &:focus {
+            outline: none;
+            border: none;
+            box-shadow: none;
+        }
+    }
+}

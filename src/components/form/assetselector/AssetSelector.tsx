@@ -12,6 +12,8 @@ import { Asset, Assets, AssetType, REMOVE_VALUE_ASSET } from '~/store/flowContex
 import { AssetEntry } from '~/store/nodeEditor';
 import { uniqueBy } from '~/utils';
 
+import * as styles from './AssetSelector.scss';
+
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
 const AssetOption = (props: OptionProps<Asset>) => {
@@ -210,6 +212,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                 showLabel={this.props.showLabel}
             >
                 <AsyncCreatable
+                    className={styles.selection}
                     placeholder={this.props.placeholder || 'Select ' + this.props.name}
                     value={this.state.entry.value}
                     components={{ Option: AssetOption }}
