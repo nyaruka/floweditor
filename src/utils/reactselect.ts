@@ -15,6 +15,21 @@ export const small = {
     option: (styles: StylesConfig) => ({
         ...styles,
         fontSize: 12
+    }),
+    singleValue: (styles: StylesConfig) => ({
+        ...styles,
+        maxHeight: 28
+    }),
+    indicatorsContainer: (styles: StylesConfig) => ({
+        ...styles,
+        height: 28,
+        maxHeight: 28
+    }),
+
+    valueContainer: (styles: StylesConfig) => ({
+        ...styles,
+        height: 28,
+        maxHeight: 28
     })
 };
 
