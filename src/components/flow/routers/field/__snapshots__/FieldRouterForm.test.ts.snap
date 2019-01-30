@@ -143,8 +143,11 @@ exports[`FieldRouterForm initializes 1`] = `
         styles={
           Object {
             "control": [Function],
+            "indicatorsContainer": [Function],
             "menuList": [Function],
             "option": [Function],
+            "singleValue": [Function],
+            "valueContainer": [Function],
           }
         }
       />
@@ -328,8 +331,11 @@ exports[`FieldRouterForm should render 1`] = `
         styles={
           Object {
             "control": [Function],
+            "indicatorsContainer": [Function],
             "menuList": [Function],
             "option": [Function],
+            "singleValue": [Function],
+            "valueContainer": [Function],
           }
         }
       />
