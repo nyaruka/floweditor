@@ -36,7 +36,7 @@ describe(Canvas.name, () => {
             position: { top: 1200, left: 100, bottom: 1290, right: 300 }
         };
 
-        const { instance } = setup(true, { $set: { draggables: [lowest] } });
+        const { instance } = setup(true, { $merge: { draggables: [lowest] } });
         expect(instance.state.height).toEqual(1290 + CANVAS_PADDING);
     });
 
@@ -46,10 +46,30 @@ describe(Canvas.name, () => {
             uuid: utils.createUUID(),
             position: { top: 1200, left: 100 }
         };
-        const { instance } = setup(true, { $set: { draggables: [lowest] } });
+        const { instance } = setup(true, { $merge: { draggables: [lowest] } });
         expect(instance.state.height).toEqual(1000);
 
         instance.handleUpdateDimensions(lowest.uuid, { width: 200, height: 300 });
         expect(instance.state.height).toBe(lowest.position.top + 300 + CANVAS_PADDING);
+    });
+
+    it('reflows collisions', () => {
+        const first: CanvasDraggableProps = {
+            ele,
+            uuid: utils.createUUID(),
+            position: { top: 100, bottom: 200, left: 100, right: 200 }
+        };
+
+        const second: CanvasDraggableProps = {
+            ele,
+            uuid: utils.createUUID(),
+            position: { top: 150, left: 100, bottom: 250, right: 200 }
+        };
+
+        const { instance } = setup(true, { $merge: { draggables: [first, second] } });
+
+        instance.doReflow();
+
+        expect(instance.state.positions).toMatchSnapshot();
     });
 });

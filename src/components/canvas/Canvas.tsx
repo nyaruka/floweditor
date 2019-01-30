@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { CanvasDraggable, CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
-import { getCollisions } from '~/components/canvas/helpers';
+import { getDraggablesInBox, reflow } from '~/components/canvas/helpers';
 import { DRAG_THRESHOLD } from '~/components/flow/Flow';
 import { dragGroup } from '~/components/flow/node/Node.scss';
 import { Dimensions, FlowPosition } from '~/flowTypes';
@@ -14,6 +14,7 @@ import { snapPositionToGrid } from '~/utils';
 import * as styles from './Canvas.scss';
 
 export const CANVAS_PADDING = 300;
+export const REFLOW_QUIET = 200;
 
 export interface CanvasProps {
     uuid: string;
@@ -43,6 +44,8 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     private ele: HTMLDivElement;
     private parentOffset: FlowPosition;
     private isScrolling: any;
+
+    private reflowTimeout: any;
 
     // when auto scrolling we need to move dragged elements
     private lastX: number;
@@ -135,7 +138,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             const right = Math.max(drag.startX, drag.currentX);
             const bottom = Math.max(drag.startY, drag.currentY);
 
-            const selected = getCollisions(this.state.positions, { left, top, right, bottom });
+            const selected = getDraggablesInBox(this.state.positions, { left, top, right, bottom });
 
             this.setState({
                 dragSelection: {
@@ -185,6 +188,8 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
                 dragSelection: null,
                 dragUUID: null
             });
+
+            this.markReflow();
         }
 
         if (!this.justSelected) {
@@ -238,8 +243,31 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
                         height: Math.max(newPosition.bottom + CANVAS_PADDING, prevState.height)
                     };
                 });
+
+                this.markReflow();
             }
         }
+    }
+
+    public doReflow(): void {
+        const { positions, changed } = reflow(this.state.positions);
+        if (positions) {
+            this.setState({ positions });
+        }
+        this.props.onDragged(changed);
+    }
+
+    private markReflow(): void {
+        if (this.reflowTimeout) {
+            clearTimeout(this.reflowTimeout);
+        }
+
+        this.reflowTimeout = setTimeout(() => {
+            // only reflow if we aren't dragging
+            if (!this.state.dragUUID) {
+                this.doReflow();
+            }
+        }, REFLOW_QUIET);
     }
 
     private updatePositions(pageX: number, pageY: number, clientY: number, snap: boolean): void {

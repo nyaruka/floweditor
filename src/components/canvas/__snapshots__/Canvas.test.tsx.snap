@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Canvas reflows collisions 1`] = `
+Object {
+  "477ac8b4-25e2-483a-8686-2d1332c4da1c": Object {
+    "bottom": 320,
+    "left": 100,
+    "right": 200,
+    "top": 220,
+  },
+  "763e4844-3e1b-407a-a1b5-5fdfcd308b41": Object {
+    "bottom": 200,
+    "left": 100,
+    "right": 200,
+    "top": 100,
+  },
+}
+`;
+
 exports[`Canvas render default 1`] = `
 <div
   className="canvasContainer"
