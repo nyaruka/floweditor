@@ -151,12 +151,20 @@ export const newPosition = (left: number, top: number): FlowPosition => {
 export const addPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {
     const width = a.right - a.left;
     const height = a.bottom - a.top;
-    return {
-        left: a.left + b.left,
-        top: a.top + b.top,
-        right: a.left + b.left + width,
-        bottom: a.top + b.top + height
-    };
+
+    const top = Math.max(0, a.top + b.top);
+    const left = Math.max(0, a.left + b.left);
+
+    if (width && height) {
+        return {
+            left,
+            top,
+            right: left + width,
+            bottom: top + height
+        };
+    }
+
+    return { top, left };
 };
 
 export const subtractPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {

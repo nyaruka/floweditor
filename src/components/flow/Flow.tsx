@@ -29,10 +29,10 @@ import {
     NoParamsAC,
     OnConnectionDrag,
     onConnectionDrag,
-    OnDragSelection,
-    onDragSelection,
     OnOpenNodeEditor,
     onOpenNodeEditor,
+    OnUpdateCanvasPositions,
+    onUpdateCanvasPositions,
     resetNodeEditingState,
     UpdateConnection,
     updateConnection,
@@ -63,7 +63,7 @@ export interface FlowStoreProps {
     ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
-    onDragSelection: OnDragSelection;
+    onUpdateCanvasPositions: OnUpdateCanvasPositions;
     resetNodeEditingState: NoParamsAC;
     onConnectionDrag: OnConnectionDrag;
     updateSticky: UpdateSticky;
@@ -379,7 +379,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         return (
             <div onDoubleClick={this.onDoubleClick}>
                 <Canvas
-                    onDragged={(uuids: string[]) => {
+                    onDragging={(uuids: string[]) => {
                         uuids.forEach((uuid: string) => {
                             if (uuid in this.props.nodes) {
                                 this.props.nodes[uuid].node.exits.forEach((exit: Exit) => {
@@ -395,7 +395,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                     dragActive={this.props.editorState.dragActive}
                     mergeEditorState={this.props.mergeEditorState}
                     draggables={draggables}
-                    onUpdateDragPositions={this.props.onDragSelection}
+                    onUpdatePositions={this.props.onUpdateCanvasPositions}
                 >
                     {this.getSimulator()}
                     {this.getDragNode()}
@@ -430,7 +430,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             resetNodeEditingState,
             onConnectionDrag,
             onOpenNodeEditor,
-            onDragSelection,
+            onUpdateCanvasPositions,
             updateConnection,
             updateSticky
         },

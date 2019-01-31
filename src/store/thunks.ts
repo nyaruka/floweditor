@@ -77,6 +77,8 @@ export type OnDragSelection = (
     snap: boolean
 ) => Thunk<RenderNodeMap>;
 
+export type OnUpdateCanvasPositions = (positions: CanvasPositions) => Thunk<RenderNodeMap>;
+
 export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (uuid: string, dimensions: Dimensions) => Thunk<void>;
@@ -652,6 +654,45 @@ export const onResetDragSelection = () => (dispatch: DispatchWithState, getState
     /*if (dragSelection && dragSelection.selected) {
         dispatch(mergeEditorState(EMPTY_DRAG_STATE));
     }*/
+};
+
+export const onUpdateCanvasPositions = (positions: CanvasPositions) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): RenderNodeMap => {
+    const {
+        flowContext: { nodes, definition }
+    } = getState();
+
+    let updatedDefinition = definition;
+    let updatedNodes = nodes;
+
+    let updatedNodePosition = false;
+    let updatedStickyPosition = false;
+
+    for (const uuid in positions) {
+        if (updatedNodes[uuid]) {
+            updatedNodes = mutators.updatePosition(updatedNodes, uuid, positions[uuid]);
+            updatedNodePosition = true;
+        } else if (updatedDefinition._ui.stickies[uuid]) {
+            updatedDefinition = mutators.updateStickyNotePosition(
+                updatedDefinition,
+                uuid,
+                positions[uuid]
+            );
+            updatedStickyPosition = true;
+        }
+    }
+
+    if (updatedNodePosition) {
+        dispatch(updateNodes(updatedNodes));
+    }
+
+    if (updatedStickyPosition) {
+        dispatch(updateDefinition(updatedDefinition));
+    }
+
+    return updatedNodes;
 };
 
 export const onDragSelection = (delta: FlowPosition, positions: CanvasPositions, snap: boolean) => (
