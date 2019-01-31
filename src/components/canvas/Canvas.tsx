@@ -226,13 +226,13 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
 
         if (newPosition.bottom !== pos.bottom || newPosition.right !== pos.right) {
             if (newPosition.right !== pos.right || newPosition.bottom !== pos.bottom) {
-                const newPositions = mutate(this.state.positions, {
-                    $merge: {
-                        [uuid]: newPosition
-                    }
-                });
-
                 this.setState((prevState: CanvasState) => {
+                    const newPositions = mutate(prevState.positions, {
+                        $merge: {
+                            [uuid]: newPosition
+                        }
+                    });
+
                     return {
                         positions: newPositions,
                         height: Math.max(newPosition.bottom + CANVAS_PADDING, prevState.height)
