@@ -97,11 +97,11 @@ export const reflow = (
     let newPositions = positions;
     const changed: string[] = [];
 
+    timeStart('reflow');
+
     let collision = getFirstCollision(positions);
     while (collision.length > 0) {
         if (collision.length) {
-            timeStart('reflow');
-
             const [top, bottom, cascade] = collision;
             newPositions = mutate(newPositions, {
                 [bottom.uuid]: set(setTop(bottom, top.bottom + NODE_SPACING))
@@ -120,12 +120,12 @@ export const reflow = (
 
                 changed.push(cascade.uuid);
             }
-
-            timeEnd('reflow');
         }
 
         collision = getFirstCollision(newPositions);
     }
+
+    timeEnd('reflow');
 
     return { positions: newPositions, changed };
 };

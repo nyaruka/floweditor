@@ -10,8 +10,8 @@ const ele = (selected: boolean): JSX.Element => null;
 const baseProps: CanvasProps = {
     uuid: utils.createUUID(),
     dragActive: false,
-    onDragged: jest.fn(),
-    onUpdateDragPositions: jest.fn(),
+    onDragging: jest.fn(),
+    onUpdatePositions: jest.fn(),
     mergeEditorState: jest.fn(),
     draggables: []
 };

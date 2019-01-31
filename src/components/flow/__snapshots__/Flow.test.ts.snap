@@ -123,8 +123,8 @@ exports[`Flow render should render NodeEditor 2`] = `
       ]
     }
     mergeEditorState={[MockFunction]}
-    onDragged={[Function]}
-    onUpdateDragPositions={[MockFunction]}
+    onDragging={[Function]}
+    onUpdatePositions={[MockFunction]}
     uuid="6f87dde3-5df3-4935-8585-2656df068d61"
   >
     <Connect(NodeEditor)
@@ -201,8 +201,8 @@ exports[`Flow render should render Simulator 1`] = `
       ]
     }
     mergeEditorState={[MockFunction]}
-    onDragged={[Function]}
-    onUpdateDragPositions={[MockFunction]}
+    onDragging={[Function]}
+    onUpdatePositions={[MockFunction]}
     uuid="44f05c10-0ec0-41ab-aed7-c65267337df7"
   >
     <Connect(Simulator)

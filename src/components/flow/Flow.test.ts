@@ -45,7 +45,7 @@ const baseProps: FlowStoreProps = {
     ensureStartNode: jest.fn(),
     updateConnection: jest.fn(),
     onOpenNodeEditor: jest.fn(),
-    onDragSelection: jest.fn(),
+    onUpdateCanvasPositions: jest.fn(),
     resetNodeEditingState: jest.fn(),
     onConnectionDrag: jest.fn(),
     updateSticky: jest.fn()
