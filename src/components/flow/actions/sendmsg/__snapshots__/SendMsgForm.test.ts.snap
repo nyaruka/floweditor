@@ -84,8 +84,11 @@ exports[`SendMsgForm render should render 1`] = `
                 styles={
                   Object {
                     "control": [Function],
+                    "indicatorsContainer": [Function],
                     "menuList": [Function],
                     "option": [Function],
+                    "singleValue": [Function],
+                    "valueContainer": [Function],
                   }
                 }
               />
