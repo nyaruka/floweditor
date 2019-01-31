@@ -664,7 +664,6 @@ export const onUpdateCanvasPositions = (positions: CanvasPositions) => (
         flowContext: { nodes, definition }
     } = getState();
 
-    console.log('updating ', positions);
     let updatedDefinition = definition;
     let updatedNodes = nodes;
 
