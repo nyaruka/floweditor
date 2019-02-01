@@ -33,6 +33,8 @@ export interface EventProps {
     base_language?: string;
     translations?: { [lang: string]: { [text: string]: string } };
     groups?: Group[];
+    groups_added?: Group[];
+    groups_removed?: Group[];
     msg?: MsgProps;
 }
 
@@ -79,6 +81,10 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
         switch (this.props.type) {
             case 'msg_received':
+                // TODO: why does MR return msg_received without a msg
+                if (!this.props.msg) {
+                    return null;
+                }
                 text = <span>{this.props.msg.text}</span>;
                 classes.push(styles.msgReceived);
                 break;
@@ -103,12 +109,11 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 classes.push(styles.info);
                 break;
             /** fall-through desired in this case */
-            case Types.add_contact_groups:
-            case Types.remove_contact_groups:
-                groupText =
-                    this.props.type === Types.add_contact_groups ? 'Added to ' : 'Removed from ';
+            case 'contact_groups_changed':
+                const groups = this.props.groups_added || this.props.groups_removed;
+                groupText = this.props.groups_added ? 'Added to ' : 'Removed from ';
                 delim = ' ';
-                this.props.groups.forEach(group => {
+                groups.forEach(group => {
                     groupText += `${delim}"${group.name}"`;
                     delim = ', ';
                 });

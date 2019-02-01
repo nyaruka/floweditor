@@ -1,8 +1,8 @@
 @font-face {
     font-family: 'floweditor';
-    src: url('fonts/floweditor.ttf?mft1rq') format('truetype'),
-        url('fonts/floweditor.woff?mft1rq') format('woff'),
-        url('fonts/floweditor.svg?mft1rq#floweditor') format('svg');
+    src: url('fonts/floweditor.ttf?7nyd15') format('truetype'),
+        url('fonts/floweditor.woff?7nyd15') format('woff'),
+        url('fonts/floweditor.svg?7nyd15#floweditor') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -23,6 +23,18 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fe-battery1:before {
+    content: '\e902';
+}
+.fe-battery:before {
+    content: '\e900';
+}
+.fe-connection1:before {
+    content: '\e97c';
+}
+.fe-battery-4:before {
+    content: '\ee56';
+}
 .fe-add:before {
     content: '\e901';
 }
@@ -158,6 +170,9 @@
 .fe-delete:before {
     content: '\e794';
 }
+.fe-signal-80:before {
+    content: '\e79c';
+}
 .fe-sim:before {
     content: '\e7a2';
 }
@@ -175,6 +190,9 @@
 }
 .fe-lamp:before {
     content: '\e7bc';
+}
+.fe-battery-mid3:before {
+    content: '\e7ca';
 }
 .fe-bubble:before {
     content: '\e7d6';
@@ -241,6 +259,9 @@
 }
 .fe-happy:before {
     content: '\e889';
+}
+.fe-wifi:before {
+    content: '\e8b7';
 }
 .fe-mic:before {
     content: '\e8cb';

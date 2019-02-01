@@ -63,11 +63,11 @@ export default class Plumber {
             Connector: [
                 'Flowchart',
                 {
-                    stub: 16,
-                    midpoint: 0.25,
+                    stub: 20,
+                    midpoint: 0.55,
                     alwaysRespectStubs: true,
                     gap: [0, 0],
-                    cornerRadius: 6
+                    cornerRadius: 3
                 }
             ],
             ConnectionOverlays: [

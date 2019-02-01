@@ -1,4 +1,6 @@
-@import "~/variables.scss";
+@import '~/variables.scss';
+
+$reset_color: #666;
 
 .sim-container {
     position: fixed;
@@ -12,11 +14,9 @@
     transition-delay: 100ms;
 }
 
-
-
 .simulator {
     background: $black;
-    border-radius: 20px;
+    border-radius: 12px;
     box-shadow: $node_shadow $node_shadow_color;
 
     input {
@@ -63,45 +63,91 @@
     z-index: $z_simulator;
     transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
     transition-delay: 100ms;
-    .reset {
-        $button: #ddd;
-        $reset_color: #fff;
-        background-color: $button;
-        border: 3px solid $button - #333;
-        -webkit-border-radius: 20px;
-        -moz-border-radius: 20px;
-        border-radius: 20px;
-        cursor: pointer;
-        width: 60px;
-        height: 15px;
-        position: absolute;
-        bottom: 17px;
-        left: 102px;
-        &:hover {
-            background-color: $button - #555;
-            border-color: $button - #888;
-        }
-        &.active {
-            background-color: $button - #777;
-            border-color: $button - #888;
-        }
-        &.inactive {
-            border-color: $reset_color;
-            background-color: $button;
-        }
-    }
+
     .screen {
-        top: 46px;
-        height: 400px;
-        border-radius: 6px;
+        top: 6px;
+        height: 488px;
+        border-radius: 10px;
         overflow: hidden;
-        background-color: #fff;
         position: relative;
-        margin: 0px 18px;
+        margin: 0px 5px;
         cursor: default;
+
+        .header {
+            color: #eee;
+            background: #555;
+            height: 32px;
+            .close {
+                font-size: 20px;
+                width: 25px;
+                height: 25px;
+                right: 5px;
+                top: 5px;
+                position: absolute;
+                color: #ddd;
+                cursor: pointer;
+                &:hover {
+                    color: #fff;
+                }
+            }
+            .time {
+                display: inline-block;
+                visibility: hidden;
+            }
+            .battery {
+                display: inline-block;
+                visibility: hidden;
+                right: 12px;
+                position: absolute;
+                font-size: 13px;
+            }
+            .wifi {
+                visibility: hidden;
+                display: inline-block;
+                right: 38px;
+                position: absolute;
+            }
+        }
+
+        .footer {
+            color: #eee;
+            background: #555;
+            height: 35px;
+
+            .reset {
+                background-color: $reset_color;
+                border: 2px solid $reset_color + #121212;
+                -webkit-border-radius: 20px;
+                -moz-border-radius: 20px;
+                border-radius: 16px;
+                cursor: pointer;
+                width: 60px;
+                height: 15px;
+                position: absolute;
+                left: 94px;
+                margin: 8px 0px;
+
+                &:hover {
+                    background-color: $reset_color + #121212;
+                    border: 2px solid $reset_color + #131313;
+                }
+
+                .inactive {
+                    background-color: $reset_color;
+                    border: 2px solid $reset_color + #121212;
+                }
+
+                .active {
+                    background-color: $reset_color;
+                    border: 2px solid $reset_color + #121212;
+                }
+            }
+        }
+
         .messages {
+            background-color: #fff;
             user-select: none;
-            max-height: 341px;
+            height: 361px;
             padding: 10px;
             overflow-y: auto;
             overflow-x: hidden;
@@ -110,10 +156,9 @@
         }
         .controls {
             background: $light_gray;
-            position: absolute;
             border: 0px solid yellow;
             bottom: 0px;
-            width: 214px;
+            width: 240px;
             padding: 5px 5px;
             input {
                 &:focus {
@@ -121,28 +166,17 @@
                     box-shadow: none;
                     border: none;
                 }
+                border-radius: 4px;
                 border: none;
                 outline: none;
                 box-shadow: none;
-                font-size: 14px;
+                font-size: 12px !important;
                 font-weight: 300;
-                width: 197px;
+                height: 13px;
+                width: 223px;
                 padding: 6px 8px;
                 color: #333;
             }
-        }
-    }
-    .close {
-        font-size: 25px;
-        width: 25px;
-        height: 25px;
-        right: 20px;
-        top: 10px;
-        position: absolute;
-        color: #bbb;
-        cursor: pointer;
-        &:hover {
-            color: #fff;
         }
     }
 }
@@ -169,14 +203,13 @@
         font-size: 30px;
         color: white;
         padding: 10px 0px;
-        
     }
     .simulator-tab-text {
         position: absolute;
         left: 35px;
         top: 10px;
         color: white;
-        opacity: .01;
+        opacity: 0.01;
         font-weight: 400;
         transition: opacity 500ms;
         transition-delay: 1000ms;
@@ -187,7 +220,7 @@
     right: -10px;
     transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
     .simulator-tab-text {
-        opacity: .99;
+        opacity: 0.99;
         transition: opacity 500ms;
     }
 }
@@ -197,21 +230,21 @@
     margin-bottom: 8px;
 }
 
-.msg-received {
+.send-msg {
     padding: 8px 15px;
     background: $light_gray;
     border: 1px solid $light_gray + #111;
-    border-radius: 15px;
+    border-radius: 10px;
     margin-right: 24px;
     color: #333;
 }
 
-.send-msg {
+.msg-received {
     padding: 8px 15px;
     text-align: right;
-    background: #2095FE;
-    border: 1px solid #2095FE + #111;
-    border-radius: 15px;
+    background: #2095fe;
+    border: 1px solid #2095fe + #111;
+    border-radius: 10px;
     margin-left: 24px;
     color: #fff;
 }
@@ -254,7 +287,7 @@
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     word-wrap: break-word;
-     ::first-line {
+    ::first-line {
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
         font-weight: 400;
