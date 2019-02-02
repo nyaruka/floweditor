@@ -5,7 +5,7 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getSimulationAssets } from '~/components/simulator/helpers';
+import { getTime } from '~/components/simulator/helpers';
 import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
 import * as styles from '~/components/simulator/Simulator.scss';
 import { ConfigProviderContext } from '~/config';
@@ -47,6 +47,7 @@ interface SimulatorState {
     channel: string;
     events: EventProps[];
     active: boolean;
+    time: string;
 }
 
 interface Contact {
@@ -112,7 +113,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 fields: {},
                 groups: []
             },
-            channel: createUUID()
+            channel: createUUID(),
+            time: getTime()
         };
         this.bottomRef = this.bottomRef.bind(this);
         this.inputBoxRef = this.inputBoxRef.bind(this);
@@ -218,8 +220,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             () => {
                 // this.props.definition.uuid,
                 // getCurrentDefinition(this.props.definition, this.props.nodes)
+                const now = new Date().toISOString();
                 const body: any = {
                     contact: this.state.contact,
+                    flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
                     trigger: {
                         type: 'manual',
                         environment: {
@@ -232,19 +236,16 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             uuid: createUUID(),
                             urns: ['tel:+12065551212'],
                             fields: {},
-                            groups: []
+                            groups: [],
+                            created_on: now
                         },
                         flow: {
                             uuid: this.props.definition.uuid,
                             name: this.props.definition.uuid
                         },
                         params: {},
-                        triggered_on: new Date().toISOString()
-                    },
-                    ...getSimulationAssets(
-                        this.props.assetStore,
-                        getCurrentDefinition(this.props.definition, this.props.nodes)
-                    )
+                        triggered_on: now
+                    }
                 };
 
                 axios.default
@@ -273,11 +274,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         const newMessage = {
             type: 'msg_received',
-            msg: {
-                text,
-                uuid: createUUID(),
-                urn: this.state.session.contact.urns[0]
-            },
+
             channel_uuid: this.state.channel,
             contact_uuid: this.state.session.contact.uuid,
             created_on: new Date()
@@ -286,14 +283,20 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         let events = update(this.state.events, { $push: [newMessage] }) as EventProps[];
         this.setState({ events });
 
+        const now = new Date().toISOString();
         const body: any = {
+            flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
             session: this.state.session,
-            contact: this.state.session.contact,
-            events: [newMessage],
-            ...getSimulationAssets(
-                this.props.assetStore,
-                getCurrentDefinition(this.props.definition, this.props.nodes)
-            )
+            resume: {
+                type: 'msg',
+                msg: {
+                    text,
+                    uuid: createUUID(),
+                    urn: this.state.session.contact.urns[0]
+                },
+                resumed_on: now,
+                contact: this.state.session.contact
+            }
         };
 
         axios.default
@@ -317,8 +320,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private onReset(event: any): void {
         this.startFlow();
     }
-
-    public componentDidMount(): void {}
 
     public componentDidUpdate(prevProps: SimulatorProps): void {
         if (this.bottom) {
@@ -370,16 +371,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             <div className={styles.simContainer}>
                 <div>
                     <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
-                        <a
-                            className={
-                                styles.reset +
-                                ' ' +
-                                (this.state.active ? styles.active : styles.inactive)
-                            }
-                            onClick={this.onReset}
-                        />
-                        <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
                         <div className={styles.screen}>
+                            <div className={styles.header}>
+                                <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
+                            </div>
                             <div className={styles.messages}>
                                 {messages}
                                 <div
@@ -399,6 +394,16 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                             ? 'Enter message'
                                             : 'Press home to start again'
                                     }
+                                />
+                            </div>
+                            <div className={styles.footer}>
+                                <a
+                                    className={
+                                        styles.reset +
+                                        ' ' +
+                                        (this.state.active ? styles.active : styles.inactive)
+                                    }
+                                    onClick={this.onReset}
                                 />
                             </div>
                         </div>

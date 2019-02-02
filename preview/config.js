@@ -22,8 +22,8 @@ if (process.env.RAPID_FLOW) {
             channels: base + 'channel',
             environment: base + 'environment',
             activity: '',
-            simulateStart: '/flow/start',
-            simulateResume: '/flow/resume'
+            simulateStart: '/flow/simulate/' + process.env.RAPID_ORG + '/',
+            simulateResume: '/flow/simulate/' + process.env.RAPID_ORG + '/'
         }
     });
 } else {
@@ -63,8 +63,8 @@ if (process.env.RAPID_FLOW) {
                       channels: '/assets/channel',
                       environment: '/assets/environment',
                       activity: '',
-                      simulateStart: '/flow/start',
-                      simulateResume: '/flow/resume'
+                      simulateStart: '/flow/simulate/1/',
+                      simulateResume: '/flow/simulate/1/'
                   }
               });
 }

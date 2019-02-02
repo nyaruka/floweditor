@@ -17,6 +17,16 @@ interface SimAsset {
     content: any;
 }
 
+export const getTime = (): string => {
+    const now = new Date();
+    const mins = now.getMinutes();
+    let minStr = '' + mins;
+    if (mins < 10) {
+        minStr = '0' + mins;
+    }
+    return Math.abs(12 - now.getHours()) + ':' + minStr;
+};
+
 export const getSimulationAssets = (assets: AssetStore, flow: FlowDefinition): any => {
     const simAssets: SimAsset[] = [];
 
