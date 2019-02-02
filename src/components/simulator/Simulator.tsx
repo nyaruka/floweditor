@@ -14,6 +14,7 @@ import { getURL } from '~/external';
 import { FlowDefinition, Group, Wait } from '~/flowTypes';
 import { Activity } from '~/services/ActivityManager';
 import { AssetStore, RenderNodeMap } from '~/store/flowContext';
+import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
 import { createUUID } from '~/utils';
@@ -222,6 +223,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 const now = new Date().toISOString();
                 const body: any = {
                     contact: this.state.contact,
+                    flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
                     trigger: {
                         type: 'manual',
                         environment: {
@@ -283,6 +285,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         const now = new Date().toISOString();
         const body: any = {
+            flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
             session: this.state.session,
             resume: {
                 type: 'msg',

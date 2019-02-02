@@ -10,17 +10,28 @@ exports[`Simulator renders 1`] = `
       id="simulator"
       key="sim"
     >
-      <a
-        className="reset inactive"
-        onClick={[Function]}
-      />
-      <div
-        className="close fe-x"
-        onClick={[Function]}
-      />
       <div
         className="screen"
       >
+        <div
+          className="header"
+        >
+          <div
+            className="time"
+          >
+            4:50
+          </div>
+          <div
+            className="wifi fe-connection1"
+          />
+          <div
+            className="battery fe-battery"
+          />
+          <div
+            className="close fe-x"
+            onClick={[Function]}
+          />
+        </div>
         <div
           className="messages"
         >
@@ -42,6 +53,14 @@ exports[`Simulator renders 1`] = `
             onKeyUp={[Function]}
             placeholder="Press home to start again"
             type="text"
+          />
+        </div>
+        <div
+          className="footer"
+        >
+          <a
+            className="reset inactive"
+            onClick={[Function]}
           />
         </div>
       </div>

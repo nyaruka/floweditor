@@ -130,18 +130,21 @@ export const getCurrentDefinition = (
         uiNodes[uuid] = nodeMap[uuid].ui;
     }
 
-    // tslint:disable-next-line:variable-name
-    const _ui: UIMetaData = {
-        nodes: uiNodes,
-        stickies: definition._ui.stickies,
-        languages: definition._ui.languages
+    const result = {
+        ...definition,
+        nodes
     };
 
-    return {
-        ...definition,
-        nodes,
-        _ui
-    };
+    if (includeUI) {
+        // tslint:disable-next-line:variable-name
+        result._ui = {
+            nodes: uiNodes,
+            stickies: definition._ui.stickies,
+            languages: definition._ui.languages
+        } as UIMetaData;
+    }
+
+    return result;
 };
 
 export const newPosition = (left: number, top: number): FlowPosition => {
