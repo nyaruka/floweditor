@@ -17,17 +17,6 @@ exports[`Simulator renders 1`] = `
           className="header"
         >
           <div
-            className="time"
-          >
-            4:50
-          </div>
-          <div
-            className="wifi fe-connection1"
-          />
-          <div
-            className="battery fe-battery"
-          />
-          <div
             className="close fe-x"
             onClick={[Function]}
           />

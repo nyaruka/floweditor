@@ -373,9 +373,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                     <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
                         <div className={styles.screen}>
                             <div className={styles.header}>
-                                <div className={styles.time}>{this.state.time}</div>
-                                <div className={styles.wifi + ' fe-connection1'} />
-                                <div className={styles.battery + ' fe-battery'} />
                                 <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
                             </div>
                             <div className={styles.messages}>
