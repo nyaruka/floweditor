@@ -39,6 +39,32 @@ export const getActivity = (
             .catch(error => reject(error))
     );
 
+/** Get the value for a named cookie */
+export const getCookie = (name: string): string => {
+    for (const cookie of document.cookie.split(';')) {
+        const [key, value] = cookie.split('=', 2);
+        if (key === name) {
+            return value;
+        }
+    }
+    return null;
+};
+
+export const postNewAsset = (assets: Assets, payload: any): Promise<Asset> => {
+    // if we have a csrf in our cookie, pass it along as a header
+    const csrf = getCookie('csrftoken');
+    const headers = csrf ? { 'X-CSRFToken': csrf } : {};
+
+    return new Promise<Asset>((resolve, reject) => {
+        axios
+            .post(assets.endpoint, payload, { headers })
+            .then((response: AxiosResponse) => {
+                resolve(resultToAsset(response.data, assets.type, assets.id));
+            })
+            .catch(error => reject(error));
+    });
+};
+
 export const getAssets = (url: string, type: AssetType, id: string): Promise<Asset[]> => {
     if (!url) {
         return new Promise<Asset[]>((resolve, reject) => resolve([]));
@@ -48,24 +74,43 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
         axios
             .get(url)
             .then((response: AxiosResponse) => {
-                const assets: Asset[] = response.data.results.map((result: any) => {
-                    return {
-                        name: result.name || result.text || result[id],
-                        id: result[id],
-                        type: result.type || type
-                    };
-                });
+                const assets: Asset[] = response.data.results.map((result: any) =>
+                    resultToAsset(result, type, id)
+                );
+
                 resolve(assets);
             })
             .catch(error => reject(error));
     });
 };
 
-export const isMatch = (input: string, asset: Asset, exclude: string[]): boolean => {
-    if ((exclude || []).find((id: string) => asset.id === id)) {
+export const resultToAsset = (result: any, type: AssetType, id: string): Asset => {
+    const idKey = id || 'uuid';
+
+    const asset: Asset = {
+        name: result.name || result.text || result[idKey],
+        id: result[idKey],
+        type: result.type || type
+    };
+
+    delete result[idKey];
+    delete result.type;
+    delete result.name;
+    delete result.text;
+
+    asset.content = result;
+
+    return asset;
+};
+
+export const isMatch = (
+    input: string,
+    asset: Asset,
+    shouldExclude: (asset: Asset) => boolean
+): boolean => {
+    if (shouldExclude && shouldExclude(asset)) {
         return false;
     }
-
     return asset.name.toLowerCase().includes(input);
 };
 
@@ -76,17 +121,17 @@ export const searchAssetMap = (
     query: string,
     assets: AssetMap,
     additionalOptions?: Asset[],
-    excludeOptions?: string[]
+    shouldExclude?: (asset: Asset) => boolean
 ): Asset[] => {
     const search = query.toLowerCase();
     let matches = Object.keys(assets)
         .map(key => assets[key])
-        .filter((asset: Asset) => isMatch(search, asset, excludeOptions));
+        .filter((asset: Asset) => isMatch(search, asset, shouldExclude));
 
     // include our additional matches if we have any
     matches = matches
         .concat(additionalOptions || [])
-        .filter((asset: Asset) => isMatch(search, asset, excludeOptions));
+        .filter((asset: Asset) => isMatch(search, asset, shouldExclude));
 
     return matches;
 };
@@ -200,7 +245,7 @@ export const getBaseURL = (): string => {
 
 export const getURL = (path: string): string => {
     let url = path;
-    if (!url.endsWith('/') && url.indexOf('?') === -1) {
+    if (!url.endsWith('/') && url.indexOf('?') === -1 && url.indexOf('groups') === -1) {
         url += '/';
     }
 

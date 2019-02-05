@@ -93,9 +93,13 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
                 </div>
             ) : null;
 
-        const excludeOptions = this.props.exclude
-            .map((entry: AirtimeTransferEntry) => entry.value.code)
-            .filter((code: string) => !currency || code !== currency.id);
+        const shouldExclude = (asset: Asset): boolean => {
+            return (
+                this.props.exclude.filter(
+                    (airtime: AirtimeTransferEntry) => airtime.value.code === asset.id
+                ).length > 1
+            );
+        };
 
         return (
             <FormElement name="Currency" entry={this.props.transfer}>
@@ -104,7 +108,7 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
                         <AssetSelector
                             styles={small}
                             name="Currency"
-                            excludeOptions={excludeOptions}
+                            shouldExclude={shouldExclude}
                             assets={this.props.currencies}
                             entry={{ value: currency }}
                             searchable={true}

@@ -37,6 +37,7 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
     Select the group(s) to add the contact to.
   </p>
   <AssetSelector
+    createAssetFromInput={[Function]}
     createPrefix="Create Group: "
     entry={
       Object {
@@ -72,9 +73,10 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
     multi={true}
     name="Groups"
     noOptionsMessage="Enter a name to create a new group"
+    onAssetCreated={[Function]}
     onChange={[Function]}
-    onCreateOption={[Function]}
     searchable={true}
+    shouldExclude={[Function]}
   />
 </Dialog>
 `;
@@ -93,7 +95,6 @@ exports[`AddGroupsForm updates should allow switching from router: switch from r
         "type": "add_contact_groups",
         "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       },
-      [Function],
     ],
   ],
   "results": Array [
@@ -117,6 +118,5 @@ Array [
     "type": "add_contact_groups",
     "uuid": "0d8abccd-ad6d-4776-a642-d310d6f15835",
   },
-  [Function],
 ]
 `;

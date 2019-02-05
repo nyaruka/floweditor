@@ -121,7 +121,7 @@
     "react-flip-move": "2.10.0",
     "react-hot-loader": "4.3.4",
     "react-modal": "3.4.5",
-    "react-select": "2.0.0",
+    "react-select": "2.3.0",
     "redux": "3.7.2",
     "redux-devtools-extension": "2.13.5",
     "redux-mock-store": "1.5.3",

@@ -12,6 +12,8 @@ export interface ActionFormProps {
     typeConfig: Type;
     assetStore: AssetStore;
 
+    addAsset(assetType: string, asset: Asset): void;
+
     // update handlers
     updateAction(
         action: AnyAction,

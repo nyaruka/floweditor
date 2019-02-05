@@ -4,23 +4,15 @@ import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { ActionFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
-import { Asset, AssetType, updateAssets } from '~/store/flowContext';
-import * as mutators from '~/store/mutators';
+import { Asset } from '~/store/flowContext';
 import { mergeForm } from '~/store/nodeEditor';
-import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
-import { createUUID } from '~/utils';
 
-import { ChangeGroupsFormState, labelSpecId } from '../helpers';
+import { ChangeGroupsFormState, excludeDynamicGroups, labelSpecId } from '../helpers';
 import { initializeForm, stateToAction } from './helpers';
 
 export default class AddGroupsForm extends React.Component<ActionFormProps, ChangeGroupsFormState> {
-    public static contextTypes = {
-        assetService: fakePropType
-    };
-
     constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings) as ChangeGroupsFormState;
@@ -30,19 +22,11 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
         });
     }
 
-    private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
-        const {
-            flowContext: { assetStore }
-        } = getState();
-
-        dispatch(updateAssets(mutators.addAssets('groups', assetStore, this.state.groups.value)));
-    }
-
     public handleSave(): void {
         const valid = this.handleGroupsChanged(this.state.groups.value);
         if (valid) {
             const newAction = stateToAction(this.props.nodeSettings, this.state);
-            this.props.updateAction(newAction as ChangeGroups, this.onUpdated);
+            this.props.updateAction(newAction as ChangeGroups);
             this.props.onClose(false);
         }
     }
@@ -57,9 +41,16 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
         return updated.valid;
     }
 
-    public handleGroupAdded(name: string): void {
-        const newGroup = { id: createUUID(), name, type: AssetType.Group };
-        this.handleGroupsChanged(this.state.groups.value.concat(newGroup));
+    public handleGroupAdded(group: Asset): void {
+        // update our store with our new group
+        this.props.addAsset('groups', group);
+
+        // try to add the group
+        this.handleGroupsChanged(this.state.groups.value.concat(group));
+    }
+
+    public handleCreateAssetFromInput(input: string): any {
+        return { name: input };
     }
 
     private getButtons(): ButtonSet {
@@ -86,14 +77,17 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
 
                 <AssetSelector
                     name="Groups"
-                    createPrefix="Create Group: "
+                    multi={true}
+                    noOptionsMessage="Enter a name to create a new group"
                     assets={this.props.assetStore.groups}
                     entry={this.state.groups}
-                    searchable={true}
                     onChange={this.handleGroupsChanged}
-                    onCreateOption={this.handleGroupAdded}
-                    noOptionsMessage="Enter a name to create a new group"
-                    multi={true}
+                    searchable={true}
+                    shouldExclude={excludeDynamicGroups}
+                    // Groups can be created on the fly
+                    createPrefix="Create Group: "
+                    createAssetFromInput={this.handleCreateAssetFromInput}
+                    onAssetCreated={this.handleGroupAdded}
                 />
             </Dialog>
         );

@@ -55,8 +55,8 @@ exports[`AddLabelsForm render should render a base action 1`] = `
     }
     multi={true}
     name="Labels"
+    onAssetCreated={[Function]}
     onChange={[Function]}
-    onCreateOption={[Function]}
     placeholder="Enter the name of an existing label or create a new one"
     searchable={true}
   />

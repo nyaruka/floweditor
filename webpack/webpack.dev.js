@@ -29,6 +29,10 @@ if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
     env.RAPID_FLOW = process.env.RAPID_FLOW;
     env.RAPID_ORG = process.env.RAPID_ORG;
 
+    proxy['/api/v2'] = {
+        target: 'http://localhost:8000'
+    };
+
     proxy['/flow/simulate'] = {
         target: 'http://localhost:8000'
     };

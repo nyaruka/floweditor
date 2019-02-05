@@ -41,6 +41,7 @@ export interface FlowEditorConfig {
     showDownload?: boolean;
     debug?: boolean;
     path?: string;
+    headers?: any;
 }
 
 export interface LocalizationMap {

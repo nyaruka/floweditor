@@ -5,7 +5,12 @@ const config = {
 
 if (process.env.RAPID_FLOW) {
     // our base url includes our org and thumbprint for the asset server
+
+    // /api/v2/groups.json
     const base = '/flow/assets/' + process.env.RAPID_ORG + '/' + new Date().getTime() + '/';
+
+    // const base = '/api/v2/';
+
     module.exports = Object.assign({}, config, {
         flow: process.env.RAPID_FLOW,
         localStorage: true,
@@ -14,7 +19,7 @@ if (process.env.RAPID_FLOW) {
             attachments: '/flow/upload_media_action/' + process.env.RAPID_ORG + '/',
             resthooks: base + 'resthook',
             flows: base + 'flow',
-            groups: base + 'group',
+            groups: '/api/v2/' + 'groups.json',
             recipients: '/contact/omnibox?types=gcu',
             fields: base + 'field',
             labels: base + 'label',

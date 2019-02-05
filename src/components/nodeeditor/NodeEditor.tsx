@@ -11,6 +11,8 @@ import { Asset, AssetStore, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, updateUserAddingAction } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
+    AddAsset,
+    addAsset,
     DispatchWithState,
     GetState,
     HandleTypeConfigChange,
@@ -19,10 +21,10 @@ import {
     MergeEditorState,
     mergeEditorState,
     NoParamsAC,
-    OnUpdateAction,
     onUpdateAction,
-    onUpdateLocalizations,
+    OnUpdateAction,
     OnUpdateLocalizations,
+    onUpdateLocalizations,
     OnUpdateRouter,
     onUpdateRouter,
     resetNodeEditingState
@@ -39,6 +41,7 @@ export interface NodeEditorPassedProps {
 
 export interface NodeEditorStoreProps {
     assetStore: AssetStore;
+    addAsset: AddAsset;
     language: Asset;
     definition: FlowDefinition;
     translating: boolean;
@@ -60,6 +63,8 @@ export interface FormProps {
     // our two ways of updating
     updateRouter(renderNode: RenderNode): void;
     updateAction(action: AnyAction): void;
+
+    addAsset(assetType: string, asset: Asset): void;
 
     assetStore: AssetStore;
 
@@ -83,7 +88,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         super(props);
 
         bindCallbacks(this, {
-            include: [/^close/, /^update/]
+            include: [/^close/, /^update/, /^handle/]
         });
     }
 
@@ -122,6 +127,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         this.props.onUpdateRouter(renderNode);
     }
 
+    private handleAddAsset(assetType: string, asset: Asset): void {
+        this.props.addAsset(assetType, asset);
+    }
+
     public render(): JSX.Element {
         if (this.props.settings) {
             const { typeConfig } = this.props;
@@ -150,6 +159,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             const { form: Form } = typeConfig;
             const formProps: FormProps = {
                 assetStore: this.props.assetStore,
+                addAsset: this.handleAddAsset,
                 updateAction: this.updateAction,
                 updateRouter: this.updateRouter,
                 nodeSettings: this.props.settings,
@@ -187,6 +197,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
+            addAsset,
             resetNodeEditingState,
             mergeEditorState,
             handleTypeConfigChange,

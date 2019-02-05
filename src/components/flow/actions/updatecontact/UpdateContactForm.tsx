@@ -24,7 +24,6 @@ import * as mutators from '~/store/mutators';
 import { mergeForm } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
-import { createUUID } from '~/utils';
 
 import * as styles from './UpdateContact.scss';
 
@@ -141,9 +140,8 @@ export default class UpdateContactForm extends React.Component<
         }
     }
 
-    public handleFieldAdded(name: string): void {
-        const newField = { id: createUUID(), name, type: AssetType.Field };
-        this.handlePropertyChange([newField]);
+    public handleFieldAdded(field: Asset): void {
+        this.handlePropertyChange([field]);
     }
 
     private handleSave(): void {
@@ -257,7 +255,7 @@ export default class UpdateContactForm extends React.Component<
                     searchable={true}
                     sortFunction={sortFieldsAndProperties}
                     onChange={this.handlePropertyChange}
-                    onCreateOption={this.handleFieldAdded}
+                    onAssetCreated={this.handleFieldAdded}
                 />
 
                 <div className={styles.value}>{this.getValueWidget()}</div>
