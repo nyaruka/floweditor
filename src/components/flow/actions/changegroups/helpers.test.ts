@@ -1,7 +1,9 @@
 import {
+    excludeDynamicGroups,
     mapAssetsToGroups,
     mapGroupsToAssets
 } from '~/components/flow/actions/changegroups/helpers';
+import { AssetType } from '~/store/flowContext';
 
 const { results: groups } = require('~/test/assets/groups.json');
 
@@ -27,5 +29,27 @@ describe('mapSearchResultsToGroups', () => {
             expect(group.name).toBe(searchResults[idx].name);
         });
         expect(groupList).toMatchSnapshot();
+    });
+});
+
+describe('utils', () => {
+    it('should filter on excluedDynamicGroups', () => {
+        expect(
+            excludeDynamicGroups({
+                id: 'dynamic_id',
+                name: 'Dynamic',
+                type: AssetType.Group,
+                content: { query: 'some query' }
+            })
+        ).toBeTruthy();
+
+        expect(
+            excludeDynamicGroups({
+                id: 'static_id',
+                name: 'Static',
+                type: AssetType.Group,
+                content: { query: null }
+            })
+        ).toBeFalsy();
     });
 });
