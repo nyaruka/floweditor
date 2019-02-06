@@ -5,8 +5,8 @@ import { respond } from './utils/index.js';
 const staticGroups = require('../preview/assets/groups.json');
 
 exports.handler = (request, context, callback) => {
-    const body = JSON.parse(request.body);
     if (request.httpMethod === 'POST') {
+        const body = JSON.parse(request.body);
         respond(callback, {
             uuid: generateUUID(),
             name: body.name,
