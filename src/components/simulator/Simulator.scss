@@ -251,11 +251,12 @@ $reset_color: #666;
 
 .error {
     float: inherit;
-    background: none;
     color: $red;
-    font-size: 13px;
+    font-size: 11px;
     border: none;
     text-align: center;
+    padding: 10px 15px;
+    border-radius: 11px;
 }
 
 .info {

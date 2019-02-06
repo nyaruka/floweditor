@@ -3,6 +3,7 @@ import Select from 'react-select';
 import * as styles from '~/components/nodeeditor/TypeList.scss';
 import { Type } from '~/config';
 import { configsToDisplay } from '~/config/typeConfigs';
+import { large } from '~/utils/reactselect';
 
 export interface TypeListProps {
     __className: string;
@@ -40,6 +41,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                 <p>When a contact arrives at this point in your flow...</p>
                 <div>
                     <Select
+                        styles={large}
                         value={this.state.config}
                         onChange={this.handleChangeType}
                         isSearchable={false}

@@ -9,6 +9,10 @@ export interface ChangeGroupsFormState extends FormState {
     removeAll?: boolean;
 }
 
+export const excludeDynamicGroups = (asset: Asset): boolean => {
+    return asset.content && asset.content.query;
+};
+
 export const mapGroupsToAssets = (groups: Group[]): Asset[] =>
     groups.map(({ name, uuid }) => ({ name, id: uuid, type: AssetType.Group }));
 

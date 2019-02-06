@@ -79,6 +79,8 @@ export type OnDragSelection = (
 
 export type OnUpdateCanvasPositions = (positions: CanvasPositions) => Thunk<RenderNodeMap>;
 
+export type AddAsset = (assetType: string, asset: Asset) => Thunk<void>;
+
 export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (uuid: string, dimensions: Dimensions) => Thunk<void>;
@@ -204,6 +206,21 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string) => async (
     // finally update our assets, and mark us as fetched
     dispatch(updateAssets(assetStore));
     dispatch(mergeEditorState({ language, fetchingFlow: false }));
+};
+
+export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): void => {
+    const {
+        flowContext: { assetStore }
+    } = getState();
+
+    const updated = mutate(assetStore, {
+        [assetType]: { items: { $merge: { [asset.id]: asset } } }
+    });
+
+    dispatch(updateAssets(updated));
 };
 
 export const handleLanguageChange: HandleLanguageChange = language => (dispatch, getState) => {

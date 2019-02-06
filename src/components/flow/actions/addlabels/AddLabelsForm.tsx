@@ -5,12 +5,11 @@ import { ActionFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Asset, AssetType, updateAssets } from '~/store/flowContext';
+import { Asset, updateAssets } from '~/store/flowContext';
 import * as mutators from '~/store/mutators';
 import { AssetArrayEntry, FormState, mergeForm } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
-import { createUUID } from '~/utils';
 
 import { initializeForm, stateToAction } from './helpers';
 
@@ -72,9 +71,8 @@ export default class AddLabelsForm extends React.PureComponent<
         };
     }
 
-    public handleLabelCreated(name: string): void {
-        const group = { id: createUUID(), name, type: AssetType.Label };
-        this.handleLabelsChanged(this.state.labels.value.concat(group));
+    public handleLabelCreated(label: Asset): void {
+        this.handleLabelsChanged(this.state.labels.value.concat(label));
     }
 
     public render(): JSX.Element {
@@ -102,7 +100,7 @@ export default class AddLabelsForm extends React.PureComponent<
                     searchable={true}
                     multi={true}
                     onChange={this.handleLabelsChanged}
-                    onCreateOption={this.handleLabelCreated}
+                    onAssetCreated={this.handleLabelCreated}
                 />
             </Dialog>
         );

@@ -1,16 +1,17 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { AsyncCreatable, components } from 'react-select';
+import { components, Creatable } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
-import { OptionsType } from 'react-select/lib/types';
+import { OptionsType, ValueType } from 'react-select/lib/types';
 import { sortByName } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { getIconForAssetType } from '~/components/form/select/helper';
-import { getAssets, isMatch, searchAssetMap } from '~/external';
+import { getAssets, isMatch, postNewAsset, searchAssetMap } from '~/external';
 import { Asset, Assets, AssetType, REMOVE_VALUE_ASSET } from '~/store/flowContext';
 import { AssetEntry } from '~/store/nodeEditor';
 import { uniqueBy } from '~/utils';
+import { large, messageStyle } from '~/utils/reactselect';
 
 import * as styles from './AssetSelector.scss';
 
@@ -41,8 +42,8 @@ export interface AssetSelectorProps extends FormElementProps {
     assets: Assets;
     onChange: (selected: Asset[]) => void;
 
-    // list of ids to exclude from matches
-    excludeOptions?: string[];
+    // a function to exclude assets when matching
+    shouldExclude?: (asset: Asset) => boolean;
 
     // more options to consider when searching
     additionalOptions?: Asset[];
@@ -55,9 +56,9 @@ export interface AssetSelectorProps extends FormElementProps {
     clearable?: boolean;
 
     // creation options
-    allowCreation?: boolean;
-    onCreateOption?: any;
     createPrefix?: string;
+    onAssetCreated?: (asset: Asset) => void;
+    createAssetFromInput?: (input: string) => Asset;
 
     // supports multiple selection
     multi?: boolean;
@@ -72,6 +73,8 @@ export interface AssetSelectorProps extends FormElementProps {
 interface AssetSelectorState {
     defaultOptions: Asset[];
     entry: AssetEntry;
+    isLoading: boolean;
+    message?: string;
 }
 
 export default class AssetSelector extends React.Component<AssetSelectorProps, AssetSelectorState> {
@@ -90,7 +93,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
         this.state = {
             defaultOptions,
-            entry: this.props.entry
+            entry: this.props.entry,
+            isLoading: false
         };
     }
 
@@ -115,6 +119,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
 
     private handleChanged(selected: any): void {
+        this.setState({ message: null });
         if (Array.isArray(selected)) {
             this.props.onChange(selected);
         } else if (this.props.onChange) {
@@ -128,7 +133,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             input,
             this.props.assets.items,
             this.props.additionalOptions,
-            this.props.excludeOptions
+            this.props.shouldExclude
         );
 
         const assets = this.props.assets;
@@ -143,7 +148,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
             getAssets(url, assets.type, assets.id || 'uuid').then((remoteAssets: Asset[]) => {
                 const remoteMatches = remoteAssets.filter((asset: Asset) =>
-                    isMatch(input, asset, this.props.excludeOptions)
+                    isMatch(input, asset, this.props.shouldExclude)
                 );
                 const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
 
@@ -172,11 +177,23 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         }
     }
 
-    public handleCheckValid(inputValue: string): boolean {
-        if (!this.props.onCreateOption) {
+    public handleCheckValid(input: string, value: ValueType<Asset>, options: Asset[]): boolean {
+        if (!this.props.createAssetFromInput) {
             return false;
         }
-        return inputValue.length > 0;
+
+        if (input.length > 0) {
+            return (
+                searchAssetMap(
+                    input,
+                    this.props.assets.items,
+                    this.props.additionalOptions,
+                    this.props.shouldExclude
+                ).length === 0
+            );
+        }
+
+        return false;
     }
 
     public handleCreatePrompt(input: string): any {
@@ -187,6 +204,16 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         return { id: '_', name: label, type: null };
     }
 
+    public handleLoadingComplete(): void {
+        this.setState({ isLoading: false });
+    }
+
+    public handleClearMessage(): void {
+        if (this.state.message) {
+            this.setState({ message: null });
+        }
+    }
+
     public render(): JSX.Element {
         // the default options should be true if there is an endpoint
         let defaultOptions: any = this.props.assets.endpoint !== undefined;
@@ -195,15 +222,23 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         if (!defaultOptions) {
             defaultOptions = this.state.defaultOptions;
 
-            if (this.props.excludeOptions) {
+            if (this.props.shouldExclude) {
                 defaultOptions = searchAssetMap(
                     '',
                     this.props.assets.items,
                     this.props.additionalOptions,
-                    this.props.excludeOptions
+                    this.props.shouldExclude
                 );
             }
         }
+
+        // Perform this in lieu of AsyncCreatable loadOptions
+        const localMatches = searchAssetMap(
+            '',
+            this.props.assets.items,
+            this.props.additionalOptions,
+            this.props.shouldExclude
+        );
 
         return (
             <FormElement
@@ -211,29 +246,66 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                 entry={this.props.entry}
                 showLabel={this.props.showLabel}
             >
-                <AsyncCreatable
+                <Creatable
                     className={styles.selection}
                     placeholder={this.props.placeholder || 'Select ' + this.props.name}
                     value={this.state.entry.value}
                     components={{ Option: AssetOption }}
-                    styles={this.props.styles}
-                    defaultOptions={defaultOptions}
-                    cacheOptions={true}
-                    loadOptions={this.handleLoadOptions}
+                    styles={this.state.message ? messageStyle : this.props.styles || large}
+                    options={localMatches}
                     onChange={this.handleChanged}
+                    onMenuOpen={this.handleClearMessage}
+                    onBlur={this.handleClearMessage}
+                    menuShouldBlockScroll={true}
                     isMulti={this.props.multi}
+                    isDisabled={this.state.isLoading}
+                    isLoading={this.state.isLoading}
                     isClearable={false}
                     isSearchable={this.props.searchable}
                     isValidNewOption={this.handleCheckValid}
                     formatCreateLabel={this.handleCreatePrompt}
                     getNewOptionData={this.handleCreateNewOption}
-                    onCreateOption={this.props.onCreateOption}
+                    onCreateOption={(input: any) => {
+                        // mark us as loading
+                        this.setState({ isLoading: true, message: null });
+
+                        const payload = this.props.createAssetFromInput(input);
+                        postNewAsset(this.props.assets, payload)
+                            .then((asset: Asset) => {
+                                this.setState({ isLoading: false });
+                                this.props.onAssetCreated(asset);
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                this.setState({
+                                    message: `Couldn't create new ${
+                                        this.props.assets.type
+                                    } "${input}"`,
+                                    isLoading: false
+                                });
+                            });
+                    }}
                     getOptionValue={(option: Asset) => option.id}
                     getOptionLabel={(option: Asset) => option.name}
-                    noOptionsMessage={(obj: { inputValue: string }) =>
-                        this.props.noOptionsMessage || `No ${this.props.name} Found`
-                    }
+
+                    // We are currently using Creatable since our assets are currently
+                    // being preloaded page load and because of isLoaded not being
+                    // honored when set manually (this is needed to perform onCreateOption
+                    // via call to asset endpoint with feedback). Once that fix is merged,
+                    // we can consider using AsyncCreateable
+                    // See: https://github.com/JedWatson/react-select/pull/3319
+                    //
+                    // To use AsyncCreatable, use the following props
+                    // defaultOptions={defaultOptions}
+                    // cacheOptions={true}
+                    // loadOptions={this.handleLoadOptions}
+                    // noOptionsMessage={(obj: { inputValue: string }) =>
+                    //    this.props.noOptionsMessage || `No ${this.props.name} Found`
+                    // }
                 />
+                {this.state.message ? (
+                    <div className={styles.message}>{this.state.message}</div>
+                ) : null}
             </FormElement>
         );
     }

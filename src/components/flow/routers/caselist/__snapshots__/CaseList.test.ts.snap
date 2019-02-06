@@ -68,13 +68,13 @@ exports[`CaseList render should render empty list 1`] = `
                             class="css-10nd86i"
                           >
                             <div
-                              class="css-nbarux"
+                              class="css-1gxx0e9"
                             >
                               <div
-                                class="css-1y9j7cl"
+                                class="css-c2yhe2"
                               >
                                 <div
-                                  class="css-c85qz4"
+                                  class="css-16k2dzr"
                                 >
                                   has any of the words
                                 </div>
@@ -233,13 +233,13 @@ exports[`CaseList render should render empty list 1`] = `
                               class="css-10nd86i"
                             >
                               <div
-                                class="css-nbarux"
+                                class="css-1gxx0e9"
                               >
                                 <div
-                                  class="css-1y9j7cl"
+                                  class="css-c2yhe2"
                                 >
                                   <div
-                                    class="css-c85qz4"
+                                    class="css-16k2dzr"
                                   >
                                     has any of the words
                                   </div>
@@ -428,13 +428,13 @@ exports[`CaseList render should render empty list 1`] = `
                                   class="css-10nd86i"
                                 >
                                   <div
-                                    class="css-nbarux"
+                                    class="css-1gxx0e9"
                                   >
                                     <div
-                                      class="css-1y9j7cl"
+                                      class="css-c2yhe2"
                                     >
                                       <div
-                                        class="css-c85qz4"
+                                        class="css-16k2dzr"
                                       >
                                         has any of the words
                                       </div>
@@ -585,13 +585,13 @@ exports[`CaseList render should render empty list 1`] = `
                                     class="css-10nd86i"
                                   >
                                     <div
-                                      class="css-nbarux"
+                                      class="css-1gxx0e9"
                                     >
                                       <div
-                                        class="css-1y9j7cl"
+                                        class="css-c2yhe2"
                                       >
                                         <div
-                                          class="css-c85qz4"
+                                          class="css-16k2dzr"
                                         >
                                           has any of the words
                                         </div>
@@ -1511,6 +1511,35 @@ exports[`CaseList render should render empty list 1`] = `
                                                     }
                                                   }
                                                   setValue={[Function]}
+                                                  theme={
+                                                    Object {
+                                                      "borderRadius": 4,
+                                                      "colors": Object {
+                                                        "danger": "#DE350B",
+                                                        "dangerLight": "#FFBDAD",
+                                                        "neutral0": "hsl(0, 0%, 100%)",
+                                                        "neutral10": "hsl(0, 0%, 90%)",
+                                                        "neutral20": "hsl(0, 0%, 80%)",
+                                                        "neutral30": "hsl(0, 0%, 70%)",
+                                                        "neutral40": "hsl(0, 0%, 60%)",
+                                                        "neutral5": "hsl(0, 0%, 95%)",
+                                                        "neutral50": "hsl(0, 0%, 50%)",
+                                                        "neutral60": "hsl(0, 0%, 40%)",
+                                                        "neutral70": "hsl(0, 0%, 30%)",
+                                                        "neutral80": "hsl(0, 0%, 20%)",
+                                                        "neutral90": "hsl(0, 0%, 10%)",
+                                                        "primary": "#2684FF",
+                                                        "primary25": "#DEEBFF",
+                                                        "primary50": "#B2D4FF",
+                                                        "primary75": "#4C9AFF",
+                                                      },
+                                                      "spacing": Object {
+                                                        "baseUnit": 4,
+                                                        "controlHeight": 38,
+                                                        "menuGutter": 8,
+                                                      },
+                                                    }
+                                                  }
                                                 >
                                                   <div
                                                     className="css-10nd86i"
@@ -1533,6 +1562,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                       isFocused={false}
                                                       isMulti={false}
                                                       isRtl={false}
+                                                      menuIsOpen={false}
                                                       options={
                                                         Array [
                                                           Object {
@@ -1857,9 +1887,38 @@ exports[`CaseList render should render empty list 1`] = `
                                                         }
                                                       }
                                                       setValue={[Function]}
+                                                      theme={
+                                                        Object {
+                                                          "borderRadius": 4,
+                                                          "colors": Object {
+                                                            "danger": "#DE350B",
+                                                            "dangerLight": "#FFBDAD",
+                                                            "neutral0": "hsl(0, 0%, 100%)",
+                                                            "neutral10": "hsl(0, 0%, 90%)",
+                                                            "neutral20": "hsl(0, 0%, 80%)",
+                                                            "neutral30": "hsl(0, 0%, 70%)",
+                                                            "neutral40": "hsl(0, 0%, 60%)",
+                                                            "neutral5": "hsl(0, 0%, 95%)",
+                                                            "neutral50": "hsl(0, 0%, 50%)",
+                                                            "neutral60": "hsl(0, 0%, 40%)",
+                                                            "neutral70": "hsl(0, 0%, 30%)",
+                                                            "neutral80": "hsl(0, 0%, 20%)",
+                                                            "neutral90": "hsl(0, 0%, 10%)",
+                                                            "primary": "#2684FF",
+                                                            "primary25": "#DEEBFF",
+                                                            "primary50": "#B2D4FF",
+                                                            "primary75": "#4C9AFF",
+                                                          },
+                                                          "spacing": Object {
+                                                            "baseUnit": 4,
+                                                            "controlHeight": 38,
+                                                            "menuGutter": 8,
+                                                          },
+                                                        }
+                                                      }
                                                     >
                                                       <div
-                                                        className="css-nbarux"
+                                                        className="css-1gxx0e9"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -2196,9 +2255,38 @@ exports[`CaseList render should render empty list 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
-                                                            className="css-1y9j7cl"
+                                                            className="css-c2yhe2"
                                                           >
                                                             <SingleValue
                                                               clearValue={[Function]}
@@ -2540,14 +2628,44 @@ exports[`CaseList render should render empty list 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
-                                                                className="css-c85qz4"
+                                                                className="css-16k2dzr"
                                                               >
                                                                 has any of the words
                                                               </div>
                                                             </SingleValue>
                                                             <DummyInput
+                                                              disabled={false}
                                                               id="react-select-2-input"
                                                               innerRef={[Function]}
                                                               onBlur={[Function]}
@@ -2559,6 +2677,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                             >
                                                               <input
                                                                 className="css-14uuagi"
+                                                                disabled={false}
                                                                 id="react-select-2-input"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
@@ -2903,6 +3022,35 @@ exports[`CaseList render should render empty list 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
                                                             className="css-1l76mts"
@@ -3241,6 +3389,35 @@ exports[`CaseList render should render empty list 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <span
                                                                 className="css-d8oujb"
@@ -3587,6 +3764,35 @@ exports[`CaseList render should render empty list 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
                                                                 aria-hidden="true"
@@ -3920,13 +4126,13 @@ exports[`CaseList render should render list of cases 1`] = `
                             class="css-10nd86i"
                           >
                             <div
-                              class="css-nbarux"
+                              class="css-1gxx0e9"
                             >
                               <div
-                                class="css-1y9j7cl"
+                                class="css-c2yhe2"
                               >
                                 <div
-                                  class="css-c85qz4"
+                                  class="css-16k2dzr"
                                 >
                                   has any of the words
                                 </div>
@@ -4075,13 +4281,13 @@ exports[`CaseList render should render list of cases 1`] = `
                             class="css-10nd86i"
                           >
                             <div
-                              class="css-nbarux"
+                              class="css-1gxx0e9"
                             >
                               <div
-                                class="css-1y9j7cl"
+                                class="css-c2yhe2"
                               >
                                 <div
-                                  class="css-c85qz4"
+                                  class="css-16k2dzr"
                                 >
                                   has any of the words
                                 </div>
@@ -4227,13 +4433,13 @@ exports[`CaseList render should render list of cases 1`] = `
                             class="css-10nd86i"
                           >
                             <div
-                              class="css-nbarux"
+                              class="css-1gxx0e9"
                             >
                               <div
-                                class="css-1y9j7cl"
+                                class="css-c2yhe2"
                               >
                                 <div
-                                  class="css-c85qz4"
+                                  class="css-16k2dzr"
                                 >
                                   has any of the words
                                 </div>
@@ -4397,13 +4603,13 @@ exports[`CaseList render should render list of cases 1`] = `
                               class="css-10nd86i"
                             >
                               <div
-                                class="css-nbarux"
+                                class="css-1gxx0e9"
                               >
                                 <div
-                                  class="css-1y9j7cl"
+                                  class="css-c2yhe2"
                                 >
                                   <div
-                                    class="css-c85qz4"
+                                    class="css-16k2dzr"
                                   >
                                     has any of the words
                                   </div>
@@ -4552,13 +4758,13 @@ exports[`CaseList render should render list of cases 1`] = `
                               class="css-10nd86i"
                             >
                               <div
-                                class="css-nbarux"
+                                class="css-1gxx0e9"
                               >
                                 <div
-                                  class="css-1y9j7cl"
+                                  class="css-c2yhe2"
                                 >
                                   <div
-                                    class="css-c85qz4"
+                                    class="css-16k2dzr"
                                   >
                                     has any of the words
                                   </div>
@@ -4704,13 +4910,13 @@ exports[`CaseList render should render list of cases 1`] = `
                               class="css-10nd86i"
                             >
                               <div
-                                class="css-nbarux"
+                                class="css-1gxx0e9"
                               >
                                 <div
-                                  class="css-1y9j7cl"
+                                  class="css-c2yhe2"
                                 >
                                   <div
-                                    class="css-c85qz4"
+                                    class="css-16k2dzr"
                                   >
                                     has any of the words
                                   </div>
@@ -4906,13 +5112,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                   class="css-10nd86i"
                                 >
                                   <div
-                                    class="css-nbarux"
+                                    class="css-1gxx0e9"
                                   >
                                     <div
-                                      class="css-1y9j7cl"
+                                      class="css-c2yhe2"
                                     >
                                       <div
-                                        class="css-c85qz4"
+                                        class="css-16k2dzr"
                                       >
                                         has any of the words
                                       </div>
@@ -5066,13 +5272,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                     class="css-10nd86i"
                                   >
                                     <div
-                                      class="css-nbarux"
+                                      class="css-1gxx0e9"
                                     >
                                       <div
-                                        class="css-1y9j7cl"
+                                        class="css-c2yhe2"
                                       >
                                         <div
-                                          class="css-c85qz4"
+                                          class="css-16k2dzr"
                                         >
                                           has any of the words
                                         </div>
@@ -6002,6 +6208,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   setValue={[Function]}
+                                                  theme={
+                                                    Object {
+                                                      "borderRadius": 4,
+                                                      "colors": Object {
+                                                        "danger": "#DE350B",
+                                                        "dangerLight": "#FFBDAD",
+                                                        "neutral0": "hsl(0, 0%, 100%)",
+                                                        "neutral10": "hsl(0, 0%, 90%)",
+                                                        "neutral20": "hsl(0, 0%, 80%)",
+                                                        "neutral30": "hsl(0, 0%, 70%)",
+                                                        "neutral40": "hsl(0, 0%, 60%)",
+                                                        "neutral5": "hsl(0, 0%, 95%)",
+                                                        "neutral50": "hsl(0, 0%, 50%)",
+                                                        "neutral60": "hsl(0, 0%, 40%)",
+                                                        "neutral70": "hsl(0, 0%, 30%)",
+                                                        "neutral80": "hsl(0, 0%, 20%)",
+                                                        "neutral90": "hsl(0, 0%, 10%)",
+                                                        "primary": "#2684FF",
+                                                        "primary25": "#DEEBFF",
+                                                        "primary50": "#B2D4FF",
+                                                        "primary75": "#4C9AFF",
+                                                      },
+                                                      "spacing": Object {
+                                                        "baseUnit": 4,
+                                                        "controlHeight": 38,
+                                                        "menuGutter": 8,
+                                                      },
+                                                    }
+                                                  }
                                                 >
                                                   <div
                                                     className="css-10nd86i"
@@ -6024,6 +6259,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       isFocused={false}
                                                       isMulti={false}
                                                       isRtl={false}
+                                                      menuIsOpen={false}
                                                       options={
                                                         Array [
                                                           Object {
@@ -6348,9 +6584,38 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         }
                                                       }
                                                       setValue={[Function]}
+                                                      theme={
+                                                        Object {
+                                                          "borderRadius": 4,
+                                                          "colors": Object {
+                                                            "danger": "#DE350B",
+                                                            "dangerLight": "#FFBDAD",
+                                                            "neutral0": "hsl(0, 0%, 100%)",
+                                                            "neutral10": "hsl(0, 0%, 90%)",
+                                                            "neutral20": "hsl(0, 0%, 80%)",
+                                                            "neutral30": "hsl(0, 0%, 70%)",
+                                                            "neutral40": "hsl(0, 0%, 60%)",
+                                                            "neutral5": "hsl(0, 0%, 95%)",
+                                                            "neutral50": "hsl(0, 0%, 50%)",
+                                                            "neutral60": "hsl(0, 0%, 40%)",
+                                                            "neutral70": "hsl(0, 0%, 30%)",
+                                                            "neutral80": "hsl(0, 0%, 20%)",
+                                                            "neutral90": "hsl(0, 0%, 10%)",
+                                                            "primary": "#2684FF",
+                                                            "primary25": "#DEEBFF",
+                                                            "primary50": "#B2D4FF",
+                                                            "primary75": "#4C9AFF",
+                                                          },
+                                                          "spacing": Object {
+                                                            "baseUnit": 4,
+                                                            "controlHeight": 38,
+                                                            "menuGutter": 8,
+                                                          },
+                                                        }
+                                                      }
                                                     >
                                                       <div
-                                                        className="css-nbarux"
+                                                        className="css-1gxx0e9"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -6687,9 +6952,38 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
-                                                            className="css-1y9j7cl"
+                                                            className="css-c2yhe2"
                                                           >
                                                             <SingleValue
                                                               clearValue={[Function]}
@@ -7031,14 +7325,44 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
-                                                                className="css-c85qz4"
+                                                                className="css-16k2dzr"
                                                               >
                                                                 has any of the words
                                                               </div>
                                                             </SingleValue>
                                                             <DummyInput
+                                                              disabled={false}
                                                               id="react-select-3-input"
                                                               innerRef={[Function]}
                                                               onBlur={[Function]}
@@ -7050,6 +7374,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             >
                                                               <input
                                                                 className="css-14uuagi"
+                                                                disabled={false}
                                                                 id="react-select-3-input"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
@@ -7394,6 +7719,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
                                                             className="css-1l76mts"
@@ -7732,6 +8086,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <span
                                                                 className="css-d8oujb"
@@ -8078,6 +8461,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
                                                                 aria-hidden="true"
@@ -8360,13 +8772,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                   class="css-10nd86i"
                                 >
                                   <div
-                                    class="css-nbarux"
+                                    class="css-1gxx0e9"
                                   >
                                     <div
-                                      class="css-1y9j7cl"
+                                      class="css-c2yhe2"
                                     >
                                       <div
-                                        class="css-c85qz4"
+                                        class="css-16k2dzr"
                                       >
                                         has any of the words
                                       </div>
@@ -8520,13 +8932,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                     class="css-10nd86i"
                                   >
                                     <div
-                                      class="css-nbarux"
+                                      class="css-1gxx0e9"
                                     >
                                       <div
-                                        class="css-1y9j7cl"
+                                        class="css-c2yhe2"
                                       >
                                         <div
-                                          class="css-c85qz4"
+                                          class="css-16k2dzr"
                                         >
                                           has any of the words
                                         </div>
@@ -9456,6 +9868,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   setValue={[Function]}
+                                                  theme={
+                                                    Object {
+                                                      "borderRadius": 4,
+                                                      "colors": Object {
+                                                        "danger": "#DE350B",
+                                                        "dangerLight": "#FFBDAD",
+                                                        "neutral0": "hsl(0, 0%, 100%)",
+                                                        "neutral10": "hsl(0, 0%, 90%)",
+                                                        "neutral20": "hsl(0, 0%, 80%)",
+                                                        "neutral30": "hsl(0, 0%, 70%)",
+                                                        "neutral40": "hsl(0, 0%, 60%)",
+                                                        "neutral5": "hsl(0, 0%, 95%)",
+                                                        "neutral50": "hsl(0, 0%, 50%)",
+                                                        "neutral60": "hsl(0, 0%, 40%)",
+                                                        "neutral70": "hsl(0, 0%, 30%)",
+                                                        "neutral80": "hsl(0, 0%, 20%)",
+                                                        "neutral90": "hsl(0, 0%, 10%)",
+                                                        "primary": "#2684FF",
+                                                        "primary25": "#DEEBFF",
+                                                        "primary50": "#B2D4FF",
+                                                        "primary75": "#4C9AFF",
+                                                      },
+                                                      "spacing": Object {
+                                                        "baseUnit": 4,
+                                                        "controlHeight": 38,
+                                                        "menuGutter": 8,
+                                                      },
+                                                    }
+                                                  }
                                                 >
                                                   <div
                                                     className="css-10nd86i"
@@ -9478,6 +9919,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       isFocused={false}
                                                       isMulti={false}
                                                       isRtl={false}
+                                                      menuIsOpen={false}
                                                       options={
                                                         Array [
                                                           Object {
@@ -9802,9 +10244,38 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         }
                                                       }
                                                       setValue={[Function]}
+                                                      theme={
+                                                        Object {
+                                                          "borderRadius": 4,
+                                                          "colors": Object {
+                                                            "danger": "#DE350B",
+                                                            "dangerLight": "#FFBDAD",
+                                                            "neutral0": "hsl(0, 0%, 100%)",
+                                                            "neutral10": "hsl(0, 0%, 90%)",
+                                                            "neutral20": "hsl(0, 0%, 80%)",
+                                                            "neutral30": "hsl(0, 0%, 70%)",
+                                                            "neutral40": "hsl(0, 0%, 60%)",
+                                                            "neutral5": "hsl(0, 0%, 95%)",
+                                                            "neutral50": "hsl(0, 0%, 50%)",
+                                                            "neutral60": "hsl(0, 0%, 40%)",
+                                                            "neutral70": "hsl(0, 0%, 30%)",
+                                                            "neutral80": "hsl(0, 0%, 20%)",
+                                                            "neutral90": "hsl(0, 0%, 10%)",
+                                                            "primary": "#2684FF",
+                                                            "primary25": "#DEEBFF",
+                                                            "primary50": "#B2D4FF",
+                                                            "primary75": "#4C9AFF",
+                                                          },
+                                                          "spacing": Object {
+                                                            "baseUnit": 4,
+                                                            "controlHeight": 38,
+                                                            "menuGutter": 8,
+                                                          },
+                                                        }
+                                                      }
                                                     >
                                                       <div
-                                                        className="css-nbarux"
+                                                        className="css-1gxx0e9"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -10141,9 +10612,38 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
-                                                            className="css-1y9j7cl"
+                                                            className="css-c2yhe2"
                                                           >
                                                             <SingleValue
                                                               clearValue={[Function]}
@@ -10485,14 +10985,44 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
-                                                                className="css-c85qz4"
+                                                                className="css-16k2dzr"
                                                               >
                                                                 has any of the words
                                                               </div>
                                                             </SingleValue>
                                                             <DummyInput
+                                                              disabled={false}
                                                               id="react-select-4-input"
                                                               innerRef={[Function]}
                                                               onBlur={[Function]}
@@ -10504,6 +11034,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             >
                                                               <input
                                                                 className="css-14uuagi"
+                                                                disabled={false}
                                                                 id="react-select-4-input"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
@@ -10848,6 +11379,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
                                                             className="css-1l76mts"
@@ -11186,6 +11746,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <span
                                                                 className="css-d8oujb"
@@ -11532,6 +12121,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
                                                                 aria-hidden="true"
@@ -11811,13 +12429,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                   class="css-10nd86i"
                                 >
                                   <div
-                                    class="css-nbarux"
+                                    class="css-1gxx0e9"
                                   >
                                     <div
-                                      class="css-1y9j7cl"
+                                      class="css-c2yhe2"
                                     >
                                       <div
-                                        class="css-c85qz4"
+                                        class="css-16k2dzr"
                                       >
                                         has any of the words
                                       </div>
@@ -11968,13 +12586,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                     class="css-10nd86i"
                                   >
                                     <div
-                                      class="css-nbarux"
+                                      class="css-1gxx0e9"
                                     >
                                       <div
-                                        class="css-1y9j7cl"
+                                        class="css-c2yhe2"
                                       >
                                         <div
-                                          class="css-c85qz4"
+                                          class="css-16k2dzr"
                                         >
                                           has any of the words
                                         </div>
@@ -12894,6 +13512,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   setValue={[Function]}
+                                                  theme={
+                                                    Object {
+                                                      "borderRadius": 4,
+                                                      "colors": Object {
+                                                        "danger": "#DE350B",
+                                                        "dangerLight": "#FFBDAD",
+                                                        "neutral0": "hsl(0, 0%, 100%)",
+                                                        "neutral10": "hsl(0, 0%, 90%)",
+                                                        "neutral20": "hsl(0, 0%, 80%)",
+                                                        "neutral30": "hsl(0, 0%, 70%)",
+                                                        "neutral40": "hsl(0, 0%, 60%)",
+                                                        "neutral5": "hsl(0, 0%, 95%)",
+                                                        "neutral50": "hsl(0, 0%, 50%)",
+                                                        "neutral60": "hsl(0, 0%, 40%)",
+                                                        "neutral70": "hsl(0, 0%, 30%)",
+                                                        "neutral80": "hsl(0, 0%, 20%)",
+                                                        "neutral90": "hsl(0, 0%, 10%)",
+                                                        "primary": "#2684FF",
+                                                        "primary25": "#DEEBFF",
+                                                        "primary50": "#B2D4FF",
+                                                        "primary75": "#4C9AFF",
+                                                      },
+                                                      "spacing": Object {
+                                                        "baseUnit": 4,
+                                                        "controlHeight": 38,
+                                                        "menuGutter": 8,
+                                                      },
+                                                    }
+                                                  }
                                                 >
                                                   <div
                                                     className="css-10nd86i"
@@ -12916,6 +13563,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       isFocused={false}
                                                       isMulti={false}
                                                       isRtl={false}
+                                                      menuIsOpen={false}
                                                       options={
                                                         Array [
                                                           Object {
@@ -13240,9 +13888,38 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         }
                                                       }
                                                       setValue={[Function]}
+                                                      theme={
+                                                        Object {
+                                                          "borderRadius": 4,
+                                                          "colors": Object {
+                                                            "danger": "#DE350B",
+                                                            "dangerLight": "#FFBDAD",
+                                                            "neutral0": "hsl(0, 0%, 100%)",
+                                                            "neutral10": "hsl(0, 0%, 90%)",
+                                                            "neutral20": "hsl(0, 0%, 80%)",
+                                                            "neutral30": "hsl(0, 0%, 70%)",
+                                                            "neutral40": "hsl(0, 0%, 60%)",
+                                                            "neutral5": "hsl(0, 0%, 95%)",
+                                                            "neutral50": "hsl(0, 0%, 50%)",
+                                                            "neutral60": "hsl(0, 0%, 40%)",
+                                                            "neutral70": "hsl(0, 0%, 30%)",
+                                                            "neutral80": "hsl(0, 0%, 20%)",
+                                                            "neutral90": "hsl(0, 0%, 10%)",
+                                                            "primary": "#2684FF",
+                                                            "primary25": "#DEEBFF",
+                                                            "primary50": "#B2D4FF",
+                                                            "primary75": "#4C9AFF",
+                                                          },
+                                                          "spacing": Object {
+                                                            "baseUnit": 4,
+                                                            "controlHeight": 38,
+                                                            "menuGutter": 8,
+                                                          },
+                                                        }
+                                                      }
                                                     >
                                                       <div
-                                                        className="css-nbarux"
+                                                        className="css-1gxx0e9"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -13579,9 +14256,38 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
-                                                            className="css-1y9j7cl"
+                                                            className="css-c2yhe2"
                                                           >
                                                             <SingleValue
                                                               clearValue={[Function]}
@@ -13923,14 +14629,44 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
-                                                                className="css-c85qz4"
+                                                                className="css-16k2dzr"
                                                               >
                                                                 has any of the words
                                                               </div>
                                                             </SingleValue>
                                                             <DummyInput
+                                                              disabled={false}
                                                               id="react-select-5-input"
                                                               innerRef={[Function]}
                                                               onBlur={[Function]}
@@ -13942,6 +14678,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             >
                                                               <input
                                                                 className="css-14uuagi"
+                                                                disabled={false}
                                                                 id="react-select-5-input"
                                                                 onBlur={[Function]}
                                                                 onChange={[Function]}
@@ -14286,6 +15023,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             }
                                                           }
                                                           setValue={[Function]}
+                                                          theme={
+                                                            Object {
+                                                              "borderRadius": 4,
+                                                              "colors": Object {
+                                                                "danger": "#DE350B",
+                                                                "dangerLight": "#FFBDAD",
+                                                                "neutral0": "hsl(0, 0%, 100%)",
+                                                                "neutral10": "hsl(0, 0%, 90%)",
+                                                                "neutral20": "hsl(0, 0%, 80%)",
+                                                                "neutral30": "hsl(0, 0%, 70%)",
+                                                                "neutral40": "hsl(0, 0%, 60%)",
+                                                                "neutral5": "hsl(0, 0%, 95%)",
+                                                                "neutral50": "hsl(0, 0%, 50%)",
+                                                                "neutral60": "hsl(0, 0%, 40%)",
+                                                                "neutral70": "hsl(0, 0%, 30%)",
+                                                                "neutral80": "hsl(0, 0%, 20%)",
+                                                                "neutral90": "hsl(0, 0%, 10%)",
+                                                                "primary": "#2684FF",
+                                                                "primary25": "#DEEBFF",
+                                                                "primary50": "#B2D4FF",
+                                                                "primary75": "#4C9AFF",
+                                                              },
+                                                              "spacing": Object {
+                                                                "baseUnit": 4,
+                                                                "controlHeight": 38,
+                                                                "menuGutter": 8,
+                                                              },
+                                                            }
+                                                          }
                                                         >
                                                           <div
                                                             className="css-1l76mts"
@@ -14624,6 +15390,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <span
                                                                 className="css-d8oujb"
@@ -14970,6 +15765,35 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 }
                                                               }
                                                               setValue={[Function]}
+                                                              theme={
+                                                                Object {
+                                                                  "borderRadius": 4,
+                                                                  "colors": Object {
+                                                                    "danger": "#DE350B",
+                                                                    "dangerLight": "#FFBDAD",
+                                                                    "neutral0": "hsl(0, 0%, 100%)",
+                                                                    "neutral10": "hsl(0, 0%, 90%)",
+                                                                    "neutral20": "hsl(0, 0%, 80%)",
+                                                                    "neutral30": "hsl(0, 0%, 70%)",
+                                                                    "neutral40": "hsl(0, 0%, 60%)",
+                                                                    "neutral5": "hsl(0, 0%, 95%)",
+                                                                    "neutral50": "hsl(0, 0%, 50%)",
+                                                                    "neutral60": "hsl(0, 0%, 40%)",
+                                                                    "neutral70": "hsl(0, 0%, 30%)",
+                                                                    "neutral80": "hsl(0, 0%, 20%)",
+                                                                    "neutral90": "hsl(0, 0%, 10%)",
+                                                                    "primary": "#2684FF",
+                                                                    "primary25": "#DEEBFF",
+                                                                    "primary50": "#B2D4FF",
+                                                                    "primary75": "#4C9AFF",
+                                                                  },
+                                                                  "spacing": Object {
+                                                                    "baseUnit": 4,
+                                                                    "controlHeight": 38,
+                                                                    "menuGutter": 8,
+                                                                  },
+                                                                }
+                                                              }
                                                             >
                                                               <div
                                                                 aria-hidden="true"

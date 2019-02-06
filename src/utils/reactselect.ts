@@ -1,6 +1,35 @@
 import { StylesConfig } from 'react-select/lib/styles';
 import { border } from '~/components/form/FormElement.scss';
 
+export const large = {
+    control: (styles: StylesConfig, state: any) => {
+        return {
+            ...styles,
+            borderColor: '#ccc',
+            boxShadow: 'none',
+            '&:hover': {
+                borderColor: '#ccc'
+            }
+        };
+    }
+};
+
+export const messageStyle = {
+    control: (styles: StylesConfig, state: any) => {
+        return {
+            ...styles,
+            borderColor: '#ccc',
+            boxShadow: 'none',
+            borderBottom: 'none',
+            borderBottomRightRadius: '0px',
+            borderBottomLeftRadius: '0px',
+            '&:hover': {
+                borderColor: '#ccc'
+            }
+        };
+    }
+};
+
 export const small = {
     control: (styles: StylesConfig) => ({
         ...styles,
@@ -25,7 +54,6 @@ export const small = {
         height: 28,
         maxHeight: 28
     }),
-
     valueContainer: (styles: StylesConfig) => ({
         ...styles,
         height: 28,
