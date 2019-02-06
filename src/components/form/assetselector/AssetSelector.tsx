@@ -276,6 +276,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                                 this.props.onAssetCreated(asset);
                             })
                             .catch(error => {
+                                console.log(error);
                                 this.setState({
                                     message: `Couldn't create new ${
                                         this.props.assets.type

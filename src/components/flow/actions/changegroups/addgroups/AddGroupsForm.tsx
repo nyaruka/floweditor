@@ -46,7 +46,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
         this.props.addAsset('groups', group);
 
         // try to add the group
-        this.handleGroupsChanged(this.state.groups.value.concat(group));
+        this.handleGroupsChanged((this.state.groups.value || []).concat(group));
     }
 
     public handleCreateAssetFromInput(input: string): any {

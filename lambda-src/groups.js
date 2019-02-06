@@ -7,7 +7,13 @@ const staticGroups = require('../preview/assets/groups.json');
 exports.handler = (request, context, callback) => {
     const body = JSON.parse(request.body);
     if (request.httpMethod === 'POST') {
-        respond(callback, { uuid: generateUUID(), name: body.name, type: 'group' });
+        respond(callback, {
+            uuid: generateUUID(),
+            name: body.name,
+            query: null,
+            status: 'ready',
+            count: 0
+        });
     } else {
         respond(callback, staticGroups);
     }
