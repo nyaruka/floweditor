@@ -71,6 +71,10 @@ export default class AddLabelsForm extends React.PureComponent<
         };
     }
 
+    public handleCreateAssetFromInput(input: string): any {
+        return { name: input };
+    }
+
     public handleLabelCreated(label: Asset): void {
         this.handleLabelsChanged(this.state.labels.value.concat(label));
     }
@@ -100,6 +104,8 @@ export default class AddLabelsForm extends React.PureComponent<
                     searchable={true}
                     multi={true}
                     onChange={this.handleLabelsChanged}
+                    createPrefix="Create Label: "
+                    createAssetFromInput={this.handleCreateAssetFromInput}
                     onAssetCreated={this.handleLabelCreated}
                 />
             </Dialog>
