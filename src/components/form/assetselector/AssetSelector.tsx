@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { components, Creatable } from 'react-select';
+import { Async, components, Creatable } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType, ValueType } from 'react-select/lib/types';
@@ -200,7 +200,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         return (this.props.createPrefix || `New ${this.props.name}: `) + input;
     }
 
-    public handleCreateNewOption(inputValue: string, label: any): Asset {
+    public handleGetNewOptionData(inputValue: string, label: any): Asset {
         return { id: '_', name: label, type: null };
     }
 
@@ -212,6 +212,24 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         if (this.state.message) {
             this.setState({ message: null });
         }
+    }
+
+    public handleCreateOption(input: string): void {
+        // mark us as loading
+        this.setState({ isLoading: true, message: null });
+        const payload = this.props.createAssetFromInput(input);
+        postNewAsset(this.props.assets, payload)
+            .then((asset: Asset) => {
+                this.setState({ isLoading: false });
+                this.props.onAssetCreated(asset);
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({
+                    message: `Couldn't create new ${this.props.assets.type} "${input}"`,
+                    isLoading: false
+                });
+            });
     }
 
     public render(): JSX.Element {
@@ -240,69 +258,61 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             this.props.shouldExclude
         );
 
+        const commonAttributes = {
+            placeholder: this.props.placeholder || 'Select ' + this.props.name,
+            className: styles.selection,
+            value: this.state.entry.value,
+            components: { Option: AssetOption },
+            styles: this.state.message ? messageStyle : this.props.styles || large,
+            options: localMatches,
+            onChange: this.handleChanged,
+            onMenuOpen: this.handleClearMessage,
+            onBlur: this.handleClearMessage,
+            menuShouldBlockScroll: true,
+            isMulti: this.props.multi,
+            isDisabled: this.state.isLoading,
+            isLoading: this.state.isLoading,
+            isClearable: false,
+            isSearchable: this.props.searchable,
+            getOptionValue: (option: Asset) => option.id,
+            getOptionLabel: (option: Asset) => option.name
+        };
+
         return (
             <FormElement
                 name={this.props.name}
                 entry={this.props.entry}
                 showLabel={this.props.showLabel}
             >
-                <Creatable
-                    className={styles.selection}
-                    placeholder={this.props.placeholder || 'Select ' + this.props.name}
-                    value={this.state.entry.value}
-                    components={{ Option: AssetOption }}
-                    styles={this.state.message ? messageStyle : this.props.styles || large}
-                    options={localMatches}
-                    onChange={this.handleChanged}
-                    onMenuOpen={this.handleClearMessage}
-                    onBlur={this.handleClearMessage}
-                    menuShouldBlockScroll={true}
-                    isMulti={this.props.multi}
-                    isDisabled={this.state.isLoading}
-                    isLoading={this.state.isLoading}
-                    isClearable={false}
-                    isSearchable={this.props.searchable}
-                    isValidNewOption={this.handleCheckValid}
-                    formatCreateLabel={this.handleCreatePrompt}
-                    getNewOptionData={this.handleCreateNewOption}
-                    onCreateOption={(input: any) => {
-                        // mark us as loading
-                        this.setState({ isLoading: true, message: null });
+                {this.props.createAssetFromInput ? (
+                    <Creatable
+                        {...commonAttributes}
+                        isValidNewOption={this.handleCheckValid}
+                        formatCreateLabel={this.handleCreatePrompt}
+                        getNewOptionData={this.handleGetNewOptionData}
+                        onCreateOption={this.handleCreateOption}
 
-                        const payload = this.props.createAssetFromInput(input);
-                        postNewAsset(this.props.assets, payload)
-                            .then((asset: Asset) => {
-                                this.setState({ isLoading: false });
-                                this.props.onAssetCreated(asset);
-                            })
-                            .catch(error => {
-                                console.log(error);
-                                this.setState({
-                                    message: `Couldn't create new ${
-                                        this.props.assets.type
-                                    } "${input}"`,
-                                    isLoading: false
-                                });
-                            });
-                    }}
-                    getOptionValue={(option: Asset) => option.id}
-                    getOptionLabel={(option: Asset) => option.name}
-
-                    // We are currently using Creatable since our assets are currently
-                    // being preloaded page load and because of isLoaded not being
-                    // honored when set manually (this is needed to perform onCreateOption
-                    // via call to asset endpoint with feedback). Once that fix is merged,
-                    // we can consider using AsyncCreateable
-                    // See: https://github.com/JedWatson/react-select/pull/3319
-                    //
-                    // To use AsyncCreatable, use the following props
-                    // defaultOptions={defaultOptions}
-                    // cacheOptions={true}
-                    // loadOptions={this.handleLoadOptions}
-                    // noOptionsMessage={(obj: { inputValue: string }) =>
-                    //    this.props.noOptionsMessage || `No ${this.props.name} Found`
-                    // }
-                />
+                        // We are currently using Creatable since our assets are currently
+                        // being preloaded on page load and because of isLoaded not being
+                        // honored when set manually (this is needed to perform onCreateOption
+                        // via call to asset endpoint with feedback). Once that fix is merged,
+                        // we can consider using AsyncCreateable
+                        //
+                        // See: https://github.com/JedWatson/react-select/issues/2986
+                        //      https://github.com/JedWatson/react-select/pull/3319
+                        //
+                    />
+                ) : (
+                    <Async
+                        {...commonAttributes}
+                        defaultOptions={defaultOptions}
+                        cacheOptions={true}
+                        loadOptions={this.handleLoadOptions}
+                        noOptionsMessage={(obj: { inputValue: string }) =>
+                            this.props.noOptionsMessage || `No ${this.props.name} Found`
+                        }
+                    />
+                )}
                 {this.state.message ? (
                     <div className={styles.message}>{this.state.message}</div>
                 ) : null}
