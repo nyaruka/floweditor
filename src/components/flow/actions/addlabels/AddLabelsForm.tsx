@@ -5,10 +5,8 @@ import { ActionFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Asset, updateAssets } from '~/store/flowContext';
-import * as mutators from '~/store/mutators';
+import { Asset } from '~/store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm } from '~/store/nodeEditor';
-import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -36,20 +34,12 @@ export default class AddLabelsForm extends React.PureComponent<
         });
     }
 
-    private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
-        const {
-            flowContext: { assetStore }
-        } = getState();
-
-        dispatch(updateAssets(mutators.addAssets('labels', assetStore, this.state.labels.value)));
-    }
-
     public handleSave(): void {
         const valid = this.handleLabelsChanged(this.state.labels.value);
 
         if (valid) {
             const newAction = stateToAction(this.props.nodeSettings, this.state);
-            this.props.updateAction(newAction, this.onUpdated);
+            this.props.updateAction(newAction);
             this.props.onClose(false);
         }
     }
@@ -71,7 +61,14 @@ export default class AddLabelsForm extends React.PureComponent<
         };
     }
 
+    public handleCreateAssetFromInput(input: string): any {
+        return { name: input };
+    }
+
     public handleLabelCreated(label: Asset): void {
+        // update our store with our new group
+        this.props.addAsset('labels', label);
+
         this.handleLabelsChanged(this.state.labels.value.concat(label));
     }
 
@@ -100,6 +97,8 @@ export default class AddLabelsForm extends React.PureComponent<
                     searchable={true}
                     multi={true}
                     onChange={this.handleLabelsChanged}
+                    createPrefix="Create Label: "
+                    createAssetFromInput={this.handleCreateAssetFromInput}
                     onAssetCreated={this.handleLabelCreated}
                 />
             </Dialog>
