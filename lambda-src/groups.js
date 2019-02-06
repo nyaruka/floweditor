@@ -1,4 +1,14 @@
-const groupsResp = require('../preview/assets/groups.json');
-const { getOpts } = require('./utils');
+import { v4 as generateUUID } from 'uuid';
 
-exports.handler = (evt, ctx, cb) => cb(null, getOpts({ body: JSON.stringify(groupsResp) }));
+import { respond } from './utils/index.js';
+
+const staticGroups = require('../preview/assets/groups.json');
+
+exports.handler = (request, context, callback) => {
+    const body = JSON.parse(request.body);
+    if (request.httpMethod === 'POST') {
+        respond(callback, { uuid: generateUUID(), name: body.name, type: 'group' });
+    } else {
+        respond(callback, staticGroups);
+    }
+};
