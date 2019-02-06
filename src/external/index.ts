@@ -88,7 +88,7 @@ export const resultToAsset = (result: any, type: AssetType, id: string): Asset =
     const idKey = id || 'uuid';
 
     const asset: Asset = {
-        name: result.name || result.text || result[idKey],
+        name: result.name || result.text || result.label || result[idKey],
         id: result[idKey],
         type: result.type || type
     };
@@ -184,7 +184,7 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
             resthooks: {
                 endpoint: getURL(endpoints.resthooks),
                 type: AssetType.Resthook,
-                id: 'slug',
+                id: 'resthook',
                 items: {}
             },
             currencies: {

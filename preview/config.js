@@ -13,19 +13,23 @@ if (process.env.RAPID_FLOW) {
         localStorage: true,
         showDownload: true,
         endpoints: {
-            attachments: '/flow/upload_media_action/' + process.env.RAPID_ORG + '/',
-            resthooks: base + 'resthook',
-            flows: base + 'flow',
-            groups: api + 'groups.json',
-            recipients: '/contact/omnibox?types=gcu',
-            fields: base + 'field',
-            labels: api + 'labels.json',
-            languages: base + 'language',
-            channels: base + 'channel',
-            environment: base + 'environment',
-            activity: '',
             simulateStart: '/flow/simulate/' + process.env.RAPID_ORG + '/',
-            simulateResume: '/flow/simulate/' + process.env.RAPID_ORG + '/'
+            simulateResume: '/flow/simulate/' + process.env.RAPID_ORG + '/',
+            attachments: '/flow/upload_media_action/' + process.env.RAPID_ORG + '/',
+            recipients: '/contact/omnibox?types=gcu',
+
+            groups: api + 'groups.json',
+            fields: api + 'fields.json',
+            labels: api + 'labels.json',
+            channels: api + 'channels.json',
+
+            // flow asset server
+            // TODO: migrate to API?
+            resthooks: api + 'resthooks.json',
+            flows: base + 'flow',
+            languages: base + 'language',
+            environment: base + 'environment',
+            activity: ''
         }
     });
 } else {

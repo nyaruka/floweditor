@@ -233,38 +233,12 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
 
     public render(): JSX.Element {
-        // the default options should be true if there is an endpoint
-        let defaultOptions: any = this.props.assets.endpoint !== undefined;
-
-        // or it should be a list of local assets from an empty search
-        if (!defaultOptions) {
-            defaultOptions = this.state.defaultOptions;
-
-            if (this.props.shouldExclude) {
-                defaultOptions = searchAssetMap(
-                    '',
-                    this.props.assets.items,
-                    this.props.additionalOptions,
-                    this.props.shouldExclude
-                );
-            }
-        }
-
-        // Perform this in lieu of AsyncCreatable loadOptions
-        const localMatches = searchAssetMap(
-            '',
-            this.props.assets.items,
-            this.props.additionalOptions,
-            this.props.shouldExclude
-        );
-
         const commonAttributes = {
             placeholder: this.props.placeholder || 'Select ' + this.props.name,
             className: styles.selection,
             value: this.state.entry.value,
             components: { Option: AssetOption },
             styles: this.state.message ? messageStyle : this.props.styles || large,
-            options: localMatches,
             onChange: this.handleChanged,
             onMenuOpen: this.handleClearMessage,
             onBlur: this.handleClearMessage,
@@ -278,31 +252,59 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             getOptionLabel: (option: Asset) => option.name
         };
 
-        return (
-            <FormElement
-                name={this.props.name}
-                entry={this.props.entry}
-                showLabel={this.props.showLabel}
-            >
-                {this.props.createAssetFromInput ? (
-                    <Creatable
-                        {...commonAttributes}
-                        isValidNewOption={this.handleCheckValid}
-                        formatCreateLabel={this.handleCreatePrompt}
-                        getNewOptionData={this.handleGetNewOptionData}
-                        onCreateOption={this.handleCreateOption}
+        if (this.props.createAssetFromInput) {
+            // Perform this in lieu of AsyncCreatable loadOptions
+            const localMatches = searchAssetMap(
+                '',
+                this.props.assets.items,
+                this.props.additionalOptions,
+                this.props.shouldExclude
+            );
 
-                        // We are currently using Creatable since our assets are currently
-                        // being preloaded on page load and because of isLoaded not being
-                        // honored when set manually (this is needed to perform onCreateOption
-                        // via call to asset endpoint with feedback). Once that fix is merged,
-                        // we can consider using AsyncCreateable
-                        //
-                        // See: https://github.com/JedWatson/react-select/issues/2986
-                        //      https://github.com/JedWatson/react-select/pull/3319
-                        //
-                    />
-                ) : (
+            return (
+                <Creatable
+                    {...commonAttributes}
+                    options={localMatches.sort(this.props.sortFunction || sortByName)}
+                    isValidNewOption={this.handleCheckValid}
+                    formatCreateLabel={this.handleCreatePrompt}
+                    getNewOptionData={this.handleGetNewOptionData}
+                    onCreateOption={this.handleCreateOption}
+
+                    // We are currently using Creatable since our assets are currently
+                    // being preloaded on page load and because of isLoaded not being
+                    // honored when set manually (this is needed to perform onCreateOption
+                    // via call to asset endpoint with feedback). Once that fix is merged,
+                    // we can consider using AsyncCreateable
+                    //
+                    // See: https://github.com/JedWatson/react-select/issues/2986
+                    //      https://github.com/JedWatson/react-select/pull/3319
+                    //
+                />
+            );
+        } else {
+            // the default options should be true if there is an endpoint
+            let defaultOptions: any = this.props.assets.endpoint !== undefined;
+
+            // or it should be a list of local assets from an empty search
+            if (!defaultOptions) {
+                defaultOptions = this.state.defaultOptions;
+
+                if (this.props.shouldExclude) {
+                    defaultOptions = searchAssetMap(
+                        '',
+                        this.props.assets.items,
+                        this.props.additionalOptions,
+                        this.props.shouldExclude
+                    );
+                }
+            }
+
+            return (
+                <FormElement
+                    name={this.props.name}
+                    entry={this.props.entry}
+                    showLabel={this.props.showLabel}
+                >
                     <Async
                         {...commonAttributes}
                         defaultOptions={defaultOptions}
@@ -312,11 +314,11 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                             this.props.noOptionsMessage || `No ${this.props.name} Found`
                         }
                     />
-                )}
-                {this.state.message ? (
-                    <div className={styles.message}>{this.state.message}</div>
-                ) : null}
-            </FormElement>
-        );
+                    {this.state.message ? (
+                        <div className={styles.message}>{this.state.message}</div>
+                    ) : null}
+                </FormElement>
+            );
+        }
     }
 }
