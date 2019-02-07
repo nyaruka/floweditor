@@ -1,5 +1,16 @@
-const fieldsResp = require('../preview/assets/fields.json');
+import { respond } from './utils/index.js';
 
-const { getOpts } = require('./utils');
+const staticFields = require('../preview/assets/fields.json');
 
-exports.handler = (evt, ctx, cb) => cb(null, getOpts({ body: JSON.stringify(fieldsResp) }));
+exports.handler = (request, context, callback) => {
+    if (request.httpMethod === 'POST') {
+        const body = JSON.parse(request.body);
+        respond(callback, {
+            key: slugify(body.label),
+            name: body.label,
+            value_type: 'text'
+        });
+    } else {
+        respond(callback, staticFields);
+    }
+};

@@ -59,6 +59,8 @@ exports[`UpdateContactForm render initial for channel 1`] = `
         },
       ]
     }
+    createAssetFromInput={[Function]}
+    createPrefix="Create Contact Field: "
     entry={
       Object {
         "value": Object {
@@ -157,6 +159,8 @@ exports[`UpdateContactForm render initial for field 1`] = `
         },
       ]
     }
+    createAssetFromInput={[Function]}
+    createPrefix="Create Contact Field: "
     entry={
       Object {
         "value": Object {
@@ -250,6 +254,8 @@ exports[`UpdateContactForm render initial for language 1`] = `
         },
       ]
     }
+    createAssetFromInput={[Function]}
+    createPrefix="Create Contact Field: "
     entry={
       Object {
         "value": Object {
@@ -348,6 +354,8 @@ exports[`UpdateContactForm render initial for name 1`] = `
         },
       ]
     }
+    createAssetFromInput={[Function]}
+    createPrefix="Create Contact Field: "
     entry={
       Object {
         "value": Object {
@@ -441,6 +449,8 @@ exports[`UpdateContactForm render should render an empty form with different act
         },
       ]
     }
+    createAssetFromInput={[Function]}
+    createPrefix="Create Contact Field: "
     entry={
       Object {
         "value": Object {
@@ -534,6 +544,8 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
         },
       ]
     }
+    createAssetFromInput={[Function]}
+    createPrefix="Create Contact Field: "
     entry={
       Object {
         "value": Object {

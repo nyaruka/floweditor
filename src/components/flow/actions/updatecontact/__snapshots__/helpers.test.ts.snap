@@ -8,6 +8,16 @@ Array [
     "type": "property",
   },
   Object {
+    "id": "channel",
+    "name": "Channel",
+    "type": "property",
+  },
+  Object {
+    "id": "language",
+    "name": "Language",
+    "type": "property",
+  },
+  Object {
     "id": "expected_delivery_date",
     "name": "Expected Delivery Date",
     "type": "field",
@@ -21,16 +31,6 @@ Array [
     "id": "number_of_children",
     "name": "Number of Children",
     "type": "field",
-  },
-  Object {
-    "id": "channel",
-    "name": "Channel",
-    "type": "property",
-  },
-  Object {
-    "id": "language",
-    "name": "Language",
-    "type": "property",
   },
 ]
 `;

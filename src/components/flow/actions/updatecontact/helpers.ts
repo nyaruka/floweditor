@@ -117,13 +117,21 @@ export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
     /* istanbul ignore else */
     if (a === NAME_PROPERTY && b !== NAME_PROPERTY) {
         return -1;
+    } else if (b === NAME_PROPERTY && a !== NAME_PROPERTY) {
+        return 1;
     }
     // go with alpha-sort for everthing else
-    else if (a.type === b.type) {
-        return a.name.localeCompare(b.name);
+    else if (a.type !== b.type) {
+        if (a.type === AssetType.ContactProperty) {
+            return -1;
+        }
+
+        if (b.type === AssetType.ContactProperty) {
+            return 1;
+        }
     }
     // non-name non-fields go last
-    return a.type.localeCompare(b.type);
+    return a.name.localeCompare(b.name);
 };
 
 export const fieldToAsset = (field: Field = { key: '', name: '' }): Asset => ({

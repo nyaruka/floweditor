@@ -141,6 +141,8 @@ export default class UpdateContactForm extends React.Component<
     }
 
     public handleFieldAdded(field: Asset): void {
+        // update our store with our new group
+        this.props.addAsset('fields', field);
         this.handlePropertyChange([field]);
     }
 
@@ -231,6 +233,10 @@ export default class UpdateContactForm extends React.Component<
         }
     }
 
+    public handleCreateAssetFromInput(input: string): any {
+        return { label: input, value_type: 'text' };
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
@@ -255,6 +261,9 @@ export default class UpdateContactForm extends React.Component<
                     searchable={true}
                     sortFunction={sortFieldsAndProperties}
                     onChange={this.handlePropertyChange}
+                    // Fields can be created on the fly
+                    createPrefix="Create Contact Field: "
+                    createAssetFromInput={this.handleCreateAssetFromInput}
                     onAssetCreated={this.handleFieldAdded}
                 />
 
