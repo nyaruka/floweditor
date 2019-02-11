@@ -12,7 +12,7 @@ You can view and interact with the component [here](https://floweditor.nyaruka.c
 
 ```bash
 NPM
-Node.js >= 9.x
+Node.js >= 8.x
 ```
 
 ## Installation
