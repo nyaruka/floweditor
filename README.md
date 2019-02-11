@@ -1,4 +1,5 @@
 # Flow Editor
+
 [![Build Status](https://travis-ci.org/nyaruka/floweditor.svg?branch=master)](https://travis-ci.org/nyaruka/floweditor)
 [![codecov](https://codecov.io/gh/nyaruka/floweditor/branch/master/graph/badge.svg)](https://codecov.io/gh/nyaruka/floweditor)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c2200da1ba5a0176836e/maintainability)](https://codeclimate.com/github/nyaruka/floweditor/maintainability)
@@ -11,7 +12,7 @@ You can view and interact with the component [here](https://floweditor.nyaruka.c
 
 ```bash
 NPM
-Node.js >= 6.x
+Node.js >= 9.x
 ```
 
 ## Installation
@@ -47,7 +48,6 @@ You can run the editor in a development server whose content base includes the `
 ### API Server
 
 A small server exists in `/assets` to provide sample payloads defined in JSON to a version of the Flow Editor living at the hosting service of your choosing. You can choose to provide your own Sentry DSN and a valid `now.json` file, or remove them in favor of your own config. Use the `dev` NPM script in that directory to run the server in development.
-
 
 ### Configuration
 
