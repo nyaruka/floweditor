@@ -11,6 +11,7 @@ const baseProps: RevisionExplorerProps = {
             items: {}
         }
     },
+    loadFlowDefinition: jest.fn(),
     utc: true
 };
 

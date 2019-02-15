@@ -18,6 +18,7 @@ const baseProps: FlowEditorStoreProps = {
     fetchingFlow: false,
     definition: null,
     dependencies: null,
+    loadFlowDefinition: jest.fn(),
     fetchFlow: jest.fn(),
     nodes: null
 };

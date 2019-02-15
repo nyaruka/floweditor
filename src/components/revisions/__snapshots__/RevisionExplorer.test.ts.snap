@@ -1,9 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RevisionExplorer render should render base component 1`] = `
-<Fragment>
+<div
+  className=""
+>
   <div
-    className="explorerWrapper "
+    className="mask"
+  />
+  <div
+    className="explorerWrapper"
   >
     <div
       className="tab"
@@ -425,5 +430,5 @@ exports[`RevisionExplorer render should render base component 1`] = `
       </div>
     </div>
   </div>
-</Fragment>
+</div>
 `;

@@ -1,9 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import dateFormat = require('dateformat');
 import * as React from 'react';
-import { getAssets } from '~/external';
+import { getAssets, getFlowDefinition } from '~/external';
 import { FlowDefinition } from '~/flowTypes';
 import { Asset, AssetStore } from '~/store/flowContext';
+import { loadFlowDefinition } from '~/store/thunks';
 import { renderIf } from '~/utils';
 
 import * as styles from './RevisionExplorer.scss';
@@ -24,6 +25,7 @@ export interface Revision {
 
 export interface RevisionExplorerProps {
     assetStore: AssetStore;
+    loadFlowDefinition: (definition: FlowDefinition, assetStore: AssetStore) => void;
     utc?: boolean;
 }
 
@@ -74,26 +76,32 @@ export class RevisionExplorer extends React.Component<
             () => {
                 if (this.state.visible) {
                     this.handleUpdateRevisions();
+                } else {
+                    getFlowDefinition(this.props.assetStore.revisions).then(
+                        (definition: FlowDefinition) => {
+                            this.props.loadFlowDefinition(definition, this.props.assetStore);
+                            this.setState({ revision: null });
+                        }
+                    );
                 }
             }
         );
     }
 
-    public handleRevisionClicked(revision: Revision): void {
-        console.log(revision);
-        this.setState({ revision });
+    public handleRevisionClicked(revision: Asset): void {
+        getFlowDefinition(this.props.assetStore.revisions, revision.id).then(
+            (definition: FlowDefinition) => {
+                this.props.loadFlowDefinition(definition, this.props.assetStore);
+                this.setState({ revision: revision.content });
+            }
+        );
     }
 
     public render(): JSX.Element {
         return (
-            <>
-                {renderIf(this.state.visible)(<div className={styles.mask} />)}
-
-                <div
-                    className={
-                        styles.explorerWrapper + ' ' + (this.state.visible ? styles.visible : '')
-                    }
-                >
+            <div className={this.state.visible ? styles.visible : ''}>
+                <div className={styles.mask} />
+                <div className={styles.explorerWrapper}>
                     <div className={styles.tab} onClick={this.handleTabClicked}>
                         {this.state.visible ? 'Hide Revisions' : 'Revisions'}
                     </div>
@@ -115,7 +123,7 @@ export class RevisionExplorer extends React.Component<
                                         className={styles.revision + ' ' + selectedClass}
                                         key={'revision_' + asset.id}
                                         onClick={() => {
-                                            this.handleRevisionClicked(revision);
+                                            this.handleRevisionClicked(asset);
                                         }}
                                     >
                                         {renderIf(revision.current)(
@@ -142,7 +150,7 @@ export class RevisionExplorer extends React.Component<
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         );
     }
 }

@@ -16,7 +16,13 @@ import createStore from '~/store/createStore';
 import { Asset, Assets, AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
-import { DispatchWithState, FetchFlow, fetchFlow } from '~/store/thunks';
+import {
+    DispatchWithState,
+    FetchFlow,
+    fetchFlow,
+    LoadFlowDefinition,
+    loadFlowDefinition
+} from '~/store/thunks';
 import { downloadJSON, renderIf } from '~/utils';
 
 export interface FlowEditorContainerProps {
@@ -32,6 +38,7 @@ export interface FlowEditorStoreProps {
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
     fetchFlow: FetchFlow;
+    loadFlowDefinition: LoadFlowDefinition;
     nodes: RenderNodeMap;
 }
 
@@ -79,7 +86,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public getFooter(): JSX.Element {
-        return this.context.showDownload ? (
+        return !this.props.fetchingFlow && this.context.showDownload ? (
             <div className={styles.footer}>
                 <div className={styles.downloadButton}>
                     <Button
@@ -93,7 +100,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public render(): JSX.Element {
-        /* <ConnectedFlowList /> */
         return (
             <div
                 id={editorContainerSpecId}
@@ -108,9 +114,11 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                     {renderIf(
                         this.props.definition && this.props.language && !this.props.fetchingFlow
                     )(<ConnectedFlow />)}
-                    {renderIf(
-                        this.props.definition && this.props.language && !this.props.fetchingFlow
-                    )(<RevisionExplorer assetStore={this.props.assetStore} />)}
+
+                    <RevisionExplorer
+                        loadFlowDefinition={this.props.loadFlowDefinition}
+                        assetStore={this.props.assetStore}
+                    />
                 </div>
             </div>
         );
@@ -138,7 +146,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            fetchFlow
+            fetchFlow,
+            loadFlowDefinition
         },
         dispatch
     );
