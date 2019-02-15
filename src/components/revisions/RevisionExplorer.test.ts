@@ -10,7 +10,8 @@ const baseProps: RevisionExplorerProps = {
             type: AssetType.Revision,
             items: {}
         }
-    }
+    },
+    utc: true
 };
 
 const { setup } = composeComponentTestUtils(RevisionExplorer, baseProps);

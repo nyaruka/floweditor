@@ -24,6 +24,7 @@ export interface Revision {
 
 export interface RevisionExplorerProps {
     assetStore: AssetStore;
+    utc?: boolean;
 }
 
 export interface RevisionExplorerState {
@@ -128,7 +129,8 @@ export class RevisionExplorer extends React.Component<
                                         <div className={styles.createdOn}>
                                             {dateFormat(
                                                 new Date(revision.created_on),
-                                                'mmmm d, yyyy, h:MM TT'
+                                                'mmmm d, yyyy, h:MM TT',
+                                                this.props.utc
                                             )}
                                         </div>
                                         <div className={styles.email}>

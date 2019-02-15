@@ -30,7 +30,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 11, 2019, 1:34 PM
+            February 11, 2019, 9:34 PM
           </div>
           <div
             className="email"
@@ -46,7 +46,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 11, 2019, 1:34 PM
+            February 11, 2019, 9:34 PM
           </div>
           <div
             className="email"
@@ -62,7 +62,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 11, 2019, 1:34 PM
+            February 11, 2019, 9:34 PM
           </div>
           <div
             className="email"
@@ -78,7 +78,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 11, 2019, 12:34 PM
+            February 11, 2019, 8:34 PM
           </div>
           <div
             className="email"
@@ -94,7 +94,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 11, 2019, 12:34 PM
+            February 11, 2019, 8:34 PM
           </div>
           <div
             className="email"
@@ -110,7 +110,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 10:00 AM
+            February 6, 2019, 6:00 PM
           </div>
           <div
             className="email"
@@ -126,7 +126,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:59 AM
+            February 6, 2019, 5:59 PM
           </div>
           <div
             className="email"
@@ -142,7 +142,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:59 AM
+            February 6, 2019, 5:59 PM
           </div>
           <div
             className="email"
@@ -158,7 +158,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:59 AM
+            February 6, 2019, 5:59 PM
           </div>
           <div
             className="email"
@@ -174,7 +174,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:59 AM
+            February 6, 2019, 5:59 PM
           </div>
           <div
             className="email"
@@ -190,7 +190,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:59 AM
+            February 6, 2019, 5:59 PM
           </div>
           <div
             className="email"
@@ -206,7 +206,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:59 AM
+            February 6, 2019, 5:59 PM
           </div>
           <div
             className="email"
@@ -222,7 +222,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:59 AM
+            February 6, 2019, 5:59 PM
           </div>
           <div
             className="email"
@@ -238,7 +238,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:58 AM
+            February 6, 2019, 5:58 PM
           </div>
           <div
             className="email"
@@ -254,7 +254,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:58 AM
+            February 6, 2019, 5:58 PM
           </div>
           <div
             className="email"
@@ -270,7 +270,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:58 AM
+            February 6, 2019, 5:58 PM
           </div>
           <div
             className="email"
@@ -286,7 +286,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:58 AM
+            February 6, 2019, 5:58 PM
           </div>
           <div
             className="email"
@@ -302,7 +302,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 6, 2019, 9:58 AM
+            February 6, 2019, 5:58 PM
           </div>
           <div
             className="email"
@@ -318,7 +318,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 5, 2019, 5:18 PM
+            February 6, 2019, 1:18 AM
           </div>
           <div
             className="email"
@@ -334,7 +334,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 5, 2019, 3:16 PM
+            February 5, 2019, 11:16 PM
           </div>
           <div
             className="email"
@@ -350,7 +350,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            February 1, 2019, 10:23 AM
+            February 1, 2019, 6:23 PM
           </div>
           <div
             className="email"
@@ -366,7 +366,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            January 31, 2019, 1:32 PM
+            January 31, 2019, 9:32 PM
           </div>
           <div
             className="email"
@@ -382,7 +382,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            January 31, 2019, 1:30 PM
+            January 31, 2019, 9:30 PM
           </div>
           <div
             className="email"
@@ -398,7 +398,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            January 31, 2019, 1:30 PM
+            January 31, 2019, 9:30 PM
           </div>
           <div
             className="email"
@@ -414,7 +414,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
           <div
             className="createdOn"
           >
-            January 31, 2019, 1:30 PM
+            January 31, 2019, 9:30 PM
           </div>
           <div
             className="email"
