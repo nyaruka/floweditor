@@ -13,6 +13,7 @@ Object {
     "languages": "/assets/languages.json",
     "recipients": "/assets/recipients.json",
     "resthooks": "/assets/resthooks.json",
+    "revisions": "/assets/revisions.json",
     "simulateResume": "",
     "simulateStart": "",
   },

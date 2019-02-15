@@ -35,6 +35,7 @@ module.exports =
                   languages: '/assets/languages.json',
                   channels: '/assets/channels.json',
                   environment: '/assets/environment.json',
+                  revisions: '/assets/revisions.json',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''

@@ -1,6 +1,7 @@
 @import '../variables.scss';
 
 .editor {
+    overflow: hidden;
     position: relative;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;

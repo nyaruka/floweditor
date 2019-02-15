@@ -8,11 +8,12 @@ import Button, { ButtonTypes } from '~/components/button/Button';
 import ConnectedFlow from '~/components/flow/Flow';
 import * as styles from '~/components/index.scss';
 import ConnectedLanguageSelector from '~/components/languageselector/LanguageSelector';
+import { RevisionExplorer } from '~/components/revisions/RevisionExplorer';
 import ConfigProvider from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import createStore from '~/store/createStore';
-import { Asset, Assets, RenderNodeMap } from '~/store/flowContext';
+import { Asset, Assets, AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
 import { DispatchWithState, FetchFlow, fetchFlow } from '~/store/thunks';
@@ -23,6 +24,7 @@ export interface FlowEditorContainerProps {
 }
 
 export interface FlowEditorStoreProps {
+    assetStore: AssetStore;
     language: Asset;
     languages: Assets;
     translating: boolean;
@@ -106,6 +108,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                     {renderIf(
                         this.props.definition && this.props.language && !this.props.fetchingFlow
                     )(<ConnectedFlow />)}
+                    {renderIf(
+                        this.props.definition && this.props.language && !this.props.fetchingFlow
+                    )(<RevisionExplorer assetStore={this.props.assetStore} />)}
                 </div>
             </div>
         );
@@ -119,6 +124,7 @@ const mapStateToProps = ({
     const languages = assetStore ? assetStore.languages : null;
 
     return {
+        assetStore,
         translating,
         language,
         fetchingFlow,

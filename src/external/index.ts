@@ -166,6 +166,12 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
                 type: AssetType.Group,
                 items: {}
             },
+            revisions: {
+                endpoint: getURL(endpoints.revisions),
+                type: AssetType.Revision,
+                id: 'id',
+                items: {}
+            },
             labels: {
                 endpoint: getURL(endpoints.labels),
                 type: AssetType.Label,
@@ -210,9 +216,9 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         });
 
         // wait for our prefetches to finish
-        Promise.all(fetches);
-
-        resolve(assetStore);
+        Promise.all(fetches).then((results: any) => {
+            resolve(assetStore);
+        });
     });
 };
 

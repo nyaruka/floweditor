@@ -25,6 +25,7 @@ export interface Endpoints {
     groups: string;
     recipients: string;
     flows: string;
+    revisions: string;
     activity: string;
     labels: string;
     channels: string;

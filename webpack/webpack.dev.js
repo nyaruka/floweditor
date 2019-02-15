@@ -33,6 +33,10 @@ if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
         target: 'http://localhost:8000'
     };
 
+    proxy['/flow/revisions'] = {
+        target: 'http://localhost:8000'
+    };
+
     proxy['/flow/simulate'] = {
         target: 'http://localhost:8000'
     };

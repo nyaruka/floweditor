@@ -13,6 +13,7 @@ Array [
     "languages": "/assets/languages.json",
     "recipients": "/assets/recipients.json",
     "resthooks": "/assets/resthooks.json",
+    "revisions": "/assets/revisions.json",
     "simulateResume": "",
     "simulateStart": "",
   },
@@ -72,6 +73,9 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
   >
     <Connect(LanguageSelector) />
     <Connect(Flow) />
+    <RevisionExplorer
+      assetStore={null}
+    />
   </div>
 </div>
 `;

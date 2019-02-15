@@ -1,0 +1,115 @@
+@import '~/variables.scss';
+
+$revision_color: $purple;
+
+.mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    z-index: $z_revision_mask;
+}
+
+.visible {
+    &.explorer-wrapper {
+        right: 30px;
+        .tab {
+            top: 54px;
+            left: -67px;
+        }
+
+        .explorer {
+            opacity: 1;
+        }
+    }
+}
+
+.explorer-wrapper {
+    position: fixed;
+    right: -258px;
+    top: 118px;
+    z-index: $z_revision_explorer;
+    transition: 0.2s ease-in-out;
+    color: $light_gray_2;
+    font-weight: 300;
+
+    .tab {
+        position: absolute;
+        transform: rotate(-90deg);
+        top: 38px;
+        left: -53px;
+        padding: 9px;
+        background: $revision_color;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+            background: $revision_color + #111;
+        }
+    }
+
+    .explorer {
+        width: 250px;
+        overflow: hidden;
+        border-radius: 10px;
+        border: 4px solid $revision_color;
+        opacity: 0;
+        transition: opacity 0.2s;
+
+        .revisions {
+            background: #fff;
+            height: 325px;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            .revision {
+                color: $text_color;
+                padding: 11px 10px;
+
+                &.selected {
+                    background: $light_gray_2;
+                }
+
+                &:hover {
+                    background: $light_gray_2;
+                    cursor: pointer;
+                }
+
+                .button {
+                    border-radius: 30px;
+                    padding: 3px 5px;
+                    position: relative;
+                    font-size: 9px;
+                    letter-spacing: 1px;
+                    font-weight: 400;
+                    top: 7px;
+                    background: $revision_color + #111;
+                    color: $light_gray_2;
+                    width: 36px;
+                    text-align: center;
+                    float: right;
+
+                    &:hover {
+                        background: $revision_color + #222;
+                    }
+
+                    &.current {
+                        background: $light_gray;
+                        color: #999;
+                    }
+                }
+            }
+
+            .created_on {
+                font-size: 12px;
+            }
+
+            .email {
+                font-size: 11px;
+            }
+        }
+    }
+}
