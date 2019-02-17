@@ -165,8 +165,15 @@ export const loadFlowDefinition = (definition: FlowDefinition, assetStore: Asset
     dispatch: DispatchWithState,
     getState: GetState
 ): void => {
-    // mark us as underway
-    dispatch(mergeEditorState({ fetchingFlow: true }));
+    // first see if we need our asset store initialized
+    const {
+        editorState: { fetchingFlow }
+    } = getState();
+
+    if (!fetchingFlow) {
+        // mark us as underway
+        dispatch(mergeEditorState({ fetchingFlow: true }));
+    }
 
     // add assets we found in our flow to our asset store
     const components = getFlowComponents(definition);
