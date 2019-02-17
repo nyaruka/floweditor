@@ -13,6 +13,7 @@ Array [
     "languages": "/assets/languages.json",
     "recipients": "/assets/recipients.json",
     "resthooks": "/assets/resthooks.json",
+    "revisions": "/assets/revisions.json",
     "simulateResume": "",
     "simulateStart": "",
   },
@@ -44,6 +45,10 @@ exports[`Root render should apply translating style if passed a truthy translati
     data-spec="editor"
   >
     <Connect(LanguageSelector) />
+    <RevisionExplorer
+      assetStore={null}
+      loadFlowDefinition={[MockFunction]}
+    />
   </div>
 </div>
 `;
@@ -72,6 +77,10 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
   >
     <Connect(LanguageSelector) />
     <Connect(Flow) />
+    <RevisionExplorer
+      assetStore={null}
+      loadFlowDefinition={[MockFunction]}
+    />
   </div>
 </div>
 `;
@@ -99,6 +108,10 @@ exports[`Root render should render self, children with required props 1`] = `
     data-spec="editor"
   >
     <Connect(LanguageSelector) />
+    <RevisionExplorer
+      assetStore={null}
+      loadFlowDefinition={[MockFunction]}
+    />
   </div>
 </div>
 `;

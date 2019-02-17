@@ -8,14 +8,21 @@ import Button, { ButtonTypes } from '~/components/button/Button';
 import ConnectedFlow from '~/components/flow/Flow';
 import * as styles from '~/components/index.scss';
 import ConnectedLanguageSelector from '~/components/languageselector/LanguageSelector';
+import { RevisionExplorer } from '~/components/revisions/RevisionExplorer';
 import ConfigProvider from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import createStore from '~/store/createStore';
-import { Asset, Assets, RenderNodeMap } from '~/store/flowContext';
+import { Asset, Assets, AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
-import { DispatchWithState, FetchFlow, fetchFlow } from '~/store/thunks';
+import {
+    DispatchWithState,
+    FetchFlow,
+    fetchFlow,
+    LoadFlowDefinition,
+    loadFlowDefinition
+} from '~/store/thunks';
 import { downloadJSON, renderIf } from '~/utils';
 
 export interface FlowEditorContainerProps {
@@ -23,6 +30,7 @@ export interface FlowEditorContainerProps {
 }
 
 export interface FlowEditorStoreProps {
+    assetStore: AssetStore;
     language: Asset;
     languages: Assets;
     translating: boolean;
@@ -30,6 +38,7 @@ export interface FlowEditorStoreProps {
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
     fetchFlow: FetchFlow;
+    loadFlowDefinition: LoadFlowDefinition;
     nodes: RenderNodeMap;
 }
 
@@ -77,7 +86,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public getFooter(): JSX.Element {
-        return this.context.showDownload ? (
+        return !this.props.fetchingFlow && this.context.showDownload ? (
             <div className={styles.footer}>
                 <div className={styles.downloadButton}>
                     <Button
@@ -91,7 +100,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     public render(): JSX.Element {
-        /* <ConnectedFlowList /> */
         return (
             <div
                 id={editorContainerSpecId}
@@ -106,6 +114,11 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                     {renderIf(
                         this.props.definition && this.props.language && !this.props.fetchingFlow
                     )(<ConnectedFlow />)}
+
+                    <RevisionExplorer
+                        loadFlowDefinition={this.props.loadFlowDefinition}
+                        assetStore={this.props.assetStore}
+                    />
                 </div>
             </div>
         );
@@ -119,6 +132,7 @@ const mapStateToProps = ({
     const languages = assetStore ? assetStore.languages : null;
 
     return {
+        assetStore,
         translating,
         language,
         fetchingFlow,
@@ -132,7 +146,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
-            fetchFlow
+            fetchFlow,
+            loadFlowDefinition
         },
         dispatch
     );

@@ -26,6 +26,7 @@ if (process.env.RAPID_FLOW) {
             // flow asset server
             // TODO: migrate to API?
             resthooks: api + 'resthooks.json',
+            revisions: '/flow/revisions/' + process.env.RAPID_FLOW + '/',
             flows: base + 'flow',
             languages: base + 'language',
             environment: base + 'environment',
@@ -44,6 +45,7 @@ if (process.env.RAPID_FLOW) {
                       flows: 'flows',
                       groups: 'groups',
                       recipients: 'recipients',
+                      revisions: 'revisions',
                       fields: 'fields',
                       labels: 'labels',
                       languages: 'languages',
@@ -63,6 +65,7 @@ if (process.env.RAPID_FLOW) {
                       flows: '/assets/flow',
                       groups: '/assets/group',
                       recipients: '/assets/recipient',
+                      revisions: '/assets/revision',
                       fields: '/assets/field',
                       labels: '/assets/label',
                       languages: '/assets/language',

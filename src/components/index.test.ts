@@ -11,12 +11,14 @@ import { set, setTrue } from '~/utils';
 const colorsFlow = require('~/test/flows/colors.json');
 
 const baseProps: FlowEditorStoreProps = {
+    assetStore: null,
     language: English,
     languages,
     translating: false,
     fetchingFlow: false,
     definition: null,
     dependencies: null,
+    loadFlowDefinition: jest.fn(),
     fetchFlow: jest.fn(),
     nodes: null
 };

@@ -166,6 +166,12 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
                 type: AssetType.Group,
                 items: {}
             },
+            revisions: {
+                endpoint: getURL(endpoints.revisions),
+                type: AssetType.Revision,
+                id: 'id',
+                items: {}
+            },
             labels: {
                 endpoint: getURL(endpoints.labels),
                 type: AssetType.Label,
@@ -210,9 +216,9 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         });
 
         // wait for our prefetches to finish
-        Promise.all(fetches);
-
-        resolve(assetStore);
+        Promise.all(fetches).then((results: any) => {
+            resolve(assetStore);
+        });
     });
 };
 
@@ -233,6 +239,36 @@ export const getFlow = (flows: Assets, uuid: string): Promise<Asset> => {
                 return resolve(asset);
             })
             .catch(error => reject(error));
+    });
+};
+
+export const getFlowDefinition = (
+    revisions: Assets,
+    id: string = null
+): Promise<FlowDefinition> => {
+    return new Promise<FlowDefinition>((resolve, reject) => {
+        (async () => {
+            let revisionToLoad = id;
+            if (!revisionToLoad) {
+                const response = await axios.get(`${revisions.endpoint}`);
+                if (response.data.results.length > 0) {
+                    revisionToLoad = response.data.results[0].id;
+                }
+            }
+
+            if (revisionToLoad) {
+                const url = `${revisions.endpoint}${revisionToLoad}`;
+                axios
+                    .get(url)
+                    .then((response: AxiosResponse) => {
+                        const definition = response.data as FlowDefinition;
+                        return resolve(definition);
+                    })
+                    .catch(error => reject(error));
+            } else {
+                reject(new Error('No revision found for flow'));
+            }
+        })();
     });
 };
 

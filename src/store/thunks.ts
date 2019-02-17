@@ -3,7 +3,7 @@ import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
-import { createAssetStore, getFlow } from '~/external';
+import { createAssetStore, getFlowDefinition } from '~/external';
 import {
     Action,
     AnyAction,
@@ -21,6 +21,7 @@ import {
 import { CanvasPositions, EditorState, EMPTY_DRAG_STATE, updateEditorState } from '~/store/editor';
 import {
     Asset,
+    AssetStore,
     DEFAULT_LANGUAGE,
     RenderNode,
     RenderNodeMap,
@@ -86,6 +87,11 @@ export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 export type UpdateDimensions = (uuid: string, dimensions: Dimensions) => Thunk<void>;
 
 export type FetchFlow = (endpoints: Endpoints, uuid: string) => Thunk<Promise<void>>;
+
+export type LoadFlowDefinition = (
+    definition: FlowDefinition,
+    assetStore: AssetStore
+) => Thunk<Promise<void>>;
 
 export type EnsureStartNode = () => Thunk<RenderNode>;
 
@@ -155,29 +161,19 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
     return updated;
 };
 
-/**
- * Fetches a flow. Fetches all assets as well if the haven't been initialized yet
- * @param endpoints where our assets live
- * @param uuid the uuid for the flow to fetch
- */
-export const fetchFlow = (endpoints: Endpoints, uuid: string) => async (
+export const loadFlowDefinition = (definition: FlowDefinition, assetStore: AssetStore) => (
     dispatch: DispatchWithState,
     getState: GetState
-) => {
-    // mark us as underway
-    dispatch(mergeEditorState({ fetchingFlow: true }));
-
+): void => {
     // first see if we need our asset store initialized
-    let {
-        flowContext: { assetStore }
+    const {
+        editorState: { fetchingFlow }
     } = getState();
 
-    if (!Object.keys(assetStore).length) {
-        assetStore = await createAssetStore(endpoints);
+    if (!fetchingFlow) {
+        // mark us as underway
+        dispatch(mergeEditorState({ fetchingFlow: true }));
     }
-
-    const flow = await getFlow(assetStore.flows, uuid);
-    const definition = flow.content as FlowDefinition;
 
     // add assets we found in our flow to our asset store
     const components = getFlowComponents(definition);
@@ -188,8 +184,8 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string) => async (
 
     // initialize our language
     let language: Asset;
-    if (flow.content.language) {
-        language = assetStore.languages.items[flow.content.language];
+    if (definition.language) {
+        language = assetStore.languages.items[definition.language];
     }
 
     if (!language) {
@@ -206,6 +202,31 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string) => async (
     // finally update our assets, and mark us as fetched
     dispatch(updateAssets(assetStore));
     dispatch(mergeEditorState({ language, fetchingFlow: false }));
+};
+
+/**
+ * Fetches a flow. Fetches all assets as well if the haven't been initialized yet
+ * @param endpoints where our assets live
+ * @param uuid the uuid for the flow to fetch
+ */
+export const fetchFlow = (endpoints: Endpoints, uuid: string, revision: Asset) => async (
+    dispatch: DispatchWithState,
+    getState: GetState
+) => {
+    // mark us as underway
+    dispatch(mergeEditorState({ fetchingFlow: true }));
+
+    // first see if we need our asset store initialized
+    let {
+        flowContext: { assetStore }
+    } = getState();
+
+    if (!Object.keys(assetStore).length) {
+        assetStore = await createAssetStore(endpoints);
+    }
+
+    const definition = await getFlowDefinition(assetStore.revisions);
+    dispatch(loadFlowDefinition(definition, assetStore));
 };
 
 export const addAsset: AddAsset = (assetType: string, asset: Asset) => (

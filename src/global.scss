@@ -1,6 +1,16 @@
 @import '../fonts/floweditor/style.css';
 @import './variables.scss';
 
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;

@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PopTab render should render base component 1`] = `
+<div
+  className="popWrapper "
+  style={
+    Object {
+      "right": -400,
+      "top": "50px",
+    }
+  }
+>
+  <div
+    className="tabWrapper"
+  >
+    <div
+      className="tab"
+      onClick={[Function]}
+      style={
+        Object {
+          "background": "red",
+        }
+      }
+    >
+      <div
+        className="icon"
+      >
+        <span
+          className="fe-history"
+        />
+      </div>
+      <div
+        className="label"
+      >
+        Show Revisions
+      </div>
+    </div>
+  </div>
+  <div
+    className="popped"
+    style={
+      Object {
+        "borderColor": "red",
+        "right": 0,
+      }
+    }
+  >
+    <div
+      className="header"
+      style={
+        Object {
+          "background": "red",
+        }
+      }
+    >
+      <div
+        className="close fe-x"
+        onClick={[Function]}
+      />
+      <div
+        className="headerLabel"
+      >
+        Revisions
+      </div>
+    </div>
+  </div>
+</div>
+`;
