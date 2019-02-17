@@ -7,7 +7,7 @@
     &.visible {
         .popped {
             opacity: 1;
-            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s;
+            transition: right 0.1s ease-out; // cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
         }
 
         .tab_wrapper {
@@ -29,10 +29,12 @@
             border-bottom-left-radius: 6px;
             cursor: pointer;
             width: 100px;
-            transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: left 0.1s ease-out;
+            transition-delay: 300ms;
 
             &:hover {
                 left: -100px;
+                transition: left 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
                 .label {
                     opacity: 1;
@@ -82,6 +84,6 @@
         border-radius: 12px;
         overflow: hidden;
         position: relative;
-        transition: right 0.3s ease-out, opacity 0.5s;
+        transition: right 0.2s ease-out, opacity 0.5s;
     }
 }

@@ -21,17 +21,9 @@ $revision_color: $purple;
         z-index: $z_revision_mask;
         display: block;
     }
-
-    .explorer-wrapper {
-        // right: 30px;
-    }
 }
 
 .explorer-wrapper {
-    // position: relative;
-    // right: -258px;
-    // top: 118px;
-    // z-index: $z_revision_explorer;
     transition: 0.2s ease-in-out;
     color: $light_gray_2;
     font-weight: 300;

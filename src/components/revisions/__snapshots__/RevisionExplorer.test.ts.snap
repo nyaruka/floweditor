@@ -14,8 +14,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
     label="Revision History"
     onHide={[Function]}
     onShow={[Function]}
-    orientation="right"
-    top="150px"
+    top="280px"
   >
     <div
       className="explorerWrapper"

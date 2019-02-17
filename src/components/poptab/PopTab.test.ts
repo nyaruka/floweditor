@@ -3,7 +3,6 @@ import { composeComponentTestUtils } from '~/testUtils';
 
 const baseProps: PopTabProps = {
     label: 'Show Revisions',
-    orientation: 'Right',
     top: '50px',
     color: 'red',
     icon: 'fe-history',
