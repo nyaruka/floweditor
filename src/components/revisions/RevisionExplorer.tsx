@@ -112,8 +112,7 @@ export class RevisionExplorer extends React.Component<
                     color="#8e5ea7"
                     icon="fe-time"
                     label="Revision History"
-                    orientation="right"
-                    top="150px"
+                    top="280px"
                     onShow={this.handleTabClicked}
                     onHide={this.handleTabClicked}
                 >
