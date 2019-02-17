@@ -8,9 +8,10 @@ const definitions = [
 ];
 
 exports.handler = (request, context, callback) => {
-    const id = request.path.replace(/(.*\/revisions\/)|(\/$)/g, '');
-    if (id !== '/revisions') {
-        respond(callback, definitions[id - 1]);
+    const regex = /.*\/revisions\/(\d+)/;
+    const match = regex.exec(request.path);
+    if (match && match.length > 1) {
+        respond(callback, definitions[match[1] - 1]);
     } else {
         respond(callback, revisions);
     }
