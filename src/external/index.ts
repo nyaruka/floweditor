@@ -250,14 +250,14 @@ export const getFlowDefinition = (
         (async () => {
             let revisionToLoad = id;
             if (!revisionToLoad) {
-                const response = await axios.get(`${revisions.endpoint}/?version=12`);
+                const response = await axios.get(`${revisions.endpoint}`);
                 if (response.data.results.length > 0) {
                     revisionToLoad = response.data.results[0].id;
                 }
             }
 
             if (revisionToLoad) {
-                const url = `${revisions.endpoint}/?version=12&definition=${revisionToLoad}`;
+                const url = `${revisions.endpoint}${revisionToLoad}`;
                 axios
                     .get(url)
                     .then((response: AxiosResponse) => {
