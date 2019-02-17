@@ -12,6 +12,6 @@ exports.handler = (request, context, callback) => {
     if (id !== '/revisions') {
         respond(callback, definitions[id - 1]);
     } else {
-        respond(callback, revisions['results']);
+        respond(callback, revisions);
     }
 };
