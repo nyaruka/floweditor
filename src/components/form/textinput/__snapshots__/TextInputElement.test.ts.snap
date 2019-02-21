@@ -81,6 +81,10 @@ Array [
     "summary": "The name of a  contact",
   },
   Object {
+    "name": "results",
+    "summary": "The results for the current run",
+  },
+  Object {
     "name": "run",
     "summary": "A run in this flow",
   },
