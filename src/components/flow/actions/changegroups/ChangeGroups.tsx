@@ -23,7 +23,7 @@ export const getRemoveAllMarkup = (
 export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
     const content = [];
 
-    if (type === Types.remove_contact_groups && !groups.length) {
+    if (type === Types.remove_contact_groups && (!groups || !groups.length)) {
         content.push(getRemoveAllMarkup());
     } else {
         return renderAssetList(

@@ -11,9 +11,11 @@ import { NodeEditorSettings } from '~/store/nodeEditor';
 export const initializeForm = (settings: NodeEditorSettings): ChangeGroupsFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.remove_contact_groups) {
         const action = settings.originalAction as RemoveFromGroups;
+
+        const groups = action.groups || [];
         return {
-            groups: { value: mapGroupsToAssets(action.groups) },
-            removeAll: action.groups.length === 0 || action.all_groups,
+            groups: { value: mapGroupsToAssets(groups) },
+            removeAll: groups.length === 0 || action.all_groups,
             valid: true
         };
     }
