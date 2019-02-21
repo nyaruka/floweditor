@@ -394,12 +394,15 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
 
         for (const action of node.actions) {
             if (isGroupAction(action.type)) {
-                for (const group of (action as ChangeGroups).groups) {
-                    groups[group.uuid] = {
-                        name: group.name,
-                        id: group.uuid,
-                        type: AssetType.Group
-                    };
+                const groupsToChange = (action as ChangeGroups).groups;
+                if (groupsToChange) {
+                    for (const group of groupsToChange) {
+                        groups[group.uuid] = {
+                            name: group.name,
+                            id: group.uuid,
+                            type: AssetType.Group
+                        };
+                    }
                 }
             } else if (action.type === Types.set_contact_field) {
                 const fieldAction = action as SetContactField;
