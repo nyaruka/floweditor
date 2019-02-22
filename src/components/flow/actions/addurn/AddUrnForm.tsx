@@ -11,14 +11,14 @@ import { validate, validateRequired } from '~/store/validators';
 import * as styles from './AddURNForm.scss';
 import { getSchemeOptions, initializeForm, stateToAction } from './helpers';
 
-export interface AddUrnFormState extends FormState {
+export interface AddURNFormState extends FormState {
     scheme: SelectOptionEntry;
     path: StringEntry;
 }
 
 export const controlLabelSpecId = 'label';
 
-export default class AddURNForm extends React.PureComponent<ActionFormProps, AddUrnFormState> {
+export default class AddURNForm extends React.PureComponent<ActionFormProps, AddURNFormState> {
     constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings);
@@ -37,7 +37,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
     }
 
     public handleSchemeChanged(selected: SelectOption): boolean {
-        const updates: Partial<AddUrnFormState> = {
+        const updates: Partial<AddURNFormState> = {
             scheme: { value: selected }
         };
         const updated = mergeForm(this.state, updates);
@@ -46,7 +46,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
     }
 
     public handlePathChanged(value: string): boolean {
-        const updates: Partial<AddUrnFormState> = {
+        const updates: Partial<AddURNFormState> = {
             path: validate('URN', value, [validateRequired])
         };
 
