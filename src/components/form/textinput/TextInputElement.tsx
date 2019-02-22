@@ -108,14 +108,13 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         };
 
         this.parser = new ExcellentParser('@', [
-            'channel',
+            'trigger',
+            'run',
+            'results',
             'child',
             'parent',
             'contact',
-            'date',
-            'extra',
-            'flow',
-            'step'
+            'date'
         ]);
 
         // console.log(this.state.options);
@@ -348,8 +347,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         // go backwards until we have a query
         const caret = position - 1;
         const expression = this.parser.expressionContext(value.substr(0, position));
-
-        // console.log(value, expression);
 
         let fn: CompletionOption = null;
         if (expression !== null) {

@@ -134,21 +134,49 @@ export const getResultPropertyOptions = (accessor: string, name: string) => [
 */
 
 export const getContactFieldOptions = (assets: AssetMap) =>
-    Object.keys(assets).reduce((contactFieldCompletionOptions, key) => {
+    Object.keys(assets).reduce((options, key) => {
         const { [key]: asset } = assets;
         const accessors = ['', 'parent.', 'run.', 'child.'];
         accessors.forEach(accessor =>
-            contactFieldCompletionOptions.push({
+            options.push({
                 name: `${accessor}contact.fields.${key}`,
-                description: `${asset.name} for the contact.`
+                summary: `${asset.name} for the contact.`
             })
         );
-        return contactFieldCompletionOptions;
+        return options;
+    }, []);
+
+export const getResultsOptions = (assets: AssetMap) =>
+    Object.keys(assets).reduce((options, key) => {
+        const { [key]: asset } = assets;
+        const accessors = ['results', 'run.results'];
+        accessors.forEach(accessor => {
+            options.push({
+                name: `${accessor}.${key}`,
+                summary: `${asset.name} for the run.`
+            });
+
+            options.push({
+                name: `${accessor}.${key}.category`,
+                summary: `${asset.name} category for the run.`
+            });
+
+            options.push({
+                name: `${accessor}.${key}.category_localized`,
+                summary: `${asset.name} localized category for the run.`
+            });
+        });
+
+        return options;
     }, []);
 
 export const getOptionsList = (autocomplete: boolean, assets: AssetStore): CompletionOption[] => {
     return autocomplete
-        ? [...OPTIONS, ...getContactFieldOptions(assets.fields ? assets.fields.items : {})]
+        ? [
+              ...OPTIONS,
+              ...getContactFieldOptions(assets.fields ? assets.fields.items : {}),
+              ...getResultsOptions(assets.results ? assets.results.items : {})
+          ]
         : OPTIONS;
 };
 

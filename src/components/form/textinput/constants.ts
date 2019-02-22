@@ -23,6 +23,7 @@ export enum KeyValues {
 export enum TopLevelVariables {
     contact = 'contact',
     input = 'input',
+    results = 'results',
     run = 'run',
     parent = 'parent',
     child = 'child',
@@ -212,6 +213,7 @@ export const TRIGGER_OPTIONS: CompletionOption[] = [
 
 export const OPTIONS: CompletionOption[] = [
     ...getContactOptions(),
+    { name: 'results', summary: 'The results for the current run' },
     ...RUN_OPTIONS,
     ...CHILD_OPTIONS,
     ...PARENT_OPTIONS,
@@ -224,6 +226,7 @@ export const TOP_LEVEL_OPTIONS = OPTIONS.filter((option: CompletionOption) => {
     return (
         name === TopLevelVariables.contact ||
         name === TopLevelVariables.input ||
+        name === TopLevelVariables.results ||
         name === TopLevelVariables.run ||
         name === TopLevelVariables.parent ||
         name === TopLevelVariables.child ||

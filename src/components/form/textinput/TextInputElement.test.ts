@@ -159,7 +159,7 @@ describe(TextInputElement.name, () => {
             expect(state.query).toEqual('');
 
             // should show all top level options
-            expect(state.matches.length).toBe(5);
+            expect(state.matches.length).toBe(6);
             expect(state.matches).toMatchSnapshot();
         });
 

@@ -5563,6 +5563,10 @@ exports[`helpers filterOptions should filter options for "percent." 1`] = `Array
 exports[`helpers filterOptions should filter options for "r" 1`] = `
 Array [
   Object {
+    "name": "results",
+    "summary": "The results for the current run",
+  },
+  Object {
     "name": "run",
     "summary": "A run in this flow",
   },
@@ -5905,6 +5909,10 @@ exports[`helpers filterOptions should filter options for "rand_between." 1`] = `
 exports[`helpers filterOptions should filter options for "re" 1`] = `
 Array [
   Object {
+    "name": "results",
+    "summary": "The results for the current run",
+  },
+  Object {
     "detail": "ReadChars will split the numbers such as they are easier to understand. This includes
 splitting in 3s or 4s if appropriate.",
     "examples": Array [
@@ -6117,6 +6125,17 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "replace." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "results" 1`] = `
+Array [
+  Object {
+    "name": "results",
+    "summary": "The results for the current run",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "results." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "ri" 1`] = `
 Array [
