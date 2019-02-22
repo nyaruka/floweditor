@@ -48,9 +48,6 @@ interface LogEventState {
 export default class LogEvent extends React.Component<EventProps, LogEventState> {
     constructor(props: EventProps) {
         super(props);
-
-        console.log(props);
-
         this.state = {
             detailsVisible: false
         };

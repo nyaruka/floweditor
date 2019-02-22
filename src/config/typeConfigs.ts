@@ -1,6 +1,6 @@
 import AddLabelsComp from '~/components/flow/actions/addlabels/AddLabels';
 import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
-import AddUrnComp from '~/components/flow/actions/addurn/AddURN';
+import AddUrnComp from '~/components/flow/actions/addurn/AddUrn';
 import AddUrnForm from '~/components/flow/actions/addurn/AddUrnForm';
 import CallResthookComp from '~/components/flow/actions/callresthook/CallResthook';
 import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';

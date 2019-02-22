@@ -1,11 +1,11 @@
-import AddUrnComp from '~/components/flow/actions/addurn/AddURN';
+import AddUrnComp from '~/components/flow/actions/addurn/AddUrn';
 import { Types } from '~/config/typeConfigs';
 import { AddUrn } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
 
 const baseProps: AddUrn = {
     type: Types.add_input_labels,
-    uuid: `${Types.add_input_labels}-0`,
+    uuid: `${Types.add_contact_urn}-0`,
     scheme: 'tel',
     path: '+12065551212'
 };
