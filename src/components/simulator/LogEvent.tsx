@@ -49,6 +49,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
     constructor(props: EventProps) {
         super(props);
 
+        console.log(props);
+
         this.state = {
             detailsVisible: false
         };
@@ -118,6 +120,10 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                     delim = ', ';
                 });
                 text = <span>{groupText}</span>;
+                classes.push(styles.info);
+                break;
+            case 'contact_urns_changed':
+                text = <span>Added a URN for the contact</span>;
                 classes.push(styles.info);
                 break;
             case Types.set_contact_field:

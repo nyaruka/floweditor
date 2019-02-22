@@ -54,6 +54,13 @@ Array [
   },
   Object {
     "component": [Function],
+    "description": "Add a URN for the contact",
+    "form": [Function],
+    "name": "Add URN",
+    "type": "add_contact_urn",
+  },
+  Object {
+    "component": [Function],
     "description": "Add the contact to a group",
     "form": [Function],
     "name": "Add to Group",
@@ -226,6 +233,13 @@ Object {
     "form": [Function],
     "name": "Add to Group",
     "type": "add_contact_groups",
+  },
+  "add_contact_urn": Object {
+    "component": [Function],
+    "description": "Add a URN for the contact",
+    "form": [Function],
+    "name": "Add URN",
+    "type": "add_contact_urn",
   },
   "add_input_labels": Object {
     "component": [Function],

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddUrnComp should display urn on action 1`] = `
+<Fragment>
+  Add 
+  Phone Number
+   
+  +12065551212
+</Fragment>
+`;

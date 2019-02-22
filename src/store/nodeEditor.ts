@@ -2,6 +2,7 @@ import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
 import { SelectOption } from '~/components/form/select/SelectElement';
 import { Type } from '~/config';
+import { Scheme } from '~/config/typeConfigs';
 import { AnyAction } from '~/flowTypes';
 import { LocalizedObject } from '~/services/Localization';
 import ActionTypes, {
@@ -32,6 +33,10 @@ export interface NumberEntry extends FormEntry {
 
 export interface StringEntry extends FormEntry {
     value: string;
+}
+
+export interface SchemeEntry extends FormEntry {
+    value: Scheme;
 }
 
 export interface StringArrayEntry extends FormEntry {
