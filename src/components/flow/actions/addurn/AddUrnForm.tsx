@@ -76,7 +76,7 @@ export default class AddUrnForm extends React.PureComponent<ActionFormProps, Add
                     onChange={this.props.onTypeChange}
                 />
                 <p data-spec={controlLabelSpecId}>
-                    Add a new URN to reach your contact such as a phone number or a Twitter handle.
+                    Add a new URN to reach the contact such as a phone number or a Twitter handle.
                 </p>
                 <div className={styles.schemeSelection}>
                     <SelectElement
