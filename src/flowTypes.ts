@@ -199,6 +199,11 @@ export interface AddLabels extends Action {
     labels: Label[];
 }
 
+export interface AddURN extends Action {
+    scheme: string;
+    path: string;
+}
+
 export interface SetPreferredChannel extends Action {
     language: string;
 }
