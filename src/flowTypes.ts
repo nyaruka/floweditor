@@ -199,7 +199,7 @@ export interface AddLabels extends Action {
     labels: Label[];
 }
 
-export interface AddUrn extends Action {
+export interface AddURN extends Action {
     scheme: string;
     path: string;
 }

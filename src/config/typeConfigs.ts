@@ -1,7 +1,7 @@
 import AddLabelsComp from '~/components/flow/actions/addlabels/AddLabels';
 import AddLabelsForm from '~/components/flow/actions/addlabels/AddLabelsForm';
-import AddUrnComp from '~/components/flow/actions/addurn/AddUrn';
-import AddUrnForm from '~/components/flow/actions/addurn/AddUrnForm';
+import AddURNComp from '~/components/flow/actions/addurn/AddURN';
+import AddURNForm from '~/components/flow/actions/addurn/AddURNForm';
 import CallResthookComp from '~/components/flow/actions/callresthook/CallResthook';
 import CallWebhookComp from '~/components/flow/actions/callwebhook/CallWebhook';
 import AddGroupsForm from '~/components/flow/actions/changegroups/addgroups/AddGroupsForm';
@@ -186,8 +186,8 @@ export const typeConfigList: Type[] = [
         type: Types.add_contact_urn,
         name: 'Add URN',
         description: 'Add a URN for the contact',
-        form: AddUrnForm,
-        component: AddUrnComp
+        form: AddURNForm,
+        component: AddURNComp
     },
     {
         type: Types.add_contact_groups,

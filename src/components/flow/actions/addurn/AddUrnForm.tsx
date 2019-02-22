@@ -8,7 +8,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, mergeForm, SelectOptionEntry, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
-import * as styles from './AddUrn.scss';
+import * as styles from './AddURNForm.scss';
 import { getSchemeOptions, initializeForm, stateToAction } from './helpers';
 
 export interface AddUrnFormState extends FormState {
@@ -18,7 +18,7 @@ export interface AddUrnFormState extends FormState {
 
 export const controlLabelSpecId = 'label';
 
-export default class AddUrnForm extends React.PureComponent<ActionFormProps, AddUrnFormState> {
+export default class AddURNForm extends React.PureComponent<ActionFormProps, AddUrnFormState> {
     constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings);

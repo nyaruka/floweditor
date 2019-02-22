@@ -1,8 +1,8 @@
-import { AddUrnFormState } from '~/components/flow/actions/addurn/AddUrnForm';
+import { AddUrnFormState } from '~/components/flow/actions/addurn/AddURNForm';
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SelectOption } from '~/components/form/select/SelectElement';
 import { Scheme, SCHEMES, Types } from '~/config/typeConfigs';
-import { AddUrn } from '~/flowTypes';
+import { AddURN } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const getSchemeOptions = (): SelectOption[] => {
@@ -24,7 +24,7 @@ export const schemeToSelectOption = (scheme: Scheme): SelectOption => {
 
 export const initializeForm = (settings: NodeEditorSettings): AddUrnFormState => {
     if (settings.originalAction && settings.originalAction.type === Types.add_contact_urn) {
-        const { scheme, path } = settings.originalAction as AddUrn;
+        const { scheme, path } = settings.originalAction as AddURN;
 
         return {
             scheme: { value: getSchemeSelectOption(scheme) },
@@ -40,7 +40,7 @@ export const initializeForm = (settings: NodeEditorSettings): AddUrnFormState =>
     };
 };
 
-export const stateToAction = (settings: NodeEditorSettings, formState: AddUrnFormState): AddUrn => {
+export const stateToAction = (settings: NodeEditorSettings, formState: AddUrnFormState): AddURN => {
     return {
         type: Types.add_contact_urn,
         uuid: getActionUUID(settings, Types.add_input_labels),
