@@ -233,6 +233,18 @@ describe('Flow Manipulation', () => {
         });
 
         describe('removal', () => {
+            beforeEach(() => {
+                store = createMockStore(
+                    mutate(initialState, {
+                        flowContext: {
+                            nodes: { $set: testNodes },
+                            assetStore: { $set: { results: { items: {} } } }
+                        },
+                        nodeEditor: { settings: { $set: { originalNode: testNodes.node1 } } }
+                    })
+                );
+            });
+
             it('should remove it from the map', () => {
                 const nodes = store.dispatch(removeNode(testNodes.node1.node));
                 expect(nodes.node1).toBeUndefined();
@@ -707,7 +719,10 @@ describe('Flow Manipulation', () => {
         it('should edit an existing router', () => {
             store = createMockStore(
                 mutate(initialState, {
-                    flowContext: { nodes: { $set: testNodes } },
+                    flowContext: {
+                        nodes: { $set: testNodes },
+                        assetStore: { $set: { results: { items: {} } } }
+                    },
                     nodeEditor: { settings: { $set: { originalNode: testNodes.node1 } } }
                 })
             );

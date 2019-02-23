@@ -131,7 +131,7 @@ exports[`FieldRouterForm initializes 1`] = `
           Object {
             "value": Object {
               "id": "favorite_color",
-              "name": undefined,
+              "name": null,
               "type": "field",
             },
           }
@@ -319,7 +319,7 @@ exports[`FieldRouterForm should render 1`] = `
           Object {
             "value": Object {
               "id": "favorite_color",
-              "name": undefined,
+              "name": null,
               "type": "field",
             },
           }
@@ -394,7 +394,7 @@ Object {
   "field": Object {
     "value": Object {
       "id": "favorite_color",
-      "name": undefined,
+      "name": null,
       "type": "field",
     },
   },
@@ -464,7 +464,7 @@ Array [
       "config": Object {
         "operand": Object {
           "id": "favorite_color",
-          "name": undefined,
+          "name": null,
           "type": "field",
         },
       },

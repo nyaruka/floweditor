@@ -15,7 +15,7 @@ import { getTypeConfig, Types } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { DebugState } from '~/store/editor';
-import { RenderNode } from '~/store/flowContext';
+import { AssetMap, RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
 import {
     DispatchWithState,
@@ -52,6 +52,7 @@ export interface NodePassedProps {
 }
 
 export interface NodeStoreProps {
+    results: AssetMap;
     translating: boolean;
     dragActive: boolean;
     debug: DebugState;
@@ -182,10 +183,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private onRemoval(event: React.MouseEvent<HTMLDivElement>): void {
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
         this.props.removeNode(this.props.renderNode.node);
     }
 
@@ -220,6 +217,16 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     }
 
     private hasMissing(): boolean {
+        // see if we are splitting on a missing result
+        if (
+            this.props.renderNode.ui.type === Types.split_by_run_result ||
+            this.props.renderNode.ui.type === Types.split_by_run_result_delimited
+        ) {
+            if (!(this.props.renderNode.ui.config.operand.id in this.props.results)) {
+                return true;
+            }
+        }
+
         if (this.props.renderNode.node.router) {
             const kases = (this.props.renderNode.node.router as SwitchRouter).cases || [];
             for (const kase of kases) {
@@ -308,7 +315,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             }
 
             const config = getTypeConfig(type);
-            let { name: title } = config;
+            // let { name: title } = config;
+
+            let title: string = null;
 
             if (this.props.renderNode.node.router.type === RouterTypes.switch) {
                 const switchRouter = this.props.renderNode.node.router as SwitchRouter;
@@ -324,6 +333,24 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 }
             }
 
+            if (
+                title === null &&
+                (this.props.renderNode.ui.type === Types.split_by_run_result ||
+                    this.props.renderNode.ui.type === Types.split_by_run_result_delimited)
+            ) {
+                if (this.props.renderNode.ui.config.operand.id in this.props.results) {
+                    title = `Split by ${
+                        this.props.results[this.props.renderNode.ui.config.operand.id].name
+                    }`;
+                } else {
+                    title = `Missing ${this.props.renderNode.ui.config.operand.id}`;
+                }
+            }
+
+            if (title === null) {
+                title = config.name;
+            }
+
             if (!this.props.renderNode.node.actions || !this.props.renderNode.node.actions.length) {
                 // Router headers are introduced here while action headers are introduced in ./Action/Action
 
@@ -335,6 +362,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                                 __className={shared[this.hasMissing() ? 'missing' : config.type]}
                                 showRemoval={!this.props.translating}
                                 onRemoval={this.onRemoval}
+                                shouldCancelClick={() => this.props.dragActive}
                                 title={title}
                             />
                         </div>
@@ -408,7 +436,13 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
 const mapStateToProps = (
     {
-        flowContext: { nodes, definition },
+        flowContext: {
+            nodes,
+            definition,
+            assetStore: {
+                results: { items }
+            }
+        },
         editorState: { translating, debug, ghostNode, dragActive }
     }: AppState,
     props: NodePassedProps
@@ -430,6 +464,7 @@ const mapStateToProps = (
     }
 
     return {
+        results: items,
         translating,
         debug,
         dragActive,

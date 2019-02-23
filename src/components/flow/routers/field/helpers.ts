@@ -10,10 +10,13 @@ import {
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Types } from '~/config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from '~/flowTypes';
-import { AssetType, RenderNode } from '~/store/flowContext';
+import { AssetStore, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
-export const nodeToState = (settings: NodeEditorSettings): FieldRouterFormState => {
+export const nodeToState = (
+    settings: NodeEditorSettings,
+    assetStore: AssetStore
+): FieldRouterFormState => {
     let initialCases: CaseProps[] = [];
 
     // TODO: work out an incremental result name
@@ -33,7 +36,8 @@ export const nodeToState = (settings: NodeEditorSettings): FieldRouterFormState 
         }
 
         const operand = settings.originalNode.ui.config.operand;
-        field = { id: operand.id, type: operand.type, name: operand.name };
+        const name = assetStore.fields ? assetStore.fields.items[operand.id].name : null;
+        field = { id: operand.id, type: operand.type, name };
     }
 
     return {

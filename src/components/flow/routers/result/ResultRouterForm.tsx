@@ -8,7 +8,6 @@ import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
@@ -43,16 +42,12 @@ export default class ResultRouterForm extends React.Component<
     constructor(props: RouterFormProps) {
         super(props);
 
-        this.state = nodeToState(this.props.nodeSettings);
+        this.state = nodeToState(this.props.nodeSettings, this.props.assetStore);
 
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
     }
-
-    public static contextTypes = {
-        assetService: fakePropType
-    };
 
     private handleUpdateResultName(value: string): void {
         this.setState({ resultName: { value } });

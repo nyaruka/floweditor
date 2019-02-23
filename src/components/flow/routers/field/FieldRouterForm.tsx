@@ -50,7 +50,7 @@ export default class FieldRouterForm extends React.Component<
     constructor(props: RouterFormProps) {
         super(props);
 
-        this.state = nodeToState(this.props.nodeSettings);
+        this.state = nodeToState(this.props.nodeSettings, this.props.assetStore);
 
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
