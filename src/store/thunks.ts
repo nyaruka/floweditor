@@ -15,6 +15,7 @@ import {
     FlowPosition,
     SendMsg,
     SetContactField,
+    SetRunResult,
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
@@ -425,10 +426,17 @@ export const removeNode = (node: FlowNode) => (
 ): RenderNodeMap => {
     // Remove result name if node has one
     const {
-        flowContext: { nodes }
+        flowContext: { nodes, assetStore }
     } = getState();
 
-    // TODO: update asset store to remove results that no longer exist
+    // update asset store to remove results that no longer exist
+    if (node.router && node.router.result_name) {
+        const updatedAssets = mutators.removeResultFromStore(node.router.result_name, assetStore, {
+            nodeUUID: node.uuid
+        });
+        dispatch(updateAssets(updatedAssets));
+    }
+
     const updated = mutators.removeNode(nodes, node.uuid);
     dispatch(updateNodes(updated));
     return updated;
@@ -439,11 +447,19 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
     getState: GetState
 ): RenderNodeMap => {
     const {
-        flowContext: { nodes }
+        flowContext: { nodes, assetStore }
     } = getState();
     const renderNode = nodes[nodeUUID];
 
-    // TODO: update asset store to remove results that no longer exist
+    // update asset store to remove results that no longer exist
+    if (action.type === Types.set_run_result) {
+        const resultAction = action as SetRunResult;
+        const updatedAssets = mutators.removeResultFromStore(resultAction.name, assetStore, {
+            nodeUUID,
+            actionUUID: action.uuid
+        });
+        dispatch(updateAssets(updatedAssets));
+    }
 
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
@@ -589,7 +605,7 @@ export const onUpdateAction = (
 
     const {
         nodeEditor: { userAddingAction, settings },
-        flowContext: { nodes, contactFields }
+        flowContext: { nodes, contactFields, assetStore }
     } = getState();
 
     if (settings == null || settings.originalNode == null) {
@@ -597,8 +613,21 @@ export const onUpdateAction = (
     }
     const { originalNode, originalAction } = settings;
 
+    let updatedAssets = assetStore;
+
+    // remove our result reference
+    if (originalAction && originalAction.type === Types.set_run_result) {
+        const { name: resultName } = originalAction as SetRunResult;
+        updatedAssets = mutators.removeResultFromStore(resultName, updatedAssets, {
+            nodeUUID: originalNode.node.uuid,
+            actionUUID: action.uuid
+        });
+    }
+
     let updatedNodes = nodes;
     const creatingNewNode = originalNode !== null && originalNode.ghost;
+
+    let nodeUUID: string = null;
 
     if (creatingNewNode) {
         const newNode: RenderNode = {
@@ -611,30 +640,37 @@ export const onUpdateAction = (
             inboundConnections: originalNode.inboundConnections
         };
         updatedNodes = mutators.mergeNode(nodes, newNode);
-    } else if (userAddingAction) {
-        updatedNodes = mutators.addAction(nodes, originalNode.node.uuid, action);
-    } else if (originalNode.node.hasOwnProperty('router')) {
-        updatedNodes = mutators.spliceInAction(nodes, originalNode.node.uuid, action);
+
+        nodeUUID = newNode.node.uuid;
     } else {
-        updatedNodes = mutators.updateAction(nodes, originalNode.node.uuid, action, originalAction);
+        nodeUUID = originalNode.node.uuid;
+
+        if (userAddingAction) {
+            updatedNodes = mutators.addAction(nodes, originalNode.node.uuid, action);
+        } else if (originalNode.node.hasOwnProperty('router')) {
+            updatedNodes = mutators.spliceInAction(nodes, originalNode.node.uuid, action);
+        } else {
+            updatedNodes = mutators.updateAction(
+                nodes,
+                originalNode.node.uuid,
+                action,
+                originalAction
+            );
+        }
     }
 
     dispatch(updateNodes(updatedNodes));
     dispatch(updateUserAddingAction(false));
 
     // Add result to store.
-    /* if (action.type === Types.set_run_result) {
-        const { name: resultNameOnAction } = action as SetRunResult;
-        const newResultMap = {
-            ...resultMap,
-            // We store results created by a `set_run_result` action
-            // with a reference to the action's uuid. A single node may
-            // contain one or more `set_run_result` actions, and they
-            // may be identical.
-            [action.uuid]: `@run.results.${snakify(resultNameOnAction)}`
-        };
-        dispatch(updateResultMap(newResultMap));
-    }*/
+    if (action.type === Types.set_run_result) {
+        const { name: resultName } = action as SetRunResult;
+        updatedAssets = mutators.addResultToStore(resultName, updatedAssets, {
+            nodeUUID,
+            actionUUID: action.uuid
+        });
+        dispatch(updateAssets(updatedAssets));
+    }
 
     // Add contact field to our store.
     if (action.type === Types.set_contact_field) {
@@ -874,10 +910,20 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
 
     // update our results
     if (renderNode.node.router && renderNode.node.router.result_name) {
-        const updatedAssets = mutators.addFlowResult(
-            assetStore,
-            renderNode.node.router.result_name
-        );
+        let updatedAssets = assetStore;
+
+        // remove our original result name
+        if (originalNode.node.router && originalNode.node.router.result_name) {
+            updatedAssets = mutators.removeResultFromStore(
+                originalNode.node.router.result_name,
+                updatedAssets,
+                {
+                    nodeUUID: originalNode.node.uuid
+                }
+            );
+        }
+
+        updatedAssets = mutators.addFlowResult(updatedAssets, renderNode.node);
         dispatch(updateAssets(updatedAssets));
     }
 

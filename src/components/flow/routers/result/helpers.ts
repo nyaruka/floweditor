@@ -5,14 +5,14 @@ import {
     hasCases,
     resolveExits
 } from '~/components/flow/routers/helpers';
+import { SelectOption } from '~/components/form/select/SelectElement';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Types } from '~/config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from '~/flowTypes';
-import { AssetType, RenderNode } from '~/store/flowContext';
+import { AssetStore, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
 import { ResultRouterFormState } from './ResultRouterForm';
-import { SelectOption } from '~/components/form/select/SelectElement';
 
 export const FIELD_NUMBER_OPTIONS: SelectOption[] = [
     { value: '1', label: 'first' },
@@ -40,7 +40,10 @@ export const getDelimiterOption = (value: string): SelectOption => {
     return DELIMITER_OPTIONS.find((option: SelectOption) => option.value === value);
 };
 
-export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState => {
+export const nodeToState = (
+    settings: NodeEditorSettings,
+    assetStore: AssetStore
+): ResultRouterFormState => {
     let initialCases: CaseProps[] = [];
 
     // TODO: work out an incremental result name
@@ -67,7 +70,10 @@ export const nodeToState = (settings: NodeEditorSettings): ResultRouterFormState
 
         const config = settings.originalNode.ui.config;
         if (config && config.operand) {
-            result = { id: config.operand.id, type: config.operand.type };
+            result =
+                config.operand.id in assetStore.results.items
+                    ? assetStore.results.items[config.operand.id]
+                    : null;
         }
 
         if (settings.originalNode.ui.type === Types.split_by_run_result_delimited) {

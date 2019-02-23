@@ -68,11 +68,17 @@ export enum AssetType {
     Scheme = 'scheme'
 }
 
+export interface Reference {
+    nodeUUID: string;
+    actionUUID?: string;
+}
+
 export interface Asset {
     id: string;
     name: string;
     type: AssetType;
 
+    references?: Reference[];
     isNew?: boolean;
     content?: any;
 }

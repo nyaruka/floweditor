@@ -8,7 +8,15 @@ import {
     StickyNote,
     SwitchRouter
 } from '~/flowTypes';
-import { Asset, AssetStore, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
+import {
+    Asset,
+    AssetMap,
+    AssetStore,
+    AssetType,
+    Reference,
+    RenderNode,
+    RenderNodeMap
+} from '~/store/flowContext';
 import { assetListToMap, getActionIndex, getExitIndex, getNode } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { LocalizationUpdates } from '~/store/thunks';
@@ -40,7 +48,96 @@ export const addAssets = (type: string, store: AssetStore, assets: Asset[]): Ass
     return updated;
 };
 
-export const addFlowResult = (assets: AssetStore, result: string): AssetStore => {
+export const removeResultReference = (
+    resultName: string,
+    items: AssetMap,
+    reference: Reference
+): AssetMap => {
+    const key = snakify(resultName);
+
+    if (key in items) {
+        const item = items[key];
+        const filteredRefs = item.references.filter(
+            (ref: Reference) =>
+                ref.nodeUUID !== reference.nodeUUID || ref.actionUUID !== reference.actionUUID
+        );
+
+        if (filteredRefs.length === 0) {
+            return mutate(items, { $unset: [key] });
+        }
+
+        return mutate(items, { [key]: { references: { $set: filteredRefs } } });
+    }
+
+    const result =
+        key in items
+            ? items[key]
+            : {
+                  name: resultName,
+                  id: key,
+                  type: AssetType.Result,
+                  references: []
+              };
+
+    if (
+        !result.references.find(
+            (ref: Reference) =>
+                ref.nodeUUID === reference.nodeUUID && ref.actionUUID === reference.actionUUID
+        )
+    ) {
+        result.references.push(reference);
+    }
+
+    return mutate(items, { $merge: { [key]: result } });
+};
+
+export const removeResultFromStore = (
+    resultName: string,
+    assets: AssetStore,
+    reference: Reference
+): AssetStore => {
+    if (resultName) {
+        const items = removeResultReference(resultName, assets.results.items, reference);
+        return mutate(assets, { results: { items: { $set: items } } });
+    }
+};
+
+export const addResultToStore = (
+    resultName: string,
+    assets: AssetStore,
+    reference: Reference
+): AssetStore => {
+    if (resultName) {
+        const items = addResult(resultName, assets.results.items, reference);
+        return mutate(assets, { results: { items: { $set: items } } });
+    }
+};
+
+export const addResult = (resultName: string, items: AssetMap, reference: Reference): AssetMap => {
+    const key = snakify(resultName);
+    const result =
+        key in items
+            ? items[key]
+            : {
+                  name: resultName,
+                  id: key,
+                  type: AssetType.Result,
+                  references: []
+              };
+
+    if (
+        !result.references.find(
+            (ref: Reference) =>
+                ref.nodeUUID === reference.nodeUUID && ref.actionUUID === reference.actionUUID
+        )
+    ) {
+        result.references.push(reference);
+    }
+
+    return mutate(items, { $merge: { [key]: result } });
+};
+
+export const addFlowResult = (assets: AssetStore, node: FlowNode): AssetStore => {
     let updated = assets;
 
     // TODO: initialize these to empties further up to avoid this
@@ -52,13 +149,13 @@ export const addFlowResult = (assets: AssetStore, result: string): AssetStore =>
         updated.results = { items: {}, type: AssetType.Result };
     }
 
-    const key = snakify(result);
-    const asset: Asset = { id: key, name: result, type: AssetType.Result };
-    return mutate(assets, {
-        results: {
-            items: merge({ [key]: asset })
-        }
-    });
+    const resultName = node.router.result_name;
+    if (resultName) {
+        const items = addResult(resultName, assets.results.items, { nodeUUID: node.uuid });
+        return mutate(assets, { results: { items: { $set: items } } });
+    }
+
+    return assets;
 };
 
 /**

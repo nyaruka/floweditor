@@ -19,6 +19,7 @@ import {
 } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { addResult } from '~/store/mutators';
 import { createUUID, snakify } from '~/utils';
 
 export interface Bounds {
@@ -347,7 +348,7 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     const groups: AssetMap = {};
     const fields: AssetMap = {};
     const labels: AssetMap = {};
-    const results: AssetMap = {};
+    let results: AssetMap = {};
 
     for (const node of nodes) {
         if (!node.actions) {
@@ -363,12 +364,7 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
 
         if (node.router) {
             if (node.router.result_name) {
-                const key = snakify(node.router.result_name);
-                results[key] = {
-                    name: node.router.result_name,
-                    id: key,
-                    type: AssetType.Result
-                };
+                results = addResult(node.router.result_name, results, { nodeUUID: node.uuid });
             }
         }
 
@@ -425,7 +421,8 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
                 fields[key] = {
                     name: resultAction.name,
                     id: key,
-                    type: AssetType.Result
+                    type: AssetType.Result,
+                    content: { sources: [] }
                 };
             }
         }
