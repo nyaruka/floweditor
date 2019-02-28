@@ -49,13 +49,6 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
                 }, 500);
             }
 
-            console.log({
-                currentSeconds: this.ele.ended ? 0 : currentTime,
-                durationSeconds: duration,
-                playing: currentTime > 0,
-                progress: duration > 0 ? Math.floor((currentTime / duration) * 100) : 0
-            });
-
             return {
                 currentSeconds: this.ele.ended ? 0 : currentTime,
                 durationSeconds: duration,

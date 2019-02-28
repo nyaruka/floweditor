@@ -185,7 +185,7 @@ export const typeConfigList: Type[] = [
         description: 'Play a message',
         form: SayMsgForm,
         localization: MsgLocalizationForm,
-        localizeableKeys: ['text'],
+        localizeableKeys: ['text', 'audio_url'],
         component: SayMsgComp
     },
     {

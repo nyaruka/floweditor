@@ -53,33 +53,3 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
         uuid: getActionUUID(settings, Types.send_msg)
     };
 };
-
-export const initializeLocalizedForm = (settings: NodeEditorSettings): SendMsgFormState => {
-    // check if our form should use a localized action
-    if (
-        settings.originalAction &&
-        settings.originalAction.type === Types.send_msg &&
-        settings.localizations &&
-        settings.localizations.length > 0
-    ) {
-        const localized = settings.localizations[0];
-        if (localized.isLocalized()) {
-            const action = settings.localizations[0].getObject() as SendMsg;
-            return {
-                attachments: [],
-                text: { value: action.text },
-                quickReplies: { value: action.quick_replies || [] },
-                sendAll: action.all_urns,
-                valid: true
-            };
-        }
-    }
-
-    return {
-        attachments: [],
-        text: { value: '' },
-        quickReplies: { value: [] },
-        sendAll: false,
-        valid: false
-    };
-};

@@ -1,13 +1,11 @@
 import { react as bindCallbacks } from 'auto-bind';
-import axios from 'axios';
 import * as React from 'react';
-import Button, { ButtonTypes } from '~/components/button/Button';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { ActionFormProps } from '~/components/flow/props';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
+import UploadButton from '~/components/uploadbutton/UploadButton';
 import { fakePropType } from '~/config/ConfigProvider';
-import { getCookie } from '~/external';
 import { FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
@@ -70,26 +68,8 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
         };
     }
 
-    private handleRemoveRecording(): void {
-        this.setState({ audio: { value: null } });
-    }
-
-    private handleUploadRecording(files: FileList): void {
-        const data = new FormData();
-        data.append('file', files[0]);
-
-        // if we have a csrf in our cookie, pass it along as a header
-        const csrf = getCookie('csrftoken');
-        const headers = csrf ? { 'X-CSRFToken': csrf } : {};
-
-        axios
-            .post(this.context.endpoints.attachments, data, { headers })
-            .then(response => {
-                this.setState({ audio: { value: response.data.url } });
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    private handleUploadChanged(url: string): void {
+        this.setState({ audio: { value: url } });
     }
 
     public render(): JSX.Element {
@@ -116,36 +96,14 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
                     textarea={true}
                 />
 
-                <input
-                    style={{
-                        display: 'none'
-                    }}
-                    ref={ele => {
-                        this.filePicker = ele;
-                    }}
-                    type="file"
-                    onChange={e => this.handleUploadRecording(e.target.files)}
+                <UploadButton
+                    icon="fe-mic"
+                    uploadText="Upload Recording"
+                    removeText="Remove Recording"
+                    url={this.state.audio.value}
+                    endpoint={this.context.endpoints.attachments}
+                    onUploadChanged={this.handleUploadChanged}
                 />
-
-                {this.state.audio.value ? (
-                    <Button
-                        iconName="fe-trash"
-                        name="Remove Recording"
-                        topSpacing={true}
-                        onClick={this.handleRemoveRecording}
-                        type={ButtonTypes.tertiary}
-                    />
-                ) : (
-                    <Button
-                        iconName="fe-mic"
-                        name="Upload Recording"
-                        topSpacing={true}
-                        onClick={() => {
-                            this.filePicker.click();
-                        }}
-                        type={ButtonTypes.tertiary}
-                    />
-                )}
             </Dialog>
         );
     }
