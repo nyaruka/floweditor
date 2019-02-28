@@ -18,6 +18,7 @@ import {
     FlowNode,
     Group,
     Label,
+    PlayAudio,
     RemoveFromGroups,
     Router,
     RouterTypes,
@@ -66,6 +67,19 @@ export const createSayMsgAction = ({
     type: Types.say_msg,
     uuid,
     text
+});
+
+export const createPlayAudioAction = ({
+    uuid = 'd941ddc1-0d47-4fdc-96f4-23dacb222d74',
+    audio_url = '/my_audio.mp3'
+}: {
+    uuid?: string;
+    text?: string;
+    audio_url?: string;
+} = {}): PlayAudio => ({
+    type: Types.play_audio,
+    uuid,
+    audio_url
 });
 
 export const createSendMsgAction = ({

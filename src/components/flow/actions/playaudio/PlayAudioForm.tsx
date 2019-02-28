@@ -4,19 +4,16 @@ import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { ActionFormProps } from '~/components/flow/props';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import UploadButton from '~/components/uploadbutton/UploadButton';
-import { fakePropType } from '~/config/ConfigProvider';
 import { FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
-export interface SayMsgFormState extends FormState {
-    text: StringEntry;
+export interface PlayAudioFormState extends FormState {
     audio: StringEntry;
 }
 
-export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgFormState> {
+export default class PlayAudioForm extends React.Component<ActionFormProps, PlayAudioFormState> {
     constructor(props: ActionFormProps) {
         super(props);
         this.state = initializeForm(this.props.nodeSettings);
@@ -25,31 +22,18 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
         });
     }
 
-    public static contextTypes = {
-        endpoints: fakePropType
-    };
-
-    private handleUpdate(keys: { text?: string }): boolean {
-        const updates: Partial<SayMsgFormState> = {};
-
-        if (keys.hasOwnProperty('text')) {
-            updates.text = validate('Message', keys.text, [validateRequired]);
-        }
+    public handleAudioUpdate(text: string): boolean {
+        const updates: Partial<PlayAudioFormState> = {};
+        updates.audio = validate('Recording', text, [validateRequired]);
 
         const updated = mergeForm(this.state, updates);
         this.setState(updated);
         return updated.valid;
     }
 
-    public handleMessageUpdate(text: string): boolean {
-        return this.handleUpdate({ text });
-    }
-
     private handleSave(): void {
         // make sure we validate untouched text fields
-        const valid = this.handleUpdate({
-            text: this.state.text.value
-        });
+        const valid = this.handleAudioUpdate(this.state.audio.value);
 
         if (valid) {
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
@@ -66,10 +50,6 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
         };
     }
 
-    private handleUploadChanged(url: string): void {
-        this.setState({ audio: { value: url } });
-    }
-
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
@@ -84,23 +64,17 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
                     initialType={typeConfig}
                     onChange={this.props.onTypeChange}
                 />
+                <p>Previous Recording</p>
                 <TextInputElement
                     name="Message"
                     showLabel={false}
-                    onChange={this.handleMessageUpdate}
-                    entry={this.state.text}
+                    onChange={this.handleAudioUpdate}
+                    entry={this.state.audio}
                     autocomplete={true}
                     focus={true}
-                    textarea={true}
-                />
-
-                <UploadButton
-                    icon="fe-mic"
-                    uploadText="Upload Recording"
-                    removeText="Remove Recording"
-                    url={this.state.audio.value}
-                    endpoint={this.context.endpoints.attachments}
-                    onUploadChanged={this.handleUploadChanged}
+                    helpText={
+                        'Enter a variable that contains a recording the contact has previously recorded. For example, @flow.voicemail or @contact.short_bio.'
+                    }
                 />
             </Dialog>
         );

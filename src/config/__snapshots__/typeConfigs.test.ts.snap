@@ -48,6 +48,13 @@ Array [
   },
   Object {
     "component": [Function],
+    "description": "Play a contact recording",
+    "form": [Function],
+    "name": "Play Recording",
+    "type": "play_audio",
+  },
+  Object {
+    "component": [Function],
     "description": "Send somebody else a message",
     "form": [Function],
     "localization": [Function],
@@ -293,6 +300,13 @@ Object {
     "description": " ** Unsupported ** ",
     "name": "Missing",
     "type": "missing",
+  },
+  "play_audio": Object {
+    "component": [Function],
+    "description": "Play a contact recording",
+    "form": [Function],
+    "name": "Play Recording",
+    "type": "play_audio",
   },
   "remove_contact_groups": Object {
     "component": [Function],

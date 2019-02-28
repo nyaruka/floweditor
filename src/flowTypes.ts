@@ -197,6 +197,10 @@ export interface SayMsg extends Action {
     audio_url?: string;
 }
 
+export interface PlayAudio extends Action {
+    audio_url: string;
+}
+
 export interface BroadcastMsg extends RecipientsAction {
     text: string;
 }
