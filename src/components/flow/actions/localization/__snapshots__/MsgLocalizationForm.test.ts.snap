@@ -55,7 +55,6 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
   </div>
   <Connect(TextInputElement)
     autocomplete={true}
-    count="SMS"
     entry={
       Object {
         "value": "¡hola!",
@@ -76,7 +75,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": true,
+        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -126,7 +125,6 @@ exports[`MsgLocalizationForm render should render 1`] = `
   </div>
   <Connect(TextInputElement)
     autocomplete={true}
-    count="SMS"
     entry={
       Object {
         "value": "",
@@ -144,7 +142,9 @@ exports[`MsgLocalizationForm render should render 1`] = `
 
 exports[`MsgLocalizationForm updates should save changes 1`] = `
 Object {
-  "attachments": Array [],
+  "audio": Object {
+    "value": null,
+  },
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -153,7 +153,6 @@ Object {
       "blue",
     ],
   },
-  "sendAll": false,
   "text": Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",

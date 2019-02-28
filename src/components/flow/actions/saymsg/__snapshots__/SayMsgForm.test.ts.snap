@@ -49,21 +49,12 @@ exports[`SayMsgForm render should render 1`] = `
     showLabel={false}
     textarea={true}
   />
-  <input
-    onChange={[Function]}
-    style={
-      Object {
-        "display": "none",
-      }
-    }
-    type="file"
-  />
-  <Button
-    iconName="fe-mic"
-    name="Upload Recording"
-    onClick={[Function]}
-    topSpacing={true}
-    type="tertiary"
+  <UploadButton
+    icon="fe-mic"
+    onUploadChanged={[Function]}
+    removeText="Remove Recording"
+    uploadText="Upload Recording"
+    url=""
   />
 </Dialog>
 `;

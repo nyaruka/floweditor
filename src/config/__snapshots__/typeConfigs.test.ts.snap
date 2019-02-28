@@ -27,6 +27,7 @@ Array [
     "localization": [Function],
     "localizeableKeys": Array [
       "text",
+      "audio_url",
     ],
     "name": "Play Message",
     "type": "say_msg",
@@ -307,6 +308,7 @@ Object {
     "localization": [Function],
     "localizeableKeys": Array [
       "text",
+      "audio_url",
     ],
     "name": "Play Message",
     "type": "say_msg",
