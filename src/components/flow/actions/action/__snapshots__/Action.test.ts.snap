@@ -2,7 +2,7 @@
 
 exports[`ActionWrapper render should display hybrid style 1`] = `
 <div
-  className="action has_router"
+  className="action has_router localized"
   data-spec="action-container"
   id="action-68b029c9-6400-4f46-947a-b61c619a7198"
 >
@@ -142,7 +142,7 @@ Object {
 
 exports[`ActionWrapper render should render self, children with base props 2`] = `
 <div
-  className="action"
+  className="action localized"
   data-spec="action-container"
   id="action-68b029c9-6400-4f46-947a-b61c619a7198"
 >
@@ -174,7 +174,7 @@ exports[`ActionWrapper render should render self, children with base props 2`] =
 
 exports[`ActionWrapper render should show move icon 1`] = `
 <div
-  className="action"
+  className="action localized"
   data-spec="action-container"
   id="action-68b029c9-6400-4f46-947a-b61c619a7198"
 >

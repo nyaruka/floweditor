@@ -192,6 +192,7 @@ export const loadFlowDefinition = (definition: FlowDefinition, assetStore: Asset
     if (!language) {
         language = DEFAULT_LANGUAGE;
         dispatch(mergeEditorState({ language: DEFAULT_LANGUAGE }));
+        mergeAssetMaps(assetStore.languages.items, { base: DEFAULT_LANGUAGE });
     }
 
     dispatch(updateBaseLanguage(language));

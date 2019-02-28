@@ -7,9 +7,16 @@ import * as React from 'react';
 import { render } from 'react-dom';
 
 import FlowEditor from '../../src/';
+import { FlowEditorConfig } from '../../src/flowTypes';
 
 const root = document.getElementById('flow-editor');
-const config = require('../config');
-config.flow = root.getAttribute('uuid') || config.flow;
+if (root) {
+    const config = require('../config');
+    config.flow = root.getAttribute('uuid') || config.flow;
+    render(<FlowEditor config={config} />, root);
+}
 
-render(<FlowEditor config={config} />, root);
+// export our wrapper function for real-time testing
+(window as any).showFlowEditor = (ele: any, userConfig: FlowEditorConfig) => {
+    render(<FlowEditor config={userConfig} />, ele);
+};

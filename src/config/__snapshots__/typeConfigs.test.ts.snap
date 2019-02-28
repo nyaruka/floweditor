@@ -21,6 +21,17 @@ Array [
     "type": "send_msg",
   },
   Object {
+    "component": [Function],
+    "description": "Play a message",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "text",
+    ],
+    "name": "Play Message",
+    "type": "say_msg",
+  },
+  Object {
     "aliases": Array [
       "switch",
     ],
@@ -288,6 +299,17 @@ Object {
     "form": [Function],
     "name": "Remove from Group",
     "type": "remove_contact_groups",
+  },
+  "say_msg": Object {
+    "component": [Function],
+    "description": "Play a message",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "text",
+    ],
+    "name": "Play Message",
+    "type": "say_msg",
   },
   "send_broadcast": Object {
     "component": [Function],

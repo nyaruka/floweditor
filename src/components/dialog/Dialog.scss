@@ -82,16 +82,23 @@ $curvature: 10px;
         border-bottom-left-radius: $curvature;
         border-bottom-right-radius: $curvature;
 
-        display: flex;
         justify-content: space-between;
         align-items: center;
 
         .gutter {
-            display: inline-block;
             vertical-align: baseline;
+            margin-right: auto;
+        }
+
+        .buttons {
+            display: flex;
+        }
+        .left-buttons {
+            margin-right: auto;
         }
 
         .right-buttons {
+            margin-left: auto;
             text-align: right;
             vertical-align: baseline;
         }

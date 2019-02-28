@@ -52,6 +52,10 @@ if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
     proxy['/contact/omnibox'] = {
         target: 'http://localhost:8000'
     };
+
+    proxy['/media'] = {
+        target: 'http://localhost:8000'
+    };
 }
 
 const devConfig = {

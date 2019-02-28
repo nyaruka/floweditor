@@ -88,7 +88,7 @@ export const REMOVE_VALUE_ASSET = {
     name: 'Remove Value',
     type: AssetType.Remove
 };
-export const DEFAULT_LANGUAGE = { id: '', name: 'Default', type: AssetType.Language };
+export const DEFAULT_LANGUAGE = { id: 'base', name: 'Default', type: AssetType.Language };
 
 export interface AssetStore {
     [assetType: string]: Assets;

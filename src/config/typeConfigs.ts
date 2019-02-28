@@ -9,6 +9,8 @@ import ChangeGroupsComp from '~/components/flow/actions/changegroups/ChangeGroup
 import RemoveGroupsForm from '~/components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
 import MsgLocalizationForm from '~/components/flow/actions/localization/MsgLocalizationForm';
 import MissingComp from '~/components/flow/actions/missing/Missing';
+import SayMsgComp from '~/components/flow/actions/saymsg/SayMsg';
+import SayMsgForm from '~/components/flow/actions/saymsg/SayMsgForm';
 import SendBroadcastComp from '~/components/flow/actions/sendbroadcast/SendBroadcast';
 import SendBroadcastForm from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
 import SendEmailComp from '~/components/flow/actions/sendemail/SendEmail';
@@ -57,6 +59,26 @@ start_flow	                start_flow	                flow_triggered
 start_session	            start_session	            session_triggered
 */
 
+/*
+Old name	                New name	                Event(s) generated
+
+add_urn	                    add_contact_urn	            contact_urn_added
+add_to_group	            add_contact_groups	        contact_groups_added
+remove_from_group	        remove_contact_groups	    contact_groups_removed
+set_preferred_channel	    set_contact_channel	        contact_channel_changed
+update_contact	            set_contact_name	        contact_name_changed
+update_contact	            set_contact_language	    contact_language_changed
+update_contact	            set_contact_timezone	    contact_timezone_changed
+save_contact_field      	set_contact_field	        contact_field_changed
+save_flow_result	        set_run_result	            run_result_changed
+call_webhook	            call_webhook	            webhook_called
+add_label	                add_input_labels	        input_labels_added
+reply	                    send_msg	                msg_created
+send_email	                send_email	                email_created / email_sent
+send_msg	                send_broadcast	            broadcast_created
+start_flow	                start_flow	                flow_triggered
+start_session	            start_session	            session_triggered
+*/
 export const enum Types {
     execute_actions = 'execute_actions',
     add_contact_urn = 'add_contact_urn',
@@ -87,8 +109,8 @@ export const enum Types {
     split_by_subflow = 'split_by_subflow',
     split_by_webhook = 'split_by_webhook',
     wait_for_response = 'wait_for_response',
-
-    missing = 'missing'
+    missing = 'missing',
+    say_msg = 'say_msg'
 }
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
@@ -156,6 +178,15 @@ export const typeConfigList: Type[] = [
         localization: MsgLocalizationForm,
         localizeableKeys: ['text', 'quick_replies'],
         component: SendMsgComp
+    },
+    {
+        type: Types.say_msg,
+        name: 'Play Message',
+        description: 'Play a message',
+        form: SayMsgForm,
+        localization: MsgLocalizationForm,
+        localizeableKeys: ['text'],
+        component: SayMsgComp
     },
     {
         type: Types.wait_for_response,

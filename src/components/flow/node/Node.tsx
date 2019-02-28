@@ -12,7 +12,7 @@ import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
+import { AnyAction, Endpoints, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { DebugState } from '~/store/editor';
 import { AssetMap, RenderNode } from '~/store/flowContext';
@@ -278,7 +278,9 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                             thisNodeDragging={this.state.thisNodeDragging}
                             action={action}
                             first={idx === 0}
-                            render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
+                            render={(anyAction: AnyAction, endpoints: Endpoints) => (
+                                <ActionDiv {...anyAction} {...{ mediaRoot: endpoints.mediaRoot }} />
+                            )}
                         />
                     );
                 }

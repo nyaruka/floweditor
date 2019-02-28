@@ -21,6 +21,7 @@ import {
     RemoveFromGroups,
     Router,
     RouterTypes,
+    SayMsg,
     SendEmail,
     SendMsg,
     SetContactChannel,
@@ -53,6 +54,18 @@ export const createSelectOption = ({ label }: { label: string }) => ({
     label: capitalize(label.trim()),
     labelKey: 'name',
     valueKey: 'id'
+});
+
+export const createSayMsgAction = ({
+    uuid = '70b42948-e48c-4fb0-9824-a47fbc4f9613',
+    text = 'Welcome to Moviefone!'
+}: {
+    uuid?: string;
+    text?: string;
+} = {}): SayMsg => ({
+    type: Types.say_msg,
+    uuid,
+    text
 });
 
 export const createSendMsgAction = ({

@@ -1,0 +1,46 @@
+.player {
+    position: relative;
+    line-height: 1em !important;
+    letter-spacing: 1em !important;
+    cursor: pointer;
+
+    &.playing {
+        .circleProgress {
+        }
+
+        .button {
+            color: cornflowerblue;
+        }
+    }
+
+    .circles {
+        position: relative;
+        opacity: 1;
+        left: -4px;
+
+        .circle-background {
+            position: relative;
+            transition: stroke-dashoffset 0.5s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .circle-foreground {
+            position: relative;
+            transition: stroke-dashoffset 0.5s;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+    }
+    .button {
+        &:hover {
+            color: cornflowerblue;
+        }
+
+        position: relative;
+        font-size: 10px;
+        color: #aaa;
+        top: -16px;
+        left: 0px;
+    }
+}

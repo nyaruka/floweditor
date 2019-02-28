@@ -28,6 +28,7 @@ export interface Endpoints {
     revisions: string;
     activity: string;
     labels: string;
+    mediaRoot: string;
     channels: string;
     environment: string;
     languages: string;
@@ -189,6 +190,11 @@ export interface SendMsg extends Action {
     all_urns?: boolean;
     quick_replies?: string[];
     attachments?: string[];
+}
+
+export interface SayMsg extends Action {
+    text: string;
+    audio_url?: string;
 }
 
 export interface BroadcastMsg extends RecipientsAction {

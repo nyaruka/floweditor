@@ -1,7 +1,6 @@
 @import '~/variables.scss';
 
 .btn {
-    margin-left: 8px;
     display: inline-block;
 
     font-weight: 300;
@@ -60,6 +59,22 @@
 
         &:hover {
             border: 1px solid $light_gray - #111;
+        }
+    }
+
+    &.tertiary {
+        color: #666;
+        border: 1px solid $light_gray - #111;
+        background: $button_dark;
+        background-image: -webkit-linear-gradient(top, $button_light, $button_dark);
+        background-image: -moz-linear-gradient(top, $button_light, $button_dark);
+        background-image: -ms-linear-gradient(top, $button_light, $button_dark);
+        background-image: -o-linear-gradient(top, $button_light, $button_dark);
+        background-image: linear-gradient(to bottom, $button_light, $button_dark);
+        background: none;
+
+        &:hover {
+            background: $light_gray + #111;
         }
     }
 }

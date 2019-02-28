@@ -32,6 +32,7 @@ Object {
   "name": "Language",
   "onChange": [Function],
   "searchable": false,
+  "sortFunction": [Function],
   "styles": Object {
     "control": [Function],
     "indicatorsContainer": [Function],
@@ -83,6 +84,7 @@ exports[`LanguageSelector render should render select control: language selector
     name="Language"
     onChange={[Function]}
     searchable={false}
+    sortFunction={[Function]}
     styles={
       Object {
         "control": [Function],
