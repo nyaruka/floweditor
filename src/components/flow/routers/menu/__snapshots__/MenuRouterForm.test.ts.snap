@@ -24,6 +24,10 @@ exports[`MenuRouterForm should render 1`] = `
       Object {
         "description": "Wait for menu selection",
         "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
         "name": "Wait for Menu Selection",
         "type": "wait_for_menu",
       }

@@ -28,6 +28,7 @@ import TransferAirtimeComp from '~/components/flow/actions/transferairtime/Trans
 import UpdateContactComp from '~/components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import AirtimeRouterForm from '~/components/flow/routers/airtime/AirtimeRouterForm';
+import DigitsRouterForm from '~/components/flow/routers/digits/DigitsRouterForm';
 import ExpressionRouterForm from '~/components/flow/routers/expression/ExpressionRouterForm';
 import FieldRouterForm from '~/components/flow/routers/field/FieldRouterForm';
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
@@ -186,13 +187,17 @@ export const typeConfigList: Type[] = [
         type: Types.wait_for_digits,
         name: 'Wait for Digits',
         description: 'Wait for multiple digits',
-        form: MenuRouterForm
+        form: DigitsRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases']
     },
     {
         type: Types.wait_for_menu,
         name: 'Wait for Menu Selection',
         description: 'Wait for menu selection',
-        form: MenuRouterForm
+        form: MenuRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits']
     },
     {
         type: Types.play_audio,

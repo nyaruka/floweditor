@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DigitsRouterForm initializes 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "disabled": false,
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="wait_for_digits"
+  title="Wait for Digits"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Wait for multiple digits",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
+        "name": "Wait for Digits",
+        "type": "wait_for_digits",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p
+    className="leadIn"
+  >
+    If the keypad entry before the # symbol..
+  </p>
+  <CaseList
+    cases={Array []}
+    data-spec="cases"
+    onCasesUpdated={[Function]}
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`DigitsRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "disabled": false,
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="wait_for_digits"
+  title="Wait for Digits"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Wait for multiple digits",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
+        "name": "Wait for Digits",
+        "type": "wait_for_digits",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p
+    className="leadIn"
+  >
+    If the keypad entry before the # symbol..
+  </p>
+  <CaseList
+    cases={Array []}
+    data-spec="cases"
+    onCasesUpdated={[Function]}
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`DigitsRouterForm updates should save changes 1`] = `
+Object {
+  "cases": Array [
+    Object {
+      "exitName": "Red",
+      "kase": Object {
+        "arguments": Array [
+          "red",
+        ],
+        "type": "has_any_word",
+      },
+    },
+    Object {
+      "exitName": "Red",
+      "kase": Object {
+        "arguments": Array [
+          "maroon",
+        ],
+        "type": "has_any_word",
+      },
+    },
+    Object {
+      "exitName": "Green",
+      "kase": Object {
+        "arguments": Array [
+          "green",
+        ],
+        "type": "has_any_word",
+      },
+    },
+  ],
+  "resultName": Object {
+    "value": "Favorite Color",
+  },
+  "valid": true,
+}
+`;
+
+exports[`DigitsRouterForm updates should save changes 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "Red",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Green",
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red",
+            ],
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "type": "has_any_word",
+          },
+          Object {
+            "arguments": Array [
+              "maroon",
+            ],
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "type": "has_any_word",
+          },
+          Object {
+            "arguments": Array [
+              "green",
+            ],
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "type": "has_any_word",
+          },
+        ],
+        "default_exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "operand": "@input",
+        "result_name": "Favorite Color",
+        "type": "switch",
+      },
+      "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
+      "wait": Object {
+        "hint": Object {
+          "type": "digits",
+        },
+        "type": "msg",
+      },
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "wait_for_response",
+    },
+  },
+]
+`;

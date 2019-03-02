@@ -49,12 +49,21 @@ Array [
   Object {
     "description": "Wait for multiple digits",
     "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+      "cases",
+    ],
     "name": "Wait for Digits",
     "type": "wait_for_digits",
   },
   Object {
     "description": "Wait for menu selection",
     "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
     "name": "Wait for Menu Selection",
     "type": "wait_for_menu",
   },
@@ -606,12 +615,21 @@ Object {
   "wait_for_digits": Object {
     "description": "Wait for multiple digits",
     "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+      "cases",
+    ],
     "name": "Wait for Digits",
     "type": "wait_for_digits",
   },
   "wait_for_menu": Object {
     "description": "Wait for menu selection",
     "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
     "name": "Wait for Menu Selection",
     "type": "wait_for_menu",
   },
