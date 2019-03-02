@@ -110,9 +110,19 @@ export enum WaitTypes {
     flow = 'flow'
 }
 
+export enum HintTypes {
+    digits = 'digits'
+}
+
+export interface Hint {
+    type: HintTypes;
+    count?: number;
+}
+
 export interface Wait {
     type: WaitTypes;
     timeout?: number;
+    hint?: Hint;
 }
 
 export interface Group {

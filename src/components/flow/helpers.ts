@@ -1,4 +1,4 @@
-import { getTypeConfig, Type } from '~/config/typeConfigs';
+import { getType, getTypeConfig, Type, Types } from '~/config/typeConfigs';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const determineTypeConfig = (nodeSettings: NodeEditorSettings): Type => {
@@ -11,9 +11,10 @@ export const determineTypeConfig = (nodeSettings: NodeEditorSettings): Type => {
         return getTypeConfig(node.actions[node.actions.length - 1].type);
     } else {
         try {
-            /* istanbul ignore else */
-            if (renderNode.ui.type) {
-                return getTypeConfig(renderNode.ui.type);
+            const type = getType(renderNode);
+            const config = getTypeConfig(type);
+            if (config.type !== Types.missing) {
+                return config;
             }
             // tslint:disable-next-line:no-empty
         } catch (Error) {}

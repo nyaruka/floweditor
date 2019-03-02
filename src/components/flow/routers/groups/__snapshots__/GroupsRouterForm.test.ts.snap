@@ -157,12 +157,12 @@ Array [
         Object {
           "destination_node_uuid": null,
           "name": "Subscriber",
-          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
         Object {
           "destination_node_uuid": null,
           "name": "Other",
-          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
       ],
       "router": Object {
@@ -171,12 +171,12 @@ Array [
             "arguments": Array [
               "68223118-109f-442a-aed3-7bb3e1eab687",
             ],
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
             "type": "has_group",
-            "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
+            "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
           },
         ],
-        "default_exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "default_exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         "operand": "@contact.groups",
         "result_name": "My Group Result",
         "type": "switch",

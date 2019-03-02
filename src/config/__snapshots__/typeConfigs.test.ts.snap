@@ -47,6 +47,18 @@ Array [
     "type": "wait_for_response",
   },
   Object {
+    "description": "Wait for multiple digits",
+    "form": [Function],
+    "name": "Wait for Digits",
+    "type": "wait_for_digits",
+  },
+  Object {
+    "description": "Wait for menu selection",
+    "form": [Function],
+    "name": "Wait for Menu Selection",
+    "type": "wait_for_menu",
+  },
+  Object {
     "component": [Function],
     "description": "Play a contact recording",
     "form": [Function],
@@ -590,6 +602,18 @@ Object {
     ],
     "name": "Send Airtime",
     "type": "transfer_airtime",
+  },
+  "wait_for_digits": Object {
+    "description": "Wait for multiple digits",
+    "form": [Function],
+    "name": "Wait for Digits",
+    "type": "wait_for_digits",
+  },
+  "wait_for_menu": Object {
+    "description": "Wait for menu selection",
+    "form": [Function],
+    "name": "Wait for Menu Selection",
+    "type": "wait_for_menu",
   },
   "wait_for_response": Object {
     "aliases": Array [

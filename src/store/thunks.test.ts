@@ -666,7 +666,7 @@ describe('Flow Manipulation', () => {
                 );
             });
 
-            it('should throw if no action is provided on an actionless node', () => {
+            it('should throw if no action is provided on an action node', () => {
                 testNodes.node0.node.actions = [];
                 expect(() => {
                     store.dispatch(

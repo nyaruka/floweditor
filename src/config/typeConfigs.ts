@@ -32,13 +32,15 @@ import ExpressionRouterForm from '~/components/flow/routers/expression/Expressio
 import FieldRouterForm from '~/components/flow/routers/field/FieldRouterForm';
 import GroupsRouterForm from '~/components/flow/routers/groups/GroupsRouterForm';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
+import MenuRouterForm from '~/components/flow/routers/menu/MenuRouterForm';
 import RandomRouterForm from '~/components/flow/routers/random/RandomRouterForm';
 import ResponseRouterForm from '~/components/flow/routers/response/ResponseRouterForm';
 import ResthookRouterForm from '~/components/flow/routers/resthook/ResthookRouterForm';
 import ResultRouterForm from '~/components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
-import { AnyAction, RouterTypes } from '~/flowTypes';
+import { AnyAction, HintTypes, RouterTypes } from '~/flowTypes';
+import { RenderNode } from '~/store/flowContext';
 
 /*
 Old name	                New name	                Event(s) generated
@@ -89,6 +91,8 @@ export const enum Types {
     split_by_subflow = 'split_by_subflow',
     split_by_webhook = 'split_by_webhook',
     wait_for_response = 'wait_for_response',
+    wait_for_menu = 'wait_for_menu',
+    wait_for_digits = 'wait_for_digits',
     missing = 'missing',
     say_msg = 'say_msg',
     play_audio = 'play_audio'
@@ -177,6 +181,18 @@ export const typeConfigList: Type[] = [
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits', 'cases'],
         aliases: [RouterTypes.switch]
+    },
+    {
+        type: Types.wait_for_digits,
+        name: 'Wait for Digits',
+        description: 'Wait for multiple digits',
+        form: MenuRouterForm
+    },
+    {
+        type: Types.wait_for_menu,
+        name: 'Wait for Menu Selection',
+        description: 'Wait for menu selection',
+        form: MenuRouterForm
     },
     {
         type: Types.play_audio,
@@ -364,4 +380,17 @@ export const getTypeConfig = (type: Types | RouterTypes): Type => {
         config = typeConfigMap.missing;
     }
     return config;
+};
+
+export const getType = (renderNode: RenderNode): any => {
+    const wait = renderNode.node.wait;
+    if (wait && wait.hint) {
+        if (wait.hint.type === HintTypes.digits) {
+            if (wait.hint.count === 1) {
+                return Types.wait_for_menu;
+            }
+            return Types.wait_for_digits;
+        }
+    }
+    return renderNode.ui.type;
 };

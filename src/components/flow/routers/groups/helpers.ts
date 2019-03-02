@@ -7,6 +7,7 @@ import { Types } from '~/config/typeConfigs';
 import { FlowNode, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { createUUID } from '~/utils';
 
 export const nodeToState = (settings: NodeEditorSettings): GroupsRouterFormState => {
     const state: GroupsRouterFormState = {
@@ -67,7 +68,7 @@ export const groupsToCases = (groups: Asset[] = []): CaseProps[] =>
     groups.map(({ name, id }: Asset) => ({
         uuid: id,
         kase: {
-            uuid: id,
+            uuid: createUUID(),
             type: Operators.has_group,
             arguments: [id],
             exit_uuid: ''
