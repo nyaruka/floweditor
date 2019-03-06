@@ -2,8 +2,7 @@ import { Operator, Type } from '~/config';
 import { FlowTypes, FlowTypeVisibility } from '~/config/interfaces';
 
 export const filterOperators = (operators: Operator[], flowType: FlowTypes): Operator[] => {
-    // return filterVisibility(operators, flowType);
-    return operators;
+    return filterVisibility(operators, flowType);
 };
 
 export const filterTypeConfigs = (typeConfigs: Type[], flowType: FlowTypes): Type[] => {
