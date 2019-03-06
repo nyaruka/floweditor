@@ -1,6 +1,6 @@
 import { getActionUUID, getRecipients } from '~/components/flow/actions/helpers';
 import { SendBroadcastFormState } from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { BroadcastMsg } from '~/flowTypes';
 import { Asset, AssetType } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';

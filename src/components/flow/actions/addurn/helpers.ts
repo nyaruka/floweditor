@@ -1,7 +1,8 @@
 import { AddURNFormState } from '~/components/flow/actions/addurn/AddURNForm';
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SelectOption } from '~/components/form/select/SelectElement';
-import { Scheme, SCHEMES, Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
+import { Scheme, SCHEMES } from '~/config/typeConfigs';
 import { AddURN } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 

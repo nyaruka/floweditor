@@ -101,6 +101,28 @@ export const validateURL: ValidatorFunc = (name: string, input: FormInput) => {
     return { failures: [], value: input };
 };
 
+export const validateRegex: ValidatorFunc = (name: string, input: FormInput) => {
+    if (typeof input === 'string') {
+        const inputString = input as string;
+
+        if (inputString.trim().startsWith('@')) {
+            return { failures: [], value: input };
+        }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            new RegExp(inputString);
+        } catch (e) {
+            return {
+                value: input,
+                failures: [{ message: `${name} is not a valid regex` }]
+            };
+        }
+    }
+
+    return { failures: [], value: input };
+};
+
 export const validateNumeric: ValidatorFunc = (name: string, input: FormInput) => {
     if (typeof input === 'string') {
         const inputString = input as string;

@@ -1,7 +1,7 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { createRenderNode, resolveExits } from '~/components/flow/routers/helpers';
-import { Operators } from '~/config/operatorConfigs';
-import { getType, Types } from '~/config/typeConfigs';
+import { Operators, Types } from '~/config/interfaces';
+import { getType } from '~/config/typeConfigs';
 import { Case, Exit, HintTypes, Router, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';

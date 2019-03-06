@@ -9,7 +9,7 @@ import ResponseRouterForm, {
     ResponseRouterFormState
 } from '~/components/flow/routers/response/ResponseRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';

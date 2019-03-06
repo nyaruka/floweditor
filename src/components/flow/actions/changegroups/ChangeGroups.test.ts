@@ -5,7 +5,7 @@ import ChangeGroupsComp, {
     getContentMarkup,
     getRemoveAllMarkup
 } from '~/components/flow/actions/changegroups/ChangeGroups';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { ChangeGroups } from '~/flowTypes';
 import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import { createAddGroupsAction } from '~/testUtils/assetCreators';

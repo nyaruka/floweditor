@@ -5,7 +5,8 @@ import {
     hasCases,
     resolveExits
 } from '~/components/flow/routers/helpers';
-import { getType, Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
+import { getType } from '~/config/typeConfigs';
 import { HintTypes, Router, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';

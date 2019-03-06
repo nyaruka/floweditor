@@ -1,6 +1,6 @@
 import { Methods } from '~/components/flow/routers/webhook/helpers';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { FlowTypes, Operators } from '~/config/interfaces';
+import { Types } from '~/config/interfaces';
 
 export interface Languages {
     [iso: string]: string;
@@ -28,7 +28,6 @@ export interface Endpoints {
     revisions: string;
     activity: string;
     labels: string;
-    mediaRoot: string;
     channels: string;
     environment: string;
     languages: string;
@@ -40,6 +39,7 @@ export interface FlowEditorConfig {
     localStorage: boolean;
     endpoints: Endpoints;
     flow: string;
+    flowType: FlowTypes;
     showDownload?: boolean;
     debug?: boolean;
     path?: string;

@@ -1,8 +1,7 @@
 import { RouterFormProps } from '~/components/flow/props';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { Operators, Types } from '~/config/interfaces';
 import { HintTypes, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';

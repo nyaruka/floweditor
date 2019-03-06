@@ -7,6 +7,7 @@ import {
     REPAINT_TIMEOUT
 } from '~/components/flow/Flow';
 import { getDraggedFrom } from '~/components/helpers';
+import { FlowTypes } from '~/config/interfaces';
 import { getActivity } from '~/external';
 import ActivityManager from '~/services/ActivityManager';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
@@ -64,10 +65,20 @@ describe(Flow.name, () => {
     beforeEach(() => {
         // Clear instance mocks
         const waitNode = nodes[nodeMapKeys[nodeMapKeys.length - 1]];
-        ghostNodeFromWait = getGhostNode(waitNode, waitNode.node.exits[0].uuid, 1);
+        ghostNodeFromWait = getGhostNode(
+            waitNode,
+            waitNode.node.exits[0].uuid,
+            1,
+            FlowTypes.MESSAGE
+        );
 
         const actionNode = nodes[nodeMapKeys[0]];
-        ghostNodeFromAction = getGhostNode(actionNode, actionNode.node.exits[0].uuid, 1);
+        ghostNodeFromAction = getGhostNode(
+            actionNode,
+            actionNode.node.exits[0].uuid,
+            1,
+            FlowTypes.MESSAGE
+        );
 
         mockConnectionEvent = {
             sourceId: `${createUUID()}:${createUUID()}`,

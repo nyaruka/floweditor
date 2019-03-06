@@ -15,7 +15,7 @@ import {
     UnicodeCharMap
 } from '~/components/form/textinput/helpers';
 import * as styles from '~/components/form/textinput/TextInputElement.scss';
-import { Type, Types } from '~/config/typeConfigs';
+import { Type, Types } from '~/config/interfaces';
 import {
     AssetStore,
     CompletionOption,

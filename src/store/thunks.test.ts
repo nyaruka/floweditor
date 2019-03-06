@@ -1,7 +1,7 @@
 import mutate from 'immutability-helper';
 import { ghost } from '~/components/flow/node/Node.scss';
-import { Operators } from '~/config/operatorConfigs';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { FlowTypes, Operators, Types } from '~/config/interfaces';
+import { getTypeConfig } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
 import Constants from '~/store/constants';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
@@ -203,15 +203,18 @@ describe('Flow Manipulation', () => {
         it('should store a pending connection when starting a drag', () => {
             // mock(utils, 'createUUID', utils.seededUUIDs());
             store.dispatch(
-                onConnectionDrag({
-                    connection: null,
-                    endpoints: null,
-                    suspendedElementId: null,
-                    target: null,
-                    targetId: null,
-                    source: null,
-                    sourceId: 'node0:node0_exit0'
-                })
+                onConnectionDrag(
+                    {
+                        connection: null,
+                        endpoints: null,
+                        suspendedElementId: null,
+                        target: null,
+                        targetId: null,
+                        source: null,
+                        sourceId: 'node0:node0_exit0'
+                    },
+                    FlowTypes.MESSAGE
+                )
             );
             expect(store.getActions()).toMatchSnapshot();
         });

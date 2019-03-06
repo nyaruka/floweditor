@@ -1,8 +1,8 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
 import { WebhookRouterFormState } from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { Operators } from '~/config/interfaces';
+import { Types } from '~/config/interfaces';
 import { CallWebhook, Case, Exit, RouterTypes, SwitchRouter, WebhookExitNames } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';

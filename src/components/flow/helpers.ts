@@ -1,4 +1,5 @@
-import { getType, getTypeConfig, Type, Types } from '~/config/typeConfigs';
+import { Type, Types } from '~/config/interfaces';
+import { getType, getTypeConfig } from '~/config/typeConfigs';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const determineTypeConfig = (nodeSettings: NodeEditorSettings): Type => {

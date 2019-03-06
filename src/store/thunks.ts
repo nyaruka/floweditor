@@ -2,7 +2,8 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
-import { getTypeConfig, Type, Types } from '~/config/typeConfigs';
+import { FlowTypes, Type, Types } from '~/config/interfaces';
+import { getTypeConfig } from '~/config/typeConfigs';
 import { createAssetStore, getFlowDefinition } from '~/external';
 import {
     Action,
@@ -100,7 +101,7 @@ export type NoParamsAC = () => Thunk<void>;
 
 export type UpdateConnection = (source: string, target: string) => Thunk<RenderNodeMap>;
 
-export type OnConnectionDrag = (event: ConnectionEvent) => Thunk<void>;
+export type OnConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) => Thunk<void>;
 
 export type OnUpdateLocalizations = (
     language: string,
@@ -844,7 +845,7 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
  * when a new connection is desired or when an existing one is being moved.
  * @param event
  */
-export const onConnectionDrag = (event: ConnectionEvent) => (
+export const onConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) => (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -868,7 +869,7 @@ export const onConnectionDrag = (event: ConnectionEvent) => (
     }
 
     // set our ghost node
-    const ghostNode = getGhostNode(fromNode, fromExitUUID, resultCount);
+    const ghostNode = getGhostNode(fromNode, fromExitUUID, resultCount, flowType);
     ghostNode.inboundConnections = { [fromExitUUID]: fromNodeUUID };
     dispatch(mergeEditorState({ ghostNode }));
 };

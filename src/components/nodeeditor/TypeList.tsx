@@ -2,6 +2,8 @@ import * as React from 'react';
 import Select from 'react-select';
 import * as styles from '~/components/nodeeditor/TypeList.scss';
 import { Type } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { filterTypeConfigs } from '~/config/helpers';
 import { configsToDisplay } from '~/config/typeConfigs';
 import { large } from '~/utils/reactselect';
 
@@ -16,6 +18,8 @@ export interface TypeListState {
 }
 
 export default class TypeList extends React.PureComponent<TypeListProps, TypeListState> {
+    private typeConfigs: Type[];
+
     constructor(props: TypeListProps) {
         super(props);
 
@@ -26,6 +30,10 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
         this.handleChangeType = this.handleChangeType.bind(this);
     }
 
+    public static contextTypes = {
+        config: fakePropType
+    };
+
     private handleChangeType(config: Type): void {
         this.setState(
             {
@@ -33,6 +41,13 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
             },
             () => this.props.onChange(config)
         );
+    }
+
+    private getTypeConfigs(): Type[] {
+        if (this.typeConfigs === undefined) {
+            this.typeConfigs = filterTypeConfigs(configsToDisplay, this.context.config.flowType);
+        }
+        return this.typeConfigs;
     }
 
     public render(): JSX.Element {
@@ -48,7 +63,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                         isClearable={false}
                         getOptionValue={(option: Type) => option.type}
                         getOptionLabel={(option: Type) => option.description}
-                        options={configsToDisplay}
+                        options={this.getTypeConfigs()}
                     />
                 </div>
             </div>

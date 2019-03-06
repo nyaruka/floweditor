@@ -1,5 +1,5 @@
 import { MsgLocalizationFormState } from '~/components/flow/actions/localization/MsgLocalizationForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocalizationFormState => {

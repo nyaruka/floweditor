@@ -32,6 +32,7 @@ export interface QueryString {
 }
 
 export const contextTypes: { [key: string]: Function } = {
+    config: fakePropType,
     store: fakePropType,
     endpoints: fakePropType,
     flow: fakePropType,
@@ -52,6 +53,7 @@ export const baseState: AppState = mutate(initialState, {
 const flowEditorConfig: FlowEditorConfig = config;
 
 export const configProviderContext: ConfigProviderContext = {
+    config: flowEditorConfig,
     endpoints: flowEditorConfig.endpoints,
     flow: flowEditorConfig.flow,
     debug: flowEditorConfig.debug,

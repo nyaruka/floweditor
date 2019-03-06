@@ -40,64 +40,9 @@ import ResthookRouterForm from '~/components/flow/routers/resthook/ResthookRoute
 import ResultRouterForm from '~/components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from '~/components/flow/routers/subflow/SubflowRouterForm';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
-import { AnyAction, HintTypes, RouterTypes } from '~/flowTypes';
+import { HIDDEN, TEXT_TYPES, Type, Types, VOICE } from '~/config/interfaces';
+import { HintTypes, RouterTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
-
-/*
-Old name	                New name	                Event(s) generated
-add_urn	                    add_contact_urn	            contact_urn_added
-add_to_group	            add_contact_groups	        contact_groups_added
-remove_from_group	        remove_contact_groups	    contact_groups_removed
-set_preferred_channel	    set_contact_channel	        contact_channel_changed
-update_contact	            set_contact_name	        contact_name_changed
-update_contact	            set_contact_language	    contact_language_changed
-update_contact	            set_contact_timezone	    contact_timezone_changed
-save_contact_field      	set_contact_field	        contact_field_changed
-save_flow_result	        set_run_result	            run_result_changed
-call_webhook	            call_webhook	            webhook_called
-add_label	                add_input_labels	        input_labels_added
-reply	                    send_msg	                msg_created
-send_email	                send_email	                email_created / email_sent
-send_msg	                send_broadcast	            broadcast_created
-start_flow	                start_flow	                flow_triggered
-start_session	            start_session	            session_triggered
-*/
-export const enum Types {
-    execute_actions = 'execute_actions',
-    add_contact_urn = 'add_contact_urn',
-    add_contact_groups = 'add_contact_groups',
-    add_input_labels = 'add_input_labels',
-    remove_contact_groups = 'remove_contact_groups',
-    set_contact_channel = 'set_contact_channel',
-    set_contact_field = 'set_contact_field',
-    set_contact_name = 'set_contact_name',
-    set_contact_language = 'set_contact_language',
-    set_run_result = 'set_run_result',
-    call_resthook = 'call_resthook',
-    call_webhook = 'call_webhook',
-    send_msg = 'send_msg',
-    send_email = 'send_email',
-    send_broadcast = 'send_broadcast',
-    start_flow = 'start_flow',
-    start_session = 'start_session',
-    transfer_airtime = 'transfer_airtime',
-    split_by_airtime = 'split_by_airtime',
-    split_by_expression = 'split_by_expression',
-    split_by_contact_field = 'split_by_contact_field',
-    split_by_run_result = 'split_by_run_result',
-    split_by_run_result_delimited = 'split_by_run_result_delimited',
-    split_by_groups = 'split_by_groups',
-    split_by_random = 'split_by_random',
-    split_by_resthook = 'split_by_resthook',
-    split_by_subflow = 'split_by_subflow',
-    split_by_webhook = 'split_by_webhook',
-    wait_for_response = 'wait_for_response',
-    wait_for_menu = 'wait_for_menu',
-    wait_for_digits = 'wait_for_digits',
-    missing = 'missing',
-    say_msg = 'say_msg',
-    play_audio = 'play_audio'
-}
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
     const map = {};
@@ -109,17 +54,6 @@ const dedupeTypeConfigs = (typeConfigs: Type[]) => {
         return map[key] ? false : (map[key] = true);
     });
 };
-
-export interface Type {
-    type: Types;
-    name: string;
-    description: string;
-    component?: React.SFC<AnyAction>;
-    form?: React.ComponentClass<any>;
-    aliases?: string[];
-    localization?: React.ComponentClass<any>;
-    localizeableKeys?: string[];
-}
 
 export interface TypeMap {
     [propName: string]: Type;
@@ -149,13 +83,44 @@ export const SCHEMES: Scheme[] = [
 ];
 
 export const typeConfigList: Type[] = [
-    /** Actions */
     {
         type: Types.missing,
         name: 'Missing',
         description: ' ** Unsupported ** ',
-        component: MissingComp
+        component: MissingComp,
+        visibility: HIDDEN
     },
+
+    {
+        type: Types.say_msg,
+        name: 'Play Message',
+        description: 'Play a message',
+        form: SayMsgForm,
+        localization: MsgLocalizationForm,
+        localizeableKeys: ['text', 'audio_url'],
+        component: SayMsgComp,
+        visibility: VOICE
+    },
+
+    {
+        type: Types.wait_for_menu,
+        name: 'Wait for Menu Selection',
+        description: 'Wait for menu selection',
+        form: MenuRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits'],
+        visibility: VOICE
+    },
+    {
+        type: Types.wait_for_digits,
+        name: 'Wait for Digits',
+        description: 'Wait for multiple digits',
+        form: DigitsRouterForm,
+        localization: RouterLocalizationForm,
+        localizeableKeys: ['exits', 'cases'],
+        visibility: VOICE
+    },
+
     {
         type: Types.send_msg,
         name: 'Send Message',
@@ -166,46 +131,16 @@ export const typeConfigList: Type[] = [
         component: SendMsgComp
     },
     {
-        type: Types.say_msg,
-        name: 'Play Message',
-        description: 'Play a message',
-        form: SayMsgForm,
-        localization: MsgLocalizationForm,
-        localizeableKeys: ['text', 'audio_url'],
-        component: SayMsgComp
-    },
-    {
         type: Types.wait_for_response,
         name: 'Wait for Response',
         description: 'Wait for the contact to respond',
         form: ResponseRouterForm,
         localization: RouterLocalizationForm,
         localizeableKeys: ['exits', 'cases'],
-        aliases: [RouterTypes.switch]
+        aliases: [RouterTypes.switch],
+        visibility: TEXT_TYPES
     },
-    {
-        type: Types.wait_for_digits,
-        name: 'Wait for Digits',
-        description: 'Wait for multiple digits',
-        form: DigitsRouterForm,
-        localization: RouterLocalizationForm,
-        localizeableKeys: ['exits', 'cases']
-    },
-    {
-        type: Types.wait_for_menu,
-        name: 'Wait for Menu Selection',
-        description: 'Wait for menu selection',
-        form: MenuRouterForm,
-        localization: RouterLocalizationForm,
-        localizeableKeys: ['exits']
-    },
-    {
-        type: Types.play_audio,
-        name: 'Play Recording',
-        description: 'Play a contact recording',
-        form: PlayAudioForm,
-        component: PlayAudioComp
-    },
+
     {
         type: Types.send_broadcast,
         name: 'Send Broadcast',
@@ -266,7 +201,15 @@ export const typeConfigList: Type[] = [
         component: SetRunResultComp
     },
 
-    /** Hybrids */
+    {
+        type: Types.play_audio,
+        name: 'Play Recording',
+        description: 'Play a contact recording',
+        form: PlayAudioForm,
+        component: PlayAudioComp,
+        visibility: VOICE
+    },
+
     {
         type: Types.call_webhook,
         name: 'Call Webhook',

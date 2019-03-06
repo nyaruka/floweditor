@@ -27,6 +27,9 @@ exports[`PlayAudioForm render should render 1`] = `
         "form": [Function],
         "name": "Play Recording",
         "type": "play_audio",
+        "visibility": Array [
+          "V",
+        ],
       }
     }
     onChange={[MockFunction]}

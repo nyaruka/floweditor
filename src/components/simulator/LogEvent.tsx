@@ -3,7 +3,7 @@ import { primary } from '~/components/button/Button.scss';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import Modal from '~/components/modal/Modal';
 import * as styles from '~/components/simulator/Simulator.scss';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { Group } from '~/flowTypes';
 
 interface MsgProps {

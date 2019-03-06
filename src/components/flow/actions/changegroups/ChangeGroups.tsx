@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { renderAssetList } from '~/components/flow/actions/helpers';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { ChangeGroups } from '~/flowTypes';
 import { AssetType } from '~/store/flowContext';
 

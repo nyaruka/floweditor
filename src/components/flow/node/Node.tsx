@@ -10,9 +10,10 @@ import ExitComp from '~/components/flow/exit/Exit';
 import * as styles from '~/components/flow/node/Node.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
+import { Types } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
-import { getType, getTypeConfig, Types } from '~/config/typeConfigs';
-import { AnyAction, Endpoints, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
+import { getType, getTypeConfig } from '~/config/typeConfigs';
+import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { DebugState } from '~/store/editor';
 import { AssetMap, RenderNode } from '~/store/flowContext';
@@ -278,9 +279,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                             thisNodeDragging={this.state.thisNodeDragging}
                             action={action}
                             first={idx === 0}
-                            render={(anyAction: AnyAction, endpoints: Endpoints) => (
-                                <ActionDiv {...anyAction} {...{ mediaRoot: endpoints.mediaRoot }} />
-                            )}
+                            render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
                         />
                     );
                 }

@@ -1,6 +1,6 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SayMsgFormState } from '~/components/flow/actions/saymsg/SayMsgForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { SayMsg } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 

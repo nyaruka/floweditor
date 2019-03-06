@@ -2,8 +2,8 @@ import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps, RouterFormProps } from '~/components/flow/props';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
-import { Operators } from '~/config/operatorConfigs';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Operators, Types } from '~/config/interfaces';
+import { getTypeConfig } from '~/config/typeConfigs';
 import {
     AnyAction,
     BroadcastMsg,

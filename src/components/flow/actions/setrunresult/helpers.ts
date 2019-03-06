@@ -1,6 +1,6 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SetRunResultFormState } from '~/components/flow/actions/setrunresult/SetRunResultForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { SetRunResult } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 

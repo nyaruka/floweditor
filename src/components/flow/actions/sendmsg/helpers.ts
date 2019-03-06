@@ -1,6 +1,6 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { Attachment, SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { SendMsg } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 

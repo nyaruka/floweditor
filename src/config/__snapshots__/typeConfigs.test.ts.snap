@@ -7,6 +7,51 @@ Array [
     "description": " ** Unsupported ** ",
     "name": "Missing",
     "type": "missing",
+    "visibility": Array [
+      "-",
+    ],
+  },
+  Object {
+    "component": [Function],
+    "description": "Play a message",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "text",
+      "audio_url",
+    ],
+    "name": "Play Message",
+    "type": "say_msg",
+    "visibility": Array [
+      "V",
+    ],
+  },
+  Object {
+    "description": "Wait for menu selection",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Menu Selection",
+    "type": "wait_for_menu",
+    "visibility": Array [
+      "V",
+    ],
+  },
+  Object {
+    "description": "Wait for multiple digits",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+      "cases",
+    ],
+    "name": "Wait for Digits",
+    "type": "wait_for_digits",
+    "visibility": Array [
+      "V",
+    ],
   },
   Object {
     "component": [Function],
@@ -21,18 +66,6 @@ Array [
     "type": "send_msg",
   },
   Object {
-    "component": [Function],
-    "description": "Play a message",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "text",
-      "audio_url",
-    ],
-    "name": "Play Message",
-    "type": "say_msg",
-  },
-  Object {
     "aliases": Array [
       "switch",
     ],
@@ -45,34 +78,10 @@ Array [
     ],
     "name": "Wait for Response",
     "type": "wait_for_response",
-  },
-  Object {
-    "description": "Wait for multiple digits",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "exits",
-      "cases",
+    "visibility": Array [
+      "M",
+      "S",
     ],
-    "name": "Wait for Digits",
-    "type": "wait_for_digits",
-  },
-  Object {
-    "description": "Wait for menu selection",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "exits",
-    ],
-    "name": "Wait for Menu Selection",
-    "type": "wait_for_menu",
-  },
-  Object {
-    "component": [Function],
-    "description": "Play a contact recording",
-    "form": [Function],
-    "name": "Play Recording",
-    "type": "play_audio",
   },
   Object {
     "component": [Function],
@@ -138,6 +147,16 @@ Array [
     "form": [Function],
     "name": "Save Flow Result",
     "type": "set_run_result",
+  },
+  Object {
+    "component": [Function],
+    "description": "Play a contact recording",
+    "form": [Function],
+    "name": "Play Recording",
+    "type": "play_audio",
+    "visibility": Array [
+      "V",
+    ],
   },
   Object {
     "aliases": Array [
@@ -321,6 +340,9 @@ Object {
     "description": " ** Unsupported ** ",
     "name": "Missing",
     "type": "missing",
+    "visibility": Array [
+      "-",
+    ],
   },
   "play_audio": Object {
     "component": [Function],
@@ -328,6 +350,9 @@ Object {
     "form": [Function],
     "name": "Play Recording",
     "type": "play_audio",
+    "visibility": Array [
+      "V",
+    ],
   },
   "remove_contact_groups": Object {
     "component": [Function],
@@ -347,6 +372,9 @@ Object {
     ],
     "name": "Play Message",
     "type": "say_msg",
+    "visibility": Array [
+      "V",
+    ],
   },
   "send_broadcast": Object {
     "component": [Function],
@@ -597,6 +625,10 @@ Object {
     ],
     "name": "Wait for Response",
     "type": "wait_for_response",
+    "visibility": Array [
+      "M",
+      "S",
+    ],
   },
   "transfer_airtime": Object {
     "aliases": Array [
@@ -622,6 +654,9 @@ Object {
     ],
     "name": "Wait for Digits",
     "type": "wait_for_digits",
+    "visibility": Array [
+      "V",
+    ],
   },
   "wait_for_menu": Object {
     "description": "Wait for menu selection",
@@ -632,6 +667,9 @@ Object {
     ],
     "name": "Wait for Menu Selection",
     "type": "wait_for_menu",
+    "visibility": Array [
+      "V",
+    ],
   },
   "wait_for_response": Object {
     "aliases": Array [
@@ -646,6 +684,10 @@ Object {
     ],
     "name": "Wait for Response",
     "type": "wait_for_response",
+    "visibility": Array [
+      "M",
+      "S",
+    ],
   },
 }
 `;

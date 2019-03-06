@@ -51,6 +51,10 @@ Array [
         ],
         "name": "Wait for Response",
         "type": "wait_for_response",
+        "visibility": Array [
+          "M",
+          "S",
+        ],
       },
     },
     "type": "UPDATE_TYPE_CONFIG",
@@ -824,6 +828,7 @@ Array [
               },
             ],
             "router": Object {
+              "cases": Array [],
               "result_name": "Result 1",
               "type": "switch",
             },

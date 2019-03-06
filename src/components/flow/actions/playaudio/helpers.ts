@@ -1,6 +1,6 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { PlayAudioFormState } from '~/components/flow/actions/playaudio/PlayAudioForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { PlayAudio } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 

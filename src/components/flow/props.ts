@@ -1,5 +1,5 @@
 import { UpdateLocalizations } from '~/components/nodeeditor/NodeEditor';
-import { Type } from '~/config/typeConfigs';
+import { Type } from '~/config/interfaces';
 import { AnyAction, ContactProperties } from '~/flowTypes';
 import { Asset, AssetStore, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';

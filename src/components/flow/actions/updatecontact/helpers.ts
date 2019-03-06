@@ -1,6 +1,7 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { CHANNEL_PROPERTY, LANGUAGE_PROPERTY, NAME_PROPERTY } from '~/components/flow/props';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
+import { getTypeConfig } from '~/config/typeConfigs';
 import {
     Channel,
     Field,

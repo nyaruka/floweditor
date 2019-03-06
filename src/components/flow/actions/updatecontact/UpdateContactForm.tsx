@@ -17,7 +17,7 @@ import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { ContactProperties } from '~/flowTypes';
 import { Asset, AssetType, updateAssets } from '~/store/flowContext';
 import * as mutators from '~/store/mutators';

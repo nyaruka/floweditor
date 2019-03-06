@@ -5,7 +5,8 @@ import {
     TextInputProps,
     TextInputState
 } from '~/components/form/textinput/TextInputElement';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
+import { getTypeConfig } from '~/config/typeConfigs';
 import { composeComponentTestUtils } from '~/testUtils';
 
 // we need to track where our cursor would be to simulate properly

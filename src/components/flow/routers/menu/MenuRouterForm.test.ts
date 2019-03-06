@@ -1,6 +1,6 @@
 import { RouterFormProps } from '~/components/flow/props';
 import MenuRouterForm from '~/components/flow/routers/menu/MenuRouterForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { HintTypes, RouterTypes, WaitTypes } from '~/flowTypes';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
