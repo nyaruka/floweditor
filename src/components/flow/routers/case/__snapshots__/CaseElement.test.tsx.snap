@@ -254,22 +254,6 @@ exports[`CaseElement render renders no argument rules 1`] = `
               ],
             },
             Object {
-              "operands": 1,
-              "type": "has_run_status",
-              "verboseName": "has a run status of",
-              "visibility": Array [
-                "-",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_group",
-              "verboseName": "is in the group",
-              "visibility": Array [
-                "-",
-              ],
-            },
-            Object {
               "categoryName": "Has Phone",
               "operands": 0,
               "type": "has_phone",
@@ -286,27 +270,10 @@ exports[`CaseElement render renders no argument rules 1`] = `
               ],
             },
             Object {
-              "categoryName": "Has Error",
-              "operands": 0,
-              "type": "has_error",
-              "verboseName": "has an error",
-              "visibility": Array [
-                "-",
-              ],
-            },
-            Object {
               "categoryName": "Not Empty",
               "operands": 0,
               "type": "has_value",
               "verboseName": "is not empty",
-            },
-            Object {
-              "operands": 0,
-              "type": "has_wait_timed_out",
-              "verboseName": null,
-              "visibility": Array [
-                "-",
-              ],
             },
             Object {
               "operands": 1,
@@ -521,22 +488,6 @@ exports[`CaseElement render should render empty case 1`] = `
               ],
             },
             Object {
-              "operands": 1,
-              "type": "has_run_status",
-              "verboseName": "has a run status of",
-              "visibility": Array [
-                "-",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_group",
-              "verboseName": "is in the group",
-              "visibility": Array [
-                "-",
-              ],
-            },
-            Object {
               "categoryName": "Has Phone",
               "operands": 0,
               "type": "has_phone",
@@ -553,27 +504,10 @@ exports[`CaseElement render should render empty case 1`] = `
               ],
             },
             Object {
-              "categoryName": "Has Error",
-              "operands": 0,
-              "type": "has_error",
-              "verboseName": "has an error",
-              "visibility": Array [
-                "-",
-              ],
-            },
-            Object {
               "categoryName": "Not Empty",
               "operands": 0,
               "type": "has_value",
               "verboseName": "is not empty",
-            },
-            Object {
-              "operands": 0,
-              "type": "has_wait_timed_out",
-              "verboseName": null,
-              "visibility": Array [
-                "-",
-              ],
             },
             Object {
               "operands": 1,
