@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { primary } from '~/components/button/Button.scss';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { MediaPlayer } from '~/components/mediaplayer/MediaPlayer';
 import Modal from '~/components/modal/Modal';
 import * as styles from '~/components/simulator/Simulator.scss';
 import { Types } from '~/config/interfaces';
@@ -10,6 +11,7 @@ interface MsgProps {
     text: string;
     uuid: string;
     urn: string;
+    attachments?: string[];
 }
 
 export interface EventProps {
@@ -98,6 +100,37 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 });
                 text = <span> {spans} </span>;
                 classes.push(styles.sendMsg);
+                break;
+            case 'ivr_created':
+                const attachments = this.props.msg.attachments.map((attachment: string) => {
+                    const idx = attachment.indexOf(':');
+                    if (idx > -1) {
+                        const type = attachment.substr(0, idx);
+                        const url = attachment.substr(idx + 1);
+                        if (type === 'audio') {
+                            return (
+                                <div className={styles.mediaPlayer}>
+                                    <MediaPlayer url={url} />
+                                </div>
+                            );
+                        }
+                    }
+                    return null;
+                });
+
+                text = (
+                    <div className={styles.ivrWrapper}>
+                        {this.props.msg.text.split('\n').map((item, key) => {
+                            return (
+                                <div className={styles.msg} key={key}>
+                                    {item}
+                                </div>
+                            );
+                        })}
+                        {attachments}
+                    </div>
+                );
+                classes.push(styles.ivrMsg);
                 break;
             case 'error':
                 text = <span> Error: {this.props.text} </span>;

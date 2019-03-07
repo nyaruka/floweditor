@@ -105,6 +105,15 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
                     <svg height={this.radius * 2} width={this.radius * 2}>
                         <circle
                             className={styles.circleBackground}
+                            stroke="#fff"
+                            fill="#fff"
+                            strokeWidth={this.stroke}
+                            r={this.radiusNormalized}
+                            cx={this.radius}
+                            cy={this.radius}
+                        />
+                        <circle
+                            className={styles.circleBackground}
                             stroke="#ddd"
                             fill="transparent"
                             strokeWidth={this.stroke}
@@ -112,7 +121,6 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
                             cx={this.radius}
                             cy={this.radius}
                         />
-
                         <circle
                             className={styles.circleForeground}
                             stroke="cornflowerblue"
