@@ -247,10 +247,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             });
         }
 
-        // To-do: mock this out
         /* istanbul ignore next */
         $(document).off('mousemove');
-
         return true;
     }
 

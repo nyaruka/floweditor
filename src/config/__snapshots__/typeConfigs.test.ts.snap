@@ -226,6 +226,58 @@ Array [
     "type": "transfer_airtime",
   },
   Object {
+    "description": "Wait for an audio recording",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Audio",
+    "type": "wait_for_audio",
+    "visibility": Array [
+      "S",
+    ],
+  },
+  Object {
+    "description": "Wait for an image",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Image",
+    "type": "wait_for_image",
+    "visibility": Array [
+      "S",
+    ],
+  },
+  Object {
+    "description": "Wait for a video",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Video",
+    "type": "wait_for_video",
+    "visibility": Array [
+      "S",
+    ],
+  },
+  Object {
+    "description": "Wait for location GPS coordinates",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Location",
+    "type": "wait_for_location",
+    "visibility": Array [
+      "S",
+    ],
+  },
+  Object {
     "description": "Split by a custom expression",
     "form": [Function],
     "localization": [Function],
@@ -644,6 +696,19 @@ Object {
     "name": "Send Airtime",
     "type": "transfer_airtime",
   },
+  "wait_for_audio": Object {
+    "description": "Wait for an audio recording",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Audio",
+    "type": "wait_for_audio",
+    "visibility": Array [
+      "S",
+    ],
+  },
   "wait_for_digits": Object {
     "description": "Wait for multiple digits",
     "form": [Function],
@@ -656,6 +721,32 @@ Object {
     "type": "wait_for_digits",
     "visibility": Array [
       "V",
+    ],
+  },
+  "wait_for_image": Object {
+    "description": "Wait for an image",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Image",
+    "type": "wait_for_image",
+    "visibility": Array [
+      "S",
+    ],
+  },
+  "wait_for_location": Object {
+    "description": "Wait for location GPS coordinates",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Location",
+    "type": "wait_for_location",
+    "visibility": Array [
+      "S",
     ],
   },
   "wait_for_menu": Object {
@@ -686,6 +777,19 @@ Object {
     "type": "wait_for_response",
     "visibility": Array [
       "M",
+      "S",
+    ],
+  },
+  "wait_for_video": Object {
+    "description": "Wait for a video",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Video",
+    "type": "wait_for_video",
+    "visibility": Array [
       "S",
     ],
   },

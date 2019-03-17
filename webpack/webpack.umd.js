@@ -4,7 +4,7 @@ const {
 } = require('webpack');
 const { smartStrategy } = require('webpack-merge');
 const paths = require('./paths');
-const { uglifyPlugin, compressionPlugin } = require('./plugins');
+const { uglifyPlugin, compressionPlugin, copyPlugin } = require('./plugins');
 const { typingsForCssModulesLoader, postCSSLoader, awesomeTypeScriptLoader } = require('./loaders');
 const commonConfig = require('./webpack.common');
 const { pkgName } = require('./utils');
@@ -17,8 +17,7 @@ const name = pkgName();
 let prodConfig = {
     mode: 'production',
     entry: {
-        [name]: paths.lib,
-        [`${name}.min`]: paths.lib
+        [name]: paths.lib
     },
     output: {
         path: paths.umd,
@@ -42,15 +41,15 @@ let prodConfig = {
     module: {
         rules: [
             {
-                test: /\.s?css$/,
-                include: [paths.components],
-                use: ['style-loader', typingsForCssModulesLoader(), postCSSLoader, 'sass-loader']
-            },
-            {
                 test: /\.(sa|sc|c)ss$/,
                 include: [paths.src],
-                exclude: [paths.components],
-                use: [MiniCssExtractPlugin.loader, 'css-loader', postCSSLoader, 'sass-loader']
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    typingsForCssModulesLoader(),
+                    postCSSLoader,
+                    'resolve-url-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.tsx?$/,
@@ -58,6 +57,17 @@ let prodConfig = {
                 exclude: [/node_modules/, paths.testUtils]
             }
         ]
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    chunks: 'initial'
+                }
+            }
+        }
     },
     resolve: {
         alias: {
@@ -79,36 +89,18 @@ let prodConfig = {
             amd: 'ReactDOM',
             root: 'ReactDOM'
         }
+        /*'../../node_modules/jsplumb/dist/js/jsplumb': {
+            commonjs: 'jsPlumb',
+            commonjs2: 'jsPlumb',
+            amd: 'jsPlumb',
+            root: 'jsPlumb'
+        }*/
     }
 };
 
-let fnConfig = {
-    mode: 'production',
-    entry: './wrapper/src',
-    output: {
-        libraryTarget: 'var',
-        library: 'showFlowEditor',
-        path: paths.umd,
-        filename: 'wrapper.js'
-    },
-    resolve: {
-        alias: {
-            '~': paths.src
-        }
-    },
-    externals: {}
-};
-
-prodConfig = smartStrategy({
+module.exports = smartStrategy({
     output: 'replace',
     plugins: 'append',
-    'module.rules': 'append'
-})(commonConfig, prodConfig);
-
-fnConfig = smartStrategy({
-    output: 'replace',
-    'resolve.alias': 'replace',
+    'module.rules': 'prepend',
     externals: 'replace'
-})(prodConfig, fnConfig);
-
-module.exports = [prodConfig, fnConfig];
+})(commonConfig, prodConfig);

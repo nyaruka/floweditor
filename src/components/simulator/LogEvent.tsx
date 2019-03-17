@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { primary } from '~/components/button/Button.scss';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { MediaPlayer } from '~/components/mediaplayer/MediaPlayer';
 import Modal from '~/components/modal/Modal';
-import * as styles from '~/components/simulator/Simulator.scss';
+import * as styles from '~/components/simulator/LogEvent.scss';
 import { Types } from '~/config/interfaces';
 import { Group } from '~/flowTypes';
+
+const MAP_THUMB = require('static/images/map.jpg');
 
 interface MsgProps {
     text: string;
@@ -44,6 +45,80 @@ interface LogEventState {
     detailsVisible: boolean;
 }
 
+export enum Direction {
+    MT,
+    MO
+}
+
+const getStyleForDirection = (direction: Direction): string => {
+    return direction === Direction.MO ? styles.msgReceived : styles.sendMsg;
+};
+
+const renderError = (error: string): JSX.Element => {
+    return (
+        <div className={styles.error}>
+            <span>Error: {error}</span>
+        </div>
+    );
+};
+
+const renderInfo = (info: string): JSX.Element => {
+    return (
+        <div className={styles.info}>
+            <span>{info}</span>
+        </div>
+    );
+};
+
+const renderAttachment = (attachment: string): JSX.Element => {
+    const idx = attachment.indexOf(':');
+    if (idx > -1) {
+        const type = attachment.substr(0, idx);
+        const url = attachment.substr(idx + 1);
+        if (type.startsWith('audio')) {
+            return (
+                <div className={styles.audioAttachment}>
+                    <div className={styles.mediaPlayer}>
+                        <MediaPlayer url={url} />
+                    </div>
+                    <div className={styles.audioText}>Audio Recording</div>
+                </div>
+            );
+        } else if (type.startsWith('image')) {
+            return <img src={url} />;
+        } else if (type.startsWith('geo')) {
+            return <img src={MAP_THUMB} />;
+        } else if (type.startsWith('video')) {
+            return (
+                <div className={styles.videoAttachment}>
+                    <video controls={true} src={url} />
+                </div>
+            );
+        }
+    }
+    return null;
+};
+
+const renderMessage = (text: string, attachments: string[], direction: Direction): JSX.Element => {
+    const attaches = attachments || [];
+    return (
+        <div className={getStyleForDirection(direction)}>
+            {attaches.map((attachment: string) => (
+                <div key={text + attachment}>{renderAttachment(attachment)}</div>
+            ))}
+            {text
+                ? text.split('\n').map((item, key) => {
+                      return (
+                          <div key={key} className={styles.msgText}>
+                              {item}
+                          </div>
+                      );
+                  })
+                : null}
+        </div>
+    );
+};
+
 /**
  * Viewer for log events
  */
@@ -73,171 +148,95 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         this.setState({ detailsVisible: true });
     }
 
-    public render(): JSX.Element {
-        const classes: string[] = [];
-        let text: JSX.Element = null;
-        let details: JSX.Element = null;
-        let groupText: string = '';
-        let delim: string = '';
+    private renderGroupChange(): JSX.Element {
+        const groups = this.props.groups_added || this.props.groups_removed;
+        let groupText = this.props.groups_added ? 'Added to ' : 'Removed from ';
+        let delim = ' ';
+        groups.forEach(group => {
+            groupText += `${delim}"${group.name}"`;
+            delim = ', ';
+        });
 
+        return renderInfo(groupText);
+    }
+
+    private renderWebhook(): JSX.Element {
+        return this.renderClickable(
+            <div className={styles.info + ' ' + styles.webhook}>
+                <span>Called webhook {this.props.url}</span>
+            </div>,
+            <Dialog
+                title="Webhook Details"
+                headerClass={Types.call_webhook}
+                buttons={this.getButtons()}
+                noPadding={true}
+            >
+                <div className={styles.webhookDetails}>
+                    <div className={''}>{this.props.request}</div>
+                    <div className={styles.response}>{this.props.response}</div>
+                </div>
+            </Dialog>
+        );
+    }
+
+    private renderClickable(element: JSX.Element, details: JSX.Element): JSX.Element {
+        return (
+            <div>
+                <div className={styles.hasDetail} onClick={this.showDetails}>
+                    {element}
+                </div>
+                <Modal show={this.state.detailsVisible}>
+                    <div className={styles.eventViewer}>{details}</div>
+                </Modal>
+            </div>
+        );
+    }
+
+    public renderLogEvent(): JSX.Element {
         switch (this.props.type) {
             case 'msg_received':
-                // TODO: why does MR return msg_received without a msg
-                if (!this.props.msg) {
-                    return null;
-                }
-                text = <span>{this.props.msg.text}</span>;
-                classes.push(styles.msgReceived);
-                break;
+                return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MO);
             case 'msg_created':
-                const spans = this.props.msg.text.split('\n').map((item, key) => {
-                    return (
-                        <span key={key}>
-                            {item}
-                            <br />
-                        </span>
-                    );
-                });
-                text = <span> {spans} </span>;
-                classes.push(styles.sendMsg);
-                break;
+                return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MT);
             case 'ivr_created':
-                const attachments = this.props.msg.attachments.map((attachment: string) => {
-                    const idx = attachment.indexOf(':');
-                    if (idx > -1) {
-                        const type = attachment.substr(0, idx);
-                        const url = attachment.substr(idx + 1);
-                        if (type === 'audio') {
-                            return (
-                                <div className={styles.mediaPlayer}>
-                                    <MediaPlayer url={url} />
-                                </div>
-                            );
-                        }
-                    }
-                    return null;
-                });
-
-                text = (
-                    <div className={styles.ivrWrapper}>
-                        {this.props.msg.text.split('\n').map((item, key) => {
-                            return (
-                                <div className={styles.msg} key={key}>
-                                    {item}
-                                </div>
-                            );
-                        })}
-                        {attachments}
-                    </div>
-                );
-                classes.push(styles.ivrMsg);
-                break;
+                return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MT);
             case 'error':
-                text = <span> Error: {this.props.text} </span>;
-                classes.push(styles.error);
-                break;
+                return renderError(this.props.text);
             case 'msg_wait':
-                text = <span>Waiting for reply</span>;
-                classes.push(styles.info);
-                break;
-            /** fall-through desired in this case */
+                return renderInfo('Waiting for reply');
             case 'contact_groups_changed':
-                const groups = this.props.groups_added || this.props.groups_removed;
-                groupText = this.props.groups_added ? 'Added to ' : 'Removed from ';
-                delim = ' ';
-                groups.forEach(group => {
-                    groupText += `${delim}"${group.name}"`;
-                    delim = ', ';
-                });
-                text = <span>{groupText}</span>;
-                classes.push(styles.info);
-                break;
+                return this.renderGroupChange();
             case 'contact_urns_changed':
-                text = <span>Added a URN for the contact</span>;
-                classes.push(styles.info);
-                break;
+                return renderInfo('Added a URN for the contact');
             case Types.set_contact_field:
-                text = (
-                    <span>
-                        Set contact field "{this.props.field}" to "{this.props.value}"
-                    </span>
+                return renderInfo(
+                    `Set contact field "${this.props.field}" to "${this.props.value}"`
                 );
-                classes.push(styles.info);
-                break;
-            case Types.set_run_result:
-                text = (
-                    <span>
-                        Set flow result "{this.props.name}" to "{this.props.value}"
-                    </span>
-                );
-                classes.push(styles.info);
-                break;
+            case 'run_result_changed':
+                return renderInfo(`Set flow result "${this.props.name}" to "${this.props.value}"`);
             case Types.set_contact_name:
-                text = (
-                    <span>
-                        Updated contact {this.props.field} to "{this.props.value}"
-                    </span>
-                );
-                classes.push(styles.info);
-                break;
+                return renderInfo(`Updated contact ${this.props.field} to "${this.props.value}"`);
             case Types.send_email:
-                text = (
-                    <span>
-                        Sent email to "{this.props.email}" with subject "{this.props.subject}" and
-                        body "{this.props.body}"
-                    </span>
+                return renderInfo(
+                    `Sent email to "${this.props.email}" with subject "${
+                        this.props.subject
+                    }" and body "${this.props.body}"`
                 );
-                classes.push(styles.info);
-                break;
             case 'broadcast_created':
-                const msg = this.props.translations[this.props.base_language].text;
-                text = <span>{msg}</span>;
-                classes.push(styles.sendMsg);
-
-                break;
-            case 'webhook_called':
-                text = <span>Called webhook {this.props.url}</span>;
-                classes.push(styles.info, styles.webhook);
-                details = (
-                    <Dialog
-                        title="Webhook Details"
-                        headerClass={Types.call_webhook}
-                        buttons={this.getButtons()}
-                        noPadding={true}
-                    >
-                        <div className={styles.webhookDetails}>
-                            <div className={''}>{this.props.request}</div>
-                            <div className={styles.response}>{this.props.response}</div>
-                        </div>
-                    </Dialog>
+                return renderMessage(
+                    this.props.translations[this.props.base_language].text,
+                    this.props.msg.attachments,
+                    Direction.MT
                 );
-                break;
+            case 'webhook_called':
+                return this.renderWebhook();
             case 'info':
-                text = <span>{this.props.text}</span>;
-                classes.push(styles.info);
-                break;
+                return renderInfo(this.props.text);
         }
+        return renderInfo(`Missing render for ${this.props.type}`);
+    }
 
-        classes.push(styles.evt);
-        if (details) {
-            classes.push(styles.hasDetail);
-
-            return (
-                <div>
-                    <div className={classes.join(' ')} onClick={this.showDetails}>
-                        {text}
-                    </div>
-                    <Modal show={this.state.detailsVisible}>
-                        <div className={styles.eventViewer}>{details}</div>
-                    </Modal>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <div className={classes.join(' ')}>{text}</div>
-                </div>
-            );
-        }
+    public render(): JSX.Element {
+        return <div className={styles.evt}>{this.renderLogEvent()}</div>;
     }
 }

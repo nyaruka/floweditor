@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WaitRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "disabled": false,
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="wait_for_audio"
+  title="Wait for Audio"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Wait for an audio recording",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Wait for Audio",
+        "type": "wait_for_audio",
+        "visibility": Array [
+          "S",
+        ],
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="resultName"
+  >
+    <OptionalTextInput
+      helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+      name="Result Name"
+      onChange={[Function]}
+      toggleText="Save as.."
+      value={
+        Object {
+          "value": "Result",
+        }
+      }
+    />
+  </div>
+</Dialog>
+`;

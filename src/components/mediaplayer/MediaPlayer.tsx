@@ -5,6 +5,7 @@ import * as styles from './MediaPlayer.scss';
 
 export interface MediaPlayerProps {
     url: string;
+    triggered?: boolean;
 }
 
 interface MediaPlayerState {
@@ -58,6 +59,12 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
         });
     }
 
+    public componentDidMount(): void {
+        if (this.props.triggered) {
+            this.handleTogglePlay(null);
+        }
+    }
+
     private handleTogglePlay(e: React.MouseEvent<HTMLDivElement>): void {
         if (this.state.playing) {
             this.ele.pause();
@@ -66,8 +73,10 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
             this.ele.play();
         }
 
-        e.preventDefault();
-        e.stopPropagation();
+        if (e !== null) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
     }
 
     private handleRef(ref: HTMLAudioElement): any {

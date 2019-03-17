@@ -1,245 +1,245 @@
-@import '../fonts/floweditor/style.css';
 @import './variables.scss';
 
-::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-}
-
-body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-    color: #777;
-
-    #editor-container {
-        height: 100%;
-        width: 100%;
-        position: relative;
+:global {
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
     }
 
-    .ReactModal__Content {
-        overflow: visible !important;
-        top: 50px !important;
-        background: none !important;
-    }
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        color: #777;
 
-    .ReactModal__Overlay {
-        background-color: rgba(0, 0, 0, 0.6) !important;
-        z-index: $z_modal;
-    }
-
-    &.ReactModal__Body--open {
-        // overflow-y: none !important
-        // position: fixed;
-
-        height: 100vh !important;
-        overflow-y: scroll !important;
-        margin: 0 0 5px !important;
-
-        // position: fixed !important;
-        // overflow-y: scroll !important;
-        // width: 100% !important;
-    }
-
-    .ReactModal__Overlay {
-        background-color: rgba(0, 0, 0, 0.6) !important;
-        z-index: $z_modal;
-    }
-
-    .ReactModalPortal .ReactModal__Overlay {
-        transition: opacity 50ms ease-in-out;
-        background: rgba(0, 0, 0, 0.15);
-        &--after-open {
-            opacity: 1;
+        #editor-container {
+            height: 100%;
+            width: 100%;
+            position: relative;
         }
-        &--before-close {
+
+        .ReactModal__Content {
+            overflow: visible !important;
+            top: 50px !important;
+            background: none !important;
+        }
+
+        .ReactModal__Overlay {
+            background-color: rgba(0, 0, 0, 0.6) !important;
+            z-index: $z_modal;
+        }
+
+        &.ReactModal__Body--open {
+            // overflow-y: none !important
+            // position: fixed;
+
+            height: 100vh !important;
+            overflow-y: scroll !important;
+            margin: 0 0 5px !important;
+
+            // position: fixed !important;
+            // overflow-y: scroll !important;
+            // width: 100% !important;
+        }
+
+        .ReactModal__Overlay {
+            background-color: rgba(0, 0, 0, 0.6) !important;
+            z-index: $z_modal;
+        }
+
+        .ReactModalPortal .ReactModal__Overlay {
+            transition: opacity 50ms ease-in-out;
+            background: rgba(0, 0, 0, 0.15);
+            &--after-open {
+                opacity: 1;
+            }
+            &--before-close {
+                opacity: 0;
+            }
+        }
+
+        .ReactModalPortal > div {
             opacity: 0;
         }
-    }
 
-    .ReactModalPortal > div {
-        opacity: 0;
-    }
-
-    .select-invalid {
-        .Select-control {
-            border-color: $error_color !important;
+        .select-invalid {
+            .Select-control {
+                border-color: $error_color !important;
+            }
+            .Select-menu-outer {
+                border-left-color: $error_color !important;
+                border-right-color: $error_color !important;
+                border-bottom-color: $error_color !important;
+            }
         }
-        .Select-menu-outer {
-            border-left-color: $error_color !important;
-            border-right-color: $error_color !important;
-            border-bottom-color: $error_color !important;
-        }
-    }
 
-    .select-medium {
-        .Select-menu-outer {
-            z-index: 6000;
-            .Select-option {
+        .select-medium {
+            .Select-menu-outer {
+                z-index: 6000;
+                .Select-option {
+                    font-size: 13px;
+                    padding: 5px 10px;
+                }
+            }
+            .Select-control {
                 font-size: 13px;
-                padding: 5px 10px;
-            }
-        }
-        .Select-control {
-            font-size: 13px;
-            height: 28px;
-            .Select-placeholder {
-                line-height: 26px;
-            }
-            .Select-value {
-                line-height: 26px !important;
-                .Select-value-label {
+                height: 28px;
+                .Select-placeholder {
                     line-height: 26px;
                 }
-            }
-            .Select-input {
-                height: 26px;
+                .Select-value {
+                    line-height: 26px !important;
+                    .Select-value-label {
+                        line-height: 26px;
+                    }
+                }
+                .Select-input {
+                    height: 26px;
+                }
             }
         }
-    }
 
-    .select-small {
-        .Select-menu-outer {
-            z-index: 6000;
-            .Select-option {
+        .select-small {
+            .Select-menu-outer {
+                z-index: 6000;
+                .Select-option {
+                    font-size: 11px;
+                    padding: 3px 10px;
+                }
+            }
+            .Select-control {
                 font-size: 11px;
-                padding: 3px 10px;
-            }
-        }
-        .Select-control {
-            font-size: 11px;
-            height: 24px;
-            .Select-placeholder {
-                line-height: 22px;
-            }
-            .Select-value {
-                line-height: 22px !important;
-                .Select-value-label {
+                height: 24px;
+                .Select-placeholder {
                     line-height: 22px;
                 }
-            }
-            .Select-input {
-                height: 22px;
+                .Select-value {
+                    line-height: 22px !important;
+                    .Select-value-label {
+                        line-height: 22px;
+                    }
+                }
+                .Select-input {
+                    height: 22px;
+                }
             }
         }
-    }
 
-    .select-small-timeout {
-        display: inline-block;
-        margin: 0;
-        margin-left: 8px;
-        top: 10px;
-        line-height: 22px;
-        .Select-menu-outer {
-            width: 125px;
-            .Select-option {
+        .select-small-timeout {
+            display: inline-block;
+            margin: 0;
+            margin-left: 8px;
+            top: 10px;
+            line-height: 22px;
+            .Select-menu-outer {
+                width: 125px;
+                .Select-option {
+                    font-size: 12px;
+                    padding: 3px 10px;
+                }
+            }
+            .Select-control {
                 font-size: 12px;
-                padding: 3px 10px;
-            }
-        }
-        .Select-control {
-            font-size: 12px;
-            height: 22px;
-            width: 125px;
-            .Select-value {
-                line-height: 22px !important;
-                .Select-value-label {
-                    line-height: 22px;
-                }
-            }
-            .Select-input {
                 height: 22px;
+                width: 125px;
+                .Select-value {
+                    line-height: 22px !important;
+                    .Select-value-label {
+                        line-height: 22px;
+                    }
+                }
+                .Select-input {
+                    height: 22px;
+                }
             }
         }
-    }
 
-    #simulator.jtk-drag {
-        transform: scale(1.02);
-        transition: all 0.05s ease-out;
-    }
-
-    // jsplumb, no text selection while dragging
-    .jtk-drag-select * {
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    .jtk-drag-active {
-        &.jtk-endpoint {
-            visibility: hidden !important;
-        }
-    }
-
-    svg.jtk-connector {
-        z-index: $z_connectors;
-        &.jtk-dragging {
-            z-index: $z_dragging;
+        #simulator.jtk-drag {
+            transform: scale(1.02);
+            transition: all 0.05s ease-out;
         }
 
-        path {
-            stroke: $connector_color;
+        // jsplumb, no text selection while dragging
+        .jtk-drag-select * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .jtk-drag-active {
+            &.jtk-endpoint {
+                visibility: hidden !important;
+            }
+        }
+
+        svg.jtk-connector {
+            z-index: $z_connectors;
+            &.jtk-dragging {
+                z-index: $z_dragging;
+            }
+
+            path {
+                stroke: $connector_color;
+                stroke-width: 2px;
+
+                &.jtk-arrow {
+                    fill: $connector_color;
+                }
+            }
+
+            &.confirm-delete {
+                path {
+                    stroke: $red;
+                    &.jtk-arrow {
+                        fill: $red;
+                    }
+                }
+            }
+
+            &.translating {
+                path {
+                    stroke: $translation_connector;
+                    &.jtk-arrow {
+                        fill: $translation_connector;
+                    }
+                }
+            }
+        }
+
+        .jtk-endpoint {
+            z-index: $z_endpoints;
             stroke-width: 2px;
-
-            &.jtk-arrow {
-                fill: $connector_color;
-            }
+            width: 16px;
+            height: 16px;
         }
 
-        &.confirm-delete {
-            path {
-                stroke: $red;
-                &.jtk-arrow {
-                    fill: $red;
-                }
-            }
+        .plumb-exit .jtk-connected {
+            background: $path_color !important;
+            border-bottom: 1px solid $connector_color;
         }
 
-        &.translating {
-            path {
-                stroke: $translation_connector;
-                &.jtk-arrow {
-                    fill: $translation_connector;
-                }
-            }
+        .plumb-endpoint-hover {
+            cursor: pointer;
         }
     }
 
-    .jtk-endpoint {
-        z-index: $z_endpoints;
-        stroke-width: 2px;
-        width: 16px;
-        height: 16px;
+    .Select-clear-zone {
+        display: none !important;
     }
 
-    .plumb-exit .jtk-connected {
-        background: $path_color !important;
-        border-bottom: 1px solid $connector_color;
+    .clearfix {
+        clear: both;
     }
 
-    .plumb-endpoint-hover {
-        cursor: pointer;
+    .emph {
+        font-weight: 500;
     }
-}
 
-.Select-clear-zone {
-    display: none !important;
-}
-
-.clearfix {
-    clear: both;
-}
-
-.emph {
-    font-weight: 500;
-}
-
-/*input[type=text], textarea {
+    /*input[type=text], textarea {
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
     -ms-transition: all 0.30s ease-in-out;
@@ -248,7 +248,8 @@ body {
     outline: none;
 }*/
 
-// input[type=text]:focus, textarea:focus {
-//    box-shadow: 0 0 0 3px #E7F2FF;
-//    border: 1px solid #1681FB;
-// }
+    // input[type=text]:focus, textarea:focus {
+    //    box-shadow: 0 0 0 3px #E7F2FF;
+    //    border: 1px solid #1681FB;
+    // }
+}

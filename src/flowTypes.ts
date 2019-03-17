@@ -1,6 +1,5 @@
 import { Methods } from '~/components/flow/routers/webhook/helpers';
-import { FlowTypes, Operators } from '~/config/interfaces';
-import { Types } from '~/config/interfaces';
+import { FlowTypes, Operators, Types } from '~/config/interfaces';
 
 export interface Languages {
     [iso: string]: string;
@@ -111,7 +110,11 @@ export enum WaitTypes {
 }
 
 export enum HintTypes {
-    digits = 'digits'
+    digits = 'digits',
+    audio = 'audio',
+    image = 'image',
+    video = 'video',
+    location = 'location'
 }
 
 export interface Hint {
