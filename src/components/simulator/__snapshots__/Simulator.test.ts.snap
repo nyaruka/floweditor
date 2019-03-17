@@ -22,7 +22,7 @@ exports[`Simulator renders 1`] = `
           />
         </div>
         <div
-          className="messages"
+          className="messages "
         >
           <div
             id="bottom"
@@ -30,6 +30,7 @@ exports[`Simulator renders 1`] = `
               Object {
                 "clear": "both",
                 "float": "left",
+                "marginTop": 20,
               }
             }
           />
@@ -38,12 +39,47 @@ exports[`Simulator renders 1`] = `
           className="controls"
         >
           <input
-            disabled={true}
+            disabled={false}
             onKeyUp={[Function]}
             placeholder="Press home to start again"
             type="text"
           />
+          <div
+            className="showAttachmentsButton"
+          >
+            <div
+              className="fe-paperclip"
+              onClick={[Function]}
+            />
+          </div>
         </div>
+        <div
+          className="attachmentButtons "
+        >
+          <div
+            className="fe-x"
+            onClick={[Function]}
+          />
+          <div
+            className="fe-picture2"
+            onClick={[Function]}
+          />
+          <div
+            className="fe-video"
+            onClick={[Function]}
+          />
+          <div
+            className="fe-mic"
+            onClick={[Function]}
+          />
+          <div
+            className="fe-map-marker"
+            onClick={[Function]}
+          />
+        </div>
+        <div
+          className="attachmentDrawer  forced"
+        />
         <div
           className="footer"
         >

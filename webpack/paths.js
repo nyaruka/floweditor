@@ -8,6 +8,8 @@ module.exports = {
     distProd: join(__dirname, '../dist'),
     components: join(__dirname, '../src/components'),
     src: join(__dirname, '../src'),
+    fonts: join(__dirname, '../fonts'),
+    static: join(__dirname, '../static'),
     template: join(__dirname, '../preview/src/index.html'),
     testUtils: join(__dirname, '../src/testUtils'),
     react: resolve(__dirname, './node_modules/react'),

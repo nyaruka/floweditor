@@ -60,7 +60,11 @@ if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
 
 const devConfig = {
     mode: 'development',
-    entry: [paths.app, `webpack-dev-server/client?http://localhost:${DEV_SERVER_PORT}`],
+    entry: [
+        paths.app,
+        paths.fonts + '/floweditor/style.css',
+        `webpack-dev-server/client?http://localhost:${DEV_SERVER_PORT}`
+    ],
     output: {
         path: paths.distDev
     },
@@ -70,6 +74,10 @@ const devConfig = {
         compress: true,
         port: DEV_SERVER_PORT,
         disableHostCheck: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': '*'
+        },
         before: function(app) {
             app.get('/assets/**', function(req, res) {
                 const url = req._parsedUrl.pathname.replace(/(^\/assets\/)|(\/$)/g, '');
@@ -130,6 +138,6 @@ module.exports = {
     DEV_SERVER_PORT,
     config: smartStrategy({
         plugins: 'append',
-        'module.rules': 'append'
+        'module.rules': 'prepend'
     })(commonConfig, devConfig)
 };

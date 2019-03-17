@@ -14,6 +14,7 @@ module.exports = {
         modules: [paths.src, 'node_modules'],
         alias: {
             '~': paths.src,
+            static: paths.static,
             // https://github.com/JedWatson/react-select/issues/2025
             react: path.resolve(__dirname, '../node_modules', 'react')
         },
@@ -32,11 +33,21 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-                loader: 'file-loader',
+                test: /\.s?css$/,
+                include: [paths.fonts],
+                use: ['style-loader', 'css-loader', 'sass-loader', 'resolve-url-loader']
+            },
+            {
+                test: /\.(png|jpg|gif)$/i,
+                include: [paths.static],
+                loader: 'url-loader',
                 options: {
-                    name: 'fonts/[hash].[ext]'
+                    limit: 90192
                 }
+            },
+            {
+                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9#=&.]+)?$/,
+                loader: 'url-loader'
             }
         ]
     }

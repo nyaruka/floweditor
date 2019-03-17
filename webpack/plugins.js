@@ -1,6 +1,19 @@
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const paths = require('./paths');
+
+exports.copyPlugin = new CopyPlugin([
+    {
+        from: paths.static,
+        to: paths.umd + '/static/'
+    },
+    {
+        from: paths.fonts,
+        to: paths.umd + '/static/fonts/'
+    }
+]);
 
 exports.uglifyPlugin = new UglifyJsPlugin({
     parallel: true,

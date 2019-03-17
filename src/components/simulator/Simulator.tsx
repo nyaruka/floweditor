@@ -19,8 +19,18 @@ import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
 import { createUUID } from '~/utils';
 
-// TODO: Remove use of Function
-// tslint:disable:ban-types
+const MESSAGE_DELAY_MS = 300;
+
+const MAP_THUMB = require('static/images/map.jpg');
+const IMAGE_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg';
+const IMAGE_B = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg';
+const IMAGE_C = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg';
+const AUDIO_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_audio_a.mp3';
+const VIDEO_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4';
+
+const VIDEO_A_THUMB =
+    'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
+
 const ACTIVE = 'A';
 
 interface Message {
@@ -40,6 +50,15 @@ export interface SimulatorPassedProps {
 
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
 
+enum DrawerType {
+    audio,
+    images,
+    videos,
+    location,
+    digit,
+    digits
+}
+
 interface SimulatorState {
     visible: boolean;
     session?: Session;
@@ -48,6 +67,11 @@ interface SimulatorState {
     events: EventProps[];
     active: boolean;
     time: string;
+    sprinting: boolean;
+    attachmentsVisible: boolean;
+    drawerVisible: boolean;
+    waitingForAttachment: boolean;
+    drawerType?: DrawerType;
 }
 
 interface Contact {
@@ -81,8 +105,9 @@ interface RunContext {
 interface Session {
     runs: Run[];
     events: EventProps[];
-    input?: any;
     contact: Contact;
+    input?: any;
+    wait?: Wait;
 }
 
 /**
@@ -114,14 +139,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 groups: []
             },
             channel: createUUID(),
-            time: getTime()
+            time: getTime(),
+            waitingForAttachment: false,
+            drawerVisible: false,
+            attachmentsVisible: false,
+            sprinting: false
         };
         this.bottomRef = this.bottomRef.bind(this);
         this.inputBoxRef = this.inputBoxRef.bind(this);
         this.currentFlow = this.props.definition.uuid;
 
         bindCallbacks(this, {
-            include: [/^on/, /^get/]
+            include: [/^on/, /^get/, /^handle/]
         });
     }
 
@@ -180,41 +209,117 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }
     }
 
+    private updateEvents(events: EventProps[], callback: () => void): void {
+        if (events.length > 0) {
+            const toAdd = [];
+
+            let messageFound = false;
+            while (events.length > 0 && !messageFound) {
+                const eventType = events[0].type;
+                if (
+                    eventType === 'msg_created' ||
+                    eventType === 'msg_received' ||
+                    eventType === 'ivr_created'
+                ) {
+                    messageFound = true;
+                }
+
+                toAdd.push(events.shift());
+            }
+
+            const newEvents = update(this.state.events, { $push: toAdd }) as EventProps[];
+            this.setState({ events: newEvents }, () => {
+                if (events.length === 0) {
+                    callback();
+                } else {
+                    window.setTimeout(() => {
+                        this.updateEvents(events, callback);
+                    }, MESSAGE_DELAY_MS);
+                }
+            });
+        } else {
+            callback();
+        }
+    }
+
     private updateRunContext(body: any, runContext: RunContext): void {
+        this.updateEvents(runContext.events, () => {
+            let activeRuns = false;
+            for (const run of runContext.session.runs) {
+                if (run.status === 'waiting') {
+                    activeRuns = true;
+                    break;
+                }
+            }
+
+            let newEvents = this.state.events;
+
+            if (!activeRuns) {
+                newEvents = update(this.state.events, {
+                    $push: [
+                        {
+                            type: 'info',
+                            text: 'Exited flow'
+                        }
+                    ]
+                }) as EventProps[];
+            }
+
+            const waitingForAttachment =
+                runContext.session &&
+                runContext.session.wait &&
+                runContext.session.wait.hint !== undefined;
+
+            let drawerType = null;
+            if (waitingForAttachment) {
+                switch (runContext.session.wait.hint.type) {
+                    case 'audio':
+                        drawerType = DrawerType.audio;
+                        break;
+                    case 'video':
+                        drawerType = DrawerType.videos;
+                        break;
+                    case 'image':
+                        drawerType = DrawerType.images;
+                        break;
+                    case 'location':
+                        drawerType = DrawerType.location;
+                        break;
+                    default:
+                        console.log('Unknown hint', runContext.session.wait.hint.type);
+                }
+            }
+
+            this.setState(
+                {
+                    session: runContext.session,
+                    events: newEvents,
+                    active: activeRuns,
+                    drawerType,
+                    drawerVisible: waitingForAttachment,
+                    waitingForAttachment,
+                    sprinting: false
+                },
+                () => {
+                    this.updateActivity();
+                    this.handleFocusUpdate();
+                }
+            );
+        });
+
+        /*
         const events = update(this.state.events, { $push: runContext.events }) as EventProps[];
 
-        let activeRuns = false;
-        for (const run of runContext.session.runs) {
-            if (run.status === 'waiting') {
-                activeRuns = true;
-                break;
-            }
-        }
-
-        if (!activeRuns) {
-            events.push({
-                type: 'info',
-                text: 'Exited flow'
-            });
-        }
-
-        this.setState(
-            {
-                session: runContext.session,
-                events,
-                active: activeRuns
-            },
-            () => {
-                this.updateActivity();
-                this.inputBox.focus();
-            }
-        );
+        */
     }
 
     private startFlow(): void {
         // reset our events and contact
         this.setState(
             {
+                sprinting: true,
+                drawerVisible: false,
+                attachmentsVisible: false,
                 events: []
             },
             () => {
@@ -260,7 +365,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         );
     }
 
-    private resume(text: string): void {
+    private resume(text: string, attachment?: string): void {
+        if ((!text || text.trim().length === 0) && !attachment) {
+            return;
+        }
+
         if (text === '\\debug') {
             console.log(JSON.stringify(this.debug, null, 2));
             return;
@@ -272,49 +381,41 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        const newMessage = {
-            type: 'msg_received',
+        this.setState({ sprinting: true, attachmentsVisible: false, drawerVisible: false }, () => {
+            const now = new Date().toISOString();
+            const body: any = {
+                flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
+                session: this.state.session,
+                resume: {
+                    type: 'msg',
+                    msg: {
+                        text,
+                        uuid: createUUID(),
+                        urn: this.state.session.contact.urns[0],
+                        attachments: attachment ? [attachment] : []
+                    },
+                    resumed_on: now,
+                    contact: this.state.session.contact
+                }
+            };
 
-            channel_uuid: this.state.channel,
-            contact_uuid: this.state.session.contact.uuid,
-            created_on: new Date()
-        };
-
-        let events = update(this.state.events, { $push: [newMessage] }) as EventProps[];
-        this.setState({ events });
-
-        const now = new Date().toISOString();
-        const body: any = {
-            flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
-            session: this.state.session,
-            resume: {
-                type: 'msg',
-                msg: {
-                    text,
-                    uuid: createUUID(),
-                    urn: this.state.session.contact.urns[0]
-                },
-                resumed_on: now,
-                contact: this.state.session.contact
-            }
-        };
-
-        axios.default
-            .post(getURL(this.context.endpoints.simulateResume), JSON.stringify(body, null, 2))
-            .then((response: axios.AxiosResponse) => {
-                this.updateRunContext(body, response.data as RunContext);
-            })
-            .catch(error => {
-                events = update(this.state.events, {
-                    $push: [
-                        {
-                            type: 'error',
-                            text: error.response.data.error
-                        }
-                    ]
-                }) as EventProps[];
-                this.setState({ events });
-            });
+            axios.default
+                .post(getURL(this.context.endpoints.simulateResume), JSON.stringify(body, null, 2))
+                .then((response: axios.AxiosResponse) => {
+                    this.updateRunContext(body, response.data as RunContext);
+                })
+                .catch(error => {
+                    const events = update(this.state.events, {
+                        $push: [
+                            {
+                                type: 'error',
+                                text: error.response.data.error
+                            }
+                        ]
+                    }) as EventProps[];
+                    this.setState({ events });
+                });
+        });
     }
 
     private onReset(event: any): void {
@@ -352,9 +453,204 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                     this.startFlow();
                 }
 
-                this.inputBox.focus();
+                this.handleFocusUpdate();
             }
         });
+    }
+
+    private handleFocusUpdate(): void {
+        if (this.inputBox) {
+            this.inputBox.focus();
+        }
+    }
+
+    private sendAttachment(attachment: string): void {
+        this.setState({ drawerVisible: false, attachmentsVisible: false }, () => {
+            window.setTimeout(() => {
+                this.resume(null, attachment);
+            }, 200);
+        });
+    }
+
+    private getImageDrawer(): JSX.Element {
+        return (
+            <div className={styles.drawerItems}>
+                <div
+                    className={styles.drawerItem}
+                    onClick={() => {
+                        this.sendAttachment('image/jpeg:' + IMAGE_A);
+                    }}
+                >
+                    <img src={IMAGE_A} />
+                </div>
+                <div
+                    className={styles.drawerItem}
+                    onClick={() => {
+                        this.sendAttachment('image/jpeg:' + IMAGE_B);
+                    }}
+                >
+                    <img src={IMAGE_B} />
+                </div>
+                <div
+                    className={styles.drawerItem}
+                    onClick={() => {
+                        this.sendAttachment('image/jpeg:' + IMAGE_C);
+                    }}
+                >
+                    <img src={IMAGE_C} />
+                </div>
+            </div>
+        );
+    }
+
+    public getLocationDrawer(): JSX.Element {
+        return (
+            <div
+                className={styles.mapThumb}
+                onClick={() => {
+                    this.sendAttachment('geo:2.904194,-79.003418');
+                }}
+            >
+                <img src={MAP_THUMB} />
+            </div>
+        );
+    }
+
+    private getAudioDrawer(): JSX.Element {
+        return (
+            <div
+                className={styles.audioPicker}
+                onClick={() => {
+                    this.sendAttachment('audio/mp3:' + AUDIO_A);
+                }}
+            >
+                <div className={styles.audioIcon + ' fe-mic'} />
+                <div className={styles.audioMessage}>Upload Audio</div>
+            </div>
+        );
+    }
+
+    private getVideoDrawer(): JSX.Element {
+        return (
+            <div className={styles.drawerItems}>
+                <div
+                    className={styles.drawerItem}
+                    onClick={() => {
+                        this.sendAttachment('video/mp4:' + VIDEO_A);
+                    }}
+                >
+                    <img src={VIDEO_A_THUMB} />
+                </div>
+                <div
+                    className={styles.drawerItem}
+                    onClick={() => {
+                        this.sendAttachment('video/mp4:' + VIDEO_A);
+                    }}
+                >
+                    <img src={VIDEO_A_THUMB} />
+                </div>
+                <div
+                    className={styles.drawerItem}
+                    onClick={() => {
+                        this.sendAttachment('video/mp4:' + VIDEO_A);
+                    }}
+                >
+                    <img src={VIDEO_A_THUMB} />
+                </div>
+            </div>
+        );
+    }
+
+    private getDrawerContents(): JSX.Element {
+        switch (this.state.drawerType) {
+            case DrawerType.location:
+                return this.getLocationDrawer();
+            case DrawerType.audio:
+                return this.getAudioDrawer();
+            case DrawerType.images:
+                return this.getImageDrawer();
+            case DrawerType.videos:
+                return this.getVideoDrawer();
+        }
+        return null;
+    }
+
+    public getDrawer(): JSX.Element {
+        return (
+            <div
+                className={
+                    styles.attachmentDrawer +
+                    ' ' +
+                    (this.state.drawerVisible ? styles.attachmentDrawerVisible : '') +
+                    ' ' +
+                    (this.state.attachmentsVisible ? '' : styles.forced)
+                }
+            >
+                {this.getDrawerContents()}
+            </div>
+        );
+    }
+
+    private handleHideAttachments(): void {
+        this.setState({
+            attachmentsVisible: false,
+            drawerVisible: false
+        });
+    }
+
+    private getAttachmentButton(icon: string, drawerType: DrawerType): JSX.Element {
+        return (
+            <div
+                className={icon}
+                onClick={() => {
+                    this.showAttachmentDrawer(drawerType);
+                }}
+            />
+        );
+    }
+
+    private getAttachmentOptions(): JSX.Element {
+        return (
+            <div
+                className={
+                    styles.attachmentButtons +
+                    ' ' +
+                    (this.state.attachmentsVisible ? styles.visible : '')
+                }
+            >
+                <div className="fe-x" onClick={this.handleHideAttachments} />
+                {this.getAttachmentButton('fe-picture2', DrawerType.images)}
+                {this.getAttachmentButton('fe-video', DrawerType.videos)}
+                {this.getAttachmentButton('fe-mic', DrawerType.audio)}
+                {this.getAttachmentButton('fe-map-marker', DrawerType.location)}
+            </div>
+        );
+    }
+
+    private handleHideAttachmentDrawer(): void {
+        this.setState({ drawerVisible: false });
+    }
+
+    private showAttachmentDrawer(drawerType: DrawerType): void {
+        if (this.state.drawerVisible) {
+            this.handleHideAttachmentDrawer();
+            window.setTimeout(() => {
+                this.showAttachmentDrawer(drawerType);
+            }, 300);
+        } else {
+            this.setState(
+                (prevState: SimulatorState) => {
+                    return { drawerVisible: true, drawerType };
+                },
+                () => {
+                    if (this.bottom) {
+                        window.setTimeout(() => {
+                            this.bottom.scrollIntoView(true);
+                        }, 200);
+                    }
+                }
+            );
+        }
     }
 
     public render(): ReactNode {
@@ -375,11 +671,17 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             <div className={styles.header}>
                                 <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
                             </div>
-                            <div className={styles.messages}>
+                            <div
+                                className={
+                                    styles.messages +
+                                    ' ' +
+                                    (this.state.drawerVisible ? styles.short : '')
+                                }
+                            >
                                 {messages}
                                 <div
                                     id="bottom"
-                                    style={{ float: 'left', clear: 'both' }}
+                                    style={{ float: 'left', clear: 'both', marginTop: 20 }}
                                     ref={this.bottomRef}
                                 />
                             </div>
@@ -388,14 +690,26 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                     ref={this.inputBoxRef}
                                     type="text"
                                     onKeyUp={this.onKeyUp}
-                                    disabled={!this.state.active}
+                                    disabled={
+                                        this.state.waitingForAttachment || this.state.sprinting
+                                    }
                                     placeholder={
                                         this.state.active
                                             ? 'Enter message'
                                             : 'Press home to start again'
                                     }
                                 />
+                                <div className={styles.showAttachmentsButton}>
+                                    <div
+                                        className="fe-paperclip"
+                                        onClick={() => {
+                                            this.setState({ attachmentsVisible: true });
+                                        }}
+                                    />
+                                </div>
                             </div>
+                            {this.getAttachmentOptions()}
+                            {this.getDrawer()}
                             <div className={styles.footer}>
                                 <a
                                     className={

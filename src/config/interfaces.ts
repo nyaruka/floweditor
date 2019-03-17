@@ -39,6 +39,10 @@ export const enum Types {
     wait_for_response = 'wait_for_response',
     wait_for_menu = 'wait_for_menu',
     wait_for_digits = 'wait_for_digits',
+    wait_for_audio = 'wait_for_audio',
+    wait_for_video = 'wait_for_video',
+    wait_for_location = 'wait_for_location',
+    wait_for_image = 'wait_for_image',
     missing = 'missing',
     say_msg = 'say_msg',
     play_audio = 'play_audio'
@@ -106,5 +110,6 @@ export interface OperatorMap {
 
 export const HIDDEN = [FlowTypes.NONE];
 export const VOICE = [FlowTypes.VOICE];
+export const SURVEY = [FlowTypes.SURVEY];
 export const TEXT_TYPES = [FlowTypes.MESSAGE, FlowTypes.SURVEY];
 export const ONLINE = [FlowTypes.MESSAGE, FlowTypes.VOICE];
