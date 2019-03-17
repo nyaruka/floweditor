@@ -1,6 +1,6 @@
 import { RouterFormProps } from '~/components/flow/props';
 import WebhookRouterForm from '~/components/flow/routers/webhook/WebhookRouterForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { RenderNode } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createWebhookRouterNode, getRouterFormProps } from '~/testUtils/assetCreators';

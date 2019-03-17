@@ -1,21 +1,11 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
-import {
-    Case,
-    Exit,
-    Flow,
-    RouterTypes,
-    StartFlow,
-    StartFlowExitNames,
-    SwitchRouter,
-    CallResthook,
-    Action,
-    WebhookExitNames
-} from '~/flowTypes';
-import { Asset, AssetType, RenderNode } from '~/store/flowContext';
-import { NodeEditorSettings, AssetEntry } from '~/store/nodeEditor';
+import { Operators } from '~/config/interfaces';
+import { Types } from '~/config/interfaces';
+import { CallResthook, Case, Exit, RouterTypes, SwitchRouter, WebhookExitNames } from '~/flowTypes';
+import { AssetType, RenderNode } from '~/store/flowContext';
+import { AssetEntry, NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
+
 import { ResthookRouterFormState } from './ResthookRouterForm';
 
 export const nodeToState = (settings: NodeEditorSettings): ResthookRouterFormState => {

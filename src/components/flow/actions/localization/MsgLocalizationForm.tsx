@@ -2,19 +2,22 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/action/Action.scss';
-import { initializeLocalizedForm } from '~/components/flow/actions/sendmsg/helpers';
-import { SendMsgFormState } from '~/components/flow/actions/sendmsg/SendMsgForm';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { LocalizationFormProps } from '~/components/flow/props';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
-import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
+import UploadButton from '~/components/uploadbutton/UploadButton';
+import { fakePropType } from '~/config/ConfigProvider';
 import { SendMsg } from '~/flowTypes';
 import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen } from '~/store/validators';
 
+import { initializeLocalizedForm } from './helpers';
+
 export interface MsgLocalizationFormState extends FormState {
     text: StringEntry;
     quickReplies: StringArrayEntry;
+    audio: StringEntry;
 }
 
 export default class MsgLocalizationForm extends React.Component<
@@ -29,16 +32,29 @@ export default class MsgLocalizationForm extends React.Component<
         });
     }
 
+    public static contextTypes = {
+        endpoints: fakePropType
+    };
+
     public handleMessageUpdate(text: string): boolean {
         return this.handleUpdate({ text });
+    }
+
+    public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
+        return this.handleUpdate({ quickReplies });
+    }
+
+    private handleAudioChanged(url: string): void {
+        this.handleUpdate({ audio: url });
     }
 
     private handleUpdate(keys: {
         text?: string;
         sendAll?: boolean;
         quickReplies?: string[];
+        audio?: string;
     }): boolean {
-        const updates: Partial<SendMsgFormState> = {};
+        const updates: Partial<MsgLocalizationFormState> = {};
 
         if (keys.hasOwnProperty('text')) {
             updates.text = validate('Message', keys.text, []);
@@ -48,30 +64,49 @@ export default class MsgLocalizationForm extends React.Component<
             updates.quickReplies = validate('Quick Replies', keys.quickReplies, [validateMaxOfTen]);
         }
 
+        if (keys.hasOwnProperty('audio')) {
+            updates.audio = { value: keys.audio };
+        }
+
         const updated = mergeForm(this.state, updates);
         this.setState(updated);
         return updated.valid;
     }
 
-    public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
-        return this.handleUpdate({ quickReplies });
-    }
-
     private handleSave(): void {
-        const { text, quickReplies } = this.state;
+        const { text, quickReplies, audio } = this.state;
 
-        this.props.updateLocalizations(this.props.language.id, [
-            {
-                uuid: this.props.nodeSettings.originalAction.uuid,
-                translations: {
-                    text: text.value,
-                    quick_replies: quickReplies.value
-                }
+        // make sure we are valid for saving, only quick replies can be invalid
+        const typeConfig = determineTypeConfig(this.props.nodeSettings);
+        const valid =
+            typeConfig.localizeableKeys.indexOf('quick_replies') > -1
+                ? this.handleQuickRepliesUpdate(this.state.quickReplies.value)
+                : true;
+
+        if (valid) {
+            const translations: any = {};
+            if (text.value) {
+                translations.text = text.value;
             }
-        ]);
 
-        // notify our modal we are done
-        this.props.onClose(false);
+            if (quickReplies.value) {
+                translations.quick_replies = quickReplies.value;
+            }
+
+            if (audio.value) {
+                translations.audio_url = audio.value;
+            }
+
+            this.props.updateLocalizations(this.props.language.id, [
+                {
+                    uuid: this.props.nodeSettings.originalAction.uuid,
+                    translations
+                }
+            ]);
+
+            // notify our modal we are done
+            this.props.onClose(false);
+        }
     }
 
     private getButtons(): ButtonSet {
@@ -104,6 +139,20 @@ export default class MsgLocalizationForm extends React.Component<
             });
         }
 
+        let audioButton: JSX.Element = null;
+        if (typeConfig.localizeableKeys.indexOf('audio_url') > 0) {
+            audioButton = (
+                <UploadButton
+                    icon="fe-mic"
+                    uploadText="Upload Recording"
+                    removeText="Remove Recording"
+                    url={this.state.audio.value}
+                    endpoint={this.context.endpoints.attachments}
+                    onUploadChanged={this.handleAudioChanged}
+                />
+            );
+        }
+
         return (
             <Dialog
                 title={typeConfig.name}
@@ -120,7 +169,6 @@ export default class MsgLocalizationForm extends React.Component<
                 <TextInputElement
                     name="Message"
                     showLabel={false}
-                    count={Count.SMS}
                     onChange={this.handleMessageUpdate}
                     entry={this.state.text}
                     placeholder={`${this.props.language.name} Translation`}
@@ -128,6 +176,8 @@ export default class MsgLocalizationForm extends React.Component<
                     focus={true}
                     textarea={true}
                 />
+
+                {audioButton}
             </Dialog>
         );
     }

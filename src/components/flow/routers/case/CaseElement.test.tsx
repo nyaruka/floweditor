@@ -1,6 +1,7 @@
 import * as React from 'react';
 import CaseElement, { CaseElementProps } from '~/components/flow/routers/case/CaseElement';
-import { getOperatorConfig, Operators } from '~/config/operatorConfigs';
+import { Operators } from '~/config/interfaces';
+import { getOperatorConfig } from '~/config/operatorConfigs';
 import { composeComponentTestUtils, setMock } from '~/testUtils';
 
 const caseUUID = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';

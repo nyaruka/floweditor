@@ -1,4 +1,4 @@
-import { Types } from '~/config/typeConfigs';
+import { FlowTypes, Types } from '~/config/interfaces';
 import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '~/flowTypes';
 import {
     getCollisions,
@@ -103,11 +103,21 @@ describe('helpers', () => {
 
         describe('getGhostNode', () => {
             it('should create a router from an action', () => {
-                const ghost = getGhostNode(nodes.node0, nodes.node0.node.exits[0].uuid, 1);
+                const ghost = getGhostNode(
+                    nodes.node0,
+                    nodes.node0.node.exits[0].uuid,
+                    1,
+                    FlowTypes.MESSAGE
+                );
                 expect(ghost.node.router.type).toBe(RouterTypes.switch);
             });
             it('should create an action node from a switch', () => {
-                const ghost = getGhostNode(nodes.node1, nodes.node1.node.exits[0].uuid, 1);
+                const ghost = getGhostNode(
+                    nodes.node1,
+                    nodes.node1.node.exits[0].uuid,
+                    1,
+                    FlowTypes.MESSAGE
+                );
                 expect(ghost.node.router).toBeUndefined();
                 expect(ghost.node.actions[0].type).toBe(Types.send_msg);
             });

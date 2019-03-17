@@ -1,0 +1,40 @@
+@import '~/variables.scss';
+
+.lead-in {
+    margin-bottom: 5px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 6px;
+}
+
+$optionSpacing: 6px;
+
+.digit {
+    display: inline-block;
+    padding: 10px 10px;
+    font-size: 21px;
+    font-weight: 100;
+    color: #ddd;
+    vertical-align: sub;
+
+    font-size: 24px;
+}
+
+.category {
+    display: inline-block;
+    width: 130px;
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    margin: 0px -$optionSpacing;
+    justify-content: center;
+}
+
+.menu-option {
+    // flex: 1 1 150px;
+    margin: $optionSpacing;
+    width: 170px;
+}

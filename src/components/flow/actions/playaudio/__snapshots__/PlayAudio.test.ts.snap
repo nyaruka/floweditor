@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayAudioComp render should render auhio prop when passed 1`] = `
+<div>
+  /my_audio.mp3
+</div>
+`;
+
+exports[`PlayAudioComp render should render placeholder when url prop isn't passed 1`] = `<div />`;

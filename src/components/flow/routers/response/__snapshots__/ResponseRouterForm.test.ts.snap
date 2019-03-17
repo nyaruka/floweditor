@@ -39,6 +39,10 @@ exports[`ResponseRouterForm initializes 1`] = `
         ],
         "name": "Wait for Response",
         "type": "wait_for_response",
+        "visibility": Array [
+          "M",
+          "S",
+        ],
       }
     }
     onChange={[MockFunction]}
@@ -121,6 +125,10 @@ exports[`ResponseRouterForm should render 1`] = `
         ],
         "name": "Wait for Response",
         "type": "wait_for_response",
+        "visibility": Array [
+          "M",
+          "S",
+        ],
       }
     }
     onChange={[MockFunction]}

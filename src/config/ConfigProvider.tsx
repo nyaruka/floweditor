@@ -10,6 +10,7 @@ interface ConfigProviderProps {
 }
 
 export interface ConfigProviderContext {
+    config: FlowEditorConfig;
     endpoints: Endpoints;
     flow: string;
     debug: boolean;
@@ -24,6 +25,7 @@ export const VALID_CHILD_ERROR =
 
 export default class ConfigProvider extends React.Component<ConfigProviderProps> {
     public static childContextTypes = {
+        config: fakePropType,
         assetService: fakePropType,
         endpoints: fakePropType,
         flow: fakePropType,
@@ -43,6 +45,7 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
     public getChildContext(): ConfigProviderContext {
         return {
+            config: this.props.config,
             endpoints: this.props.config.endpoints,
             flow: this.props.config.flow,
             debug: this.props.config.debug,

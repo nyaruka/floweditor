@@ -1,6 +1,6 @@
 import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
-import { Types } from '~/config/typeConfigs';
+import { FlowTypes, Types } from '~/config/interfaces';
 import {
     AddLabels,
     AnyAction,
@@ -9,6 +9,7 @@ import {
     FlowDefinition,
     FlowNode,
     FlowPosition,
+    HintTypes,
     RouterTypes,
     SetContactField,
     SetRunResult,
@@ -257,7 +258,8 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
 export const getGhostNode = (
     fromNode: RenderNode,
     fromExitUUID: string,
-    suggestedResultNameCount: number
+    suggestedResultNameCount: number,
+    flowType: FlowTypes
 ): RenderNode => {
     const ghostNode: FlowNode = {
         uuid: createUUID(),
@@ -274,10 +276,11 @@ export const getGhostNode = (
 
     // Add an action if we are coming from a split
     if (fromNode.node.wait || fromNode.ui.type === Types.split_by_webhook) {
+        const replyType = flowType === FlowTypes.VOICE ? Types.say_msg : Types.send_msg;
         const replyAction = {
             uuid: createUUID(),
-            type: Types.send_msg,
-            text: ''
+            text: '',
+            type: replyType
         };
 
         ghostNode.actions.push(replyAction);
@@ -285,11 +288,17 @@ export const getGhostNode = (
         // Otherwise we are going to a switch
         ghostNode.exits[0].name = DefaultExitNames.All_Responses;
         ghostNode.wait = { type: WaitTypes.msg };
+
+        type = Types.wait_for_response;
+        if (flowType === FlowTypes.VOICE) {
+            ghostNode.wait.hint = { type: HintTypes.digits, count: 1 };
+        }
+
         ghostNode.router = {
             type: RouterTypes.switch,
-            result_name: getSuggestedResultName(suggestedResultNameCount)
-        };
-        type = Types.wait_for_response;
+            result_name: getSuggestedResultName(suggestedResultNameCount),
+            cases: []
+        } as SwitchRouter;
     }
 
     return {

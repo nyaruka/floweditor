@@ -7,6 +7,7 @@ import {
     getItemStyle,
     getListStyle
 } from '~/components/flow/routers/caselist/helpers';
+import { fakePropType } from '~/config/ConfigProvider';
 import { Case } from '~/flowTypes';
 import { FormState, mergeForm } from '~/store/nodeEditor';
 import { reorderList } from '~/utils';
@@ -57,7 +58,13 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
             currentCases: caseProps,
             valid: true
         };
+
+        // console.log('CaseList', this.context.config);
     }
+
+    public static contextTypes = {
+        config: fakePropType
+    };
 
     private handleUpdate(keys: { caseProps?: CaseProps; removeCase?: any }): boolean {
         const updates: Partial<CaseListState> = {};

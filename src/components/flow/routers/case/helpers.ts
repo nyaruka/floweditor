@@ -1,9 +1,11 @@
-import { getOperatorConfig, Operator, Operators } from '~/config/operatorConfigs';
+import { Operator, Operators } from '~/config/interfaces';
+import { getOperatorConfig } from '~/config/operatorConfigs';
 import {
     validate,
     validateLessThan,
     validateMoreThan,
     validateNumeric,
+    validateRegex,
     validateRequired
 } from '~/store/validators';
 import { titleCase } from '~/utils';
@@ -137,6 +139,9 @@ export const validateCase = (keys: {
             case Operators.has_number_lt:
             case Operators.has_number_lte:
                 validators.push(validateNumeric);
+                break;
+            case Operators.has_pattern:
+                validators.push(validateRegex);
                 break;
         }
 

@@ -1,0 +1,286 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MenuRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "disabled": false,
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="wait_for_menu"
+  title="Wait for Menu Selection"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Wait for menu selection",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Wait for Menu Selection",
+        "type": "wait_for_menu",
+        "visibility": Array [
+          "V",
+        ],
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="menu"
+  >
+    <div
+      className="menuOption"
+      key="menuoption-0"
+    >
+      <div
+        className="digit"
+      >
+        1
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 0"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-1"
+    >
+      <div
+        className="digit"
+      >
+        2
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 1"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-2"
+    >
+      <div
+        className="digit"
+      >
+        3
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 2"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-3"
+    >
+      <div
+        className="digit"
+      >
+        4
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 3"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-4"
+    >
+      <div
+        className="digit"
+      >
+        5
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 4"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-5"
+    >
+      <div
+        className="digit"
+      >
+        6
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 5"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-6"
+    >
+      <div
+        className="digit"
+      >
+        7
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 6"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-7"
+    >
+      <div
+        className="digit"
+      >
+        8
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 7"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-8"
+    >
+      <div
+        className="digit"
+      >
+        9
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 8"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+    <div
+      className="menuOption"
+      key="menuoption-9"
+    >
+      <div
+        className="digit"
+      >
+        0
+      </div>
+      <div
+        className="category"
+      >
+        <Connect(TextInputElement)
+          entry={
+            Object {
+              "value": "",
+            }
+          }
+          name="Menu 9"
+          onChange={[Function]}
+        />
+      </div>
+    </div>
+  </div>
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;

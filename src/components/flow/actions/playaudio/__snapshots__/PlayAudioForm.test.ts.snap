@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PlayAudioForm render should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "disabled": false,
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="play_audio"
+  title="Play Recording"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Play a contact recording",
+        "form": [Function],
+        "name": "Play Recording",
+        "type": "play_audio",
+        "visibility": Array [
+          "V",
+        ],
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p>
+    Previous Recording
+  </p>
+  <Connect(TextInputElement)
+    autocomplete={true}
+    entry={
+      Object {
+        "value": "/my_audio.mp3",
+      }
+    }
+    focus={true}
+    helpText="Enter a variable that contains a recording the contact has previously recorded. For example, @flow.voicemail or @contact.short_bio."
+    name="Message"
+    onChange={[Function]}
+    showLabel={false}
+  />
+</Dialog>
+`;
+
+exports[`PlayAudioForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "audio_url": "@flow.recording",
+    "type": "play_audio",
+    "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+  },
+]
+`;
+
+exports[`PlayAudioForm updates should save changes 1`] = `
+Object {
+  "audio": Object {
+    "validationFailures": Array [],
+    "value": "@flow.recording",
+  },
+  "valid": true,
+}
+`;
+
+exports[`PlayAudioForm updates should save changes 2`] = `
+Array [
+  Object {
+    "audio_url": "@flow.recording",
+    "type": "play_audio",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+  },
+]
+`;

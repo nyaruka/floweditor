@@ -1,7 +1,7 @@
 import { LocalizationFormProps } from '~/components/flow/props';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-import { Operators } from '~/config/operatorConfigs';
+import { Operators } from '~/config/interfaces';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { getLocalizations } from '~/store/helpers';
 import { composeComponentTestUtils, mock } from '~/testUtils';

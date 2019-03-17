@@ -1,6 +1,7 @@
 import SendMsgLocalizationForm from '~/components/flow/actions/localization/MsgLocalizationForm';
 import { LocalizationFormProps } from '~/components/flow/props';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { getTypeConfig } from '~/config';
+import { Types } from '~/config/interfaces';
 import { LocalizedObject } from '~/services/Localization';
 import { composeComponentTestUtils } from '~/testUtils';
 import { createSendMsgAction, Spanish } from '~/testUtils/assetCreators';

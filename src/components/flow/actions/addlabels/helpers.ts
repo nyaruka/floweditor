@@ -1,6 +1,6 @@
 import { AddLabelsFormState } from '~/components/flow/actions/addlabels/AddLabelsForm';
 import { getActionUUID } from '~/components/flow/actions/helpers';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { AddLabels } from '~/flowTypes';
 import { Asset, AssetType } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';

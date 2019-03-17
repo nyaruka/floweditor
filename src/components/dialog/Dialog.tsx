@@ -92,6 +92,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                     onClick={() => {
                         this.handlePrimaryButton(buttons.primary.onClick);
                     }}
+                    leftSpacing={true}
                     name={buttons.primary.name}
                     disabled={buttons.primary.disabled}
                     type={ButtonTypes.primary}
@@ -184,13 +185,15 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
                 </div>
 
                 <div className={styles.footer}>
-                    <div className={styles.gutter}>{this.props.gutter}</div>
-                    {renderIf(rightButtons.length > 0 || leftButtons.length > 0)(
-                        <div className={styles.buttons}>
+                    <div className={styles.buttons}>
+                        {renderIf(leftButtons.length > 0)(
                             <div className={styles.leftButtons}>{leftButtons}</div>
-                            <div className={styles.rightButtons}>{rightButtons}</div>
-                        </div>
-                    )}
+                        )}
+                        {renderIf(this.props.gutter != null)(
+                            <div className={styles.gutter}>{this.props.gutter}</div>
+                        )}
+                        <div className={styles.rightButtons}>{rightButtons}</div>
+                    </div>
                 </div>
             </div>
         );

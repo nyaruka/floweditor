@@ -1,6 +1,6 @@
 import { DraggableStyle } from 'react-beautiful-dnd';
 import { CaseProps, DragCursor } from '~/components/flow/routers/caselist/CaseList';
-import { Operators } from '~/config/operatorConfigs';
+import { Operators } from '~/config/interfaces';
 import { createUUID } from '~/utils';
 
 export const createEmptyCase = (): CaseProps => {

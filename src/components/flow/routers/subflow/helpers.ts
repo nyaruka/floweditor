@@ -1,7 +1,7 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
 import { SubflowRouterFormState } from '~/components/flow/routers/subflow/SubflowRouterForm';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { Operators } from '~/config/interfaces';
+import { Types } from '~/config/interfaces';
 import {
     Case,
     Exit,

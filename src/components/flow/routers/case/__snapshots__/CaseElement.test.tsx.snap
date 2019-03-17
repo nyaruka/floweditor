@@ -24,6 +24,10 @@ Object {
     "operands": 1,
     "type": "has_any_word",
     "verboseName": "has any of the words",
+    "visibility": Array [
+      "M",
+      "S",
+    ],
   },
   "valid": true,
 }
@@ -86,6 +90,10 @@ Object {
     "operands": 1,
     "type": "has_any_word",
     "verboseName": "has any of the words",
+    "visibility": Array [
+      "M",
+      "S",
+    ],
   },
   "valid": false,
 }
@@ -125,21 +133,37 @@ exports[`CaseElement render renders no argument rules 1`] = `
               "operands": 1,
               "type": "has_any_word",
               "verboseName": "has any of the words",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_all_words",
               "verboseName": "has all of the words",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_phrase",
               "verboseName": "has the phrase",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_only_phrase",
               "verboseName": "has only the phrase",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
@@ -151,6 +175,10 @@ exports[`CaseElement render renders no argument rules 1`] = `
               "operands": 0,
               "type": "has_text",
               "verboseName": "has some text",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "categoryName": "Has Number",
@@ -193,31 +221,37 @@ exports[`CaseElement render renders no argument rules 1`] = `
               "operands": 0,
               "type": "has_date",
               "verboseName": "has a date",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_date_lt",
               "verboseName": "has a date before",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_date_eq",
               "verboseName": "has a date equal to",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_date_gt",
               "verboseName": "has a date after",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_run_status",
-              "verboseName": "has a run status of",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_group",
-              "verboseName": "is in the group",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "categoryName": "Has Phone",
@@ -230,12 +264,10 @@ exports[`CaseElement render renders no argument rules 1`] = `
               "operands": 0,
               "type": "has_email",
               "verboseName": "has an email",
-            },
-            Object {
-              "categoryName": "Has Error",
-              "operands": 0,
-              "type": "has_error",
-              "verboseName": "has an error",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "categoryName": "Not Empty",
@@ -244,9 +276,9 @@ exports[`CaseElement render renders no argument rules 1`] = `
               "verboseName": "is not empty",
             },
             Object {
-              "operands": 0,
-              "type": "has_wait_timed_out",
-              "verboseName": null,
+              "operands": 1,
+              "type": "has_pattern",
+              "verboseName": "matches regex",
             },
           ]
         }
@@ -335,21 +367,37 @@ exports[`CaseElement render should render empty case 1`] = `
               "operands": 1,
               "type": "has_any_word",
               "verboseName": "has any of the words",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_all_words",
               "verboseName": "has all of the words",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_phrase",
               "verboseName": "has the phrase",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_only_phrase",
               "verboseName": "has only the phrase",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
@@ -361,6 +409,10 @@ exports[`CaseElement render should render empty case 1`] = `
               "operands": 0,
               "type": "has_text",
               "verboseName": "has some text",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "categoryName": "Has Number",
@@ -403,31 +455,37 @@ exports[`CaseElement render should render empty case 1`] = `
               "operands": 0,
               "type": "has_date",
               "verboseName": "has a date",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_date_lt",
               "verboseName": "has a date before",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_date_eq",
               "verboseName": "has a date equal to",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "operands": 1,
               "type": "has_date_gt",
               "verboseName": "has a date after",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_run_status",
-              "verboseName": "has a run status of",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_group",
-              "verboseName": "is in the group",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "categoryName": "Has Phone",
@@ -440,12 +498,10 @@ exports[`CaseElement render should render empty case 1`] = `
               "operands": 0,
               "type": "has_email",
               "verboseName": "has an email",
-            },
-            Object {
-              "categoryName": "Has Error",
-              "operands": 0,
-              "type": "has_error",
-              "verboseName": "has an error",
+              "visibility": Array [
+                "M",
+                "S",
+              ],
             },
             Object {
               "categoryName": "Not Empty",
@@ -454,9 +510,9 @@ exports[`CaseElement render should render empty case 1`] = `
               "verboseName": "is not empty",
             },
             Object {
-              "operands": 0,
-              "type": "has_wait_timed_out",
-              "verboseName": null,
+              "operands": 1,
+              "type": "has_pattern",
+              "verboseName": "matches regex",
             },
           ]
         }
@@ -475,6 +531,10 @@ exports[`CaseElement render should render empty case 1`] = `
             "operands": 1,
             "type": "has_any_word",
             "verboseName": "has any of the words",
+            "visibility": Array [
+              "M",
+              "S",
+            ],
           }
         }
       />
@@ -546,6 +606,10 @@ Object {
     "operands": 1,
     "type": "has_any_word",
     "verboseName": "has any of the words",
+    "visibility": Array [
+      "M",
+      "S",
+    ],
   },
   "valid": true,
 }

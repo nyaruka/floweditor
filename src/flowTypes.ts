@@ -1,6 +1,6 @@
 import { Methods } from '~/components/flow/routers/webhook/helpers';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { FlowTypes, Operators } from '~/config/interfaces';
+import { Types } from '~/config/interfaces';
 
 export interface Languages {
     [iso: string]: string;
@@ -39,6 +39,7 @@ export interface FlowEditorConfig {
     localStorage: boolean;
     endpoints: Endpoints;
     flow: string;
+    flowType: FlowTypes;
     showDownload?: boolean;
     debug?: boolean;
     path?: string;
@@ -109,9 +110,19 @@ export enum WaitTypes {
     flow = 'flow'
 }
 
+export enum HintTypes {
+    digits = 'digits'
+}
+
+export interface Hint {
+    type: HintTypes;
+    count?: number;
+}
+
 export interface Wait {
     type: WaitTypes;
     timeout?: number;
+    hint?: Hint;
 }
 
 export interface Group {
@@ -189,6 +200,15 @@ export interface SendMsg extends Action {
     all_urns?: boolean;
     quick_replies?: string[];
     attachments?: string[];
+}
+
+export interface SayMsg extends Action {
+    text: string;
+    audio_url?: string;
+}
+
+export interface PlayAudio extends Action {
+    audio_url: string;
 }
 
 export interface BroadcastMsg extends RecipientsAction {

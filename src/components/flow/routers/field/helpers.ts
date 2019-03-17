@@ -8,7 +8,7 @@ import {
     resolveExits
 } from '~/components/flow/routers/helpers';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { Router, RouterTypes, SwitchRouter } from '~/flowTypes';
 import { AssetStore, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';

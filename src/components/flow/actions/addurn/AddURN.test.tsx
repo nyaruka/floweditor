@@ -1,5 +1,5 @@
 import AddURNComp from '~/components/flow/actions/addurn/AddURN';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { AddURN } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
 

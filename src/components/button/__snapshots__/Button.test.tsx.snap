@@ -4,6 +4,12 @@ exports[`Button render should render self, children with base props 1`] = `
 <div
   className="btn primary "
   onClick={[MockFunction]}
+  style={
+    Object {
+      "marginLeft": 0,
+      "marginTop": 0,
+    }
+  }
 >
   Save
 </div>

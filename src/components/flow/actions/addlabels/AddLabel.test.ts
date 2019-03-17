@@ -1,8 +1,7 @@
-import { Types } from '~/config/typeConfigs';
+import AddLabelsComp, { MAX_TO_SHOW } from '~/components/flow/actions/addlabels/AddLabels';
+import { Types } from '~/config/interfaces';
 import { AddLabels } from '~/flowTypes';
 import { composeComponentTestUtils } from '~/testUtils';
-
-import AddLabelsComp, { MAX_TO_SHOW } from '~/components/flow/actions/addlabels/AddLabels';
 
 const labels = [
     'Help',

@@ -233,6 +233,7 @@ $reset_color: #666;
     margin-bottom: 8px;
 }
 
+.ivr-msg,
 .send-msg {
     padding: 8px 15px;
     background: $light_gray;
@@ -326,4 +327,22 @@ $reset_color: #666;
 
 .detail_webhook_called {
     background: $orange;
+}
+
+.ivr-wrapper {
+    vertical-align: top;
+    width: 100%;
+    position: relative;
+
+    .media-player {
+        position: absolute;
+        right: -15px;
+        bottom: -4px;
+    }
+
+    .msg {
+        vertical-align: top;
+        display: inline-block;
+        width: 90%;
+    }
 }

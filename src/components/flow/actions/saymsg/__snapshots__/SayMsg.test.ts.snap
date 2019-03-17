@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SayMsgComp render should render placeholder when text prop isn't passed 1`] = `
+<div
+  className="placeholder"
+>
+  Send a message to the contact
+</div>
+`;
+
+exports[`SayMsgComp render should render text prop when passed 1`] = `
+<Fragment>
+  <div
+    className="text"
+  >
+    Hey!
+  </div>
+</Fragment>
+`;

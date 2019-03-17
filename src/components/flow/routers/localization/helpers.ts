@@ -1,4 +1,4 @@
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { Case, Exit, SwitchRouter } from '~/flowTypes';
 import { LocalizedObject } from '~/services/Localization';
 import { RenderNode } from '~/store/flowContext';

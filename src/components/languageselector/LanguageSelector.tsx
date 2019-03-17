@@ -32,6 +32,18 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
         this.props.handleLanguageChange(language);
     }
 
+    public handleLanguageSort(a: Asset, b: Asset): number {
+        if (a.id === 'base') {
+            return -1;
+        }
+
+        if (b.id === 'base') {
+            return 1;
+        }
+
+        return a.name.localeCompare(b.name);
+    }
+
     public render(): JSX.Element {
         return (
             <div className={containerClasses} data-spec={languageSelectorContainerSpecId}>
@@ -42,6 +54,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
                     entry={{ value: this.props.language }}
                     searchable={false}
                     onChange={this.handleLanguageChanged}
+                    sortFunction={this.handleLanguageSort}
                 />
             </div>
         );

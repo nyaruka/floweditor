@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import {
     SetContactAttribute,
     SetContactChannel,

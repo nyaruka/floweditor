@@ -1,6 +1,6 @@
 import { DropResult } from 'react-beautiful-dnd';
 import CaseList, { CaseListProps, CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { Operators } from '~/config/operatorConfigs';
+import { Operators } from '~/config/interfaces';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import * as utils from '~/utils';
 

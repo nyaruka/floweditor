@@ -1,7 +1,6 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { Operators, Types } from '~/config/interfaces';
 import { Action, Case, Exit, FlowNode, Router, RouterTypes, SwitchRouter, Wait } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';

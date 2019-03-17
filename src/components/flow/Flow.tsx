@@ -110,6 +110,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private ghost: any;
 
     public static contextTypes = {
+        config: fakePropType,
         endpoints: fakePropType,
         debug: fakePropType
     };
@@ -152,7 +153,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         );
 
         this.Plumber.bind('connectionDrag', (event: ConnectionEvent) => {
-            this.props.onConnectionDrag(event);
+            this.props.onConnectionDrag(event, this.context.config.flowType);
         });
 
         this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>

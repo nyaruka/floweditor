@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SayMsgForm render should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "disabled": true,
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="send_msg"
+  title="Send Message"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Send the contact a message",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "text",
+          "quick_replies",
+        ],
+        "name": "Send Message",
+        "type": "send_msg",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <Connect(TextInputElement)
+    autocomplete={true}
+    entry={
+      Object {
+        "value": "",
+      }
+    }
+    focus={true}
+    name="Message"
+    onChange={[Function]}
+    showLabel={false}
+    textarea={true}
+  />
+  <UploadButton
+    icon="fe-mic"
+    onUploadChanged={[Function]}
+    removeText="Remove Recording"
+    uploadText="Upload Recording"
+    url=""
+  />
+</Dialog>
+`;
+
+exports[`SayMsgForm updates should allow switching from router 1`] = `
+Array [
+  Object {
+    "audio_url": "",
+    "text": "What is your favorite color?",
+    "type": "say_msg",
+    "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+  },
+]
+`;
+
+exports[`SayMsgForm updates should save changes 1`] = `
+Object {
+  "audio": Object {
+    "value": "",
+  },
+  "text": Object {
+    "validationFailures": Array [],
+    "value": "What is your favorite color?",
+  },
+  "valid": true,
+}
+`;
+
+exports[`SayMsgForm updates should save changes 2`] = `
+Array [
+  Object {
+    "audio_url": "",
+    "text": "What is your favorite color?",
+    "type": "say_msg",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+  },
+]
+`;

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getDraggedFrom } from '~/components/helpers';
 import Modal from '~/components/modal/Modal';
-import { Type } from '~/config/typeConfigs';
+import { Type } from '~/config/interfaces';
 import { Action, AnyAction, FlowDefinition } from '~/flowTypes';
 import { UpdateUserAddingAction } from '~/store/actionTypes';
 import { Asset, AssetStore, RenderNode } from '~/store/flowContext';

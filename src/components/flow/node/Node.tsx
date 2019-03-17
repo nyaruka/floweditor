@@ -10,8 +10,9 @@ import ExitComp from '~/components/flow/exit/Exit';
 import * as styles from '~/components/flow/node/Node.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
+import { Types } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { getType, getTypeConfig } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { DebugState } from '~/store/editor';
@@ -311,10 +312,11 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             let type = this.props.renderNode.node.router.type;
 
             if (this.props.renderNode.ui.type) {
-                type = this.props.renderNode.ui.type as any;
+                type = getType(this.props.renderNode);
             }
 
             const config = getTypeConfig(type);
+
             // let { name: title } = config;
 
             let title: string = null;

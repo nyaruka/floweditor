@@ -3,8 +3,7 @@ import {
     AirtimeTransferEntry
 } from '~/components/flow/routers/airtime/AirtimeRouterForm';
 import { createRenderNode } from '~/components/flow/routers/helpers';
-import { Operators } from '~/config/operatorConfigs';
-import { Types } from '~/config/typeConfigs';
+import { Operators, Types } from '~/config/interfaces';
 import {
     Case,
     Exit,

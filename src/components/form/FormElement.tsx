@@ -36,7 +36,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private getHelpText(): JSX.Element {
-        return renderIf(this.props.helpText && !this.hasErrors())(
+        return renderIf(this.props.helpText != null)(
             <div className={styles.helpText}>{this.props.helpText} </div>
         );
     }

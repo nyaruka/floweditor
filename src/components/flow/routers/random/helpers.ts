@@ -1,7 +1,7 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
 import { RandomRouterFormState } from '~/components/flow/routers/random/RandomRouterForm';
 import { SelectOption } from '~/components/form/select/SelectElement';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { Exit, Router, RouterTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';

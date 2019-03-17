@@ -2,8 +2,8 @@ import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps, RouterFormProps } from '~/components/flow/props';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
-import { Operators } from '~/config/operatorConfigs';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
+import { Operators, Types } from '~/config/interfaces';
+import { getTypeConfig } from '~/config/typeConfigs';
 import {
     AnyAction,
     BroadcastMsg,
@@ -18,9 +18,11 @@ import {
     FlowNode,
     Group,
     Label,
+    PlayAudio,
     RemoveFromGroups,
     Router,
     RouterTypes,
+    SayMsg,
     SendEmail,
     SendMsg,
     SetContactChannel,
@@ -53,6 +55,31 @@ export const createSelectOption = ({ label }: { label: string }) => ({
     label: capitalize(label.trim()),
     labelKey: 'name',
     valueKey: 'id'
+});
+
+export const createSayMsgAction = ({
+    uuid = '70b42948-e48c-4fb0-9824-a47fbc4f9613',
+    text = 'Welcome to Moviefone!'
+}: {
+    uuid?: string;
+    text?: string;
+} = {}): SayMsg => ({
+    type: Types.say_msg,
+    uuid,
+    text
+});
+
+export const createPlayAudioAction = ({
+    uuid = 'd941ddc1-0d47-4fdc-96f4-23dacb222d74',
+    audio_url = '/my_audio.mp3'
+}: {
+    uuid?: string;
+    text?: string;
+    audio_url?: string;
+} = {}): PlayAudio => ({
+    type: Types.play_audio,
+    uuid,
+    audio_url
 });
 
 export const createSendMsgAction = ({

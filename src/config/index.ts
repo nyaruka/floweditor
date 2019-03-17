@@ -1,6 +1,7 @@
 import ConfigProvider, { ConfigProviderContext } from '~/config/ConfigProvider';
-import { getOperatorConfig, Operator, operatorConfigList } from '~/config/operatorConfigs';
-import { getTypeConfig, Type, typeConfigList } from '~/config/typeConfigs';
+import { Operator, Type } from '~/config/interfaces';
+import { getOperatorConfig, operatorConfigList } from '~/config/operatorConfigs';
+import { getTypeConfig, typeConfigList } from '~/config/typeConfigs';
 
 export {
     ConfigProviderContext,

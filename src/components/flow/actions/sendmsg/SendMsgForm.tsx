@@ -13,6 +13,7 @@ import TextInputElement, { Count } from '~/components/form/textinput/TextInputEl
 import TypeList from '~/components/nodeeditor/TypeList';
 import Pill from '~/components/pill/Pill';
 import { fakePropType } from '~/config/ConfigProvider';
+import { getCookie } from '~/external';
 import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
 import { createUUID } from '~/utils';
@@ -172,10 +173,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     private handleUploadFile(files: FileList): void {
         let attachments: any = this.state.attachments;
 
+        // if we have a csrf in our cookie, pass it along as a header
+        const csrf = getCookie('csrftoken');
+        const headers = csrf ? { 'X-CSRFToken': csrf } : {};
+
         const data = new FormData();
         data.append('file', files[0]);
         axios
-            .post(this.context.endpoints.attachments, data)
+            .post(this.context.endpoints.attachments, data, { headers })
             .then(response => {
                 attachments = mutate(attachments, {
                     $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]

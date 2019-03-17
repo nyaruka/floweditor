@@ -7,8 +7,11 @@ import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { InputToFocus } from '~/components/flow/routers/response/ResponseRouterForm';
 import FormElement from '~/components/form/FormElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { Operator, operatorConfigList } from '~/config';
-import { Operators } from '~/config/operatorConfigs';
+import { Operator } from '~/config';
+import { fakePropType } from '~/config/ConfigProvider';
+import { filterOperators } from '~/config/helpers';
+import { Operators } from '~/config/interfaces';
+import { operatorConfigList } from '~/config/operatorConfigs';
 import { Case } from '~/flowTypes';
 import { FormState, StringEntry } from '~/store/nodeEditor';
 import { hasErrorType } from '~/utils';
@@ -37,20 +40,28 @@ export interface CaseElementState extends FormState {
 }
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
-    private category: any;
+    private operators: Operator[];
 
     constructor(props: CaseElementProps) {
         super(props);
 
-        this.state = initializeForm(props);
-
         bindCallbacks(this, {
-            include: [/Ref$/, /^handle/, /^get/]
+            include: [/^handle/, /^get/]
         });
+
+        this.state = initializeForm(props);
     }
 
-    private categoryRef(ref: any): any {
-        return (this.category = ref);
+    public static contextTypes = {
+        config: fakePropType
+    };
+
+    private getOperators(): Operator[] {
+        if (this.operators === undefined) {
+            this.operators = filterOperators(operatorConfigList, this.context.config.flowType);
+        }
+
+        return this.operators;
     }
 
     private getArgumentArray(): string[] {
@@ -213,7 +224,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             data-spec="operator-list"
                             isClearable={false}
                             menuPlacement="auto"
-                            options={operatorConfigList}
+                            options={this.getOperators()}
                             getOptionLabel={(option: Operator) => option.verboseName}
                             getOptionValue={(option: Operator) => option.type}
                             isSearchable={false}
@@ -234,7 +245,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     <div className={styles.categorizeAs}>categorize as</div>
                     <div className={styles.category}>
                         <TextInputElement
-                            ref={this.categoryRef}
                             data-spec="exit-input"
                             name="exitName"
                             onChange={this.handleExitChanged}

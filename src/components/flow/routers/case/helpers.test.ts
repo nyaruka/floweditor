@@ -8,7 +8,8 @@ import {
     strContainsNum,
     validateCase
 } from '~/components/flow/routers/case/helpers';
-import { getOperatorConfig, operatorConfigList, Operators } from '~/config/operatorConfigs';
+import { Operators } from '~/config/interfaces';
+import { getOperatorConfig, operatorConfigList } from '~/config/operatorConfigs';
 
 describe('helpers', () => {
     describe('validateCase', () => {

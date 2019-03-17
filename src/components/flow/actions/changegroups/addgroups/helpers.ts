@@ -4,7 +4,7 @@ import {
     mapGroupsToAssets
 } from '~/components/flow/actions/changegroups/helpers';
 import { getActionUUID } from '~/components/flow/actions/helpers';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { ChangeGroups } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 

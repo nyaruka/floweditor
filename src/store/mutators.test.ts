@@ -1,4 +1,4 @@
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { FlowDefinition, RouterTypes, SendMsg } from '~/flowTypes';
 import {
     getActionIndex,

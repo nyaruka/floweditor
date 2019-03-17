@@ -7,8 +7,9 @@ import * as styles from '~/components/flow/actions/action/Action.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from '~/config/ConfigProvider';
-import { getTypeConfig, Types } from '~/config/typeConfigs';
-import { Action, AnyAction, LocalizationMap } from '~/flowTypes';
+import { Types } from '~/config/interfaces';
+import { getTypeConfig } from '~/config/typeConfigs';
+import { Action, AnyAction, Endpoints, LocalizationMap } from '~/flowTypes';
 import { Asset, RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
 import {
@@ -26,7 +27,7 @@ export interface ActionWrapperPassedProps {
     first: boolean;
     action: AnyAction;
     localization: LocalizationMap;
-    render: (action: AnyAction) => React.ReactNode;
+    render: (action: AnyAction, endpoints: Endpoints) => React.ReactNode;
 }
 
 export interface ActionWrapperStoreProps {
@@ -51,7 +52,7 @@ const cx = classNames.bind({ ...shared, ...styles });
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
 export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public static contextTypes = {
-        assetService: fakePropType
+        endpoints: fakePropType
     };
 
     constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
@@ -110,7 +111,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         if (this.props.translating) {
             if (
                 this.props.action.type === Types.send_msg ||
-                this.props.action.type === Types.send_broadcast
+                this.props.action.type === Types.send_broadcast ||
+                this.props.action.type === Types.say_msg
             ) {
                 localizedKeys.push('text');
             }
@@ -135,14 +137,17 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             }
         }
 
+        const notLocalizable = this.props.translating && localizedKeys.length === 0;
+
         return cx({
             [styles.action]: true,
             [styles.has_router]:
                 this.props.renderNode.node.hasOwnProperty('router') &&
                 this.props.renderNode.node.router !== null,
             [styles.translating]: this.props.translating,
-            [styles.not_localizable]: this.props.translating && localizedKeys.length === 0,
-            [styles.missing_localization]: missingLocalization
+            [styles.not_localizable]: notLocalizable,
+            [styles.missing_localization]: missingLocalization,
+            [styles.localized]: !notLocalizable && !missingLocalization
         });
     }
 
@@ -176,7 +181,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                         shouldCancelClick={() => this.props.dragging}
                     />
                     <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
-                        {this.props.render(actionToInject)}
+                        {this.props.render(actionToInject, this.context.endpoints)}
                     </div>
                 </div>
             </div>

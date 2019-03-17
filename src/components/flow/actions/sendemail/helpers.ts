@@ -1,6 +1,6 @@
 import { getActionUUID } from '~/components/flow/actions/helpers';
 import { SendEmailFormState } from '~/components/flow/actions/sendemail/SendEmailForm';
-import { Types } from '~/config/typeConfigs';
+import { Types } from '~/config/interfaces';
 import { SendEmail } from '~/flowTypes';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
