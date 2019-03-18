@@ -374,6 +374,10 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     }
 
     private handleDragStop(): void {
+        if (this.state.dragUUID) {
+            this.updatePositions(this.lastX, this.lastY, 0, true);
+        }
+
         this.props.onUpdatePositions(this.getSelectedPositions());
         this.setState({
             dragUUID: null,

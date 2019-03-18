@@ -19,7 +19,7 @@ import AppState from '~/store/state';
 import { DispatchWithState } from '~/store/thunks';
 import { createUUID } from '~/utils';
 
-const MESSAGE_DELAY_MS = 300;
+const MESSAGE_DELAY_MS = 200;
 
 const MAP_THUMB = require('static/images/map.jpg');
 const IMAGE_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg';
