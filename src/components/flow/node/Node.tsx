@@ -28,10 +28,8 @@ import {
     onNodeMoved,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    RemoveNode,
     removeNode,
-    updateDimensions,
-    UpdateDimensions
+    RemoveNode
 } from '~/store/thunks';
 import { ClickHandler, createClickHandler, titleCase } from '~/utils';
 
@@ -63,7 +61,6 @@ export interface NodeStoreProps {
     onNodeMoved: OnNodeMoved;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeNode: RemoveNode;
-    updateDimensions: UpdateDimensions;
     mergeEditorState: MergeEditorState;
 }
 
@@ -162,17 +159,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
     private onAddToNode(): void {
         this.props.onAddToNode(this.props.renderNode.node);
-    }
-
-    private updateDimensions(): void {
-        if (this.ele) {
-            if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.updateDimensions(this.props.renderNode.node.uuid, {
-                    width: this.ele.clientWidth,
-                    height: this.ele.clientHeight
-                });
-            }
-        }
     }
 
     // Applies only to router nodes;
@@ -482,7 +468,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onNodeMoved,
             onOpenNodeEditor,
             removeNode,
-            updateDimensions,
             mergeEditorState
         },
         dispatch
