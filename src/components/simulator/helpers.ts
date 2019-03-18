@@ -1,3 +1,4 @@
+import { EventProps } from '~/components/simulator/LogEvent';
 import { FlowDefinition } from '~/flowTypes';
 import { AssetStore, AssetType } from '~/store/flowContext';
 import { assetMapToList } from '~/store/helpers';
@@ -78,4 +79,12 @@ export const getSimulationAssets = (assets: AssetStore, flow: FlowDefinition): a
     };
 
     return payload;
+};
+
+export const isMessage = (event: EventProps): boolean => {
+    return !!['msg_created', 'msg_received', 'ivr_created'].find(type => type === event.type);
+};
+
+export const isMT = (event: EventProps): boolean => {
+    return !!['msg_created', 'ivr_created'].find(type => type === event.type);
 };

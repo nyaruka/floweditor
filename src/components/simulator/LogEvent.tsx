@@ -13,6 +13,7 @@ interface MsgProps {
     uuid: string;
     urn: string;
     attachments?: string[];
+    quick_replies?: string[];
 }
 
 export interface EventProps {
