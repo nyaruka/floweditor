@@ -5,7 +5,7 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { getTime } from '~/components/simulator/helpers';
+import { getTime, isMessage, isMT } from '~/components/simulator/helpers';
 import LogEvent, { EventProps } from '~/components/simulator/LogEvent';
 import * as styles from '~/components/simulator/Simulator.scss';
 import { ConfigProviderContext } from '~/config';
@@ -51,12 +51,13 @@ export interface SimulatorPassedProps {
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
 
 enum DrawerType {
-    audio,
-    images,
-    videos,
-    location,
-    digit,
-    digits
+    audio = 'audio',
+    images = 'images',
+    videos = 'videos',
+    location = 'location',
+    digit = 'digit',
+    digits = 'digits',
+    quickReplies = 'quickReplies'
 }
 
 interface SimulatorState {
@@ -67,11 +68,26 @@ interface SimulatorState {
     events: EventProps[];
     active: boolean;
     time: string;
+
+    quickReplies?: string[];
+
+    // are we currently simulating a sprint
     sprinting: boolean;
-    attachmentsVisible: boolean;
-    drawerVisible: boolean;
-    waitingForAttachment: boolean;
+
+    // is our drawer open
+    drawerOpen: boolean;
+
+    // what type of drawer are we looking at
     drawerType?: DrawerType;
+
+    // how tall our drawer is
+    drawerHeight: number;
+
+    // is our attachment type selection open
+    attachmentOptionsVisible: boolean;
+
+    // are we at a wait hint, ie, a forced attachment
+    waitingForHint: boolean;
 }
 
 interface Contact {
@@ -119,6 +135,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private currentFlow: string;
     private inputBox: HTMLInputElement;
 
+    private drawerEle: HTMLDivElement;
+
     // marks the bottom of our chat
     private bottom: any;
 
@@ -138,11 +156,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 fields: {},
                 groups: []
             },
+            drawerHeight: 0,
             channel: createUUID(),
             time: getTime(),
-            waitingForAttachment: false,
-            drawerVisible: false,
-            attachmentsVisible: false,
+            waitingForHint: false,
+            drawerOpen: false,
+            attachmentOptionsVisible: false,
             sprinting: false
         };
         this.bottomRef = this.bottomRef.bind(this);
@@ -213,22 +232,38 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         if (events.length > 0) {
             const toAdd = [];
 
+            let quickReplies: string[] = null;
+
             let messageFound = false;
             while (events.length > 0 && !messageFound) {
-                const eventType = events[0].type;
-                if (
-                    eventType === 'msg_created' ||
-                    eventType === 'msg_received' ||
-                    eventType === 'ivr_created'
-                ) {
+                const event = events.shift();
+
+                if (isMessage(event)) {
                     messageFound = true;
+
+                    if (isMT(event)) {
+                        // save off any quick replies we might have
+                        if (event.msg.quick_replies) {
+                            quickReplies = event.msg.quick_replies;
+                        } else {
+                            quickReplies = [];
+                        }
+                    }
                 }
 
-                toAdd.push(events.shift());
+                toAdd.push(event);
             }
 
             const newEvents = update(this.state.events, { $push: toAdd }) as EventProps[];
-            this.setState({ events: newEvents }, () => {
+            const newState: Partial<SimulatorState> = { events: newEvents };
+
+            if (quickReplies !== null) {
+                newState.quickReplies = quickReplies;
+            }
+
+            this.scrollToBottom();
+
+            this.setState(newState as SimulatorState, () => {
                 if (events.length === 0) {
                     callback();
                 } else {
@@ -244,17 +279,17 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private updateRunContext(body: any, runContext: RunContext): void {
         this.updateEvents(runContext.events, () => {
-            let activeRuns = false;
+            let active = false;
             for (const run of runContext.session.runs) {
                 if (run.status === 'waiting') {
-                    activeRuns = true;
+                    active = true;
                     break;
                 }
             }
 
             let newEvents = this.state.events;
 
-            if (!activeRuns) {
+            if (!active) {
                 newEvents = update(this.state.events, {
                     $push: [
                         {
@@ -265,13 +300,13 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }) as EventProps[];
             }
 
-            const waitingForAttachment =
+            const waitingForHint =
                 runContext.session &&
                 runContext.session.wait &&
                 runContext.session.wait.hint !== undefined;
 
             let drawerType = null;
-            if (waitingForAttachment) {
+            if (waitingForHint) {
                 switch (runContext.session.wait.hint.type) {
                     case 'audio':
                         drawerType = DrawerType.audio;
@@ -290,15 +325,24 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }
             }
 
+            let drawerOpen = waitingForHint;
+
+            // if we have quick replies, open our drawe with attachment options
+            if (!drawerType && this.hasQuickReplies()) {
+                drawerType = DrawerType.quickReplies;
+                drawerOpen = true;
+            }
+
             this.setState(
                 {
+                    active,
+                    sprinting: false,
                     session: runContext.session,
                     events: newEvents,
-                    active: activeRuns,
+                    // attachmentOptionsVisible: !waitingForHint,
+                    drawerOpen,
                     drawerType,
-                    drawerVisible: waitingForAttachment,
-                    waitingForAttachment,
-                    sprinting: false
+                    waitingForHint
                 },
                 () => {
                     this.updateActivity();
@@ -306,11 +350,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }
             );
         });
-
-        /*
-        const events = update(this.state.events, { $push: runContext.events }) as EventProps[];
-
-        */
     }
 
     private startFlow(): void {
@@ -318,13 +357,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         this.setState(
             {
                 sprinting: true,
-                drawerVisible: false,
-                attachmentsVisible: false,
+                drawerOpen: false,
+                attachmentOptionsVisible: false,
                 events: []
             },
             () => {
-                // this.props.definition.uuid,
-                // getCurrentDefinition(this.props.definition, this.props.nodes)
                 const now = new Date().toISOString();
                 const body: any = {
                     contact: this.state.contact,
@@ -381,50 +418,72 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             return;
         }
 
-        this.setState({ sprinting: true, attachmentsVisible: false, drawerVisible: false }, () => {
-            const now = new Date().toISOString();
-            const body: any = {
-                flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
-                session: this.state.session,
-                resume: {
-                    type: 'msg',
-                    msg: {
-                        text,
-                        uuid: createUUID(),
-                        urn: this.state.session.contact.urns[0],
-                        attachments: attachment ? [attachment] : []
-                    },
-                    resumed_on: now,
-                    contact: this.state.session.contact
-                }
-            };
+        this.setState(
+            { sprinting: true, attachmentOptionsVisible: false, drawerOpen: false },
+            () => {
+                const now = new Date().toISOString();
+                const body: any = {
+                    flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
+                    session: this.state.session,
+                    resume: {
+                        type: 'msg',
+                        msg: {
+                            text,
+                            uuid: createUUID(),
+                            urn: this.state.session.contact.urns[0],
+                            attachments: attachment ? [attachment] : []
+                        },
+                        resumed_on: now,
+                        contact: this.state.session.contact
+                    }
+                };
 
-            axios.default
-                .post(getURL(this.context.endpoints.simulateResume), JSON.stringify(body, null, 2))
-                .then((response: axios.AxiosResponse) => {
-                    this.updateRunContext(body, response.data as RunContext);
-                })
-                .catch(error => {
-                    const events = update(this.state.events, {
-                        $push: [
-                            {
-                                type: 'error',
-                                text: error.response.data.error
-                            }
-                        ]
-                    }) as EventProps[];
-                    this.setState({ events });
-                });
-        });
+                axios.default
+                    .post(
+                        getURL(this.context.endpoints.simulateResume),
+                        JSON.stringify(body, null, 2)
+                    )
+                    .then((response: axios.AxiosResponse) => {
+                        this.updateRunContext(body, response.data as RunContext);
+                    })
+                    .catch(error => {
+                        const events = update(this.state.events, {
+                            $push: [
+                                {
+                                    type: 'error',
+                                    text: error.response.data.error
+                                }
+                            ]
+                        }) as EventProps[];
+                        this.setState({ events });
+                    });
+            }
+        );
     }
 
     private onReset(event: any): void {
         this.startFlow();
     }
 
-    public componentDidUpdate(prevProps: SimulatorProps): void {
+    private scrollToBottom(delay?: number): void {
+        const wait = delay || 0;
         if (this.bottom) {
-            this.bottom.scrollIntoView(false);
+            window.setTimeout(() => {
+                this.bottom.scrollIntoView(false);
+            }, wait);
+        }
+    }
+
+    public componentDidUpdate(prevProps: SimulatorProps, prevState: SimulatorState): void {
+        if (this.drawerEle !== null) {
+            if (
+                prevState.drawerHeight !== this.drawerEle.clientHeight ||
+                prevState.drawerOpen !== this.state.drawerOpen
+            ) {
+                this.setState({ drawerHeight: this.drawerEle.clientHeight }, () => {
+                    this.scrollToBottom(800);
+                });
+            }
         }
     }
 
@@ -465,7 +524,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private sendAttachment(attachment: string): void {
-        this.setState({ drawerVisible: false, attachmentsVisible: false }, () => {
+        this.setState({ drawerOpen: false, attachmentOptionsVisible: false }, () => {
             window.setTimeout(() => {
                 this.resume(null, attachment);
             }, 200);
@@ -561,6 +620,23 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         );
     }
 
+    private getQuickRepliesDrawer(): JSX.Element {
+        return (
+            <div className={styles.quickReplies}>
+                {this.state.quickReplies.map(reply => (
+                    <div
+                        className={styles.quickReply}
+                        onClick={() => {
+                            this.resume(reply);
+                        }}
+                        key={`reply_${reply}`}
+                    >
+                        {reply}
+                    </div>
+                ))}
+            </div>
+        );
+    }
     private getDrawerContents(): JSX.Element {
         switch (this.state.drawerType) {
             case DrawerType.location:
@@ -571,19 +647,42 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 return this.getImageDrawer();
             case DrawerType.videos:
                 return this.getVideoDrawer();
+            case DrawerType.quickReplies:
+                return this.getQuickRepliesDrawer();
         }
         return null;
     }
 
+    private handleDrawerRef(ref: HTMLDivElement): HTMLDivElement {
+        return (this.drawerEle = ref);
+    }
+
     public getDrawer(): JSX.Element {
+        const style: any = {};
+
+        if (this.state.drawerOpen) {
+            style.bottom = 50;
+
+            // are we being forced open
+            if (this.state.waitingForHint) {
+                style.bottom = 25;
+                style.zIndex = 150;
+                style.paddingBottom = 10;
+            }
+        } else {
+            style.bottom = -this.state.drawerHeight;
+        }
+
         return (
             <div
+                ref={this.handleDrawerRef}
+                style={style}
                 className={
-                    styles.attachmentDrawer +
+                    styles.drawer +
                     ' ' +
-                    (this.state.drawerVisible ? styles.attachmentDrawerVisible : '') +
+                    (this.state.drawerOpen ? styles.drawerVisible : '') +
                     ' ' +
-                    (this.state.attachmentsVisible ? '' : styles.forced)
+                    (this.state.attachmentOptionsVisible ? '' : styles.forced)
                 }
             >
                 {this.getDrawerContents()}
@@ -591,11 +690,24 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         );
     }
 
+    private hasQuickReplies(): boolean {
+        return (this.state.quickReplies || []).length > 0;
+    }
+
     private handleHideAttachments(): void {
-        this.setState({
-            attachmentsVisible: false,
-            drawerVisible: false
-        });
+        this.setState(
+            {
+                attachmentOptionsVisible: false,
+                drawerOpen: false
+            },
+            () => {
+                if (this.hasQuickReplies()) {
+                    window.setTimeout(() => {
+                        this.showAttachmentDrawer(DrawerType.quickReplies);
+                    }, 300);
+                }
+            }
+        );
     }
 
     private getAttachmentButton(icon: string, drawerType: DrawerType): JSX.Element {
@@ -615,7 +727,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 className={
                     styles.attachmentButtons +
                     ' ' +
-                    (this.state.attachmentsVisible ? styles.visible : '')
+                    (this.state.attachmentOptionsVisible ? styles.visible : '')
                 }
             >
                 <div className="fe-x" onClick={this.handleHideAttachments} />
@@ -628,40 +740,45 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private handleHideAttachmentDrawer(): void {
-        this.setState({ drawerVisible: false });
+        this.setState({ drawerOpen: false });
     }
 
     private showAttachmentDrawer(drawerType: DrawerType): void {
-        if (this.state.drawerVisible) {
+        // if we are already open but a different type, hide ourselves and reopen with the new type
+        if (this.state.drawerOpen) {
+            // if that type is already open, its a noop
+            if (drawerType === this.state.drawerType) {
+                return;
+            }
+
             this.handleHideAttachmentDrawer();
             window.setTimeout(() => {
                 this.showAttachmentDrawer(drawerType);
             }, 300);
         } else {
-            this.setState(
-                (prevState: SimulatorState) => {
-                    return { drawerVisible: true, drawerType };
-                },
-                () => {
-                    if (this.bottom) {
-                        window.setTimeout(() => {
-                            this.bottom.scrollIntoView(true);
-                        }, 200);
-                    }
-                }
-            );
+            this.setState((prevState: SimulatorState) => {
+                return { drawerOpen: true, drawerType };
+            });
         }
     }
 
     public render(): ReactNode {
         const messages: JSX.Element[] = [];
         for (const event of this.state.events) {
-            // console.log('EVENT', event);
             messages.push(<LogEvent {...event} key={String(event.created_on)} />);
         }
 
         const simHidden = !this.state.visible ? styles.simHidden : '';
         const tabHidden = this.state.visible ? styles.tabHidden : '';
+
+        const messagesStyle: any = {
+            height: 366 - (this.state.drawerOpen ? this.state.drawerHeight - 20 : 0)
+        };
+
+        // if attachments are forced open, account for missing attachment choice panel
+        if (this.state.drawerOpen && this.state.waitingForHint) {
+            messagesStyle.height += 25;
+        }
 
         return (
             <div className={styles.simContainer}>
@@ -671,13 +788,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                             <div className={styles.header}>
                                 <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
                             </div>
-                            <div
-                                className={
-                                    styles.messages +
-                                    ' ' +
-                                    (this.state.drawerVisible ? styles.short : '')
-                                }
-                            >
+                            <div className={styles.messages} style={messagesStyle}>
                                 {messages}
                                 <div
                                     id="bottom"
@@ -690,9 +801,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                     ref={this.inputBoxRef}
                                     type="text"
                                     onKeyUp={this.onKeyUp}
-                                    disabled={
-                                        this.state.waitingForAttachment || this.state.sprinting
-                                    }
+                                    disabled={this.state.sprinting}
                                     placeholder={
                                         this.state.active
                                             ? 'Enter message'
@@ -703,7 +812,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                                     <div
                                         className="fe-paperclip"
                                         onClick={() => {
-                                            this.setState({ attachmentsVisible: true });
+                                            this.setState({
+                                                attachmentOptionsVisible: true,
+                                                drawerOpen: false
+                                            });
                                         }}
                                     />
                                 </div>

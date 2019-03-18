@@ -22,7 +22,12 @@ exports[`Simulator renders 1`] = `
           />
         </div>
         <div
-          className="messages "
+          className="messages"
+          style={
+            Object {
+              "height": 366,
+            }
+          }
         >
           <div
             id="bottom"
@@ -78,7 +83,12 @@ exports[`Simulator renders 1`] = `
           />
         </div>
         <div
-          className="attachmentDrawer  forced"
+          className="drawer  forced"
+          style={
+            Object {
+              "bottom": -0,
+            }
+          }
         />
         <div
           className="footer"
