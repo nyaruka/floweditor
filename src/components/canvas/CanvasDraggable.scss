@@ -9,8 +9,12 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    transition: left 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        top 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .selected {
+    transition: none;
     z-index: $z_dragging;
 }
