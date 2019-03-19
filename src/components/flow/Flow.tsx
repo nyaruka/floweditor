@@ -73,7 +73,7 @@ export interface Translations {
     [uuid: string]: any;
 }
 
-export const DRAG_THRESHOLD = 5;
+export const DRAG_THRESHOLD = 3;
 export const REPAINT_TIMEOUT = 500;
 export const GHOST_POSITION_INITIAL = { left: -1000, top: -1000 };
 
@@ -203,12 +203,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
         return true;
     }
-
-    // private onShowDefinition(definition: FlowDefinition): void {
-    //     TODO: make this work, it's cool!
-    //     this.Plumber.reset();
-    //     this.setState({ viewDefinition: definition }, () => { this.Plumber.repaint() });
-    // }
 
     /**
      * Called the moment a connector is done dragging, whether it is dropped on an
@@ -340,14 +334,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private onDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.isClickOnCanvas(event)) {
-            /*const { left, top } = snapToGrid(
-                event.clientX - this.containerOffset.left - 100 + NODE_PADDING,
-                event.clientY - this.containerOffset.top - NODE_PADDING * 2
-            );*/
-
             const { left, top } = snapToGrid(
                 event.pageX - this.containerOffset.left - 100 + NODE_PADDING,
-                event.pageY - this.containerOffset.top - NODE_PADDING * 2 - 80
+                event.pageY - this.containerOffset.top - NODE_PADDING * 2 - 40
             );
 
             this.props.updateSticky(createUUID(), {
@@ -376,7 +365,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         const draggables = this.getStickies().concat(this.getNodes());
 
         return (
-            <div onDoubleClick={this.onDoubleClick}>
+            <div onDoubleClick={this.onDoubleClick} ref={this.onRef}>
                 <Canvas
                     onDragging={(uuids: string[]) => {
                         uuids.forEach((uuid: string) => {

@@ -31,16 +31,9 @@
         }
 
         &.ReactModal__Body--open {
-            // overflow-y: none !important
-            // position: fixed;
-
             height: 100vh !important;
             overflow-y: scroll !important;
             margin: 0 0 5px !important;
-
-            // position: fixed !important;
-            // overflow-y: scroll !important;
-            // width: 100% !important;
         }
 
         .ReactModal__Overlay {
@@ -155,11 +148,6 @@
             }
         }
 
-        #simulator.jtk-drag {
-            transform: scale(1.02);
-            transition: all 0.05s ease-out;
-        }
-
         // jsplumb, no text selection while dragging
         .jtk-drag-select * {
             -webkit-touch-callout: none;
@@ -184,8 +172,6 @@
 
             path {
                 stroke: $connector_color;
-                stroke-width: 2px;
-
                 &.jtk-arrow {
                     fill: $connector_color;
                 }
@@ -212,7 +198,6 @@
 
         .jtk-endpoint {
             z-index: $z_endpoints;
-            stroke-width: 2px;
             width: 16px;
             height: 16px;
         }

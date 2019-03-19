@@ -12,6 +12,7 @@ export interface CanvasDraggableProps {
 
     selected?: boolean;
 
+    onAnimated?: (uuid: string) => void;
     updateDimensions?: (uuid: string, position: Dimensions) => void;
     onDragStart?: (uuid: string, clickedPosition: FlowPosition) => void;
     onDragStop?: () => void;
@@ -60,8 +61,15 @@ export class CanvasDraggable extends React.PureComponent<CanvasDraggableProps, {
             classes.push(styles.selected);
         }
 
+        const handleAnimated = () => {
+            if (this.props.onAnimated) {
+                this.props.onAnimated(this.props.uuid);
+            }
+        };
+
         return (
             <div
+                onTransitionEnd={handleAnimated}
                 ref={this.ref}
                 className={classes.join(' ')}
                 style={{ left: this.props.position.left, top: this.props.position.top }}

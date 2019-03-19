@@ -88,6 +88,37 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
         this.parentOffset = { left: offset.left, top: offset.top + window.scrollY };
     }
 
+    public componentDidUpdate(prevProps: CanvasProps): void {
+        let updated = false;
+        let updatedPositions = this.state.positions;
+
+        // are we being given something new
+        this.props.draggables.forEach((draggable: CanvasDraggableProps) => {
+            if (!this.state.positions[draggable.uuid]) {
+                updatedPositions = mutate(updatedPositions, {
+                    $merge: { [draggable.uuid]: draggable.position }
+                });
+                updated = true;
+            }
+        });
+
+        // have we removed something
+        Object.keys(updatedPositions).forEach((uuid: string) => {
+            if (
+                !this.props.draggables.find(
+                    (draggable: CanvasDraggableProps) => draggable.uuid === uuid
+                )
+            ) {
+                updatedPositions = mutate(updatedPositions, { $unset: [[uuid]] });
+                updated = true;
+            }
+        });
+
+        if (updated) {
+            this.setState({ positions: updatedPositions });
+        }
+    }
+
     public renderSelectionBox(): JSX.Element {
         const drag = this.state.dragSelection;
 
@@ -211,7 +242,6 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
 
     public handleUpdateDimensions(uuid: string, dimensions: Dimensions): void {
         let pos = this.state.positions[uuid];
-
         if (!pos) {
             pos = this.props.draggables.find((item: CanvasDraggableProps) => item.uuid === uuid)
                 .position;
@@ -325,7 +355,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
                 },
                 () => {
                     // check if we need to scroll our canvas
-                    if (!this.isScrolling) {
+                    if (!this.isScrolling && clientY !== 0) {
                         if (clientY + 100 > viewportHeight) {
                             this.scrollCanvas(15);
                         } else if (clientY < 100) {
@@ -410,6 +440,9 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
                         const pos = this.state.positions[draggable.uuid] || draggable.position;
                         return (
                             <CanvasDraggable
+                                onAnimated={(uuid: string) => {
+                                    this.props.onDragging([uuid]);
+                                }}
                                 key={'draggable_' + draggable.uuid}
                                 uuid={draggable.uuid}
                                 updateDimensions={this.handleUpdateDimensions}
