@@ -22,7 +22,7 @@ export const nodeToState = (settings: NodeEditorSettings): ExpressionRouterFormS
         const router = settings.originalNode.node.router as SwitchRouter;
         if (router) {
             if (hasCases(settings.originalNode.node)) {
-                initialCases = createCaseProps(router.cases, settings.originalNode.node.exits);
+                initialCases = createCaseProps(router.cases, settings.originalNode);
             }
 
             resultName = { value: router.result_name || '' };
@@ -41,7 +41,7 @@ export const stateToNode = (
     settings: NodeEditorSettings,
     state: ExpressionRouterFormState
 ): RenderNode => {
-    const { cases, exits, defaultExit } = resolveExits(state.cases, false, settings);
+    const { cases, exits, defaultExit, caseConfig } = resolveExits(state.cases, false, settings);
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
     if (state.resultName.value) {
@@ -61,7 +61,9 @@ export const stateToNode = (
         router,
         exits,
         Types.split_by_expression,
-        []
+        [],
+        null,
+        { cases: caseConfig }
     );
 
     return newRenderNode;

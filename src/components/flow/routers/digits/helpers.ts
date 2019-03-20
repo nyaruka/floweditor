@@ -23,7 +23,7 @@ export const nodeToState = (settings: NodeEditorSettings): DigitsRouterFormState
         const router = settings.originalNode.node.router as SwitchRouter;
         if (router) {
             if (hasCases(settings.originalNode.node)) {
-                initialCases = createCaseProps(router.cases, settings.originalNode.node.exits);
+                initialCases = createCaseProps(router.cases, settings.originalNode);
             }
 
             resultName = { value: router.result_name || '' };
@@ -41,7 +41,7 @@ export const stateToNode = (
     settings: NodeEditorSettings,
     state: DigitsRouterFormState
 ): RenderNode => {
-    const { cases, exits, defaultExit } = resolveExits(state.cases, false, settings);
+    const { cases, exits, defaultExit, caseConfig } = resolveExits(state.cases, false, settings);
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
     if (state.resultName.value) {
@@ -62,7 +62,8 @@ export const stateToNode = (
         exits,
         Types.wait_for_response,
         [],
-        { type: WaitTypes.msg, hint: { type: HintTypes.digits } }
+        { type: WaitTypes.msg, hint: { type: HintTypes.digits } },
+        { cases: caseConfig }
     );
 
     return newRenderNode;

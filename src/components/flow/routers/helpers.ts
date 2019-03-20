@@ -1,7 +1,17 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { Operators, Types } from '~/config/interfaces';
-import { Action, Case, Exit, FlowNode, Router, RouterTypes, SwitchRouter, Wait } from '~/flowTypes';
+import {
+    Action,
+    Case,
+    Exit,
+    FlowNode,
+    Router,
+    RouterTypes,
+    SwitchRouter,
+    UIConfig,
+    Wait
+} from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
@@ -10,6 +20,7 @@ export interface CombinedExits {
     cases: Case[];
     exits: Exit[];
     defaultExit: string;
+    caseConfig: { [uuid: string]: any };
 }
 
 export const createRenderNode = (
@@ -49,11 +60,22 @@ export const hasCases = (node: FlowNode): boolean => {
     return false;
 };
 
-export const createCaseProps = (cases: Case[], exits: Exit[]): CaseProps[] => {
+export const createCaseProps = (cases: Case[], renderNode: RenderNode): CaseProps[] => {
+    const exits = renderNode.node.exits;
     return cases
         .filter((kase: Case) => kase.type !== Operators.has_wait_timed_out)
         .map((kase: Case) => {
             const matchingExit = exits.find((exit: Exit) => exit.uuid === kase.exit_uuid);
+
+            if (isRelativeDate(kase.type)) {
+                if (renderNode.ui.config && renderNode.ui.config.cases) {
+                    const caseConfig = renderNode.ui.config.cases[kase.uuid];
+                    if (caseConfig && caseConfig.arguments) {
+                        kase.arguments = caseConfig.arguments;
+                    }
+                }
+            }
+
             return {
                 uuid: kase.uuid,
                 kase,
@@ -61,6 +83,12 @@ export const createCaseProps = (cases: Case[], exits: Exit[]): CaseProps[] => {
                 valid: true
             };
         });
+};
+
+export const isRelativeDate = (operatorType: Operators): boolean => {
+    return !![Operators.has_date_eq, Operators.has_date_gt, Operators.has_date_lt].find(
+        (type: string) => operatorType === type
+    );
 };
 
 /**
@@ -80,6 +108,8 @@ export const resolveExits = (
             previousExitMap[exit.uuid] = exit;
         }
     }
+
+    const caseConfig: UIConfig = {};
 
     const exits: Exit[] = [];
     const cases: Case[] = [];
@@ -147,6 +177,13 @@ export const resolveExits = (
             });
         }
 
+        if (isRelativeDate(newCase.kase.type)) {
+            caseConfig[newCase.uuid] = { arguments: newCase.kase.arguments };
+            newCase.kase.arguments = [
+                `@(datetime_add(today(), ${newCase.kase.arguments[0]}, "D"))`
+            ];
+        }
+
         // remove exitName from our case
         cases.push(newCase.kase);
     }
@@ -212,5 +249,5 @@ export const resolveExits = (
         });
     }
 
-    return { cases, exits, defaultExit: defaultUUID };
+    return { cases, exits, defaultExit: defaultUUID, caseConfig };
 };

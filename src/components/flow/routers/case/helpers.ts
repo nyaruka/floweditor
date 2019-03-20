@@ -1,3 +1,4 @@
+import { isRelativeDate } from '~/components/flow/routers/helpers';
 import { Operator, Operators } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import {
@@ -5,6 +6,7 @@ import {
     validateLessThan,
     validateMoreThan,
     validateNumeric,
+    validateNumericOrExpression,
     validateRegex,
     validateRequired
 } from '~/store/validators';
@@ -138,6 +140,12 @@ export const validateCase = (keys: {
             case Operators.has_number_gte:
             case Operators.has_number_lt:
             case Operators.has_number_lte:
+            case Operators.has_date_gt:
+                validators.push(validateNumericOrExpression);
+                break;
+            case Operators.has_date_eq:
+            case Operators.has_date_lt:
+            case Operators.has_date_gt:
                 validators.push(validateNumeric);
                 break;
             case Operators.has_pattern:
@@ -208,6 +216,16 @@ export const getExitName = (state: Partial<CaseElementState>): string => {
         state.max.value
     ) {
         return `${state.min.value} - ${state.max.value}`;
+    }
+
+    if (isRelativeDate(state.operatorConfig.type)) {
+        const count = parseInt(state.argument.value, 10);
+        if (!isNaN(count)) {
+            const today = state.operatorConfig.type === Operators.has_date_eq ? 'Today' : 'today';
+            const op = count < 0 ? ' - ' : ' + ';
+            const days = Math.abs(count) === 1 ? ' day' : ' days';
+            return prefix(state.operatorConfig.type) + today + op + Math.abs(count) + days;
+        }
     }
 
     if (state.argument && state.argument.value) {

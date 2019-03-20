@@ -464,6 +464,7 @@ Array [
     },
     "ui": Object {
       "config": Object {
+        "cases": Object {},
         "operand": Object {
           "id": "favorite_color",
           "name": null,

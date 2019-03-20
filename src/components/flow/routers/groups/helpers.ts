@@ -2,8 +2,7 @@ import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { GroupsRouterFormState } from '~/components/flow/routers/groups/GroupsRouterForm';
 import { createRenderNode, resolveExits } from '~/components/flow/routers/helpers';
 import { GROUPS_OPERAND } from '~/components/nodeeditor/constants';
-import { Operators } from '~/config/interfaces';
-import { Types } from '~/config/interfaces';
+import { Operators, Types } from '~/config/interfaces';
 import { FlowNode, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { Asset, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
@@ -32,7 +31,7 @@ export const stateToNode = (
     state: GroupsRouterFormState
 ): RenderNode => {
     const currentCases = groupsToCases(state.groups.value);
-    const { cases, exits, defaultExit } = resolveExits(currentCases, false, settings);
+    const { cases, exits, defaultExit, caseConfig } = resolveExits(currentCases, false, settings);
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
@@ -48,7 +47,8 @@ export const stateToNode = (
         exits,
         Types.split_by_groups,
         [],
-        { type: WaitTypes.group }
+        { type: WaitTypes.group },
+        { cases: caseConfig }
     );
 };
 

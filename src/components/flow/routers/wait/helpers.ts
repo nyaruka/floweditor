@@ -1,8 +1,8 @@
 import { createRenderNode, resolveExits } from '~/components/flow/routers/helpers';
 import { WaitRouterFormState } from '~/components/flow/routers/wait/WaitRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-import { Types, Type } from '~/config/interfaces';
-import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes, HintTypes } from '~/flowTypes';
+import { Type, Types } from '~/config/interfaces';
+import { HintTypes, Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
@@ -26,7 +26,7 @@ export const stateToNode = (
     state: WaitRouterFormState,
     typeConfig: Type
 ): RenderNode => {
-    const { exits, defaultExit } = resolveExits([], false, settings);
+    const { exits, defaultExit, caseConfig } = resolveExits([], false, settings);
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
     if (state.resultName.value) {
@@ -65,7 +65,8 @@ export const stateToNode = (
         exits,
         Types.wait_for_response,
         [],
-        wait
+        wait,
+        { cases: caseConfig }
     );
 
     return newRenderNode;

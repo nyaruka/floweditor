@@ -131,6 +131,29 @@ describe('helpers', () => {
             ).toBe('Color');
         });
 
+        it('it should generate exits for relative dates', () => {
+            const testRelativeDateExit = (op: Operators, value: number, exitName: string): void => {
+                expect(
+                    getExitName({
+                        operatorConfig: getOperatorConfig(op),
+                        argument: { value: value + '' }
+                    })
+                ).toBe(exitName);
+            };
+
+            testRelativeDateExit(Operators.has_date_eq, 5, 'Today + 5 days');
+            testRelativeDateExit(Operators.has_date_eq, -4, 'Today - 4 days');
+            testRelativeDateExit(Operators.has_date_eq, 1, 'Today + 1 day');
+
+            testRelativeDateExit(Operators.has_date_lt, 5, 'Before today + 5 days');
+            testRelativeDateExit(Operators.has_date_lt, -4, 'Before today - 4 days');
+            testRelativeDateExit(Operators.has_date_lt, 1, 'Before today + 1 day');
+
+            testRelativeDateExit(Operators.has_date_gt, 5, 'After today + 5 days');
+            testRelativeDateExit(Operators.has_date_gt, -4, 'After today - 4 days');
+            testRelativeDateExit(Operators.has_date_gt, 1, 'After today + 1 day');
+        });
+
         it('should have empty categories without argument', () => {
             expect(
                 getExitName({

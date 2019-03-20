@@ -126,6 +126,21 @@ export const validateRegex: ValidatorFunc = (name: string, input: FormInput) => 
 export const validateNumeric: ValidatorFunc = (name: string, input: FormInput) => {
     if (typeof input === 'string') {
         const inputString = input as string;
+        if (isNaN(Number(inputString))) {
+            return {
+                value: input,
+                failures: [{ message: `${name} must be a number` }]
+            };
+        }
+
+        return { failures: [], value: input };
+    }
+    return { failures: [], value: input };
+};
+
+export const validateNumericOrExpression: ValidatorFunc = (name: string, input: FormInput) => {
+    if (typeof input === 'string') {
+        const inputString = input as string;
 
         if (inputString.trim().startsWith('@')) {
             return { failures: [], value: input };
