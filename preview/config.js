@@ -10,6 +10,7 @@ if (process.env.RAPID_FLOW) {
 
     module.exports = Object.assign({}, config, {
         flow: process.env.RAPID_FLOW,
+        flowType: process.env.RAPID_FLOW_TYPE,
         localStorage: true,
         showDownload: true,
         endpoints: {
@@ -39,6 +40,7 @@ if (process.env.RAPID_FLOW) {
             ? Object.assign({}, config, {
                   localStorage: true,
                   showDownload: true,
+                  flowType: 'M',
                   endpoints: {
                       attachments: '',
                       resthooks: 'resthooks',

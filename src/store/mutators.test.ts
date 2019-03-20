@@ -189,9 +189,7 @@ describe('mutators', () => {
         const updated = updatePosition(nodes, 'node0', newPosition(500, 1000));
         expect(updated.node0.ui.position).toEqual({
             left: 500,
-            top: 1000,
-            right: 720,
-            bottom: 1254
+            top: 1000
         });
     });
 

@@ -36,13 +36,11 @@ import {
 import {
     addPosition,
     getActionIndex,
-    getCollision,
     getFlowComponents,
     getGhostNode,
     getLocalizations,
     getNode,
-    mergeAssetMaps,
-    newPosition
+    mergeAssetMaps
 } from '~/store/helpers';
 import * as mutators from '~/store/mutators';
 import {
@@ -149,9 +147,6 @@ export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const FORCE_FETCH = true;
 const QUIET_UI = 10;
 const QUIET_SAVE = 1000;
-const QUIET_REFLOW = 200;
-
-let debounceReflow: any = null;
 
 export const mergeEditorState = (changes: Partial<EditorState>) => (
     dispatch: DispatchWithState,
@@ -268,51 +263,6 @@ export const handleLanguageChange: HandleLanguageChange = language => (dispatch,
     }
 };
 
-export const reflow = (current: RenderNodeMap = null) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): RenderNodeMap => {
-    let nodes = current;
-    if (!nodes) {
-        nodes = getState().flowContext.nodes;
-    }
-
-    const collision = getCollision(nodes);
-    if (collision.length) {
-        timeStart('reflow');
-
-        const [top, bottom, cascade] = collision;
-        let updated = mutators.updatePosition(
-            nodes,
-            bottom.node.uuid,
-            newPosition(bottom.ui.position.left, top.ui.position.bottom + NODE_SPACING)
-        );
-
-        if (cascade) {
-            // start with the top of the bottom node
-            let cascadeTop = top.ui.position.bottom + NODE_SPACING;
-
-            // and add its height
-            cascadeTop += bottom.ui.position.bottom - bottom.ui.position.top;
-
-            updated = mutators.updatePosition(
-                updated,
-                cascade.node.uuid,
-                newPosition(cascade.ui.position.left, cascadeTop)
-            );
-        }
-
-        timeEnd('reflow');
-
-        updated = dispatch(reflow(updated));
-        if (current == null) {
-            dispatch(updateNodes(updated));
-        }
-        return updated;
-    }
-    return nodes;
-};
-
 export const onUpdateLocalizations = (language: string, changes: LocalizationUpdates) => (
     dispatch: DispatchWithState,
     getState: GetState
@@ -342,7 +292,6 @@ export const updateDimensions = (uuid: string, dimensions: Dimensions) => (
         // TODO: TypeError: Cannot read property 'redraw' of undefined
         dispatch(updateDefinition(updated));
     }
-    markReflow(dispatch);
 };
 
 /**
@@ -814,10 +763,6 @@ export const onDragSelection = (delta: FlowPosition, positions: CanvasPositions,
         dispatch(updateDefinition(updatedDefinition));
     }
 
-    if (snap) {
-        markReflow(dispatch);
-    }
-
     return updatedNodes;
 };
 
@@ -836,7 +781,6 @@ export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
 
     const updated = mutators.updatePosition(nodes, nodeUUID, position);
     dispatch(updateNodes(updated));
-    markReflow(dispatch);
     return updated;
 };
 
@@ -897,10 +841,9 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         }
     } = getState();
 
-    const previousNode = nodes[originalNode.node.uuid];
     let updated = nodes;
-    if (previousNode) {
-        const previousPosition = previousNode.ui.position;
+    if (originalNode) {
+        const previousPosition = originalNode.ui.position;
         renderNode.ui.position = previousPosition;
     }
 
@@ -930,18 +873,18 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         dispatch(updateAssets(updatedAssets));
     }
 
-    if (originalNode && originalAction && previousNode) {
-        const actionToSplice = previousNode.node.actions.find(
+    if (originalNode && originalAction) {
+        const actionToSplice = originalNode.node.actions.find(
             (action: Action) => action.uuid === originalAction.uuid
         );
 
         if (actionToSplice) {
             // if we are splicing using the original top
-            renderNode.ui.position.top = previousNode.ui.position.top;
+            renderNode.ui.position.top = originalNode.ui.position.top;
 
             return dispatch(
                 spliceInRouter(renderNode, {
-                    nodeUUID: previousNode.node.uuid,
+                    nodeUUID: originalNode.node.uuid,
                     actionUUID: actionToSplice.uuid
                 })
             );
@@ -953,13 +896,13 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
             (exit: Exit) => exit.uuid === router.default_exit_uuid
         );
 
-        exitToUpdate.destination_node_uuid = previousNode.node.exits[0].destination_node_uuid;
+        exitToUpdate.destination_node_uuid = originalNode.node.exits[0].destination_node_uuid;
 
         renderNode.inboundConnections = {
-            [previousNode.node.exits[0].uuid]: previousNode.node.uuid
+            [originalNode.node.exits[0].uuid]: originalNode.node.uuid
         };
         renderNode.node = mutators.uniquifyNode(renderNode.node);
-        renderNode.ui.position.top = previousNode.ui.position.bottom;
+        renderNode.ui.position.top += NODE_SPACING;
         updated = mutators.mergeNode(updated, renderNode);
     } else {
         updated = mutators.mergeNode(updated, renderNode);
@@ -968,22 +911,6 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     dispatch(updateNodes(updated));
 
     return updated;
-};
-
-/**
- * Debounce for triggered reflows
- */
-const markReflow = (dispatch: DispatchWithState) => {
-    if (debounceReflow) {
-        window.clearTimeout(debounceReflow);
-    }
-
-    debounceReflow = window.setTimeout(
-        /* istanbul ignore next */ () => {
-            dispatch(reflow());
-        },
-        QUIET_REFLOW
-    );
 };
 
 export const onOpenNodeEditor = (settings: NodeEditorSettings) => (

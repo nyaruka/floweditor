@@ -455,10 +455,6 @@ export const updatePosition = (
     position: FlowPosition,
     snap: boolean = true
 ): RenderNodeMap => {
-    const lastPos = getNode(nodes, nodeUUID).ui.position;
-    const width = lastPos.right - lastPos.left;
-    const height = lastPos.bottom - lastPos.top;
-
     const { left, top } = position;
 
     // make sure we are on the grid
@@ -473,9 +469,7 @@ export const updatePosition = (
             ui: {
                 position: set({
                     left: adjusted.left,
-                    top: adjusted.top,
-                    right: adjusted.left + width,
-                    bottom: adjusted.top + height
+                    top: adjusted.top
                 })
             }
         }

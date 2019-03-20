@@ -28,6 +28,7 @@ const proxy = {
 if (process.env.RAPID_FLOW && process.env.RAPID_ORG) {
     env.RAPID_FLOW = process.env.RAPID_FLOW;
     env.RAPID_ORG = process.env.RAPID_ORG;
+    env.RAPID_FLOW_TYPE = process.env.RAPID_FLOW_TYPE;
 
     proxy['/api/v2'] = {
         target: 'http://localhost:8000'
