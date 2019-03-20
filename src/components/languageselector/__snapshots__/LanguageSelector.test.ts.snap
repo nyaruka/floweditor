@@ -36,6 +36,7 @@ Object {
   "styles": Object {
     "control": [Function],
     "indicatorsContainer": [Function],
+    "input": [Function],
     "menuList": [Function],
     "option": [Function],
     "singleValue": [Function],
@@ -89,6 +90,7 @@ exports[`LanguageSelector render should render select control: language selector
       Object {
         "control": [Function],
         "indicatorsContainer": [Function],
+        "input": [Function],
         "menuList": [Function],
         "option": [Function],
         "singleValue": [Function],

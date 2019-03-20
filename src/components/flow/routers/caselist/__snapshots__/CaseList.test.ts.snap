@@ -56,19 +56,19 @@ exports[`CaseList render should render empty list 1`] = `
                       class="ele group"
                     >
                       <div
-                        class="kase select-medium"
+                        class="kase"
                       >
                         <span
                           class="fe-chevrons-expand dndIcon"
                         />
                         <div
-                          class="choice"
+                          class="choice select-medium"
                         >
                           <div
-                            class="css-10nd86i"
+                            class="css-10nd86i select-base"
                           >
                             <div
-                              class="css-1gxx0e9"
+                              class="css-1vpc3wb"
                             >
                               <div
                                 class="css-c2yhe2"
@@ -221,19 +221,19 @@ exports[`CaseList render should render empty list 1`] = `
                         class="ele group"
                       >
                         <div
-                          class="kase select-medium"
+                          class="kase"
                         >
                           <span
                             class="fe-chevrons-expand dndIcon"
                           />
                           <div
-                            class="choice"
+                            class="choice select-medium"
                           >
                             <div
-                              class="css-10nd86i"
+                              class="css-10nd86i select-base"
                             >
                               <div
-                                class="css-1gxx0e9"
+                                class="css-1vpc3wb"
                               >
                                 <div
                                   class="css-c2yhe2"
@@ -416,19 +416,19 @@ exports[`CaseList render should render empty list 1`] = `
                             class="ele group"
                           >
                             <div
-                              class="kase select-medium"
+                              class="kase"
                             >
                               <span
                                 class="fe-chevrons-expand dndIcon"
                               />
                               <div
-                                class="choice"
+                                class="choice select-medium"
                               >
                                 <div
-                                  class="css-10nd86i"
+                                  class="css-10nd86i select-base"
                                 >
                                   <div
-                                    class="css-1gxx0e9"
+                                    class="css-1vpc3wb"
                                   >
                                     <div
                                       class="css-c2yhe2"
@@ -573,19 +573,19 @@ exports[`CaseList render should render empty list 1`] = `
                               class="ele group"
                             >
                               <div
-                                class="kase select-medium"
+                                class="kase"
                               >
                                 <span
                                   class="fe-chevrons-expand dndIcon"
                                 />
                                 <div
-                                  class="choice"
+                                  class="choice select-medium"
                                 >
                                   <div
-                                    class="css-10nd86i"
+                                    class="css-10nd86i select-base"
                                   >
                                     <div
-                                      class="css-1gxx0e9"
+                                      class="css-1vpc3wb"
                                     >
                                       <div
                                         class="css-c2yhe2"
@@ -807,15 +807,16 @@ exports[`CaseList render should render empty list 1`] = `
                                         className="ele group"
                                       >
                                         <div
-                                          className="kase select-medium"
+                                          className="kase"
                                         >
                                           <span
                                             className="fe-chevrons-expand dndIcon"
                                           />
                                           <div
-                                            className="choice"
+                                            className="choice select-medium"
                                           >
                                             <StateManager
+                                              className="select-base"
                                               data-spec="operator-list"
                                               defaultInputValue=""
                                               defaultMenuIsOpen={false}
@@ -986,6 +987,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                 Object {
                                                   "control": [Function],
                                                   "indicatorsContainer": [Function],
+                                                  "input": [Function],
                                                   "menuList": [Function],
                                                   "option": [Function],
                                                   "singleValue": [Function],
@@ -1008,6 +1010,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                 backspaceRemovesValue={true}
                                                 blurInputOnSelect={true}
                                                 captureMenuScroll={false}
+                                                className="select-base"
                                                 closeMenuOnScroll={false}
                                                 closeMenuOnSelect={true}
                                                 components={Object {}}
@@ -1207,6 +1210,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                   Object {
                                                     "control": [Function],
                                                     "indicatorsContainer": [Function],
+                                                    "input": [Function],
                                                     "menuList": [Function],
                                                     "option": [Function],
                                                     "singleValue": [Function],
@@ -1228,6 +1232,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                 }
                                               >
                                                 <SelectContainer
+                                                  className="select-base"
                                                   clearValue={[Function]}
                                                   cx={[Function]}
                                                   getStyles={[Function]}
@@ -1404,6 +1409,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                       "backspaceRemovesValue": true,
                                                       "blurInputOnSelect": true,
                                                       "captureMenuScroll": false,
+                                                      "className": "select-base",
                                                       "closeMenuOnScroll": false,
                                                       "closeMenuOnSelect": true,
                                                       "components": Object {},
@@ -1600,6 +1606,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                       "styles": Object {
                                                         "control": [Function],
                                                         "indicatorsContainer": [Function],
+                                                        "input": [Function],
                                                         "menuList": [Function],
                                                         "option": [Function],
                                                         "singleValue": [Function],
@@ -1650,7 +1657,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                   }
                                                 >
                                                   <div
-                                                    className="css-10nd86i"
+                                                    className="css-10nd86i select-base"
                                                     onKeyDown={[Function]}
                                                   >
                                                     <Control
@@ -1832,6 +1839,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                           "backspaceRemovesValue": true,
                                                           "blurInputOnSelect": true,
                                                           "captureMenuScroll": false,
+                                                          "className": "select-base",
                                                           "closeMenuOnScroll": false,
                                                           "closeMenuOnSelect": true,
                                                           "components": Object {},
@@ -2028,6 +2036,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                           "styles": Object {
                                                             "control": [Function],
                                                             "indicatorsContainer": [Function],
+                                                            "input": [Function],
                                                             "menuList": [Function],
                                                             "option": [Function],
                                                             "singleValue": [Function],
@@ -2078,7 +2087,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                       }
                                                     >
                                                       <div
-                                                        className="css-1gxx0e9"
+                                                        className="css-1vpc3wb"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -2252,6 +2261,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -2448,6 +2458,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -2681,6 +2692,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -2877,6 +2889,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -3127,6 +3140,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -3323,6 +3337,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -3546,6 +3561,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -3742,6 +3758,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -3973,6 +3990,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -4169,6 +4187,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -4538,19 +4557,19 @@ exports[`CaseList render should render list of cases 1`] = `
                       class="ele group"
                     >
                       <div
-                        class="kase select-medium"
+                        class="kase"
                       >
                         <span
                           class="fe-chevrons-expand dndIcon"
                         />
                         <div
-                          class="choice"
+                          class="choice select-medium"
                         >
                           <div
-                            class="css-10nd86i"
+                            class="css-10nd86i select-base"
                           >
                             <div
-                              class="css-1gxx0e9"
+                              class="css-1vpc3wb"
                             >
                               <div
                                 class="css-c2yhe2"
@@ -4693,19 +4712,19 @@ exports[`CaseList render should render list of cases 1`] = `
                       class="ele group"
                     >
                       <div
-                        class="kase select-medium"
+                        class="kase"
                       >
                         <span
                           class="fe-chevrons-expand dndIcon"
                         />
                         <div
-                          class="choice"
+                          class="choice select-medium"
                         >
                           <div
-                            class="css-10nd86i"
+                            class="css-10nd86i select-base"
                           >
                             <div
-                              class="css-1gxx0e9"
+                              class="css-1vpc3wb"
                             >
                               <div
                                 class="css-c2yhe2"
@@ -4845,19 +4864,19 @@ exports[`CaseList render should render list of cases 1`] = `
                       class="ele group"
                     >
                       <div
-                        class="kase select-medium"
+                        class="kase"
                       >
                         <span
                           class="fe-chevrons-expand dndIcon"
                         />
                         <div
-                          class="choice"
+                          class="choice select-medium"
                         >
                           <div
-                            class="css-10nd86i"
+                            class="css-10nd86i select-base"
                           >
                             <div
-                              class="css-1gxx0e9"
+                              class="css-1vpc3wb"
                             >
                               <div
                                 class="css-c2yhe2"
@@ -5015,19 +5034,19 @@ exports[`CaseList render should render list of cases 1`] = `
                         class="ele group"
                       >
                         <div
-                          class="kase select-medium"
+                          class="kase"
                         >
                           <span
                             class="fe-chevrons-expand dndIcon"
                           />
                           <div
-                            class="choice"
+                            class="choice select-medium"
                           >
                             <div
-                              class="css-10nd86i"
+                              class="css-10nd86i select-base"
                             >
                               <div
-                                class="css-1gxx0e9"
+                                class="css-1vpc3wb"
                               >
                                 <div
                                   class="css-c2yhe2"
@@ -5170,19 +5189,19 @@ exports[`CaseList render should render list of cases 1`] = `
                         class="ele group"
                       >
                         <div
-                          class="kase select-medium"
+                          class="kase"
                         >
                           <span
                             class="fe-chevrons-expand dndIcon"
                           />
                           <div
-                            class="choice"
+                            class="choice select-medium"
                           >
                             <div
-                              class="css-10nd86i"
+                              class="css-10nd86i select-base"
                             >
                               <div
-                                class="css-1gxx0e9"
+                                class="css-1vpc3wb"
                               >
                                 <div
                                   class="css-c2yhe2"
@@ -5322,19 +5341,19 @@ exports[`CaseList render should render list of cases 1`] = `
                         class="ele group"
                       >
                         <div
-                          class="kase select-medium"
+                          class="kase"
                         >
                           <span
                             class="fe-chevrons-expand dndIcon"
                           />
                           <div
-                            class="choice"
+                            class="choice select-medium"
                           >
                             <div
-                              class="css-10nd86i"
+                              class="css-10nd86i select-base"
                             >
                               <div
-                                class="css-1gxx0e9"
+                                class="css-1vpc3wb"
                               >
                                 <div
                                   class="css-c2yhe2"
@@ -5524,19 +5543,19 @@ exports[`CaseList render should render list of cases 1`] = `
                             class="ele group"
                           >
                             <div
-                              class="kase select-medium"
+                              class="kase"
                             >
                               <span
                                 class="fe-chevrons-expand dndIcon"
                               />
                               <div
-                                class="choice"
+                                class="choice select-medium"
                               >
                                 <div
-                                  class="css-10nd86i"
+                                  class="css-10nd86i select-base"
                                 >
                                   <div
-                                    class="css-1gxx0e9"
+                                    class="css-1vpc3wb"
                                   >
                                     <div
                                       class="css-c2yhe2"
@@ -5684,19 +5703,19 @@ exports[`CaseList render should render list of cases 1`] = `
                               class="ele group"
                             >
                               <div
-                                class="kase select-medium"
+                                class="kase"
                               >
                                 <span
                                   class="fe-chevrons-expand dndIcon"
                                 />
                                 <div
-                                  class="choice"
+                                  class="choice select-medium"
                                 >
                                   <div
-                                    class="css-10nd86i"
+                                    class="css-10nd86i select-base"
                                   >
                                     <div
-                                      class="css-1gxx0e9"
+                                      class="css-1vpc3wb"
                                     >
                                       <div
                                         class="css-c2yhe2"
@@ -5928,15 +5947,16 @@ exports[`CaseList render should render list of cases 1`] = `
                                         className="ele group"
                                       >
                                         <div
-                                          className="kase select-medium"
+                                          className="kase"
                                         >
                                           <span
                                             className="fe-chevrons-expand dndIcon"
                                           />
                                           <div
-                                            className="choice"
+                                            className="choice select-medium"
                                           >
                                             <StateManager
+                                              className="select-base"
                                               data-spec="operator-list"
                                               defaultInputValue=""
                                               defaultMenuIsOpen={false}
@@ -6107,6 +6127,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 Object {
                                                   "control": [Function],
                                                   "indicatorsContainer": [Function],
+                                                  "input": [Function],
                                                   "menuList": [Function],
                                                   "option": [Function],
                                                   "singleValue": [Function],
@@ -6129,6 +6150,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 backspaceRemovesValue={true}
                                                 blurInputOnSelect={true}
                                                 captureMenuScroll={false}
+                                                className="select-base"
                                                 closeMenuOnScroll={false}
                                                 closeMenuOnSelect={true}
                                                 components={Object {}}
@@ -6328,6 +6350,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   Object {
                                                     "control": [Function],
                                                     "indicatorsContainer": [Function],
+                                                    "input": [Function],
                                                     "menuList": [Function],
                                                     "option": [Function],
                                                     "singleValue": [Function],
@@ -6349,6 +6372,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                               >
                                                 <SelectContainer
+                                                  className="select-base"
                                                   clearValue={[Function]}
                                                   cx={[Function]}
                                                   getStyles={[Function]}
@@ -6525,6 +6549,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       "backspaceRemovesValue": true,
                                                       "blurInputOnSelect": true,
                                                       "captureMenuScroll": false,
+                                                      "className": "select-base",
                                                       "closeMenuOnScroll": false,
                                                       "closeMenuOnSelect": true,
                                                       "components": Object {},
@@ -6721,6 +6746,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       "styles": Object {
                                                         "control": [Function],
                                                         "indicatorsContainer": [Function],
+                                                        "input": [Function],
                                                         "menuList": [Function],
                                                         "option": [Function],
                                                         "singleValue": [Function],
@@ -6771,7 +6797,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   }
                                                 >
                                                   <div
-                                                    className="css-10nd86i"
+                                                    className="css-10nd86i select-base"
                                                     onKeyDown={[Function]}
                                                   >
                                                     <Control
@@ -6953,6 +6979,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           "backspaceRemovesValue": true,
                                                           "blurInputOnSelect": true,
                                                           "captureMenuScroll": false,
+                                                          "className": "select-base",
                                                           "closeMenuOnScroll": false,
                                                           "closeMenuOnSelect": true,
                                                           "components": Object {},
@@ -7149,6 +7176,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           "styles": Object {
                                                             "control": [Function],
                                                             "indicatorsContainer": [Function],
+                                                            "input": [Function],
                                                             "menuList": [Function],
                                                             "option": [Function],
                                                             "singleValue": [Function],
@@ -7199,7 +7227,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       }
                                                     >
                                                       <div
-                                                        className="css-1gxx0e9"
+                                                        className="css-1vpc3wb"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -7373,6 +7401,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -7569,6 +7598,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -7802,6 +7832,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -7998,6 +8029,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -8248,6 +8280,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -8444,6 +8477,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -8667,6 +8701,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -8863,6 +8898,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -9094,6 +9130,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -9290,6 +9327,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -9608,19 +9646,19 @@ exports[`CaseList render should render list of cases 1`] = `
                             class="ele group"
                           >
                             <div
-                              class="kase select-medium"
+                              class="kase"
                             >
                               <span
                                 class="fe-chevrons-expand dndIcon"
                               />
                               <div
-                                class="choice"
+                                class="choice select-medium"
                               >
                                 <div
-                                  class="css-10nd86i"
+                                  class="css-10nd86i select-base"
                                 >
                                   <div
-                                    class="css-1gxx0e9"
+                                    class="css-1vpc3wb"
                                   >
                                     <div
                                       class="css-c2yhe2"
@@ -9768,19 +9806,19 @@ exports[`CaseList render should render list of cases 1`] = `
                               class="ele group"
                             >
                               <div
-                                class="kase select-medium"
+                                class="kase"
                               >
                                 <span
                                   class="fe-chevrons-expand dndIcon"
                                 />
                                 <div
-                                  class="choice"
+                                  class="choice select-medium"
                                 >
                                   <div
-                                    class="css-10nd86i"
+                                    class="css-10nd86i select-base"
                                   >
                                     <div
-                                      class="css-1gxx0e9"
+                                      class="css-1vpc3wb"
                                     >
                                       <div
                                         class="css-c2yhe2"
@@ -10012,15 +10050,16 @@ exports[`CaseList render should render list of cases 1`] = `
                                         className="ele group"
                                       >
                                         <div
-                                          className="kase select-medium"
+                                          className="kase"
                                         >
                                           <span
                                             className="fe-chevrons-expand dndIcon"
                                           />
                                           <div
-                                            className="choice"
+                                            className="choice select-medium"
                                           >
                                             <StateManager
+                                              className="select-base"
                                               data-spec="operator-list"
                                               defaultInputValue=""
                                               defaultMenuIsOpen={false}
@@ -10191,6 +10230,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 Object {
                                                   "control": [Function],
                                                   "indicatorsContainer": [Function],
+                                                  "input": [Function],
                                                   "menuList": [Function],
                                                   "option": [Function],
                                                   "singleValue": [Function],
@@ -10213,6 +10253,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 backspaceRemovesValue={true}
                                                 blurInputOnSelect={true}
                                                 captureMenuScroll={false}
+                                                className="select-base"
                                                 closeMenuOnScroll={false}
                                                 closeMenuOnSelect={true}
                                                 components={Object {}}
@@ -10412,6 +10453,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   Object {
                                                     "control": [Function],
                                                     "indicatorsContainer": [Function],
+                                                    "input": [Function],
                                                     "menuList": [Function],
                                                     "option": [Function],
                                                     "singleValue": [Function],
@@ -10433,6 +10475,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                               >
                                                 <SelectContainer
+                                                  className="select-base"
                                                   clearValue={[Function]}
                                                   cx={[Function]}
                                                   getStyles={[Function]}
@@ -10609,6 +10652,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       "backspaceRemovesValue": true,
                                                       "blurInputOnSelect": true,
                                                       "captureMenuScroll": false,
+                                                      "className": "select-base",
                                                       "closeMenuOnScroll": false,
                                                       "closeMenuOnSelect": true,
                                                       "components": Object {},
@@ -10805,6 +10849,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       "styles": Object {
                                                         "control": [Function],
                                                         "indicatorsContainer": [Function],
+                                                        "input": [Function],
                                                         "menuList": [Function],
                                                         "option": [Function],
                                                         "singleValue": [Function],
@@ -10855,7 +10900,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   }
                                                 >
                                                   <div
-                                                    className="css-10nd86i"
+                                                    className="css-10nd86i select-base"
                                                     onKeyDown={[Function]}
                                                   >
                                                     <Control
@@ -11037,6 +11082,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           "backspaceRemovesValue": true,
                                                           "blurInputOnSelect": true,
                                                           "captureMenuScroll": false,
+                                                          "className": "select-base",
                                                           "closeMenuOnScroll": false,
                                                           "closeMenuOnSelect": true,
                                                           "components": Object {},
@@ -11233,6 +11279,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           "styles": Object {
                                                             "control": [Function],
                                                             "indicatorsContainer": [Function],
+                                                            "input": [Function],
                                                             "menuList": [Function],
                                                             "option": [Function],
                                                             "singleValue": [Function],
@@ -11283,7 +11330,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       }
                                                     >
                                                       <div
-                                                        className="css-1gxx0e9"
+                                                        className="css-1vpc3wb"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -11457,6 +11504,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -11653,6 +11701,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -11886,6 +11935,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -12082,6 +12132,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -12332,6 +12383,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -12528,6 +12580,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -12751,6 +12804,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -12947,6 +13001,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -13178,6 +13233,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -13374,6 +13430,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -13689,19 +13746,19 @@ exports[`CaseList render should render list of cases 1`] = `
                             class="ele group"
                           >
                             <div
-                              class="kase select-medium"
+                              class="kase"
                             >
                               <span
                                 class="fe-chevrons-expand dndIcon"
                               />
                               <div
-                                class="choice"
+                                class="choice select-medium"
                               >
                                 <div
-                                  class="css-10nd86i"
+                                  class="css-10nd86i select-base"
                                 >
                                   <div
-                                    class="css-1gxx0e9"
+                                    class="css-1vpc3wb"
                                   >
                                     <div
                                       class="css-c2yhe2"
@@ -13846,19 +13903,19 @@ exports[`CaseList render should render list of cases 1`] = `
                               class="ele group"
                             >
                               <div
-                                class="kase select-medium"
+                                class="kase"
                               >
                                 <span
                                   class="fe-chevrons-expand dndIcon"
                                 />
                                 <div
-                                  class="choice"
+                                  class="choice select-medium"
                                 >
                                   <div
-                                    class="css-10nd86i"
+                                    class="css-10nd86i select-base"
                                   >
                                     <div
-                                      class="css-1gxx0e9"
+                                      class="css-1vpc3wb"
                                     >
                                       <div
                                         class="css-c2yhe2"
@@ -14080,15 +14137,16 @@ exports[`CaseList render should render list of cases 1`] = `
                                         className="ele group"
                                       >
                                         <div
-                                          className="kase select-medium"
+                                          className="kase"
                                         >
                                           <span
                                             className="fe-chevrons-expand dndIcon"
                                           />
                                           <div
-                                            className="choice"
+                                            className="choice select-medium"
                                           >
                                             <StateManager
+                                              className="select-base"
                                               data-spec="operator-list"
                                               defaultInputValue=""
                                               defaultMenuIsOpen={false}
@@ -14259,6 +14317,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 Object {
                                                   "control": [Function],
                                                   "indicatorsContainer": [Function],
+                                                  "input": [Function],
                                                   "menuList": [Function],
                                                   "option": [Function],
                                                   "singleValue": [Function],
@@ -14281,6 +14340,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 backspaceRemovesValue={true}
                                                 blurInputOnSelect={true}
                                                 captureMenuScroll={false}
+                                                className="select-base"
                                                 closeMenuOnScroll={false}
                                                 closeMenuOnSelect={true}
                                                 components={Object {}}
@@ -14480,6 +14540,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   Object {
                                                     "control": [Function],
                                                     "indicatorsContainer": [Function],
+                                                    "input": [Function],
                                                     "menuList": [Function],
                                                     "option": [Function],
                                                     "singleValue": [Function],
@@ -14501,6 +14562,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                               >
                                                 <SelectContainer
+                                                  className="select-base"
                                                   clearValue={[Function]}
                                                   cx={[Function]}
                                                   getStyles={[Function]}
@@ -14677,6 +14739,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       "backspaceRemovesValue": true,
                                                       "blurInputOnSelect": true,
                                                       "captureMenuScroll": false,
+                                                      "className": "select-base",
                                                       "closeMenuOnScroll": false,
                                                       "closeMenuOnSelect": true,
                                                       "components": Object {},
@@ -14873,6 +14936,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       "styles": Object {
                                                         "control": [Function],
                                                         "indicatorsContainer": [Function],
+                                                        "input": [Function],
                                                         "menuList": [Function],
                                                         "option": [Function],
                                                         "singleValue": [Function],
@@ -14923,7 +14987,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   }
                                                 >
                                                   <div
-                                                    className="css-10nd86i"
+                                                    className="css-10nd86i select-base"
                                                     onKeyDown={[Function]}
                                                   >
                                                     <Control
@@ -15105,6 +15169,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           "backspaceRemovesValue": true,
                                                           "blurInputOnSelect": true,
                                                           "captureMenuScroll": false,
+                                                          "className": "select-base",
                                                           "closeMenuOnScroll": false,
                                                           "closeMenuOnSelect": true,
                                                           "components": Object {},
@@ -15301,6 +15366,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           "styles": Object {
                                                             "control": [Function],
                                                             "indicatorsContainer": [Function],
+                                                            "input": [Function],
                                                             "menuList": [Function],
                                                             "option": [Function],
                                                             "singleValue": [Function],
@@ -15351,7 +15417,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                       }
                                                     >
                                                       <div
-                                                        className="css-1gxx0e9"
+                                                        className="css-1vpc3wb"
                                                         onMouseDown={[Function]}
                                                         onTouchEnd={[Function]}
                                                       >
@@ -15525,6 +15591,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -15721,6 +15788,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -15954,6 +16022,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -16150,6 +16219,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -16400,6 +16470,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "backspaceRemovesValue": true,
                                                               "blurInputOnSelect": true,
                                                               "captureMenuScroll": false,
+                                                              "className": "select-base",
                                                               "closeMenuOnScroll": false,
                                                               "closeMenuOnSelect": true,
                                                               "components": Object {},
@@ -16596,6 +16667,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                               "styles": Object {
                                                                 "control": [Function],
                                                                 "indicatorsContainer": [Function],
+                                                                "input": [Function],
                                                                 "menuList": [Function],
                                                                 "option": [Function],
                                                                 "singleValue": [Function],
@@ -16819,6 +16891,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -17015,6 +17088,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
@@ -17246,6 +17320,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "backspaceRemovesValue": true,
                                                                   "blurInputOnSelect": true,
                                                                   "captureMenuScroll": false,
+                                                                  "className": "select-base",
                                                                   "closeMenuOnScroll": false,
                                                                   "closeMenuOnSelect": true,
                                                                   "components": Object {},
@@ -17442,6 +17517,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "styles": Object {
                                                                     "control": [Function],
                                                                     "indicatorsContainer": [Function],
+                                                                    "input": [Function],
                                                                     "menuList": [Function],
                                                                     "option": [Function],
                                                                     "singleValue": [Function],
