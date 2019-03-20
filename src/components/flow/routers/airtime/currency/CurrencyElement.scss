@@ -11,8 +11,9 @@
         width: 200px;
         margin-left: 10px;
         input {
-            font-size: 12px;
-            height: 28px;
+            font-size: 12px !important;
+            height: 28px !important;
+            vertical-align: super;
         }
     }
 

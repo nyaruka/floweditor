@@ -14,7 +14,7 @@ import { Operators } from '~/config/interfaces';
 import { operatorConfigList } from '~/config/operatorConfigs';
 import { Case } from '~/flowTypes';
 import { FormState, StringEntry } from '~/store/nodeEditor';
-import { hasErrorType } from '~/utils';
+import { getSelectClass, hasErrorType } from '~/utils';
 import { small } from '~/utils/reactselect';
 
 export interface CaseElementProps {
@@ -216,10 +216,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 __className={styles.group}
                 kaseError={this.state.errors.length > 0}
             >
-                <div className={`${styles.kase} select-medium`}>
+                <div className={`${styles.kase}`}>
                     <span className={`fe-chevrons-expand ${styles.dndIcon}`} />
-                    <div className={styles.choice}>
+                    <div className={styles.choice + ' select-medium'}>
                         <Select
+                            className={getSelectClass(0)}
                             styles={small}
                             data-spec="operator-list"
                             isClearable={false}

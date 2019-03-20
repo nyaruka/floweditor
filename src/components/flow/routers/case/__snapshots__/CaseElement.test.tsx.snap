@@ -107,15 +107,16 @@ exports[`CaseElement render renders no argument rules 1`] = `
   name="case_29b18c7e-c232-414c-9fc0-2e0b6260d9ca"
 >
   <div
-    className="kase select-medium"
+    className="kase"
   >
     <span
       className="fe-chevrons-expand dndIcon"
     />
     <div
-      className="choice"
+      className="choice select-medium"
     >
       <StateManager
+        className="select-base"
         data-spec="operator-list"
         defaultInputValue=""
         defaultMenuIsOpen={false}
@@ -286,6 +287,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
           Object {
             "control": [Function],
             "indicatorsContainer": [Function],
+            "input": [Function],
             "menuList": [Function],
             "option": [Function],
             "singleValue": [Function],
@@ -341,15 +343,16 @@ exports[`CaseElement render should render empty case 1`] = `
   name="case_29b18c7e-c232-414c-9fc0-2e0b6260d9ca"
 >
   <div
-    className="kase select-medium"
+    className="kase"
   >
     <span
       className="fe-chevrons-expand dndIcon"
     />
     <div
-      className="choice"
+      className="choice select-medium"
     >
       <StateManager
+        className="select-base"
         data-spec="operator-list"
         defaultInputValue=""
         defaultMenuIsOpen={false}
@@ -520,6 +523,7 @@ exports[`CaseElement render should render empty case 1`] = `
           Object {
             "control": [Function],
             "indicatorsContainer": [Function],
+            "input": [Function],
             "menuList": [Function],
             "option": [Function],
             "singleValue": [Function],

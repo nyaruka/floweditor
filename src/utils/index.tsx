@@ -146,10 +146,10 @@ export const getSelectClassForEntry = (entry: FormEntry): string => {
 
 export const getSelectClass = (errors: number): string => {
     if (errors === 0) {
-        return '';
+        return 'select-base';
     }
     // We use a global selector here for react-select
-    return 'select-invalid';
+    return 'select-base select-invalid';
 };
 
 export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {

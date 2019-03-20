@@ -104,7 +104,7 @@ export default class ResultRouterForm extends React.Component<
                         styles={small}
                         name="Flow Result"
                         placeholder="Select Result"
-                        searchable={true}
+                        searchable={false}
                         assets={this.props.assetStore.results}
                         onChange={this.handleResultChanged}
                     />
@@ -133,7 +133,7 @@ export default class ResultRouterForm extends React.Component<
                         styles={small}
                         name="Flow Result"
                         placeholder="Select Result"
-                        searchable={true}
+                        searchable={false}
                         assets={this.props.assetStore.results}
                         onChange={this.handleResultChanged}
                     />

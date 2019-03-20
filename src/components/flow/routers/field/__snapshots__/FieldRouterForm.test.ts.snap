@@ -40,7 +40,7 @@ exports[`FieldRouterForm initializes 1`] = `
   >
     If the contact's
     <div
-      className="fieldSelect select-medium"
+      className="fieldSelect select-small"
     >
       <AssetSelector
         additionalOptions={
@@ -144,6 +144,7 @@ exports[`FieldRouterForm initializes 1`] = `
           Object {
             "control": [Function],
             "indicatorsContainer": [Function],
+            "input": [Function],
             "menuList": [Function],
             "option": [Function],
             "singleValue": [Function],
@@ -228,7 +229,7 @@ exports[`FieldRouterForm should render 1`] = `
   >
     If the contact's
     <div
-      className="fieldSelect select-medium"
+      className="fieldSelect select-small"
     >
       <AssetSelector
         additionalOptions={
@@ -332,6 +333,7 @@ exports[`FieldRouterForm should render 1`] = `
           Object {
             "control": [Function],
             "indicatorsContainer": [Function],
+            "input": [Function],
             "menuList": [Function],
             "option": [Function],
             "singleValue": [Function],

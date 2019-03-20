@@ -103,6 +103,7 @@ exports[`TimeoutControl handles initial values 1`] = `
         Object {
           "control": [Function],
           "indicatorsContainer": [Function],
+          "input": [Function],
           "menuList": [Function],
           "option": [Function],
           "singleValue": [Function],
