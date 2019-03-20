@@ -24,10 +24,16 @@
             $color_2 6px
         ); // background: rgba(200, 200, 200, .3);
     }
-    svg path {
-        stroke: $translation_connector !important;
-        // fill: $translation_connector !important;
+    :global {
+        svg path {
+            stroke: $translation_connector !important;
+            &.jtk-arrow {
+                fill: $translation_connector !important;
+            }
+        }
     }
+
+    // svg.jtk-connector path.jtk-arrow {
 }
 
 .footer {

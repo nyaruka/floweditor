@@ -57,7 +57,7 @@ export default class Plumber {
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
             PaintStyle: { strokeWidth: 1, outlineWidth: 0, outlineStroke: 'transparent' },
-            ConnectorHoverStyle: { stroke: '#95cbef' },
+            // ConnectorHoverStyle: { stroke: '#95cbef' },
             ConnectorHoverClass: 'plumb-connector-hover',
             ConnectionsDetachable: true,
             Connector: [

@@ -103,7 +103,7 @@ export default class FieldRouterForm extends React.Component<
                 />
                 <div className={styles.leadIn}>
                     If the contact's
-                    <div className={`${styles.fieldSelect} select-medium`}>
+                    <div className={`${styles.fieldSelect} select-small`}>
                         <AssetSelector
                             name="Contact Field"
                             styles={small}

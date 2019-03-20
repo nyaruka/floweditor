@@ -33,6 +33,11 @@ export const messageStyle = {
 export const small = {
     control: (styles: StylesConfig) => ({
         ...styles,
+        borderColor: '#ccc',
+        boxShadow: 'none',
+        '&:hover': {
+            borderColor: '#ccc'
+        },
         minHeight: 28,
         maxHeight: 28,
         fontSize: 12
@@ -58,10 +63,24 @@ export const small = {
         ...styles,
         height: 28,
         maxHeight: 28
+    }),
+    input: (styles: StylesConfig) => ({
+        ...styles,
+        margin: 0
     })
 };
 
 export const tagging = {
+    control: (styles: StylesConfig, state: any) => {
+        return {
+            ...styles,
+            borderColor: '#ccc',
+            boxShadow: 'none',
+            '&:hover': {
+                borderColor: '#ccc'
+            }
+        };
+    },
     multiValue: (styles: StylesConfig) => {
         return {
             ...styles,
