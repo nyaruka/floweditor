@@ -22,7 +22,6 @@ import {
     onUpdateAction,
     onUpdateLocalizations,
     onUpdateRouter,
-    reflow,
     removeAction,
     removeNode,
     resetNodeEditingState,
@@ -140,53 +139,6 @@ describe('Flow Manipulation', () => {
     });
 
     describe('nodes', () => {
-        it('should reflow nodes', () => {
-            // make our nodes collide
-            const collidingNodes = mutate(testNodes, {
-                node1: {
-                    ui: { position: { $merge: { top: testNodes.node1.ui.position.top - 50 } } }
-                }
-            });
-
-            // prep our store to show that we are editing
-            const updatedStore = createMockStore({
-                flowContext: {
-                    nodes: collidingNodes
-                }
-            });
-
-            // forcing a reflow should bump us down where we don't collide
-            const updated = updatedStore.dispatch(reflow());
-            expect(updated.node1.ui.position.top).toBe(260);
-        });
-
-        it('should cascade reflow', () => {
-            // make our nodes have a cascading collision
-            const collidingNodes = mutate(testNodes, {
-                node1: {
-                    ui: { position: { $merge: { top: testNodes.node1.ui.position.top - 50 } } }
-                },
-                node2: {
-                    ui: { position: { $merge: { top: testNodes.node2.ui.position.top - 50 } } }
-                }
-            });
-
-            // prep our store to show that we are editing
-            const updatedStore = createMockStore({
-                flowContext: {
-                    nodes: collidingNodes
-                }
-            });
-
-            // forcing a reflow should bump us down where we don't collide
-            const updated = updatedStore.dispatch(reflow());
-            expect(updated.node1.ui.position.top).toBe(260);
-
-            // and we should have cascaded to the third node
-            expect(updated.node2.ui.position.top).toBe(420);
-            expect(updatedStore.getActions().length).toBe(1);
-        });
-
         it('should move nodes', () => {
             const nodes = store.dispatch(
                 onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 })
@@ -194,9 +146,7 @@ describe('Flow Manipulation', () => {
 
             expect(nodes.node0.ui.position).toEqual({
                 left: 500,
-                top: 600,
-                right: 720,
-                bottom: 854
+                top: 600
             });
         });
 
