@@ -4,6 +4,7 @@ import Select from 'react-select';
 import * as styles from '~/components/flow/routers/case/CaseElement.scss';
 import { initializeForm, validateCase } from '~/components/flow/routers/case/helpers';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { isRelativeDate } from '~/components/flow/routers/helpers';
 import { InputToFocus } from '~/components/flow/routers/response/ResponseRouterForm';
 import FormElement from '~/components/form/FormElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
@@ -178,7 +179,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             // First pass at displaying, handling Operators.has_number_between inputs
             if (this.state.operatorConfig.operands > 1) {
                 return (
-                    <React.Fragment>
+                    <>
                         <TextInputElement
                             name="arguments"
                             onChange={this.handleMinChanged}
@@ -190,7 +191,21 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             onChange={this.handleMaxChanged}
                             entry={this.state.max}
                         />
-                    </React.Fragment>
+                    </>
+                );
+            } else if (isRelativeDate(this.state.operatorConfig.type)) {
+                return (
+                    <>
+                        <span className={styles.divider}>today + </span>
+                        <TextInputElement
+                            __className={styles.relativeDate}
+                            name="arguments"
+                            onChange={this.handleArgumentChanged}
+                            entry={this.state.argument}
+                            autocomplete={false}
+                        />
+                        <span className={styles.divider}>days</span>
+                    </>
                 );
             } else {
                 return (

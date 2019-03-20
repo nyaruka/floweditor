@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validators validates 1`] = `
+Object {
+  "validationFailures": Array [],
+  "value": "5",
+}
+`;

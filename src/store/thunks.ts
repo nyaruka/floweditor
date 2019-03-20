@@ -873,7 +873,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         dispatch(updateAssets(updatedAssets));
     }
 
-    if (originalNode && originalAction) {
+    if (originalNode && originalAction && !originalNode.ghost) {
         const actionToSplice = originalNode.node.actions.find(
             (action: Action) => action.uuid === originalAction.uuid
         );

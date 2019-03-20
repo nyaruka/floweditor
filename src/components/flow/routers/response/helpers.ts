@@ -25,7 +25,7 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
         const router = settings.originalNode.node.router as SwitchRouter;
         if (router) {
             if (hasCases(settings.originalNode.node)) {
-                initialCases = createCaseProps(router.cases, settings.originalNode.node.exits);
+                initialCases = createCaseProps(router.cases, settings.originalNode);
             }
 
             resultName = { value: router.result_name || '' };
@@ -48,7 +48,11 @@ export const stateToNode = (
     settings: NodeEditorSettings,
     state: ResponseRouterFormState
 ): RenderNode => {
-    const { cases, exits, defaultExit } = resolveExits(state.cases, state.timeout > 0, settings);
+    const { cases, exits, defaultExit, caseConfig } = resolveExits(
+        state.cases,
+        state.timeout > 0,
+        settings
+    );
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
     if (state.resultName.value) {
@@ -75,7 +79,8 @@ export const stateToNode = (
         exits,
         Types.wait_for_response,
         [],
-        wait
+        wait,
+        { cases: caseConfig }
     );
 
     return newRenderNode;

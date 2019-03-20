@@ -223,7 +223,9 @@ Array [
       },
     },
     "ui": Object {
-      "config": Object {},
+      "config": Object {
+        "cases": Object {},
+      },
       "position": null,
       "type": "wait_for_response",
     },

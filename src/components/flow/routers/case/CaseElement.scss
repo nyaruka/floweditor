@@ -7,7 +7,8 @@ $spacing: 10px;
     margin-bottom: 0px;
 }
 
-textarea:focus, input:focus{
+textarea:focus,
+input:focus {
     outline: none;
 }
 
@@ -73,6 +74,14 @@ textarea:focus, input:focus{
         font-size: 13px !important;
         border: 1px solid #ccc;
     }
+
+    .relative-date {
+        display: inline-block;
+        width: 50px;
+        input {
+            width: 50px;
+        }
+    }
 }
 
 .dnd-icon {
@@ -94,7 +103,7 @@ textarea:focus, input:focus{
     opacity: 0;
     line-height: 12px;
     cursor: pointer;
-    
+
     margin-left: 2px;
     font-size: 9px;
 }

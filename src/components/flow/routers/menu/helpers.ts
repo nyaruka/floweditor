@@ -54,7 +54,7 @@ export const stateToNode = (
     }
 
     const caseProps = menuToCases(state.menu, originalCases);
-    const { cases, exits, defaultExit } = resolveExits(caseProps, false, settings);
+    const { cases, exits, defaultExit, caseConfig } = resolveExits(caseProps, false, settings);
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
@@ -70,7 +70,8 @@ export const stateToNode = (
         exits,
         Types.wait_for_response,
         [],
-        { type: WaitTypes.msg, hint: { type: HintTypes.digits, count: 1 } }
+        { type: WaitTypes.msg, hint: { type: HintTypes.digits, count: 1 } },
+        { cases: caseConfig }
     );
 
     return newRenderNode;

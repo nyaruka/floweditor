@@ -85,6 +85,91 @@ exports[`ResponseRouterForm initializes 1`] = `
 </Dialog>
 `;
 
+exports[`ResponseRouterForm initializes case config 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "disabled": false,
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  gutter={
+    <TimeoutControl
+      onChanged={[Function]}
+    />
+  }
+  headerClass="wait_for_response"
+  title="Wait for Response"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "switch",
+        ],
+        "description": "Wait for the contact to respond",
+        "form": undefined,
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+          "cases",
+        ],
+        "name": "Wait for Response",
+        "type": "wait_for_response",
+        "visibility": Array [
+          "M",
+          "S",
+        ],
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div>
+    If the message response...
+  </div>
+  <CaseList
+    cases={
+      Array [
+        Object {
+          "exitName": "Red",
+          "kase": Object {
+            "arguments": Array [
+              "5",
+            ],
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "type": "has_date_eq",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          "valid": true,
+        },
+      ]
+    }
+    data-spec="cases"
+    onCasesUpdated={[Function]}
+  />
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "Color",
+      }
+    }
+  />
+</Dialog>
+`;
+
 exports[`ResponseRouterForm should render 1`] = `
 <Dialog
   buttons={
@@ -166,6 +251,7 @@ Object {
         ],
         "type": "has_any_word",
       },
+      "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
       "valid": true,
     },
     Object {
@@ -176,6 +262,7 @@ Object {
         ],
         "type": "has_any_word",
       },
+      "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
       "valid": true,
     },
     Object {
@@ -186,6 +273,7 @@ Object {
         ],
         "type": "has_any_word",
       },
+      "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
       "valid": true,
     },
   ],
@@ -207,22 +295,22 @@ Array [
         Object {
           "destination_node_uuid": null,
           "name": "Red",
-          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
         },
         Object {
           "destination_node_uuid": null,
           "name": "Green",
-          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
         },
         Object {
           "destination_node_uuid": undefined,
           "name": "No Response",
-          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
         },
         Object {
           "destination_node_uuid": null,
           "name": "Other",
-          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+          "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
         },
       ],
       "router": Object {
@@ -231,33 +319,33 @@ Array [
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "maroon",
             ],
-            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "exit_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "@run",
             ],
-            "exit_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "exit_uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
             "type": "has_wait_timed_out",
-            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+            "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
           },
         ],
-        "default_exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "default_exit_uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
         "operand": "@run.input",
         "result_name": "Favorite Color",
         "type": "switch",
@@ -269,7 +357,87 @@ Array [
       },
     },
     "ui": Object {
-      "config": Object {},
+      "config": Object {
+        "cases": Object {},
+      },
+      "position": null,
+      "type": "wait_for_response",
+    },
+  },
+]
+`;
+
+exports[`ResponseRouterForm updates should save save config for relative dates 1`] = `
+Object {
+  "cases": Array [
+    Object {
+      "exitName": "In the Zone",
+      "kase": Object {
+        "arguments": Array [
+          "5",
+        ],
+        "type": "has_date_gt",
+      },
+      "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+      "valid": true,
+    },
+  ],
+  "resultName": Object {
+    "value": "Result",
+  },
+  "timeout": 0,
+  "valid": true,
+}
+`;
+
+exports[`ResponseRouterForm updates should save save config for relative dates 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_node_uuid": null,
+          "name": "In the Zone",
+          "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        },
+        Object {
+          "destination_node_uuid": null,
+          "name": "Other",
+          "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "@(datetime_add(today(), 5, \\"D\\"))",
+            ],
+            "exit_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+            "type": "has_date_gt",
+          },
+        ],
+        "default_exit_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        "operand": "@run.input",
+        "result_name": "Result",
+        "type": "switch",
+      },
+      "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
+      "wait": Object {
+        "type": "msg",
+      },
+    },
+    "ui": Object {
+      "config": Object {
+        "cases": Object {
+          "6c22884b-0e35-4206-982e-18320691eda9": Object {
+            "arguments": Array [
+              "5",
+            ],
+          },
+        },
+      },
       "position": null,
       "type": "wait_for_response",
     },

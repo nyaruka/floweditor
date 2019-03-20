@@ -287,11 +287,15 @@ export interface Dimensions {
     height: number;
 }
 
+export interface UIConfig {
+    [key: string]: any;
+}
+
 export interface UINode {
     position: FlowPosition;
     // ui type, used for split by expression, contact field, etc
     type?: Types;
-    config?: { [key: string]: any };
+    config?: UIConfig;
 }
 
 export interface StickyNote {

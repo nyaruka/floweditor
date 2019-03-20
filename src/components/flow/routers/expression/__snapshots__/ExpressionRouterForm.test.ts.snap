@@ -247,7 +247,9 @@ Array [
       "wait": null,
     },
     "ui": Object {
-      "config": Object {},
+      "config": Object {
+        "cases": Object {},
+      },
       "position": null,
       "type": "split_by_expression",
     },
