@@ -74,6 +74,59 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
 
 export const getSuggestedResultName = (count: number) => `Result ${count}`;
 
+/**
+ * Follows every path from fromNodeUUID to toNodeUUID and throws
+ * an error if we hit ourselves again without hitting a wait
+ * @param nodes the entire node map
+ * @param fromNodeUUID which node we are originating from
+ * @param toNodeUUID where we are trying to go
+ * @param path the path we have tried so far
+ */
+export const detectLoops = (
+    nodes: RenderNodeMap,
+    fromNodeUUID: string,
+    toNodeUUID: string,
+    path: string[] = []
+): void => {
+    const fromNode = nodes[fromNodeUUID];
+    const toNode = nodes[toNodeUUID];
+
+    if (fromNodeUUID === toNodeUUID) {
+        throw new Error("Flow loop detected, can't point to self");
+    }
+
+    if (!!toNode.node.wait || !!fromNode.node.wait) {
+        return;
+    }
+
+    if (path.length === 0) {
+        path.push(fromNodeUUID);
+        for (const exit of toNode.node.exits) {
+            if (exit.destination_node_uuid) {
+                detectLoops(nodes, toNode.node.uuid, exit.destination_node_uuid, path);
+            }
+        }
+        return;
+    }
+
+    // we've been here before
+    if (!!path.find((nodeUUID: string) => nodeUUID === toNodeUUID)) {
+        throw new Error('Flow loop detected, route through a wait first');
+    }
+
+    // add us to the path
+    path.push(toNodeUUID);
+
+    // follow each of our exits
+    for (const exit of toNode.node.exits) {
+        if (exit.destination_node_uuid) {
+            detectLoops(nodes, toNodeUUID, exit.destination_node_uuid, path);
+        }
+    }
+
+    return;
+};
+
 export const getLocalizations = (
     node: FlowNode,
     action: AnyAction,

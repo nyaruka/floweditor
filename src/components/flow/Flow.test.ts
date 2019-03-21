@@ -235,7 +235,7 @@ describe(Flow.name, () => {
             });
 
             it('should return false if pointing to itself', () => {
-                const { wrapper, instance } = setup();
+                const { instance } = setup();
                 const sourceId = createUUID();
 
                 expect(
@@ -248,9 +248,16 @@ describe(Flow.name, () => {
             });
 
             it('should return true if not pointing to itself', () => {
-                const { wrapper, instance } = setup();
+                const { instance, props } = setup();
+                const uuids = Object.keys(props.nodes);
+                const connectionEvent = {
+                    sourceId: `${uuids[0]}:${props.nodes[uuids[0]].node.exits[0].uuid}`,
+                    targetId: uuids[1],
+                    suspendedElementId: uuids[0],
+                    source: null as any
+                };
 
-                expect(instance.onBeforeConnectorDrop(mockConnectionEvent)).toBeTruthy();
+                expect(instance.onBeforeConnectorDrop(connectionEvent)).toBeTruthy();
             });
         });
 

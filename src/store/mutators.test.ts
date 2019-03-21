@@ -1,11 +1,12 @@
 import { Types } from '~/config/interfaces';
-import { FlowDefinition, RouterTypes, SendMsg } from '~/flowTypes';
+import { FlowDefinition, RouterTypes, SendMsg, Exit, Wait, WaitTypes } from '~/flowTypes';
 import {
     getActionIndex,
     getExitIndex,
     getFlowComponents,
     getNode,
-    newPosition
+    newPosition,
+    detectLoops
 } from '~/store/helpers';
 import {
     addAction,
@@ -21,6 +22,11 @@ import {
     updatePosition
 } from '~/store/mutators';
 import { createSendMsgAction } from '~/testUtils/assetCreators';
+import { RenderNode, RenderNodeMap } from '~/store/flowContext';
+import { exit } from '~/components/flow/node/Node.scss';
+import { createUUID } from '~/utils';
+
+const mutate = require('immutability-helper');
 
 describe('mutators', () => {
     const definition: FlowDefinition = require('~/test/flows/boring.json');
@@ -214,4 +220,78 @@ describe('mutators', () => {
         expect(updated.localization.spa).toEqual({});
         expect(updated).toMatchSnapshot();
     });
+
+    describe('loop detection', () => {
+        it('should detect loops between action sets', () => {
+            const nodeA = createEmptyNode();
+            const nodeB = createEmptyNode();
+
+            connect(
+                nodeA,
+                nodeB
+            );
+
+            const nodeMap = createNodeMap([nodeA, nodeB]);
+
+            // console.log(JSON.stringify(nodeMap, null, 2));
+
+            expect(() => {
+                detectLoops(nodeMap, nodeB.node.uuid, nodeA.node.uuid);
+            }).toThrowError();
+
+            expect(() => {
+                detectLoops(nodeMap, nodeB.node.uuid, nodeB.node.uuid);
+            }).toThrowError();
+        });
+
+        it('should allow wait to expression and back', () => {
+            const expressionNode = createEmptyNode();
+            const waitNode = createEmptyNode(1, { type: WaitTypes.msg });
+
+            // point our expression to our wait
+            connect(
+                expressionNode,
+                waitNode
+            );
+
+            detectLoops(
+                createNodeMap([expressionNode, waitNode]),
+                waitNode.node.uuid,
+                expressionNode.node.uuid
+            );
+        });
+    });
 });
+
+const connect = (a: RenderNode, b: RenderNode): void => {
+    a.node.exits[0].destination_node_uuid = b.node.uuid;
+};
+
+const createNodeMap = (nodes: RenderNode[]): any => {
+    return nodes
+        .map((node: RenderNode) => {
+            return { [node.node.uuid]: node };
+        })
+        .reduce((prev: { [uuid: string]: RenderNode }, next: { [uuid: string]: RenderNode }) => {
+            return mutate(prev, { $merge: next });
+        });
+};
+
+const createEmptyNode = (exitCount: number = 1, wait?: Wait): RenderNode => {
+    const exits: Exit[] = [];
+    for (let i = 0; i < exitCount; i++) {
+        exits.push({ uuid: createUUID() });
+    }
+
+    const renderNode: RenderNode = {
+        node: { uuid: createUUID(), actions: [], exits },
+        ui: { position: { left: 0, top: 0 } },
+        inboundConnections: {}
+    };
+
+    if (wait) {
+        renderNode.node.wait = wait;
+    }
+
+    return renderNode;
+};

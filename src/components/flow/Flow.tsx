@@ -50,6 +50,7 @@ import {
     timeStart
 } from '~/utils';
 import Debug from '~/utils/debug';
+import { detectLoops } from '~/store/helpers';
 
 export interface FlowStoreProps {
     editorState: Partial<EditorState>;
@@ -195,12 +196,12 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
      */
     private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
         this.props.resetNodeEditingState();
-
-        if (event.sourceId.split(':')[0] === event.targetId) {
-            console.error(event.targetId + ' cannot point to itself');
+        const fromNodeUUID = event.sourceId.split(':')[0];
+        try {
+            detectLoops(this.props.nodes, fromNodeUUID, event.targetId);
+        } catch {
             return false;
         }
-
         return true;
     }
 
