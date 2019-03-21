@@ -69,6 +69,8 @@ interface SimulatorState {
     active: boolean;
     time: string;
 
+    keypadEntry: string;
+
     quickReplies?: string[];
 
     // are we currently simulating a sprint
@@ -156,6 +158,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 fields: {},
                 groups: []
             },
+            keypadEntry: '',
             drawerHeight: 0,
             channel: createUUID(),
             time: getTime(),
@@ -319,6 +322,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                         break;
                     case 'location':
                         drawerType = DrawerType.location;
+                        break;
+                    case 'digits':
+                        drawerType = DrawerType.digit;
+                        if (runContext.session.wait.hint.count !== 1) {
+                            drawerType = DrawerType.digits;
+                        }
                         break;
                     default:
                         console.log('Unknown hint', runContext.session.wait.hint.type);
@@ -637,6 +646,58 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             </div>
         );
     }
+
+    private handleKeyPress(btn: string, multiple: boolean): void {
+        if (!multiple) {
+            this.resume(btn);
+        } else {
+            if (btn === '#') {
+                this.resume(this.state.keypadEntry);
+                this.setState({ keypadEntry: '' });
+            } else {
+                this.setState((prevState: SimulatorState) => {
+                    return { keypadEntry: (prevState.keypadEntry += btn) };
+                });
+            }
+        }
+    }
+
+    private getKeyRow(keys: string[], multiple: boolean): JSX.Element {
+        return (
+            <div className={styles.row}>
+                {keys.map((key: string) => {
+                    return (
+                        <div
+                            key={'btn_' + key}
+                            onClick={() => {
+                                this.handleKeyPress(key, multiple);
+                            }}
+                            className={styles.key}
+                        >
+                            {key}
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+
+    private getKeypadDrawer(multiple: boolean): JSX.Element {
+        return (
+            <div className={styles.keypad}>
+                {multiple ? (
+                    <div className={styles.keypadEntry}>{this.state.keypadEntry}</div>
+                ) : null}
+                <div className={styles.keys}>
+                    {this.getKeyRow(['1', '2', '3'], multiple)}
+                    {this.getKeyRow(['4', '5', '6'], multiple)}
+                    {this.getKeyRow(['7', '8', '9'], multiple)}
+                    {this.getKeyRow(['*', '0', '#'], multiple)}
+                </div>
+            </div>
+        );
+    }
+
     private getDrawerContents(): JSX.Element {
         switch (this.state.drawerType) {
             case DrawerType.location:
@@ -649,6 +710,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 return this.getVideoDrawer();
             case DrawerType.quickReplies:
                 return this.getQuickRepliesDrawer();
+            case DrawerType.digits:
+            case DrawerType.digit:
+                return this.getKeypadDrawer(this.state.drawerType === DrawerType.digits);
         }
         return null;
     }
