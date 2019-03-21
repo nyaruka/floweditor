@@ -76,7 +76,6 @@ export const SCHEMES: Scheme[] = [
     { scheme: 'mailto', name: 'Email Address' },
     { scheme: 'tel', name: 'Phone Number' },
     { scheme: 'telegram', name: 'Telegram ID' },
-    { scheme: 'twitter', name: 'Twitter Handle' },
     { scheme: 'twitterid', name: 'Twitter ID' },
     { scheme: 'wechat', name: 'Wechat ID' },
     { scheme: 'whatsapp', name: 'Whatsapp Number' },
