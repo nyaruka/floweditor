@@ -17,7 +17,13 @@ import {
     RenderNode,
     RenderNodeMap
 } from '~/store/flowContext';
-import { assetListToMap, getActionIndex, getExitIndex, getNode } from '~/store/helpers';
+import {
+    assetListToMap,
+    getActionIndex,
+    getExitIndex,
+    getNode,
+    detectLoops
+} from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { LocalizationUpdates } from '~/store/thunks';
 import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from '~/utils';
@@ -178,10 +184,6 @@ export const updateConnection = (
     // make sure our destination exits if they provided one
     if (destinationNodeUUID) {
         getNode(nodes, destinationNodeUUID);
-    }
-
-    if (fromNodeUUID === destinationNodeUUID) {
-        throw new Error('Cannot connect ' + fromNodeUUID + ' to itself');
     }
 
     const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
@@ -403,18 +405,26 @@ export const removeNode = (
         }
     }
 
-    // if we have a single destination, reroute those pointing to us
-    let destination = null;
-    if (remap && nodeToRemove.node.exits.length === 1) {
-        ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
-    }
-
     // clear any destinations that point to us
     for (const fromExitUUID of Object.keys(nodeToRemove.inboundConnections)) {
+        // if we have a single destination, reroute those pointing to us
+        let destination = null;
+        if (remap && nodeToRemove.node.exits.length === 1) {
+            ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
+        }
+
         const fromNodeUUID = nodeToRemove.inboundConnections[fromExitUUID];
         const fromNode = getNode(nodes, fromNodeUUID);
 
-        // TODO: this can be optimized to only go through any node's exits once
+        // make sure we aren't creating a loop
+        if (destination) {
+            try {
+                detectLoops(updatedNodes, fromNodeUUID, destination);
+            } catch {
+                destination = null;
+            }
+        }
+
         const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
         updatedNodes = mutate(updatedNodes, {
             [fromNodeUUID]: {

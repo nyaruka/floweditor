@@ -251,12 +251,6 @@ describe('Flow Manipulation', () => {
             expect(updated.node0).toHaveExitThatPointsTo(updated.node2);
         });
 
-        it('should throw if attempting to connect node to itself', () => {
-            expect(() => {
-                store.dispatch(updateConnection('node0:node0_exit0', 'node0'));
-            }).toThrowError('Cannot connect node0 to itself');
-        });
-
         it('should update connections when adding a node', () => {
             let fromNode = testNodes.node3;
             const fromNodeUUID = fromNode.node.uuid;
