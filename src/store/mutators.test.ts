@@ -255,7 +255,36 @@ describe('mutators', () => {
             );
         });
 
-        it('should not reroute if it creates a loop', () => {
+        it('should detect lenghty cylces', () => {
+            // create a long chain of non wait nodes
+            const nodeList: RenderNode[] = [];
+            for (let i = 0; i < 10; i++) {
+                nodeList.push(createEmptyNode());
+            }
+
+            // chain them together
+            connect(nodeList);
+
+            // try a valid connection
+            expect(() => {
+                detectLoops(
+                    createNodeMap(nodeList),
+                    nodeList[nodeList.length - 2].node.uuid,
+                    nodeList[nodeList.length - 1].node.uuid
+                );
+            }).not.toThrowError();
+
+            // now try linking the last one to the front
+            expect(() => {
+                detectLoops(
+                    createNodeMap(nodeList),
+                    nodeList[nodeList.length - 1].node.uuid,
+                    nodeList[0].node.uuid
+                );
+            }).toThrowError();
+        });
+
+        it('should not reroute on removal if it creates a loop', () => {
             let expressionA = createEmptyNode();
             const waitNode = createEmptyNode(1, { type: WaitTypes.msg });
             const expressionB = createEmptyNode();
