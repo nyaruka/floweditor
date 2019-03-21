@@ -24,7 +24,7 @@ import {
 import { createSendMsgAction } from '~/testUtils/assetCreators';
 import { RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { exit } from '~/components/flow/node/Node.scss';
-import { createUUID } from '~/utils';
+import { createUUID, dump } from '~/utils';
 
 const mutate = require('immutability-helper');
 
@@ -226,19 +226,16 @@ describe('mutators', () => {
             const nodeA = createEmptyNode();
             const nodeB = createEmptyNode();
 
-            connect(
-                nodeA,
-                nodeB
-            );
+            connect([nodeA, nodeB]);
 
             const nodeMap = createNodeMap([nodeA, nodeB]);
 
-            // console.log(JSON.stringify(nodeMap, null, 2));
-
+            // can't point two non-waits in a cycle
             expect(() => {
                 detectLoops(nodeMap, nodeB.node.uuid, nodeA.node.uuid);
             }).toThrowError();
 
+            // can't point to ourselves
             expect(() => {
                 detectLoops(nodeMap, nodeB.node.uuid, nodeB.node.uuid);
             }).toThrowError();
@@ -249,10 +246,7 @@ describe('mutators', () => {
             const waitNode = createEmptyNode(1, { type: WaitTypes.msg });
 
             // point our expression to our wait
-            connect(
-                expressionNode,
-                waitNode
-            );
+            connect([expressionNode, waitNode]);
 
             detectLoops(
                 createNodeMap([expressionNode, waitNode]),
@@ -260,11 +254,36 @@ describe('mutators', () => {
                 expressionNode.node.uuid
             );
         });
+
+        it('should not reroute if it creates a loop', () => {
+            let expressionA = createEmptyNode();
+            const waitNode = createEmptyNode(1, { type: WaitTypes.msg });
+            const expressionB = createEmptyNode();
+
+            // create a loop with a wait in the middle
+            connect([expressionA, waitNode, expressionB, expressionA]);
+            const updatedNodes = removeNode(
+                createNodeMap([expressionA, waitNode, expressionB]),
+                waitNode.node.uuid,
+                true
+            );
+
+            // expressionA should no no longer have a
+            expressionA = updatedNodes[expressionA.node.uuid];
+            expect(expressionA.node.exits[0].destination_node_uuid).toBeFalsy();
+        });
     });
 });
 
-const connect = (a: RenderNode, b: RenderNode): void => {
-    a.node.exits[0].destination_node_uuid = b.node.uuid;
+const connect = (nodes: RenderNode[]): void => {
+    for (let i = 0; i < nodes.length; i++) {
+        if (i < nodes.length - 1) {
+            const fromNode = nodes[i];
+            const toNode = nodes[i + 1];
+            fromNode.node.exits[0].destination_node_uuid = toNode.node.uuid;
+            toNode.inboundConnections[fromNode.node.exits[0].uuid] = fromNode.node.uuid;
+        }
+    }
 };
 
 const createNodeMap = (nodes: RenderNode[]): any => {
