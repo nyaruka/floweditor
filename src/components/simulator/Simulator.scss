@@ -293,6 +293,44 @@ $reset_color: #666;
         }
     }
 
+    .keypad {
+        .keypad-entry {
+            background: #555;
+            color: $light_gray;
+            font-size: 18px;
+            padding: 5px;
+            text-align: center;
+            letter-spacing: 4px;
+        }
+
+        .keys {
+            color: $light_gray;
+            padding: 5px;
+            .row {
+                width: 100%;
+                margin: 0;
+                text-align: center;
+
+                .key {
+                    padding: 4px 13px;
+                    background: #777;
+                    border-radius: 6px;
+                    font-weight: bold;
+                    border: 1px solid $light_gray;
+                    display: inline-block;
+                    text-align: center;
+                    margin: 2px;
+                    font-size: 14px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: #999;
+                    }
+                }
+            }
+        }
+    }
+
     .drawer-items {
         display: flex;
         flex-direction: row;
