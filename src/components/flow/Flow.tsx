@@ -17,6 +17,7 @@ import ActivityManager from '~/services/ActivityManager';
 import Plumber from '~/services/Plumber';
 import { DragSelection, EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
+import { detectLoops } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
@@ -50,7 +51,6 @@ import {
     timeStart
 } from '~/utils';
 import Debug from '~/utils/debug';
-import { detectLoops } from '~/store/helpers';
 
 export interface FlowStoreProps {
     editorState: Partial<EditorState>;
@@ -315,7 +315,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private getSimulator(): JSX.Element {
         return renderIf(this.context.endpoints && this.context.endpoints.simulateStart)(
-            <Simulator Activity={this.Activity} />
+            <Simulator mergeEditorState={this.props.mergeEditorState} Activity={this.Activity} />
         );
     }
 

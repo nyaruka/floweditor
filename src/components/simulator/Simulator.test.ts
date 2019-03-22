@@ -12,7 +12,8 @@ const { setup } = composeComponentTestUtils<SimulatorProps>(Simulator, {
         language: null,
         _ui: null
     },
-    Activity: null
+    Activity: null,
+    mergeEditorState: jest.fn()
 });
 
 describe(Simulator.name, () => {

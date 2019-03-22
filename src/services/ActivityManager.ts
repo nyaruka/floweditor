@@ -84,7 +84,7 @@ export default class ActivityManager {
     public notifyListeners(): void {
         // tslint:disable-next-line:forin
         for (const counter in this.listeners) {
-            this.listeners[counter].requestUpdate();
+            this.listeners[counter].handleRequestUpdate();
         }
     }
 

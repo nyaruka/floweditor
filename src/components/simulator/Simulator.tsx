@@ -16,7 +16,7 @@ import { Activity } from '~/services/ActivityManager';
 import { AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
-import { DispatchWithState } from '~/store/thunks';
+import { DispatchWithState, MergeEditorState } from '~/store/thunks';
 import { createUUID } from '~/utils';
 
 const MESSAGE_DELAY_MS = 200;
@@ -46,6 +46,7 @@ export interface SimulatorStoreProps {
 
 export interface SimulatorPassedProps {
     Activity: any;
+    mergeEditorState: MergeEditorState;
 }
 
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
@@ -207,7 +208,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                     finalStep = step;
                 }
 
-                if (run.status === ACTIVE && finalStep) {
+                if (run.status === 'waiting' && finalStep) {
                     let count = active[finalStep.node_uuid];
                     if (!count) {
                         count = 0;
@@ -218,8 +219,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             }
 
             const activity: Activity = { segments: paths, nodes: active };
-
-            // console.log(JSON.stringify(activity, null, 1));
             this.props.Activity.setSimulation(activity);
 
             if (activeFlow && activeFlow !== this.currentFlow) {
@@ -507,6 +506,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     private onToggle(event: any): void {
         const newVisible = !this.state.visible;
+
+        this.props.mergeEditorState({ simulating: newVisible });
+
         this.setState({ visible: newVisible }, () => {
             // clear our viewing definition
             if (!this.state.visible) {

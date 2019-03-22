@@ -20,6 +20,7 @@ export interface CanvasPositions {
 }
 
 export interface EditorState {
+    simulating: boolean;
     language: Asset;
     translating: boolean;
     fetchingFlow: boolean;
@@ -44,6 +45,7 @@ export const EMPTY_DRAG_STATE: any = {
 
 // Initial state
 export const initialState: EditorState = {
+    simulating: false,
     translating: false,
     language: null,
     fetchingFlow: false,

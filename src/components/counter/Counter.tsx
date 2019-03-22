@@ -1,8 +1,10 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import * as styles from '~/components/counter/Counter.scss';
 import { addCommas, createUUID } from '~/utils';
 
 export interface CounterProps {
+    keepVisible: boolean;
     containerStyle: string;
     countStyle: string;
     getCount(): number;
@@ -15,17 +17,35 @@ export interface CounterState {
 
 export default class Counter extends React.Component<CounterProps, CounterState> {
     private key: string;
+    private ele: HTMLDivElement;
 
     constructor(props: CounterProps) {
         super(props);
         this.key = createUUID();
-        this.getKey = this.getKey.bind(this);
-        this.requestUpdate = this.requestUpdate.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+
+        bindCallbacks(this, {
+            include: [/^handle/, /^get/]
+        });
     }
 
     public componentDidMount(): void {
-        this.requestUpdate();
+        this.handleRequestUpdate();
+        this.handleScrollIntoView();
+    }
+
+    public componentDidUpdate(): void {
+        this.handleScrollIntoView();
+    }
+
+    private handleScrollIntoView(): void {
+        if (!!this.ele) {
+            if (this.state.count > 0 && this.props.keepVisible) {
+                window.scrollTo({
+                    top: this.ele.getBoundingClientRect().top - 200,
+                    behavior: 'smooth'
+                });
+            }
+        }
     }
 
     public componentWillUnmount(): void {
@@ -42,9 +62,13 @@ export default class Counter extends React.Component<CounterProps, CounterState>
         return this.key;
     }
 
-    public requestUpdate(): void {
+    public handleRequestUpdate(): void {
         const count = this.props.getCount();
         this.setState({ count });
+    }
+
+    private handleRef(ref: HTMLDivElement): HTMLDivElement {
+        return (this.ele = ref);
     }
 
     public render(): JSX.Element {
@@ -55,6 +79,7 @@ export default class Counter extends React.Component<CounterProps, CounterState>
                     className={styles.counter + ' ' + this.props.containerStyle}
                     onClick={this.handleClick}
                     data-spec="counter-outter"
+                    ref={this.handleRef}
                 >
                     <div className={this.props.countStyle} data-spec="counter-inner">
                         {count}

@@ -218,6 +218,7 @@ exports[`Flow render should render Simulator 1`] = `
           "setSimulation": [MockFunction],
         }
       }
+      mergeEditorState={[MockFunction]}
     />
   </Canvas>
 </div>
