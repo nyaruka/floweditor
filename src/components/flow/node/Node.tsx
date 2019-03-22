@@ -54,6 +54,7 @@ export interface NodeStoreProps {
     results: AssetMap;
     translating: boolean;
     dragActive: boolean;
+    simulating: boolean;
     debug: DebugState;
     renderNode: RenderNode;
     definition: FlowDefinition;
@@ -405,6 +406,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                         onUnmount={this.onUnmount}
                         containerStyle={styles.active}
                         countStyle={''}
+                        keepVisible={this.props.simulating}
                     />
                     <div className={styles.cropped}>
                         {header}
@@ -431,7 +433,7 @@ const mapStateToProps = (
                 results: { items }
             }
         },
-        editorState: { translating, debug, ghostNode, dragActive }
+        editorState: { translating, debug, ghostNode, dragActive, simulating }
     }: AppState,
     props: NodePassedProps
 ) => {
@@ -457,7 +459,8 @@ const mapStateToProps = (
         debug,
         dragActive,
         definition,
-        renderNode
+        renderNode,
+        simulating
     };
 };
 

@@ -166,6 +166,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                     onUnmount={this.onUnmount}
                     containerStyle={styles.activity}
                     countStyle={styles.count}
+                    keepVisible={false}
                 />
             );
         }

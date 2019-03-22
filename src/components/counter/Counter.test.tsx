@@ -12,6 +12,7 @@ let counterInner: any;
 // This is only necessary because Jasmine requires spies to be initialied in a 'before' function
 beforeAll(() => {
     props = {
+        keepVisible: false,
         containerStyle: 'style goes here',
         countStyle: 'count style goes here',
         getCount: jest.fn().mockReturnValue(10000),
