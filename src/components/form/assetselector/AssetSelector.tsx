@@ -55,6 +55,8 @@ export interface AssetSelectorProps extends FormElementProps {
     searchable?: boolean;
     clearable?: boolean;
 
+    onFilter?: (asset: Asset) => boolean;
+
     // creation options
     createPrefix?: string;
     onAssetCreated?: (asset: Asset) => void;
@@ -129,7 +131,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
 
     public handleLoadOptions(input: string, callback: CallbackFunction): void {
-        const localMatches = searchAssetMap(
+        let localMatches = searchAssetMap(
             input,
             this.props.assets.items,
             this.props.additionalOptions,
@@ -153,7 +155,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                 const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
 
                 // concat them all together and uniquify them
-                const matches = uniqueBy(
+                let matches = uniqueBy(
                     localMatches.concat(remoteMatches).concat(removalAsset),
                     'id'
                 );
@@ -168,10 +170,17 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                     }
                 }
 
+                if (this.props.onFilter) {
+                    matches = matches.filter(this.props.onFilter);
+                }
+
                 // sort our results and callback
                 callback(matches.sort(this.props.sortFunction || sortByName));
             });
         } else {
+            if (this.props.onFilter) {
+                localMatches = localMatches.filter(this.props.onFilter);
+            }
             // only local matches
             callback(localMatches.sort(this.props.sortFunction || sortByName));
         }

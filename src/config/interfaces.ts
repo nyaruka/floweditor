@@ -1,9 +1,9 @@
 import { AnyAction } from '~/flowTypes';
 
 export enum FlowTypes {
-    MESSAGE = 'M',
-    VOICE = 'V',
-    SURVEY = 'S',
+    MESSAGE = 'messaging',
+    VOICE = 'voice',
+    SURVEY = 'messaging_offline',
     NONE = '-'
 }
 
@@ -23,7 +23,7 @@ export const enum Types {
     send_msg = 'send_msg',
     send_email = 'send_email',
     send_broadcast = 'send_broadcast',
-    start_flow = 'start_flow',
+    enter_flow = 'enter_flow',
     start_session = 'start_session',
     transfer_airtime = 'transfer_airtime',
     split_by_airtime = 'split_by_airtime',

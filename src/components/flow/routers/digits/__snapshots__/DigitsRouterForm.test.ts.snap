@@ -32,7 +32,7 @@ exports[`DigitsRouterForm initializes 1`] = `
         "name": "Wait for Digits",
         "type": "wait_for_digits",
         "visibility": Array [
-          "V",
+          "voice",
         ],
       }
     }
@@ -94,7 +94,7 @@ exports[`DigitsRouterForm should render 1`] = `
         "name": "Wait for Digits",
         "type": "wait_for_digits",
         "visibility": Array [
-          "V",
+          "voice",
         ],
       }
     }

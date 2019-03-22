@@ -34,7 +34,7 @@
     &.send_broadcast,
     &.transfer_airtime,
     &.missing,
-    &.start_flow {
+    &.enter_flow {
         width: $node_width - $action_padding * 2;
         padding: $action_padding;
     }

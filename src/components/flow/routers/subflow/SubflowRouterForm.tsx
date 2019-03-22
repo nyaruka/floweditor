@@ -20,8 +20,7 @@ export default class SubflowRouterForm extends React.PureComponent<
     SubflowRouterFormState
 > {
     public static contextTypes = {
-        endpoints: fakePropType,
-        assetService: fakePropType
+        config: fakePropType
     };
 
     constructor(props: RouterFormProps) {
@@ -61,6 +60,11 @@ export default class SubflowRouterForm extends React.PureComponent<
         };
     }
 
+    private handleFilter(asset: Asset): boolean {
+        // only show flows that match our flow type
+        return asset.type === this.context.config.flowType;
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
         return (
@@ -80,6 +84,7 @@ export default class SubflowRouterForm extends React.PureComponent<
                     assets={this.props.assetStore.flows}
                     entry={this.state.flow}
                     searchable={true}
+                    onFilter={this.handleFilter}
                     onChange={this.handleFlowChanged}
                 />
             </Dialog>

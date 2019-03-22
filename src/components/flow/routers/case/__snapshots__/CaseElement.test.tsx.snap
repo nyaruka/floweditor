@@ -25,8 +25,8 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "valid": true,
@@ -91,8 +91,8 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "valid": false,
@@ -132,54 +132,8 @@ exports[`CaseElement render renders no argument rules 1`] = `
           Array [
             Object {
               "operands": 1,
-              "type": "has_any_word",
-              "verboseName": "has any of the words",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_all_words",
-              "verboseName": "has all of the words",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_phrase",
-              "verboseName": "has the phrase",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_only_phrase",
-              "verboseName": "has only the phrase",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
               "type": "has_beginning",
               "verboseName": "starts with",
-            },
-            Object {
-              "categoryName": "Has Text",
-              "operands": 0,
-              "type": "has_text",
-              "verboseName": "has some text",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
             },
             Object {
               "categoryName": "Has Number",
@@ -218,57 +172,10 @@ exports[`CaseElement render renders no argument rules 1`] = `
               "verboseName": "has a number above",
             },
             Object {
-              "categoryName": "Has Date",
-              "operands": 0,
-              "type": "has_date",
-              "verboseName": "has a date",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_date_lt",
-              "verboseName": "has a date before",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_date_eq",
-              "verboseName": "has a date equal to",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_date_gt",
-              "verboseName": "has a date after",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
               "categoryName": "Has Phone",
               "operands": 0,
               "type": "has_phone",
               "verboseName": "has a phone number",
-            },
-            Object {
-              "categoryName": "Has Email",
-              "operands": 0,
-              "type": "has_email",
-              "verboseName": "has an email",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
             },
             Object {
               "categoryName": "Not Empty",
@@ -368,54 +275,8 @@ exports[`CaseElement render should render empty case 1`] = `
           Array [
             Object {
               "operands": 1,
-              "type": "has_any_word",
-              "verboseName": "has any of the words",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_all_words",
-              "verboseName": "has all of the words",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_phrase",
-              "verboseName": "has the phrase",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_only_phrase",
-              "verboseName": "has only the phrase",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
               "type": "has_beginning",
               "verboseName": "starts with",
-            },
-            Object {
-              "categoryName": "Has Text",
-              "operands": 0,
-              "type": "has_text",
-              "verboseName": "has some text",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
             },
             Object {
               "categoryName": "Has Number",
@@ -454,57 +315,10 @@ exports[`CaseElement render should render empty case 1`] = `
               "verboseName": "has a number above",
             },
             Object {
-              "categoryName": "Has Date",
-              "operands": 0,
-              "type": "has_date",
-              "verboseName": "has a date",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_date_lt",
-              "verboseName": "has a date before",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_date_eq",
-              "verboseName": "has a date equal to",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
-              "operands": 1,
-              "type": "has_date_gt",
-              "verboseName": "has a date after",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
-            },
-            Object {
               "categoryName": "Has Phone",
               "operands": 0,
               "type": "has_phone",
               "verboseName": "has a phone number",
-            },
-            Object {
-              "categoryName": "Has Email",
-              "operands": 0,
-              "type": "has_email",
-              "verboseName": "has an email",
-              "visibility": Array [
-                "M",
-                "S",
-              ],
             },
             Object {
               "categoryName": "Not Empty",
@@ -536,8 +350,8 @@ exports[`CaseElement render should render empty case 1`] = `
             "type": "has_any_word",
             "verboseName": "has any of the words",
             "visibility": Array [
-              "M",
-              "S",
+              "messaging",
+              "messaging_offline",
             ],
           }
         }
@@ -611,8 +425,8 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "valid": true,

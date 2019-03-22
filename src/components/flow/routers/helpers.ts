@@ -32,13 +32,12 @@ export const createRenderNode = (
     wait: Wait = null,
     uiConfig: { [key: string]: any } = {}
 ): RenderNode => {
-    return {
+    const renderNode: RenderNode = {
         node: {
             uuid,
             actions,
             router,
-            exits,
-            wait
+            exits
         },
         ui: {
             type,
@@ -47,6 +46,12 @@ export const createRenderNode = (
         },
         inboundConnections: {}
     };
+
+    if (wait) {
+        renderNode.node.wait = wait;
+    }
+
+    return renderNode;
 };
 
 export const hasCases = (node: FlowNode): boolean => {

@@ -31,7 +31,7 @@ exports[`MenuRouterForm should render 1`] = `
         "name": "Wait for Menu Selection",
         "type": "wait_for_menu",
         "visibility": Array [
-          "V",
+          "voice",
         ],
       }
     }

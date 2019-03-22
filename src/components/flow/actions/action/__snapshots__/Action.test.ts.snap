@@ -80,16 +80,16 @@ exports[`ActionWrapper render should display not_localizable style 1`] = `
     onMouseUp={[Function]}
   >
     <TitleBar
-      __className="start_flow"
+      __className="enter_flow"
       onMoveUp={[Function]}
       onRemoval={[Function]}
       shouldCancelClick={[Function]}
       showMove={false}
       showRemoval={false}
-      title="Start a Flow"
+      title="Enter a Flow"
     />
     <div
-      className="body start_flow"
+      className="body enter_flow"
       data-spec="action-body"
     />
   </div>

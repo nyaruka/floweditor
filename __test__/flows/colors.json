@@ -40,8 +40,7 @@
                 {
                     "uuid": "64378fc1-19e4-4c8a-be27-aee49ebc728a",
                     "type": "send_msg",
-                    "text":
-                        "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?"
+                    "text": "What's your favorite color, (r)ed, (o)range, (y)ellow, (g)reen, (b)lue, (i)ndigo or (v)iolet?"
                 }
             ],
             "exits": [
@@ -287,7 +286,7 @@
             "actions": [
                 {
                     "uuid": "dbcccd07-9966-460a-9fcd-4db5a2f921ab",
-                    "type": "start_flow",
+                    "type": "enter_flow",
                     "flow": {
                         "name": "Customer Service",
                         "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"

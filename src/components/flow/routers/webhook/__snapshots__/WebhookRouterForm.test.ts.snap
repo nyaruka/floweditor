@@ -345,7 +345,6 @@ Array [
         "type": "switch",
       },
       "uuid": "c6f278d5-2741-4c0a-880c-52a07dea91a5",
-      "wait": null,
     },
     "ui": Object {
       "config": Object {},
