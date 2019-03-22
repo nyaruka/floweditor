@@ -1,7 +1,6 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
 import { SubflowRouterFormState } from '~/components/flow/routers/subflow/SubflowRouterForm';
-import { Operators } from '~/config/interfaces';
-import { Types } from '~/config/interfaces';
+import { Operators, Types } from '~/config/interfaces';
 import {
     Case,
     Exit,
@@ -40,7 +39,7 @@ export const stateToNode = (
 
     const newAction: StartFlow = {
         uuid: action.uuid || createUUID(),
-        type: Types.start_flow,
+        type: Types.enter_flow,
         flow: assetToFlow(state.flow.value)
     };
 

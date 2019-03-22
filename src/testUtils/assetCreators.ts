@@ -240,7 +240,7 @@ export const createStartFlowAction = ({
         uuid: string;
     };
 } = {}): StartFlow => ({
-    type: Types.start_flow,
+    type: Types.enter_flow,
     uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
     flow: {
         name: capitalize(flow.name.trim()),

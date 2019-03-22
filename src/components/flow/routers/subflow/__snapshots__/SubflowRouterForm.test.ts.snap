@@ -15,8 +15,8 @@ exports[`SubflowRouterForm render should render 1`] = `
       },
     }
   }
-  headerClass="start_flow"
-  title="Start a Flow"
+  headerClass="enter_flow"
+  title="Enter a Flow"
 >
   <TypeList
     __className=""
@@ -32,8 +32,8 @@ exports[`SubflowRouterForm render should render 1`] = `
         "localizeableKeys": Array [
           "exits",
         ],
-        "name": "Start a Flow",
-        "type": "start_flow",
+        "name": "Enter a Flow",
+        "type": "enter_flow",
       }
     }
     onChange={[MockFunction]}
@@ -50,6 +50,7 @@ exports[`SubflowRouterForm render should render 1`] = `
     }
     name="Flow"
     onChange={[Function]}
+    onFilter={[Function]}
     placeholder="Select the flow to start"
     searchable={true}
   />
@@ -67,7 +68,7 @@ Array [
             "name": "Favorite Color",
             "uuid": undefined,
           },
-          "type": "start_flow",
+          "type": "enter_flow",
           "uuid": "d4a3a01c-1dee-4324-b107-4ac7a21d836f",
         },
       ],
@@ -109,7 +110,6 @@ Array [
         "type": "switch",
       },
       "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
-      "wait": null,
     },
     "ui": Object {
       "config": Object {},
@@ -131,7 +131,7 @@ Array [
             "name": "Favorite Color",
             "uuid": undefined,
           },
-          "type": "start_flow",
+          "type": "enter_flow",
           "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         },
       ],
@@ -173,7 +173,6 @@ Array [
         "type": "switch",
       },
       "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
-      "wait": null,
     },
     "ui": Object {
       "config": Object {},
@@ -208,7 +207,7 @@ Array [
             "name": "Favorite Color",
             "uuid": undefined,
           },
-          "type": "start_flow",
+          "type": "enter_flow",
           "uuid": "d4a3a01c-1dee-4324-b107-4ac7a21d836f",
         },
       ],
@@ -248,7 +247,6 @@ Array [
         "type": "switch",
       },
       "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
-      "wait": null,
     },
     "ui": Object {
       "config": Object {},

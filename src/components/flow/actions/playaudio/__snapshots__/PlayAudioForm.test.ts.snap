@@ -28,7 +28,7 @@ exports[`PlayAudioForm render should render 1`] = `
         "name": "Play Recording",
         "type": "play_audio",
         "visibility": Array [
-          "V",
+          "voice",
         ],
       }
     }

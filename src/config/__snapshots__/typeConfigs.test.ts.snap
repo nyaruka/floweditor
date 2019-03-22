@@ -23,7 +23,7 @@ Array [
     "name": "Play Message",
     "type": "say_msg",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   Object {
@@ -36,7 +36,7 @@ Array [
     "name": "Wait for Menu Selection",
     "type": "wait_for_menu",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   Object {
@@ -50,7 +50,7 @@ Array [
     "name": "Wait for Digits",
     "type": "wait_for_digits",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   Object {
@@ -79,8 +79,8 @@ Array [
     "name": "Wait for Response",
     "type": "wait_for_response",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   Object {
@@ -155,7 +155,7 @@ Array [
     "name": "Play Recording",
     "type": "play_audio",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   Object {
@@ -197,8 +197,8 @@ Array [
     "localizeableKeys": Array [
       "exits",
     ],
-    "name": "Start a Flow",
-    "type": "start_flow",
+    "name": "Enter a Flow",
+    "type": "enter_flow",
   },
   Object {
     "component": [Function],
@@ -235,7 +235,7 @@ Array [
     "name": "Wait for Audio",
     "type": "wait_for_audio",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
   Object {
@@ -248,7 +248,7 @@ Array [
     "name": "Wait for Image",
     "type": "wait_for_image",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
   Object {
@@ -261,7 +261,7 @@ Array [
     "name": "Wait for Video",
     "type": "wait_for_video",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
   Object {
@@ -274,7 +274,7 @@ Array [
     "name": "Wait for Location",
     "type": "wait_for_location",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
   Object {
@@ -387,6 +387,20 @@ Object {
     "name": "Call Webhook",
     "type": "call_webhook",
   },
+  "enter_flow": Object {
+    "aliases": Array [
+      "split_by_subflow",
+    ],
+    "component": [Function],
+    "description": "Enter another flow",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Enter a Flow",
+    "type": "enter_flow",
+  },
   "missing": Object {
     "component": [Function],
     "description": " ** Unsupported ** ",
@@ -403,7 +417,7 @@ Object {
     "name": "Play Recording",
     "type": "play_audio",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   "remove_contact_groups": Object {
@@ -425,7 +439,7 @@ Object {
     "name": "Play Message",
     "type": "say_msg",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   "send_broadcast": Object {
@@ -622,8 +636,8 @@ Object {
     "localizeableKeys": Array [
       "exits",
     ],
-    "name": "Start a Flow",
-    "type": "start_flow",
+    "name": "Enter a Flow",
+    "type": "enter_flow",
   },
   "split_by_webhook": Object {
     "aliases": Array [
@@ -638,20 +652,6 @@ Object {
     ],
     "name": "Call Webhook",
     "type": "call_webhook",
-  },
-  "start_flow": Object {
-    "aliases": Array [
-      "split_by_subflow",
-    ],
-    "component": [Function],
-    "description": "Enter another flow",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "exits",
-    ],
-    "name": "Start a Flow",
-    "type": "start_flow",
   },
   "start_session": Object {
     "component": [Function],
@@ -678,8 +678,8 @@ Object {
     "name": "Wait for Response",
     "type": "wait_for_response",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "transfer_airtime": Object {
@@ -706,7 +706,7 @@ Object {
     "name": "Wait for Audio",
     "type": "wait_for_audio",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
   "wait_for_digits": Object {
@@ -720,7 +720,7 @@ Object {
     "name": "Wait for Digits",
     "type": "wait_for_digits",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   "wait_for_image": Object {
@@ -733,7 +733,7 @@ Object {
     "name": "Wait for Image",
     "type": "wait_for_image",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
   "wait_for_location": Object {
@@ -746,7 +746,7 @@ Object {
     "name": "Wait for Location",
     "type": "wait_for_location",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
   "wait_for_menu": Object {
@@ -759,7 +759,7 @@ Object {
     "name": "Wait for Menu Selection",
     "type": "wait_for_menu",
     "visibility": Array [
-      "V",
+      "voice",
     ],
   },
   "wait_for_response": Object {
@@ -776,8 +776,8 @@ Object {
     "name": "Wait for Response",
     "type": "wait_for_response",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "wait_for_video": Object {
@@ -790,7 +790,7 @@ Object {
     "name": "Wait for Video",
     "type": "wait_for_video",
     "visibility": Array [
-      "S",
+      "messaging_offline",
     ],
   },
 }

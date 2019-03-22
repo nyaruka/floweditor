@@ -231,8 +231,8 @@ export const typeConfigList: Type[] = [
         aliases: [Types.split_by_resthook]
     },
     {
-        type: Types.start_flow,
-        name: 'Start a Flow',
+        type: Types.enter_flow,
+        name: 'Enter a Flow',
         description: 'Enter another flow',
         form: SubflowRouterForm,
         localization: RouterLocalizationForm,

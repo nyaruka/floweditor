@@ -108,8 +108,8 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "valid": true,
@@ -172,8 +172,8 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "valid": false,
@@ -233,8 +233,8 @@ Object {
     "type": "has_text",
     "verboseName": "has some text",
     "visibility": Array [
-      "M",
-      "S",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "valid": true,

@@ -154,7 +154,6 @@ Array [
         "type": "switch",
       },
       "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
-      "wait": null,
     },
     "ui": Object {
       "config": Object {},
@@ -251,7 +250,6 @@ Array [
         "type": "switch",
       },
       "uuid": "e4e66707-8798-4760-ba10-ab25c3da767c",
-      "wait": null,
     },
     "ui": Object {
       "config": Object {},
