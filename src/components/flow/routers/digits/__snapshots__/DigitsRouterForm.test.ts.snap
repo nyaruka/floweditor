@@ -128,7 +128,7 @@ exports[`DigitsRouterForm updates should save changes 1`] = `
 Object {
   "cases": Array [
     Object {
-      "exitName": "Red",
+      "categoryName": "Red",
       "kase": Object {
         "arguments": Array [
           "red",
@@ -137,7 +137,7 @@ Object {
       },
     },
     Object {
-      "exitName": "Red",
+      "categoryName": "Red",
       "kase": Object {
         "arguments": Array [
           "maroon",
@@ -146,7 +146,7 @@ Object {
       },
     },
     Object {
-      "exitName": "Green",
+      "categoryName": "Green",
       "kase": Object {
         "arguments": Array [
           "green",
@@ -170,19 +170,13 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "name": "Red",
-          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-        },
-        Object {
-          "destination_node_uuid": null,
-          "name": "Green",
-          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-        },
-        Object {
-          "destination_node_uuid": null,
-          "name": "Other",
           "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        },
+        Object {
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        },
+        Object {
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
       ],
       "router": Object {
@@ -191,30 +185,47 @@ Array [
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "maroon",
             ],
-            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
             "type": "has_any_word",
           },
         ],
-        "default_exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "categories": Array [
+          Object {
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "name": "Red",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+          Object {
+            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "name": "Green",
+            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+          },
+          Object {
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "name": "All Responses",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          },
+        ],
+        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         "operand": "@input",
         "result_name": "Favorite Color",
         "type": "switch",
       },
-      "uuid": "48e0a64d-3b3c-4e3e-9d95-7844093edc90",
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
       "wait": Object {
         "hint": Object {
           "type": "digits",

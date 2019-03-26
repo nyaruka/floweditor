@@ -11,9 +11,9 @@ export const createEmptyCase = (): CaseProps => {
             uuid,
             type: Operators.has_any_word,
             arguments: [''],
-            exit_uuid: null
+            category_uuid: null
         },
-        exitName: '',
+        categoryName: '',
         valid: true
     };
 };

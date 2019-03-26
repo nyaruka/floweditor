@@ -129,7 +129,7 @@ export default class Plumber {
     public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
         this.connect(
             `${node.uuid}:${exit.uuid}`,
-            exit.destination_node_uuid,
+            exit.destination_uuid,
             className
         );
     }

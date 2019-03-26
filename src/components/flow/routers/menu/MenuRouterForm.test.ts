@@ -18,7 +18,8 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
             },
             router: {
                 type: RouterTypes.switch,
-                cases: []
+                cases: [],
+                categories: []
             },
             ui: {
                 position: { left: 0, top: 0 },

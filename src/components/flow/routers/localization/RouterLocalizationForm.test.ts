@@ -2,51 +2,31 @@ import { LocalizationFormProps } from '~/components/flow/props';
 import RouterLocalizationForm from '~/components/flow/routers/localization/RouterLocalizationForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators } from '~/config/interfaces';
-import { RouterTypes, SwitchRouter } from '~/flowTypes';
+import { RouterTypes, SwitchRouter, Exit, Category } from '~/flowTypes';
 import { getLocalizations } from '~/store/helpers';
 import { composeComponentTestUtils, mock } from '~/testUtils';
-import { createRenderNode, Spanish } from '~/testUtils/assetCreators';
+import {
+    createRenderNode,
+    Spanish,
+    createCategories,
+    createMatchRouter
+} from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
-import { createUUID } from '~/utils';
+import { getSwitchRouter } from '~/components/flow/routers/helpers';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
-const colorsExit = createUUID();
-const otherExit = createUUID();
-const redCase = createUUID();
-const blueCase = createUUID();
+const responseRenderNode = createMatchRouter(['Red', 'Blue']);
 
-const responseRenderNode = createRenderNode({
-    actions: [],
-    exits: [
-        { destination_node_uuid: null, name: 'Colors', uuid: colorsExit },
-        { destination_node_uuid: null, name: 'Other', uuid: otherExit }
-    ],
-    router: {
-        type: RouterTypes.switch,
-        operand: DEFAULT_OPERAND,
-        cases: [
-            {
-                uuid: redCase,
-                type: Operators.has_any_word,
-                arguments: ['red'],
-                exit_uuid: colorsExit
-            },
-            {
-                uuid: blueCase,
-                type: Operators.has_any_word,
-                arguments: ['blue'],
-                exit_uuid: colorsExit
-            }
-        ],
-        default_exit_uuid: otherExit,
-        result_name: 'Color'
-    } as SwitchRouter
-});
+const router = getSwitchRouter(responseRenderNode.node);
+
+const redCase = router.cases[0];
+const otherCategory = router.categories[router.categories.length - 1];
 
 const localizations = getLocalizations(responseRenderNode.node, null, Spanish, {
-    [otherExit]: { name: ['Otro'] },
-    [redCase]: { arguments: ['rojo, r'] }
+    [redCase.uuid]: { arguments: ['rojo, r'] },
+
+    [otherCategory.uuid]: { name: ['Otro'] }
 });
 
 const baseProps: LocalizationFormProps = {
@@ -80,7 +60,10 @@ describe(RouterLocalizationForm.name, () => {
         it('should save changes', () => {
             const { instance, props } = setup(true);
 
-            instance.handleUpdateExitName(responseRenderNode.node.exits[0], 'Roooojo!');
+            instance.handleUpdateCategoryName(
+                responseRenderNode.node.router.categories[0],
+                'Roooojo!'
+            );
             instance.handleUpdateCaseArgument(
                 (responseRenderNode.node.router as SwitchRouter).cases[0],
                 'Red, r, rolo, maroon'

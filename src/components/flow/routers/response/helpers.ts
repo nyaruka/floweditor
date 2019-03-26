@@ -3,7 +3,7 @@ import {
     createCaseProps,
     createRenderNode,
     hasCases,
-    resolveExits
+    resolveRoutes
 } from '~/components/flow/routers/helpers';
 import ResponseRouterForm, {
     ResponseRouterFormState
@@ -48,10 +48,10 @@ export const stateToNode = (
     settings: NodeEditorSettings,
     state: ResponseRouterFormState
 ): RenderNode => {
-    const { cases, exits, defaultExit, caseConfig } = resolveExits(
+    const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
         state.cases,
         state.timeout > 0,
-        settings
+        settings.originalNode.node
     );
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
@@ -62,8 +62,9 @@ export const stateToNode = (
     // TODO: shouldnt have an operand
     const router: SwitchRouter = {
         type: RouterTypes.switch,
-        default_exit_uuid: defaultExit,
+        default_category_uuid: defaultExit,
         cases,
+        categories,
         operand: DEFAULT_OPERAND,
         ...optionalRouter
     };

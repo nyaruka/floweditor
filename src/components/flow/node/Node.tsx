@@ -7,13 +7,14 @@ import { bindActionCreators } from 'redux';
 import CounterComp from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
 import ExitComp from '~/components/flow/exit/Exit';
+import { getCategoriesForExit } from '~/components/flow/node/helpers';
 import * as styles from '~/components/flow/node/Node.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { Types } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getType, getTypeConfig } from '~/config/typeConfigs';
-import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
+import { AnyAction, Exit, FlowDefinition, FlowNode, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { DebugState } from '~/store/editor';
 import { AssetMap, RenderNode } from '~/store/flowContext';
@@ -33,18 +34,20 @@ import {
 } from '~/store/thunks';
 import { ClickHandler, createClickHandler, titleCase } from '~/utils';
 
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 export interface NodePassedProps {
     nodeUUID: string;
     Activity: ActivityManager;
-    plumberRepaintForDuration: Function;
-    plumberMakeTarget: Function;
-    plumberRemove: Function;
-    plumberRecalculate: Function;
-    plumberMakeSource: Function;
-    plumberConnectExit: Function;
-    plumberUpdateClass: Function;
+    plumberMakeTarget: (id: string) => void;
+    plumberRecalculate: (id: string) => void;
+    plumberMakeSource: (id: string) => void;
+    plumberRemove: (id: string) => void;
+    plumberConnectExit: (node: FlowNode, exit: Exit) => void;
+    plumberUpdateClass: (
+        node: FlowNode,
+        exit: Exit,
+        className: string,
+        confirmDelete: boolean
+    ) => void;
     selected: boolean;
     ghostRef?: any;
     ghost?: boolean;
@@ -188,6 +191,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 <ExitComp
                     key={exit.uuid}
                     node={this.props.renderNode.node}
+                    categories={getCategoriesForExit(this.props.renderNode, exit)}
                     exit={exit}
                     Activity={this.props.Activity}
                     plumberMakeSource={this.props.plumberMakeSource}
@@ -383,12 +387,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             [styles.selected]: this.isSelected()
         });
 
-        const exitClass =
-            this.props.renderNode.node.exits.length === 1 &&
-            !this.props.renderNode.node.exits[0].name
-                ? styles.unnamed_exit
-                : '';
-
+        const exitClass = this.props.renderNode.node.router ? styles.unnamed_exit : '';
         const uuid: JSX.Element = this.renderDebug();
 
         return (

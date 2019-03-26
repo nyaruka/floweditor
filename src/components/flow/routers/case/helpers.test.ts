@@ -63,7 +63,7 @@ describe('helpers', () => {
             expect(
                 validateCase({
                     operatorConfig: getOperatorConfig(Operators.has_number_between)
-                }).exitName.value
+                }).categoryName.value
             ).toEqual('');
 
             expect(
@@ -100,16 +100,16 @@ describe('helpers', () => {
                     operatorConfig: getOperatorConfig(Operators.has_number_between),
                     min: { value: '5' },
                     max: { value: '10' },
-                    exitName: { value: 'My Exit' },
-                    exitNameEdited: true
+                    categoryName: { value: 'My Exit' },
+                    categoryNameEdited: true
                 })
             ).toBe('My Exit');
 
             expect(
                 getExitName({
                     operatorConfig: getOperatorConfig(Operators.has_number),
-                    exitName: { value: 'My Exit' },
-                    exitNameEdited: true
+                    categoryName: { value: 'My Exit' },
+                    categoryNameEdited: true
                 })
             ).toBe('My Exit');
         });

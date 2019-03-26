@@ -1,12 +1,16 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { GroupsRouterFormState } from '~/components/flow/routers/groups/GroupsRouterForm';
-import { createRenderNode, resolveExits } from '~/components/flow/routers/helpers';
+import {
+    createRenderNode,
+    resolveRoutes,
+    getSwitchRouter
+} from '~/components/flow/routers/helpers';
 import { GROUPS_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators, Types } from '~/config/interfaces';
-import { FlowNode, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
+import { FlowNode, RouterTypes, SwitchRouter, WaitTypes, Category, Group } from '~/flowTypes';
 import { Asset, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-import { createUUID } from '~/utils';
+import { createUUID, dump } from '~/utils';
 
 export const nodeToState = (settings: NodeEditorSettings): GroupsRouterFormState => {
     const state: GroupsRouterFormState = {
@@ -31,12 +35,17 @@ export const stateToNode = (
     state: GroupsRouterFormState
 ): RenderNode => {
     const currentCases = groupsToCases(state.groups.value);
-    const { cases, exits, defaultExit, caseConfig } = resolveExits(currentCases, false, settings);
+    const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
+        currentCases,
+        false,
+        settings.originalNode.node
+    );
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
         cases,
-        default_exit_uuid: defaultExit,
+        categories,
+        default_category_uuid: defaultExit,
         operand: GROUPS_OPERAND,
         result_name: state.resultName.value
     };
@@ -47,23 +56,24 @@ export const stateToNode = (
         exits,
         Types.split_by_groups,
         [],
-        { type: WaitTypes.group },
+        null,
         { cases: caseConfig }
     );
 };
 
-export const extractGroups = ({ exits, router }: FlowNode): Asset[] =>
-    (router as SwitchRouter).cases.map(kase => {
-        let resultName = '';
-        for (const { name, uuid } of exits) {
-            if (uuid === kase.exit_uuid) {
-                resultName += name;
-                break;
-            }
-        }
-        return { name: resultName, id: kase.arguments[0], type: AssetType.Group };
-    });
-
+export const extractGroups = (node: FlowNode): Asset[] => {
+    let groups: Asset[] = [];
+    const router = getSwitchRouter(node);
+    if (router) {
+        groups = (router as SwitchRouter).cases.map(kase => {
+            const category = router.categories.find(
+                (cat: Category) => cat.uuid === kase.category_uuid
+            );
+            return { name: category.name, id: kase.arguments[0], type: AssetType.Group };
+        });
+    }
+    return groups;
+};
 export const groupsToCases = (groups: Asset[] = []): CaseProps[] =>
     groups.map(({ name, id }: Asset) => ({
         uuid: id,
@@ -71,8 +81,8 @@ export const groupsToCases = (groups: Asset[] = []): CaseProps[] =>
             uuid: createUUID(),
             type: Operators.has_group,
             arguments: [id],
-            exit_uuid: ''
+            category_uuid: ''
         },
-        exitName: name,
+        categoryName: name,
         valid: true
     }));

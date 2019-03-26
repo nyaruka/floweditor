@@ -2,12 +2,14 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
+import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import { FlowTypes, Type, Types } from '~/config/interfaces';
 import { getTypeConfig } from '~/config/typeConfigs';
 import { createAssetStore, getFlowDefinition } from '~/external';
 import {
     Action,
     AnyAction,
+    Category,
     Dimensions,
     Endpoints,
     Exit,
@@ -17,8 +19,7 @@ import {
     SendMsg,
     SetContactField,
     SetRunResult,
-    StickyNote,
-    SwitchRouter
+    StickyNote
 } from '~/flowTypes';
 import { CanvasPositions, EditorState, EMPTY_DRAG_STATE, updateEditorState } from '~/store/editor';
 import {
@@ -484,7 +485,7 @@ export const spliceInRouter = (
                 exits: [
                     {
                         uuid: createUUID(),
-                        destination_node_uuid: null
+                        destination_uuid: null
                     }
                 ]
             },
@@ -514,7 +515,7 @@ export const spliceInRouter = (
                 exits: [
                     {
                         uuid: createUUID(),
-                        destination_node_uuid: previousNode.node.exits[0].destination_node_uuid
+                        destination_uuid: previousNode.node.exits[0].destination_uuid
                     }
                 ]
             },
@@ -530,7 +531,7 @@ export const spliceInRouter = (
             updatedNodes,
             newRouterNode.node.uuid,
             newRouterNode.node.exits[0].uuid,
-            previousNode.node.exits[0].destination_node_uuid
+            previousNode.node.exits[0].destination_uuid
         );
     }
 
@@ -585,7 +586,7 @@ export const onUpdateAction = (
             node: {
                 uuid: createUUID(),
                 actions: [action],
-                exits: [{ uuid: createUUID(), destination_node_uuid: null, name: null }]
+                exits: [{ uuid: createUUID(), destination_uuid: null }]
             },
             ui: { position: originalNode.ui.position, type: Types.execute_actions },
             inboundConnections: originalNode.inboundConnections
@@ -891,12 +892,16 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         }
 
         // don't recognize that action, let's add a new router node
-        const router = renderNode.node.router as SwitchRouter;
-        const exitToUpdate = renderNode.node.exits.find(
-            (exit: Exit) => exit.uuid === router.default_exit_uuid
+        const router = getSwitchRouter(renderNode.node);
+        const defaultCategory = router.categories.find(
+            (cat: Category) => cat.uuid === router.default_category_uuid
         );
 
-        exitToUpdate.destination_node_uuid = originalNode.node.exits[0].destination_node_uuid;
+        const exitToUpdate = renderNode.node.exits.find(
+            (exit: Exit) => exit.uuid === defaultCategory.exit_uuid
+        );
+
+        exitToUpdate.destination_uuid = originalNode.node.exits[0].destination_uuid;
 
         renderNode.inboundConnections = {
             [originalNode.node.exits[0].uuid]: originalNode.node.uuid

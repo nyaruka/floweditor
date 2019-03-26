@@ -11,9 +11,9 @@ const { setup } = composeComponentTestUtils<CaseElementProps>(CaseElement, {
         uuid: caseUUID,
         type: Operators.has_any_word,
         arguments: [''],
-        exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
+        category_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
     },
-    exitName: '',
+    categoryName: '',
     onRemove: jest.fn(),
     onChange: jest.fn()
 });

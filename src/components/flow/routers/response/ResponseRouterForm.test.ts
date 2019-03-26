@@ -26,6 +26,9 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
 const otherExit = createUUID();
 const redExit = createUUID();
 
+const redCategory = createUUID();
+const otherCategory = createUUID();
+
 describe(ResponseRouterForm.name, () => {
     it('should render', () => {
         const { wrapper } = setup(true);
@@ -39,22 +42,32 @@ describe(ResponseRouterForm.name, () => {
                     originalNode: createRenderNode({
                         actions: [],
                         exits: [
-                            { destination_node_uuid: null, name: 'Red', uuid: redExit },
-                            { destination_node_uuid: null, name: 'Other', uuid: otherExit }
+                            { destination_uuid: null, uuid: redExit },
+                            { destination_uuid: null, uuid: otherExit }
                         ],
                         wait: { type: WaitTypes.msg },
                         router: {
                             type: RouterTypes.switch,
                             operand: DEFAULT_OPERAND,
+                            categories: [
+                                {
+                                    uuid: redCategory,
+                                    name: 'Red'
+                                },
+                                {
+                                    uuid: otherCategory,
+                                    name: 'Other'
+                                }
+                            ],
                             cases: [
                                 {
                                     uuid: createUUID(),
                                     type: Operators.has_any_word,
                                     arguments: ['red'],
-                                    exit_uuid: redExit
+                                    category_uuid: redCategory
                                 }
                             ],
-                            default_exit_uuid: otherExit,
+                            default_category_uuid: otherCategory,
                             result_name: 'Color'
                         } as SwitchRouter,
                         ui: {
@@ -77,22 +90,32 @@ describe(ResponseRouterForm.name, () => {
                     originalNode: createRenderNode({
                         actions: [],
                         exits: [
-                            { destination_node_uuid: null, name: 'Red', uuid: redExit },
-                            { destination_node_uuid: null, name: 'Other', uuid: otherExit }
+                            { destination_uuid: null, uuid: redExit },
+                            { destination_uuid: null, uuid: otherExit }
                         ],
                         wait: { type: WaitTypes.msg },
                         router: {
                             type: RouterTypes.switch,
                             operand: DEFAULT_OPERAND,
+                            categories: [
+                                {
+                                    uuid: redCategory,
+                                    name: 'Red'
+                                },
+                                {
+                                    uuid: otherCategory,
+                                    name: 'Other'
+                                }
+                            ],
                             cases: [
                                 {
                                     uuid: dateCase,
                                     type: Operators.has_date_eq,
                                     arguments: ['@(datetime_add(today(), 5, "D"))'],
-                                    exit_uuid: redExit
+                                    category_uuid: redCategory
                                 }
                             ],
-                            default_exit_uuid: otherExit,
+                            default_category_uuid: otherCategory,
                             result_name: 'Color'
                         } as SwitchRouter,
                         ui: {
@@ -120,19 +143,19 @@ describe(ResponseRouterForm.name, () => {
                 {
                     uuid: createUUID(),
                     kase: { type: Operators.has_any_word, arguments: ['red'] },
-                    exitName: 'Red',
+                    categoryName: 'Red',
                     valid: true
                 },
                 {
                     uuid: createUUID(),
                     kase: { type: Operators.has_any_word, arguments: ['maroon'] },
-                    exitName: 'Red',
+                    categoryName: 'Red',
                     valid: true
                 },
                 {
                     uuid: createUUID(),
                     kase: { type: Operators.has_any_word, arguments: ['green'] },
-                    exitName: 'Green',
+                    categoryName: 'Green',
                     valid: true
                 }
             ] as CaseProps[]);
@@ -154,7 +177,7 @@ describe(ResponseRouterForm.name, () => {
                 {
                     uuid: createUUID(),
                     kase: { type: Operators.has_date_gt, arguments: ['5'] },
-                    exitName: 'In the Zone',
+                    categoryName: 'In the Zone',
                     valid: true
                 }
             ] as CaseProps[]);

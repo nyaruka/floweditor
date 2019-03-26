@@ -87,7 +87,7 @@ Array [
     "body": "What is a group of tigers called?",
     "subject": "URGENT: I have a question",
     "type": "send_email",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
   },
 ]
 `;
@@ -123,7 +123,7 @@ Array [
     "body": "What is a group of tigers called?",
     "subject": "URGENT: I have a question",
     "type": "send_email",
-    "uuid": "b4f00bdf-6268-4faa-b236-bf2af607526f",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
 ]
 `;

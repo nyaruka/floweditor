@@ -1,15 +1,15 @@
 @import '~/variables.scss';
 
-.translating_exits {
+.translating_categories {
     clear: both;
 }
 
-.translating_exit {
+.translating_category {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: distribute;
-        justify-content: space-around;
+    justify-content: space-around;
     margin-bottom: 10px;
 }
 
@@ -23,7 +23,7 @@
     white-space: nowrap;
     overflow: hidden;
     -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
     margin-right: 10px;
 }
 
@@ -47,8 +47,8 @@
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
     margin: 10px 0;
 }
 

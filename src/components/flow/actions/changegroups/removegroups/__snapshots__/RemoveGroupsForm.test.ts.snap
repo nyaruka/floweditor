@@ -100,7 +100,7 @@ exports[`RemoveGroupsForm updates should allow switching from router: switch fro
           },
         ],
         "type": "remove_contact_groups",
-        "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
     ],
   ],
@@ -119,7 +119,7 @@ Array [
     "all_groups": true,
     "groups": Array [],
     "type": "remove_contact_groups",
-    "uuid": "b230a96d-0448-4945-92b6-a53e583f3bd6",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
 ]
 `;
@@ -135,7 +135,7 @@ Array [
       },
     ],
     "type": "remove_contact_groups",
-    "uuid": "b230a96d-0448-4945-92b6-a53e583f3bd6",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
 ]
 `;

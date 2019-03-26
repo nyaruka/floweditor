@@ -1,12 +1,19 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
 import { WebhookRouterFormState } from '~/components/flow/routers/webhook/WebhookRouterForm';
 import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
-import { Operators } from '~/config/interfaces';
-import { Types } from '~/config/interfaces';
-import { CallWebhook, Case, Exit, RouterTypes, SwitchRouter, WebhookExitNames } from '~/flowTypes';
+import { Operators, Types } from '~/config/interfaces';
+import {
+    CallWebhook,
+    Case,
+    Exit,
+    RouterTypes,
+    SwitchRouter,
+    WebhookExitNames,
+    Category
+} from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-import { createUUID } from '~/utils';
+import { createUUID, dump } from '~/utils';
 
 export enum Methods {
     GET = 'GET',
@@ -114,49 +121,66 @@ export const stateToNode = (
 
     const exits: Exit[] = [];
     let cases: Case[] = [];
+    let categories: Category[] = [];
 
     // If we were already a webhook, lean on those exits and cases
     if (originalAction) {
         settings.originalNode.node.exits.forEach((exit: any) => exits.push(exit));
         (settings.originalNode.node.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
+        settings.originalNode.node.router.categories.forEach(category => categories.push(category));
     } else {
         // Otherwise, let's create some new ones
         exits.push(
             {
                 uuid: createUUID(),
+                destination_uuid: null
+            },
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            },
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            }
+        );
+
+        categories = [
+            {
+                uuid: createUUID(),
                 name: WebhookExitNames.Success,
-                destination_node_uuid: null
+                exit_uuid: exits[0].uuid
             },
             {
                 uuid: createUUID(),
                 name: WebhookExitNames.Failure,
-                destination_node_uuid: null
+                exit_uuid: exits[1].uuid
             },
             {
                 uuid: createUUID(),
                 name: WebhookExitNames.Unreachable,
-                destination_node_uuid: null
+                exit_uuid: exits[2].uuid
             }
-        );
+        ];
 
         cases = [
             {
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['success'],
-                exit_uuid: exits[0].uuid
+                category_uuid: categories[0].uuid
             },
             {
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['response_error'],
-                exit_uuid: exits[1].uuid
+                category_uuid: categories[1].uuid
             },
             {
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['connection_error'],
-                exit_uuid: exits[2].uuid
+                category_uuid: categories[2].uuid
             }
         ];
     }
@@ -165,7 +189,8 @@ export const stateToNode = (
         type: RouterTypes.switch,
         operand: '@run.webhook',
         cases,
-        default_exit_uuid: exits[1].uuid
+        categories,
+        default_category_uuid: exits[1].uuid
     };
 
     return createRenderNode(

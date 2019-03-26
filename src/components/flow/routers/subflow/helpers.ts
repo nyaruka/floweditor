@@ -8,7 +8,8 @@ import {
     RouterTypes,
     StartFlow,
     StartFlowExitNames,
-    SwitchRouter
+    SwitchRouter,
+    Category
 } from '~/flowTypes';
 import { Asset, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
@@ -46,22 +47,34 @@ export const stateToNode = (
     // If we're already a subflow, lean on those exits and cases
     let exits: Exit[];
     let cases: Case[];
+    let categories: Category[];
 
     if (settings.originalNode.ui.type === Types.split_by_subflow) {
         ({ exits } = settings.originalNode.node);
-        ({ cases } = settings.originalNode.node.router as SwitchRouter);
+        ({ cases, categories } = settings.originalNode.node.router as SwitchRouter);
     } else {
         // Otherwise, let's create some new ones
         exits = [
             {
                 uuid: createUUID(),
+                destination_uuid: null
+            },
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            }
+        ];
+
+        categories = [
+            {
+                uuid: createUUID(),
                 name: StartFlowExitNames.Complete,
-                destination_node_uuid: null
+                exit_uuid: exits[0].uuid
             },
             {
                 uuid: createUUID(),
                 name: StartFlowExitNames.Expired,
-                destination_node_uuid: null
+                exit_uuid: exits[1].uuid
             }
         ];
 
@@ -70,13 +83,13 @@ export const stateToNode = (
                 uuid: createUUID(),
                 type: Operators.is_text_eq,
                 arguments: ['child.run.status', 'completed'],
-                exit_uuid: exits[0].uuid
+                category_uuid: categories[0].uuid
             },
             {
                 uuid: createUUID(),
                 arguments: ['child.run.status', 'expired'],
                 type: Operators.is_text_eq,
-                exit_uuid: exits[1].uuid
+                category_uuid: categories[1].uuid
             }
         ];
     }
@@ -85,7 +98,8 @@ export const stateToNode = (
         type: RouterTypes.switch,
         operand: '@child',
         cases,
-        default_exit_uuid: null
+        categories,
+        default_category_uuid: null
     };
 
     const newRenderNode = createRenderNode(

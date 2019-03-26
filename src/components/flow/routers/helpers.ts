@@ -4,6 +4,7 @@ import { Operators, Types } from '~/config/interfaces';
 import {
     Action,
     Case,
+    Category,
     Exit,
     FlowNode,
     Router,
@@ -14,13 +15,17 @@ import {
 } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-import { createUUID } from '~/utils';
+import { createUUID, dump } from '~/utils';
+import { resultToAsset } from '~/external';
 
-export interface CombinedExits {
+export interface CategorizedCases {
     cases: Case[];
+    categories: Category[];
     exits: Exit[];
-    defaultExit: string;
     caseConfig: { [uuid: string]: any };
+}
+export interface ResolvedRoutes extends CategorizedCases {
+    defaultCategory: string;
 }
 
 export const createRenderNode = (
@@ -65,12 +70,23 @@ export const hasCases = (node: FlowNode): boolean => {
     return false;
 };
 
+export const getCategories = (renderNode: RenderNode): Category[] => {
+    if (renderNode.node.router) {
+        return renderNode.node.router.categories;
+    }
+    return [];
+};
+
 export const createCaseProps = (cases: Case[], renderNode: RenderNode): CaseProps[] => {
     const exits = renderNode.node.exits;
+    const categories: Category[] = getCategories(renderNode);
+
     return cases
         .filter((kase: Case) => kase.type !== Operators.has_wait_timed_out)
         .map((kase: Case) => {
-            const matchingExit = exits.find((exit: Exit) => exit.uuid === kase.exit_uuid);
+            const matchingCategory = categories.find(
+                (category: Category) => category.uuid === kase.category_uuid
+            );
 
             if (isRelativeDate(kase.type)) {
                 if (renderNode.ui.config && renderNode.ui.config.cases) {
@@ -84,7 +100,7 @@ export const createCaseProps = (cases: Case[], renderNode: RenderNode): CaseProp
             return {
                 uuid: kase.uuid,
                 kase,
-                exitName: matchingExit ? matchingExit.name : null,
+                categoryName: matchingCategory ? matchingCategory.name : null,
                 valid: true
             };
         });
@@ -96,92 +112,34 @@ export const isRelativeDate = (operatorType: Operators): boolean => {
     );
 };
 
+const isCategoryMatch = (cat: Category, name: string) => {
+    return cat.name.toLowerCase().trim() === name.trim().toLowerCase();
+};
+
 /**
- * Given a set of cases and previous exits, determines correct merging of cases
- * and the union of exits
+ * Given a set of cases and previous categories, determines correct merging of cases
+ * and the union of categories
  */
-export const resolveExits = (
+export const categorizeCases = (
     newCases: CaseProps[],
-    hasTimeout: boolean,
-    settings: NodeEditorSettings
-): CombinedExits => {
-    // create mapping of our old exit uuids to old exit settings
-    const previousExitMap: { [uuid: string]: Exit } = {};
-
-    if (settings.originalNode.node.exits) {
-        for (const exit of settings.originalNode.node.exits) {
-            previousExitMap[exit.uuid] = exit;
-        }
-    }
-
+    originalNode: FlowNode
+): CategorizedCases => {
+    const categories: Category[] = [];
+    const cases: Case[] = [];
+    const exits: Exit[] = [];
     const caseConfig: UIConfig = {};
 
-    const exits: Exit[] = [];
-    const cases: Case[] = [];
+    const originalRouter = originalNode && originalNode.router;
+    const previousCategories = (originalRouter && originalRouter.categories) || [];
 
-    // map our new cases to an appropriate exit
+    // look over the new cases and match up categories and exits
     for (const newCase of newCases) {
-        // see if we have a suitable exit for our case already
-        let existingExit: Exit = null;
-
-        // use our previous exit name if it isn't set
-        if (!newCase.exitName && newCase.kase.exit_uuid in previousExitMap) {
-            newCase.exitName = previousExitMap[newCase.kase.exit_uuid].name;
-        }
-
-        // ignore cases with empty names
-        if (!newCase.exitName || newCase.exitName.trim().length === 0) {
+        // ignore empty cases
+        if (!newCase.categoryName || newCase.categoryName.trim().length === 0) {
             continue;
         }
 
-        if (newCase.exitName) {
-            // look through our new exits to see if we've already created one
-            for (const exit of exits) {
-                if (newCase.exitName && exit.name) {
-                    if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                        existingExit = exit;
-                        break;
-                    }
-                }
-            }
-
-            // couldn't find a new exit, look through our old ones
-            if (!existingExit) {
-                // look through our previous cases for a match
-                if (settings.originalNode.node.exits) {
-                    for (const exit of settings.originalNode.node.exits) {
-                        if (newCase.exitName && exit.name) {
-                            if (exit.name.toLowerCase() === newCase.exitName.trim().toLowerCase()) {
-                                existingExit = exit;
-                                exits.push(existingExit);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // we found a suitable exit, point our case to it
-        if (existingExit) {
-            newCase.kase.exit_uuid = existingExit.uuid;
-        } else {
-            // no existing exit, create a new one
-            // find our previous destination if we have one
-            let destination = null;
-            if (newCase.kase.exit_uuid in previousExitMap) {
-                destination = previousExitMap[newCase.kase.exit_uuid].destination_node_uuid;
-            }
-
-            newCase.kase.exit_uuid = createUUID();
-
-            exits.push({
-                name: newCase.exitName,
-                uuid: newCase.kase.exit_uuid,
-                destination_node_uuid: destination
-            });
-        }
-
+        // convert relative dates to expressions with configs
         if (isRelativeDate(newCase.kase.type)) {
             caseConfig[newCase.uuid] = { arguments: newCase.kase.arguments };
             newCase.kase.arguments = [
@@ -189,70 +147,175 @@ export const resolveExits = (
             ];
         }
 
-        // remove exitName from our case
-        cases.push(newCase.kase);
-    }
-
-    // add in our default exit
-    let defaultUUID = createUUID();
-    if (
-        settings.originalNode.node.router &&
-        settings.originalNode.node.router.type === RouterTypes.switch
-    ) {
-        const router = settings.originalNode.node.router as SwitchRouter;
-        if (router && router.default_exit_uuid) {
-            defaultUUID = router.default_exit_uuid;
-        }
-    }
-
-    let defaultName = DefaultExitNames.All_Responses;
-
-    if (settings.originalNode.node.wait && settings.originalNode.node.wait.type === 'exp') {
-        defaultName = DefaultExitNames.Any_Value;
-    }
-
-    if (exits.length > 0) {
-        defaultName = DefaultExitNames.Other;
-    }
-
-    let defaultDestination = null;
-    if (defaultUUID in previousExitMap) {
-        defaultDestination = previousExitMap[defaultUUID].destination_node_uuid;
-    }
-
-    exits.push({
-        uuid: defaultUUID,
-        name: defaultName,
-        destination_node_uuid: defaultDestination
-    });
-
-    // is a timeout set?
-    if (hasTimeout) {
-        // do we have an existing timeout exit?
-        const existingExit = settings.originalNode.node.exits.find(
-            (exit: Exit) => exit.name === DefaultExitNames.No_Response
+        //  see if it exists on a previous case
+        let category = categories.find((cat: Category) =>
+            isCategoryMatch(cat, newCase.categoryName)
         );
-        const timeoutExit: Exit = {
-            uuid: (existingExit && existingExit.uuid) || createUUID(),
-            name: DefaultExitNames.No_Response,
-            destination_node_uuid: existingExit && existingExit.destination_node_uuid
-        };
-        // add our timeout exit accordingly
-        if (exits[exits.length - 1].name === DefaultExitNames.Other) {
-            exits.splice(exits.length - 1, 0, timeoutExit);
-        } else {
-            exits.push(timeoutExit);
+
+        // if not, see if that category exists on our old node
+        if (!category) {
+            category = previousCategories.find((cat: Category) =>
+                isCategoryMatch(cat, newCase.categoryName)
+            );
+
+            // we found an old category, bring it and its exit over
+            if (category) {
+                categories.push(category);
+                const previousExit = originalNode.exits.find(
+                    (exit: Exit) => category.exit_uuid === exit.uuid
+                );
+                exits.push(previousExit);
+            }
         }
 
-        // Add a case for the timeout.
-        // We strip passive cases (like timeouts) when SwitchRouter mounts.
+        // if still no category, finally lets just create a new one
+        if (!category) {
+            const exit: Exit = {
+                uuid: createUUID()
+            };
+
+            exits.push(exit);
+
+            category = {
+                uuid: createUUID(),
+                name: newCase.categoryName,
+                exit_uuid: exit.uuid
+            };
+
+            categories.push(category);
+        }
+
+        // lastly, add our case
         cases.push({
-            uuid: createUUID(),
-            type: Operators.has_wait_timed_out,
-            arguments: ['@run'],
-            exit_uuid: timeoutExit.uuid
+            ...newCase.kase,
+            category_uuid: category.uuid
         });
     }
 
-    return { cases, exits, defaultExit: defaultUUID, caseConfig };
+    return { cases, categories, exits, caseConfig };
+};
+
+export const getSwitchRouter = (node: FlowNode): SwitchRouter => {
+    if (node && node.router && node.router.type === RouterTypes.switch) {
+        return node.router as SwitchRouter;
+    }
+    return null;
+};
+
+/**
+ * Adds a default route, reusing the previous one if possible
+ * @param originalNode
+ */
+export const getDefaultRoute = (
+    hasCategories: boolean,
+    originalNode: FlowNode
+): { defaultCategory: Category; defaultExit: Exit } => {
+    const originalRouter = getSwitchRouter(originalNode);
+
+    // use the previous default if it had one
+    if (originalRouter) {
+        const defaultCategory = originalRouter.categories.find(
+            (cat: Category) => cat.uuid === originalRouter.default_category_uuid
+        );
+
+        const defaultExit = originalNode.exits.find(
+            (e: Exit) => e.uuid === defaultCategory.exit_uuid
+        );
+
+        return { defaultCategory, defaultExit };
+    }
+    // otherwise, create a new exit and category
+    else {
+        const defaultExit: Exit = {
+            uuid: createUUID()
+        };
+
+        const defaultCategory = {
+            uuid: createUUID(),
+            name: hasCategories ? DefaultExitNames.Other : DefaultExitNames.All_Responses,
+            exit_uuid: defaultExit.uuid
+        };
+
+        return { defaultCategory, defaultExit };
+    }
+};
+
+const getTimeoutRoute = (
+    originalNode: FlowNode
+): { timeoutCase: Case; timeoutCategory: Category; timeoutExit: Exit } => {
+    let timeoutCategory: Category = null;
+    let timeoutExit: Exit = null;
+    let timeoutCase: Case = null;
+
+    const originalRouter = getSwitchRouter(originalNode);
+
+    // see if our previous node had a timeout case
+    if (originalRouter) {
+        timeoutCase = originalRouter.cases.find(
+            (kase: Case) => kase.type === Operators.has_wait_timed_out
+        );
+
+        if (timeoutCase) {
+            timeoutCategory = originalRouter.categories.find(
+                (cat: Category) => cat.uuid === timeoutCase.category_uuid
+            );
+            timeoutExit = originalNode.exits.find(
+                (exit: Exit) => exit.uuid === timeoutCategory.exit_uuid
+            );
+        }
+    }
+
+    if (!timeoutCase) {
+        // create a new route
+        timeoutExit = {
+            uuid: createUUID()
+        };
+
+        timeoutCategory = {
+            uuid: createUUID(),
+            name: DefaultExitNames.No_Response,
+            exit_uuid: timeoutExit.uuid
+        };
+
+        timeoutCase = {
+            uuid: createUUID(),
+            type: Operators.has_wait_timed_out,
+            omit_operand: true,
+            arguments: ['@run'],
+            category_uuid: timeoutCategory.uuid
+        };
+    }
+
+    return { timeoutCase, timeoutCategory, timeoutExit };
+};
+
+/**
+ * Given a set of cases and previous categories, determines correct merging of cases
+ * and the union of categories
+ */
+export const resolveRoutes = (
+    newCases: CaseProps[],
+    hasTimeout: boolean,
+    originalNode: FlowNode
+): ResolvedRoutes => {
+    const resolved = categorizeCases(newCases, originalNode);
+
+    // tack on our other category
+    const { defaultCategory, defaultExit } = getDefaultRoute(
+        resolved.categories.length > 0,
+        originalNode
+    );
+
+    resolved.categories.push(defaultCategory);
+    resolved.exits.push(defaultExit);
+
+    // add in a timeout route if we need one
+    if (hasTimeout) {
+        const { timeoutCase, timeoutCategory, timeoutExit } = getTimeoutRoute(originalNode);
+        resolved.cases.push(timeoutCase);
+        resolved.categories.push(timeoutCategory);
+        resolved.exits.push(timeoutExit);
+    }
+
+    return { ...resolved, defaultCategory: defaultCategory.uuid };
 };

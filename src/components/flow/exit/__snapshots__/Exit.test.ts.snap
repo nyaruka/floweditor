@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExitComp should render 1`] = `
+<div
+  className="exit plumb-exit"
+>
+  <div
+    className="name"
+  >
+    Red
+  </div>
+  <div
+    className="endpoint"
+    id="1dce2b34-9aab-4e20-81c4-3f0408dcb671:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  />
+</div>
+`;
+
+exports[`ExitComp shows localization 1`] = `
+<div
+  className="exit plumb-exit translating"
+>
+  <div
+    className="name"
+  >
+    Hola!
+  </div>
+  <div
+    className="endpoint"
+    id="1dce2b34-9aab-4e20-81c4-3f0408dcb671:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  />
+</div>
+`;
+
+exports[`ExitComp shows missing localization 1`] = `
+<div
+  className="exit plumb-exit translating missing_localization"
+>
+  <div
+    className="name"
+  >
+    Red
+  </div>
+  <div
+    className="endpoint"
+    id="1dce2b34-9aab-4e20-81c4-3f0408dcb671:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  />
+</div>
+`;

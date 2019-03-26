@@ -20,7 +20,7 @@ import { small } from '~/utils/reactselect';
 
 export interface CaseElementProps {
     kase: Case;
-    exitName: string;
+    categoryName: string;
     name?: string; // satisfy form widget props
     onRemove?(uuid: string): void;
     onChange?(c: CaseProps): void;
@@ -29,8 +29,8 @@ export interface CaseElementProps {
 export interface CaseElementState extends FormState {
     errors: string[];
     operatorConfig: Operator;
-    exitName: StringEntry;
-    exitNameEdited: boolean;
+    categoryName: StringEntry;
+    categoryNameEdited: boolean;
 
     // for string based args
     argument: StringEntry;
@@ -77,8 +77,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             argument: this.state.argument.value,
             min: this.state.min.value,
             max: this.state.max.value,
-            exitName: this.state.exitName.value,
-            exitEdited: this.state.exitNameEdited
+            exitName: this.state.categoryName.value,
+            exitEdited: this.state.categoryNameEdited
         });
 
         this.setState(updates as CaseElementState, () => this.handleChange());
@@ -88,8 +88,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         const updates = validateCase({
             operatorConfig: this.state.operatorConfig,
             argument: value,
-            exitName: this.state.exitName.value,
-            exitEdited: this.state.exitNameEdited
+            exitName: this.state.categoryName.value,
+            exitEdited: this.state.categoryNameEdited
         });
 
         this.setState(updates as CaseElementState, () => this.handleChange());
@@ -100,8 +100,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             operatorConfig: this.state.operatorConfig,
             min: value,
             max: this.state.max.value,
-            exitName: this.state.exitName.value,
-            exitEdited: this.state.exitNameEdited
+            exitName: this.state.categoryName.value,
+            exitEdited: this.state.categoryNameEdited
         });
 
         this.setState(updates as CaseElementState, () => this.handleChange());
@@ -112,8 +112,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             operatorConfig: this.state.operatorConfig,
             min: this.state.min.value,
             max: value,
-            exitName: this.state.exitName.value,
-            exitEdited: this.state.exitNameEdited
+            exitName: this.state.categoryName.value,
+            exitEdited: this.state.categoryNameEdited
         });
 
         this.setState(updates as CaseElementState, () => this.handleChange());
@@ -139,14 +139,14 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     private getCaseProps(): CaseProps {
         return {
             uuid: this.props.kase.uuid,
-            exitName: this.state.exitName.value,
+            categoryName: this.state.categoryName.value,
             kase: {
                 arguments: this.getArgumentArray(),
                 type: this.state.operatorConfig.type,
                 uuid: this.props.kase.uuid,
 
                 // if the exit name changed, we'll need to recompute our exit
-                exit_uuid: this.state.exitNameEdited ? null : this.props.kase.exit_uuid
+                category_uuid: this.state.categoryNameEdited ? null : this.props.kase.category_uuid
             },
             valid: this.state.valid
         };
@@ -154,7 +154,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
     private handleChange(): void {
         // If the case doesn't have arguments & an exit name, remove it
-        if (!this.state.exitName.value) {
+        if (!this.state.categoryName.value) {
             // see if we are clearing out a between
             if (this.state.operatorConfig.type === Operators.has_number_between) {
                 if (!this.state.min.value && !this.state.max.value) {
@@ -264,7 +264,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             data-spec="exit-input"
                             name="exitName"
                             onChange={this.handleExitChanged}
-                            entry={this.state.exitName}
+                            entry={this.state.categoryName}
                             showInvalid={hasErrorType(this.state.errors, [/category/])}
                         />
                     </div>

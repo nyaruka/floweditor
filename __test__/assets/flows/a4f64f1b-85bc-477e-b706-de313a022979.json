@@ -47,7 +47,7 @@
                 {
                     "name": null,
                     "uuid": "445fc64c-2a18-47cc-89d0-15172826bfcc",
-                    "destination_node_uuid": "46e8d603-8e5d-4435-97dd-1333291aafca"
+                    "destination_uuid": "46e8d603-8e5d-4435-97dd-1333291aafca"
                 }
             ]
         },
@@ -55,7 +55,7 @@
             "uuid": "46e8d603-8e5d-4435-97dd-1333291aafca",
             "router": {
                 "type": "switch",
-                "default_exit_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
+                "default_category_uuid": "326a41b7-9bce-453b-8783-1113f649663c",
                 "cases": [
                     {
                         "uuid": "fa0a9b24-5f19-4b8e-b287-27af5811de1d",
@@ -107,42 +107,42 @@
                 {
                     "name": "Red",
                     "uuid": "55855afc-f612-4ef9-9288-dcb1dd136052",
-                    "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+                    "destination_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
                 },
                 {
                     "name": "Orange",
                     "uuid": "668ca2ab-8d49-47f5-82a1-e3a82a58e5fb",
-                    "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+                    "destination_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
                 },
                 {
                     "name": "Yellow",
                     "uuid": "14806949-d583-49e2-aa55-03aa16ee5a3a",
-                    "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+                    "destination_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
                 },
                 {
                     "name": "Green",
                     "uuid": "77394377-f6b8-4366-9bef-d468621258ef",
-                    "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+                    "destination_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
                 },
                 {
                     "name": "Blue",
                     "uuid": "92d429d8-c275-4306-9360-93f4b9c7acb1",
-                    "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+                    "destination_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
                 },
                 {
                     "name": "Indigo",
                     "uuid": "2de9af80-1bd9-4f37-839f-073edbd14369",
-                    "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+                    "destination_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
                 },
                 {
                     "name": "Violet",
                     "uuid": "5760ec2f-04d4-492b-817b-9f395633ec79",
-                    "destination_node_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
+                    "destination_uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925"
                 },
                 {
                     "uuid": "326a41b7-9bce-453b-8783-1113f649663c",
                     "name": "Other",
-                    "destination_node_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a"
+                    "destination_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a"
                 }
             ],
             "wait": {
@@ -153,7 +153,7 @@
             "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
             "router": {
                 "type": "switch",
-                "default_exit_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
+                "default_category_uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
                 "cases": [
                     {
                         "uuid": "87173eee-5270-4233-aede-ca88e14b672a",
@@ -168,12 +168,12 @@
                 {
                     "name": "Red",
                     "uuid": "7b245d49-e9e3-4387-b4ad-48deb03528cd",
-                    "destination_node_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227"
+                    "destination_uuid": "e2ecc8de-9774-4b74-a0dc-ca8aea123227"
                 },
                 {
                     "uuid": "a8bdc1c5-0283-4656-b932-4f4094f4cc7e",
                     "name": "Other",
-                    "destination_node_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
+                    "destination_uuid": "533b64e2-5906-4d33-a8e9-64f1cb6c20dd"
                 }
             ]
         },
@@ -189,7 +189,7 @@
             "exits": [
                 {
                     "uuid": "6f78b6f2-e8a4-4fa0-9277-3e60d9bf2dbf",
-                    "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
+                    "destination_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d",
                     "name": null
                 }
             ]
@@ -206,7 +206,7 @@
             "exits": [
                 {
                     "uuid": "9de30522-db84-4471-bce6-99f6d0a200e0",
-                    "destination_node_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
+                    "destination_uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
                     "name": null
                 }
             ]
@@ -215,7 +215,7 @@
             "uuid": "882f8022-7256-4b1c-abf3-7b180f5e7e24",
             "router": {
                 "type": "switch",
-                "default_exit_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
+                "default_category_uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
                 "cases": [
                     {
                         "uuid": "a2e446bf-7181-40f9-8996-5d2453486218",
@@ -236,17 +236,17 @@
                 {
                     "name": "Early Adopters",
                     "uuid": "ae0b5c58-222f-4722-9fd4-faf32dec5f2b",
-                    "destination_node_uuid": null
+                    "destination_uuid": null
                 },
                 {
                     "name": "Subscribers",
                     "uuid": "7571ef74-35b3-4090-ac7a-c4531a500806",
-                    "destination_node_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d"
+                    "destination_uuid": "059a8daa-0697-44a6-9486-2386cc417e9d"
                 },
                 {
                     "uuid": "0dcd0320-2a3b-4c41-97b3-45e147682cfa",
                     "name": "Other",
-                    "destination_node_uuid": null
+                    "destination_uuid": null
                 }
             ]
         },
@@ -269,18 +269,18 @@
                         "exit_uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7"
                     }
                 ],
-                "default_exit_uuid": null
+                "default_category_uuid": null
             },
             "exits": [
                 {
                     "uuid": "8c867b8f-f311-4b02-b36b-3688964bdc69",
                     "name": "Complete",
-                    "destination_node_uuid": null
+                    "destination_uuid": null
                 },
                 {
                     "uuid": "1a81edc4-5f8c-4115-92ef-834dac61c2e7",
                     "name": "Expired",
-                    "destination_node_uuid": null
+                    "destination_uuid": null
                 }
             ],
             "actions": [

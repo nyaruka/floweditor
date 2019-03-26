@@ -1,8 +1,7 @@
 import { RouterFormProps } from '~/components/flow/props';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-import { Operators } from '~/config/interfaces';
-import { Types } from '~/config/interfaces';
+import { Operators, Types } from '~/config/interfaces';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
@@ -10,6 +9,7 @@ import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators'
 import * as utils from '~/utils';
 
 import FieldRouterForm from './FieldRouterForm';
+import { createUUID } from '~/utils';
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(
     FieldRouterForm,
@@ -48,19 +48,22 @@ describe(FieldRouterForm.name, () => {
                 $set: {
                     originalNode: createRenderNode({
                         actions: [],
-                        exits: [{ destination_node_uuid: null, name: 'Other', uuid: exitOneUUID }],
+                        exits: [{ destination_uuid: null, uuid: exitOneUUID }],
                         router: {
                             type: RouterTypes.switch,
                             operand: DEFAULT_OPERAND,
+                            categories: [
+                                { uuid: createUUID(), name: 'Other', exit_uuid: exitOneUUID }
+                            ],
                             cases: [
                                 {
                                     uuid: redCaseUUID,
                                     type: Operators.has_any_word,
                                     arguments: ['red'],
-                                    exit_uuid: null
+                                    category_uuid: null
                                 }
                             ],
-                            default_exit_uuid: exitOneUUID,
+                            default_category_uuid: exitOneUUID,
                             result_name: 'Color'
                         } as SwitchRouter,
                         ui: {
@@ -89,9 +92,15 @@ describe(FieldRouterForm.name, () => {
 
             instance.handleUpdateResultName('Favorite Color');
             instance.handleCasesUpdated([
-                { kase: { type: Operators.has_any_word, arguments: ['red'] }, exitName: 'Red' },
-                { kase: { type: Operators.has_any_word, arguments: ['maroon'] }, exitName: 'Red' },
-                { kase: { type: Operators.has_any_word, arguments: ['green'] }, exitName: 'Green' }
+                { kase: { type: Operators.has_any_word, arguments: ['red'] }, categoryName: 'Red' },
+                {
+                    kase: { type: Operators.has_any_word, arguments: ['maroon'] },
+                    categoryName: 'Red'
+                },
+                {
+                    kase: { type: Operators.has_any_word, arguments: ['green'] },
+                    categoryName: 'Green'
+                }
             ] as CaseProps[]);
 
             expect(instance.state).toMatchSnapshot();

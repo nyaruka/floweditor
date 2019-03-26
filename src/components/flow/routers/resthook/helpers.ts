@@ -1,7 +1,15 @@
 import { createRenderNode } from '~/components/flow/routers/helpers';
 import { Operators } from '~/config/interfaces';
 import { Types } from '~/config/interfaces';
-import { CallResthook, Case, Exit, RouterTypes, SwitchRouter, WebhookExitNames } from '~/flowTypes';
+import {
+    CallResthook,
+    Case,
+    Exit,
+    RouterTypes,
+    SwitchRouter,
+    WebhookExitNames,
+    Category
+} from '~/flowTypes';
 import { AssetType, RenderNode } from '~/store/flowContext';
 import { AssetEntry, NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
@@ -42,28 +50,43 @@ export const stateToNode = (
     // If we're already a subflow, lean on those exits and cases
     let exits: Exit[];
     let cases: Case[];
+    let categories: Category[];
 
     if (originalAction) {
         ({ exits } = settings.originalNode.node);
-        ({ cases } = settings.originalNode.node.router as SwitchRouter);
+        ({ cases, categories } = settings.originalNode.node.router as SwitchRouter);
     } else {
-        // Otherwise, let's create some new ones
         // Otherwise, let's create some new ones
         exits = [
             {
                 uuid: createUUID(),
+                destination_uuid: null
+            },
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            },
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            }
+        ];
+
+        categories = [
+            {
+                uuid: createUUID(),
                 name: WebhookExitNames.Success,
-                destination_node_uuid: null
+                exit_uuid: exits[0].uuid
             },
             {
                 uuid: createUUID(),
                 name: WebhookExitNames.Failure,
-                destination_node_uuid: null
+                exit_uuid: exits[1].uuid
             },
             {
                 uuid: createUUID(),
                 name: WebhookExitNames.Unreachable,
-                destination_node_uuid: null
+                exit_uuid: exits[2].uuid
             }
         ];
 
@@ -72,19 +95,19 @@ export const stateToNode = (
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['success'],
-                exit_uuid: exits[0].uuid
+                category_uuid: categories[0].uuid
             },
             {
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['response_error'],
-                exit_uuid: exits[1].uuid
+                category_uuid: categories[1].uuid
             },
             {
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['connection_error'],
-                exit_uuid: exits[2].uuid
+                category_uuid: categories[2].uuid
             }
         ];
     }
@@ -93,7 +116,8 @@ export const stateToNode = (
         type: RouterTypes.switch,
         operand: '@child',
         cases,
-        default_exit_uuid: null
+        categories,
+        default_category_uuid: null
     };
 
     const newRenderNode = createRenderNode(

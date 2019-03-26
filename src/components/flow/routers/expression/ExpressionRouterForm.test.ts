@@ -7,6 +7,7 @@ import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
+import { createUUID } from '~/utils';
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(
     ExpressionRouterForm,
@@ -33,21 +34,22 @@ describe(ExpressionRouterForm.name, () => {
                 $set: {
                     originalNode: createRenderNode({
                         actions: [],
-                        exits: [
-                            { destination_node_uuid: null, name: 'Other', uuid: 'generated_uuid_1' }
-                        ],
+                        exits: [{ destination_uuid: null, uuid: 'generated_uuid_1' }],
                         router: {
                             type: RouterTypes.switch,
                             operand: DEFAULT_OPERAND,
+                            categories: [
+                                { uuid: createUUID(), name: 'Other', exit_uuid: 'generated_uuid_1' }
+                            ],
                             cases: [
                                 {
                                     uuid: 'generated_uuid_2',
                                     type: Operators.has_any_word,
                                     arguments: ['red'],
-                                    exit_uuid: null
+                                    category_uuid: null
                                 }
                             ],
-                            default_exit_uuid: 'generated_uuid_1',
+                            default_category_uuid: 'generated_uuid_1',
                             result_name: 'Color'
                         } as SwitchRouter,
                         ui: {
@@ -70,9 +72,15 @@ describe(ExpressionRouterForm.name, () => {
 
             instance.handleUpdateResultName('Favorite Color');
             instance.handleCasesUpdated([
-                { kase: { type: Operators.has_any_word, arguments: ['red'] }, exitName: 'Red' },
-                { kase: { type: Operators.has_any_word, arguments: ['maroon'] }, exitName: 'Red' },
-                { kase: { type: Operators.has_any_word, arguments: ['green'] }, exitName: 'Green' }
+                { kase: { type: Operators.has_any_word, arguments: ['red'] }, categoryName: 'Red' },
+                {
+                    kase: { type: Operators.has_any_word, arguments: ['maroon'] },
+                    categoryName: 'Red'
+                },
+                {
+                    kase: { type: Operators.has_any_word, arguments: ['green'] },
+                    categoryName: 'Green'
+                }
             ] as CaseProps[]);
 
             expect(instance.state).toMatchSnapshot();

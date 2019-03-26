@@ -51,7 +51,7 @@
                 {
                     "name": null,
                     "uuid": "node0_exit0",
-                    "destination_node_uuid": "node1"
+                    "destination_uuid": "node1"
                 }
             ]
         },
@@ -64,18 +64,31 @@
                     {
                         "uuid": "node1_case0",
                         "type": "has_any_word",
-                        "exit_uuid": "uuid_node1_exit0",
-                        "arguments": [
-                            "red"
-                        ]
+                        "category_uuid": "node1_cat0",
+                        "arguments": ["red"]
                     },
                     {
                         "uuid": "node1_case1",
                         "type": "has_any_word",
-                        "exit_uuid": "uuid_node1_exit1",
-                        "arguments": [
-                            "green"
-                        ]
+                        "category_uuid": "node1_cat1",
+                        "arguments": ["green"]
+                    }
+                ],
+                "categories": [
+                    {
+                        "name": "Red",
+                        "uuid": "node1_cat0",
+                        "exit_uuid": "node1_exit0"
+                    },
+                    {
+                        "name": "Green",
+                        "uuid": "node1_cat1",
+                        "exit_uuid": "node1_exit1"
+                    },
+                    {
+                        "name": "Other",
+                        "uuid": "node1_cat2",
+                        "exit_uuid": "node1_exit2"
                     }
                 ],
                 "operand": "@run.input",
@@ -83,19 +96,16 @@
             },
             "exits": [
                 {
-                    "name": "Red",
                     "uuid": "node1_exit0",
-                    "destination_node_uuid": "node2"
+                    "destination_uuid": "node2"
                 },
                 {
-                    "name": "Green",
                     "uuid": "node1_exit1",
-                    "destination_node_uuid": "node2"
+                    "destination_uuid": "node2"
                 },
                 {
-                    "name": "Other",
                     "uuid": "node1_exit2",
-                    "destination_node_uuid": "node2"
+                    "destination_uuid": "node2"
                 }
             ],
             "wait": {
@@ -124,7 +134,7 @@
                 {
                     "name": null,
                     "uuid": "node2_exit0",
-                    "destination_node_uuid": "node3"
+                    "destination_uuid": "node3"
                 }
             ]
         },
@@ -141,7 +151,7 @@
                 {
                     "name": null,
                     "uuid": "node3_exit0",
-                    "destination_node_uuid": null
+                    "destination_uuid": null
                 }
             ]
         }

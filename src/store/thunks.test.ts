@@ -33,6 +33,7 @@ import {
 import { createMockStore, mock, prepMockDuxState } from '~/testUtils';
 import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
+import { DefaultExitNames } from '~/components/flow/routers/constants';
 
 const config = require('~/test/config');
 
@@ -403,7 +404,7 @@ describe('Flow Manipulation', () => {
             } as SendMsg;
 
             const updated = updatedStore.dispatch(onUpdateAction(newAction));
-            const newNodeUUID = updated.node3.node.exits[0].destination_node_uuid;
+            const newNodeUUID = updated.node3.node.exits[0].destination_uuid;
             expect(newNodeUUID).not.toBeUndefined();
 
             const newNode = updated[newNodeUUID];
@@ -425,13 +426,13 @@ describe('Flow Manipulation', () => {
                         router: {
                             type: RouterTypes.switch,
                             cases: [],
-                            default_exit_uuid: newExitUUID
+                            default_category_uuid: newExitUUID
                         } as SwitchRouter,
                         uuid: utils.createUUID(),
                         exits: [
                             {
                                 uuid: newExitUUID,
-                                destination_node_uuid: null
+                                destination_uuid: null
                             }
                         ]
                     },
@@ -448,8 +449,8 @@ describe('Flow Manipulation', () => {
 
             it('should replace the first action of two', () => {
                 const nodes = addRouter(store, testNodes.node2, testNodes.node2.node.actions[0]);
-                const topNode = nodes[nodes.node1.node.exits[0].destination_node_uuid];
-                const bottomNode = nodes[topNode.node.exits[0].destination_node_uuid];
+                const topNode = nodes[nodes.node1.node.exits[0].destination_uuid];
+                const bottomNode = nodes[topNode.node.exits[0].destination_uuid];
 
                 // top node should point to the middle node, and middle should point back
                 expect(topNode.inboundConnections).toEqual(testNodes.node2.inboundConnections);
@@ -466,8 +467,8 @@ describe('Flow Manipulation', () => {
 
             it('should replace the second action of two', () => {
                 const nodes = addRouter(store, testNodes.node2, testNodes.node2.node.actions[1]);
-                const topNode = nodes[nodes.node1.node.exits[0].destination_node_uuid];
-                const bottomNode = nodes[topNode.node.exits[0].destination_node_uuid];
+                const topNode = nodes[nodes.node1.node.exits[0].destination_uuid];
+                const bottomNode = nodes[topNode.node.exits[0].destination_uuid];
 
                 expect(topNode.node.exits[0]).toPointTo(bottomNode);
                 expect(bottomNode).toHaveInboundFrom(topNode.node.exits[0]);
@@ -482,8 +483,8 @@ describe('Flow Manipulation', () => {
                 });
 
                 const topNode = nodes[topNodeUUID];
-                const middleNode = nodes[topNode.node.exits[0].destination_node_uuid];
-                const bottomNode = nodes[middleNode.node.exits[0].destination_node_uuid];
+                const middleNode = nodes[topNode.node.exits[0].destination_uuid];
+                const bottomNode = nodes[middleNode.node.exits[0].destination_uuid];
 
                 // top node should point to the middle node, and middle should point back
                 expect(middleNode).toHaveInboundFrom(topNode.node.exits[0]);
@@ -720,7 +721,7 @@ describe('Flow Manipulation', () => {
             const nodes = store.dispatch(onUpdateRouter(newRouter));
 
             // make sure things are wired up as expected
-            const newNode = nodes[nodes.node2.node.exits[0].destination_node_uuid];
+            const newNode = nodes[nodes.node2.node.exits[0].destination_uuid];
             expect(newNode).toHaveInboundFrom(nodes.node2.node.exits[0]);
             expect(nodes.node2.node.exits[0]).toPointTo(newNode);
             expect(newNode.ui.position).toEqual({ left: 500, top: 600 });
@@ -745,9 +746,16 @@ describe('Flow Manipulation', () => {
                 node: {
                     uuid: testNodes.node3.node.uuid,
                     actions: [],
-                    exits: [{ uuid: 'new_exit', destination_node_uuid: null }],
+                    exits: [{ uuid: 'new_exit', destination_uuid: null }],
                     router: {
-                        type: RouterTypes.switch
+                        type: RouterTypes.switch,
+                        categories: [
+                            {
+                                uuid: utils.createUUID(),
+                                name: DefaultExitNames.All_Responses,
+                                exit_uuid: 'new_exit'
+                            }
+                        ]
                     }
                 },
                 ui: { position: null },
@@ -776,9 +784,9 @@ describe('Flow Manipulation', () => {
                     uuid: 'new_router',
                     actions: [],
                     router: {
-                        default_exit_uuid: 'new_exit'
+                        default_category_uuid: 'new_exit'
                     } as SwitchRouter,
-                    exits: [{ uuid: 'new_exit', destination_node_uuid: null }]
+                    exits: [{ uuid: 'new_exit', destination_uuid: null }]
                 },
                 ui: { position: null },
                 inboundConnections: {}
@@ -788,7 +796,7 @@ describe('Flow Manipulation', () => {
 
             // splice in our new router
             const nodes = store.dispatch(onUpdateRouter(newRouter));
-            const newNodeUUID = nodes.node0.node.exits[0].destination_node_uuid;
+            const newNodeUUID = nodes.node0.node.exits[0].destination_uuid;
             expect(nodes[newNodeUUID]).toHaveInboundFrom(nodes.node0.node.exits[0]);
         });
     });

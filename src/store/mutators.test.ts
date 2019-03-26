@@ -1,5 +1,5 @@
 import { Types } from '~/config/interfaces';
-import { FlowDefinition, RouterTypes, SendMsg, Exit, Wait, WaitTypes } from '~/flowTypes';
+import { FlowDefinition, RouterTypes, SendMsg, Exit, Wait, WaitTypes, Category } from '~/flowTypes';
 import {
     getActionIndex,
     getExitIndex,
@@ -53,26 +53,26 @@ describe('mutators', () => {
     describe('updateConnection()', () => {
         it('should update connections', () => {
             const updated = updateConnection(nodes, 'node0', 'node0_exit0', 'node2');
-            expect(updated.node0.node.exits[0].destination_node_uuid).toBe('node2');
+            expect(updated.node0.node.exits[0].destination_uuid).toBe('node2');
             expect(updated).toMatchSnapshot();
         });
 
         it('should allow clearing connection', () => {
             const updated = updateConnection(nodes, 'node0', 'node0_exit0', null);
-            expect(updated.node0.node.exits[0].destination_node_uuid).toBeNull();
+            expect(updated.node0.node.exits[0].destination_uuid).toBeNull();
             expect(updated).toMatchSnapshot();
         });
 
         it('should update without a previous destination', () => {
             const updated = updateConnection(nodes, 'node2', 'node2_exit0', 'node0');
-            expect(updated.node2.node.exits[0].destination_node_uuid).toBe('node0');
+            expect(updated.node2.node.exits[0].destination_uuid).toBe('node0');
             expect(updated).toMatchSnapshot();
         });
     });
 
     it('should removeConnection', () => {
         const updated = removeConnection(nodes, 'node0', 'node0_exit0');
-        expect(updated.node0.node.exits[0].destination_node_uuid).toBeNull();
+        expect(updated.node0.node.exits[0].destination_uuid).toBeNull();
         expect(updated).toMatchSnapshot();
     });
 
@@ -84,7 +84,7 @@ describe('mutators', () => {
         });
 
         expect(updated.node3).not.toBeUndefined();
-        expect(updated.node0.node.exits[0].destination_node_uuid).toBe('node3');
+        expect(updated.node0.node.exits[0].destination_uuid).toBe('node3');
         expect(updated).toMatchSnapshot();
     });
 
@@ -179,7 +179,7 @@ describe('mutators', () => {
         const node = {
             ...nodes.node0.node,
             actions: [] as any[],
-            router: { type: RouterTypes.switch }
+            router: { type: RouterTypes.switch, categories: [] as Category[] }
         };
         const updated = mergeNode(nodes, {
             node,
@@ -299,7 +299,7 @@ describe('mutators', () => {
 
             // expressionA should no no longer have a
             expressionA = updatedNodes[expressionA.node.uuid];
-            expect(expressionA.node.exits[0].destination_node_uuid).toBeFalsy();
+            expect(expressionA.node.exits[0].destination_uuid).toBeFalsy();
         });
     });
 });
@@ -309,7 +309,7 @@ const connect = (nodes: RenderNode[]): void => {
         if (i < nodes.length - 1) {
             const fromNode = nodes[i];
             const toNode = nodes[i + 1];
-            fromNode.node.exits[0].destination_node_uuid = toNode.node.uuid;
+            fromNode.node.exits[0].destination_uuid = toNode.node.uuid;
             toNode.inboundConnections[fromNode.node.exits[0].uuid] = fromNode.node.uuid;
         }
     }

@@ -1,16 +1,16 @@
-import { Action, Case, Exit, Language } from '~/flowTypes';
+import { Action, Case, Category, Language } from '~/flowTypes';
 import { Asset } from '~/store/flowContext';
 
 export class LocalizedObject {
     public localizedKeys: { [key: string]: boolean } = {};
 
-    private localizedObject: Action | Exit | Case;
+    private localizedObject: Action | Category | Case;
     private localized: boolean = false;
     private iso: string;
     private name: string;
     private language: Language;
 
-    constructor(object: Action | Exit | Case, { id, name }: Asset) {
+    constructor(object: Action | Category | Case, { id, name }: Asset) {
         this.localizedObject = object;
         this.iso = id;
         this.language = { iso: this.iso, name };
@@ -50,14 +50,14 @@ export class LocalizedObject {
         return this.localized;
     }
 
-    public getObject(): Action | Case | Exit {
+    public getObject(): Action | Case | Category {
         return this.localizedObject;
     }
 }
 
 export default class Localization {
     public static translate(
-        object: Action | Exit | Case,
+        object: Action | Category | Case,
         language: Asset,
         translations?: { [uuid: string]: any }
     ): LocalizedObject {

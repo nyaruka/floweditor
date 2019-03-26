@@ -6,12 +6,12 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "errors": Array [],
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
+  "errors": Array [],
   "max": Object {
     "validationFailures": Array [],
     "value": "",
@@ -39,12 +39,12 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "errors": Array [],
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
+  "errors": Array [],
   "max": Object {
     "validationFailures": Array [],
     "value": "",
@@ -72,12 +72,12 @@ Object {
     ],
     "value": "",
   },
-  "errors": Array [],
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "My Exit Name",
   },
-  "exitNameEdited": true,
+  "categoryNameEdited": true,
+  "errors": Array [],
   "max": Object {
     "validationFailures": Array [],
     "value": "",
@@ -406,12 +406,12 @@ Object {
     "validationFailures": Array [],
     "value": "Green",
   },
-  "errors": Array [],
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "Green",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
+  "errors": Array [],
   "max": Object {
     "validationFailures": Array [],
     "value": "",
@@ -439,12 +439,12 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "errors": Array [],
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "1 - 100",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
+  "errors": Array [],
   "max": Object {
     "validationFailures": Array [],
     "value": "100",

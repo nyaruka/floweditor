@@ -70,8 +70,7 @@ export interface FlowNode {
 
 export interface Exit {
     uuid: string;
-    name?: string;
-    destination_node_uuid?: string;
+    destination_uuid?: string;
 }
 
 export enum RouterTypes {
@@ -82,6 +81,7 @@ export enum RouterTypes {
 export interface Router {
     type: RouterTypes;
     result_name?: string;
+    categories: Category[];
 }
 
 export interface Channel {
@@ -92,21 +92,25 @@ export interface Channel {
 export interface Case {
     uuid: string;
     type: Operators;
-    exit_uuid: string;
+    category_uuid: string;
     arguments?: string[];
+    omit_operand?: boolean;
+}
+
+export interface Category {
+    uuid: string;
+    name: string;
+    exit_uuid: string;
 }
 
 export interface SwitchRouter extends Router {
     cases: Case[];
     operand: string;
-    default_exit_uuid: string;
+    default_category_uuid: string;
 }
 
 export enum WaitTypes {
-    exp = 'exp',
-    group = 'group',
-    msg = 'msg',
-    flow = 'flow'
+    msg = 'msg'
 }
 
 export enum HintTypes {

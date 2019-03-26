@@ -84,7 +84,7 @@ exports[`UpdateContactForm render initial for channel 1`] = `
       entry={
         Object {
           "value": Object {
-            "id": "9fd8cf85-dd81-401a-b543-f44cc6574d93",
+            "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
             "name": "Twilio Channel",
             "type": "language",
           },
@@ -619,7 +619,7 @@ Array [
       "uuid": "channel_id",
     },
     "type": "set_contact_channel",
-    "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+    "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
   },
   [Function],
 ]
@@ -630,7 +630,7 @@ Array [
   Object {
     "name": "Rowan Seymour",
     "type": "set_contact_name",
-    "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+    "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
   },
   [Function],
 ]
@@ -670,7 +670,7 @@ Array [
       "name": "Birthday",
     },
     "type": "set_contact_field",
-    "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+    "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     "value": "12/25/00",
   },
   [Function],
@@ -709,7 +709,7 @@ Array [
   Object {
     "language": undefined,
     "type": "set_contact_language",
-    "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+    "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
   },
   [Function],
 ]
@@ -751,7 +751,7 @@ Array [
   Object {
     "name": "Rowan Seymour",
     "type": "set_contact_name",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
   },
   [Function],
 ]
@@ -788,7 +788,7 @@ Array [
   Object {
     "name": "Rowan Seymour",
     "type": "set_contact_name",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
   },
   [Function],
 ]
@@ -826,7 +826,7 @@ Array [
   Object {
     "name": "Rowan Seymour",
     "type": "set_contact_name",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
   },
   [Function],
 ]
@@ -863,7 +863,7 @@ Array [
   Object {
     "name": "Rowan Seymour",
     "type": "set_contact_name",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
   },
   [Function],
 ]

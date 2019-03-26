@@ -1,7 +1,12 @@
 import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers';
+import { exit } from '~/components/flow/exit/Exit.scss';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps, RouterFormProps } from '~/components/flow/props';
+import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { DefaultExitNames } from '~/components/flow/routers/constants';
+import { CategorizedCases, resolveRoutes } from '~/components/flow/routers/helpers';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
+import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators, Types } from '~/config/interfaces';
 import { getTypeConfig } from '~/config/typeConfigs';
 import {
@@ -10,6 +15,7 @@ import {
     CallResthook,
     CallWebhook,
     Case,
+    Category,
     ChangeGroups,
     Contact,
     Exit,
@@ -43,22 +49,23 @@ import {
 } from '~/flowTypes';
 import { Assets, AssetType, RenderNode } from '~/store/flowContext';
 import { assetListToMap } from '~/store/helpers';
-import { capitalize, createUUID } from '~/utils';
+import { mock } from '~/testUtils';
+import * as utils from '~/utils';
 
 const { results: groupsResults } = require('~/test/assets/groups.json');
 const languagesResults = require('~/test/assets/languages.json');
-
+mock(utils, 'createUUID', utils.seededUUIDs());
 /**
  * Create a select control option
  */
 export const createSelectOption = ({ label }: { label: string }) => ({
-    label: capitalize(label.trim()),
+    label: utils.capitalize(label.trim()),
     labelKey: 'name',
     valueKey: 'id'
 });
 
 export const createSayMsgAction = ({
-    uuid = '70b42948-e48c-4fb0-9824-a47fbc4f9613',
+    uuid = utils.createUUID(),
     text = 'Welcome to Moviefone!'
 }: {
     uuid?: string;
@@ -70,7 +77,7 @@ export const createSayMsgAction = ({
 });
 
 export const createPlayAudioAction = ({
-    uuid = 'd941ddc1-0d47-4fdc-96f4-23dacb222d74',
+    uuid = utils.createUUID(),
     audio_url = '/my_audio.mp3'
 }: {
     uuid?: string;
@@ -83,7 +90,7 @@ export const createPlayAudioAction = ({
 });
 
 export const createSendMsgAction = ({
-    uuid = '68b029c9-6400-4f46-947a-b61c619a7198',
+    uuid = utils.createUUID(),
     text = 'Hey!',
     all_urns = false
 }: {
@@ -99,7 +106,7 @@ export const createSendMsgAction = ({
 });
 
 export const createSendEmailAction = ({
-    uuid = 'b4f00bdf-6268-4faa-b236-bf2af607526f',
+    uuid = utils.createUUID(),
     subject = 'New Sign Up',
     body = '@run.results.name just signed up.',
     addresses = ['jane@example.com']
@@ -117,7 +124,7 @@ export const createSendEmailAction = ({
 });
 
 export const createTransferAirtimeAction = ({
-    uuid = '35a6eff8-dd6e-4e07-b605-73da32c83c9c'
+    uuid = utils.createUUID()
 }: {
     uuid?: string;
 } = {}): TransferAirtime => ({
@@ -129,7 +136,7 @@ export const createTransferAirtimeAction = ({
 });
 
 export const createCallResthookAction = ({
-    uuid = '35a6eff8-dd6e-4e07-b605-73da32c83c9c',
+    uuid = utils.createUUID(),
     resthook = 'my-resthook'
 }: {
     uuid?: string;
@@ -141,7 +148,7 @@ export const createCallResthookAction = ({
 });
 
 export const createCallWebhookAction = ({
-    uuid = '35a6eff8-dd6e-4e07-b605-73da32c83c9c',
+    uuid = utils.createUUID(),
     url = 'https://www.example.com',
     method = Methods.GET
 }: {
@@ -156,15 +163,15 @@ export const createCallWebhookAction = ({
 });
 
 export const createStartSessionAction = ({
-    uuid = createUUID(),
+    uuid = utils.createUUID(),
     groups = [
-        { uuid: '4441fa19-8bbf-4894-8529-d04cc3b365d6', name: 'Cat Fanciers' },
-        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Cat Facts' }
+        { uuid: utils.createUUID(), name: 'Cat Fanciers' },
+        { uuid: utils.createUUID(), name: 'Cat Facts' }
     ],
     contacts = [
-        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Kellan Alexander' },
-        { uuid: '575fe8e9-cb51-4f15-8df7-422290fdfc64', name: 'Norbert Kwizera' },
-        { uuid: '82df72ae-d835-401b-b248-d0c5dcfdce5c', name: 'Rowan Seymour' }
+        { uuid: utils.createUUID(), name: 'Kellan Alexander' },
+        { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
+        { uuid: utils.createUUID(), name: 'Rowan Seymour' }
     ],
     flow = {
         uuid: 'flow_uuid',
@@ -184,15 +191,15 @@ export const createStartSessionAction = ({
 });
 
 export const createBroadcastMsgAction = ({
-    uuid = createUUID(),
+    uuid = utils.createUUID(),
     groups = [
-        { uuid: '4441fa19-8bbf-4894-8529-d04cc3b365d6', name: 'Cat Fanciers' },
-        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Cat Facts' }
+        { uuid: utils.createUUID(), name: 'Cat Fanciers' },
+        { uuid: utils.createUUID(), name: 'Cat Facts' }
     ],
     contacts = [
-        { uuid: '1e5aa7db-89c7-4dec-99b8-cd1194e1f46e', name: 'Kellan Alexander' },
-        { uuid: '575fe8e9-cb51-4f15-8df7-422290fdfc64', name: 'Norbert Kwizera' },
-        { uuid: '82df72ae-d835-401b-b248-d0c5dcfdce5c', name: 'Rowan Seymour' }
+        { uuid: utils.createUUID(), name: 'Kellan Alexander' },
+        { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
+        { uuid: utils.createUUID(), name: 'Rowan Seymour' }
     ],
     text = 'Hello World'
 }: {
@@ -209,7 +216,7 @@ export const createBroadcastMsgAction = ({
 });
 
 export const createAddGroupsAction = ({
-    uuid = '0d8abccd-ad6d-4776-a642-d310d6f15835',
+    uuid = utils.createUUID(),
     groups = groupsResults
 }: { uuid?: string; groups?: Group[] } = {}): ChangeGroups => ({
     uuid,
@@ -218,7 +225,7 @@ export const createAddGroupsAction = ({
 });
 
 export const createRemoveGroupsAction = ({
-    uuid = 'b230a96d-0448-4945-92b6-a53e583f3bd6',
+    uuid = utils.createUUID(),
     groups = groupsResults
 }: { uuid?: string; groups?: Group[] } = {}): RemoveFromGroups => ({
     uuid,
@@ -228,7 +235,7 @@ export const createRemoveGroupsAction = ({
 });
 
 export const createStartFlowAction = ({
-    uuid = 'da795777-db05-438c-a24a-1880b7f7a95f',
+    uuid = utils.createUUID(),
     flow = {
         name: 'Colors',
         uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f'
@@ -243,13 +250,13 @@ export const createStartFlowAction = ({
     type: Types.enter_flow,
     uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
     flow: {
-        name: capitalize(flow.name.trim()),
+        name: utils.capitalize(flow.name.trim()),
         uuid
     }
 });
 
 export const createSetContactNameAction = ({
-    uuid = '1212cb51-83d8-443f-a962-7ef89ea238cb',
+    uuid = utils.createUUID(),
     name = 'Jane Goodall'
 }: {
     uuid?: string;
@@ -261,7 +268,7 @@ export const createSetContactNameAction = ({
 });
 
 export const createSetContactFieldAction = ({
-    uuid = '80b54854-ac33-4488-a260-e9a9026d2152',
+    uuid = utils.createUUID(),
     field = {
         key: 'age',
         name: 'Age'
@@ -279,7 +286,7 @@ export const createSetContactFieldAction = ({
 });
 
 export const createSetContactLanguageAction = ({
-    uuid = '0dce545b-e743-44e4-a940-9767f0c508ea',
+    uuid = utils.createUUID(),
     language = 'eng'
 }: {
     uuid?: string;
@@ -291,7 +298,7 @@ export const createSetContactLanguageAction = ({
 });
 
 export const createSetContactChannelAction = ({
-    uuid = '9fd8cf85-dd81-401a-b543-f44cc6574d93',
+    uuid = utils.createUUID(),
     channelName = 'Twilio Channel'
 }: {
     uuid?: string;
@@ -306,7 +313,7 @@ export const createSetContactChannelAction = ({
 });
 
 export const createSetRunResultAction = ({
-    uuid = 'efe2a1c2-f189-488a-b431-0197def63cc4',
+    uuid = utils.createUUID(),
     name = 'Name',
     value = 'Grace',
     category = ''
@@ -323,60 +330,55 @@ export const createSetRunResultAction = ({
     type: Types.set_run_result
 });
 
-export const createWebhookRouterNode = (): FlowNode => ({
-    uuid: 'c6f278d5-2741-4c0a-880c-52a07dea91a5',
-    actions: [
+export const createWebhookRouterNode = (): FlowNode => {
+    const { categories, exits } = createCategories([
+        WebhookExitNames.Success,
+        WebhookExitNames.Failure,
+        WebhookExitNames.Unreachable
+    ]);
+
+    const cases: Case[] = [
         {
-            uuid: 'a564374c-ee42-4f13-8fc3-cda99f43b6ae',
-            headers: {},
-            type: Types.call_webhook,
-            url: 'http://www.google.com',
-            method: 'GET'
-        } as CallWebhook
-    ],
-    router: {
-        type: RouterTypes.switch,
-        operand: '@run.webhook.status',
-        cases: [
-            {
-                uuid: '89f9a8c0-e399-4c49-8409-43e37c318423',
-                type: Operators.is_text_eq,
-                arguments: ['success'],
-                exit_uuid: '34bab8f0-4efa-40b7-a3c1-39ce856ea740'
-            },
-            {
-                uuid: '62e70441-a846-461d-8d57-4538d726b209',
-                type: Operators.is_text_eq,
-                arguments: ['response_error'],
-                exit_uuid: 'ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5'
-            },
-            {
-                uuid: 'eeb6ae86-f2ac-4ed2-a3b0-b211e0e5d4b3',
-                type: Operators.is_text_eq,
-                arguments: ['connection_error'],
-                exit_uuid: '023db634-a097-4351-8662-8447d971ff74'
-            }
-        ],
-        default_exit_uuid: 'ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5'
-    } as SwitchRouter,
-    exits: [
-        {
-            uuid: '34bab8f0-4efa-40b7-a3c1-39ce856ea740',
-            name: WebhookExitNames.Success,
-            destination_node_uuid: null
+            uuid: utils.createUUID(),
+            type: Operators.is_text_eq,
+            arguments: ['success'],
+            category_uuid: categories[0].uuid
         },
         {
-            uuid: 'ca80b96d-5178-4c0c-b98f-8f42e5fcc4f5',
-            name: WebhookExitNames.Failure,
-            destination_node_uuid: null
+            uuid: utils.createUUID(),
+            type: Operators.is_text_eq,
+            arguments: ['response_error'],
+            category_uuid: categories[1].uuid
         },
         {
-            uuid: '023db634-a097-4351-8662-8447d971ff74',
-            name: WebhookExitNames.Unreachable,
-            destination_node_uuid: null
+            uuid: utils.createUUID(),
+            type: Operators.is_text_eq,
+            arguments: ['connection_error'],
+            category_uuid: categories[2].uuid
         }
-    ]
-});
+    ];
+
+    return {
+        uuid: utils.createUUID(),
+        actions: [
+            {
+                uuid: utils.createUUID(),
+                headers: {},
+                type: Types.call_webhook,
+                url: 'http://www.google.com',
+                method: 'GET'
+            } as CallWebhook
+        ],
+        router: {
+            type: RouterTypes.switch,
+            operand: '@run.webhook.status',
+            cases,
+            categories,
+            default_category_uuid: categories[categories.length - 1].uuid
+        } as SwitchRouter,
+        exits
+    };
+};
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
     assetStore: {},
@@ -407,33 +409,29 @@ export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => (
 export const createCase = ({
     uuid,
     type,
-    exit_uuid,
+    category_uuid,
     args = []
 }: {
     uuid: string;
     type: Operators;
-    exit_uuid: string;
+    category_uuid: string;
     args?: string[];
 }) => ({
     uuid,
     type,
-    exit_uuid,
+    category_uuid,
     arguments: args
 });
 
 export const createExit = ({
-    uuid = 'd41215f1-4822-44ed-b6f5-419213bf6a15',
-    name = null,
-    destination_node_uuid = null
+    uuid = utils.createUUID(),
+    destination_uuid = null
 }: {
     uuid?: string;
-    name?: string;
-    // tslint:disable-next-line:variable-name
-    destination_node_uuid?: string;
+    destination_uuid?: string;
 } = {}) => ({
     uuid,
-    name,
-    destination_node_uuid
+    destination_uuid
 });
 
 // tslint:disable-next-line:variable-name
@@ -444,30 +442,92 @@ export const createWait = ({ type, timeout }: { type: WaitTypes; timeout?: numbe
 
 // tslint:disable-next-line:variable-name
 export const createRouter = (result_name?: string): Router => ({
+    categories: [],
     type: RouterTypes.switch,
     ...(result_name ? { result_name } : {})
 });
 
+export const createMatchCase = (match: string): CaseProps => {
+    return {
+        uuid: utils.createUUID(),
+        categoryName: match,
+        valid: true,
+        kase: {
+            uuid: utils.createUUID(),
+            arguments: [match.toLowerCase()],
+            type: Operators.has_any_word,
+            category_uuid: null
+        }
+    };
+};
+
+export const createEmptyNode = (): FlowNode => {
+    return {
+        uuid: utils.createUUID(),
+        actions: [],
+        exits: []
+    };
+};
+
+export const createCases = (categories: string[]): CaseProps[] => {
+    const cases: CaseProps[] = [];
+    categories.forEach((category: string) => {
+        cases.push(createMatchCase(category));
+    });
+    return cases;
+};
+
+export const createRoutes = (
+    categories: string[],
+    hasTimeout: boolean = false
+): CategorizedCases => {
+    const cases: CaseProps[] = [];
+    categories.forEach((category: string) => {
+        cases.push(createMatchCase(category));
+    });
+
+    return resolveRoutes(cases, hasTimeout, null);
+};
+
+export const createMatchRouter = (matches: string[], hasTimeout: boolean = false): RenderNode => {
+    const { exits, categories, cases } = createRoutes(matches, hasTimeout);
+    return createRenderNode({
+        actions: [],
+        exits,
+        router: {
+            type: RouterTypes.switch,
+            operand: DEFAULT_OPERAND,
+            categories,
+            cases,
+            default_category_uuid: categories[categories.length - 1].uuid,
+            result_name: 'Color'
+        } as SwitchRouter
+    });
+};
+
 export const createSwitchRouter = ({
     cases,
+    categories = [],
     operand = '@input',
-    default_exit_uuid = null
+    default_category_uuid = null
 }: {
     cases: Case[];
+    categories: Category[];
     operand?: string;
     // tslint:disable-next-line:variable-name
-    default_exit_uuid?: string;
+    default_category_uuid?: string;
 }) => ({
     ...createRouter(),
     cases,
+    categories,
     operand,
-    default_exit_uuid
+    default_category_uuid
 });
 
 export const createRenderNode = ({
     actions,
     exits,
-    uuid = '48e0a64d-3b3c-4e3e-9d95-7844093edc90',
+    uuid = utils.createUUID(),
     router = null,
     wait = null,
     ui = {
@@ -499,7 +559,7 @@ export const createRenderNode = ({
 export const createFlowNode = ({
     actions,
     exits,
-    uuid = '48e0a64d-3b3c-4e3e-9d95-7844093edc90',
+    uuid = utils.createUUID(),
     router = null,
     wait = null
 }: {
@@ -519,11 +579,13 @@ export const createFlowNode = ({
 export const createWaitRouterNode = ({
     exits,
     cases,
-    uuid = '2b023cef-9ef7-4425-a9b5-a1a032a69b92',
+    categories,
+    uuid = utils.createUUID(),
     timeout
 }: {
     exits: Exit[];
     cases: Case[];
+    categories: Category[];
     timeout?: number;
     uuid?: string;
 }): RenderNode =>
@@ -532,200 +594,205 @@ export const createWaitRouterNode = ({
         exits,
         uuid,
         router: createSwitchRouter({
+            categories,
             cases
         }),
         wait: createWait({ type: WaitTypes.msg, timeout })
     });
 
+export const createCategories = (names: string[]): { categories: Category[]; exits: Exit[] } => {
+    const exits = names.map((cat: string) => {
+        return {
+            uuid: utils.createUUID(),
+            destination_uuid: null
+        };
+    });
+
+    const categories = exits.map((exit: Exit, index: number) => {
+        return {
+            name: names[index],
+            uuid: utils.createUUID(),
+            exit_uuid: exit.uuid
+        };
+    });
+
+    return { exits, categories };
+};
+
 export const createSubflowNode = (
     startFlowAction: StartFlow,
-    uuid: string = 'e4e66707-8798-4760-ba10-ab25c3da767c',
-    exitUUIDs: string[] = [
-        '054be440-a819-4bcf-898e-d18084ab7f4e',
-        '70dbfd3f-a501-42cb-b53d-3c4290ab8d58'
-    ]
-): RenderNode =>
-    createRenderNode({
+    uuid: string = utils.createUUID()
+): RenderNode => {
+    const { categories, exits } = createCategories([
+        StartFlowExitNames.Complete,
+        StartFlowExitNames.Expired
+    ]);
+
+    return createRenderNode({
         actions: [startFlowAction],
-        exits: [
-            createExit({
-                uuid: exitUUIDs[0],
-                name: StartFlowExitNames.Complete,
-                destination_node_uuid: 'destination-completed'
-            }),
-            createExit({
-                uuid: exitUUIDs[1],
-                name: StartFlowExitNames.Expired,
-                destination_node_uuid: 'destination-expired'
-            })
-        ],
+        exits,
         uuid,
         router: createSwitchRouter({
+            categories,
             cases: [
                 createCase({
-                    uuid: '0d377671-c887-46df-a08a-22589cd50554',
+                    uuid: utils.createUUID(),
                     type: Operators.has_run_status,
-                    exit_uuid: exitUUIDs[0],
+                    category_uuid: categories[0].uuid,
                     args: [StartFlowArgs.Complete]
                 }),
                 createCase({
                     uuid: '4be01054-1592-4193-8abd-b673e9ae8dcc',
                     type: Operators.has_run_status,
-                    exit_uuid: exitUUIDs[1],
+                    category_uuid: categories[1].uuid,
                     args: [StartFlowArgs.Expired]
                 })
             ],
             operand: '@child',
-            default_exit_uuid: null
+            default_category_uuid: null
         }),
-        wait: createWait({ type: WaitTypes.flow }),
         ui: { position: { left: 0, top: 0 }, type: Types.split_by_subflow }
     });
+};
 
 export const createAirtimeTransferNode = (
     transferAirtimeAction: TransferAirtime,
-    uuid: string = 'e4e66707-8798-4760-ba10-ab25c3da767c',
-    exitUUIDs: string[] = [
-        '054be440-a819-4bcf-898e-d18084ab7f4e',
-        '70dbfd3f-a501-42cb-b53d-3c4290ab8d58',
-        '5edcac28-a5f2-4fc2-81c4-d5d184d6560c'
-    ]
-): RenderNode =>
-    createRenderNode({
+    uuid: string = utils.createUUID()
+): RenderNode => {
+    const { categories, exits } = createCategories([
+        WebhookExitNames.Success,
+        WebhookExitNames.Failure,
+        WebhookExitNames.Unreachable
+    ]);
+
+    return createRenderNode({
         actions: [transferAirtimeAction],
-        exits: [
-            createExit({
-                uuid: exitUUIDs[0],
-                name: WebhookExitNames.Success,
-                destination_node_uuid: createUUID()
-            }),
-            createExit({
-                uuid: exitUUIDs[1],
-                name: WebhookExitNames.Failure,
-                destination_node_uuid: createUUID()
-            }),
-            createExit({
-                uuid: exitUUIDs[2],
-                name: WebhookExitNames.Unreachable,
-                destination_node_uuid: createUUID()
-            })
-        ],
+        exits,
         uuid,
         router: createSwitchRouter({
+            categories,
             cases: [
                 createCase({
-                    uuid: '0d377671-c887-46df-a08a-22589cd50554',
+                    uuid: utils.createUUID(),
                     type: Operators.has_webhook_status,
-                    exit_uuid: exitUUIDs[0],
+                    category_uuid: categories[0].uuid,
                     args: ['success']
                 }),
                 createCase({
-                    uuid: '4be01054-1592-4193-8abd-b673e9ae8dcc',
+                    uuid: utils.createUUID(),
                     type: Operators.has_webhook_status,
-                    exit_uuid: exitUUIDs[1],
+                    category_uuid: categories[1].uuid,
                     args: ['response_error']
                 }),
                 createCase({
-                    uuid: '4a6149dc-042b-4f2b-a7b5-ba6e86a5e72d',
+                    uuid: utils.createUUID(),
                     type: Operators.has_webhook_status,
-                    exit_uuid: exitUUIDs[2],
+                    category_uuid: categories[2].uuid,
                     args: ['response_failure']
                 })
             ],
             operand: '@child',
-            default_exit_uuid: null
+            default_category_uuid: null
         }),
         ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook }
     });
+};
 
 export const createResthookNode = (
     callResthookAction: CallResthook,
-    uuid: string = 'e4e66707-8798-4760-ba10-ab25c3da767c',
-    exitUUIDs: string[] = [
-        '054be440-a819-4bcf-898e-d18084ab7f4e',
-        '70dbfd3f-a501-42cb-b53d-3c4290ab8d58',
-        '5edcac28-a5f2-4fc2-81c4-d5d184d6560c'
-    ]
-): RenderNode =>
-    createRenderNode({
+    uuid: string = utils.createUUID()
+): RenderNode => {
+    const { categories, exits } = createCategories([
+        WebhookExitNames.Success,
+        WebhookExitNames.Failure,
+        WebhookExitNames.Unreachable
+    ]);
+
+    return createRenderNode({
         actions: [callResthookAction],
-        exits: [
-            createExit({
-                uuid: exitUUIDs[0],
-                name: WebhookExitNames.Success,
-                destination_node_uuid: createUUID()
-            }),
-            createExit({
-                uuid: exitUUIDs[1],
-                name: WebhookExitNames.Failure,
-                destination_node_uuid: createUUID()
-            }),
-            createExit({
-                uuid: exitUUIDs[2],
-                name: WebhookExitNames.Unreachable,
-                destination_node_uuid: createUUID()
-            })
-        ],
+        exits,
         uuid,
         router: createSwitchRouter({
+            categories,
             cases: [
                 createCase({
-                    uuid: '0d377671-c887-46df-a08a-22589cd50554',
+                    uuid: utils.createUUID(),
                     type: Operators.has_webhook_status,
-                    exit_uuid: exitUUIDs[0],
+                    category_uuid: categories[0].uuid,
                     args: ['success']
                 }),
                 createCase({
-                    uuid: '4be01054-1592-4193-8abd-b673e9ae8dcc',
+                    uuid: utils.createUUID(),
                     type: Operators.has_webhook_status,
-                    exit_uuid: exitUUIDs[1],
+                    category_uuid: categories[1].uuid,
                     args: ['response_error']
                 }),
                 createCase({
-                    uuid: '4a6149dc-042b-4f2b-a7b5-ba6e86a5e72d',
+                    uuid: utils.createUUID(),
                     type: Operators.has_webhook_status,
-                    exit_uuid: exitUUIDs[2],
+                    category_uuid: categories[2].uuid,
                     args: ['response_failure']
                 })
             ],
             operand: '@child',
-            default_exit_uuid: null
+            default_category_uuid: null
         }),
         ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook }
     });
+};
 
 export const createGroupsRouterNode = (
     groups: Group[] = groupsResults,
-    uuid: string = 'c51231fa-5efd-416a-abe9-d5aedbfe33e4'
-): RenderNode =>
-    createRenderNode({
+    uuid: string = utils.createUUID()
+): RenderNode => {
+    const exits = groups.map((group, idx) =>
+        createExit({
+            uuid: utils.createUUID(),
+            destination_uuid: null
+        })
+    );
+
+    exits.push({ uuid: utils.createUUID(), destination_uuid: null });
+
+    const categories = groups.map((group, idx) => {
+        return {
+            name: group.name,
+            uuid: utils.createUUID(),
+            exit_uuid: exits[0].uuid
+        };
+    });
+
+    categories.push({
+        name: DefaultExitNames.Other,
+        uuid: utils.createUUID(),
+        exit_uuid: exits[exit.length - 1].uuid
+    });
+
+    const cases = groups.map((group, idx) =>
+        createCase({
+            uuid: utils.createUUID(),
+            type: Operators.has_group,
+            category_uuid: categories[idx].uuid,
+            args: [group.uuid]
+        })
+    );
+
+    return createRenderNode({
         actions: [],
-        exits: groups.map((group, idx) =>
-            createExit({
-                uuid: group.uuid,
-                name: group.name,
-                destination_node_uuid: 'ab4b7a93-c794-4a04-b4c7-00fa68c7bf1c'
-            })
-        ),
+        exits,
         uuid,
         router: createSwitchRouter({
-            cases: groups.map((group, idx) =>
-                createCase({
-                    uuid: createUUID(),
-                    type: Operators.has_group,
-                    exit_uuid: group.uuid,
-                    args: [group.uuid]
-                })
-            ),
-            operand: '@contact.groups',
-            default_exit_uuid: null
+            categories,
+            cases,
+            operand: '@contact',
+            default_category_uuid: categories[categories.length - 1].uuid
         }),
-        wait: createWait({ type: WaitTypes.group }),
         ui: {
             type: Types.split_by_groups,
             position: { left: 0, top: 0 }
         }
     });
+};
 
 export const getGroupOptions = (groups: Group[] = groupsResults) =>
     groups.map(({ name, uuid }) => ({

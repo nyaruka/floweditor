@@ -1,11 +1,20 @@
 import { Query } from 'immutability-helper';
 import * as React from 'react';
 import { v4 as generateUUID } from 'uuid';
-import { Action, Case, ContactProperties, Exit, FlowPosition, LocalizationMap } from '~/flowTypes';
+import {
+    Action,
+    Case,
+    ContactProperties,
+    Exit,
+    FlowPosition,
+    LocalizationMap,
+    Category
+} from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { Asset } from '~/store/flowContext';
 import { FormEntry } from '~/store/nodeEditor';
 import * as variables from '~/variables.scss';
+import { CategorizedCases } from '~/components/flow/routers/helpers';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
@@ -250,7 +259,7 @@ export const createDragHandler = (
 };
 
 export const getLocalization = (
-    obj: Action | Exit | Case,
+    obj: Action | Category | Case,
     localization: LocalizationMap,
     language: Asset
 ) => Localization.translate(obj, language, localization[language.id]);

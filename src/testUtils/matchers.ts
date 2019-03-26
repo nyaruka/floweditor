@@ -56,7 +56,7 @@ function toHaveInboundFrom<T>(
 }
 
 function toPointTo<T>(this: jest.MatcherUtils, received: Exit, expected: RenderNode): MatchResult {
-    if (received.destination_node_uuid === expected.node.uuid) {
+    if (received.destination_uuid === expected.node.uuid) {
         return {
             message: () => `${received.uuid} incorrectly points to ${expected.node.uuid}`,
             pass: true
@@ -71,7 +71,7 @@ function toPointTo<T>(this: jest.MatcherUtils, received: Exit, expected: RenderN
 
 function toHaveExitWithDestination<T>(this: jest.MatcherUtils, received: RenderNode): MatchResult {
     for (const exit of received.node.exits) {
-        if (exit.destination_node_uuid !== null) {
+        if (exit.destination_uuid !== null) {
             return {
                 message: () => `Exit ${exit.uuid} in node ${received.node.uuid} has a destination`,
                 pass: true
@@ -91,7 +91,7 @@ function toHaveExitThatPointsTo<T>(
     expected: RenderNode
 ): MatchResult {
     for (const exit of received.node.exits) {
-        if (exit.destination_node_uuid === expected.node.uuid) {
+        if (exit.destination_uuid === expected.node.uuid) {
             return {
                 message: () =>
                     `${exit.uuid} incorrectly has exit that points to ${expected.node.uuid}`,

@@ -38,7 +38,7 @@ export const uniquifyNode = (newNode: FlowNode): FlowNode => {
 export const getDefaultExit = (node: FlowNode) => {
     if (node.router.type === RouterTypes.switch) {
         const switchRouter = node.router as SwitchRouter;
-        return node.exits.find(exit => exit.uuid === switchRouter.default_exit_uuid);
+        return node.exits.find(exit => exit.uuid === switchRouter.default_category_uuid);
     }
 };
 
@@ -165,7 +165,7 @@ export const addFlowResult = (assets: AssetStore, node: FlowNode): AssetStore =>
 };
 
 /**
- * Update the destination for a specific exit. Updates destination_node_uuid and
+ * Update the destination for a specific exit. Updates destination_uuid and
  * the inboundConnections for the given node
  * @param nodes
  * @param fromNodeUUID
@@ -187,14 +187,14 @@ export const updateConnection = (
     }
 
     const exitIdx = getExitIndex(fromNode.node, fromExitUUID);
-    const previousDestination = fromNode.node.exits[exitIdx].destination_node_uuid;
+    const previousDestination = fromNode.node.exits[exitIdx].destination_uuid;
 
     updatedNodes = mutate(updatedNodes, {
         [fromNodeUUID]: {
             node: {
                 exits: {
                     [exitIdx]: {
-                        destination_node_uuid: set(destinationNodeUUID)
+                        destination_uuid: set(destinationNodeUUID)
                     }
                 }
             }
@@ -240,7 +240,7 @@ export const removeConnection = (
 /**
  * Adds a given RenderNode to our node map or updates an existing one.
  * Updates destinations for any inboundConnections provided and updates
- * inboundConnections for any destination_node_uuid our exits point to.
+ * inboundConnections for any destination_uuid our exits point to.
  * @param nodes
  * @param node the node to add, if unique uuid, it will be added
  */
@@ -266,7 +266,7 @@ export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap
             [fromNodeUUID]: {
                 node: {
                     exits: {
-                        [exitIdx]: merge({ destination_node_uuid: node.node.uuid })
+                        [exitIdx]: merge({ destination_uuid: node.node.uuid })
                     }
                 }
             }
@@ -324,13 +324,13 @@ export const spliceInAction = (
     const { [nodeUUID]: previousNode } = nodes;
 
     const otherExit = getDefaultExit(previousNode.node);
-    const destination = otherExit ? otherExit.destination_node_uuid : null;
+    const destination = otherExit ? otherExit.destination_uuid : null;
 
     const newNode: RenderNode = {
         node: {
             uuid: createUUID(),
             actions: [action],
-            exits: [{ uuid: createUUID(), destination_node_uuid: destination, name: null }]
+            exits: [{ uuid: createUUID(), destination_uuid: destination }]
         },
         ui: { position: previousNode.ui.position },
         inboundConnections: previousNode.inboundConnections
@@ -396,9 +396,9 @@ export const removeNode = (
 
     // remove us from any inbound connections
     for (const exit of nodeToRemove.node.exits) {
-        if (exit.destination_node_uuid) {
+        if (exit.destination_uuid) {
             updatedNodes = mutate(updatedNodes, {
-                [exit.destination_node_uuid]: {
+                [exit.destination_uuid]: {
                     inboundConnections: unset([exit.uuid])
                 }
             });
@@ -410,7 +410,7 @@ export const removeNode = (
         // if we have a single destination, reroute those pointing to us
         let destination = null;
         if (remap && nodeToRemove.node.exits.length === 1) {
-            ({ destination_node_uuid: destination } = nodeToRemove.node.exits[0]);
+            ({ destination_uuid: destination } = nodeToRemove.node.exits[0]);
         }
 
         const fromNodeUUID = nodeToRemove.inboundConnections[fromExitUUID];
@@ -430,7 +430,7 @@ export const removeNode = (
             [fromNodeUUID]: {
                 node: {
                     exits: {
-                        [exitIdx]: { destination_node_uuid: set(destination) }
+                        [exitIdx]: { destination_uuid: set(destination) }
                     }
                 }
             }
