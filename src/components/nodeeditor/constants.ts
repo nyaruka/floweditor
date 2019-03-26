@@ -1,5 +1,5 @@
-export const DEFAULT_OPERAND = '@run.input';
-export const GROUPS_OPERAND = '@contact.groups';
+export const DEFAULT_OPERAND = '@input';
+export const GROUPS_OPERAND = '@contact';
 export const DEFAULT_BODY: string = `{
     "flow": @(json(run.flow)),
     "path": @(json(run.path)),

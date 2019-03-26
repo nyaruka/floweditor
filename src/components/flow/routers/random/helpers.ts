@@ -2,7 +2,7 @@ import { createRenderNode } from '~/components/flow/routers/helpers';
 import { RandomRouterFormState } from '~/components/flow/routers/random/RandomRouterForm';
 import { SelectOption } from '~/components/form/select/SelectElement';
 import { Types } from '~/config/interfaces';
-import { Exit, Router, RouterTypes } from '~/flowTypes';
+import { Category, Exit, Router, RouterTypes } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 import { createUUID, range } from '~/utils';
@@ -26,20 +26,20 @@ export const nodeToState = (settings: NodeEditorSettings): RandomRouterFormState
     let resultName: StringEntry = { value: '' };
     let buckets = 2;
 
-    let exits: Exit[] = [];
+    let categories: Category[] = [];
     if (settings.originalNode && settings.originalNode.ui.type === Types.split_by_random) {
         const router = settings.originalNode.node.router as Router;
         resultName = { value: router.result_name || '' };
         buckets = settings.originalNode.node.exits.length;
 
         // use any existing random buckets if we have any
-        exits = settings.originalNode.node.exits;
+        categories = settings.originalNode.node.router.categories;
     }
 
-    exits = fillOutExits(exits, buckets);
+    categories = fillOutCategories(categories, buckets);
 
     return {
-        exits,
+        categories,
         resultName,
         bucketChoice: { value: getOption(buckets) },
         valid: true
@@ -55,15 +55,31 @@ export const stateToNode = (
         optionalRouter.result_name = state.resultName.value;
     }
 
+    const exits = settings.originalNode.node.exits;
+
+    state.categories.forEach((category: Category, idx: number) => {
+        if (idx < exits.length) {
+            category.exit_uuid = exits[idx].uuid;
+        } else {
+            const newExit: Exit = {
+                uuid: createUUID(),
+                destination_uuid: null
+            };
+            category.exit_uuid = newExit.uuid;
+            exits.push(newExit);
+        }
+    });
+
     const router: Router = {
         type: RouterTypes.random,
+        categories: state.categories,
         ...optionalRouter
     };
 
     const newRenderNode = createRenderNode(
         settings.originalNode.node.uuid,
         router,
-        state.exits,
+        exits,
         Types.split_by_random,
         [],
         null
@@ -72,11 +88,11 @@ export const stateToNode = (
     return newRenderNode;
 };
 
-export const fillOutExits = (exits: Exit[], buckets: number): Exit[] => {
+export const fillOutCategories = (categories: Category[], buckets: number): Category[] => {
     // add any that we still need
-    return exits.concat(
-        range(exits.length, buckets).map((idx: number) => {
-            return { uuid: createUUID(), name: `Bucket ${idx + 1}` };
+    return categories.concat(
+        range(categories.length, buckets).map((idx: number) => {
+            return { uuid: createUUID(), name: `Bucket ${idx + 1}`, exit_uuid: null };
         })
     );
 };

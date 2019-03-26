@@ -17,9 +17,9 @@ const { setup } = composeComponentTestUtils<CaseListProps>(CaseList, {
                 uuid: caseUUID1,
                 type: Operators.has_any_word,
                 arguments: ['Red, r'],
-                exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
+                category_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
             },
-            exitName: 'Red',
+            categoryName: 'Red',
             valid: true
         },
         {
@@ -28,9 +28,9 @@ const { setup } = composeComponentTestUtils<CaseListProps>(CaseList, {
                 uuid: caseUUID2,
                 type: Operators.has_any_word,
                 arguments: ['Green, g'],
-                exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
+                category_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
             },
-            exitName: 'Green',
+            categoryName: 'Green',
             valid: true
         }
     ],
@@ -61,7 +61,7 @@ describe(CaseList.name, () => {
             const { instance, props } = setup(false);
             instance.handleUpdateCase({
                 ...props.cases[0],
-                exitName: 'Updated Exit Name'
+                categoryName: 'Updated Exit Name'
             } as CaseProps);
             expect(instance.state).toMatchSnapshot();
         });

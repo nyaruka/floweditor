@@ -5,12 +5,12 @@ exports[`CaseList render should render empty list 1`] = `
   cases={
     Array [
       Object {
-        "exitName": "",
+        "categoryName": "",
         "kase": Object {
           "arguments": Array [
             "",
           ],
-          "exit_uuid": null,
+          "category_uuid": null,
           "type": "has_any_word",
           "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
@@ -781,13 +781,13 @@ exports[`CaseList render should render empty list 1`] = `
                                   }
                                 >
                                   <CaseElement
-                                    exitName=""
+                                    categoryName=""
                                     kase={
                                       Object {
                                         "arguments": Array [
                                           "",
                                         ],
-                                        "exit_uuid": null,
+                                        "category_uuid": null,
                                         "type": "has_any_word",
                                         "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
                                       }
@@ -2986,12 +2986,12 @@ exports[`CaseList render should render list of cases 1`] = `
   cases={
     Array [
       Object {
-        "exitName": "Red",
+        "categoryName": "Red",
         "kase": Object {
           "arguments": Array [
             "Red, r",
           ],
-          "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+          "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
           "type": "has_any_word",
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
@@ -2999,12 +2999,12 @@ exports[`CaseList render should render list of cases 1`] = `
         "valid": true,
       },
       Object {
-        "exitName": "Green",
+        "categoryName": "Green",
         "kase": Object {
           "arguments": Array [
             "Green, g",
           ],
-          "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+          "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
           "type": "has_any_word",
           "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
@@ -3012,12 +3012,12 @@ exports[`CaseList render should render list of cases 1`] = `
         "valid": true,
       },
       Object {
-        "exitName": "",
+        "categoryName": "",
         "kase": Object {
           "arguments": Array [
             "",
           ],
-          "exit_uuid": null,
+          "category_uuid": null,
           "type": "has_any_word",
           "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
@@ -4433,13 +4433,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                   tabIndex={0}
                                 >
                                   <CaseElement
-                                    exitName="Red"
+                                    categoryName="Red"
                                     kase={
                                       Object {
                                         "arguments": Array [
                                           "Red, r",
                                         ],
-                                        "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+                                        "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
                                         "type": "has_any_word",
                                         "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
                                       }
@@ -7048,13 +7048,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                   tabIndex={0}
                                 >
                                   <CaseElement
-                                    exitName="Green"
+                                    categoryName="Green"
                                     kase={
                                       Object {
                                         "arguments": Array [
                                           "Green, g",
                                         ],
-                                        "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+                                        "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
                                         "type": "has_any_word",
                                         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
                                       }
@@ -9647,13 +9647,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                   }
                                 >
                                   <CaseElement
-                                    exitName=""
+                                    categoryName=""
                                     kase={
                                       Object {
                                         "arguments": Array [
                                           "",
                                         ],
-                                        "exit_uuid": null,
+                                        "category_uuid": null,
                                         "type": "has_any_word",
                                         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
                                       }
@@ -11851,12 +11851,12 @@ exports[`CaseList updates should allow reordering 1`] = `
 Object {
   "currentCases": Array [
     Object {
-      "exitName": "Green",
+      "categoryName": "Green",
       "kase": Object {
         "arguments": Array [
           "Green, g",
         ],
-        "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+        "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
         "type": "has_any_word",
         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
@@ -11864,12 +11864,12 @@ Object {
       "valid": true,
     },
     Object {
-      "exitName": "Red",
+      "categoryName": "Red",
       "kase": Object {
         "arguments": Array [
           "Red, r",
         ],
-        "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+        "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
         "type": "has_any_word",
         "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       },
@@ -11877,12 +11877,12 @@ Object {
       "valid": true,
     },
     Object {
-      "exitName": "",
+      "categoryName": "",
       "kase": Object {
         "arguments": Array [
           "",
         ],
-        "exit_uuid": null,
+        "category_uuid": null,
         "type": "has_any_word",
         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },
@@ -11898,12 +11898,12 @@ exports[`CaseList updates should remove cases 1`] = `
 Object {
   "currentCases": Array [
     Object {
-      "exitName": "Green",
+      "categoryName": "Green",
       "kase": Object {
         "arguments": Array [
           "Green, g",
         ],
-        "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+        "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
         "type": "has_any_word",
         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
@@ -11911,12 +11911,12 @@ Object {
       "valid": true,
     },
     Object {
-      "exitName": "",
+      "categoryName": "",
       "kase": Object {
         "arguments": Array [
           "",
         ],
-        "exit_uuid": null,
+        "category_uuid": null,
         "type": "has_any_word",
         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },
@@ -11932,12 +11932,12 @@ exports[`CaseList updates should update cases 1`] = `
 Object {
   "currentCases": Array [
     Object {
-      "exitName": "Updated Exit Name",
+      "categoryName": "Updated Exit Name",
       "kase": Object {
         "arguments": Array [
           "Red, r",
         ],
-        "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+        "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
         "type": "has_any_word",
         "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       },
@@ -11945,12 +11945,12 @@ Object {
       "valid": true,
     },
     Object {
-      "exitName": "Green",
+      "categoryName": "Green",
       "kase": Object {
         "arguments": Array [
           "Green, g",
         ],
-        "exit_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
+        "category_uuid": "38c1m4g4-b424-585d-8cgi-384d6260ymca",
         "type": "has_any_word",
         "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
@@ -11958,12 +11958,12 @@ Object {
       "valid": true,
     },
     Object {
-      "exitName": "",
+      "categoryName": "",
       "kase": Object {
         "arguments": Array [
           "",
         ],
-        "exit_uuid": null,
+        "category_uuid": null,
         "type": "has_any_word",
         "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
       },

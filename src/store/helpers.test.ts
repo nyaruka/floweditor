@@ -1,5 +1,13 @@
 import { FlowTypes, Types } from '~/config/interfaces';
-import { Case, Exit, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '~/flowTypes';
+import {
+    Case,
+    Exit,
+    FlowDefinition,
+    FlowPosition,
+    RouterTypes,
+    SendMsg,
+    Category
+} from '~/flowTypes';
 import {
     getCollisions,
     getFlowComponents,
@@ -9,6 +17,7 @@ import {
     getUniqueDestinations
 } from '~/store/helpers';
 import { Spanish } from '~/testUtils/assetCreators';
+import { dump } from '~/utils';
 
 const mutate = require('immutability-helper');
 
@@ -85,7 +94,7 @@ describe('helpers', () => {
             it('should get localized cases', () => {
                 const node = nodes.node1.node;
                 const translations = {
-                    node1_exit0: { name: ['this is espanols'] },
+                    node1_cat0: { name: ['this is espanols'] },
                     node1_case0: { arguments: ['espanol case'] }
                 };
 
@@ -97,7 +106,9 @@ describe('helpers', () => {
                 );
 
                 expect((localizations[0].getObject() as Case).arguments).toEqual(['espanol case']);
-                expect((localizations[2].getObject() as Exit).name).toEqual(['this is espanols']);
+                expect((localizations[2].getObject() as Category).name).toEqual([
+                    'this is espanols'
+                ]);
             });
         });
 

@@ -16,12 +16,14 @@ import {
     StickyNote,
     SwitchRouter,
     UIMetaData,
-    WaitTypes
+    WaitTypes,
+    Category
 } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { addResult } from '~/store/mutators';
-import { createUUID, snakify } from '~/utils';
+import { createUUID, snakify, dump } from '~/utils';
+import { getSwitchRouter } from '~/components/flow/routers/helpers';
 
 export interface Bounds {
     left: number;
@@ -102,8 +104,8 @@ export const detectLoops = (
     if (path.length === 0) {
         path.push(fromNodeUUID);
         for (const exit of toNode.node.exits) {
-            if (exit.destination_node_uuid) {
-                detectLoops(nodes, toNode.node.uuid, exit.destination_node_uuid, path);
+            if (exit.destination_uuid) {
+                detectLoops(nodes, toNode.node.uuid, exit.destination_uuid, path);
             }
         }
         return;
@@ -119,8 +121,8 @@ export const detectLoops = (
 
     // follow each of our exits
     for (const exit of toNode.node.exits) {
-        if (exit.destination_node_uuid) {
-            detectLoops(nodes, toNodeUUID, exit.destination_node_uuid, path);
+        if (exit.destination_uuid) {
+            detectLoops(nodes, toNodeUUID, exit.destination_uuid, path);
         }
     }
 
@@ -148,12 +150,14 @@ export const getLocalizations = (
         localizations.push(Localization.translate(action, language, translations));
     }
 
-    // Account for localized exits
-    node.exits.forEach(exit => {
-        if (exit.name) {
-            localizations.push(Localization.translate(exit, language, translations));
-        }
-    });
+    // Account for localized categories
+    if (node.router) {
+        node.router.categories.forEach(category => {
+            if (category.name) {
+                localizations.push(Localization.translate(category, language, translations));
+            }
+        });
+    }
 
     return localizations;
 };
@@ -161,8 +165,8 @@ export const getLocalizations = (
 export const getUniqueDestinations = (node: FlowNode): string[] => {
     const destinations = {};
     for (const exit of node.exits) {
-        if (exit.destination_node_uuid) {
-            destinations[exit.destination_node_uuid] = true;
+        if (exit.destination_uuid) {
+            destinations[exit.destination_uuid] = true;
         }
     }
     return Object.keys(destinations);
@@ -320,7 +324,7 @@ export const getGhostNode = (
         exits: [
             {
                 uuid: createUUID(),
-                destination_node_uuid: null
+                destination_uuid: null
             }
         ]
     };
@@ -339,7 +343,14 @@ export const getGhostNode = (
         ghostNode.actions.push(replyAction);
     } else {
         // Otherwise we are going to a switch
-        ghostNode.exits[0].name = DefaultExitNames.All_Responses;
+        const categories: Category[] = [
+            {
+                uuid: createUUID(),
+                name: DefaultExitNames.All_Responses,
+                exit_uuid: ghostNode.exits[0].uuid
+            }
+        ];
+
         ghostNode.wait = { type: WaitTypes.msg };
 
         type = Types.wait_for_response;
@@ -350,6 +361,8 @@ export const getGhostNode = (
         ghostNode.router = {
             type: RouterTypes.switch,
             result_name: getSuggestedResultName(suggestedResultNameCount),
+            default_category_uuid: categories[0].uuid,
+            categories,
             cases: []
         } as SwitchRouter;
     }
@@ -430,19 +443,20 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             }
         }
 
-        // if we are split by group, look at our exits for groups
+        // if we are split by group, look at our categories for groups
         if (ui.type === Types.split_by_groups) {
-            const router = node.router as SwitchRouter;
+            const router = getSwitchRouter(node);
+
             for (const kase of router.cases) {
                 const groupUUID = kase.arguments[0];
-                const exit = node.exits.find((groupExit: Exit) => {
-                    return groupExit.uuid === kase.exit_uuid;
+                const category = router.categories.find((cat: Category) => {
+                    return cat.uuid === kase.category_uuid;
                 });
 
                 /* istanbul ignore else */
-                if (exit) {
+                if (category) {
                     groups[groupUUID] = {
-                        name: exit.name,
+                        name: category.name,
                         id: groupUUID,
                         type: AssetType.Group
                     };
@@ -490,15 +504,15 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
         }
 
         for (const exit of node.exits) {
-            if (exit.destination_node_uuid) {
-                let pointers: { [uuid: string]: string } = pointerMap[exit.destination_node_uuid];
+            if (exit.destination_uuid) {
+                let pointers: { [uuid: string]: string } = pointerMap[exit.destination_uuid];
 
                 if (!pointers) {
                     pointers = {};
                 }
 
                 pointers[exit.uuid] = node.uuid;
-                pointerMap[exit.destination_node_uuid] = pointers;
+                pointerMap[exit.destination_uuid] = pointers;
             }
         }
     }

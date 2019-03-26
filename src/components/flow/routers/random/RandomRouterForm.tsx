@@ -7,11 +7,11 @@ import SelectElement, { SelectOption } from '~/components/form/select/SelectElem
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Exit } from '~/flowTypes';
+import { Exit, Category } from '~/flowTypes';
 import { FormState, mergeForm, SelectOptionEntry, StringEntry } from '~/store/nodeEditor';
 import { small } from '~/utils/reactselect';
 
-import { BUCKET_OPTIONS, fillOutExits, nodeToState, stateToNode } from './helpers';
+import { BUCKET_OPTIONS, fillOutCategories, nodeToState, stateToNode } from './helpers';
 import * as styles from './RandomRouterForm.scss';
 
 // TODO: Remove use of Function
@@ -26,7 +26,7 @@ export enum InputToFocus {
 export interface RandomRouterFormState extends FormState {
     bucketChoice: SelectOptionEntry;
     resultName: StringEntry;
-    exits: Exit[];
+    categories: Category[];
 }
 
 export const leadInSpecId = 'lead-in';
@@ -58,20 +58,20 @@ export default class RandomRouterForm extends React.Component<
 
         const count = parseInt(selected.value, 10);
 
-        let exits = this.state.exits.concat([]);
+        let categories = this.state.categories.concat([]);
 
         // prune off if we have too many
-        exits = exits.slice(0, count);
+        categories = categories.slice(0, count);
 
         // add any that we still need
-        exits = fillOutExits(exits, count);
+        categories = fillOutCategories(categories, count);
 
         const updates: Partial<RandomRouterFormState> = {
             bucketChoice: { value: selected }
         };
 
         const updated = mergeForm(this.state, updates);
-        this.setState({ ...updated, exits });
+        this.setState({ ...updated, categories });
 
         return updated.valid;
     }
@@ -88,22 +88,22 @@ export default class RandomRouterForm extends React.Component<
         };
     }
 
-    private handleBucketNameChanged(exit: Exit, value: string): void {
-        const exits = this.state.exits;
-        exits.find((ex: Exit) => ex.uuid === exit.uuid).name = value;
-        this.setState({ exits });
+    private handleBucketNameChanged(category: Category, value: string): void {
+        const categories = this.state.categories;
+        categories.find((cat: Category) => cat.uuid === category.uuid).name = value;
+        this.setState({ categories });
     }
 
     private renderBucketNames(): any {
-        return this.state.exits.map((exit: Exit) => (
+        return this.state.categories.map((cat: Category) => (
             <TextInputElement
-                key={exit.uuid}
+                key={cat.uuid}
                 __className={styles.bucketName}
                 data-spec="optional-field"
-                name={exit.uuid}
-                entry={{ value: exit.name }}
+                name={cat.uuid}
+                entry={{ value: cat.name }}
                 onChange={(value: string) => {
-                    this.handleBucketNameChanged(exit, value);
+                    this.handleBucketNameChanged(cat, value);
                 }}
             />
         ));

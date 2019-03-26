@@ -155,14 +155,11 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
-          "name": "Subscriber",
           "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
         Object {
-          "destination_node_uuid": null,
-          "name": "Other",
-          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "destination_uuid": null,
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         },
       ],
       "router": Object {
@@ -171,20 +168,29 @@ Array [
             "arguments": Array [
               "68223118-109f-442a-aed3-7bb3e1eab687",
             ],
-            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "category_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "type": "has_group",
             "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
           },
         ],
-        "default_exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-        "operand": "@contact.groups",
+        "categories": Array [
+          Object {
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "name": "Subscriber",
+            "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          },
+          Object {
+            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "name": "Other",
+            "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+          },
+        ],
+        "default_category_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+        "operand": "@contact",
         "result_name": "My Group Result",
         "type": "switch",
       },
-      "uuid": "c51231fa-5efd-416a-abe9-d5aedbfe33e4",
-      "wait": Object {
-        "type": "group",
-      },
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
     },
     "ui": Object {
       "config": Object {

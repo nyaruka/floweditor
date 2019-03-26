@@ -54,11 +54,11 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "50 - 3",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
   "max": Object {
     "validationFailures": Array [
       Object {
@@ -90,11 +90,11 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
   "max": Object {
     "validationFailures": Array [],
     "value": "",
@@ -122,11 +122,11 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
   "max": Object {
     "validationFailures": Array [],
     "value": "",
@@ -154,11 +154,11 @@ Object {
     ],
     "value": "",
   },
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "My Exit",
   },
-  "exitNameEdited": true,
+  "categoryNameEdited": true,
   "max": Object {
     "validationFailures": Array [],
     "value": "",
@@ -186,11 +186,11 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "5 - 40",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
   "max": Object {
     "validationFailures": Array [],
     "value": "40",
@@ -214,11 +214,11 @@ Object {
     "validationFailures": Array [],
     "value": "",
   },
-  "exitName": Object {
+  "categoryName": Object {
     "validationFailures": Array [],
     "value": "Has Text",
   },
-  "exitNameEdited": false,
+  "categoryNameEdited": false,
   "max": Object {
     "validationFailures": Array [],
     "value": "",

@@ -2,10 +2,11 @@ import {
     AirtimeRouterFormState,
     AirtimeTransferEntry
 } from '~/components/flow/routers/airtime/AirtimeRouterForm';
-import { createRenderNode } from '~/components/flow/routers/helpers';
+import { createRenderNode, getSwitchRouter } from '~/components/flow/routers/helpers';
 import { Operators, Types } from '~/config/interfaces';
 import {
     Case,
+    Category,
     Exit,
     RouterTypes,
     SwitchRouter,
@@ -58,22 +59,35 @@ export const stateToNode = (
     // If we're already a subflow, lean on those exits and cases
     let exits: Exit[];
     let cases: Case[];
+    let categories: Category[];
 
     if (originalAction) {
         ({ exits } = settings.originalNode.node);
-        ({ cases } = settings.originalNode.node.router as SwitchRouter);
+        ({ cases, categories } = getSwitchRouter(settings.originalNode.node));
     } else {
         // Otherwise, let's create some new ones
+
         exits = [
             {
                 uuid: createUUID(),
+                destination_uuid: null
+            },
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            }
+        ];
+
+        categories = [
+            {
+                uuid: createUUID(),
                 name: TransferAirtimeExitNames.Success,
-                destination_node_uuid: null
+                exit_uuid: exits[0].uuid
             },
             {
                 uuid: createUUID(),
                 name: TransferAirtimeExitNames.Failure,
-                destination_node_uuid: null
+                exit_uuid: exits[1].uuid
             }
         ];
 
@@ -82,13 +96,13 @@ export const stateToNode = (
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['success'],
-                exit_uuid: exits[0].uuid
+                category_uuid: exits[0].uuid
             },
             {
                 uuid: createUUID(),
                 type: Operators.has_webhook_status,
                 arguments: ['failed'],
-                exit_uuid: exits[1].uuid
+                category_uuid: exits[1].uuid
             }
         ];
     }
@@ -97,7 +111,8 @@ export const stateToNode = (
         type: RouterTypes.switch,
         operand: '@child',
         cases,
-        default_exit_uuid: null
+        categories,
+        default_category_uuid: null
     };
 
     const newRenderNode = createRenderNode(

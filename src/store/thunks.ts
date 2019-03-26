@@ -484,7 +484,7 @@ export const spliceInRouter = (
                 exits: [
                     {
                         uuid: createUUID(),
-                        destination_node_uuid: null
+                        destination_uuid: null
                     }
                 ]
             },
@@ -514,7 +514,7 @@ export const spliceInRouter = (
                 exits: [
                     {
                         uuid: createUUID(),
-                        destination_node_uuid: previousNode.node.exits[0].destination_node_uuid
+                        destination_uuid: previousNode.node.exits[0].destination_uuid
                     }
                 ]
             },
@@ -530,7 +530,7 @@ export const spliceInRouter = (
             updatedNodes,
             newRouterNode.node.uuid,
             newRouterNode.node.exits[0].uuid,
-            previousNode.node.exits[0].destination_node_uuid
+            previousNode.node.exits[0].destination_uuid
         );
     }
 
@@ -585,7 +585,7 @@ export const onUpdateAction = (
             node: {
                 uuid: createUUID(),
                 actions: [action],
-                exits: [{ uuid: createUUID(), destination_node_uuid: null, name: null }]
+                exits: [{ uuid: createUUID(), destination_uuid: null }]
             },
             ui: { position: originalNode.ui.position, type: Types.execute_actions },
             inboundConnections: originalNode.inboundConnections
@@ -893,10 +893,10 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         // don't recognize that action, let's add a new router node
         const router = renderNode.node.router as SwitchRouter;
         const exitToUpdate = renderNode.node.exits.find(
-            (exit: Exit) => exit.uuid === router.default_exit_uuid
+            (exit: Exit) => exit.uuid === router.default_category_uuid
         );
 
-        exitToUpdate.destination_node_uuid = originalNode.node.exits[0].destination_node_uuid;
+        exitToUpdate.destination_uuid = originalNode.node.exits[0].destination_uuid;
 
         renderNode.inboundConnections = {
             [originalNode.node.exits[0].uuid]: originalNode.node.uuid

@@ -51,7 +51,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
                     "value": "rojo, r",
                   }
                 }
-                name="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
+                name="061fc171-8b79-4636-b892-bd0ea5aa9b42"
                 onChange={[Function]}
                 placeholder="Spanish Translation"
                 showLabel={false}
@@ -104,20 +104,20 @@ exports[`RouterLocalizationForm initializes 1`] = `
     When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
   </p>
   <div
-    className="translating_exit"
-    key="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    className="translating_category"
+    key="1e47a1e1-3c67-4df5-adf1-da542c789adb"
   >
     <div
       className="translating_from"
-      data-spec="exit-name"
+      data-spec="category-name"
     >
-      Colors
+      Red
     </div>
     <div
       className="translating_to"
     >
       <Connect(TextInputElement)
-        data-spec="localize-exit"
+        data-spec="localize-category"
         entry={
           Object {
             "value": "",
@@ -131,12 +131,39 @@ exports[`RouterLocalizationForm initializes 1`] = `
     </div>
   </div>
   <div
-    className="translating_exit"
-    key="061fc171-8b79-4636-b892-bd0ea5aa9b42"
+    className="translating_category"
+    key="2dc85899-0577-4f1b-a620-f12094e34b5e"
   >
     <div
       className="translating_from"
-      data-spec="exit-name"
+      data-spec="category-name"
+    >
+      Blue
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="localize-category"
+        entry={
+          Object {
+            "value": "",
+          }
+        }
+        name=""
+        onChange={[Function]}
+        placeholder="Spanish Translation"
+        showLabel={false}
+      />
+    </div>
+  </div>
+  <div
+    className="translating_category"
+    key="70ac6ea6-803a-4c33-81c7-dc26803c313f"
+  >
+    <div
+      className="translating_from"
+      data-spec="category-name"
     >
       Other
     </div>
@@ -144,7 +171,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
       className="translating_to"
     >
       <Connect(TextInputElement)
-        data-spec="localize-exit"
+        data-spec="localize-category"
         entry={
           Object {
             "value": Array [
@@ -217,7 +244,7 @@ exports[`RouterLocalizationForm should render 1`] = `
                     "value": "rojo, r",
                   }
                 }
-                name="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
+                name="061fc171-8b79-4636-b892-bd0ea5aa9b42"
                 onChange={[Function]}
                 placeholder="Spanish Translation"
                 showLabel={false}
@@ -270,20 +297,20 @@ exports[`RouterLocalizationForm should render 1`] = `
     When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
   </p>
   <div
-    className="translating_exit"
-    key="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    className="translating_category"
+    key="1e47a1e1-3c67-4df5-adf1-da542c789adb"
   >
     <div
       className="translating_from"
-      data-spec="exit-name"
+      data-spec="category-name"
     >
-      Colors
+      Red
     </div>
     <div
       className="translating_to"
     >
       <Connect(TextInputElement)
-        data-spec="localize-exit"
+        data-spec="localize-category"
         entry={
           Object {
             "value": "",
@@ -297,12 +324,39 @@ exports[`RouterLocalizationForm should render 1`] = `
     </div>
   </div>
   <div
-    className="translating_exit"
-    key="061fc171-8b79-4636-b892-bd0ea5aa9b42"
+    className="translating_category"
+    key="2dc85899-0577-4f1b-a620-f12094e34b5e"
   >
     <div
       className="translating_from"
-      data-spec="exit-name"
+      data-spec="category-name"
+    >
+      Blue
+    </div>
+    <div
+      className="translating_to"
+    >
+      <Connect(TextInputElement)
+        data-spec="localize-category"
+        entry={
+          Object {
+            "value": "",
+          }
+        }
+        name=""
+        onChange={[Function]}
+        placeholder="Spanish Translation"
+        showLabel={false}
+      />
+    </div>
+  </div>
+  <div
+    className="translating_category"
+    key="70ac6ea6-803a-4c33-81c7-dc26803c313f"
+  >
+    <div
+      className="translating_from"
+      data-spec="category-name"
     >
       Other
     </div>
@@ -310,7 +364,7 @@ exports[`RouterLocalizationForm should render 1`] = `
       className="translating_to"
     >
       <Connect(TextInputElement)
-        data-spec="localize-exit"
+        data-spec="localize-category"
         entry={
           Object {
             "value": Array [
@@ -339,26 +393,30 @@ Object {
       "arguments": Array [
         "Red, r, rolo, maroon",
       ],
-      "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+      "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
       "type": "has_any_word",
-      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
     },
     Object {
       "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
     },
   ],
-  "exits": Array [
+  "categories": Array [
     Object {
-      "destination_node_uuid": null,
+      "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
       "name": "Roooojo!",
-      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+      "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
     },
     Object {
-      "destination_node_uuid": null,
+      "name": "",
+      "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+    },
+    Object {
+      "exit_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
       "name": Array [
         "Otro",
       ],
-      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     },
   ],
   "valid": true,
@@ -373,7 +431,10 @@ Array [
       "translations": Object {
         "name": "Roooojo!",
       },
-      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+      "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+    },
+    Object {
+      "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
     },
     Object {
       "translations": Object {
@@ -381,7 +442,7 @@ Array [
           "Otro",
         ],
       },
-      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     },
     Object {
       "translations": Object {
@@ -389,7 +450,7 @@ Array [
           "Red, r, rolo, maroon",
         ],
       },
-      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
     },
     Object {
       "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",

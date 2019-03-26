@@ -11,6 +11,7 @@ import * as utils from '~/utils';
 
 const groupsRouterNode = createGroupsRouterNode();
 const { setup } = composeComponentTestUtils(GroupsRouterForm, getRouterFormProps(groupsRouterNode));
+
 mock(utils, 'createUUID', utils.seededUUIDs());
 
 describe(GroupsRouterForm.name, () => {
@@ -52,7 +53,7 @@ describe(GroupsRouterForm.name, () => {
         describe('extractGroups', () => {
             it('should extract groups from the exits of a groupsRouter node', () => {
                 extractGroups(groupsRouterNode.node).forEach((group, idx) => {
-                    expect(group.name).toBe(groupsRouterNode.node.exits[idx].name);
+                    expect(group.name).toBe(groupsRouterNode.node.router.categories[idx].name);
                     expect(group.id).toBe(
                         (groupsRouterNode.node.router as SwitchRouter).cases[idx].arguments[0]
                     );

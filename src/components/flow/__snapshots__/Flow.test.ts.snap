@@ -15,28 +15,28 @@ Array [
     "originalAction": Object {
       "text": "",
       "type": "send_msg",
-      "uuid": "04af465d-a0e7-47f0-b8b5-e843d6ed4537",
+      "uuid": "04f59957-22e5-48cf-b26a-aad37f770db1",
     },
     "originalNode": Object {
       "ghost": true,
       "inboundConnections": Object {
-        "8c867b8f-f311-4b02-b36b-3688964bdc69": "059a8daa-0697-44a6-9486-2386cc417e9d",
+        "3ec23bff-2995-4916-959a-39d31e0e5bea": "059a8daa-0697-44a6-9486-2386cc417e9d",
       },
       "node": Object {
         "actions": Array [
           Object {
             "text": "",
             "type": "send_msg",
-            "uuid": "04af465d-a0e7-47f0-b8b5-e843d6ed4537",
+            "uuid": "04f59957-22e5-48cf-b26a-aad37f770db1",
           },
         ],
         "exits": Array [
           Object {
-            "destination_node_uuid": null,
-            "uuid": "13499a54-8702-4210-9ce4-0ad968752581",
+            "destination_uuid": null,
+            "uuid": "4993f221-2381-47f9-97c3-878dc5ef258c",
           },
         ],
-        "uuid": "7966434b-6d38-4d8b-b01c-13d3d9aa593c",
+        "uuid": "712ff538-daa1-4ab2-8ce3-762bc0bf7f12",
       },
       "ui": Object {
         "position": Object {
@@ -125,7 +125,7 @@ exports[`Flow render should render NodeEditor 2`] = `
     mergeEditorState={[MockFunction]}
     onDragging={[Function]}
     onUpdatePositions={[MockFunction]}
-    uuid="6f87dde3-5df3-4935-8585-2656df068d61"
+    uuid="679d32c1-9996-48b4-9691-e869507b9e46"
   >
     <Connect(NodeEditor)
       plumberConnectExit={[MockFunction]}
@@ -203,7 +203,7 @@ exports[`Flow render should render Simulator 1`] = `
     mergeEditorState={[MockFunction]}
     onDragging={[Function]}
     onUpdatePositions={[MockFunction]}
-    uuid="44f05c10-0ec0-41ab-aed7-c65267337df7"
+    uuid="09294c2a-031e-4e74-9b1c-aec239b2a145"
   >
     <Connect(Simulator)
       Activity={
@@ -240,8 +240,8 @@ exports[`Flow render should render dragNode 1`] = `
   }
   data-spec="ghost-node"
   ghost={true}
-  key="666613f2-2d4f-432c-a707-929481961e98"
-  nodeUUID="666613f2-2d4f-432c-a707-929481961e98"
+  key="5349b008-960d-4d8d-a17e-ad99b550ae87"
+  nodeUUID="5349b008-960d-4d8d-a17e-ad99b550ae87"
   plumberConnectExit={[MockFunction]}
   plumberMakeSource={[MockFunction]}
   plumberMakeTarget={[MockFunction]}

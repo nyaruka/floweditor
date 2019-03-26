@@ -1,8 +1,17 @@
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { createRenderNode, resolveExits } from '~/components/flow/routers/helpers';
+import { createRenderNode, resolveRoutes } from '~/components/flow/routers/helpers';
 import { Operators, Types } from '~/config/interfaces';
 import { getType } from '~/config/typeConfigs';
-import { Case, Exit, HintTypes, Router, RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
+import {
+    Case,
+    Exit,
+    HintTypes,
+    Router,
+    RouterTypes,
+    SwitchRouter,
+    WaitTypes,
+    Category
+} from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
@@ -25,8 +34,8 @@ export const nodeToState = (settings: NodeEditorSettings): MenuRouterFormState =
                 idx = menu.length - 1;
             }
 
-            menu[idx] = settings.originalNode.node.exits.find(
-                (exit: Exit) => exit.uuid === kase.exit_uuid
+            menu[idx] = settings.originalNode.node.router.categories.find(
+                (category: Category) => category.uuid === kase.category_uuid
             ).name;
         }
         resultName = { value: router.result_name || '' };
@@ -54,13 +63,18 @@ export const stateToNode = (
     }
 
     const caseProps = menuToCases(state.menu, originalCases);
-    const { cases, exits, defaultExit, caseConfig } = resolveExits(caseProps, false, settings);
+    const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
+        caseProps,
+        false,
+        settings.originalNode.node
+    );
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
         operand: '@input',
-        default_exit_uuid: defaultExit,
+        default_category_uuid: defaultExit,
         cases,
+        categories,
         ...optionalRouter
     };
 
@@ -79,7 +93,7 @@ export const stateToNode = (
 
 export const menuToCases = (menu: string[] = [], previousCases: Case[]): CaseProps[] =>
     menu
-        .map((exitName: string, index: number) => {
+        .map((categoryName: string, index: number) => {
             const idx = index === 9 ? 0 : index + 1;
 
             const kase =
@@ -88,14 +102,14 @@ export const menuToCases = (menu: string[] = [], previousCases: Case[]): CasePro
                     uuid: createUUID(),
                     arguments: ['' + idx],
                     type: Operators.has_number_eq,
-                    exit_uuid: ''
+                    category_uuid: ''
                 } as Case);
 
             return {
                 uuid: kase.uuid,
                 kase,
-                exitName,
+                categoryName,
                 valid: true
             };
         })
-        .filter((caseProps: CaseProps) => caseProps.exitName.trim().length > 0);
+        .filter((caseProps: CaseProps) => caseProps.categoryName.trim().length > 0);

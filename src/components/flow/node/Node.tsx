@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import CounterComp from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
 import ExitComp from '~/components/flow/exit/Exit';
+import { getCategoriesForExit } from '~/components/flow/node/helpers';
 import * as styles from '~/components/flow/node/Node.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
@@ -188,6 +189,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 <ExitComp
                     key={exit.uuid}
                     node={this.props.renderNode.node}
+                    categories={getCategoriesForExit(this.props.renderNode, exit)}
                     exit={exit}
                     Activity={this.props.Activity}
                     plumberMakeSource={this.props.plumberMakeSource}
@@ -383,12 +385,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
             [styles.selected]: this.isSelected()
         });
 
-        const exitClass =
-            this.props.renderNode.node.exits.length === 1 &&
-            !this.props.renderNode.node.exits[0].name
-                ? styles.unnamed_exit
-                : '';
-
+        const exitClass = this.props.renderNode.node.router ? styles.unnamed_exit : '';
         const uuid: JSX.Element = this.renderDebug();
 
         return (

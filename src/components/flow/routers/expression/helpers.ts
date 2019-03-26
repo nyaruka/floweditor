@@ -4,7 +4,7 @@ import {
     createCaseProps,
     createRenderNode,
     hasCases,
-    resolveExits
+    resolveRoutes
 } from '~/components/flow/routers/helpers';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Types } from '~/config/interfaces';
@@ -41,7 +41,11 @@ export const stateToNode = (
     settings: NodeEditorSettings,
     state: ExpressionRouterFormState
 ): RenderNode => {
-    const { cases, exits, defaultExit, caseConfig } = resolveExits(state.cases, false, settings);
+    const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
+        state.cases,
+        false,
+        settings.originalNode.node
+    );
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
     if (state.resultName.value) {
@@ -50,7 +54,8 @@ export const stateToNode = (
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
-        default_exit_uuid: defaultExit,
+        default_category_uuid: defaultExit,
+        categories,
         cases,
         operand: state.operand.value,
         ...optionalRouter

@@ -93,7 +93,7 @@ exports[`AddGroupsForm updates should allow switching from router: switch from r
           },
         ],
         "type": "add_contact_groups",
-        "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
     ],
   ],
@@ -116,7 +116,7 @@ Array [
       },
     ],
     "type": "add_contact_groups",
-    "uuid": "0d8abccd-ad6d-4776-a642-d310d6f15835",
+    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },
 ]
 `;

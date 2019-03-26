@@ -22,7 +22,7 @@ export enum DragCursor {
 export interface CaseProps {
     uuid: string;
     kase: Case;
-    exitName: string;
+    categoryName: string;
     valid: boolean;
 }
 
@@ -103,7 +103,9 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
     }
 
     private hasEmptyCase(cases: CaseProps[]): boolean {
-        return cases.find((caseProps: CaseProps) => caseProps.exitName.trim().length === 0) != null;
+        return (
+            cases.find((caseProps: CaseProps) => caseProps.categoryName.trim().length === 0) != null
+        );
     }
 
     private handleRemoveCase(uuid: string): boolean {

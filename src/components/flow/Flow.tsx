@@ -372,7 +372,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                         uuids.forEach((uuid: string) => {
                             if (uuid in this.props.nodes) {
                                 this.props.nodes[uuid].node.exits.forEach((exit: Exit) => {
-                                    if (exit.destination_node_uuid) {
+                                    if (exit.destination_uuid) {
                                         uuids.push(uuid + ':' + exit.uuid);
                                     }
                                 });

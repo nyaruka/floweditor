@@ -36,8 +36,8 @@ export const initializeForm = (props: CaseElementProps): CaseElementState => {
                     ? props.kase.arguments[1]
                     : ''
         },
-        exitName: { value: props.exitName || '' },
-        exitNameEdited: !!props.exitName,
+        categoryName: { value: props.categoryName || '' },
+        categoryNameEdited: !!props.categoryName,
         valid: true
     };
 };
@@ -185,10 +185,10 @@ export const validateCase = (keys: {
         updates.argument = { value: '', validationFailures: [] };
     }
 
-    updates.exitNameEdited = !!keys.exitEdited;
-    updates.exitName = validate(
+    updates.categoryNameEdited = !!keys.exitEdited;
+    updates.categoryName = validate(
         'Category',
-        updates.exitNameEdited ? keys.exitName : getExitName(updates),
+        updates.categoryNameEdited ? keys.exitName : getExitName(updates),
         updates.argument.value || (updates.min.value && updates.max.value) ? [validateRequired] : []
     );
 
@@ -196,14 +196,14 @@ export const validateCase = (keys: {
         updates.min.validationFailures.length === 0 &&
         updates.max.validationFailures.length === 0 &&
         updates.argument.validationFailures.length === 0 &&
-        updates.exitName.validationFailures.length === 0;
+        updates.categoryName.validationFailures.length === 0;
 
     return updates;
 };
 
 export const getExitName = (state: Partial<CaseElementState>): string => {
-    if (state.exitNameEdited) {
-        return state.exitName.value;
+    if (state.categoryNameEdited) {
+        return state.categoryName.value;
     }
 
     if (state.operatorConfig.operands === 0) {

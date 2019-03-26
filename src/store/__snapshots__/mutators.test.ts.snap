@@ -48,7 +48,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node1",
+          "destination_uuid": "node1",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -72,18 +72,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -93,7 +90,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -101,9 +98,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -151,7 +165,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -181,7 +195,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -253,7 +267,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node1",
+          "destination_uuid": "node1",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -277,18 +291,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -298,7 +309,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -306,9 +317,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -356,7 +384,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -386,7 +414,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -453,7 +481,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -477,18 +505,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -498,7 +523,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -506,9 +531,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -556,7 +598,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -634,7 +676,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node1",
+          "destination_uuid": "node1",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -658,18 +700,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -679,7 +718,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -687,9 +726,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -737,7 +793,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -767,7 +823,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -834,7 +890,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -856,18 +912,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -877,7 +930,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -885,9 +938,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -935,7 +1005,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -965,7 +1035,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -1081,7 +1151,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node1",
+          "destination_uuid": "node1",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -1092,18 +1162,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -1113,7 +1180,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -1121,9 +1188,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -1155,7 +1239,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1172,7 +1256,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -1275,7 +1359,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node1",
+          "destination_uuid": "node1",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -1286,18 +1370,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -1307,7 +1388,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -1315,9 +1396,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -1349,7 +1447,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1366,7 +1464,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -1422,7 +1520,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node1",
+          "destination_uuid": "node1",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -1446,18 +1544,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -1467,7 +1562,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -1475,9 +1570,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -1525,7 +1637,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1555,7 +1667,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -1622,7 +1734,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -1644,18 +1756,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -1665,7 +1774,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -1673,9 +1782,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -1723,7 +1849,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1753,7 +1879,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -1820,7 +1946,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
+          "destination_uuid": "node2",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -1842,18 +1968,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -1863,7 +1986,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -1871,9 +1994,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -1922,7 +2062,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node3",
+          "destination_uuid": "node3",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -1952,7 +2092,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },
@@ -2021,7 +2161,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node1",
+          "destination_uuid": "node1",
           "name": null,
           "uuid": "node0_exit0",
         },
@@ -2045,18 +2185,15 @@ Object {
       "actions": Array [],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Red",
+          "destination_uuid": "node2",
           "uuid": "node1_exit0",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Green",
+          "destination_uuid": "node2",
           "uuid": "node1_exit1",
         },
         Object {
-          "destination_node_uuid": "node2",
-          "name": "Other",
+          "destination_uuid": "node2",
           "uuid": "node1_exit2",
         },
       ],
@@ -2066,7 +2203,7 @@ Object {
             "arguments": Array [
               "red",
             ],
-            "exit_uuid": "uuid_node1_exit0",
+            "category_uuid": "node1_cat0",
             "type": "has_any_word",
             "uuid": "node1_case0",
           },
@@ -2074,9 +2211,26 @@ Object {
             "arguments": Array [
               "green",
             ],
-            "exit_uuid": "uuid_node1_exit1",
+            "category_uuid": "node1_cat1",
             "type": "has_any_word",
             "uuid": "node1_case1",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "node1_exit0",
+            "name": "Red",
+            "uuid": "node1_cat0",
+          },
+          Object {
+            "exit_uuid": "node1_exit1",
+            "name": "Green",
+            "uuid": "node1_cat1",
+          },
+          Object {
+            "exit_uuid": "node1_exit2",
+            "name": "Other",
+            "uuid": "node1_cat2",
           },
         ],
         "default_exit_uuid": "node1_exit2",
@@ -2124,7 +2278,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": "node0",
+          "destination_uuid": "node0",
           "name": null,
           "uuid": "node2_exit0",
         },
@@ -2152,7 +2306,7 @@ Object {
       ],
       "exits": Array [
         Object {
-          "destination_node_uuid": null,
+          "destination_uuid": null,
           "name": null,
           "uuid": "node3_exit0",
         },

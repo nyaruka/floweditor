@@ -9,7 +9,7 @@ const REFRESH_SECONDS = 10;
  * Contains all the activity data for a flow
  */
 export interface Activity {
-    // exit_uuid:destination_node_uuid -> count
+    // exit_uuid:destination_uuid -> count
     segments: { [key: string]: number };
 
     // node_uuid -> count
@@ -120,8 +120,8 @@ export default class ActivityManager {
     public getPathCount(exit: Exit): number {
         const activity = this.getActivity();
         if (activity) {
-            if (exit.destination_node_uuid) {
-                const count = activity.segments[exit.uuid + ':' + exit.destination_node_uuid];
+            if (exit.destination_uuid) {
+                const count = activity.segments[exit.uuid + ':' + exit.destination_uuid];
                 if (count !== undefined) {
                     return count;
                 }

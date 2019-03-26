@@ -42,7 +42,7 @@
                             {
                                 "name": null,
                                 "uuid": "node0_exit0",
-                                "destination_node_uuid": "node1"
+                                "destination_uuid": "node1"
                             }
                         ]
                     },
@@ -50,7 +50,7 @@
                         "uuid": "node1",
                         "router": {
                             "type": "switch",
-                            "default_exit_uuid": "node1_exit2",
+                            "default_category_uuid": "node1_exit2",
                             "cases": [
                                 {
                                     "uuid": "node1_case0",
@@ -76,17 +76,17 @@
                             {
                                 "name": "Red",
                                 "uuid": "node1_exit0",
-                                "destination_node_uuid": "node2"
+                                "destination_uuid": "node2"
                             },
                             {
                                 "name": "Green",
                                 "uuid": "node1_exit1",
-                                "destination_node_uuid": "node2"
+                                "destination_uuid": "node2"
                             },
                             {
                                 "name": "Other",
                                 "uuid": "node1_exit2",
-                                "destination_node_uuid": "node2"
+                                "destination_uuid": "node2"
                             }
                         ],
                         "wait": {
@@ -115,7 +115,7 @@
                             {
                                 "name": null,
                                 "uuid": "node2_exit0",
-                                "destination_node_uuid": "node3"
+                                "destination_uuid": "node3"
                             }
                         ]
                     },
@@ -132,7 +132,7 @@
                             {
                                 "name": null,
                                 "uuid": "node3_exit0",
-                                "destination_node_uuid": null
+                                "destination_uuid": null
                             }
                         ]
                     }

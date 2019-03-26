@@ -5,17 +5,18 @@ import { determineTypeConfig } from '~/components/flow/helpers';
 import { LocalizationFormProps } from '~/components/flow/props';
 import {
     getLocalizedObjects,
-    getOriginal,
-    LocalizedType
+    LocalizedType,
+    getOriginalCase,
+    getOriginalCategory
 } from '~/components/flow/routers/localization/helpers';
 import * as styles from '~/components/flow/routers/localization/RouterLocalizationForm.scss';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { getOperatorConfig } from '~/config/operatorConfigs';
-import { Case, Exit } from '~/flowTypes';
+import { Case, Category } from '~/flowTypes';
 import { FormState, mergeForm } from '~/store/nodeEditor';
 
 export interface RouterLocalizationFormState extends FormState {
-    exits: Exit[];
+    categories: Category[];
     cases: Case[];
 }
 
@@ -26,21 +27,24 @@ export default class RouterLocalizationForm extends React.Component<
     constructor(props: LocalizationFormProps) {
         super(props);
 
-        const exits: Exit[] = getLocalizedObjects(props.nodeSettings, LocalizedType.Exit) as Exit[];
+        const categories: Category[] = getLocalizedObjects(
+            props.nodeSettings,
+            LocalizedType.Category
+        ) as Category[];
         const cases: Case[] = getLocalizedObjects(props.nodeSettings, LocalizedType.Case) as Case[];
 
-        this.state = { exits, cases, valid: true };
+        this.state = { categories, cases, valid: true };
 
         bindCallbacks(this, {
             include: [/^handle/]
         });
     }
 
-    private handleUpdate(keys: { exit?: Exit; kase?: Case }): boolean {
+    private handleUpdate(keys: { category?: Category; kase?: Case }): boolean {
         const updates: Partial<RouterLocalizationFormState> = {};
 
-        if (keys.hasOwnProperty('exit')) {
-            updates.exits = [keys.exit];
+        if (keys.hasOwnProperty('category')) {
+            updates.categories = [keys.category];
         }
 
         if (keys.hasOwnProperty('kase')) {
@@ -52,9 +56,9 @@ export default class RouterLocalizationForm extends React.Component<
         return updated.valid;
     }
 
-    private handleUpdateExitName(exit: Exit, name: string): boolean {
-        exit.name = name;
-        return this.handleUpdate({ exit });
+    private handleUpdateCategoryName(category: Category, name: string): boolean {
+        category.name = name;
+        return this.handleUpdate({ category });
     }
 
     private handleUpdateCaseArgument(kase: Case, arg: string): boolean {
@@ -63,16 +67,16 @@ export default class RouterLocalizationForm extends React.Component<
     }
 
     private handleSave(): void {
-        // collect up our exit localizations
-        const translations: any[] = this.state.exits.map((exit: Exit) => {
-            return exit.name
+        // collect up our category localizations
+        const translations: any[] = this.state.categories.map((cat: Category) => {
+            return cat.name
                 ? {
-                      uuid: exit.uuid,
+                      uuid: cat.uuid,
                       translations: {
-                          name: exit.name
+                          name: cat.name
                       }
                   }
-                : { uuid: exit.uuid };
+                : { uuid: cat.uuid };
         });
 
         // same thing for any cases
@@ -104,11 +108,7 @@ export default class RouterLocalizationForm extends React.Component<
 
     public renderCases(): JSX.Element[] {
         return this.state.cases.map((kase: Case) => {
-            const originalCase = getOriginal(
-                this.props.nodeSettings,
-                LocalizedType.Case,
-                kase.uuid
-            ) as Case;
+            const originalCase = getOriginalCase(this.props.nodeSettings, kase.uuid) as Case;
 
             const { verboseName } = getOperatorConfig(originalCase.type);
 
@@ -146,33 +146,29 @@ export default class RouterLocalizationForm extends React.Component<
         });
     }
 
-    public renderExits(): JSX.Element[] {
-        return this.state.exits.map((exit: Exit) => {
-            const originalExit = getOriginal(
-                this.props.nodeSettings,
-                LocalizedType.Exit,
-                exit.uuid
-            );
+    public renderCategories(): JSX.Element[] {
+        return this.state.categories.map((cat: Category) => {
+            const originalCategory = getOriginalCategory(this.props.nodeSettings, cat.uuid);
 
             const placeholder = `${this.props.language.name} Translation`;
 
-            if (!exit.name) {
-                exit.name = '';
+            if (!cat.name) {
+                cat.name = '';
             }
 
             return (
-                <div key={exit.uuid} className={styles.translating_exit}>
-                    <div data-spec="exit-name" className={styles.translating_from}>
-                        {originalExit.name}
+                <div key={cat.uuid} className={styles.translating_category}>
+                    <div data-spec="category-name" className={styles.translating_from}>
+                        {originalCategory.name}
                     </div>
                     <div className={styles.translating_to}>
                         <TextInputElement
-                            data-spec="localize-exit"
-                            name={exit.name}
+                            data-spec="localize-category"
+                            name={cat.name}
                             placeholder={placeholder}
                             showLabel={false}
-                            entry={{ value: exit.name }}
-                            onChange={(name: string) => this.handleUpdateExitName(exit, name)}
+                            entry={{ value: cat.name }}
+                            onChange={(name: string) => this.handleUpdateCategoryName(cat, name)}
                         />
                     </div>
                 </div>
@@ -200,7 +196,7 @@ export default class RouterLocalizationForm extends React.Component<
             });
         }
 
-        const exits = (
+        const categories = (
             <Dialog
                 title={`${this.props.language.name} Category Names`}
                 headerClass={typeConfig.type}
@@ -212,7 +208,7 @@ export default class RouterLocalizationForm extends React.Component<
                     for the category will be used. If no translation is provided, the original text
                     will be used.
                 </p>
-                {this.renderExits()}
+                {this.renderCategories()}
             </Dialog>
         );
 
@@ -235,6 +231,6 @@ export default class RouterLocalizationForm extends React.Component<
 
         // if we have cases, use a flipper
 
-        return exits;
+        return categories;
     }
 }

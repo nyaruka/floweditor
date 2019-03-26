@@ -1,4 +1,4 @@
-import { createRenderNode, resolveExits } from '~/components/flow/routers/helpers';
+import { createRenderNode, resolveRoutes } from '~/components/flow/routers/helpers';
 import { WaitRouterFormState } from '~/components/flow/routers/wait/WaitRouterForm';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Type, Types } from '~/config/interfaces';
@@ -26,7 +26,11 @@ export const stateToNode = (
     state: WaitRouterFormState,
     typeConfig: Type
 ): RenderNode => {
-    const { exits, defaultExit, caseConfig } = resolveExits([], false, settings);
+    const { exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
+        [],
+        false,
+        settings.originalNode.node
+    );
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
     if (state.resultName.value) {
@@ -36,8 +40,9 @@ export const stateToNode = (
     // TODO: shouldnt have an operand
     const router: SwitchRouter = {
         type: RouterTypes.switch,
-        default_exit_uuid: defaultExit,
+        default_category_uuid: defaultExit,
         cases: [],
+        categories,
         operand: DEFAULT_OPERAND,
         ...optionalRouter
     };

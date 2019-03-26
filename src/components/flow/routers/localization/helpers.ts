@@ -1,23 +1,22 @@
 import { Types } from '~/config/interfaces';
-import { Case, Exit, SwitchRouter } from '~/flowTypes';
+import { Case, SwitchRouter, Category } from '~/flowTypes';
 import { LocalizedObject } from '~/services/Localization';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
+import { dump } from '~/utils';
 
 export enum LocalizedType {
-    Exit,
+    Category,
     Case
 }
 
-export const getOriginal = (
-    nodeSettings: NodeEditorSettings,
-    localizedType: LocalizedType,
-    uuid: string
-) => {
-    let items = nodeSettings.originalNode.node.exits;
-    if (localizedType === LocalizedType.Case) {
-        items = (nodeSettings.originalNode.node.router as SwitchRouter).cases;
-    }
+export const getOriginalCase = (nodeSettings: NodeEditorSettings, uuid: string) => {
+    const cases = (nodeSettings.originalNode.node.router as SwitchRouter).cases;
+    return cases.find((item: any) => item.uuid === uuid);
+};
+
+export const getOriginalCategory = (nodeSettings: NodeEditorSettings, uuid: string) => {
+    const items = nodeSettings.originalNode.node.router.categories;
     return items.find((item: any) => item.uuid === uuid);
 };
 
@@ -29,12 +28,11 @@ export const hasLocalizableCases = (renderNode: RenderNode) => {
 export const getLocalizedObjects = (
     nodeSettings: NodeEditorSettings,
     localizedType: LocalizedType
-): Exit[] | Case[] => {
+): Category[] | Case[] => {
     const filtered: any = [];
 
-    let items: Exit[] | Case[] = nodeSettings.originalNode.node.exits;
+    let items: Category[] | Case[] = nodeSettings.originalNode.node.router.categories;
     if (localizedType === LocalizedType.Case) {
-        // TODO: FIXME
         if (hasLocalizableCases(nodeSettings.originalNode)) {
             items = (nodeSettings.originalNode.node.router as SwitchRouter).cases;
         } else {
