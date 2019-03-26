@@ -51,7 +51,7 @@ export interface TextInputPassedProps extends FormElementProps {
     autocomplete?: boolean;
     focus?: boolean;
     showInvalid?: boolean;
-    onChange?(value: string): void;
+    onChange?(value: string, missingFields?: string[]): void;
     onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
 }
 
@@ -114,10 +114,10 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             'child',
             'parent',
             'contact',
-            'date'
+            'date',
+            'fields',
+            'urns'
         ]);
-
-        // console.log(this.state.options);
 
         bindCallbacks(this, {
             include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
@@ -410,7 +410,13 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }: React.ChangeEvent<HTMLTextElement>): void {
         const updates: Partial<TextInputState> = this.executeQuery(value, selectionStart);
 
+        let missingFields: string[] = [];
         if (this.props.autocomplete) {
+            const fields = this.parser.getContactFields(value);
+            missingFields = fields.filter(
+                (key: string) => !(key in this.props.assetStore.fields.items)
+            );
+
             if (this.props.count === Count.SMS) {
                 const { parts, characterCount, unicodeChars } = getMsgStats(value, true);
                 updates.parts = parts;
@@ -423,7 +429,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
 
         if (this.props.onChange) {
-            this.props.onChange(value);
+            this.props.onChange(value, missingFields);
         }
     }
 

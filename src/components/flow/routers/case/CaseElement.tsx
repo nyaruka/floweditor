@@ -5,7 +5,6 @@ import * as styles from '~/components/flow/routers/case/CaseElement.scss';
 import { initializeForm, validateCase } from '~/components/flow/routers/case/helpers';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { isRelativeDate } from '~/components/flow/routers/helpers';
-import { InputToFocus } from '~/components/flow/routers/response/ResponseRouterForm';
 import FormElement from '~/components/form/FormElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { Operator } from '~/config';
@@ -84,7 +83,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         this.setState(updates as CaseElementState, () => this.handleChange());
     }
 
-    private handleArgumentChanged(value: string, input?: InputToFocus): void {
+    private handleArgumentChanged(value: string): void {
         const updates = validateCase({
             operatorConfig: this.state.operatorConfig,
             argument: value,

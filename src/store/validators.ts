@@ -192,6 +192,19 @@ export const validateMoreThan = (amount: number, checkName: string): ValidatorFu
     return { failures: [], value: input };
 };
 
+export const validateEmpty = (shouldBeEmpty: string[], message: string): ValidatorFunc => (
+    name: string,
+    input: FormInput
+) => {
+    if (shouldBeEmpty && shouldBeEmpty.length > 0) {
+        return {
+            value: input,
+            failures: [{ message: `${message} ${shouldBeEmpty[0]}` }]
+        };
+    }
+    return { failures: [], value: input };
+};
+
 const validateMax = (max: number): ValidatorFunc => (name: string, input: FormInput) => {
     if (Array.isArray(input)) {
         const items = input as string[];

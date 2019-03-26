@@ -175,6 +175,7 @@ Array [
 exports[`SendMsgForm updates should save changes 1`] = `
 Object {
   "attachments": Array [],
+  "missingFields": Array [],
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [

@@ -136,6 +136,11 @@ export const getResultPropertyOptions = (accessor: string, name: string) => [
 export const getContactFieldOptions = (assets: AssetMap) =>
     Object.keys(assets).reduce((options, key) => {
         const { [key]: asset } = assets;
+        options.push({
+            name: `fields.${key}`,
+            summary: `${asset.name} for the contact.`
+        });
+
         const accessors = ['', 'parent.', 'run.', 'child.'];
         accessors.forEach(accessor =>
             options.push({

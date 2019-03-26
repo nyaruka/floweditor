@@ -2530,6 +2530,10 @@ exports[`helpers filterOptions should filter options for "epoch." 1`] = `Array [
 exports[`helpers filterOptions should filter options for "f" 1`] = `
 Array [
   Object {
+    "name": "fields",
+    "summary": "The custom fields for the contact",
+  },
+  Object {
     "detail": "The index starts at zero. When splitting with a space, the delimiter is considered to be all whitespace.",
     "examples": Array [
       Object {
@@ -2758,6 +2762,10 @@ will be used. An error will be returned if the timezone is not recognized.",
 exports[`helpers filterOptions should filter options for "fi" 1`] = `
 Array [
   Object {
+    "name": "fields",
+    "summary": "The custom fields for the contact",
+  },
+  Object {
     "detail": "The index starts at zero. When splitting with a space, the delimiter is considered to be all whitespace.",
     "examples": Array [
       Object {
@@ -2794,6 +2802,10 @@ Array [
 exports[`helpers filterOptions should filter options for "field" 1`] = `
 Array [
   Object {
+    "name": "fields",
+    "summary": "The custom fields for the contact",
+  },
+  Object {
     "detail": "The index starts at zero. When splitting with a space, the delimiter is considered to be all whitespace.",
     "examples": Array [
       Object {
@@ -2828,6 +2840,17 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "field." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "fields" 1`] = `
+Array [
+  Object {
+    "name": "fields",
+    "summary": "The custom fields for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "fields." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "fo" 1`] = `
 Array [

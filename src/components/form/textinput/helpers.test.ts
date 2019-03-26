@@ -92,7 +92,7 @@ describe('helpers', () => {
                     }
                 }
             });
-            const expectedLength = OPTIONS.length + 4; // accounting for field and its properties
+            const expectedLength = OPTIONS.length + 5; // accounting for field and its properties
 
             expect(optionsList.length).toBe(expectedLength);
         });

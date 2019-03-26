@@ -15,7 +15,7 @@ import Pill from '~/components/pill/Pill';
 import { fakePropType } from '~/config/ConfigProvider';
 import { getCookie } from '~/external';
 import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
-import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
+import { validate, validateEmpty, validateMaxOfTen, validateRequired } from '~/store/validators';
 import { createUUID } from '~/utils';
 import { small } from '~/utils/reactselect';
 
@@ -46,6 +46,7 @@ export interface SendMsgFormState extends FormState {
     quickReplies: StringArrayEntry;
     sendAll: boolean;
     attachments: Attachment[];
+    missingFields: string[];
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -67,9 +68,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         text?: string;
         sendAll?: boolean;
         quickReplies?: string[];
+        missingFields?: string[];
     }): boolean {
         const updates: Partial<SendMsgFormState> = {};
-
         if (keys.hasOwnProperty('text')) {
             updates.text = validate('Message', keys.text, [validateRequired]);
         }
@@ -82,13 +83,17 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             updates.quickReplies = validate('Quick Replies', keys.quickReplies, [validateMaxOfTen]);
         }
 
-        const updated = mergeForm(this.state, updates);
+        const updated = mergeForm(this.state, updates) as SendMsgFormState;
+        if (keys.hasOwnProperty('missingFields')) {
+            updated.missingFields = keys.missingFields;
+        }
+
         this.setState(updated);
         return updated.valid;
     }
 
-    public handleMessageUpdate(text: string): boolean {
-        return this.handleUpdate({ text });
+    public handleMessageUpdate(text: string, missingFields: []): boolean {
+        return this.handleUpdate({ text, missingFields });
     }
 
     public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
@@ -100,12 +105,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     private handleSave(): void {
-        // make sure we validate untouched text fields
-        const valid = this.handleUpdate({
-            text: this.state.text.value
-        });
+        // make sure we validate untouched text fields and contact fields
+        const text = validate('Message', this.state.text.value, [
+            validateRequired,
+            validateEmpty(this.state.missingFields, "Contact field doesn't exist:")
+        ]);
+        this.setState({ text });
 
-        if (valid) {
+        if (text.validationFailures.length === 0) {
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
             // notify our modal we are done
