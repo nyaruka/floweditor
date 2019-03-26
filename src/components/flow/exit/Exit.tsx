@@ -11,19 +11,21 @@ import { Asset } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
 import { createClickHandler, getLocalization } from '~/utils';
-import { DH_NOT_SUITABLE_GENERATOR } from 'constants';
 
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 export interface ExitPassedProps {
     exit: Exit;
     categories: Category[];
     node: FlowNode;
     Activity: ActivityManager;
-    plumberMakeSource: Function;
-    plumberRemove: Function;
-    plumberConnectExit: Function;
-    plumberUpdateClass: Function;
+    plumberMakeSource: (id: string) => void;
+    plumberRemove: (id: string) => void;
+    plumberConnectExit: (node: FlowNode, exit: Exit) => void;
+    plumberUpdateClass: (
+        node: FlowNode,
+        exit: Exit,
+        className: string,
+        confirmDelete: boolean
+    ) => void;
 }
 
 export interface ExitStoreProps {
@@ -53,7 +55,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         };
 
         bindCallbacks(this, {
-            include: [/^on/, 'getCount']
+            include: [/^on/, /^get/]
         });
     }
 
@@ -83,26 +85,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             'confirm-delete',
             this.state.confirmDelete
         );
-
-        /*
-        console.log(prevProps.exit.destination_uuid, this.props.exit.destination_uuid);
-
-        if (prevProps.exit.destination_uuid && !this.props.exit.destination_uuid) {
-            if (this.state.confirmDelete) {
-                this.setState({ confirmDelete: false });
-            }
-        } else {
-            if (prevProps.exit.destination_uuid !== this.props.exit.destination_uuid) {
-                this.connect();
-            } else {
-                this.props.plumberUpdateClass(
-                    this.props.node,
-                    this.props.exit,
-                    'confirm-delete',
-                    this.state.confirmDelete
-                );
-            }
-        }*/
     }
 
     public componentWillUnmount(): void {
@@ -141,14 +123,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 
     private connect(): void {
-        const classes: string[] = [];
-
-        /* if (this.props.translating) {
-            classes.push('translating');
-        } else if (this.state.confirmDelete) {
-            classes.push('confirm-delete');
-        }*/
-
         this.props.plumberConnectExit(this.props.node, this.props.exit);
     }
 
@@ -190,7 +164,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                 );
 
                 localized = localized || 'name' in localization.localizedKeys;
-
                 const localizedObject = localization.getObject() as Category;
                 name += delim + localizedObject.name;
                 delim = ', ';

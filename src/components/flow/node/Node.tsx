@@ -14,7 +14,7 @@ import TitleBar from '~/components/titlebar/TitleBar';
 import { Types } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getType, getTypeConfig } from '~/config/typeConfigs';
-import { AnyAction, FlowDefinition, RouterTypes, SwitchRouter } from '~/flowTypes';
+import { AnyAction, Exit, FlowDefinition, FlowNode, RouterTypes, SwitchRouter } from '~/flowTypes';
 import ActivityManager from '~/services/ActivityManager';
 import { DebugState } from '~/store/editor';
 import { AssetMap, RenderNode } from '~/store/flowContext';
@@ -34,18 +34,20 @@ import {
 } from '~/store/thunks';
 import { ClickHandler, createClickHandler, titleCase } from '~/utils';
 
-// TODO: Remove use of Function
-// tslint:disable:ban-types
 export interface NodePassedProps {
     nodeUUID: string;
     Activity: ActivityManager;
-    plumberRepaintForDuration: Function;
-    plumberMakeTarget: Function;
-    plumberRemove: Function;
-    plumberRecalculate: Function;
-    plumberMakeSource: Function;
-    plumberConnectExit: Function;
-    plumberUpdateClass: Function;
+    plumberMakeTarget: (id: string) => void;
+    plumberRecalculate: (id: string) => void;
+    plumberMakeSource: (id: string) => void;
+    plumberRemove: (id: string) => void;
+    plumberConnectExit: (node: FlowNode, exit: Exit) => void;
+    plumberUpdateClass: (
+        node: FlowNode,
+        exit: Exit,
+        className: string,
+        confirmDelete: boolean
+    ) => void;
     selected: boolean;
     ghostRef?: any;
     ghost?: boolean;

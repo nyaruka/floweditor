@@ -1,4 +1,4 @@
-import { Action, Case, Language, Category } from '~/flowTypes';
+import { Action, Case, Category, Language } from '~/flowTypes';
 import { Asset } from '~/store/flowContext';
 
 export class LocalizedObject {

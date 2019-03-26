@@ -264,7 +264,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                         data-spec={nodeSpecId}
                         nodeUUID={renderNode.node.uuid}
                         Activity={this.Activity}
-                        plumberRepaintForDuration={this.Plumber.repaintForDuration}
                         plumberMakeTarget={this.Plumber.makeTarget}
                         plumberRemove={this.Plumber.remove}
                         plumberRecalculate={this.Plumber.recalculate}
@@ -301,7 +300,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                     ghost={true}
                     nodeUUID={this.props.editorState.ghostNode.node.uuid}
                     Activity={this.Activity}
-                    plumberRepaintForDuration={this.Plumber.repaintForDuration}
                     plumberMakeTarget={this.Plumber.makeTarget}
                     plumberRemove={this.Plumber.remove}
                     plumberRecalculate={this.Plumber.recalculate}
