@@ -247,7 +247,6 @@ exports[`Flow render should render dragNode 1`] = `
   plumberMakeTarget={[MockFunction]}
   plumberRecalculate={[MockFunction]}
   plumberRemove={[MockFunction]}
-  plumberRepaintForDuration={[MockFunction]}
   selected={false}
 />
 `;
