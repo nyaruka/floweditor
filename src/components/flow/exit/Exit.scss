@@ -8,13 +8,18 @@
     min-width: 60px;
     display: table-cell;
     white-space: nowrap;
+    background: #fff;
 
     &:first-child {
         border-left: none;
+        border-bottom-left-radius: $curvature;
+    }
+
+    &:last-child {
+        border-bottom-right-radius: $curvature;
     }
 
     &.translating {
-
         &.unnamed_exit {
             height: 0px;
             border-bottom-left-radius: 0px !important;
@@ -48,7 +53,7 @@
             border-bottom-right-radius: $curvature;
         }
 
-        &::first-child {
+        &:first-child {
             border-bottom-left-radius: $curvature;
         }
     }
@@ -75,7 +80,7 @@
             width: fit-content;
             margin: 0 auto;
             clear: both;
-            line-height: .9;
+            line-height: 0.9;
             -webkit-border-radius: 4px;
             -moz-border-radius: 4px;
             border-radius: 4px;
@@ -114,8 +119,8 @@
             span {
                 // TODO: style this so it's not variable
                 position: absolute;
-                left: .03rem;
-                top: .06rem;
+                left: 0.03rem;
+                top: 0.06rem;
                 font-size: 11px;
             }
         }

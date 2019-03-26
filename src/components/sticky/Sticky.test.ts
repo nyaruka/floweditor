@@ -153,7 +153,7 @@ describe(Sticky.name, () => {
             });
 
             // start dragging
-            instance.onDragStart({});
+            instance.handleDragStart({});
 
             expect(props.onResetDragSelection).toHaveBeenCalledTimes(1);
         });
@@ -161,7 +161,7 @@ describe(Sticky.name, () => {
         it('should get coverage for a noop', () => {
             const { instance } = setup();
 
-            instance.onDrag({});
+            instance.handleDrag({});
         });
 
         it('should update the position when we are done dragging', () => {
@@ -169,7 +169,7 @@ describe(Sticky.name, () => {
                 updateSticky: setMock()
             });
 
-            instance.onDragStop({ finalPos: [100, 200] });
+            instance.handleDragStop({ finalPos: [100, 200] });
 
             expect(props.updateSticky).toHaveBeenCalledWith(props.uuid, {
                 body: 'Sticky Body',

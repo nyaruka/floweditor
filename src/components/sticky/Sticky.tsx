@@ -20,6 +20,8 @@ import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '~/utils';
 
 type DragFunction = (event: DragEvent) => void;
 export const STICKY_SPEC_ID: string = 'sticky-container';
+export const STICKY_TITLE = 'New Note';
+export const STICKY_BODY = '...';
 
 export interface StickyPassedProps {
     uuid: string;
@@ -61,10 +63,13 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     private debounceTextChanges: number;
     private showConfirmation: number;
 
+    public DEFUALT_TITLE = 'New Note';
+    public DEFUALT_BODY = '...';
+
     constructor(props: StickyProps & StickyStoreProps) {
         super(props);
         bindCallbacks(this, {
-            include: [/^on/, /^get/, /^is/]
+            include: [/^on/, /^get/, /^is/, /^handle/]
         });
 
         this.state = {
@@ -104,15 +109,15 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         }
     }
 
-    public onDragStart(event: DragEvent): void {
+    public handleDragStart(event: DragEvent): void {
         this.props.onResetDragSelection();
     }
 
-    public onDrag(event: DragEvent): void {
+    public handleDrag(event: DragEvent): void {
         // noop
     }
 
-    public onDragStop(event: DragEvent): void {
+    public handleDragStop(event: DragEvent): void {
         // snap us to the same grid
         const { left, top } = snapToGrid(event.finalPos[0], event.finalPos[1]);
         this.ele.style.left = `${left}px`;
@@ -136,17 +141,17 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         }, QUIET_NOTE);
     }
 
-    private onChangeTitle(event: React.FormEvent<HTMLTextAreaElement>): void {
+    private handleChangeTitle(event: React.FormEvent<HTMLTextAreaElement>): void {
         this.setState({ title: event.currentTarget.value });
         this.onUpdateText();
     }
 
-    private onChangeBody(event: React.FormEvent<HTMLTextAreaElement>): void {
+    private handleChangeBody(event: React.FormEvent<HTMLTextAreaElement>): void {
         this.setState({ body: event.currentTarget.value });
         this.onUpdateText();
     }
 
-    public onClickRemove(event: React.MouseEvent<HTMLDivElement>): void {
+    public handleClickRemove(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.state.showConfirmation) {
             this.props.updateSticky(this.props.uuid, null);
         } else {
@@ -157,10 +162,26 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         }
     }
 
-    private onChangeColor(color: string): void {
+    private handleChangeColor(color: string): void {
         this.props.sticky.color = color;
         this.props.updateSticky(this.props.uuid, this.props.sticky);
         this.setState({ color });
+    }
+
+    private handleSelectForValue(element: HTMLTextAreaElement, text: string): void {
+        if (element.value === text) {
+            window.setTimeout(() => {
+                element.select();
+            }, 0);
+        }
+    }
+
+    private handleTitleFocused(e: React.FocusEvent<HTMLTextAreaElement>): void {
+        this.handleSelectForValue(e.currentTarget, STICKY_TITLE);
+    }
+
+    private handleBodyFocused(e: React.FocusEvent<HTMLTextAreaElement>): void {
+        this.handleSelectForValue(e.currentTarget, STICKY_BODY);
     }
 
     private getColorChooser(): JSX.Element {
@@ -172,7 +193,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
                             <div
                                 key={this.props.uuid + color}
                                 onClick={() => {
-                                    this.onChangeColor(color);
+                                    this.handleChangeColor(color);
                                 }}
                                 className={styles.colorOption + ' ' + COLOR_OPTIONS[color]}
                             />
@@ -215,21 +236,23 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
             >
                 <div className={stickyClasses.join(' ')}>
                     <div className={titleClasses.join(' ')}>
-                        <div className={styles.removeButton} onClick={this.onClickRemove}>
+                        <div className={styles.removeButton} onClick={this.handleClickRemove}>
                             <span className="fe-x" />
                         </div>
                         <div className={styles.confirmation}>Remove?</div>
                         <TextareaAutosize
                             className={styles.title}
                             value={this.state.title}
-                            onChange={this.onChangeTitle}
+                            onChange={this.handleChangeTitle}
+                            onFocusCapture={this.handleTitleFocused}
                         />
                     </div>
                     <div className={styles.bodyWrapper}>
                         <TextareaAutosize
                             className={styles.body}
                             value={this.state.body}
-                            onChange={this.onChangeBody}
+                            onChange={this.handleChangeBody}
+                            onFocusCapture={this.handleBodyFocused}
                         />
                         {colorChooser}
                     </div>
