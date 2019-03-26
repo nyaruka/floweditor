@@ -1,7 +1,5 @@
-import { resolveRoutes } from '~/components/flow/routers/helpers';
-import { createUUID, dump } from '~/utils';
-import { RouterTypes, SwitchRouter, FlowNode } from '~/flowTypes';
-import { createCases, createRoutes } from '~/testUtils/assetCreators';
+import { getSwitchRouter, resolveRoutes } from '~/components/flow/routers/helpers';
+import { createCases, createMatchRouter, createRoutes } from '~/testUtils/assetCreators';
 
 describe('routers', () => {
     describe('system categories', () => {
@@ -13,6 +11,46 @@ describe('routers', () => {
             );
             expect(categories.length).toBe(4);
             expect(categories[categories.length - 1].name).toBe('Other');
+        });
+
+        it('reuses other category', () => {
+            const renderNode = createMatchRouter(['Red', 'Green', 'Blue']);
+            const originalCategories = renderNode.node.router.categories;
+            expect(originalCategories[originalCategories.length - 1].name).toBe('Other');
+
+            const { categories } = resolveRoutes(
+                createCases(['Red', 'Green', 'Blue']),
+                false,
+                renderNode.node
+            );
+
+            // we should have reused our other category
+            expect(categories[categories.length - 1].uuid).toBe(
+                originalCategories[originalCategories.length - 1].uuid
+            );
+        });
+
+        it('creates timeout category', () => {
+            const { categories } = resolveRoutes(createCases(['Red', 'Green', 'Blue']), true, null);
+            expect(categories.length).toBe(5);
+            expect(categories[categories.length - 1].name).toBe('No Response');
+        });
+
+        it('reuses timeout category', () => {
+            const renderNode = createMatchRouter(['Red', 'Green', 'Blue'], true);
+            const originalCategories = renderNode.node.router.categories;
+            expect(originalCategories[originalCategories.length - 1].name).toBe('No Response');
+
+            const { categories } = resolveRoutes(
+                createCases(['Red', 'Green', 'Blue']),
+                true,
+                renderNode.node
+            );
+
+            // we should have reused our timeout category
+            expect(categories[categories.length - 1].uuid).toBe(
+                originalCategories[originalCategories.length - 1].uuid
+            );
         });
     });
 
@@ -40,29 +78,18 @@ describe('routers', () => {
 
         it('reuses existing categories and exits', () => {
             // start off with a red case
-            const { cases, categories, exits } = resolveRoutes(createCases(['Red']), false, null);
+            const originalNode = createMatchRouter(['Red']);
+            const categories = originalNode.node.router.categories;
+            const cases = getSwitchRouter(originalNode.node).cases;
+            const exits = originalNode.node.exits;
+
             expect(categories[0].name).toBe('Red');
             expect(categories[1].name).toBe('Other');
-            const defaultCategory = categories[categories.length - 1];
-
-            // now call back in with red already category
-            const originalNode: FlowNode = {
-                uuid: createUUID(),
-                router: {
-                    operand: '@input',
-                    default_category_uuid: defaultCategory.uuid,
-                    type: RouterTypes.switch,
-                    cases,
-                    categories
-                } as SwitchRouter,
-                actions: [],
-                exits
-            };
 
             const routes = resolveRoutes(
                 createCases(['Red', 'Green', 'Blue']),
                 false,
-                originalNode
+                originalNode.node
             );
 
             // we now have three cases
@@ -76,14 +103,6 @@ describe('routers', () => {
 
             // and reused exits
             expect(routes.exits[0].uuid).toEqual(exits[0].uuid);
-
-            // and reused default category
-            const category = routes.categories[routes.categories.length - 1];
-            expect(category).toEqual({
-                name: 'Other',
-                uuid: defaultCategory.uuid,
-                exit_uuid: exits[exits.length - 1].uuid
-            });
         });
     });
 });

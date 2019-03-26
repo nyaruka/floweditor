@@ -1,7 +1,12 @@
 import { languageToAsset } from '~/components/flow/actions/updatecontact/helpers';
+import { exit } from '~/components/flow/exit/Exit.scss';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps, RouterFormProps } from '~/components/flow/props';
+import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { DefaultExitNames } from '~/components/flow/routers/constants';
+import { CategorizedCases, resolveRoutes } from '~/components/flow/routers/helpers';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
+import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators, Types } from '~/config/interfaces';
 import { getTypeConfig } from '~/config/typeConfigs';
 import {
@@ -10,6 +15,7 @@ import {
     CallResthook,
     CallWebhook,
     Case,
+    Category,
     ChangeGroups,
     Contact,
     Exit,
@@ -39,22 +45,15 @@ import {
     UINode,
     Wait,
     WaitTypes,
-    WebhookExitNames,
-    Category
+    WebhookExitNames
 } from '~/flowTypes';
 import { Assets, AssetType, RenderNode } from '~/store/flowContext';
 import { assetListToMap } from '~/store/helpers';
-import { exit } from '~/components/flow/exit/Exit.scss';
-import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { mock } from '~/testUtils';
+import * as utils from '~/utils';
 
 const { results: groupsResults } = require('~/test/assets/groups.json');
 const languagesResults = require('~/test/assets/languages.json');
-import * as utils from '~/utils';
-import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { CategorizedCases, resolveRoutes } from '~/components/flow/routers/helpers';
-import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-
 mock(utils, 'createUUID', utils.seededUUIDs());
 /**
  * Create a select control option
@@ -478,17 +477,20 @@ export const createCases = (categories: string[]): CaseProps[] => {
     return cases;
 };
 
-export const createRoutes = (categories: string[]): CategorizedCases => {
+export const createRoutes = (
+    categories: string[],
+    hasTimeout: boolean = false
+): CategorizedCases => {
     const cases: CaseProps[] = [];
     categories.forEach((category: string) => {
         cases.push(createMatchCase(category));
     });
 
-    return resolveRoutes(cases, false, null);
+    return resolveRoutes(cases, hasTimeout, null);
 };
 
-export const createMatchRouter = (matches: string[]): RenderNode => {
-    const { exits, categories, cases } = createRoutes(matches);
+export const createMatchRouter = (matches: string[], hasTimeout: boolean = false): RenderNode => {
+    const { exits, categories, cases } = createRoutes(matches, hasTimeout);
     return createRenderNode({
         actions: [],
         exits,
