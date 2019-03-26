@@ -8,7 +8,7 @@ import ConnectedNode from '~/components/flow/node/Node';
 import { getDraggedFrom } from '~/components/helpers';
 import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
 import Simulator from '~/components/simulator/Simulator';
-import Sticky from '~/components/sticky/Sticky';
+import Sticky, { STICKY_BODY, STICKY_TITLE } from '~/components/sticky/Sticky';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { getActivity } from '~/external';
@@ -340,8 +340,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
             this.props.updateSticky(createUUID(), {
                 position: { left, top },
-                title: 'New Note',
-                body: '...'
+                title: STICKY_TITLE,
+                body: STICKY_BODY
             });
         }
     }

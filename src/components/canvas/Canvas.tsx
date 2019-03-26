@@ -288,6 +288,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
                 );
             }
         }
+
         this.props.onDragging(changed);
     }
 

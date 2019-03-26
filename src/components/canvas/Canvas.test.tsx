@@ -1,5 +1,6 @@
 import { Canvas, CANVAS_PADDING, CanvasProps } from '~/components/canvas/Canvas';
 import { CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
+import { getOrderedDraggables } from '~/components/canvas/helpers';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import * as utils from '~/utils';
 
@@ -69,6 +70,10 @@ describe(Canvas.name, () => {
         const { instance } = setup(true, { $merge: { draggables: [first, second] } });
 
         instance.doReflow();
+
+        const ordered = getOrderedDraggables(instance.state.positions);
+        expect(ordered[0].uuid).toBe(first.uuid);
+        expect(ordered[1].uuid).toBe(second.uuid);
 
         expect(instance.state.positions).toMatchSnapshot();
     });

@@ -32,7 +32,7 @@ interface DraggablePosition extends FlowPosition {
     uuid: string;
 }
 
-const getOrderedDraggables = (positions: CanvasPositions): DraggablePosition[] => {
+export const getOrderedDraggables = (positions: CanvasPositions): DraggablePosition[] => {
     const sorted: DraggablePosition[] = [];
     Object.keys(positions).forEach((uuid: string) => {
         sorted.push({ ...positions[uuid], uuid });
@@ -52,14 +52,16 @@ const getOrderedDraggables = (positions: CanvasPositions): DraggablePosition[] =
  * collides with if inserting between two nodes
  * @param nodes
  */
-const getFirstCollision = (positions: CanvasPositions): DraggablePosition[] => {
+const getFirstCollision = (positions: CanvasPositions, changed: string[]): DraggablePosition[] => {
     const sortedDraggables = getOrderedDraggables(positions);
 
     for (let i = 0; i < sortedDraggables.length; i++) {
         const current = sortedDraggables[i];
+
         if (i + 1 < sortedDraggables.length) {
             for (let j = i + 1; j < sortedDraggables.length; j++) {
                 const other = sortedDraggables[j];
+
                 if (collides(current, other)) {
                     // if the next node collides too, include it
                     // to deal with inserting between two closely
@@ -70,6 +72,14 @@ const getFirstCollision = (positions: CanvasPositions): DraggablePosition[] => {
                             return [current, other, cascaded];
                         }
                     }
+
+                    if (
+                        !!changed.find((uuid: string) => other.uuid === uuid) &&
+                        !!!changed.find((uuid: string) => current.uuid === uuid)
+                    ) {
+                        return [other, current];
+                    }
+
                     return [current, other];
                 }
             }
@@ -99,7 +109,7 @@ export const reflow = (
 
     timeStart('reflow');
 
-    let collision = getFirstCollision(positions);
+    let collision = getFirstCollision(positions, changed);
     while (collision.length > 0) {
         if (collision.length) {
             const [top, bottom, cascade] = collision;
@@ -122,7 +132,7 @@ export const reflow = (
             }
         }
 
-        collision = getFirstCollision(newPositions);
+        collision = getFirstCollision(newPositions, changed);
     }
 
     timeEnd('reflow');
