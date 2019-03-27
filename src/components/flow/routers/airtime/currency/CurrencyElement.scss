@@ -1,33 +1,38 @@
-.transfer {
-    margin-top: 10px;
+.form-element {
+    width: 430px;
 
-    .currency {
-        display: inline-block;
-        width: 200px;
-    }
+    .transfer {
+        margin-top: 10px;
 
-    .amount {
-        display: inline-block;
-        width: 200px;
-        margin-left: 10px;
-        input {
-            font-size: 12px !important;
-            height: 28px !important;
-            vertical-align: super;
+        .currency {
+            display: inline-block;
+            width: 200px;
         }
-    }
 
-    .remove {
-        display: inline-block;
-        font-size: 10px;
-        padding-left: 5px;
-        visibility: hidden;
-        cursor: pointer;
-    }
+        .amount {
+            display: inline-block;
+            width: 200px;
+            margin-left: 10px;
+            vertical-align: top;
+            input {
+                font-size: 12px !important;
+                height: 28px !important;
+                vertical-align: super;
+            }
+        }
 
-    &:hover {
         .remove {
-            visibility: visible;
+            display: inline-block;
+            font-size: 10px;
+            padding-left: 5px;
+            visibility: hidden;
+            cursor: pointer;
+        }
+
+        &:hover {
+            .remove {
+                visibility: visible;
+            }
         }
     }
 }
