@@ -23,19 +23,17 @@ export const initializeForm = (settings: NodeEditorSettings): SendMsgFormState =
 
         return {
             attachments,
-            text: { value: action.text },
+            message: { value: action.text },
             quickReplies: { value: action.quick_replies || [] },
             sendAll: action.all_urns,
-            missingFields: [],
             valid: true
         };
     }
 
     return {
         attachments: [],
-        text: { value: '' },
+        message: { value: '' },
         quickReplies: { value: [] },
-        missingFields: [],
         sendAll: false,
         valid: false
     };
@@ -48,7 +46,7 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
 
     return {
         attachments,
-        text: state.text.value,
+        text: state.message.value,
         type: Types.send_msg,
         all_urns: state.sendAll,
         quick_replies: state.quickReplies.value,

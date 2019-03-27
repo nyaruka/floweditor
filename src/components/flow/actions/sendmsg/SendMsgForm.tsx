@@ -3,6 +3,8 @@ import axios from 'axios';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
+import { text } from '~/components/flow/actions/saymsg/SayMsg.scss';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg/helpers';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { ActionFormProps } from '~/components/flow/props';
@@ -14,14 +16,20 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import Pill from '~/components/pill/Pill';
 import { fakePropType } from '~/config/ConfigProvider';
 import { getCookie } from '~/external';
-import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
-import { validate, validateEmpty, validateMaxOfTen, validateRequired } from '~/store/validators';
+import {
+    FormState,
+    mergeForm,
+    StringArrayEntry,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
+import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
 import { createUUID } from '~/utils';
 import { small } from '~/utils/reactselect';
 
 import * as styles from './SendMsgForm.scss';
 
-const MAX_ATTACHMENTS = 5;
+const MAX_ATTACHMENTS = 3;
 
 const TYPE_OPTIONS: SelectOption[] = [
     { value: 'image', label: 'Image URL' },
@@ -42,11 +50,10 @@ export interface Attachment {
 }
 
 export interface SendMsgFormState extends FormState {
-    text: StringEntry;
+    message: StringEntry;
     quickReplies: StringArrayEntry;
     sendAll: boolean;
     attachments: Attachment[];
-    missingFields: string[];
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -68,11 +75,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         text?: string;
         sendAll?: boolean;
         quickReplies?: string[];
-        missingFields?: string[];
     }): boolean {
         const updates: Partial<SendMsgFormState> = {};
         if (keys.hasOwnProperty('text')) {
-            updates.text = validate('Message', keys.text, [validateRequired]);
+            updates.message = validate('Message', keys.text, [validateRequired]);
         }
 
         if (keys.hasOwnProperty('sendAll')) {
@@ -84,16 +90,13 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         }
 
         const updated = mergeForm(this.state, updates) as SendMsgFormState;
-        if (keys.hasOwnProperty('missingFields')) {
-            updated.missingFields = keys.missingFields;
-        }
 
         this.setState(updated);
         return updated.valid;
     }
 
-    public handleMessageUpdate(text: string, missingFields: []): boolean {
-        return this.handleUpdate({ text, missingFields });
+    public handleMessageUpdate(message: string): boolean {
+        return this.handleUpdate({ text: message });
     }
 
     public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
@@ -106,18 +109,22 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     private handleSave(): void {
         // make sure we validate untouched text fields and contact fields
-        const text = validate('Message', this.state.text.value, [
-            validateRequired,
-            validateEmpty(this.state.missingFields, "Contact field doesn't exist:")
-        ]);
-        this.setState({ text });
+        let entry = this.state.message;
+        if (!hasErrors(entry)) {
+            entry = validate('Message', entry.value, [validateRequired]);
+            this.setState({ message: entry });
+        }
 
-        if (text.validationFailures.length === 0) {
+        if (this.state.valid && !hasErrors(entry)) {
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
-
             // notify our modal we are done
             this.props.onClose(false);
         }
+    }
+
+    public handleFieldFailures(persistantFailures: ValidationFailure[]): void {
+        const message = { ...this.state.message, persistantFailures };
+        this.setState({ message, valid: this.state.valid && !hasErrors(message) });
     }
 
     public handleAttachmentRemoved(index: number): void {
@@ -366,10 +373,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                     showLabel={false}
                     count={Count.SMS}
                     onChange={this.handleMessageUpdate}
-                    entry={this.state.text}
+                    entry={this.state.message}
                     autocomplete={true}
                     focus={true}
                     textarea={true}
+                    onFieldFailures={this.handleFieldFailures}
                 />
             </Dialog>
         );

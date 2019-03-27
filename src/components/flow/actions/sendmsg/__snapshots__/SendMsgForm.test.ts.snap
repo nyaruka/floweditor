@@ -43,7 +43,7 @@ exports[`SendMsgForm render should render 1`] = `
         "body": <React.Fragment>
           <p>
             Add up to 
-            5
+            3
              to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <div
@@ -153,6 +153,7 @@ exports[`SendMsgForm render should render 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
+    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />
@@ -175,7 +176,10 @@ Array [
 exports[`SendMsgForm updates should save changes 1`] = `
 Object {
   "attachments": Array [],
-  "missingFields": Array [],
+  "message": Object {
+    "validationFailures": Array [],
+    "value": "What is your favorite color?",
+  },
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -185,10 +189,6 @@ Object {
     ],
   },
   "sendAll": true,
-  "text": Object {
-    "validationFailures": Array [],
-    "value": "What is your favorite color?",
-  },
   "valid": true,
 }
 `;

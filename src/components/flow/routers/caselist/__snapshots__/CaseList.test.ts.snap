@@ -2824,6 +2824,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -2909,6 +2910,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -6476,6 +6478,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -6561,6 +6564,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -9091,6 +9095,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -9176,6 +9181,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -11690,6 +11696,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -11775,6 +11782,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"

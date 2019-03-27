@@ -189,6 +189,7 @@ exports[`UpdateContactForm render initial for field 1`] = `
       focus={true}
       name="Field Value"
       onChange={[Function]}
+      onFieldFailures={[Function]}
       placeholder="Enter a new value for Age"
     />
   </div>
@@ -384,6 +385,7 @@ exports[`UpdateContactForm render initial for name 1`] = `
       focus={true}
       name="Name"
       onChange={[Function]}
+      onFieldFailures={[Function]}
       placeholder="Enter a new name for the contact"
     />
   </div>
@@ -479,6 +481,7 @@ exports[`UpdateContactForm render should render an empty form with different act
       focus={true}
       name="Name"
       onChange={[Function]}
+      onFieldFailures={[Function]}
       placeholder="Enter a new name for the contact"
     />
   </div>
@@ -574,6 +577,7 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
       focus={true}
       name="Name"
       onChange={[Function]}
+      onFieldFailures={[Function]}
       placeholder="Enter a new name for the contact"
     />
   </div>
@@ -649,6 +653,7 @@ Object {
     },
   },
   "fieldValue": Object {
+    "validationFailures": Array [],
     "value": "12/25/00",
   },
   "language": Object {
@@ -770,6 +775,7 @@ Object {
     },
   },
   "fieldValue": Object {
+    "validationFailures": Array [],
     "value": "12/25/00",
   },
   "language": Object {
@@ -845,7 +851,8 @@ Object {
     },
   },
   "fieldValue": Object {
-    "value": "25",
+    "validationFailures": Array [],
+    "value": "",
   },
   "language": Object {
     "value": null,

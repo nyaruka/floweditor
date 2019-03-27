@@ -21,6 +21,7 @@ export interface ValidationFailure {
 export interface FormEntry {
     value: any;
     validationFailures?: ValidationFailure[];
+    persistantFailures?: ValidationFailure[];
 }
 
 export interface SelectOptionEntry extends FormEntry {
@@ -125,7 +126,10 @@ export const mergeForm = (
     for (const key of Object.keys(form)) {
         const entry: any = updated[key];
         if (entry && typeof entry === 'object') {
-            if (entry.validationFailures && entry.validationFailures.length > 0) {
+            if (
+                (entry.validationFailures && entry.validationFailures.length > 0) ||
+                (entry.persistantFailures && entry.persistantFailures.length > 0)
+            ) {
                 valid = false;
                 break;
             }

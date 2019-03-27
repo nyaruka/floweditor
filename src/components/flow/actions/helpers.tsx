@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Contact, Group, RecipientsAction } from '~/flowTypes';
 import { Asset, AssetType } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
+import { FormEntry, NodeEditorSettings, ValidationFailure } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
 
 const styles = require('~/components/shared.scss');
@@ -67,4 +67,12 @@ export const renderAsset = (asset: Asset) => {
             {asset.name}
         </div>
     );
+};
+
+export const getAllErrors = (entry: FormEntry): ValidationFailure[] => {
+    return (entry.validationFailures || []).concat(entry.persistantFailures || []);
+};
+
+export const hasErrors = (entry: FormEntry): boolean => {
+    return getAllErrors(entry).length > 0;
 };

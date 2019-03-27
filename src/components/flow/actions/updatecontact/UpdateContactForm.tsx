@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import {
     initializeForm,
     sortFieldsAndProperties,
@@ -21,7 +22,7 @@ import { Types } from '~/config/interfaces';
 import { ContactProperties } from '~/flowTypes';
 import { Asset, AssetType, updateAssets } from '~/store/flowContext';
 import * as mutators from '~/store/mutators';
-import { mergeForm } from '~/store/nodeEditor';
+import { mergeForm, ValidationFailure } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';
 import { validate, validateRequired } from '~/store/validators';
 
@@ -78,7 +79,7 @@ export default class UpdateContactForm extends React.Component<
         }
 
         if (keys.hasOwnProperty('fieldValue')) {
-            updates.fieldValue = { value: keys.fieldValue };
+            updates.fieldValue = { value: keys.fieldValue, validationFailures: [] };
         }
 
         const updated = mergeForm(this.state, updates);
@@ -121,11 +122,11 @@ export default class UpdateContactForm extends React.Component<
     }
 
     private handleFieldValueUpdate(fieldValue: string): boolean {
-        return this.handleUpdate({ fieldValue });
+        return this.handleUpdate({ fieldValue, name: '' });
     }
 
     private handleNameUpdate(name: string): boolean {
-        return this.handleUpdate({ name });
+        return this.handleUpdate({ name, fieldValue: '' });
     }
 
     private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
@@ -159,6 +160,22 @@ export default class UpdateContactForm extends React.Component<
             valid = this.handleChannelUpdate([this.state.channel.value]) && valid;
         }
 
+        /*        if (this.state.type === Types.set_contact_field) {
+            const fieldValue = mergePersistantFailures(this.state.fieldValue);
+            if (fieldValue.validationFailures.length > 0) {
+                valid = this.state.
+                this.setState({ fieldValue });
+            }
+        }
+
+        if (this.state.type === Types.set_contact_name) {
+            const name = mergePersistantFailures(this.state.name);
+            if (name.validationFailures.length > 0) {
+                valid = false;
+                this.setState({ name });
+            }
+        }
+*/
         if (valid) {
             // do the saving!
             this.props.updateAction(
@@ -213,6 +230,10 @@ export default class UpdateContactForm extends React.Component<
                 <TextInputElement
                     name="Name"
                     placeholder="Enter a new name for the contact"
+                    onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                        const name = { ...this.state.name, persistantFailures };
+                        this.setState({ name, valid: this.state.valid && !hasErrors(name) });
+                    }}
                     onChange={this.handleNameUpdate}
                     entry={this.state.name}
                     autocomplete={true}
@@ -224,6 +245,13 @@ export default class UpdateContactForm extends React.Component<
                 <TextInputElement
                     name="Field Value"
                     placeholder={`Enter a new value for ${this.state.field.value.name}`}
+                    onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                        const fieldValue = { ...this.state.fieldValue, persistantFailures };
+                        this.setState({
+                            fieldValue,
+                            valid: this.state.valid && !hasErrors(fieldValue)
+                        });
+                    }}
                     onChange={this.handleFieldValueUpdate}
                     entry={this.state.fieldValue}
                     autocomplete={true}
