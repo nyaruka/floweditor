@@ -9,6 +9,7 @@ export interface PillProps {
     maxLength?: number;
     icon?: string;
     large?: boolean;
+    style?: React.CSSProperties;
 }
 
 const Pill: React.SFC<PillProps> = (props: PillProps): JSX.Element => {
@@ -21,14 +22,15 @@ const Pill: React.SFC<PillProps> = (props: PillProps): JSX.Element => {
     }
     return (
         <div
+            style={props.style}
             data-advanced={props.advanced}
             onClick={props.onClick}
             className={styles.pill + ' ' + (props.large ? styles.large : '')}
         >
+            {text}
             {props.icon ? (
                 <span data-advanced={props.advanced} className={styles.icon + ' ' + props.icon} />
             ) : null}
-            {text}
         </div>
     );
 };

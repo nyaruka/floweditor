@@ -1,3 +1,5 @@
+@import '~/variables.scss';
+
 .checkbox {
     margin-top: 20px;
 }
@@ -14,13 +16,13 @@
 
 .url-attachment {
     margin-bottom: 8px;
+
     .upload {
         padding-left: 5px;
+        vertical-align: super;
     }
 
-    .removeUpload {
-        // right: 21px;
-        // position: absolute;
+    .remove-upload {
         display: inline-block;
     }
 
@@ -31,6 +33,7 @@
         margin-right: 10px;
 
         input {
+            vertical-align: super;
             height: 28px !important;
             margin-top: 3px;
             width: 100%;
@@ -39,6 +42,22 @@
     }
 
     .remove {
+        vertical-align: super;
         display: inline-block;
     }
+}
+
+.existing-quick-replies {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid $light_gray;
+
+    .existing-quick-reply {
+        margin: 2px;
+        display: inline-block;
+    }
+}
+
+.add-quick-replies {
+    margin-top: 10px;
 }

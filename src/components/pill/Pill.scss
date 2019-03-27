@@ -7,29 +7,29 @@
     background: $light_gray_2;
     display: inline-block;
     border-radius: 8px;
-    margin-right: 6px;
-    margin-bottom: 3px;
     cursor: pointer;
+    border: 1px solid $light_gray_2 - #111;
 
     &:hover {
-        background: $blue_selected;
+        background: $light_gray_2 - #111;
     }
 
     .icon {
         font-size: 10px;
         position: relative;
         bottom: -1px;
+        margin-left: 5px;
     }
 }
 
 .large {
-    font-size: 13px;
-    line-height: 13px;
-    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 4px 8px;
 
     .icon {
-        font-size: 12px;
+        font-size: 10px;
         position: relative;
-        bottom: -1px;
+        bottom: 0px;
     }
 }

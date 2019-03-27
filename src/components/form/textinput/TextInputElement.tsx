@@ -55,6 +55,7 @@ export interface TextInputPassedProps extends FormElementProps {
     onFieldFailures?: (failures: ValidationFailure[]) => void;
     onChange?: (value: string) => void;
     onBlur?: (event: React.ChangeEvent<HTMLTextElement>) => void;
+    onEnter?: () => void;
 }
 
 export type TextInputProps = TextInputStoreProps & TextInputPassedProps;
@@ -266,6 +267,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     event.preventDefault();
                     event.stopPropagation();
                     return;
+                } else {
+                    if (this.props.onEnter) {
+                        this.checkForMissingFields();
+                        this.props.onEnter();
+                    }
                 }
                 return;
             case KeyValues.KEY_BACKSPACE:

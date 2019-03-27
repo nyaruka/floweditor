@@ -10,7 +10,6 @@ import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss
 import { ActionFormProps } from '~/components/flow/props';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
-import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import Pill from '~/components/pill/Pill';
@@ -54,6 +53,7 @@ export interface SendMsgFormState extends FormState {
     quickReplies: StringArrayEntry;
     sendAll: boolean;
     attachments: Attachment[];
+    quickReplyEditor: StringEntry;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -291,8 +291,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         return (
             <>
                 <p>
-                    Add up to {MAX_ATTACHMENTS} to each message. Each attachment can be a file you
-                    upload or a dynamic URL using expressions and variables from your Flow.
+                    Add up to {MAX_ATTACHMENTS} attachments to each message. Each attachment can be
+                    a file you upload or a dynamic URL using expressions and variables from your
+                    Flow.
                 </p>
                 {attachments}
                 {emptyOption}
@@ -310,6 +311,73 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         );
     }
 
+    private handleQuickReplyUpdate(value: string): void {
+        this.setState({ quickReplyEditor: { value } });
+    }
+
+    private handleAddQuickReply(): void {
+        // hack: we want to evaluate after the state is updated for validation errors
+        window.setTimeout(() => {
+            if (hasErrors(this.state.quickReplyEditor)) {
+                return;
+            }
+
+            if (this.state.quickReplyEditor.value.trim().length > 0) {
+                const newQuickReply = this.state.quickReplyEditor.value.trim();
+                const newReplies = [...this.state.quickReplies.value];
+
+                if (newReplies.length >= 10) {
+                    return;
+                }
+
+                // we don't allow two quick replies with the same name
+                const isNew = !newReplies.find(
+                    (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
+                );
+
+                if (isNew) {
+                    newReplies.push(newQuickReply);
+                }
+
+                this.setState({
+                    quickReplies: { value: newReplies },
+                    quickReplyEditor: { value: '' }
+                });
+            }
+        }, 0);
+    }
+
+    private handleRemoveQuickReply(toRemove: string): void {
+        this.setState({
+            quickReplies: {
+                value: this.state.quickReplies.value.filter((reply: string) => reply !== toRemove)
+            }
+        });
+    }
+
+    public getReplies(): JSX.Element {
+        if (this.state.quickReplies.value.length > 0) {
+            return (
+                <div className={styles.existingQuickReplies}>
+                    {this.state.quickReplies.value.map((reply: string) => (
+                        <div className={styles.existingQuickReply}>
+                            <Pill
+                                key={`reply_${reply}`}
+                                icon="fe-x"
+                                text={' ' + reply}
+                                large={true}
+                                onClick={() => {
+                                    this.handleRemoveQuickReply(reply);
+                                }}
+                            />
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+        return null;
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
@@ -322,14 +390,37 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                         when asking a question, you might add a Quick Reply for "Yes" and one for
                         "No".
                     </p>
-                    <TaggingElement
-                        name="Replies"
-                        placeholder="Quick Replies"
-                        prompt="Enter a Quick Reply"
-                        onChange={this.handleQuickRepliesUpdate}
-                        onCheckValid={() => true}
-                        entry={this.state.quickReplies}
-                    />
+                    {this.getReplies()}
+                    <div className={styles.addQuickReplies}>
+                        <div>
+                            <p>Add a new Quick Reply and press enter.</p>
+                            <TextInputElement
+                                name="Quick Reply"
+                                placeholder="Quick Reply"
+                                showLabel={false}
+                                onChange={this.handleQuickReplyUpdate}
+                                entry={this.state.quickReplyEditor}
+                                autocomplete={true}
+                                focus={true}
+                                onEnter={this.handleAddQuickReply}
+                                onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                                    const quickReplyEditor = {
+                                        ...this.state.quickReplyEditor,
+                                        persistantFailures
+                                    };
+                                    this.setState(
+                                        {
+                                            quickReplyEditor,
+                                            valid: this.state.valid && !hasErrors(quickReplyEditor)
+                                        },
+                                        () => {
+                                            console.log('errors added');
+                                        }
+                                    );
+                                }}
+                            />
+                        </div>
+                    </div>
                 </>
             ),
             checked: this.state.quickReplies.value.length > 0
