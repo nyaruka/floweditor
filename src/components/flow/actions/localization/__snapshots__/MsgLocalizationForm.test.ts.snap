@@ -63,6 +63,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
+    onFieldFailures={[Function]}
     placeholder="Spanish Translation"
     showLabel={false}
     textarea={true}
@@ -133,6 +134,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
+    onFieldFailures={[Function]}
     placeholder="Spanish Translation"
     showLabel={false}
     textarea={true}
@@ -145,6 +147,10 @@ Object {
   "audio": Object {
     "value": null,
   },
+  "message": Object {
+    "validationFailures": Array [],
+    "value": "What is your favorite color?",
+  },
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -152,10 +158,6 @@ Object {
       "green",
       "blue",
     ],
-  },
-  "text": Object {
-    "validationFailures": Array [],
-    "value": "What is your favorite color?",
   },
   "valid": true,
 }

@@ -128,6 +128,7 @@ exports[`WebhookRouterForm should render 1`] = `
       }
       name="URL"
       onChange={[Function]}
+      onFieldFailures={[Function]}
       placeholder="Enter a URL"
     />
   </div>

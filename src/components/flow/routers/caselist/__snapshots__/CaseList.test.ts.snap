@@ -2802,6 +2802,7 @@ exports[`CaseList render should render empty list 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -2815,6 +2816,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
@@ -6456,6 +6458,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -6469,6 +6472,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
@@ -9073,6 +9077,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -9086,6 +9091,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
@@ -11674,6 +11680,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -11687,6 +11694,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement

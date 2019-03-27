@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Select from 'react-select';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import * as styles from '~/components/flow/routers/case/CaseElement.scss';
 import { initializeForm, validateCase } from '~/components/flow/routers/case/helpers';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
@@ -13,7 +14,7 @@ import { filterOperators } from '~/config/helpers';
 import { Operators } from '~/config/interfaces';
 import { operatorConfigList } from '~/config/operatorConfigs';
 import { Case } from '~/flowTypes';
-import { FormState, StringEntry } from '~/store/nodeEditor';
+import { FormState, StringEntry, ValidationFailure } from '~/store/nodeEditor';
 import { getSelectClass, hasErrorType } from '~/utils';
 import { small } from '~/utils/reactselect';
 
@@ -213,6 +214,13 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                         name="arguments"
                         onChange={this.handleArgumentChanged}
                         entry={this.state.argument}
+                        onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                            const argument = { ...this.state.argument, persistantFailures };
+                            this.setState({
+                                argument,
+                                valid: this.state.valid && !hasErrors(argument)
+                            });
+                        }}
                         autocomplete={true}
                     />
                 );

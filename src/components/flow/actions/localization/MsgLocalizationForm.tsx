@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
 import * as styles from '~/components/flow/actions/action/Action.scss';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { LocalizationFormProps } from '~/components/flow/props';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
@@ -9,13 +10,19 @@ import TextInputElement from '~/components/form/textinput/TextInputElement';
 import UploadButton from '~/components/uploadbutton/UploadButton';
 import { fakePropType } from '~/config/ConfigProvider';
 import { SendMsg } from '~/flowTypes';
-import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
+import {
+    FormState,
+    mergeForm,
+    StringArrayEntry,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
 import { validate, validateMaxOfTen } from '~/store/validators';
 
 import { initializeLocalizedForm } from './helpers';
 
 export interface MsgLocalizationFormState extends FormState {
-    text: StringEntry;
+    message: StringEntry;
     quickReplies: StringArrayEntry;
     audio: StringEntry;
 }
@@ -57,7 +64,7 @@ export default class MsgLocalizationForm extends React.Component<
         const updates: Partial<MsgLocalizationFormState> = {};
 
         if (keys.hasOwnProperty('text')) {
-            updates.text = validate('Message', keys.text, []);
+            updates.message = validate('Message', keys.text, []);
         }
 
         if (keys.hasOwnProperty('quickReplies')) {
@@ -74,7 +81,7 @@ export default class MsgLocalizationForm extends React.Component<
     }
 
     private handleSave(): void {
-        const { text, quickReplies, audio } = this.state;
+        const { message: text, quickReplies, audio } = this.state;
 
         // make sure we are valid for saving, only quick replies can be invalid
         const typeConfig = determineTypeConfig(this.props.nodeSettings);
@@ -170,8 +177,15 @@ export default class MsgLocalizationForm extends React.Component<
                     name="Message"
                     showLabel={false}
                     onChange={this.handleMessageUpdate}
-                    entry={this.state.text}
+                    entry={this.state.message}
                     placeholder={`${this.props.language.name} Translation`}
+                    onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                        const text = { ...this.state.message, persistantFailures };
+                        this.setState({
+                            message: text,
+                            valid: this.state.valid && !hasErrors(text)
+                        });
+                    }}
                     autocomplete={true}
                     focus={true}
                     textarea={true}

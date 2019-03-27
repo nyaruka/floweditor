@@ -16,7 +16,7 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
                 action = settings.localizations[0].getObject() as BroadcastMsg;
             } else {
                 return {
-                    text: { value: '' },
+                    message: { value: '' },
                     recipients: { value: [] },
                     valid: true
                 };
@@ -24,14 +24,14 @@ export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormS
         }
 
         return {
-            text: { value: action.text },
+            message: { value: action.text },
             recipients: { value: getRecipients(action) },
             valid: true
         };
     }
 
     return {
-        text: { value: '' },
+        message: { value: '' },
         recipients: { value: [] },
         valid: false
     };
@@ -44,7 +44,7 @@ export const stateToAction = (
     return {
         contacts: this.getAsset(formState.recipients.value, AssetType.Contact),
         groups: this.getAsset(formState.recipients.value, AssetType.Group),
-        text: formState.text.value,
+        text: formState.message.value,
         type: Types.send_broadcast,
         uuid: getActionUUID(settings, Types.send_broadcast)
     };

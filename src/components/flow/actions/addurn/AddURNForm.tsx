@@ -1,11 +1,18 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { FormState, mergeForm, SelectOptionEntry, StringEntry } from '~/store/nodeEditor';
+import {
+    FormState,
+    mergeForm,
+    SelectOptionEntry,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import * as styles from './AddURNForm.scss';
@@ -92,6 +99,10 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
                         placeholder="Enter the URN value"
                         entry={this.state.path}
                         onChange={this.handlePathChanged}
+                        onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                            const path = { ...this.state.path, persistantFailures };
+                            this.setState({ path, valid: this.state.valid && !hasErrors(path) });
+                        }}
                         autocomplete={true}
                     />
                 </div>

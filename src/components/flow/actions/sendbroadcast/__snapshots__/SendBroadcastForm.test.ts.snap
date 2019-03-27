@@ -2,11 +2,11 @@
 
 exports[`SendBroadcastForm render should render an empty form with no action 1`] = `
 Object {
+  "message": Object {
+    "value": "",
+  },
   "recipients": Object {
     "value": Array [],
-  },
-  "text": Object {
-    "value": "",
   },
   "valid": false,
 }
@@ -70,6 +70,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     focus={true}
     name="Message"
     onChange={[Function]}
+    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />
@@ -177,6 +178,9 @@ exports[`SendBroadcastForm render should render self, children with base props 1
 
 exports[`SendBroadcastForm updates handles recipent change 1`] = `
 Object {
+  "message": Object {
+    "value": "Hello World",
+  },
   "recipients": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -186,15 +190,16 @@ Object {
       },
     ],
   },
-  "text": Object {
-    "value": "Hello World",
-  },
   "valid": true,
 }
 `;
 
 exports[`SendBroadcastForm updates handles text change 1`] = `
 Object {
+  "message": Object {
+    "validationFailures": Array [],
+    "value": "Message to Group",
+  },
   "recipients": Object {
     "value": Array [
       Object {
@@ -223,10 +228,6 @@ Object {
         "type": "contact",
       },
     ],
-  },
-  "text": Object {
-    "validationFailures": Array [],
-    "value": "Message to Group",
   },
   "valid": true,
 }

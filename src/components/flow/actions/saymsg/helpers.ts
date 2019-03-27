@@ -8,21 +8,21 @@ export const initializeForm = (settings: NodeEditorSettings): SayMsgFormState =>
     if (settings.originalAction && settings.originalAction.type === Types.say_msg) {
         const action = settings.originalAction as SayMsg;
         return {
-            text: { value: action.text },
+            message: { value: action.text },
             audio: { value: action.audio_url },
             valid: true
         };
     }
 
     return {
-        text: { value: '' },
+        message: { value: '' },
         audio: { value: '' },
         valid: false
     };
 };
 
 export const stateToAction = (settings: NodeEditorSettings, state: SayMsgFormState): SayMsg => ({
-    text: state.text.value,
+    text: state.message.value,
     audio_url: state.audio.value,
     type: Types.say_msg,
     uuid: getActionUUID(settings, Types.say_msg)

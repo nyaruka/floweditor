@@ -3,6 +3,7 @@ import * as React from 'react';
 import FlipMove = require('react-flip-move');
 import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
 import Flipper from '~/components/flipper/Flipper';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import HeaderElement, { Header } from '~/components/flow/routers/webhook/header/HeaderElement';
 import {
@@ -17,7 +18,13 @@ import SelectElement from '~/components/form/select/SelectElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { FormEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import {
+    FormEntry,
+    FormState,
+    mergeForm,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
 import { validate, validateRequired, validateURL } from '~/store/validators';
 import { createUUID } from '~/utils';
 
@@ -242,6 +249,13 @@ export default class WebhookRouterForm extends React.Component<
                             onChange={this.handlePostBodyUpdate}
                             helpText={`Modify the body of the ${this.state.method.value.label} 
                         request that will be sent to your webhook.`}
+                            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                                const postBody = { ...this.state.postBody, persistantFailures };
+                                this.setState({
+                                    postBody,
+                                    valid: this.state.valid && !hasErrors(postBody)
+                                });
+                            }}
                             autocomplete={true}
                             textarea={true}
                         />
@@ -277,6 +291,10 @@ export default class WebhookRouterForm extends React.Component<
                         placeholder="Enter a URL"
                         entry={this.state.url}
                         onChange={this.handleUrlUpdate}
+                        onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                            const url = { ...this.state.url, persistantFailures };
+                            this.setState({ url, valid: this.state.valid && !hasErrors(url) });
+                        }}
                         autocomplete={true}
                     />
                 </div>

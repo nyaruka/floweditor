@@ -46,6 +46,7 @@ exports[`SayMsgForm render should render 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
+    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />
@@ -75,7 +76,7 @@ Object {
   "audio": Object {
     "value": "",
   },
-  "text": Object {
+  "message": Object {
     "validationFailures": Array [],
     "value": "What is your favorite color?",
   },

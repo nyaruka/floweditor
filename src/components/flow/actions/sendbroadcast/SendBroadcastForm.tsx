@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendbroadcast/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
@@ -8,11 +9,17 @@ import TextInputElement, { Count } from '~/components/form/textinput/TextInputEl
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
-import { AssetArrayEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import {
+    AssetArrayEntry,
+    FormState,
+    mergeForm,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 export interface SendBroadcastFormState extends FormState {
-    text: StringEntry;
+    message: StringEntry;
     recipients: AssetArrayEntry;
 }
 
@@ -50,7 +57,7 @@ export default class SendBroadcastForm extends React.Component<
         }
 
         if (keys.hasOwnProperty('text')) {
-            updates.text = validate('Message', keys.text, [validateRequired]);
+            updates.message = validate('Message', keys.text, [validateRequired]);
         }
 
         const updated = mergeForm(this.state, updates);
@@ -61,7 +68,7 @@ export default class SendBroadcastForm extends React.Component<
     private handleSave(): void {
         // validate in case they never updated an empty field
         const valid = this.handleUpdate({
-            text: this.state.text.value,
+            text: this.state.message.value,
             recipients: this.state.recipients.value
         });
 
@@ -107,7 +114,11 @@ export default class SendBroadcastForm extends React.Component<
                     showLabel={false}
                     count={Count.SMS}
                     onChange={this.handleMessageUpdate}
-                    entry={this.state.text}
+                    entry={this.state.message}
+                    onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                        const message = { ...this.state.message, persistantFailures };
+                        this.setState({ message, valid: this.state.valid && !hasErrors(message) });
+                    }}
                     autocomplete={true}
                     focus={true}
                     textarea={true}
