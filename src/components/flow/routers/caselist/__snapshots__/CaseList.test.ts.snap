@@ -2797,6 +2797,7 @@ exports[`CaseList render should render empty list 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "",
                                                 }
                                               }
@@ -2811,6 +2812,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "",
                                                   }
                                                 }
@@ -2822,6 +2824,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "",
                                                     }
                                                   }
@@ -6453,6 +6456,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "Red, r",
                                                 }
                                               }
@@ -6467,6 +6471,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "Red, r",
                                                   }
                                                 }
@@ -6478,6 +6483,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "Red, r",
                                                     }
                                                   }
@@ -9072,6 +9078,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "Green, g",
                                                 }
                                               }
@@ -9086,6 +9093,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "Green, g",
                                                   }
                                                 }
@@ -9097,6 +9105,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "Green, g",
                                                     }
                                                   }
@@ -11675,6 +11684,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "",
                                                 }
                                               }
@@ -11689,6 +11699,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "",
                                                   }
                                                 }
@@ -11700,6 +11711,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "",
                                                     }
                                                   }

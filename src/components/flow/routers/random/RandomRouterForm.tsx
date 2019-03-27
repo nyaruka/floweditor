@@ -83,7 +83,7 @@ export default class RandomRouterForm extends React.Component<
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }

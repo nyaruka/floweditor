@@ -81,6 +81,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
         const className = cx({
             [styles.ele]: true,
             [styles.border]: this.props.border,
+            [styles.invalid]: this.hasErrors(),
             [this.props.__className]: this.props.__className !== undefined
         });
 

@@ -5,15 +5,15 @@ import { Operators, Types } from '~/config/interfaces';
 import {
     CallWebhook,
     Case,
+    Category,
     Exit,
     RouterTypes,
     SwitchRouter,
-    WebhookExitNames,
-    Category
+    WebhookExitNames
 } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
-import { createUUID, dump } from '~/utils';
+import { createUUID } from '~/utils';
 
 export enum Methods {
     GET = 'GET',
@@ -82,6 +82,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
         state.url = { value: action.url };
         state.method = { value: { label: action.method, value: action.method } };
         state.postBody = { value: action.body };
+        state.valid = true;
     }
 
     return state;

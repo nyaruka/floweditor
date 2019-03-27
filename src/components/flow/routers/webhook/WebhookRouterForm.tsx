@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import FlipMove = require('react-flip-move');
 import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
-import Flipper from '~/components/flipper/Flipper';
 import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import HeaderElement, { Header } from '~/components/flow/routers/webhook/header/HeaderElement';
@@ -49,8 +48,6 @@ export default class WebhookRouterForm extends React.Component<
     RouterFormProps,
     WebhookRouterFormState
 > {
-    private flipper: Flipper;
-
     constructor(props: RouterFormProps) {
         super(props);
         this.state = nodeToState(this.props.nodeSettings);
@@ -65,6 +62,7 @@ export default class WebhookRouterForm extends React.Component<
         postBody?: string;
         header?: Header;
         removeHeader?: Header;
+        validationFailures?: ValidationFailure[];
     }): boolean {
         const updates: Partial<WebhookRouterFormState> = {};
 
@@ -91,7 +89,7 @@ export default class WebhookRouterForm extends React.Component<
         }
 
         if (keys.hasOwnProperty('header')) {
-            updates.headers = [{ value: keys.header }];
+            updates.headers = [{ value: keys.header, validationFailures: keys.validationFailures }];
             ensureEmptyHeader = true;
         }
 
@@ -135,8 +133,8 @@ export default class WebhookRouterForm extends React.Component<
         return this.handleUpdate({ removeHeader });
     }
 
-    private handleHeaderUpdated(header: Header): boolean {
-        return this.handleUpdate({ header });
+    private handleHeaderUpdated(header: Header, validationFailures: ValidationFailure[]): boolean {
+        return this.handleUpdate({ header, validationFailures });
     }
 
     private handleCreateHeader(): boolean {
@@ -155,41 +153,18 @@ export default class WebhookRouterForm extends React.Component<
 
     private handleSave(): void {
         // validate our url in case they haven't interacted
-        const valid = this.handleUrlUpdate(this.state.url.value);
-
+        const valid = this.state.valid && this.handleUrlUpdate(this.state.url.value);
         if (valid) {
             this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
             this.props.onClose(false);
-        } else {
-            if (this.state.url.validationFailures && this.state.url.validationFailures.length) {
-                // flip us around if there is an errors on the front
-                if (this.flipper && this.flipper.state.flipped) {
-                    this.flipper.handleFlip();
-                }
-            }
         }
     }
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
-    }
-
-    private getSummary(): JSX.Element {
-        const baseText = 'configure the headers';
-        const linkText = this.state.method.value === GET_METHOD ? baseText : `${baseText} and body`;
-
-        return (
-            <>
-                If you need to, you can also{' '}
-                <span className={styles.link} onClick={this.handleFlip}>
-                    {linkText}
-                </span>{' '}
-                of your request.{' '}
-            </>
-        );
     }
 
     private renderEdit(): JSX.Element {
@@ -211,9 +186,9 @@ export default class WebhookRouterForm extends React.Component<
         );
 
         const tabs: Tab[] = [];
-
         tabs.push({
             name: 'HTTP Headers',
+            hasErrors: !!this.state.headers.find((header: HeaderEntry) => hasErrors(header)),
             body: (
                 <>
                     <p className={styles.info}>
@@ -314,10 +289,6 @@ export default class WebhookRouterForm extends React.Component<
                 </div>
             </Dialog>
         );
-    }
-
-    private handleFlip(): void {
-        this.flipper.handleFlip();
     }
 
     public render(): JSX.Element {

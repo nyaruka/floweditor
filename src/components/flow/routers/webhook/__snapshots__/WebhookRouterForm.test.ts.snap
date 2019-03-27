@@ -5,7 +5,6 @@ exports[`WebhookRouterForm should render 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -58,6 +57,7 @@ exports[`WebhookRouterForm should render 1`] = `
           </FlipMovePropConverter>
         </React.Fragment>,
         "checked": false,
+        "hasErrors": false,
         "name": "HTTP Headers",
       },
     ]
@@ -243,6 +243,7 @@ Object {
     "value": "Post Body",
   },
   "url": Object {
+    "persistantFailures": Array [],
     "value": "",
   },
   "valid": true,
@@ -260,6 +261,7 @@ Object {
       },
     },
     Object {
+      "validationFailures": undefined,
       "value": Object {
         "name": "Content-type",
         "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
@@ -276,6 +278,7 @@ Object {
     "value": "Post Body",
   },
   "url": Object {
+    "persistantFailures": Array [],
     "value": "",
   },
   "valid": true,

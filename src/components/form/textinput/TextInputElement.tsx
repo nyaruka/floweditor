@@ -147,6 +147,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 
     public componentDidMount(): void {
+        this.checkForMissingFields();
         return this.props.focus && this.focusInput();
     }
 
@@ -333,7 +334,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
     }
 
-    private handleBlur(event: React.ChangeEvent<HTMLTextElement>): void {
+    private checkForMissingFields(): boolean {
         // check if we have any bogus field references
         if (this.props.autocomplete && this.props.onFieldFailures) {
             const fields = this.parser.getContactFields(this.props.entry.value);
@@ -346,6 +347,14 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 });
 
             this.props.onFieldFailures(missingFields);
+            return true;
+        }
+        return false;
+    }
+
+    private handleBlur(event: React.ChangeEvent<HTMLTextElement>): void {
+        if (this.checkForMissingFields()) {
+            return;
         }
 
         this.setState(

@@ -17,7 +17,6 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
   buttons={
     Object {
       "primary": Object {
-        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },

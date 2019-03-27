@@ -5,7 +5,6 @@ exports[`FieldRouterForm initializes 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -189,7 +188,6 @@ exports[`FieldRouterForm should render 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

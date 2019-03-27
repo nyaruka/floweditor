@@ -63,16 +63,20 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     private handlePrimaryButton(onClick: any): void {
         onClick();
 
+        let foundTab = false;
         // focus on a tab with errors
         (this.props.tabs || []).forEach((tab: Tab, index: number) => {
             if (tab.hasErrors) {
                 this.setState({ activeTab: index });
+                foundTab = true;
                 return;
             }
         });
 
-        // or focus on the main content
-        this.setState({ activeTab: -1 });
+        if (!foundTab) {
+            // or focus on the main content
+            this.setState({ activeTab: -1 });
+        }
     }
 
     private getButtons(): Buttons {

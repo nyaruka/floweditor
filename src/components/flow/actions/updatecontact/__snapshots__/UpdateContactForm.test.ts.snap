@@ -5,7 +5,6 @@ exports[`UpdateContactForm render initial for channel 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -105,7 +104,6 @@ exports[`UpdateContactForm render initial for field 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -201,7 +199,6 @@ exports[`UpdateContactForm render initial for language 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -301,7 +298,6 @@ exports[`UpdateContactForm render initial for name 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -397,7 +393,6 @@ exports[`UpdateContactForm render should render an empty form with different act
   buttons={
     Object {
       "primary": Object {
-        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -493,7 +488,6 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
   buttons={
     Object {
       "primary": Object {
-        "disabled": true,
         "name": "Ok",
         "onClick": [Function],
       },

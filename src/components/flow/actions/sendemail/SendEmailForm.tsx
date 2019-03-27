@@ -90,7 +90,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
 
     public getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }

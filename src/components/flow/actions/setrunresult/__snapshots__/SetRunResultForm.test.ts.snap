@@ -5,7 +5,6 @@ exports[`SetRunResultForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

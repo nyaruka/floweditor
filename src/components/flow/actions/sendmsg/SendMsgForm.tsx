@@ -137,7 +137,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }
