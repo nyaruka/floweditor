@@ -22,30 +22,17 @@ exports[`SendMsgForm render should render 1`] = `
           <p>
             Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
           </p>
-          <div
-            className="addQuickReplies"
-          >
-            <div>
-              <p>
-                Add a new Quick Reply and press enter.
-              </p>
-              <Connect(TextInputElement)
-                autocomplete={true}
-                entry={
-                  Object {
-                    "value": "",
-                  }
-                }
-                focus={true}
-                name="Quick Reply"
-                onChange={[Function]}
-                onEnter={[Function]}
-                onFieldFailures={[Function]}
-                placeholder="Quick Reply"
-                showLabel={false}
-              />
-            </div>
-          </div>
+          <MultiChoiceInput
+            helpText="Add a new Quick Reply and press enter."
+            items={
+              Object {
+                "value": Array [],
+              }
+            }
+            onFieldErrors={[Function]}
+            onItemAdded={[Function]}
+            onRemoved={[Function]}
+          />
         </React.Fragment>,
         "checked": false,
         "name": "Quick Replies",
@@ -198,9 +185,6 @@ Object {
       "green",
       "blue",
     ],
-  },
-  "quickReplyEditor": Object {
-    "value": "",
   },
   "sendAll": true,
   "valid": true,
