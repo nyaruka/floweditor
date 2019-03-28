@@ -103,7 +103,6 @@ export const getDragStyle = (drag: DragSelection) => {
 export class Flow extends React.Component<FlowStoreProps, {}> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
-    // private containerOffset = { left: 0, top: 0 };
     private ele: HTMLDivElement;
     private nodeContainerUUID: string;
 
@@ -178,7 +177,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         if (this.ele) {
             offset = this.ele.getBoundingClientRect();
         }
-        // this.containerOffset = { left: offset.left, top: offset.top + window.scrollY };
 
         this.props.mergeEditorState({
             containerOffset: { left: offset.left, top: offset.top + window.scrollY }
