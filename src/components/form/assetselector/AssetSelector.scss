@@ -15,7 +15,7 @@
 }
 
 .message {
-    color: $gray + #121212;
+    color: lighten($gray, 7%);
     font-size: 12px;
     border: 1px solid #ccc;
     border-bottom-left-radius: 4px;

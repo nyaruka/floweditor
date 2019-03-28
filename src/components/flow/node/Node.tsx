@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CounterComp from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
+import { node } from '~/components/flow/actions/startsession/StartSession.scss';
 import ExitComp from '~/components/flow/exit/Exit';
 import { getCategoriesForExit } from '~/components/flow/node/helpers';
 import * as styles from '~/components/flow/node/Node.scss';
@@ -55,6 +56,7 @@ export interface NodePassedProps {
 
 export interface NodeStoreProps {
     results: AssetMap;
+    containerOffset: { top: number; left: number };
     translating: boolean;
     dragActive: boolean;
     simulating: boolean;
@@ -104,28 +106,33 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return (this.ele = ref);
     }
 
+    private getGhostListener(): any {
+        return (e: MouseEvent) => {
+            // move our ghost node into position
+            const width = this.ele.getBoundingClientRect().width;
+            const left = e.pageX - width / 2 - 15;
+            const top = e.pageY + this.ele.scrollTop - (this.props.containerOffset.top + 20);
+            const style = this.ele.style;
+            style.left = left + 'px';
+            style.top = top + 'px';
+
+            // Hide ourselves if there's a drop target
+            style.visibility = document.querySelector('.plumb-drop-hover') ? 'hidden' : 'visible';
+        };
+    }
+
     public componentDidMount(): void {
         // Make ourselves a target
         this.props.plumberMakeTarget(this.props.renderNode.node.uuid);
 
         // Move our drag node around as necessary
         if (this.props.ghost) {
-            $(document).bind('mousemove', e => {
-                const ele = $(this.ele);
-                const left = e.pageX - ele.width() / 2;
-                const top = e.pageY;
-                const nodeEle = $(this.ele);
-
-                nodeEle.offset({ left, top });
-
-                // Hide ourselves if there's a drop target
-                // TODO: a less ugly way to accomplish this would be great
-                if ($('.plumb-drop-hover').length > 0) {
-                    nodeEle.hide();
-                } else {
-                    nodeEle.show();
-                }
-            });
+            // We store our listener on the window so flow can remove it
+            // this is a bit hacky but allows us to remove our dependency on jquery
+            // TODO: rework ghost node to manage its location like other nodes
+            const ghostListener: any = this.getGhostListener();
+            (window as any).ghostListener = ghostListener;
+            document.addEventListener('mousemove', ghostListener);
         }
     }
 
@@ -432,7 +439,7 @@ const mapStateToProps = (
                 results: { items }
             }
         },
-        editorState: { translating, debug, ghostNode, dragActive, simulating }
+        editorState: { translating, debug, ghostNode, dragActive, simulating, containerOffset }
     }: AppState,
     props: NodePassedProps
 ) => {
@@ -454,6 +461,7 @@ const mapStateToProps = (
 
     return {
         results: items,
+        containerOffset,
         translating,
         debug,
         dragActive,

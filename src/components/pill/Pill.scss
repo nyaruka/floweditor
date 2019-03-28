@@ -8,10 +8,10 @@
     display: inline-block;
     border-radius: 8px;
     cursor: pointer;
-    border: 1px solid $light_gray_2 - #111;
+    border: 1px solid darken($light_gray_2, 5%);
 
     &:hover {
-        background: $light_gray_2 - #111;
+        background: darken($light_gray_2, 5%);
     }
 
     .icon {

@@ -11,7 +11,7 @@
 }
 
 .method {
-    width: 15%;
+    width: 7%;
     float: left;
     margin-right: 10px;
 }
@@ -31,7 +31,7 @@
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    font-size:12px;
+    font-size: 12px;
     font-family: 'Roboto Mono', monospace;
     font-weight: 300;
 }
@@ -58,12 +58,12 @@
 
 .example {
     unicode-bidi: embed;
-    font-size:12px;
+    font-size: 12px;
     font-family: 'Roboto Mono', monospace;
     font-weight: 300;
     white-space: pre;
     padding: 4px;
-    font-size: .9em;
+    font-size: 0.9em;
     background: $light_gray_2;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -78,7 +78,7 @@
         padding: 2px 10px;
         border-color: #ccc;
     }
-    padding-top:8px;
+    padding-top: 8px;
     &:hover {
         .remove-ico {
             cursor: pointer;
@@ -105,7 +105,7 @@
             display: inline-block;
             padding: 5px 5px;
             unicode-bidi: embed;
-            font-size:11px;
+            font-size: 11px;
             font-family: 'Roboto Mono', monospace;
             font-weight: 300;
             white-space: pre;

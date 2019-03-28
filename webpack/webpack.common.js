@@ -21,10 +21,6 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js']
     },
     plugins: [
-        new ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery'
-        }),
         new LoaderOptionsPlugin({
             minimize: true,
             debug: false

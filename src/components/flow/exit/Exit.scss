@@ -26,7 +26,7 @@
             border-bottom-right-radius: 0px !important;
         }
 
-        border-left: 1px solid $translation_bg - #111;
+        border-left: 1px solid darken($translation_bg, 5%);
         background: $translation_bg;
 
         .endpoint {
@@ -73,8 +73,8 @@
         .count {
             font-size: 10px;
             position: relative;
-            border: 1px solid $activity_color - #222;
-            color: $activity_color - #777;
+            border: 1px solid darken($activity_color, 10%);
+            color: darken($activity_color, 70%);
             background: $activity_color;
             padding: 2px 4px;
             width: fit-content;
@@ -107,7 +107,7 @@
         .activity {
             .count {
                 border-color: $red !important;
-                background: $red + #222 !important;
+                background: lighten($red, 10%) !important;
                 color: #fff;
             }
         }

@@ -30,7 +30,7 @@ $blue_selected: rgb(230, 247, 255);
 $blue_baby: #80b9fb;
 $blue_bold: rgb(52, 152, 219);
 $light_gray: #e6e6e6;
-$light_gray_2: $light_gray + #111;
+$light_gray_2: lighten($light_gray, 5%);
 $dark_gray: #aaa;
 $med_gray: #ccc;
 
@@ -73,8 +73,8 @@ $translation_missing: #da8d7a;
 
 // buttons
 $button_light: $blue;
-$button_dark: $blue - #111;
-$button_hover: $blue + #111;
+$button_dark: darken($blue, 5%);
+$button_hover: lighten($blue, 5%);
 $button_disabled: #ddd;
 
 // z index ordering

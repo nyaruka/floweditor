@@ -1,7 +1,6 @@
 import { Console } from 'console';
 import { configure } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
-import * as $ from 'jquery';
 import { Exit } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 
@@ -32,6 +31,3 @@ configure({ adapter: new Adapter() });
 (global as any).requestAnimationFrame = (callback: Function) => {
     setTimeout(callback, 0);
 };
-
-// Make jest aware of our jQuery dep
-(window as any).$ = $;

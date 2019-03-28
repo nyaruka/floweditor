@@ -86,7 +86,7 @@
 
     .option_name {
         padding: 7px 8px;
-        background: $light_gray_2 - #111;
+        background: darken($light_gray_2, 5%);
         color: $gray;
         font-size: 85%;
     }

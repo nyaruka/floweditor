@@ -18,7 +18,7 @@
 .dragSelection {
     position: absolute;
     background: red;
-    border: 0px solid $selection_square - #222;
+    border: 0px solid darken($selection_square, 10%);
     opacity: 0;
     pointer-events: none;
     z-index: $z_selection;

@@ -38,8 +38,8 @@
     display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
     margin: 10px 0;
 }
 
@@ -55,12 +55,12 @@
     background: $translation_bg;
     border-radius: 5px;
     padding: 9px;
-    border: 1px solid $translation_bg - #111;
+    border: 1px solid darken($translation_bg, 5%);
     width: 156px;
     white-space: nowrap;
     overflow: hidden;
     -o-text-overflow: ellipsis;
-       text-overflow: ellipsis;
+    text-overflow: ellipsis;
 }
 
 .translating_to {
