@@ -3,6 +3,7 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as getCaretCoordinates from 'textarea-caret';
+import { message } from '~/components/form/assetselector/AssetSelector.scss';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import * as shared from '~/components/form/FormElement.scss';
 import CharCount from '~/components/form/textinput/CharCount';
@@ -22,7 +23,7 @@ import {
     getCompletionName,
     getCompletionSignature
 } from '~/store/flowContext';
-import { StringEntry } from '~/store/nodeEditor';
+import { StringEntry, ValidationFailure } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 
 // import setCaretPosition from 'get-input-selection';
@@ -51,8 +52,10 @@ export interface TextInputPassedProps extends FormElementProps {
     autocomplete?: boolean;
     focus?: boolean;
     showInvalid?: boolean;
-    onChange?(value: string): void;
-    onBlur?(event: React.ChangeEvent<HTMLTextElement>): void;
+    onFieldFailures?: (failures: ValidationFailure[]) => void;
+    onChange?: (value: string) => void;
+    onBlur?: (event: React.ChangeEvent<HTMLTextElement>) => void;
+    onEnter?: () => void;
 }
 
 export type TextInputProps = TextInputStoreProps & TextInputPassedProps;
@@ -114,10 +117,10 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             'child',
             'parent',
             'contact',
-            'date'
+            'date',
+            'fields',
+            'urns'
         ]);
-
-        // console.log(this.state.options);
 
         bindCallbacks(this, {
             include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
@@ -145,6 +148,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 
     public componentDidMount(): void {
+        this.checkForMissingFields();
         return this.props.focus && this.focusInput();
     }
 
@@ -263,6 +267,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     event.preventDefault();
                     event.stopPropagation();
                     return;
+                } else {
+                    if (this.props.onEnter) {
+                        this.checkForMissingFields();
+                        this.props.onEnter();
+                    }
                 }
                 return;
             case KeyValues.KEY_BACKSPACE:
@@ -331,7 +340,29 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         }
     }
 
+    private checkForMissingFields(): boolean {
+        // check if we have any bogus field references
+        if (this.props.autocomplete && this.props.onFieldFailures) {
+            const fields = this.parser.getContactFields(this.props.entry.value);
+            const missingFields = fields
+                .filter((key: string) => !(key in this.props.assetStore.fields.items))
+                .map((field: string) => {
+                    return {
+                        message: `${field} is not a valid contact field`
+                    };
+                });
+
+            this.props.onFieldFailures(missingFields);
+            return true;
+        }
+        return false;
+    }
+
     private handleBlur(event: React.ChangeEvent<HTMLTextElement>): void {
+        if (this.checkForMissingFields()) {
+            return;
+        }
+
         this.setState(
             {
                 query: '',
@@ -529,11 +560,16 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 
     private hasErrors(): boolean {
-        return (
-            this.props.entry &&
-            this.props.entry.validationFailures &&
-            this.props.entry.validationFailures.length > 0
-        );
+        return this.getMergedErrors().length > 0;
+    }
+
+    private getMergedErrors(): ValidationFailure[] {
+        if (this.props.entry) {
+            return (this.props.entry.validationFailures || []).concat(
+                this.props.entry.persistantFailures || []
+            );
+        }
+        return [];
     }
 
     private getScroll(): number {

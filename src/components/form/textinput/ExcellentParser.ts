@@ -226,6 +226,20 @@ export default class ExcellentParser {
         return '';
     }
 
+    public getContactFields(text: string): string[] {
+        const fields = {};
+        const re = /((parent|child\.)*contact\.)*fields\.([a-z0-9_]+)/g;
+        const expressions = this.findExpressions(text);
+        for (const expression of expressions) {
+            let match;
+            // tslint:disable-next-line:no-conditional-assignment
+            while ((match = re.exec(expression.text))) {
+                fields[match[3]] = true;
+            }
+        }
+        return Object.keys(fields);
+    }
+
     /**
      * Finds all expressions in the given text, including any partially complete expression at the end of the input
      */

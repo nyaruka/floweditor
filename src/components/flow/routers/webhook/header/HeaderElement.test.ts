@@ -4,7 +4,6 @@ import HeaderElement, {
     NAME_PLACEHOLDER,
     nameContainerSpecId,
     removeIcoSpecId,
-    VALUE_PLACEHOLDER,
     valueConatainerSpecId
 } from '~/components/flow/routers/webhook/header/HeaderElement';
 import { HeaderEntry } from '~/components/flow/routers/webhook/WebhookRouterForm';
@@ -62,14 +61,7 @@ describe(HeaderElement.name, () => {
                 getSpecWrapper(wrapper, valueConatainerSpecId).hasClass('header_value')
             ).toBeTruthy();
 
-            expect(inputs.at(1).props()).toEqual({
-                placeholder: VALUE_PLACEHOLDER,
-                name: 'value',
-                onChange: instance.handleChangeValue,
-                entry: { value: props.entry.value.value },
-                autocomplete: true
-            });
-
+            expect(inputs.at(1).props()).toMatchSnapshot();
             expect(wrapper).toMatchSnapshot();
         });
 
@@ -132,10 +124,7 @@ describe(HeaderElement.name, () => {
                 wrapper.update();
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith(
-                    { value: headers[0].value },
-                    expect.any(Function)
-                );
+                expect(setStateSpy).toMatchCallSnapshot();
                 expect(props.onChange).toHaveBeenCalledTimes(1);
                 expect(props.onChange).toMatchCallSnapshot('header change');
 

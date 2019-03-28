@@ -74,6 +74,11 @@ $curvature: 10px;
     .content {
         padding: 10px 20px;
         margin-bottom: 10px;
+
+        p {
+            margin-top: 10px;
+            line-height: 20px;
+        }
     }
 
     .footer {

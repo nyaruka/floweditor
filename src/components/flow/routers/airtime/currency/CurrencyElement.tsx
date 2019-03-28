@@ -3,7 +3,7 @@ import * as React from 'react';
 import { AirtimeTransferEntry } from '~/components/flow/routers/airtime/AirtimeRouterForm';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import FormElement from '~/components/form/FormElement';
-import ConnectedTextInputElement from '~/components/form/textinput/TextInputElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { Asset, Assets } from '~/store/flowContext';
 import { ValidationFailure } from '~/store/nodeEditor';
 import { small } from '~/utils/reactselect';
@@ -45,7 +45,6 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
         if (isNaN(Number(value))) {
             validationFailures.push({ message: 'Invalid amount, please enter a number' });
         }
-
         this.props.onChange(this.props.index, {
             value: { amount: value, code: this.props.transfer.value.code },
             validationFailures
@@ -71,12 +70,11 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
         const amountInput =
             this.props.index > -1 ? (
                 <div className={styles.amount}>
-                    <ConnectedTextInputElement
+                    <TextInputElement
                         placeholder={placeholder}
                         name="value"
                         onChange={this.handleAmountChanged}
                         entry={{ value: amount }}
-                        autocomplete={true}
                     />
                 </div>
             ) : null;
@@ -102,7 +100,11 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
         };
 
         return (
-            <FormElement name="Currency" entry={this.props.transfer}>
+            <FormElement
+                name="Currency"
+                entry={this.props.transfer}
+                __className={styles.formElement}
+            >
                 <div className={styles.transfer}>
                     <div className={styles.currency}>
                         <AssetSelector

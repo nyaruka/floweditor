@@ -5,7 +5,6 @@ exports[`AddLabelsForm render should render a base action 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

@@ -23,7 +23,7 @@ describe(SendMsgForm.name, () => {
         it('should save changes', () => {
             const { instance, props } = setup(true);
 
-            instance.handleMessageUpdate('What is your favorite color?');
+            instance.handleMessageUpdate('What is your favorite color?', []);
             instance.handleQuickRepliesUpdate(['red', 'green', 'blue']);
             instance.handleSendAllUpdate(true);
 
@@ -40,7 +40,7 @@ describe(SendMsgForm.name, () => {
                 nodeSettings: { $merge: { originalAction: null } }
             });
 
-            instance.handleMessageUpdate('What is your favorite color?');
+            instance.handleMessageUpdate('What is your favorite color?', []);
             instance.handleSave();
 
             expect(props.updateAction).toMatchCallSnapshot();
@@ -52,7 +52,7 @@ describe(SendMsgForm.name, () => {
             const { instance, props } = setup(true, {
                 $merge: { onClose: jest.fn(), updateAction: jest.fn() }
             });
-            instance.handleMessageUpdate("Don't save me bro");
+            instance.handleMessageUpdate("Don't save me bro", []);
             instance.getButtons().secondary.onClick();
             expect(props.onClose).toHaveBeenCalled();
             expect(props.updateAction).not.toHaveBeenCalled();

@@ -5,7 +5,6 @@ exports[`ResponseRouterForm initializes 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -90,7 +89,6 @@ exports[`ResponseRouterForm initializes case config 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -175,7 +173,6 @@ exports[`ResponseRouterForm should render 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

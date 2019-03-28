@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import * as styles from '~/components/form/FormElement.scss';
-import { FormEntry } from '~/store/nodeEditor';
+import { FormEntry, ValidationFailure } from '~/store/nodeEditor';
 import { renderIf } from '~/utils';
 
 const cx = classNames.bind(styles);
@@ -42,21 +42,24 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private hasErrors(): boolean {
-        return (
-            this.props.entry &&
-            this.props.entry.validationFailures &&
-            this.props.entry.validationFailures.length > 0
-        );
+        return this.getMergedErrors().length > 0;
+    }
+
+    private getMergedErrors(): ValidationFailure[] {
+        if (this.props.entry) {
+            return (this.props.entry.validationFailures || []).concat(
+                this.props.entry.persistantFailures || []
+            );
+        }
+        return [];
     }
 
     private getErrors(): JSX.Element {
         if (this.hasErrors()) {
-            const errors = this.props.entry.validationFailures.map((failure, idx) => {
+            const errors = this.getMergedErrors().map((failure, idx) => {
                 const className = cx({
                     [styles.error]: true,
                     [styles.sendMsgError]: this.props.sendMsgError === true
-                    // [styles.kaseError]: this.props.kaseError === true,
-                    // [styles.attribError]: this.props.attribError === true
                 });
                 return (
                     <div key={idx} className={className}>
@@ -78,6 +81,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
         const className = cx({
             [styles.ele]: true,
             [styles.border]: this.props.border,
+            [styles.invalid]: this.hasErrors(),
             [this.props.__className]: this.props.__className !== undefined
         });
 

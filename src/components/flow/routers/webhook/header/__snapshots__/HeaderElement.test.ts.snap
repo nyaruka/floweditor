@@ -7,6 +7,7 @@ Array [
     "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
     "value": "application/json",
   },
+  Array [],
 ]
 `;
 
@@ -56,6 +57,7 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
         }
         name="value"
         onChange={[Function]}
+        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>
@@ -73,6 +75,21 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
 `;
 
 exports[`HeaderElement instance methods handleChangeValue should update state, call onChange prop 1`] = `
+Array [
+  Object {
+    "value": Object {
+      "value": Object {
+        "name": "Content-Type",
+        "uuid": "00c4498e-1c9e-4c26-aa7c-f81d13573129",
+        "value": "application/json",
+      },
+    },
+  },
+  [Function],
+]
+`;
+
+exports[`HeaderElement instance methods handleChangeValue should update state, call onChange prop 2`] = `
 <FormElement
   entry={
     Object {
@@ -122,6 +139,7 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
         }
         name="value"
         onChange={[Function]}
+        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>
@@ -149,6 +167,7 @@ Array [
       "value": "application/json",
     },
   },
+  Array [],
 ]
 `;
 
@@ -198,6 +217,7 @@ exports[`HeaderElement render should render remove icon 1`] = `
         }
         name="value"
         onChange={[Function]}
+        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>
@@ -215,6 +235,19 @@ exports[`HeaderElement render should render remove icon 1`] = `
 `;
 
 exports[`HeaderElement render should render self, children with base props 1`] = `
+Object {
+  "autocomplete": true,
+  "entry": Object {
+    "value": "application/json",
+  },
+  "name": "value",
+  "onChange": [Function],
+  "onFieldFailures": [Function],
+  "placeholder": "Value",
+}
+`;
+
+exports[`HeaderElement render should render self, children with base props 2`] = `
 <FormElement
   entry={
     Object {
@@ -260,6 +293,7 @@ exports[`HeaderElement render should render self, children with base props 1`] =
         }
         name="value"
         onChange={[Function]}
+        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>

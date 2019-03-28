@@ -1,5 +1,6 @@
 import mutate from 'immutability-helper';
 import { combineReducers } from 'redux';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { SelectOption } from '~/components/form/select/SelectElement';
 import { Type } from '~/config';
 import { Scheme } from '~/config/typeConfigs';
@@ -21,6 +22,7 @@ export interface ValidationFailure {
 export interface FormEntry {
     value: any;
     validationFailures?: ValidationFailure[];
+    persistantFailures?: ValidationFailure[];
 }
 
 export interface SelectOptionEntry extends FormEntry {
@@ -121,11 +123,19 @@ export const mergeForm = (
 
     const removeKeys = toRemove.filter((item: any) => typeof item === 'string');
     updated = mutate(updated, { $merge: toMerge, $unset: removeKeys }) as FormState;
+
     let valid = true;
     for (const key of Object.keys(form)) {
         const entry: any = updated[key];
-        if (entry && typeof entry === 'object') {
-            if (entry.validationFailures && entry.validationFailures.length > 0) {
+        if (Array.isArray(entry)) {
+            for (const item of entry) {
+                if (hasErrors(item)) {
+                    valid = false;
+                    break;
+                }
+            }
+        } else if (entry && typeof entry === 'object') {
+            if (hasErrors(entry)) {
                 valid = false;
                 break;
             }

@@ -15,7 +15,7 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
         if (localized.isLocalized()) {
             const action = localized.getObject() as any;
             return {
-                text: { value: 'text' in localized.localizedKeys ? action.text : '' },
+                message: { value: 'text' in localized.localizedKeys ? action.text : '' },
                 quickReplies: {
                     value:
                         'quick_replies' in localized.localizedKeys ? action.quick_replies || [] : []
@@ -27,7 +27,7 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
     }
 
     return {
-        text: { value: '' },
+        message: { value: '' },
         quickReplies: { value: [] },
         audio: { value: null },
         valid: true

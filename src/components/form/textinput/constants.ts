@@ -27,7 +27,8 @@ export enum TopLevelVariables {
     run = 'run',
     parent = 'parent',
     child = 'child',
-    trigger = 'trigger'
+    trigger = 'trigger',
+    fields = 'fields'
 }
 
 export const MAX_GSM_SINGLE = 160;
@@ -214,6 +215,7 @@ export const TRIGGER_OPTIONS: CompletionOption[] = [
 export const OPTIONS: CompletionOption[] = [
     ...getContactOptions(),
     { name: 'results', summary: 'The results for the current run' },
+    { name: 'fields', summary: 'The custom fields for the contact' },
     ...RUN_OPTIONS,
     ...CHILD_OPTIONS,
     ...PARENT_OPTIONS,
@@ -230,7 +232,8 @@ export const TOP_LEVEL_OPTIONS = OPTIONS.filter((option: CompletionOption) => {
         name === TopLevelVariables.run ||
         name === TopLevelVariables.parent ||
         name === TopLevelVariables.child ||
-        name === TopLevelVariables.trigger
+        name === TopLevelVariables.trigger ||
+        name === TopLevelVariables.fields
     );
 });
 

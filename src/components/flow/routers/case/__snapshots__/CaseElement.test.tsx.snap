@@ -370,6 +370,7 @@ exports[`CaseElement render should render empty case 1`] = `
         }
         name="arguments"
         onChange={[Function]}
+        onFieldFailures={[Function]}
       />
     </div>
     <div

@@ -1,18 +1,19 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { ActionFormProps } from '~/components/flow/props';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import UploadButton from '~/components/uploadbutton/UploadButton';
 import { fakePropType } from '~/config/ConfigProvider';
-import { FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import { FormState, mergeForm, StringEntry, ValidationFailure } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
 export interface SayMsgFormState extends FormState {
-    text: StringEntry;
+    message: StringEntry;
     audio: StringEntry;
 }
 
@@ -33,7 +34,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
         const updates: Partial<SayMsgFormState> = {};
 
         if (keys.hasOwnProperty('text')) {
-            updates.text = validate('Message', keys.text, [validateRequired]);
+            updates.message = validate('Message', keys.text, [validateRequired]);
         }
 
         const updated = mergeForm(this.state, updates);
@@ -48,7 +49,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
     private handleSave(): void {
         // make sure we validate untouched text fields
         const valid = this.handleUpdate({
-            text: this.state.text.value
+            text: this.state.message.value
         });
 
         if (valid) {
@@ -61,7 +62,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }
@@ -88,7 +89,11 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
                     name="Message"
                     showLabel={false}
                     onChange={this.handleMessageUpdate}
-                    entry={this.state.text}
+                    entry={this.state.message}
+                    onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                        const message = { ...this.state.message, persistantFailures };
+                        this.setState({ message, valid: this.state.valid && !hasErrors(message) });
+                    }}
                     autocomplete={true}
                     focus={true}
                     textarea={true}

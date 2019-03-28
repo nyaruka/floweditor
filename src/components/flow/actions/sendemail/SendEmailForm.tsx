@@ -1,13 +1,20 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendemail/helpers';
 import * as styles from '~/components/flow/actions/sendemail/SendEmail.scss';
 import { ActionFormProps } from '~/components/flow/props';
 import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
+import {
+    FormState,
+    mergeForm,
+    StringArrayEntry,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
@@ -83,7 +90,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
 
     public getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }
@@ -120,6 +127,13 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
                         placeholder="Subject"
                         onChange={this.handleSubjectChanged}
                         entry={this.state.subject}
+                        onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                            const subject = { ...this.state.subject, persistantFailures };
+                            this.setState({
+                                subject,
+                                valid: this.state.valid && !hasErrors(subject)
+                            });
+                        }}
                         autocomplete={true}
                     />
                     <TextInputElement
@@ -128,6 +142,10 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
                         showLabel={false}
                         onChange={this.handleBodyChanged}
                         entry={this.state.body}
+                        onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                            const body = { ...this.state.body, persistantFailures };
+                            this.setState({ body, valid: this.state.valid && !hasErrors(body) });
+                        }}
                         autocomplete={true}
                         textarea={true}
                     />

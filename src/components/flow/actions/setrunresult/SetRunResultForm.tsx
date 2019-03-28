@@ -1,12 +1,13 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { initializeForm, stateToAction } from '~/components/flow/actions/setrunresult/helpers';
 import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
 import { ActionFormProps } from '~/components/flow/props';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
+import { FormState, mergeForm, StringEntry, ValidationFailure } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 export interface SetRunResultFormState extends FormState {
@@ -77,7 +78,7 @@ export default class SetRunResultForm extends React.PureComponent<
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }
@@ -110,6 +111,10 @@ export default class SetRunResultForm extends React.PureComponent<
                         showLabel={true}
                         onChange={this.handleValueUpdate}
                         entry={this.state.value}
+                        onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                            const value = { ...this.state.value, persistantFailures };
+                            this.setState({ value, valid: this.state.valid && !hasErrors(value) });
+                        }}
                         autocomplete={true}
                         helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
                     />
@@ -120,7 +125,7 @@ export default class SetRunResultForm extends React.PureComponent<
                         showLabel={true}
                         onChange={this.handleCategoryUpdate}
                         entry={this.state.category}
-                        autocomplete={true}
+                        autocomplete={false}
                         helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
                     />
                 </div>

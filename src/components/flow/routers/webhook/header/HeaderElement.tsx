@@ -1,9 +1,11 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
+import { getAllErrors } from '~/components/flow/actions/helpers';
 import { HeaderEntry } from '~/components/flow/routers/webhook/WebhookRouterForm';
 import * as styles from '~/components/flow/routers/webhook/WebhookRouterForm.scss';
 import FormElement from '~/components/form/FormElement';
-import ConnectedTextInputElement from '~/components/form/textinput/TextInputElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
+import { StringEntry, ValidationFailure } from '~/store/nodeEditor';
 
 // TODO: move this into webhook router component
 export interface Header {
@@ -16,13 +18,13 @@ export interface HeaderElementProps {
     entry: HeaderEntry;
     index: number;
     onRemove: (header: Header) => void;
-    onChange: (header: Header) => void;
+    onChange: (header: Header, validationFailures: ValidationFailure[]) => void;
     empty?: boolean;
 }
 
 interface HeaderElementState {
     name: string;
-    value: string;
+    value: StringEntry;
 }
 
 export const headerContainerSpecId = 'header-container';
@@ -44,7 +46,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
 
         this.state = {
             name,
-            value
+            value: { value }
         };
 
         bindCallbacks(this, {
@@ -52,20 +54,28 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         });
     }
 
+    private getHeader(): Header {
+        return {
+            name: this.state.name,
+            value: this.state.value.value,
+            uuid: this.props.entry.value.uuid
+        };
+    }
+
     private handleChangeName(name: string): void {
         this.setState({ name }, () =>
-            this.props.onChange({ ...this.state, uuid: this.props.entry.value.uuid })
+            this.props.onChange(this.getHeader(), getAllErrors(this.state.value))
         );
     }
 
     private handleChangeValue(value: string): void {
-        this.setState({ value }, () =>
-            this.props.onChange({ ...this.state, uuid: this.props.entry.value.uuid })
+        this.setState({ value: { value } }, () =>
+            this.props.onChange(this.getHeader(), getAllErrors(this.state.value))
         );
     }
 
     private handleRemove(): void {
-        this.props.onRemove({ ...this.state, uuid: this.props.entry.value.uuid });
+        this.props.onRemove(this.getHeader());
     }
 
     private getRemoveIco(): JSX.Element {
@@ -87,7 +97,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
             <FormElement name="Header" entry={this.props.entry}>
                 <div className={styles.header} data-spec={headerContainerSpecId}>
                     <div className={styles.header_name} data-spec={nameContainerSpecId}>
-                        <ConnectedTextInputElement
+                        <TextInputElement
                             placeholder={NAME_PLACEHOLDER}
                             name="name"
                             onChange={this.handleChangeName}
@@ -96,11 +106,14 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                         />
                     </div>
                     <div className={styles.header_value} data-spec={valueConatainerSpecId}>
-                        <ConnectedTextInputElement
+                        <TextInputElement
                             placeholder={VALUE_PLACEHOLDER}
                             name="value"
                             onChange={this.handleChangeValue}
-                            entry={{ value: this.state.value }}
+                            entry={this.state.value}
+                            onFieldFailures={(validationFailures: ValidationFailure[]) => {
+                                this.props.onChange(this.getHeader(), validationFailures);
+                            }}
                             autocomplete={true}
                         />
                     </div>

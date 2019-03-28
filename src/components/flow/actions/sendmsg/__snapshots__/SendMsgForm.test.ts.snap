@@ -5,7 +5,6 @@ exports[`SendMsgForm render should render 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -23,18 +22,30 @@ exports[`SendMsgForm render should render 1`] = `
           <p>
             Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
           </p>
-          <TaggingElement
-            entry={
-              Object {
-                "value": Array [],
-              }
-            }
-            name="Replies"
-            onChange={[Function]}
-            onCheckValid={[Function]}
-            placeholder="Quick Replies"
-            prompt="Enter a Quick Reply"
-          />
+          <div
+            className="addQuickReplies"
+          >
+            <div>
+              <p>
+                Add a new Quick Reply and press enter.
+              </p>
+              <Connect(TextInputElement)
+                autocomplete={true}
+                entry={
+                  Object {
+                    "value": "",
+                  }
+                }
+                focus={true}
+                name="Quick Reply"
+                onChange={[Function]}
+                onEnter={[Function]}
+                onFieldFailures={[Function]}
+                placeholder="Quick Reply"
+                showLabel={false}
+              />
+            </div>
+          </div>
         </React.Fragment>,
         "checked": false,
         "name": "Quick Replies",
@@ -43,8 +54,8 @@ exports[`SendMsgForm render should render 1`] = `
         "body": <React.Fragment>
           <p>
             Add up to 
-            5
-             to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+            3
+             attachments to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <div
             className="urlAttachment"
@@ -153,6 +164,7 @@ exports[`SendMsgForm render should render 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
+    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />
@@ -175,6 +187,10 @@ Array [
 exports[`SendMsgForm updates should save changes 1`] = `
 Object {
   "attachments": Array [],
+  "message": Object {
+    "validationFailures": Array [],
+    "value": "What is your favorite color?",
+  },
   "quickReplies": Object {
     "validationFailures": Array [],
     "value": Array [
@@ -183,11 +199,10 @@ Object {
       "blue",
     ],
   },
-  "sendAll": true,
-  "text": Object {
-    "validationFailures": Array [],
-    "value": "What is your favorite color?",
+  "quickReplyEditor": Object {
+    "value": "",
   },
+  "sendAll": true,
   "valid": true,
 }
 `;

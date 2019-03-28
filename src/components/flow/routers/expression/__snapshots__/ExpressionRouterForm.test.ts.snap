@@ -5,7 +5,6 @@ exports[`ExpressionRouterForm initializes 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },
@@ -88,7 +87,6 @@ exports[`ExpressionRouterForm should render 1`] = `
   buttons={
     Object {
       "primary": Object {
-        "disabled": false,
         "name": "Ok",
         "onClick": [Function],
       },

@@ -1,7 +1,12 @@
+@import '~/variables.scss';
+
 .errors {
-    padding: 10px 0px;
-    font-size: 12px;
+    color: $red;
+    text-align: center;
     .error {
-        color: red;
+        margin-top: 16px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid $red;
     }
 }

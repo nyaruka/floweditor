@@ -3,25 +3,32 @@ import axios from 'axios';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
+import { text } from '~/components/flow/actions/saymsg/SayMsg.scss';
 import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg/helpers';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { ActionFormProps } from '~/components/flow/props';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
-import TaggingElement from '~/components/form/select/tags/TaggingElement';
 import TextInputElement, { Count } from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import Pill from '~/components/pill/Pill';
 import { fakePropType } from '~/config/ConfigProvider';
 import { getCookie } from '~/external';
-import { FormState, mergeForm, StringArrayEntry, StringEntry } from '~/store/nodeEditor';
+import {
+    FormState,
+    mergeForm,
+    StringArrayEntry,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
 import { createUUID } from '~/utils';
 import { small } from '~/utils/reactselect';
 
 import * as styles from './SendMsgForm.scss';
 
-const MAX_ATTACHMENTS = 5;
+const MAX_ATTACHMENTS = 3;
 
 const TYPE_OPTIONS: SelectOption[] = [
     { value: 'image', label: 'Image URL' },
@@ -42,10 +49,11 @@ export interface Attachment {
 }
 
 export interface SendMsgFormState extends FormState {
-    text: StringEntry;
+    message: StringEntry;
     quickReplies: StringArrayEntry;
     sendAll: boolean;
     attachments: Attachment[];
+    quickReplyEditor: StringEntry;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -69,9 +77,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         quickReplies?: string[];
     }): boolean {
         const updates: Partial<SendMsgFormState> = {};
-
         if (keys.hasOwnProperty('text')) {
-            updates.text = validate('Message', keys.text, [validateRequired]);
+            updates.message = validate('Message', keys.text, [validateRequired]);
         }
 
         if (keys.hasOwnProperty('sendAll')) {
@@ -82,13 +89,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             updates.quickReplies = validate('Quick Replies', keys.quickReplies, [validateMaxOfTen]);
         }
 
-        const updated = mergeForm(this.state, updates);
+        const updated = mergeForm(this.state, updates) as SendMsgFormState;
+
         this.setState(updated);
         return updated.valid;
     }
 
-    public handleMessageUpdate(text: string): boolean {
-        return this.handleUpdate({ text });
+    public handleMessageUpdate(message: string): boolean {
+        return this.handleUpdate({ text: message });
     }
 
     public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
@@ -100,17 +108,23 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     private handleSave(): void {
-        // make sure we validate untouched text fields
-        const valid = this.handleUpdate({
-            text: this.state.text.value
-        });
+        // make sure we validate untouched text fields and contact fields
+        let entry = this.state.message;
+        if (!hasErrors(entry)) {
+            entry = validate('Message', entry.value, [validateRequired]);
+            this.setState({ message: entry });
+        }
 
-        if (valid) {
+        if (this.state.valid && !hasErrors(entry)) {
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
-
             // notify our modal we are done
             this.props.onClose(false);
         }
+    }
+
+    public handleFieldFailures(persistantFailures: ValidationFailure[]): void {
+        const message = { ...this.state.message, persistantFailures };
+        this.setState({ message, valid: this.state.valid && !hasErrors(message) });
     }
 
     public handleAttachmentRemoved(index: number): void {
@@ -123,7 +137,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     private getButtons(): ButtonSet {
         return {
-            primary: { name: 'Ok', onClick: this.handleSave, disabled: !this.state.valid },
+            primary: { name: 'Ok', onClick: this.handleSave },
             secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
         };
     }
@@ -277,8 +291,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         return (
             <>
                 <p>
-                    Add up to {MAX_ATTACHMENTS} to each message. Each attachment can be a file you
-                    upload or a dynamic URL using expressions and variables from your Flow.
+                    Add up to {MAX_ATTACHMENTS} attachments to each message. Each attachment can be
+                    a file you upload or a dynamic URL using expressions and variables from your
+                    Flow.
                 </p>
                 {attachments}
                 {emptyOption}
@@ -296,6 +311,73 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         );
     }
 
+    private handleQuickReplyUpdate(value: string): void {
+        this.setState({ quickReplyEditor: { value } });
+    }
+
+    private handleAddQuickReply(): void {
+        // hack: we want to evaluate after the state is updated for validation errors
+        window.setTimeout(() => {
+            if (hasErrors(this.state.quickReplyEditor)) {
+                return;
+            }
+
+            if (this.state.quickReplyEditor.value.trim().length > 0) {
+                const newQuickReply = this.state.quickReplyEditor.value.trim();
+                const newReplies = [...this.state.quickReplies.value];
+
+                if (newReplies.length >= 10) {
+                    return;
+                }
+
+                // we don't allow two quick replies with the same name
+                const isNew = !newReplies.find(
+                    (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
+                );
+
+                if (isNew) {
+                    newReplies.push(newQuickReply);
+                }
+
+                this.setState({
+                    quickReplies: { value: newReplies },
+                    quickReplyEditor: { value: '' }
+                });
+            }
+        }, 0);
+    }
+
+    private handleRemoveQuickReply(toRemove: string): void {
+        this.setState({
+            quickReplies: {
+                value: this.state.quickReplies.value.filter((reply: string) => reply !== toRemove)
+            }
+        });
+    }
+
+    public getReplies(): JSX.Element {
+        if (this.state.quickReplies.value.length > 0) {
+            return (
+                <div className={styles.existingQuickReplies}>
+                    {this.state.quickReplies.value.map((reply: string) => (
+                        <div className={styles.existingQuickReply}>
+                            <Pill
+                                key={`reply_${reply}`}
+                                icon="fe-x"
+                                text={' ' + reply}
+                                large={true}
+                                onClick={() => {
+                                    this.handleRemoveQuickReply(reply);
+                                }}
+                            />
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+        return null;
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
@@ -308,14 +390,37 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                         when asking a question, you might add a Quick Reply for "Yes" and one for
                         "No".
                     </p>
-                    <TaggingElement
-                        name="Replies"
-                        placeholder="Quick Replies"
-                        prompt="Enter a Quick Reply"
-                        onChange={this.handleQuickRepliesUpdate}
-                        onCheckValid={() => true}
-                        entry={this.state.quickReplies}
-                    />
+                    {this.getReplies()}
+                    <div className={styles.addQuickReplies}>
+                        <div>
+                            <p>Add a new Quick Reply and press enter.</p>
+                            <TextInputElement
+                                name="Quick Reply"
+                                placeholder="Quick Reply"
+                                showLabel={false}
+                                onChange={this.handleQuickReplyUpdate}
+                                entry={this.state.quickReplyEditor}
+                                autocomplete={true}
+                                focus={true}
+                                onEnter={this.handleAddQuickReply}
+                                onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                                    const quickReplyEditor = {
+                                        ...this.state.quickReplyEditor,
+                                        persistantFailures
+                                    };
+                                    this.setState(
+                                        {
+                                            quickReplyEditor,
+                                            valid: this.state.valid && !hasErrors(quickReplyEditor)
+                                        },
+                                        () => {
+                                            console.log('errors added');
+                                        }
+                                    );
+                                }}
+                            />
+                        </div>
+                    </div>
                 </>
             ),
             checked: this.state.quickReplies.value.length > 0
@@ -359,10 +464,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                     showLabel={false}
                     count={Count.SMS}
                     onChange={this.handleMessageUpdate}
-                    entry={this.state.text}
+                    entry={this.state.message}
                     autocomplete={true}
                     focus={true}
                     textarea={true}
+                    onFieldFailures={this.handleFieldFailures}
                 />
             </Dialog>
         );

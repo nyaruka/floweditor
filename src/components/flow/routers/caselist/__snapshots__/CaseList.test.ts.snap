@@ -2797,11 +2797,13 @@ exports[`CaseList render should render empty list 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "",
                                                 }
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -2810,20 +2812,24 @@ exports[`CaseList render should render empty list 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "",
                                                   }
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "",
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -2909,6 +2915,7 @@ exports[`CaseList render should render empty list 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -6449,11 +6456,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "Red, r",
                                                 }
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -6462,20 +6471,24 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "Red, r",
                                                   }
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "Red, r",
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -6561,6 +6574,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -9064,11 +9078,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "Green, g",
                                                 }
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -9077,20 +9093,24 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "Green, g",
                                                   }
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "Green, g",
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -9176,6 +9196,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -11663,11 +11684,13 @@ exports[`CaseList render should render list of cases 1`] = `
                                               data-spec="args-input"
                                               entry={
                                                 Object {
+                                                  "persistantFailures": Array [],
                                                   "value": "",
                                                 }
                                               }
                                               name="arguments"
                                               onChange={[Function]}
+                                              onFieldFailures={[Function]}
                                             >
                                               <TextInputElement
                                                 assetStore={Object {}}
@@ -11676,20 +11699,24 @@ exports[`CaseList render should render list of cases 1`] = `
                                                 dispatch={[Function]}
                                                 entry={
                                                   Object {
+                                                    "persistantFailures": Array [],
                                                     "value": "",
                                                   }
                                                 }
                                                 name="arguments"
                                                 onChange={[Function]}
+                                                onFieldFailures={[Function]}
                                                 typeConfig={null}
                                               >
                                                 <FormElement
                                                   entry={
                                                     Object {
+                                                      "persistantFailures": Array [],
                                                       "value": "",
                                                     }
                                                   }
                                                   name="arguments"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"
@@ -11775,6 +11802,7 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     }
                                                   }
                                                   name="exitName"
+                                                  sendMsgError={false}
                                                 >
                                                   <div
                                                     className="ele"

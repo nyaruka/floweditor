@@ -85,6 +85,10 @@ Array [
     "summary": "The results for the current run",
   },
   Object {
+    "name": "fields",
+    "summary": "The custom fields for the contact",
+  },
+  Object {
     "name": "run",
     "summary": "A run in this flow",
   },
