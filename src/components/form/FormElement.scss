@@ -18,7 +18,7 @@
             visibility: hidden;
             position: absolute;
             z-index: 30000;
-            background: $error_color + #333;
+            background: lighten($error_color, 20%);
             border: 2px solid $error_color;
             border-radius: 5px;
             padding: 7px 7px;

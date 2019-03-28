@@ -7,7 +7,7 @@
 
     .sticky {
         background: $color;
-        box-shadow: 5px 5px 0px -2px rgba($color - #222, 0.3);
+        box-shadow: 5px 5px 0px -2px rgba(darken($color, 10%), 0.3);
     }
 }
 
@@ -150,7 +150,7 @@
                 outline: none;
                 box-shadow: none;
                 font-size: 12px;
-                color: $text_color - #111;
+                color: darken($text_color, 5%);
                 height: inherit;
                 cursor: pointer;
             }

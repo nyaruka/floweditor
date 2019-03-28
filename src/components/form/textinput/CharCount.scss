@@ -16,7 +16,7 @@
     margin-top: 5px;
     font-size: 12px;
     line-height: 13px;
-    color: $gray + #333;
+    color: lighten($gray, 20%);
 }
 
 .divider {
@@ -42,7 +42,7 @@
     position: absolute;
     z-index: 1;
     bottom: 138%;
-    left: -130%;
+    left: -120%;
 
     /* Fade in tooltip */
     opacity: 0;

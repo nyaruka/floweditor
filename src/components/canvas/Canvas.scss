@@ -42,7 +42,7 @@ $background_offset: ($grid_size / 2) + ($node_padding) + px;
 .dragSelection {
     position: absolute;
     background: $selection_square;
-    border: 0px solid $selection_square - #222;
+    border: 0px solid darken($selection_square, 10%);
     opacity: 0.2;
     pointer-events: none;
     z-index: $z_selection;

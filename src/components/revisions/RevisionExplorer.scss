@@ -59,14 +59,14 @@ $revision_color: $purple;
                     letter-spacing: 1px;
                     font-weight: 400;
                     top: 7px;
-                    background: $revision_color + #111;
+                    background: lighten($revision_color, 5%);
                     color: $light_gray_2;
                     width: 36px;
                     text-align: center;
                     float: right;
 
                     &:hover {
-                        background: $revision_color + #222;
+                        background: lighten($revision_color, 10%);
                     }
 
                     &.current {

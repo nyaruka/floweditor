@@ -152,7 +152,7 @@
 .active {
     position: absolute;
     background: $active_color;
-    border: 1px solid $active_color - #111;
+    border: 1px solid darken($active_color, 5%);
     border-radius: 12px;
     padding: 3px 5px;
     color: #fff;

@@ -25,6 +25,7 @@ export interface EditorState {
     translating: boolean;
     fetchingFlow: boolean;
     ghostNode: RenderNode;
+    containerOffset: { left: number; top: number };
     dragActive: boolean;
     dragStartTime: number;
     dragDownPosition: FlowPosition;
@@ -45,6 +46,7 @@ export const EMPTY_DRAG_STATE: any = {
 
 // Initial state
 export const initialState: EditorState = {
+    containerOffset: { top: 0, left: 0 },
     simulating: false,
     translating: false,
     language: null,

@@ -25,7 +25,7 @@
     &.disabled {
         background: $button_disabled;
         text-decoration: none;
-        color: $button_disabled - #111 !important;
+        color: darken($button_disabled, 5%) !important;
         cursor: default;
 
         &:hover {
@@ -59,13 +59,13 @@
         border: 1px solid transparent;
 
         &:hover {
-            border: 1px solid $light_gray - #111;
+            border: 1px solid darken($light_gray, 5%);
         }
     }
 
     &.tertiary {
         color: #666;
-        border: 1px solid $light_gray - #111;
+        border: 1px solid darken($light_gray, 5%);
         background: $button_dark;
         background-image: -webkit-linear-gradient(top, $button_light, $button_dark);
         background-image: -moz-linear-gradient(top, $button_light, $button_dark);
@@ -75,7 +75,7 @@
         background: none;
 
         &:hover {
-            background: $light_gray + #111;
+            background: lighten ($light_gray, 5%);
         }
     }
 }

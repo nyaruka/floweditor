@@ -17,7 +17,7 @@
     background: $translation_bg;
     border-radius: 5px;
     padding: 9px;
-    border: 1px solid $translation_bg - #111;
+    border: 1px solid darken($translation_bg, 5%);
     display: inline-block;
     width: 200px;
     white-space: nowrap;

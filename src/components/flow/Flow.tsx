@@ -103,7 +103,6 @@ export const getDragStyle = (drag: DragSelection) => {
 export class Flow extends React.Component<FlowStoreProps, {}> {
     private Activity: ActivityManager;
     private Plumber: Plumber;
-    private containerOffset = { left: 0, top: 0 };
     private ele: HTMLDivElement;
     private nodeContainerUUID: string;
 
@@ -178,7 +177,10 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         if (this.ele) {
             offset = this.ele.getBoundingClientRect();
         }
-        this.containerOffset = { left: offset.left, top: offset.top + window.scrollY };
+
+        this.props.mergeEditorState({
+            containerOffset: { left: offset.left, top: offset.top + window.scrollY }
+        });
 
         timeEnd('RenderAndPlumb');
 
@@ -243,7 +245,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         }
 
         /* istanbul ignore next */
-        $(document).off('mousemove');
+        document.removeEventListener('mousemove', (window as any).ghostListener);
+
         return true;
     }
 
@@ -334,8 +337,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private onDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.isClickOnCanvas(event)) {
             const { left, top } = snapToGrid(
-                event.pageX - this.containerOffset.left - 100 + NODE_PADDING,
-                event.pageY - this.containerOffset.top - NODE_PADDING * 2 - 40
+                event.pageX - this.props.editorState.containerOffset.left - 100 + NODE_PADDING,
+                event.pageY - this.props.editorState.containerOffset.top - NODE_PADDING * 2 - 40
             );
 
             this.props.updateSticky(createUUID(), {
