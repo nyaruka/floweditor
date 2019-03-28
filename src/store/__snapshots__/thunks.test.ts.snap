@@ -918,3 +918,74 @@ Array [
   },
 ]
 `;
+
+exports[`Flow Manipulation routers should add random routers after an add action 1`] = `
+Object {
+  "inboundConnections": Object {},
+  "node": Object {
+    "actions": Array [],
+    "exits": Array [
+      Object {
+        "destination_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+        "name": null,
+        "uuid": "node0_exit0",
+      },
+    ],
+    "uuid": "node0",
+  },
+  "ui": Object {
+    "position": Object {
+      "bottom": 254,
+      "left": 0,
+      "right": 220,
+      "top": 10,
+    },
+  },
+}
+`;
+
+exports[`Flow Manipulation routers should add random routers after an add action 2`] = `
+Object {
+  "inboundConnections": Object {
+    "node0_exit0": "node0",
+  },
+  "node": Object {
+    "actions": Array [],
+    "exits": Array [
+      Object {
+        "destination_uuid": null,
+        "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      },
+      Object {
+        "destination_uuid": null,
+        "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+      },
+    ],
+    "router": Object {
+      "categories": Array [
+        Object {
+          "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          "name": "Bucket 1",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        },
+        Object {
+          "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "name": "Bucket 2",
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        },
+      ],
+      "type": "random",
+    },
+    "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+  },
+  "ui": Object {
+    "position": Object {
+      "bottom": 254,
+      "left": 0,
+      "right": 220,
+      "top": 10,
+    },
+    "type": "split_by_random",
+  },
+}
+`;
