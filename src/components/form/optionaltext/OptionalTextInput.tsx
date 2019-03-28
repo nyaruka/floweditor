@@ -17,8 +17,7 @@ export interface OptionalTextInputState extends FormState {
 }
 
 /**
- * CaseList is a component made up of case elements that lets
- * the user configure rules and drag and drop to set their order.
+ * OptionalText is a hideable text box
  */
 export default class OptionalTextInput extends React.Component<
     OptionalTextInputProps,

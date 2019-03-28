@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultiChoiceInput should render 1`] = `
+<Fragment>
+  <div
+    className="chosen"
+  >
+    <div
+      className="item"
+      key="item_one"
+    >
+      <Pill
+        icon="fe-x"
+        large={true}
+        onClick={[Function]}
+        text=" one"
+      />
+    </div>
+    <div
+      className="item"
+      key="item_two"
+    >
+      <Pill
+        icon="fe-x"
+        large={true}
+        onClick={[Function]}
+        text=" two"
+      />
+    </div>
+    <div
+      className="item"
+      key="item_three"
+    >
+      <Pill
+        icon="fe-x"
+        large={true}
+        onClick={[Function]}
+        text=" three"
+      />
+    </div>
+  </div>
+  <p />
+  <Connect(TextInputElement)
+    autocomplete={true}
+    entry={
+      Object {
+        "value": "",
+      }
+    }
+    focus={true}
+    name="Quick Reply"
+    onChange={[Function]}
+    onEnter={[Function]}
+    onFieldFailures={[Function]}
+    placeholder="Quick Reply"
+    showLabel={false}
+  />
+</Fragment>
+`;
+
+exports[`MultiChoiceInput should update 1`] = `
+Object {
+  "currentInput": Object {
+    "value": "a new item",
+  },
+}
+`;
+
+exports[`MultiChoiceInput should update 2`] = `
+Array [
+  "a new item",
+]
+`;

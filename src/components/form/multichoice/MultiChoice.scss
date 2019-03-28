@@ -1,0 +1,11 @@
+@import '~/variables.scss';
+
+.chosen {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid $light_gray;
+    .item {
+        margin: 2px;
+        display: inline-block;
+    }
+}

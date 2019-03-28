@@ -5,7 +5,7 @@ import * as styles from '~/components/flow/actions/action/Action.scss';
 import { hasErrors } from '~/components/flow/actions/helpers';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { LocalizationFormProps } from '~/components/flow/props';
-import TaggingElement from '~/components/form/select/tags/TaggingElement';
+import MultiChoiceInput from '~/components/form/multichoice/MultiChoice';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import UploadButton from '~/components/uploadbutton/UploadButton';
 import { fakePropType } from '~/config/ConfigProvider';
@@ -123,6 +123,41 @@ export default class MsgLocalizationForm extends React.Component<
         };
     }
 
+    private handleAddQuickReply(newQuickReply: string): boolean {
+        const newReplies = [...this.state.quickReplies.value];
+        if (newReplies.length >= 10) {
+            return false;
+        }
+
+        // we don't allow two quick replies with the same name
+        const isNew = !newReplies.find(
+            (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
+        );
+
+        if (isNew) {
+            newReplies.push(newQuickReply);
+            this.setState({
+                quickReplies: { value: newReplies }
+            });
+            return true;
+        }
+
+        return false;
+    }
+
+    private handleRemoveQuickReply(toRemove: string): void {
+        this.setState({
+            quickReplies: {
+                value: this.state.quickReplies.value.filter((reply: string) => reply !== toRemove)
+            }
+        });
+    }
+
+    public handleQuickReplyFieldFailures(persistantFailures: ValidationFailure[]): void {
+        const quickReplies = { ...this.state.quickReplies, persistantFailures };
+        this.setState({ quickReplies, valid: this.state.valid && !hasErrors(quickReplies) });
+    }
+
     public render(): JSX.Element {
         const typeConfig = determineTypeConfig(this.props.nodeSettings);
         const tabs: Tab[] = [];
@@ -132,14 +167,12 @@ export default class MsgLocalizationForm extends React.Component<
                 name: 'Quick Replies',
                 body: (
                     <>
-                        <p>{this.props.language.name} Quick Replies</p>
-                        <TaggingElement
-                            name="Replies"
-                            placeholder="Quick Replies"
-                            prompt="Enter a Quick Reply"
-                            onChange={this.handleQuickRepliesUpdate}
-                            onCheckValid={() => true}
-                            entry={this.state.quickReplies}
+                        <p>Add a new {this.props.language.name} Quick Reply and press enter.</p>
+                        <MultiChoiceInput
+                            items={this.state.quickReplies}
+                            onRemoved={this.handleRemoveQuickReply}
+                            onItemAdded={this.handleAddQuickReply}
+                            onFieldErrors={this.handleQuickReplyFieldFailures}
                         />
                     </>
                 )
