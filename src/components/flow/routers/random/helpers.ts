@@ -55,7 +55,10 @@ export const stateToNode = (
         optionalRouter.result_name = state.resultName.value;
     }
 
-    const exits = settings.originalNode.node.exits;
+    const exits =
+        settings.originalNode.ui.type === Types.split_by_random
+            ? settings.originalNode.node.exits
+            : [];
 
     state.categories.forEach((category: Category, idx: number) => {
         if (idx < exits.length) {

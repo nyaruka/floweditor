@@ -7,7 +7,7 @@ import SelectElement, { SelectOption } from '~/components/form/select/SelectElem
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
-import { Exit, Category } from '~/flowTypes';
+import { Category } from '~/flowTypes';
 import { FormState, mergeForm, SelectOptionEntry, StringEntry } from '~/store/nodeEditor';
 import { small } from '~/utils/reactselect';
 
@@ -76,7 +76,7 @@ export default class RandomRouterForm extends React.Component<
         return updated.valid;
     }
 
-    private handleSave(): void {
+    public handleSave(): void {
         this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
         this.props.onClose(false);
     }
