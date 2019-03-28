@@ -1,5 +1,6 @@
 import mutate from 'immutability-helper';
 import { ghost } from '~/components/flow/node/Node.scss';
+import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { FlowTypes, Operators, Types } from '~/config/interfaces';
 import { getTypeConfig } from '~/config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from '~/flowTypes';
@@ -31,9 +32,12 @@ import {
     updateSticky
 } from '~/store/thunks';
 import { createMockStore, mock, prepMockDuxState } from '~/testUtils';
-import { createAddGroupsAction, createSendMsgAction } from '~/testUtils/assetCreators';
+import {
+    createAddGroupsAction,
+    createRandomNode,
+    createSendMsgAction
+} from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
-import { DefaultExitNames } from '~/components/flow/routers/constants';
 
 const config = require('~/test/config');
 
@@ -793,6 +797,29 @@ describe('Flow Manipulation', () => {
             };
 
             const previousBottom = testNodes.node0.ui.position.bottom;
+
+            // splice in our new router
+            const nodes = store.dispatch(onUpdateRouter(newRouter));
+            const newNodeUUID = nodes.node0.node.exits[0].destination_uuid;
+            expect(nodes[newNodeUUID]).toHaveInboundFrom(nodes.node0.node.exits[0]);
+        });
+
+        it('should add random routers after an add action', () => {
+            store = createMockStore(
+                mutate(initialState, {
+                    flowContext: { nodes: { $set: testNodes } },
+                    nodeEditor: {
+                        settings: {
+                            $set: {
+                                originalNode: testNodes.node0,
+                                originalAction: createSendMsgAction()
+                            }
+                        }
+                    }
+                })
+            );
+
+            const newRouter: RenderNode = createRandomNode(2);
 
             // splice in our new router
             const nodes = store.dispatch(onUpdateRouter(newRouter));

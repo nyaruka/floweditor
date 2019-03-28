@@ -124,6 +124,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     }
 
     private updateRouter(renderNode: RenderNode): void {
+        console.log('NE update');
         this.props.onUpdateRouter(renderNode);
     }
 
