@@ -3,6 +3,24 @@ import { createCases, createMatchRouter, createRoutes } from '~/testUtils/assetC
 
 describe('routers', () => {
     describe('system categories', () => {
+        it('creates all responses category', () => {
+            const { categories } = resolveRoutes(createCases([]), false, null);
+            expect(categories.length).toBe(1);
+            expect(categories[0].name).toBe('All Responses');
+        });
+
+        it('creates converts all responses category to other', () => {
+            const renderNode = createMatchRouter([]);
+            const router = getSwitchRouter(renderNode.node);
+            expect(router.categories.length).toBe(1);
+            expect(router.categories[0].name).toBe('All Responses');
+
+            // now edit our node to add a rule
+            const { categories } = resolveRoutes(createCases(['Red']), false, renderNode.node);
+            expect(categories.length).toBe(2);
+            expect(categories[1].name).toBe('Other');
+        });
+
         it('creates other category', () => {
             const { categories } = resolveRoutes(
                 createCases(['Red', 'Green', 'Blue']),

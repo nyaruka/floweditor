@@ -14,9 +14,7 @@ import {
     Wait
 } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
-import { createUUID, dump } from '~/utils';
-import { resultToAsset } from '~/external';
+import { createUUID } from '~/utils';
 
 export interface CategorizedCases {
     cases: Case[];
@@ -221,6 +219,10 @@ export const getDefaultRoute = (
         const defaultExit = originalNode.exits.find(
             (e: Exit) => e.uuid === defaultCategory.exit_uuid
         );
+
+        defaultCategory.name = hasCategories
+            ? DefaultExitNames.Other
+            : DefaultExitNames.All_Responses;
 
         return { defaultCategory, defaultExit };
     }
