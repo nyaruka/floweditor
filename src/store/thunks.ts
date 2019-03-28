@@ -891,17 +891,19 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
             );
         }
 
-        // don't recognize that action, let's add a new router node
-        const router = getSwitchRouter(renderNode.node);
-        const defaultCategory = router.categories.find(
-            (cat: Category) => cat.uuid === router.default_category_uuid
-        );
+        // didn't recognize that action, let's add a new router node
+        // if we are appendeng in, see if we need to route through
+        const switchRouter = getSwitchRouter(renderNode.node);
+        if (switchRouter) {
+            const defaultCategory = switchRouter.categories.find(
+                (cat: Category) => cat.uuid === switchRouter.default_category_uuid
+            );
+            const exitToUpdate = renderNode.node.exits.find(
+                (exit: Exit) => exit.uuid === defaultCategory.exit_uuid
+            );
 
-        const exitToUpdate = renderNode.node.exits.find(
-            (exit: Exit) => exit.uuid === defaultCategory.exit_uuid
-        );
-
-        exitToUpdate.destination_uuid = originalNode.node.exits[0].destination_uuid;
+            exitToUpdate.destination_uuid = originalNode.node.exits[0].destination_uuid;
+        }
 
         renderNode.inboundConnections = {
             [originalNode.node.exits[0].uuid]: originalNode.node.uuid

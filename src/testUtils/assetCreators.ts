@@ -551,7 +551,7 @@ export const createRenderNode = ({
             ...(wait ? { wait } : ({} as any))
         },
         ui,
-        inboundConnections: null
+        inboundConnections: {}
     };
     return renderNode;
 };
@@ -619,6 +619,22 @@ export const createCategories = (names: string[]): { categories: Category[]; exi
     return { exits, categories };
 };
 
+export const createRandomNode = (buckets: number) => {
+    const { categories, exits } = createCategories(
+        utils.range(0, buckets).map((bucketIdx: number) => `Bucket ${bucketIdx + 1}`)
+    );
+    return createRenderNode({
+        actions: [],
+        exits,
+        uuid: utils.createUUID(),
+        router: {
+            type: RouterTypes.random,
+            categories
+        },
+        ui: { position: { left: 0, top: 0 }, type: Types.split_by_random }
+    });
+};
+
 export const createSubflowNode = (
     startFlowAction: StartFlow,
     uuid: string = utils.createUUID()
@@ -642,7 +658,7 @@ export const createSubflowNode = (
                     args: [StartFlowArgs.Complete]
                 }),
                 createCase({
-                    uuid: '4be01054-1592-4193-8abd-b673e9ae8dcc',
+                    uuid: utils.createUUID(),
                     type: Operators.has_run_status,
                     category_uuid: categories[1].uuid,
                     args: [StartFlowArgs.Expired]

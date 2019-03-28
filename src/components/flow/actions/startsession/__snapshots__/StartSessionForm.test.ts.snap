@@ -109,80 +109,59 @@ exports[`StartSessionForm render should render self, children with base props 1`
     onChange={[MockFunction]}
   />
   <div>
-    <OmniboxElement
-      add={true}
-      assets={
-        RecipientAssets {
-          "assets": Object {},
-          "endpoint": "/assets/recipients.json",
-          "idProperty": "uuid",
-          "localStorage": true,
-        }
-      }
-      data-spec="recipients"
+    <AssetSelector
       entry={
         Object {
           "value": Array [
             Object {
-              "id": "4441fa19-8bbf-4894-8529-d04cc3b365d6",
+              "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
               "name": "Cat Fanciers",
               "type": "group",
             },
             Object {
-              "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
+              "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
               "name": "Cat Facts",
               "type": "group",
             },
             Object {
-              "id": "1e5aa7db-89c7-4dec-99b8-cd1194e1f46e",
+              "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
               "name": "Kellan Alexander",
               "type": "contact",
             },
             Object {
-              "id": "575fe8e9-cb51-4f15-8df7-422290fdfc64",
+              "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
               "name": "Norbert Kwizera",
               "type": "contact",
             },
             Object {
-              "id": "82df72ae-d835-401b-b248-d0c5dcfdce5c",
+              "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
               "name": "Rowan Seymour",
               "type": "contact",
             },
           ],
         }
       }
+      multi={true}
       name="Recipients"
       onChange={[Function]}
-      placeholder="Enter a group or contact..."
-      searchPromptText="No matches"
+      searchable={true}
     />
-    <p>
-      <SelectAssetElement
-        assets={
-          FlowAssets {
-            "assetType": "flow",
-            "assets": Object {},
-            "endpoint": "/assets/flows.json",
-            "idProperty": "uuid",
-            "localStorage": true,
-          }
+    <p />
+    <AssetSelector
+      entry={
+        Object {
+          "value": Object {
+            "id": "flow_uuid",
+            "name": "Flow to Start",
+            "type": "flow",
+          },
         }
-        entry={
-          Object {
-            "value": Object {
-              "id": "flow_uuid",
-              "name": "Flow to Start",
-              "type": "flow",
-            },
-          }
-        }
-        key="flow_select"
-        name="Flow"
-        onChange={[Function]}
-        placeholder="Select the flow to start them in"
-        searchable={true}
-      />
-    </p>
+      }
+      name="Flow"
+      onChange={[Function]}
+      placeholder="Select the flow to start"
+      searchable={true}
+    />
   </div>
 </Dialog>
 `;
