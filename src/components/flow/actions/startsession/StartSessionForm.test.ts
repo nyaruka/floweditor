@@ -1,7 +1,7 @@
 import StartSessionForm from '~/components/flow/actions/startsession/StartSessionForm';
 import { ActionFormProps } from '~/components/flow/props';
 import { AssetType } from '~/store/flowContext';
-import { composeComponentTestUtils, getSpecWrapper, mock } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import {
     createStartSessionAction,
     getActionFormProps,
@@ -18,9 +18,8 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 
 describe(StartSessionForm.name, () => {
     describe('render', () => {
-        xit('should render self, children with base props', () => {
+        it('should render self, children with base props', () => {
             const { wrapper } = setup(true);
-            expect(getSpecWrapper(wrapper, 'recipients').html()).toContain('Rowan Seymour');
             expect(wrapper).toMatchSnapshot();
         });
 

@@ -44,7 +44,12 @@ describe(RandomRouterForm.name, () => {
         });
 
         instance.handleSave();
+
+        // our orginal node should still only have one exit
+        expect(props.nodeSettings.originalNode.node.exits.length).toBe(1);
+
         expect(wrapper).toMatchSnapshot();
         expect(props.updateRouter).toMatchCallSnapshot();
+        expect(props.nodeSettings.originalNode).toMatchSnapshot();
     });
 });

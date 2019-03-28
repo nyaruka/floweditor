@@ -1,6 +1,6 @@
 import SendBroadcastForm from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { ActionFormProps } from '~/components/flow/props';
-import { composeComponentTestUtils, getSpecWrapper, mock } from '~/testUtils';
+import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createBroadcastMsgAction, getActionFormProps } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
 
@@ -14,9 +14,8 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 
 describe(SendBroadcastForm.name, () => {
     describe('render', () => {
-        xit('should render self, children with base props', () => {
+        it('should render self, children with base props', () => {
             const { wrapper } = setup(true);
-            expect(getSpecWrapper(wrapper, 'recipients').html()).toContain('Rowan Seymour');
             expect(wrapper).toMatchSnapshot();
         });
 

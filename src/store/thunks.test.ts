@@ -823,8 +823,11 @@ describe('Flow Manipulation', () => {
 
             // splice in our new router
             const nodes = store.dispatch(onUpdateRouter(newRouter));
-            const newNodeUUID = nodes.node0.node.exits[0].destination_uuid;
-            expect(nodes[newNodeUUID]).toHaveInboundFrom(nodes.node0.node.exits[0]);
+            const newNode = nodes[nodes.node0.node.exits[0].destination_uuid];
+            expect(newNode).toHaveInboundFrom(nodes.node0.node.exits[0]);
+
+            expect(nodes.node0).toMatchSnapshot();
+            expect(newNode).toMatchSnapshot();
         });
     });
 });

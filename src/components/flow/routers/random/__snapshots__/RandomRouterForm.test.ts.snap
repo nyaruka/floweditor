@@ -155,22 +155,23 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+          "destination_uuid": null,
+          "uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
         },
         Object {
           "destination_uuid": null,
-          "uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
+          "uuid": "dd57500e-a8e8-4a98-8b5b-a33637523a8d",
         },
       ],
       "router": Object {
         "categories": Array [
           Object {
-            "exit_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+            "exit_uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
             "name": "Bucket 1",
             "uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
           },
           Object {
-            "exit_uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
+            "exit_uuid": "dd57500e-a8e8-4a98-8b5b-a33637523a8d",
             "name": "Bucket 2",
             "uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
           },
@@ -186,6 +187,34 @@ Array [
     },
   },
 ]
+`;
+
+exports[`RandomRouterForm should convert from a non-random node 3`] = `
+Object {
+  "inboundConnections": Object {},
+  "node": Object {
+    "actions": Array [
+      Object {
+        "all_urns": false,
+        "text": "A message",
+        "type": "send_msg",
+        "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+      },
+    ],
+    "exits": Array [
+      Object {
+        "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+      },
+    ],
+    "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+  },
+  "ui": Object {
+    "position": Object {
+      "left": 100,
+      "top": 100,
+    },
+  },
+}
 `;
 
 exports[`RandomRouterForm should initialize existing random 1`] = `
