@@ -213,8 +213,9 @@ export const addPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {
     const width = a.right - a.left;
     const height = a.bottom - a.top;
 
-    const top = a.top + b.top; // Math.max(0, a.top + b.top);
-    const left = a.left + b.left; // Math.max(0, a.left + b.left);
+    // we allow dragging out of bounds
+    const top = a.top + b.top;
+    const left = a.left + b.left;
 
     if (width && height) {
         return {
