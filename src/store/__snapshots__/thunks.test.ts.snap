@@ -146,6 +146,10 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "containerOffset": Object {
+          "left": 0,
+          "top": 0,
+        },
         "debug": null,
         "dragActive": false,
         "dragDownPosition": null,
@@ -170,6 +174,10 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "containerOffset": Object {
+          "left": 0,
+          "top": 0,
+        },
         "debug": null,
         "dragActive": false,
         "dragDownPosition": null,
@@ -862,6 +870,10 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "containerOffset": Object {
+          "left": 0,
+          "top": 0,
+        },
         "debug": null,
         "dragActive": false,
         "dragDownPosition": null,

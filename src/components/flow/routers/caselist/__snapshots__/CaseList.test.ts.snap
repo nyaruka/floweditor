@@ -50,7 +50,7 @@ exports[`CaseList render should render empty list 1`] = `
                   data-spec="case-draggable"
                 >
                   <div
-                    style="outline: none; pointer-events: auto;"
+                    style="user-select: none; outline: none; pointer-events: auto;"
                   >
                     <div
                       class="ele group"
@@ -215,7 +215,7 @@ exports[`CaseList render should render empty list 1`] = `
                     data-spec="case-draggable"
                   >
                     <div
-                      style="outline: none; pointer-events: auto;"
+                      style="user-select: none; outline: none; pointer-events: auto;"
                     >
                       <div
                         class="ele group"
@@ -410,7 +410,7 @@ exports[`CaseList render should render empty list 1`] = `
                       droppableId="droppable"
                       targetRef={
                         <div
-                          style="outline: none; pointer-events: auto;"
+                          style="user-select: none; outline: none; pointer-events: auto;"
                         >
                           <div
                             class="ele group"
@@ -567,7 +567,7 @@ exports[`CaseList render should render empty list 1`] = `
                         shouldPublish={false}
                         targetRef={
                           <div
-                            style="outline: none; pointer-events: auto;"
+                            style="user-select: none; outline: none; pointer-events: auto;"
                           >
                             <div
                               class="ele group"
@@ -3069,7 +3069,7 @@ exports[`CaseList render should render list of cases 1`] = `
                   <div
                     aria-grabbed="false"
                     draggable="false"
-                    style="outline: none; pointer-events: auto;"
+                    style="user-select: none; outline: none; pointer-events: auto;"
                     tabindex="0"
                   >
                     <div
@@ -3224,7 +3224,7 @@ exports[`CaseList render should render list of cases 1`] = `
                   <div
                     aria-grabbed="false"
                     draggable="false"
-                    style="outline: none; pointer-events: auto;"
+                    style="user-select: none; outline: none; pointer-events: auto;"
                     tabindex="0"
                   >
                     <div
@@ -3377,7 +3377,7 @@ exports[`CaseList render should render list of cases 1`] = `
                   data-spec="case-draggable"
                 >
                   <div
-                    style="outline: none; pointer-events: auto;"
+                    style="user-select: none; outline: none; pointer-events: auto;"
                   >
                     <div
                       class="ele group"
@@ -3546,7 +3546,7 @@ exports[`CaseList render should render list of cases 1`] = `
                     <div
                       aria-grabbed="false"
                       draggable="false"
-                      style="outline: none; pointer-events: auto;"
+                      style="user-select: none; outline: none; pointer-events: auto;"
                       tabindex="0"
                     >
                       <div
@@ -3701,7 +3701,7 @@ exports[`CaseList render should render list of cases 1`] = `
                     <div
                       aria-grabbed="false"
                       draggable="false"
-                      style="outline: none; pointer-events: auto;"
+                      style="user-select: none; outline: none; pointer-events: auto;"
                       tabindex="0"
                     >
                       <div
@@ -3854,7 +3854,7 @@ exports[`CaseList render should render list of cases 1`] = `
                     data-spec="case-draggable"
                   >
                     <div
-                      style="outline: none; pointer-events: auto;"
+                      style="user-select: none; outline: none; pointer-events: auto;"
                     >
                       <div
                         class="ele group"
@@ -4055,7 +4055,7 @@ exports[`CaseList render should render list of cases 1`] = `
                         <div
                           aria-grabbed="false"
                           draggable="false"
-                          style="outline: none; pointer-events: auto;"
+                          style="user-select: none; outline: none; pointer-events: auto;"
                           tabindex="0"
                         >
                           <div
@@ -4215,7 +4215,7 @@ exports[`CaseList render should render list of cases 1`] = `
                           <div
                             aria-grabbed="false"
                             draggable="false"
-                            style="outline: none; pointer-events: auto;"
+                            style="user-select: none; outline: none; pointer-events: auto;"
                             tabindex="0"
                           >
                             <div
@@ -6677,7 +6677,7 @@ exports[`CaseList render should render list of cases 1`] = `
                         <div
                           aria-grabbed="false"
                           draggable="false"
-                          style="outline: none; pointer-events: auto;"
+                          style="user-select: none; outline: none; pointer-events: auto;"
                           tabindex="0"
                         >
                           <div
@@ -6837,7 +6837,7 @@ exports[`CaseList render should render list of cases 1`] = `
                           <div
                             aria-grabbed="false"
                             draggable="false"
-                            style="outline: none; pointer-events: auto;"
+                            style="user-select: none; outline: none; pointer-events: auto;"
                             tabindex="0"
                           >
                             <div
@@ -9297,7 +9297,7 @@ exports[`CaseList render should render list of cases 1`] = `
                       droppableId="droppable"
                       targetRef={
                         <div
-                          style="outline: none; pointer-events: auto;"
+                          style="user-select: none; outline: none; pointer-events: auto;"
                         >
                           <div
                             class="ele group"
@@ -9454,7 +9454,7 @@ exports[`CaseList render should render list of cases 1`] = `
                         shouldPublish={false}
                         targetRef={
                           <div
-                            style="outline: none; pointer-events: auto;"
+                            style="user-select: none; outline: none; pointer-events: auto;"
                           >
                             <div
                               class="ele group"

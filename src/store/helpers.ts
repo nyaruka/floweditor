@@ -1,11 +1,12 @@
 import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
+import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import { FlowTypes, Types } from '~/config/interfaces';
 import {
     AddLabels,
     AnyAction,
+    Category,
     ChangeGroups,
-    Exit,
     FlowDefinition,
     FlowNode,
     FlowPosition,
@@ -16,14 +17,12 @@ import {
     StickyNote,
     SwitchRouter,
     UIMetaData,
-    WaitTypes,
-    Category
+    WaitTypes
 } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { addResult } from '~/store/mutators';
-import { createUUID, snakify, dump } from '~/utils';
-import { getSwitchRouter } from '~/components/flow/routers/helpers';
+import { createUUID, snakify } from '~/utils';
 
 export interface Bounds {
     left: number;
@@ -214,8 +213,8 @@ export const addPosition = (a: FlowPosition, b: FlowPosition): FlowPosition => {
     const width = a.right - a.left;
     const height = a.bottom - a.top;
 
-    const top = Math.max(0, a.top + b.top);
-    const left = Math.max(0, a.left + b.left);
+    const top = a.top + b.top; // Math.max(0, a.top + b.top);
+    const left = a.left + b.left; // Math.max(0, a.left + b.left);
 
     if (width && height) {
         return {

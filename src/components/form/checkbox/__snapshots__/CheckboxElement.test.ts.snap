@@ -1,6 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CheckboxElement should render a checkbox element with title, description 1`] = `
+Array [
+  Object {
+    "checked": true,
+  },
+]
+`;
+
+exports[`CheckboxElement should render a checkbox element with title, description 2`] = `
 <label
   className="label label"
   onClick={[Function]}
@@ -24,7 +32,7 @@ exports[`CheckboxElement should render a checkbox element with title, descriptio
 </label>
 `;
 
-exports[`CheckboxElement should render a checkbox element with title, description 2`] = `
+exports[`CheckboxElement should render a checkbox element with title, description 3`] = `
 <label
   className="label label"
   onClick={[Function]}

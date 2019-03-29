@@ -273,7 +273,7 @@ describe(Flow.name, () => {
 
                 expect(instance.Plumber.recalculate).not.toHaveBeenCalled();
                 expect(instance.Plumber.connect).not.toHaveBeenCalled();
-                expect(props.mergeEditorState).not.toHaveBeenCalled();
+                expect(props.mergeEditorState).toHaveBeenCalled();
                 expect(props.onOpenNodeEditor).not.toHaveBeenCalled();
             });
 

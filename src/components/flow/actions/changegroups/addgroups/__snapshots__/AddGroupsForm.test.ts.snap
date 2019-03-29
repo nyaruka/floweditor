@@ -98,7 +98,7 @@ exports[`AddGroupsForm updates should allow switching from router: switch from r
   ],
   "results": Array [
     Object {
-      "isThrow": false,
+      "type": "return",
       "value": undefined,
     },
   ],

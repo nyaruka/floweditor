@@ -13,7 +13,7 @@ const {
 const translations = localization.spa;
 
 describe('Localization', () => {
-    describe('instance methods', () =>
+    describe('instance methods', () => {
         describe('translate', () => {
             it('should return an untranslated LocalizedObject if not passed translations', () => {
                 expect(Localization.translate(replyAction, Spanish).isLocalized()).toBeFalsy();
@@ -42,5 +42,6 @@ describe('Localization', () => {
                     )
                 ).toBeTruthy();
             });
-        }));
+        });
+    });
 });

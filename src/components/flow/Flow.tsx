@@ -17,7 +17,7 @@ import ActivityManager from '~/services/ActivityManager';
 import Plumber from '~/services/Plumber';
 import { DragSelection, EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
-import { detectLoops } from '~/store/helpers';
+import { detectLoops, getOrderedNodes } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
@@ -255,13 +255,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getNodes(): CanvasDraggableProps[] {
-        return Object.keys(this.props.nodes).map(uuid => {
-            const renderNode = this.props.nodes[uuid];
+        return getOrderedNodes(this.props.nodes).map((renderNode: RenderNode, idx: number) => {
             return {
-                uuid,
+                uuid: renderNode.node.uuid,
                 position: renderNode.ui.position,
                 ele: (selected: boolean) => (
                     <ConnectedNode
+                        startingNode={idx === 0}
                         selected={selected}
                         key={renderNode.node.uuid}
                         data-spec={nodeSpecId}
@@ -297,6 +297,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             <div style={{ position: 'absolute', display: 'block' }}>
                 <ConnectedNode
                     selected={false}
+                    startingNode={false}
                     ref={this.ghostRef}
                     key={this.props.editorState.ghostNode.node.uuid}
                     data-spec={ghostNodeSpecId}

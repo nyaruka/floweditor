@@ -23,7 +23,6 @@ import {
 import { createClickHandler, getLocalization } from '~/utils';
 
 export interface ActionWrapperPassedProps {
-    thisNodeDragging: boolean;
     first: boolean;
     action: AnyAction;
     localization: LocalizationMap;
@@ -69,15 +68,11 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         const showAdvanced =
             target && target.attributes && target.getAttribute('data-advanced') === 'true';
 
-        if (!this.props.thisNodeDragging) {
-            // event.preventDefault();
-            // event.stopPropagation();
-            this.props.onOpenNodeEditor({
-                originalNode: this.props.renderNode,
-                originalAction: this.props.action,
-                showAdvanced
-            });
-        }
+        this.props.onOpenNodeEditor({
+            originalNode: this.props.renderNode,
+            originalAction: this.props.action,
+            showAdvanced
+        });
     }
 
     private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {

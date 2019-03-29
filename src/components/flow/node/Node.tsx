@@ -49,6 +49,7 @@ export interface NodePassedProps {
         className: string,
         confirmDelete: boolean
     ) => void;
+    startingNode: boolean;
     selected: boolean;
     ghostRef?: any;
     ghost?: boolean;
@@ -72,16 +73,12 @@ export interface NodeStoreProps {
 
 export type NodeProps = NodePassedProps & NodeStoreProps;
 
-export interface NodeState {
-    thisNodeDragging: boolean;
-}
-
 const cx = classNames.bind({ ...shared, ...styles });
 
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<NodeProps, NodeState> {
+export class NodeComp extends React.Component<NodeProps> {
     public ele: HTMLDivElement;
     private firstAction: any;
     private clicking: boolean;
@@ -90,7 +87,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
     constructor(props: NodeProps) {
         super(props);
 
-        this.state = { thisNodeDragging: false };
         bindCallbacks(this, {
             include: [/Ref$/, /^on/, /^get/, /^handle/]
         });
@@ -136,7 +132,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         }
     }
 
-    public componentDidUpdate(prevProps: NodeProps, prevState: NodeState): void {
+    public componentDidUpdate(prevProps: NodeProps): void {
         // when our exits change, we need to recalculate the endpoints
         if (!this.props.ghost) {
             try {
@@ -237,6 +233,10 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
         return false;
     }
 
+    private isStartNodeVisible(): boolean {
+        return this.props.startingNode && !this.props.dragActive;
+    }
+
     /* istanbul ignore next */
     private renderDebug(): JSX.Element {
         if (this.props.debug) {
@@ -274,7 +274,6 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                             {...firstRef}
                             key={action.uuid}
                             renderNode={this.props.renderNode}
-                            thisNodeDragging={this.state.thisNodeDragging}
                             action={action}
                             first={idx === 0}
                             render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
@@ -387,22 +386,25 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
 
         const classes = cx({
             'plumb-drag': true,
-            [styles.dragging]: this.state.thisNodeDragging,
             [styles.ghost]: this.props.ghost,
+            [styles.flowStart]: this.isStartNodeVisible(),
             [styles.translating]: this.props.translating,
-            // [styles.nondragged]: this.props.nodeDragging && !this.state.thisNodeDragging,
             [styles.selected]: this.isSelected()
         });
 
         const exitClass = this.props.renderNode.node.router ? styles.unnamed_exit : '';
         const uuid: JSX.Element = this.renderDebug();
 
-        return (
+        const renderedNode = (
             <div
                 id={this.props.renderNode.node.uuid}
-                className={`${styles.node_container} ${classes}`}
+                className={`${styles.nodeContainer} ${classes}`}
                 ref={this.eleRef}
             >
+                {this.isStartNodeVisible() ? (
+                    <div className={styles.flowStartMessage}>Flow Start</div>
+                ) : null}
+
                 <div className={styles.node}>
                     {uuid}
 
@@ -416,6 +418,7 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                     />
                     <div className={styles.cropped}>
                         {header}
+
                         {actionList}
                     </div>
                     <div className={`${styles.exit_table} ${exitClass}`}>
@@ -427,6 +430,17 @@ export class NodeComp extends React.Component<NodeProps, NodeState> {
                 </div>
             </div>
         );
+
+        /*if (this.props.startingNode) {
+            return (
+                <div className={styles.flowStart}>
+                    <div className={styles.flowStartMessage}>Flow Start</div>
+                    {renderedNode}
+                </div>
+            );
+        }*/
+
+        return renderedNode;
     }
 }
 

@@ -1,4 +1,4 @@
-@import "~/variables.scss";
+@import '~/variables.scss';
 
 .language_selector {
     z-index: $z_editor_menu;
@@ -6,4 +6,5 @@
     right: 50px;
     top: 30px;
     width: 150px;
+    user-select: none;
 }

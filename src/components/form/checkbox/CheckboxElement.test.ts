@@ -1,4 +1,3 @@
-import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 import CheckboxElement, {
     boxIco,
     CheckboxElementProps,
@@ -7,6 +6,7 @@ import CheckboxElement, {
     descSpecId,
     titleSpecId
 } from '~/components/form/checkbox/CheckboxElement';
+import { composeComponentTestUtils, getSpecWrapper } from '~/testUtils';
 
 const baseProps: CheckboxElementProps = {
     name: 'Checkbox',
@@ -38,7 +38,8 @@ describe(CheckboxElement.name, () => {
         wrapper.update();
 
         expect(setStateSpy).toHaveBeenCalledTimes(1);
-        expect(setStateSpy).toHaveBeenCalledWith({ checked: !props.checked }, expect.any(Function));
+        expect(setStateSpy).toMatchCallSnapshot();
+        // expect(setStateSpy).toHaveBeenCalledWith({ checked: !props.checked }, expect.any(Function));
         expect(props.onChange).toHaveBeenCalledTimes(1);
         expect(getSpecWrapper(wrapper, checkboxSpecId).hasClass(checkedBoxIco)).toBeTruthy();
         expect(wrapper).toMatchSnapshot();

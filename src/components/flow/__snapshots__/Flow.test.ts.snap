@@ -122,7 +122,62 @@ exports[`Flow render should render NodeEditor 2`] = `
         },
       ]
     }
-    mergeEditorState={[MockFunction]}
+    mergeEditorState={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
     onDragging={[Function]}
     onUpdatePositions={[MockFunction]}
     uuid="679d32c1-9996-48b4-9691-e869507b9e46"
@@ -200,7 +255,74 @@ exports[`Flow render should render Simulator 1`] = `
         },
       ]
     }
-    mergeEditorState={[MockFunction]}
+    mergeEditorState={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+          Array [
+            Object {
+              "containerOffset": Object {
+                "left": 0,
+                "top": 0,
+              },
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
     onDragging={[Function]}
     onUpdatePositions={[MockFunction]}
     uuid="09294c2a-031e-4e74-9b1c-aec239b2a145"
@@ -218,7 +340,74 @@ exports[`Flow render should render Simulator 1`] = `
           "setSimulation": [MockFunction],
         }
       }
-      mergeEditorState={[MockFunction]}
+      mergeEditorState={
+        [MockFunction] {
+          "calls": Array [
+            Array [
+              Object {
+                "containerOffset": Object {
+                  "left": 0,
+                  "top": 0,
+                },
+              },
+            ],
+            Array [
+              Object {
+                "containerOffset": Object {
+                  "left": 0,
+                  "top": 0,
+                },
+              },
+            ],
+            Array [
+              Object {
+                "containerOffset": Object {
+                  "left": 0,
+                  "top": 0,
+                },
+              },
+            ],
+            Array [
+              Object {
+                "containerOffset": Object {
+                  "left": 0,
+                  "top": 0,
+                },
+              },
+            ],
+            Array [
+              Object {
+                "containerOffset": Object {
+                  "left": 0,
+                  "top": 0,
+                },
+              },
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        }
+      }
     />
   </Canvas>
 </div>
@@ -248,5 +437,6 @@ exports[`Flow render should render dragNode 1`] = `
   plumberRecalculate={[MockFunction]}
   plumberRemove={[MockFunction]}
   selected={false}
+  startingNode={false}
 />
 `;

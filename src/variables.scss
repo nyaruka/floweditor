@@ -83,7 +83,6 @@ $z_nodes: 150;
 $z_endpoints: 200;
 $z_counters: 225;
 $z_sticky: 240;
-$z_selection: 250;
 $z_dragging: 250;
 $z_group_drag_anchor: 300;
 $z_editor_menu: 400;
@@ -95,3 +94,6 @@ $z_modal: 2000;
 $z_modal_header: 2050;
 $z_modal_tabs: 2075;
 $z_completion: 2100;
+
+$z_dragging: 3000;
+$z_selection: 3000;
