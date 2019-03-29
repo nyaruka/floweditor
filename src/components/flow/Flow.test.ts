@@ -131,28 +131,29 @@ describe(Flow.name, () => {
     describe('render', () => {
         it('should render NodeEditor', () => {
             const { wrapper } = setup(true, {
+                mergeEditorState: set(jest.fn()),
                 nodeEditorSettings: { $set: { originalNode: null } }
             });
 
             expect(wrapper.find('Connect(NodeEditor)').props()).toMatchSnapshot();
-            expect(wrapper).toMatchSnapshot();
         });
 
         it('should render Simulator', () => {
             const { wrapper } = setup(
                 true,
-                {},
+                { mergeEditorState: set(jest.fn()) },
                 {},
                 {
                     endpoints: merge({ simulateStart: 'startMeUp' })
                 }
             );
 
-            expect(wrapper).toMatchSnapshot();
+            expect(wrapper.find('Connect(Simulator)').props()).toMatchSnapshot();
         });
 
         it('should render dragNode', () => {
             const { wrapper, instance, props } = setup(true, {
+                mergeEditorState: set(jest.fn()),
                 editorState: { ghostNode: set(ghostNodeFromWait) }
             });
             const ghost = getSpecWrapper(wrapper, ghostNodeSpecId);
@@ -164,12 +165,8 @@ describe(Flow.name, () => {
 
     describe('instance methods', () => {
         describe('constructor', () => {
-            const { wrapper, props } = setup();
-
-            // Instanstiate ActivityManager, Plumber
-            // expect(ActivityManager).toHaveBeenCalledTimes(1);
+            const { props } = setup();
             expect(ActivityManager).toHaveBeenCalledWith(props.definition.uuid, getActivity);
-            // expect(Plumber).toHaveBeenCalledTimes(1);
         });
 
         describe('componentDidMount', () => {

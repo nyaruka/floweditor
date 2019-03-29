@@ -39,7 +39,6 @@ describe(CheckboxElement.name, () => {
 
         expect(setStateSpy).toHaveBeenCalledTimes(1);
         expect(setStateSpy).toMatchCallSnapshot();
-        // expect(setStateSpy).toHaveBeenCalledWith({ checked: !props.checked }, expect.any(Function));
         expect(props.onChange).toHaveBeenCalledTimes(1);
         expect(getSpecWrapper(wrapper, checkboxSpecId).hasClass(checkedBoxIco)).toBeTruthy();
         expect(wrapper).toMatchSnapshot();

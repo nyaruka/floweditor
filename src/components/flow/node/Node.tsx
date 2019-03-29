@@ -430,16 +430,6 @@ export class NodeComp extends React.Component<NodeProps> {
                 </div>
             </div>
         );
-
-        /*if (this.props.startingNode) {
-            return (
-                <div className={styles.flowStart}>
-                    <div className={styles.flowStartMessage}>Flow Start</div>
-                    {renderedNode}
-                </div>
-            );
-        }*/
-
         return renderedNode;
     }
 }
