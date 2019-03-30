@@ -234,7 +234,7 @@ export class NodeComp extends React.Component<NodeProps> {
     }
 
     private isStartNodeVisible(): boolean {
-        return this.props.startingNode && !this.props.dragActive;
+        return this.props.startingNode;
     }
 
     /* istanbul ignore next */

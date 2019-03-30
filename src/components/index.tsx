@@ -31,6 +31,7 @@ export interface FlowEditorStoreProps {
     assetStore: AssetStore;
     language: Asset;
     languages: Assets;
+    simulating: boolean;
     translating: boolean;
     fetchingFlow: boolean;
     definition: FlowDefinition;
@@ -114,6 +115,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                     )(<ConnectedFlow />)}
 
                     <RevisionExplorer
+                        simulating={this.props.simulating}
                         loadFlowDefinition={this.props.loadFlowDefinition}
                         assetStore={this.props.assetStore}
                     />
@@ -125,11 +127,12 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
 const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes, assetStore },
-    editorState: { translating, language, fetchingFlow }
+    editorState: { translating, language, fetchingFlow, simulating }
 }: AppState) => {
     const languages = assetStore ? assetStore.languages : null;
 
     return {
+        simulating,
         assetStore,
         translating,
         language,

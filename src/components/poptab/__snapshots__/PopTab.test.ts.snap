@@ -42,6 +42,7 @@ exports[`PopTab render should render base component 1`] = `
       Object {
         "borderColor": "red",
         "right": 0,
+        "top": -100,
       }
     }
   >

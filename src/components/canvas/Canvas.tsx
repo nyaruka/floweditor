@@ -9,7 +9,7 @@ import { Dimensions, FlowPosition } from '~/flowTypes';
 import { CanvasPositions, DragSelection } from '~/store/editor';
 import { addPosition } from '~/store/helpers';
 import { MergeEditorState } from '~/store/thunks';
-import { snapPositionToGrid } from '~/utils';
+import { COLLISION_FUDGE, snapPositionToGrid } from '~/utils';
 
 import * as styles from './Canvas.scss';
 
@@ -274,7 +274,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     }
 
     public doReflow(): void {
-        const { positions, changed } = reflow(this.state.positions);
+        const { positions, changed } = reflow(this.state.positions, COLLISION_FUDGE);
         if (changed) {
             this.setState({ positions });
 

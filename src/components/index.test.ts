@@ -14,6 +14,7 @@ const baseProps: FlowEditorStoreProps = {
     assetStore: null,
     language: English,
     languages,
+    simulating: false,
     translating: false,
     fetchingFlow: false,
     definition: null,

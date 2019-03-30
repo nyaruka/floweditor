@@ -33,17 +33,21 @@ export default class Counter extends React.Component<CounterProps, CounterState>
         this.handleScrollIntoView();
     }
 
-    public componentDidUpdate(): void {
-        this.handleScrollIntoView();
+    public componentDidUpdate(prevProps: CounterProps, prevState: CounterState): void {
+        if (prevState === null || this.state.count !== prevState.count) {
+            this.handleScrollIntoView();
+        }
     }
 
     private handleScrollIntoView(): void {
         if (!!this.ele) {
             if (this.state.count > 0 && this.props.keepVisible) {
-                window.scrollTo({
-                    top: this.ele.getBoundingClientRect().top - 200,
-                    behavior: 'smooth'
-                });
+                window.setTimeout(() => {
+                    window.scrollTo({
+                        top: this.ele.getBoundingClientRect().top - 200 + window.scrollY,
+                        behavior: 'smooth'
+                    });
+                }, 200);
             }
         }
     }
