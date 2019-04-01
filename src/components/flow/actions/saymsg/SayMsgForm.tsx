@@ -27,7 +27,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
     }
 
     public static contextTypes = {
-        endpoints: fakePropType
+        config: fakePropType
     };
 
     private handleUpdate(keys: { text?: string }): boolean {
@@ -104,7 +104,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
                     uploadText="Upload Recording"
                     removeText="Remove Recording"
                     url={this.state.audio.value}
-                    endpoint={this.context.endpoints.attachments}
+                    endpoint={this.context.config.endpoints.attachments}
                     onUploadChanged={this.handleUploadChanged}
                 />
             </Dialog>

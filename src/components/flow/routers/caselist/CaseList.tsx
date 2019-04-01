@@ -58,8 +58,6 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
             currentCases: caseProps,
             valid: true
         };
-
-        // console.log('CaseList', this.context.config);
     }
 
     public static contextTypes = {

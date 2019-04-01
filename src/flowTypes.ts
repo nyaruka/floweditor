@@ -43,6 +43,8 @@ export interface FlowEditorConfig {
     debug?: boolean;
     path?: string;
     headers?: any;
+    onLoad?: () => void;
+    onActivityClicked?: (uuid: string) => void;
 }
 
 export interface LocalizationMap {

@@ -88,7 +88,11 @@ export type RemoveNode = (nodeToRemove: FlowNode) => Thunk<RenderNodeMap>;
 
 export type UpdateDimensions = (uuid: string, dimensions: Dimensions) => Thunk<void>;
 
-export type FetchFlow = (endpoints: Endpoints, uuid: string) => Thunk<Promise<void>>;
+export type FetchFlow = (
+    endpoints: Endpoints,
+    uuid: string,
+    onLoad: () => void
+) => Thunk<Promise<void>>;
 
 export type LoadFlowDefinition = (
     definition: FlowDefinition,
@@ -160,10 +164,11 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
     return updated;
 };
 
-export const loadFlowDefinition = (definition: FlowDefinition, assetStore: AssetStore) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): void => {
+export const loadFlowDefinition = (
+    definition: FlowDefinition,
+    assetStore: AssetStore,
+    onLoad: () => void
+) => (dispatch: DispatchWithState, getState: GetState): void => {
     // first see if we need our asset store initialized
     const {
         editorState: { fetchingFlow }
@@ -202,6 +207,11 @@ export const loadFlowDefinition = (definition: FlowDefinition, assetStore: Asset
     // finally update our assets, and mark us as fetched
     dispatch(updateAssets(assetStore));
     dispatch(mergeEditorState({ language, fetchingFlow: false }));
+
+    // fire our callback for who is embedding us
+    if (onLoad) {
+        onLoad();
+    }
 };
 
 /**
@@ -209,7 +219,7 @@ export const loadFlowDefinition = (definition: FlowDefinition, assetStore: Asset
  * @param endpoints where our assets live
  * @param uuid the uuid for the flow to fetch
  */
-export const fetchFlow = (endpoints: Endpoints, uuid: string, revision: Asset) => async (
+export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void) => async (
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
@@ -228,7 +238,7 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, revision: Asset) =
     fetchFlowActivity(endpoints.activity, dispatch, getState, uuid);
 
     const definition = await getFlowDefinition(assetStore.revisions);
-    dispatch(loadFlowDefinition(definition, assetStore));
+    dispatch(loadFlowDefinition(definition, assetStore, onLoad));
 };
 
 export const addAsset: AddAsset = (assetType: string, asset: Asset) => (

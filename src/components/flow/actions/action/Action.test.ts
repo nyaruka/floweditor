@@ -66,7 +66,10 @@ describe(ActionWrapper.name, () => {
             expect(wrapper.find('TitleBar').props()).toMatchSnapshot();
             expect(getSpecWrapper(wrapper, actionBodySpecId).hasClass('body')).toBeTruthy();
             expect(props.render).toHaveBeenCalledTimes(1);
-            expect(props.render).toHaveBeenCalledWith(props.action, instance.context.endpoints);
+            expect(props.render).toHaveBeenCalledWith(
+                props.action,
+                instance.context.config.endpoints
+            );
             expect(wrapper).toMatchSnapshot();
         });
 

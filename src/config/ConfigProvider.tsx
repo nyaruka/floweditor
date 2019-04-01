@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Endpoints, FlowEditorConfig } from '~/flowTypes';
+import { FlowEditorConfig } from '~/flowTypes';
 
 export const fakePropType: any = (): any => null;
 fakePropType.isRequired = (): any => null;
@@ -11,10 +11,6 @@ interface ConfigProviderProps {
 
 export interface ConfigProviderContext {
     config: FlowEditorConfig;
-    endpoints: Endpoints;
-    flow: string;
-    debug: boolean;
-    showDownload: boolean;
 }
 
 // ----------------------------------------------------------------------------------------------
@@ -26,11 +22,7 @@ export const VALID_CHILD_ERROR =
 export default class ConfigProvider extends React.Component<ConfigProviderProps> {
     public static childContextTypes = {
         config: fakePropType,
-        assetService: fakePropType,
-        endpoints: fakePropType,
-        flow: fakePropType,
-        debug: fakePropType,
-        showDownload: fakePropType
+        assetService: fakePropType
     };
 
     constructor(props: ConfigProviderProps) {
@@ -45,11 +37,7 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
     public getChildContext(): ConfigProviderContext {
         return {
-            config: this.props.config,
-            endpoints: this.props.config.endpoints,
-            flow: this.props.config.flow,
-            debug: this.props.config.debug,
-            showDownload: this.props.config.showDownload
+            config: this.props.config
         };
     }
 

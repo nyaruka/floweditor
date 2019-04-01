@@ -40,7 +40,7 @@ export default class MsgLocalizationForm extends React.Component<
     }
 
     public static contextTypes = {
-        endpoints: fakePropType
+        config: fakePropType
     };
 
     public handleMessageUpdate(text: string): boolean {
@@ -187,7 +187,7 @@ export default class MsgLocalizationForm extends React.Component<
                     uploadText="Upload Recording"
                     removeText="Remove Recording"
                     url={this.state.audio.value}
-                    endpoint={this.context.endpoints.attachments}
+                    endpoint={this.context.config.endpoints.attachments}
                     onUploadChanged={this.handleAudioChanged}
                 />
             );

@@ -51,7 +51,7 @@ const cx = classNames.bind({ ...shared, ...styles });
 // Note: this needs to be a ComponentClass in order to work w/ react-flip-move
 export class ActionWrapper extends React.Component<ActionWrapperProps> {
     public static contextTypes = {
-        endpoints: fakePropType
+        config: fakePropType
     };
 
     constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
@@ -176,7 +176,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
                         shouldCancelClick={() => this.props.dragging}
                     />
                     <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
-                        {this.props.render(actionToInject, this.context.endpoints)}
+                        {this.props.render(actionToInject, this.context.config.endpoints)}
                     </div>
                 </div>
             </div>
