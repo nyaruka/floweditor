@@ -1,4 +1,5 @@
 import { react as bindCallbacks } from 'auto-bind';
+import * as classNames from 'classnames/bind';
 import dateFormat = require('dateformat');
 import * as React from 'react';
 import { PopTab } from '~/components/poptab/PopTab';
@@ -9,6 +10,8 @@ import { loadFlowDefinition } from '~/store/thunks';
 import { renderIf } from '~/utils';
 
 import * as styles from './RevisionExplorer.scss';
+
+const cx = classNames.bind(styles);
 
 export interface User {
     email: string;
@@ -24,6 +27,7 @@ export interface Revision {
 }
 
 export interface RevisionExplorerProps {
+    simulating: boolean;
     assetStore: AssetStore;
     loadFlowDefinition: (definition: FlowDefinition, assetStore: AssetStore) => void;
     utc?: boolean;
@@ -104,8 +108,13 @@ export class RevisionExplorer extends React.Component<
     }
 
     public render(): JSX.Element {
+        const classes = cx({
+            [styles.visible]: this.state.visible,
+            [styles.simulating]: this.props.simulating
+        });
+
         return (
-            <div className={this.state.visible ? styles.visible : ''}>
+            <div className={classes}>
                 <div className={styles.mask} />
                 <PopTab
                     header="Revisions"

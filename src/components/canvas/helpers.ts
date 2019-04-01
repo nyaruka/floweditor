@@ -11,12 +11,14 @@ import {
 
 const mutate = require('immutability-helper');
 
-export const collides = (a: FlowPosition, b: FlowPosition) => {
+export const collides = (a: FlowPosition, b: FlowPosition, fudge: number) => {
     // don't bother with collision if we don't have full dimensions
     /* istanbul ignore next */
     if (!a.bottom || !b.bottom) {
         return false;
     }
+
+    a.bottom += fudge;
 
     return !(b.left > a.right || b.right < a.left || b.top > a.bottom || b.bottom < a.top);
 };
@@ -28,7 +30,7 @@ export const getDraggablesInBox = (
     const collisions = {};
     for (const nodeUUID of Object.keys(positions)) {
         const position = positions[nodeUUID];
-        if (collides(box, position)) {
+        if (collides(box, position, 0)) {
             collisions[nodeUUID] = position;
         }
     }
@@ -59,7 +61,11 @@ export const getOrderedDraggables = (positions: CanvasPositions): DraggablePosit
  * collides with if inserting between two nodes
  * @param nodes
  */
-const getFirstCollision = (positions: CanvasPositions, changed: string[]): DraggablePosition[] => {
+const getFirstCollision = (
+    positions: CanvasPositions,
+    changed: string[],
+    fudge: number
+): DraggablePosition[] => {
     const sortedDraggables = getOrderedDraggables(positions);
 
     for (let i = 0; i < sortedDraggables.length; i++) {
@@ -69,13 +75,13 @@ const getFirstCollision = (positions: CanvasPositions, changed: string[]): Dragg
             for (let j = i + 1; j < sortedDraggables.length; j++) {
                 const other = sortedDraggables[j];
 
-                if (collides(current, other)) {
+                if (collides(current, other, fudge)) {
                     // if the next node collides too, include it
                     // to deal with inserting between two closely
                     // positioned nodes
                     if (j + 1 < sortedDraggables.length) {
                         const cascaded = sortedDraggables[j + 1];
-                        if (collides(other, cascaded)) {
+                        if (collides(other, cascaded, fudge)) {
                             return [current, other, cascaded];
                         }
                     }
@@ -109,7 +115,8 @@ const setTop = (position: FlowPosition, newTop: number) => {
  * @param positions
  */
 export const reflow = (
-    positions: CanvasPositions
+    positions: CanvasPositions,
+    fudge: number
 ): { positions: CanvasPositions; changed: string[] } => {
     let newPositions = positions;
     const changed: string[] = [];
@@ -119,7 +126,7 @@ export const reflow = (
 
     timeStart('reflow');
 
-    let collision = getFirstCollision(positions, changed);
+    let collision = getFirstCollision(positions, changed, fudge);
     while (collision.length > 0 && attempts < MAX_REFLOW_ATTEMPTS) {
         attempts++;
         if (collision.length) {
@@ -143,7 +150,7 @@ export const reflow = (
             }
         }
 
-        collision = getFirstCollision(newPositions, changed);
+        collision = getFirstCollision(newPositions, changed, fudge);
     }
 
     timeEnd('reflow');

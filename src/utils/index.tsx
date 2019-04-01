@@ -20,6 +20,8 @@ const MAX_LABEL_LENGTH = 36;
 const SNAKED_CHARS = /\s+(?=\S)/g;
 
 export const MAX_REFLOW_ATTEMPTS = 100;
+export const ACTIVITY_INTERVAL = 5000;
+export const COLLISION_FUDGE = 5;
 export const GRID_SIZE: number = parseInt(variables.grid_size, 10) || 20;
 export const NODE_SPACING: number = parseInt(variables.node_spacing, 10) || 10;
 export const NODE_PADDING: number = parseInt(variables.node_padding, 10) || 10;

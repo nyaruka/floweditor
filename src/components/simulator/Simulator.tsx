@@ -12,7 +12,7 @@ import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { getURL } from '~/external';
 import { FlowDefinition, Group, Wait } from '~/flowTypes';
-import { Activity } from '~/services/ActivityManager';
+import { Activity } from '~/store/editor';
 import { AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
@@ -45,8 +45,10 @@ export interface SimulatorStoreProps {
 }
 
 export interface SimulatorPassedProps {
-    Activity: any;
     mergeEditorState: MergeEditorState;
+
+    // TODO: take away responsibility of simulator for resetting this
+    liveActivity: Activity;
 }
 
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
@@ -219,7 +221,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             }
 
             const activity: Activity = { segments: paths, nodes: active };
-            this.props.Activity.setSimulation(activity);
+            this.props.mergeEditorState({ activity });
 
             if (activeFlow && activeFlow !== this.currentFlow) {
                 const flow = this.flows.find((other: FlowDefinition) => {
@@ -513,7 +515,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             // clear our viewing definition
             if (!this.state.visible) {
                 window.setTimeout(() => {
-                    this.props.Activity.clearSimulation();
+                    this.props.mergeEditorState({ activity: this.props.liveActivity });
                 }, 500);
             } else {
                 this.updateActivity();
@@ -915,7 +917,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({ flowContext: { definition, nodes, assetStore } }: AppState) => ({
+const mapStateToProps = ({
+    flowContext: { definition, nodes, assetStore },
+    editorState: { liveActivity }
+}: AppState) => ({
+    liveActivity,
     assetStore,
     definition,
     nodes

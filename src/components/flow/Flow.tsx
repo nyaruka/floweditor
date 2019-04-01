@@ -4,18 +4,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Canvas } from '~/components/canvas/Canvas';
 import { CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
-import ConnectedNode from '~/components/flow/node/Node';
+import Node from '~/components/flow/node/Node';
 import { getDraggedFrom } from '~/components/helpers';
-import ConnectedNodeEditor from '~/components/nodeeditor/NodeEditor';
+import NodeEditor from '~/components/nodeeditor/NodeEditor';
 import Simulator from '~/components/simulator/Simulator';
 import Sticky, { STICKY_BODY, STICKY_TITLE } from '~/components/sticky/Sticky';
 import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
-import { getActivity } from '~/external';
-import { Exit, FlowDefinition, FlowPosition } from '~/flowTypes';
-import ActivityManager from '~/services/ActivityManager';
+import { Exit, FlowDefinition } from '~/flowTypes';
 import Plumber from '~/services/Plumber';
-import { DragSelection, EditorState } from '~/store/editor';
+import editorState, { DragSelection, EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
 import { detectLoops, getOrderedNodes } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
@@ -42,6 +40,7 @@ import {
 } from '~/store/thunks';
 import { contextTypes } from '~/testUtils';
 import {
+    ACTIVITY_INTERVAL,
     createUUID,
     isRealValue,
     NODE_PADDING,
@@ -101,7 +100,6 @@ export const getDragStyle = (drag: DragSelection) => {
 };
 
 export class Flow extends React.Component<FlowStoreProps, {}> {
-    private Activity: ActivityManager;
     private Plumber: Plumber;
     private ele: HTMLDivElement;
     private nodeContainerUUID: string;
@@ -119,8 +117,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         super(props, context);
 
         this.nodeContainerUUID = createUUID();
-
-        this.Activity = new ActivityManager(this.props.definition.uuid, getActivity);
 
         this.Plumber = new Plumber();
 
@@ -193,6 +189,16 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         this.Plumber.reset();
     }
 
+    public componentWillUpdate(prevProps: FlowStoreProps): void {
+        if (
+            prevProps.editorState.activityInterval === this.props.editorState.activityInterval &&
+            this.props.editorState.activityInterval !== ACTIVITY_INTERVAL
+        ) {
+            console.log('resetting interval');
+            this.props.mergeEditorState({ activityInterval: ACTIVITY_INTERVAL });
+        }
+    }
+
     /**
      * Called right before a connector is dropped onto a new node
      */
@@ -260,13 +266,12 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 uuid: renderNode.node.uuid,
                 position: renderNode.ui.position,
                 ele: (selected: boolean) => (
-                    <ConnectedNode
+                    <Node
                         startingNode={idx === 0}
                         selected={selected}
                         key={renderNode.node.uuid}
                         data-spec={nodeSpecId}
                         nodeUUID={renderNode.node.uuid}
-                        Activity={this.Activity}
                         plumberMakeTarget={this.Plumber.makeTarget}
                         plumberRemove={this.Plumber.remove}
                         plumberRecalculate={this.Plumber.recalculate}
@@ -295,7 +300,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private getDragNode(): JSX.Element {
         return isRealValue(this.props.editorState.ghostNode) ? (
             <div style={{ position: 'absolute', display: 'block' }}>
-                <ConnectedNode
+                <Node
                     selected={false}
                     startingNode={false}
                     ref={this.ghostRef}
@@ -303,7 +308,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                     data-spec={ghostNodeSpecId}
                     ghost={true}
                     nodeUUID={this.props.editorState.ghostNode.node.uuid}
-                    Activity={this.Activity}
                     plumberMakeTarget={this.Plumber.makeTarget}
                     plumberRemove={this.Plumber.remove}
                     plumberRecalculate={this.Plumber.recalculate}
@@ -317,13 +321,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private getSimulator(): JSX.Element {
         return renderIf(this.context.endpoints && this.context.endpoints.simulateStart)(
-            <Simulator mergeEditorState={this.props.mergeEditorState} Activity={this.Activity} />
+            <Simulator mergeEditorState={this.props.mergeEditorState} />
         );
     }
 
     private getNodeEditor(): JSX.Element {
         return renderIf(this.props.nodeEditorSettings !== null)(
-            <ConnectedNodeEditor
+            <NodeEditor
                 plumberConnectExit={this.Plumber.connectExit}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
             />
@@ -348,20 +352,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 body: STICKY_BODY
             });
         }
-    }
-
-    private getCurrentPosition(uuid: string): FlowPosition {
-        const renderNode = this.props.nodes[uuid];
-        if (renderNode) {
-            return renderNode.ui.position;
-        }
-
-        const sticky = this.props.definition._ui.stickies[uuid];
-        if (sticky) {
-            return sticky.position;
-        }
-
-        return { left: 0, top: 0 };
     }
 
     public render(): JSX.Element {

@@ -22,96 +22,111 @@ Array [
 `;
 
 exports[`Root render should apply translating style if passed a truthy translating prop 1`] = `
-<div
-  className="translating"
-  data-spec="editor-container"
-  id="editor-container"
+<PageVisibility
+  onChange={[Function]}
 >
   <div
-    className="footer"
+    className="translating"
+    data-spec="editor-container"
+    id="editor-container"
   >
     <div
-      className="downloadButton"
+      className="footer"
     >
-      <Button
-        name="Download"
-        onClick={[Function]}
-        type="primary"
+      <div
+        className="downloadButton"
+      >
+        <Button
+          name="Download"
+          onClick={[Function]}
+          type="primary"
+        />
+      </div>
+    </div>
+    <div
+      className="editor"
+      data-spec="editor"
+    >
+      <Connect(LanguageSelector) />
+      <RevisionExplorer
+        assetStore={null}
+        loadFlowDefinition={[MockFunction]}
+        simulating={false}
       />
     </div>
   </div>
-  <div
-    className="editor"
-    data-spec="editor"
-  >
-    <Connect(LanguageSelector) />
-    <RevisionExplorer
-      assetStore={null}
-      loadFlowDefinition={[MockFunction]}
-    />
-  </div>
-</div>
+</PageVisibility>
 `;
 
 exports[`Root render should render flow if passed a definition, language 1`] = `
-<div
-  data-spec="editor-container"
-  id="editor-container"
+<PageVisibility
+  onChange={[Function]}
 >
   <div
-    className="footer"
+    data-spec="editor-container"
+    id="editor-container"
   >
     <div
-      className="downloadButton"
+      className="footer"
     >
-      <Button
-        name="Download"
-        onClick={[Function]}
-        type="primary"
+      <div
+        className="downloadButton"
+      >
+        <Button
+          name="Download"
+          onClick={[Function]}
+          type="primary"
+        />
+      </div>
+    </div>
+    <div
+      className="editor"
+      data-spec="editor"
+    >
+      <Connect(LanguageSelector) />
+      <Connect(Flow) />
+      <RevisionExplorer
+        assetStore={null}
+        loadFlowDefinition={[MockFunction]}
+        simulating={false}
       />
     </div>
   </div>
-  <div
-    className="editor"
-    data-spec="editor"
-  >
-    <Connect(LanguageSelector) />
-    <Connect(Flow) />
-    <RevisionExplorer
-      assetStore={null}
-      loadFlowDefinition={[MockFunction]}
-    />
-  </div>
-</div>
+</PageVisibility>
 `;
 
 exports[`Root render should render self, children with required props 1`] = `
-<div
-  data-spec="editor-container"
-  id="editor-container"
+<PageVisibility
+  onChange={[Function]}
 >
   <div
-    className="footer"
+    data-spec="editor-container"
+    id="editor-container"
   >
     <div
-      className="downloadButton"
+      className="footer"
     >
-      <Button
-        name="Download"
-        onClick={[Function]}
-        type="primary"
+      <div
+        className="downloadButton"
+      >
+        <Button
+          name="Download"
+          onClick={[Function]}
+          type="primary"
+        />
+      </div>
+    </div>
+    <div
+      className="editor"
+      data-spec="editor"
+    >
+      <Connect(LanguageSelector) />
+      <RevisionExplorer
+        assetStore={null}
+        loadFlowDefinition={[MockFunction]}
+        simulating={false}
       />
     </div>
   </div>
-  <div
-    className="editor"
-    data-spec="editor"
-  >
-    <Connect(LanguageSelector) />
-    <RevisionExplorer
-      assetStore={null}
-      loadFlowDefinition={[MockFunction]}
-    />
-  </div>
-</div>
+</PageVisibility>
 `;

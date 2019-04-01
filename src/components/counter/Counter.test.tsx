@@ -15,8 +15,7 @@ beforeAll(() => {
         keepVisible: false,
         containerStyle: 'style goes here',
         countStyle: 'count style goes here',
-        getCount: jest.fn().mockReturnValue(10000),
-        onUnmount: jest.fn()
+        count: 1000
     };
 
     counter = mount(<Counter {...props} />);
@@ -32,16 +31,12 @@ describe('Counter >', () => {
             expect(counterInner.exists()).toBeTruthy();
         });
 
-        it('should initialize with expected state', () => {
-            expect(counter.state('count')).toEqual(props.getCount());
-        });
-
         it('should handle clicks', () => {
             counterOutter.simulate('click');
         });
 
         it('should display a count', () => {
-            expect(counterInner.text()).toBe(addCommas(props.getCount()));
+            expect(counterInner.text()).toBe(addCommas(1000));
         });
     });
 });

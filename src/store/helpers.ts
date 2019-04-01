@@ -2,6 +2,7 @@ import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import { FlowTypes, Types } from '~/config/interfaces';
+import { getActivity } from '~/external';
 import {
     AddLabels,
     AnyAction,
@@ -20,8 +21,10 @@ import {
     WaitTypes
 } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
+import { Activity, EditorState } from '~/store/editor';
 import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
 import { addResult } from '~/store/mutators';
+import { DispatchWithState, GetState, mergeEditorState } from '~/store/thunks';
 import { createUUID, snakify } from '~/utils';
 
 export interface Bounds {
@@ -543,4 +546,40 @@ export const mergeAssetMaps = (assets: AssetMap, toAdd: AssetMap): void => {
     Object.keys(toAdd).forEach((key: string) => {
         assets[key] = assets[key] || toAdd[key];
     });
+};
+
+export const fetchFlowActivity = (
+    endpoint: string,
+    dispatch: DispatchWithState,
+    getState: GetState,
+    uuid: string
+): void => {
+    const {
+        editorState: { simulating, activityInterval, visible }
+    } = getState();
+
+    if (visible) {
+        getActivity(endpoint, uuid).then((activity: Activity) => {
+            // every interval we back off a bit up to 5 minutes
+            if (activity) {
+                const updates: Partial<EditorState> = {
+                    liveActivity: activity,
+                    activityInterval: Math.min(60000 * 5, activityInterval + 200)
+                };
+
+                if (!simulating) {
+                    updates.activity = activity;
+                }
+
+                dispatch(mergeEditorState(updates));
+                window.setTimeout(() => {
+                    fetchFlowActivity(endpoint, dispatch, getState, uuid);
+                }, activityInterval);
+            }
+        });
+    } else {
+        window.setTimeout(() => {
+            fetchFlowActivity(endpoint, dispatch, getState, uuid);
+        }, 1000);
+    }
 };

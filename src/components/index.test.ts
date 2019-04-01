@@ -14,12 +14,14 @@ const baseProps: FlowEditorStoreProps = {
     assetStore: null,
     language: English,
     languages,
+    simulating: false,
     translating: false,
     fetchingFlow: false,
     definition: null,
     dependencies: null,
     loadFlowDefinition: jest.fn(),
     fetchFlow: jest.fn(),
+    mergeEditorState: jest.fn(),
     nodes: null
 };
 

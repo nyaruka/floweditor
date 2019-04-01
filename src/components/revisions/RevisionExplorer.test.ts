@@ -12,7 +12,8 @@ const baseProps: RevisionExplorerProps = {
         }
     },
     loadFlowDefinition: jest.fn(),
-    utc: true
+    utc: true,
+    simulating: false
 };
 
 const { setup } = composeComponentTestUtils(RevisionExplorer, baseProps);

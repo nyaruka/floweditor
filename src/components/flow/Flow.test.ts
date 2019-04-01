@@ -8,8 +8,6 @@ import {
 } from '~/components/flow/Flow';
 import { getDraggedFrom } from '~/components/helpers';
 import { FlowTypes } from '~/config/interfaces';
-import { getActivity } from '~/external';
-import ActivityManager from '~/services/ActivityManager';
 import { getFlowComponents, getGhostNode } from '~/store/helpers';
 import { ConnectionEvent } from '~/store/thunks';
 import {
@@ -22,7 +20,6 @@ import {
 import { createUUID, merge, set } from '~/utils';
 import * as utils from '~/utils';
 
-jest.mock('~/services/ActivityManager');
 jest.mock('~/services/Plumber');
 jest.useFakeTimers();
 
@@ -164,14 +161,9 @@ describe(Flow.name, () => {
     });
 
     describe('instance methods', () => {
-        describe('constructor', () => {
-            const { props } = setup();
-            expect(ActivityManager).toHaveBeenCalledWith(props.definition.uuid, getActivity);
-        });
-
         describe('componentDidMount', () => {
             const componentDidMountSpy = spyOn('componentDidMount');
-            const { wrapper, instance, props } = setup(true, {
+            const { instance, props } = setup(true, {
                 ensureStartNode: setMock()
             });
 

@@ -19,9 +19,13 @@ import {
     FetchFlow,
     fetchFlow,
     LoadFlowDefinition,
-    loadFlowDefinition
+    loadFlowDefinition,
+    MergeEditorState,
+    mergeEditorState
 } from '~/store/thunks';
-import { downloadJSON, renderIf } from '~/utils';
+import { ACTIVITY_INTERVAL, downloadJSON, renderIf } from '~/utils';
+
+const { default: PageVisibility } = require('react-page-visibility');
 
 export interface FlowEditorContainerProps {
     config: FlowEditorConfig;
@@ -31,12 +35,14 @@ export interface FlowEditorStoreProps {
     assetStore: AssetStore;
     language: Asset;
     languages: Assets;
+    simulating: boolean;
     translating: boolean;
     fetchingFlow: boolean;
     definition: FlowDefinition;
     dependencies: FlowDefinition[];
     fetchFlow: FetchFlow;
     loadFlowDefinition: LoadFlowDefinition;
+    mergeEditorState: MergeEditorState;
     nodes: RenderNodeMap;
 }
 
@@ -83,6 +89,10 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
         downloadJSON(getCurrentDefinition(this.props.definition, this.props.nodes), 'definition');
     }
 
+    private handleVisibilityChanged(visible: boolean): void {
+        this.props.mergeEditorState({ visible, activityInterval: ACTIVITY_INTERVAL });
+    }
+
     public getFooter(): JSX.Element {
         return !this.props.fetchingFlow && this.context.showDownload ? (
             <div className={styles.footer}>
@@ -99,37 +109,42 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
     public render(): JSX.Element {
         return (
-            <div
-                id={editorContainerSpecId}
-                className={this.props.translating ? styles.translating : undefined}
-                data-spec={editorContainerSpecId}
-            >
-                {this.getFooter()}
-                <div className={styles.editor} data-spec={editorSpecId}>
-                    {renderIf(
-                        this.props.languages && Object.keys(this.props.languages.items).length > 0
-                    )(<ConnectedLanguageSelector />)}
-                    {renderIf(
-                        this.props.definition && this.props.language && !this.props.fetchingFlow
-                    )(<ConnectedFlow />)}
+            <PageVisibility onChange={this.handleVisibilityChanged}>
+                <div
+                    id={editorContainerSpecId}
+                    className={this.props.translating ? styles.translating : undefined}
+                    data-spec={editorContainerSpecId}
+                >
+                    {this.getFooter()}
+                    <div className={styles.editor} data-spec={editorSpecId}>
+                        {renderIf(
+                            this.props.languages &&
+                                Object.keys(this.props.languages.items).length > 0
+                        )(<ConnectedLanguageSelector />)}
+                        {renderIf(
+                            this.props.definition && this.props.language && !this.props.fetchingFlow
+                        )(<ConnectedFlow />)}
 
-                    <RevisionExplorer
-                        loadFlowDefinition={this.props.loadFlowDefinition}
-                        assetStore={this.props.assetStore}
-                    />
+                        <RevisionExplorer
+                            simulating={this.props.simulating}
+                            loadFlowDefinition={this.props.loadFlowDefinition}
+                            assetStore={this.props.assetStore}
+                        />
+                    </div>
                 </div>
-            </div>
+            </PageVisibility>
         );
     }
 }
 
 const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes, assetStore },
-    editorState: { translating, language, fetchingFlow }
+    editorState: { translating, language, fetchingFlow, simulating }
 }: AppState) => {
     const languages = assetStore ? assetStore.languages : null;
 
     return {
+        simulating,
         assetStore,
         translating,
         language,
@@ -145,7 +160,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             fetchFlow,
-            loadFlowDefinition
+            loadFlowDefinition,
+            mergeEditorState
         },
         dispatch
     );

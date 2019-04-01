@@ -36,6 +36,7 @@ import {
 } from '~/store/flowContext';
 import {
     addPosition,
+    fetchFlowActivity,
     getActionIndex,
     getFlowComponents,
     getGhostNode,
@@ -223,6 +224,8 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, revision: Asset) =
     if (!Object.keys(assetStore).length) {
         assetStore = await createAssetStore(endpoints);
     }
+
+    fetchFlowActivity(endpoints.activity, dispatch, getState, uuid);
 
     const definition = await getFlowDefinition(assetStore.revisions);
     dispatch(loadFlowDefinition(definition, assetStore));

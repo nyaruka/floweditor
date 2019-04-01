@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Counter from '~/components/counter/Counter';
 import * as styles from '~/components/flow/exit/Exit.scss';
+import { getExitActivityKey } from '~/components/flow/exit/helpers';
 import { Category, Exit, FlowNode, LocalizationMap } from '~/flowTypes';
-import ActivityManager from '~/services/ActivityManager';
 import { Asset } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
@@ -16,7 +16,6 @@ export interface ExitPassedProps {
     exit: Exit;
     categories: Category[];
     node: FlowNode;
-    Activity: ActivityManager;
     plumberMakeSource: (id: string) => void;
     plumberRemove: (id: string) => void;
     plumberConnectExit: (node: FlowNode, exit: Exit) => void;
@@ -34,6 +33,7 @@ export interface ExitStoreProps {
     language: Asset;
     localization: LocalizationMap;
     disconnectExit: DisconnectExit;
+    segmentCount: number;
 }
 
 export type ExitProps = ExitPassedProps & ExitStoreProps;
@@ -118,16 +118,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         this.props.disconnectExit(this.props.node.uuid, this.props.exit.uuid);
     }
 
-    private onUnmount(key: string): void {
-        this.props.Activity.deregister(key);
-    }
-
     private connect(): void {
         this.props.plumberConnectExit(this.props.node, this.props.exit);
-    }
-
-    private getCount(): number {
-        return this.props.Activity.getPathCount(this.props.exit);
     }
 
     private getActivity(): JSX.Element {
@@ -137,9 +129,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             return (
                 <Counter
                     key={key}
-                    ref={this.props.Activity.registerListener}
-                    getCount={this.getCount}
-                    onUnmount={this.onUnmount}
+                    count={this.props.segmentCount}
                     containerStyle={styles.activity}
                     countStyle={styles.count}
                     keepVisible={false}
@@ -216,17 +206,24 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
 }
 
-const mapStateToProps = ({
-    flowContext: {
-        definition: { localization }
-    },
-    editorState: { translating, language, dragActive }
-}: AppState) => ({
-    dragging: dragActive,
-    translating,
-    language,
-    localization
-});
+const mapStateToProps = (
+    {
+        flowContext: {
+            definition: { localization }
+        },
+        editorState: { translating, language, dragActive, activity }
+    }: AppState,
+    props: ExitPassedProps
+) => {
+    const segmentCount = activity.segments[getExitActivityKey(props.exit)] || 0;
+    return {
+        dragging: dragActive,
+        segmentCount,
+        translating,
+        language,
+        localization
+    };
+};
 
 const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators({ disconnectExit }, dispatch);

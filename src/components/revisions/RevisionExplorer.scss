@@ -2,6 +2,11 @@
 
 $revision_color: $purple;
 
+.simulating {
+    visibility: hidden;
+    z-index: 0;
+}
+
 .mask {
     position: fixed;
     left: 0;

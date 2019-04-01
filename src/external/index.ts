@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
 import { Endpoints, FlowDefinition } from '~/flowTypes';
-import { Activity } from '~/services/ActivityManager';
 import { currencies } from '~/store/currencies';
+import { Activity } from '~/store/editor';
 import { Asset, AssetMap, Assets, AssetStore, AssetType } from '~/store/flowContext';
 import { assetListToMap } from '~/store/helpers';
 

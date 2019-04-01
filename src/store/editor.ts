@@ -19,6 +19,11 @@ export interface CanvasPositions {
     [uuid: string]: FlowPosition;
 }
 
+export interface Activity {
+    nodes: { [uuid: string]: number };
+    segments: { [exitToNodeKey: string]: number };
+}
+
 export interface EditorState {
     simulating: boolean;
     language: Asset;
@@ -33,6 +38,19 @@ export interface EditorState {
     dragGroup: boolean;
     dragSelection: DragSelection;
     debug?: DebugState;
+
+    // the currently shown activity, can be
+    // simulation or live
+    activity: Activity;
+
+    // the current live activity
+    liveActivity: Activity;
+
+    // interval in millis we should refresh activity
+    activityInterval: number;
+
+    // is our page visible or tabbed away
+    visible: boolean;
 }
 
 export const EMPTY_DRAG_STATE: any = {
@@ -58,7 +76,12 @@ export const initialState: EditorState = {
     dragGroup: false,
     dragSelection: null,
     ghostNode: null,
-    debug: null
+    debug: null,
+
+    activity: { segments: {}, nodes: {} },
+    liveActivity: { segments: {}, nodes: {} },
+    activityInterval: 5000,
+    visible: true
 };
 
 // Action Creator

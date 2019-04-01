@@ -146,6 +146,11 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "activity": Object {
+          "nodes": Object {},
+          "segments": Object {},
+        },
+        "activityInterval": 5000,
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -160,8 +165,13 @@ Array [
         "fetchingFlow": false,
         "ghostNode": null,
         "language": null,
+        "liveActivity": Object {
+          "nodes": Object {},
+          "segments": Object {},
+        },
         "simulating": false,
         "translating": false,
+        "visible": true,
       },
     },
     "type": "UPDATE_EDITOR_STATE",
@@ -174,6 +184,11 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "activity": Object {
+          "nodes": Object {},
+          "segments": Object {},
+        },
+        "activityInterval": 5000,
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -188,8 +203,13 @@ Array [
         "fetchingFlow": false,
         "ghostNode": null,
         "language": null,
+        "liveActivity": Object {
+          "nodes": Object {},
+          "segments": Object {},
+        },
         "simulating": false,
         "translating": false,
+        "visible": true,
       },
     },
     "type": "UPDATE_EDITOR_STATE",
@@ -870,6 +890,11 @@ Array [
   Object {
     "payload": Object {
       "editorState": Object {
+        "activity": Object {
+          "nodes": Object {},
+          "segments": Object {},
+        },
+        "activityInterval": 5000,
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -922,8 +947,13 @@ Array [
           },
         },
         "language": null,
+        "liveActivity": Object {
+          "nodes": Object {},
+          "segments": Object {},
+        },
         "simulating": false,
         "translating": false,
+        "visible": true,
       },
     },
     "type": "UPDATE_EDITOR_STATE",
