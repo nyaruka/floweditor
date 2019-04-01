@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import CounterComp from '~/components/counter/Counter';
+import Counter from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
 import { node } from '~/components/flow/actions/startsession/StartSession.scss';
 import ExitComp from '~/components/flow/exit/Exit';
@@ -16,7 +16,6 @@ import { Types } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getType, getTypeConfig } from '~/config/typeConfigs';
 import { AnyAction, Exit, FlowDefinition, FlowNode, RouterTypes, SwitchRouter } from '~/flowTypes';
-import ActivityManager from '~/services/ActivityManager';
 import { DebugState } from '~/store/editor';
 import { AssetMap, RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
@@ -37,7 +36,6 @@ import { ClickHandler, createClickHandler, titleCase } from '~/utils';
 
 export interface NodePassedProps {
     nodeUUID: string;
-    Activity: ActivityManager;
     plumberMakeTarget: (id: string) => void;
     plumberRecalculate: (id: string) => void;
     plumberMakeSource: (id: string) => void;
@@ -57,6 +55,7 @@ export interface NodePassedProps {
 
 export interface NodeStoreProps {
     results: AssetMap;
+    activeCount: number;
     containerOffset: { top: number; left: number };
     translating: boolean;
     dragActive: boolean;
@@ -180,14 +179,6 @@ export class NodeComp extends React.Component<NodeProps> {
         this.props.removeNode(this.props.renderNode.node);
     }
 
-    private onUnmount(key: string): void {
-        this.props.Activity.deregister(key);
-    }
-
-    private getCount(): number {
-        return this.props.Activity.getActiveCount(this.props.renderNode.node.uuid);
-    }
-
     private getExits(): JSX.Element[] {
         if (this.props.renderNode.node.exits) {
             return this.props.renderNode.node.exits.map(exit => (
@@ -196,7 +187,6 @@ export class NodeComp extends React.Component<NodeProps> {
                     node={this.props.renderNode.node}
                     categories={getCategoriesForExit(this.props.renderNode, exit)}
                     exit={exit}
-                    Activity={this.props.Activity}
                     plumberMakeSource={this.props.plumberMakeSource}
                     plumberRemove={this.props.plumberRemove}
                     plumberConnectExit={this.props.plumberConnectExit}
@@ -407,11 +397,8 @@ export class NodeComp extends React.Component<NodeProps> {
 
                 <div className={styles.node}>
                     {uuid}
-
-                    <CounterComp
-                        ref={this.props.Activity.registerListener}
-                        getCount={this.getCount}
-                        onUnmount={this.onUnmount}
+                    <Counter
+                        count={this.props.activeCount}
                         containerStyle={styles.active}
                         countStyle={''}
                         keepVisible={this.props.simulating}
@@ -443,7 +430,15 @@ const mapStateToProps = (
                 results: { items }
             }
         },
-        editorState: { translating, debug, ghostNode, dragActive, simulating, containerOffset }
+        editorState: {
+            translating,
+            debug,
+            ghostNode,
+            dragActive,
+            simulating,
+            containerOffset,
+            activity
+        }
     }: AppState,
     props: NodePassedProps
 ) => {
@@ -463,8 +458,11 @@ const mapStateToProps = (
         throw Error("Couldn't find node for " + props.nodeUUID);
     }
 
+    const activeCount = activity.nodes[props.nodeUUID] || 0;
+
     return {
         results: items,
+        activeCount,
         containerOffset,
         translating,
         debug,

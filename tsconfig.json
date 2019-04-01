@@ -4,6 +4,7 @@
         "paths": {
             "~/*": ["./src/*"]
         },
+        "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
         "jsx": "react",
         "noImplicitAny": true,
@@ -16,6 +17,7 @@
         "resolveJsonModule": true,
         "target": "es5",
         "downlevelIteration": true,
+        "traceResolution": true,
         "module": "commonjs",
         "alwaysStrict": true,
         "lib": ["es6", "dom"]

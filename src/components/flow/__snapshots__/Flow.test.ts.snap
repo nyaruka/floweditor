@@ -15,7 +15,7 @@ Array [
     "originalAction": Object {
       "text": "",
       "type": "send_msg",
-      "uuid": "04f59957-22e5-48cf-b26a-aad37f770db1",
+      "uuid": "4993f221-2381-47f9-97c3-878dc5ef258c",
     },
     "originalNode": Object {
       "ghost": true,
@@ -27,16 +27,16 @@ Array [
           Object {
             "text": "",
             "type": "send_msg",
-            "uuid": "04f59957-22e5-48cf-b26a-aad37f770db1",
+            "uuid": "4993f221-2381-47f9-97c3-878dc5ef258c",
           },
         ],
         "exits": Array [
           Object {
             "destination_uuid": null,
-            "uuid": "4993f221-2381-47f9-97c3-878dc5ef258c",
+            "uuid": "712ff538-daa1-4ab2-8ce3-762bc0bf7f12",
           },
         ],
-        "uuid": "712ff538-daa1-4ab2-8ce3-762bc0bf7f12",
+        "uuid": "dbb8e943-0501-4405-aeaa-627414f976e1",
       },
       "ui": Object {
         "position": Object {
@@ -59,16 +59,6 @@ Object {
 
 exports[`Flow render should render Simulator 1`] = `
 Object {
-  "Activity": Object {
-    "clearSimulation": [MockFunction],
-    "deregister": [MockFunction],
-    "getActiveCount": [MockFunction],
-    "getActivity": [MockFunction],
-    "getPathCount": [MockFunction],
-    "notifyListeners": [MockFunction],
-    "registerListener": [MockFunction],
-    "setSimulation": [MockFunction],
-  },
   "mergeEditorState": [MockFunction] {
     "calls": Array [
       Array [
@@ -92,22 +82,10 @@ Object {
 
 exports[`Flow render should render dragNode 1`] = `
 <Connect(NodeComp)
-  Activity={
-    Object {
-      "clearSimulation": [MockFunction],
-      "deregister": [MockFunction],
-      "getActiveCount": [MockFunction],
-      "getActivity": [MockFunction],
-      "getPathCount": [MockFunction],
-      "notifyListeners": [MockFunction],
-      "registerListener": [MockFunction],
-      "setSimulation": [MockFunction],
-    }
-  }
   data-spec="ghost-node"
   ghost={true}
-  key="5349b008-960d-4d8d-a17e-ad99b550ae87"
-  nodeUUID="5349b008-960d-4d8d-a17e-ad99b550ae87"
+  key="09294c2a-031e-4e74-9b1c-aec239b2a145"
+  nodeUUID="09294c2a-031e-4e74-9b1c-aec239b2a145"
   plumberConnectExit={[MockFunction]}
   plumberMakeSource={[MockFunction]}
   plumberMakeTarget={[MockFunction]}

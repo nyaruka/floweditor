@@ -21,6 +21,7 @@ const baseProps: FlowEditorStoreProps = {
     dependencies: null,
     loadFlowDefinition: jest.fn(),
     fetchFlow: jest.fn(),
+    mergeEditorState: jest.fn(),
     nodes: null
 };
 

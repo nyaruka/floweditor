@@ -31,7 +31,7 @@ if (process.env.RAPID_FLOW) {
             flows: base + 'flow',
             languages: base + 'language',
             environment: base + 'environment',
-            activity: ''
+            activity: '/flow/activity/' + process.env.RAPID_FLOW + '/'
         }
     });
 } else {
