@@ -146,7 +146,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     private bottom: any;
 
     public static contextTypes = {
-        endpoints: fakePropType
+        config: fakePropType
     };
 
     constructor(props: SimulatorProps, context: ConfigProviderContext) {
@@ -402,7 +402,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
                 axios.default
                     .post(
-                        getURL(this.context.endpoints.simulateStart),
+                        getURL(this.context.config.endpoints.simulateStart),
                         JSON.stringify(body, null, 2)
                     )
                     .then((response: axios.AxiosResponse) => {
@@ -450,7 +450,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
                 axios.default
                     .post(
-                        getURL(this.context.endpoints.simulateResume),
+                        getURL(this.context.config.endpoints.simulateResume),
                         JSON.stringify(body, null, 2)
                     )
                     .then((response: axios.AxiosResponse) => {

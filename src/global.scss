@@ -2,13 +2,13 @@
 
 :global {
     html {
-        overflow: scroll;
-        overflow-y: hidden;
+        // overflow: scroll;
+        // overflow-y: hidden;
     }
 
     ::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
+        width: 0px !important;
+        background: transparent !important;
     }
 
     body {

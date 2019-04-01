@@ -68,7 +68,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     public static contextTypes = {
-        endpoints: fakePropType
+        config: fakePropType
     };
 
     private handleUpdate(keys: {
@@ -199,7 +199,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         const data = new FormData();
         data.append('file', files[0]);
         axios
-            .post(this.context.endpoints.attachments, data, { headers })
+            .post(this.context.config.endpoints.attachments, data, { headers })
             .then(response => {
                 attachments = mutate(attachments, {
                     $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]

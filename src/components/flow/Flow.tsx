@@ -108,9 +108,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private ghost: any;
 
     public static contextTypes = {
-        config: fakePropType,
-        endpoints: fakePropType,
-        debug: fakePropType
+        config: fakePropType
     };
 
     constructor(props: FlowStoreProps, context: ConfigProviderContext) {
@@ -121,7 +119,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         this.Plumber = new Plumber();
 
         /* istanbul ignore next */
-        if (context.debug) {
+        if (context.config.debug) {
             window.fe = new Debug(props, this.props.editorState.debug);
         }
 
@@ -194,7 +192,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
             prevProps.editorState.activityInterval === this.props.editorState.activityInterval &&
             this.props.editorState.activityInterval !== ACTIVITY_INTERVAL
         ) {
-            console.log('resetting interval');
             this.props.mergeEditorState({ activityInterval: ACTIVITY_INTERVAL });
         }
     }
@@ -320,9 +317,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private getSimulator(): JSX.Element {
-        return renderIf(this.context.endpoints && this.context.endpoints.simulateStart)(
-            <Simulator mergeEditorState={this.props.mergeEditorState} />
-        );
+        return renderIf(
+            this.context.config.endpoints && this.context.config.endpoints.simulateStart
+        )(<Simulator mergeEditorState={this.props.mergeEditorState} />);
     }
 
     private getNodeEditor(): JSX.Element {
