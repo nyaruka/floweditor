@@ -1,6 +1,13 @@
 import { FlowPosition } from '~/flowTypes';
 import { CanvasPositions } from '~/store/editor';
-import { NODE_SPACING, set, snapPositionToGrid, timeEnd, timeStart } from '~/utils';
+import {
+    MAX_REFLOW_ATTEMPTS,
+    NODE_SPACING,
+    set,
+    snapPositionToGrid,
+    timeEnd,
+    timeStart
+} from '~/utils';
 
 const mutate = require('immutability-helper');
 
@@ -107,10 +114,14 @@ export const reflow = (
     let newPositions = positions;
     const changed: string[] = [];
 
+    // if for some reason we can't reflow, don't blow up
+    let attempts = 0;
+
     timeStart('reflow');
 
     let collision = getFirstCollision(positions, changed);
-    while (collision.length > 0) {
+    while (collision.length > 0 && attempts < MAX_REFLOW_ATTEMPTS) {
+        attempts++;
         if (collision.length) {
             const [top, bottom, cascade] = collision;
             newPositions = mutate(newPositions, {

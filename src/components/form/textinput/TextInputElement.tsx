@@ -353,13 +353,16 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 });
 
             this.props.onFieldFailures(missingFields);
-            return true;
+            return missingFields.length > 0;
         }
         return false;
     }
 
     private handleBlur(event: React.ChangeEvent<HTMLTextElement>): void {
         if (this.checkForMissingFields()) {
+            if (this.props.onBlur) {
+                this.props.onBlur(event);
+            }
             return;
         }
 

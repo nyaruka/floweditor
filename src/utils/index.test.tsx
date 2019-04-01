@@ -121,15 +121,17 @@ describe('utils', () => {
             expect(getSelectClass(1)).toEqual('select-base select-invalid'));
     });
 
-    describe('titleCase', () =>
+    describe('titleCase', () => {
         it('should apply title case to each word in a given string', () =>
             ['one', 'one two', 'one two three', 'one,two', 'one, two'].forEach(str =>
                 expect(titleCase(str)).toMatchSnapshot()
-            )));
+            ));
+    });
 
-    describe('reorderList', () =>
+    describe('reorderList', () => {
         it('should reorder a given list according to index params', () =>
-            expect(reorderList([1, 2, 3], 2, 0)).toEqual([3, 1, 2])));
+            expect(reorderList([1, 2, 3], 2, 0)).toEqual([3, 1, 2]));
+    });
 
     describe('jsonEqual', () => {
         const [anyWordOperator, allWordsOperator] = operatorConfigList;

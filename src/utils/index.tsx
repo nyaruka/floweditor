@@ -4,23 +4,22 @@ import { v4 as generateUUID } from 'uuid';
 import {
     Action,
     Case,
+    Category,
     ContactProperties,
-    Exit,
     FlowPosition,
-    LocalizationMap,
-    Category
+    LocalizationMap
 } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
 import { Asset } from '~/store/flowContext';
 import { FormEntry } from '~/store/nodeEditor';
 import * as variables from '~/variables.scss';
-import { CategorizedCases } from '~/components/flow/routers/helpers';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
 const MAX_LABEL_LENGTH = 36;
 const SNAKED_CHARS = /\s+(?=\S)/g;
 
+export const MAX_REFLOW_ATTEMPTS = 100;
 export const GRID_SIZE: number = parseInt(variables.grid_size, 10) || 20;
 export const NODE_SPACING: number = parseInt(variables.node_spacing, 10) || 10;
 export const NODE_PADDING: number = parseInt(variables.node_padding, 10) || 10;

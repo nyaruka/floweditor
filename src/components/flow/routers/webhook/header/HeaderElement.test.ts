@@ -94,12 +94,9 @@ describe(HeaderElement.name, () => {
                 wrapper.update();
 
                 expect(setStateSpy).toHaveBeenCalledTimes(1);
-                expect(setStateSpy).toHaveBeenCalledWith(
-                    { name: headers[0].value.name },
-                    expect.any(Function)
-                );
+                expect(setStateSpy).toMatchCallSnapshot('setState');
                 expect(onChangeMock).toHaveBeenCalledTimes(1);
-                expect(onChangeMock).toMatchCallSnapshot('change header');
+                expect(onChangeMock).toMatchCallSnapshot('onChange');
 
                 expect(
                     wrapper

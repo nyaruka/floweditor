@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop: change header 1`] = `
+exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop: onChange 1`] = `
 Array [
   Object {
     "name": "Content-Type",
@@ -8,6 +8,14 @@ Array [
     "value": "application/json",
   },
   Array [],
+]
+`;
+
+exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop: setState 1`] = `
+Array [
+  Object {
+    "name": "Content-Type",
+  },
 ]
 `;
 
@@ -85,7 +93,6 @@ Array [
       },
     },
   },
-  [Function],
 ]
 `;
 

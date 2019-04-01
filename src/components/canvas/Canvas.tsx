@@ -127,7 +127,6 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             const top = Math.min(drag.startY, drag.currentY);
             const width = Math.max(drag.startX, drag.currentX) - left;
             const height = Math.max(drag.startY, drag.currentY) - top;
-
             if (this.state.dragSelection && this.state.dragSelection.startX) {
                 return (
                     <div className={styles.dragSelection} style={{ left, top, width, height }} />

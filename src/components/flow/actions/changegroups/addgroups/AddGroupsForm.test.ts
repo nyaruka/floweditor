@@ -48,7 +48,7 @@ describe(AddGroupsForm.name, () => {
 
             instance.handleGroupsChanged([SubscribersGroup]);
             instance.handleSave();
-            expect(props.updateAction).toMatchSnapshot('switch from router');
+            expect(props.updateAction).toMatchCallSnapshot('switch from router');
         });
     });
 });
