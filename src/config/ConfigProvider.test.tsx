@@ -13,8 +13,7 @@ describe('ConfigProvider >', () => {
     const createChild = () => {
         class Child extends React.Component<{}> {
             public static contextTypes = {
-                endpoints: fakePropType,
-                flow: fakePropType
+                config: fakePropType
             };
             public render(): JSX.Element {
                 return <div />;
@@ -54,12 +53,6 @@ describe('ConfigProvider >', () => {
             </ConfigProvider>
         ) as React.Component<any, {}>;
         const childComp = findRenderedComponentWithType(tree, Child);
-        const { assetHost, endpoints, flow } = config;
-
-        expect(childComp.context).toEqual({
-            endpoints,
-            flow
-        });
         expect(childComp.context).toMatchSnapshot();
     });
 });

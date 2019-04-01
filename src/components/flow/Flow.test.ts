@@ -141,7 +141,7 @@ describe(Flow.name, () => {
                 { mergeEditorState: set(jest.fn()) },
                 {},
                 {
-                    endpoints: merge({ simulateStart: 'startMeUp' })
+                    config: { endpoints: merge({ simulateStart: 'startMeUp' }) }
                 }
             );
 
