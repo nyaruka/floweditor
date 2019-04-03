@@ -1,10 +1,40 @@
 @import '~/variables.scss';
 
-.language_selector {
-    z-index: $z_editor_menu;
-    position: absolute;
-    right: 50px;
-    top: 30px;
-    width: 150px;
-    user-select: none;
+:global {
+    .language-selector {
+        z-index: $z_editor_menu;
+        position: absolute;
+        right: 30px;
+        top: 0px;
+        user-select: none;
+    }
+}
+
+.language {
+    display: inline-block;
+}
+
+.language-link {
+    font-size: 12px;
+    display: inline;
+
+    text-decoration: underline;
+    color: $blue;
+    cursor: pointer;
+
+    &:hover {
+        color: darken($blue, 20%);
+    }
+
+    &.active {
+        text-decoration: none;
+        color: $gray;
+        cursor: default;
+    }
+}
+
+.separator {
+    display: inline-block;
+    font-size: 14px;
+    padding: 0px 6px;
 }

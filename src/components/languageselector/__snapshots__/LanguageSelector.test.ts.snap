@@ -1,102 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LanguageSelector render should render select control: asset selector 1`] = `
-Object {
-  "assets": Object {
-    "items": Object {
-      "eng": Object {
-        "id": "eng",
-        "name": "English",
-        "type": "language",
-      },
-      "fra": Object {
-        "id": "fra",
-        "name": "French",
-        "type": "language",
-      },
-      "spa": Object {
-        "id": "spa",
-        "name": "Spanish",
-        "type": "language",
-      },
-    },
-    "type": "language",
-  },
-  "entry": Object {
-    "value": Object {
-      "id": "eng",
-      "name": "English",
-      "type": "language",
-    },
-  },
-  "name": "Language",
-  "onChange": [Function],
-  "searchable": false,
-  "sortFunction": [Function],
-  "styles": Object {
-    "control": [Function],
-    "indicatorsContainer": [Function],
-    "input": [Function],
-    "menuList": [Function],
-    "option": [Function],
-    "singleValue": [Function],
-    "valueContainer": [Function],
-  },
-}
-`;
-
 exports[`LanguageSelector render should render select control: language selector 1`] = `
 <div
-  className="languageSelector select-small"
-  data-spec="language-selector-container"
+  className="language-selector"
 >
-  <AssetSelector
-    assets={
-      Object {
-        "items": Object {
-          "eng": Object {
-            "id": "eng",
-            "name": "English",
-            "type": "language",
-          },
-          "fra": Object {
-            "id": "fra",
-            "name": "French",
-            "type": "language",
-          },
-          "spa": Object {
-            "id": "spa",
-            "name": "Spanish",
-            "type": "language",
-          },
-        },
-        "type": "language",
-      }
-    }
-    entry={
-      Object {
-        "value": Object {
-          "id": "eng",
-          "name": "English",
-          "type": "language",
-        },
-      }
-    }
-    name="Language"
-    onChange={[Function]}
-    searchable={false}
-    sortFunction={[Function]}
-    styles={
-      Object {
-        "control": [Function],
-        "indicatorsContainer": [Function],
-        "input": [Function],
-        "menuList": [Function],
-        "option": [Function],
-        "singleValue": [Function],
-        "valueContainer": [Function],
-      }
-    }
-  />
+  <div
+    className="language"
+    key="lang_eng"
+  >
+    <div
+      className="languageLink active"
+      onClick={[Function]}
+    >
+      English
+    </div>
+  </div>
+  <div
+    className="language"
+    key="lang_fra"
+  >
+    <div
+      className="separator"
+    >
+      |
+    </div>
+    <div
+      className="languageLink "
+      onClick={[Function]}
+    >
+      French
+    </div>
+  </div>
+  <div
+    className="language"
+    key="lang_spa"
+  >
+    <div
+      className="separator"
+    >
+      |
+    </div>
+    <div
+      className="languageLink "
+      onClick={[Function]}
+    >
+      Spanish
+    </div>
+  </div>
 </div>
 `;

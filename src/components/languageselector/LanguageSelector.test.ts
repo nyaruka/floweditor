@@ -1,7 +1,6 @@
 import {
     containerClasses,
     LanguageSelector,
-    languageSelectorContainerSpecId,
     LanguageSelectorProps
 } from '~/components/languageselector/LanguageSelector';
 import { composeComponentTestUtils, getSpecWrapper, setMock } from '~/testUtils';
@@ -19,11 +18,6 @@ describe(LanguageSelector.name, () => {
     describe('render', () => {
         it('should render select control', () => {
             const { wrapper } = setup();
-
-            expect(
-                getSpecWrapper(wrapper, languageSelectorContainerSpecId).hasClass(containerClasses)
-            ).toBeTruthy();
-            expect(wrapper.find('AssetSelector').props()).toMatchSnapshot('asset selector');
             expect(wrapper).toMatchSnapshot('language selector');
         });
     });
@@ -38,11 +32,11 @@ describe(LanguageSelector.name, () => {
                 const instance: LanguageSelector = component.instance;
                 const props: Partial<LanguageSelectorProps> = component.props;
 
-                instance.handleLanguageChanged([Spanish]);
+                instance.handleLanguageChanged(Spanish);
                 expect(props.handleLanguageChange).toHaveBeenCalledTimes(1);
                 expect(props.handleLanguageChange).toHaveBeenCalledWith(Spanish);
 
-                instance.handleLanguageChanged([English]);
+                instance.handleLanguageChanged(English);
                 expect(props.handleLanguageChange).toHaveBeenCalledTimes(2);
                 expect(props.handleLanguageChange).toHaveBeenCalledWith(English);
             });
