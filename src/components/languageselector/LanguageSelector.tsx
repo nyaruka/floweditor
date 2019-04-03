@@ -3,12 +3,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
-import { languageSelector } from '~/components/languageselector/LanguageSelector.scss';
 import { ConfigProviderContext } from '~/config';
 import { Asset, Assets } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store/thunks';
-import { small } from '~/utils/reactselect';
 
 export interface LanguageSelectorProps {
     language: Asset;
@@ -16,8 +14,9 @@ export interface LanguageSelectorProps {
     handleLanguageChange: HandleLanguageChange;
 }
 
-export const containerClasses = `${languageSelector} select-small`;
-export const languageSelectorContainerSpecId = 'language-selector-container';
+export const containerClasses = 'language-selector';
+
+import * as styles from './LanguageSelector.scss';
 
 export class LanguageSelector extends React.Component<LanguageSelectorProps> {
     constructor(props: LanguageSelectorProps, context: ConfigProviderContext) {
@@ -27,8 +26,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
         });
     }
 
-    public handleLanguageChanged(selections: Asset[]): void {
-        const [language] = selections;
+    public handleLanguageChanged(language: Asset): void {
         this.props.handleLanguageChange(language);
     }
 
@@ -45,17 +43,31 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
     }
 
     public render(): JSX.Element {
+        const languages = Object.keys(this.props.languages.items)
+            .map((iso: string) => this.props.languages.items[iso])
+            .sort(this.handleLanguageSort);
+
         return (
-            <div className={containerClasses} data-spec={languageSelectorContainerSpecId}>
-                <AssetSelector
-                    name="Language"
-                    styles={small}
-                    assets={this.props.languages}
-                    entry={{ value: this.props.language }}
-                    searchable={false}
-                    onChange={this.handleLanguageChanged}
-                    sortFunction={this.handleLanguageSort}
-                />
+            <div className={containerClasses}>
+                {languages.map((lang: Asset, idx: number) => {
+                    return (
+                        <div key={'lang_' + lang.id} className={styles.language}>
+                            {idx > 0 ? <div className={styles.separator}>|</div> : null}
+                            <div
+                                className={
+                                    styles.languageLink +
+                                    ' ' +
+                                    (this.props.language.id === lang.id ? styles.active : '')
+                                }
+                                onClick={() => {
+                                    this.handleLanguageChanged(lang);
+                                }}
+                            >
+                                {lang.name}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
         );
     }
