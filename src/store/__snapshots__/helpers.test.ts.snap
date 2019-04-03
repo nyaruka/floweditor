@@ -124,11 +124,11 @@ Array [
         "operand": "@run.input",
         "result_name": "color",
         "type": "switch",
+        "wait": Object {
+          "type": "msg",
+        },
       },
       "uuid": "node1",
-      "wait": Object {
-        "type": "msg",
-      },
     },
     "ui": Object {
       "position": Object {

@@ -58,6 +58,7 @@ export const stateToNode = (
         categories,
         cases,
         operand: '@input',
+        wait: { type: WaitTypes.msg, hint: { type: HintTypes.digits } },
         ...optionalRouter
     };
 
@@ -67,7 +68,7 @@ export const stateToNode = (
         exits,
         Types.wait_for_response,
         [],
-        { type: WaitTypes.msg, hint: { type: HintTypes.digits } },
+
         { cases: caseConfig }
     );
 

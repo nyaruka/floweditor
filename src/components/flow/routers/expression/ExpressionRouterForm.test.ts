@@ -5,62 +5,23 @@ import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators, Types } from '~/config/interfaces';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { composeComponentTestUtils, mock } from '~/testUtils';
-import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
+import { createRenderNode, getRouterFormProps, createMatchRouter } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
 import { createUUID } from '~/utils';
 
+mock(utils, 'createUUID', utils.seededUUIDs());
+
+const routerNode = createMatchRouter([]);
+routerNode.ui = { position: { left: 0, top: 0 }, type: Types.split_by_expression };
+
 const { setup } = composeComponentTestUtils<RouterFormProps>(
     ExpressionRouterForm,
-    getRouterFormProps(
-        createRenderNode({
-            actions: [],
-            exits: [],
-            ui: { position: { left: 0, top: 0 }, type: Types.split_by_expression }
-        })
-    )
+    getRouterFormProps(routerNode)
 );
-
-mock(utils, 'createUUID', utils.seededUUIDs());
 
 describe(ExpressionRouterForm.name, () => {
     it('should render', () => {
         const { wrapper } = setup(true);
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    it('initializes', () => {
-        const { wrapper } = setup(true, {
-            nodeSettings: {
-                $set: {
-                    originalNode: createRenderNode({
-                        actions: [],
-                        exits: [{ destination_uuid: null, uuid: 'generated_uuid_1' }],
-                        router: {
-                            type: RouterTypes.switch,
-                            operand: DEFAULT_OPERAND,
-                            categories: [
-                                { uuid: createUUID(), name: 'Other', exit_uuid: 'generated_uuid_1' }
-                            ],
-                            cases: [
-                                {
-                                    uuid: 'generated_uuid_2',
-                                    type: Operators.has_any_word,
-                                    arguments: ['red'],
-                                    category_uuid: null
-                                }
-                            ],
-                            default_category_uuid: 'generated_uuid_1',
-                            result_name: 'Color'
-                        } as SwitchRouter,
-                        ui: {
-                            position: { left: 0, top: 0 },
-                            type: Types.split_by_expression
-                        }
-                    })
-                }
-            }
-        });
-
         expect(wrapper).toMatchSnapshot();
     });
 

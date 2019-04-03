@@ -100,6 +100,9 @@
                         "arguments": ["violet, v"]
                     }
                 ],
+                "wait": {
+                    "type": "msg"
+                },
                 "operand": "@run.input",
                 "result_name": "color"
             },
@@ -144,10 +147,7 @@
                     "name": "Other",
                     "destination_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a"
                 }
-            ],
-            "wait": {
-                "type": "msg"
-            }
+            ]
         },
         {
             "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",

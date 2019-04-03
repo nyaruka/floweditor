@@ -150,7 +150,6 @@ export const stateToNode = (
         exits,
         nodeType,
         [],
-        null,
         config
     );
 

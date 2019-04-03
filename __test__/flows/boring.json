@@ -91,6 +91,9 @@
                         "exit_uuid": "node1_exit2"
                     }
                 ],
+                "wait": {
+                    "type": "msg"
+                },
                 "operand": "@run.input",
                 "result_name": "color"
             },
@@ -107,10 +110,7 @@
                     "uuid": "node1_exit2",
                     "destination_uuid": "node2"
                 }
-            ],
-            "wait": {
-                "type": "msg"
-            }
+            ]
         },
         {
             "uuid": "node2",

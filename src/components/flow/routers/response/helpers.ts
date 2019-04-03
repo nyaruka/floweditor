@@ -31,8 +31,8 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
             resultName = { value: router.result_name || '' };
         }
 
-        if (settings.originalNode.node.wait) {
-            timeout = settings.originalNode.node.wait.timeout;
+        if (settings.originalNode.node.router.wait) {
+            timeout = settings.originalNode.node.router.wait.timeout || 0;
         }
     }
 
@@ -59,20 +59,20 @@ export const stateToNode = (
         optionalRouter.result_name = state.resultName.value;
     }
 
-    // TODO: shouldnt have an operand
+    const wait = { type: WaitTypes.msg } as Wait;
+    if (state.timeout > 0) {
+        wait.timeout = state.timeout;
+    }
+
     const router: SwitchRouter = {
         type: RouterTypes.switch,
         default_category_uuid: defaultExit,
         cases,
         categories,
         operand: DEFAULT_OPERAND,
+        wait,
         ...optionalRouter
     };
-
-    const wait = { type: WaitTypes.msg } as Wait;
-    if (state.timeout > 0) {
-        wait.timeout = state.timeout;
-    }
 
     const newRenderNode = createRenderNode(
         settings.originalNode.node.uuid,
@@ -80,7 +80,6 @@ export const stateToNode = (
         exits,
         Types.wait_for_response,
         [],
-        wait,
         { cases: caseConfig }
     );
 

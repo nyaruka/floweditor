@@ -21,14 +21,14 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
         createRenderNode({
             actions: [],
             exits,
-            wait: {
-                type: WaitTypes.msg,
-                hint: { type: HintTypes.digits }
-            },
             router: {
                 default_category_uuid: categories[0].uuid,
                 type: RouterTypes.switch,
                 categories,
+                wait: {
+                    type: WaitTypes.msg,
+                    hint: { type: HintTypes.digits }
+                },
                 cases: []
             },
             ui: { position: { left: 0, top: 0 }, type: Types.wait_for_response }

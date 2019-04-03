@@ -17,7 +17,6 @@ import {
     getUniqueDestinations
 } from '~/store/helpers';
 import { Spanish } from '~/testUtils/assetCreators';
-import { dump } from '~/utils';
 
 const mutate = require('immutability-helper');
 

@@ -44,7 +44,10 @@
                 "default_category_uuid": "984fefee-3bf3-4e7b-bf84-e6e650253b2b",
                 "cases": [],
                 "operand": "@run.input",
-                "result_name": "Name"
+                "result_name": "Name",
+                "wait": {
+                    "type": "msg"
+                }
             },
             "exits": [
                 {
@@ -52,10 +55,7 @@
                     "name": "All Responses",
                     "destination_uuid": "7a19060d-6d93-4217-a4e5-9cbd479be051"
                 }
-            ],
-            "wait": {
-                "type": "msg"
-            }
+            ]
         },
         {
             "uuid": "7a19060d-6d93-4217-a4e5-9cbd479be051",
@@ -87,7 +87,10 @@
                 "default_category_uuid": "28adcb5e-8208-4e35-82c3-f377cbba5a7c",
                 "cases": [],
                 "operand": "@run.input",
-                "result_name": "This can be something that is really long"
+                "result_name": "This can be something that is really long",
+                "wait": {
+                    "type": "msg"
+                }
             },
             "exits": [
                 {
@@ -95,10 +98,7 @@
                     "name": "All Responses",
                     "destination_uuid": "a8a09d00-7cab-4375-9d44-58f6783732f6"
                 }
-            ],
-            "wait": {
-                "type": "msg"
-            }
+            ]
         },
         {
             "uuid": "a8a09d00-7cab-4375-9d44-58f6783732f6",
@@ -113,8 +113,7 @@
                 {
                     "uuid": "225a67f4-28b5-4819-a25b-eb9a0ecea11d",
                     "type": "send_email",
-                    "body":
-                        "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @run.results.phone",
+                    "body": "@run.results.name says: \n\n@run.results.issue \n\nPlease reach out to them at @run.results.phone",
                     "subject": "New Issue",
                     "addresses": ["support@acme.co"]
                 },
@@ -166,8 +165,7 @@
                     "url": "http://example.com",
                     "headers": {},
                     "method": "POST",
-                    "body":
-                        "{\n    \"contact\": @(to_json(contact.uuid)),\n    \"contact_urn\": @(to_json(contact.urns)),\n    \"message\": @(to_json(input.text)),\n    \"flow\": @(to_json(run.flow.uuid)),\n    \"flow_name\": @(to_json(run.flow.name))\n}"
+                    "body": "{\n    \"contact\": @(to_json(contact.uuid)),\n    \"contact_urn\": @(to_json(contact.urns)),\n    \"message\": @(to_json(input.text)),\n    \"flow\": @(to_json(run.flow.uuid)),\n    \"flow_name\": @(to_json(run.flow.name))\n}"
                 }
             ]
         }

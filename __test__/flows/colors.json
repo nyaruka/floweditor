@@ -142,6 +142,9 @@
                         "exit_uuid": "e3c963b4-f94d-4a85-93b4-0e4e3302e4ad"
                     }
                 ],
+                "wait": {
+                    "type": "msg"
+                },
                 "operand": "@run.input",
                 "result_name": "color"
             },
@@ -179,10 +182,7 @@
                     "uuid": "e3c963b4-f94d-4a85-93b4-0e4e3302e4ad",
                     "destination_uuid": "4fac7935-d13b-4b36-bf15-98075dca822a"
                 }
-            ],
-            "wait": {
-                "type": "msg"
-            }
+            ]
         },
         {
             "uuid": "bc978e00-2f3d-41f2-87c1-26b3f14e5925",
@@ -365,11 +365,7 @@
                         "uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
                     }
                 }
-            ],
-            "wait": {
-                "type": "flow",
-                "flow_uuid": "9ecc8e84-6b83-442b-a04a-8094d5de997b"
-            }
+            ]
         }
     ],
     "_ui": {

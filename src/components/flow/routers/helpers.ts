@@ -10,8 +10,7 @@ import {
     Router,
     RouterTypes,
     SwitchRouter,
-    UIConfig,
-    Wait
+    UIConfig
 } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { createUUID } from '~/utils';
@@ -32,7 +31,6 @@ export const createRenderNode = (
     exits: Exit[],
     type: Types,
     actions: Action[] = [],
-    wait: Wait = null,
     uiConfig: { [key: string]: any } = {}
 ): RenderNode => {
     const renderNode: RenderNode = {
@@ -49,11 +47,6 @@ export const createRenderNode = (
         },
         inboundConnections: {}
     };
-
-    if (wait) {
-        renderNode.node.wait = wait;
-    }
-
     return renderNode;
 };
 

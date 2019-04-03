@@ -37,18 +37,7 @@ export const stateToNode = (
         optionalRouter.result_name = state.resultName.value;
     }
 
-    // TODO: shouldnt have an operand
-    const router: SwitchRouter = {
-        type: RouterTypes.switch,
-        default_category_uuid: defaultExit,
-        cases: [],
-        categories,
-        operand: DEFAULT_OPERAND,
-        ...optionalRouter
-    };
-
     const wait = { type: WaitTypes.msg } as Wait;
-
     switch (typeConfig.type) {
         case Types.wait_for_audio:
             wait.hint = { type: HintTypes.audio };
@@ -64,13 +53,22 @@ export const stateToNode = (
             break;
     }
 
+    const router: SwitchRouter = {
+        type: RouterTypes.switch,
+        default_category_uuid: defaultExit,
+        cases: [],
+        categories,
+        wait,
+        operand: DEFAULT_OPERAND,
+        ...optionalRouter
+    };
+
     const newRenderNode = createRenderNode(
         settings.originalNode.node.uuid,
         router,
         exits,
         Types.wait_for_response,
         [],
-        wait,
         { cases: caseConfig }
     );
 

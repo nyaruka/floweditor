@@ -67,7 +67,6 @@ export interface FlowNode {
     actions: Action[];
     exits: Exit[];
     router?: Router;
-    wait?: Wait;
 }
 
 export interface Exit {
@@ -84,6 +83,7 @@ export interface Router {
     type: RouterTypes;
     result_name?: string;
     categories: Category[];
+    wait?: Wait;
 }
 
 export interface Channel {

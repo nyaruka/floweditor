@@ -14,7 +14,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
       },
     }
   }
-  headerClass="split_by_expression"
+  headerClass="wait_for_response"
   tabs={
     Array [
       Object {
@@ -206,7 +206,7 @@ exports[`RouterLocalizationForm should render 1`] = `
       },
     }
   }
-  headerClass="split_by_expression"
+  headerClass="wait_for_response"
   tabs={
     Array [
       Object {

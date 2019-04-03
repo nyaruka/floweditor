@@ -88,7 +88,6 @@ export const stateToNode = (
         exits,
         Types.split_by_contact_field,
         [],
-        null,
         {
             operand: {
                 id: asset.id,

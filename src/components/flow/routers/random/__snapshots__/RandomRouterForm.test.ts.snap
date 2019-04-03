@@ -181,7 +181,7 @@ Array [
       "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
     },
     "ui": Object {
-      "config": Object {},
+      "config": null,
       "position": null,
       "type": "split_by_random",
     },
@@ -213,6 +213,7 @@ Object {
       "left": 100,
       "top": 100,
     },
+    "type": "execute_actions",
   },
 }
 `;

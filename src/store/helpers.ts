@@ -18,6 +18,7 @@ import {
     StickyNote,
     SwitchRouter,
     UIMetaData,
+    Wait,
     WaitTypes
 } from '~/flowTypes';
 import Localization, { LocalizedObject } from '~/services/Localization';
@@ -78,6 +79,14 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
 
 export const getSuggestedResultName = (count: number) => `Result ${count}`;
 
+export const hasRouter = (renderNode: RenderNode): boolean => {
+    return !!renderNode.node.router;
+};
+
+export const hasWait = (renderNode: RenderNode): boolean => {
+    return !!(renderNode.node.router && renderNode.node.router.wait);
+};
+
 /**
  * Follows every path from fromNodeUUID to toNodeUUID and throws
  * an error if we hit ourselves again without hitting a wait
@@ -99,7 +108,7 @@ export const detectLoops = (
         throw new Error("Flow loop detected, can't point to self");
     }
 
-    if (!!toNode.node.wait || !!fromNode.node.wait) {
+    if (hasWait(toNode) || hasWait(fromNode)) {
         return;
     }
 
@@ -334,8 +343,8 @@ export const getGhostNode = (
 
     let type = Types.execute_actions;
 
-    // Add an action if we are coming from a split
-    if (fromNode.node.wait || fromNode.ui.type === Types.split_by_webhook) {
+    // Add an action next if we are coming from a router
+    if (hasRouter(fromNode)) {
         const replyType = flowType === FlowTypes.VOICE ? Types.say_msg : Types.send_msg;
         const replyAction = {
             uuid: createUUID(),
@@ -354,11 +363,10 @@ export const getGhostNode = (
             }
         ];
 
-        ghostNode.wait = { type: WaitTypes.msg };
-
+        const wait: Wait = { type: WaitTypes.msg };
         type = Types.wait_for_response;
         if (flowType === FlowTypes.VOICE) {
-            ghostNode.wait.hint = { type: HintTypes.digits, count: 1 };
+            wait.hint = { type: HintTypes.digits, count: 1 };
         }
 
         ghostNode.router = {
@@ -366,6 +374,7 @@ export const getGhostNode = (
             result_name: getSuggestedResultName(suggestedResultNameCount),
             default_category_uuid: categories[0].uuid,
             categories,
+            wait,
             cases: []
         } as SwitchRouter;
     }

@@ -1,87 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ExpressionRouterForm initializes 1`] = `
-<Dialog
-  buttons={
-    Object {
-      "primary": Object {
-        "name": "Ok",
-        "onClick": [Function],
-      },
-      "secondary": Object {
-        "name": "Cancel",
-        "onClick": [Function],
-      },
-    }
-  }
-  headerClass="split_by_expression"
-  title="Split by Expression"
->
-  <TypeList
-    __className=""
-    initialType={
-      Object {
-        "description": "Split by a custom expression",
-        "form": undefined,
-        "localization": [Function],
-        "localizeableKeys": Array [
-          "exits",
-          "cases",
-        ],
-        "name": "Split by Expression",
-        "type": "split_by_expression",
-      }
-    }
-    onChange={[MockFunction]}
-  />
-  <p>
-    If the expression...
-  </p>
-  <Connect(TextInputElement)
-    entry={
-      Object {
-        "value": "@input",
-      }
-    }
-    name="Operand"
-    onChange={[Function]}
-    showLabel={false}
-  />
-  <CaseList
-    cases={
-      Array [
-        Object {
-          "categoryName": null,
-          "kase": Object {
-            "arguments": Array [
-              "red",
-            ],
-            "category_uuid": null,
-            "type": "has_any_word",
-            "uuid": "generated_uuid_2",
-          },
-          "uuid": "generated_uuid_2",
-          "valid": true,
-        },
-      ]
-    }
-    data-spec="cases"
-    onCasesUpdated={[Function]}
-  />
-  <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-    name="Result Name"
-    onChange={[Function]}
-    toggleText="Save as.."
-    value={
-      Object {
-        "value": "Color",
-      }
-    }
-  />
-</Dialog>
-`;
-
 exports[`ExpressionRouterForm should render 1`] = `
 <Dialog
   buttons={
@@ -197,13 +115,13 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
         Object {
-          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         },
         Object {
-          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
       ],
       "router": Object {
@@ -212,47 +130,47 @@ Array [
             "arguments": Array [
               "red",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "maroon",
             ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
             "type": "has_any_word",
           },
           Object {
             "arguments": Array [
               "green",
             ],
-            "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "category_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
             "type": "has_any_word",
           },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "name": "Red",
-            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           },
           Object {
-            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
             "name": "Green",
-            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
           },
           Object {
-            "exit_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
             "name": "Other",
-            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
         ],
-        "default_category_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         "operand": "@input",
         "result_name": "Favorite Color",
         "type": "switch",
       },
-      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
     },
     "ui": Object {
       "config": Object {

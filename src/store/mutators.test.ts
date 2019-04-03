@@ -1,12 +1,13 @@
 import { Types } from '~/config/interfaces';
-import { FlowDefinition, RouterTypes, SendMsg, Exit, Wait, WaitTypes, Category } from '~/flowTypes';
+import { Category, Exit, FlowDefinition, RouterTypes, SendMsg } from '~/flowTypes';
+import { RenderNode } from '~/store/flowContext';
 import {
+    detectLoops,
     getActionIndex,
     getExitIndex,
     getFlowComponents,
     getNode,
-    newPosition,
-    detectLoops
+    newPosition
 } from '~/store/helpers';
 import {
     addAction,
@@ -21,10 +22,8 @@ import {
     updateNodeDimensions,
     updatePosition
 } from '~/store/mutators';
-import { createSendMsgAction } from '~/testUtils/assetCreators';
-import { RenderNode, RenderNodeMap } from '~/store/flowContext';
-import { exit } from '~/components/flow/node/Node.scss';
-import { createUUID, dump } from '~/utils';
+import { createMatchRouter, createSendMsgAction } from '~/testUtils/assetCreators';
+import { createUUID } from '~/utils';
 
 const mutate = require('immutability-helper');
 
@@ -241,21 +240,21 @@ describe('mutators', () => {
             }).toThrowError();
         });
 
-        it('should allow wait to expression and back', () => {
-            const expressionNode = createEmptyNode();
-            const waitNode = createEmptyNode(1, { type: WaitTypes.msg });
+        it('should allow wait to action and back', () => {
+            const actionNode = createEmptyNode();
+            const waitNode = createMatchRouter(['Red']);
 
-            // point our expression to our wait
-            connect([expressionNode, waitNode]);
+            // point our action to our wait
+            connect([actionNode, waitNode]);
 
             detectLoops(
-                createNodeMap([expressionNode, waitNode]),
+                createNodeMap([actionNode, waitNode]),
                 waitNode.node.uuid,
-                expressionNode.node.uuid
+                actionNode.node.uuid
             );
         });
 
-        it('should detect lenghty cylces', () => {
+        it('should detect lengthy cycles', () => {
             // create a long chain of non wait nodes
             const nodeList: RenderNode[] = [];
             for (let i = 0; i < 10; i++) {
@@ -286,7 +285,7 @@ describe('mutators', () => {
 
         it('should not reroute on removal if it creates a loop', () => {
             let expressionA = createEmptyNode();
-            const waitNode = createEmptyNode(1, { type: WaitTypes.msg });
+            const waitNode = createMatchRouter(['red']);
             const expressionB = createEmptyNode();
 
             // create a loop with a wait in the middle
@@ -325,7 +324,7 @@ const createNodeMap = (nodes: RenderNode[]): any => {
         });
 };
 
-const createEmptyNode = (exitCount: number = 1, wait?: Wait): RenderNode => {
+const createEmptyNode = (exitCount: number = 1): RenderNode => {
     const exits: Exit[] = [];
     for (let i = 0; i < exitCount; i++) {
         exits.push({ uuid: createUUID() });
@@ -336,10 +335,6 @@ const createEmptyNode = (exitCount: number = 1, wait?: Wait): RenderNode => {
         ui: { position: { left: 0, top: 0 } },
         inboundConnections: {}
     };
-
-    if (wait) {
-        renderNode.node.wait = wait;
-    }
 
     return renderNode;
 };

@@ -499,9 +499,13 @@ export const createMatchRouter = (matches: string[], hasTimeout: boolean = false
             operand: DEFAULT_OPERAND,
             categories,
             cases,
-            default_category_uuid: categories[categories.length - 1].uuid,
-            result_name: 'Color'
-        } as SwitchRouter
+            wait: { type: WaitTypes.msg },
+            default_category_uuid: categories[categories.length - 1].uuid
+        } as SwitchRouter,
+        ui: {
+            type: Types.wait_for_response,
+            position: { left: 0, top: 0 }
+        }
     });
 };
 
@@ -509,11 +513,13 @@ export const createSwitchRouter = ({
     cases,
     categories = [],
     operand = '@input',
+    wait = null,
     default_category_uuid = null
 }: {
     cases: Case[];
     categories: Category[];
     operand?: string;
+    wait?: Wait;
     // tslint:disable-next-line:variable-name
     default_category_uuid?: string;
 }) => ({
@@ -521,6 +527,7 @@ export const createSwitchRouter = ({
     cases,
     categories,
     operand,
+    wait,
     default_category_uuid
 });
 
@@ -529,7 +536,6 @@ export const createRenderNode = ({
     exits,
     uuid = utils.createUUID(),
     router = null,
-    wait = null,
     ui = {
         position: { left: 0, top: 0 },
         type: Types.split_by_expression
@@ -539,7 +545,6 @@ export const createRenderNode = ({
     exits: Exit[];
     uuid?: string;
     router?: Router | SwitchRouter;
-    wait?: Wait;
     ui?: UINode;
 }): RenderNode => {
     const renderNode: RenderNode = {
@@ -547,8 +552,7 @@ export const createRenderNode = ({
             actions,
             exits,
             uuid,
-            ...(router ? { router } : ({} as any)),
-            ...(wait ? { wait } : ({} as any))
+            ...(router ? { router } : ({} as any))
         },
         ui,
         inboundConnections: {}
@@ -595,9 +599,9 @@ export const createWaitRouterNode = ({
         uuid,
         router: createSwitchRouter({
             categories,
-            cases
-        }),
-        wait: createWait({ type: WaitTypes.msg, timeout })
+            cases,
+            wait: createWait({ type: WaitTypes.msg, timeout })
+        })
     });
 
 export const createCategories = (names: string[]): { categories: Category[]; exits: Exit[] } => {
@@ -608,11 +612,11 @@ export const createCategories = (names: string[]): { categories: Category[]; exi
         };
     });
 
-    const categories = exits.map((exit: Exit, index: number) => {
+    const categories = exits.map((ex: Exit, index: number) => {
         return {
             name: names[index],
             uuid: utils.createUUID(),
-            exit_uuid: exit.uuid
+            exit_uuid: ex.uuid
         };
     });
 

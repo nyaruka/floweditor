@@ -368,7 +368,7 @@ export const getTypeConfig = (type: Types | RouterTypes): Type => {
 };
 
 export const getType = (renderNode: RenderNode): any => {
-    const wait = renderNode.node.wait;
+    const wait = renderNode.node.router.wait;
     if (wait && wait.hint) {
         switch (wait.hint.type) {
             case HintTypes.digits:
