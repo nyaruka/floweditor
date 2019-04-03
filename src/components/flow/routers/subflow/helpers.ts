@@ -14,6 +14,7 @@ import {
 import { Asset, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
+import { SUBFLOW_OPERAND } from '~/components/nodeeditor/constants';
 
 export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormState => {
     if (settings.originalNode.ui.type === Types.split_by_subflow) {
@@ -96,7 +97,7 @@ export const stateToNode = (
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
-        operand: '@child',
+        operand: SUBFLOW_OPERAND,
         cases,
         categories,
         default_category_uuid: null
