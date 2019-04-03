@@ -185,7 +185,7 @@ Array [
           },
         ],
         "default_category_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
-        "operand": "@contact",
+        "operand": "@contact.groups",
         "result_name": "My Group Result",
         "type": "switch",
       },

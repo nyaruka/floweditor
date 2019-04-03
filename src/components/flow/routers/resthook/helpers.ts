@@ -15,6 +15,7 @@ import { AssetEntry, NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
 
 import { ResthookRouterFormState } from './ResthookRouterForm';
+import { WEBHOOK_OPERAND } from '~/components/nodeeditor/constants';
 
 export const nodeToState = (settings: NodeEditorSettings): ResthookRouterFormState => {
     const originalAction = getOriginalAction(settings);
@@ -114,7 +115,7 @@ export const stateToNode = (
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
-        operand: '@child',
+        operand: WEBHOOK_OPERAND,
         cases,
         categories,
         default_category_uuid: null
