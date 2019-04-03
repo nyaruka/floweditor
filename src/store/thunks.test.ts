@@ -324,6 +324,9 @@ describe('Flow Manipulation', () => {
 
             const updatedNodes = store.dispatch(onUpdateAction(incomingAction));
             const node = getNodeWithAction(updatedNodes, incomingAction.uuid);
+
+            // previous nodes should be routed to us
+            expect(updatedNodes.node0.node.exits[0].destination_uuid).toBe(node.node.uuid);
             expect(node).toMatchSnapshot();
         });
 

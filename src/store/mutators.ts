@@ -26,7 +26,8 @@ import {
 } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { LocalizationUpdates } from '~/store/thunks';
-import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from '~/utils';
+import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset, dump } from '~/utils';
+import { Types } from '~/config/interfaces';
 
 const mutate = require('immutability-helper');
 
@@ -272,7 +273,6 @@ export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap
             }
         });
     }
-
     return updatedNodes;
 };
 
@@ -326,20 +326,21 @@ export const spliceInAction = (
     const otherExit = getDefaultExit(previousNode.node);
     const destination = otherExit ? otherExit.destination_uuid : null;
 
+    // remove our previous node
+    let updatedNodes = removeNode(nodes, previousNode.node.uuid, false);
+
     const newNode: RenderNode = {
         node: {
             uuid: createUUID(),
             actions: [action],
             exits: [{ uuid: createUUID(), destination_uuid: destination }]
         },
-        ui: { position: previousNode.ui.position },
+        ui: { position: previousNode.ui.position, type: Types.execute_actions },
         inboundConnections: previousNode.inboundConnections
     };
 
-    let updatedNodes = mergeNode(nodes, newNode);
-
-    // remove our prevous node
-    updatedNodes = removeNode(updatedNodes, previousNode.node.uuid, false);
+    // add our new node
+    updatedNodes = mergeNode(updatedNodes, newNode);
 
     return updatedNodes;
 };

@@ -29,6 +29,7 @@ Object {
       "right": 220,
       "top": 280,
     },
+    "type": "execute_actions",
   },
 }
 `;
