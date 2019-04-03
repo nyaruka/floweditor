@@ -67,7 +67,6 @@ export const stateToNode = (
         exits,
         Types.split_by_expression,
         [],
-        null,
         { cases: caseConfig }
     );
 

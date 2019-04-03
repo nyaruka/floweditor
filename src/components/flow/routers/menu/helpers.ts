@@ -4,13 +4,12 @@ import { Operators, Types } from '~/config/interfaces';
 import { getType } from '~/config/typeConfigs';
 import {
     Case,
-    Exit,
+    Category,
     HintTypes,
     Router,
     RouterTypes,
     SwitchRouter,
-    WaitTypes,
-    Category
+    WaitTypes
 } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
@@ -75,6 +74,7 @@ export const stateToNode = (
         default_category_uuid: defaultExit,
         cases,
         categories,
+        wait: { type: WaitTypes.msg, hint: { type: HintTypes.digits, count: 1 } },
         ...optionalRouter
     };
 
@@ -84,7 +84,6 @@ export const stateToNode = (
         exits,
         Types.wait_for_response,
         [],
-        { type: WaitTypes.msg, hint: { type: HintTypes.digits, count: 1 } },
         { cases: caseConfig }
     );
 

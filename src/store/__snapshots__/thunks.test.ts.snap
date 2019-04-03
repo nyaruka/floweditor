@@ -122,11 +122,11 @@ Array [
               "operand": "@run.input",
               "result_name": "color",
               "type": "switch",
+              "wait": Object {
+                "type": "msg",
+              },
             },
             "uuid": "node1",
-            "wait": Object {
-              "type": "msg",
-            },
           },
           "ui": Object {
             "position": Object {
@@ -302,11 +302,11 @@ Object {
         "operand": "@run.input",
         "result_name": "color",
         "type": "switch",
+        "wait": Object {
+          "type": "msg",
+        },
       },
       "uuid": "node1",
-      "wait": Object {
-        "type": "msg",
-      },
     },
     "ui": Object {
       "position": Object {
@@ -650,11 +650,11 @@ Object {
         "operand": "@run.input",
         "result_name": "color",
         "type": "switch",
+        "wait": Object {
+          "type": "msg",
+        },
       },
       "uuid": "node1",
-      "wait": Object {
-        "type": "msg",
-      },
     },
     "ui": Object {
       "position": Object {
@@ -825,11 +825,11 @@ Object {
         "operand": "@run.input",
         "result_name": "color",
         "type": "switch",
+        "wait": Object {
+          "type": "msg",
+        },
       },
       "uuid": "node1",
-      "wait": Object {
-        "type": "msg",
-      },
     },
     "ui": Object {
       "position": Object {
@@ -932,11 +932,11 @@ Array [
               "default_category_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
               "result_name": "Result 1",
               "type": "switch",
+              "wait": Object {
+                "type": "msg",
+              },
             },
             "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-            "wait": Object {
-              "type": "msg",
-            },
           },
           "ui": Object {
             "position": Object {

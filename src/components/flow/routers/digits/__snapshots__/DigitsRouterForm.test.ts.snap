@@ -222,14 +222,14 @@ Array [
         "operand": "@input",
         "result_name": "Favorite Color",
         "type": "switch",
+        "wait": Object {
+          "hint": Object {
+            "type": "digits",
+          },
+          "type": "msg",
+        },
       },
       "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-      "wait": Object {
-        "hint": Object {
-          "type": "digits",
-        },
-        "type": "msg",
-      },
     },
     "ui": Object {
       "config": Object {

@@ -60,8 +60,8 @@ describe(Flow.name, () => {
     const nodeMapKeys = Object.keys(nodes);
 
     beforeEach(() => {
-        // Clear instance mocks
-        const waitNode = nodes[nodeMapKeys[nodeMapKeys.length - 1]];
+        const waitNode = nodes[nodeMapKeys[nodeMapKeys.length - 6]];
+
         ghostNodeFromWait = getGhostNode(
             waitNode,
             waitNode.node.exits[0].uuid,
@@ -84,6 +84,7 @@ describe(Flow.name, () => {
             source: null
         };
 
+        // Clear instance mocks
         jest.clearAllTimers();
     });
 

@@ -6,28 +6,19 @@ import { Operators } from '~/config/interfaces';
 import { Types } from '~/config/interfaces';
 import { RouterTypes, SwitchRouter, WaitTypes } from '~/flowTypes';
 import { composeComponentTestUtils, mock } from '~/testUtils';
-import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
+import { createRenderNode, getRouterFormProps, createMatchRouter } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
 import { createUUID } from '~/utils';
+import { getSwitchRouter } from '~/components/flow/routers/helpers';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
+const routerNode = createMatchRouter(['Red']);
+
 const { setup } = composeComponentTestUtils<RouterFormProps>(
     ResponseRouterForm,
-    getRouterFormProps(
-        createRenderNode({
-            actions: [],
-            exits: [],
-            ui: { position: { left: 0, top: 0 }, type: Types.wait_for_response }
-        })
-    )
+    getRouterFormProps(routerNode)
 );
-
-const otherExit = createUUID();
-const redExit = createUUID();
-
-const redCategory = createUUID();
-const otherCategory = createUUID();
 
 describe(ResponseRouterForm.name, () => {
     it('should render', () => {
@@ -35,95 +26,28 @@ describe(ResponseRouterForm.name, () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('initializes', () => {
-        const { wrapper } = setup(true, {
-            nodeSettings: {
-                $set: {
-                    originalNode: createRenderNode({
-                        actions: [],
-                        exits: [
-                            { destination_uuid: null, uuid: redExit },
-                            { destination_uuid: null, uuid: otherExit }
-                        ],
-                        wait: { type: WaitTypes.msg },
-                        router: {
-                            type: RouterTypes.switch,
-                            operand: DEFAULT_OPERAND,
-                            categories: [
-                                {
-                                    uuid: redCategory,
-                                    name: 'Red'
-                                },
-                                {
-                                    uuid: otherCategory,
-                                    name: 'Other'
-                                }
-                            ],
-                            cases: [
-                                {
-                                    uuid: createUUID(),
-                                    type: Operators.has_any_word,
-                                    arguments: ['red'],
-                                    category_uuid: redCategory
-                                }
-                            ],
-                            default_category_uuid: otherCategory,
-                            result_name: 'Color'
-                        } as SwitchRouter,
-                        ui: {
-                            position: { left: 0, top: 0 },
-                            type: Types.wait_for_response
-                        }
-                    })
-                }
-            }
-        });
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
     it('initializes case config', () => {
         const dateCase = createUUID();
+
+        const dateNode = createMatchRouter(['Red']);
+        const router = getSwitchRouter(dateNode.node);
+        router.cases.push({
+            uuid: dateCase,
+            type: Operators.has_date_eq,
+            arguments: ['@(datetime_add(today(), 5, "D"))'],
+            category_uuid: router.categories[0].uuid
+        });
+
+        dateNode.ui = {
+            position: { left: 0, top: 0 },
+            type: Types.wait_for_response,
+            config: { cases: { [dateCase]: { arguments: ['5'] } } }
+        };
+
         const { wrapper } = setup(true, {
             nodeSettings: {
                 $set: {
-                    originalNode: createRenderNode({
-                        actions: [],
-                        exits: [
-                            { destination_uuid: null, uuid: redExit },
-                            { destination_uuid: null, uuid: otherExit }
-                        ],
-                        wait: { type: WaitTypes.msg },
-                        router: {
-                            type: RouterTypes.switch,
-                            operand: DEFAULT_OPERAND,
-                            categories: [
-                                {
-                                    uuid: redCategory,
-                                    name: 'Red'
-                                },
-                                {
-                                    uuid: otherCategory,
-                                    name: 'Other'
-                                }
-                            ],
-                            cases: [
-                                {
-                                    uuid: dateCase,
-                                    type: Operators.has_date_eq,
-                                    arguments: ['@(datetime_add(today(), 5, "D"))'],
-                                    category_uuid: redCategory
-                                }
-                            ],
-                            default_category_uuid: otherCategory,
-                            result_name: 'Color'
-                        } as SwitchRouter,
-                        ui: {
-                            position: { left: 0, top: 0 },
-                            type: Types.wait_for_response,
-                            config: { cases: { [dateCase]: { arguments: ['5'] } } }
-                        }
-                    })
+                    originalNode: dateNode
                 }
             }
         });

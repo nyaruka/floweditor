@@ -56,19 +56,18 @@
                                     "uuid": "node1_case0",
                                     "type": "has_any_word",
                                     "exit_uuid": "node1_exit0",
-                                    "arguments": [
-                                        "red"
-                                    ]
+                                    "arguments": ["red"]
                                 },
                                 {
                                     "uuid": "node1_case1",
                                     "type": "has_any_word",
                                     "exit_uuid": "node1_exit1",
-                                    "arguments": [
-                                        "green"
-                                    ]
+                                    "arguments": ["green"]
                                 }
                             ],
+                            "wait": {
+                                "type": "msg"
+                            },
                             "operand": "@run.input",
                             "result_name": "color"
                         },
@@ -88,10 +87,7 @@
                                 "uuid": "node1_exit2",
                                 "destination_uuid": "node2"
                             }
-                        ],
-                        "wait": {
-                            "type": "msg"
-                        }
+                        ]
                     },
                     {
                         "uuid": "node2",
@@ -104,8 +100,8 @@
                             {
                                 "uuid": "node2_action1",
                                 "type": "set_contact_field",
-                                "field": { 
-                                    "key": "unknown_field", 
+                                "field": {
+                                    "key": "unknown_field",
                                     "name": "Unknown Field"
                                 },
                                 "value": "Some Value"

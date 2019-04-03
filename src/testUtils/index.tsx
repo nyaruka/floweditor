@@ -34,11 +34,7 @@ export interface QueryString {
 export const contextTypes: { [key: string]: Function } = {
     config: fakePropType,
     store: fakePropType,
-    endpoints: fakePropType,
-    flow: fakePropType,
-    assetService: fakePropType,
-    debug: fakePropType,
-    showDownload: fakePropType
+    assetService: fakePropType
 };
 
 export const baseState: AppState = mutate(initialState, {

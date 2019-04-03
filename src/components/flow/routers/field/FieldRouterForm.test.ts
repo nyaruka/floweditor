@@ -5,36 +5,31 @@ import { Operators, Types } from '~/config/interfaces';
 import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
-import { createRenderNode, getRouterFormProps } from '~/testUtils/assetCreators';
+import { createRenderNode, getRouterFormProps, createMatchRouter } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
 
 import FieldRouterForm from './FieldRouterForm';
 import { createUUID } from '~/utils';
 
-const { setup } = composeComponentTestUtils<RouterFormProps>(
-    FieldRouterForm,
-    getRouterFormProps(
-        createRenderNode({
-            actions: [],
-            exits: [],
-            ui: {
-                position: { left: 0, top: 0 },
-                type: Types.split_by_contact_field,
-                config: {
-                    operand: {
-                        id: 'favorite_color',
-                        type: AssetType.Field
-                    }
-                }
-            }
-        })
-    )
-);
-
 mock(utils, 'createUUID', utils.seededUUIDs());
 
-const exitOneUUID = utils.createUUID();
-const redCaseUUID = utils.createUUID();
+const routerNode = createMatchRouter(['Red']);
+routerNode.node.router.result_name = 'Color';
+routerNode.ui = {
+    position: { left: 0, top: 0 },
+    type: Types.split_by_contact_field,
+    config: {
+        operand: {
+            id: 'favorite_color',
+            type: AssetType.Field
+        }
+    }
+};
+
+const { setup } = composeComponentTestUtils<RouterFormProps>(
+    FieldRouterForm,
+    getRouterFormProps(routerNode)
+);
 
 describe(FieldRouterForm.name, () => {
     it('should render', () => {
@@ -46,37 +41,7 @@ describe(FieldRouterForm.name, () => {
         const { wrapper } = setup(true, {
             nodeSettings: {
                 $set: {
-                    originalNode: createRenderNode({
-                        actions: [],
-                        exits: [{ destination_uuid: null, uuid: exitOneUUID }],
-                        router: {
-                            type: RouterTypes.switch,
-                            operand: DEFAULT_OPERAND,
-                            categories: [
-                                { uuid: createUUID(), name: 'Other', exit_uuid: exitOneUUID }
-                            ],
-                            cases: [
-                                {
-                                    uuid: redCaseUUID,
-                                    type: Operators.has_any_word,
-                                    arguments: ['red'],
-                                    category_uuid: null
-                                }
-                            ],
-                            default_category_uuid: exitOneUUID,
-                            result_name: 'Color'
-                        } as SwitchRouter,
-                        ui: {
-                            position: { left: 0, top: 0 },
-                            type: Types.split_by_contact_field,
-                            config: {
-                                operand: {
-                                    id: 'favorite_color',
-                                    type: AssetType.Field
-                                }
-                            }
-                        }
-                    })
+                    originalNode: routerNode
                 }
             }
         });

@@ -8,6 +8,7 @@ import {
     getRouterFormProps
 } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
+import { Types } from '~/config/interfaces';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -37,7 +38,7 @@ describe(RandomRouterForm.name, () => {
                     originalNode: createRenderNode({
                         actions: [createSendMsgAction({ text: 'A message' })],
                         exits: [{ uuid: utils.createUUID() }],
-                        ui: { position: { left: 100, top: 100 } }
+                        ui: { type: Types.execute_actions, position: { left: 100, top: 100 } }
                     })
                 }
             }
