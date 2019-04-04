@@ -9,6 +9,8 @@ export interface CounterProps {
     countStyle: string;
     count: number;
     onClick?: () => void;
+    onMouseEnter?: () => void;
+    onMouseLeave?: () => void;
 }
 
 export default class Counter extends React.Component<CounterProps> {
@@ -45,13 +47,24 @@ export default class Counter extends React.Component<CounterProps> {
         }
     }
 
-    private handleClick(event: React.MouseEvent<HTMLDivElement>): void {
-        // for now, just make sure it doesn't propagate to our parent
+    private handleMouseEvent(event: React.MouseEvent<HTMLDivElement>, callback: () => void): void {
         event.preventDefault();
         event.stopPropagation();
-        if (this.props.onClick) {
-            this.props.onClick();
+        if (callback) {
+            callback();
         }
+    }
+
+    private handleMouseEnter(event: React.MouseEvent<HTMLDivElement>): void {
+        this.handleMouseEvent(event, this.props.onMouseEnter);
+    }
+
+    private handleMouseLeave(event: React.MouseEvent<HTMLDivElement>): void {
+        this.handleMouseEvent(event, this.props.onMouseLeave);
+    }
+
+    private handleClick(event: React.MouseEvent<HTMLDivElement>): void {
+        this.handleMouseEvent(event, this.props.onClick);
     }
 
     public render(): JSX.Element {
@@ -72,7 +85,12 @@ export default class Counter extends React.Component<CounterProps> {
                     onClick={this.handleClick}
                     data-spec="counter-outter"
                 >
-                    <div className={this.props.countStyle} data-spec="counter-inner">
+                    <div
+                        onMouseEnter={this.handleMouseEnter}
+                        onMouseLeave={this.handleMouseLeave}
+                        className={this.props.countStyle}
+                        data-spec="counter-inner"
+                    >
                         {count}
                     </div>
                 </div>

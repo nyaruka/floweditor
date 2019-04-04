@@ -64,12 +64,10 @@
     }
 
     .activity {
-        float: left;
         margin: 0 auto;
-        width: 100%;
         margin-bottom: -30px;
         margin-top: 10px;
-        cursor: default;
+        cursor: pointer;
         .count {
             font-size: 10px;
             position: relative;
@@ -123,6 +121,38 @@
                 top: 0.06rem;
                 font-size: 11px;
             }
+        }
+    }
+}
+
+.recent-messages {
+    position: absolute;
+    width: $node_width;
+    margin-top: 40px;
+    z-index: $z_recent_messages;
+    background: $light_gray_2;
+    border-radius: $curvature;
+    box-shadow: 0px 1px 0px 1px rgba(130, 130, 130, 0.2);
+
+    .title {
+        border-top-left-radius: $curvature;
+        border-top-right-radius: $curvature;
+        background: #999;
+        color: #fff;
+        padding: 6px 0px;
+        text-align: center;
+    }
+
+    .message {
+        text-align: left;
+        padding: 8px 10px;
+        .text {
+            font-size: 13px;
+        }
+
+        .sent {
+            padding-top: 3px;
+            font-size: 10px;
         }
     }
 }

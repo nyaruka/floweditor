@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
-import { Endpoints, FlowDefinition } from '~/flowTypes';
+import { Endpoints, Exit, FlowDefinition } from '~/flowTypes';
 import { currencies } from '~/store/currencies';
-import { Activity } from '~/store/editor';
+import { Activity, RecentMessage } from '~/store/editor';
 import { Asset, AssetMap, Assets, AssetStore, AssetType } from '~/store/flowContext';
 import { assetListToMap } from '~/store/helpers';
 
@@ -38,6 +38,23 @@ export const getActivity = (
             .then((response: AxiosResponse) => resolve(response.data as Activity))
             .catch(error => reject(error))
     );
+
+export interface Cancel {
+    reject?: () => void;
+}
+
+export const getRecentMessages = (
+    recentsEndpoint: string,
+    exit: Exit,
+    cancel: Cancel
+): Promise<RecentMessage[]> =>
+    new Promise<RecentMessage[]>((resolve, reject) => {
+        cancel.reject = reject;
+        return axios
+            .get(`${recentsEndpoint}?exits=${exit.uuid}&to=${exit.destination_uuid}`)
+            .then((response: AxiosResponse) => resolve(response.data as RecentMessage[]))
+            .catch(error => reject(error));
+    });
 
 /** Get the value for a named cookie */
 export const getCookie = (name: string): string => {
