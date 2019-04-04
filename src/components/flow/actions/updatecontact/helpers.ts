@@ -122,8 +122,6 @@ export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
         return 1;
     }
 
-    console.log(a.type, b.type);
-
     if (a.type === b.type) {
         return a.name.localeCompare(b.name);
     }
