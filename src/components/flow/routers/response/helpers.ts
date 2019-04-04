@@ -31,8 +31,11 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
             resultName = { value: router.result_name || '' };
         }
 
-        if (settings.originalNode.node.router.wait) {
-            timeout = settings.originalNode.node.router.wait.timeout || 0;
+        if (
+            settings.originalNode.node.router.wait &&
+            settings.originalNode.node.router.wait.timeout
+        ) {
+            timeout = settings.originalNode.node.router.wait.timeout.seconds || 0;
         }
     }
 
@@ -48,11 +51,14 @@ export const stateToNode = (
     settings: NodeEditorSettings,
     state: ResponseRouterFormState
 ): RenderNode => {
-    const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
-        state.cases,
-        state.timeout > 0,
-        settings.originalNode.node
-    );
+    const {
+        cases,
+        exits,
+        defaultCategory,
+        timeoutCategory,
+        caseConfig,
+        categories
+    } = resolveRoutes(state.cases, state.timeout > 0, settings.originalNode.node);
 
     const optionalRouter: Pick<Router, 'result_name'> = {};
     if (state.resultName.value) {
@@ -61,12 +67,15 @@ export const stateToNode = (
 
     const wait = { type: WaitTypes.msg } as Wait;
     if (state.timeout > 0) {
-        wait.timeout = state.timeout;
+        wait.timeout = {
+            seconds: state.timeout,
+            category_uuid: timeoutCategory
+        };
     }
 
     const router: SwitchRouter = {
         type: RouterTypes.switch,
-        default_category_uuid: defaultExit,
+        default_category_uuid: defaultCategory,
         cases,
         categories,
         operand: DEFAULT_OPERAND,

@@ -4,7 +4,7 @@ import { determineTypeConfig } from '~/components/flow/helpers';
 import { ActionFormProps, RouterFormProps } from '~/components/flow/props';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
-import { CategorizedCases, resolveRoutes } from '~/components/flow/routers/helpers';
+import { ResolvedRoutes, resolveRoutes } from '~/components/flow/routers/helpers';
 import { Methods } from '~/components/flow/routers/webhook/helpers';
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators, Types } from '~/config/interfaces';
@@ -435,12 +435,6 @@ export const createExit = ({
 });
 
 // tslint:disable-next-line:variable-name
-export const createWait = ({ type, timeout }: { type: WaitTypes; timeout?: number }) => ({
-    type,
-    ...(timeout ? { timeout } : {})
-});
-
-// tslint:disable-next-line:variable-name
 export const createRouter = (result_name?: string): Router => ({
     categories: [],
     type: RouterTypes.switch,
@@ -477,10 +471,7 @@ export const createCases = (categories: string[]): CaseProps[] => {
     return cases;
 };
 
-export const createRoutes = (
-    categories: string[],
-    hasTimeout: boolean = false
-): CategorizedCases => {
+export const createRoutes = (categories: string[], hasTimeout: boolean = false): ResolvedRoutes => {
     const cases: CaseProps[] = [];
     categories.forEach((category: string) => {
         cases.push(createMatchCase(category));
@@ -490,7 +481,12 @@ export const createRoutes = (
 };
 
 export const createMatchRouter = (matches: string[], hasTimeout: boolean = false): RenderNode => {
-    const { exits, categories, cases } = createRoutes(matches, hasTimeout);
+    const { exits, categories, cases, timeoutCategory } = createRoutes(matches, hasTimeout);
+
+    const wait: Wait = hasTimeout
+        ? { type: WaitTypes.msg, timeout: { seconds: 60, category_uuid: timeoutCategory } }
+        : { type: WaitTypes.msg };
+
     return createRenderNode({
         actions: [],
         exits,
@@ -499,7 +495,7 @@ export const createMatchRouter = (matches: string[], hasTimeout: boolean = false
             operand: DEFAULT_OPERAND,
             categories,
             cases,
-            wait: { type: WaitTypes.msg },
+            wait,
             default_category_uuid: categories[categories.length - 1].uuid
         } as SwitchRouter,
         ui: {
@@ -579,30 +575,6 @@ export const createFlowNode = ({
     ...(router ? { router } : ({} as any)),
     ...(wait ? { wait } : ({} as any))
 });
-
-export const createWaitRouterNode = ({
-    exits,
-    cases,
-    categories,
-    uuid = utils.createUUID(),
-    timeout
-}: {
-    exits: Exit[];
-    cases: Case[];
-    categories: Category[];
-    timeout?: number;
-    uuid?: string;
-}): RenderNode =>
-    createRenderNode({
-        actions: [],
-        exits,
-        uuid,
-        router: createSwitchRouter({
-            categories,
-            cases,
-            wait: createWait({ type: WaitTypes.msg, timeout })
-        })
-    });
 
 export const createCategories = (names: string[]): { categories: Category[]; exits: Exit[] } => {
     const exits = names.map((cat: string) => {

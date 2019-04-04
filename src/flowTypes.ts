@@ -128,9 +128,14 @@ export interface Hint {
     count?: number;
 }
 
+export interface Timeout {
+    category_uuid: string;
+    seconds: number;
+}
+
 export interface Wait {
     type: WaitTypes;
-    timeout?: number;
+    timeout?: Timeout;
     hint?: Hint;
 }
 

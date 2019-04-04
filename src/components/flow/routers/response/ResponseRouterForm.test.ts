@@ -11,8 +11,6 @@ import * as utils from '~/utils';
 import { createUUID } from '~/utils';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';
 
-mock(utils, 'createUUID', utils.seededUUIDs());
-
 const routerNode = createMatchRouter(['Red']);
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(
@@ -21,6 +19,10 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
 );
 
 describe(ResponseRouterForm.name, () => {
+    beforeEach(() => {
+        mock(utils, 'createUUID', utils.seededUUIDs());
+    });
+
     it('should render', () => {
         const { wrapper } = setup(true);
         expect(wrapper).toMatchSnapshot();
