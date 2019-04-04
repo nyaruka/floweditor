@@ -590,7 +590,7 @@ export const onUpdateAction = (
     }
 
     let updatedNodes = nodes;
-    const creatingNewNode = originalNode !== null && originalNode.ghost;
+    const creatingNewNode = !!(originalNode !== null && originalNode.ghost);
 
     let nodeUUID: string = null;
 
