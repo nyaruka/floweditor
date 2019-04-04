@@ -12,6 +12,7 @@ import { getCategoriesForExit } from '~/components/flow/node/helpers';
 import * as styles from '~/components/flow/node/Node.scss';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
+import { fakePropType } from '~/config/ConfigProvider';
 import { Types } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getType, getTypeConfig } from '~/config/typeConfigs';
@@ -82,6 +83,10 @@ export class NodeComp extends React.Component<NodeProps> {
     private firstAction: any;
     private clicking: boolean;
     private events: ClickHandler;
+
+    public static contextTypes = {
+        config: fakePropType
+    };
 
     constructor(props: NodeProps) {
         super(props);
@@ -402,6 +407,14 @@ export class NodeComp extends React.Component<NodeProps> {
                         containerStyle={styles.active}
                         countStyle={''}
                         keepVisible={this.props.simulating}
+                        onClick={() => {
+                            if (this.context.config.onActivityClicked) {
+                                this.context.config.onActivityClicked(
+                                    this.props.nodeUUID,
+                                    this.props.activeCount
+                                );
+                            }
+                        }}
                     />
                     <div className={styles.cropped}>
                         {header}
