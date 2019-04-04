@@ -124,9 +124,9 @@ exports[`FieldRouterForm initializes 1`] = `
         entry={
           Object {
             "value": Object {
-              "id": "favorite_color",
-              "name": null,
-              "type": "field",
+              "id": "name",
+              "name": "Name",
+              "type": "property",
             },
           }
         }
@@ -307,9 +307,9 @@ exports[`FieldRouterForm should render 1`] = `
         entry={
           Object {
             "value": Object {
-              "id": "favorite_color",
-              "name": null,
-              "type": "field",
+              "id": "name",
+              "name": "Name",
+              "type": "property",
             },
           }
         }
@@ -399,9 +399,9 @@ Object {
   ],
   "field": Object {
     "value": Object {
-      "id": "favorite_color",
-      "name": null,
-      "type": "field",
+      "id": "name",
+      "name": "Name",
+      "type": "property",
     },
   },
   "resultName": Object {
@@ -470,7 +470,7 @@ Array [
           },
         ],
         "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-        "operand": "@contact.fields.favorite_color",
+        "operand": "@contact.name",
         "result_name": "Favorite Color",
         "type": "switch",
       },
@@ -480,9 +480,9 @@ Array [
       "config": Object {
         "cases": Object {},
         "operand": Object {
-          "id": "favorite_color",
-          "name": null,
-          "type": "field",
+          "id": "name",
+          "name": "Name",
+          "type": "property",
         },
       },
       "position": null,
