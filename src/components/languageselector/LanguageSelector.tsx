@@ -2,11 +2,12 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import { ConfigProviderContext } from '~/config';
 import { Asset, Assets } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DispatchWithState, HandleLanguageChange, handleLanguageChange } from '~/store/thunks';
+
+import * as styles from './LanguageSelector.scss';
 
 export interface LanguageSelectorProps {
     language: Asset;
@@ -15,8 +16,6 @@ export interface LanguageSelectorProps {
 }
 
 export const containerClasses = 'language-selector';
-
-import * as styles from './LanguageSelector.scss';
 
 export class LanguageSelector extends React.Component<LanguageSelectorProps> {
     constructor(props: LanguageSelectorProps, context: ConfigProviderContext) {
@@ -43,6 +42,10 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
     }
 
     public render(): JSX.Element {
+        if (!this.props.language) {
+            return null;
+        }
+
         const languages = Object.keys(this.props.languages.items)
             .map((iso: string) => this.props.languages.items[iso])
             .sort(this.handleLanguageSort);
