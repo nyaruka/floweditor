@@ -8,6 +8,7 @@ export interface CounterProps {
     containerStyle: string;
     countStyle: string;
     count: number;
+    onClick?: () => void;
 }
 
 export default class Counter extends React.Component<CounterProps> {
@@ -48,6 +49,9 @@ export default class Counter extends React.Component<CounterProps> {
         // for now, just make sure it doesn't propagate to our parent
         event.preventDefault();
         event.stopPropagation();
+        if (this.props.onClick) {
+            this.props.onClick();
+        }
     }
 
     public render(): JSX.Element {
@@ -58,7 +62,13 @@ export default class Counter extends React.Component<CounterProps> {
                     ref={(ele: HTMLDivElement) => {
                         this.ele = ele;
                     }}
-                    className={styles.counter + ' ' + this.props.containerStyle}
+                    className={
+                        styles.counter +
+                        ' ' +
+                        this.props.containerStyle +
+                        ' ' +
+                        (this.props.onClick ? styles.clickable : '')
+                    }
                     onClick={this.handleClick}
                     data-spec="counter-outter"
                 >
