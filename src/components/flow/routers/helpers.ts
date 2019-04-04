@@ -23,6 +23,7 @@ export interface CategorizedCases {
 }
 export interface ResolvedRoutes extends CategorizedCases {
     defaultCategory: string;
+    timeoutCategory?: string;
 }
 
 export const createRenderNode = (
@@ -237,22 +238,18 @@ export const getDefaultRoute = (
 
 const getTimeoutRoute = (
     originalNode: FlowNode
-): { timeoutCase: Case; timeoutCategory: Category; timeoutExit: Exit } => {
+): { timeoutCategory: Category; timeoutExit: Exit } => {
     let timeoutCategory: Category = null;
     let timeoutExit: Exit = null;
-    let timeoutCase: Case = null;
 
     const originalRouter = getSwitchRouter(originalNode);
 
     // see if our previous node had a timeout case
     if (originalRouter) {
-        timeoutCase = originalRouter.cases.find(
-            (kase: Case) => kase.type === Operators.has_wait_timed_out
-        );
-
-        if (timeoutCase) {
+        if (originalRouter.wait && originalRouter.wait.timeout) {
+            const previousCategory = originalRouter.wait.timeout.category_uuid;
             timeoutCategory = originalRouter.categories.find(
-                (cat: Category) => cat.uuid === timeoutCase.category_uuid
+                (cat: Category) => cat.uuid === previousCategory
             );
             timeoutExit = originalNode.exits.find(
                 (exit: Exit) => exit.uuid === timeoutCategory.exit_uuid
@@ -260,7 +257,7 @@ const getTimeoutRoute = (
         }
     }
 
-    if (!timeoutCase) {
+    if (!timeoutCategory) {
         // create a new route
         timeoutExit = {
             uuid: createUUID()
@@ -271,17 +268,9 @@ const getTimeoutRoute = (
             name: DefaultExitNames.No_Response,
             exit_uuid: timeoutExit.uuid
         };
-
-        timeoutCase = {
-            uuid: createUUID(),
-            type: Operators.has_wait_timed_out,
-            omit_operand: true,
-            arguments: ['@run'],
-            category_uuid: timeoutCategory.uuid
-        };
     }
 
-    return { timeoutCase, timeoutCategory, timeoutExit };
+    return { timeoutCategory, timeoutExit };
 };
 
 /**
@@ -304,13 +293,15 @@ export const resolveRoutes = (
     resolved.categories.push(defaultCategory);
     resolved.exits.push(defaultExit);
 
+    const results: ResolvedRoutes = { ...resolved, defaultCategory: defaultCategory.uuid };
+
     // add in a timeout route if we need one
     if (hasTimeout) {
-        const { timeoutCase, timeoutCategory, timeoutExit } = getTimeoutRoute(originalNode);
-        resolved.cases.push(timeoutCase);
+        const { timeoutCategory, timeoutExit } = getTimeoutRoute(originalNode);
         resolved.categories.push(timeoutCategory);
         resolved.exits.push(timeoutExit);
+        results.timeoutCategory = timeoutCategory.uuid;
     }
 
-    return { ...resolved, defaultCategory: defaultCategory.uuid };
+    return results;
 };

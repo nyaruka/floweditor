@@ -59,11 +59,11 @@ exports[`ResponseRouterForm initializes case config 1`] = `
             "arguments": Array [
               "red",
             ],
-            "category_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
             "type": "has_any_word",
-            "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+            "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           },
-          "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           "valid": true,
         },
         Object {
@@ -72,11 +72,11 @@ exports[`ResponseRouterForm initializes case config 1`] = `
             "arguments": Array [
               "5",
             ],
-            "category_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
             "type": "has_date_eq",
-            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+            "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
           },
-          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
           "valid": true,
         },
       ]
@@ -194,7 +194,7 @@ Object {
         ],
         "type": "has_any_word",
       },
-      "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       "valid": true,
     },
     Object {
@@ -205,7 +205,7 @@ Object {
         ],
         "type": "has_any_word",
       },
-      "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       "valid": true,
     },
     Object {
@@ -216,7 +216,7 @@ Object {
         ],
         "type": "has_any_word",
       },
-      "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
       "valid": true,
     },
   ],
@@ -239,13 +239,13 @@ Array [
           "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
         Object {
-          "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         },
         Object {
           "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         },
         Object {
-          "uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
+          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
         },
       ],
       "router": Object {
@@ -268,17 +268,8 @@ Array [
             "arguments": Array [
               "green",
             ],
-            "category_uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
             "type": "has_any_word",
-          },
-          Object {
-            "arguments": Array [
-              "@run",
-            ],
-            "category_uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
-            "omit_operand": true,
-            "type": "has_wait_timed_out",
-            "uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
           },
         ],
         "categories": Array [
@@ -288,9 +279,9 @@ Array [
             "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
           },
           Object {
-            "exit_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "name": "Green",
-            "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
           },
           Object {
             "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
@@ -298,9 +289,9 @@ Array [
             "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
           },
           Object {
-            "exit_uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
+            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
             "name": "No Response",
-            "uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
+            "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
           },
         ],
         "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
@@ -308,7 +299,10 @@ Array [
         "result_name": "Favorite Color",
         "type": "switch",
         "wait": Object {
-          "timeout": 180,
+          "timeout": Object {
+            "category_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "seconds": 180,
+          },
           "type": "msg",
         },
       },
@@ -336,7 +330,7 @@ Object {
         ],
         "type": "has_date_gt",
       },
-      "uuid": "dd57500e-a8e8-4a98-8b5b-a33637523a8d",
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
       "valid": true,
     },
   ],
@@ -356,7 +350,7 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "431978dd-6b18-4e25-86f1-11835491a9c9",
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
         },
         Object {
           "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
@@ -368,15 +362,15 @@ Array [
             "arguments": Array [
               "@(datetime_add(today(), 5, \\"D\\"))",
             ],
-            "category_uuid": "3d8db86c-7279-4106-a388-3f143bd5623f",
+            "category_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "type": "has_date_gt",
           },
         ],
         "categories": Array [
           Object {
-            "exit_uuid": "431978dd-6b18-4e25-86f1-11835491a9c9",
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
             "name": "In the Zone",
-            "uuid": "3d8db86c-7279-4106-a388-3f143bd5623f",
+            "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           },
           Object {
             "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
@@ -396,7 +390,7 @@ Array [
     "ui": Object {
       "config": Object {
         "cases": Object {
-          "dd57500e-a8e8-4a98-8b5b-a33637523a8d": Object {
+          "b1f332f3-bdd3-4891-aec5-1843a712dbf1": Object {
             "arguments_1": Array [
               "5",
             ],

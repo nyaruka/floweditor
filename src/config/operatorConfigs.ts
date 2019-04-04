@@ -137,12 +137,6 @@ export const operatorConfigList: Operator[] = [
         categoryName: 'Not Empty'
     },
     {
-        type: Operators.has_wait_timed_out,
-        verboseName: null,
-        operands: 0,
-        visibility: HIDDEN
-    },
-    {
         type: Operators.has_pattern,
         verboseName: 'matches regex',
         operands: 1
