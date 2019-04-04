@@ -32,13 +32,8 @@ export interface FieldRouterFormState extends FormState {
     resultName: StringEntry;
 }
 
-export const leadInSpecId = 'lead-in';
-
-export default class FieldRouterForm extends React.Component<
-    RouterFormProps,
-    FieldRouterFormState
-> {
-    private ROUTABLE_FIELDS: Asset[] = [
+export const getRoutableFields = (): Asset[] => {
+    return [
         ...CONTACT_PROPERTIES,
         ...SCHEMES.map((scheme: Scheme) => ({
             name: scheme.name,
@@ -46,7 +41,14 @@ export default class FieldRouterForm extends React.Component<
             type: AssetType.Scheme
         }))
     ];
+};
 
+export const leadInSpecId = 'lead-in';
+
+export default class FieldRouterForm extends React.Component<
+    RouterFormProps,
+    FieldRouterFormState
+> {
     constructor(props: RouterFormProps) {
         super(props);
 
@@ -108,7 +110,7 @@ export default class FieldRouterForm extends React.Component<
                             name="Contact Field"
                             styles={small}
                             assets={this.props.assetStore.fields}
-                            additionalOptions={this.ROUTABLE_FIELDS}
+                            additionalOptions={getRoutableFields()}
                             entry={this.state.field}
                             searchable={true}
                             sortFunction={sortFieldsAndProperties}

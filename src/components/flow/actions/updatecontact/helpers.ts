@@ -121,6 +121,17 @@ export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
     } else if (b === NAME_PROPERTY && a !== NAME_PROPERTY) {
         return 1;
     }
+
+    console.log(a.type, b.type);
+
+    if (a.type === b.type) {
+        return a.name.localeCompare(b.name);
+    }
+
+    if (a.type === AssetType.Scheme) {
+        return 1;
+    }
+
     // go with alpha-sort for everthing else
     else if (a.type !== b.type) {
         if (a.type === AssetType.ContactProperty) {

@@ -1,6 +1,9 @@
 import { NAME_PROPERTY } from '~/components/flow/props';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { FieldRouterFormState } from '~/components/flow/routers/field/FieldRouterForm';
+import {
+    FieldRouterFormState,
+    getRoutableFields
+} from '~/components/flow/routers/field/FieldRouterForm';
 import {
     createCaseProps,
     createRenderNode,
@@ -10,7 +13,7 @@ import {
 import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Types } from '~/config/interfaces';
 import { Router, RouterTypes, SwitchRouter } from '~/flowTypes';
-import { AssetStore, AssetType, RenderNode } from '~/store/flowContext';
+import { Asset, AssetStore, AssetType, RenderNode } from '~/store/flowContext';
 import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 
 export const nodeToState = (
@@ -22,7 +25,7 @@ export const nodeToState = (
     // TODO: work out an incremental result name
     let resultName: StringEntry = { value: '' };
 
-    let field: any = NAME_PROPERTY;
+    let field: any = null;
 
     if (settings.originalNode && settings.originalNode.ui.type === Types.split_by_contact_field) {
         const router = settings.originalNode.node.router as SwitchRouter;
@@ -36,8 +39,23 @@ export const nodeToState = (
         }
 
         const operand = settings.originalNode.ui.config.operand;
-        const name = assetStore.fields ? assetStore.fields.items[operand.id].name : null;
-        field = { id: operand.id, type: operand.type, name };
+
+        if (assetStore.fields) {
+            if (operand.id in assetStore.fields.items) {
+                const name = assetStore.fields.items[operand.id].name;
+                field = { id: operand.id, type: operand.type, name };
+            }
+        }
+
+        // couldn't find the asset, checkour routable fields
+        if (!field) {
+            field = getRoutableFields().find((asset: Asset) => asset.id === operand.id);
+        }
+    }
+
+    // our default is name
+    if (!field) {
+        field = NAME_PROPERTY;
     }
 
     return {

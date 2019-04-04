@@ -1,15 +1,12 @@
 import { RouterFormProps } from '~/components/flow/props';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
 import { Operators, Types } from '~/config/interfaces';
-import { RouterTypes, SwitchRouter } from '~/flowTypes';
 import { AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
-import { createRenderNode, getRouterFormProps, createMatchRouter } from '~/testUtils/assetCreators';
+import { createMatchRouter, getRouterFormProps } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
 
 import FieldRouterForm from './FieldRouterForm';
-import { createUUID } from '~/utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -20,8 +17,9 @@ routerNode.ui = {
     type: Types.split_by_contact_field,
     config: {
         operand: {
-            id: 'favorite_color',
-            type: AssetType.Field
+            id: 'name',
+            name: 'Name',
+            type: AssetType.ContactProperty
         }
     }
 };
