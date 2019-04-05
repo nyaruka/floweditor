@@ -12,7 +12,6 @@ import { initialState } from '~/store/state';
 import {
     addNode,
     disconnectExit,
-    ensureStartNode,
     handleTypeConfigChange,
     LocalizationUpdates,
     moveActionUp,
@@ -172,22 +171,6 @@ describe('Flow Manipulation', () => {
                 )
             );
             expect(store.getActions()).toMatchSnapshot();
-        });
-
-        it('should create a start node if needed', () => {
-            // if there are already nodes, we're a noop
-            expect(store.dispatch(ensureStartNode())).toBeUndefined();
-
-            // create a store without nodes
-            const updatedStore = createMockStore({
-                flowContext: { nodes: {} }
-            });
-
-            // now we create a new one
-            const newNode = updatedStore.dispatch(ensureStartNode());
-            expect(newNode.node.actions[0].text).toBe(
-                'Hi there, this is the first message in your flow.'
-            );
         });
 
         describe('removal', () => {

@@ -8,7 +8,7 @@ import {
 } from '~/components/flow/Flow';
 import { getDraggedFrom } from '~/components/helpers';
 import { FlowTypes } from '~/config/interfaces';
-import { getFlowComponents, getGhostNode } from '~/store/helpers';
+import { createEmptyNode, getFlowComponents } from '~/store/helpers';
 import { ConnectionEvent } from '~/store/thunks';
 import {
     composeComponentTestUtils,
@@ -40,7 +40,6 @@ const baseProps: FlowStoreProps = {
     nodeEditorSettings: null,
     nodes: initialNodes,
     dependencies: [],
-    ensureStartNode: jest.fn(),
     updateConnection: jest.fn(),
     onOpenNodeEditor: jest.fn(),
     onUpdateCanvasPositions: jest.fn(),
@@ -62,7 +61,7 @@ describe(Flow.name, () => {
     beforeEach(() => {
         const waitNode = nodes[nodeMapKeys[nodeMapKeys.length - 6]];
 
-        ghostNodeFromWait = getGhostNode(
+        ghostNodeFromWait = createEmptyNode(
             waitNode,
             waitNode.node.exits[0].uuid,
             1,
@@ -70,7 +69,7 @@ describe(Flow.name, () => {
         );
 
         const actionNode = nodes[nodeMapKeys[0]];
-        ghostNodeFromAction = getGhostNode(
+        ghostNodeFromAction = createEmptyNode(
             actionNode,
             actionNode.node.exits[0].uuid,
             1,
@@ -164,9 +163,7 @@ describe(Flow.name, () => {
     describe('instance methods', () => {
         describe('componentDidMount', () => {
             const componentDidMountSpy = spyOn('componentDidMount');
-            const { instance, props } = setup(true, {
-                ensureStartNode: setMock()
-            });
+            const { instance, props } = setup(true);
 
             jest.runAllTimers();
 
@@ -192,9 +189,6 @@ describe(Flow.name, () => {
                 expect.any(Function)
             );
             expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeDrop', expect.any(Function));
-
-            expect(props.ensureStartNode).toHaveBeenCalledTimes(1);
-
             expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), REPAINT_TIMEOUT);
             expect(instance.Plumber.repaint).toHaveBeenCalledTimes(1);
 

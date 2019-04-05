@@ -80,7 +80,7 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
 export const getSuggestedResultName = (count: number) => `Result ${count}`;
 
 export const hasRouter = (renderNode: RenderNode): boolean => {
-    return !!renderNode.node.router;
+    return !!(renderNode && renderNode.node.router);
 };
 
 export const hasWait = (renderNode: RenderNode): boolean => {
@@ -324,13 +324,13 @@ export const getCollision = (nodes: RenderNodeMap): RenderNode[] => {
     return [];
 };
 
-export const getGhostNode = (
+export const createEmptyNode = (
     fromNode: RenderNode,
     fromExitUUID: string,
     suggestedResultNameCount: number,
     flowType: FlowTypes
 ): RenderNode => {
-    const ghostNode: FlowNode = {
+    const emptyNode: FlowNode = {
         uuid: createUUID(),
         actions: [],
         exits: [
@@ -344,7 +344,7 @@ export const getGhostNode = (
     let type = Types.execute_actions;
 
     // Add an action next if we are coming from a router
-    if (hasRouter(fromNode)) {
+    if (!fromNode || hasRouter(fromNode)) {
         const replyType = flowType === FlowTypes.VOICE ? Types.say_msg : Types.send_msg;
         const replyAction = {
             uuid: createUUID(),
@@ -352,14 +352,14 @@ export const getGhostNode = (
             type: replyType
         };
 
-        ghostNode.actions.push(replyAction);
+        emptyNode.actions.push(replyAction);
     } else {
         // Otherwise we are going to a switch
         const categories: Category[] = [
             {
                 uuid: createUUID(),
                 name: DefaultExitNames.All_Responses,
-                exit_uuid: ghostNode.exits[0].uuid
+                exit_uuid: emptyNode.exits[0].uuid
             }
         ];
 
@@ -369,7 +369,7 @@ export const getGhostNode = (
             wait.hint = { type: HintTypes.digits, count: 1 };
         }
 
-        ghostNode.router = {
+        emptyNode.router = {
             type: RouterTypes.switch,
             result_name: getSuggestedResultName(suggestedResultNameCount),
             default_category_uuid: categories[0].uuid,
@@ -379,10 +379,15 @@ export const getGhostNode = (
         } as SwitchRouter;
     }
 
+    let inboundConnections = {};
+    if (fromNode) {
+        inboundConnections = { [fromExitUUID]: fromNode.node.uuid };
+    }
+
     return {
-        node: ghostNode,
+        node: emptyNode,
         ui: { position: { left: 0, top: 0 }, type },
-        inboundConnections: { [fromExitUUID]: fromNode.node.uuid },
+        inboundConnections,
         ghost: true
     };
 };
