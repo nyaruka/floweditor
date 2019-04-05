@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Button from '~/components/button/Button';
 import { Canvas } from '~/components/canvas/Canvas';
 import { CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
 import Node from '~/components/flow/node/Node';
@@ -13,16 +14,14 @@ import { ConfigProviderContext } from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Exit, FlowDefinition } from '~/flowTypes';
 import Plumber from '~/services/Plumber';
-import editorState, { DragSelection, EditorState } from '~/store/editor';
+import { DragSelection, EditorState } from '~/store/editor';
 import { RenderNode } from '~/store/flowContext';
-import { detectLoops, getOrderedNodes } from '~/store/helpers';
+import { createEmptyNode, detectLoops, getOrderedNodes } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import AppState from '~/store/state';
 import {
     ConnectionEvent,
     DispatchWithState,
-    ensureStartNode,
-    EnsureStartNode,
     mergeEditorState,
     MergeEditorState,
     NoParamsAC,
@@ -38,7 +37,6 @@ import {
     updateSticky,
     UpdateSticky
 } from '~/store/thunks';
-import { contextTypes } from '~/testUtils';
 import {
     ACTIVITY_INTERVAL,
     createUUID,
@@ -51,6 +49,8 @@ import {
 } from '~/utils';
 import Debug from '~/utils/debug';
 
+import * as styles from './Flow.scss';
+
 export interface FlowStoreProps {
     editorState: Partial<EditorState>;
     mergeEditorState: MergeEditorState;
@@ -60,7 +60,6 @@ export interface FlowStoreProps {
     dependencies: FlowDefinition[];
     nodeEditorSettings: NodeEditorSettings;
 
-    ensureStartNode: EnsureStartNode;
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
     onUpdateCanvasPositions: OnUpdateCanvasPositions;
@@ -161,9 +160,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         this.Plumber.bind('beforeDrop', (event: ConnectionEvent) =>
             this.onBeforeConnectorDrop(event)
         );
-
-        // If we don't have any nodes, create our first one
-        this.props.ensureStartNode();
 
         let offset = { left: 0, top: 0 };
 
@@ -296,13 +292,15 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
     private getDragNode(): JSX.Element {
         return isRealValue(this.props.editorState.ghostNode) ? (
-            <div style={{ position: 'absolute', display: 'block' }}>
+            <div
+                data-spec={ghostNodeSpecId}
+                key={this.props.editorState.ghostNode.node.uuid}
+                style={{ position: 'absolute', display: 'block' }}
+            >
                 <Node
                     selected={false}
                     startingNode={false}
                     ref={this.ghostRef}
-                    key={this.props.editorState.ghostNode.node.uuid}
-                    data-spec={ghostNodeSpecId}
                     ghost={true}
                     nodeUUID={this.props.editorState.ghostNode.node.uuid}
                     plumberMakeTarget={this.Plumber.makeTarget}
@@ -319,12 +317,13 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private getSimulator(): JSX.Element {
         return renderIf(
             this.context.config.endpoints && this.context.config.endpoints.simulateStart
-        )(<Simulator mergeEditorState={this.props.mergeEditorState} />);
+        )(<Simulator key="simulator" mergeEditorState={this.props.mergeEditorState} />);
     }
 
     private getNodeEditor(): JSX.Element {
         return renderIf(this.props.nodeEditorSettings !== null)(
             <NodeEditor
+                key="node-editor"
                 plumberConnectExit={this.Plumber.connectExit}
                 plumberRepaintForDuration={this.Plumber.repaintForDuration}
             />
@@ -351,8 +350,48 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         }
     }
 
+    private getEmptyFlow(): JSX.Element {
+        return (
+            <div key="create_node" className={styles.emptyFlow}>
+                <h1>Let's get started</h1>
+                <div>
+                    We recommend starting your flow by sending a message. This message will be sent
+                    to anybody right after they join the flow. This is your chance to send a single
+                    message or ask them a question.
+                </div>
+
+                <Button
+                    name="Create Message"
+                    onClick={() => {
+                        const emptyNode = createEmptyNode(
+                            null,
+                            null,
+                            1,
+                            this.context.config.flowType
+                        );
+                        this.props.onOpenNodeEditor({
+                            originalNode: emptyNode,
+                            originalAction: emptyNode.node.actions[0]
+                        });
+                        console.log('you did it!');
+                    }}
+                />
+            </div>
+        );
+    }
+
     public render(): JSX.Element {
-        const draggables = this.getStickies().concat(this.getNodes());
+        const nodes = this.getNodes();
+
+        let children = [];
+
+        if (nodes.length === 0) {
+            children = [this.getEmptyFlow()];
+        } else {
+            children = [this.getSimulator(), this.getDragNode()];
+        }
+
+        const draggables = this.getStickies().concat(nodes);
 
         return (
             <div onDoubleClick={this.onDoubleClick} ref={this.onRef}>
@@ -375,8 +414,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                     draggables={draggables}
                     onUpdatePositions={this.props.onUpdateCanvasPositions}
                 >
-                    {this.getSimulator()}
-                    {this.getDragNode()}
+                    {children}
                     {this.getNodeEditor()}
                 </Canvas>
             </div>
@@ -387,6 +425,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 /* istanbul ignore next */
 const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes },
+    // tslint:disable-next-line: no-shadowed-variable
     editorState,
     nodeEditor: { settings }
 }: AppState) => {
@@ -404,7 +443,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             mergeEditorState,
-            ensureStartNode,
             resetNodeEditingState,
             onConnectionDrag,
             onOpenNodeEditor,

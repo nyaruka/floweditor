@@ -1,17 +1,9 @@
 import { FlowTypes, Types } from '~/config/interfaces';
+import { Case, Category, FlowDefinition, FlowPosition, RouterTypes, SendMsg } from '~/flowTypes';
 import {
-    Case,
-    Exit,
-    FlowDefinition,
-    FlowPosition,
-    RouterTypes,
-    SendMsg,
-    Category
-} from '~/flowTypes';
-import {
+    createEmptyNode,
     getCollisions,
     getFlowComponents,
-    getGhostNode,
     getLocalizations,
     getOrderedNodes,
     getUniqueDestinations
@@ -113,7 +105,7 @@ describe('helpers', () => {
 
         describe('getGhostNode', () => {
             it('should create a router from an action', () => {
-                const ghost = getGhostNode(
+                const ghost = createEmptyNode(
                     nodes.node0,
                     nodes.node0.node.exits[0].uuid,
                     1,
@@ -122,7 +114,7 @@ describe('helpers', () => {
                 expect(ghost.node.router.type).toBe(RouterTypes.switch);
             });
             it('should create an action node from a switch', () => {
-                const ghost = getGhostNode(
+                const ghost = createEmptyNode(
                     nodes.node1,
                     nodes.node1.node.exits[0].uuid,
                     1,

@@ -36,10 +36,10 @@ import {
 } from '~/store/flowContext';
 import {
     addPosition,
+    createEmptyNode,
     fetchFlowActivity,
     getActionIndex,
     getFlowComponents,
-    getGhostNode,
     getLocalizations,
     getNode,
     mergeAssetMaps
@@ -98,8 +98,6 @@ export type LoadFlowDefinition = (
     definition: FlowDefinition,
     assetStore: AssetStore
 ) => Thunk<Promise<void>>;
-
-export type EnsureStartNode = () => Thunk<RenderNode>;
 
 export type NoParamsAC = () => Thunk<void>;
 
@@ -348,41 +346,6 @@ export const updateConnection = (source: string, target: string) => (
 ): RenderNodeMap => {
     const [nodeUUID, exitUUID] = source.split(':');
     return dispatch(updateExitDestination(nodeUUID, exitUUID, target));
-};
-
-export const ensureStartNode = () => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): RenderNode => {
-    const {
-        flowContext: { nodes }
-    } = getState();
-
-    if (Object.keys(nodes).length === 0) {
-        const initialAction: SendMsg = {
-            uuid: createUUID(),
-            type: Types.send_msg,
-            text: 'Hi there, this is the first message in your flow.'
-        };
-
-        const node: FlowNode = {
-            uuid: createUUID(),
-            actions: [initialAction],
-            exits: [
-                {
-                    uuid: createUUID()
-                }
-            ]
-        };
-
-        return dispatch(
-            addNode({
-                node,
-                ui: { position: { left: 120, top: 120 } },
-                inboundConnections: {}
-            })
-        );
-    }
 };
 
 export const removeNode = (node: FlowNode) => (
@@ -827,7 +790,7 @@ export const onConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) =>
     }
 
     // set our ghost node
-    const ghostNode = getGhostNode(fromNode, fromExitUUID, resultCount, flowType);
+    const ghostNode = createEmptyNode(fromNode, fromExitUUID, resultCount, flowType);
     ghostNode.inboundConnections = { [fromExitUUID]: fromNodeUUID };
     dispatch(mergeEditorState({ ghostNode }));
 };
