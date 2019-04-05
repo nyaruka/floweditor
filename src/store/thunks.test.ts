@@ -10,14 +10,12 @@ import { getFlowComponents, getNodeWithAction, getUniqueDestinations } from '~/s
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { initialState } from '~/store/state';
 import {
-    addNode,
     disconnectExit,
     handleTypeConfigChange,
     LocalizationUpdates,
     moveActionUp,
     onAddToNode,
     onConnectionDrag,
-    onNodeMoved,
     onOpenNodeEditor,
     onUpdateAction,
     onUpdateLocalizations,
@@ -143,17 +141,6 @@ describe('Flow Manipulation', () => {
     });
 
     describe('nodes', () => {
-        it('should move nodes', () => {
-            const nodes = store.dispatch(
-                onNodeMoved(testNodes.node0.node.uuid, { left: 500, top: 600 })
-            );
-
-            expect(nodes.node0.ui.position).toEqual({
-                left: 500,
-                top: 600
-            });
-        });
-
         it('should store a pending connection when starting a drag', () => {
             // mock(utils, 'createUUID', utils.seededUUIDs());
             store.dispatch(
@@ -237,29 +224,6 @@ describe('Flow Manipulation', () => {
         it('should updateConnection()', () => {
             const updated = store.dispatch(updateConnection('node0:node0_exit0', 'node2'));
             expect(updated.node0).toHaveExitThatPointsTo(updated.node2);
-        });
-
-        it('should update connections when adding a node', () => {
-            let fromNode = testNodes.node3;
-            const fromNodeUUID = fromNode.node.uuid;
-            const fromExitUUID = fromNode.node.exits[0].uuid;
-
-            const addedNode = store.dispatch(
-                addNode({
-                    node: { uuid: null, actions: [], exits: [] },
-                    ui: { position: { left: 200, top: 200 } },
-                    inboundConnections: {
-                        [fromExitUUID]: fromNodeUUID
-                    }
-                })
-            );
-
-            const nodes = getUpdatedNodes(store);
-            fromNode = nodes[fromNodeUUID];
-
-            // our pointing node should be directed at us
-            expect(fromNode).toHaveExitThatPointsTo(addedNode);
-            expect(addedNode).toHaveInboundFrom(fromNode.node.exits[0]);
         });
     });
 

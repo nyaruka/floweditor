@@ -21,7 +21,6 @@ const baseProps: StickyProps = {
     definition,
     selected: false,
     updateSticky: jest.fn(),
-    updateDimensions: jest.fn(),
     onResetDragSelection: jest.fn()
 };
 

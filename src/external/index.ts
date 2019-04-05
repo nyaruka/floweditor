@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
+import { Revision } from '~/components/revisions/RevisionExplorer';
 import { Endpoints, Exit, FlowDefinition } from '~/flowTypes';
 import { currencies } from '~/store/currencies';
 import { Activity, RecentMessage } from '~/store/editor';
@@ -43,6 +44,16 @@ export interface Cancel {
     reject?: () => void;
 }
 
+export const saveRevision = (endpoint: string, definition: FlowDefinition): Promise<Revision> => {
+    const csrf = getCookie('csrftoken');
+    const headers = csrf ? { 'X-CSRFToken': csrf } : {};
+    return new Promise<Revision>((resolve, reject) => {
+        axios
+            .post(endpoint, definition, { headers })
+            .then((response: AxiosResponse) => resolve(response.data.revision as Revision))
+            .catch(error => reject(error));
+    });
+};
 export const getRecentMessages = (
     recentsEndpoint: string,
     exit: Exit,
@@ -236,26 +247,6 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         Promise.all(fetches).then((results: any) => {
             resolve(assetStore);
         });
-    });
-};
-
-export const getFlow = (flows: Assets, uuid: string): Promise<Asset> => {
-    return new Promise<Asset>((resolve, reject) => {
-        const url = `${flows.endpoint}${uuid}/`;
-        axios
-            .get(url)
-            .then((response: AxiosResponse) => {
-                const flow = response.data;
-                const name = flow.name || '';
-                const asset = {
-                    id: uuid,
-                    name,
-                    type: this.assetType,
-                    content: flow
-                };
-                return resolve(asset);
-            })
-            .catch(error => reject(error));
     });
 };
 

@@ -75,18 +75,6 @@ describe('mutators', () => {
         expect(updated).toMatchSnapshot();
     });
 
-    it('should addNode', () => {
-        const updated = mergeNode(nodes, {
-            node: { uuid: 'node3', actions: [], exits: [] },
-            ui: { position: { left: 600, top: 400 } },
-            inboundConnections: { node0_exit0: 'node0' }
-        });
-
-        expect(updated.node3).not.toBeUndefined();
-        expect(updated.node0.node.exits[0].destination_uuid).toBe('node3');
-        expect(updated).toMatchSnapshot();
-    });
-
     it('should addAction', () => {
         const updated = addAction(nodes, 'node0', {
             uuid: 'node0_action4',

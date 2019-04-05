@@ -60,6 +60,7 @@ export interface FlowDefinition {
     name: string;
     nodes: FlowNode[];
     uuid: string;
+    revision: number;
     _ui: UIMetaData;
 }
 

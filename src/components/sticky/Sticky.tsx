@@ -11,8 +11,6 @@ import {
     DispatchWithState,
     OnResetDragSelection,
     onResetDragSelection,
-    UpdateDimensions,
-    updateDimensions,
     UpdateSticky,
     updateSticky
 } from '~/store/thunks';
@@ -32,7 +30,6 @@ export interface StickyPassedProps {
 export interface StickyStoreProps {
     definition: FlowDefinition;
     updateSticky: UpdateSticky;
-    updateDimensions: UpdateDimensions;
     onResetDragSelection: OnResetDragSelection;
 }
 
@@ -86,17 +83,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     private onRef(ref: HTMLDivElement): HTMLDivElement {
         return (this.ele = ref);
-    }
-
-    public componentDidMount(): void {
-        if (this.ele) {
-            if (this.ele.clientWidth && this.ele.clientHeight) {
-                this.props.updateDimensions(this.props.uuid, {
-                    width: this.ele.clientWidth,
-                    height: this.ele.clientHeight
-                });
-            }
-        }
     }
 
     public componentWillUnmount(): void {
@@ -269,7 +255,7 @@ const mapStateToProps = ({ flowContext: { definition } }: AppState) => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) => {
-    return bindActionCreators({ updateSticky, onResetDragSelection, updateDimensions }, dispatch);
+    return bindActionCreators({ updateSticky, onResetDragSelection }, dispatch);
 };
 
 export default connect(

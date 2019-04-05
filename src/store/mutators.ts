@@ -1,3 +1,5 @@
+import { Revision } from '~/components/revisions/RevisionExplorer';
+import { Types } from '~/config/interfaces';
 import {
     AnyAction,
     Dimensions,
@@ -19,15 +21,14 @@ import {
 } from '~/store/flowContext';
 import {
     assetListToMap,
+    detectLoops,
     getActionIndex,
     getExitIndex,
-    getNode,
-    detectLoops
+    getNode
 } from '~/store/helpers';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 import { LocalizationUpdates } from '~/store/thunks';
-import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset, dump } from '~/utils';
-import { Types } from '~/config/interfaces';
+import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from '~/utils';
 
 const mutate = require('immutability-helper');
 
@@ -142,6 +143,10 @@ export const addResult = (resultName: string, items: AssetMap, reference: Refere
     }
 
     return mutate(items, { $merge: { [key]: result } });
+};
+
+export const addRevision = (assets: AssetStore, revision: Revision): AssetStore => {
+    return mutate(assets, { revisions: { items: { $push: revision } } });
 };
 
 export const addFlowResult = (assets: AssetStore, node: FlowNode): AssetStore => {
