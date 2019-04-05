@@ -24,6 +24,11 @@ export interface Activity {
     segments: { [exitToNodeKey: string]: number };
 }
 
+export interface RecentMessage {
+    sent: string;
+    text: string;
+}
+
 export interface EditorState {
     simulating: boolean;
     language: Asset;

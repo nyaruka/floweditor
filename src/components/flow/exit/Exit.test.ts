@@ -5,7 +5,7 @@ import * as utils from '~/utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
-const exit: Exit = { uuid: utils.createUUID() };
+const exit: Exit = { uuid: utils.createUUID(), destination_uuid: utils.createUUID() };
 const categories = [{ uuid: utils.createUUID(), name: 'Red', exit_uuid: exit.uuid }];
 
 const { setup } = composeComponentTestUtils<ExitProps>(ExitComp, {
@@ -28,6 +28,21 @@ describe(ExitComp.name, () => {
     it('should render', () => {
         const { wrapper } = setup(true);
         expect(wrapper).toMatchSnapshot();
+    });
+
+    it('shows recent messages', () => {
+        const { wrapper, instance } = setup(true);
+        instance.setState(
+            {
+                recentMessages: [
+                    { text: 'Hi Mom!', sent: 'Apr 1, 2019' },
+                    { text: 'Hi Dad!', sent: 'Apr 2, 2019' }
+                ]
+            },
+            () => {
+                expect(wrapper).toMatchSnapshot();
+            }
+        );
     });
 
     it('shows missing localization', () => {

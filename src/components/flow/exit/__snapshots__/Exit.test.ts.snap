@@ -10,10 +10,19 @@ exports[`ExitComp should render 1`] = `
     Red
   </div>
   <div
-    className="endpoint"
-    id="1dce2b34-9aab-4e20-81c4-3f0408dcb671:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    className="endpoint  jtk-connected"
+    id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
     onMouseDown={[Function]}
     onMouseUp={[Function]}
+  />
+  <Counter
+    containerStyle="activity"
+    count={1000}
+    countStyle="count"
+    keepVisible={false}
+    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   />
 </div>
 `;
@@ -28,10 +37,19 @@ exports[`ExitComp shows localization 1`] = `
     Hola!
   </div>
   <div
-    className="endpoint"
-    id="1dce2b34-9aab-4e20-81c4-3f0408dcb671:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    className="endpoint  jtk-connected"
+    id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
     onMouseDown={[Function]}
     onMouseUp={[Function]}
+  />
+  <Counter
+    containerStyle="activity"
+    count={1000}
+    countStyle="count"
+    keepVisible={false}
+    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
   />
 </div>
 `;
@@ -46,10 +64,85 @@ exports[`ExitComp shows missing localization 1`] = `
     Red
   </div>
   <div
-    className="endpoint"
-    id="1dce2b34-9aab-4e20-81c4-3f0408dcb671:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    className="endpoint  jtk-connected"
+    id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
+  <Counter
+    containerStyle="activity"
+    count={1000}
+    countStyle="count"
+    keepVisible={false}
+    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  />
+</div>
+`;
+
+exports[`ExitComp shows recent messages 1`] = `
+<div
+  className="exit plumb-exit"
+>
+  <div
+    className="name"
+  >
+    Red
+  </div>
+  <div
+    className="endpoint  jtk-connected"
+    id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    onMouseDown={[Function]}
+    onMouseUp={[Function]}
+  />
+  <Counter
+    containerStyle="activity"
+    count={1000}
+    countStyle="count"
+    keepVisible={false}
+    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  />
+  <div
+    className="recentMessages"
+  >
+    <div
+      className="title"
+    >
+      Recent Messages
+    </div>
+    <div
+      className="message"
+      key="recent_0"
+    >
+      <div
+        className="text"
+      >
+        Hi Mom!
+      </div>
+      <div
+        className="sent"
+      >
+        Apr 1, 2019
+      </div>
+    </div>
+    <div
+      className="message"
+      key="recent_1"
+    >
+      <div
+        className="text"
+      >
+        Hi Dad!
+      </div>
+      <div
+        className="sent"
+      >
+        Apr 2, 2019
+      </div>
+    </div>
+  </div>
 </div>
 `;

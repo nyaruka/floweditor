@@ -6,7 +6,10 @@ import { bindActionCreators } from 'redux';
 import Counter from '~/components/counter/Counter';
 import * as styles from '~/components/flow/exit/Exit.scss';
 import { getExitActivityKey } from '~/components/flow/exit/helpers';
+import { fakePropType } from '~/config/ConfigProvider';
+import { Cancel, getRecentMessages } from '~/external';
 import { Category, Exit, FlowNode, LocalizationMap } from '~/flowTypes';
+import { RecentMessage } from '~/store/editor';
 import { Asset } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
@@ -40,24 +43,33 @@ export type ExitProps = ExitPassedProps & ExitStoreProps;
 
 export interface ExitState {
     confirmDelete: boolean;
+    recentMessages: RecentMessage[];
+    fetchingRecentMessages: boolean;
 }
 
 const cx = classNames.bind(styles);
 
 export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: number;
+    private pendingMessageFetch: Cancel = {};
 
     constructor(props: ExitProps) {
         super(props);
 
         this.state = {
-            confirmDelete: false
+            confirmDelete: false,
+            recentMessages: [],
+            fetchingRecentMessages: false
         };
 
         bindCallbacks(this, {
-            include: [/^on/, /^get/]
+            include: [/^on/, /^get/, /^handle/, /^connect/]
         });
     }
+
+    public static contextTypes = {
+        config: fakePropType
+    };
 
     public getSourceId(): string {
         return `${this.props.node.uuid}:${this.props.exit.uuid}`;
@@ -76,7 +88,9 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             this.props.exit.destination_uuid !== prevProps.exit.destination_uuid
         ) {
             this.connect();
-            this.setState({ confirmDelete: false });
+            if (this.state.confirmDelete) {
+                this.setState({ confirmDelete: false });
+            }
         }
 
         this.props.plumberUpdateClass(
@@ -122,18 +136,44 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         this.props.plumberConnectExit(this.props.node, this.props.exit);
     }
 
-    private getActivity(): JSX.Element {
+    private handleShowRecentMessages(): void {
+        this.setState({ fetchingRecentMessages: true }, () => {
+            getRecentMessages(
+                this.context.config.endpoints.recents,
+                this.props.exit,
+                this.pendingMessageFetch
+            ).then((recentMessages: RecentMessage[]) => {
+                this.setState({ recentMessages, fetchingRecentMessages: false });
+            });
+        });
+    }
+
+    private handleHideRecentMessages(): void {
+        if (this.pendingMessageFetch.reject) {
+            this.pendingMessageFetch.reject();
+            this.pendingMessageFetch = {};
+        }
+
+        this.setState({ fetchingRecentMessages: false, recentMessages: [] });
+    }
+
+    private getSegmentCount(): JSX.Element {
         // Only exits with a destination have activity
         if (this.props.exit.destination_uuid) {
             const key = `count:${this.props.exit.uuid}:${this.props.exit.destination_uuid}`;
             return (
-                <Counter
-                    key={key}
-                    count={this.props.segmentCount}
-                    containerStyle={styles.activity}
-                    countStyle={styles.count}
-                    keepVisible={false}
-                />
+                <>
+                    <Counter
+                        key={key}
+                        count={this.props.segmentCount}
+                        containerStyle={styles.activity}
+                        countStyle={styles.count}
+                        keepVisible={false}
+                        onMouseEnter={this.handleShowRecentMessages}
+                        onMouseLeave={this.handleHideRecentMessages}
+                    />
+                    {this.getRecentMessages()}
+                </>
             );
         }
         return null;
@@ -167,6 +207,23 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         }
     }
 
+    private getRecentMessages(): JSX.Element {
+        if (this.state.fetchingRecentMessages || this.state.recentMessages.length > 0) {
+            return (
+                <div className={styles.recentMessages}>
+                    <div className={styles.title}>Recent Messages</div>
+                    {this.state.recentMessages.map((recentMessage: RecentMessage, idx: number) => (
+                        <div key={'recent_' + idx} className={styles.message}>
+                            <div className={styles.text}>{recentMessage.text}</div>
+                            <div className={styles.sent}>{recentMessage.sent}</div>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+        return null;
+    }
+
     public render(): JSX.Element {
         const { name, localized } = this.getName();
 
@@ -189,7 +246,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             [styles.missing_localization]: name && this.props.translating && !localized,
             [styles.confirmDelete]: confirmDelete
         });
-        const activity = this.getActivity();
+        const activity = this.getSegmentCount();
         return (
             <div className={exitClasses}>
                 <div className={nameStyle}>{name}</div>

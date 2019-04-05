@@ -20,6 +20,7 @@ export interface Environment {
 export interface Endpoints {
     attachments: string;
     resthooks: string;
+    recents: string;
     fields: string;
     groups: string;
     recipients: string;
