@@ -1,4 +1,4 @@
-export const DEFAULT_OPERAND = '@input';
+export const DEFAULT_OPERAND = '@input.text';
 export const GROUPS_OPERAND = '@contact.groups';
 export const WEBHOOK_OPERAND = '@run.webhook';
 export const SUBFLOW_OPERAND = '@child';
