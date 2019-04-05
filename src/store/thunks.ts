@@ -5,7 +5,7 @@ import { determineTypeConfig } from '~/components/flow/helpers';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import { FlowTypes, Type, Types } from '~/config/interfaces';
 import { getTypeConfig } from '~/config/typeConfigs';
-import { createAssetStore, getFlowDefinition } from '~/external';
+import { createAssetStore, getFlowDefinition, saveRevision } from '~/external';
 import {
     Action,
     AnyAction,
@@ -15,7 +15,6 @@ import {
     Exit,
     FlowDefinition,
     FlowNode,
-    FlowPosition,
     SendMsg,
     SetContactField,
     SetRunResult,
@@ -35,10 +34,10 @@ import {
     updateNodes
 } from '~/store/flowContext';
 import {
-    addPosition,
     createEmptyNode,
     fetchFlowActivity,
     getActionIndex,
+    getCurrentDefinition,
     getFlowComponents,
     getLocalizations,
     getNode,
@@ -70,15 +69,7 @@ export type HandleTypeConfigChange = (typeConfig: Type) => Thunk<void>;
 
 export type OnResetDragSelection = () => Thunk<void>;
 
-export type OnNodeMoved = (uuid: string, position: FlowPosition) => Thunk<RenderNodeMap>;
-
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
-
-export type OnDragSelection = (
-    delta: FlowPosition,
-    positions: CanvasPositions,
-    snap: boolean
-) => Thunk<RenderNodeMap>;
 
 export type OnUpdateCanvasPositions = (positions: CanvasPositions) => Thunk<RenderNodeMap>;
 
@@ -147,10 +138,36 @@ export interface ConnectionEvent {
 }
 
 export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
+const QUIET_SAVE = 2000;
 
-const FORCE_FETCH = true;
-const QUIET_UI = 10;
-const QUIET_SAVE = 1000;
+let markDirty: () => void = () => {};
+let lastDirtyAttempt: any = null;
+
+export const createDirty = (
+    endpoints: Endpoints,
+    dispatch: DispatchWithState,
+    getState: GetState
+) => () => {
+    if (lastDirtyAttempt) {
+        window.clearTimeout(lastDirtyAttempt);
+    }
+
+    const {
+        flowContext: { definition, nodes, assetStore }
+    } = getState();
+
+    lastDirtyAttempt = window.setTimeout(() => {
+        saveRevision(endpoints.revisions, getCurrentDefinition(definition, nodes, true)).then(
+            revision => {
+                definition.revision = revision.revision;
+                dispatch(updateDefinition(definition));
+
+                const updatedAssets = mutators.addRevision(assetStore, revision);
+                dispatch(updateAssets(updatedAssets));
+            }
+        );
+    }, QUIET_SAVE);
+};
 
 export const mergeEditorState = (changes: Partial<EditorState>) => (
     dispatch: DispatchWithState,
@@ -221,6 +238,8 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
+    markDirty = createDirty(endpoints, dispatch, getState);
+
     // mark us as underway
     dispatch(mergeEditorState({ fetchingFlow: true }));
 
@@ -284,43 +303,9 @@ export const onUpdateLocalizations = (language: string, changes: LocalizationUpd
     } = getState();
     const updated = mutators.updateLocalization(definition, language, changes);
     dispatch(updateDefinition(updated));
+
+    markDirty();
     return updated;
-};
-
-export const updateDimensions = (uuid: string, dimensions: Dimensions) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): void => {
-    const {
-        flowContext: { nodes, definition }
-    } = getState();
-
-    if (uuid in nodes) {
-        const updated = mutators.updateNodeDimensions(nodes, uuid, dimensions);
-        dispatch(updateNodes(updated));
-    } else if (uuid in definition._ui.stickies) {
-        const updated = mutators.updateStickyDimensions(definition, uuid, dimensions);
-
-        // TODO: TypeError: Cannot read property 'redraw' of undefined
-        dispatch(updateDefinition(updated));
-    }
-};
-
-/**
- * @param renderNode Adds the given node, uniquifying its uuid
- */
-export const addNode = (renderNode: RenderNode) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): RenderNode => {
-    timeStart('addNode');
-    const {
-        flowContext: { nodes }
-    } = getState();
-    renderNode.node = mutators.uniquifyNode(renderNode.node);
-    dispatch(updateNodes(mutators.mergeNode(nodes, renderNode)));
-    timeEnd('addNode');
-    return renderNode;
 };
 
 export const updateExitDestination = (nodeUUID: string, exitUUID: string, destination: string) => (
@@ -332,6 +317,7 @@ export const updateExitDestination = (nodeUUID: string, exitUUID: string, destin
     } = getState();
     const updated = mutators.updateConnection(nodes, nodeUUID, exitUUID, destination);
     dispatch(updateNodes(updated));
+    markDirty();
     return updated;
 };
 
@@ -694,71 +680,9 @@ export const onUpdateCanvasPositions = (positions: CanvasPositions) => (
         dispatch(updateDefinition(updatedDefinition));
     }
 
-    return updatedNodes;
-};
-
-export const onDragSelection = (delta: FlowPosition, positions: CanvasPositions, snap: boolean) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): RenderNodeMap => {
-    const {
-        flowContext: { nodes, definition }
-    } = getState();
-
-    let updatedDefinition = definition;
-    let updatedNodes = nodes;
-
-    let updatedNodePosition = false;
-    let updatedStickyPosition = false;
-
-    for (const uuid in positions) {
-        const startPosition = positions[uuid];
-        if (updatedNodes[uuid]) {
-            updatedNodes = mutators.updatePosition(
-                updatedNodes,
-                uuid,
-                addPosition(startPosition, delta),
-                snap
-            );
-            updatedNodePosition = true;
-        } else if (updatedDefinition._ui.stickies[uuid]) {
-            updatedDefinition = mutators.updateStickyNotePosition(
-                updatedDefinition,
-                uuid,
-                addPosition(startPosition, delta),
-                snap
-            );
-            updatedStickyPosition = true;
-        }
-    }
-
-    if (updatedNodePosition) {
-        dispatch(updateNodes(updatedNodes));
-    }
-
-    if (updatedStickyPosition) {
-        dispatch(updateDefinition(updatedDefinition));
-    }
+    markDirty();
 
     return updatedNodes;
-};
-
-export const onNodeMoved = (nodeUUID: string, position: FlowPosition) => (
-    dispatch: DispatchWithState,
-    getState: GetState
-): RenderNodeMap => {
-    const {
-        flowContext: { nodes },
-        editorState: { dragSelection }
-    } = getState();
-
-    /* if (dragSelection && dragSelection.selected) {
-        dispatch(mergeEditorState(EMPTY_DRAG_STATE));
-    }*/
-
-    const updated = mutators.updatePosition(nodes, nodeUUID, position);
-    dispatch(updateNodes(updated));
-    return updated;
 };
 
 /**
@@ -805,6 +729,7 @@ export const updateSticky = (uuid: string, sticky: StickyNote) => (
 
     const updated = mutators.updateStickyNote(definition, uuid, sticky);
     dispatch(updateDefinition(updated));
+    markDirty();
 };
 
 export const onUpdateRouter = (renderNode: RenderNode) => (

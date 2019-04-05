@@ -8,6 +8,7 @@ const { setup } = composeComponentTestUtils<SimulatorProps>(Simulator, {
         name: 'Simulate this',
         uuid: '28742b21-4762-4184-91c8-cc7324a30402',
         nodes: [],
+        revision: 1,
         localization: {},
         language: null,
         _ui: null

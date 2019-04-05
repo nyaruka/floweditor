@@ -22,16 +22,14 @@ import { AssetMap, RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
 import {
     DispatchWithState,
-    mergeEditorState,
     MergeEditorState,
+    mergeEditorState,
     OnAddToNode,
     onAddToNode,
-    OnNodeMoved,
-    onNodeMoved,
     OnOpenNodeEditor,
     onOpenNodeEditor,
-    removeNode,
-    RemoveNode
+    RemoveNode,
+    removeNode
 } from '~/store/thunks';
 import { ClickHandler, createClickHandler, titleCase } from '~/utils';
 
@@ -65,7 +63,6 @@ export interface NodeStoreProps {
     renderNode: RenderNode;
     definition: FlowDefinition;
     onAddToNode: OnAddToNode;
-    onNodeMoved: OnNodeMoved;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeNode: RemoveNode;
     mergeEditorState: MergeEditorState;
@@ -490,7 +487,6 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
     bindActionCreators(
         {
             onAddToNode,
-            onNodeMoved,
             onOpenNodeEditor,
             removeNode,
             mergeEditorState
