@@ -19,6 +19,7 @@ export interface User {
 }
 
 export interface Revision {
+    id: number;
     version: string;
     revision: number;
     created_on: string;
@@ -30,6 +31,7 @@ export interface RevisionExplorerProps {
     simulating: boolean;
     assetStore: AssetStore;
     loadFlowDefinition: (definition: FlowDefinition, assetStore: AssetStore) => void;
+    createNewRevision: () => void;
     utc?: boolean;
 }
 
@@ -98,14 +100,31 @@ export class RevisionExplorer extends React.Component<
         );
     }
 
-    public handleRevisionClicked(revision: Asset): void {
-        getFlowDefinition(this.props.assetStore.revisions, revision.id).then(
-            (definition: FlowDefinition) => {
-                this.props.loadFlowDefinition(definition, this.props.assetStore);
-                this.setState({ revision });
-            }
-        );
-    }
+    public onRevisionClicked = (
+        revision: Asset
+    ): ((event: React.MouseEvent<HTMLDivElement>) => void) => {
+        return (event: React.MouseEvent<HTMLDivElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            getFlowDefinition(this.props.assetStore.revisions, revision.id).then(
+                (definition: FlowDefinition) => {
+                    this.props.loadFlowDefinition(definition, this.props.assetStore);
+                    this.setState({ revision });
+                }
+            );
+        };
+    };
+
+    public onRevertClicked = (
+        revision: Asset
+    ): ((event: React.MouseEvent<HTMLDivElement>) => void) => {
+        return (event: React.MouseEvent<HTMLDivElement>) => {
+            event.stopPropagation();
+            event.preventDefault();
+            this.props.createNewRevision();
+            this.setState({ visible: false, revision: null });
+        };
+    };
 
     public render(): JSX.Element {
         const classes = cx({
@@ -122,6 +141,7 @@ export class RevisionExplorer extends React.Component<
                     icon="fe-time"
                     label="Revision History"
                     top="360px"
+                    visible={this.state.visible}
                     onShow={this.handleTabClicked}
                     onHide={this.handleTabClicked}
                 >
@@ -141,9 +161,7 @@ export class RevisionExplorer extends React.Component<
                                         <div
                                             className={styles.revision + ' ' + selectedClass}
                                             key={'revision_' + asset.id}
-                                            onClick={() => {
-                                                this.handleRevisionClicked(asset);
-                                            }}
+                                            onClick={this.onRevisionClicked(asset)}
                                         >
                                             {renderIf(revision.current)(
                                                 <div
@@ -153,7 +171,12 @@ export class RevisionExplorer extends React.Component<
                                                 </div>
                                             )}
                                             {renderIf(isSelected && !revision.current)(
-                                                <div className={styles.button}>revert</div>
+                                                <div
+                                                    onClick={this.onRevertClicked(asset)}
+                                                    className={styles.button}
+                                                >
+                                                    revert
+                                                </div>
                                             )}
                                             <div className={styles.createdOn}>
                                                 {dateFormat(

@@ -15,6 +15,8 @@ import { Asset, Assets, AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
 import {
+    CreateNewRevision,
+    createNewRevision,
     DispatchWithState,
     FetchFlow,
     fetchFlow,
@@ -42,6 +44,7 @@ export interface FlowEditorStoreProps {
     dependencies: FlowDefinition[];
     fetchFlow: FetchFlow;
     loadFlowDefinition: LoadFlowDefinition;
+    createNewRevision: CreateNewRevision;
     mergeEditorState: MergeEditorState;
     nodes: RenderNodeMap;
 }
@@ -130,6 +133,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                         <RevisionExplorer
                             simulating={this.props.simulating}
                             loadFlowDefinition={this.props.loadFlowDefinition}
+                            createNewRevision={this.props.createNewRevision}
                             assetStore={this.props.assetStore}
                         />
                     </div>
@@ -163,6 +167,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
         {
             fetchFlow,
             loadFlowDefinition,
+            createNewRevision,
             mergeEditorState
         },
         dispatch

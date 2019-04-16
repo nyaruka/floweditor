@@ -51,6 +51,7 @@ exports[`Root render should apply translating style if passed a truthy translati
       <Connect(LanguageSelector) />
       <RevisionExplorer
         assetStore={null}
+        createNewRevision={[MockFunction]}
         loadFlowDefinition={[MockFunction]}
         simulating={false}
       />
@@ -88,6 +89,7 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
       <Connect(Flow) />
       <RevisionExplorer
         assetStore={null}
+        createNewRevision={[MockFunction]}
         loadFlowDefinition={[MockFunction]}
         simulating={false}
       />
@@ -124,6 +126,7 @@ exports[`Root render should render self, children with required props 1`] = `
       <Connect(LanguageSelector) />
       <RevisionExplorer
         assetStore={null}
+        createNewRevision={[MockFunction]}
         loadFlowDefinition={[MockFunction]}
         simulating={false}
       />

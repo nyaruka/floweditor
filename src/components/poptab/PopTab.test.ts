@@ -2,6 +2,7 @@ import { PopTab, PopTabProps } from '~/components/poptab/PopTab';
 import { composeComponentTestUtils } from '~/testUtils';
 
 const baseProps: PopTabProps = {
+    visible: true,
     label: 'Show Revisions',
     top: '50px',
     color: 'red',

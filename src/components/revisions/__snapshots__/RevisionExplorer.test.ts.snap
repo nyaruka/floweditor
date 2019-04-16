@@ -15,6 +15,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
     onHide={[Function]}
     onShow={[Function]}
     top="360px"
+    visible={false}
   >
     <div
       className="explorerWrapper"
