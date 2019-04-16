@@ -40,6 +40,9 @@ interface Reflow {
     bounds: Bounds;
 }
 
+// track if we have an active timeout before issuing a new one
+let activityTimeout: any = null;
+
 export const getNodeWithAction = (nodes: RenderNodeMap, actionUUID: string): RenderNode => {
     for (const nodeUUID of Object.keys(nodes)) {
         const renderNode = nodes[nodeUUID];
@@ -586,13 +589,22 @@ export const fetchFlowActivity = (
                 }
 
                 dispatch(mergeEditorState(updates));
-                window.setTimeout(() => {
+
+                if (activityTimeout) {
+                    window.clearTimeout(activityTimeout);
+                }
+
+                activityTimeout = window.setTimeout(() => {
                     fetchFlowActivity(endpoint, dispatch, getState, uuid);
                 }, activityInterval);
             }
         });
     } else {
-        window.setTimeout(() => {
+        if (activityTimeout) {
+            window.clearTimeout(activityTimeout);
+        }
+
+        activityTimeout = window.setTimeout(() => {
             fetchFlowActivity(endpoint, dispatch, getState, uuid);
         }, 1000);
     }

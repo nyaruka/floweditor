@@ -2,7 +2,7 @@
 
 exports[`PopTab render should render base component 1`] = `
 <div
-  className="popWrapper "
+  className="popWrapper visible"
   style={
     Object {
       "right": -400,
@@ -41,7 +41,7 @@ exports[`PopTab render should render base component 1`] = `
     style={
       Object {
         "borderColor": "red",
-        "right": 0,
+        "right": 415,
         "top": -100,
       }
     }

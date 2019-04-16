@@ -3,6 +3,7 @@ import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';
+import { Revision } from '~/components/revisions/RevisionExplorer';
 import { FlowTypes, Type, Types } from '~/config/interfaces';
 import { getTypeConfig } from '~/config/typeConfigs';
 import { createAssetStore, getFlowDefinition, saveRevision } from '~/external';
@@ -90,6 +91,8 @@ export type LoadFlowDefinition = (
     assetStore: AssetStore
 ) => Thunk<Promise<void>>;
 
+export type CreateNewRevision = () => Thunk<void>;
+
 export type NoParamsAC = () => Thunk<void>;
 
 export type UpdateConnection = (source: string, target: string) => Thunk<RenderNodeMap>;
@@ -140,33 +143,37 @@ export interface ConnectionEvent {
 export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const QUIET_SAVE = 2000;
 
-let markDirty: () => void = () => {};
+let markDirty: (quiet?: number) => void = () => {};
 let lastDirtyAttempt: any = null;
 
 export const createDirty = (
-    endpoints: Endpoints,
+    revisionsEndpoint: string,
     dispatch: DispatchWithState,
     getState: GetState
-) => () => {
+) => (quiet: number = QUIET_SAVE) => {
     if (lastDirtyAttempt) {
         window.clearTimeout(lastDirtyAttempt);
     }
 
     const {
-        flowContext: { definition, nodes, assetStore }
+        flowContext: { definition, nodes, assetStore },
+        editorState: { currentRevision }
     } = getState();
 
-    lastDirtyAttempt = window.setTimeout(() => {
-        saveRevision(endpoints.revisions, getCurrentDefinition(definition, nodes, true)).then(
-            revision => {
-                definition.revision = revision.revision;
-                dispatch(updateDefinition(definition));
+    // make sure we have the most current revision number we know about
+    const newDefinition = getCurrentDefinition(definition, nodes, true);
+    newDefinition.revision = currentRevision;
 
-                const updatedAssets = mutators.addRevision(assetStore, revision);
-                dispatch(updateAssets(updatedAssets));
-            }
-        );
-    }, QUIET_SAVE);
+    lastDirtyAttempt = window.setTimeout(() => {
+        saveRevision(revisionsEndpoint, newDefinition).then((revision: Revision) => {
+            definition.revision = revision.revision;
+            dispatch(updateDefinition(definition));
+
+            const updatedAssets = mutators.addRevision(assetStore, revision);
+            dispatch(updateAssets(updatedAssets));
+            dispatch(mergeEditorState({ currentRevision: revision.revision }));
+        });
+    }, quiet);
 };
 
 export const mergeEditorState = (changes: Partial<EditorState>) => (
@@ -177,6 +184,11 @@ export const mergeEditorState = (changes: Partial<EditorState>) => (
     const updated = mutate(editorState, { $merge: changes });
     dispatch(updateEditorState(updated));
     return updated;
+};
+
+export const createNewRevision = () => (dispatch: DispatchWithState, getState: GetState): void => {
+    // mark us dirty with no quiet period
+    markDirty(0);
 };
 
 export const loadFlowDefinition = (
@@ -238,8 +250,6 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void
     dispatch: DispatchWithState,
     getState: GetState
 ) => {
-    markDirty = createDirty(endpoints, dispatch, getState);
-
     // mark us as underway
     dispatch(mergeEditorState({ fetchingFlow: true }));
 
@@ -253,9 +263,15 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void
     }
 
     fetchFlowActivity(endpoints.activity, dispatch, getState, uuid);
+    (window as any).triggerActivityUpdate = () => {
+        fetchFlowActivity(endpoints.activity, dispatch, getState, uuid);
+    };
 
     const definition = await getFlowDefinition(assetStore.revisions);
     dispatch(loadFlowDefinition(definition, assetStore, onLoad));
+    dispatch(mergeEditorState({ currentRevision: definition.revision }));
+
+    markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);
 };
 
 export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
@@ -592,6 +608,8 @@ export const onUpdateAction = (
         dispatch(updateContactFields({ ...contactFields, [field.key]: field.name }));
     }
 
+    markDirty();
+
     timeEnd('onUpdateAction');
 
     if (onUpdated) {
@@ -628,6 +646,7 @@ export const onAddToNode = (node: FlowNode) => (
         })
     );
 
+    markDirty();
     dispatch(updateUserAddingAction(true));
     dispatch(handleTypeConfigChange(getTypeConfig(Types.send_msg)));
     dispatch(mergeEditorState(EMPTY_DRAG_STATE));
@@ -672,15 +691,21 @@ export const onUpdateCanvasPositions = (positions: CanvasPositions) => (
         }
     }
 
+    let updated = false;
+
     if (updatedNodePosition) {
+        updated = true;
         dispatch(updateNodes(updatedNodes));
     }
 
     if (updatedStickyPosition) {
+        updated = true;
         dispatch(updateDefinition(updatedDefinition));
     }
 
-    markDirty();
+    if (updated) {
+        markDirty();
+    }
 
     return updatedNodes;
 };
@@ -818,6 +843,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
 
     dispatch(updateNodes(updated));
 
+    markDirty();
     return updated;
 };
 

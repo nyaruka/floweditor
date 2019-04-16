@@ -9,12 +9,12 @@ export interface PopTabProps {
     label: string;
     header: string;
     top: string;
+    visible: boolean;
     onShow: () => void;
     onHide: () => void;
 }
 
 export interface PopTabState {
-    visible: boolean;
     width: number;
 }
 
@@ -23,7 +23,7 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
 
     constructor(props: PopTabProps) {
         super(props);
-        this.state = { visible: false, width: 400 };
+        this.state = { width: 400 };
 
         bindCallbacks(this, {
             include: [/^handle/]
@@ -41,20 +41,16 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
     }
 
     private handleTabClick(): void {
-        this.setState({ visible: true }, () => {
-            this.props.onShow();
-        });
+        this.props.onShow();
     }
 
     private handleClose(): void {
-        this.setState({ visible: false }, () => {
-            this.props.onHide();
-        });
+        this.props.onHide();
     }
     public render(): JSX.Element {
         return (
             <div
-                className={styles.popWrapper + ' ' + (this.state.visible ? styles.visible : '')}
+                className={styles.popWrapper + ' ' + (this.props.visible ? styles.visible : '')}
                 style={{
                     right: -this.state.width,
                     top: this.props.top
@@ -77,7 +73,7 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
                     className={styles.popped}
                     style={{
                         borderColor: this.props.color,
-                        right: this.state.visible ? 15 + this.state.width : 0,
+                        right: this.props.visible ? 15 + this.state.width : 0,
                         top: -100
                     }}
                 >

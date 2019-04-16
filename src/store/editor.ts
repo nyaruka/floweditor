@@ -22,6 +22,7 @@ export interface CanvasPositions {
 export interface Activity {
     nodes: { [uuid: string]: number };
     segments: { [exitToNodeKey: string]: number };
+    is_starting?: boolean;
 }
 
 export interface RecentMessage {
@@ -30,6 +31,7 @@ export interface RecentMessage {
 }
 
 export interface EditorState {
+    currentRevision: number;
     simulating: boolean;
     language: Asset;
     translating: boolean;
@@ -70,6 +72,7 @@ export const EMPTY_DRAG_STATE: any = {
 // Initial state
 export const initialState: EditorState = {
     containerOffset: { top: 0, left: 0 },
+    currentRevision: null,
     simulating: false,
     translating: false,
     language: null,

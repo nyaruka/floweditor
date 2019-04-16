@@ -146,7 +146,8 @@ export const addResult = (resultName: string, items: AssetMap, reference: Refere
 };
 
 export const addRevision = (assets: AssetStore, revision: Revision): AssetStore => {
-    return mutate(assets, { revisions: { items: { $push: revision } } });
+    console.log('adding revision', revision);
+    return mutate(assets, { revisions: { items: { $merge: { [revision.id]: revision } } } });
 };
 
 export const addFlowResult = (assets: AssetStore, node: FlowNode): AssetStore => {

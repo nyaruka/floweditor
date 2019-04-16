@@ -479,7 +479,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         const wait = delay || 0;
         if (this.bottom) {
             window.setTimeout(() => {
-                this.bottom.scrollIntoView(false);
+                if (this.bottom) {
+                    this.bottom.scrollIntoView(false);
+                }
             }, wait);
         }
     }
