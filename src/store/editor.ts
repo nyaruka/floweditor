@@ -46,6 +46,9 @@ export interface EditorState {
     dragSelection: DragSelection;
     debug?: DebugState;
 
+    modalMessage?: ModalMessage;
+    saving?: boolean;
+
     // the currently shown activity, can be
     // simulation or live
     activity: Activity;
@@ -58,6 +61,11 @@ export interface EditorState {
 
     // is our page visible or tabbed away
     visible: boolean;
+}
+
+export interface ModalMessage {
+    title: string;
+    body: string;
 }
 
 export const EMPTY_DRAG_STATE: any = {

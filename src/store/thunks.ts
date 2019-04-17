@@ -140,11 +140,17 @@ export interface ConnectionEvent {
     endpoints: any[];
 }
 
+export interface ErrorMessage {
+    status: string;
+    description: string;
+}
+
 export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const QUIET_SAVE = 2000;
 
 let markDirty: (quiet?: number) => void = () => {};
 let lastDirtyAttempt: any = null;
+let postingRevision = false;
 
 export const createDirty = (
     revisionsEndpoint: string,
@@ -160,19 +166,38 @@ export const createDirty = (
         editorState: { currentRevision }
     } = getState();
 
+    dispatch(mergeEditorState({ saving: true }));
+
     // make sure we have the most current revision number we know about
     const newDefinition = getCurrentDefinition(definition, nodes, true);
     newDefinition.revision = currentRevision;
 
     lastDirtyAttempt = window.setTimeout(() => {
-        saveRevision(revisionsEndpoint, newDefinition).then((revision: Revision) => {
-            definition.revision = revision.revision;
-            dispatch(updateDefinition(definition));
+        postingRevision = true;
+        saveRevision(revisionsEndpoint, newDefinition).then(
+            (revision: Revision) => {
+                definition.revision = revision.revision;
+                dispatch(updateDefinition(definition));
 
-            const updatedAssets = mutators.addRevision(assetStore, revision);
-            dispatch(updateAssets(updatedAssets));
-            dispatch(mergeEditorState({ currentRevision: revision.revision }));
-        });
+                const updatedAssets = mutators.addRevision(assetStore, revision);
+                dispatch(updateAssets(updatedAssets));
+                dispatch(mergeEditorState({ currentRevision: revision.revision, saving: false }));
+                postingRevision = false;
+            },
+            (error: any) => {
+                const errorMessage = error.response.data as ErrorMessage;
+                dispatch(
+                    mergeEditorState({
+                        modalMessage: {
+                            title: "Uh oh, we couldn't save your changes",
+                            body: errorMessage.description
+                        },
+                        saving: false
+                    })
+                );
+                postingRevision = false;
+            }
+        );
     }, quiet);
 };
 

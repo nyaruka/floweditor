@@ -50,6 +50,10 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
             .map((iso: string) => this.props.languages.items[iso])
             .sort(this.handleLanguageSort);
 
+        if (languages.length === 1) {
+            return null;
+        }
+
         return (
             <div className={containerClasses}>
                 {languages.map((lang: Asset, idx: number) => {

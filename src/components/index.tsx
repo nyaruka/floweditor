@@ -3,14 +3,18 @@ import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button, { ButtonTypes } from '~/components/button/Button';
+import Dialog from '~/components/dialog/Dialog';
 import ConnectedFlow from '~/components/flow/Flow';
 import * as styles from '~/components/index.scss';
 import ConnectedLanguageSelector from '~/components/languageselector/LanguageSelector';
+import Loading from '~/components/loading/Loading';
+import Modal from '~/components/modal/Modal';
 import { RevisionExplorer } from '~/components/revisions/RevisionExplorer';
 import ConfigProvider from '~/config';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
 import createStore from '~/store/createStore';
+import { ModalMessage } from '~/store/editor';
 import { Asset, Assets, AssetStore, RenderNodeMap } from '~/store/flowContext';
 import { getCurrentDefinition } from '~/store/helpers';
 import AppState from '~/store/state';
@@ -47,6 +51,8 @@ export interface FlowEditorStoreProps {
     createNewRevision: CreateNewRevision;
     mergeEditorState: MergeEditorState;
     nodes: RenderNodeMap;
+    modalMessage: ModalMessage;
+    saving: boolean;
 }
 
 const hotStore = createStore();
@@ -98,6 +104,47 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
         this.props.mergeEditorState({ visible, activityInterval: ACTIVITY_INTERVAL });
     }
 
+    public getAlertModal(): JSX.Element {
+        if (!this.props.modalMessage) {
+            return null;
+        }
+
+        return (
+            <Modal width="600px" show={true}>
+                <Dialog
+                    className={styles.alertModal}
+                    title={this.props.modalMessage.title}
+                    headerClass="alert"
+                    buttons={{
+                        primary: {
+                            name: 'Ok',
+                            onClick: () => {
+                                this.props.mergeEditorState({ modalMessage: null });
+                            }
+                        }
+                    }}
+                >
+                    <div className={styles.alertBody}>{this.props.modalMessage.body}</div>
+                </Dialog>
+            </Modal>
+        );
+    }
+
+    public getSavingIndicator(): JSX.Element {
+        if (!this.props.saving) {
+            return null;
+        }
+
+        const style =
+            Object.keys(this.props.assetStore.languages.items).length === 1 ? { top: -10 } : null;
+
+        return (
+            <div className={styles.saving} style={style}>
+                <Loading balls={5} color="#3498db" size={7} />
+            </div>
+        );
+    }
+
     public getFooter(): JSX.Element {
         return !this.props.fetchingFlow && this.context.config.showDownload ? (
             <div className={styles.footer}>
@@ -120,7 +167,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                     className={this.props.translating ? styles.translating : undefined}
                     data-spec={editorContainerSpecId}
                 >
+                    {this.getSavingIndicator()}
                     {this.getFooter()}
+                    {this.getAlertModal()}
                     <div className={styles.editor} data-spec={editorSpecId}>
                         {renderIf(
                             this.props.languages &&
@@ -145,11 +194,13 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
 const mapStateToProps = ({
     flowContext: { definition, dependencies, nodes, assetStore },
-    editorState: { translating, language, fetchingFlow, simulating }
+    editorState: { translating, language, fetchingFlow, simulating, modalMessage, saving }
 }: AppState) => {
     const languages = assetStore ? assetStore.languages : null;
 
     return {
+        modalMessage,
+        saving,
         simulating,
         assetStore,
         translating,

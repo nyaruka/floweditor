@@ -1,0 +1,21 @@
+@keyframes pulse {
+    0% {
+        transform: scale(0.2);
+    }
+    20% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0.2);
+    }
+}
+
+.loading {
+    position: relative;
+}
+
+.loading > div {
+    position: absolute;
+    border-radius: 50%;
+    animation: pulse 0.9s cubic-bezier(0.3, 0, 0.7, 1) infinite;
+}

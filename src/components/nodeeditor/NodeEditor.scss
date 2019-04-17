@@ -13,7 +13,7 @@ $inner_spacing: 15px;
 }
 
 .intro {
-    padding-bottom:10px;
+    padding-bottom: 10px;
 }
 
 .node_editor {
@@ -21,8 +21,7 @@ $inner_spacing: 15px;
     font-size: 14px;
     font-weight: 300;
     line-height: 15px;
-    -webkit-box-sizing: border-box;
-            box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .type_chooser {
@@ -50,4 +49,3 @@ $inner_spacing: 15px;
 .save_as {
     padding: 15px 15px 0px 15px;
 }
-
