@@ -39,6 +39,7 @@ export interface DialogProps {
     gutter?: JSX.Element;
     noPadding?: boolean;
     tabs?: Tab[];
+    className?: string;
 }
 
 export interface DialogState {
@@ -138,6 +139,10 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
         const activeClasses = [styles.dialog];
         const { leftButtons, rightButtons } = this.getButtons();
+
+        if (this.props.className) {
+            activeClasses.push(this.props.className);
+        }
 
         return (
             <div className={activeClasses.join(' ')}>

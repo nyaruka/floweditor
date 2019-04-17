@@ -51,3 +51,21 @@
         top: 10px;
     }
 }
+
+.alert-body {
+    font-size: 15px;
+    line-height: 22px;
+    padding: 15px 10px;
+}
+
+.alert-modal {
+    top: 158px;
+    position: absolute;
+}
+
+.saving {
+    position: absolute;
+    top: 10px;
+    right: 100px;
+    z-index: $z_saving;
+}

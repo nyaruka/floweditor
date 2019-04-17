@@ -18,8 +18,8 @@ Array [
         "template": "@(abs(\\"foo\\"))",
       },
     ],
-    "signature": "abs(num)",
-    "summary": "Returns the absolute value of \`num\`.",
+    "signature": "abs(number)",
+    "summary": "Returns the absolute value of \`number\`.",
   },
   Object {
     "detail": "",
@@ -49,15 +49,26 @@ Array [
       },
       Object {
         "output": "0",
-        "template": "@(length(array()))",
+        "template": "@(count(array()))",
       },
       Object {
         "output": "2",
-        "template": "@(length(array(\\"a\\", \\"b\\")))",
+        "template": "@(count(array(\\"a\\", \\"b\\")))",
       },
     ],
     "signature": "array(values...)",
     "summary": "Takes multiple \`values\` and returns them as an array.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{content_type: image/jpeg, url: https://example.com/test.jpg}",
+        "template": "@(attachment_parts(\\"image/jpeg:https://example.com/test.jpg\\"))",
+      },
+    ],
+    "signature": "attachment_parts(attachment)",
+    "summary": "Parses an attachment into its different parts",
   },
 ]
 `;
@@ -80,8 +91,8 @@ Array [
         "template": "@(abs(\\"foo\\"))",
       },
     ],
-    "signature": "abs(num)",
-    "summary": "Returns the absolute value of \`num\`.",
+    "signature": "abs(number)",
+    "summary": "Returns the absolute value of \`number\`.",
   },
 ]
 `;
@@ -104,8 +115,8 @@ Array [
         "template": "@(abs(\\"foo\\"))",
       },
     ],
-    "signature": "abs(num)",
-    "summary": "Returns the absolute value of \`num\`.",
+    "signature": "abs(number)",
+    "summary": "Returns the absolute value of \`number\`.",
   },
 ]
 `;
@@ -169,11 +180,11 @@ Array [
       },
       Object {
         "output": "0",
-        "template": "@(length(array()))",
+        "template": "@(count(array()))",
       },
       Object {
         "output": "2",
-        "template": "@(length(array(\\"a\\", \\"b\\")))",
+        "template": "@(count(array(\\"a\\", \\"b\\")))",
       },
     ],
     "signature": "array(values...)",
@@ -197,11 +208,11 @@ Array [
       },
       Object {
         "output": "0",
-        "template": "@(length(array()))",
+        "template": "@(count(array()))",
       },
       Object {
         "output": "2",
-        "template": "@(length(array(\\"a\\", \\"b\\")))",
+        "template": "@(count(array(\\"a\\", \\"b\\")))",
       },
     ],
     "signature": "array(values...)",
@@ -211,6 +222,40 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "array." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "at" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{content_type: image/jpeg, url: https://example.com/test.jpg}",
+        "template": "@(attachment_parts(\\"image/jpeg:https://example.com/test.jpg\\"))",
+      },
+    ],
+    "signature": "attachment_parts(attachment)",
+    "summary": "Parses an attachment into its different parts",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "attachment_parts" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{content_type: image/jpeg, url: https://example.com/test.jpg}",
+        "template": "@(attachment_parts(\\"image/jpeg:https://example.com/test.jpg\\"))",
+      },
+    ],
+    "signature": "attachment_parts(attachment)",
+    "summary": "Parses an attachment into its different parts",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "attachment_parts." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "b" 1`] = `
 Array [
@@ -328,7 +373,7 @@ Array [
       },
     ],
     "signature": "clean(text)",
-    "summary": "Strips any non-printable characters from \`text\`.",
+    "summary": "Removes any non-printable characters from \`text\`.",
   },
   Object {
     "detail": "It is the inverse of [function:char].",
@@ -360,6 +405,29 @@ Array [
     ],
     "signature": "code(text)",
     "summary": "Returns the UNICODE code for the first character of \`text\`.",
+  },
+  Object {
+    "detail": "It will return an error if it is passed an item which isn't countable.",
+    "examples": Array [
+      Object {
+        "output": "5",
+        "template": "@(count(contact.fields))",
+      },
+      Object {
+        "output": "0",
+        "template": "@(count(array()))",
+      },
+      Object {
+        "output": "3",
+        "template": "@(count(array(\\"a\\", \\"b\\", \\"c\\")))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(count(1234))",
+      },
+    ],
+    "signature": "count(value)",
+    "summary": "Returns the number of items in the given array or properties on an object.",
   },
 ]
 `;
@@ -1474,7 +1542,7 @@ Array [
       },
     ],
     "signature": "clean(text)",
-    "summary": "Strips any non-printable characters from \`text\`.",
+    "summary": "Removes any non-printable characters from \`text\`.",
   },
 ]
 `;
@@ -1494,7 +1562,7 @@ Array [
       },
     ],
     "signature": "clean(text)",
-    "summary": "Strips any non-printable characters from \`text\`.",
+    "summary": "Removes any non-printable characters from \`text\`.",
   },
 ]
 `;
@@ -1537,6 +1605,29 @@ Array [
     ],
     "signature": "code(text)",
     "summary": "Returns the UNICODE code for the first character of \`text\`.",
+  },
+  Object {
+    "detail": "It will return an error if it is passed an item which isn't countable.",
+    "examples": Array [
+      Object {
+        "output": "5",
+        "template": "@(count(contact.fields))",
+      },
+      Object {
+        "output": "0",
+        "template": "@(count(array()))",
+      },
+      Object {
+        "output": "3",
+        "template": "@(count(array(\\"a\\", \\"b\\", \\"c\\")))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(count(1234))",
+      },
+    ],
+    "signature": "count(value)",
+    "summary": "Returns the number of items in the given array or properties on an object.",
   },
 ]
 `;
@@ -1977,10 +2068,84 @@ Array [
 ]
 `;
 
+exports[`helpers filterOptions should filter options for "count" 1`] = `
+Array [
+  Object {
+    "detail": "It will return an error if it is passed an item which isn't countable.",
+    "examples": Array [
+      Object {
+        "output": "5",
+        "template": "@(count(contact.fields))",
+      },
+      Object {
+        "output": "0",
+        "template": "@(count(array()))",
+      },
+      Object {
+        "output": "3",
+        "template": "@(count(array(\\"a\\", \\"b\\", \\"c\\")))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(count(1234))",
+      },
+    ],
+    "signature": "count(value)",
+    "summary": "Returns the number of items in the given array or properties on an object.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "count." 1`] = `Array []`;
+
 exports[`helpers filterOptions should filter options for "d" 1`] = `
 Array [
   Object {
-    "detail": "An error is returned if the value can't be converted.",
+    "detail": "If it is text then it will be parsed into a date using the default date format.
+An error is returned if the value can't be converted.",
+    "examples": Array [
+      Object {
+        "output": "1979-07-18",
+        "template": "@(date(\\"1979-07-18\\"))",
+      },
+      Object {
+        "output": "1979-07-18",
+        "template": "@(date(\\"1979-07-18T10:30:45.123456Z\\"))",
+      },
+      Object {
+        "output": "2010-05-10",
+        "template": "@(date(\\"10/05/2010\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(date(\\"NOT DATE\\"))",
+      },
+    ],
+    "signature": "date(value)",
+    "summary": "Tries to convert \`value\` to a date.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2017-01-15",
+        "template": "@(date_from_parts(2017, 1, 15))",
+      },
+      Object {
+        "output": "2017-03-03",
+        "template": "@(date_from_parts(2017, 2, 31))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(date_from_parts(2017, 13, 15))",
+      },
+    ],
+    "signature": "date_from_parts(year, month, day)",
+    "summary": "Creates a date from \`year\`, \`month\` and \`day\`.",
+  },
+  Object {
+    "detail": "If it is text then it will be parsed into a datetime using the default date
+and time formats. An error is returned if the value can't be converted.",
     "examples": Array [
       Object {
         "output": "1979-07-18T00:00:00.000000-05:00",
@@ -1992,15 +2157,15 @@ Array [
       },
       Object {
         "output": "2010-05-10T00:00:00.000000-05:00",
-        "template": "@(datetime(\\"2010 05 10\\"))",
+        "template": "@(datetime(\\"10/05/2010\\"))",
       },
       Object {
         "output": "ERROR",
         "template": "@(datetime(\\"NOT DATE\\"))",
       },
     ],
-    "signature": "datetime(text)",
-    "summary": "Parses \`text\` into a date using to the default date format.",
+    "signature": "datetime(value)",
+    "summary": "Tries to convert \`value\` to a datetime.",
   },
   Object {
     "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
@@ -2015,8 +2180,8 @@ Array [
         "template": "@(datetime_add(\\"2017-01-15 10:45\\", 30, \\"m\\"))",
       },
     ],
-    "signature": "datetime_add(date, offset, unit)",
-    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`date\`",
+    "signature": "datetime_add(datetime, offset, unit)",
+    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`datetime\`",
   },
   Object {
     "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
@@ -2050,20 +2215,16 @@ Array [
     "detail": "",
     "examples": Array [
       Object {
-        "output": "2017-01-15T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 1, 15))",
+        "output": "2017-06-12T11:56:59.000000-05:00",
+        "template": "@(datetime_from_epoch(1497286619))",
       },
       Object {
-        "output": "2017-03-03T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 2, 31))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(datetime_from_parts(2017, 13, 15))",
+        "output": "2017-06-12T11:56:59.123456-05:00",
+        "template": "@(datetime_from_epoch(1497286619.123456))",
       },
     ],
-    "signature": "datetime_from_parts(year, month, day)",
-    "summary": "Creates a date from \`year\`, \`month\` and \`day\`.",
+    "signature": "datetime_from_epoch(seconds)",
+    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
   },
   Object {
     "detail": "",
@@ -2081,7 +2242,7 @@ Array [
         "template": "@(default(\\"\\", \\"value\\"))",
       },
       Object {
-        "output": "[1,2]",
+        "output": "[1, 2]",
         "template": "@(default(array(1, 2), \\"value\\"))",
       },
       Object {
@@ -2091,6 +2252,10 @@ Array [
       Object {
         "output": "today",
         "template": "@(default(datetime(\\"invalid-date\\"), \\"today\\"))",
+      },
+      Object {
+        "output": "ok",
+        "template": "@(default(format_urn(\\"invalid-urn\\"), \\"ok\\"))",
       },
     ],
     "signature": "default(value, default)",
@@ -2102,7 +2267,51 @@ Array [
 exports[`helpers filterOptions should filter options for "da" 1`] = `
 Array [
   Object {
-    "detail": "An error is returned if the value can't be converted.",
+    "detail": "If it is text then it will be parsed into a date using the default date format.
+An error is returned if the value can't be converted.",
+    "examples": Array [
+      Object {
+        "output": "1979-07-18",
+        "template": "@(date(\\"1979-07-18\\"))",
+      },
+      Object {
+        "output": "1979-07-18",
+        "template": "@(date(\\"1979-07-18T10:30:45.123456Z\\"))",
+      },
+      Object {
+        "output": "2010-05-10",
+        "template": "@(date(\\"10/05/2010\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(date(\\"NOT DATE\\"))",
+      },
+    ],
+    "signature": "date(value)",
+    "summary": "Tries to convert \`value\` to a date.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2017-01-15",
+        "template": "@(date_from_parts(2017, 1, 15))",
+      },
+      Object {
+        "output": "2017-03-03",
+        "template": "@(date_from_parts(2017, 2, 31))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(date_from_parts(2017, 13, 15))",
+      },
+    ],
+    "signature": "date_from_parts(year, month, day)",
+    "summary": "Creates a date from \`year\`, \`month\` and \`day\`.",
+  },
+  Object {
+    "detail": "If it is text then it will be parsed into a datetime using the default date
+and time formats. An error is returned if the value can't be converted.",
     "examples": Array [
       Object {
         "output": "1979-07-18T00:00:00.000000-05:00",
@@ -2114,15 +2323,15 @@ Array [
       },
       Object {
         "output": "2010-05-10T00:00:00.000000-05:00",
-        "template": "@(datetime(\\"2010 05 10\\"))",
+        "template": "@(datetime(\\"10/05/2010\\"))",
       },
       Object {
         "output": "ERROR",
         "template": "@(datetime(\\"NOT DATE\\"))",
       },
     ],
-    "signature": "datetime(text)",
-    "summary": "Parses \`text\` into a date using to the default date format.",
+    "signature": "datetime(value)",
+    "summary": "Tries to convert \`value\` to a datetime.",
   },
   Object {
     "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
@@ -2137,8 +2346,8 @@ Array [
         "template": "@(datetime_add(\\"2017-01-15 10:45\\", 30, \\"m\\"))",
       },
     ],
-    "signature": "datetime_add(date, offset, unit)",
-    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`date\`",
+    "signature": "datetime_add(datetime, offset, unit)",
+    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`datetime\`",
   },
   Object {
     "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
@@ -2172,28 +2381,184 @@ Array [
     "detail": "",
     "examples": Array [
       Object {
-        "output": "2017-01-15T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 1, 15))",
+        "output": "2017-06-12T11:56:59.000000-05:00",
+        "template": "@(datetime_from_epoch(1497286619))",
       },
       Object {
-        "output": "2017-03-03T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 2, 31))",
+        "output": "2017-06-12T11:56:59.123456-05:00",
+        "template": "@(datetime_from_epoch(1497286619.123456))",
+      },
+    ],
+    "signature": "datetime_from_epoch(seconds)",
+    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "date" 1`] = `
+Array [
+  Object {
+    "detail": "If it is text then it will be parsed into a date using the default date format.
+An error is returned if the value can't be converted.",
+    "examples": Array [
+      Object {
+        "output": "1979-07-18",
+        "template": "@(date(\\"1979-07-18\\"))",
+      },
+      Object {
+        "output": "1979-07-18",
+        "template": "@(date(\\"1979-07-18T10:30:45.123456Z\\"))",
+      },
+      Object {
+        "output": "2010-05-10",
+        "template": "@(date(\\"10/05/2010\\"))",
       },
       Object {
         "output": "ERROR",
-        "template": "@(datetime_from_parts(2017, 13, 15))",
+        "template": "@(date(\\"NOT DATE\\"))",
       },
     ],
-    "signature": "datetime_from_parts(year, month, day)",
+    "signature": "date(value)",
+    "summary": "Tries to convert \`value\` to a date.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2017-01-15",
+        "template": "@(date_from_parts(2017, 1, 15))",
+      },
+      Object {
+        "output": "2017-03-03",
+        "template": "@(date_from_parts(2017, 2, 31))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(date_from_parts(2017, 13, 15))",
+      },
+    ],
+    "signature": "date_from_parts(year, month, day)",
+    "summary": "Creates a date from \`year\`, \`month\` and \`day\`.",
+  },
+  Object {
+    "detail": "If it is text then it will be parsed into a datetime using the default date
+and time formats. An error is returned if the value can't be converted.",
+    "examples": Array [
+      Object {
+        "output": "1979-07-18T00:00:00.000000-05:00",
+        "template": "@(datetime(\\"1979-07-18\\"))",
+      },
+      Object {
+        "output": "1979-07-18T10:30:45.123456Z",
+        "template": "@(datetime(\\"1979-07-18T10:30:45.123456Z\\"))",
+      },
+      Object {
+        "output": "2010-05-10T00:00:00.000000-05:00",
+        "template": "@(datetime(\\"10/05/2010\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(datetime(\\"NOT DATE\\"))",
+      },
+    ],
+    "signature": "datetime(value)",
+    "summary": "Tries to convert \`value\` to a datetime.",
+  },
+  Object {
+    "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
+\\"m\\" for minutes, \\"s\\" for seconds",
+    "examples": Array [
+      Object {
+        "output": "2017-01-20T00:00:00.000000-05:00",
+        "template": "@(datetime_add(\\"2017-01-15\\", 5, \\"D\\"))",
+      },
+      Object {
+        "output": "2017-01-15T11:15:00.000000-05:00",
+        "template": "@(datetime_add(\\"2017-01-15 10:45\\", 30, \\"m\\"))",
+      },
+    ],
+    "signature": "datetime_add(datetime, offset, unit)",
+    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`datetime\`",
+  },
+  Object {
+    "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
+\\"m\\" for minutes, \\"s\\" for seconds.",
+    "examples": Array [
+      Object {
+        "output": "2",
+        "template": "@(datetime_diff(\\"2017-01-15\\", \\"2017-01-17\\", \\"D\\"))",
+      },
+      Object {
+        "output": "17",
+        "template": "@(datetime_diff(\\"2017-01-15\\", \\"2017-05-15\\", \\"W\\"))",
+      },
+      Object {
+        "output": "4",
+        "template": "@(datetime_diff(\\"2017-01-15\\", \\"2017-05-15\\", \\"M\\"))",
+      },
+      Object {
+        "output": "1",
+        "template": "@(datetime_diff(\\"2017-01-17 10:50\\", \\"2017-01-17 12:30\\", \\"h\\"))",
+      },
+      Object {
+        "output": "-2",
+        "template": "@(datetime_diff(\\"2017-01-17\\", \\"2015-12-17\\", \\"Y\\"))",
+      },
+    ],
+    "signature": "datetime_diff(date1, date2, unit)",
+    "summary": "Returns the duration between \`date1\` and \`date2\` in the \`unit\` specified.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2017-06-12T11:56:59.000000-05:00",
+        "template": "@(datetime_from_epoch(1497286619))",
+      },
+      Object {
+        "output": "2017-06-12T11:56:59.123456-05:00",
+        "template": "@(datetime_from_epoch(1497286619.123456))",
+      },
+    ],
+    "signature": "datetime_from_epoch(seconds)",
+    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "date." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "date_from_parts" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2017-01-15",
+        "template": "@(date_from_parts(2017, 1, 15))",
+      },
+      Object {
+        "output": "2017-03-03",
+        "template": "@(date_from_parts(2017, 2, 31))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(date_from_parts(2017, 13, 15))",
+      },
+    ],
+    "signature": "date_from_parts(year, month, day)",
     "summary": "Creates a date from \`year\`, \`month\` and \`day\`.",
   },
 ]
 `;
 
+exports[`helpers filterOptions should filter options for "date_from_parts." 1`] = `Array []`;
+
 exports[`helpers filterOptions should filter options for "datetime" 1`] = `
 Array [
   Object {
-    "detail": "An error is returned if the value can't be converted.",
+    "detail": "If it is text then it will be parsed into a datetime using the default date
+and time formats. An error is returned if the value can't be converted.",
     "examples": Array [
       Object {
         "output": "1979-07-18T00:00:00.000000-05:00",
@@ -2205,15 +2570,15 @@ Array [
       },
       Object {
         "output": "2010-05-10T00:00:00.000000-05:00",
-        "template": "@(datetime(\\"2010 05 10\\"))",
+        "template": "@(datetime(\\"10/05/2010\\"))",
       },
       Object {
         "output": "ERROR",
         "template": "@(datetime(\\"NOT DATE\\"))",
       },
     ],
-    "signature": "datetime(text)",
-    "summary": "Parses \`text\` into a date using to the default date format.",
+    "signature": "datetime(value)",
+    "summary": "Tries to convert \`value\` to a datetime.",
   },
   Object {
     "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
@@ -2228,8 +2593,8 @@ Array [
         "template": "@(datetime_add(\\"2017-01-15 10:45\\", 30, \\"m\\"))",
       },
     ],
-    "signature": "datetime_add(date, offset, unit)",
-    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`date\`",
+    "signature": "datetime_add(datetime, offset, unit)",
+    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`datetime\`",
   },
   Object {
     "detail": "Valid durations are \\"Y\\" for years, \\"M\\" for months, \\"W\\" for weeks, \\"D\\" for days, \\"h\\" for hour,
@@ -2263,20 +2628,16 @@ Array [
     "detail": "",
     "examples": Array [
       Object {
-        "output": "2017-01-15T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 1, 15))",
+        "output": "2017-06-12T11:56:59.000000-05:00",
+        "template": "@(datetime_from_epoch(1497286619))",
       },
       Object {
-        "output": "2017-03-03T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 2, 31))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(datetime_from_parts(2017, 13, 15))",
+        "output": "2017-06-12T11:56:59.123456-05:00",
+        "template": "@(datetime_from_epoch(1497286619.123456))",
       },
     ],
-    "signature": "datetime_from_parts(year, month, day)",
-    "summary": "Creates a date from \`year\`, \`month\` and \`day\`.",
+    "signature": "datetime_from_epoch(seconds)",
+    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
   },
 ]
 `;
@@ -2298,8 +2659,8 @@ Array [
         "template": "@(datetime_add(\\"2017-01-15 10:45\\", 30, \\"m\\"))",
       },
     ],
-    "signature": "datetime_add(date, offset, unit)",
-    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`date\`",
+    "signature": "datetime_add(datetime, offset, unit)",
+    "summary": "Calculates the date value arrived at by adding \`offset\` number of \`unit\` to the \`datetime\`",
   },
 ]
 `;
@@ -2341,31 +2702,27 @@ Array [
 
 exports[`helpers filterOptions should filter options for "datetime_diff." 1`] = `Array []`;
 
-exports[`helpers filterOptions should filter options for "datetime_from_parts" 1`] = `
+exports[`helpers filterOptions should filter options for "datetime_from_epoch" 1`] = `
 Array [
   Object {
     "detail": "",
     "examples": Array [
       Object {
-        "output": "2017-01-15T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 1, 15))",
+        "output": "2017-06-12T11:56:59.000000-05:00",
+        "template": "@(datetime_from_epoch(1497286619))",
       },
       Object {
-        "output": "2017-03-03T00:00:00.000000-05:00",
-        "template": "@(datetime_from_parts(2017, 2, 31))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(datetime_from_parts(2017, 13, 15))",
+        "output": "2017-06-12T11:56:59.123456-05:00",
+        "template": "@(datetime_from_epoch(1497286619.123456))",
       },
     ],
-    "signature": "datetime_from_parts(year, month, day)",
-    "summary": "Creates a date from \`year\`, \`month\` and \`day\`.",
+    "signature": "datetime_from_epoch(seconds)",
+    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
   },
 ]
 `;
 
-exports[`helpers filterOptions should filter options for "datetime_from_parts." 1`] = `Array []`;
+exports[`helpers filterOptions should filter options for "datetime_from_epoch." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "de" 1`] = `
 Array [
@@ -2385,7 +2742,7 @@ Array [
         "template": "@(default(\\"\\", \\"value\\"))",
       },
       Object {
-        "output": "[1,2]",
+        "output": "[1, 2]",
         "template": "@(default(array(1, 2), \\"value\\"))",
       },
       Object {
@@ -2395,6 +2752,10 @@ Array [
       Object {
         "output": "today",
         "template": "@(default(datetime(\\"invalid-date\\"), \\"today\\"))",
+      },
+      Object {
+        "output": "ok",
+        "template": "@(default(format_urn(\\"invalid-urn\\"), \\"ok\\"))",
       },
     ],
     "signature": "default(value, default)",
@@ -2421,7 +2782,7 @@ Array [
         "template": "@(default(\\"\\", \\"value\\"))",
       },
       Object {
-        "output": "[1,2]",
+        "output": "[1, 2]",
         "template": "@(default(array(1, 2), \\"value\\"))",
       },
       Object {
@@ -2431,6 +2792,10 @@ Array [
       Object {
         "output": "today",
         "template": "@(default(datetime(\\"invalid-date\\"), \\"today\\"))",
+      },
+      Object {
+        "output": "ok",
+        "template": "@(default(format_urn(\\"invalid-urn\\"), \\"ok\\"))",
       },
     ],
     "signature": "default(value, default)",
@@ -2465,6 +2830,32 @@ Array [
     ],
     "signature": "epoch(date)",
     "summary": "Converts \`date\` to a UNIX epoch time.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Ryan Lewis",
+        "template": "@(extract(contact, \\"name\\"))",
+      },
+      Object {
+        "output": "Testers",
+        "template": "@(extract(contact.groups[0], \\"name\\"))",
+      },
+    ],
+    "signature": "extract(object, properties)",
+    "summary": "Takes an object and extracts the named property.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{name: Testers}",
+        "template": "@(extract_object(contact.groups[0], \\"name\\"))",
+      },
+    ],
+    "signature": "extract_object(object, properties...)",
+    "summary": "Takes an object and returns a new object by extracting only the named properties.",
   },
 ]
 `;
@@ -2527,6 +2918,88 @@ Array [
 
 exports[`helpers filterOptions should filter options for "epoch." 1`] = `Array []`;
 
+exports[`helpers filterOptions should filter options for "ex" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Ryan Lewis",
+        "template": "@(extract(contact, \\"name\\"))",
+      },
+      Object {
+        "output": "Testers",
+        "template": "@(extract(contact.groups[0], \\"name\\"))",
+      },
+    ],
+    "signature": "extract(object, properties)",
+    "summary": "Takes an object and extracts the named property.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{name: Testers}",
+        "template": "@(extract_object(contact.groups[0], \\"name\\"))",
+      },
+    ],
+    "signature": "extract_object(object, properties...)",
+    "summary": "Takes an object and returns a new object by extracting only the named properties.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "extract" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Ryan Lewis",
+        "template": "@(extract(contact, \\"name\\"))",
+      },
+      Object {
+        "output": "Testers",
+        "template": "@(extract(contact.groups[0], \\"name\\"))",
+      },
+    ],
+    "signature": "extract(object, properties)",
+    "summary": "Takes an object and extracts the named property.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{name: Testers}",
+        "template": "@(extract_object(contact.groups[0], \\"name\\"))",
+      },
+    ],
+    "signature": "extract_object(object, properties...)",
+    "summary": "Takes an object and returns a new object by extracting only the named properties.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "extract." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "extract_object" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{name: Testers}",
+        "template": "@(extract_object(contact.groups[0], \\"name\\"))",
+      },
+    ],
+    "signature": "extract_object(object, properties...)",
+    "summary": "Takes an object and returns a new object by extracting only the named properties.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "extract_object." 1`] = `Array []`;
+
 exports[`helpers filterOptions should filter options for "f" 1`] = `
 Array [
   Object {
@@ -2565,8 +3038,43 @@ Array [
     "summary": "Splits \`text\` using the given \`delimiter\` and returns the field at \`index\`.",
   },
   Object {
-    "detail": "The format string can consist of the following characters. The characters
-' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+    "detail": "If the given function takes more than one argument, you can pass additional arguments after the function.",
+    "examples": Array [
+      Object {
+        "output": "[A, B, C]",
+        "template": "@(foreach(array(\\"a\\", \\"b\\", \\"c\\"), upper))",
+      },
+      Object {
+        "output": "[the, fox, jumped]",
+        "template": "@(foreach(array(\\"the man\\", \\"fox\\", \\"jumped up\\"), word, 0))",
+      },
+    ],
+    "signature": "foreach(values, func, [args...])",
+    "summary": "Creates a new array by applying \`func\` to each value in \`values\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "1,234.567",
+        "template": "@(format(1234.5670))",
+      },
+      Object {
+        "output": "11-04-2018 13:24",
+        "template": "@(format(now()))",
+      },
+      Object {
+        "output": "11-04-2018",
+        "template": "@(format(today()))",
+      },
+    ],
+    "signature": "format(value)",
+    "summary": "Formats \`value\` according to its type.",
+  },
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
 
 * \`YY\`        - last two digits of year 0-99
 * \`YYYY\`      - four digits of year 0000-9999
@@ -2576,7 +3084,7 @@ Array [
 * \`DD\`        - day of month, zero padded 0-31",
     "examples": Array [
       Object {
-        "output": "1979-07-18",
+        "output": "18-07-1979",
         "template": "@(format_date(\\"1979-07-18T15:00:00.000000Z\\"))",
       },
       Object {
@@ -2604,8 +3112,9 @@ Array [
     "summary": "Formats \`date\` as text according to the given \`format\`.",
   },
   Object {
-    "detail": "The format string can consist of the following characters. The characters
-' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
 
 * \`YY\`        - last two digits of year 0-99
 * \`YYYY\`      - four digits of year 0000-9999
@@ -2633,7 +3142,7 @@ as \\"America/Guayaquil\\" or \\"America/Los_Angeles\\". If not specified, the c
 will be used. An error will be returned if the timezone is not recognized.",
     "examples": Array [
       Object {
-        "output": "1979-07-18 10:00",
+        "output": "18-07-1979 10:00",
         "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\"))",
       },
       Object {
@@ -2661,8 +3170,23 @@ will be used. An error will be returned if the timezone is not recognized.",
         "template": "@(format_datetime(\\"NOT DATE\\", \\"YYYY-MM-DD\\"))",
       },
     ],
-    "signature": "format_datetime(date [,format [,timezone]])",
-    "summary": "Formats \`date\` as text according to the given \`format\`.",
+    "signature": "format_datetime(datetime [,format [,timezone]])",
+    "summary": "Formats \`datetime\` as text according to the given \`format\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
+        "template": "@(format_input(input))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_input(\\"NOT INPUT\\"))",
+      },
+    ],
+    "signature": "format_input(urn)",
+    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
   },
   Object {
     "detail": "",
@@ -2683,20 +3207,20 @@ will be used. An error will be returned if the timezone is not recognized.",
     "detail": "An optional third argument \`humanize\` can be false to disable the use of thousand separators.",
     "examples": Array [
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337))",
+        "output": "1,234",
+        "template": "@(format_number(1234))",
       },
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337, 2))",
+        "output": "1,234.567",
+        "template": "@(format_number(1234.5670))",
       },
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337, 2, true))",
+        "output": "1,234.57",
+        "template": "@(format_number(1234.5670, 2, true))",
       },
       Object {
-        "output": "31337",
-        "template": "@(format_number(31337, 0, false))",
+        "output": "1235",
+        "template": "@(format_number(1234.5678, 0, false))",
       },
       Object {
         "output": "ERROR",
@@ -2705,6 +3229,59 @@ will be used. An error will be returned if the timezone is not recognized.",
     ],
     "signature": "format_number(number, places [, humanize])",
     "summary": "Formats \`number\` to the given number of decimal \`places\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
+        "template": "@(format_results(results))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_results(\\"NOT RESULTS\\"))",
+      },
+    ],
+    "signature": "format_results(urn)",
+    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
+  },
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
+
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM",
+    "examples": Array [
+      Object {
+        "output": "14:50",
+        "template": "@(format_time(\\"14:50:30.000000\\"))",
+      },
+      Object {
+        "output": "2:50 pm",
+        "template": "@(format_time(\\"14:50:30.000000\\", \\"h:mm aa\\"))",
+      },
+      Object {
+        "output": "27",
+        "template": "@(format_time(\\"15:00:27.000000\\", \\"s\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_time(\\"NOT TIME\\", \\"hh:mm\\"))",
+      },
+    ],
+    "signature": "format_time(time [,format])",
+    "summary": "Formats \`time\` as text according to the given \`format\`.",
   },
   Object {
     "detail": "",
@@ -2722,16 +3299,12 @@ will be used. An error will be returned if the timezone is not recognized.",
         "template": "@(format_urn(contact.urn))",
       },
       Object {
-        "output": "foo@bar.com",
-        "template": "@(format_urn(contact.urns.mailto.0))",
-      },
-      Object {
-        "output": "",
-        "template": "@(format_urn(contact.urns.telegram.0))",
+        "output": "(206) 555-1212",
+        "template": "@(format_urn(urns.tel))",
       },
       Object {
         "output": "foo@bar.com",
-        "template": "@(format_urn(contact.urns.2))",
+        "template": "@(format_urn(urns.mailto))",
       },
       Object {
         "output": "ERROR",
@@ -2740,21 +3313,6 @@ will be used. An error will be returned if the timezone is not recognized.",
     ],
     "signature": "format_urn(urn)",
     "summary": "Formats \`urn\` into human friendly text.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "2017-06-12T11:56:59.000000-05:00",
-        "template": "@(from_epoch(1497286619))",
-      },
-      Object {
-        "output": "2017-06-12T11:56:59.123456-05:00",
-        "template": "@(from_epoch(1497286619.123456))",
-      },
-    ],
-    "signature": "from_epoch(seconds)",
-    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
   },
 ]
 `;
@@ -2855,8 +3413,43 @@ exports[`helpers filterOptions should filter options for "fields." 1`] = `Array 
 exports[`helpers filterOptions should filter options for "fo" 1`] = `
 Array [
   Object {
-    "detail": "The format string can consist of the following characters. The characters
-' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+    "detail": "If the given function takes more than one argument, you can pass additional arguments after the function.",
+    "examples": Array [
+      Object {
+        "output": "[A, B, C]",
+        "template": "@(foreach(array(\\"a\\", \\"b\\", \\"c\\"), upper))",
+      },
+      Object {
+        "output": "[the, fox, jumped]",
+        "template": "@(foreach(array(\\"the man\\", \\"fox\\", \\"jumped up\\"), word, 0))",
+      },
+    ],
+    "signature": "foreach(values, func, [args...])",
+    "summary": "Creates a new array by applying \`func\` to each value in \`values\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "1,234.567",
+        "template": "@(format(1234.5670))",
+      },
+      Object {
+        "output": "11-04-2018 13:24",
+        "template": "@(format(now()))",
+      },
+      Object {
+        "output": "11-04-2018",
+        "template": "@(format(today()))",
+      },
+    ],
+    "signature": "format(value)",
+    "summary": "Formats \`value\` according to its type.",
+  },
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
 
 * \`YY\`        - last two digits of year 0-99
 * \`YYYY\`      - four digits of year 0000-9999
@@ -2866,7 +3459,7 @@ Array [
 * \`DD\`        - day of month, zero padded 0-31",
     "examples": Array [
       Object {
-        "output": "1979-07-18",
+        "output": "18-07-1979",
         "template": "@(format_date(\\"1979-07-18T15:00:00.000000Z\\"))",
       },
       Object {
@@ -2894,8 +3487,9 @@ Array [
     "summary": "Formats \`date\` as text according to the given \`format\`.",
   },
   Object {
-    "detail": "The format string can consist of the following characters. The characters
-' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
 
 * \`YY\`        - last two digits of year 0-99
 * \`YYYY\`      - four digits of year 0000-9999
@@ -2923,7 +3517,7 @@ as \\"America/Guayaquil\\" or \\"America/Los_Angeles\\". If not specified, the c
 will be used. An error will be returned if the timezone is not recognized.",
     "examples": Array [
       Object {
-        "output": "1979-07-18 10:00",
+        "output": "18-07-1979 10:00",
         "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\"))",
       },
       Object {
@@ -2951,8 +3545,23 @@ will be used. An error will be returned if the timezone is not recognized.",
         "template": "@(format_datetime(\\"NOT DATE\\", \\"YYYY-MM-DD\\"))",
       },
     ],
-    "signature": "format_datetime(date [,format [,timezone]])",
-    "summary": "Formats \`date\` as text according to the given \`format\`.",
+    "signature": "format_datetime(datetime [,format [,timezone]])",
+    "summary": "Formats \`datetime\` as text according to the given \`format\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
+        "template": "@(format_input(input))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_input(\\"NOT INPUT\\"))",
+      },
+    ],
+    "signature": "format_input(urn)",
+    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
   },
   Object {
     "detail": "",
@@ -2973,20 +3582,20 @@ will be used. An error will be returned if the timezone is not recognized.",
     "detail": "An optional third argument \`humanize\` can be false to disable the use of thousand separators.",
     "examples": Array [
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337))",
+        "output": "1,234",
+        "template": "@(format_number(1234))",
       },
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337, 2))",
+        "output": "1,234.567",
+        "template": "@(format_number(1234.5670))",
       },
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337, 2, true))",
+        "output": "1,234.57",
+        "template": "@(format_number(1234.5670, 2, true))",
       },
       Object {
-        "output": "31337",
-        "template": "@(format_number(31337, 0, false))",
+        "output": "1235",
+        "template": "@(format_number(1234.5678, 0, false))",
       },
       Object {
         "output": "ERROR",
@@ -2995,6 +3604,59 @@ will be used. An error will be returned if the timezone is not recognized.",
     ],
     "signature": "format_number(number, places [, humanize])",
     "summary": "Formats \`number\` to the given number of decimal \`places\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
+        "template": "@(format_results(results))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_results(\\"NOT RESULTS\\"))",
+      },
+    ],
+    "signature": "format_results(urn)",
+    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
+  },
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
+
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM",
+    "examples": Array [
+      Object {
+        "output": "14:50",
+        "template": "@(format_time(\\"14:50:30.000000\\"))",
+      },
+      Object {
+        "output": "2:50 pm",
+        "template": "@(format_time(\\"14:50:30.000000\\", \\"h:mm aa\\"))",
+      },
+      Object {
+        "output": "27",
+        "template": "@(format_time(\\"15:00:27.000000\\", \\"s\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_time(\\"NOT TIME\\", \\"hh:mm\\"))",
+      },
+    ],
+    "signature": "format_time(time [,format])",
+    "summary": "Formats \`time\` as text according to the given \`format\`.",
   },
   Object {
     "detail": "",
@@ -3012,16 +3674,12 @@ will be used. An error will be returned if the timezone is not recognized.",
         "template": "@(format_urn(contact.urn))",
       },
       Object {
-        "output": "foo@bar.com",
-        "template": "@(format_urn(contact.urns.mailto.0))",
-      },
-      Object {
-        "output": "",
-        "template": "@(format_urn(contact.urns.telegram.0))",
+        "output": "(206) 555-1212",
+        "template": "@(format_urn(urns.tel))",
       },
       Object {
         "output": "foo@bar.com",
-        "template": "@(format_urn(contact.urns.2))",
+        "template": "@(format_urn(urns.mailto))",
       },
       Object {
         "output": "ERROR",
@@ -3034,11 +3692,53 @@ will be used. An error will be returned if the timezone is not recognized.",
 ]
 `;
 
-exports[`helpers filterOptions should filter options for "format_date" 1`] = `
+exports[`helpers filterOptions should filter options for "foreach" 1`] = `
 Array [
   Object {
-    "detail": "The format string can consist of the following characters. The characters
-' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+    "detail": "If the given function takes more than one argument, you can pass additional arguments after the function.",
+    "examples": Array [
+      Object {
+        "output": "[A, B, C]",
+        "template": "@(foreach(array(\\"a\\", \\"b\\", \\"c\\"), upper))",
+      },
+      Object {
+        "output": "[the, fox, jumped]",
+        "template": "@(foreach(array(\\"the man\\", \\"fox\\", \\"jumped up\\"), word, 0))",
+      },
+    ],
+    "signature": "foreach(values, func, [args...])",
+    "summary": "Creates a new array by applying \`func\` to each value in \`values\`.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "foreach." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "format" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "1,234.567",
+        "template": "@(format(1234.5670))",
+      },
+      Object {
+        "output": "11-04-2018 13:24",
+        "template": "@(format(now()))",
+      },
+      Object {
+        "output": "11-04-2018",
+        "template": "@(format(today()))",
+      },
+    ],
+    "signature": "format(value)",
+    "summary": "Formats \`value\` according to its type.",
+  },
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
 
 * \`YY\`        - last two digits of year 0-99
 * \`YYYY\`      - four digits of year 0000-9999
@@ -3048,7 +3748,7 @@ Array [
 * \`DD\`        - day of month, zero padded 0-31",
     "examples": Array [
       Object {
-        "output": "1979-07-18",
+        "output": "18-07-1979",
         "template": "@(format_date(\\"1979-07-18T15:00:00.000000Z\\"))",
       },
       Object {
@@ -3076,8 +3776,9 @@ Array [
     "summary": "Formats \`date\` as text according to the given \`format\`.",
   },
   Object {
-    "detail": "The format string can consist of the following characters. The characters
-' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
 
 * \`YY\`        - last two digits of year 0-99
 * \`YYYY\`      - four digits of year 0000-9999
@@ -3105,7 +3806,7 @@ as \\"America/Guayaquil\\" or \\"America/Los_Angeles\\". If not specified, the c
 will be used. An error will be returned if the timezone is not recognized.",
     "examples": Array [
       Object {
-        "output": "1979-07-18 10:00",
+        "output": "18-07-1979 10:00",
         "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\"))",
       },
       Object {
@@ -3133,8 +3834,258 @@ will be used. An error will be returned if the timezone is not recognized.",
         "template": "@(format_datetime(\\"NOT DATE\\", \\"YYYY-MM-DD\\"))",
       },
     ],
-    "signature": "format_datetime(date [,format [,timezone]])",
+    "signature": "format_datetime(datetime [,format [,timezone]])",
+    "summary": "Formats \`datetime\` as text according to the given \`format\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
+        "template": "@(format_input(input))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_input(\\"NOT INPUT\\"))",
+      },
+    ],
+    "signature": "format_input(urn)",
+    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Rwanda",
+        "template": "@(format_location(\\"Rwanda\\"))",
+      },
+      Object {
+        "output": "Kigali",
+        "template": "@(format_location(\\"Rwanda > Kigali\\"))",
+      },
+    ],
+    "signature": "format_location(location)",
+    "summary": "Formats the given \`location\` as its name.",
+  },
+  Object {
+    "detail": "An optional third argument \`humanize\` can be false to disable the use of thousand separators.",
+    "examples": Array [
+      Object {
+        "output": "1,234",
+        "template": "@(format_number(1234))",
+      },
+      Object {
+        "output": "1,234.567",
+        "template": "@(format_number(1234.5670))",
+      },
+      Object {
+        "output": "1,234.57",
+        "template": "@(format_number(1234.5670, 2, true))",
+      },
+      Object {
+        "output": "1235",
+        "template": "@(format_number(1234.5678, 0, false))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_number(\\"foo\\", 2, false))",
+      },
+    ],
+    "signature": "format_number(number, places [, humanize])",
+    "summary": "Formats \`number\` to the given number of decimal \`places\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
+        "template": "@(format_results(results))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_results(\\"NOT RESULTS\\"))",
+      },
+    ],
+    "signature": "format_results(urn)",
+    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
+  },
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
+
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM",
+    "examples": Array [
+      Object {
+        "output": "14:50",
+        "template": "@(format_time(\\"14:50:30.000000\\"))",
+      },
+      Object {
+        "output": "2:50 pm",
+        "template": "@(format_time(\\"14:50:30.000000\\", \\"h:mm aa\\"))",
+      },
+      Object {
+        "output": "27",
+        "template": "@(format_time(\\"15:00:27.000000\\", \\"s\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_time(\\"NOT TIME\\", \\"hh:mm\\"))",
+      },
+    ],
+    "signature": "format_time(time [,format])",
+    "summary": "Formats \`time\` as text according to the given \`format\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "0781 234 567",
+        "template": "@(format_urn(\\"tel:+250781234567\\"))",
+      },
+      Object {
+        "output": "billy_bob",
+        "template": "@(format_urn(\\"twitter:134252511151#billy_bob\\"))",
+      },
+      Object {
+        "output": "(206) 555-1212",
+        "template": "@(format_urn(contact.urn))",
+      },
+      Object {
+        "output": "(206) 555-1212",
+        "template": "@(format_urn(urns.tel))",
+      },
+      Object {
+        "output": "foo@bar.com",
+        "template": "@(format_urn(urns.mailto))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_urn(\\"NOT URN\\"))",
+      },
+    ],
+    "signature": "format_urn(urn)",
+    "summary": "Formats \`urn\` into human friendly text.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "format." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "format_date" 1`] = `
+Array [
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
+
+* \`YY\`        - last two digits of year 0-99
+* \`YYYY\`      - four digits of year 0000-9999
+* \`M\`         - month 1-12
+* \`MM\`        - month 01-12
+* \`D\`         - day of month, 1-31
+* \`DD\`        - day of month, zero padded 0-31",
+    "examples": Array [
+      Object {
+        "output": "18-07-1979",
+        "template": "@(format_date(\\"1979-07-18T15:00:00.000000Z\\"))",
+      },
+      Object {
+        "output": "1979-07-18",
+        "template": "@(format_date(\\"1979-07-18T15:00:00.000000Z\\", \\"YYYY-MM-DD\\"))",
+      },
+      Object {
+        "output": "2010 5 10",
+        "template": "@(format_date(\\"2010-05-10T19:50:00.000000Z\\", \\"YYYY M DD\\"))",
+      },
+      Object {
+        "output": "1979",
+        "template": "@(format_date(\\"1979-07-18T15:00:00.000000Z\\", \\"YYYY\\"))",
+      },
+      Object {
+        "output": "7",
+        "template": "@(format_date(\\"1979-07-18T15:00:00.000000Z\\", \\"M\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_date(\\"NOT DATE\\", \\"YYYY-MM-DD\\"))",
+      },
+    ],
+    "signature": "format_date(date, [,format])",
     "summary": "Formats \`date\` as text according to the given \`format\`.",
+  },
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
+
+* \`YY\`        - last two digits of year 0-99
+* \`YYYY\`      - four digits of year 0000-9999
+* \`M\`         - month 1-12
+* \`MM\`        - month 01-12
+* \`D\`         - day of month, 1-31
+* \`DD\`        - day of month, zero padded 0-31
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM
+* \`Z\`         - hour and minute offset from UTC, or Z for UTC
+* \`ZZZ\`       - hour and minute offset from UTC
+
+Timezone should be a location name as specified in the IANA Time Zone database, such
+as \\"America/Guayaquil\\" or \\"America/Los_Angeles\\". If not specified, the current timezone
+will be used. An error will be returned if the timezone is not recognized.",
+    "examples": Array [
+      Object {
+        "output": "18-07-1979 10:00",
+        "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\"))",
+      },
+      Object {
+        "output": "1979-07-18",
+        "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\", \\"YYYY-MM-DD\\"))",
+      },
+      Object {
+        "output": "2010 5 10 14:50",
+        "template": "@(format_datetime(\\"2010-05-10T19:50:00.000000Z\\", \\"YYYY M DD tt:mm\\"))",
+      },
+      Object {
+        "output": "2010-05-10 12:50 PM",
+        "template": "@(format_datetime(\\"2010-05-10T19:50:00.000000Z\\", \\"YYYY-MM-DD tt:mm AA\\", \\"America/Los_Angeles\\"))",
+      },
+      Object {
+        "output": "1979",
+        "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\", \\"YYYY\\"))",
+      },
+      Object {
+        "output": "7",
+        "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\", \\"M\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_datetime(\\"NOT DATE\\", \\"YYYY-MM-DD\\"))",
+      },
+    ],
+    "signature": "format_datetime(datetime [,format [,timezone]])",
+    "summary": "Formats \`datetime\` as text according to the given \`format\`.",
   },
 ]
 `;
@@ -3144,8 +4095,9 @@ exports[`helpers filterOptions should filter options for "format_date." 1`] = `A
 exports[`helpers filterOptions should filter options for "format_datetime" 1`] = `
 Array [
   Object {
-    "detail": "The format string can consist of the following characters. The characters
-' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
 
 * \`YY\`        - last two digits of year 0-99
 * \`YYYY\`      - four digits of year 0000-9999
@@ -3173,7 +4125,7 @@ as \\"America/Guayaquil\\" or \\"America/Los_Angeles\\". If not specified, the c
 will be used. An error will be returned if the timezone is not recognized.",
     "examples": Array [
       Object {
-        "output": "1979-07-18 10:00",
+        "output": "18-07-1979 10:00",
         "template": "@(format_datetime(\\"1979-07-18T15:00:00.000000Z\\"))",
       },
       Object {
@@ -3201,13 +4153,35 @@ will be used. An error will be returned if the timezone is not recognized.",
         "template": "@(format_datetime(\\"NOT DATE\\", \\"YYYY-MM-DD\\"))",
       },
     ],
-    "signature": "format_datetime(date [,format [,timezone]])",
-    "summary": "Formats \`date\` as text according to the given \`format\`.",
+    "signature": "format_datetime(datetime [,format [,timezone]])",
+    "summary": "Formats \`datetime\` as text according to the given \`format\`.",
   },
 ]
 `;
 
 exports[`helpers filterOptions should filter options for "format_datetime." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "format_input" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
+        "template": "@(format_input(input))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_input(\\"NOT INPUT\\"))",
+      },
+    ],
+    "signature": "format_input(urn)",
+    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "format_input." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "format_location" 1`] = `
 Array [
@@ -3237,20 +4211,20 @@ Array [
     "detail": "An optional third argument \`humanize\` can be false to disable the use of thousand separators.",
     "examples": Array [
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337))",
+        "output": "1,234",
+        "template": "@(format_number(1234))",
       },
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337, 2))",
+        "output": "1,234.567",
+        "template": "@(format_number(1234.5670))",
       },
       Object {
-        "output": "31,337.00",
-        "template": "@(format_number(31337, 2, true))",
+        "output": "1,234.57",
+        "template": "@(format_number(1234.5670, 2, true))",
       },
       Object {
-        "output": "31337",
-        "template": "@(format_number(31337, 0, false))",
+        "output": "1235",
+        "template": "@(format_number(1234.5678, 0, false))",
       },
       Object {
         "output": "ERROR",
@@ -3264,6 +4238,73 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "format_number." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "format_results" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
+        "template": "@(format_results(results))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_results(\\"NOT RESULTS\\"))",
+      },
+    ],
+    "signature": "format_results(urn)",
+    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "format_results." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "format_time" 1`] = `
+Array [
+  Object {
+    "detail": "If \`format\` is not specified then the environment's default format is used. The format
+string can consist of the following characters. The characters ' ', ':', ',', 'T', '-'
+and '_' are ignored. Any other character is an error.
+
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM",
+    "examples": Array [
+      Object {
+        "output": "14:50",
+        "template": "@(format_time(\\"14:50:30.000000\\"))",
+      },
+      Object {
+        "output": "2:50 pm",
+        "template": "@(format_time(\\"14:50:30.000000\\", \\"h:mm aa\\"))",
+      },
+      Object {
+        "output": "27",
+        "template": "@(format_time(\\"15:00:27.000000\\", \\"s\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(format_time(\\"NOT TIME\\", \\"hh:mm\\"))",
+      },
+    ],
+    "signature": "format_time(time [,format])",
+    "summary": "Formats \`time\` as text according to the given \`format\`.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "format_time." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "format_urn" 1`] = `
 Array [
@@ -3283,16 +4324,12 @@ Array [
         "template": "@(format_urn(contact.urn))",
       },
       Object {
-        "output": "foo@bar.com",
-        "template": "@(format_urn(contact.urns.mailto.0))",
-      },
-      Object {
-        "output": "",
-        "template": "@(format_urn(contact.urns.telegram.0))",
+        "output": "(206) 555-1212",
+        "template": "@(format_urn(urns.tel))",
       },
       Object {
         "output": "foo@bar.com",
-        "template": "@(format_urn(contact.urns.2))",
+        "template": "@(format_urn(urns.mailto))",
       },
       Object {
         "output": "ERROR",
@@ -3306,48 +4343,6 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "format_urn." 1`] = `Array []`;
-
-exports[`helpers filterOptions should filter options for "fr" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "2017-06-12T11:56:59.000000-05:00",
-        "template": "@(from_epoch(1497286619))",
-      },
-      Object {
-        "output": "2017-06-12T11:56:59.123456-05:00",
-        "template": "@(from_epoch(1497286619.123456))",
-      },
-    ],
-    "signature": "from_epoch(seconds)",
-    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "from_epoch" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "2017-06-12T11:56:59.000000-05:00",
-        "template": "@(from_epoch(1497286619))",
-      },
-      Object {
-        "output": "2017-06-12T11:56:59.123456-05:00",
-        "template": "@(from_epoch(1497286619.123456))",
-      },
-    ],
-    "signature": "from_epoch(seconds)",
-    "summary": "Converts the UNIX epoch time \`seconds\` into a new date.",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "from_epoch." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "i" 1`] = `
 Array [
@@ -3365,6 +4360,25 @@ Array [
     ],
     "signature": "if(test, value1, value2)",
     "summary": "Returns \`value1\` if \`test\` is truthy or \`value2\` if not.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "true",
+        "template": "@(is_error(datetime(\\"foo\\")))",
+      },
+      Object {
+        "output": "true",
+        "template": "@(is_error(run.not.existing))",
+      },
+      Object {
+        "output": "false",
+        "template": "@(is_error(\\"hello\\"))",
+      },
+    ],
+    "signature": "is_error(value)",
+    "summary": "Returns whether \`value\` is an error",
   },
 ]
 `;
@@ -3390,6 +4404,56 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "if." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "is" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "true",
+        "template": "@(is_error(datetime(\\"foo\\")))",
+      },
+      Object {
+        "output": "true",
+        "template": "@(is_error(run.not.existing))",
+      },
+      Object {
+        "output": "false",
+        "template": "@(is_error(\\"hello\\"))",
+      },
+    ],
+    "signature": "is_error(value)",
+    "summary": "Returns whether \`value\` is an error",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "is_error" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "true",
+        "template": "@(is_error(datetime(\\"foo\\")))",
+      },
+      Object {
+        "output": "true",
+        "template": "@(is_error(run.not.existing))",
+      },
+      Object {
+        "output": "false",
+        "template": "@(is_error(\\"hello\\"))",
+      },
+    ],
+    "signature": "is_error(value)",
+    "summary": "Returns whether \`value\` is an error",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "is_error." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "j" 1`] = `
 Array [
@@ -3418,6 +4482,10 @@ Array [
       Object {
         "output": "10",
         "template": "@(json(10))",
+      },
+      Object {
+        "output": "null",
+        "template": "@(json(null))",
       },
       Object {
         "output": "\\"5d76d86b-3bb9-4d5a-b822-c9d86f5d8e4f\\"",
@@ -3486,6 +4554,10 @@ Array [
         "template": "@(json(10))",
       },
       Object {
+        "output": "null",
+        "template": "@(json(null))",
+      },
+      Object {
         "output": "\\"5d76d86b-3bb9-4d5a-b822-c9d86f5d8e4f\\"",
         "template": "@(json(contact.uuid))",
       },
@@ -3508,6 +4580,10 @@ Array [
       Object {
         "output": "10",
         "template": "@(json(10))",
+      },
+      Object {
+        "output": "null",
+        "template": "@(json(null))",
       },
       Object {
         "output": "\\"5d76d86b-3bb9-4d5a-b822-c9d86f5d8e4f\\"",
@@ -3546,33 +4622,6 @@ Array [
     ],
     "signature": "left(text, count)",
     "summary": "Returns the \`count\` left-most characters in \`text\`",
-  },
-  Object {
-    "detail": "length will return an error if it is passed an item which doesn't have length.",
-    "examples": Array [
-      Object {
-        "output": "5",
-        "template": "@(length(\\"Hello\\"))",
-      },
-      Object {
-        "output": "4",
-        "template": "@(length(\\"😀😃😄😁\\"))",
-      },
-      Object {
-        "output": "0",
-        "template": "@(length(array()))",
-      },
-      Object {
-        "output": "3",
-        "template": "@(length(array(\\"a\\", \\"b\\", \\"c\\")))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(length(1234))",
-      },
-    ],
-    "signature": "length(value)",
-    "summary": "Returns the length of the passed in text or array.",
   },
   Object {
     "detail": "",
@@ -3625,33 +4674,6 @@ Array [
     "signature": "left(text, count)",
     "summary": "Returns the \`count\` left-most characters in \`text\`",
   },
-  Object {
-    "detail": "length will return an error if it is passed an item which doesn't have length.",
-    "examples": Array [
-      Object {
-        "output": "5",
-        "template": "@(length(\\"Hello\\"))",
-      },
-      Object {
-        "output": "4",
-        "template": "@(length(\\"😀😃😄😁\\"))",
-      },
-      Object {
-        "output": "0",
-        "template": "@(length(array()))",
-      },
-      Object {
-        "output": "3",
-        "template": "@(length(array(\\"a\\", \\"b\\", \\"c\\")))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(length(1234))",
-      },
-    ],
-    "signature": "length(value)",
-    "summary": "Returns the length of the passed in text or array.",
-  },
 ]
 `;
 
@@ -3684,40 +4706,6 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "left." 1`] = `Array []`;
-
-exports[`helpers filterOptions should filter options for "length" 1`] = `
-Array [
-  Object {
-    "detail": "length will return an error if it is passed an item which doesn't have length.",
-    "examples": Array [
-      Object {
-        "output": "5",
-        "template": "@(length(\\"Hello\\"))",
-      },
-      Object {
-        "output": "4",
-        "template": "@(length(\\"😀😃😄😁\\"))",
-      },
-      Object {
-        "output": "0",
-        "template": "@(length(array()))",
-      },
-      Object {
-        "output": "3",
-        "template": "@(length(array(\\"a\\", \\"b\\", \\"c\\")))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(length(1234))",
-      },
-    ],
-    "signature": "length(value)",
-    "summary": "Returns the length of the passed in text or array.",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "length." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "lo" 1`] = `
 Array [
@@ -3795,8 +4783,8 @@ Array [
         "template": "@(max(1, 10, \\"foo\\"))",
       },
     ],
-    "signature": "max(values...)",
-    "summary": "Returns the maximum value in \`values\`.",
+    "signature": "max(numbers...)",
+    "summary": "Returns the maximum value in \`numbers\`.",
   },
   Object {
     "detail": "",
@@ -3814,8 +4802,8 @@ Array [
         "template": "@(mean(1, \\"foo\\"))",
       },
     ],
-    "signature": "mean(values)",
-    "summary": "Returns the arithmetic mean of the numbers in \`values\`.",
+    "signature": "mean(numbers...)",
+    "summary": "Returns the arithmetic mean of \`numbers\`.",
   },
   Object {
     "detail": "",
@@ -3833,8 +4821,8 @@ Array [
         "template": "@(min(1, 2, \\"foo\\"))",
       },
     ],
-    "signature": "min(values)",
-    "summary": "Returns the minimum value in \`values\`.",
+    "signature": "min(numbers...)",
+    "summary": "Returns the minimum value in \`numbers\`.",
   },
   Object {
     "detail": "",
@@ -3876,8 +4864,8 @@ Array [
         "template": "@(max(1, 10, \\"foo\\"))",
       },
     ],
-    "signature": "max(values...)",
-    "summary": "Returns the maximum value in \`values\`.",
+    "signature": "max(numbers...)",
+    "summary": "Returns the maximum value in \`numbers\`.",
   },
 ]
 `;
@@ -3900,8 +4888,8 @@ Array [
         "template": "@(max(1, 10, \\"foo\\"))",
       },
     ],
-    "signature": "max(values...)",
-    "summary": "Returns the maximum value in \`values\`.",
+    "signature": "max(numbers...)",
+    "summary": "Returns the maximum value in \`numbers\`.",
   },
 ]
 `;
@@ -3926,8 +4914,8 @@ Array [
         "template": "@(mean(1, \\"foo\\"))",
       },
     ],
-    "signature": "mean(values)",
-    "summary": "Returns the arithmetic mean of the numbers in \`values\`.",
+    "signature": "mean(numbers...)",
+    "summary": "Returns the arithmetic mean of \`numbers\`.",
   },
 ]
 `;
@@ -3950,8 +4938,8 @@ Array [
         "template": "@(mean(1, \\"foo\\"))",
       },
     ],
-    "signature": "mean(values)",
-    "summary": "Returns the arithmetic mean of the numbers in \`values\`.",
+    "signature": "mean(numbers...)",
+    "summary": "Returns the arithmetic mean of \`numbers\`.",
   },
 ]
 `;
@@ -3976,8 +4964,8 @@ Array [
         "template": "@(min(1, 2, \\"foo\\"))",
       },
     ],
-    "signature": "min(values)",
-    "summary": "Returns the minimum value in \`values\`.",
+    "signature": "min(numbers...)",
+    "summary": "Returns the minimum value in \`numbers\`.",
   },
 ]
 `;
@@ -4000,8 +4988,8 @@ Array [
         "template": "@(min(1, 2, \\"foo\\"))",
       },
     ],
-    "signature": "min(values)",
-    "summary": "Returns the minimum value in \`values\`.",
+    "signature": "min(numbers...)",
+    "summary": "Returns the minimum value in \`numbers\`.",
   },
 ]
 `;
@@ -4183,6 +5171,25 @@ Array [
     "detail": "",
     "examples": Array [
       Object {
+        "output": "{}",
+        "template": "@(object())",
+      },
+      Object {
+        "output": "{a: 123, b: hello}",
+        "template": "@(object(\\"a\\", 123, \\"b\\", \\"hello\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(object(\\"a\\"))",
+      },
+    ],
+    "signature": "object(pairs...)",
+    "summary": "Takes property name value pairs and returns them as a new object.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
         "output": "true",
         "template": "@(or(true))",
       },
@@ -4196,6 +5203,56 @@ Array [
   },
 ]
 `;
+
+exports[`helpers filterOptions should filter options for "ob" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{}",
+        "template": "@(object())",
+      },
+      Object {
+        "output": "{a: 123, b: hello}",
+        "template": "@(object(\\"a\\", 123, \\"b\\", \\"hello\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(object(\\"a\\"))",
+      },
+    ],
+    "signature": "object(pairs...)",
+    "summary": "Takes property name value pairs and returns them as a new object.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "object" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{}",
+        "template": "@(object())",
+      },
+      Object {
+        "output": "{a: 123, b: hello}",
+        "template": "@(object(\\"a\\", 123, \\"b\\", \\"hello\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(object(\\"a\\"))",
+      },
+    ],
+    "signature": "object(pairs...)",
+    "summary": "Takes property name value pairs and returns them as a new object.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "object." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "or" 1`] = `
 Array [
@@ -4289,7 +5346,7 @@ parse_datetime will return an error if it is unable to convert the text to a dat
       },
       Object {
         "output": "3",
-        "template": "@(parse_json(\\"[1,2,3,4]\\").2)",
+        "template": "@(parse_json(\\"[1,2,3,4]\\")[2])",
       },
       Object {
         "output": "ERROR",
@@ -4298,6 +5355,45 @@ parse_datetime will return an error if it is unable to convert the text to a dat
     ],
     "signature": "parse_json(text)",
     "summary": "Tries to parse \`text\` as JSON.",
+  },
+  Object {
+    "detail": "The format string can consist of the following characters. The characters
+' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM
+
+Note that fractional seconds will be parsed even without an explicit format identifier.
+You should only specify fractional seconds when you want to assert the number of places
+in the input format.
+
+parse_time will return an error if it is unable to convert the text to a time.",
+    "examples": Array [
+      Object {
+        "output": "15:28:00.000000",
+        "template": "@(parse_time(\\"15:28\\", \\"tt:mm\\"))",
+      },
+      Object {
+        "output": "14:40:00.000000",
+        "template": "@(parse_time(\\"2:40 pm\\", \\"h:mm aa\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(parse_time(\\"NOT TIME\\", \\"tt:mm\\"))",
+      },
+    ],
+    "signature": "parse_time(text, format)",
+    "summary": "Parses \`text\` into a time using the given \`format\`.",
   },
   Object {
     "detail": "",
@@ -4315,8 +5411,8 @@ parse_datetime will return an error if it is unable to convert the text to a dat
         "template": "@(percent(\\"foo\\"))",
       },
     ],
-    "signature": "percent(num)",
-    "summary": "Formats \`num\` as a percentage.",
+    "signature": "percent(number)",
+    "summary": "Formats \`number\` as a percentage.",
   },
 ]
 `;
@@ -4391,7 +5487,7 @@ parse_datetime will return an error if it is unable to convert the text to a dat
       },
       Object {
         "output": "3",
-        "template": "@(parse_json(\\"[1,2,3,4]\\").2)",
+        "template": "@(parse_json(\\"[1,2,3,4]\\")[2])",
       },
       Object {
         "output": "ERROR",
@@ -4400,6 +5496,45 @@ parse_datetime will return an error if it is unable to convert the text to a dat
     ],
     "signature": "parse_json(text)",
     "summary": "Tries to parse \`text\` as JSON.",
+  },
+  Object {
+    "detail": "The format string can consist of the following characters. The characters
+' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM
+
+Note that fractional seconds will be parsed even without an explicit format identifier.
+You should only specify fractional seconds when you want to assert the number of places
+in the input format.
+
+parse_time will return an error if it is unable to convert the text to a time.",
+    "examples": Array [
+      Object {
+        "output": "15:28:00.000000",
+        "template": "@(parse_time(\\"15:28\\", \\"tt:mm\\"))",
+      },
+      Object {
+        "output": "14:40:00.000000",
+        "template": "@(parse_time(\\"2:40 pm\\", \\"h:mm aa\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(parse_time(\\"NOT TIME\\", \\"tt:mm\\"))",
+      },
+    ],
+    "signature": "parse_time(text, format)",
+    "summary": "Parses \`text\` into a time using the given \`format\`.",
   },
 ]
 `;
@@ -5518,7 +6653,7 @@ Array [
       },
       Object {
         "output": "3",
-        "template": "@(parse_json(\\"[1,2,3,4]\\").2)",
+        "template": "@(parse_json(\\"[1,2,3,4]\\")[2])",
       },
       Object {
         "output": "ERROR",
@@ -5532,6 +6667,52 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "parse_json." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "parse_time" 1`] = `
+Array [
+  Object {
+    "detail": "The format string can consist of the following characters. The characters
+' ', ':', ',', 'T', '-' and '_' are ignored. Any other character is an error.
+
+* \`h\`         - hour of the day 1-12
+* \`hh\`        - hour of the day 01-12
+* \`tt\`        - twenty four hour of the day 01-23
+* \`m\`         - minute 0-59
+* \`mm\`        - minute 00-59
+* \`s\`         - second 0-59
+* \`ss\`        - second 00-59
+* \`fff\`       - milliseconds
+* \`ffffff\`    - microseconds
+* \`fffffffff\` - nanoseconds
+* \`aa\`        - am or pm
+* \`AA\`        - AM or PM
+
+Note that fractional seconds will be parsed even without an explicit format identifier.
+You should only specify fractional seconds when you want to assert the number of places
+in the input format.
+
+parse_time will return an error if it is unable to convert the text to a time.",
+    "examples": Array [
+      Object {
+        "output": "15:28:00.000000",
+        "template": "@(parse_time(\\"15:28\\", \\"tt:mm\\"))",
+      },
+      Object {
+        "output": "14:40:00.000000",
+        "template": "@(parse_time(\\"2:40 pm\\", \\"h:mm aa\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(parse_time(\\"NOT TIME\\", \\"tt:mm\\"))",
+      },
+    ],
+    "signature": "parse_time(text, format)",
+    "summary": "Parses \`text\` into a time using the given \`format\`.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parse_time." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "pe" 1`] = `
 Array [
@@ -5551,8 +6732,8 @@ Array [
         "template": "@(percent(\\"foo\\"))",
       },
     ],
-    "signature": "percent(num)",
-    "summary": "Formats \`num\` as a percentage.",
+    "signature": "percent(number)",
+    "summary": "Formats \`number\` as a percentage.",
   },
 ]
 `;
@@ -5575,8 +6756,8 @@ Array [
         "template": "@(percent(\\"foo\\"))",
       },
     ],
-    "signature": "percent(num)",
-    "summary": "Formats \`num\` as a percentage.",
+    "signature": "percent(number)",
+    "summary": "Formats \`number\` as a percentage.",
   },
 ]
 `;
@@ -5677,6 +6858,10 @@ splitting in 3s or 4s if appropriate.",
         "output": "bar",
         "template": "@(remove_first_word(\\"foo bar\\"))",
       },
+      Object {
+        "output": "there. I'm a flow!",
+        "template": "@(remove_first_word(\\"Hi there. I'm a flow!\\"))",
+      },
     ],
     "signature": "remove_first_word(text)",
     "summary": "Removes the first word of \`text\`.",
@@ -5710,6 +6895,25 @@ splitting in 3s or 4s if appropriate.",
     ],
     "signature": "replace(text, needle, replacement)",
     "summary": "Replaces all occurrences of \`needle\` with \`replacement\` in \`text\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2018-04-11T10:30:00.000000-05:00",
+        "template": "@(replace_time(now(), \\"10:30\\"))",
+      },
+      Object {
+        "output": "2017-01-15T10:30:00.000000-05:00",
+        "template": "@(replace_time(\\"2017-01-15\\", \\"10:30\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(replace_time(\\"foo\\", \\"10:30\\"))",
+      },
+    ],
+    "signature": "replace_time(datetime)",
+    "summary": "Returns a new datetime with the time part replaced by the \`time\`.",
   },
   Object {
     "detail": "",
@@ -5767,8 +6971,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round(\\"notnum\\", 2))",
       },
     ],
-    "signature": "round(num [,places])",
-    "summary": "Rounds \`num\` to the nearest value.",
+    "signature": "round(number [,places])",
+    "summary": "Rounds \`number\` to the nearest value.",
   },
   Object {
     "detail": "You can optionally pass in the number of decimal places to round to as \`places\`.",
@@ -5798,8 +7002,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round_down(\\"foo\\"))",
       },
     ],
-    "signature": "round_down(num [,places])",
-    "summary": "Rounds \`num\` down to the nearest integer value.",
+    "signature": "round_down(number [,places])",
+    "summary": "Rounds \`number\` down to the nearest integer value.",
   },
   Object {
     "detail": "You can optionally pass in the number of decimal places to round to as \`places\`.",
@@ -5829,8 +7033,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round_up(\\"foo\\"))",
       },
     ],
-    "signature": "round_up(num [,places])",
-    "summary": "Rounds \`num\` up to the nearest integer value.",
+    "signature": "round_up(number [,places])",
+    "summary": "Rounds \`number\` up to the nearest integer value.",
   },
 ]
 `;
@@ -5989,6 +7193,10 @@ splitting in 3s or 4s if appropriate.",
         "output": "bar",
         "template": "@(remove_first_word(\\"foo bar\\"))",
       },
+      Object {
+        "output": "there. I'm a flow!",
+        "template": "@(remove_first_word(\\"Hi there. I'm a flow!\\"))",
+      },
     ],
     "signature": "remove_first_word(text)",
     "summary": "Removes the first word of \`text\`.",
@@ -6022,6 +7230,25 @@ splitting in 3s or 4s if appropriate.",
     ],
     "signature": "replace(text, needle, replacement)",
     "summary": "Replaces all occurrences of \`needle\` with \`replacement\` in \`text\`.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2018-04-11T10:30:00.000000-05:00",
+        "template": "@(replace_time(now(), \\"10:30\\"))",
+      },
+      Object {
+        "output": "2017-01-15T10:30:00.000000-05:00",
+        "template": "@(replace_time(\\"2017-01-15\\", \\"10:30\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(replace_time(\\"foo\\", \\"10:30\\"))",
+      },
+    ],
+    "signature": "replace_time(datetime)",
+    "summary": "Returns a new datetime with the time part replaced by the \`time\`.",
   },
 ]
 `;
@@ -6096,6 +7323,10 @@ Array [
         "output": "bar",
         "template": "@(remove_first_word(\\"foo bar\\"))",
       },
+      Object {
+        "output": "there. I'm a flow!",
+        "template": "@(remove_first_word(\\"Hi there. I'm a flow!\\"))",
+      },
     ],
     "signature": "remove_first_word(text)",
     "summary": "Removes the first word of \`text\`.",
@@ -6144,10 +7375,55 @@ Array [
     "signature": "replace(text, needle, replacement)",
     "summary": "Replaces all occurrences of \`needle\` with \`replacement\` in \`text\`.",
   },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2018-04-11T10:30:00.000000-05:00",
+        "template": "@(replace_time(now(), \\"10:30\\"))",
+      },
+      Object {
+        "output": "2017-01-15T10:30:00.000000-05:00",
+        "template": "@(replace_time(\\"2017-01-15\\", \\"10:30\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(replace_time(\\"foo\\", \\"10:30\\"))",
+      },
+    ],
+    "signature": "replace_time(datetime)",
+    "summary": "Returns a new datetime with the time part replaced by the \`time\`.",
+  },
 ]
 `;
 
 exports[`helpers filterOptions should filter options for "replace." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "replace_time" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "2018-04-11T10:30:00.000000-05:00",
+        "template": "@(replace_time(now(), \\"10:30\\"))",
+      },
+      Object {
+        "output": "2017-01-15T10:30:00.000000-05:00",
+        "template": "@(replace_time(\\"2017-01-15\\", \\"10:30\\"))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(replace_time(\\"foo\\", \\"10:30\\"))",
+      },
+    ],
+    "signature": "replace_time(datetime)",
+    "summary": "Returns a new datetime with the time part replaced by the \`time\`.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "replace_time." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "results" 1`] = `
 Array [
@@ -6253,8 +7529,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round(\\"notnum\\", 2))",
       },
     ],
-    "signature": "round(num [,places])",
-    "summary": "Rounds \`num\` to the nearest value.",
+    "signature": "round(number [,places])",
+    "summary": "Rounds \`number\` to the nearest value.",
   },
   Object {
     "detail": "You can optionally pass in the number of decimal places to round to as \`places\`.",
@@ -6284,8 +7560,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round_down(\\"foo\\"))",
       },
     ],
-    "signature": "round_down(num [,places])",
-    "summary": "Rounds \`num\` down to the nearest integer value.",
+    "signature": "round_down(number [,places])",
+    "summary": "Rounds \`number\` down to the nearest integer value.",
   },
   Object {
     "detail": "You can optionally pass in the number of decimal places to round to as \`places\`.",
@@ -6315,8 +7591,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round_up(\\"foo\\"))",
       },
     ],
-    "signature": "round_up(num [,places])",
-    "summary": "Rounds \`num\` up to the nearest integer value.",
+    "signature": "round_up(number [,places])",
+    "summary": "Rounds \`number\` up to the nearest integer value.",
   },
 ]
 `;
@@ -6356,8 +7632,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round(\\"notnum\\", 2))",
       },
     ],
-    "signature": "round(num [,places])",
-    "summary": "Rounds \`num\` to the nearest value.",
+    "signature": "round(number [,places])",
+    "summary": "Rounds \`number\` to the nearest value.",
   },
   Object {
     "detail": "You can optionally pass in the number of decimal places to round to as \`places\`.",
@@ -6387,8 +7663,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round_down(\\"foo\\"))",
       },
     ],
-    "signature": "round_down(num [,places])",
-    "summary": "Rounds \`num\` down to the nearest integer value.",
+    "signature": "round_down(number [,places])",
+    "summary": "Rounds \`number\` down to the nearest integer value.",
   },
   Object {
     "detail": "You can optionally pass in the number of decimal places to round to as \`places\`.",
@@ -6418,8 +7694,8 @@ it will round the integer part to the nearest 10^(-places).",
         "template": "@(round_up(\\"foo\\"))",
       },
     ],
-    "signature": "round_up(num [,places])",
-    "summary": "Rounds \`num\` up to the nearest integer value.",
+    "signature": "round_up(number [,places])",
+    "summary": "Rounds \`number\` up to the nearest integer value.",
   },
 ]
 `;
@@ -6456,8 +7732,8 @@ Array [
         "template": "@(round_down(\\"foo\\"))",
       },
     ],
-    "signature": "round_down(num [,places])",
-    "summary": "Rounds \`num\` down to the nearest integer value.",
+    "signature": "round_down(number [,places])",
+    "summary": "Rounds \`number\` down to the nearest integer value.",
   },
 ]
 `;
@@ -6494,8 +7770,8 @@ Array [
         "template": "@(round_up(\\"foo\\"))",
       },
     ],
-    "signature": "round_up(num [,places])",
-    "summary": "Rounds \`num\` up to the nearest integer value.",
+    "signature": "round_up(number [,places])",
+    "summary": "Rounds \`number\` up to the nearest integer value.",
   },
 ]
 `;
@@ -7558,23 +8834,23 @@ Array [
     "detail": "Empty values are removed from the returned list.",
     "examples": Array [
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\"]",
+        "output": "[a, b, c]",
         "template": "@(split(\\"a b c\\", \\" \\"))",
       },
       Object {
-        "output": "[\\"a\\"]",
+        "output": "[a]",
         "template": "@(split(\\"a\\", \\" \\"))",
       },
       Object {
-        "output": "[\\"abc\\",\\"d\\"]",
+        "output": "[abc, d]",
         "template": "@(split(\\"abc..d\\", \\".\\"))",
       },
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\"]",
+        "output": "[a, b, c]",
         "template": "@(split(\\"a.b.c.\\", \\".\\"))",
       },
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\",\\"d\\"]",
+        "output": "[a, b, c, d]",
         "template": "@(split(\\"a|b,c  d\\", \\" .|,\\"))",
       },
     ],
@@ -7590,23 +8866,23 @@ Array [
     "detail": "Empty values are removed from the returned list.",
     "examples": Array [
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\"]",
+        "output": "[a, b, c]",
         "template": "@(split(\\"a b c\\", \\" \\"))",
       },
       Object {
-        "output": "[\\"a\\"]",
+        "output": "[a]",
         "template": "@(split(\\"a\\", \\" \\"))",
       },
       Object {
-        "output": "[\\"abc\\",\\"d\\"]",
+        "output": "[abc, d]",
         "template": "@(split(\\"abc..d\\", \\".\\"))",
       },
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\"]",
+        "output": "[a, b, c]",
         "template": "@(split(\\"a.b.c.\\", \\".\\"))",
       },
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\",\\"d\\"]",
+        "output": "[a, b, c, d]",
         "template": "@(split(\\"a|b,c  d\\", \\" .|,\\"))",
       },
     ],
@@ -7622,23 +8898,23 @@ Array [
     "detail": "Empty values are removed from the returned list.",
     "examples": Array [
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\"]",
+        "output": "[a, b, c]",
         "template": "@(split(\\"a b c\\", \\" \\"))",
       },
       Object {
-        "output": "[\\"a\\"]",
+        "output": "[a]",
         "template": "@(split(\\"a\\", \\" \\"))",
       },
       Object {
-        "output": "[\\"abc\\",\\"d\\"]",
+        "output": "[abc, d]",
         "template": "@(split(\\"abc..d\\", \\".\\"))",
       },
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\"]",
+        "output": "[a, b, c]",
         "template": "@(split(\\"a.b.c.\\", \\".\\"))",
       },
       Object {
-        "output": "[\\"a\\",\\"b\\",\\"c\\",\\"d\\"]",
+        "output": "[a, b, c, d]",
         "template": "@(split(\\"a|b,c  d\\", \\" .|,\\"))",
       },
     ],
@@ -7699,12 +8975,74 @@ and 1 if \`text1\` comes after \`text2\`.",
     "detail": "",
     "examples": Array [
       Object {
+        "output": "3",
+        "template": "@(text_length(\\"abc\\"))",
+      },
+      Object {
+        "output": "6",
+        "template": "@(text_length(array(2, 3)))",
+      },
+    ],
+    "signature": "text_length(value)",
+    "summary": "Returns the length (number of characters) of \`value\` when converted to text.",
+  },
+  Object {
+    "detail": "If it is text then it will be parsed into a time using the default time format.
+An error is returned if the value can't be converted.",
+    "examples": Array [
+      Object {
+        "output": "10:30:00.000000",
+        "template": "@(time(\\"10:30\\"))",
+      },
+      Object {
+        "output": "22:30:45.000000",
+        "template": "@(time(\\"10:30:45 PM\\"))",
+      },
+      Object {
+        "output": "10:30:45.123456",
+        "template": "@(time(datetime(\\"1979-07-18T10:30:45.123456Z\\")))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(time(\\"what?\\"))",
+      },
+    ],
+    "signature": "time(value)",
+    "summary": "Tries to convert \`value\` to a time.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "14:40:15.000000",
+        "template": "@(time_from_parts(14, 40, 15))",
+      },
+      Object {
+        "output": "08:10:00.000000",
+        "template": "@(time_from_parts(8, 10, 0))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(time_from_parts(25, 0, 0))",
+      },
+    ],
+    "signature": "time_from_parts(hour, minute, second)",
+    "summary": "Creates a time from \`hour\`, \`minute\` and \`second\`",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
         "output": "Foo",
         "template": "@(title(\\"foo\\"))",
       },
       Object {
         "output": "Ryan Lewis",
         "template": "@(title(\\"ryan lewis\\"))",
+      },
+      Object {
+        "output": "Ryan Lewis",
+        "template": "@(title(\\"RYAN LEWIS\\"))",
       },
       Object {
         "output": "123",
@@ -7715,15 +9053,15 @@ and 1 if \`text1\` comes after \`text2\`.",
     "summary": "Capitalizes each word in \`text\`.",
   },
   Object {
-    "detail": "The returned datetime has a time set to midnight in the current timezone.",
+    "detail": "",
     "examples": Array [
       Object {
-        "output": "2018-04-11T00:00:00.000000-05:00",
+        "output": "2018-04-11",
         "template": "@(today())",
       },
     ],
     "signature": "today()",
-    "summary": "Returns the current date in the current timezone.",
+    "summary": "Returns the current date in the environment timezone.",
   },
   Object {
     "detail": "If no timezone information is present in the date, then the current timezone will be returned.",
@@ -7816,6 +9154,21 @@ and 1 if \`text1\` comes after \`text2\`.",
     "signature": "text_compare(text1, text2)",
     "summary": "Returns the dictionary order of \`text1\` and \`text2\`.",
   },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "3",
+        "template": "@(text_length(\\"abc\\"))",
+      },
+      Object {
+        "output": "6",
+        "template": "@(text_length(array(2, 3)))",
+      },
+    ],
+    "signature": "text_length(value)",
+    "summary": "Returns the length (number of characters) of \`value\` when converted to text.",
+  },
 ]
 `;
 
@@ -7860,6 +9213,21 @@ and 1 if \`text1\` comes after \`text2\`.",
     "signature": "text_compare(text1, text2)",
     "summary": "Returns the dictionary order of \`text1\` and \`text2\`.",
   },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "3",
+        "template": "@(text_length(\\"abc\\"))",
+      },
+      Object {
+        "output": "6",
+        "template": "@(text_length(array(2, 3)))",
+      },
+    ],
+    "signature": "text_length(value)",
+    "summary": "Returns the length (number of characters) of \`value\` when converted to text.",
+  },
 ]
 `;
 
@@ -7892,8 +9260,73 @@ and 1 if \`text1\` comes after \`text2\`.",
 
 exports[`helpers filterOptions should filter options for "text_compare." 1`] = `Array []`;
 
+exports[`helpers filterOptions should filter options for "text_length" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "3",
+        "template": "@(text_length(\\"abc\\"))",
+      },
+      Object {
+        "output": "6",
+        "template": "@(text_length(array(2, 3)))",
+      },
+    ],
+    "signature": "text_length(value)",
+    "summary": "Returns the length (number of characters) of \`value\` when converted to text.",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "text_length." 1`] = `Array []`;
+
 exports[`helpers filterOptions should filter options for "ti" 1`] = `
 Array [
+  Object {
+    "detail": "If it is text then it will be parsed into a time using the default time format.
+An error is returned if the value can't be converted.",
+    "examples": Array [
+      Object {
+        "output": "10:30:00.000000",
+        "template": "@(time(\\"10:30\\"))",
+      },
+      Object {
+        "output": "22:30:45.000000",
+        "template": "@(time(\\"10:30:45 PM\\"))",
+      },
+      Object {
+        "output": "10:30:45.123456",
+        "template": "@(time(datetime(\\"1979-07-18T10:30:45.123456Z\\")))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(time(\\"what?\\"))",
+      },
+    ],
+    "signature": "time(value)",
+    "summary": "Tries to convert \`value\` to a time.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "14:40:15.000000",
+        "template": "@(time_from_parts(14, 40, 15))",
+      },
+      Object {
+        "output": "08:10:00.000000",
+        "template": "@(time_from_parts(8, 10, 0))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(time_from_parts(25, 0, 0))",
+      },
+    ],
+    "signature": "time_from_parts(hour, minute, second)",
+    "summary": "Creates a time from \`hour\`, \`minute\` and \`second\`",
+  },
   Object {
     "detail": "",
     "examples": Array [
@@ -7906,6 +9339,10 @@ Array [
         "template": "@(title(\\"ryan lewis\\"))",
       },
       Object {
+        "output": "Ryan Lewis",
+        "template": "@(title(\\"RYAN LEWIS\\"))",
+      },
+      Object {
         "output": "123",
         "template": "@(title(123))",
       },
@@ -7915,6 +9352,82 @@ Array [
   },
 ]
 `;
+
+exports[`helpers filterOptions should filter options for "time" 1`] = `
+Array [
+  Object {
+    "detail": "If it is text then it will be parsed into a time using the default time format.
+An error is returned if the value can't be converted.",
+    "examples": Array [
+      Object {
+        "output": "10:30:00.000000",
+        "template": "@(time(\\"10:30\\"))",
+      },
+      Object {
+        "output": "22:30:45.000000",
+        "template": "@(time(\\"10:30:45 PM\\"))",
+      },
+      Object {
+        "output": "10:30:45.123456",
+        "template": "@(time(datetime(\\"1979-07-18T10:30:45.123456Z\\")))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(time(\\"what?\\"))",
+      },
+    ],
+    "signature": "time(value)",
+    "summary": "Tries to convert \`value\` to a time.",
+  },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "14:40:15.000000",
+        "template": "@(time_from_parts(14, 40, 15))",
+      },
+      Object {
+        "output": "08:10:00.000000",
+        "template": "@(time_from_parts(8, 10, 0))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(time_from_parts(25, 0, 0))",
+      },
+    ],
+    "signature": "time_from_parts(hour, minute, second)",
+    "summary": "Creates a time from \`hour\`, \`minute\` and \`second\`",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "time." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "time_from_parts" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "14:40:15.000000",
+        "template": "@(time_from_parts(14, 40, 15))",
+      },
+      Object {
+        "output": "08:10:00.000000",
+        "template": "@(time_from_parts(8, 10, 0))",
+      },
+      Object {
+        "output": "ERROR",
+        "template": "@(time_from_parts(25, 0, 0))",
+      },
+    ],
+    "signature": "time_from_parts(hour, minute, second)",
+    "summary": "Creates a time from \`hour\`, \`minute\` and \`second\`",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "time_from_parts." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "title" 1`] = `
 Array [
@@ -7928,6 +9441,10 @@ Array [
       Object {
         "output": "Ryan Lewis",
         "template": "@(title(\\"ryan lewis\\"))",
+      },
+      Object {
+        "output": "Ryan Lewis",
+        "template": "@(title(\\"RYAN LEWIS\\"))",
       },
       Object {
         "output": "123",
@@ -7945,15 +9462,15 @@ exports[`helpers filterOptions should filter options for "title." 1`] = `Array [
 exports[`helpers filterOptions should filter options for "to" 1`] = `
 Array [
   Object {
-    "detail": "The returned datetime has a time set to midnight in the current timezone.",
+    "detail": "",
     "examples": Array [
       Object {
-        "output": "2018-04-11T00:00:00.000000-05:00",
+        "output": "2018-04-11",
         "template": "@(today())",
       },
     ],
     "signature": "today()",
-    "summary": "Returns the current date in the current timezone.",
+    "summary": "Returns the current date in the environment timezone.",
   },
 ]
 `;
@@ -7961,15 +9478,15 @@ Array [
 exports[`helpers filterOptions should filter options for "today" 1`] = `
 Array [
   Object {
-    "detail": "The returned datetime has a time set to midnight in the current timezone.",
+    "detail": "",
     "examples": Array [
       Object {
-        "output": "2018-04-11T00:00:00.000000-05:00",
+        "output": "2018-04-11",
         "template": "@(today())",
       },
     ],
     "signature": "today()",
-    "summary": "Returns the current date in the current timezone.",
+    "summary": "Returns the current date in the environment timezone.",
   },
 ]
 `;
@@ -8186,6 +9703,21 @@ Array [
     "signature": "url_encode(text)",
     "summary": "Encodes \`text\` for use as a URL parameter.",
   },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{display: , path: +593979012345, scheme: tel}",
+        "template": "@(urn_parts(\\"tel:+593979012345\\"))",
+      },
+      Object {
+        "output": "{display: bobby, path: 3263621177, scheme: twitterid}",
+        "template": "@(urn_parts(\\"twitterid:3263621177#bobby\\"))",
+      },
+    ],
+    "signature": "urn_parts(urn)",
+    "summary": "Parses a URN into its different parts",
+  },
 ]
 `;
 
@@ -8248,6 +9780,21 @@ Array [
     "signature": "url_encode(text)",
     "summary": "Encodes \`text\` for use as a URL parameter.",
   },
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{display: , path: +593979012345, scheme: tel}",
+        "template": "@(urn_parts(\\"tel:+593979012345\\"))",
+      },
+      Object {
+        "output": "{display: bobby, path: 3263621177, scheme: twitterid}",
+        "template": "@(urn_parts(\\"twitterid:3263621177#bobby\\"))",
+      },
+    ],
+    "signature": "urn_parts(urn)",
+    "summary": "Parses a URN into its different parts",
+  },
 ]
 `;
 
@@ -8272,6 +9819,28 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "url_encode." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "urn_parts" 1`] = `
+Array [
+  Object {
+    "detail": "",
+    "examples": Array [
+      Object {
+        "output": "{display: , path: +593979012345, scheme: tel}",
+        "template": "@(urn_parts(\\"tel:+593979012345\\"))",
+      },
+      Object {
+        "output": "{display: bobby, path: 3263621177, scheme: twitterid}",
+        "template": "@(urn_parts(\\"twitterid:3263621177#bobby\\"))",
+      },
+    ],
+    "signature": "urn_parts(urn)",
+    "summary": "Parses a URN into its different parts",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urn_parts." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "w" 1`] = `
 Array [

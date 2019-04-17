@@ -23,6 +23,8 @@ const baseProps: FlowEditorStoreProps = {
     createNewRevision: jest.fn(),
     fetchFlow: jest.fn(),
     mergeEditorState: jest.fn(),
+    modalMessage: null,
+    saving: false,
     nodes: null
 };
 
