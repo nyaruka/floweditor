@@ -146,7 +146,7 @@ describe(TextInputElement.name, () => {
 
             const state = getState(wrapper);
             expect(state.query).toEqual('');
-            expect(state.fn.signature).toEqual('max(values...)');
+            expect(state.fn.signature).toEqual('max(numbers...)');
         });
     });
 
