@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import '~/variables.scss';
 
 .ele {
     position: relative;
@@ -18,7 +18,7 @@
             visibility: hidden;
             position: absolute;
             z-index: 30000;
-            background: lighten($error_color, 20%);
+            background: #fff; // lighten($error_color, 20%);
             border: 2px solid $error_color;
             border-radius: 5px;
             padding: 7px 7px;
@@ -27,18 +27,18 @@
             font-size: 14px;
             width: 100px;
             text-align: center;
-            color: #fff;
+            color: $error_color;
             right: -130px;
-            top: -6px;
+            top: 0px;
 
             .arrow-up {
                 width: 0px;
                 height: 0px;
                 border-top: 8px solid transparent;
                 border-bottom: 8px solid transparent;
-                border-right: 8px solid tomato;
+                border-right: 8px solid $error_color;
                 position: absolute;
-                margin-top: 4px;
+                margin-top: 6px;
                 margin-left: -15px;
             }
 

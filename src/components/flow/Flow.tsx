@@ -373,7 +373,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                             originalNode: emptyNode,
                             originalAction: emptyNode.node.actions[0]
                         });
-                        console.log('you did it!');
                     }}
                 />
             </div>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const styles = require('./Pill.scss');
+import * as styles from './Pill.scss';
 
 export interface PillProps {
     advanced?: boolean;
@@ -20,12 +20,23 @@ const Pill: React.SFC<PillProps> = (props: PillProps): JSX.Element => {
     } else if (props.maxLength && text.length > props.maxLength) {
         text = props.text.substring(0, props.maxLength) + '...';
     }
+
+    const pillStyles = [styles.pill];
+
+    if (props.large) {
+        pillStyles.push(styles.large);
+    }
+
+    if (props.onClick) {
+        pillStyles.push(styles.clickable);
+    }
+
     return (
         <div
             style={props.style}
             data-advanced={props.advanced}
             onClick={props.onClick}
-            className={styles.pill + ' ' + (props.large ? styles.large : '')}
+            className={pillStyles.join(' ')}
         >
             {text}
             {props.icon ? (

@@ -93,6 +93,20 @@ export const postNewAsset = (assets: Assets, payload: any): Promise<Asset> => {
     });
 };
 
+export const fetchAsset = (assets: Assets, id: string): Promise<Asset> => {
+    return new Promise<Asset>((resolve, reject) => {
+        axios
+            .get(assets.endpoint)
+            .then((response: AxiosResponse) => {
+                const match: Asset = response.data.results
+                    .map((result: any) => resultToAsset(result, assets.type, assets.id))
+                    .find((asset: Asset) => asset.id === id);
+                resolve(match);
+            })
+            .catch(error => reject(error));
+    });
+};
+
 export const getAssets = (url: string, type: AssetType, id: string): Promise<Asset[]> => {
     if (!url) {
         return new Promise<Asset[]>((resolve, reject) => resolve([]));
@@ -219,6 +233,11 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
                 endpoint: getURL(endpoints.resthooks),
                 type: AssetType.Resthook,
                 id: 'resthook',
+                items: {}
+            },
+            templates: {
+                endpoint: getURL(endpoints.templates),
+                type: AssetType.Template,
                 items: {}
             },
             currencies: {

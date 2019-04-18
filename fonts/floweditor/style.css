@@ -1,8 +1,8 @@
 @font-face {
     font-family: 'floweditor';
-    src: url('fonts/floweditor.ttf?ciknwx') format('truetype'),
-        url('fonts/floweditor.woff?ciknwx') format('woff'),
-        url('fonts/floweditor.svg?ciknwx#floweditor') format('svg');
+    src: url('fonts/floweditor.ttf?xovjds') format('truetype'),
+        url('fonts/floweditor.woff?xovjds') format('woff'),
+        url('fonts/floweditor.svg?xovjds#floweditor') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -34,6 +34,9 @@
 }
 .fe-battery1:before {
     content: '\e902';
+}
+.fe-whatsapp:before {
+    content: '\e903';
 }
 .fe-battery:before {
     content: '\e900';
@@ -256,6 +259,9 @@
 }
 .fe-briefcase:before {
     content: '\e83a';
+}
+.fe-cube:before {
+    content: '\e874';
 }
 .fe-grid:before {
     content: '\e880';

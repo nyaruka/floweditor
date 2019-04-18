@@ -318,6 +318,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                         {...commonAttributes}
                         defaultOptions={defaultOptions}
                         cacheOptions={true}
+                        isClearable={true}
                         loadOptions={this.handleLoadOptions}
                         noOptionsMessage={(obj: { inputValue: string }) =>
                             this.props.noOptionsMessage || `No ${this.props.name} Found`
