@@ -13,6 +13,7 @@ if (process.env.RAPID_FLOW) {
         flowType: process.env.RAPID_FLOW_TYPE,
         localStorage: true,
         showDownload: true,
+        showTemplates: true,
         endpoints: {
             simulateStart: '/flow/simulate/' + process.env.RAPID_ORG + '/',
             simulateResume: '/flow/simulate/' + process.env.RAPID_ORG + '/',
@@ -23,6 +24,7 @@ if (process.env.RAPID_FLOW) {
             fields: api + 'fields.json',
             labels: api + 'labels.json',
             channels: api + 'channels.json',
+            templates: api + 'templates.json',
 
             // flow asset server
             // TODO: migrate to API?
@@ -40,6 +42,7 @@ if (process.env.RAPID_FLOW) {
             ? Object.assign({}, config, {
                   localStorage: true,
                   showDownload: true,
+                  showTemplates: true,
                   flowType: 'M',
                   endpoints: {
                       attachments: '',
@@ -53,6 +56,7 @@ if (process.env.RAPID_FLOW) {
                       languages: 'languages',
                       channels: 'channels',
                       environment: 'environment',
+                      templates: 'templates',
                       activity: '',
                       simulateStart: 'https://goflow.nyaruka.com/flow/start',
                       simulateResume: 'https://goflow.nyaruka.com/flow/resume'
@@ -61,6 +65,7 @@ if (process.env.RAPID_FLOW) {
             : Object.assign({}, config, {
                   localStorage: true,
                   showDownload: true,
+                  showTemplates: true,
                   endpoints: {
                       attachments: '/',
                       resthooks: '/assets/resthooks',
@@ -73,6 +78,7 @@ if (process.env.RAPID_FLOW) {
                       languages: '/assets/language',
                       channels: '/assets/channel',
                       environment: '/assets/environment',
+                      templates: '/assets/template',
                       activity: '',
                       simulateStart: '/flow/simulate/1/',
                       simulateResume: '/flow/simulate/1/'
