@@ -31,6 +31,7 @@ export interface Endpoints {
     channels: string;
     environment: string;
     languages: string;
+    templates: string;
     simulateStart: string;
     simulateResume: string;
 }
@@ -40,6 +41,7 @@ export interface FlowEditorConfig {
     endpoints: Endpoints;
     flow: string;
     flowType: FlowTypes;
+    showTemplates?: boolean;
     showDownload?: boolean;
     debug?: boolean;
     path?: string;
@@ -211,11 +213,34 @@ export interface RecipientsAction extends Action {
     groups: Group[];
 }
 
+export interface TemplateTranslation {
+    channel: Channel;
+    content: string;
+    language: string;
+    status: string;
+    variable_count: number;
+}
+
+export interface TemplateOptions {
+    translations: TemplateTranslation[];
+}
+
+export interface MsgTemplate {
+    name: string;
+    uuid: string;
+}
+
+export interface MsgTemplating {
+    template: MsgTemplate;
+    variables: string[];
+}
+
 export interface SendMsg extends Action {
     text: string;
     all_urns?: boolean;
     quick_replies?: string[];
     attachments?: string[];
+    templating?: MsgTemplating;
 }
 
 export interface SayMsg extends Action {

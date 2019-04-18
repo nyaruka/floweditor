@@ -10,7 +10,7 @@
     cursor: pointer;
     border: 1px solid darken($light_gray_2, 5%);
 
-    &:hover {
+    &.clickable:hover {
         background: darken($light_gray_2, 5%);
     }
 

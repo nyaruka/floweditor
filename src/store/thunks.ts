@@ -394,6 +394,7 @@ export const removeNode = (node: FlowNode) => (
 
     const updated = mutators.removeNode(nodes, node.uuid);
     dispatch(updateNodes(updated));
+    markDirty();
     return updated;
 };
 
@@ -418,11 +419,14 @@ export const removeAction = (nodeUUID: string, action: AnyAction) => (
 
     // If it's our last action, then nuke the node
     if (renderNode.node.actions.length === 1) {
-        return dispatch(removeNode(renderNode.node));
+        const updated = dispatch(removeNode(renderNode.node));
+        markDirty();
+        return updated;
     } else {
         // Otherwise, just remove that action
         const updated = mutators.removeAction(nodes, nodeUUID, action.uuid);
         dispatch(updateNodes(updated));
+        markDirty();
         return updated;
     }
 };

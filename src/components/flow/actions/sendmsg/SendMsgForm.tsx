@@ -5,9 +5,13 @@ import * as React from 'react';
 import Dialog, { ButtonSet, Tab } from '~/components/dialog/Dialog';
 import { hasErrors } from '~/components/flow/actions/helpers';
 import { text } from '~/components/flow/actions/saymsg/SayMsg.scss';
-import { initializeForm, stateToAction } from '~/components/flow/actions/sendmsg/helpers';
+import {
+    initializeForm as stateToForm,
+    stateToAction
+} from '~/components/flow/actions/sendmsg/helpers';
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { ActionFormProps } from '~/components/flow/props';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import MultiChoiceInput from '~/components/form/multichoice/MultiChoice';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
@@ -15,8 +19,11 @@ import TextInputElement, { Count } from '~/components/form/textinput/TextInputEl
 import TypeList from '~/components/nodeeditor/TypeList';
 import Pill from '~/components/pill/Pill';
 import { fakePropType } from '~/config/ConfigProvider';
-import { getCookie } from '~/external';
+import { fetchAsset, getCookie } from '~/external';
+import { TemplateOptions, TemplateTranslation } from '~/flowTypes';
+import { Asset } from '~/store/flowContext';
 import {
+    AssetEntry,
     FormState,
     mergeForm,
     StringArrayEntry,
@@ -24,7 +31,7 @@ import {
     ValidationFailure
 } from '~/store/nodeEditor';
 import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
-import { createUUID } from '~/utils';
+import { createUUID, range } from '~/utils';
 import { small } from '~/utils/reactselect';
 
 import * as styles from './SendMsgForm.scss';
@@ -54,6 +61,9 @@ export interface SendMsgFormState extends FormState {
     quickReplies: StringArrayEntry;
     sendAll: boolean;
     attachments: Attachment[];
+    template: AssetEntry;
+    templateVariables: StringEntry[];
+    templateTranslation?: TemplateTranslation;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -61,10 +71,21 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     constructor(props: ActionFormProps) {
         super(props);
-        this.state = initializeForm(this.props.nodeSettings);
+        this.state = stateToForm(this.props.nodeSettings, this.props.assetStore);
         bindCallbacks(this, {
             include: [/^handle/, /^on/]
         });
+
+        // intialize our templates if we have them
+        if (this.state.template.value !== null) {
+            fetchAsset(this.props.assetStore.templates, this.state.template.value.id).then(
+                (asset: Asset) => {
+                    if (asset !== null) {
+                        this.handleTemplateChanged([asset]);
+                    }
+                }
+            );
+        }
     }
 
     public static contextTypes = {
@@ -108,17 +129,30 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     private handleSave(): void {
+        let valid = true;
         // make sure we validate untouched text fields and contact fields
-        let entry = this.state.message;
-        if (!hasErrors(entry)) {
-            entry = validate('Message', entry.value, [validateRequired]);
-            this.setState({ message: entry });
+        let message = this.state.message;
+        if (!hasErrors(message)) {
+            message = validate('Message', message.value, [validateRequired]);
+            valid = valid && !hasErrors(message);
         }
 
-        if (this.state.valid && !hasErrors(entry)) {
+        let templateVariables = this.state.templateVariables;
+        // make sure we don't have untouched template variables
+        this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
+            const updated = validate(`Variable ${num + 1}`, variable.value, [validateRequired]);
+            templateVariables = mutate(templateVariables, {
+                [num]: { $merge: updated }
+            }) as StringEntry[];
+            valid = valid && !hasErrors(updated);
+        });
+
+        if (valid) {
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
             // notify our modal we are done
             this.props.onClose(false);
+        } else {
+            this.setState({ message, templateVariables, valid });
         }
     }
 
@@ -316,6 +350,111 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         );
     }
 
+    private handleTemplateChanged(selected: Asset[]): void {
+        const template = selected[0];
+
+        if (!template) {
+            this.setState({
+                template: { value: null },
+                templateTranslation: null,
+                templateVariables: []
+            });
+        } else {
+            const templateOptions = template.content as TemplateOptions;
+            const templateTranslation = templateOptions.translations[0];
+
+            const templateVariables =
+                this.state.templateVariables.length === 0 ||
+                (this.state.template.value && this.state.template.value.id !== template.id)
+                    ? range(0, templateTranslation.variable_count).map(() => {
+                          return {
+                              value: ''
+                          };
+                      })
+                    : this.state.templateVariables;
+
+            this.setState({
+                template: { value: template },
+                templateTranslation,
+                templateVariables
+            });
+        }
+    }
+
+    private handleTemplateFieldFailures(
+        persistantFailures: ValidationFailure[],
+        num: number
+    ): void {
+        const templateVariables = mutate(this.state.templateVariables, {
+            [num]: { $merge: { persistantFailures } }
+        }) as StringEntry[];
+
+        this.setState({
+            templateVariables,
+            valid: this.state.valid && !hasErrors(templateVariables[num])
+        });
+    }
+
+    private handleTemplateVariableChanged(updatedText: string, num: number): void {
+        const entry = validate(`Variable ${num + 1}`, updatedText, [validateRequired]);
+        const templateVariables = mutate(this.state.templateVariables, {
+            $merge: { [num]: entry }
+        }) as StringEntry[];
+        this.setState({ templateVariables });
+    }
+
+    private renderTemplateConfig(): JSX.Element {
+        return (
+            <>
+                <p>
+                    Sending messages over a WhatsApp channel requires that a template be used if you
+                    have not received a message from a contact in the last 24 hours. Setting a
+                    template to use over WhatsApp is especially important for the first message in
+                    your flow.
+                </p>
+                <AssetSelector
+                    name="Template"
+                    noOptionsMessage="No templates found"
+                    assets={this.props.assetStore.templates}
+                    entry={this.state.template}
+                    onChange={this.handleTemplateChanged}
+                    searchable={true}
+                />
+                {this.state.templateTranslation ? (
+                    <>
+                        <div className={styles.templateText}>
+                            {this.state.templateTranslation.content}
+                        </div>
+                        {range(0, this.state.templateTranslation.variable_count).map(
+                            (num: number) => {
+                                return (
+                                    <div className={styles.variable} key={'tr_arg_' + num}>
+                                        <TextInputElement
+                                            name={`Variable ${num + 1}`}
+                                            showLabel={false}
+                                            placeholder={`Variable ${num + 1}`}
+                                            onChange={(updatedText: string) => {
+                                                this.handleTemplateVariableChanged(
+                                                    updatedText,
+                                                    num
+                                                );
+                                            }}
+                                            entry={this.state.templateVariables[num]}
+                                            autocomplete={true}
+                                            onFieldFailures={(failures: ValidationFailure[]) => {
+                                                this.handleTemplateFieldFailures(failures, num);
+                                            }}
+                                        />
+                                    </div>
+                                );
+                            }
+                        )}
+                    </>
+                ) : null}
+            </>
+        );
+    }
+
     private handleAddQuickReply(newQuickReply: string): boolean {
         const newReplies = [...this.state.quickReplies.value];
         if (newReplies.length >= 10) {
@@ -392,12 +531,26 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             checked: this.state.sendAll
         };
 
+        const tabs = [quickReplies, attachments, advanced];
+
+        if (this.context.config.showTemplates) {
+            const templates: Tab = {
+                name: 'WhatsApp',
+                body: this.renderTemplateConfig(),
+                checked: this.state.template.value != null,
+                hasErrors: !!this.state.templateVariables.find((entry: StringEntry) =>
+                    hasErrors(entry)
+                )
+            };
+            tabs.splice(0, 0, templates);
+        }
+
         return (
             <Dialog
                 title={typeConfig.name}
                 headerClass={typeConfig.type}
                 buttons={this.getButtons()}
-                tabs={[quickReplies, attachments, advanced]}
+                tabs={tabs}
             >
                 <TypeList
                     __className=""
