@@ -59,7 +59,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
                         styles={large}
                         value={this.state.config}
                         onChange={this.handleChangeType}
-                        isSearchable={false}
+                        isSearchable={true}
                         isClearable={false}
                         getOptionValue={(option: Type) => option.type}
                         getOptionLabel={(option: Type) => option.description}

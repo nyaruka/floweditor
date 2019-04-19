@@ -90,6 +90,14 @@ export const hasWait = (renderNode: RenderNode): boolean => {
     return !!(renderNode.node.router && renderNode.node.router.wait);
 };
 
+export const hasLoopSplit = (renderNode: RenderNode): boolean => {
+    return (
+        hasWait(renderNode) ||
+        renderNode.ui.type === Types.split_by_expression ||
+        renderNode.ui.type === Types.split_by_subflow
+    );
+};
+
 /**
  * Follows every path from fromNodeUUID to toNodeUUID and throws
  * an error if we hit ourselves again without hitting a wait
@@ -111,7 +119,7 @@ export const detectLoops = (
         throw new Error("Flow loop detected, can't point to self");
     }
 
-    if (hasWait(toNode) || hasWait(fromNode)) {
+    if (hasLoopSplit(toNode) || hasLoopSplit(fromNode)) {
         return;
     }
 
