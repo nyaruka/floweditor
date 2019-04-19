@@ -70,7 +70,14 @@ export const getRecentMessages = (
 /** Get the value for a named cookie */
 export const getCookie = (name: string): string => {
     for (const cookie of document.cookie.split(';')) {
-        const [key, value] = cookie.split('=', 2);
+        const idx = cookie.indexOf('=');
+        let key = cookie.substr(0, idx);
+        let value = cookie.substr(idx + 1);
+
+        // no spaces allowed
+        key = key.trim();
+        value = value.trim();
+
         if (key === name) {
             return value;
         }
