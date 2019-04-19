@@ -62,7 +62,7 @@ export default class SubflowRouterForm extends React.PureComponent<
 
     private handleFilter(asset: Asset): boolean {
         // only show flows that match our flow type
-        return asset.type === this.context.config.flowType;
+        return asset.content.type === this.context.config.flowType;
     }
 
     public render(): JSX.Element {

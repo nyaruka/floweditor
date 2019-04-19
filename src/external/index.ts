@@ -126,7 +126,6 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
                 const assets: Asset[] = response.data.results.map((result: any) =>
                     resultToAsset(result, type, id)
                 );
-
                 resolve(assets);
             })
             .catch(error => reject(error));
@@ -139,11 +138,10 @@ export const resultToAsset = (result: any, type: AssetType, id: string): Asset =
     const asset: Asset = {
         name: result.name || result.text || result.label || result[idKey],
         id: result[idKey],
-        type: result.type || type
+        type
     };
 
     delete result[idKey];
-    delete result.type;
     delete result.name;
     delete result.text;
 

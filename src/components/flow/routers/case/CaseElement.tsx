@@ -66,6 +66,10 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     private getArgumentArray(): string[] {
+        if (this.state.operatorConfig.operands === 0) {
+            return [];
+        }
+
         return this.state.operatorConfig.type === Operators.has_number_between
             ? [this.state.min.value, this.state.max.value]
             : [this.state.argument.value];
