@@ -186,11 +186,20 @@ export const createDirty = (
             },
             (error: any) => {
                 const errorMessage = error.response.data as ErrorMessage;
+
+                const body =
+                    (errorMessage && errorMessage.description) ||
+                    'Hmm, we ran into a problem trying to save your changes. ' +
+                        'It could just be that your internet connection is not working ' +
+                        'well at the moment. Perhaps wait a minute or so and try again. It may also ' +
+                        "be that we encountered a problem we didn't anticipate. " +
+                        "If your connection is good and you still can't save your " +
+                        'changes, please contact support so we can help you out.';
                 dispatch(
                     mergeEditorState({
                         modalMessage: {
                             title: "Uh oh, we couldn't save your changes",
-                            body: errorMessage.description
+                            body
                         },
                         saving: false
                     })
