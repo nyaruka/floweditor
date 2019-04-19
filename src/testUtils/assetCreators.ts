@@ -340,19 +340,19 @@ export const createWebhookRouterNode = (): FlowNode => {
     const cases: Case[] = [
         {
             uuid: utils.createUUID(),
-            type: Operators.is_text_eq,
+            type: Operators.has_only_text,
             arguments: ['success'],
             category_uuid: categories[0].uuid
         },
         {
             uuid: utils.createUUID(),
-            type: Operators.is_text_eq,
+            type: Operators.has_only_text,
             arguments: ['response_error'],
             category_uuid: categories[1].uuid
         },
         {
             uuid: utils.createUUID(),
-            type: Operators.is_text_eq,
+            type: Operators.has_only_text,
             arguments: ['connection_error'],
             category_uuid: categories[2].uuid
         }

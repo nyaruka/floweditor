@@ -152,19 +152,19 @@
                 "cases": [
                     {
                         "uuid": "379eed12-fe01-44b4-85c5-a1f2816e3557",
-                        "type": "is_text_eq",
+                        "type": "has_only_text",
                         "arguments": ["success"],
                         "exit_uuid": "f783f0b5-1d08-4981-9547-bae6d35e84c2"
                     },
                     {
                         "uuid": "65fed15d-c6ad-4e5b-9a2f-80a0a58170e7",
-                        "type": "is_text_eq",
+                        "type": "has_only_text",
                         "arguments": ["response_error"],
                         "exit_uuid": "c1432a6b-0fe4-435f-915a-15d55e269147"
                     },
                     {
                         "uuid": "bd7fb782-b202-4551-a6da-e85117e1d188",
-                        "type": "is_text_eq",
+                        "type": "has_only_text",
                         "arguments": ["connection_error"],
                         "exit_uuid": "f5142861-4a29-42b0-a7ab-00613b56de32"
                     }

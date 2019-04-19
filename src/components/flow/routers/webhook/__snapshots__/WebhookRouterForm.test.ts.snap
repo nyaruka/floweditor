@@ -321,7 +321,7 @@ Array [
               "success",
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "is_text_eq",
+            "type": "has_only_text",
             "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
           },
           Object {
@@ -329,7 +329,7 @@ Array [
               "response_error",
             ],
             "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-            "type": "is_text_eq",
+            "type": "has_only_text",
             "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
           },
           Object {
@@ -337,7 +337,7 @@ Array [
               "connection_error",
             ],
             "category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-            "type": "is_text_eq",
+            "type": "has_only_text",
             "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
           },
         ],

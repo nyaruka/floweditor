@@ -67,7 +67,7 @@ export enum Operators {
     has_number_gte = 'has_number_gte',
     has_number_gt = 'has_number_gt',
     has_run_status = 'has_run_status',
-    is_text_eq = 'is_text_eq',
+    has_only_text = 'has_only_text',
     has_group = 'has_group',
     has_phone = 'has_phone',
     has_email = 'has_email',

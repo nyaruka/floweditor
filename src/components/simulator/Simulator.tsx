@@ -393,7 +393,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                         },
                         flow: {
                             uuid: this.props.definition.uuid,
-                            name: this.props.definition.uuid
+                            name: this.props.definition.name
                         },
                         params: {},
                         triggered_on: now

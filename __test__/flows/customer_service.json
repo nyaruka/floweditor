@@ -135,12 +135,12 @@
             "uuid": "471f6f94-c683-48f9-8e27-ece1d7604315",
             "router": {
                 "type": "switch",
-                "operand": "@webhook",
+                "operand": "@run.webhook.status",
                 "cases": [
                     {
                         "uuid": "379eed12-fe01-44b4-85c5-a1f2816e3557",
-                        "type": "is_text_eq",
-                        "arguments": ["run.webhook.status", "success"],
+                        "type": "has_only_te",
+                        "arguments": ["success"],
                         "exit_uuid": "f783f0b5-1d08-4981-9547-bae6d35e84c2"
                     }
                 ],
