@@ -18,6 +18,8 @@ export const nodeToState = (settings: NodeEditorSettings): ExpressionRouterFormS
     // TODO: work out an incremental result name
     let resultName: StringEntry = { value: '' };
 
+    let operand = DEFAULT_OPERAND;
+
     if (settings.originalNode && settings.originalNode.ui.type === Types.split_by_expression) {
         const router = settings.originalNode.node.router as SwitchRouter;
         if (router) {
@@ -27,12 +29,14 @@ export const nodeToState = (settings: NodeEditorSettings): ExpressionRouterFormS
 
             resultName = { value: router.result_name || '' };
         }
+
+        operand = router.operand;
     }
 
     return {
         cases: initialCases,
         resultName,
-        operand: { value: DEFAULT_OPERAND },
+        operand: { value: operand },
         valid: true
     };
 };

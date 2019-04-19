@@ -85,6 +85,7 @@ export default class ExpressionRouterForm extends React.Component<
                 <TextInputElement
                     name="Operand"
                     showLabel={false}
+                    autocomplete={true}
                     onChange={this.handleOperandUpdated}
                     entry={this.state.operand}
                 />
