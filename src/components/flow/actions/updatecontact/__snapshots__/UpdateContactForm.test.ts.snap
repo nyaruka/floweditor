@@ -79,7 +79,6 @@ exports[`UpdateContactForm render initial for channel 1`] = `
     className="value"
   >
     <AssetSelector
-      clearable={true}
       entry={
         Object {
           "value": Object {
@@ -94,6 +93,7 @@ exports[`UpdateContactForm render initial for channel 1`] = `
       onChange={[Function]}
       placeholder="Select the channel to use for this contact"
       searchable={true}
+      valueClearable={true}
     />
   </div>
 </Dialog>
@@ -273,7 +273,6 @@ exports[`UpdateContactForm render initial for language 1`] = `
     className="value"
   >
     <AssetSelector
-      clearable={true}
       entry={
         Object {
           "value": Object {
@@ -288,6 +287,7 @@ exports[`UpdateContactForm render initial for language 1`] = `
       onChange={[Function]}
       placeholder="Select the language to use for this contact"
       searchable={true}
+      valueClearable={true}
     />
   </div>
 </Dialog>

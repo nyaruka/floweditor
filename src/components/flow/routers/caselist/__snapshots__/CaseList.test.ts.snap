@@ -939,8 +939,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                   "type": "has_any_word",
                                                   "verboseName": "has any of the words",
                                                   "visibility": Array [
-                                                    "messaging",
-                                                    "messaging_offline",
+                                                    "message",
+                                                    "message_offline",
                                                   ],
                                                 }
                                               }
@@ -1071,8 +1071,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                     "type": "has_any_word",
                                                     "verboseName": "has any of the words",
                                                     "visibility": Array [
-                                                      "messaging",
-                                                      "messaging_offline",
+                                                      "message",
+                                                      "message_offline",
                                                     ],
                                                   }
                                                 }
@@ -1279,8 +1279,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                         "type": "has_any_word",
                                                         "verboseName": "has any of the words",
                                                         "visibility": Array [
-                                                          "messaging",
-                                                          "messaging_offline",
+                                                          "message",
+                                                          "message_offline",
                                                         ],
                                                       },
                                                     }
@@ -1523,8 +1523,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                             "type": "has_any_word",
                                                             "verboseName": "has any of the words",
                                                             "visibility": Array [
-                                                              "messaging",
-                                                              "messaging_offline",
+                                                              "message",
+                                                              "message_offline",
                                                             ],
                                                           },
                                                         }
@@ -1759,8 +1759,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -1808,8 +1808,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                                   "type": "has_any_word",
                                                                   "verboseName": "has any of the words",
                                                                   "visibility": Array [
-                                                                    "messaging",
-                                                                    "messaging_offline",
+                                                                    "message",
+                                                                    "message_offline",
                                                                   ],
                                                                 }
                                                               }
@@ -2004,8 +2004,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -2266,8 +2266,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -2501,8 +2501,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -2744,8 +2744,8 @@ exports[`CaseList render should render empty list 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -4670,8 +4670,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   "type": "has_any_word",
                                                   "verboseName": "has any of the words",
                                                   "visibility": Array [
-                                                    "messaging",
-                                                    "messaging_offline",
+                                                    "message",
+                                                    "message_offline",
                                                   ],
                                                 }
                                               }
@@ -4802,8 +4802,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     "type": "has_any_word",
                                                     "verboseName": "has any of the words",
                                                     "visibility": Array [
-                                                      "messaging",
-                                                      "messaging_offline",
+                                                      "message",
+                                                      "message_offline",
                                                     ],
                                                   }
                                                 }
@@ -5010,8 +5010,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         "type": "has_any_word",
                                                         "verboseName": "has any of the words",
                                                         "visibility": Array [
-                                                          "messaging",
-                                                          "messaging_offline",
+                                                          "message",
+                                                          "message_offline",
                                                         ],
                                                       },
                                                     }
@@ -5254,8 +5254,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             "type": "has_any_word",
                                                             "verboseName": "has any of the words",
                                                             "visibility": Array [
-                                                              "messaging",
-                                                              "messaging_offline",
+                                                              "message",
+                                                              "message_offline",
                                                             ],
                                                           },
                                                         }
@@ -5490,8 +5490,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -5539,8 +5539,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "type": "has_any_word",
                                                                   "verboseName": "has any of the words",
                                                                   "visibility": Array [
-                                                                    "messaging",
-                                                                    "messaging_offline",
+                                                                    "message",
+                                                                    "message_offline",
                                                                   ],
                                                                 }
                                                               }
@@ -5735,8 +5735,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -5997,8 +5997,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -6232,8 +6232,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -6475,8 +6475,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -7316,8 +7316,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   "type": "has_any_word",
                                                   "verboseName": "has any of the words",
                                                   "visibility": Array [
-                                                    "messaging",
-                                                    "messaging_offline",
+                                                    "message",
+                                                    "message_offline",
                                                   ],
                                                 }
                                               }
@@ -7448,8 +7448,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     "type": "has_any_word",
                                                     "verboseName": "has any of the words",
                                                     "visibility": Array [
-                                                      "messaging",
-                                                      "messaging_offline",
+                                                      "message",
+                                                      "message_offline",
                                                     ],
                                                   }
                                                 }
@@ -7656,8 +7656,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         "type": "has_any_word",
                                                         "verboseName": "has any of the words",
                                                         "visibility": Array [
-                                                          "messaging",
-                                                          "messaging_offline",
+                                                          "message",
+                                                          "message_offline",
                                                         ],
                                                       },
                                                     }
@@ -7900,8 +7900,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             "type": "has_any_word",
                                                             "verboseName": "has any of the words",
                                                             "visibility": Array [
-                                                              "messaging",
-                                                              "messaging_offline",
+                                                              "message",
+                                                              "message_offline",
                                                             ],
                                                           },
                                                         }
@@ -8136,8 +8136,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -8185,8 +8185,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "type": "has_any_word",
                                                                   "verboseName": "has any of the words",
                                                                   "visibility": Array [
-                                                                    "messaging",
-                                                                    "messaging_offline",
+                                                                    "message",
+                                                                    "message_offline",
                                                                   ],
                                                                 }
                                                               }
@@ -8381,8 +8381,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -8643,8 +8643,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -8878,8 +8878,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -9121,8 +9121,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -9946,8 +9946,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                   "type": "has_any_word",
                                                   "verboseName": "has any of the words",
                                                   "visibility": Array [
-                                                    "messaging",
-                                                    "messaging_offline",
+                                                    "message",
+                                                    "message_offline",
                                                   ],
                                                 }
                                               }
@@ -10078,8 +10078,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                     "type": "has_any_word",
                                                     "verboseName": "has any of the words",
                                                     "visibility": Array [
-                                                      "messaging",
-                                                      "messaging_offline",
+                                                      "message",
+                                                      "message_offline",
                                                     ],
                                                   }
                                                 }
@@ -10286,8 +10286,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                         "type": "has_any_word",
                                                         "verboseName": "has any of the words",
                                                         "visibility": Array [
-                                                          "messaging",
-                                                          "messaging_offline",
+                                                          "message",
+                                                          "message_offline",
                                                         ],
                                                       },
                                                     }
@@ -10530,8 +10530,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                             "type": "has_any_word",
                                                             "verboseName": "has any of the words",
                                                             "visibility": Array [
-                                                              "messaging",
-                                                              "messaging_offline",
+                                                              "message",
+                                                              "message_offline",
                                                             ],
                                                           },
                                                         }
@@ -10766,8 +10766,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -10815,8 +10815,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                   "type": "has_any_word",
                                                                   "verboseName": "has any of the words",
                                                                   "visibility": Array [
-                                                                    "messaging",
-                                                                    "messaging_offline",
+                                                                    "message",
+                                                                    "message_offline",
                                                                   ],
                                                                 }
                                                               }
@@ -11011,8 +11011,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -11273,8 +11273,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                 "type": "has_any_word",
                                                                 "verboseName": "has any of the words",
                                                                 "visibility": Array [
-                                                                  "messaging",
-                                                                  "messaging_offline",
+                                                                  "message",
+                                                                  "message_offline",
                                                                 ],
                                                               },
                                                             }
@@ -11508,8 +11508,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }
@@ -11751,8 +11751,8 @@ exports[`CaseList render should render list of cases 1`] = `
                                                                     "type": "has_any_word",
                                                                     "verboseName": "has any of the words",
                                                                     "visibility": Array [
-                                                                      "messaging",
-                                                                      "messaging_offline",
+                                                                      "message",
+                                                                      "message_offline",
                                                                     ],
                                                                   },
                                                                 }

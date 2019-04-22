@@ -53,7 +53,12 @@ export interface AssetSelectorProps extends FormElementProps {
 
     placeholder?: string;
     searchable?: boolean;
-    clearable?: boolean;
+
+    // do we give the clearing option (trash)
+    valueClearable?: boolean;
+
+    // do we present an x to clear the form
+    formClearable?: boolean;
 
     onFilter?: (asset: Asset) => boolean;
 
@@ -152,7 +157,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                 const remoteMatches = remoteAssets.filter((asset: Asset) =>
                     isMatch(input, asset, this.props.shouldExclude)
                 );
-                const removalAsset: Asset[] = this.props.clearable ? [REMOVE_VALUE_ASSET] : [];
+                const removalAsset: Asset[] = this.props.valueClearable ? [REMOVE_VALUE_ASSET] : [];
 
                 // concat them all together and uniquify them
                 let matches = uniqueBy(
@@ -255,7 +260,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             isMulti: this.props.multi,
             isDisabled: this.state.isLoading,
             isLoading: this.state.isLoading,
-            isClearable: false,
+            isClearable: this.props.formClearable,
             isSearchable: this.props.searchable,
             getOptionValue: (option: Asset) => option.id,
             getOptionLabel: (option: Asset) => option.name
@@ -318,7 +323,6 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                         {...commonAttributes}
                         defaultOptions={defaultOptions}
                         cacheOptions={true}
-                        isClearable={true}
                         loadOptions={this.handleLoadOptions}
                         noOptionsMessage={(obj: { inputValue: string }) =>
                             this.props.noOptionsMessage || `No ${this.props.name} Found`

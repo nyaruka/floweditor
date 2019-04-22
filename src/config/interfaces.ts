@@ -1,9 +1,9 @@
 import { AnyAction } from '~/flowTypes';
 
 export enum FlowTypes {
-    MESSAGE = 'messaging',
+    MESSAGE = 'message',
     VOICE = 'voice',
-    SURVEY = 'messaging_offline',
+    SURVEY = 'message_offline',
     NONE = '-'
 }
 
