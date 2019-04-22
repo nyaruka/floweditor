@@ -79,8 +79,8 @@ Array [
     "name": "Wait for Response",
     "type": "wait_for_response",
     "visibility": Array [
-      "messaging",
-      "messaging_offline",
+      "message",
+      "message_offline",
     ],
   },
   Object {
@@ -235,7 +235,7 @@ Array [
     "name": "Wait for Audio",
     "type": "wait_for_audio",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
   Object {
@@ -248,7 +248,7 @@ Array [
     "name": "Wait for Image",
     "type": "wait_for_image",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
   Object {
@@ -261,7 +261,7 @@ Array [
     "name": "Wait for Video",
     "type": "wait_for_video",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
   Object {
@@ -274,7 +274,7 @@ Array [
     "name": "Wait for Location",
     "type": "wait_for_location",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
   Object {
@@ -678,8 +678,8 @@ Object {
     "name": "Wait for Response",
     "type": "wait_for_response",
     "visibility": Array [
-      "messaging",
-      "messaging_offline",
+      "message",
+      "message_offline",
     ],
   },
   "transfer_airtime": Object {
@@ -706,7 +706,7 @@ Object {
     "name": "Wait for Audio",
     "type": "wait_for_audio",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
   "wait_for_digits": Object {
@@ -733,7 +733,7 @@ Object {
     "name": "Wait for Image",
     "type": "wait_for_image",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
   "wait_for_location": Object {
@@ -746,7 +746,7 @@ Object {
     "name": "Wait for Location",
     "type": "wait_for_location",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
   "wait_for_menu": Object {
@@ -776,8 +776,8 @@ Object {
     "name": "Wait for Response",
     "type": "wait_for_response",
     "visibility": Array [
-      "messaging",
-      "messaging_offline",
+      "message",
+      "message_offline",
     ],
   },
   "wait_for_video": Object {
@@ -790,7 +790,7 @@ Object {
     "name": "Wait for Video",
     "type": "wait_for_video",
     "visibility": Array [
-      "messaging_offline",
+      "message_offline",
     ],
   },
 }

@@ -30,7 +30,7 @@ exports[`WaitRouterForm should render 1`] = `
         "name": "Wait for Audio",
         "type": "wait_for_audio",
         "visibility": Array [
-          "messaging_offline",
+          "message_offline",
         ],
       }
     }

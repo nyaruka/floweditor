@@ -206,7 +206,7 @@ export default class UpdateContactForm extends React.Component<
                     assets={this.props.assetStore.channels}
                     entry={this.state.channel}
                     searchable={true}
-                    clearable={true}
+                    valueClearable={true}
                     onChange={this.handleChannelUpdate}
                 />
             );
@@ -221,7 +221,7 @@ export default class UpdateContactForm extends React.Component<
                     assets={this.props.assetStore.languages}
                     entry={this.state.language}
                     searchable={true}
-                    clearable={true}
+                    valueClearable={true}
                     onChange={this.handleLanguageUpdate}
                 />
             );

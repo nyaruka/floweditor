@@ -52,8 +52,8 @@ Array [
         "name": "Wait for Response",
         "type": "wait_for_response",
         "visibility": Array [
-          "messaging",
-          "messaging_offline",
+          "message",
+          "message_offline",
         ],
       },
     },

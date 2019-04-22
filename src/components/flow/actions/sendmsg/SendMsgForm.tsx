@@ -419,6 +419,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                     entry={this.state.template}
                     onChange={this.handleTemplateChanged}
                     searchable={true}
+                    formClearable={true}
                 />
                 {this.state.templateTranslation ? (
                     <>
