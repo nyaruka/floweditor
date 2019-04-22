@@ -104,8 +104,9 @@ export const isRelativeDate = (operatorType: Operators): boolean => {
     );
 };
 
-const isCategoryMatch = (cat: Category, name: string) => {
-    return cat.name.toLowerCase().trim() === name.trim().toLowerCase();
+const isCategoryMatch = (cat: Category, kase: CaseProps) => {
+    // see if we have the same name
+    return cat.name.toLowerCase().trim() === kase.categoryName.trim().toLowerCase();
 };
 
 /**
@@ -140,15 +141,30 @@ export const categorizeCases = (
         }
 
         //  see if it exists on a previous case
-        let category = categories.find((cat: Category) =>
-            isCategoryMatch(cat, newCase.categoryName)
-        );
+        let category = categories.find((cat: Category) => isCategoryMatch(cat, newCase));
 
         // if not, see if that category exists on our old node
         if (!category) {
-            category = previousCategories.find((cat: Category) =>
-                isCategoryMatch(cat, newCase.categoryName)
-            );
+            category = previousCategories.find((cat: Category) => isCategoryMatch(cat, newCase));
+
+            // still no category, lets see if we can find a case uuid match
+            if (!category) {
+                const router = getSwitchRouter(originalNode);
+                if (router) {
+                    const previousCase = router.cases.find(
+                        (kase: Case) => kase.uuid === newCase.uuid
+                    );
+                    if (previousCase) {
+                        const previousCategory = previousCategories.find(
+                            (cat: Category) => cat.uuid === previousCase.category_uuid
+                        );
+
+                        if (previousCategory) {
+                            category = { ...previousCategory, name: newCase.categoryName };
+                        }
+                    }
+                }
+            }
 
             // we found an old category, bring it and its exit over
             if (category) {
