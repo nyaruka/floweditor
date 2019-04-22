@@ -30,6 +30,11 @@ describe('helpers', () => {
             const flowDetails = getFlowComponents(definition);
             expect(flowDetails.labels).toMatchSnapshot();
         });
+
+        it('should find results in definition', () => {
+            const flowDetails = getFlowComponents(definition);
+            expect(flowDetails.results).toMatchSnapshot();
+        });
     });
 
     describe('RenderNodeMap', () => {

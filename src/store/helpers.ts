@@ -522,7 +522,7 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             } else if (action.type === Types.set_run_result) {
                 const resultAction = action as SetRunResult;
                 const key = snakify(resultAction.name);
-                fields[key] = {
+                results[key] = {
                     name: resultAction.name,
                     id: key,
                     type: AssetType.Result,

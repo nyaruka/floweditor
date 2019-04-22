@@ -45,6 +45,12 @@
                             "name": "Feedback"
                         }
                     ]
+                },
+                {
+                    "uuid": "node0_action4",
+                    "type": "set_run_result",
+                    "name": "Started",
+                    "value": "true"
                 }
             ],
             "exits": [

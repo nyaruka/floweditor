@@ -45,6 +45,12 @@ Object {
           "type": "add_input_labels",
           "uuid": "node0_action3",
         },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
       ],
       "exits": Array [
         Object {
@@ -260,6 +266,12 @@ Object {
           "uuid": "node0_action3",
         },
         Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
+        Object {
           "text": "Hello World",
           "type": "send_msg",
           "uuid": "node0_action4",
@@ -472,6 +484,12 @@ Object {
           ],
           "type": "add_input_labels",
           "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
         },
       ],
       "exits": Array [
@@ -686,6 +704,12 @@ Object {
           ],
           "type": "add_input_labels",
           "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
         },
       ],
       "exits": Array [
@@ -948,6 +972,12 @@ Object {
           "type": "add_input_labels",
           "uuid": "node0_action3",
         },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
       ],
       "exits": Array [
         Object {
@@ -1156,6 +1186,12 @@ Object {
           "type": "add_input_labels",
           "uuid": "node0_action3",
         },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
       ],
       "exits": Array [
         Object {
@@ -1311,6 +1347,12 @@ Object {
           "text": "Goodbye World",
           "type": "send_msg",
           "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
         },
         Object {
           "text": "Hello World",
@@ -1531,6 +1573,12 @@ Object {
           "type": "add_input_labels",
           "uuid": "node0_action3",
         },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
       ],
       "exits": Array [
         Object {
@@ -1742,6 +1790,12 @@ Object {
           ],
           "type": "add_input_labels",
           "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
         },
       ],
       "exits": Array [
@@ -1957,6 +2011,12 @@ Object {
           ],
           "type": "add_input_labels",
           "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
         },
       ],
       "exits": Array [

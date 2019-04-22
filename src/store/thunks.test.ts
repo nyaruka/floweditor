@@ -249,8 +249,8 @@ describe('Flow Manipulation', () => {
 
             // we should have a new action
             const actions = nodes.node0.node.actions;
-            expect(actions.length).toBe(5);
-            expect((actions[4] as SendMsg).text).toBe('A fifth action for our first node');
+            expect(actions.length).toBe(6);
+            expect((actions[5] as SendMsg).text).toBe('A fifth action for our first node');
         });
 
         it('should replace router node with a single-action node', () => {
@@ -313,10 +313,10 @@ describe('Flow Manipulation', () => {
         });
 
         it('should remove the node when removing the last action', () => {
-            // remove the first action
+            // remove both our actions
             const updated = store.dispatch(removeAction('node3', testNodes.node3.node.actions[0]));
 
-            // first one was removed, so now actionB is first
+            // removing the last action removes the entire node
             expect(updated.node3).toBeUndefined();
         });
 
