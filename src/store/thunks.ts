@@ -173,6 +173,11 @@ export const createDirty = (
     newDefinition.revision = currentRevision;
 
     lastDirtyAttempt = window.setTimeout(() => {
+        if (postingRevision) {
+            markDirty();
+            return;
+        }
+
         postingRevision = true;
         saveRevision(revisionsEndpoint, newDefinition).then(
             (revision: Revision) => {
@@ -449,6 +454,7 @@ export const moveActionUp = (nodeUUID: string, action: AnyAction) => (
     } = getState();
     const updated = mutators.moveActionUp(nodes, nodeUUID, action.uuid);
     dispatch(updateNodes(updated));
+    markDirty();
     return updated;
 };
 
