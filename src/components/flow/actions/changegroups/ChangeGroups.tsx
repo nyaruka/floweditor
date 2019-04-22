@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { renderAssetList } from '~/components/flow/actions/helpers';
+import { fakePropType } from '~/config/ConfigProvider';
 import { Types } from '~/config/interfaces';
-import { ChangeGroups } from '~/flowTypes';
+import { ChangeGroups, Endpoints } from '~/flowTypes';
 import { AssetType } from '~/store/flowContext';
 
 export const removeAllSpecId = 'remove_from_all';
@@ -20,7 +21,10 @@ export const getRemoveAllMarkup = (
     </div>
 );
 
-export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] => {
+export const getContentMarkup = (
+    { type, groups }: ChangeGroups,
+    endpoints?: Endpoints
+): JSX.Element[] => {
     const content = [];
 
     if (type === Types.remove_contact_groups && (!groups || !groups.length)) {
@@ -30,18 +34,26 @@ export const getContentMarkup = ({ type, groups }: ChangeGroups): JSX.Element[] 
             groups.map(group => {
                 return { id: group.uuid, name: group.name, type: AssetType.Group };
             }),
-            MAX_TO_SHOW
+            MAX_TO_SHOW,
+            endpoints
         );
     }
 
     return content;
 };
 
-export const getChangeGroupsMarkup = (action: ChangeGroups, specId = contentSpecId) => (
-    <div data-spec={specId}>{getContentMarkup(action)}</div>
-);
+export const getChangeGroupsMarkup = (
+    action: ChangeGroups,
+    endpoints?: Endpoints,
+    specId = contentSpecId
+) => <div data-spec={specId}>{getContentMarkup(action, endpoints)}</div>;
 
-const ChangeGroupsComp: React.SFC<ChangeGroups> = (props): JSX.Element =>
-    getChangeGroupsMarkup(props);
+const ChangeGroupsComp: React.SFC<ChangeGroups> = (props, context: any): JSX.Element => {
+    return getChangeGroupsMarkup(props, context.config.endpoints);
+};
+
+ChangeGroupsComp.contextTypes = {
+    config: fakePropType
+};
 
 export default ChangeGroupsComp;

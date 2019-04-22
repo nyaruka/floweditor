@@ -5,6 +5,7 @@ Array [
   Object {
     "activity": "",
     "channels": "/assets/channels.json",
+    "editor": "/flow/editor",
     "environment": "/assets/environment.json",
     "fields": "/assets/fields.json",
     "flows": "/assets/flows.json",

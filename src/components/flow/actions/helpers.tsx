@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Contact, Group, RecipientsAction } from '~/flowTypes';
+import { Contact, Endpoints, Group, RecipientsAction } from '~/flowTypes';
 import { Asset, AssetType } from '~/store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
@@ -26,10 +26,14 @@ export const getRecipients = (action: RecipientsAction): Asset[] => {
     );
 };
 
-export const renderAssetList = (assets: Asset[], max: number = 10): JSX.Element[] => {
+export const renderAssetList = (
+    assets: Asset[],
+    max: number = 10,
+    endpoints: Endpoints
+): JSX.Element[] => {
     return assets.reduce((elements, asset, idx) => {
         if (idx <= max - 1) {
-            elements.push(renderAsset(asset));
+            elements.push(renderAsset(asset, endpoints));
         } else if (idx > max - 1 && elements.length === max) {
             elements.push(<div key="ellipses">...</div>);
         }
@@ -37,7 +41,7 @@ export const renderAssetList = (assets: Asset[], max: number = 10): JSX.Element[
     }, []);
 };
 
-export const renderAsset = (asset: Asset) => {
+export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
     switch (asset.type) {
         case AssetType.Group:
             return (
@@ -57,7 +61,14 @@ export const renderAsset = (asset: Asset) => {
             return (
                 <div className={styles.nodeAsset} key={asset.id}>
                     <span className={`${styles.nodeLabel} fe-split`} />
-                    {asset.name}
+                    <a
+                        onMouseDown={(e: any) => {
+                            e.preventDefault(), e.stopPropagation();
+                        }}
+                        href={`${endpoints.editor}/${asset.id}`}
+                    >
+                        {asset.name}
+                    </a>
                 </div>
             );
     }
