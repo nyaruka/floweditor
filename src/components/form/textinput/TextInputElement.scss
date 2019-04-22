@@ -38,8 +38,6 @@
 }
 
 .option {
-    // border-top: 1px solid transparent;
-    // border-bottom: 1px solid transparent;
     padding: 5px;
     font-size: 14px;
 
@@ -86,8 +84,6 @@
 }
 
 .fn_container {
-    // overflow: hidden;
-    // position: absolute;
     background: $light_gray_2;
     border-radius: 4px;
     z-index: $z_completion;

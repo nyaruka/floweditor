@@ -379,7 +379,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             return;
         }
 
-        /*this.setState(
+        this.setState(
             {
                 query: '',
                 matches: [],
@@ -387,7 +387,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 completionVisible: false
             },
             () => this.props.onBlur && this.props.onBlur(event)
-        );*/
+        );
     }
 
     private executeQuery(value: string, position: number): Partial<TextInputState> {
