@@ -74,6 +74,10 @@ export class CanvasDraggable extends React.PureComponent<CanvasDraggableProps, {
                 className={classes.join(' ')}
                 style={{ left: this.props.position.left, top: this.props.position.top }}
                 onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+                    // ignore right clicks
+                    if (event.nativeEvent.which === 3) {
+                        return;
+                    }
                     this.props.onDragStart(
                         this.props.uuid,
                         newPosition(

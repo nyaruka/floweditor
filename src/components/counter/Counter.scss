@@ -2,6 +2,11 @@
 
 .counter {
     z-index: $z_counters;
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
 }
 
 .clickable {

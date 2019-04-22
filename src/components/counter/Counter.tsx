@@ -68,34 +68,34 @@ export default class Counter extends React.Component<CounterProps> {
     }
 
     public render(): JSX.Element {
-        if (this.props.count > 0) {
-            const count = addCommas(this.props.count);
-            return (
+        const count = addCommas(this.props.count);
+        return (
+            <div
+                ref={(ele: HTMLDivElement) => {
+                    this.ele = ele;
+                }}
+                className={
+                    styles.counter +
+                    ' ' +
+                    this.props.containerStyle +
+                    ' ' +
+                    (this.props.onClick ? styles.clickable : '') +
+                    ' ' +
+                    (this.props.count > 0 ? styles.visible : '')
+                }
+                onClick={this.handleClick}
+                data-spec="counter-outter"
+            >
                 <div
-                    ref={(ele: HTMLDivElement) => {
-                        this.ele = ele;
-                    }}
-                    className={
-                        styles.counter +
-                        ' ' +
-                        this.props.containerStyle +
-                        ' ' +
-                        (this.props.onClick ? styles.clickable : '')
-                    }
-                    onClick={this.handleClick}
-                    data-spec="counter-outter"
+                    onMouseEnter={this.handleMouseEnter}
+                    onMouseLeave={this.handleMouseLeave}
+                    className={this.props.countStyle}
+                    data-spec="counter-inner"
                 >
-                    <div
-                        onMouseEnter={this.handleMouseEnter}
-                        onMouseLeave={this.handleMouseLeave}
-                        className={this.props.countStyle}
-                        data-spec="counter-inner"
-                    >
-                        {count}
-                    </div>
+                    {count}
                 </div>
-            );
-        }
+            </div>
+        );
         return null;
     }
 }

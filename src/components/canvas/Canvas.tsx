@@ -138,12 +138,20 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     }
 
     private isClickOnCanvas(event: React.MouseEvent<HTMLDivElement>): boolean {
+        // ignore right clicks
+        if (event.nativeEvent.which === 3) {
+            return false;
+        }
         return (event.target as any).id === this.state.uuid;
     }
 
     private handleMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
-        this.justSelected = false;
+        // ignore right clicks
+        if (event.nativeEvent.which === 3) {
+            return;
+        }
 
+        this.justSelected = false;
         if (this.isClickOnCanvas(event)) {
             this.setState({
                 dragSelection: {
@@ -207,6 +215,11 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     }
 
     private handleMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
+        // ignore right clicks
+        if (event.nativeEvent.which === 3) {
+            return;
+        }
+
         this.lastX = null;
         this.lastY = null;
         if (this.state.dragUUID) {
