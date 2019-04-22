@@ -20,11 +20,14 @@ import { Type, Types } from '~/config/interfaces';
 import {
     AssetStore,
     CompletionOption,
+    FunctionExample,
     getCompletionName,
     getCompletionSignature
 } from '~/store/flowContext';
 import { StringEntry, ValidationFailure } from '~/store/nodeEditor';
 import AppState from '~/store/state';
+
+const ReactMarkdown = require('react-markdown');
 
 // import setCaretPosition from 'get-input-selection';
 export enum Count {
@@ -218,9 +221,14 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     let newValue = this.state.value.substr(0, caret - this.state.query.length);
 
                     if (option.signature) {
+                        let parens = 1;
+                        if (option.signature.indexOf('()') > -1) {
+                            parens++;
+                        }
+
                         newValue += option.signature.substring(
                             0,
-                            option.signature.indexOf('(') + 1
+                            option.signature.indexOf('(') + parens
                         );
                     } else {
                         newValue += option.name;
@@ -239,17 +247,22 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
                     newValue += this.state.value.substr(caret);
 
+                    let fn: CompletionOption = null;
                     let query = '';
                     let completionVisible = false;
                     const matches: CompletionOption[] = [];
-                    if (event.key === KeyValues.KEY_TAB) {
+                    if (event.key === KeyValues.KEY_TAB || option.signature) {
                         query = option.name;
                         matches.push(...filterOptions(this.state.options, query, true));
                         completionVisible = matches.length > 0;
+                        if (option.signature && option.signature.indexOf('()') === -1) {
+                            fn = option;
+                        }
                     }
 
                     this.setState(
                         {
+                            fn,
                             query,
                             value: newValue,
                             matches,
@@ -490,7 +503,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     private getOption(
         option: CompletionOption,
         showSummary: boolean = false,
-        showExamples: boolean = false
+        numExamples: number = 0
     ): JSX.Element {
         const name = getCompletionName(option);
 
@@ -500,16 +513,23 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
         if (showSummary) {
             summary = (
                 <div data-spec="option-summary" className={styles.optionSummary}>
-                    {option.summary}
+                    <ReactMarkdown source={option.summary} />
                 </div>
             );
         }
 
-        if (showExamples) {
+        if (option.examples && numExamples > 0) {
             examples = (
-                <div data-spec="option-example" className={styles.optionExample}>
-                    <div className={styles.forExample}>EXAMPLE</div>
-                    {option.examples[0].template}
+                <div data-spec="option-example" className={styles.optionExamples}>
+                    <div>
+                        EXAMPLE
+                        {numExamples !== 1 ? 'S' : ''}
+                    </div>
+                    {option.examples
+                        .slice(0, numExamples)
+                        .map((example: FunctionExample, idx: number) => (
+                            <div key={option.name + '_example_' + idx}> {example.template}</div>
+                        ))}
                 </div>
             );
         }
@@ -549,7 +569,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                         className={optionClasses.join(' ')}
                         key={option.signature || option.name}
                     >
-                        {this.getOption(option, true)}
+                        {this.getOption(option, true, 1)}
                     </li>
                 );
             }
@@ -659,6 +679,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             (this.props.typeConfig.type === Types.send_msg ||
                 this.props.typeConfig.type === Types.send_broadcast);
 
+        const showFn = this.state.fn && !this.state.query;
+
         return (
             <FormElement
                 __className={this.props.__className}
@@ -671,18 +693,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             >
                 <div className={styles.wrapper}>
                     {this.getTextElement()}
-                    {this.state.fn ? (
-                        <div
-                            className={fnClasses}
-                            style={{
-                                top: this.state.caretCoordinates.top - this.getScroll() - 105,
-                                left: this.state.caretCoordinates.left,
-                                height: 100
-                            }}
-                        >
-                            {this.getOption(this.state.fn, true, true)}
-                        </div>
-                    ) : null}
                     <div
                         className={completionClasses}
                         style={{
@@ -691,12 +701,20 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                         }}
                         data-spec="completion-options"
                     >
-                        <ul className={styles.option_list} data-spec="completion-list">
-                            {options}
-                        </ul>
-                        <div className={styles.help} data-spec="completion-help">
-                            {COMPLETION_HELP}
+                        <div className={styles.optionsWrapper}>
+                            <ul className={styles.option_list} data-spec="completion-list">
+                                {options}
+                            </ul>
+                            <div className={styles.help} data-spec="completion-help">
+                                {COMPLETION_HELP}
+                            </div>
                         </div>
+
+                        {showFn ? (
+                            <div className={fnClasses}>
+                                {this.getOption(this.state.fn, true, 3)}
+                            </div>
+                        ) : null}
                     </div>
                 </div>
                 {charCount}

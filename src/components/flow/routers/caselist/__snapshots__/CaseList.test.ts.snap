@@ -138,15 +138,19 @@ exports[`CaseList render should render empty list 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -177,15 +181,19 @@ exports[`CaseList render should render empty list 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -303,15 +311,19 @@ exports[`CaseList render should render empty list 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -342,15 +354,19 @@ exports[`CaseList render should render empty list 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -498,15 +514,19 @@ exports[`CaseList render should render empty list 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -537,15 +557,19 @@ exports[`CaseList render should render empty list 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -655,15 +679,19 @@ exports[`CaseList render should render empty list 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -694,15 +722,19 @@ exports[`CaseList render should render empty list 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -2858,15 +2890,19 @@ exports[`CaseList render should render empty list 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -2944,15 +2980,19 @@ exports[`CaseList render should render empty list 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -3158,15 +3198,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -3197,15 +3241,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -3313,15 +3361,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -3352,15 +3404,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -3465,15 +3521,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -3504,15 +3564,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                 data-spec="completion-options"
                                 style="top: 0px; left: 0px;"
                               >
-                                <ul
-                                  class="option_list"
-                                  data-spec="completion-list"
-                                />
                                 <div
-                                  class="help"
-                                  data-spec="completion-help"
+                                  class="optionsWrapper"
                                 >
-                                  Tab to complete, enter to select
+                                  <ul
+                                    class="option_list"
+                                    data-spec="completion-list"
+                                  />
+                                  <div
+                                    class="help"
+                                    data-spec="completion-help"
+                                  >
+                                    Tab to complete, enter to select
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -3635,15 +3699,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -3674,15 +3742,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -3790,15 +3862,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -3829,15 +3905,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -3942,15 +4022,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -3981,15 +4065,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                   data-spec="completion-options"
                                   style="top: 0px; left: 0px;"
                                 >
-                                  <ul
-                                    class="option_list"
-                                    data-spec="completion-list"
-                                  />
                                   <div
-                                    class="help"
-                                    data-spec="completion-help"
+                                    class="optionsWrapper"
                                   >
-                                    Tab to complete, enter to select
+                                    <ul
+                                      class="option_list"
+                                      data-spec="completion-list"
+                                    />
+                                    <div
+                                      class="help"
+                                      data-spec="completion-help"
+                                    >
+                                      Tab to complete, enter to select
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -4144,15 +4232,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -4183,15 +4275,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -4304,15 +4400,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -4343,15 +4443,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -6517,15 +6621,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -6603,15 +6711,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -6766,15 +6878,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -6805,15 +6921,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -6926,15 +7046,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -6965,15 +7089,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -9139,15 +9267,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -9225,15 +9357,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -9385,15 +9521,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -9424,15 +9564,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                       data-spec="completion-options"
                                       style="top: 0px; left: 0px;"
                                     >
-                                      <ul
-                                        class="option_list"
-                                        data-spec="completion-list"
-                                      />
                                       <div
-                                        class="help"
-                                        data-spec="completion-help"
+                                        class="optionsWrapper"
                                       >
-                                        Tab to complete, enter to select
+                                        <ul
+                                          class="option_list"
+                                          data-spec="completion-list"
+                                        />
+                                        <div
+                                          class="help"
+                                          data-spec="completion-help"
+                                        >
+                                          Tab to complete, enter to select
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -9542,15 +9686,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -9581,15 +9729,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                         data-spec="completion-options"
                                         style="top: 0px; left: 0px;"
                                       >
-                                        <ul
-                                          class="option_list"
-                                          data-spec="completion-list"
-                                        />
                                         <div
-                                          class="help"
-                                          data-spec="completion-help"
+                                          class="optionsWrapper"
                                         >
-                                          Tab to complete, enter to select
+                                          <ul
+                                            class="option_list"
+                                            data-spec="completion-list"
+                                          />
+                                          <div
+                                            class="help"
+                                            data-spec="completion-help"
+                                          >
+                                            Tab to complete, enter to select
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -11745,15 +11897,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
@@ -11831,15 +11987,19 @@ exports[`CaseList render should render list of cases 1`] = `
                                                           }
                                                         }
                                                       >
-                                                        <ul
-                                                          className="option_list"
-                                                          data-spec="completion-list"
-                                                        />
                                                         <div
-                                                          className="help"
-                                                          data-spec="completion-help"
+                                                          className="optionsWrapper"
                                                         >
-                                                          Tab to complete, enter to select
+                                                          <ul
+                                                            className="option_list"
+                                                            data-spec="completion-list"
+                                                          />
+                                                          <div
+                                                            className="help"
+                                                            data-spec="completion-help"
+                                                          >
+                                                            Tab to complete, enter to select
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>

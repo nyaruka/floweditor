@@ -236,7 +236,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         if (events.length > 0) {
             const toAdd = [];
 
-            let quickReplies: string[] = null;
+            let quickReplies: string[] = [];
 
             let messageFound = false;
             while (events.length > 0 && !messageFound) {
