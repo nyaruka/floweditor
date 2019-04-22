@@ -45,6 +45,12 @@ Array [
           "type": "add_input_labels",
           "uuid": "node0_action3",
         },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
       ],
       "exits": Array [
         Object {
@@ -250,6 +256,29 @@ Object {
     "id": "label_1",
     "name": "Feedback",
     "type": "label",
+  },
+}
+`;
+
+exports[`helpers initializeFlow should find results in definition 1`] = `
+Object {
+  "color": Object {
+    "id": "color",
+    "name": "color",
+    "references": Array [
+      Object {
+        "nodeUUID": "node1",
+      },
+    ],
+    "type": "result",
+  },
+  "started": Object {
+    "content": Object {
+      "sources": Array [],
+    },
+    "id": "started",
+    "name": "Started",
+    "type": "result",
   },
 }
 `;

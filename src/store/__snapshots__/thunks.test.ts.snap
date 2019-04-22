@@ -440,6 +440,12 @@ Object {
           "type": "add_input_labels",
           "uuid": "node0_action3",
         },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
+        },
       ],
       "exits": Array [
         Object {
@@ -573,6 +579,12 @@ Object {
           ],
           "type": "add_input_labels",
           "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
         },
       ],
       "exits": Array [
@@ -748,6 +760,12 @@ Object {
           ],
           "type": "add_input_labels",
           "uuid": "node0_action3",
+        },
+        Object {
+          "name": "Started",
+          "type": "set_run_result",
+          "uuid": "node0_action4",
+          "value": "true",
         },
       ],
       "exits": Array [

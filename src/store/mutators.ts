@@ -104,10 +104,11 @@ export const removeResultFromStore = (
     assets: AssetStore,
     reference: Reference
 ): AssetStore => {
-    if (resultName) {
+    if (resultName && assets.results) {
         const items = removeResultReference(resultName, assets.results.items, reference);
         return mutate(assets, { results: { items: { $set: items } } });
     }
+    return assets;
 };
 
 export const addResultToStore = (
