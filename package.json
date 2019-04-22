@@ -123,6 +123,7 @@
     "react-dom": "16.4.2",
     "react-flip-move": "2.10.0",
     "react-hot-loader": "4.3.4",
+    "react-markdown": "4.0.8",
     "react-media-player": "0.7.6",
     "react-modal": "3.4.5",
     "react-page-visibility": "3.2.1",

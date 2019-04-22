@@ -62,8 +62,8 @@ $sticky_green: rgb(219, 255, 173);
 $node_width: 198px;
 $curvature: 10px;
 
-$shadow_color: rgba(0, 0, 0, 0.15);
-$shadow_down: 0 2px 8px $shadow_color;
+$shadow_color: rgba(0, 0, 0, 0.13);
+$shadow_down: 1px 1px 0px 2px $shadow_color;
 
 // localization
 $translation_connector: #ddd;
