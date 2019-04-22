@@ -9,7 +9,12 @@ exports[`StartFlowComp render should render flow name 1`] = `
     <span
       className="nodeLabel fe-split"
     />
-    Colors
+    <a
+      href="/flow/editor/b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+      onMouseDown={[Function]}
+    >
+      Colors
+    </a>
   </div>
 </Fragment>
 `;

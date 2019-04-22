@@ -34,6 +34,7 @@ export interface Endpoints {
     templates: string;
     simulateStart: string;
     simulateResume: string;
+    editor: string;
 }
 
 export interface FlowEditorConfig {

@@ -13,6 +13,7 @@ module.exports =
                   fields: 'fields',
                   labels: 'labels',
                   environment: 'environment',
+                  editor: 'editor',
                   activity: '',
                   engine: ''
               }
@@ -26,6 +27,7 @@ module.exports =
                   fields: '/assets/fields',
                   labels: '/assets/labels',
                   environment: '/assets/environment',
+                  editor: 'editor',
                   activity: '',
                   engine: ''
               }

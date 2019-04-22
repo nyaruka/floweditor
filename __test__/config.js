@@ -18,6 +18,7 @@ module.exports =
                   languages: 'languages',
                   channels: 'channels',
                   environment: 'environment',
+                  editor: '/flow/editor',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''
@@ -38,6 +39,7 @@ module.exports =
                   channels: '/assets/channels.json',
                   environment: '/assets/environment.json',
                   revisions: '/assets/revisions.json',
+                  editor: '/flow/editor',
                   activity: '',
                   simulateStart: '',
                   simulateResume: ''
