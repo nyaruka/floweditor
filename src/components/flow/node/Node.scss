@@ -118,6 +118,15 @@
 
         transition: transform 200ms;
 
+        .save-result {
+            background: #fff;
+            padding: 10px 10px;
+            .result-name {
+                font-weight: 500;
+                display: inline-block;
+            }
+        }
+
         .cropped {
             overflow: hidden;
             min-width: $node_width;
