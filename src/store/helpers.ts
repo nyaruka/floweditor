@@ -133,8 +133,8 @@ export const detectLoops = (
         return;
     }
 
-    // we've been here before
-    if (!!path.find((nodeUUID: string) => nodeUUID === toNodeUUID)) {
+    // we're back where we started
+    if (toNodeUUID === path[0]) {
         throw new Error('Flow loop detected, route through a wait first');
     }
 
@@ -522,12 +522,17 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             } else if (action.type === Types.set_run_result) {
                 const resultAction = action as SetRunResult;
                 const key = snakify(resultAction.name);
-                results[key] = {
-                    name: resultAction.name,
-                    id: key,
-                    type: AssetType.Result,
-                    content: { sources: [] }
-                };
+
+                if (key in results) {
+                    results[key].references.push({ nodeUUID: node.uuid, actionUUID: action.uuid });
+                } else {
+                    results[key] = {
+                        name: resultAction.name,
+                        id: key,
+                        type: AssetType.Result,
+                        references: [{ nodeUUID: node.uuid, actionUUID: action.uuid }]
+                    };
+                }
             }
         }
 

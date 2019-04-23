@@ -273,11 +273,14 @@ Object {
     "type": "result",
   },
   "started": Object {
-    "content": Object {
-      "sources": Array [],
-    },
     "id": "started",
     "name": "Started",
+    "references": Array [
+      Object {
+        "actionUUID": "node0_action4",
+        "nodeUUID": "node0",
+      },
+    ],
     "type": "result",
   },
 }
