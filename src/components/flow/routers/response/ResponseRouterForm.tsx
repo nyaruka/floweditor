@@ -98,7 +98,7 @@ export default class ResponseRouterForm extends React.Component<
                     value={this.state.resultName}
                     onChange={this.handleUpdateResultName}
                     toggleText="Save as.."
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+                    helpText="By naming the result, you can reference it later using @results.whatever_the_name_is"
                 />
             </Dialog>
         );

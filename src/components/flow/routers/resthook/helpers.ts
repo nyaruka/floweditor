@@ -1,34 +1,29 @@
-import { createRenderNode } from '~/components/flow/routers/helpers';
-import { Operators } from '~/config/interfaces';
+import { createWebhookBasedNode } from '~/components/flow/routers/helpers';
 import { Types } from '~/config/interfaces';
-import {
-    CallResthook,
-    Case,
-    Exit,
-    RouterTypes,
-    SwitchRouter,
-    WebhookExitNames,
-    Category
-} from '~/flowTypes';
+import { CallResthook } from '~/flowTypes';
 import { AssetType, RenderNode } from '~/store/flowContext';
 import { AssetEntry, NodeEditorSettings } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
 
 import { ResthookRouterFormState } from './ResthookRouterForm';
-import { WEBHOOK_OPERAND } from '~/components/nodeeditor/constants';
 
 export const nodeToState = (settings: NodeEditorSettings): ResthookRouterFormState => {
-    const originalAction = getOriginalAction(settings);
-
     let resthookAsset: AssetEntry = { value: null };
-    if (originalAction) {
+    let resultName = { value: 'Result' };
+    let valid = false;
+
+    const originalAction = getOriginalAction(settings) as CallResthook;
+    if (originalAction && originalAction.type === Types.call_resthook) {
         const resthook = originalAction.resthook;
         resthookAsset = { value: { id: resthook, name: resthook, type: AssetType.Resthook } };
+        resultName = { value: originalAction.result_name };
+        valid = true;
     }
 
     return {
         resthook: resthookAsset,
-        valid: false
+        resultName,
+        valid
     };
 };
 
@@ -45,91 +40,11 @@ export const stateToNode = (
     const newAction: CallResthook = {
         uuid,
         resthook: state.resthook.value.id,
-        type: Types.call_resthook
+        type: Types.call_resthook,
+        result_name: state.resultName.value
     };
 
-    // If we're already a subflow, lean on those exits and cases
-    let exits: Exit[];
-    let cases: Case[];
-    let categories: Category[];
-
-    if (originalAction) {
-        ({ exits } = settings.originalNode.node);
-        ({ cases, categories } = settings.originalNode.node.router as SwitchRouter);
-    } else {
-        // Otherwise, let's create some new ones
-        exits = [
-            {
-                uuid: createUUID(),
-                destination_uuid: null
-            },
-            {
-                uuid: createUUID(),
-                destination_uuid: null
-            },
-            {
-                uuid: createUUID(),
-                destination_uuid: null
-            }
-        ];
-
-        categories = [
-            {
-                uuid: createUUID(),
-                name: WebhookExitNames.Success,
-                exit_uuid: exits[0].uuid
-            },
-            {
-                uuid: createUUID(),
-                name: WebhookExitNames.Failure,
-                exit_uuid: exits[1].uuid
-            },
-            {
-                uuid: createUUID(),
-                name: WebhookExitNames.Unreachable,
-                exit_uuid: exits[2].uuid
-            }
-        ];
-
-        cases = [
-            {
-                uuid: createUUID(),
-                type: Operators.has_webhook_status,
-                arguments: ['success'],
-                category_uuid: categories[0].uuid
-            },
-            {
-                uuid: createUUID(),
-                type: Operators.has_webhook_status,
-                arguments: ['response_error'],
-                category_uuid: categories[1].uuid
-            },
-            {
-                uuid: createUUID(),
-                type: Operators.has_webhook_status,
-                arguments: ['connection_error'],
-                category_uuid: categories[2].uuid
-            }
-        ];
-    }
-
-    const router: SwitchRouter = {
-        type: RouterTypes.switch,
-        operand: WEBHOOK_OPERAND,
-        cases,
-        categories,
-        default_category_uuid: null
-    };
-
-    const newRenderNode = createRenderNode(
-        settings.originalNode.node.uuid,
-        router,
-        exits,
-        Types.split_by_resthook,
-        [newAction]
-    );
-
-    return newRenderNode;
+    return createWebhookBasedNode(newAction, settings.originalNode);
 };
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallResthook => {

@@ -558,6 +558,8 @@ export const spliceInRouter = (
     }
 
     dispatch(updateNodes(updatedNodes));
+
+    markDirty();
     return updatedNodes;
 };
 

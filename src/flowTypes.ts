@@ -288,15 +288,18 @@ export interface Headers {
 
 export interface TransferAirtime extends Action {
     amounts: { [name: string]: number };
+    result_name: string;
 }
 
 export interface CallResthook extends Action {
     resthook: string;
+    result_name: string;
 }
 
 export interface CallWebhook extends Action {
     url: string;
     method: Methods;
+    result_name: string;
     body?: string;
     headers?: Headers;
 }
@@ -407,8 +410,7 @@ export enum StartFlowExitNames {
 
 export enum WebhookExitNames {
     Success = 'Success',
-    Failure = 'Failed',
-    Unreachable = 'Unreachable'
+    Failure = 'Failure'
 }
 
 export enum TransferAirtimeExitNames {

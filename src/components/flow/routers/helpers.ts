@@ -3,6 +3,8 @@ import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { Operators, Types } from '~/config/interfaces';
 import {
     Action,
+    CallResthook,
+    CallWebhook,
     Case,
     Category,
     Exit,
@@ -10,10 +12,12 @@ import {
     Router,
     RouterTypes,
     SwitchRouter,
-    UIConfig
+    TransferAirtime,
+    UIConfig,
+    WebhookExitNames
 } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
-import { createUUID } from '~/utils';
+import { createUUID, snakify } from '~/utils';
 
 export interface CategorizedCases {
     cases: Case[];
@@ -320,4 +324,76 @@ export const resolveRoutes = (
     }
 
     return results;
+};
+
+export const createWebhookBasedNode = (
+    action: CallWebhook | CallResthook | TransferAirtime,
+    originalNode: RenderNode
+): RenderNode => {
+    const exits: Exit[] = [];
+    let cases: Case[] = [];
+    let categories: Category[] = [];
+
+    // see if we are editing an existing router so we reuse exits
+    if (
+        originalNode &&
+        originalNode.node.actions.length === 1 &&
+        originalNode.node.actions[0].type === action.type
+    ) {
+        const previousRouter = getSwitchRouter(originalNode.node);
+        originalNode.node.exits.forEach((exit: any) => exits.push(exit));
+        previousRouter.cases.forEach(kase => cases.push(kase));
+        originalNode.node.router.categories.forEach(category => categories.push(category));
+    } else {
+        // Otherwise, let's create some new ones
+        exits.push(
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            },
+            {
+                uuid: createUUID(),
+                destination_uuid: null
+            }
+        );
+
+        categories = [
+            {
+                uuid: createUUID(),
+                name: WebhookExitNames.Success,
+                exit_uuid: exits[0].uuid
+            },
+            {
+                uuid: createUUID(),
+                name: WebhookExitNames.Failure,
+                exit_uuid: exits[1].uuid
+            }
+        ];
+
+        cases = [
+            {
+                uuid: createUUID(),
+                type: Operators.has_only_text,
+                arguments: [WebhookExitNames.Success],
+                category_uuid: categories[0].uuid
+            }
+        ];
+    }
+
+    const router: SwitchRouter = {
+        type: RouterTypes.switch,
+        operand: '@results.' + snakify(action.result_name) + '.category',
+        cases,
+        categories,
+        default_category_uuid: categories[categories.length - 1].uuid
+    };
+
+    let splitType = Types.split_by_webhook;
+    if (action.type === Types.call_resthook) {
+        splitType = Types.split_by_resthook;
+    } else if (action.type === Types.transfer_airtime) {
+        splitType = Types.split_by_airtime;
+    }
+
+    return createRenderNode(originalNode.node.uuid, router, exits, splitType, [action]);
 };

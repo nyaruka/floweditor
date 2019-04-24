@@ -1,11 +1,13 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Asset } from '~/store/flowContext';
-import { AssetEntry, FormState, mergeForm } from '~/store/nodeEditor';
+import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
@@ -13,6 +15,7 @@ import { nodeToState, stateToNode } from './helpers';
 // TODO: Remove use of Function
 export interface ResthookRouterFormState extends FormState {
     resthook: AssetEntry;
+    resultName: StringEntry;
 }
 
 export default class ResthookRouterForm extends React.PureComponent<
@@ -27,6 +30,11 @@ export default class ResthookRouterForm extends React.PureComponent<
         bindCallbacks(this, {
             include: [/^on/, /^handle/]
         });
+    }
+
+    private handleUpdateResultName(result: string): void {
+        const resultName = validate('Result Name', result, [validateRequired]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     public handleResthookChanged(selected: Asset[]): boolean {
@@ -76,6 +84,12 @@ export default class ResthookRouterForm extends React.PureComponent<
                     entry={this.state.resthook}
                     searchable={true}
                     onChange={this.handleResthookChanged}
+                />
+                <TextInputElement
+                    name="Result Name"
+                    entry={this.state.resultName}
+                    onChange={this.handleUpdateResultName}
+                    helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
                 />
             </Dialog>
         );

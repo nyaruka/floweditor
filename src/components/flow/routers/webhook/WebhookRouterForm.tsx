@@ -42,6 +42,7 @@ export interface WebhookRouterFormState extends FormState {
     method: MethodEntry;
     url: StringEntry;
     postBody: StringEntry;
+    resultName: StringEntry;
 }
 
 export default class WebhookRouterForm extends React.Component<
@@ -63,6 +64,7 @@ export default class WebhookRouterForm extends React.Component<
         header?: Header;
         removeHeader?: Header;
         validationFailures?: ValidationFailure[];
+        resultName?: string;
     }): boolean {
         const updates: Partial<WebhookRouterFormState> = {};
 
@@ -82,6 +84,10 @@ export default class WebhookRouterForm extends React.Component<
 
         if (keys.hasOwnProperty('url')) {
             updates.url = validate('URL', keys.url, [validateRequired, validateURL]);
+        }
+
+        if (keys.hasOwnProperty('resultName')) {
+            updates.resultName = validate('Result Name', keys.resultName, [validateRequired]);
         }
 
         if (keys.hasOwnProperty('postBody')) {
@@ -119,6 +125,10 @@ export default class WebhookRouterForm extends React.Component<
             }
         });
         return updated.valid;
+    }
+
+    private handleUpdateResultName(resultName: string): void {
+        this.handleUpdate({ resultName });
     }
 
     private handleMethodUpdate(method: MethodOption): boolean {
@@ -287,6 +297,12 @@ export default class WebhookRouterForm extends React.Component<
                         be available in all future steps.
                     </p>
                 </div>
+                <TextInputElement
+                    name="Result Name"
+                    entry={this.state.resultName}
+                    onChange={this.handleUpdateResultName}
+                    helpText="This name allows you to reference the results later using @run.results.whatever_the_name_is"
+                />
             </Dialog>
         );
     }

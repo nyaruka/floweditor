@@ -2,13 +2,16 @@ import { react as bindCallbacks } from 'auto-bind';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import CurrencyElement, {
     AirtimeTransfer
 } from '~/components/flow/routers/airtime/currency/CurrencyElement';
+import TextInputElement from '~/components/form/textinput/TextInputElement';
 import ValidationFailures from '~/components/form/ValidationFailures';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { FormEntry, FormState } from '~/store/nodeEditor';
+import { FormEntry, FormState, StringEntry } from '~/store/nodeEditor';
+import { validate, validateRequired } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 
@@ -18,6 +21,7 @@ export interface AirtimeTransferEntry extends FormEntry {
 
 export interface AirtimeRouterFormState extends FormState {
     amounts: AirtimeTransferEntry[];
+    resultName: StringEntry;
 }
 
 export default class AirtimeRouterForm extends React.PureComponent<
@@ -66,6 +70,11 @@ export default class AirtimeRouterForm extends React.PureComponent<
             this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
             this.props.onClose(false);
         }
+    }
+
+    private handleUpdateResultName(result: string): void {
+        const resultName = validate('Result Name', result, [validateRequired]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     public getButtons(): ButtonSet {
@@ -148,6 +157,12 @@ export default class AirtimeRouterForm extends React.PureComponent<
                 />
                 {this.renderAmounts()}
                 {errors}
+                <TextInputElement
+                    name="Result Name"
+                    entry={this.state.resultName}
+                    onChange={this.handleUpdateResultName}
+                    helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
+                />
             </Dialog>
         );
     }

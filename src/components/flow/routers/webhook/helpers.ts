@@ -1,18 +1,10 @@
-import { createRenderNode } from '~/components/flow/routers/helpers';
+import { createWebhookBasedNode } from '~/components/flow/routers/helpers';
 import { WebhookRouterFormState } from '~/components/flow/routers/webhook/WebhookRouterForm';
-import { DEFAULT_BODY, WEBHOOK_OPERAND } from '~/components/nodeeditor/constants';
-import { Operators, Types } from '~/config/interfaces';
-import {
-    CallWebhook,
-    Case,
-    Category,
-    Exit,
-    RouterTypes,
-    SwitchRouter,
-    WebhookExitNames
-} from '~/flowTypes';
+import { DEFAULT_BODY } from '~/components/nodeeditor/constants';
+import { Types } from '~/config/interfaces';
+import { CallWebhook } from '~/flowTypes';
 import { RenderNode } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
+import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
 import { createUUID } from '~/utils';
 
 export enum Methods {
@@ -49,6 +41,9 @@ export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => 
 };
 
 export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormState => {
+    // TODO: work out an incremental result name
+    const resultName: StringEntry = { value: 'Result' };
+
     const state: WebhookRouterFormState = {
         headers: [
             {
@@ -59,6 +54,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
                 }
             }
         ],
+        resultName,
         method: { value: GET_METHOD },
         url: { value: '' },
         postBody: { value: DEFAULT_BODY },
@@ -66,7 +62,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
     };
 
     if (settings.originalNode.ui.type === Types.split_by_webhook) {
-        const action = getOriginalAction(settings);
+        const action = getOriginalAction(settings) as CallWebhook;
 
         // add in our headers
         for (const name of Object.keys(action.headers || [])) {
@@ -79,6 +75,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
             });
         }
 
+        state.resultName = { value: action.result_name };
         state.url = { value: action.url };
         state.method = { value: { label: action.method, value: action.method } };
         state.postBody = { value: action.body };
@@ -112,7 +109,8 @@ export const stateToNode = (
         headers,
         type: Types.call_webhook,
         url: state.url.value,
-        method: state.method.value.value as Methods
+        method: state.method.value.value as Methods,
+        result_name: state.resultName.value
     };
 
     // include the body if we aren't a get
@@ -120,85 +118,5 @@ export const stateToNode = (
         newAction.body = state.postBody.value;
     }
 
-    const exits: Exit[] = [];
-    let cases: Case[] = [];
-    let categories: Category[] = [];
-
-    // If we were already a webhook, lean on those exits and cases
-    if (originalAction) {
-        settings.originalNode.node.exits.forEach((exit: any) => exits.push(exit));
-        (settings.originalNode.node.router as SwitchRouter).cases.forEach(kase => cases.push(kase));
-        settings.originalNode.node.router.categories.forEach(category => categories.push(category));
-    } else {
-        // Otherwise, let's create some new ones
-        exits.push(
-            {
-                uuid: createUUID(),
-                destination_uuid: null
-            },
-            {
-                uuid: createUUID(),
-                destination_uuid: null
-            },
-            {
-                uuid: createUUID(),
-                destination_uuid: null
-            }
-        );
-
-        categories = [
-            {
-                uuid: createUUID(),
-                name: WebhookExitNames.Success,
-                exit_uuid: exits[0].uuid
-            },
-            {
-                uuid: createUUID(),
-                name: WebhookExitNames.Failure,
-                exit_uuid: exits[1].uuid
-            },
-            {
-                uuid: createUUID(),
-                name: WebhookExitNames.Unreachable,
-                exit_uuid: exits[2].uuid
-            }
-        ];
-
-        cases = [
-            {
-                uuid: createUUID(),
-                type: Operators.has_webhook_status,
-                arguments: ['success'],
-                category_uuid: categories[0].uuid
-            },
-            {
-                uuid: createUUID(),
-                type: Operators.has_webhook_status,
-                arguments: ['response_error'],
-                category_uuid: categories[1].uuid
-            },
-            {
-                uuid: createUUID(),
-                type: Operators.has_webhook_status,
-                arguments: ['connection_error'],
-                category_uuid: categories[2].uuid
-            }
-        ];
-    }
-
-    const router: SwitchRouter = {
-        type: RouterTypes.switch,
-        operand: WEBHOOK_OPERAND,
-        cases,
-        categories,
-        default_category_uuid: exits[1].uuid
-    };
-
-    return createRenderNode(
-        settings.originalNode.node.uuid,
-        router,
-        exits,
-        Types.split_by_webhook,
-        [newAction]
-    );
+    return createWebhookBasedNode(newAction, settings.originalNode);
 };
