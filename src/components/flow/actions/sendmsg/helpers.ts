@@ -46,6 +46,7 @@ export const initializeForm = (
             attachments,
             message: { value: action.text },
             quickReplies: { value: action.quick_replies || [] },
+            quickReplyEntry: { value: '' },
             sendAll: action.all_urns,
             valid: true
         };
@@ -57,6 +58,7 @@ export const initializeForm = (
         attachments: [],
         message: { value: '' },
         quickReplies: { value: [] },
+        quickReplyEntry: { value: '' },
         sendAll: false,
         valid: false
     };

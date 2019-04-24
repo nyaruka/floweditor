@@ -59,6 +59,7 @@ export interface Attachment {
 export interface SendMsgFormState extends FormState {
     message: StringEntry;
     quickReplies: StringArrayEntry;
+    quickReplyEntry: StringEntry;
     sendAll: boolean;
     attachments: Attachment[];
     template: AssetEntry;
@@ -146,6 +147,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             }) as StringEntry[];
             valid = valid && !hasErrors(updated);
         });
+
+        valid = valid && !hasErrors(this.state.quickReplyEntry);
 
         if (valid) {
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
@@ -486,6 +489,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         });
     }
 
+    private handleQuickReplyEntry(quickReplyEntry: StringEntry): void {
+        this.setState({ quickReplyEntry });
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
 
@@ -500,15 +507,19 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                     </p>
 
                     <MultiChoiceInput
+                        name="Quick Reply"
                         helpText="Add a new Quick Reply and press enter."
                         items={this.state.quickReplies}
+                        entry={this.state.quickReplyEntry}
                         onRemoved={this.handleRemoveQuickReply}
                         onItemAdded={this.handleAddQuickReply}
+                        onEntryChanged={this.handleQuickReplyEntry}
                         onFieldErrors={this.handleQuickReplyFieldFailures}
                     />
                 </>
             ),
-            checked: this.state.quickReplies.value.length > 0
+            checked: this.state.quickReplies.value.length > 0,
+            hasErrors: hasErrors(this.state.quickReplyEntry)
         };
 
         const attachments: Tab = {

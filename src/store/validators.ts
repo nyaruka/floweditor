@@ -70,6 +70,23 @@ export const validate = (
     return { value, validationFailures: allFailures };
 };
 
+export const validateEmpty: ValidatorFunc = (name: string, input: FormInput) => {
+    if (input) {
+        return { value: input, failures: [{ message: `${name} is not finished` }] };
+    }
+
+    if (typeof input === 'string') {
+        if ((input as string).trim().length !== 0) {
+            return { value: input, failures: [{ message: `${name} is not finished` }] };
+        }
+    } else if (Array.isArray(input)) {
+        if (input.length !== 0) {
+            return { value: input, failures: [{ message: `${name} is not finished` }] };
+        }
+    }
+    return { failures: [], value: input };
+};
+
 export const validateRequired: ValidatorFunc = (name: string, input: FormInput) => {
     if (!input) {
         return { value: input, failures: [{ message: `${name} is required` }] };

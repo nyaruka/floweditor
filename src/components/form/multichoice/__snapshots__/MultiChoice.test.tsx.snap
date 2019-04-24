@@ -48,11 +48,12 @@ exports[`MultiChoiceInput should render 1`] = `
       }
     }
     focus={true}
-    name="Quick Reply"
+    name="Multi Choice"
+    onBlur={[Function]}
     onChange={[Function]}
     onEnter={[Function]}
     onFieldFailures={[Function]}
-    placeholder="Quick Reply"
+    placeholder="Multi Choice"
     showLabel={false}
   />
 </Fragment>
