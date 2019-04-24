@@ -1,17 +1,20 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { hasErrors } from '~/components/flow/actions/helpers';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import Pill from '~/components/pill/Pill';
 import { StringArrayEntry, StringEntry, ValidationFailure } from '~/store/nodeEditor';
+import { validate, validateEmpty } from '~/store/validators';
 
 import * as styles from './MultiChoice.scss';
 
 export interface MultiChoiceInputProps {
+    name: string;
     items: StringArrayEntry;
+    entry?: StringEntry;
     onRemoved: (item: string) => void;
     onItemAdded: (item: string) => boolean;
     onFieldErrors: (validationFailures: ValidationFailure[]) => void;
+    onEntryChanged?: (entry: StringEntry) => void;
     helpText?: string;
 }
 
@@ -26,9 +29,15 @@ export default class MultiChoiceInput extends React.Component<
     constructor(props: MultiChoiceInputProps) {
         super(props);
 
-        this.state = {
-            currentInput: { value: '' }
-        };
+        if (this.props.entry) {
+            this.state = {
+                currentInput: this.props.entry
+            };
+        } else {
+            this.state = {
+                currentInput: { value: '' }
+            };
+        }
 
         bindCallbacks(this, {
             include: [/^handle/]
@@ -37,12 +46,15 @@ export default class MultiChoiceInput extends React.Component<
 
     public handleInputChanged(value: string): void {
         this.setState({ currentInput: { value } });
+        if (this.props.onEntryChanged) {
+            this.props.onEntryChanged({ value });
+        }
     }
 
     public handleAddItem(): void {
         // hack: we want to evaluate after the state is updated for validation errors
         window.setTimeout(() => {
-            if (hasErrors(this.state.currentInput)) {
+            if ((this.state.currentInput.persistantFailures || []).length > 0) {
                 return;
             }
 
@@ -52,8 +64,23 @@ export default class MultiChoiceInput extends React.Component<
                 if (this.props.onItemAdded(newItem)) {
                     this.setState({ currentInput: { value: '' } });
                 }
+
+                if (this.props.onEntryChanged) {
+                    this.props.onEntryChanged({ value: '' });
+                }
             }
         }, 0);
+    }
+
+    private handleValidateEmpty(): void {
+        const currentInput = validate(this.props.name, this.state.currentInput.value, [
+            validateEmpty
+        ]);
+        this.setState({ currentInput }, () => {
+            if (this.props.onEntryChanged) {
+                this.props.onEntryChanged(currentInput);
+            }
+        });
     }
 
     private getChosenItems(): JSX.Element {
@@ -84,13 +111,14 @@ export default class MultiChoiceInput extends React.Component<
                 {this.getChosenItems()}
                 {this.props.helpText ? <p>{this.props.helpText}</p> : <p />}
                 <TextInputElement
-                    name="Quick Reply"
-                    placeholder="Quick Reply"
+                    name={this.props.name}
+                    placeholder={this.props.name}
                     showLabel={false}
                     onChange={this.handleInputChanged}
                     entry={this.state.currentInput}
                     autocomplete={true}
                     focus={true}
+                    onBlur={this.handleValidateEmpty}
                     onEnter={this.handleAddItem}
                     onFieldFailures={(persistantFailures: ValidationFailure[]) => {
                         const currentInput = {
@@ -102,7 +130,9 @@ export default class MultiChoiceInput extends React.Component<
                                 currentInput
                             },
                             () => {
-                                this.props.onFieldErrors(persistantFailures);
+                                if (this.props.onEntryChanged) {
+                                    this.props.onEntryChanged(currentInput);
+                                }
                             }
                         );
                     }}

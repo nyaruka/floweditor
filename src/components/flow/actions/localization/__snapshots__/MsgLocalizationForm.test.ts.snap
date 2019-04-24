@@ -19,17 +19,14 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
     Array [
       Object {
         "body": <React.Fragment>
-          <p>
-            Add a new 
-            Spanish
-             Quick Reply and press enter.
-          </p>
           <MultiChoiceInput
+            helpText="Add a new Quick Reply and press enter."
             items={
               Object {
                 "value": Array [],
               }
             }
+            name="Quick Reply"
             onFieldErrors={[Function]}
             onItemAdded={[Function]}
             onRemoved={[Function]}
@@ -88,17 +85,14 @@ exports[`MsgLocalizationForm render should render 1`] = `
     Array [
       Object {
         "body": <React.Fragment>
-          <p>
-            Add a new 
-            Spanish
-             Quick Reply and press enter.
-          </p>
           <MultiChoiceInput
+            helpText="Add a new Quick Reply and press enter."
             items={
               Object {
                 "value": Array [],
               }
             }
+            name="Quick Reply"
             onFieldErrors={[Function]}
             onItemAdded={[Function]}
             onRemoved={[Function]}

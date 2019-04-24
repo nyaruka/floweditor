@@ -4,6 +4,7 @@ import * as utils from '~/utils';
 import MultiChoiceInput, { MultiChoiceInputProps } from './MultiChoice';
 
 const { setup } = composeComponentTestUtils<MultiChoiceInputProps>(MultiChoiceInput, {
+    name: 'Multi Choice',
     items: { value: ['one', 'two', 'three'] },
     onRemoved: jest.fn(),
     onItemAdded: jest.fn(),

@@ -236,7 +236,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         if (events.length > 0) {
             const toAdd = [];
 
-            let quickReplies: string[] = [];
+            let quickReplies: string[] = null;
 
             let messageFound = false;
             while (events.length > 0 && !messageFound) {
@@ -249,8 +249,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                         // save off any quick replies we might have
                         if (event.msg.quick_replies) {
                             quickReplies = event.msg.quick_replies;
-                        } else {
-                            quickReplies = [];
                         }
                     }
                 }
@@ -282,83 +280,85 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private updateRunContext(body: any, runContext: RunContext): void {
-        this.updateEvents(runContext.events, () => {
-            let active = false;
-            for (const run of runContext.session.runs) {
-                if (run.status === 'waiting') {
-                    active = true;
-                    break;
+        this.setState({ quickReplies: [] }, () => {
+            this.updateEvents(runContext.events, () => {
+                let active = false;
+                for (const run of runContext.session.runs) {
+                    if (run.status === 'waiting') {
+                        active = true;
+                        break;
+                    }
                 }
-            }
 
-            let newEvents = this.state.events;
+                let newEvents = this.state.events;
 
-            if (!active) {
-                newEvents = update(this.state.events, {
-                    $push: [
-                        {
-                            type: 'info',
-                            text: 'Exited flow'
-                        }
-                    ]
-                }) as EventProps[];
-            }
-
-            const waitingForHint =
-                runContext.session &&
-                runContext.session.wait &&
-                runContext.session.wait.hint !== undefined;
-
-            let drawerType = null;
-            if (waitingForHint) {
-                switch (runContext.session.wait.hint.type) {
-                    case 'audio':
-                        drawerType = DrawerType.audio;
-                        break;
-                    case 'video':
-                        drawerType = DrawerType.videos;
-                        break;
-                    case 'image':
-                        drawerType = DrawerType.images;
-                        break;
-                    case 'location':
-                        drawerType = DrawerType.location;
-                        break;
-                    case 'digits':
-                        drawerType = DrawerType.digit;
-                        if (runContext.session.wait.hint.count !== 1) {
-                            drawerType = DrawerType.digits;
-                        }
-                        break;
-                    default:
-                        console.log('Unknown hint', runContext.session.wait.hint.type);
+                if (!active) {
+                    newEvents = update(this.state.events, {
+                        $push: [
+                            {
+                                type: 'info',
+                                text: 'Exited flow'
+                            }
+                        ]
+                    }) as EventProps[];
                 }
-            }
 
-            let drawerOpen = waitingForHint;
+                const waitingForHint =
+                    runContext.session &&
+                    runContext.session.wait &&
+                    runContext.session.wait.hint !== undefined;
 
-            // if we have quick replies, open our drawe with attachment options
-            if (!drawerType && this.hasQuickReplies()) {
-                drawerType = DrawerType.quickReplies;
-                drawerOpen = true;
-            }
-
-            this.setState(
-                {
-                    active,
-                    sprinting: false,
-                    session: runContext.session,
-                    events: newEvents,
-                    // attachmentOptionsVisible: !waitingForHint,
-                    drawerOpen,
-                    drawerType,
-                    waitingForHint
-                },
-                () => {
-                    this.updateActivity();
-                    this.handleFocusUpdate();
+                let drawerType = null;
+                if (waitingForHint) {
+                    switch (runContext.session.wait.hint.type) {
+                        case 'audio':
+                            drawerType = DrawerType.audio;
+                            break;
+                        case 'video':
+                            drawerType = DrawerType.videos;
+                            break;
+                        case 'image':
+                            drawerType = DrawerType.images;
+                            break;
+                        case 'location':
+                            drawerType = DrawerType.location;
+                            break;
+                        case 'digits':
+                            drawerType = DrawerType.digit;
+                            if (runContext.session.wait.hint.count !== 1) {
+                                drawerType = DrawerType.digits;
+                            }
+                            break;
+                        default:
+                            console.log('Unknown hint', runContext.session.wait.hint.type);
+                    }
                 }
-            );
+
+                let drawerOpen = waitingForHint;
+
+                // if we have quick replies, open our drawe with attachment options
+                if (!drawerType && this.hasQuickReplies()) {
+                    drawerType = DrawerType.quickReplies;
+                    drawerOpen = true;
+                }
+
+                this.setState(
+                    {
+                        active,
+                        sprinting: false,
+                        session: runContext.session,
+                        events: newEvents,
+                        // attachmentOptionsVisible: !waitingForHint,
+                        drawerOpen,
+                        drawerType,
+                        waitingForHint
+                    },
+                    () => {
+                        this.updateActivity();
+                        this.handleFocusUpdate();
+                    }
+                );
+            });
         });
     }
 

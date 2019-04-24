@@ -167,8 +167,9 @@ export default class MsgLocalizationForm extends React.Component<
                 name: 'Quick Replies',
                 body: (
                     <>
-                        <p>Add a new {this.props.language.name} Quick Reply and press enter.</p>
                         <MultiChoiceInput
+                            name="Quick Reply"
+                            helpText="Add a new Quick Reply and press enter."
                             items={this.state.quickReplies}
                             onRemoved={this.handleRemoveQuickReply}
                             onItemAdded={this.handleAddQuickReply}
