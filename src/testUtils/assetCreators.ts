@@ -132,34 +132,41 @@ export const createTransferAirtimeAction = ({
     type: Types.transfer_airtime,
     amounts: {
         USD: 1.5
-    }
+    },
+    result_name: 'Result'
 });
 
 export const createCallResthookAction = ({
     uuid = utils.createUUID(),
-    resthook = 'my-resthook'
+    resthook = 'my-resthook',
+    result_name = 'result'
 }: {
     uuid?: string;
     resthook?: string;
+    result_name?: string;
 } = {}): CallResthook => ({
     uuid,
     type: Types.call_resthook,
-    resthook
+    resthook,
+    result_name
 });
 
 export const createCallWebhookAction = ({
     uuid = utils.createUUID(),
     url = 'https://www.example.com',
-    method = Methods.GET
+    method = Methods.GET,
+    result_name = 'result_name'
 }: {
     uuid?: string;
     url?: string;
     method?: Methods;
+    result_name?: string;
 } = {}): CallWebhook => ({
     uuid,
     type: Types.call_webhook,
     url,
-    method
+    method,
+    result_name
 });
 
 export const createStartSessionAction = ({
@@ -330,54 +337,45 @@ export const createSetRunResultAction = ({
     type: Types.set_run_result
 });
 
-export const createWebhookRouterNode = (): FlowNode => {
+export const createWebhookNode = (action: CallWebhook | CallResthook | TransferAirtime) => {
     const { categories, exits } = createCategories([
         WebhookExitNames.Success,
-        WebhookExitNames.Failure,
-        WebhookExitNames.Unreachable
+        WebhookExitNames.Failure
     ]);
 
     const cases: Case[] = [
         {
             uuid: utils.createUUID(),
             type: Operators.has_only_text,
-            arguments: ['success'],
+            arguments: [WebhookExitNames.Success],
             category_uuid: categories[0].uuid
-        },
-        {
-            uuid: utils.createUUID(),
-            type: Operators.has_only_text,
-            arguments: ['response_error'],
-            category_uuid: categories[1].uuid
-        },
-        {
-            uuid: utils.createUUID(),
-            type: Operators.has_only_text,
-            arguments: ['connection_error'],
-            category_uuid: categories[2].uuid
         }
     ];
 
     return {
         uuid: utils.createUUID(),
-        actions: [
-            {
-                uuid: utils.createUUID(),
-                headers: {},
-                type: Types.call_webhook,
-                url: 'http://www.google.com',
-                method: 'GET'
-            } as CallWebhook
-        ],
+        actions: [action],
         router: {
             type: RouterTypes.switch,
-            operand: '@run.webhook.status',
+            operand: `@results.${utils.snakify(action.result_name)}.category`,
             cases,
             categories,
             default_category_uuid: categories[categories.length - 1].uuid
         } as SwitchRouter,
         exits
     };
+};
+
+export const createWebhookRouterNode = (): FlowNode => {
+    const action: CallWebhook = {
+        uuid: utils.createUUID(),
+        headers: {},
+        type: Types.call_webhook,
+        url: 'http://www.google.com',
+        method: Methods.GET,
+        result_name: 'Response'
+    };
+    return createWebhookNode(action);
 };
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
@@ -647,90 +645,20 @@ export const createSubflowNode = (
     });
 };
 
-export const createAirtimeTransferNode = (
-    transferAirtimeAction: TransferAirtime,
-    uuid: string = utils.createUUID()
-): RenderNode => {
-    const { categories, exits } = createCategories([
-        WebhookExitNames.Success,
-        WebhookExitNames.Failure,
-        WebhookExitNames.Unreachable
-    ]);
-
-    return createRenderNode({
-        actions: [transferAirtimeAction],
-        exits,
-        uuid,
-        router: createSwitchRouter({
-            categories,
-            cases: [
-                createCase({
-                    uuid: utils.createUUID(),
-                    type: Operators.has_webhook_status,
-                    category_uuid: categories[0].uuid,
-                    args: ['success']
-                }),
-                createCase({
-                    uuid: utils.createUUID(),
-                    type: Operators.has_webhook_status,
-                    category_uuid: categories[1].uuid,
-                    args: ['response_error']
-                }),
-                createCase({
-                    uuid: utils.createUUID(),
-                    type: Operators.has_webhook_status,
-                    category_uuid: categories[2].uuid,
-                    args: ['response_failure']
-                })
-            ],
-            operand: '@child',
-            default_category_uuid: null
-        }),
-        ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook }
-    });
+export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime): RenderNode => {
+    return {
+        node: createWebhookNode(transferAirtimeAction),
+        ui: { position: { left: 0, top: 0 }, type: Types.split_by_airtime },
+        inboundConnections: {}
+    };
 };
 
-export const createResthookNode = (
-    callResthookAction: CallResthook,
-    uuid: string = utils.createUUID()
-): RenderNode => {
-    const { categories, exits } = createCategories([
-        WebhookExitNames.Success,
-        WebhookExitNames.Failure,
-        WebhookExitNames.Unreachable
-    ]);
-
-    return createRenderNode({
-        actions: [callResthookAction],
-        exits,
-        uuid,
-        router: createSwitchRouter({
-            categories,
-            cases: [
-                createCase({
-                    uuid: utils.createUUID(),
-                    type: Operators.has_webhook_status,
-                    category_uuid: categories[0].uuid,
-                    args: ['success']
-                }),
-                createCase({
-                    uuid: utils.createUUID(),
-                    type: Operators.has_webhook_status,
-                    category_uuid: categories[1].uuid,
-                    args: ['response_error']
-                }),
-                createCase({
-                    uuid: utils.createUUID(),
-                    type: Operators.has_webhook_status,
-                    category_uuid: categories[2].uuid,
-                    args: ['response_failure']
-                })
-            ],
-            operand: '@child',
-            default_category_uuid: null
-        }),
-        ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook }
-    });
+export const createResthookNode = (callResthookAction: CallResthook): RenderNode => {
+    return {
+        node: createWebhookNode(callResthookAction),
+        ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook },
+        inboundConnections: {}
+    };
 };
 
 export const createGroupsRouterNode = (
