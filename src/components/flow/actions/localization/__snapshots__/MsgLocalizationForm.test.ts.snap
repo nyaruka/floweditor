@@ -20,7 +20,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
       Object {
         "body": <React.Fragment>
           <MultiChoiceInput
-            helpText="Add a new Quick Reply and press enter."
+            helpText="Add a new Spanish Quick Reply and press enter."
             items={
               Object {
                 "value": Array [],
@@ -86,7 +86,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
       Object {
         "body": <React.Fragment>
           <MultiChoiceInput
-            helpText="Add a new Quick Reply and press enter."
+            helpText="Add a new Spanish Quick Reply and press enter."
             items={
               Object {
                 "value": Array [],
