@@ -10,13 +10,14 @@ import { node } from '~/components/flow/actions/startsession/StartSession.scss';
 import ExitComp from '~/components/flow/exit/Exit';
 import { getCategoriesForExit } from '~/components/flow/node/helpers';
 import * as styles from '~/components/flow/node/Node.scss';
+import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import * as shared from '~/components/shared.scss';
 import TitleBar from '~/components/titlebar/TitleBar';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Types } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import { getType, getTypeConfig } from '~/config/typeConfigs';
-import { AnyAction, Exit, FlowDefinition, FlowNode, RouterTypes, SwitchRouter } from '~/flowTypes';
+import { AnyAction, Exit, FlowDefinition, FlowNode, SwitchRouter } from '~/flowTypes';
 import { DebugState } from '~/store/editor';
 import { AssetMap, RenderNode } from '~/store/flowContext';
 import AppState from '~/store/state';
@@ -31,7 +32,7 @@ import {
     RemoveNode,
     removeNode
 } from '~/store/thunks';
-import { ClickHandler, createClickHandler, titleCase } from '~/utils';
+import { ClickHandler, createClickHandler } from '~/utils';
 
 export interface NodePassedProps {
     nodeUUID: string;
@@ -291,6 +292,7 @@ export class NodeComp extends React.Component<NodeProps> {
 
         let header: JSX.Element = null;
         let addActions: JSX.Element = null;
+        let summary: JSX.Element = null;
 
         // Router node display logic
         if (
@@ -310,17 +312,25 @@ export class NodeComp extends React.Component<NodeProps> {
 
             let title: string = null;
 
-            if (this.props.renderNode.node.router.type === RouterTypes.switch) {
-                const switchRouter = this.props.renderNode.node.router as SwitchRouter;
-                if (switchRouter.result_name) {
-                    if (
-                        this.props.renderNode.ui.type === Types.split_by_expression ||
-                        this.props.renderNode.ui.type === Types.split_by_contact_field
-                    ) {
-                        title = `Split by ${titleCase(switchRouter.result_name)}`;
+            const switchRouter = getSwitchRouter(this.props.renderNode.node);
+            if (switchRouter) {
+                if (this.props.renderNode.ui.type === Types.split_by_contact_field) {
+                    title = `Split by ${this.props.renderNode.ui.config.operand.name}`;
+                } else {
+                    if (this.props.renderNode.ui.type === Types.split_by_expression) {
+                        title = 'Split by Expression';
                     } else if (this.props.renderNode.ui.type === Types.wait_for_response) {
-                        title = `Wait for ${titleCase(switchRouter.result_name)}`;
+                        title = 'Wait for Message';
                     }
+                }
+
+                if (switchRouter.result_name) {
+                    summary = (
+                        <div {...this.events} className={styles.saveResult}>
+                            Save as{' '}
+                            <div className={styles.resultName}>{switchRouter.result_name}</div>
+                        </div>
+                    );
                 }
             }
 
@@ -415,8 +425,8 @@ export class NodeComp extends React.Component<NodeProps> {
                     />
                     <div className={styles.cropped}>
                         {header}
-
                         {actionList}
+                        {summary}
                     </div>
                     <div className={`${styles.exit_table} ${exitClass}`}>
                         <div className={styles.exits} {...this.events}>
