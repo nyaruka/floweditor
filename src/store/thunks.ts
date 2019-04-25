@@ -172,12 +172,14 @@ export const createDirty = (
     const newDefinition = getCurrentDefinition(definition, nodes, true);
     newDefinition.revision = currentRevision;
 
-    lastDirtyAttempt = window.setTimeout(() => {
-        if (postingRevision) {
+    if (postingRevision) {
+        lastDirtyAttempt = window.setTimeout(() => {
             markDirty();
-            return;
-        }
+        }, QUIET_SAVE);
+        return;
+    }
 
+    lastDirtyAttempt = window.setTimeout(() => {
         postingRevision = true;
         saveRevision(revisionsEndpoint, newDefinition).then(
             (revision: Revision) => {
