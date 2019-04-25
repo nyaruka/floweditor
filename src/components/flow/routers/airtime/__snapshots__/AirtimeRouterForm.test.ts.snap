@@ -87,16 +87,20 @@ exports[`AirtimeRouterForm render should render 1`] = `
       }
     />
   </div>
-  <Connect(TextInputElement)
-    entry={
-      Object {
-        "value": "Result",
+  <div
+    className="resultName"
+  >
+    <Connect(TextInputElement)
+      entry={
+        Object {
+          "value": "Result",
+        }
       }
-    }
-    helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
-    name="Result Name"
-    onChange={[Function]}
-  />
+      helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
+      name="Result Name"
+      onChange={[Function]}
+    />
+  </div>
 </Dialog>
 `;
 

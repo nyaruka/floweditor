@@ -13,6 +13,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { FormEntry, FormState, StringEntry } from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
 
+import * as styles from './AirtimeRouterForm.scss';
 import { nodeToState, stateToNode } from './helpers';
 
 export interface AirtimeTransferEntry extends FormEntry {
@@ -157,12 +158,14 @@ export default class AirtimeRouterForm extends React.PureComponent<
                 />
                 {this.renderAmounts()}
                 {errors}
-                <TextInputElement
-                    name="Result Name"
-                    entry={this.state.resultName}
-                    onChange={this.handleUpdateResultName}
-                    helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
-                />
+                <div className={styles.resultName}>
+                    <TextInputElement
+                        name="Result Name"
+                        entry={this.state.resultName}
+                        onChange={this.handleUpdateResultName}
+                        helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
+                    />
+                </div>
             </Dialog>
         );
     }

@@ -52,16 +52,20 @@ exports[`ResthookRouterForm render should render 1`] = `
     placeholder="Select the resthook to call"
     searchable={true}
   />
-  <Connect(TextInputElement)
-    entry={
-      Object {
-        "value": "result",
+  <div
+    className="resultName"
+  >
+    <Connect(TextInputElement)
+      entry={
+        Object {
+          "value": "result",
+        }
       }
-    }
-    helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
-    name="Result Name"
-    onChange={[Function]}
-  />
+      helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
+      name="Result Name"
+      onChange={[Function]}
+    />
+  </div>
 </Dialog>
 `;
 
