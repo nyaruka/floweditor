@@ -1,3 +1,4 @@
+import { getResultName } from '~/components/flow/node/helpers';
 import { Revision } from '~/components/revisions/RevisionExplorer';
 import { Types } from '~/config/interfaces';
 import {
@@ -162,7 +163,7 @@ export const addFlowResult = (assets: AssetStore, node: FlowNode): AssetStore =>
         updated.results = { items: {}, type: AssetType.Result };
     }
 
-    const resultName = node.router.result_name;
+    const resultName = getResultName(node);
     if (resultName) {
         const items = addResult(resultName, assets.results.items, { nodeUUID: node.uuid });
         return mutate(assets, { results: { items: { $set: items } } });

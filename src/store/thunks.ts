@@ -2,6 +2,7 @@ import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'react-redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
+import { getResultName } from '~/components/flow/node/helpers';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import { Revision } from '~/components/revisions/RevisionExplorer';
 import { FlowTypes, Type, Types } from '~/config/interfaces';
@@ -830,18 +831,16 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
     }
 
     // update our results
-    if (renderNode.node.router && renderNode.node.router.result_name) {
+    const resultName = getResultName(renderNode.node);
+    if (resultName) {
         let updatedAssets = assetStore;
 
         // remove our original result name
-        if (originalNode.node.router && originalNode.node.router.result_name) {
-            updatedAssets = mutators.removeResultFromStore(
-                originalNode.node.router.result_name,
-                updatedAssets,
-                {
-                    nodeUUID: originalNode.node.uuid
-                }
-            );
+        const originalResultName = getResultName(originalNode.node);
+        if (originalResultName) {
+            updatedAssets = mutators.removeResultFromStore(originalResultName, updatedAssets, {
+                nodeUUID: originalNode.node.uuid
+            });
         }
 
         updatedAssets = mutators.addFlowResult(updatedAssets, renderNode.node);

@@ -11,6 +11,7 @@ import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEdito
 import { validate, validateRequired } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
+import * as styles from './ResthookRouter.scss';
 
 // TODO: Remove use of Function
 export interface ResthookRouterFormState extends FormState {
@@ -85,12 +86,14 @@ export default class ResthookRouterForm extends React.PureComponent<
                     searchable={true}
                     onChange={this.handleResthookChanged}
                 />
-                <TextInputElement
-                    name="Result Name"
-                    entry={this.state.resultName}
-                    onChange={this.handleUpdateResultName}
-                    helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
-                />
+                <div className={styles.resultName}>
+                    <TextInputElement
+                        name="Result Name"
+                        entry={this.state.resultName}
+                        onChange={this.handleUpdateResultName}
+                        helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
+                    />
+                </div>
             </Dialog>
         );
     }

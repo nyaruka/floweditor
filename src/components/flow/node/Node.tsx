@@ -8,7 +8,7 @@ import Counter from '~/components/counter/Counter';
 import ActionWrapper from '~/components/flow/actions/action/Action';
 import { node } from '~/components/flow/actions/startsession/StartSession.scss';
 import ExitComp from '~/components/flow/exit/Exit';
-import { getCategoriesForExit } from '~/components/flow/node/helpers';
+import { getCategoriesForExit, getResultName } from '~/components/flow/node/helpers';
 import * as styles from '~/components/flow/node/Node.scss';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import * as shared from '~/components/shared.scss';
@@ -295,11 +295,7 @@ export class NodeComp extends React.Component<NodeProps> {
         let summary: JSX.Element = null;
 
         // Router node display logic
-        if (
-            !this.props.renderNode.node.actions ||
-            !this.props.renderNode.node.actions.length ||
-            this.props.renderNode.ui.type !== Types.execute_actions
-        ) {
+        if (this.props.renderNode.ui.type !== Types.execute_actions) {
             let type = this.props.renderNode.node.router.type;
 
             if (this.props.renderNode.ui.type) {
@@ -324,11 +320,12 @@ export class NodeComp extends React.Component<NodeProps> {
                     }
                 }
 
-                if (switchRouter.result_name) {
+                const resultName = getResultName(this.props.renderNode.node);
+                if (resultName) {
                     summary = (
                         <div {...this.events} className={styles.saveResult}>
-                            Save as{' '}
-                            <div className={styles.resultName}>{switchRouter.result_name}</div>
+                            <div className={styles.saveAs}>Save as </div>
+                            <div className={styles.resultName}>{resultName}</div>
                         </div>
                     );
                 }

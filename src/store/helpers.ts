@@ -1,4 +1,5 @@
 import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
+import { getResultName } from '~/components/flow/node/helpers';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';
 import { FlowTypes, Types } from '~/config/interfaces';
@@ -465,10 +466,9 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
             inboundConnections: {}
         };
 
-        if (node.router) {
-            if (node.router.result_name) {
-                results = addResult(node.router.result_name, results, { nodeUUID: node.uuid });
-            }
+        const resultName = getResultName(node);
+        if (resultName) {
+            results = addResult(resultName, results, { nodeUUID: node.uuid });
         }
 
         // if we are split by group, look at our categories for groups

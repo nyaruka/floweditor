@@ -58,7 +58,6 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
         return (
             <FormElement name={this.props.name} entry={this.props.entry}>
                 <SelectCreatable
-                    isDisabled={true}
                     styles={tagging}
                     className={className}
                     name={this.props.name}
@@ -66,10 +65,10 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
                     value={tags}
                     onChange={this.handleUpdateTags}
                     isMulti={true}
-                    isSearchable={false}
+                    isSearchable={true}
                     isValidNewOption={this.handleCheckValid}
-                    // noOptionsMessage={() => this.props.prompt}
-                    // options={[]}
+                    noOptionsMessage={() => this.props.prompt}
+                    options={[]}
                 />
             </FormElement>
         );

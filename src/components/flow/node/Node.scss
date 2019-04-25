@@ -115,15 +115,21 @@
         user-select: none;
         cursor: pointer;
         display: table;
+        width: $node_width;
 
         transition: transform 200ms;
+
+        .save-as {
+            display: inline;
+        }
 
         .save-result {
             background: #fff;
             padding: 10px 10px;
+            width: inherit;
             .result-name {
                 font-weight: 500;
-                display: inline-block;
+                display: inline;
             }
         }
 
