@@ -3177,21 +3177,6 @@ will be used. An error will be returned if the timezone is not recognized.",
     "detail": "",
     "examples": Array [
       Object {
-        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
-        "template": "@(format_input(input))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_input(\\"NOT INPUT\\"))",
-      },
-    ],
-    "signature": "format_input(urn)",
-    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
         "output": "Rwanda",
         "template": "@(format_location(\\"Rwanda\\"))",
       },
@@ -3229,21 +3214,6 @@ will be used. An error will be returned if the timezone is not recognized.",
     ],
     "signature": "format_number(number, places [, humanize])",
     "summary": "Formats \`number\` to the given number of decimal \`places\`.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
-        "template": "@(format_results(results))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_results(\\"NOT RESULTS\\"))",
-      },
-    ],
-    "signature": "format_results(urn)",
-    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
   },
   Object {
     "detail": "If \`format\` is not specified then the environment's default format is used. The format
@@ -3552,21 +3522,6 @@ will be used. An error will be returned if the timezone is not recognized.",
     "detail": "",
     "examples": Array [
       Object {
-        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
-        "template": "@(format_input(input))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_input(\\"NOT INPUT\\"))",
-      },
-    ],
-    "signature": "format_input(urn)",
-    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
         "output": "Rwanda",
         "template": "@(format_location(\\"Rwanda\\"))",
       },
@@ -3604,21 +3559,6 @@ will be used. An error will be returned if the timezone is not recognized.",
     ],
     "signature": "format_number(number, places [, humanize])",
     "summary": "Formats \`number\` to the given number of decimal \`places\`.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
-        "template": "@(format_results(results))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_results(\\"NOT RESULTS\\"))",
-      },
-    ],
-    "signature": "format_results(urn)",
-    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
   },
   Object {
     "detail": "If \`format\` is not specified then the environment's default format is used. The format
@@ -3841,21 +3781,6 @@ will be used. An error will be returned if the timezone is not recognized.",
     "detail": "",
     "examples": Array [
       Object {
-        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
-        "template": "@(format_input(input))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_input(\\"NOT INPUT\\"))",
-      },
-    ],
-    "signature": "format_input(urn)",
-    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
         "output": "Rwanda",
         "template": "@(format_location(\\"Rwanda\\"))",
       },
@@ -3893,21 +3818,6 @@ will be used. An error will be returned if the timezone is not recognized.",
     ],
     "signature": "format_number(number, places [, humanize])",
     "summary": "Formats \`number\` to the given number of decimal \`places\`.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
-        "template": "@(format_results(results))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_results(\\"NOT RESULTS\\"))",
-      },
-    ],
-    "signature": "format_results(urn)",
-    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
   },
   Object {
     "detail": "If \`format\` is not specified then the environment's default format is used. The format
@@ -4161,28 +4071,6 @@ will be used. An error will be returned if the timezone is not recognized.",
 
 exports[`helpers filterOptions should filter options for "format_datetime." 1`] = `Array []`;
 
-exports[`helpers filterOptions should filter options for "format_input" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "Hi there\\\\nhttp://s3.amazon.com/bucket/test.jpg\\\\nhttp://s3.amazon.com/bucket/test.mp3",
-        "template": "@(format_input(input))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_input(\\"NOT INPUT\\"))",
-      },
-    ],
-    "signature": "format_input(urn)",
-    "summary": "Formats \`input\` to be the text followed by the URLs of any attachment, separated by newlines.",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "format_input." 1`] = `Array []`;
-
 exports[`helpers filterOptions should filter options for "format_location" 1`] = `
 Array [
   Object {
@@ -4238,28 +4126,6 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "format_number." 1`] = `Array []`;
-
-exports[`helpers filterOptions should filter options for "format_results" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "2Factor: 34634624463525\\\\nFavorite Color: red\\\\nPhone Number: +12344563452\\\\nwebhook: 200",
-        "template": "@(format_results(results))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(format_results(\\"NOT RESULTS\\"))",
-      },
-    ],
-    "signature": "format_results(urn)",
-    "summary": "Formats \`results\` to be name and value pairs, separated by newlines.",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "format_results." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "format_time" 1`] = `
 Array [
@@ -4604,29 +4470,6 @@ Array [
     "detail": "",
     "examples": Array [
       Object {
-        "output": "he",
-        "template": "@(left(\\"hello\\", 2))",
-      },
-      Object {
-        "output": "hello",
-        "template": "@(left(\\"hello\\", 7))",
-      },
-      Object {
-        "output": "😀😃",
-        "template": "@(left(\\"😀😃😄😁\\", 2))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(left(\\"hello\\", -1))",
-      },
-    ],
-    "signature": "left(text, count)",
-    "summary": "Returns the \`count\` left-most characters in \`text\`",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
         "output": "hello",
         "template": "@(lower(\\"HellO\\"))",
       },
@@ -4648,64 +4491,6 @@ Array [
   },
 ]
 `;
-
-exports[`helpers filterOptions should filter options for "le" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "he",
-        "template": "@(left(\\"hello\\", 2))",
-      },
-      Object {
-        "output": "hello",
-        "template": "@(left(\\"hello\\", 7))",
-      },
-      Object {
-        "output": "😀😃",
-        "template": "@(left(\\"😀😃😄😁\\", 2))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(left(\\"hello\\", -1))",
-      },
-    ],
-    "signature": "left(text, count)",
-    "summary": "Returns the \`count\` left-most characters in \`text\`",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "left" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "he",
-        "template": "@(left(\\"hello\\", 2))",
-      },
-      Object {
-        "output": "hello",
-        "template": "@(left(\\"hello\\", 7))",
-      },
-      Object {
-        "output": "😀😃",
-        "template": "@(left(\\"😀😃😄😁\\", 2))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(left(\\"hello\\", -1))",
-      },
-    ],
-    "signature": "left(text, count)",
-    "summary": "Returns the \`count\` left-most characters in \`text\`",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "left." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "lo" 1`] = `
 Array [
@@ -6882,19 +6667,23 @@ splitting in 3s or 4s if appropriate.",
     "summary": "Returns \`text\` repeated \`count\` number of times.",
   },
   Object {
-    "detail": "",
+    "detail": "If \`count\` is omitted or is less than 0 then all occurrences are replaced.",
     "examples": Array [
       Object {
-        "output": "zap bar",
-        "template": "@(replace(\\"foo bar\\", \\"foo\\", \\"zap\\"))",
+        "output": "zap bar zap",
+        "template": "@(replace(\\"foo bar foo\\", \\"foo\\", \\"zap\\"))",
+      },
+      Object {
+        "output": "zap bar foo",
+        "template": "@(replace(\\"foo bar foo\\", \\"foo\\", \\"zap\\", 1))",
       },
       Object {
         "output": "foo bar",
         "template": "@(replace(\\"foo bar\\", \\"baz\\", \\"zap\\"))",
       },
     ],
-    "signature": "replace(text, needle, replacement)",
-    "summary": "Replaces all occurrences of \`needle\` with \`replacement\` in \`text\`.",
+    "signature": "replace(text, needle, replacement [, count])",
+    "summary": "Replaces up to \`count\` occurrences of \`needle\` with \`replacement\` in \`text\`.",
   },
   Object {
     "detail": "",
@@ -6914,29 +6703,6 @@ splitting in 3s or 4s if appropriate.",
     ],
     "signature": "replace_time(datetime)",
     "summary": "Returns a new datetime with the time part replaced by the \`time\`.",
-  },
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "lo",
-        "template": "@(right(\\"hello\\", 2))",
-      },
-      Object {
-        "output": "hello",
-        "template": "@(right(\\"hello\\", 7))",
-      },
-      Object {
-        "output": "😄😁",
-        "template": "@(right(\\"😀😃😄😁\\", 2))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(right(\\"hello\\", -1))",
-      },
-    ],
-    "signature": "right(text, count)",
-    "summary": "Returns the \`count\` right-most characters in \`text\`",
   },
   Object {
     "detail": "You can optionally pass in the number of decimal places to round to as \`places\`. If \`places\` < 0,
@@ -7217,19 +6983,23 @@ splitting in 3s or 4s if appropriate.",
     "summary": "Returns \`text\` repeated \`count\` number of times.",
   },
   Object {
-    "detail": "",
+    "detail": "If \`count\` is omitted or is less than 0 then all occurrences are replaced.",
     "examples": Array [
       Object {
-        "output": "zap bar",
-        "template": "@(replace(\\"foo bar\\", \\"foo\\", \\"zap\\"))",
+        "output": "zap bar zap",
+        "template": "@(replace(\\"foo bar foo\\", \\"foo\\", \\"zap\\"))",
+      },
+      Object {
+        "output": "zap bar foo",
+        "template": "@(replace(\\"foo bar foo\\", \\"foo\\", \\"zap\\", 1))",
       },
       Object {
         "output": "foo bar",
         "template": "@(replace(\\"foo bar\\", \\"baz\\", \\"zap\\"))",
       },
     ],
-    "signature": "replace(text, needle, replacement)",
-    "summary": "Replaces all occurrences of \`needle\` with \`replacement\` in \`text\`.",
+    "signature": "replace(text, needle, replacement [, count])",
+    "summary": "Replaces up to \`count\` occurrences of \`needle\` with \`replacement\` in \`text\`.",
   },
   Object {
     "detail": "",
@@ -7361,19 +7131,23 @@ exports[`helpers filterOptions should filter options for "repeat." 1`] = `Array 
 exports[`helpers filterOptions should filter options for "replace" 1`] = `
 Array [
   Object {
-    "detail": "",
+    "detail": "If \`count\` is omitted or is less than 0 then all occurrences are replaced.",
     "examples": Array [
       Object {
-        "output": "zap bar",
-        "template": "@(replace(\\"foo bar\\", \\"foo\\", \\"zap\\"))",
+        "output": "zap bar zap",
+        "template": "@(replace(\\"foo bar foo\\", \\"foo\\", \\"zap\\"))",
+      },
+      Object {
+        "output": "zap bar foo",
+        "template": "@(replace(\\"foo bar foo\\", \\"foo\\", \\"zap\\", 1))",
       },
       Object {
         "output": "foo bar",
         "template": "@(replace(\\"foo bar\\", \\"baz\\", \\"zap\\"))",
       },
     ],
-    "signature": "replace(text, needle, replacement)",
-    "summary": "Replaces all occurrences of \`needle\` with \`replacement\` in \`text\`.",
+    "signature": "replace(text, needle, replacement [, count])",
+    "summary": "Replaces up to \`count\` occurrences of \`needle\` with \`replacement\` in \`text\`.",
   },
   Object {
     "detail": "",
@@ -7435,64 +7209,6 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "results." 1`] = `Array []`;
-
-exports[`helpers filterOptions should filter options for "ri" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "lo",
-        "template": "@(right(\\"hello\\", 2))",
-      },
-      Object {
-        "output": "hello",
-        "template": "@(right(\\"hello\\", 7))",
-      },
-      Object {
-        "output": "😄😁",
-        "template": "@(right(\\"😀😃😄😁\\", 2))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(right(\\"hello\\", -1))",
-      },
-    ],
-    "signature": "right(text, count)",
-    "summary": "Returns the \`count\` right-most characters in \`text\`",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "right" 1`] = `
-Array [
-  Object {
-    "detail": "",
-    "examples": Array [
-      Object {
-        "output": "lo",
-        "template": "@(right(\\"hello\\", 2))",
-      },
-      Object {
-        "output": "hello",
-        "template": "@(right(\\"hello\\", 7))",
-      },
-      Object {
-        "output": "😄😁",
-        "template": "@(right(\\"😀😃😄😁\\", 2))",
-      },
-      Object {
-        "output": "ERROR",
-        "template": "@(right(\\"hello\\", -1))",
-      },
-    ],
-    "signature": "right(text, count)",
-    "summary": "Returns the \`count\` right-most characters in \`text\`",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "right." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "ro" 1`] = `
 Array [
@@ -8987,6 +8703,30 @@ and 1 if \`text1\` comes after \`text2\`.",
     "summary": "Returns the length (number of characters) of \`value\` when converted to text.",
   },
   Object {
+    "detail": "If \`end\` is not specified then the entire rest of \`text\` will be included. Negative values
+for \`start\` or \`end\` start at the end of \`text\`.",
+    "examples": Array [
+      Object {
+        "output": "llo",
+        "template": "@(text_slice(\\"hello\\", 2))",
+      },
+      Object {
+        "output": "el",
+        "template": "@(text_slice(\\"hello\\", 1, 3))",
+      },
+      Object {
+        "output": "lo",
+        "template": "@(text_slice(\\"hello😁\\", -3, -1))",
+      },
+      Object {
+        "output": "",
+        "template": "@(text_slice(\\"hello\\", 7))",
+      },
+    ],
+    "signature": "text_slice(text, start [, end])",
+    "summary": "Returns the portion of \`text\` between \`start\` (inclusive) and \`end\` (exclusive).",
+  },
+  Object {
     "detail": "If it is text then it will be parsed into a time using the default time format.
 An error is returned if the value can't be converted.",
     "examples": Array [
@@ -9169,6 +8909,30 @@ and 1 if \`text1\` comes after \`text2\`.",
     "signature": "text_length(value)",
     "summary": "Returns the length (number of characters) of \`value\` when converted to text.",
   },
+  Object {
+    "detail": "If \`end\` is not specified then the entire rest of \`text\` will be included. Negative values
+for \`start\` or \`end\` start at the end of \`text\`.",
+    "examples": Array [
+      Object {
+        "output": "llo",
+        "template": "@(text_slice(\\"hello\\", 2))",
+      },
+      Object {
+        "output": "el",
+        "template": "@(text_slice(\\"hello\\", 1, 3))",
+      },
+      Object {
+        "output": "lo",
+        "template": "@(text_slice(\\"hello😁\\", -3, -1))",
+      },
+      Object {
+        "output": "",
+        "template": "@(text_slice(\\"hello\\", 7))",
+      },
+    ],
+    "signature": "text_slice(text, start [, end])",
+    "summary": "Returns the portion of \`text\` between \`start\` (inclusive) and \`end\` (exclusive).",
+  },
 ]
 `;
 
@@ -9228,6 +8992,30 @@ and 1 if \`text1\` comes after \`text2\`.",
     "signature": "text_length(value)",
     "summary": "Returns the length (number of characters) of \`value\` when converted to text.",
   },
+  Object {
+    "detail": "If \`end\` is not specified then the entire rest of \`text\` will be included. Negative values
+for \`start\` or \`end\` start at the end of \`text\`.",
+    "examples": Array [
+      Object {
+        "output": "llo",
+        "template": "@(text_slice(\\"hello\\", 2))",
+      },
+      Object {
+        "output": "el",
+        "template": "@(text_slice(\\"hello\\", 1, 3))",
+      },
+      Object {
+        "output": "lo",
+        "template": "@(text_slice(\\"hello😁\\", -3, -1))",
+      },
+      Object {
+        "output": "",
+        "template": "@(text_slice(\\"hello\\", 7))",
+      },
+    ],
+    "signature": "text_slice(text, start [, end])",
+    "summary": "Returns the portion of \`text\` between \`start\` (inclusive) and \`end\` (exclusive).",
+  },
 ]
 `;
 
@@ -9281,6 +9069,37 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "text_length." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "text_slice" 1`] = `
+Array [
+  Object {
+    "detail": "If \`end\` is not specified then the entire rest of \`text\` will be included. Negative values
+for \`start\` or \`end\` start at the end of \`text\`.",
+    "examples": Array [
+      Object {
+        "output": "llo",
+        "template": "@(text_slice(\\"hello\\", 2))",
+      },
+      Object {
+        "output": "el",
+        "template": "@(text_slice(\\"hello\\", 1, 3))",
+      },
+      Object {
+        "output": "lo",
+        "template": "@(text_slice(\\"hello😁\\", -3, -1))",
+      },
+      Object {
+        "output": "",
+        "template": "@(text_slice(\\"hello\\", 7))",
+      },
+    ],
+    "signature": "text_slice(text, start [, end])",
+    "summary": "Returns the portion of \`text\` between \`start\` (inclusive) and \`end\` (exclusive).",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "text_slice." 1`] = `Array []`;
 
 exports[`helpers filterOptions should filter options for "ti" 1`] = `
 Array [
