@@ -212,6 +212,7 @@ export interface Missing extends Action {}
 export interface RecipientsAction extends Action {
     contacts: Contact[];
     groups: Group[];
+    legacy_vars?: string[];
 }
 
 export interface TemplateTranslation {

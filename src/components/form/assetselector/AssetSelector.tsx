@@ -8,9 +8,17 @@ import { sortByName } from '~/components/form/assetselector/helpers';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import { getIconForAssetType } from '~/components/form/select/helper';
 import { getAssets, isMatch, postNewAsset, searchAssetMap } from '~/external';
-import { Asset, Assets, AssetType, REMOVE_VALUE_ASSET } from '~/store/flowContext';
+import {
+    Asset,
+    Assets,
+    AssetStore,
+    AssetType,
+    CompletionOption,
+    REMOVE_VALUE_ASSET
+} from '~/store/flowContext';
 import { AssetEntry } from '~/store/nodeEditor';
 import { uniqueBy } from '~/utils';
+import { getCompletionOptions } from '~/utils/completion';
 import { large, messageStyle } from '~/utils/reactselect';
 
 import * as styles from './AssetSelector.scss';
@@ -75,10 +83,14 @@ export interface AssetSelectorProps extends FormElementProps {
 
     // override default sorting function
     sortFunction?(a: Asset, b: Asset): number;
+
+    // completion options
+    completion?: AssetStore;
 }
 
 interface AssetSelectorState {
     defaultOptions: Asset[];
+    completionOptions: Asset[];
     entry: AssetEntry;
     isLoading: boolean;
     message?: string;
@@ -98,10 +110,24 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             defaultOptions = searchAssetMap('', props.assets.items);
         }
 
+        let completionOptions: Asset[] = [];
+        if (this.props.completion) {
+            completionOptions = getCompletionOptions(true, this.props.completion, false).map(
+                (option: CompletionOption) => {
+                    return {
+                        id: '@' + option.name,
+                        name: '@' + option.name,
+                        type: AssetType.Expression
+                    };
+                }
+            );
+        }
+
         this.state = {
             defaultOptions,
             entry: this.props.entry,
-            isLoading: false
+            isLoading: false,
+            completionOptions
         };
     }
 
@@ -136,10 +162,16 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
 
     public handleLoadOptions(input: string, callback: CallbackFunction): void {
+        let options = this.props.additionalOptions || [];
+
+        if (this.state.completionOptions.length > 0 && input.startsWith('@')) {
+            options = options.concat(this.state.completionOptions);
+        }
+
         let localMatches = searchAssetMap(
             input,
             this.props.assets.items,
-            this.props.additionalOptions,
+            options,
             this.props.shouldExclude
         );
 

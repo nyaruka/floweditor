@@ -512,21 +512,6 @@
         ]
     },
     {
-        "signature": "format_input(urn)",
-        "summary": "Formats `input` to be the text followed by the URLs of any attachment, separated by newlines.",
-        "detail": "",
-        "examples": [
-            {
-                "template": "@(format_input(input))",
-                "output": "Hi there\\nhttp://s3.amazon.com/bucket/test.jpg\\nhttp://s3.amazon.com/bucket/test.mp3"
-            },
-            {
-                "template": "@(format_input(\"NOT INPUT\"))",
-                "output": "ERROR"
-            }
-        ]
-    },
-    {
         "signature": "format_location(location)",
         "summary": "Formats the given `location` as its name.",
         "detail": "",
@@ -564,21 +549,6 @@
             },
             {
                 "template": "@(format_number(\"foo\", 2, false))",
-                "output": "ERROR"
-            }
-        ]
-    },
-    {
-        "signature": "format_results(urn)",
-        "summary": "Formats `results` to be name and value pairs, separated by newlines.",
-        "detail": "",
-        "examples": [
-            {
-                "template": "@(format_results(results))",
-                "output": "2Factor: 34634624463525\\nFavorite Color: red\\nPhone Number: +12344563452\\nwebhook: 200"
-            },
-            {
-                "template": "@(format_results(\"NOT RESULTS\"))",
                 "output": "ERROR"
             }
         ]
@@ -706,29 +676,6 @@
             {
                 "template": "@(json(contact.uuid))",
                 "output": "\"5d76d86b-3bb9-4d5a-b822-c9d86f5d8e4f\""
-            }
-        ]
-    },
-    {
-        "signature": "left(text, count)",
-        "summary": "Returns the `count` left-most characters in `text`",
-        "detail": "",
-        "examples": [
-            {
-                "template": "@(left(\"hello\", 2))",
-                "output": "he"
-            },
-            {
-                "template": "@(left(\"hello\", 7))",
-                "output": "hello"
-            },
-            {
-                "template": "@(left(\"😀😃😄😁\", 2))",
-                "output": "😀😃"
-            },
-            {
-                "template": "@(left(\"hello\", -1))",
-                "output": "ERROR"
             }
         ]
     },
@@ -1082,13 +1029,17 @@
         ]
     },
     {
-        "signature": "replace(text, needle, replacement)",
-        "summary": "Replaces all occurrences of `needle` with `replacement` in `text`.",
-        "detail": "",
+        "signature": "replace(text, needle, replacement [, count])",
+        "summary": "Replaces up to `count` occurrences of `needle` with `replacement` in `text`.",
+        "detail": "If `count` is omitted or is less than 0 then all occurrences are replaced.",
         "examples": [
             {
-                "template": "@(replace(\"foo bar\", \"foo\", \"zap\"))",
-                "output": "zap bar"
+                "template": "@(replace(\"foo bar foo\", \"foo\", \"zap\"))",
+                "output": "zap bar zap"
+            },
+            {
+                "template": "@(replace(\"foo bar foo\", \"foo\", \"zap\", 1))",
+                "output": "zap bar foo"
             },
             {
                 "template": "@(replace(\"foo bar\", \"baz\", \"zap\"))",
@@ -1111,29 +1062,6 @@
             },
             {
                 "template": "@(replace_time(\"foo\", \"10:30\"))",
-                "output": "ERROR"
-            }
-        ]
-    },
-    {
-        "signature": "right(text, count)",
-        "summary": "Returns the `count` right-most characters in `text`",
-        "detail": "",
-        "examples": [
-            {
-                "template": "@(right(\"hello\", 2))",
-                "output": "lo"
-            },
-            {
-                "template": "@(right(\"hello\", 7))",
-                "output": "hello"
-            },
-            {
-                "template": "@(right(\"😀😃😄😁\", 2))",
-                "output": "😄😁"
-            },
-            {
-                "template": "@(right(\"hello\", -1))",
                 "output": "ERROR"
             }
         ]
@@ -1312,6 +1240,29 @@
             {
                 "template": "@(text_length(array(2, 3)))",
                 "output": "6"
+            }
+        ]
+    },
+    {
+        "signature": "text_slice(text, start [, end])",
+        "summary": "Returns the portion of `text` between `start` (inclusive) and `end` (exclusive).",
+        "detail": "If `end` is not specified then the entire rest of `text` will be included. Negative values\nfor `start` or `end` start at the end of `text`.",
+        "examples": [
+            {
+                "template": "@(text_slice(\"hello\", 2))",
+                "output": "llo"
+            },
+            {
+                "template": "@(text_slice(\"hello\", 1, 3))",
+                "output": "el"
+            },
+            {
+                "template": "@(text_slice(\"hello😁\", -3, -1))",
+                "output": "lo"
+            },
+            {
+                "template": "@(text_slice(\"hello\", 7))",
+                "output": ""
             }
         ]
     },

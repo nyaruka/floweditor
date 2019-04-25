@@ -37,14 +37,6 @@ export interface CompletionOption {
     examples?: FunctionExample[];
 }
 
-export const getCompletionName = (option: CompletionOption): string => {
-    return option.name || option.signature.substr(0, option.signature.indexOf('('));
-};
-
-export const getCompletionSignature = (option: CompletionOption): string => {
-    return option.signature.substr(option.signature.indexOf('('));
-};
-
 export interface ContactFields {
     [snakedFieldName: string]: string;
 }
@@ -66,7 +58,8 @@ export enum AssetType {
     Environment = 'environment',
     Remove = 'remove',
     ContactProperty = 'property',
-    Scheme = 'scheme'
+    Scheme = 'scheme',
+    Expression = 'expression'
 }
 
 export interface Reference {

@@ -47,6 +47,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     onChange={[MockFunction]}
   />
   <AssetSelector
+    completion={Object {}}
     entry={
       Object {
         "value": Array [],
@@ -111,6 +112,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     onChange={[MockFunction]}
   />
   <AssetSelector
+    completion={Object {}}
     entry={
       Object {
         "value": Array [
@@ -228,6 +230,7 @@ Array [
   Object {
     "contacts": Array [],
     "groups": Array [],
+    "legacy_vars": Array [],
     "text": "Message to Group",
     "type": "send_broadcast",
     "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",

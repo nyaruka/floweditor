@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { pluralize, UnicodeCharMap } from '~/components/form/textinput/helpers';
+import { UnicodeCharMap } from '~/components/form/textinput/helpers';
 import * as styles from '~/components/form/textinput/UnicodeList.scss';
-import { renderIf } from '~/utils';
+import { pluralize, renderIf } from '~/utils';
 
 export interface UnicodeListProps {
     unicodeChars: UnicodeCharMap;
