@@ -104,6 +104,7 @@ export default class SendBroadcastForm extends React.Component<
                     name="Recipients"
                     assets={this.props.assetStore.recipients}
                     entry={this.state.recipients}
+                    completion={this.props.assetStore}
                     searchable={true}
                     multi={true}
                     onChange={this.handleRecipientsChanged}

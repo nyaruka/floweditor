@@ -416,3 +416,6 @@ export const seededUUIDs = (seed: number = 1): any => {
 
 export const range = (start: number, end: number) =>
     Array.from({ length: end - start }, (v: number, k: number) => k + start);
+
+export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
+    `${noun}${count !== 1 ? suffix : ''}`;

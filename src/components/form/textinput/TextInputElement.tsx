@@ -9,23 +9,18 @@ import * as shared from '~/components/form/FormElement.scss';
 import CharCount from '~/components/form/textinput/CharCount';
 import { COMPLETION_HELP, KeyValues } from '~/components/form/textinput/constants';
 import ExcellentParser, { isWordChar } from '~/components/form/textinput/ExcellentParser';
-import {
-    filterOptions,
-    getMsgStats,
-    getOptionsList,
-    UnicodeCharMap
-} from '~/components/form/textinput/helpers';
+import { getMsgStats, UnicodeCharMap } from '~/components/form/textinput/helpers';
 import * as styles from '~/components/form/textinput/TextInputElement.scss';
 import { Type, Types } from '~/config/interfaces';
-import {
-    AssetStore,
-    CompletionOption,
-    FunctionExample,
-    getCompletionName,
-    getCompletionSignature
-} from '~/store/flowContext';
+import { AssetStore, CompletionOption, FunctionExample } from '~/store/flowContext';
 import { StringEntry, ValidationFailure } from '~/store/nodeEditor';
 import AppState from '~/store/state';
+import {
+    filterOptions,
+    getCompletionName,
+    getCompletionOptions,
+    getCompletionSignature
+} from '~/utils/completion';
 
 const ReactMarkdown = require('react-markdown');
 
@@ -108,7 +103,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
         this.state = {
             value: initial,
-            options: getOptionsList(this.props.autocomplete, this.props.assetStore),
+            options: getCompletionOptions(this.props.autocomplete, this.props.assetStore),
             ...initialState,
             ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
         };

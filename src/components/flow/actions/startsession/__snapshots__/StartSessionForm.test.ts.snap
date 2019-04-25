@@ -48,6 +48,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
   />
   <div>
     <AssetSelector
+      completion={Object {}}
       entry={
         Object {
           "value": Array [],
@@ -110,6 +111,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
   />
   <div>
     <AssetSelector
+      completion={Object {}}
       entry={
         Object {
           "value": Array [
@@ -180,6 +182,7 @@ Array [
         "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
       },
     ],
+    "legacy_vars": Array [],
     "type": "start_session",
     "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
   },
@@ -224,6 +227,7 @@ Array [
         "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
       },
     ],
+    "legacy_vars": Array [],
     "type": "start_session",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
   },

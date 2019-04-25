@@ -1,4 +1,9 @@
-import { getActionUUID, getRecipients } from '~/components/flow/actions/helpers';
+import {
+    getActionUUID,
+    getExpressions,
+    getRecipients,
+    getRecipientsByAsset
+} from '~/components/flow/actions/helpers';
 import { StartSessionFormState } from '~/components/flow/actions/startsession/StartSessionForm';
 import { Types } from '~/config/interfaces';
 import { StartSession } from '~/flowTypes';
@@ -31,16 +36,11 @@ export const stateToAction = (
     const flow: Asset = state.flow.value;
 
     return {
+        legacy_vars: getExpressions(state.recipients.value),
         contacts: getRecipientsByAsset(state.recipients.value, AssetType.Contact),
         groups: getRecipientsByAsset(state.recipients.value, AssetType.Group),
         flow: { name: flow.name, uuid: flow.id },
         type: Types.start_session,
         uuid: getActionUUID(settings, Types.start_session)
     };
-};
-
-const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] => {
-    return assets.filter((asset: Asset) => asset.type === type).map((asset: Asset) => {
-        return { uuid: asset.id, name: asset.name };
-    });
 };

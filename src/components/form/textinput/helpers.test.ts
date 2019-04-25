@@ -1,18 +1,19 @@
-import { GSM, OPTIONS, TOP_LEVEL_OPTIONS } from '~/components/form/textinput/constants';
-import {
-    cleanMsg,
-    filterOptions,
-    getOptionsList,
-    getUnicodeChars,
-    isUnicode,
-    pluralize
-} from '~/components/form/textinput/helpers';
+import { GSM } from '~/components/form/textinput/constants';
+import { cleanMsg, getUnicodeChars, isUnicode } from '~/components/form/textinput/helpers';
 import { FlowDefinition } from '~/flowTypes';
-import { AssetType, CompletionOption, getCompletionName } from '~/store/flowContext';
+import { AssetType, CompletionOption } from '~/store/flowContext';
+import { pluralize } from '~/utils';
+import {
+    COMPLETION_OPTIONS,
+    filterOptions,
+    getCompletionName,
+    getCompletionOptions,
+    TOP_LEVEL_OPTIONS
+} from '~/utils/completion';
 
 const definition: FlowDefinition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const optionQueryMap = OPTIONS.reduce((argMap, option: CompletionOption) => {
+const optionQueryMap = COMPLETION_OPTIONS.reduce((argMap, option: CompletionOption) => {
     const name = getCompletionName(option);
 
     const lastIndex = name.lastIndexOf('.');
@@ -56,11 +57,11 @@ describe('helpers', () => {
 
     describe('filterOptions', () => {
         it('should return top-level options if not passed a query', () =>
-            expect(filterOptions(OPTIONS, '', false)).toEqual(TOP_LEVEL_OPTIONS));
+            expect(filterOptions(COMPLETION_OPTIONS, '', false)).toEqual(TOP_LEVEL_OPTIONS));
 
         Object.keys(optionQueryMap).forEach(query =>
             it(`should filter options for "${query}"`, () =>
-                expect(filterOptions(OPTIONS, query, true)).toMatchSnapshot())
+                expect(filterOptions(COMPLETION_OPTIONS, query, true)).toMatchSnapshot())
         );
     });
 
@@ -76,11 +77,11 @@ describe('helpers', () => {
 
     describe('getOptionsList', () => {
         it('should include only our predefined options if autocomplete arg is falsy', () => {
-            expect(getOptionsList(false, {}).length).toBe(OPTIONS.length);
+            expect(getCompletionOptions(false, {}).length).toBe(COMPLETION_OPTIONS.length);
         });
 
         it('should include result names if autocomplete arg is truthy', () => {
-            const optionsList = getOptionsList(true, {
+            const optionsList = getCompletionOptions(true, {
                 fields: {
                     type: AssetType.Field,
                     items: {
@@ -92,7 +93,7 @@ describe('helpers', () => {
                     }
                 }
             });
-            const expectedLength = OPTIONS.length + 5; // accounting for field and its properties
+            const expectedLength = COMPLETION_OPTIONS.length + 5; // accounting for field and its properties
 
             expect(optionsList.length).toBe(expectedLength);
         });

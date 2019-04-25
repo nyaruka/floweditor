@@ -1,8 +1,13 @@
-import { getActionUUID, getRecipients } from '~/components/flow/actions/helpers';
+import {
+    getActionUUID,
+    getExpressions,
+    getRecipients,
+    getRecipientsByAsset
+} from '~/components/flow/actions/helpers';
 import { SendBroadcastFormState } from '~/components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from '~/config/interfaces';
 import { BroadcastMsg } from '~/flowTypes';
-import { Asset, AssetType } from '~/store/flowContext';
+import { AssetType } from '~/store/flowContext';
 import { NodeEditorSettings } from '~/store/nodeEditor';
 
 export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormState => {
@@ -42,16 +47,11 @@ export const stateToAction = (
     formState: SendBroadcastFormState
 ): BroadcastMsg => {
     return {
-        contacts: this.getAsset(formState.recipients.value, AssetType.Contact),
-        groups: this.getAsset(formState.recipients.value, AssetType.Group),
+        legacy_vars: getExpressions(formState.recipients.value),
+        contacts: getRecipientsByAsset(formState.recipients.value, AssetType.Contact),
+        groups: getRecipientsByAsset(formState.recipients.value, AssetType.Group),
         text: formState.message.value,
         type: Types.send_broadcast,
         uuid: getActionUUID(settings, Types.send_broadcast)
     };
-};
-
-export const getAsset = (assets: Asset[], type: AssetType): any[] => {
-    return assets.filter((asset: Asset) => asset.type === type).map((asset: Asset) => {
-        return { uuid: asset.id, name: asset.name };
-    });
 };

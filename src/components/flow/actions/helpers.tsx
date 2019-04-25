@@ -15,15 +15,23 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
 };
 
 export const getRecipients = (action: RecipientsAction): Asset[] => {
-    const selected = (action.groups || []).map((group: Group) => {
+    let selected = (action.groups || []).map((group: Group) => {
         return { id: group.uuid, name: group.name, type: AssetType.Group };
     });
 
-    return selected.concat(
+    selected = selected.concat(
         (action.contacts || []).map((contact: Contact) => {
             return { id: contact.uuid, name: contact.name, type: AssetType.Contact };
         })
     );
+
+    selected = selected.concat(
+        (action.legacy_vars || []).map((expression: string) => {
+            return { id: expression, name: expression, type: AssetType.Expression };
+        })
+    );
+
+    return selected;
 };
 
 export const renderAssetList = (
@@ -86,4 +94,18 @@ export const getAllErrors = (entry: FormEntry): ValidationFailure[] => {
 
 export const hasErrors = (entry: FormEntry): boolean => {
     return getAllErrors(entry).length > 0;
+};
+
+export const getExpressions = (assets: Asset[]): any[] => {
+    return assets
+        .filter((asset: Asset) => asset.type === AssetType.Expression)
+        .map((asset: Asset) => {
+            return asset.id;
+        });
+};
+
+export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] => {
+    return assets.filter((asset: Asset) => asset.type === type).map((asset: Asset) => {
+        return { uuid: asset.id, name: asset.name };
+    });
 };

@@ -1,19 +1,17 @@
-@import "~/variables.scss";
+@import '~/variables.scss';
 
 .recipients {
-
 }
 
 .node {
     .to {
-
         padding: 3px $action_padding;
         background: $light_gray_2;
         width: 100%;
         font-size: 11px;
 
         .name {
-            font-size: 10px;   
+            font-size: 10px;
         }
 
         .icon {
@@ -34,5 +32,5 @@
 }
 
 .flow {
-    padding: $node_padding + px;
+    padding: $action_padding;
 }
