@@ -4,6 +4,7 @@ import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button, { ButtonTypes } from '~/components/button/Button';
 import Dialog from '~/components/dialog/Dialog';
+import { Fixy } from '~/components/fixy/Fixy';
 import ConnectedFlow from '~/components/flow/Flow';
 import * as styles from '~/components/index.scss';
 import ConnectedLanguageSelector from '~/components/languageselector/LanguageSelector';
@@ -135,12 +136,11 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
             return null;
         }
 
-        const style =
-            Object.keys(this.props.assetStore.languages.items).length === 1 ? { top: -10 } : null;
-
         return (
-            <div className={styles.saving} style={style}>
-                <Loading balls={5} color="#3498db" size={7} />
+            <div className={styles.saving}>
+                <Fixy>
+                    <Loading units={5} color="#3498db" size={7} />
+                </Fixy>
             </div>
         );
     }
@@ -167,7 +167,6 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                     className={this.props.translating ? styles.translating : undefined}
                     data-spec={editorContainerSpecId}
                 >
-                    {this.getSavingIndicator()}
                     {this.getFooter()}
                     {this.getAlertModal()}
                     <div className={styles.editor} data-spec={editorSpecId}>
@@ -175,6 +174,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                             this.props.languages &&
                                 Object.keys(this.props.languages.items).length > 0
                         )(<ConnectedLanguageSelector />)}
+
+                        {this.getSavingIndicator()}
+
                         {renderIf(
                             this.props.definition && this.props.language && !this.props.fetchingFlow
                         )(<ConnectedFlow />)}

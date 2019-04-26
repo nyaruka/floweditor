@@ -1,3 +1,5 @@
+@import '~/variables.scss';
+
 @keyframes pulse {
     0% {
         transform: scale(0.2);
@@ -11,11 +13,11 @@
 }
 
 .loading {
-    position: relative;
+    padding: 10px;
 }
 
 .loading > div {
-    position: absolute;
-    border-radius: 50%;
+    border: 1px solid $light_gray_2;
+    display: inline-block;
     animation: pulse 0.9s cubic-bezier(0.3, 0, 0.7, 1) infinite;
 }
