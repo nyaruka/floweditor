@@ -5,8 +5,9 @@ import * as styles from './Loading.scss';
 
 export interface LoadingProps {
     size: number;
-    balls: number;
+    units: number;
     color: string;
+    square?: boolean;
 }
 
 interface Color {
@@ -41,18 +42,22 @@ export default class Loading extends React.Component<LoadingProps, LoadingState>
 
     public render(): JSX.Element {
         return (
-            <div className={styles.loading} style={{ width: '100%', height: '100%' }}>
-                {range(0, this.props.balls).map((num: number) => (
+            <div
+                className={styles.loading}
+                style={{ width: this.props.size * this.props.units * 2, height: this.props.size }}
+            >
+                {range(0, this.props.units).map((num: number) => (
                     <div
                         key={`ball_${num}`}
                         style={{
+                            borderRadius: this.props.square ? '0' : '50%',
                             width: this.props.size,
                             height: this.props.size,
-                            left: this.props.size * num + this.props.size * num,
-                            animationDelay: `-${1 - num * (1 / this.props.balls)}s`,
+                            margin: this.props.size / 3,
+                            animationDelay: `-${1 - num * (1 / this.props.units)}s`,
                             background: `rgba(${this.state.color.r},${this.state.color.g},${
                                 this.state.color.b
-                            }, ${1 - num * (1 / this.props.balls)})`
+                            }, ${1 - num * (1 / this.props.units)})`
                         }}
                     />
                 ))}
