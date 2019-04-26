@@ -166,6 +166,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
         if (this.state.completionOptions.length > 0 && input.startsWith('@')) {
             options = options.concat(this.state.completionOptions);
+            callback(searchAssetMap(input, {}, options, this.props.shouldExclude));
+            return;
         }
 
         let localMatches = searchAssetMap(
