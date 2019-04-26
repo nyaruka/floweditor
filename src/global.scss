@@ -164,6 +164,15 @@
                 }
             }
 
+            &.jtk-hover {
+                path {
+                    stroke: $connector_hover_color;
+                    &.jtk-arrow {
+                        fill: $connector_hover_color;
+                    }
+                }
+            }
+
             &.confirm-delete {
                 path {
                     stroke: $red;
