@@ -29,7 +29,7 @@ exports[`Canvas render default 1`] = `
     onMouseUp={[Function]}
     style={
       Object {
-        "height": 1000,
+        "height": 0,
       }
     }
   />

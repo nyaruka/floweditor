@@ -19,6 +19,7 @@ export const REFLOW_QUIET = 200;
 export interface CanvasProps {
     uuid: string;
     dragActive: boolean;
+    draggingNew: boolean;
     draggables: CanvasDraggableProps[];
     onDragging: (draggedUUIDs: string[]) => void;
     onUpdatePositions: (positions: CanvasPositions) => void;
@@ -53,7 +54,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     constructor(props: CanvasProps) {
         super(props);
 
-        let height = 1000;
+        let height = document.documentElement.clientHeight;
 
         const positions: { [uuid: string]: FlowPosition } = {};
         this.props.draggables.forEach((draggable: CanvasDraggableProps) => {
@@ -79,6 +80,11 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
         });
     }
 
+    private handleWindowResize(): void {
+        const windowHeight = document.documentElement.clientHeight;
+        this.setState({ height: Math.max(windowHeight, this.state.height) });
+    }
+
     public componentDidMount(): void {
         let offset = { left: 0, top: 0 };
         /* istanbul ignore next */
@@ -86,6 +92,12 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             offset = this.ele.getBoundingClientRect();
         }
         this.parentOffset = { left: offset.left, top: offset.top + window.scrollY };
+
+        window.addEventListener('resize', this.handleWindowResize);
+    }
+
+    public componentWillUnmount(): void {
+        window.removeEventListener('resize', this.handleWindowResize);
     }
 
     public componentDidUpdate(prevProps: CanvasProps): void {
@@ -165,6 +177,13 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     }
 
     private handleMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
+        if (this.props.draggingNew) {
+            this.lastX = event.pageX;
+            this.lastY = event.pageY;
+            this.updateStateWithScroll(event.clientY, event.pageY);
+            return;
+        }
+
         if (this.state.dragSelection && this.state.dragSelection.startX) {
             const drag = this.state.dragSelection;
             const left = Math.min(drag.startX, drag.currentX);
@@ -317,83 +336,102 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
         }, REFLOW_QUIET);
     }
 
+    /**
+     * Updates the state of the canvas, expanding and scrolling as needed
+     * @param windowY the mouse position in the viewport
+     * @param pageY the mouse position in the full canvas
+     * @param otherState optional state to set
+     */
+    private updateStateWithScroll(
+        windowY: number,
+        pageY: number,
+        otherState: Partial<CanvasState> = {}
+    ): void {
+        const viewportHeight = document.documentElement.clientHeight;
+
+        this.setState(
+            (prevState: CanvasState) => {
+                return {
+                    ...(otherState as CanvasState),
+                    height: Math.max(pageY + CANVAS_PADDING, prevState.height)
+                };
+            },
+            () => {
+                // check if we need to scroll our canvas
+
+                if (!this.isScrolling && windowY !== 0) {
+                    if (windowY + 100 > viewportHeight) {
+                        this.scrollCanvas(15);
+                    } else if (windowY < 100) {
+                        this.scrollCanvas(-15);
+                    }
+                }
+                // if we are scrolling but given a clientY then user is mousing
+                else if (windowY !== 0 && (windowY > 100 && windowY + 100 < viewportHeight)) {
+                    window.clearInterval(this.isScrolling);
+                    this.isScrolling = null;
+                }
+            }
+        );
+    }
+
     private updatePositions(pageX: number, pageY: number, clientY: number, snap: boolean): void {
-        const { dragUUID } = this.state;
+        if (this.state.dragUUID) {
+            const { dragUUID } = this.state;
 
-        // save off the last update, if we scroll on the user's behalf we'll need this
-        this.lastX = pageX;
-        this.lastY = pageY;
+            // save off the last update, if we scroll on the user's behalf we'll need this
+            this.lastX = pageX;
+            this.lastY = pageY;
 
-        const startPosition = this.props.dragActive
-            ? this.state.selected[dragUUID]
-            : this.state.positions[dragUUID];
+            const startPosition = this.props.dragActive
+                ? this.state.selected[dragUUID]
+                : this.state.positions[dragUUID];
 
-        const xd =
-            pageX - this.parentOffset.left - this.state.dragDownPosition.left - startPosition.left;
+            const xd =
+                pageX -
+                this.parentOffset.left -
+                this.state.dragDownPosition.left -
+                startPosition.left;
 
-        const yd =
-            pageY - this.parentOffset.top - this.state.dragDownPosition.top - startPosition.top;
+            const yd =
+                pageY - this.parentOffset.top - this.state.dragDownPosition.top - startPosition.top;
 
-        let lowestNode = 0;
-        if (this.props.dragActive) {
-            const delta = { left: xd, top: yd };
+            let lowestNode = 0;
+            if (this.props.dragActive) {
+                const delta = { left: xd, top: yd };
+                const prevState = this.state;
+                const uuids = Object.keys(prevState.selected);
+                let newPositions = prevState.positions;
+                uuids.forEach((uuid: string) => {
+                    let newPosition = addPosition(prevState.selected[uuid], delta);
+                    if (snap) {
+                        newPosition = snapPositionToGrid(newPosition);
+                    }
 
-            const viewportHeight = document.documentElement.clientHeight;
+                    if (newPosition.bottom > lowestNode) {
+                        lowestNode = newPosition.bottom;
+                    }
 
-            this.setState(
-                (prevState: CanvasState) => {
-                    const uuids = Object.keys(prevState.selected);
-                    let newPositions = prevState.positions;
-                    uuids.forEach((uuid: string) => {
-                        let newPosition = addPosition(prevState.selected[uuid], delta);
-                        if (snap) {
-                            newPosition = snapPositionToGrid(newPosition);
-                        }
-
-                        if (newPosition.bottom > lowestNode) {
-                            lowestNode = newPosition.bottom;
-                        }
-
-                        newPositions = mutate(newPositions, {
-                            $merge: { [uuid]: newPosition }
-                        });
+                    newPositions = mutate(newPositions, {
+                        $merge: { [uuid]: newPosition }
                     });
-
-                    this.props.onDragging(uuids);
-
-                    return {
-                        positions: newPositions,
-                        height: Math.max(prevState.height, lowestNode + CANVAS_PADDING)
-                    };
-                },
-                () => {
-                    // check if we need to scroll our canvas
-                    if (!this.isScrolling && clientY !== 0) {
-                        if (clientY + 100 > viewportHeight) {
-                            this.scrollCanvas(15);
-                        } else if (clientY < 100) {
-                            this.scrollCanvas(-15);
-                        }
-                    }
-                    // if we are scrolling but given a clientY then user is mousing
-                    else if (clientY !== 0 && (clientY > 100 && clientY + 100 < viewportHeight)) {
-                        window.clearInterval(this.isScrolling);
-                        this.isScrolling = null;
-                    }
-                }
-            );
-        } else {
-            if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
-                let selected = this.state.selected;
-                if (!(this.state.dragUUID in selected)) {
-                    selected = { [dragUUID]: this.state.positions[dragUUID] };
-                }
-
-                this.props.mergeEditorState({
-                    dragActive: true
                 });
 
-                this.setState({ selected });
+                this.props.onDragging(uuids);
+                this.updateStateWithScroll(clientY, lowestNode, { positions: newPositions });
+            } else {
+                if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
+                    let selected = this.state.selected;
+                    if (!(this.state.dragUUID in selected)) {
+                        selected = { [dragUUID]: this.state.positions[dragUUID] };
+                    }
+
+                    this.props.mergeEditorState({
+                        dragActive: true
+                    });
+
+                    this.setState({ selected });
+                }
             }
         }
     }

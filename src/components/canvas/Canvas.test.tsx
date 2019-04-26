@@ -10,6 +10,7 @@ const ele = (selected: boolean): JSX.Element => null;
 
 const baseProps: CanvasProps = {
     uuid: utils.createUUID(),
+    draggingNew: false,
     dragActive: false,
     onDragging: jest.fn(),
     onUpdatePositions: jest.fn(),
@@ -27,7 +28,8 @@ describe(Canvas.name, () => {
 
     it('initializes the height to 1000', () => {
         const { instance } = setup();
-        expect(instance.state.height).toEqual(1000);
+
+        expect(instance.state.height).toEqual(0);
     });
 
     it('initializes the height to the lowest draggable', () => {
@@ -48,7 +50,7 @@ describe(Canvas.name, () => {
             position: { top: 1200, left: 100 }
         };
         const { instance } = setup(true, { $merge: { draggables: [lowest] } });
-        expect(instance.state.height).toEqual(1000);
+        expect(instance.state.height).toEqual(0);
 
         instance.handleUpdateDimensions(lowest.uuid, { width: 200, height: 300 });
         expect(instance.state.height).toBe(lowest.position.top + 300 + CANVAS_PADDING);

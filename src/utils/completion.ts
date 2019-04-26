@@ -117,6 +117,7 @@ export const getContactOptions = (accessor?: string): CompletionOption[] => {
         : '';
     return [
         { name: `${prefix}contact`, summary: `The name of a ${descriptor} contact` },
+        { name: `${prefix}contact.uuid`, summary: `The uuid of a ${descriptor} contact` },
         { name: `${prefix}contact.name`, summary: `The name of a ${descriptor} contact` },
         {
             name: `${prefix}contact.first_name`,

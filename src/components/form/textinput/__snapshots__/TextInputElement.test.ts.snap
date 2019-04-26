@@ -7,6 +7,10 @@ Array [
     "summary": "The name of a  contact",
   },
   Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of a  contact",
+  },
+  Object {
     "name": "contact.name",
     "summary": "The name of a  contact",
   },
@@ -42,6 +46,10 @@ Array [
   Object {
     "name": "contact",
     "summary": "The name of a  contact",
+  },
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of a  contact",
   },
   Object {
     "name": "contact.name",

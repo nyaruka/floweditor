@@ -565,6 +565,10 @@ Array [
     "summary": "The name of a child run's contact",
   },
   Object {
+    "name": "child.contact.uuid",
+    "summary": "The uuid of a child run's contact",
+  },
+  Object {
     "name": "child.contact.name",
     "summary": "The name of a child run's contact",
   },
@@ -843,6 +847,10 @@ Array [
 exports[`helpers filterOptions should filter options for "child.contact.u" 1`] = `
 Array [
   Object {
+    "name": "child.contact.uuid",
+    "summary": "The uuid of a child run's contact",
+  },
+  Object {
     "name": "child.contact.urns",
     "summary": "URNs on a child run's contact",
   },
@@ -919,6 +927,24 @@ Array [
   Object {
     "name": "child.contact.urns.telegram",
     "summary": "The preferred telegram id for a child run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "child.contact.uu" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.uuid",
+    "summary": "The uuid of a child run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "child.contact.uuid" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.uuid",
+    "summary": "The uuid of a child run's contact",
   },
 ]
 `;
@@ -1677,6 +1703,10 @@ Array [
     "summary": "The name of a  contact",
   },
   Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of a  contact",
+  },
+  Object {
     "name": "contact.name",
     "summary": "The name of a  contact",
   },
@@ -1709,6 +1739,10 @@ Array [
 
 exports[`helpers filterOptions should filter options for "contact." 1`] = `
 Array [
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of a  contact",
+  },
   Object {
     "name": "contact.name",
     "summary": "The name of a  contact",
@@ -1988,6 +2022,10 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.u" 1`] = `
 Array [
   Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of a  contact",
+  },
+  Object {
     "name": "contact.urns",
     "summary": "URNs on a  contact",
   },
@@ -2064,6 +2102,24 @@ Array [
   Object {
     "name": "contact.urns.telegram",
     "summary": "The preferred telegram id for a  contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.uu" 1`] = `
+Array [
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of a  contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.uuid" 1`] = `
+Array [
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of a  contact",
   },
 ]
 `;
@@ -5403,6 +5459,10 @@ Array [
     "summary": "The name of a parent run's contact",
   },
   Object {
+    "name": "parent.contact.uuid",
+    "summary": "The uuid of a parent run's contact",
+  },
+  Object {
     "name": "parent.contact.name",
     "summary": "The name of a parent run's contact",
   },
@@ -5681,6 +5741,10 @@ Array [
 exports[`helpers filterOptions should filter options for "parent.contact.u" 1`] = `
 Array [
   Object {
+    "name": "parent.contact.uuid",
+    "summary": "The uuid of a parent run's contact",
+  },
+  Object {
     "name": "parent.contact.urns",
     "summary": "URNs on a parent run's contact",
   },
@@ -5757,6 +5821,24 @@ Array [
   Object {
     "name": "parent.contact.urns.telegram",
     "summary": "The preferred telegram id for a parent run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parent.contact.uu" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.uuid",
+    "summary": "The uuid of a parent run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parent.contact.uuid" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.uuid",
+    "summary": "The uuid of a parent run's contact",
   },
 ]
 `;
@@ -7582,6 +7664,10 @@ Array [
     "summary": "The name of a run's contact",
   },
   Object {
+    "name": "run.contact.uuid",
+    "summary": "The uuid of a run's contact",
+  },
+  Object {
     "name": "run.contact.name",
     "summary": "The name of a run's contact",
   },
@@ -7860,6 +7946,10 @@ Array [
 exports[`helpers filterOptions should filter options for "run.contact.u" 1`] = `
 Array [
   Object {
+    "name": "run.contact.uuid",
+    "summary": "The uuid of a run's contact",
+  },
+  Object {
     "name": "run.contact.urns",
     "summary": "URNs on a run's contact",
   },
@@ -7936,6 +8026,24 @@ Array [
   Object {
     "name": "run.contact.urns.telegram",
     "summary": "The preferred telegram id for a run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "run.contact.uu" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.uuid",
+    "summary": "The uuid of a run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "run.contact.uuid" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.uuid",
+    "summary": "The uuid of a run's contact",
   },
 ]
 `;

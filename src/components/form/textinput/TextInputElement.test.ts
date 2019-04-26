@@ -241,7 +241,7 @@ describe(TextInputElement.name, () => {
             expect(state.query).toEqual('contact');
 
             // tabbing forward should give us all our contact options
-            expect(state.matches.length).toBe(8);
+            expect(state.matches.length).toBe(9);
             expect(state.matches).toMatchSnapshot();
         });
 
@@ -262,7 +262,7 @@ describe(TextInputElement.name, () => {
             expect(state.value).toBe('hello @contact world');
 
             // tabbing forward should give us all our contact options
-            expect(state.matches.length).toBe(8);
+            expect(state.matches.length).toBe(9);
             expect(state.matches).toMatchSnapshot();
         });
 
