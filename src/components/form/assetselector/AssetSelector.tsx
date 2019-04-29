@@ -264,20 +264,27 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
     public handleCreateOption(input: string): void {
         // mark us as loading
-        this.setState({ isLoading: true, message: null });
-        const payload = this.props.createAssetFromInput(input);
-        postNewAsset(this.props.assets, payload)
-            .then((asset: Asset) => {
-                this.setState({ isLoading: false });
-                this.props.onAssetCreated(asset);
-            })
-            .catch(error => {
-                console.log(error);
-                this.setState({
-                    message: `Couldn't create new ${this.props.assets.type} "${input}"`,
-                    isLoading: false
+        const asset: Asset = this.props.createAssetFromInput(input);
+
+        if (this.props.assets.endpoint) {
+            this.setState({ isLoading: true, message: null });
+
+            postNewAsset(this.props.assets, asset)
+                .then((result: Asset) => {
+                    this.setState({ isLoading: false });
+                    this.props.onAssetCreated(result);
+                    this.props.onChange([result]);
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.setState({
+                        message: `Couldn't create new ${this.props.assets.type} "${input}"`,
+                        isLoading: false
+                    });
                 });
-            });
+        } else {
+            this.props.onChange([asset]);
+        }
     }
 
     public render(): JSX.Element {
@@ -310,24 +317,31 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             );
 
             return (
-                <Creatable
-                    {...commonAttributes}
-                    options={localMatches.sort(this.props.sortFunction || sortByName)}
-                    isValidNewOption={this.handleCheckValid}
-                    formatCreateLabel={this.handleCreatePrompt}
-                    getNewOptionData={this.handleGetNewOptionData}
-                    onCreateOption={this.handleCreateOption}
+                <FormElement
+                    name={this.props.name}
+                    entry={this.props.entry}
+                    showLabel={this.props.showLabel}
+                    helpText={this.props.helpText}
+                >
+                    <Creatable
+                        {...commonAttributes}
+                        options={localMatches.sort(this.props.sortFunction || sortByName)}
+                        isValidNewOption={this.handleCheckValid}
+                        formatCreateLabel={this.handleCreatePrompt}
+                        getNewOptionData={this.handleGetNewOptionData}
+                        onCreateOption={this.handleCreateOption}
 
-                    // We are currently using Creatable since our assets are currently
-                    // being preloaded on page load and because of isLoaded not being
-                    // honored when set manually (this is needed to perform onCreateOption
-                    // via call to asset endpoint with feedback). Once that fix is merged,
-                    // we can consider using AsyncCreateable
-                    //
-                    // See: https://github.com/JedWatson/react-select/issues/2986
-                    //      https://github.com/JedWatson/react-select/pull/3319
-                    //
-                />
+                        // We are currently using Creatable since our assets are currently
+                        // being preloaded on page load and because of isLoaded not being
+                        // honored when set manually (this is needed to perform onCreateOption
+                        // via call to asset endpoint with feedback). Once that fix is merged,
+                        // we can consider using AsyncCreateable
+                        //
+                        // See: https://github.com/JedWatson/react-select/issues/2986
+                        //      https://github.com/JedWatson/react-select/pull/3319
+                        //
+                    />
+                </FormElement>
             );
         } else {
             // the default options should be true if there is an endpoint
@@ -352,6 +366,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                     name={this.props.name}
                     entry={this.props.entry}
                     showLabel={this.props.showLabel}
+                    helpText={this.props.helpText}
                 >
                     <Async
                         {...commonAttributes}
