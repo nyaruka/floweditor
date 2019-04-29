@@ -33,16 +33,22 @@ exports[`SetRunResultForm render should render 1`] = `
   <div
     className="form"
   >
-    <Connect(TextInputElement)
-      __className="name"
+    <AssetSelector
+      createAssetFromInput={[Function]}
+      createPrefix="New: "
       entry={
         Object {
-          "value": "Name",
+          "value": Object {
+            "id": "name",
+            "name": "Name",
+            "type": "result",
+          },
         }
       }
       helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
       name="Name"
       onChange={[Function]}
+      searchable={true}
       showLabel={true}
     />
     <Connect(TextInputElement)
@@ -96,8 +102,11 @@ Object {
     "value": "Result Category",
   },
   "name": Object {
-    "validationFailures": Array [],
-    "value": "Result Name",
+    "value": Object {
+      "id": "result_name",
+      "name": "Result Name",
+      "type": "result",
+    },
   },
   "valid": true,
   "value": Object {
