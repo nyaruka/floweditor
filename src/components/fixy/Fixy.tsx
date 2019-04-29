@@ -29,6 +29,10 @@ export class Fixy extends React.PureComponent<FixyProps, FixyState> {
         this.setState({ fixed });
     }
 
+    public componentWillUnmount(): void {
+        window.removeEventListener('scroll', this.handleScroll);
+    }
+
     public componentDidMount(): void {
         const top = this.ele.getBoundingClientRect().top + window.scrollY;
         const fixed = window.scrollY > top;

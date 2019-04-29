@@ -5,13 +5,22 @@ import { hasErrors } from '~/components/flow/actions/helpers';
 import { initializeForm, stateToAction } from '~/components/flow/actions/setrunresult/helpers';
 import * as styles from '~/components/flow/actions/setrunresult/SetRunResult.scss';
 import { ActionFormProps } from '~/components/flow/props';
+import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
-import { FormState, mergeForm, StringEntry, ValidationFailure } from '~/store/nodeEditor';
+import { Asset, AssetType } from '~/store/flowContext';
+import {
+    AssetEntry,
+    FormState,
+    mergeForm,
+    StringEntry,
+    ValidationFailure
+} from '~/store/nodeEditor';
 import { validate, validateRequired } from '~/store/validators';
+import { snakify } from '~/utils';
 
 export interface SetRunResultFormState extends FormState {
-    name: StringEntry;
+    name: AssetEntry;
     value: StringEntry;
     category: StringEntry;
 }
@@ -30,8 +39,8 @@ export default class SetRunResultForm extends React.PureComponent<
         });
     }
 
-    public handleNameUpdate(name: string): boolean {
-        return this.handleUpdate({ name });
+    private handleNameUpdate(selected: Asset[]): void {
+        this.setState({ name: { value: selected[0] } });
     }
 
     public handleValueUpdate(value: string): boolean {
@@ -42,7 +51,7 @@ export default class SetRunResultForm extends React.PureComponent<
         return this.handleUpdate({ category });
     }
 
-    private handleUpdate(keys: { name?: string; value?: string; category?: string }): boolean {
+    private handleUpdate(keys: { name?: Asset; value?: string; category?: string }): boolean {
         const updates: Partial<SetRunResultFormState> = {};
 
         if (keys.hasOwnProperty('name')) {
@@ -83,6 +92,14 @@ export default class SetRunResultForm extends React.PureComponent<
         };
     }
 
+    private handleCreateAssetFromInput(input: string): Asset {
+        return {
+            id: snakify(input),
+            name: input,
+            type: AssetType.Result
+        };
+    }
+
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
         return (
@@ -97,14 +114,18 @@ export default class SetRunResultForm extends React.PureComponent<
                     onChange={this.props.onTypeChange}
                 />
                 <div className={styles.form}>
-                    <TextInputElement
-                        __className={styles.name}
+                    <AssetSelector
                         name="Name"
-                        showLabel={true}
-                        onChange={this.handleNameUpdate}
+                        assets={this.props.assetStore.results}
                         entry={this.state.name}
+                        searchable={true}
+                        createPrefix="New: "
+                        onChange={this.handleNameUpdate}
+                        createAssetFromInput={this.handleCreateAssetFromInput}
+                        showLabel={true}
                         helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
                     />
+
                     <TextInputElement
                         __className={styles.value}
                         name="Value"
