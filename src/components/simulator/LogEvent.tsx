@@ -5,6 +5,7 @@ import Modal from '~/components/modal/Modal';
 import * as styles from '~/components/simulator/LogEvent.scss';
 import { Types } from '~/config/interfaces';
 import { Group } from '~/flowTypes';
+import { createUUID } from '~/utils';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
@@ -110,7 +111,7 @@ const renderMessage = (text: string, attachments: string[], direction: Direction
             {text
                 ? text.split('\n').map((item, key) => {
                       return (
-                          <div key={key} className={styles.msgText}>
+                          <div key={createUUID()} className={styles.msgText}>
                               {item}
                           </div>
                       );

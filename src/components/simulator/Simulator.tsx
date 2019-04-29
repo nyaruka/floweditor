@@ -31,7 +31,12 @@ const VIDEO_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/s
 const VIDEO_A_THUMB =
     'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
 
-const ACTIVE = 'A';
+interface PostMessage {
+    text: string;
+    uuid: string;
+    urn: string;
+    attachments: string[];
+}
 
 interface Message {
     text: string;
@@ -233,7 +238,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     private updateEvents(events: EventProps[], callback: () => void): void {
-        if (events.length > 0) {
+        if (events && events.length > 0) {
             const toAdd = [];
 
             let quickReplies: string[] = null;
@@ -279,8 +284,25 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }
     }
 
-    private updateRunContext(body: any, runContext: RunContext): void {
+    private updateRunContext(runContext: RunContext, msg?: PostMessage): void {
+        const wasJustActive =
+            this.state.active || (runContext.events && runContext.events.length > 0);
         this.setState({ quickReplies: [] }, () => {
+            if (!runContext.events || (runContext.events.length === 0 && msg)) {
+                runContext.events = [
+                    {
+                        msg: {
+                            uuid: createUUID(),
+                            urn: this.state.contact.urns[0],
+                            text: msg.text,
+                            attachments: msg.attachments
+                        },
+                        type: 'msg_created',
+                        created_on: new Date()
+                    }
+                ];
+            }
+
             this.updateEvents(runContext.events, () => {
                 let active = false;
                 for (const run of runContext.session.runs) {
@@ -291,13 +313,13 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 }
 
                 let newEvents = this.state.events;
-
-                if (!active) {
+                if (!active && wasJustActive) {
                     newEvents = update(this.state.events, {
                         $push: [
                             {
                                 type: 'info',
-                                text: 'Exited flow'
+                                text: 'Exited flow',
+                                created_on: new Date()
                             }
                         ]
                     }) as EventProps[];
@@ -406,7 +428,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                         JSON.stringify(body, null, 2)
                     )
                     .then((response: axios.AxiosResponse) => {
-                        this.updateRunContext(body, response.data as RunContext);
+                        this.updateRunContext(response.data as RunContext);
                     });
             }
         );
@@ -432,17 +454,20 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             { sprinting: true, attachmentOptionsVisible: false, drawerOpen: false },
             () => {
                 const now = new Date().toISOString();
+
+                const msg: PostMessage = {
+                    text,
+                    uuid: createUUID(),
+                    urn: this.state.session.contact.urns[0],
+                    attachments: attachment ? [attachment] : []
+                };
+
                 const body: any = {
                     flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
                     session: this.state.session,
                     resume: {
                         type: 'msg',
-                        msg: {
-                            text,
-                            uuid: createUUID(),
-                            urn: this.state.session.contact.urns[0],
-                            attachments: attachment ? [attachment] : []
-                        },
+                        msg,
                         resumed_on: now,
                         contact: this.state.session.contact
                     }
@@ -454,7 +479,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                         JSON.stringify(body, null, 2)
                     )
                     .then((response: axios.AxiosResponse) => {
-                        this.updateRunContext(body, response.data as RunContext);
+                        this.updateRunContext(response.data as RunContext, msg);
                     })
                     .catch(error => {
                         const events = update(this.state.events, {
@@ -835,7 +860,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     public render(): ReactNode {
         const messages: JSX.Element[] = [];
         for (const event of this.state.events) {
-            messages.push(<LogEvent {...event} key={String(event.created_on)} />);
+            messages.push(
+                <LogEvent {...event} key={event.type + '_' + String(event.created_on)} />
+            );
         }
 
         const simHidden = !this.state.visible ? styles.simHidden : '';
