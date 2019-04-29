@@ -64,11 +64,23 @@
     text-align: center;
     color: #bbb;
     font-size: 11px;
+    word-wrap: break-word;
+    padding: 0 10px;
+}
+
+.email {
+    word-break: break-all;
+    text-decoration: underline;
+    cursor: pointer;
+    &:hover {
+        color: #999;
+    }
 }
 
 .webhook {
     word-break: break-all;
     text-decoration: underline;
+    cursor: pointer;
     &:hover {
         color: #999;
     }
@@ -99,6 +111,23 @@
         color: #777;
         top: 9px;
         left: 30px;
+    }
+}
+
+.email-details {
+    padding: 20px;
+    font-size: 14px;
+
+    .to {
+        padding-top: 10px;
+    }
+
+    .subject {
+        padding-top: 10px;
+    }
+
+    .body {
+        padding-top: 20px;
     }
 }
 
