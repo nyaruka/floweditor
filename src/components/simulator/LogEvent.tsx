@@ -4,7 +4,7 @@ import { MediaPlayer } from '~/components/mediaplayer/MediaPlayer';
 import Modal from '~/components/modal/Modal';
 import * as styles from '~/components/simulator/LogEvent.scss';
 import { Types } from '~/config/interfaces';
-import { Group } from '~/flowTypes';
+import { Flow, Group } from '~/flowTypes';
 import { createUUID } from '~/utils';
 
 const MAP_THUMB = require('static/images/map.jpg');
@@ -21,23 +21,26 @@ export interface EventProps {
     uuid?: string;
     created_on?: Date;
     type?: string;
-    field?: string;
+    field?: { key: string; name: string };
     field_uuid?: string;
     result_name?: string;
     text?: string;
     name?: string;
-    value?: string;
+    value?: { text: string };
     body?: string;
-    email?: string;
+    addresses?: string[];
     subject?: string;
     url?: string;
     status?: string;
     status_code?: number;
     request?: string;
     response?: string;
+    resthook?: string;
     base_language?: string;
+    language?: string;
     translations?: { [lang: string]: { [text: string]: string } };
     groups?: Group[];
+    flow?: Flow;
     groups_added?: Group[];
     groups_removed?: Group[];
     msg?: MsgProps;
@@ -162,6 +165,29 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         return renderInfo(groupText);
     }
 
+    private renderEmail(): JSX.Element {
+        return this.renderClickable(
+            <div className={styles.info + ' ' + styles.email}>
+                {`Sent email to "${this.props.addresses.join(', ')}" with subject "${
+                    this.props.subject
+                }
+                "`}
+            </div>,
+            <Dialog
+                title="Email Details"
+                headerClass={Types.send_email}
+                buttons={this.getButtons()}
+                noPadding={true}
+            >
+                <div className={styles.emailDetails}>
+                    <div className={styles.to}>To: {this.props.addresses.join(', ')}</div>
+                    <div className={styles.subject}>Subject: {this.props.subject}</div>
+                    <div className={styles.body}>{this.props.body}</div>
+                </div>
+            </Dialog>
+        );
+    }
+
     private renderWebhook(): JSX.Element {
         return this.renderClickable(
             <div className={styles.info + ' ' + styles.webhook}>
@@ -210,32 +236,41 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 return this.renderGroupChange();
             case 'contact_urns_changed':
                 return renderInfo('Added a URN for the contact');
-            case Types.set_contact_field:
+            case 'contact_field_changed':
                 return renderInfo(
-                    `Set contact field "${this.props.field}" to "${this.props.value}"`
+                    `Set contact "${this.props.field.name}" to "${this.props.value.text}"`
                 );
             case 'run_result_changed':
-                return renderInfo(`Set flow result "${this.props.name}" to "${this.props.value}"`);
-            case Types.set_contact_name:
-                return renderInfo(`Updated contact ${this.props.field} to "${this.props.value}"`);
-            case Types.send_email:
-                return renderInfo(
-                    `Sent email to "${this.props.email}" with subject "${
-                        this.props.subject
-                    }" and body "${this.props.body}"`
-                );
+                return renderInfo(`Set result "${this.props.name}" to "${this.props.value}"`);
+            case 'contact_name_changed':
+                return renderInfo(`Set contact name to "${this.props.name}"`);
+            case 'email_created':
+                return this.renderEmail();
             case 'broadcast_created':
                 return renderMessage(
                     this.props.translations[this.props.base_language].text,
                     this.props.msg.attachments,
                     Direction.MT
                 );
+            case 'resthook_called':
+                return renderInfo(`Trigerred flow event ${this.props.resthook}`);
             case 'webhook_called':
                 return this.renderWebhook();
+            case 'flow_entered':
+                return renderInfo(`Entered flow ${this.props.flow.name}`);
+            case 'session_triggered':
+                return renderInfo(`Started somebody else in ${this.props.flow.name}`);
+            case 'contact_language_changed':
+                return renderInfo(`Set preferred language to ${this.props.language}`);
             case 'info':
                 return renderInfo(this.props.text);
+            case 'environment_refreshed':
+                return null;
         }
-        return renderInfo(`Missing render for ${this.props.type}`);
+
+        // should only get here if we are get an unexpected event
+        console.log('Simulator render missing', this.props);
+        return null;
     }
 
     public render(): JSX.Element {
