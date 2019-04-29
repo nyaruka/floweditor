@@ -7,6 +7,9 @@ export type ValidatorFunc = (
     input: FormInput
 ) => { failures: ValidationFailure[]; value: FormInput };
 
+const REGEX_ALPHANUM = /^[a-z\d\-_\s]+$/i;
+const REGEX_STARTS_WITH_NUMBER = /^\d+/i;
+
 // TODO: should not depend on components/..
 
 // Courtesy of @diegoperini: https://gist.github.com/dperini/729294
@@ -99,6 +102,50 @@ export const validateRequired: ValidatorFunc = (name: string, input: FormInput) 
     } else if (Array.isArray(input)) {
         if (input.length === 0) {
             return { value: input, failures: [{ message: `${name} are required` }] };
+        }
+    }
+    return { failures: [], value: input };
+};
+
+export const validateAlphanumeric: ValidatorFunc = (name: string, input: FormInput) => {
+    let value = input;
+    if (typeof input === 'object') {
+        value = (input as any).name || undefined;
+    }
+
+    if (typeof value === 'string') {
+        // don't validate empty strings, that's up to validate required
+        if ((value as string).trim() === '') {
+            return { value: input, failures: [] };
+        }
+
+        if (!REGEX_ALPHANUM.test(value)) {
+            return {
+                value: input,
+                failures: [{ message: `${name} can only contain letters and numbers` }]
+            };
+        }
+    }
+    return { failures: [], value: input };
+};
+
+export const validateDoesntStartWithNumber: ValidatorFunc = (name: string, input: FormInput) => {
+    let value = input;
+    if (typeof input === 'object') {
+        value = (input as any).name || undefined;
+    }
+
+    if (typeof value === 'string') {
+        // don't validate empty strings, that's up to validate required
+        if ((value as string).trim() === '') {
+            return { value: input, failures: [] };
+        }
+
+        if (REGEX_STARTS_WITH_NUMBER.test(value)) {
+            return {
+                value: input,
+                failures: [{ message: `${name} cannot start with a number` }]
+            };
         }
     }
     return { failures: [], value: input };

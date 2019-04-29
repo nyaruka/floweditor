@@ -221,6 +221,7 @@ Object {
     },
   ],
   "resultName": Object {
+    "validationFailures": Array [],
     "value": "Favorite Color",
   },
   "timeout": 180,

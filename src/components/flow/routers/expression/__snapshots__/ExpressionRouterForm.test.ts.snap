@@ -102,6 +102,7 @@ Object {
     "value": "@input.text",
   },
   "resultName": Object {
+    "validationFailures": Array [],
     "value": "Favorite Color",
   },
   "valid": true,

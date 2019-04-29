@@ -405,6 +405,7 @@ Object {
     },
   },
   "resultName": Object {
+    "validationFailures": Array [],
     "value": "Favorite Color",
   },
   "valid": true,

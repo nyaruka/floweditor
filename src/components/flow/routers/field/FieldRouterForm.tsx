@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { sortFieldsAndProperties } from '~/components/flow/actions/updatecontact/helpers';
 import { CONTACT_PROPERTIES } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { RouterFormProps } from '~/components/flow/props';
@@ -12,6 +13,7 @@ import { fakePropType } from '~/config/ConfigProvider';
 import { Scheme, SCHEMES } from '~/config/typeConfigs';
 import { Asset, AssetType } from '~/store/flowContext';
 import { AssetEntry, FormState, StringEntry } from '~/store/nodeEditor';
+import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
 import * as styles from './FieldRouterForm.scss';
@@ -64,7 +66,11 @@ export default class FieldRouterForm extends React.Component<
     };
 
     private handleUpdateResultName(value: string): void {
-        this.setState({ resultName: { value } });
+        const resultName = validate('Result Name', value, [
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleFieldChanged(selected: Asset[]): void {

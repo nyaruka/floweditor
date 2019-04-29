@@ -1,11 +1,13 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
+import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
 
 import * as styles from './DigitsRouterForm.scss';
 import { nodeToState, stateToNode } from './helpers';
@@ -30,7 +32,11 @@ export default class DigitsRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        this.setState({ resultName: { value } });
+        const resultName = validate('Result Name', value, [
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleCasesUpdated(cases: CaseProps[]): void {

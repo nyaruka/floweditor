@@ -11,7 +11,12 @@ import TextInputElement from '~/components/form/textinput/TextInputElement';
 import ValidationFailures from '~/components/form/ValidationFailures';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormEntry, FormState, StringEntry } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import {
+    validate,
+    validateAlphanumeric,
+    validateDoesntStartWithNumber,
+    validateRequired
+} from '~/store/validators';
 
 import * as styles from './AirtimeRouterForm.scss';
 import { nodeToState, stateToNode } from './helpers';
@@ -74,7 +79,11 @@ export default class AirtimeRouterForm extends React.PureComponent<
     }
 
     private handleUpdateResultName(result: string): void {
-        const resultName = validate('Result Name', result, [validateRequired]);
+        const resultName = validate('Result Name', result, [
+            validateRequired,
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

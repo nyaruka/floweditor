@@ -1,12 +1,14 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FormState, StringEntry } from '~/store/nodeEditor';
+import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import * as styles from './MenuRouterForm.scss';
@@ -36,7 +38,11 @@ export default class MenuRouterForm extends React.Component<RouterFormProps, Men
     };
 
     private handleUpdateResultName(value: string): void {
-        this.setState({ resultName: { value } });
+        const resultName = validate('Result Name', value, [
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleSave(): void {
