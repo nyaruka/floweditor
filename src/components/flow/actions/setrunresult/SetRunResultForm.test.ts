@@ -1,5 +1,6 @@
 import SetRunResultForm from '~/components/flow/actions/setrunresult/SetRunResultForm';
 import { ActionFormProps } from '~/components/flow/props';
+import { Asset, AssetType } from '~/store/flowContext';
 import { composeComponentTestUtils, mock } from '~/testUtils';
 import { createSetRunResultAction, getActionFormProps } from '~/testUtils/assetCreators';
 import * as utils from '~/utils';
@@ -10,6 +11,12 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 );
 
 mock(utils, 'createUUID', utils.seededUUIDs());
+
+const resultName: Asset = {
+    name: 'Result Name',
+    id: utils.snakify('Result Name'),
+    type: AssetType.Result
+};
 
 describe(SetRunResultForm.name, () => {
     describe('render', () => {
@@ -23,7 +30,7 @@ describe(SetRunResultForm.name, () => {
         it('should save changes', () => {
             const { instance, props } = setup(true);
 
-            instance.handleNameUpdate('Result Name');
+            instance.handleNameUpdate([resultName]);
             instance.handleValueUpdate('Result Value');
             instance.handleCategoryUpdate('Result Category');
 
@@ -40,7 +47,7 @@ describe(SetRunResultForm.name, () => {
                 nodeSettings: { $merge: { originalAction: null } }
             });
 
-            instance.handleNameUpdate('Result Name');
+            instance.handleNameUpdate([resultName]);
             instance.handleValueUpdate('Result Value');
             instance.handleCategoryUpdate('Result Category');
             instance.handleSave();
@@ -55,7 +62,7 @@ describe(SetRunResultForm.name, () => {
                 $merge: { onClose: jest.fn(), updateAction: jest.fn() }
             });
 
-            instance.handleNameUpdate("Don't Save Me");
+            instance.handleNameUpdate([resultName]);
             instance.getButtons().secondary.onClick();
             expect(props.onClose).toHaveBeenCalled();
             expect(props.updateAction).not.toHaveBeenCalled();
