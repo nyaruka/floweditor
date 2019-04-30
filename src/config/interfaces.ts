@@ -59,6 +59,7 @@ export enum Operators {
     has_date_lt = 'has_date_lt',
     has_date_eq = 'has_date_eq',
     has_date_gt = 'has_date_gt',
+    has_time = 'has_time',
     has_number = 'has_number',
     has_number_between = 'has_number_between',
     has_number_lt = 'has_number_lt',
@@ -71,15 +72,12 @@ export enum Operators {
     has_group = 'has_group',
     has_phone = 'has_phone',
     has_email = 'has_email',
-    has_error = 'has_error',
     has_value = 'has_value',
-    has_wait_timed_out = 'has_wait_timed_out',
     has_district = 'has_district',
     has_state = 'has_state',
     has_ward = 'has_ward',
     has_pattern = 'has_pattern',
-    has_webhook_status = 'has_webhook_status',
-    is_error = 'is_error'
+    has_error = 'has_error'
 }
 
 export interface FlowTypeVisibility {

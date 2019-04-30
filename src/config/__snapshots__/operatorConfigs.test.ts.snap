@@ -127,11 +127,13 @@ Array [
     ],
   },
   Object {
-    "operands": 1,
-    "type": "has_run_status",
-    "verboseName": "has a run status of",
+    "categoryName": "Has Time",
+    "operands": 0,
+    "type": "has_time",
+    "verboseName": "has a time",
     "visibility": Array [
-      "-",
+      "message",
+      "message_offline",
     ],
   },
   Object {
@@ -335,19 +337,21 @@ Object {
       "message_offline",
     ],
   },
-  "has_run_status": Object {
-    "operands": 1,
-    "type": "has_run_status",
-    "verboseName": "has a run status of",
-    "visibility": Array [
-      "-",
-    ],
-  },
   "has_text": Object {
     "categoryName": "Has Text",
     "operands": 0,
     "type": "has_text",
     "verboseName": "has some text",
+    "visibility": Array [
+      "message",
+      "message_offline",
+    ],
+  },
+  "has_time": Object {
+    "categoryName": "Has Time",
+    "operands": 0,
+    "type": "has_time",
+    "verboseName": "has a time",
     "visibility": Array [
       "message",
       "message_offline",

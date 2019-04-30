@@ -1,5 +1,5 @@
 import {
-    getExitName,
+    getCategoryName,
     getMinMax,
     isFloat,
     isInt,
@@ -86,7 +86,7 @@ describe('helpers', () => {
     describe('getExitName', () => {
         it('should create range exit name', () => {
             expect(
-                getExitName({
+                getCategoryName({
                     operatorConfig: getOperatorConfig(Operators.has_number_between),
                     min: { value: '5' },
                     max: { value: '10' }
@@ -96,7 +96,7 @@ describe('helpers', () => {
 
         it('should defer to edited exit names', () => {
             expect(
-                getExitName({
+                getCategoryName({
                     operatorConfig: getOperatorConfig(Operators.has_number_between),
                     min: { value: '5' },
                     max: { value: '10' },
@@ -106,7 +106,7 @@ describe('helpers', () => {
             ).toBe('My Exit');
 
             expect(
-                getExitName({
+                getCategoryName({
                     operatorConfig: getOperatorConfig(Operators.has_number),
                     categoryName: { value: 'My Exit' },
                     categoryNameEdited: true
@@ -116,7 +116,7 @@ describe('helpers', () => {
 
         it('should use operator names as necessary', () => {
             expect(
-                getExitName({
+                getCategoryName({
                     operatorConfig: getOperatorConfig(Operators.has_number)
                 })
             ).toBe('Has Number');
@@ -124,7 +124,7 @@ describe('helpers', () => {
 
         it('should generate names for single operands', () => {
             expect(
-                getExitName({
+                getCategoryName({
                     operatorConfig: getOperatorConfig(Operators.has_any_word),
                     argument: { value: 'color red green blue' }
                 })
@@ -134,7 +134,7 @@ describe('helpers', () => {
         it('it should generate exits for relative dates', () => {
             const testRelativeDateExit = (op: Operators, value: number, exitName: string): void => {
                 expect(
-                    getExitName({
+                    getCategoryName({
                         operatorConfig: getOperatorConfig(op),
                         argument: { value: value + '' }
                     })
@@ -156,7 +156,7 @@ describe('helpers', () => {
 
         it('should have empty categories without argument', () => {
             expect(
-                getExitName({
+                getCategoryName({
                     operatorConfig: getOperatorConfig(Operators.has_any_word)
                 })
             ).toBe('');
@@ -164,7 +164,7 @@ describe('helpers', () => {
 
         it('should have empty categories with empty argument', () => {
             expect(
-                getExitName({
+                getCategoryName({
                     operatorConfig: getOperatorConfig(Operators.has_any_word),
                     argument: { value: '' }
                 })
