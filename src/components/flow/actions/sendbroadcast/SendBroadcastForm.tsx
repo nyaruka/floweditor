@@ -16,7 +16,7 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 export interface SendBroadcastFormState extends FormState {
     message: StringEntry;
@@ -53,11 +53,11 @@ export default class SendBroadcastForm extends React.Component<
         const updates: Partial<SendBroadcastFormState> = {};
 
         if (keys.hasOwnProperty('recipients')) {
-            updates.recipients = validate('Recipients', keys.recipients, [validateRequired]);
+            updates.recipients = validate('Recipients', keys.recipients, [Required]);
         }
 
         if (keys.hasOwnProperty('text')) {
-            updates.message = validate('Message', keys.text, [validateRequired]);
+            updates.message = validate('Message', keys.text, [Required]);
         }
 
         const updated = mergeForm(this.state, updates);

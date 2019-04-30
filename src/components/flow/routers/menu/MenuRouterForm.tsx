@@ -8,7 +8,7 @@ import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FormState, StringEntry } from '~/store/nodeEditor';
-import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
+import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import * as styles from './MenuRouterForm.scss';
@@ -38,10 +38,7 @@ export default class MenuRouterForm extends React.Component<RouterFormProps, Men
     };
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

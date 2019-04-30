@@ -15,7 +15,7 @@ import { fakePropType } from '~/config/ConfigProvider';
 import { ChangeGroups } from '~/flowTypes';
 import { Asset } from '~/store/flowContext';
 import { mergeForm } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 import { renderIf } from '~/utils';
 
 export const LABEL = 'Select the group(s) to remove the contact from.';
@@ -57,7 +57,7 @@ export default class RemoveGroupsForm extends React.Component<
         const updates: Partial<ChangeGroupsFormState> = {};
 
         // we only require groups if removeAll isn't checked
-        let groupValidators = this.state.removeAll ? [] : [validateRequired];
+        let groupValidators = this.state.removeAll ? [] : [Required];
 
         if (keys.hasOwnProperty('removeAll')) {
             updates.removeAll = keys.removeAll;

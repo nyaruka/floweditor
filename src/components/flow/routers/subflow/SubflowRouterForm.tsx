@@ -8,7 +8,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
@@ -35,7 +35,7 @@ export default class SubflowRouterForm extends React.PureComponent<
 
     public handleFlowChanged(flows: Asset[]): boolean {
         const updates: Partial<SubflowRouterFormState> = {
-            flow: validate('Flow', flows[0], [validateRequired])
+            flow: validate('Flow', flows[0], [Required])
         };
 
         const updated = mergeForm(this.state, updates);

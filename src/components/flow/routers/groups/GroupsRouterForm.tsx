@@ -10,7 +10,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -49,7 +49,7 @@ export default class GroupsRouterForm extends React.Component<
         const updates: Partial<GroupsRouterFormState> = {};
 
         if (keys.hasOwnProperty('groups')) {
-            updates.groups = validate('Groups', keys.groups, [validateRequired]);
+            updates.groups = validate('Groups', keys.groups, [Required]);
         }
 
         if (keys.hasOwnProperty('resultName')) {

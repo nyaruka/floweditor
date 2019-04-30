@@ -24,13 +24,7 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import {
-    validate,
-    validateAlphanumeric,
-    validateDoesntStartWithNumber,
-    validateRequired,
-    validateURL
-} from '~/store/validators';
+import { Alphanumeric, Required, StartIsNonNumeric, validate, ValidURL } from '~/store/validators';
 import { createUUID } from '~/utils';
 
 const styles = require('./WebhookRouterForm.scss');
@@ -89,11 +83,11 @@ export default class WebhookRouterForm extends React.Component<
         }
 
         if (keys.hasOwnProperty('url')) {
-            updates.url = validate('URL', keys.url, [validateRequired, validateURL]);
+            updates.url = validate('URL', keys.url, [Required, ValidURL]);
         }
 
         if (keys.hasOwnProperty('resultName')) {
-            updates.resultName = validate('Result Name', keys.resultName, [validateRequired]);
+            updates.resultName = validate('Result Name', keys.resultName, [Required]);
         }
 
         if (keys.hasOwnProperty('postBody')) {
@@ -134,10 +128,7 @@ export default class WebhookRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
@@ -301,10 +292,9 @@ export default class WebhookRouterForm extends React.Component<
                         {'{ "product": "Solar Charging Kit", "stock level": 32 }'}
                     </pre>
                     <p>
-                        In this example{' '}
-                        <span className={styles.example}>@webhook.json.product</span> and{' '}
-                        <span className={styles.example}>@webhook.json["stock level"]</span> would
-                        be available in all future steps.
+                        In this example <span className={styles.example}>@webhook.product</span> and{' '}
+                        <span className={styles.example}>@webhook["stock level"]</span> would be
+                        available in all future steps.
                     </p>
                 </div>
                 <TextInputElement

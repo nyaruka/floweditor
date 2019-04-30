@@ -15,7 +15,7 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
@@ -56,15 +56,15 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
         const updates: Partial<SendEmailFormState> = {};
 
         if (keys.hasOwnProperty('recipients')) {
-            updates.recipients = validate('Recipients', keys.recipients, [validateRequired]);
+            updates.recipients = validate('Recipients', keys.recipients, [Required]);
         }
 
         if (keys.hasOwnProperty('subject')) {
-            updates.subject = validate('Subject', keys.subject, [validateRequired]);
+            updates.subject = validate('Subject', keys.subject, [Required]);
         }
 
         if (keys.hasOwnProperty('body')) {
-            updates.body = validate('Body', keys.body, [validateRequired]);
+            updates.body = validate('Body', keys.body, [Required]);
         }
 
         const updated = mergeForm(this.state, updates);

@@ -6,7 +6,7 @@ import { RouterFormProps } from '~/components/flow/props';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
-import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
+import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import * as styles from './WaitRouterForm.scss';
@@ -27,10 +27,7 @@ export default class WaitRouterForm extends React.Component<RouterFormProps, Wai
     }
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

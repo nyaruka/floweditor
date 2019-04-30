@@ -7,54 +7,87 @@ export type ValidatorFunc = (
     input: FormInput
 ) => { failures: ValidationFailure[]; value: FormInput };
 
-const REGEX_ALPHANUM = /^[a-z\d\-_\s]+$/i;
-const REGEX_STARTS_WITH_NUMBER = /^\d+/i;
-
-// TODO: should not depend on components/..
-
 // Courtesy of @diegoperini: https://gist.github.com/dperini/729294
 // Expected behavior: https://mathiasbynens.be/demo/url-regex
-/* istanbul ignore next */
-export const isValidURL = (str: string): boolean => {
-    const webURLRegex = new RegExp(
-        '^' +
-            // protocol identifier
-            '(?:(?:https?|ftp)://)' +
-            // user:pass authentication
-            '(?:\\S+(?:u:\\S*)?@)?' +
-            '(?:' +
-            // IP address exclusion
-            // private & local networks
-            '(?!(?:10|127)(?:\\.\\d{1,3}){3})' +
-            '(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})' +
-            '(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})' +
-            // IP address dotted notation octets
-            // excludes loopback network 0.0.0.0
-            // excludes reserved space >= 224.0.0.0
-            // excludes network & broacast addresses
-            // (first & last IP address of each class)
-            '(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])' +
-            '(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}' +
-            '(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))' +
-            '|' +
-            // host name
-            '(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)' +
-            // domain name
-            '(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*' +
-            // TLD identifier
-            '(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))' +
-            // TLD may end with dot
-            '\\.?' +
-            ')' +
-            // port number
-            '(?::\\d{2,5})?' +
-            // resource path
-            '(?:[/?#]\\S*)?' +
-            '$',
-        'i'
-    );
+const REGEX_URL = new RegExp(
+    '^' +
+        // protocol identifier
+        '(?:(?:https?|ftp)://)' +
+        // user:pass authentication
+        '(?:\\S+(?:u:\\S*)?@)?' +
+        '(?:' +
+        // IP address exclusion
+        // private & local networks
+        '(?!(?:10|127)(?:\\.\\d{1,3}){3})' +
+        '(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})' +
+        '(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})' +
+        // IP address dotted notation octets
+        // excludes loopback network 0.0.0.0
+        // excludes reserved space >= 224.0.0.0
+        // excludes network & broacast addresses
+        // (first & last IP address of each class)
+        '(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])' +
+        '(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}' +
+        '(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))' +
+        '|' +
+        // host name
+        '(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)' +
+        // domain name
+        '(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*' +
+        // TLD identifier
+        '(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))' +
+        // TLD may end with dot
+        '\\.?' +
+        ')' +
+        // port number
+        '(?::\\d{2,5})?' +
+        // resource path
+        '(?:[/?#]\\S*)?' +
+        '$',
+    'i'
+);
 
-    return webURLRegex.test(str);
+const inputAsString = (input: FormInput): string => {
+    let value = input;
+    if (typeof input === 'string') {
+        return value + '';
+    }
+
+    // if we are an object consider the name to match assets
+    if (typeof input === 'object') {
+        value = (input as any).name || undefined;
+    }
+
+    return value ? value + '' : null;
+};
+
+const fromMaxItems = (max: number): ValidatorFunc => (name: string, input: FormInput) => {
+    if (Array.isArray(input)) {
+        const items = input as string[];
+        if (items.length > max) {
+            return {
+                value: input,
+                failures: [{ message: `${name} cannot have more than ${max} entries` }]
+            };
+        }
+    }
+    return { failures: [], value: input };
+};
+
+const fromRegex = (regex: RegExp, message: string): ValidatorFunc => (
+    name: string,
+    input: FormInput
+) => {
+    const value = inputAsString(input);
+    if (value) {
+        if (!regex.test(value)) {
+            return {
+                value: input,
+                failures: [{ message: `${name} ${message}` }]
+            };
+        }
+    }
+    return { failures: [], value: input };
 };
 
 export const validate = (
@@ -73,7 +106,7 @@ export const validate = (
     return { value, validationFailures: allFailures };
 };
 
-export const validateEmpty: ValidatorFunc = (name: string, input: FormInput) => {
+export const Empty: ValidatorFunc = (name: string, input: FormInput) => {
     if (input) {
         return { value: input, failures: [{ message: `${name} is not finished` }] };
     }
@@ -90,7 +123,7 @@ export const validateEmpty: ValidatorFunc = (name: string, input: FormInput) => 
     return { failures: [], value: input };
 };
 
-export const validateRequired: ValidatorFunc = (name: string, input: FormInput) => {
+export const Required: ValidatorFunc = (name: string, input: FormInput) => {
     if (!input) {
         return { value: input, failures: [{ message: `${name} is required` }] };
     }
@@ -107,65 +140,7 @@ export const validateRequired: ValidatorFunc = (name: string, input: FormInput) 
     return { failures: [], value: input };
 };
 
-export const validateAlphanumeric: ValidatorFunc = (name: string, input: FormInput) => {
-    let value = input;
-    if (typeof input === 'object') {
-        value = (input as any).name || undefined;
-    }
-
-    if (typeof value === 'string') {
-        // don't validate empty strings, that's up to validate required
-        if ((value as string).trim() === '') {
-            return { value: input, failures: [] };
-        }
-
-        if (!REGEX_ALPHANUM.test(value)) {
-            return {
-                value: input,
-                failures: [{ message: `${name} can only contain letters and numbers` }]
-            };
-        }
-    }
-    return { failures: [], value: input };
-};
-
-export const validateDoesntStartWithNumber: ValidatorFunc = (name: string, input: FormInput) => {
-    let value = input;
-    if (typeof input === 'object') {
-        value = (input as any).name || undefined;
-    }
-
-    if (typeof value === 'string') {
-        // don't validate empty strings, that's up to validate required
-        if ((value as string).trim() === '') {
-            return { value: input, failures: [] };
-        }
-
-        if (REGEX_STARTS_WITH_NUMBER.test(value)) {
-            return {
-                value: input,
-                failures: [{ message: `${name} cannot start with a number` }]
-            };
-        }
-    }
-    return { failures: [], value: input };
-};
-
-export const validateURL: ValidatorFunc = (name: string, input: FormInput) => {
-    if (typeof input === 'string') {
-        // don't validate empty strings, that's up to validate required
-        if ((input as string).trim() === '') {
-            return { value: input, failures: [] };
-        }
-
-        if (!isValidURL(input as string)) {
-            return { value: input, failures: [{ message: `${name} is not a valid URL` }] };
-        }
-    }
-    return { failures: [], value: input };
-};
-
-export const validateRegex: ValidatorFunc = (name: string, input: FormInput) => {
+export const Regex: ValidatorFunc = (name: string, input: FormInput) => {
     if (typeof input === 'string') {
         const inputString = input as string;
 
@@ -187,42 +162,7 @@ export const validateRegex: ValidatorFunc = (name: string, input: FormInput) => 
     return { failures: [], value: input };
 };
 
-export const validateNumeric: ValidatorFunc = (name: string, input: FormInput) => {
-    if (typeof input === 'string') {
-        const inputString = input as string;
-        if (isNaN(Number(inputString))) {
-            return {
-                value: input,
-                failures: [{ message: `${name} must be a number` }]
-            };
-        }
-
-        return { failures: [], value: input };
-    }
-    return { failures: [], value: input };
-};
-
-export const validateNumericOrExpression: ValidatorFunc = (name: string, input: FormInput) => {
-    if (typeof input === 'string') {
-        const inputString = input as string;
-
-        if (inputString.trim().startsWith('@')) {
-            return { failures: [], value: input };
-        }
-
-        if (isNaN(Number(inputString))) {
-            return {
-                value: input,
-                failures: [{ message: `${name} must be a number` }]
-            };
-        }
-
-        return { failures: [], value: input };
-    }
-    return { failures: [], value: input };
-};
-
-export const validateLessThan = (amount: number, checkName: string): ValidatorFunc => (
+export const LessThan = (amount: number, checkName: string): ValidatorFunc => (
     name: string,
     input: FormInput
 ) => {
@@ -239,7 +179,7 @@ export const validateLessThan = (amount: number, checkName: string): ValidatorFu
     return { failures: [], value: input };
 };
 
-export const validateMoreThan = (amount: number, checkName: string): ValidatorFunc => (
+export const MoreThan = (amount: number, checkName: string): ValidatorFunc => (
     name: string,
     input: FormInput
 ) => {
@@ -256,17 +196,10 @@ export const validateMoreThan = (amount: number, checkName: string): ValidatorFu
     return { failures: [], value: input };
 };
 
-const validateMax = (max: number): ValidatorFunc => (name: string, input: FormInput) => {
-    if (Array.isArray(input)) {
-        const items = input as string[];
-        if (items.length > max) {
-            return {
-                value: input,
-                failures: [{ message: `${name} cannot have more than ${max} entries` }]
-            };
-        }
-    }
-    return { failures: [], value: input };
-};
-
-export const validateMaxOfTen = validateMax(10);
+export const MaxOfTenItems = fromMaxItems(10);
+export const StartIsNonNumeric = fromRegex(/^(?!\d)/, "can't start with a number");
+export const ValidURL = fromRegex(REGEX_URL, 'is not a valid URL');
+export const HeaderName = fromRegex(/^[\w\-]+$/, 'is invalid');
+export const Numeric = fromRegex(/^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number');
+export const Alphanumeric = fromRegex(/^[a-z\d\-_\s]+$/i, 'can only have letters and numbers');
+export const NumOrExp = fromRegex(/^@.*$|^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number');

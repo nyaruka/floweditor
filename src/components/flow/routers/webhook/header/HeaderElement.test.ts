@@ -53,8 +53,7 @@ describe(HeaderElement.name, () => {
                 placeholder: NAME_PLACEHOLDER,
                 name: 'name',
                 onChange: instance.handleChangeName,
-                entry: { value: props.entry.value.name },
-                showInvalid: false
+                entry: { value: props.entry.value.name }
             });
 
             expect(

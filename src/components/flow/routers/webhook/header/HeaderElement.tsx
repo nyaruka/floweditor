@@ -6,6 +6,7 @@ import * as styles from '~/components/flow/routers/webhook/WebhookRouterForm.scs
 import FormElement from '~/components/form/FormElement';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import { StringEntry, ValidationFailure } from '~/store/nodeEditor';
+import { HeaderName, validate } from '~/store/validators';
 
 // TODO: move this into webhook router component
 export interface Header {
@@ -23,7 +24,7 @@ export interface HeaderElementProps {
 }
 
 interface HeaderElementState {
-    name: string;
+    name: StringEntry;
     value: StringEntry;
 }
 
@@ -45,7 +46,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
         const value = header.value || '';
 
         this.state = {
-            name,
+            name: { value: name },
             value: { value }
         };
 
@@ -56,22 +57,30 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
 
     private getHeader(): Header {
         return {
-            name: this.state.name,
+            name: this.state.name.value,
             value: this.state.value.value,
             uuid: this.props.entry.value.uuid
         };
     }
 
-    private handleChangeName(name: string): void {
-        this.setState({ name }, () =>
-            this.props.onChange(this.getHeader(), getAllErrors(this.state.value))
+    private handleChangeName(value: string): void {
+        const name = validate('Header name', value, [HeaderName]);
+        this.setState({ name: { value: name.value } }, () =>
+            this.props.onChange(
+                this.getHeader(),
+                getAllErrors(this.state.value).concat(getAllErrors(name))
+            )
         );
     }
 
     private handleChangeValue(value: string): void {
-        this.setState({ value: { value } }, () =>
-            this.props.onChange(this.getHeader(), getAllErrors(this.state.value))
-        );
+        this.setState({ value: { value } }, () => {
+            const name = validate('Header name', this.state.name.value, [HeaderName]);
+            this.props.onChange(
+                this.getHeader(),
+                getAllErrors(this.state.value).concat(getAllErrors(name))
+            );
+        });
     }
 
     private handleRemove(): void {
@@ -91,7 +100,6 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
     }
 
     public render(): JSX.Element {
-        const hasHeaderError = false; // hasErrorType(this.state.errors, [/headers/]);
         const removeIco: JSX.Element = this.getRemoveIco();
         return (
             <FormElement name="Header" entry={this.props.entry}>
@@ -101,8 +109,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             placeholder={NAME_PLACEHOLDER}
                             name="name"
                             onChange={this.handleChangeName}
-                            entry={{ value: this.state.name }}
-                            showInvalid={hasHeaderError}
+                            entry={this.state.name}
                         />
                     </div>
                     <div className={styles.header_value} data-spec={valueConatainerSpecId}>
@@ -112,7 +119,13 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
                             onChange={this.handleChangeValue}
                             entry={this.state.value}
                             onFieldFailures={(validationFailures: ValidationFailure[]) => {
-                                this.props.onChange(this.getHeader(), validationFailures);
+                                const name = validate('Header name', this.state.name.value, [
+                                    HeaderName
+                                ]);
+                                this.props.onChange(
+                                    this.getHeader(),
+                                    validationFailures.concat(getAllErrors(name))
+                                );
                             }}
                             autocomplete={true}
                         />

@@ -7,7 +7,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
@@ -46,7 +46,7 @@ export default class AddLabelsForm extends React.PureComponent<
 
     public handleLabelsChanged(selected: Asset[]): boolean {
         const updates: Partial<AddLabelsFormState> = {
-            labels: validate('Labels', selected, [validateRequired])
+            labels: validate('Labels', selected, [Required])
         };
 
         const updated = mergeForm(this.state, updates);

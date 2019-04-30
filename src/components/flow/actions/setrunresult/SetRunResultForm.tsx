@@ -16,12 +16,7 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import {
-    validate,
-    validateAlphanumeric,
-    validateDoesntStartWithNumber,
-    validateRequired
-} from '~/store/validators';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from '~/store/validators';
 import { snakify } from '~/utils';
 
 export interface SetRunResultFormState extends FormState {
@@ -60,11 +55,7 @@ export default class SetRunResultForm extends React.PureComponent<
         const updates: Partial<SetRunResultFormState> = {};
 
         if (keys.hasOwnProperty('name')) {
-            updates.name = validate('Name', keys.name, [
-                validateRequired,
-                validateAlphanumeric,
-                validateDoesntStartWithNumber
-            ]);
+            updates.name = validate('Name', keys.name, [Required, Alphanumeric, StartIsNonNumeric]);
         }
 
         if (keys.hasOwnProperty('value')) {
