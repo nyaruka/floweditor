@@ -124,7 +124,7 @@ export default class SetRunResultForm extends React.PureComponent<
                 />
                 <div className={styles.form}>
                     <AssetSelector
-                        name="Name"
+                        name="Result"
                         assets={this.props.assetStore.results}
                         entry={this.state.name}
                         searchable={true}

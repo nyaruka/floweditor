@@ -46,7 +46,7 @@ exports[`SetRunResultForm render should render 1`] = `
         }
       }
       helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
-      name="Name"
+      name="Result"
       onChange={[Function]}
       searchable={true}
       showLabel={true}
