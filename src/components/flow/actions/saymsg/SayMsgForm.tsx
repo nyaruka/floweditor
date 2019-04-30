@@ -8,7 +8,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import UploadButton from '~/components/uploadbutton/UploadButton';
 import { fakePropType } from '~/config/ConfigProvider';
 import { FormState, mergeForm, StringEntry, ValidationFailure } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
@@ -34,7 +34,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
         const updates: Partial<SayMsgFormState> = {};
 
         if (keys.hasOwnProperty('text')) {
-            updates.message = validate('Message', keys.text, [validateRequired]);
+            updates.message = validate('Message', keys.text, [Required]);
         }
 
         const updated = mergeForm(this.state, updates);

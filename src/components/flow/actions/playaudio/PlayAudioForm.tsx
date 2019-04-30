@@ -6,7 +6,7 @@ import { ActionFormProps } from '~/components/flow/props';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, mergeForm, StringEntry, ValidationFailure } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
@@ -25,7 +25,7 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
 
     public handleAudioUpdate(text: string): boolean {
         const updates: Partial<PlayAudioFormState> = {};
-        updates.audio = validate('Recording', text, [validateRequired]);
+        updates.audio = validate('Recording', text, [Required]);
 
         const updated = mergeForm(this.state, updates);
         this.setState(updated);

@@ -10,7 +10,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Category } from '~/flowTypes';
 import { FormState, mergeForm, SelectOptionEntry, StringEntry } from '~/store/nodeEditor';
-import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
+import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
 import { BUCKET_OPTIONS, fillOutCategories, nodeToState, stateToNode } from './helpers';
@@ -52,10 +52,7 @@ export default class RandomRouterForm extends React.Component<
     };
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

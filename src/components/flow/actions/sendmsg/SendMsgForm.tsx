@@ -30,7 +30,7 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import { validate, validateMaxOfTen, validateRequired } from '~/store/validators';
+import { MaxOfTenItems, Required, validate } from '~/store/validators';
 import { createUUID, range } from '~/utils';
 import { small } from '~/utils/reactselect';
 
@@ -100,7 +100,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }): boolean {
         const updates: Partial<SendMsgFormState> = {};
         if (keys.hasOwnProperty('text')) {
-            updates.message = validate('Message', keys.text, [validateRequired]);
+            updates.message = validate('Message', keys.text, [Required]);
         }
 
         if (keys.hasOwnProperty('sendAll')) {
@@ -108,7 +108,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         }
 
         if (keys.hasOwnProperty('quickReplies')) {
-            updates.quickReplies = validate('Quick Replies', keys.quickReplies, [validateMaxOfTen]);
+            updates.quickReplies = validate('Quick Replies', keys.quickReplies, [MaxOfTenItems]);
         }
 
         const updated = mergeForm(this.state, updates) as SendMsgFormState;
@@ -134,14 +134,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         // make sure we validate untouched text fields and contact fields
         let message = this.state.message;
         if (!hasErrors(message)) {
-            message = validate('Message', message.value, [validateRequired]);
+            message = validate('Message', message.value, [Required]);
             valid = valid && !hasErrors(message);
         }
 
         let templateVariables = this.state.templateVariables;
         // make sure we don't have untouched template variables
         this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
-            const updated = validate(`Variable ${num + 1}`, variable.value, [validateRequired]);
+            const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
             templateVariables = mutate(templateVariables, {
                 [num]: { $merge: updated }
             }) as StringEntry[];
@@ -399,7 +399,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     private handleTemplateVariableChanged(updatedText: string, num: number): void {
-        const entry = validate(`Variable ${num + 1}`, updatedText, [validateRequired]);
+        const entry = validate(`Variable ${num + 1}`, updatedText, [Required]);
         const templateVariables = mutate(this.state.templateVariables, {
             $merge: { [num]: entry }
         }) as StringEntry[];

@@ -7,7 +7,7 @@ import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
-import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
+import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
 
 import * as styles from './DigitsRouterForm.scss';
 import { nodeToState, stateToNode } from './helpers';
@@ -32,10 +32,7 @@ export default class DigitsRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

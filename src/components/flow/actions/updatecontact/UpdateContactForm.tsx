@@ -24,7 +24,7 @@ import { Asset, AssetType, updateAssets } from '~/store/flowContext';
 import * as mutators from '~/store/mutators';
 import { mergeForm, ValidationFailure } from '~/store/nodeEditor';
 import { DispatchWithState, GetState } from '~/store/thunks';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 import * as styles from './UpdateContact.scss';
 
@@ -67,11 +67,11 @@ export default class UpdateContactForm extends React.Component<
         }
 
         if (keys.hasOwnProperty('channel')) {
-            updates.channel = validate('Channel', keys.channel, [validateRequired]);
+            updates.channel = validate('Channel', keys.channel, [Required]);
         }
 
         if (keys.hasOwnProperty('language')) {
-            updates.language = validate('Language', keys.language, [validateRequired]);
+            updates.language = validate('Language', keys.language, [Required]);
         }
 
         if (keys.hasOwnProperty('field')) {

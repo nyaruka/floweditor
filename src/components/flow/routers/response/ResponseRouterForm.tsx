@@ -9,7 +9,7 @@ import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput'
 import TimeoutControl from '~/components/form/timeout/TimeoutControl';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
-import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
+import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -43,10 +43,7 @@ export default class ResponseRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

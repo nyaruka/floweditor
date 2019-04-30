@@ -7,7 +7,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { ChangeGroups } from '~/flowTypes';
 import { Asset } from '~/store/flowContext';
 import { mergeForm } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 import { ChangeGroupsFormState, excludeDynamicGroups, labelSpecId } from '../helpers';
 import { initializeForm, stateToAction } from './helpers';
@@ -33,7 +33,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
 
     public handleGroupsChanged(groups: Asset[]): boolean {
         const updates: Partial<ChangeGroupsFormState> = {
-            groups: validate('Groups', groups, [validateRequired])
+            groups: validate('Groups', groups, [Required])
         };
 
         const updated = mergeForm(this.state, updates);

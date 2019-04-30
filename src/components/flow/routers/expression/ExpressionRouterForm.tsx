@@ -9,12 +9,7 @@ import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput'
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
-import {
-    validate,
-    validateAlphanumeric,
-    validateDoesntStartWithNumber,
-    validateRequired
-} from '~/store/validators';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from '~/store/validators';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -48,15 +43,12 @@ export default class ExpressionRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleOperandUpdated(value: string): void {
-        this.setState({ operand: validate('Operand', value, [validateRequired]) });
+        this.setState({ operand: validate('Operand', value, [Required]) });
     }
 
     private handleCasesUpdated(cases: CaseProps[]): void {

@@ -2,13 +2,13 @@ import { isRelativeDate } from '~/components/flow/routers/helpers';
 import { Operator, Operators } from '~/config/interfaces';
 import { getOperatorConfig } from '~/config/operatorConfigs';
 import {
-    validate,
-    validateLessThan,
-    validateMoreThan,
-    validateNumeric,
-    validateNumericOrExpression,
-    validateRegex,
-    validateRequired
+    LessThan,
+    MoreThan,
+    Numeric,
+    NumOrExp,
+    Regex,
+    Required,
+    validate
 } from '~/store/validators';
 import { titleCase } from '~/utils';
 
@@ -127,7 +127,7 @@ export const validateCase = (keys: {
     exitEdited?: boolean;
 }): Partial<CaseElementState> => {
     // when the exit is set, our arguments become required
-    const validators = keys.exitEdited && keys.exitName ? [validateRequired] : [];
+    const validators = keys.exitEdited && keys.exitName ? [Required] : [];
 
     const updates: Partial<CaseElementState> = {
         operatorConfig: keys.operatorConfig
@@ -141,15 +141,15 @@ export const validateCase = (keys: {
             case Operators.has_number_lt:
             case Operators.has_number_lte:
             case Operators.has_date_gt:
-                validators.push(validateNumericOrExpression);
+                validators.push(NumOrExp);
                 break;
             case Operators.has_date_eq:
             case Operators.has_date_lt:
             case Operators.has_date_gt:
-                validators.push(validateNumeric);
+                validators.push(Numeric);
                 break;
             case Operators.has_pattern:
-                validators.push(validateRegex);
+                validators.push(Regex);
                 break;
         }
 
@@ -157,19 +157,13 @@ export const validateCase = (keys: {
             updates.min = validate(
                 'Minimum value',
                 keys.min || '',
-                validators.concat([
-                    validateNumeric,
-                    validateLessThan(parseFloat(keys.max), 'the maximum')
-                ])
+                validators.concat([Numeric, LessThan(parseFloat(keys.max), 'the maximum')])
             );
 
             updates.max = validate(
                 'Maximum value',
                 keys.max || '',
-                validators.concat([
-                    validateNumeric,
-                    validateMoreThan(parseFloat(keys.min), 'the minimum')
-                ])
+                validators.concat([Numeric, MoreThan(parseFloat(keys.min), 'the minimum')])
             );
 
             updates.argument = { value: '', validationFailures: [] };
@@ -189,7 +183,7 @@ export const validateCase = (keys: {
     updates.categoryName = validate(
         'Category',
         updates.categoryNameEdited ? keys.exitName : getExitName(updates),
-        updates.argument.value || (updates.min.value && updates.max.value) ? [validateRequired] : []
+        updates.argument.value || (updates.min.value && updates.max.value) ? [Required] : []
     );
 
     updates.valid =

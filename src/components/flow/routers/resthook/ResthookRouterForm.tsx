@@ -8,12 +8,7 @@ import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
-import {
-    validate,
-    validateAlphanumeric,
-    validateDoesntStartWithNumber,
-    validateRequired
-} from '~/store/validators';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import * as styles from './ResthookRouter.scss';
@@ -40,16 +35,16 @@ export default class ResthookRouterForm extends React.PureComponent<
 
     private handleUpdateResultName(result: string): void {
         const resultName = validate('Result Name', result, [
-            validateRequired,
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
+            Required,
+            Alphanumeric,
+            StartIsNonNumeric
         ]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     public handleResthookChanged(selected: Asset[]): boolean {
         const updates: Partial<ResthookRouterFormState> = {
-            resthook: validate('Resthook', selected[0], [validateRequired])
+            resthook: validate('Resthook', selected[0], [Required])
         };
 
         const updated = mergeForm(this.state, updates);

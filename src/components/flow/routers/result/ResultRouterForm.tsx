@@ -11,12 +11,7 @@ import SelectElement, { SelectOption } from '~/components/form/select/SelectElem
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
-import {
-    validate,
-    validateAlphanumeric,
-    validateDoesntStartWithNumber,
-    validateRequired
-} from '~/store/validators';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
 import {
@@ -56,16 +51,13 @@ export default class ResultRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleResultChanged(selected: Asset[]): boolean {
         const updates: Partial<ResultRouterFormState> = {
-            result: validate('Result to split on', selected[0], [validateRequired])
+            result: validate('Result to split on', selected[0], [Required])
         };
 
         const updated = mergeForm(this.state, updates);

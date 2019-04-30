@@ -105,11 +105,11 @@
             display: inline-block;
             padding: 5px 5px;
             unicode-bidi: embed;
-            font-size: 11px;
+            font-size: 12px !important;
             font-family: 'Roboto Mono', monospace;
             font-weight: 300;
             white-space: pre;
-            min-height: 135px;
+            min-height: 200px;
         }
     }
 }

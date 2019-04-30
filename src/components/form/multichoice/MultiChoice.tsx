@@ -3,7 +3,7 @@ import * as React from 'react';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import Pill from '~/components/pill/Pill';
 import { StringArrayEntry, StringEntry, ValidationFailure } from '~/store/nodeEditor';
-import { validate, validateEmpty } from '~/store/validators';
+import { validate, Empty } from '~/store/validators';
 
 import * as styles from './MultiChoice.scss';
 
@@ -73,9 +73,7 @@ export default class MultiChoiceInput extends React.Component<
     }
 
     private handleValidateEmpty(): void {
-        const currentInput = validate(this.props.name, this.state.currentInput.value, [
-            validateEmpty
-        ]);
+        const currentInput = validate(this.props.name, this.state.currentInput.value, [Empty]);
         this.setState({ currentInput }, () => {
             if (this.props.onEntryChanged) {
                 this.props.onEntryChanged(currentInput);

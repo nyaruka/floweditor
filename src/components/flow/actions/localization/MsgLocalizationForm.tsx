@@ -17,7 +17,7 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import { validate, validateMaxOfTen } from '~/store/validators';
+import { MaxOfTenItems, validate } from '~/store/validators';
 
 import { initializeLocalizedForm } from './helpers';
 
@@ -68,7 +68,7 @@ export default class MsgLocalizationForm extends React.Component<
         }
 
         if (keys.hasOwnProperty('quickReplies')) {
-            updates.quickReplies = validate('Quick Replies', keys.quickReplies, [validateMaxOfTen]);
+            updates.quickReplies = validate('Quick Replies', keys.quickReplies, [MaxOfTenItems]);
         }
 
         if (keys.hasOwnProperty('audio')) {

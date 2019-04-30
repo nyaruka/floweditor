@@ -14,7 +14,9 @@ Array [
 exports[`HeaderElement instance methods handleChangeName should update state, call onChange prop: setState 1`] = `
 Array [
   Object {
-    "name": "Content-Type",
+    "name": Object {
+      "value": "Content-Type",
+    },
   },
 ]
 `;
@@ -49,7 +51,6 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
         name="name"
         onChange={[Function]}
         placeholder="Header Name"
-        showInvalid={false}
       />
     </div>
     <div
@@ -126,7 +127,6 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
         name="name"
         onChange={[Function]}
         placeholder="Header Name"
-        showInvalid={false}
       />
     </div>
     <div
@@ -208,7 +208,6 @@ exports[`HeaderElement render should render remove icon 1`] = `
         name="name"
         onChange={[Function]}
         placeholder="Header Name"
-        showInvalid={false}
       />
     </div>
     <div
@@ -284,7 +283,6 @@ exports[`HeaderElement render should render self, children with base props 2`] =
         name="name"
         onChange={[Function]}
         placeholder="Header Name"
-        showInvalid={false}
       />
     </div>
     <div

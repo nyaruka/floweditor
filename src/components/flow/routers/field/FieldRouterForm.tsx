@@ -13,7 +13,7 @@ import { fakePropType } from '~/config/ConfigProvider';
 import { Scheme, SCHEMES } from '~/config/typeConfigs';
 import { Asset, AssetType } from '~/store/flowContext';
 import { AssetEntry, FormState, StringEntry } from '~/store/nodeEditor';
-import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
+import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
 import * as styles from './FieldRouterForm.scss';
@@ -66,10 +66,7 @@ export default class FieldRouterForm extends React.Component<
     };
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [
-            validateAlphanumeric,
-            validateDoesntStartWithNumber
-        ]);
+        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

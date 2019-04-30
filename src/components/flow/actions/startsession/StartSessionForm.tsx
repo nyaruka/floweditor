@@ -8,7 +8,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
 import { AssetArrayEntry, AssetEntry, FormState, mergeForm } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import { validate, Required } from '~/store/validators';
 
 export interface StartSessionFormState extends FormState {
     recipients: AssetArrayEntry;
@@ -50,11 +50,11 @@ export default class StartSessionForm extends React.Component<
         const updates: Partial<StartSessionFormState> = {};
 
         if (keys.hasOwnProperty('recipients')) {
-            updates.recipients = validate('Recipients', keys.recipients, [validateRequired]);
+            updates.recipients = validate('Recipients', keys.recipients, [Required]);
         }
 
         if (keys.hasOwnProperty('flow')) {
-            updates.flow = validate('Flow', keys.flow, [validateRequired]);
+            updates.flow = validate('Flow', keys.flow, [Required]);
         }
 
         const updated = mergeForm(this.state, updates);
