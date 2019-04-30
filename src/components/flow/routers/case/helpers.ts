@@ -182,7 +182,7 @@ export const validateCase = (keys: {
     updates.categoryNameEdited = !!keys.exitEdited;
     updates.categoryName = validate(
         'Category',
-        updates.categoryNameEdited ? keys.exitName : getExitName(updates),
+        updates.categoryNameEdited ? keys.exitName : getCategoryName(updates),
         updates.argument.value || (updates.min.value && updates.max.value) ? [Required] : []
     );
 
@@ -195,7 +195,7 @@ export const validateCase = (keys: {
     return updates;
 };
 
-export const getExitName = (state: Partial<CaseElementState>): string => {
+export const getCategoryName = (state: Partial<CaseElementState>): string => {
     if (state.categoryNameEdited) {
         return state.categoryName.value;
     }

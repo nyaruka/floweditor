@@ -74,32 +74,28 @@ export const getCategories = (renderNode: RenderNode): Category[] => {
 };
 
 export const createCaseProps = (cases: Case[], renderNode: RenderNode): CaseProps[] => {
-    const exits = renderNode.node.exits;
     const categories: Category[] = getCategories(renderNode);
+    return cases.map((kase: Case) => {
+        const matchingCategory = categories.find(
+            (category: Category) => category.uuid === kase.category_uuid
+        );
 
-    return cases
-        .filter((kase: Case) => kase.type !== Operators.has_wait_timed_out)
-        .map((kase: Case) => {
-            const matchingCategory = categories.find(
-                (category: Category) => category.uuid === kase.category_uuid
-            );
-
-            if (isRelativeDate(kase.type)) {
-                if (renderNode.ui.config && renderNode.ui.config.cases) {
-                    const caseConfig = renderNode.ui.config.cases[kase.uuid];
-                    if (caseConfig && caseConfig.arguments) {
-                        kase.arguments = caseConfig.arguments;
-                    }
+        if (isRelativeDate(kase.type)) {
+            if (renderNode.ui.config && renderNode.ui.config.cases) {
+                const caseConfig = renderNode.ui.config.cases[kase.uuid];
+                if (caseConfig && caseConfig.arguments) {
+                    kase.arguments = caseConfig.arguments;
                 }
             }
+        }
 
-            return {
-                uuid: kase.uuid,
-                kase,
-                categoryName: matchingCategory ? matchingCategory.name : null,
-                valid: true
-            };
-        });
+        return {
+            uuid: kase.uuid,
+            kase,
+            categoryName: matchingCategory ? matchingCategory.name : null,
+            valid: true
+        };
+    });
 };
 
 export const isRelativeDate = (operatorType: Operators): boolean => {

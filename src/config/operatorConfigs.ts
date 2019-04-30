@@ -99,10 +99,11 @@ export const operatorConfigList: Operator[] = [
         visibility: TEXT_TYPES
     },
     {
-        type: Operators.has_run_status,
-        verboseName: 'has a run status of',
-        operands: 1,
-        visibility: HIDDEN
+        type: Operators.has_time,
+        verboseName: 'has a time',
+        operands: 0,
+        categoryName: 'Has Time',
+        visibility: TEXT_TYPES
     },
     {
         type: Operators.has_group,

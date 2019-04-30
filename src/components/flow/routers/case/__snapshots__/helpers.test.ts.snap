@@ -24,7 +24,7 @@ exports[`helpers prefix should prefix "has a number" operator appropriately 1`] 
 
 exports[`helpers prefix should prefix "has a phone number" operator appropriately 1`] = `""`;
 
-exports[`helpers prefix should prefix "has a run status of" operator appropriately 1`] = `""`;
+exports[`helpers prefix should prefix "has a time" operator appropriately 1`] = `""`;
 
 exports[`helpers prefix should prefix "has all of the words" operator appropriately 1`] = `""`;
 
