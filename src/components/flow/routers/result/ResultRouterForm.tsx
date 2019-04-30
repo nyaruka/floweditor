@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet, HeaderStyle, Tab } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
@@ -10,7 +11,12 @@ import SelectElement, { SelectOption } from '~/components/form/select/SelectElem
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import {
+    validate,
+    validateAlphanumeric,
+    validateDoesntStartWithNumber,
+    validateRequired
+} from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
 import {
@@ -50,7 +56,11 @@ export default class ResultRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        this.setState({ resultName: { value } });
+        const resultName = validate('Result Name', value, [
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleResultChanged(selected: Asset[]): boolean {

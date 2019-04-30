@@ -24,7 +24,13 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import { validate, validateRequired, validateURL } from '~/store/validators';
+import {
+    validate,
+    validateAlphanumeric,
+    validateDoesntStartWithNumber,
+    validateRequired,
+    validateURL
+} from '~/store/validators';
 import { createUUID } from '~/utils';
 
 const styles = require('./WebhookRouterForm.scss');
@@ -127,8 +133,12 @@ export default class WebhookRouterForm extends React.Component<
         return updated.valid;
     }
 
-    private handleUpdateResultName(resultName: string): void {
-        this.handleUpdate({ resultName });
+    private handleUpdateResultName(value: string): void {
+        const resultName = validate('Result Name', value, [
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleMethodUpdate(method: MethodOption): boolean {

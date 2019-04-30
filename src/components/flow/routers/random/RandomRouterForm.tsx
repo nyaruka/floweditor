@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
@@ -9,6 +10,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Category } from '~/flowTypes';
 import { FormState, mergeForm, SelectOptionEntry, StringEntry } from '~/store/nodeEditor';
+import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
 import { small } from '~/utils/reactselect';
 
 import { BUCKET_OPTIONS, fillOutCategories, nodeToState, stateToNode } from './helpers';
@@ -50,7 +52,11 @@ export default class RandomRouterForm extends React.Component<
     };
 
     private handleUpdateResultName(value: string): void {
-        this.setState({ resultName: { value } });
+        const resultName = validate('Result Name', value, [
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleBucketsChanged(selected: SelectOption): boolean {

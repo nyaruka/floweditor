@@ -8,7 +8,12 @@ import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
-import { validate, validateRequired } from '~/store/validators';
+import {
+    validate,
+    validateAlphanumeric,
+    validateDoesntStartWithNumber,
+    validateRequired
+} from '~/store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import * as styles from './ResthookRouter.scss';
@@ -34,7 +39,11 @@ export default class ResthookRouterForm extends React.PureComponent<
     }
 
     private handleUpdateResultName(result: string): void {
-        const resultName = validate('Result Name', result, [validateRequired]);
+        const resultName = validate('Result Name', result, [
+            validateRequired,
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 

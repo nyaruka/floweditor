@@ -102,6 +102,7 @@ Object {
     "value": "Result Category",
   },
   "name": Object {
+    "validationFailures": Array [],
     "value": Object {
       "id": "result_name",
       "name": "Result Name",

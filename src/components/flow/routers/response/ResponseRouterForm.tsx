@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { nodeToState, stateToNode } from '~/components/flow/routers/response/helpers';
@@ -8,6 +9,7 @@ import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput'
 import TimeoutControl from '~/components/form/timeout/TimeoutControl';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
+import { validate, validateAlphanumeric, validateDoesntStartWithNumber } from '~/store/validators';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -41,7 +43,11 @@ export default class ResponseRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        this.setState({ resultName: { value } });
+        const resultName = validate('Result Name', value, [
+            validateAlphanumeric,
+            validateDoesntStartWithNumber
+        ]);
+        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
     private handleUpdateTimeout(timeout: number): void {
