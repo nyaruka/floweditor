@@ -237,7 +237,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                     this.props.assets.items,
                     this.props.additionalOptions,
                     this.props.shouldExclude
-                ).length === 0
+                ).filter((asset: Asset) => asset.name.toLowerCase() === input.toLowerCase())
+                    .length === 0
             );
         }
 
