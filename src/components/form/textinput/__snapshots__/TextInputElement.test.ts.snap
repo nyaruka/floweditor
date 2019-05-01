@@ -4,27 +4,35 @@ exports[`TextInputElement completion should complete in the middle of text 1`] =
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
-  },
-  Object {
-    "name": "contact.uuid",
-    "summary": "The uuid of a  contact",
-  },
-  Object {
-    "name": "contact.name",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
   Object {
     "name": "contact.first_name",
     "summary": "The first name of a  contact",
   },
   Object {
-    "name": "contact.language",
-    "summary": "The language code for a  contact",
+    "name": "contact.name",
+    "summary": "The name of the  contact",
+  },
+  Object {
+    "name": "contact.display",
+    "summary": "The name or urn of the  contact",
   },
   Object {
     "name": "contact.fields",
     "summary": "Custom fields on a  contact",
+  },
+  Object {
+    "name": "contact.urn",
+    "summary": "The primary urn for a  contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "The language iso code for a  contact",
+  },
+  Object {
+    "name": "contact.created_on",
+    "summary": "The creation date for the  contact",
   },
   Object {
     "name": "contact.groups",
@@ -32,7 +40,11 @@ Array [
   },
   Object {
     "name": "contact.urns",
-    "summary": "URNs on a  contact",
+    "summary": "The urns for a  contact",
+  },
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of the  contact",
   },
   Object {
     "name": "contact.channel",
@@ -45,27 +57,35 @@ exports[`TextInputElement completion should handle completion w/ "Tab" key 1`] =
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
-  },
-  Object {
-    "name": "contact.uuid",
-    "summary": "The uuid of a  contact",
-  },
-  Object {
-    "name": "contact.name",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
   Object {
     "name": "contact.first_name",
     "summary": "The first name of a  contact",
   },
   Object {
-    "name": "contact.language",
-    "summary": "The language code for a  contact",
+    "name": "contact.name",
+    "summary": "The name of the  contact",
+  },
+  Object {
+    "name": "contact.display",
+    "summary": "The name or urn of the  contact",
   },
   Object {
     "name": "contact.fields",
     "summary": "Custom fields on a  contact",
+  },
+  Object {
+    "name": "contact.urn",
+    "summary": "The primary urn for a  contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "The language iso code for a  contact",
+  },
+  Object {
+    "name": "contact.created_on",
+    "summary": "The creation date for the  contact",
   },
   Object {
     "name": "contact.groups",
@@ -73,7 +93,11 @@ Array [
   },
   Object {
     "name": "contact.urns",
-    "summary": "URNs on a  contact",
+    "summary": "The urns for a  contact",
+  },
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of the  contact",
   },
   Object {
     "name": "contact.channel",
@@ -86,7 +110,7 @@ exports[`TextInputElement filtering should bring up completion menu for top leve
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
   Object {
     "name": "results",
@@ -95,6 +119,14 @@ Array [
   Object {
     "name": "fields",
     "summary": "The custom fields for the contact",
+  },
+  Object {
+    "name": "input",
+    "summary": "The most recent input",
+  },
+  Object {
+    "name": "urns",
+    "summary": "The urns for the contact",
   },
   Object {
     "name": "run",
@@ -128,7 +160,7 @@ exports[`TextInputElement filtering should show filter options 1`] = `
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
 ]
 `;
@@ -137,7 +169,7 @@ exports[`TextInputElement function context should use the most recent incomplete
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
 ]
 `;
