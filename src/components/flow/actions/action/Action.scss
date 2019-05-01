@@ -3,9 +3,20 @@
 .action {
     position: relative;
     margin: 0px;
+    overflow: hidden;
+
+    &:last-child {
+        border-bottom-right-radius: $curvature;
+        border-bottom-left-radius: $curvature;
+    }
+
     &.has_router {
         &:last-child {
             border-bottom: 1px solid $borders;
+        }
+
+        &:last-child {
+            border-radius: 0px;
         }
     }
     clear: both;
@@ -35,14 +46,14 @@
     &.transfer_airtime,
     &.missing,
     &.enter_flow {
-        width: $node_width - $action_padding * 2;
+        width: $node_min_width - $action_padding * 2;
         padding: $action_padding;
     }
 
     &.send_broadcast,
     &.start_session {
         padding: 0px;
-        width: $node_width;
+        width: $node_min_width;
     }
 
     &.missing {

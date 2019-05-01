@@ -100,7 +100,7 @@ export const stateToNode = (
         operand: SUBFLOW_OPERAND,
         cases,
         categories,
-        default_category_uuid: null
+        default_category_uuid: categories[categories.length - 1].uuid
     };
 
     const newRenderNode = createRenderNode(

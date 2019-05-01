@@ -281,7 +281,6 @@ export class NodeComp extends React.Component<NodeProps> {
                 <FlipMove
                     enterAnimation="fade"
                     leaveAnimation="fade"
-                    className={styles.actions}
                     duration={300}
                     easing="ease-out"
                 >
@@ -387,11 +386,9 @@ export class NodeComp extends React.Component<NodeProps> {
             'plumb-drag': true,
             [styles.ghost]: this.props.ghost,
             [styles.flowStart]: this.isStartNodeVisible(),
-            [styles.translating]: this.props.translating,
             [styles.selected]: this.isSelected()
         });
 
-        const exitClass = this.props.renderNode.node.router ? styles.unnamed_exit : '';
         const uuid: JSX.Element = this.renderDebug();
 
         const renderedNode = (
@@ -425,7 +422,7 @@ export class NodeComp extends React.Component<NodeProps> {
                         {actionList}
                         {summary}
                     </div>
-                    <div className={`${styles.exit_table} ${exitClass}`}>
+                    <div className={`${styles.exit_table}`}>
                         <div className={styles.exits} {...this.events}>
                             {exits}
                         </div>

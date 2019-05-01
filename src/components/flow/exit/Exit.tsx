@@ -234,8 +234,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_uuid');
         const confirm: JSX.Element = confirmDelete ? (
             <div
+                className={styles.confirmX + ' fe-x'}
                 {...createClickHandler(this.onDisconnect, () => this.props.dragging)}
-                className="fe-x"
             />
         ) : null;
         const exitClasses: string = cx({
@@ -249,7 +249,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const activity = this.getSegmentCount();
         return (
             <div className={exitClasses}>
-                <div className={nameStyle}>{name}</div>
+                {name ? <div className={nameStyle}>{name}</div> : null}
                 <div
                     {...createClickHandler(this.onClick, () => this.props.dragging)}
                     id={`${this.props.node.uuid}:${this.props.exit.uuid}`}
