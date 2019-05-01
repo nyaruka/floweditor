@@ -38,8 +38,9 @@
 }
 
 .option {
-    padding: 5px;
+    padding: 5px 15px;
     font-size: 14px;
+    word-break: break-all;
 
     &.selected {
         padding-top: 10px;

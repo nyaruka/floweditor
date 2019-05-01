@@ -335,7 +335,7 @@ exports[`helpers filterOptions should filter options for "c" 1`] = `
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
   Object {
     "name": "child",
@@ -498,11 +498,7 @@ Array [
   },
   Object {
     "name": "child.contact",
-    "summary": "The name of a child run's contact",
-  },
-  Object {
-    "name": "child.input",
-    "summary": "A child run's last input",
+    "summary": "The name of the child run's contact",
   },
   Object {
     "name": "child.webhook",
@@ -523,11 +519,7 @@ Array [
   },
   Object {
     "name": "child.contact",
-    "summary": "The name of a child run's contact",
-  },
-  Object {
-    "name": "child.input",
-    "summary": "A child run's last input",
+    "summary": "The name of the child run's contact",
   },
   Object {
     "name": "child.webhook",
@@ -544,7 +536,7 @@ exports[`helpers filterOptions should filter options for "child.c" 1`] = `
 Array [
   Object {
     "name": "child.contact",
-    "summary": "The name of a child run's contact",
+    "summary": "The name of the child run's contact",
   },
 ]
 `;
@@ -553,7 +545,7 @@ exports[`helpers filterOptions should filter options for "child.co" 1`] = `
 Array [
   Object {
     "name": "child.contact",
-    "summary": "The name of a child run's contact",
+    "summary": "The name of the child run's contact",
   },
 ]
 `;
@@ -562,27 +554,35 @@ exports[`helpers filterOptions should filter options for "child.contact" 1`] = `
 Array [
   Object {
     "name": "child.contact",
-    "summary": "The name of a child run's contact",
-  },
-  Object {
-    "name": "child.contact.uuid",
-    "summary": "The uuid of a child run's contact",
-  },
-  Object {
-    "name": "child.contact.name",
-    "summary": "The name of a child run's contact",
+    "summary": "The name of the child run's contact",
   },
   Object {
     "name": "child.contact.first_name",
     "summary": "The first name of a child run's contact",
   },
   Object {
-    "name": "child.contact.language",
-    "summary": "The language code for a child run's contact",
+    "name": "child.contact.name",
+    "summary": "The name of the child run's contact",
+  },
+  Object {
+    "name": "child.contact.display",
+    "summary": "The name or urn of the child run's contact",
   },
   Object {
     "name": "child.contact.fields",
     "summary": "Custom fields on a child run's contact",
+  },
+  Object {
+    "name": "child.contact.urn",
+    "summary": "The primary urn for a child run's contact",
+  },
+  Object {
+    "name": "child.contact.language",
+    "summary": "The language iso code for a child run's contact",
+  },
+  Object {
+    "name": "child.contact.created_on",
+    "summary": "The creation date for the child run's contact",
   },
   Object {
     "name": "child.contact.groups",
@@ -590,7 +590,11 @@ Array [
   },
   Object {
     "name": "child.contact.urns",
-    "summary": "URNs on a child run's contact",
+    "summary": "The urns for a child run's contact",
+  },
+  Object {
+    "name": "child.contact.uuid",
+    "summary": "The uuid of the child run's contact",
   },
   Object {
     "name": "child.contact.channel",
@@ -601,6 +605,10 @@ Array [
 
 exports[`helpers filterOptions should filter options for "child.contact.c" 1`] = `
 Array [
+  Object {
+    "name": "child.contact.created_on",
+    "summary": "The creation date for the child run's contact",
+  },
   Object {
     "name": "child.contact.channel",
     "summary": "A child run's contact's preferred channel",
@@ -719,6 +727,51 @@ Array [
 ]
 `;
 
+exports[`helpers filterOptions should filter options for "child.contact.cr" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.created_on",
+    "summary": "The creation date for the child run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "child.contact.created_on" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.created_on",
+    "summary": "The creation date for the child run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "child.contact.d" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.display",
+    "summary": "The name or urn of the child run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "child.contact.di" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.display",
+    "summary": "The name or urn of the child run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "child.contact.display" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.display",
+    "summary": "The name or urn of the child run's contact",
+  },
+]
+`;
+
 exports[`helpers filterOptions should filter options for "child.contact.f" 1`] = `
 Array [
   Object {
@@ -794,7 +847,7 @@ exports[`helpers filterOptions should filter options for "child.contact.l" 1`] =
 Array [
   Object {
     "name": "child.contact.language",
-    "summary": "The language code for a child run's contact",
+    "summary": "The language iso code for a child run's contact",
   },
 ]
 `;
@@ -803,7 +856,7 @@ exports[`helpers filterOptions should filter options for "child.contact.la" 1`] 
 Array [
   Object {
     "name": "child.contact.language",
-    "summary": "The language code for a child run's contact",
+    "summary": "The language iso code for a child run's contact",
   },
 ]
 `;
@@ -812,7 +865,7 @@ exports[`helpers filterOptions should filter options for "child.contact.language
 Array [
   Object {
     "name": "child.contact.language",
-    "summary": "The language code for a child run's contact",
+    "summary": "The language iso code for a child run's contact",
   },
 ]
 `;
@@ -821,7 +874,7 @@ exports[`helpers filterOptions should filter options for "child.contact.n" 1`] =
 Array [
   Object {
     "name": "child.contact.name",
-    "summary": "The name of a child run's contact",
+    "summary": "The name of the child run's contact",
   },
 ]
 `;
@@ -830,7 +883,7 @@ exports[`helpers filterOptions should filter options for "child.contact.na" 1`] 
 Array [
   Object {
     "name": "child.contact.name",
-    "summary": "The name of a child run's contact",
+    "summary": "The name of the child run's contact",
   },
 ]
 `;
@@ -839,7 +892,7 @@ exports[`helpers filterOptions should filter options for "child.contact.name" 1`
 Array [
   Object {
     "name": "child.contact.name",
-    "summary": "The name of a child run's contact",
+    "summary": "The name of the child run's contact",
   },
 ]
 `;
@@ -847,12 +900,16 @@ Array [
 exports[`helpers filterOptions should filter options for "child.contact.u" 1`] = `
 Array [
   Object {
-    "name": "child.contact.uuid",
-    "summary": "The uuid of a child run's contact",
+    "name": "child.contact.urn",
+    "summary": "The primary urn for a child run's contact",
   },
   Object {
     "name": "child.contact.urns",
-    "summary": "URNs on a child run's contact",
+    "summary": "The urns for a child run's contact",
+  },
+  Object {
+    "name": "child.contact.uuid",
+    "summary": "The uuid of the child run's contact",
   },
 ]
 `;
@@ -860,8 +917,25 @@ Array [
 exports[`helpers filterOptions should filter options for "child.contact.ur" 1`] = `
 Array [
   Object {
+    "name": "child.contact.urn",
+    "summary": "The primary urn for a child run's contact",
+  },
+  Object {
     "name": "child.contact.urns",
-    "summary": "URNs on a child run's contact",
+    "summary": "The urns for a child run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "child.contact.urn" 1`] = `
+Array [
+  Object {
+    "name": "child.contact.urn",
+    "summary": "The primary urn for a child run's contact",
+  },
+  Object {
+    "name": "child.contact.urns",
+    "summary": "The urns for a child run's contact",
   },
 ]
 `;
@@ -870,63 +944,7 @@ exports[`helpers filterOptions should filter options for "child.contact.urns" 1`
 Array [
   Object {
     "name": "child.contact.urns",
-    "summary": "URNs on a child run's contact",
-  },
-  Object {
-    "name": "child.contact.urns.tel",
-    "summary": "The preferred telephone number for a child run's contact",
-  },
-  Object {
-    "name": "child.contact.urns.telegram",
-    "summary": "The preferred telegram id for a child run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.contact.urns.t" 1`] = `
-Array [
-  Object {
-    "name": "child.contact.urns.tel",
-    "summary": "The preferred telephone number for a child run's contact",
-  },
-  Object {
-    "name": "child.contact.urns.telegram",
-    "summary": "The preferred telegram id for a child run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.contact.urns.te" 1`] = `
-Array [
-  Object {
-    "name": "child.contact.urns.tel",
-    "summary": "The preferred telephone number for a child run's contact",
-  },
-  Object {
-    "name": "child.contact.urns.telegram",
-    "summary": "The preferred telegram id for a child run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.contact.urns.tel" 1`] = `
-Array [
-  Object {
-    "name": "child.contact.urns.tel",
-    "summary": "The preferred telephone number for a child run's contact",
-  },
-  Object {
-    "name": "child.contact.urns.telegram",
-    "summary": "The preferred telegram id for a child run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.contact.urns.telegram" 1`] = `
-Array [
-  Object {
-    "name": "child.contact.urns.telegram",
-    "summary": "The preferred telegram id for a child run's contact",
+    "summary": "The urns for a child run's contact",
   },
 ]
 `;
@@ -935,7 +953,7 @@ exports[`helpers filterOptions should filter options for "child.contact.uu" 1`] 
 Array [
   Object {
     "name": "child.contact.uuid",
-    "summary": "The uuid of a child run's contact",
+    "summary": "The uuid of the child run's contact",
   },
 ]
 `;
@@ -944,7 +962,7 @@ exports[`helpers filterOptions should filter options for "child.contact.uuid" 1`
 Array [
   Object {
     "name": "child.contact.uuid",
-    "summary": "The uuid of a child run's contact",
+    "summary": "The uuid of the child run's contact",
   },
 ]
 `;
@@ -1065,235 +1083,6 @@ Array [
   Object {
     "name": "child.flow.uuid",
     "summary": "The UUID of the flow in which a child run takes place",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.i" 1`] = `
-Array [
-  Object {
-    "name": "child.input",
-    "summary": "A child run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.in" 1`] = `
-Array [
-  Object {
-    "name": "child.input",
-    "summary": "A child run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input" 1`] = `
-Array [
-  Object {
-    "name": "child.input",
-    "summary": "A child run's last input",
-  },
-  Object {
-    "name": "child.input.uuid",
-    "summary": "The UUID of a child run's last input",
-  },
-  Object {
-    "name": "child.input.type",
-    "summary": "The type of a child run's last input",
-  },
-  Object {
-    "name": "child.input.channel",
-    "summary": "The channel a child run's last input was received on",
-  },
-  Object {
-    "name": "child.input.created_on",
-    "summary": "The time a child run's last input was created",
-  },
-  Object {
-    "name": "child.input.text",
-    "summary": "The text of a child run's last message",
-  },
-  Object {
-    "name": "child.input.attachments",
-    "summary": "The attachments on a child run's last message",
-  },
-  Object {
-    "name": "child.input.urn",
-    "summary": "The URN a child run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.a" 1`] = `
-Array [
-  Object {
-    "name": "child.input.attachments",
-    "summary": "The attachments on a child run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.at" 1`] = `
-Array [
-  Object {
-    "name": "child.input.attachments",
-    "summary": "The attachments on a child run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.attachments" 1`] = `
-Array [
-  Object {
-    "name": "child.input.attachments",
-    "summary": "The attachments on a child run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.c" 1`] = `
-Array [
-  Object {
-    "name": "child.input.channel",
-    "summary": "The channel a child run's last input was received on",
-  },
-  Object {
-    "name": "child.input.created_on",
-    "summary": "The time a child run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.ch" 1`] = `
-Array [
-  Object {
-    "name": "child.input.channel",
-    "summary": "The channel a child run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.channel" 1`] = `
-Array [
-  Object {
-    "name": "child.input.channel",
-    "summary": "The channel a child run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.cr" 1`] = `
-Array [
-  Object {
-    "name": "child.input.created_on",
-    "summary": "The time a child run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.created_on" 1`] = `
-Array [
-  Object {
-    "name": "child.input.created_on",
-    "summary": "The time a child run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.t" 1`] = `
-Array [
-  Object {
-    "name": "child.input.type",
-    "summary": "The type of a child run's last input",
-  },
-  Object {
-    "name": "child.input.text",
-    "summary": "The text of a child run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.te" 1`] = `
-Array [
-  Object {
-    "name": "child.input.text",
-    "summary": "The text of a child run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.text" 1`] = `
-Array [
-  Object {
-    "name": "child.input.text",
-    "summary": "The text of a child run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.ty" 1`] = `
-Array [
-  Object {
-    "name": "child.input.type",
-    "summary": "The type of a child run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.type" 1`] = `
-Array [
-  Object {
-    "name": "child.input.type",
-    "summary": "The type of a child run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.u" 1`] = `
-Array [
-  Object {
-    "name": "child.input.uuid",
-    "summary": "The UUID of a child run's last input",
-  },
-  Object {
-    "name": "child.input.urn",
-    "summary": "The URN a child run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.ur" 1`] = `
-Array [
-  Object {
-    "name": "child.input.urn",
-    "summary": "The URN a child run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.urn" 1`] = `
-Array [
-  Object {
-    "name": "child.input.urn",
-    "summary": "The URN a child run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.uu" 1`] = `
-Array [
-  Object {
-    "name": "child.input.uuid",
-    "summary": "The UUID of a child run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.input.uuid" 1`] = `
-Array [
-  Object {
-    "name": "child.input.uuid",
-    "summary": "The UUID of a child run's last input",
   },
 ]
 `;
@@ -1599,7 +1388,7 @@ exports[`helpers filterOptions should filter options for "co" 1`] = `
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
   Object {
     "detail": "It is the inverse of [function:char].",
@@ -1700,27 +1489,35 @@ exports[`helpers filterOptions should filter options for "contact" 1`] = `
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of a  contact",
-  },
-  Object {
-    "name": "contact.uuid",
-    "summary": "The uuid of a  contact",
-  },
-  Object {
-    "name": "contact.name",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
   Object {
     "name": "contact.first_name",
     "summary": "The first name of a  contact",
   },
   Object {
-    "name": "contact.language",
-    "summary": "The language code for a  contact",
+    "name": "contact.name",
+    "summary": "The name of the  contact",
+  },
+  Object {
+    "name": "contact.display",
+    "summary": "The name or urn of the  contact",
   },
   Object {
     "name": "contact.fields",
     "summary": "Custom fields on a  contact",
+  },
+  Object {
+    "name": "contact.urn",
+    "summary": "The primary urn for a  contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "The language iso code for a  contact",
+  },
+  Object {
+    "name": "contact.created_on",
+    "summary": "The creation date for the  contact",
   },
   Object {
     "name": "contact.groups",
@@ -1728,7 +1525,11 @@ Array [
   },
   Object {
     "name": "contact.urns",
-    "summary": "URNs on a  contact",
+    "summary": "The urns for a  contact",
+  },
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of the  contact",
   },
   Object {
     "name": "contact.channel",
@@ -1740,24 +1541,32 @@ Array [
 exports[`helpers filterOptions should filter options for "contact." 1`] = `
 Array [
   Object {
-    "name": "contact.uuid",
-    "summary": "The uuid of a  contact",
-  },
-  Object {
-    "name": "contact.name",
-    "summary": "The name of a  contact",
-  },
-  Object {
     "name": "contact.first_name",
     "summary": "The first name of a  contact",
   },
   Object {
-    "name": "contact.language",
-    "summary": "The language code for a  contact",
+    "name": "contact.name",
+    "summary": "The name of the  contact",
+  },
+  Object {
+    "name": "contact.display",
+    "summary": "The name or urn of the  contact",
   },
   Object {
     "name": "contact.fields",
     "summary": "Custom fields on a  contact",
+  },
+  Object {
+    "name": "contact.urn",
+    "summary": "The primary urn for a  contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "The language iso code for a  contact",
+  },
+  Object {
+    "name": "contact.created_on",
+    "summary": "The creation date for the  contact",
   },
   Object {
     "name": "contact.groups",
@@ -1765,7 +1574,11 @@ Array [
   },
   Object {
     "name": "contact.urns",
-    "summary": "URNs on a  contact",
+    "summary": "The urns for a  contact",
+  },
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of the  contact",
   },
   Object {
     "name": "contact.channel",
@@ -1776,6 +1589,10 @@ Array [
 
 exports[`helpers filterOptions should filter options for "contact.c" 1`] = `
 Array [
+  Object {
+    "name": "contact.created_on",
+    "summary": "The creation date for the  contact",
+  },
   Object {
     "name": "contact.channel",
     "summary": "A  contact's preferred channel",
@@ -1894,6 +1711,51 @@ Array [
 ]
 `;
 
+exports[`helpers filterOptions should filter options for "contact.cr" 1`] = `
+Array [
+  Object {
+    "name": "contact.created_on",
+    "summary": "The creation date for the  contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.created_on" 1`] = `
+Array [
+  Object {
+    "name": "contact.created_on",
+    "summary": "The creation date for the  contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.d" 1`] = `
+Array [
+  Object {
+    "name": "contact.display",
+    "summary": "The name or urn of the  contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.di" 1`] = `
+Array [
+  Object {
+    "name": "contact.display",
+    "summary": "The name or urn of the  contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.display" 1`] = `
+Array [
+  Object {
+    "name": "contact.display",
+    "summary": "The name or urn of the  contact",
+  },
+]
+`;
+
 exports[`helpers filterOptions should filter options for "contact.f" 1`] = `
 Array [
   Object {
@@ -1969,7 +1831,7 @@ exports[`helpers filterOptions should filter options for "contact.l" 1`] = `
 Array [
   Object {
     "name": "contact.language",
-    "summary": "The language code for a  contact",
+    "summary": "The language iso code for a  contact",
   },
 ]
 `;
@@ -1978,7 +1840,7 @@ exports[`helpers filterOptions should filter options for "contact.la" 1`] = `
 Array [
   Object {
     "name": "contact.language",
-    "summary": "The language code for a  contact",
+    "summary": "The language iso code for a  contact",
   },
 ]
 `;
@@ -1987,7 +1849,7 @@ exports[`helpers filterOptions should filter options for "contact.language" 1`] 
 Array [
   Object {
     "name": "contact.language",
-    "summary": "The language code for a  contact",
+    "summary": "The language iso code for a  contact",
   },
 ]
 `;
@@ -1996,7 +1858,7 @@ exports[`helpers filterOptions should filter options for "contact.n" 1`] = `
 Array [
   Object {
     "name": "contact.name",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
 ]
 `;
@@ -2005,7 +1867,7 @@ exports[`helpers filterOptions should filter options for "contact.na" 1`] = `
 Array [
   Object {
     "name": "contact.name",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
 ]
 `;
@@ -2014,7 +1876,7 @@ exports[`helpers filterOptions should filter options for "contact.name" 1`] = `
 Array [
   Object {
     "name": "contact.name",
-    "summary": "The name of a  contact",
+    "summary": "The name of the  contact",
   },
 ]
 `;
@@ -2022,12 +1884,16 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.u" 1`] = `
 Array [
   Object {
-    "name": "contact.uuid",
-    "summary": "The uuid of a  contact",
+    "name": "contact.urn",
+    "summary": "The primary urn for a  contact",
   },
   Object {
     "name": "contact.urns",
-    "summary": "URNs on a  contact",
+    "summary": "The urns for a  contact",
+  },
+  Object {
+    "name": "contact.uuid",
+    "summary": "The uuid of the  contact",
   },
 ]
 `;
@@ -2035,8 +1901,25 @@ Array [
 exports[`helpers filterOptions should filter options for "contact.ur" 1`] = `
 Array [
   Object {
+    "name": "contact.urn",
+    "summary": "The primary urn for a  contact",
+  },
+  Object {
     "name": "contact.urns",
-    "summary": "URNs on a  contact",
+    "summary": "The urns for a  contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "contact.urn" 1`] = `
+Array [
+  Object {
+    "name": "contact.urn",
+    "summary": "The primary urn for a  contact",
+  },
+  Object {
+    "name": "contact.urns",
+    "summary": "The urns for a  contact",
   },
 ]
 `;
@@ -2045,63 +1928,7 @@ exports[`helpers filterOptions should filter options for "contact.urns" 1`] = `
 Array [
   Object {
     "name": "contact.urns",
-    "summary": "URNs on a  contact",
-  },
-  Object {
-    "name": "contact.urns.tel",
-    "summary": "The preferred telephone number for a  contact",
-  },
-  Object {
-    "name": "contact.urns.telegram",
-    "summary": "The preferred telegram id for a  contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "contact.urns.t" 1`] = `
-Array [
-  Object {
-    "name": "contact.urns.tel",
-    "summary": "The preferred telephone number for a  contact",
-  },
-  Object {
-    "name": "contact.urns.telegram",
-    "summary": "The preferred telegram id for a  contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "contact.urns.te" 1`] = `
-Array [
-  Object {
-    "name": "contact.urns.tel",
-    "summary": "The preferred telephone number for a  contact",
-  },
-  Object {
-    "name": "contact.urns.telegram",
-    "summary": "The preferred telegram id for a  contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "contact.urns.tel" 1`] = `
-Array [
-  Object {
-    "name": "contact.urns.tel",
-    "summary": "The preferred telephone number for a  contact",
-  },
-  Object {
-    "name": "contact.urns.telegram",
-    "summary": "The preferred telegram id for a  contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "contact.urns.telegram" 1`] = `
-Array [
-  Object {
-    "name": "contact.urns.telegram",
-    "summary": "The preferred telegram id for a  contact",
+    "summary": "The urns for a  contact",
   },
 ]
 `;
@@ -2110,7 +1937,7 @@ exports[`helpers filterOptions should filter options for "contact.uu" 1`] = `
 Array [
   Object {
     "name": "contact.uuid",
-    "summary": "The uuid of a  contact",
+    "summary": "The uuid of the  contact",
   },
 ]
 `;
@@ -2119,7 +1946,7 @@ exports[`helpers filterOptions should filter options for "contact.uuid" 1`] = `
 Array [
   Object {
     "name": "contact.uuid",
-    "summary": "The uuid of a  contact",
+    "summary": "The uuid of the  contact",
   },
 ]
 `;
@@ -4269,6 +4096,10 @@ exports[`helpers filterOptions should filter options for "format_urn." 1`] = `Ar
 exports[`helpers filterOptions should filter options for "i" 1`] = `
 Array [
   Object {
+    "name": "input",
+    "summary": "The most recent input",
+  },
+  Object {
     "detail": "If the first argument is an error that error is returned.",
     "examples": Array [
       Object {
@@ -4326,6 +4157,322 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "if." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "in" 1`] = `
+Array [
+  Object {
+    "name": "input",
+    "summary": "The most recent input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input" 1`] = `
+Array [
+  Object {
+    "name": "input",
+    "summary": "The most recent input",
+  },
+  Object {
+    "name": "input.uuid",
+    "summary": "The UUID of the last input",
+  },
+  Object {
+    "name": "input.type",
+    "summary": "The type of the last input",
+  },
+  Object {
+    "name": "input.channel",
+    "summary": "The channel the last input was received on",
+  },
+  Object {
+    "name": "input.created_on",
+    "summary": "The date of the last input",
+  },
+  Object {
+    "name": "input.text",
+    "summary": "The text from the last message",
+  },
+  Object {
+    "name": "input.attachments",
+    "summary": "The attachments from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input." 1`] = `
+Array [
+  Object {
+    "name": "input.uuid",
+    "summary": "The UUID of the last input",
+  },
+  Object {
+    "name": "input.type",
+    "summary": "The type of the last input",
+  },
+  Object {
+    "name": "input.channel",
+    "summary": "The channel the last input was received on",
+  },
+  Object {
+    "name": "input.created_on",
+    "summary": "The date of the last input",
+  },
+  Object {
+    "name": "input.text",
+    "summary": "The text from the last message",
+  },
+  Object {
+    "name": "input.attachments",
+    "summary": "The attachments from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.a" 1`] = `
+Array [
+  Object {
+    "name": "input.attachments",
+    "summary": "The attachments from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.at" 1`] = `
+Array [
+  Object {
+    "name": "input.attachments",
+    "summary": "The attachments from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.attachments" 1`] = `
+Array [
+  Object {
+    "name": "input.attachments",
+    "summary": "The attachments from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.c" 1`] = `
+Array [
+  Object {
+    "name": "input.channel",
+    "summary": "The channel the last input was received on",
+  },
+  Object {
+    "name": "input.created_on",
+    "summary": "The date of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.ch" 1`] = `
+Array [
+  Object {
+    "name": "input.channel",
+    "summary": "The channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel" 1`] = `
+Array [
+  Object {
+    "name": "input.channel",
+    "summary": "The channel the last input was received on",
+  },
+  Object {
+    "name": "input.channel.address",
+    "summary": "The channel the last input was received on",
+  },
+  Object {
+    "name": "input.channel.name",
+    "summary": "The name of the channel the last input was received on",
+  },
+  Object {
+    "name": "input.channel.uuid",
+    "summary": "The uuid of the channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.a" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.address",
+    "summary": "The channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.ad" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.address",
+    "summary": "The channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.address" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.address",
+    "summary": "The channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.n" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.name",
+    "summary": "The name of the channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.na" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.name",
+    "summary": "The name of the channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.name" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.name",
+    "summary": "The name of the channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.u" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.uuid",
+    "summary": "The uuid of the channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.uu" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.uuid",
+    "summary": "The uuid of the channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.channel.uuid" 1`] = `
+Array [
+  Object {
+    "name": "input.channel.uuid",
+    "summary": "The uuid of the channel the last input was received on",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.cr" 1`] = `
+Array [
+  Object {
+    "name": "input.created_on",
+    "summary": "The date of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.created_on" 1`] = `
+Array [
+  Object {
+    "name": "input.created_on",
+    "summary": "The date of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.t" 1`] = `
+Array [
+  Object {
+    "name": "input.type",
+    "summary": "The type of the last input",
+  },
+  Object {
+    "name": "input.text",
+    "summary": "The text from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.te" 1`] = `
+Array [
+  Object {
+    "name": "input.text",
+    "summary": "The text from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.text" 1`] = `
+Array [
+  Object {
+    "name": "input.text",
+    "summary": "The text from the last message",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.ty" 1`] = `
+Array [
+  Object {
+    "name": "input.type",
+    "summary": "The type of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.type" 1`] = `
+Array [
+  Object {
+    "name": "input.type",
+    "summary": "The type of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.u" 1`] = `
+Array [
+  Object {
+    "name": "input.uuid",
+    "summary": "The UUID of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.uu" 1`] = `
+Array [
+  Object {
+    "name": "input.uuid",
+    "summary": "The UUID of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.uuid" 1`] = `
+Array [
+  Object {
+    "name": "input.uuid",
+    "summary": "The UUID of the last input",
+  },
+]
+`;
 
 exports[`helpers filterOptions should filter options for "is" 1`] = `
 Array [
@@ -5392,11 +5539,7 @@ Array [
   },
   Object {
     "name": "parent.contact",
-    "summary": "The name of a parent run's contact",
-  },
-  Object {
-    "name": "parent.input",
-    "summary": "A parent run's last input",
+    "summary": "The name of the parent run's contact",
   },
   Object {
     "name": "parent.webhook",
@@ -5417,11 +5560,7 @@ Array [
   },
   Object {
     "name": "parent.contact",
-    "summary": "The name of a parent run's contact",
-  },
-  Object {
-    "name": "parent.input",
-    "summary": "A parent run's last input",
+    "summary": "The name of the parent run's contact",
   },
   Object {
     "name": "parent.webhook",
@@ -5438,7 +5577,7 @@ exports[`helpers filterOptions should filter options for "parent.c" 1`] = `
 Array [
   Object {
     "name": "parent.contact",
-    "summary": "The name of a parent run's contact",
+    "summary": "The name of the parent run's contact",
   },
 ]
 `;
@@ -5447,7 +5586,7 @@ exports[`helpers filterOptions should filter options for "parent.co" 1`] = `
 Array [
   Object {
     "name": "parent.contact",
-    "summary": "The name of a parent run's contact",
+    "summary": "The name of the parent run's contact",
   },
 ]
 `;
@@ -5456,27 +5595,35 @@ exports[`helpers filterOptions should filter options for "parent.contact" 1`] = 
 Array [
   Object {
     "name": "parent.contact",
-    "summary": "The name of a parent run's contact",
-  },
-  Object {
-    "name": "parent.contact.uuid",
-    "summary": "The uuid of a parent run's contact",
-  },
-  Object {
-    "name": "parent.contact.name",
-    "summary": "The name of a parent run's contact",
+    "summary": "The name of the parent run's contact",
   },
   Object {
     "name": "parent.contact.first_name",
     "summary": "The first name of a parent run's contact",
   },
   Object {
-    "name": "parent.contact.language",
-    "summary": "The language code for a parent run's contact",
+    "name": "parent.contact.name",
+    "summary": "The name of the parent run's contact",
+  },
+  Object {
+    "name": "parent.contact.display",
+    "summary": "The name or urn of the parent run's contact",
   },
   Object {
     "name": "parent.contact.fields",
     "summary": "Custom fields on a parent run's contact",
+  },
+  Object {
+    "name": "parent.contact.urn",
+    "summary": "The primary urn for a parent run's contact",
+  },
+  Object {
+    "name": "parent.contact.language",
+    "summary": "The language iso code for a parent run's contact",
+  },
+  Object {
+    "name": "parent.contact.created_on",
+    "summary": "The creation date for the parent run's contact",
   },
   Object {
     "name": "parent.contact.groups",
@@ -5484,7 +5631,11 @@ Array [
   },
   Object {
     "name": "parent.contact.urns",
-    "summary": "URNs on a parent run's contact",
+    "summary": "The urns for a parent run's contact",
+  },
+  Object {
+    "name": "parent.contact.uuid",
+    "summary": "The uuid of the parent run's contact",
   },
   Object {
     "name": "parent.contact.channel",
@@ -5495,6 +5646,10 @@ Array [
 
 exports[`helpers filterOptions should filter options for "parent.contact.c" 1`] = `
 Array [
+  Object {
+    "name": "parent.contact.created_on",
+    "summary": "The creation date for the parent run's contact",
+  },
   Object {
     "name": "parent.contact.channel",
     "summary": "A parent run's contact's preferred channel",
@@ -5613,6 +5768,51 @@ Array [
 ]
 `;
 
+exports[`helpers filterOptions should filter options for "parent.contact.cr" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.created_on",
+    "summary": "The creation date for the parent run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parent.contact.created_on" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.created_on",
+    "summary": "The creation date for the parent run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parent.contact.d" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.display",
+    "summary": "The name or urn of the parent run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parent.contact.di" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.display",
+    "summary": "The name or urn of the parent run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parent.contact.display" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.display",
+    "summary": "The name or urn of the parent run's contact",
+  },
+]
+`;
+
 exports[`helpers filterOptions should filter options for "parent.contact.f" 1`] = `
 Array [
   Object {
@@ -5688,7 +5888,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.l" 1`] 
 Array [
   Object {
     "name": "parent.contact.language",
-    "summary": "The language code for a parent run's contact",
+    "summary": "The language iso code for a parent run's contact",
   },
 ]
 `;
@@ -5697,7 +5897,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.la" 1`]
 Array [
   Object {
     "name": "parent.contact.language",
-    "summary": "The language code for a parent run's contact",
+    "summary": "The language iso code for a parent run's contact",
   },
 ]
 `;
@@ -5706,7 +5906,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.languag
 Array [
   Object {
     "name": "parent.contact.language",
-    "summary": "The language code for a parent run's contact",
+    "summary": "The language iso code for a parent run's contact",
   },
 ]
 `;
@@ -5715,7 +5915,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.n" 1`] 
 Array [
   Object {
     "name": "parent.contact.name",
-    "summary": "The name of a parent run's contact",
+    "summary": "The name of the parent run's contact",
   },
 ]
 `;
@@ -5724,7 +5924,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.na" 1`]
 Array [
   Object {
     "name": "parent.contact.name",
-    "summary": "The name of a parent run's contact",
+    "summary": "The name of the parent run's contact",
   },
 ]
 `;
@@ -5733,7 +5933,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.name" 1
 Array [
   Object {
     "name": "parent.contact.name",
-    "summary": "The name of a parent run's contact",
+    "summary": "The name of the parent run's contact",
   },
 ]
 `;
@@ -5741,12 +5941,16 @@ Array [
 exports[`helpers filterOptions should filter options for "parent.contact.u" 1`] = `
 Array [
   Object {
-    "name": "parent.contact.uuid",
-    "summary": "The uuid of a parent run's contact",
+    "name": "parent.contact.urn",
+    "summary": "The primary urn for a parent run's contact",
   },
   Object {
     "name": "parent.contact.urns",
-    "summary": "URNs on a parent run's contact",
+    "summary": "The urns for a parent run's contact",
+  },
+  Object {
+    "name": "parent.contact.uuid",
+    "summary": "The uuid of the parent run's contact",
   },
 ]
 `;
@@ -5754,8 +5958,25 @@ Array [
 exports[`helpers filterOptions should filter options for "parent.contact.ur" 1`] = `
 Array [
   Object {
+    "name": "parent.contact.urn",
+    "summary": "The primary urn for a parent run's contact",
+  },
+  Object {
     "name": "parent.contact.urns",
-    "summary": "URNs on a parent run's contact",
+    "summary": "The urns for a parent run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "parent.contact.urn" 1`] = `
+Array [
+  Object {
+    "name": "parent.contact.urn",
+    "summary": "The primary urn for a parent run's contact",
+  },
+  Object {
+    "name": "parent.contact.urns",
+    "summary": "The urns for a parent run's contact",
   },
 ]
 `;
@@ -5764,63 +5985,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.urns" 1
 Array [
   Object {
     "name": "parent.contact.urns",
-    "summary": "URNs on a parent run's contact",
-  },
-  Object {
-    "name": "parent.contact.urns.tel",
-    "summary": "The preferred telephone number for a parent run's contact",
-  },
-  Object {
-    "name": "parent.contact.urns.telegram",
-    "summary": "The preferred telegram id for a parent run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.contact.urns.t" 1`] = `
-Array [
-  Object {
-    "name": "parent.contact.urns.tel",
-    "summary": "The preferred telephone number for a parent run's contact",
-  },
-  Object {
-    "name": "parent.contact.urns.telegram",
-    "summary": "The preferred telegram id for a parent run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.contact.urns.te" 1`] = `
-Array [
-  Object {
-    "name": "parent.contact.urns.tel",
-    "summary": "The preferred telephone number for a parent run's contact",
-  },
-  Object {
-    "name": "parent.contact.urns.telegram",
-    "summary": "The preferred telegram id for a parent run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.contact.urns.tel" 1`] = `
-Array [
-  Object {
-    "name": "parent.contact.urns.tel",
-    "summary": "The preferred telephone number for a parent run's contact",
-  },
-  Object {
-    "name": "parent.contact.urns.telegram",
-    "summary": "The preferred telegram id for a parent run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.contact.urns.telegram" 1`] = `
-Array [
-  Object {
-    "name": "parent.contact.urns.telegram",
-    "summary": "The preferred telegram id for a parent run's contact",
+    "summary": "The urns for a parent run's contact",
   },
 ]
 `;
@@ -5829,7 +5994,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.uu" 1`]
 Array [
   Object {
     "name": "parent.contact.uuid",
-    "summary": "The uuid of a parent run's contact",
+    "summary": "The uuid of the parent run's contact",
   },
 ]
 `;
@@ -5838,7 +6003,7 @@ exports[`helpers filterOptions should filter options for "parent.contact.uuid" 1
 Array [
   Object {
     "name": "parent.contact.uuid",
-    "summary": "The uuid of a parent run's contact",
+    "summary": "The uuid of the parent run's contact",
   },
 ]
 `;
@@ -5959,235 +6124,6 @@ Array [
   Object {
     "name": "parent.flow.uuid",
     "summary": "The UUID of the flow in which a parent run takes place",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.i" 1`] = `
-Array [
-  Object {
-    "name": "parent.input",
-    "summary": "A parent run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.in" 1`] = `
-Array [
-  Object {
-    "name": "parent.input",
-    "summary": "A parent run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input" 1`] = `
-Array [
-  Object {
-    "name": "parent.input",
-    "summary": "A parent run's last input",
-  },
-  Object {
-    "name": "parent.input.uuid",
-    "summary": "The UUID of a parent run's last input",
-  },
-  Object {
-    "name": "parent.input.type",
-    "summary": "The type of a parent run's last input",
-  },
-  Object {
-    "name": "parent.input.channel",
-    "summary": "The channel a parent run's last input was received on",
-  },
-  Object {
-    "name": "parent.input.created_on",
-    "summary": "The time a parent run's last input was created",
-  },
-  Object {
-    "name": "parent.input.text",
-    "summary": "The text of a parent run's last message",
-  },
-  Object {
-    "name": "parent.input.attachments",
-    "summary": "The attachments on a parent run's last message",
-  },
-  Object {
-    "name": "parent.input.urn",
-    "summary": "The URN a parent run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.a" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.attachments",
-    "summary": "The attachments on a parent run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.at" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.attachments",
-    "summary": "The attachments on a parent run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.attachments" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.attachments",
-    "summary": "The attachments on a parent run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.c" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.channel",
-    "summary": "The channel a parent run's last input was received on",
-  },
-  Object {
-    "name": "parent.input.created_on",
-    "summary": "The time a parent run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.ch" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.channel",
-    "summary": "The channel a parent run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.channel" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.channel",
-    "summary": "The channel a parent run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.cr" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.created_on",
-    "summary": "The time a parent run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.created_on" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.created_on",
-    "summary": "The time a parent run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.t" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.type",
-    "summary": "The type of a parent run's last input",
-  },
-  Object {
-    "name": "parent.input.text",
-    "summary": "The text of a parent run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.te" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.text",
-    "summary": "The text of a parent run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.text" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.text",
-    "summary": "The text of a parent run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.ty" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.type",
-    "summary": "The type of a parent run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.type" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.type",
-    "summary": "The type of a parent run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.u" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.uuid",
-    "summary": "The UUID of a parent run's last input",
-  },
-  Object {
-    "name": "parent.input.urn",
-    "summary": "The URN a parent run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.ur" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.urn",
-    "summary": "The URN a parent run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.urn" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.urn",
-    "summary": "The URN a parent run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.uu" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.uuid",
-    "summary": "The UUID of a parent run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.input.uuid" 1`] = `
-Array [
-  Object {
-    "name": "parent.input.uuid",
-    "summary": "The UUID of a parent run's last input",
   },
 ]
 `;
@@ -7597,11 +7533,7 @@ Array [
   },
   Object {
     "name": "run.contact",
-    "summary": "The name of a run's contact",
-  },
-  Object {
-    "name": "run.input",
-    "summary": "A  run's last input",
+    "summary": "The name of the run's contact",
   },
   Object {
     "name": "run.webhook",
@@ -7622,11 +7554,7 @@ Array [
   },
   Object {
     "name": "run.contact",
-    "summary": "The name of a run's contact",
-  },
-  Object {
-    "name": "run.input",
-    "summary": "A  run's last input",
+    "summary": "The name of the run's contact",
   },
   Object {
     "name": "run.webhook",
@@ -7643,7 +7571,7 @@ exports[`helpers filterOptions should filter options for "run.c" 1`] = `
 Array [
   Object {
     "name": "run.contact",
-    "summary": "The name of a run's contact",
+    "summary": "The name of the run's contact",
   },
 ]
 `;
@@ -7652,7 +7580,7 @@ exports[`helpers filterOptions should filter options for "run.co" 1`] = `
 Array [
   Object {
     "name": "run.contact",
-    "summary": "The name of a run's contact",
+    "summary": "The name of the run's contact",
   },
 ]
 `;
@@ -7661,27 +7589,35 @@ exports[`helpers filterOptions should filter options for "run.contact" 1`] = `
 Array [
   Object {
     "name": "run.contact",
-    "summary": "The name of a run's contact",
-  },
-  Object {
-    "name": "run.contact.uuid",
-    "summary": "The uuid of a run's contact",
-  },
-  Object {
-    "name": "run.contact.name",
-    "summary": "The name of a run's contact",
+    "summary": "The name of the run's contact",
   },
   Object {
     "name": "run.contact.first_name",
     "summary": "The first name of a run's contact",
   },
   Object {
-    "name": "run.contact.language",
-    "summary": "The language code for a run's contact",
+    "name": "run.contact.name",
+    "summary": "The name of the run's contact",
+  },
+  Object {
+    "name": "run.contact.display",
+    "summary": "The name or urn of the run's contact",
   },
   Object {
     "name": "run.contact.fields",
     "summary": "Custom fields on a run's contact",
+  },
+  Object {
+    "name": "run.contact.urn",
+    "summary": "The primary urn for a run's contact",
+  },
+  Object {
+    "name": "run.contact.language",
+    "summary": "The language iso code for a run's contact",
+  },
+  Object {
+    "name": "run.contact.created_on",
+    "summary": "The creation date for the run's contact",
   },
   Object {
     "name": "run.contact.groups",
@@ -7689,7 +7625,11 @@ Array [
   },
   Object {
     "name": "run.contact.urns",
-    "summary": "URNs on a run's contact",
+    "summary": "The urns for a run's contact",
+  },
+  Object {
+    "name": "run.contact.uuid",
+    "summary": "The uuid of the run's contact",
   },
   Object {
     "name": "run.contact.channel",
@@ -7700,6 +7640,10 @@ Array [
 
 exports[`helpers filterOptions should filter options for "run.contact.c" 1`] = `
 Array [
+  Object {
+    "name": "run.contact.created_on",
+    "summary": "The creation date for the run's contact",
+  },
   Object {
     "name": "run.contact.channel",
     "summary": "A run's contact's preferred channel",
@@ -7818,6 +7762,51 @@ Array [
 ]
 `;
 
+exports[`helpers filterOptions should filter options for "run.contact.cr" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.created_on",
+    "summary": "The creation date for the run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "run.contact.created_on" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.created_on",
+    "summary": "The creation date for the run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "run.contact.d" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.display",
+    "summary": "The name or urn of the run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "run.contact.di" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.display",
+    "summary": "The name or urn of the run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "run.contact.display" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.display",
+    "summary": "The name or urn of the run's contact",
+  },
+]
+`;
+
 exports[`helpers filterOptions should filter options for "run.contact.f" 1`] = `
 Array [
   Object {
@@ -7893,7 +7882,7 @@ exports[`helpers filterOptions should filter options for "run.contact.l" 1`] = `
 Array [
   Object {
     "name": "run.contact.language",
-    "summary": "The language code for a run's contact",
+    "summary": "The language iso code for a run's contact",
   },
 ]
 `;
@@ -7902,7 +7891,7 @@ exports[`helpers filterOptions should filter options for "run.contact.la" 1`] = 
 Array [
   Object {
     "name": "run.contact.language",
-    "summary": "The language code for a run's contact",
+    "summary": "The language iso code for a run's contact",
   },
 ]
 `;
@@ -7911,7 +7900,7 @@ exports[`helpers filterOptions should filter options for "run.contact.language" 
 Array [
   Object {
     "name": "run.contact.language",
-    "summary": "The language code for a run's contact",
+    "summary": "The language iso code for a run's contact",
   },
 ]
 `;
@@ -7920,7 +7909,7 @@ exports[`helpers filterOptions should filter options for "run.contact.n" 1`] = `
 Array [
   Object {
     "name": "run.contact.name",
-    "summary": "The name of a run's contact",
+    "summary": "The name of the run's contact",
   },
 ]
 `;
@@ -7929,7 +7918,7 @@ exports[`helpers filterOptions should filter options for "run.contact.na" 1`] = 
 Array [
   Object {
     "name": "run.contact.name",
-    "summary": "The name of a run's contact",
+    "summary": "The name of the run's contact",
   },
 ]
 `;
@@ -7938,7 +7927,7 @@ exports[`helpers filterOptions should filter options for "run.contact.name" 1`] 
 Array [
   Object {
     "name": "run.contact.name",
-    "summary": "The name of a run's contact",
+    "summary": "The name of the run's contact",
   },
 ]
 `;
@@ -7946,12 +7935,16 @@ Array [
 exports[`helpers filterOptions should filter options for "run.contact.u" 1`] = `
 Array [
   Object {
-    "name": "run.contact.uuid",
-    "summary": "The uuid of a run's contact",
+    "name": "run.contact.urn",
+    "summary": "The primary urn for a run's contact",
   },
   Object {
     "name": "run.contact.urns",
-    "summary": "URNs on a run's contact",
+    "summary": "The urns for a run's contact",
+  },
+  Object {
+    "name": "run.contact.uuid",
+    "summary": "The uuid of the run's contact",
   },
 ]
 `;
@@ -7959,8 +7952,25 @@ Array [
 exports[`helpers filterOptions should filter options for "run.contact.ur" 1`] = `
 Array [
   Object {
+    "name": "run.contact.urn",
+    "summary": "The primary urn for a run's contact",
+  },
+  Object {
     "name": "run.contact.urns",
-    "summary": "URNs on a run's contact",
+    "summary": "The urns for a run's contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "run.contact.urn" 1`] = `
+Array [
+  Object {
+    "name": "run.contact.urn",
+    "summary": "The primary urn for a run's contact",
+  },
+  Object {
+    "name": "run.contact.urns",
+    "summary": "The urns for a run's contact",
   },
 ]
 `;
@@ -7969,63 +7979,7 @@ exports[`helpers filterOptions should filter options for "run.contact.urns" 1`] 
 Array [
   Object {
     "name": "run.contact.urns",
-    "summary": "URNs on a run's contact",
-  },
-  Object {
-    "name": "run.contact.urns.tel",
-    "summary": "The preferred telephone number for a run's contact",
-  },
-  Object {
-    "name": "run.contact.urns.telegram",
-    "summary": "The preferred telegram id for a run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.contact.urns.t" 1`] = `
-Array [
-  Object {
-    "name": "run.contact.urns.tel",
-    "summary": "The preferred telephone number for a run's contact",
-  },
-  Object {
-    "name": "run.contact.urns.telegram",
-    "summary": "The preferred telegram id for a run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.contact.urns.te" 1`] = `
-Array [
-  Object {
-    "name": "run.contact.urns.tel",
-    "summary": "The preferred telephone number for a run's contact",
-  },
-  Object {
-    "name": "run.contact.urns.telegram",
-    "summary": "The preferred telegram id for a run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.contact.urns.tel" 1`] = `
-Array [
-  Object {
-    "name": "run.contact.urns.tel",
-    "summary": "The preferred telephone number for a run's contact",
-  },
-  Object {
-    "name": "run.contact.urns.telegram",
-    "summary": "The preferred telegram id for a run's contact",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.contact.urns.telegram" 1`] = `
-Array [
-  Object {
-    "name": "run.contact.urns.telegram",
-    "summary": "The preferred telegram id for a run's contact",
+    "summary": "The urns for a run's contact",
   },
 ]
 `;
@@ -8034,7 +7988,7 @@ exports[`helpers filterOptions should filter options for "run.contact.uu" 1`] = 
 Array [
   Object {
     "name": "run.contact.uuid",
-    "summary": "The uuid of a run's contact",
+    "summary": "The uuid of the run's contact",
   },
 ]
 `;
@@ -8043,7 +7997,7 @@ exports[`helpers filterOptions should filter options for "run.contact.uuid" 1`] 
 Array [
   Object {
     "name": "run.contact.uuid",
-    "summary": "The uuid of a run's contact",
+    "summary": "The uuid of the run's contact",
   },
 ]
 `;
@@ -8164,235 +8118,6 @@ Array [
   Object {
     "name": "run.flow.uuid",
     "summary": "The UUID of the flow in which a  run takes place",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.i" 1`] = `
-Array [
-  Object {
-    "name": "run.input",
-    "summary": "A  run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.in" 1`] = `
-Array [
-  Object {
-    "name": "run.input",
-    "summary": "A  run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input" 1`] = `
-Array [
-  Object {
-    "name": "run.input",
-    "summary": "A  run's last input",
-  },
-  Object {
-    "name": "run.input.uuid",
-    "summary": "The UUID of a  run's last input",
-  },
-  Object {
-    "name": "run.input.type",
-    "summary": "The type of a  run's last input",
-  },
-  Object {
-    "name": "run.input.channel",
-    "summary": "The channel a  run's last input was received on",
-  },
-  Object {
-    "name": "run.input.created_on",
-    "summary": "The time a  run's last input was created",
-  },
-  Object {
-    "name": "run.input.text",
-    "summary": "The text of a  run's last message",
-  },
-  Object {
-    "name": "run.input.attachments",
-    "summary": "The attachments on a  run's last message",
-  },
-  Object {
-    "name": "run.input.urn",
-    "summary": "The URN a  run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.a" 1`] = `
-Array [
-  Object {
-    "name": "run.input.attachments",
-    "summary": "The attachments on a  run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.at" 1`] = `
-Array [
-  Object {
-    "name": "run.input.attachments",
-    "summary": "The attachments on a  run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.attachments" 1`] = `
-Array [
-  Object {
-    "name": "run.input.attachments",
-    "summary": "The attachments on a  run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.c" 1`] = `
-Array [
-  Object {
-    "name": "run.input.channel",
-    "summary": "The channel a  run's last input was received on",
-  },
-  Object {
-    "name": "run.input.created_on",
-    "summary": "The time a  run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.ch" 1`] = `
-Array [
-  Object {
-    "name": "run.input.channel",
-    "summary": "The channel a  run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.channel" 1`] = `
-Array [
-  Object {
-    "name": "run.input.channel",
-    "summary": "The channel a  run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.cr" 1`] = `
-Array [
-  Object {
-    "name": "run.input.created_on",
-    "summary": "The time a  run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.created_on" 1`] = `
-Array [
-  Object {
-    "name": "run.input.created_on",
-    "summary": "The time a  run's last input was created",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.t" 1`] = `
-Array [
-  Object {
-    "name": "run.input.type",
-    "summary": "The type of a  run's last input",
-  },
-  Object {
-    "name": "run.input.text",
-    "summary": "The text of a  run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.te" 1`] = `
-Array [
-  Object {
-    "name": "run.input.text",
-    "summary": "The text of a  run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.text" 1`] = `
-Array [
-  Object {
-    "name": "run.input.text",
-    "summary": "The text of a  run's last message",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.ty" 1`] = `
-Array [
-  Object {
-    "name": "run.input.type",
-    "summary": "The type of a  run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.type" 1`] = `
-Array [
-  Object {
-    "name": "run.input.type",
-    "summary": "The type of a  run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.u" 1`] = `
-Array [
-  Object {
-    "name": "run.input.uuid",
-    "summary": "The UUID of a  run's last input",
-  },
-  Object {
-    "name": "run.input.urn",
-    "summary": "The URN a  run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.ur" 1`] = `
-Array [
-  Object {
-    "name": "run.input.urn",
-    "summary": "The URN a  run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.urn" 1`] = `
-Array [
-  Object {
-    "name": "run.input.urn",
-    "summary": "The URN a  run's last input was received on",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.uu" 1`] = `
-Array [
-  Object {
-    "name": "run.input.uuid",
-    "summary": "The UUID of a  run's last input",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.input.uuid" 1`] = `
-Array [
-  Object {
-    "name": "run.input.uuid",
-    "summary": "The UUID of a  run's last input",
   },
 ]
 `;
@@ -9601,6 +9326,10 @@ exports[`helpers filterOptions should filter options for "tz_offset." 1`] = `Arr
 exports[`helpers filterOptions should filter options for "u" 1`] = `
 Array [
   Object {
+    "name": "urns",
+    "summary": "The urns for the contact",
+  },
+  Object {
     "detail": "",
     "examples": Array [
       Object {
@@ -9693,6 +9422,10 @@ exports[`helpers filterOptions should filter options for "upper." 1`] = `Array [
 exports[`helpers filterOptions should filter options for "ur" 1`] = `
 Array [
   Object {
+    "name": "urns",
+    "summary": "The urns for the contact",
+  },
+  Object {
     "detail": "",
     "examples": Array [
       Object {
@@ -9768,6 +9501,384 @@ Array [
 `;
 
 exports[`helpers filterOptions should filter options for "urn_parts." 1`] = `Array []`;
+
+exports[`helpers filterOptions should filter options for "urns" 1`] = `
+Array [
+  Object {
+    "name": "urns",
+    "summary": "The urns for the contact",
+  },
+  Object {
+    "name": "urns.facebook",
+    "summary": "The Facebook urn for the contact",
+  },
+  Object {
+    "name": "urns.fcm",
+    "summary": "The Firebase Cloud Messaging id for the contact",
+  },
+  Object {
+    "name": "urns.jiochat",
+    "summary": "The Jiochat id for the contact",
+  },
+  Object {
+    "name": "urns.line",
+    "summary": "The Line id for the contact",
+  },
+  Object {
+    "name": "urns.mailto",
+    "summary": "The email address for the contact",
+  },
+  Object {
+    "name": "urns.tel",
+    "summary": "The phone number for the contact",
+  },
+  Object {
+    "name": "urns.telegram",
+    "summary": "The Telegram id for the contact",
+  },
+  Object {
+    "name": "urns.twitterid",
+    "summary": "The Twitter id for the contact",
+  },
+  Object {
+    "name": "urns.viber",
+    "summary": "The Viber id for the contact",
+  },
+  Object {
+    "name": "urns.wechat",
+    "summary": "The Wechat id for the contact",
+  },
+  Object {
+    "name": "urns.whatsapp",
+    "summary": "The WhatsApp number for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns." 1`] = `
+Array [
+  Object {
+    "name": "urns.facebook",
+    "summary": "The Facebook urn for the contact",
+  },
+  Object {
+    "name": "urns.fcm",
+    "summary": "The Firebase Cloud Messaging id for the contact",
+  },
+  Object {
+    "name": "urns.jiochat",
+    "summary": "The Jiochat id for the contact",
+  },
+  Object {
+    "name": "urns.line",
+    "summary": "The Line id for the contact",
+  },
+  Object {
+    "name": "urns.mailto",
+    "summary": "The email address for the contact",
+  },
+  Object {
+    "name": "urns.tel",
+    "summary": "The phone number for the contact",
+  },
+  Object {
+    "name": "urns.telegram",
+    "summary": "The Telegram id for the contact",
+  },
+  Object {
+    "name": "urns.twitterid",
+    "summary": "The Twitter id for the contact",
+  },
+  Object {
+    "name": "urns.viber",
+    "summary": "The Viber id for the contact",
+  },
+  Object {
+    "name": "urns.wechat",
+    "summary": "The Wechat id for the contact",
+  },
+  Object {
+    "name": "urns.whatsapp",
+    "summary": "The WhatsApp number for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.f" 1`] = `
+Array [
+  Object {
+    "name": "urns.facebook",
+    "summary": "The Facebook urn for the contact",
+  },
+  Object {
+    "name": "urns.fcm",
+    "summary": "The Firebase Cloud Messaging id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.fa" 1`] = `
+Array [
+  Object {
+    "name": "urns.facebook",
+    "summary": "The Facebook urn for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.facebook" 1`] = `
+Array [
+  Object {
+    "name": "urns.facebook",
+    "summary": "The Facebook urn for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.fc" 1`] = `
+Array [
+  Object {
+    "name": "urns.fcm",
+    "summary": "The Firebase Cloud Messaging id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.fcm" 1`] = `
+Array [
+  Object {
+    "name": "urns.fcm",
+    "summary": "The Firebase Cloud Messaging id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.j" 1`] = `
+Array [
+  Object {
+    "name": "urns.jiochat",
+    "summary": "The Jiochat id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.ji" 1`] = `
+Array [
+  Object {
+    "name": "urns.jiochat",
+    "summary": "The Jiochat id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.jiochat" 1`] = `
+Array [
+  Object {
+    "name": "urns.jiochat",
+    "summary": "The Jiochat id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.l" 1`] = `
+Array [
+  Object {
+    "name": "urns.line",
+    "summary": "The Line id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.li" 1`] = `
+Array [
+  Object {
+    "name": "urns.line",
+    "summary": "The Line id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.line" 1`] = `
+Array [
+  Object {
+    "name": "urns.line",
+    "summary": "The Line id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.m" 1`] = `
+Array [
+  Object {
+    "name": "urns.mailto",
+    "summary": "The email address for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.ma" 1`] = `
+Array [
+  Object {
+    "name": "urns.mailto",
+    "summary": "The email address for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.mailto" 1`] = `
+Array [
+  Object {
+    "name": "urns.mailto",
+    "summary": "The email address for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.t" 1`] = `
+Array [
+  Object {
+    "name": "urns.tel",
+    "summary": "The phone number for the contact",
+  },
+  Object {
+    "name": "urns.telegram",
+    "summary": "The Telegram id for the contact",
+  },
+  Object {
+    "name": "urns.twitterid",
+    "summary": "The Twitter id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.te" 1`] = `
+Array [
+  Object {
+    "name": "urns.tel",
+    "summary": "The phone number for the contact",
+  },
+  Object {
+    "name": "urns.telegram",
+    "summary": "The Telegram id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.tel" 1`] = `
+Array [
+  Object {
+    "name": "urns.tel",
+    "summary": "The phone number for the contact",
+  },
+  Object {
+    "name": "urns.telegram",
+    "summary": "The Telegram id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.telegram" 1`] = `
+Array [
+  Object {
+    "name": "urns.telegram",
+    "summary": "The Telegram id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.tw" 1`] = `
+Array [
+  Object {
+    "name": "urns.twitterid",
+    "summary": "The Twitter id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.twitterid" 1`] = `
+Array [
+  Object {
+    "name": "urns.twitterid",
+    "summary": "The Twitter id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.v" 1`] = `
+Array [
+  Object {
+    "name": "urns.viber",
+    "summary": "The Viber id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.vi" 1`] = `
+Array [
+  Object {
+    "name": "urns.viber",
+    "summary": "The Viber id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.viber" 1`] = `
+Array [
+  Object {
+    "name": "urns.viber",
+    "summary": "The Viber id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.w" 1`] = `
+Array [
+  Object {
+    "name": "urns.wechat",
+    "summary": "The Wechat id for the contact",
+  },
+  Object {
+    "name": "urns.whatsapp",
+    "summary": "The WhatsApp number for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.we" 1`] = `
+Array [
+  Object {
+    "name": "urns.wechat",
+    "summary": "The Wechat id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.wechat" 1`] = `
+Array [
+  Object {
+    "name": "urns.wechat",
+    "summary": "The Wechat id for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.wh" 1`] = `
+Array [
+  Object {
+    "name": "urns.whatsapp",
+    "summary": "The WhatsApp number for the contact",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "urns.whatsapp" 1`] = `
+Array [
+  Object {
+    "name": "urns.whatsapp",
+    "summary": "The WhatsApp number for the contact",
+  },
+]
+`;
 
 exports[`helpers filterOptions should filter options for "w" 1`] = `
 Array [

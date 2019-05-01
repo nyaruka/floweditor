@@ -10,7 +10,8 @@ export enum TopLevelVariables {
     parent = 'parent',
     child = 'child',
     trigger = 'trigger',
-    fields = 'fields'
+    fields = 'fields',
+    urns = 'urns'
 }
 
 export const getCompletionName = (option: CompletionOption): string => {
@@ -79,34 +80,33 @@ export const getWebhookOptions = (accessor: string = ''): CompletionOption[] => 
     ];
 };
 
-export const getInputOptions = (accessor: string = ''): CompletionOption[] => {
-    const prefix = accessor ? accessor : TopLevelVariables.run;
-    return [
-        { name: `${prefix}.input`, summary: `A ${accessor} run's last input` },
-        { name: `${prefix}.input.uuid`, summary: `The UUID of a ${accessor} run's last input` },
-        { name: `${prefix}.input.type`, summary: `The type of a ${accessor} run's last input` },
-        {
-            name: `${prefix}.input.channel`,
-            summary: `The channel a ${accessor} run's last input was received on`
-        },
-        {
-            name: `${prefix}.input.created_on`,
-            summary: `The time a ${accessor} run's last input was created`
-        },
-        {
-            name: `${prefix}.input.text`,
-            summary: `The text of a ${accessor} run's last message`
-        },
-        {
-            name: `${prefix}.input.attachments`,
-            summary: `The attachments on a ${accessor} run's last message`
-        },
-        {
-            name: `${prefix}.input.urn`,
-            summary: `The URN a ${accessor} run's last input was received on`
-        }
-    ];
-};
+export const INPUT_OPTIONS: CompletionOption[] = [
+    { name: 'input', summary: 'The most recent input' },
+    { name: 'input.uuid', summary: 'The UUID of the last input' },
+    { name: 'input.type', summary: 'The type of the last input' },
+    { name: 'input.channel', summary: 'The channel the last input was received on' },
+    { name: 'input.channel.address', summary: 'The channel the last input was received on' },
+    {
+        name: 'input.channel.name',
+        summary: 'The name of the channel the last input was received on'
+    },
+    {
+        name: 'input.channel.uuid',
+        summary: 'The uuid of the channel the last input was received on'
+    },
+    {
+        name: 'input.created_on',
+        summary: 'The date of the last input'
+    },
+    {
+        name: 'input.text',
+        summary: 'The text from the last message'
+    },
+    {
+        name: 'input.attachments',
+        summary: 'The attachments from the last message'
+    }
+];
 
 export const getContactOptions = (accessor?: string): CompletionOption[] => {
     const prefix = accessor ? `${accessor}.` : '';
@@ -116,34 +116,42 @@ export const getContactOptions = (accessor?: string): CompletionOption[] => {
             : `${accessor} run's`
         : '';
     return [
-        { name: `${prefix}contact`, summary: `The name of a ${descriptor} contact` },
-        { name: `${prefix}contact.uuid`, summary: `The uuid of a ${descriptor} contact` },
-        { name: `${prefix}contact.name`, summary: `The name of a ${descriptor} contact` },
+        { name: `${prefix}contact`, summary: `The name of the ${descriptor} contact` },
         {
             name: `${prefix}contact.first_name`,
             summary: `The first name of a ${descriptor} contact`
         },
+        { name: `${prefix}contact.name`, summary: `The name of the ${descriptor} contact` },
         {
-            name: `${prefix}contact.language`,
-            summary: `The language code for a ${descriptor} contact`
+            name: `${prefix}contact.display`,
+            summary: `The name or urn of the ${descriptor} contact`
         },
         {
             name: `${prefix}contact.fields`,
             summary: `Custom fields on a ${descriptor} contact`
         },
+        { name: `${prefix}contact.urn`, summary: `The primary urn for a ${descriptor} contact` },
+        {
+            name: `${prefix}contact.language`,
+            summary: `The language iso code for a ${descriptor} contact`
+        },
+        // {
+        // name: `${prefix}contact.timezone`,
+        // summary: `The timezone for a ${descriptor} contact`
+        // },
+        {
+            name: `${prefix}contact.created_on`,
+            summary: `The creation date for the ${descriptor} contact`
+        },
         {
             name: `${prefix}contact.groups`,
             summary: `The groups a ${descriptor} contact is a member of`
         },
-        { name: `${prefix}contact.urns`, summary: `URNs on a ${descriptor} contact` },
         {
-            name: `${prefix}contact.urns.tel`,
-            summary: `The preferred telephone number for a ${descriptor} contact`
+            name: `${prefix}contact.urns`,
+            summary: `The urns for a ${descriptor} contact`
         },
-        {
-            name: `${prefix}contact.urns.telegram`,
-            summary: `The preferred telegram id for a ${descriptor} contact`
-        },
+        { name: `${prefix}contact.uuid`, summary: `The uuid of the ${descriptor} contact` },
         {
             name: `${prefix}contact.channel`,
             summary: `A ${descriptor} contact's preferred channel`
@@ -167,7 +175,6 @@ export const RUN_OPTIONS: CompletionOption[] = [
     { name: TopLevelVariables.run, summary: 'A run in this flow' },
     ...getFlowOptions(),
     ...getContactOptions(TopLevelVariables.run),
-    ...getInputOptions(),
     ...getWebhookOptions()
 ];
 
@@ -175,7 +182,6 @@ export const CHILD_OPTIONS: CompletionOption[] = [
     { name: TopLevelVariables.child, summary: 'Run details collected in a child flow, if any' },
     ...getFlowOptions(TopLevelVariables.child),
     ...getContactOptions(TopLevelVariables.child),
-    ...getInputOptions(TopLevelVariables.child),
     ...getWebhookOptions(TopLevelVariables.child)
 ];
 
@@ -186,7 +192,6 @@ export const PARENT_OPTIONS: CompletionOption[] = [
     },
     ...getFlowOptions(TopLevelVariables.parent),
     ...getContactOptions(TopLevelVariables.parent),
-    ...getInputOptions(TopLevelVariables.parent),
     ...getWebhookOptions(TopLevelVariables.parent)
 ];
 
@@ -196,10 +201,27 @@ export const TRIGGER_OPTIONS: CompletionOption[] = [
     { name: 'trigger.params', summary: 'The parameters passed to a trigger' }
 ];
 
+export const URN_OPTIONS: CompletionOption[] = [
+    { name: 'urns', summary: 'The urns for the contact' },
+    { name: 'urns.facebook', summary: 'The Facebook urn for the contact' },
+    { name: 'urns.fcm', summary: 'The Firebase Cloud Messaging id for the contact' },
+    { name: 'urns.jiochat', summary: 'The Jiochat id for the contact' },
+    { name: 'urns.line', summary: 'The Line id for the contact' },
+    { name: 'urns.mailto', summary: 'The email address for the contact' },
+    { name: 'urns.tel', summary: 'The phone number for the contact' },
+    { name: 'urns.telegram', summary: 'The Telegram id for the contact' },
+    { name: 'urns.twitterid', summary: 'The Twitter id for the contact' },
+    { name: 'urns.viber', summary: 'The Viber id for the contact' },
+    { name: 'urns.wechat', summary: 'The Wechat id for the contact' },
+    { name: 'urns.whatsapp', summary: 'The WhatsApp number for the contact' }
+];
+
 export const COMPLETION_VARIABLES: CompletionOption[] = [
     ...getContactOptions(),
     { name: 'results', summary: 'The results for the current run' },
     { name: 'fields', summary: 'The custom fields for the contact' },
+    ...INPUT_OPTIONS,
+    ...URN_OPTIONS,
     ...RUN_OPTIONS,
     ...CHILD_OPTIONS,
     ...PARENT_OPTIONS,
@@ -218,7 +240,8 @@ export const TOP_LEVEL_OPTIONS = COMPLETION_OPTIONS.filter((option: CompletionOp
         name === TopLevelVariables.parent ||
         name === TopLevelVariables.child ||
         name === TopLevelVariables.trigger ||
-        name === TopLevelVariables.fields
+        name === TopLevelVariables.fields ||
+        name === TopLevelVariables.urns
     );
 });
 
@@ -302,25 +325,68 @@ export const getContactFieldOptions = (assets: AssetMap) =>
 export const getResultsOptions = (assets: AssetMap) =>
     Object.keys(assets).reduce((options, key) => {
         const { [key]: asset } = assets;
-        const accessors = ['results', 'run.results'];
-        accessors.forEach(accessor => {
-            options.push({
-                name: `${accessor}.${key}`,
+
+        return options.concat([
+            // @results
+            {
+                name: `results.${key}`,
                 summary: `${asset.name} for the run.`
-            });
-
-            options.push({
-                name: `${accessor}.${key}.category`,
+            },
+            {
+                name: `results.${key}.value`,
+                summary: `${asset.name} value for the run.`
+            },
+            {
+                name: `results.${key}.category`,
                 summary: `${asset.name} category for the run.`
-            });
-
-            options.push({
-                name: `${accessor}.${key}.category_localized`,
+            },
+            {
+                name: `results.${key}.category_localized`,
                 summary: `${asset.name} localized category for the run.`
-            });
-        });
+            },
+            {
+                name: `results.${key}.name`,
+                summary: `${asset.name} localized category for the run.`
+            },
+            {
+                name: `results.${key}.node_uuid`,
+                summary: 'The uuid for the node that created this result.'
+            },
+            {
+                name: `results.${key}.input`,
+                summary: 'The input at the time this result was created.'
+            },
+            {
+                name: `results.${key}.created_on`,
+                summary: `${asset.name} localized category for the run.`
+            },
 
-        return options;
+            // @run.results
+            {
+                name: `run.results.${key}`,
+                summary: `${asset.name} for the run.`
+            },
+            {
+                name: `run.results.${key}.categories`,
+                summary: `${asset.name} categories for the run.`
+            },
+            {
+                name: `run.results.${key}.categories_localized`,
+                summary: `${asset.name} localized categories for the run.`
+            },
+            {
+                name: `run.results.${key}.input`,
+                summary: 'The input at the time this result was created.'
+            },
+            {
+                name: `results.${key}.extra`,
+                summary: `${asset.name} extra data for this result, such as a webhook response.`
+            },
+            {
+                name: `run.results.${key}.created_on`,
+                summary: `${asset.name} localized category for the run.`
+            }
+        ]);
     }, []);
 
 export const getCompletionOptions = (

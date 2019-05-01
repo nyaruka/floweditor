@@ -117,7 +117,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             'contact',
             'date',
             'fields',
-            'urns'
+            'urns',
+            'input'
         ]);
 
         bindCallbacks(this, {
