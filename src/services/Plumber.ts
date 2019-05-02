@@ -1,4 +1,5 @@
 import { Exit, FlowNode } from '~/flowTypes';
+import { GRID_SIZE } from '~/utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -21,7 +22,7 @@ export interface PendingConnections {
 
 export const REPAINT_DURATION = 600;
 export const TARGET_DEFAULTS = {
-    anchor: ['Continuous', { shape: 'Rectangle', faces: ['left', 'top', 'right'] }],
+    anchor: ['Continuous', { shape: 'Dot', faces: ['top', 'left', 'right'] }],
     endpoint: [
         'Dot',
         { radius: 13, cssClass: 'plumb-endpoint', hoverClass: 'plumb-endpoint-hover' }
@@ -38,6 +39,20 @@ export const SOURCE_DEFAULTS = {
     dragAllowedWhenFull: false,
     deleteEndpointsOnEmpty: true,
     isSource: true
+};
+
+export const getAnchor = (sourceEle: any, targetEle: any): any[] => {
+    return [
+        'Continuous',
+        {
+            shape: 'Dot',
+            faces:
+                sourceEle.getBoundingClientRect().bottom + GRID_SIZE / 3 <
+                targetEle.getBoundingClientRect().top
+                    ? ['top']
+                    : ['right', 'left']
+        }
+    ];
 };
 
 /* istanbul ignore next */
@@ -61,11 +76,11 @@ export default class Plumber {
             Connector: [
                 'Flowchart',
                 {
-                    stub: 18,
-                    midpoint: 0.65,
-                    alwaysRespectStubs: false,
-                    gap: [0, 9],
-                    cornerRadius: 5
+                    stub: 12,
+                    midpoint: 0.75,
+                    alwaysRespectStubs: true,
+                    gap: [0, 5],
+                    cornerRadius: 3
                 }
             ],
             ConnectionOverlays: [
@@ -201,6 +216,16 @@ export default class Plumber {
                     const connection = this.pendingConnections[key];
                     const { source, target, className } = connection;
 
+                    const anchors = target
+                        ? [
+                              'Bottom',
+                              getAnchor(
+                                  document.getElementById(source),
+                                  document.getElementById(target)
+                              )
+                          ]
+                        : [];
+
                     if (source != null) {
                         // any existing connections for our source need to be deleted
                         this.jsPlumb.select({ source }).delete({ fireEvent: false });
@@ -212,6 +237,7 @@ export default class Plumber {
                                 this.jsPlumb.connect({
                                     source,
                                     target,
+                                    anchors,
                                     fireEvent: false,
                                     cssClass: className,
                                     detachable: false
@@ -220,6 +246,7 @@ export default class Plumber {
                                 this.jsPlumb.connect({
                                     source,
                                     target,
+                                    anchors,
                                     fireEvent: false,
                                     cssClass: className
                                 });
@@ -289,6 +316,14 @@ export default class Plumber {
     public recalculateUUIDs(uuids: string[]): void {
         this.jsPlumb.batch(() => {
             uuids.forEach((uuid: string) => {
+                const connections = this.jsPlumb
+                    .getConnections({ target: uuid })
+                    .concat(this.jsPlumb.getConnections({ source: uuid }));
+                for (const c of connections) {
+                    c.endpoints[1].setAnchor(
+                        getAnchor(c.endpoints[0].element, c.endpoints[1].element)
+                    );
+                }
                 this.jsPlumb.revalidate(uuid);
             });
         });
