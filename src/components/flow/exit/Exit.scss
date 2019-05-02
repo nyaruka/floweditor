@@ -1,14 +1,15 @@
 @import '~/variables.scss';
 
 .exit {
-    vertical-align: bottom;
     font-size: 13px;
-    text-align: center;
     border-left: 1px solid $borders;
-    min-width: 60px;
-    display: table-cell;
-    white-space: nowrap;
+    flex-grow: 1;
     background: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: stretch;
+    flex-direction: column;
 
     &:first-child {
         border-left: none;
@@ -59,14 +60,17 @@
     }
 
     .name {
+        line-height: 1.2em;
         padding: 12px;
-        line-height: 1.4em;
+        margin: auto;
+        max-width: 110px;
+        text-align: center;
     }
 
     .activity {
         margin: 0 auto;
         margin-bottom: -30px;
-        margin-top: 16px;
+        margin-top: 15px;
         cursor: pointer;
         .count {
             font-size: 10px;
@@ -90,14 +94,11 @@
         background: $terminal_color;
         width: 12px;
         height: 12px;
-        margin: 0 auto;
         top: 7px;
-        -webkit-box-sizing: content-box !important;
-        box-sizing: content-box !important;
         margin-top: -14px;
-        border-radius: 6px;
+        border-radius: 50%;
 
-        // this is needed to maintain consistency with disconnected endpoitns
+        // this is needed to maintain consistency with disconnected endpoints
         border-bottom: 1px solid transparent;
     }
 
@@ -110,16 +111,15 @@
             }
         }
         .endpoint {
-            border-color: $red !important;
             background: $red !important;
-            color: white;
-            font-size: 13px;
-            span {
-                // TODO: style this so it's not variable
+            border-color: $red !important;
+            .confirm-x {
+                color: white;
                 position: absolute;
-                left: 0.03rem;
-                top: 0.06rem;
-                font-size: 11px;
+                font-size: 10px;
+                font-weight: 400;
+                left: 0.04rem;
+                top: 0.11rem;
             }
         }
     }
@@ -127,7 +127,7 @@
 
 .recent-messages {
     position: absolute;
-    width: $node_width;
+    width: $node_min_width;
     margin-top: 40px;
     z-index: $z_recent_messages;
     background: $light_gray_2;

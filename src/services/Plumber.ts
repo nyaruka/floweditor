@@ -71,7 +71,7 @@ export default class Plumber {
             DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
             Endpoint: 'Blank',
             EndpointStyle: { strokeStyle: 'transparent' },
-            PaintStyle: { strokeWidth: 1.5, outlineWidth: 0, outlineStroke: 'transparent' },
+            PaintStyle: { strokeWidth: 3.5 },
             ConnectionsDetachable: true,
             Connector: [
                 'Flowchart',
