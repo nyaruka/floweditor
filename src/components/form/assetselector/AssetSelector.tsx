@@ -5,8 +5,8 @@ import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType, ValueType } from 'react-select/lib/types';
 import { sortByName } from '~/components/form/assetselector/helpers';
+import { getIconForAssetType } from '~/components/form/assetselector/widgets';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
-import { getIconForAssetType } from '~/components/form/select/helper';
 import { getAssets, isMatch, postNewAsset, searchAssetMap } from '~/external';
 import {
     Asset,
@@ -39,7 +39,7 @@ const AssetOption = (props: OptionProps<Asset>) => {
         <div ref={props.innerRef} {...props.innerProps}>
             <components.Option {...props}>
                 {prefix}
-                {getIconForAssetType(asset.type)} {asset.name}
+                {getIconForAssetType(asset)} {asset.name}
                 {suffix}
             </components.Option>
         </div>

@@ -110,6 +110,18 @@ export interface Category {
     exit_uuid: string;
 }
 
+export interface TemplateTranslation {
+    language: string;
+    status: string;
+    content: string;
+}
+
+export interface Template {
+    created_on: Date;
+    modified_on: Date;
+    translations: TemplateTranslation[];
+}
+
 export interface SwitchRouter extends Router {
     cases: Case[];
     operand: string;
