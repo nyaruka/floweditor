@@ -108,9 +108,11 @@ exports[`CaseElement render renders no argument rules 1`] = `
 >
   <div
     className="kase"
+    data-draggable={true}
   >
     <span
       className="fe-chevrons-expand dndIcon"
+      data-draggable={true}
     />
     <div
       className="choice select-medium"
@@ -216,6 +218,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
     />
     <div
       className="categorizeAs"
+      data-draggable={true}
     >
       categorize as
     </div>
@@ -251,9 +254,11 @@ exports[`CaseElement render should render empty case 1`] = `
 >
   <div
     className="kase"
+    data-draggable={true}
   >
     <span
       className="fe-chevrons-expand dndIcon"
+      data-draggable={true}
     />
     <div
       className="choice select-medium"
@@ -375,6 +380,7 @@ exports[`CaseElement render should render empty case 1`] = `
     </div>
     <div
       className="categorizeAs"
+      data-draggable={true}
     >
       categorize as
     </div>

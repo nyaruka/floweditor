@@ -1,16 +1,12 @@
+import arrayMove from 'array-move';
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
+import { SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
 import CaseElement from '~/components/flow/routers/case/CaseElement';
-import {
-    createEmptyCase,
-    getItemStyle,
-    getListStyle
-} from '~/components/flow/routers/caselist/helpers';
+import { createEmptyCase } from '~/components/flow/routers/caselist/helpers';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Case } from '~/flowTypes';
 import { FormState, mergeForm } from '~/store/nodeEditor';
-import { reorderList } from '~/utils';
 
 import * as styles from './CaseList.scss';
 
@@ -40,6 +36,36 @@ export interface CaseListState extends FormState {
  * the user configure rules and drag and drop to set their order.
  */
 export default class CaseList extends React.Component<CaseListProps, CaseListState> {
+    private sortableItem = SortableElement(({ value: caseProps }: any) => (
+        <div className={styles.kase}>
+            <CaseElement
+                key={caseProps.uuid}
+                {...caseProps}
+                onRemove={this.handleRemoveCase}
+                onChange={this.handleUpdateCase}
+            />
+        </div>
+    ));
+
+    private sortableList = SortableContainer(({ items }: any) => {
+        return (
+            <div className={styles.caseList}>
+                {items.map((value: any, index: any) => (
+                    <this.sortableItem
+                        key={`item-${index}`}
+                        index={index}
+                        value={value}
+                        disabled={index === this.state.currentCases.length - 1}
+                        shouldCancelStart={(e: any) => {
+                            console.log(e);
+                            return true;
+                        }}
+                    />
+                ))}
+            </div>
+        );
+    });
+
     constructor(props: CaseListProps) {
         super(props);
 
@@ -116,75 +142,35 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         return this.handleUpdate({ caseProps });
     }
 
-    private renderCases(): JSX.Element[] {
-        const cases = this.state.currentCases.map((caseProps: CaseProps, index: number) => {
-            // the last element isn't draggable
-            const dragDisabled = index === this.state.currentCases.length - 1;
-
-            // if it's not the last one, then it's draggable
-            return (
-                <Draggable
-                    key={caseProps.uuid}
-                    draggableId={caseProps.uuid}
-                    isDragDisabled={dragDisabled}
-                >
-                    {(provided, snapshot) => (
-                        <div data-spec="case-draggable">
-                            <div
-                                ref={provided.innerRef}
-                                style={getItemStyle(provided.draggableStyle, snapshot.isDragging)}
-                                {...provided.dragHandleProps}
-                            >
-                                <CaseElement
-                                    key={caseProps.uuid}
-                                    {...caseProps}
-                                    onRemove={this.handleRemoveCase}
-                                    onChange={this.handleUpdateCase}
-                                />
-                            </div>
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Draggable>
-            );
-        });
-        return cases;
-    }
-
-    private handleDragEnd(result: DropResult): void {
-        if (!result.destination) {
-            return;
-        }
-
-        const currentCases = reorderList(
-            this.state.currentCases,
-            result.source.index,
-            Math.min(result.destination.index, this.state.currentCases.length - 2)
+    private handleSortEnd({ oldIndex, newIndex }: SortEnd): void {
+        this.setState(
+            ({ currentCases }) => ({
+                currentCases: arrayMove(
+                    currentCases,
+                    oldIndex,
+                    newIndex === this.state.currentCases.length - 1 ? newIndex - 1 : newIndex
+                )
+            }),
+            () => {
+                this.props.onCasesUpdated(this.state.currentCases);
+            }
         );
-
-        this.setState({
-            currentCases
-        });
     }
 
     public render(): JSX.Element {
-        const cases = this.renderCases();
         return (
-            <div className={styles.caseList}>
-                <DragDropContext onDragEnd={this.handleDragEnd}>
-                    <Droppable droppableId="droppable">
-                        {({ innerRef, placeholder }, { isDraggingOver }) => (
-                            <div
-                                ref={innerRef}
-                                style={getListStyle(isDraggingOver, cases.length === 1)}
-                            >
-                                {cases}
-                                {placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-            </div>
+            <>
+                <this.sortableList
+                    items={this.state.currentCases}
+                    onSortEnd={this.handleSortEnd}
+                    shouldCancelStart={(e: React.MouseEvent<HTMLDivElement>) => {
+                        if (!(e.target instanceof HTMLElement)) {
+                            return true;
+                        }
+                        return !e.target.dataset.draggable;
+                    }}
+                />
+            </>
         );
     }
 }

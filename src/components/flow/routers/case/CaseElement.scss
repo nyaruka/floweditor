@@ -103,12 +103,16 @@ input:focus {
     opacity: 0;
     line-height: 12px;
     cursor: pointer;
-
     margin-left: 2px;
     font-size: 9px;
+    z-index: 3000;
 }
 
 .empty {
     display: inline-block;
     width: 15px;
+}
+
+[data-draggable='true'] {
+    cursor: pointer;
 }

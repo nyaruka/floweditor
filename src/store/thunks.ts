@@ -1,6 +1,6 @@
 import * as isEqual from 'fast-deep-equal';
 import mutate from 'immutability-helper';
-import { Dispatch } from 'react-redux';
+import { Dispatch } from 'redux';
 import { determineTypeConfig } from '~/components/flow/helpers';
 import { getResultName } from '~/components/flow/node/helpers';
 import { getSwitchRouter } from '~/components/flow/routers/helpers';

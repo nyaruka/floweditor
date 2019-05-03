@@ -1,23 +1,5 @@
 @import '~/variables.scss';
 
-.flow-start {
-    margin-top: -16px;
-
-    .flow-start-message {
-        position: relative;
-        width: 100%;
-        z-index: 10000;
-        color: $selected;
-        height: 14px;
-        padding-top: 2px;
-        font-size: 11px;
-        text-transform: uppercase;
-        font-weight: bold;
-        text-align: center;
-        // animation: pulse 300ms;
-    }
-}
-
 @keyframes pulse {
     0% {
         transform: scale(1);
@@ -31,6 +13,9 @@
 }
 
 .node-container {
+    display: flex;
+    // flex-direction: row;
+
     padding: $node_padding + px;
     z-index: $z_nodes;
     position: relative;
@@ -84,8 +69,10 @@
         padding: 0;
         user-select: none;
         cursor: pointer;
-        display: table;
+        // align-items: stretch;
         min-width: $node_min_width + px;
+
+        flex-shrink: 0;
         // max-width: $node_max_width + px;
         transition: transform 200ms;
 
@@ -96,7 +83,7 @@
         .save-result {
             background: #fff;
             padding: 10px 10px;
-            width: inherit;
+            // width: inherit;
             .result-name {
                 font-weight: 500;
                 display: inline;
@@ -104,17 +91,17 @@
         }
 
         .cropped {
+            border: 0px solid green;
             overflow: hidden;
-            min-width: $node_min_width + px;
-            // max-width: $node_max_width + px;
-
-            // border: 1px solid orange;
-
             border-top-left-radius: $curvature - 1px;
             border-top-right-radius: $curvature - 1px;
+
+            // min-width: $node_min_width + px;
+            // max-width: $node_max_width + px;
         }
 
         .exit_table {
+            border: 0px solid red;
             .exits {
                 box-shadow: -1px -1px 0px 0px $node_shadow_color;
                 display: flex;
@@ -142,6 +129,23 @@
             .drag_group {
                 visibility: visible;
             }
+        }
+    }
+
+    &.flow-start {
+        .flow-start-message {
+            position: absolute;
+            width: 100%;
+            z-index: 10000;
+            color: $selected;
+            height: 14px;
+            padding-top: 2px;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+            top: -14px;
+            // animation: pulse 300ms;
         }
     }
 }

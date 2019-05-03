@@ -277,16 +277,17 @@ export class NodeComp extends React.Component<NodeProps> {
                 firstRef = {};
             });
 
-            actionList = (
-                <FlipMove
-                    enterAnimation="fade"
-                    leaveAnimation="fade"
-                    duration={300}
-                    easing="ease-out"
-                >
-                    {actions}
-                </FlipMove>
-            );
+            actionList =
+                actions.length > 0 ? (
+                    <FlipMove
+                        enterAnimation="fade"
+                        leaveAnimation="fade"
+                        duration={300}
+                        easing="ease-out"
+                    >
+                        {actions}
+                    </FlipMove>
+                ) : null;
         }
 
         let header: JSX.Element = null;
@@ -397,11 +398,11 @@ export class NodeComp extends React.Component<NodeProps> {
                 className={`${styles.nodeContainer} ${classes}`}
                 ref={this.eleRef}
             >
-                {this.isStartNodeVisible() ? (
-                    <div className={styles.flowStartMessage}>Flow Start</div>
-                ) : null}
-
                 <div className={styles.node}>
+                    {this.isStartNodeVisible() ? (
+                        <div className={styles.flowStartMessage}>Flow Start</div>
+                    ) : null}
+
                     {uuid}
                     <Counter
                         count={this.props.activeCount}
@@ -417,11 +418,13 @@ export class NodeComp extends React.Component<NodeProps> {
                             }
                         }}
                     />
+
                     <div className={styles.cropped}>
                         {header}
                         {actionList}
                         {summary}
                     </div>
+
                     <div className={`${styles.exit_table}`}>
                         <div className={styles.exits} {...this.events}>
                             {exits}
@@ -502,5 +505,5 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
     null,
-    { withRef: true }
+    { forwardRef: true }
 )(NodeComp);
