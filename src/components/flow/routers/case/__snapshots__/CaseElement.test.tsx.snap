@@ -232,6 +232,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
             "value": "",
           }
         }
+        maxLength={36}
         name="exitName"
         onChange={[Function]}
         showInvalid={false}
@@ -394,6 +395,7 @@ exports[`CaseElement render should render empty case 1`] = `
             "value": "",
           }
         }
+        maxLength={36}
         name="exitName"
         onChange={[Function]}
         showInvalid={false}

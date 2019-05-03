@@ -7,7 +7,7 @@ import { RouterFormProps } from '~/components/flow/props';
 import CurrencyElement, {
     AirtimeTransfer
 } from '~/components/flow/routers/airtime/currency/CurrencyElement';
-import TextInputElement from '~/components/form/textinput/TextInputElement';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import ValidationFailures from '~/components/form/ValidationFailures';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormEntry, FormState, StringEntry } from '~/store/nodeEditor';
@@ -163,12 +163,7 @@ export default class AirtimeRouterForm extends React.PureComponent<
                 {this.renderAmounts()}
                 {errors}
                 <div className={styles.resultName}>
-                    <TextInputElement
-                        name="Result Name"
-                        entry={this.state.resultName}
-                        onChange={this.handleUpdateResultName}
-                        helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
-                    />
+                    {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
                 </div>
             </Dialog>
         );

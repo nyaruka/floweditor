@@ -170,7 +170,8 @@ exports[`FieldRouterForm initializes 1`] = `
     onCasesUpdated={[Function]}
   />
   <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    helpText="By naming the result, you can reference it later using @results.color"
+    maxLength={64}
     name="Result Name"
     onChange={[Function]}
     toggleText="Save as.."
@@ -353,7 +354,8 @@ exports[`FieldRouterForm should render 1`] = `
     onCasesUpdated={[Function]}
   />
   <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    helpText="By naming the result, you can reference it later using @results.color"
+    maxLength={64}
     name="Result Name"
     onChange={[Function]}
     toggleText="Save as.."

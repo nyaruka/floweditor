@@ -4,13 +4,13 @@ import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { RouterFormProps } from '~/components/flow/props';
 import { GROUP_LABEL } from '~/components/flow/routers/constants';
 import { nodeToState, stateToNode } from '~/components/flow/routers/groups/helpers';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
-import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Asset } from '~/store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
-import { validate, Required } from '~/store/validators';
+import { Required, validate } from '~/store/validators';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -41,7 +41,7 @@ export default class GroupsRouterForm extends React.Component<
         this.handleUpdate({ groups });
     }
 
-    private handleResultNameChanged(resultName: string): void {
+    private handleUpdateResultName(resultName: string): void {
         this.handleUpdate({ resultName });
     }
 
@@ -98,13 +98,7 @@ export default class GroupsRouterForm extends React.Component<
                     onChange={this.handleGroupsChanged}
                     multi={true}
                 />
-                <OptionalTextInput
-                    name="Result Name"
-                    value={this.state.resultName}
-                    onChange={this.handleResultNameChanged}
-                    toggleText="Save as.."
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                />
+                {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
             </Dialog>
         );
     }

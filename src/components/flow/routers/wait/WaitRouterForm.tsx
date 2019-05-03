@@ -3,7 +3,7 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
-import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
 import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
@@ -62,13 +62,7 @@ export default class WaitRouterForm extends React.Component<RouterFormProps, Wai
                     onChange={this.props.onTypeChange}
                 />
                 <div className={styles.resultName}>
-                    <OptionalTextInput
-                        name="Result Name"
-                        value={this.state.resultName}
-                        onChange={this.handleUpdateResultName}
-                        toggleText="Save as.."
-                        helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                    />
+                    {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
                 </div>
             </Dialog>
         );
