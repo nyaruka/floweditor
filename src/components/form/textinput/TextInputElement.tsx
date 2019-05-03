@@ -732,7 +732,7 @@ const ConnectedTextInputElement = connect(
     mapStateToProps,
     null,
     null,
-    { forwardRef: true }
+    { withRef: true }
 )(TextInputElement);
 
 export default ConnectedTextInputElement;

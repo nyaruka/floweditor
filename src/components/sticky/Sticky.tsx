@@ -262,5 +262,5 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
     null,
-    { forwardRef: false }
+    { withRef: false }
 )(Sticky);
