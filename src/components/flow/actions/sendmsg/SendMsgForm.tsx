@@ -12,6 +12,7 @@ import {
 import * as localStyles from '~/components/flow/actions/sendmsg/SendMsgForm.scss';
 import { ActionFormProps } from '~/components/flow/props';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
+import { hasUseableTranslation } from '~/components/form/assetselector/helpers';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
 import MultiChoiceInput from '~/components/form/multichoice/MultiChoice';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
@@ -20,7 +21,7 @@ import TypeList from '~/components/nodeeditor/TypeList';
 import Pill from '~/components/pill/Pill';
 import { fakePropType } from '~/config/ConfigProvider';
 import { fetchAsset, getCookie } from '~/external';
-import { TemplateOptions, TemplateTranslation } from '~/flowTypes';
+import { Template, TemplateOptions, TemplateTranslation } from '~/flowTypes';
 import { Asset } from '~/store/flowContext';
 import {
     AssetEntry,
@@ -406,6 +407,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         this.setState({ templateVariables });
     }
 
+    private handleShouldExcludeTemplate(asset: Asset): boolean {
+        return !hasUseableTranslation(asset.content as Template);
+    }
+
     private renderTemplateConfig(): JSX.Element {
         return (
             <>
@@ -421,6 +426,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                     assets={this.props.assetStore.templates}
                     entry={this.state.template}
                     onChange={this.handleTemplateChanged}
+                    shouldExclude={this.handleShouldExcludeTemplate}
                     searchable={true}
                     formClearable={true}
                 />
