@@ -242,8 +242,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 __className={styles.group}
                 kaseError={this.state.errors.length > 0}
             >
-                <div className={`${styles.kase}`}>
-                    <span className={`fe-chevrons-expand ${styles.dndIcon}`} />
+                <div className={`${styles.kase}`} data-draggable={true}>
+                    <span
+                        className={`fe-chevrons-expand ${styles.dndIcon}`}
+                        data-draggable={true}
+                    />
                     <div className={styles.choice + ' select-medium'}>
                         <Select
                             className={getSelectClass(0)}
@@ -269,7 +272,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                     >
                         {this.renderArguments()}
                     </div>
-                    <div className={styles.categorizeAs}>categorize as</div>
+                    <div className={styles.categorizeAs} data-draggable={true}>
+                        categorize as
+                    </div>
                     <div className={styles.category}>
                         <TextInputElement
                             data-spec="exit-input"

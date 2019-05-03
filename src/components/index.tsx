@@ -59,7 +59,7 @@ export interface FlowEditorStoreProps {
 const hotStore = createStore();
 
 // Root container, wires up context-providers
-const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
+export const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
     return (
         <ConfigProvider config={{ ...config }}>
             <ReduxProvider store={hotStore}>

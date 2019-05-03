@@ -1,4 +1,3 @@
-import { DropResult } from 'react-beautiful-dnd';
 import CaseList, { CaseListProps, CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { Operators } from '~/config/interfaces';
 import { composeComponentTestUtils, mock } from '~/testUtils';
@@ -63,16 +62,6 @@ describe(CaseList.name, () => {
                 ...props.cases[0],
                 categoryName: 'Updated Exit Name'
             } as CaseProps);
-            expect(instance.state).toMatchSnapshot();
-        });
-
-        it('should allow reordering', () => {
-            const { instance } = setup(false);
-            instance.handleDragEnd({
-                draggableId: caseUUID2,
-                source: { index: 1 },
-                destination: { index: 0 }
-            } as DropResult);
             expect(instance.state).toMatchSnapshot();
         });
     });
