@@ -40,7 +40,8 @@ exports[`WaitRouterForm should render 1`] = `
     className="resultName"
   >
     <OptionalTextInput
-      helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+      helpText="By naming the result, you can reference it later using @results.result"
+      maxLength={64}
       name="Result Name"
       onChange={[Function]}
       toggleText="Save as.."

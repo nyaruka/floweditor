@@ -160,15 +160,17 @@ exports[`WebhookRouterForm should render 1`] = `
        would be available in all future steps.
     </p>
   </div>
-  <Connect(TextInputElement)
-    entry={
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @results.result"
+    maxLength={64}
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
       Object {
         "value": "Result",
       }
     }
-    helpText="This name allows you to reference the results later using @run.results.whatever_the_name_is"
-    name="Result Name"
-    onChange={[Function]}
   />
 </Dialog>
 `;

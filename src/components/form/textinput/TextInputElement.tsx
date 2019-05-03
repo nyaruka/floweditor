@@ -50,6 +50,7 @@ export interface TextInputPassedProps extends FormElementProps {
     autocomplete?: boolean;
     focus?: boolean;
     showInvalid?: boolean;
+    maxLength?: number;
     onFieldFailures?: (failures: ValidationFailure[]) => void;
     onChange?: (value: string) => void;
     onBlur?: (event: React.ChangeEvent<HTMLTextElement>) => void;
@@ -628,6 +629,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     onKeyDown={this.handleKeyDown}
                     onKeyUp={this.handleKeyUp}
                     placeholder={this.props.placeholder}
+                    maxLength={this.props.maxLength || -1}
                 />
             );
         } else {
@@ -644,6 +646,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     onKeyDown={this.handleKeyDown}
                     onKeyUp={this.handleKeyUp}
                     placeholder={this.props.placeholder}
+                    maxLength={this.props.maxLength || -1}
                 />
             );
         }

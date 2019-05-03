@@ -3,7 +3,7 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
-import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
@@ -100,13 +100,7 @@ export default class MenuRouterForm extends React.Component<RouterFormProps, Men
                     onChange={this.props.onTypeChange}
                 />
                 <div className={styles.menu}>{this.renderMenu()}</div>
-                <OptionalTextInput
-                    name="Result Name"
-                    value={this.state.resultName}
-                    onChange={this.handleUpdateResultName}
-                    toggleText="Save as.."
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                />
+                {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
             </Dialog>
         );
     }

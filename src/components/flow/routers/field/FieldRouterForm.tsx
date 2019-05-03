@@ -6,8 +6,8 @@ import { sortFieldsAndProperties } from '~/components/flow/actions/updatecontact
 import { CONTACT_PROPERTIES } from '~/components/flow/actions/updatecontact/UpdateContactForm';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
-import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { fakePropType } from '~/config/ConfigProvider';
 import { Scheme, SCHEMES } from '~/config/typeConfigs';
@@ -126,13 +126,7 @@ export default class FieldRouterForm extends React.Component<
                     cases={this.state.cases}
                     onCasesUpdated={this.handleCasesUpdated}
                 />
-                <OptionalTextInput
-                    name="Result Name"
-                    value={this.state.resultName}
-                    onChange={this.handleUpdateResultName}
-                    toggleText="Save as.."
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                />
+                {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
             </Dialog>
         );
     }
