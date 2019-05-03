@@ -26,7 +26,7 @@ describe(GroupsRouterForm.name, () => {
         it('should update and save', () => {
             const { instance, props } = setup(true, { updateRouter: setMock() });
             instance.handleGroupsChanged([SubscribersGroup]);
-            instance.handleResultNameChanged('My Group Result');
+            instance.handleUpdateResultName('My Group Result');
             expect(instance.state).toMatchSnapshot();
 
             instance.getButtons().primary.onClick();
@@ -36,7 +36,7 @@ describe(GroupsRouterForm.name, () => {
         it('should cancel changes', () => {
             const { instance, props } = setup(true, { updateRouter: setMock() });
             instance.handleGroupsChanged([SubscribersGroup]);
-            instance.handleResultNameChanged('My Group Result');
+            instance.handleUpdateResultName('My Group Result');
             instance.getButtons().secondary.onClick();
             expect(props.updateRouter).not.toBeCalled();
         });

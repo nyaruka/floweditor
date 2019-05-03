@@ -114,7 +114,8 @@ exports[`GroupsRouterForm render should render 1`] = `
     searchable={true}
   />
   <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
+    helpText="By naming the result, you can reference it later using @results"
+    maxLength={64}
     name="Result Name"
     onChange={[Function]}
     toggleText="Save as.."
