@@ -281,6 +281,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                             name="exitName"
                             onChange={this.handleExitChanged}
                             entry={this.state.categoryName}
+                            maxLength={36}
                             showInvalid={hasErrorType(this.state.errors, [/category/])}
                         />
                     </div>

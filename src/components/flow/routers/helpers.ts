@@ -1,3 +1,4 @@
+import React from 'react';
 import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from '~/components/flow/routers/constants';
 import { Operators, Types } from '~/config/interfaces';

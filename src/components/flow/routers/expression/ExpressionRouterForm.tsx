@@ -5,7 +5,7 @@ import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
 import { nodeToState, stateToNode } from '~/components/flow/routers/expression/helpers';
-import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { FormState, StringEntry } from '~/store/nodeEditor';
@@ -96,13 +96,7 @@ export default class ExpressionRouterForm extends React.Component<
                     cases={this.state.cases}
                     onCasesUpdated={this.handleCasesUpdated}
                 />
-                <OptionalTextInput
-                    name="Result Name"
-                    value={this.state.resultName}
-                    onChange={this.handleUpdateResultName}
-                    toggleText="Save as.."
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                />
+                {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
             </Dialog>
         );
     }

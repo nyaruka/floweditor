@@ -3,8 +3,8 @@ import * as React from 'react';
 import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
 import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
-import TextInputElement from '~/components/form/textinput/TextInputElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Asset } from '~/store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
@@ -91,12 +91,7 @@ export default class ResthookRouterForm extends React.PureComponent<
                     onChange={this.handleResthookChanged}
                 />
                 <div className={styles.resultName}>
-                    <TextInputElement
-                        name="Result Name"
-                        entry={this.state.resultName}
-                        onChange={this.handleUpdateResultName}
-                        helpText="This name allows you to reference the results later using @results.whatever_the_name_is"
-                    />
+                    {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
                 </div>
             </Dialog>
         );

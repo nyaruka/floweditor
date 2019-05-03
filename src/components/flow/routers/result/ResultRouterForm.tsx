@@ -4,9 +4,9 @@ import Dialog, { ButtonSet, HeaderStyle, Tab } from '~/components/dialog/Dialog'
 import { hasErrors } from '~/components/flow/actions/helpers';
 import { RouterFormProps } from '~/components/flow/props';
 import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
+import { createResultNameInput } from '~/components/flow/routers/widgets';
 import AssetSelector from '~/components/form/assetselector/AssetSelector';
 import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
-import OptionalTextInput from '~/components/form/optionaltext/OptionalTextInput';
 import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
 import TypeList from '~/components/nodeeditor/TypeList';
 import { Asset } from '~/store/flowContext';
@@ -204,13 +204,7 @@ export default class ResultRouterForm extends React.Component<
                     cases={this.state.cases}
                     onCasesUpdated={this.handleCasesUpdated}
                 />
-                <OptionalTextInput
-                    name="Result Name"
-                    value={this.state.resultName}
-                    onChange={this.handleUpdateResultName}
-                    toggleText="Save as.."
-                    helpText="By naming the result, you can reference it later using @run.results.whatever_the_name_is"
-                />
+                {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
             </Dialog>
         );
     }

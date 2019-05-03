@@ -10,6 +10,7 @@ export interface OptionalTextInputProps {
     toggleText: string;
     onChange(value: string): void;
     helpText?: string;
+    maxLength?: number;
 }
 
 export interface OptionalTextInputState extends FormState {
@@ -52,6 +53,7 @@ export default class OptionalTextInput extends React.Component<
                     entry={this.props.value}
                     onChange={this.handleTextChanged}
                     helpText={this.props.helpText}
+                    maxLength={this.props.maxLength}
                 />
             );
         } else {
