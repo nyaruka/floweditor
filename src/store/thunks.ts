@@ -847,7 +847,12 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         dispatch(updateAssets(updatedAssets));
     }
 
-    if (originalNode && originalAction && !originalNode.ghost) {
+    if (
+        originalNode &&
+        originalAction &&
+        !originalNode.ghost &&
+        !getSwitchRouter(originalNode.node)
+    ) {
         const actionToSplice = originalNode.node.actions.find(
             (action: Action) => action.uuid === originalAction.uuid
         );
