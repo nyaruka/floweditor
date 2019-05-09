@@ -14,7 +14,6 @@ export const getIconForAssetType = (asset: Asset): JSX.Element => {
         case AssetType.Scheme:
             return <span className="fe-connection" />;
         case AssetType.Template:
-            console.log(asset.content, hasPendingTranslation(asset.content as Template));
             if (hasPendingTranslation(asset.content as Template)) {
                 return <span className="fe-hourglass" />;
             } else {

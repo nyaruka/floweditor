@@ -39,7 +39,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             confirmingRemoval: false
         };
 
-        this.onConfirmRemoval = this.onConfirmRemoval.bind(this);
+        this.handleConfirmRemoval = this.handleConfirmRemoval.bind(this);
     }
 
     public componentWillUnmount(): void {
@@ -48,7 +48,19 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
         }
     }
 
-    public onConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
+    public handleMouseUpCapture(event: React.MouseEvent<HTMLDivElement>): void {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    public handleConfirmRemoval(event: React.MouseEvent<HTMLDivElement>): void {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
         this.setState({
             confirmingRemoval: true
         });
@@ -69,7 +81,11 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             moveArrow = (
                 <div
                     className={styles.upButton}
-                    {...createClickHandler(this.props.onMoveUp, this.props.shouldCancelClick)}
+                    {...createClickHandler(
+                        this.props.onMoveUp,
+                        this.props.shouldCancelClick,
+                        this.handleMouseUpCapture
+                    )}
                     data-spec={moveIconSpecId}
                 >
                     <span className="fe-arrow-up" />
@@ -89,7 +105,11 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
             remove = (
                 <div
                     className={styles.removeButton}
-                    {...createClickHandler(this.onConfirmRemoval, this.props.shouldCancelClick)}
+                    {...createClickHandler(
+                        this.handleConfirmRemoval,
+                        this.props.shouldCancelClick,
+                        this.handleMouseUpCapture
+                    )}
                     data-spec={removeIconSpecId}
                 >
                     <span className="fe-x" />
@@ -108,7 +128,11 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
                 <div className={styles.removeConfirm} data-spec={confirmationSpecId}>
                     <div
                         className={styles.removeButton}
-                        {...createClickHandler(this.props.onRemoval)}
+                        {...createClickHandler(
+                            this.props.onRemoval,
+                            this.props.shouldCancelClick,
+                            this.handleMouseUpCapture
+                        )}
                         data-spec={confirmRemovalSpecId}
                     >
                         <span className="fe-x" />

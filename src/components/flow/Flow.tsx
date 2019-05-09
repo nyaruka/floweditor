@@ -141,9 +141,9 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         this.Plumber.bind('connection', (event: ConnectionEvent) =>
             this.props.updateConnection(event.sourceId, event.targetId)
         );
-        this.Plumber.bind('beforeDrag', (event: ConnectionEvent) =>
-            this.beforeConnectionDrag(event)
-        );
+        this.Plumber.bind('beforeDrag', (event: ConnectionEvent) => {
+            this.beforeConnectionDrag(event);
+        });
 
         this.Plumber.bind('connectionDrag', (event: ConnectionEvent) => {
             this.props.onConnectionDrag(event, this.context.config.flowType);
@@ -250,16 +250,21 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     private beforeConnectionDrag(event: ConnectionEvent): boolean {
+        if (event.source) {
+            event.source.dispatchEvent(new Event('disconnect'));
+        }
         return !this.props.editorState.translating;
     }
 
     private getNodes(): CanvasDraggableProps[] {
+        const onlyNode = Object.keys(this.props.nodes).length === 1;
         return getOrderedNodes(this.props.nodes).map((renderNode: RenderNode, idx: number) => {
             return {
                 uuid: renderNode.node.uuid,
                 position: renderNode.ui.position,
                 ele: (selected: boolean) => (
                     <Node
+                        onlyNode={onlyNode}
                         startingNode={idx === 0}
                         selected={selected}
                         key={renderNode.node.uuid}
@@ -298,6 +303,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                 style={{ position: 'absolute', display: 'block' }}
             >
                 <Node
+                    onlyNode={false}
                     selected={false}
                     startingNode={false}
                     ref={this.ghostRef}

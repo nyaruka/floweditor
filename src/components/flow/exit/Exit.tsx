@@ -4,6 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Counter from '~/components/counter/Counter';
+import DragHelper from '~/components/draghelper/DragHelper';
 import * as styles from '~/components/flow/exit/Exit.scss';
 import { getExitActivityKey } from '~/components/flow/exit/helpers';
 import { fakePropType } from '~/config/ConfigProvider';
@@ -13,12 +14,13 @@ import { RecentMessage } from '~/store/editor';
 import { Asset } from '~/store/flowContext';
 import AppState from '~/store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
-import { createClickHandler, getLocalization } from '~/utils';
+import { createClickHandler, getLocalization, renderIf } from '~/utils';
 
 export interface ExitPassedProps {
     exit: Exit;
     categories: Category[];
     node: FlowNode;
+    showDragHelper: boolean;
     plumberMakeSource: (id: string) => void;
     plumberRemove: (id: string) => void;
     plumberConnectExit: (node: FlowNode, exit: Exit) => void;
@@ -45,13 +47,16 @@ export interface ExitState {
     confirmDelete: boolean;
     recentMessages: RecentMessage[];
     fetchingRecentMessages: boolean;
+    showDragHelper: boolean;
 }
 
 const cx = classNames.bind(styles);
 
 export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: number;
+    private hideDragHelper: number;
     private pendingMessageFetch: Cancel = {};
+    private ele: HTMLDivElement;
 
     constructor(props: ExitProps) {
         super(props);
@@ -59,7 +64,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         this.state = {
             confirmDelete: false,
             recentMessages: [],
-            fetchingRecentMessages: false
+            fetchingRecentMessages: false,
+            showDragHelper: props.showDragHelper
         };
 
         bindCallbacks(this, {
@@ -75,8 +81,17 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         return `${this.props.node.uuid}:${this.props.exit.uuid}`;
     }
 
+    public handleDisconnect(): void {
+        this.setState({ showDragHelper: false });
+    }
+
     public componentDidMount(): void {
         this.props.plumberMakeSource(this.getSourceId());
+
+        if (this.ele) {
+            this.ele.addEventListener('disconnect', this.handleDisconnect);
+        }
+
         if (this.props.exit.destination_uuid) {
             this.connect();
         }
@@ -105,28 +120,58 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         if (this.props.exit.destination_uuid) {
             this.props.plumberRemove(this.getSourceId());
         }
+
+        if (this.ele) {
+            this.ele.removeEventListener('disconnect', this.handleDisconnect);
+        }
     }
 
-    private onClick(event: React.MouseEvent<HTMLDivElement>): void {
-        if (this.props.exit.destination_uuid && !this.props.translating) {
-            this.setState(
-                {
-                    confirmDelete: true
-                },
-                () => {
-                    this.timeout = window.setTimeout(() => {
-                        this.setState({
-                            confirmDelete: false
-                        });
-                    }, 2000);
+    private handleMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    private handleClick(event: React.MouseEvent<HTMLDivElement>): void {
+        if (!this.props.translating) {
+            if (this.props.exit.destination_uuid) {
+                event.preventDefault();
+                event.stopPropagation();
+                this.setState(
+                    {
+                        confirmDelete: true
+                    },
+                    () => {
+                        this.timeout = window.setTimeout(() => {
+                            this.setState({
+                                confirmDelete: false
+                            });
+                        }, 2000);
+                    }
+                );
+            } else {
+                event.preventDefault();
+                event.stopPropagation();
+                if (!this.state.showDragHelper) {
+                    this.setState({ showDragHelper: true }, () => {
+                        if (this.hideDragHelper) {
+                            window.clearTimeout(this.hideDragHelper);
+                        }
+                        this.hideDragHelper = window.setTimeout(() => {
+                            this.setState({ showDragHelper: false });
+                        }, 3000);
+                    });
                 }
-            );
+            }
         }
     }
 
     private onDisconnect(event: React.MouseEvent<HTMLDivElement>): void {
         if (this.timeout) {
             window.clearTimeout(this.timeout);
+        }
+
+        if (this.hideDragHelper) {
+            window.clearTimeout(this.hideDragHelper);
         }
 
         this.props.disconnectExit(this.props.node.uuid, this.props.exit.uuid);
@@ -251,13 +296,21 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             <div className={exitClasses}>
                 {name ? <div className={nameStyle}>{name}</div> : null}
                 <div
-                    {...createClickHandler(this.onClick, () => this.props.dragging)}
+                    ref={(ref: HTMLDivElement) => (this.ele = ref)}
+                    {...createClickHandler(
+                        this.handleClick,
+                        () => {
+                            return this.props.dragging;
+                        },
+                        this.handleMouseDown
+                    )}
                     id={`${this.props.node.uuid}:${this.props.exit.uuid}`}
                     className={dragNodeClasses}
                 >
                     {confirm}
                 </div>
                 {activity}
+                {renderIf(this.state.showDragHelper)(<DragHelper />)}
             </div>
         );
     }

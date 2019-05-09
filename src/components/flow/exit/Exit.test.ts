@@ -12,6 +12,7 @@ const { setup } = composeComponentTestUtils<ExitProps>(ExitComp, {
     exit,
     categories,
     node: { uuid: utils.createUUID(), actions: [], exits: [] },
+    showDragHelper: false,
     translating: false,
     dragging: false,
     language: null,

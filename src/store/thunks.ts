@@ -868,7 +868,6 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
         // if we are appendeng in, see if we need to route through
         const switchRouter = getSwitchRouter(renderNode.node);
         if (switchRouter) {
-            console.log(switchRouter);
             const defaultCategory = switchRouter.categories.find(
                 (cat: Category) => cat.uuid === switchRouter.default_category_uuid
             );
