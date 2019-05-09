@@ -45,15 +45,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
     const resultName: StringEntry = { value: 'Result' };
 
     const state: WebhookRouterFormState = {
-        headers: [
-            {
-                value: {
-                    uuid: createUUID(),
-                    name: '',
-                    value: ''
-                }
-            }
-        ],
+        headers: [],
         resultName,
         method: { value: GET_METHOD },
         url: { value: '' },
@@ -65,8 +57,8 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
         const action = getOriginalAction(settings) as CallWebhook;
 
         // add in our headers
-        for (const name of Object.keys(action.headers || [])) {
-            state.headers.unshift({
+        for (const name of Object.keys(action.headers || []).sort()) {
+            state.headers.push({
                 value: {
                     uuid: createUUID(),
                     value: action.headers[name],
@@ -80,7 +72,24 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
         state.method = { value: { label: action.method, value: action.method } };
         state.postBody = { value: action.body };
         state.valid = true;
+    } else {
+        state.headers.push({
+            value: {
+                uuid: createUUID(),
+                name: 'Content-Type',
+                value: 'application/json'
+            }
+        });
     }
+
+    // one empty header
+    state.headers.push({
+        value: {
+            uuid: createUUID(),
+            name: '',
+            value: ''
+        }
+    });
 
     return state;
 };
