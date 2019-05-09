@@ -132,12 +132,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     private handleSave(): void {
         let valid = true;
+
         // make sure we validate untouched text fields and contact fields
-        let message = this.state.message;
-        if (!hasErrors(message)) {
-            message = validate('Message', message.value, [Required]);
-            valid = valid && !hasErrors(message);
-        }
+        const message = validate('Message', this.state.message.value, [Required]);
+        valid = valid && !hasErrors(message);
 
         let templateVariables = this.state.templateVariables;
         // make sure we don't have untouched template variables
