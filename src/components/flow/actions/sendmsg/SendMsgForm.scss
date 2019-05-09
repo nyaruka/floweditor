@@ -18,12 +18,12 @@
     margin-bottom: 8px;
 
     .upload {
-        padding-left: 5px;
-        vertical-align: super;
+        vertical-align: sub;
     }
 
     .remove-upload {
         display: inline-block;
+        margin-left: 8px;
     }
 
     .url {
@@ -33,7 +33,7 @@
         margin-right: 10px;
 
         input {
-            vertical-align: super;
+            vertical-align: sub;
             height: 28px !important;
             margin-top: 3px;
             width: 100%;
@@ -42,7 +42,7 @@
     }
 
     .remove {
-        vertical-align: super;
+        vertical-align: sub;
         display: inline-block;
     }
 }
