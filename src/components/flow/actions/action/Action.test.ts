@@ -35,7 +35,7 @@ const localization = {
 };
 
 const baseProps: ActionWrapperProps = {
-    dragging: false,
+    selected: false,
     localization,
     first: true,
     action: sendMsgAction,
@@ -126,9 +126,9 @@ describe(ActionWrapper.name, () => {
     });
 
     describe('instance methods', () => {
-        describe('onClick', () => {
+        describe('handleActionClicked', () => {
             it('should be called when interactive div is clicked', () => {
-                const onClickSpy = spyOn('onClick');
+                const onClickSpy = spyOn('handleActionClicked');
                 const { wrapper } = setup();
                 const interactiveDiv = getSpecWrapper(wrapper, actionInteractiveDivSpecId);
                 const mockEvent = {
@@ -145,15 +145,16 @@ describe(ActionWrapper.name, () => {
             });
 
             it("should call 'onOpenEditor' action creator if node is not dragging", () => {
-                const { wrapper, props, context, instance } = setup(true, {
+                const { props, instance } = setup(true, {
                     onOpenNodeEditor: setMock()
-                });
-                const mockEvent = {
+                }) as { instance: ActionWrapper; props: ActionWrapperProps };
+
+                const mockEvent: any = {
                     preventDefault: jest.fn(),
                     stopPropagation: jest.fn()
                 };
 
-                instance.onClick(mockEvent);
+                instance.handleActionClicked(mockEvent);
 
                 expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
                 /* 
@@ -166,16 +167,17 @@ describe(ActionWrapper.name, () => {
             });
         });
 
-        describe('onRemoval', () => {
+        describe('handleRemoval', () => {
             it('should call removeAction action creator', () => {
-                const { wrapper, props, instance } = setup(true, {
+                const { props, instance } = setup(true, {
                     removeAction: setMock()
-                });
-                const mockEvent = {
-                    stopPropagation: jest.fn()
+                }) as { instance: ActionWrapper; props: ActionWrapperProps };
+                const mockEvent: any = {
+                    stopPropagation: jest.fn(),
+                    preventDefault: jest.fn()
                 };
 
-                instance.onRemoval(mockEvent);
+                instance.handleRemoval(mockEvent);
 
                 expect(props.removeAction).toHaveBeenCalledTimes(1);
                 expect(props.removeAction).toHaveBeenCalledWith(
@@ -187,14 +189,16 @@ describe(ActionWrapper.name, () => {
 
         describe('onMoveUp', () => {
             it('should call moveActionUp action creator', () => {
-                const { wrapper, props, instance } = setup(true, {
+                const { props, instance } = setup(true, {
                     moveActionUp: setMock()
-                });
-                const mockEvent = {
-                    stopPropagation: jest.fn()
+                }) as { instance: ActionWrapper; props: ActionWrapperProps };
+
+                const mockEvent: any = {
+                    stopPropagation: jest.fn(),
+                    preventDefault: jest.fn()
                 };
 
-                instance.onMoveUp(mockEvent);
+                instance.handleMoveUp(mockEvent);
 
                 expect(props.moveActionUp).toHaveBeenCalledTimes(1);
                 expect(props.moveActionUp).toHaveBeenCalledWith(

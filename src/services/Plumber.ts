@@ -131,8 +131,8 @@ export default class Plumber {
         this.jsPlumb.setSourceEnabled(uuid, enabled);
     }
 
-    public makeSource(uuid: string): void {
-        this.jsPlumb.makeSource(uuid, SOURCE_DEFAULTS);
+    public makeSource(uuid: string): any {
+        return this.jsPlumb.makeSource(uuid, SOURCE_DEFAULTS);
     }
 
     public makeTarget(uuid: string): void {

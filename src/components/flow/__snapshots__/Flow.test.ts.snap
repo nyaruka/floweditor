@@ -94,6 +94,7 @@ exports[`Flow render should render dragNode 1`] = `
   <Connect(NodeComp)
     ghost={true}
     nodeUUID="09294c2a-031e-4e74-9b1c-aec239b2a145"
+    onlyNode={false}
     plumberConnectExit={[MockFunction]}
     plumberMakeSource={[MockFunction]}
     plumberMakeTarget={[MockFunction]}

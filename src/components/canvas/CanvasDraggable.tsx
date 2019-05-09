@@ -87,6 +87,9 @@ export class CanvasDraggable extends React.PureComponent<CanvasDraggableProps, {
                     );
                 }}
                 onMouseUp={(event: React.MouseEvent<HTMLDivElement>) => {
+                    if (event.nativeEvent.which === 3) {
+                        return;
+                    }
                     this.props.onDragStop();
                 }}
             >

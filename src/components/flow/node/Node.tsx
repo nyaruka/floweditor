@@ -48,6 +48,7 @@ export interface NodePassedProps {
         confirmDelete: boolean
     ) => void;
     startingNode: boolean;
+    onlyNode: boolean;
     selected: boolean;
     ghostRef?: any;
     ghost?: boolean;
@@ -58,7 +59,6 @@ export interface NodeStoreProps {
     activeCount: number;
     containerOffset: { top: number; left: number };
     translating: boolean;
-    dragActive: boolean;
     simulating: boolean;
     debug: DebugState;
     renderNode: RenderNode;
@@ -93,11 +93,11 @@ export class NodeComp extends React.Component<NodeProps> {
             include: [/Ref$/, /^on/, /^get/, /^handle/]
         });
 
-        this.events = createClickHandler(this.onClick, this.onShouldCancelClick);
+        this.events = createClickHandler(this.onClick, this.handleShouldCancelClick);
     }
 
-    private onShouldCancelClick(): boolean {
-        return this.props.dragActive;
+    private handleShouldCancelClick(): boolean {
+        return this.props.selected;
     }
 
     private eleRef(ref: HTMLDivElement): HTMLDivElement {
@@ -166,7 +166,7 @@ export class NodeComp extends React.Component<NodeProps> {
         console.log(event.currentTarget.textContent + ' copied to clipboard.');
     }
 
-    private onAddToNode(): void {
+    private handleAddToNode(): void {
         this.props.onAddToNode(this.props.renderNode.node);
     }
 
@@ -178,7 +178,9 @@ export class NodeComp extends React.Component<NodeProps> {
         });
     }
 
-    private onRemoval(event: React.MouseEvent<HTMLDivElement>): void {
+    private handleRemoval(event: React.MouseEvent<HTMLDivElement>): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.props.removeNode(this.props.renderNode.node);
     }
 
@@ -190,6 +192,7 @@ export class NodeComp extends React.Component<NodeProps> {
                     node={this.props.renderNode.node}
                     categories={getCategoriesForExit(this.props.renderNode, exit)}
                     exit={exit}
+                    showDragHelper={this.props.onlyNode}
                     plumberMakeSource={this.props.plumberMakeSource}
                     plumberRemove={this.props.plumberRemove}
                     plumberConnectExit={this.props.plumberConnectExit}
@@ -267,6 +270,7 @@ export class NodeComp extends React.Component<NodeProps> {
                             {...firstRef}
                             key={action.uuid}
                             renderNode={this.props.renderNode}
+                            selected={this.props.selected}
                             action={action}
                             first={idx === 0}
                             render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
@@ -359,8 +363,8 @@ export class NodeComp extends React.Component<NodeProps> {
                             <TitleBar
                                 __className={shared[this.hasMissing() ? 'missing' : config.type]}
                                 showRemoval={!this.props.translating}
-                                onRemoval={this.onRemoval}
-                                shouldCancelClick={() => this.props.dragActive}
+                                onRemoval={this.handleRemoval}
+                                shouldCancelClick={this.handleShouldCancelClick}
                                 title={title}
                             />
                         </div>
@@ -373,7 +377,7 @@ export class NodeComp extends React.Component<NodeProps> {
                 addActions = (
                     <div
                         className={styles.add}
-                        {...createClickHandler(this.onAddToNode, this.onShouldCancelClick)}
+                        {...createClickHandler(this.handleAddToNode, this.handleShouldCancelClick)}
                     >
                         <span className="fe-add" />
                     </div>
@@ -447,15 +451,7 @@ const mapStateToProps = (
                 results: { items }
             }
         },
-        editorState: {
-            translating,
-            debug,
-            ghostNode,
-            dragActive,
-            simulating,
-            containerOffset,
-            activity
-        }
+        editorState: { translating, debug, ghostNode, simulating, containerOffset, activity }
     }: AppState,
     props: NodePassedProps
 ) => {
@@ -483,7 +479,6 @@ const mapStateToProps = (
         containerOffset,
         translating,
         debug,
-        dragActive,
         definition,
         renderNode,
         simulating

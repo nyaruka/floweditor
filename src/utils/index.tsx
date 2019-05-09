@@ -204,6 +204,7 @@ export const getLocalizedObject = (localizations: LocalizedObject[]) => {
 };
 
 export interface ClickHandler {
+    // onClick: (event: React.MouseEvent<HTMLDivElement>) => void;
     onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
     onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => void;
 }
@@ -215,46 +216,22 @@ export interface ClickHandler {
  */
 export const createClickHandler = (
     onClick: (event: React.MouseEvent<HTMLElement>) => void,
-    shouldCancelClick: () => boolean = null
-): ClickHandler => {
+    shouldCancelClick: () => boolean = null,
+    onMouseDown?: (event: React.MouseEvent<HTMLElement>) => void
+): any => {
     return {
         onMouseDown: (event: React.MouseEvent<HTMLElement>) => {
-            this._clicked = true;
+            (this as any)._clicked = true;
+            if (onMouseDown) {
+                onMouseDown(event);
+            }
         },
         onMouseUp: (event: React.MouseEvent<HTMLElement>) => {
-            if (this._clicked) {
-                // console.log('clicked.. ', shouldCancelClick());
-                if (!shouldCancelClick || !shouldCancelClick()) {
-                    onClick(event);
-                }
+            if (!shouldCancelClick || !shouldCancelClick()) {
+                onClick(event);
             }
-            this._clicked = false;
-        }
-    };
-};
 
-export interface DragHandler {
-    onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => void;
-    onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => void;
-}
-
-/**
- * Creates a simple click handler via onMouseDown and onMouseUp.
- * This is a necessity in order to let jsPlumb manage our element dragging.
- * @param onClick
- */
-export const createDragHandler = (
-    onDragStop: (event: React.MouseEvent<HTMLDivElement>) => void
-): DragHandler => {
-    return {
-        onMouseDown: (event: React.MouseEvent<HTMLDivElement>) => {
-            this._clicked = true;
-        },
-        onMouseUp: (event: React.MouseEvent<HTMLDivElement>) => {
-            if (this._clicked) {
-                onDragStop(event);
-            }
-            this._clicked = false;
+            (this as any)._clicked = false;
         }
     };
 };

@@ -233,7 +233,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
         }
     }
 
-    private handleMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
+    private handleMouseUpCapture(event: React.MouseEvent<HTMLDivElement>): void {
         // ignore right clicks
         if (event.nativeEvent.which === 3) {
             return;
@@ -485,7 +485,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
                     className={styles.canvas}
                     onMouseDown={this.handleMouseDown}
                     onMouseMove={this.handleMouseMove}
-                    onMouseUp={this.handleMouseUp}
+                    onMouseUp={this.handleMouseUpCapture}
                 >
                     {this.props.draggables.map((draggable: CanvasDraggableProps) => {
                         const pos = this.state.positions[draggable.uuid] || draggable.position;

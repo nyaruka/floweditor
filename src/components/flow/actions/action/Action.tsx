@@ -26,6 +26,7 @@ export interface ActionWrapperPassedProps {
     first: boolean;
     action: AnyAction;
     localization: LocalizationMap;
+    selected: boolean;
     render: (action: AnyAction, endpoints: Endpoints) => React.ReactNode;
 }
 
@@ -33,7 +34,6 @@ export interface ActionWrapperStoreProps {
     renderNode: RenderNode;
     language: Asset;
     translating: boolean;
-    dragging: boolean;
     onOpenNodeEditor: OnOpenNodeEditor;
     removeAction: ActionAC;
     moveActionUp: ActionAC;
@@ -58,11 +58,11 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         super(props);
 
         bindCallbacks(this, {
-            include: [/^on/]
+            include: [/^on/, /^handle/]
         });
     }
 
-    public onClick(event: React.MouseEvent<HTMLDivElement>): void {
+    public handleActionClicked(event: React.MouseEvent<HTMLDivElement>): void {
         const target = event.target as any;
 
         const showAdvanced =
@@ -75,13 +75,19 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         });
     }
 
-    private onRemoval(evt: React.MouseEvent<HTMLDivElement>): void {
-        // evt.stopPropagation();
+    public handleRemoval(event: React.MouseEvent<HTMLDivElement>): void {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         this.props.removeAction(this.props.renderNode.node.uuid, this.props.action);
     }
 
-    private onMoveUp(evt: React.MouseEvent<HTMLDivElement>): void {
-        // evt.stopPropagation();
+    public handleMoveUp(event: React.MouseEvent<HTMLDivElement>): void {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
         this.props.moveActionUp(this.props.renderNode.node.uuid, this.props.action);
     }
 
@@ -163,17 +169,17 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             >
                 <div className={styles.overlay} data-spec={actionOverlaySpecId} />
                 <div
-                    {...createClickHandler(this.onClick, () => this.props.dragging)}
+                    {...createClickHandler(this.handleActionClicked, () => this.props.selected)}
                     data-spec={actionInteractiveDivSpecId}
                 >
                     <TitleBar
                         __className={titleBarClass}
                         title={name}
-                        onRemoval={this.onRemoval}
+                        onRemoval={this.handleRemoval}
                         showRemoval={showRemoval}
                         showMove={showMove}
-                        onMoveUp={this.onMoveUp}
-                        shouldCancelClick={() => this.props.dragging}
+                        onMoveUp={this.handleMoveUp}
+                        shouldCancelClick={() => this.props.selected}
                     />
                     <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
                         {this.props.render(actionToInject, this.context.config.endpoints)}
@@ -189,12 +195,11 @@ const mapStateToProps = ({
     flowContext: {
         definition: { localization }
     },
-    editorState: { language, translating, dragActive }
+    editorState: { language, translating }
 }: AppState) => ({
     language,
     translating,
-    localization,
-    dragging: dragActive
+    localization
 });
 
 /* istanbul ignore next */
