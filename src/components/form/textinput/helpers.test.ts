@@ -4,7 +4,7 @@ import { FlowDefinition } from '~/flowTypes';
 import { AssetType, CompletionOption } from '~/store/flowContext';
 import { pluralize } from '~/utils';
 import {
-    COMPLETION_OPTIONS,
+    COMPLETION_VARIABLES,
     filterOptions,
     getCompletionName,
     getCompletionOptions,
@@ -13,7 +13,7 @@ import {
 
 const definition: FlowDefinition = require('~/test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const optionQueryMap = COMPLETION_OPTIONS.reduce((argMap, option: CompletionOption) => {
+const optionQueryMap = COMPLETION_VARIABLES.reduce((argMap, option: CompletionOption) => {
     const name = getCompletionName(option);
 
     const lastIndex = name.lastIndexOf('.');
@@ -57,11 +57,11 @@ describe('helpers', () => {
 
     describe('filterOptions', () => {
         it('should return top-level options if not passed a query', () =>
-            expect(filterOptions(COMPLETION_OPTIONS, '', false)).toEqual(TOP_LEVEL_OPTIONS));
+            expect(filterOptions(COMPLETION_VARIABLES, '', false)).toEqual(TOP_LEVEL_OPTIONS));
 
         Object.keys(optionQueryMap).forEach(query =>
             it(`should filter options for "${query}"`, () =>
-                expect(filterOptions(COMPLETION_OPTIONS, query, true)).toMatchSnapshot())
+                expect(filterOptions(COMPLETION_VARIABLES, query, true)).toMatchSnapshot())
         );
     });
 
@@ -77,7 +77,7 @@ describe('helpers', () => {
 
     describe('getOptionsList', () => {
         it('should include only our predefined options if autocomplete arg is falsy', () => {
-            expect(getCompletionOptions(false, {}).length).toBe(COMPLETION_OPTIONS.length);
+            expect(getCompletionOptions(false, {}).length).toBe(COMPLETION_VARIABLES.length);
         });
 
         it('should include result names if autocomplete arg is truthy', () => {
@@ -93,7 +93,7 @@ describe('helpers', () => {
                     }
                 }
             });
-            const expectedLength = COMPLETION_OPTIONS.length + 5; // accounting for field and its properties
+            const expectedLength = COMPLETION_VARIABLES.length + 5; // accounting for field and its properties
 
             expect(optionsList.length).toBe(expectedLength);
         });
