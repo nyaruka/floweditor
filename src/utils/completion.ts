@@ -1,6 +1,7 @@
+import axios, { AxiosResponse } from 'axios';
+import { reject } from 'core-js/fn/promise';
+import { Endpoints } from '~/flowTypes';
 import { AssetMap, AssetStore, CompletionOption } from '~/store/flowContext';
-
-import * as xlnt from './functions.json';
 
 export enum TopLevelVariables {
     contact = 'contact',
@@ -228,9 +229,7 @@ export const COMPLETION_VARIABLES: CompletionOption[] = [
     ...TRIGGER_OPTIONS
 ];
 
-export const COMPLETION_OPTIONS: CompletionOption[] = [...COMPLETION_VARIABLES, ...xlnt];
-
-export const TOP_LEVEL_OPTIONS = COMPLETION_OPTIONS.filter((option: CompletionOption) => {
+export const TOP_LEVEL_OPTIONS = COMPLETION_VARIABLES.filter((option: CompletionOption) => {
     const name = getCompletionName(option);
     return (
         name === TopLevelVariables.contact ||
@@ -389,12 +388,27 @@ export const getResultsOptions = (assets: AssetMap) =>
         ]);
     }, []);
 
+let COMPLETIONS_WITH_FUNCTIONS: CompletionOption[] = COMPLETION_VARIABLES;
+
+export const setFunctions = (functions: CompletionOption[]) => {
+    COMPLETIONS_WITH_FUNCTIONS = COMPLETION_VARIABLES.concat(functions);
+};
+
+export const fetchFunctions = (endpoints: Endpoints) => {
+    axios
+        .get(endpoints.functions)
+        .then((response: AxiosResponse) => {
+            setFunctions(response.data as CompletionOption[]);
+        })
+        .catch(error => reject(error));
+};
+
 export const getCompletionOptions = (
     autocomplete: boolean,
     assets: AssetStore,
     functions: boolean = true
 ): CompletionOption[] => {
-    const options = functions ? COMPLETION_OPTIONS : COMPLETION_VARIABLES;
+    const options = functions ? COMPLETIONS_WITH_FUNCTIONS : COMPLETION_VARIABLES;
     return autocomplete
         ? [
               ...options,

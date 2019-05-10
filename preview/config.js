@@ -20,6 +20,7 @@ if (process.env.RAPID_FLOW) {
             attachments: '/flow/upload_media_action/' + process.env.RAPID_ORG + '/',
             recipients: '/contact/omnibox?types=gcu',
 
+            functions: '/mr/docs/functions.json',
             groups: api + 'groups.json',
             fields: api + 'fields.json',
             labels: api + 'labels.json',
@@ -46,6 +47,7 @@ if (process.env.RAPID_FLOW) {
                   flowType: 'M',
                   endpoints: {
                       attachments: '',
+                      functions: 'functions',
                       resthooks: 'resthooks',
                       flows: 'flows',
                       groups: 'groups',
@@ -68,6 +70,7 @@ if (process.env.RAPID_FLOW) {
                   showTemplates: true,
                   endpoints: {
                       attachments: '/',
+                      functions: '/mr/docs/functions',
                       resthooks: '/assets/resthooks',
                       flows: '/assets/flow',
                       groups: '/assets/group',
