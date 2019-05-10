@@ -17,7 +17,7 @@ export interface DragEvent {
 }
 
 export interface PendingConnections {
-    [id: string]: { source: string; target: string; className: string };
+    [id: string]: { source: string; target: string; className: string; slot: number };
 }
 
 export const REPAINT_DURATION = 600;
@@ -55,6 +55,17 @@ export const getAnchor = (sourceEle: any, targetEle: any): any[] => {
     ];
 };
 
+const defaultConnector = [
+    'Flowchart',
+    {
+        stub: 12,
+        midpoint: 0.75,
+        alwaysRespectStubs: true,
+        gap: [0, 5],
+        cornerRadius: 3
+    }
+];
+
 /* istanbul ignore next */
 export default class Plumber {
     public jsPlumb: any;
@@ -73,16 +84,7 @@ export default class Plumber {
             EndpointStyle: { strokeStyle: 'transparent' },
             PaintStyle: { strokeWidth: 3.5 },
             ConnectionsDetachable: true,
-            Connector: [
-                'Flowchart',
-                {
-                    stub: 12,
-                    midpoint: 0.75,
-                    alwaysRespectStubs: true,
-                    gap: [0, 5],
-                    cornerRadius: 3
-                }
-            ],
+            Connector: defaultConnector,
             ConnectionOverlays: [
                 [
                     'PlainArrow',
@@ -143,7 +145,8 @@ export default class Plumber {
         this.connect(
             `${node.uuid}:${exit.uuid}`,
             exit.destination_uuid,
-            className
+            className,
+            node.exits.findIndex((e: Exit) => e.uuid === exit.uuid)
         );
     }
 
@@ -214,7 +217,7 @@ export default class Plumber {
             for (const key in this.pendingConnections) {
                 if (this.pendingConnections.hasOwnProperty(key)) {
                     const connection = this.pendingConnections[key];
-                    const { source, target, className } = connection;
+                    const { source, target, className, slot } = connection;
 
                     const anchors = target
                         ? [
@@ -230,6 +233,9 @@ export default class Plumber {
                         // any existing connections for our source need to be deleted
                         this.jsPlumb.select({ source }).delete({ fireEvent: false });
 
+                        const connector: any = [...defaultConnector];
+                        connector[1].midpoint = 0.35 + slot * 0.15;
+
                         // now make our new connection
                         if (target != null) {
                             // don't allow manual detachments if our connection is styled
@@ -240,7 +246,8 @@ export default class Plumber {
                                     anchors,
                                     fireEvent: false,
                                     cssClass: className,
-                                    detachable: false
+                                    detachable: false,
+                                    connector
                                 });
                             } else {
                                 this.jsPlumb.connect({
@@ -248,7 +255,8 @@ export default class Plumber {
                                     target,
                                     anchors,
                                     fireEvent: false,
-                                    cssClass: className
+                                    cssClass: className,
+                                    connector
                                 });
                             }
                         }
@@ -281,11 +289,17 @@ export default class Plumber {
         }, 0);
     }
 
-    public connect(source: string, target: string, className: string = null): void {
+    public connect(
+        source: string,
+        target: string,
+        className: string = null,
+        slot: number = 0
+    ): void {
         this.pendingConnections[`${source}:${target}:${className}`] = {
             source,
             target,
-            className
+            className,
+            slot
         };
         this.checkForPendingConnections();
     }
