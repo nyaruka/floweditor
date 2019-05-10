@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import Button from '~/components/button/Button';
 import { Canvas } from '~/components/canvas/Canvas';
 import { CanvasDraggableProps } from '~/components/canvas/CanvasDraggable';
-import { Fixy } from '~/components/fixy/Fixy';
 import Node from '~/components/flow/node/Node';
 import { getDraggedFrom } from '~/components/helpers';
 import NodeEditor from '~/components/nodeeditor/NodeEditor';
@@ -324,11 +323,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     private getSimulator(): JSX.Element {
         return renderIf(
             this.context.config.endpoints && this.context.config.endpoints.simulateStart
-        )(
-            <Fixy>
-                <Simulator key="simulator" mergeEditorState={this.props.mergeEditorState} />
-            </Fixy>
-        );
+        )(<Simulator key="simulator" mergeEditorState={this.props.mergeEditorState} />);
     }
 
     private getNodeEditor(): JSX.Element {

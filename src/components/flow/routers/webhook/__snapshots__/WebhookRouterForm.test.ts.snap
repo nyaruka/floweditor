@@ -43,9 +43,9 @@ exports[`WebhookRouterForm should render 1`] = `
                 entry={
                   Object {
                     "value": Object {
-                      "name": "",
+                      "name": "Content-Type",
                       "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
-                      "value": "",
+                      "value": "application/json",
                     },
                   }
                 }
@@ -54,9 +54,25 @@ exports[`WebhookRouterForm should render 1`] = `
                 onRemove={[Function]}
               />
             </div>
+            <div>
+              <HeaderElement
+                entry={
+                  Object {
+                    "value": Object {
+                      "name": "",
+                      "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+                      "value": "",
+                    },
+                  }
+                }
+                index={1}
+                onChange={[Function]}
+                onRemove={[Function]}
+              />
+            </div>
           </FlipMovePropConverter>
         </React.Fragment>,
-        "checked": false,
+        "checked": true,
         "hasErrors": false,
         "name": "HTTP Headers",
       },
@@ -180,8 +196,15 @@ Object {
   "headers": Array [
     Object {
       "value": Object {
+        "name": "Content-Type",
+        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "value": Object {
         "name": "",
-        "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
         "value": "",
       },
     },
@@ -210,8 +233,15 @@ Object {
   "headers": Array [
     Object {
       "value": Object {
+        "name": "Content-Type",
+        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "value": Object {
         "name": "",
-        "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+        "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
         "value": "",
       },
     },
@@ -249,8 +279,15 @@ Object {
   "headers": Array [
     Object {
       "value": Object {
+        "name": "Content-Type",
+        "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "value": Object {
         "name": "",
-        "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+        "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
         "value": "",
       },
     },
@@ -279,8 +316,15 @@ Object {
   "headers": Array [
     Object {
       "value": Object {
+        "name": "Content-Type",
+        "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "value": Object {
         "name": "",
-        "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+        "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
         "value": "",
       },
     },
@@ -288,7 +332,7 @@ Object {
       "validationFailures": undefined,
       "value": Object {
         "name": "Content-type",
-        "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+        "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
         "value": "application/json",
       },
     },
@@ -320,7 +364,9 @@ Array [
       "actions": Array [
         Object {
           "body": "Post Body",
-          "headers": Object {},
+          "headers": Object {
+            "Content-Type": "application/json",
+          },
           "method": "POST",
           "result_name": "Result",
           "type": "call_webhook",
