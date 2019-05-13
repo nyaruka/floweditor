@@ -44,6 +44,7 @@
     "postversion": "npm run tag && npm run release",
     "precommit": "lint-staged",
     "release": "npm publish --access public"
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "lint-staged": {
     "*.{ts,tsx,js,css,md}": [
@@ -77,6 +78,7 @@
     "ajv": "6.5.2",
     "array-move": "2.1.0",
     "auto-bind": "1.2.1",
+    "auto-changelog": "1.13.0",
     "autoprefixer": "8.6.4",
     "awesome-typescript-loader": "5.2.1",
     "axios": "0.18.0",
