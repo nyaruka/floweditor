@@ -66,7 +66,7 @@ const defaultConnector = [
     {
         stub: 12,
         midpoint: 0.75,
-        alwaysRespectStubs: true,
+        alwaysRespectStubs: false,
         gap: [0, 5],
         cornerRadius: 3
     }
@@ -240,10 +240,11 @@ export default class Plumber {
                         // any existing connections for our source need to be deleted
                         this.jsPlumb.select({ source }).delete({ fireEvent: false });
 
-                        let midpoint = 0.35 + slot * 0.15;
+                        const start = totalSlots < 5 ? 0.75 : 0.35;
+                        let midpoint = start + slot * 0.15;
                         const exitMiddle = totalSlots / 2;
                         if (slot > exitMiddle) {
-                            midpoint = 0.3 + (totalSlots - slot) * 0.15;
+                            midpoint = start - 0.05 + (totalSlots - slot) * 0.15;
                         }
 
                         // add reasonable boundaries for midpoints

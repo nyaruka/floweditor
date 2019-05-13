@@ -25,14 +25,9 @@
             background: none !important;
         }
 
-        .ReactModal__Overlay {
-            background-color: rgba(0, 0, 0, 0.6) !important;
-            z-index: $z_modal;
-        }
-
         &.ReactModal__Body--open {
             height: 100vh !important;
-            overflow-y: scroll !important;
+            overflow-y: hidden !important;
             margin: 0 0 5px !important;
         }
 
@@ -42,7 +37,6 @@
         }
 
         .ReactModalPortal .ReactModal__Overlay {
-            transition: opacity 50ms ease-in-out;
             background: rgba(0, 0, 0, 0.15);
             &--after-open {
                 opacity: 1;
