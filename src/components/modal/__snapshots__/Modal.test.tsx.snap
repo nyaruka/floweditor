@@ -13,6 +13,7 @@ exports[`Modal render should render timeout control 1`] = `
     isOpen={true}
     parentSelector={[Function]}
     portalClassName="ReactModalPortal"
+    role="dialog"
     shouldCloseOnEsc={true}
     shouldCloseOnOverlayClick={false}
     shouldFocusAfterRender={true}
@@ -67,6 +68,7 @@ exports[`Modal render should render timeout control 1`] = `
       isOpen={true}
       parentSelector={[Function]}
       portalClassName="ReactModalPortal"
+      role="dialog"
       shouldCloseOnEsc={true}
       shouldCloseOnOverlayClick={false}
       shouldFocusAfterRender={true}
@@ -88,7 +90,6 @@ exports[`Modal render should render timeout control 1`] = `
       }
     >
       <div
-        aria-modal="true"
         className="ReactModal__Overlay ReactModal__Overlay--after-open"
         onClick={[Function]}
         onMouseDown={[Function]}
@@ -110,6 +111,7 @@ exports[`Modal render should render timeout control 1`] = `
           onKeyDown={[Function]}
           onMouseDown={[Function]}
           onMouseUp={[Function]}
+          role="dialog"
           style={
             Object {
               "WebkitOverflowScrolling": "touch",
