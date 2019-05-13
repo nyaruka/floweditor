@@ -17,7 +17,13 @@ export interface DragEvent {
 }
 
 export interface PendingConnections {
-    [id: string]: { source: string; target: string; className: string; slot: number };
+    [id: string]: {
+        source: string;
+        target: string;
+        className: string;
+        slot: number;
+        totalSlots: number;
+    };
 }
 
 export const REPAINT_DURATION = 600;
@@ -146,7 +152,8 @@ export default class Plumber {
             `${node.uuid}:${exit.uuid}`,
             exit.destination_uuid,
             className,
-            node.exits.findIndex((e: Exit) => e.uuid === exit.uuid)
+            node.exits.findIndex((e: Exit) => e.uuid === exit.uuid),
+            node.exits.length
         );
     }
 
@@ -217,7 +224,7 @@ export default class Plumber {
             for (const key in this.pendingConnections) {
                 if (this.pendingConnections.hasOwnProperty(key)) {
                     const connection = this.pendingConnections[key];
-                    const { source, target, className, slot } = connection;
+                    const { source, target, className, slot, totalSlots } = connection;
 
                     const anchors = target
                         ? [
@@ -233,8 +240,17 @@ export default class Plumber {
                         // any existing connections for our source need to be deleted
                         this.jsPlumb.select({ source }).delete({ fireEvent: false });
 
+                        let midpoint = 0.35 + slot * 0.15;
+                        const exitMiddle = totalSlots / 2;
+                        if (slot > exitMiddle) {
+                            midpoint = 0.3 + (totalSlots - slot) * 0.15;
+                        }
+
+                        // add reasonable boundaries for midpoints
+                        midpoint = Math.max(Math.min(0.9, midpoint), 0.1);
+
                         const connector: any = [...defaultConnector];
-                        connector[1].midpoint = 0.35 + slot * 0.15;
+                        connector[1].midpoint = midpoint;
 
                         // now make our new connection
                         if (target != null) {
@@ -293,13 +309,15 @@ export default class Plumber {
         source: string,
         target: string,
         className: string = null,
-        slot: number = 0
+        slot: number = 0,
+        totalSlots: number = 0
     ): void {
         this.pendingConnections[`${source}:${target}:${className}`] = {
             source,
             target,
             className,
-            slot
+            slot,
+            totalSlots
         };
         this.checkForPendingConnections();
     }
