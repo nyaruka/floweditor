@@ -23,6 +23,7 @@ export interface CanvasProps {
     draggables: CanvasDraggableProps[];
     onDragging: (draggedUUIDs: string[]) => void;
     onUpdatePositions: (positions: CanvasPositions) => void;
+    onRemoveNodes: (nodeUUIDs: string[]) => void;
     mergeEditorState: MergeEditorState;
 }
 
@@ -94,10 +95,21 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
         this.parentOffset = { left: offset.left, top: offset.top + window.scrollY };
 
         window.addEventListener('resize', this.handleWindowResize);
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    private handleKeyDown(event: any): void {
+        if (this.state.selected && event.key === 'Backspace') {
+            const nodeUUIDs = Object.keys(this.state.selected);
+            if (nodeUUIDs.length > 0) {
+                this.props.onRemoveNodes(Object.keys(this.state.selected));
+            }
+        }
     }
 
     public componentWillUnmount(): void {
         window.removeEventListener('resize', this.handleWindowResize);
+        document.removeEventListener('keydown', this.handleKeyDown);
     }
 
     public componentDidUpdate(prevProps: CanvasProps): void {

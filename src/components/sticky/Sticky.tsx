@@ -7,13 +7,7 @@ import * as styles from '~/components/sticky/Sticky.scss';
 import { FlowDefinition, StickyNote } from '~/flowTypes';
 import { DragEvent } from '~/services/Plumber';
 import AppState from '~/store/state';
-import {
-    DispatchWithState,
-    OnResetDragSelection,
-    onResetDragSelection,
-    UpdateSticky,
-    updateSticky
-} from '~/store/thunks';
+import { DispatchWithState, UpdateSticky, updateSticky } from '~/store/thunks';
 import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '~/utils';
 
 type DragFunction = (event: DragEvent) => void;
@@ -30,7 +24,6 @@ export interface StickyPassedProps {
 export interface StickyStoreProps {
     definition: FlowDefinition;
     updateSticky: UpdateSticky;
-    onResetDragSelection: OnResetDragSelection;
 }
 
 export type StickyProps = StickyPassedProps & StickyStoreProps;
@@ -93,10 +86,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
         if (this.debounceTextChanges) {
             window.clearTimeout(this.debounceTextChanges);
         }
-    }
-
-    public handleDragStart(event: DragEvent): void {
-        this.props.onResetDragSelection();
     }
 
     public handleDrag(event: DragEvent): void {
@@ -255,7 +244,7 @@ const mapStateToProps = ({ flowContext: { definition } }: AppState) => ({
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) => {
-    return bindActionCreators({ updateSticky, onResetDragSelection }, dispatch);
+    return bindActionCreators({ updateSticky }, dispatch);
 };
 
 export default connect(

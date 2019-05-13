@@ -15,6 +15,7 @@ const baseProps: CanvasProps = {
     onDragging: jest.fn(),
     onUpdatePositions: jest.fn(),
     mergeEditorState: jest.fn(),
+    onRemoveNodes: jest.fn(),
     draggables: []
 };
 

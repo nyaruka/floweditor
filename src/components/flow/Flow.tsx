@@ -25,10 +25,12 @@ import {
     mergeEditorState,
     MergeEditorState,
     NoParamsAC,
-    OnConnectionDrag,
     onConnectionDrag,
+    OnConnectionDrag,
     OnOpenNodeEditor,
     onOpenNodeEditor,
+    onRemoveNodes,
+    OnRemoveNodes,
     OnUpdateCanvasPositions,
     onUpdateCanvasPositions,
     resetNodeEditingState,
@@ -63,6 +65,7 @@ export interface FlowStoreProps {
     updateConnection: UpdateConnection;
     onOpenNodeEditor: OnOpenNodeEditor;
     onUpdateCanvasPositions: OnUpdateCanvasPositions;
+    onRemoveNodes: OnRemoveNodes;
     resetNodeEditingState: NoParamsAC;
     onConnectionDrag: OnConnectionDrag;
     updateSticky: UpdateSticky;
@@ -417,6 +420,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
                     uuid={this.nodeContainerUUID}
                     dragActive={this.props.editorState.dragActive}
                     mergeEditorState={this.props.mergeEditorState}
+                    onRemoveNodes={this.props.onRemoveNodes}
                     draggables={draggables}
                     onUpdatePositions={this.props.onUpdateCanvasPositions}
                 >
@@ -453,6 +457,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
             onConnectionDrag,
             onOpenNodeEditor,
             onUpdateCanvasPositions,
+            onRemoveNodes,
             updateConnection,
             updateSticky
         },

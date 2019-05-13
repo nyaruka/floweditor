@@ -69,11 +69,11 @@ export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
 export type HandleTypeConfigChange = (typeConfig: Type) => Thunk<void>;
 
-export type OnResetDragSelection = () => Thunk<void>;
-
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
 
 export type OnUpdateCanvasPositions = (positions: CanvasPositions) => Thunk<RenderNodeMap>;
+
+export type OnRemoveNodes = (nodeUUIDs: string[]) => Thunk<RenderNodeMap>;
 
 export type AddAsset = (assetType: string, asset: Asset) => Thunk<void>;
 
@@ -701,15 +701,42 @@ export const onAddToNode = (node: FlowNode) => (
     dispatch(mergeEditorState(EMPTY_DRAG_STATE));
 };
 
-export const onResetDragSelection = () => (dispatch: DispatchWithState, getState: GetState) => {
+export const onRemoveNodes = (uuids: string[]) => (
+    dispatch: DispatchWithState,
+    getState: GetState
+): RenderNodeMap => {
     const {
-        editorState: { dragSelection }
+        flowContext: { nodes, definition }
     } = getState();
 
-    /* istanbul ignore else */
-    /*if (dragSelection && dragSelection.selected) {
-        dispatch(mergeEditorState(EMPTY_DRAG_STATE));
-    }*/
+    let updatedNodes = nodes;
+    let updatedDefinition = definition;
+    let didNodes = false;
+    let didDef = false;
+
+    uuids.forEach((uuid: string) => {
+        if (uuid in updatedNodes) {
+            updatedNodes = mutators.removeNode(updatedNodes, uuid, true);
+            didNodes = true;
+        } else if (uuid in updatedDefinition._ui.stickies) {
+            updatedDefinition = mutators.updateStickyNote(updatedDefinition, uuid, null);
+            didDef = true;
+        }
+    });
+
+    if (didNodes) {
+        dispatch(updateNodes(updatedNodes));
+    }
+
+    if (didDef) {
+        dispatch(updateDefinition(updatedDefinition));
+    }
+
+    if (didDef || didNodes) {
+        markDirty();
+    }
+
+    return nodes;
 };
 
 export const onUpdateCanvasPositions = (positions: CanvasPositions) => (
