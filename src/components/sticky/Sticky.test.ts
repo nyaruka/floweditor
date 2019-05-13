@@ -20,8 +20,7 @@ const baseProps: StickyProps = {
     sticky,
     definition,
     selected: false,
-    updateSticky: jest.fn(),
-    onResetDragSelection: jest.fn()
+    updateSticky: jest.fn()
 };
 
 const { setup } = composeComponentTestUtils(
@@ -145,18 +144,6 @@ describe(Sticky.name, () => {
     });
 
     describe('dragging', () => {
-        it('should reset drag select on drag start', () => {
-            const { props, instance } = setup(true, {
-                plumberClearDragSelection: setMock(),
-                onResetDragSelection: setMock()
-            });
-
-            // start dragging
-            instance.handleDragStart({});
-
-            expect(props.onResetDragSelection).toHaveBeenCalledTimes(1);
-        });
-
         it('should get coverage for a noop', () => {
             const { instance } = setup();
 
