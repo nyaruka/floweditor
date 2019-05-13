@@ -62,10 +62,11 @@ exports[`Dialog should render 1`] = `
           type="secondary"
         />
         <Button
-          key="1"
+          key="button_Ok"
           leftSpacing={true}
           name="Ok"
           onClick={[Function]}
+          onRef={[Function]}
           type="primary"
         />
       </div>

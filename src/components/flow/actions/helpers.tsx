@@ -73,7 +73,11 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
                         onMouseDown={(e: any) => {
                             e.preventDefault(), e.stopPropagation();
                         }}
+                        onMouseUp={(e: any) => {
+                            e.preventDefault(), e.stopPropagation();
+                        }}
                         href={`${endpoints.editor}/${asset.id}`}
+                        target="_blank"
                     >
                         {asset.name}
                     </a>

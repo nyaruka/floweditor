@@ -160,7 +160,8 @@ exports[`WebhookRouterForm should render 1`] = `
       { "product": "Solar Charging Kit", "stock level": 32 }
     </pre>
     <p>
-      In this example 
+      This response would add
+       
       <span
         className="example"
       >
@@ -173,7 +174,7 @@ exports[`WebhookRouterForm should render 1`] = `
       >
         @webhook["stock level"]
       </span>
-       would be available in all future steps.
+       for use in the flow.
     </p>
   </div>
   <OptionalTextInput

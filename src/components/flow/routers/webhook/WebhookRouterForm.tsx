@@ -165,7 +165,7 @@ export default class WebhookRouterForm extends React.Component<
 
     private handleSave(): void {
         // validate our url in case they haven't interacted
-        const valid = this.state.valid && this.handleUrlUpdate(this.state.url.value);
+        const valid = this.handleUrlUpdate(this.state.url.value) && this.state.valid;
         if (valid) {
             this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
             this.props.onClose(false);
@@ -293,9 +293,10 @@ export default class WebhookRouterForm extends React.Component<
                         {'{ "product": "Solar Charging Kit", "stock level": 32 }'}
                     </pre>
                     <p>
-                        In this example <span className={styles.example}>@webhook.product</span> and{' '}
-                        <span className={styles.example}>@webhook["stock level"]</span> would be
-                        available in all future steps.
+                        This response would add{' '}
+                        <span className={styles.example}>@webhook.product</span> and{' '}
+                        <span className={styles.example}>@webhook["stock level"]</span> for use in
+                        the flow.
                     </p>
                 </div>
                 {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}

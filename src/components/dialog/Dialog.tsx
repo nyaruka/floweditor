@@ -1,3 +1,4 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Button, { ButtonProps, ButtonTypes } from '~/components/button/Button';
 import { renderIf } from '~/utils';
@@ -51,12 +52,17 @@ export interface DialogState {
  */
 export default class Dialog extends React.Component<DialogProps, DialogState> {
     private tabFocus: any = null;
+    private primaryButton: any = null;
 
     constructor(props: DialogProps) {
         super(props);
         this.state = {
             activeTab: -1
         };
+
+        bindCallbacks(this, {
+            include: [/^handle/, /^get/]
+        });
     }
 
     public showTab(index: number): void {
@@ -84,8 +90,27 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         }, 0);
     }
 
+    private handleKey(event: KeyboardEvent): void {
+        if (event.key === 'Enter' && event.shiftKey) {
+            if (this.primaryButton) {
+                event.preventDefault();
+                event.stopPropagation();
+                (event.target as any).blur();
+                this.primaryButton.click();
+                (event.target as any).focus();
+            } else {
+                console.log('No primary button!');
+            }
+        }
+    }
+
+    public componentDidMount(): void {
+        window.document.addEventListener('keydown', this.handleKey, { capture: true });
+    }
+
     public componentWillUnmount(): void {
         window.clearTimeout(this.tabFocus);
+        window.document.removeEventListener('keydown', this.handleKey, { capture: true });
     }
 
     private getButtons(): Buttons {
@@ -101,7 +126,10 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         if (buttons.primary) {
             rightButtons.push(
                 <Button
-                    key={1}
+                    key={'button_' + buttons.primary.name}
+                    onRef={(ref: any) => {
+                        this.primaryButton = ref;
+                    }}
                     onClick={() => {
                         this.handlePrimaryButton(buttons.primary.onClick);
                     }}
