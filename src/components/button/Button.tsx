@@ -15,9 +15,11 @@ export interface ButtonProps {
     leftSpacing?: boolean;
     topSpacing?: boolean;
     iconName?: string;
+    onRef?: (ele: any) => void;
 }
 
 const Button: React.SFC<ButtonProps> = ({
+    onRef,
     name,
     onClick,
     type,
@@ -27,6 +29,7 @@ const Button: React.SFC<ButtonProps> = ({
     iconName
 }) => (
     <div
+        ref={onRef}
         style={{ marginLeft: leftSpacing ? 10 : 0, marginTop: topSpacing ? 10 : 0 }}
         onClick={onClick}
         className={`${styles.btn} ${styles[type]} ${disabled ? styles.disabled : ''}`}

@@ -3,7 +3,6 @@ import * as classNames from 'classnames/bind';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as getCaretCoordinates from 'textarea-caret';
-import { message } from '~/components/form/assetselector/AssetSelector.scss';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
 import * as shared from '~/components/form/FormElement.scss';
 import CharCount from '~/components/form/textinput/CharCount';
@@ -34,7 +33,7 @@ export interface Coordinates {
     top: number;
 }
 
-type HTMLTextElement = HTMLTextAreaElement | HTMLInputElement;
+export type HTMLTextElement = HTMLTextAreaElement | HTMLInputElement;
 
 export interface TextInputStoreProps {
     typeConfig: Type;
@@ -54,7 +53,7 @@ export interface TextInputPassedProps extends FormElementProps {
     onFieldFailures?: (failures: ValidationFailure[]) => void;
     onChange?: (value: string) => void;
     onBlur?: (event: React.ChangeEvent<HTMLTextElement>) => void;
-    onEnter?: () => void;
+    onEnter?: (event: React.KeyboardEvent<HTMLTextElement>) => boolean;
 }
 
 export type TextInputProps = TextInputStoreProps & TextInputPassedProps;
@@ -163,6 +162,13 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     private handleKeyDown(event: React.KeyboardEvent<HTMLTextElement>): void {
         if (!this.props.autocomplete) {
             return;
+        }
+
+        // if our parent cares about enter, give them a go at it
+        if (event.key === KeyValues.KEY_ENTER && this.props.onEnter) {
+            if (this.props.onEnter(event)) {
+                return;
+            }
         }
 
         switch (event.key) {
@@ -280,7 +286,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 } else {
                     if (this.props.onEnter) {
                         this.checkForMissingFields();
-                        this.props.onEnter();
+                        this.props.onEnter(event);
                     }
                 }
                 return;

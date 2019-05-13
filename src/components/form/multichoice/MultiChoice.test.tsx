@@ -16,7 +16,7 @@ jest.useFakeTimers();
 
 const addItem = (instance: MultiChoiceInput, item: string) => {
     instance.handleInputChanged('a new item');
-    instance.handleAddItem();
+    instance.handleAddItem({} as any);
 
     // multichoice does a timeout zero on add for validation checks
     jest.runAllTimers();

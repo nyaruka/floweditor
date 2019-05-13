@@ -1,9 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import TextInputElement from '~/components/form/textinput/TextInputElement';
+import TextInputElement, { HTMLTextElement } from '~/components/form/textinput/TextInputElement';
 import Pill from '~/components/pill/Pill';
 import { StringArrayEntry, StringEntry, ValidationFailure } from '~/store/nodeEditor';
-import { validate, Empty } from '~/store/validators';
+import { Empty, validate } from '~/store/validators';
 
 import * as styles from './MultiChoice.scss';
 
@@ -51,7 +51,7 @@ export default class MultiChoiceInput extends React.Component<
         }
     }
 
-    public handleAddItem(): void {
+    public handleAddItem(event: React.KeyboardEvent<HTMLTextElement>): boolean {
         // hack: we want to evaluate after the state is updated for validation errors
         window.setTimeout(() => {
             if ((this.state.currentInput.persistantFailures || []).length > 0) {
@@ -70,6 +70,7 @@ export default class MultiChoiceInput extends React.Component<
                 }
             }
         }, 0);
+        return true;
     }
 
     private handleValidateEmpty(): void {
