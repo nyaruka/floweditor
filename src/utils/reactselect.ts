@@ -7,6 +7,7 @@ export const large = {
             ...styles,
             borderColor: '#ccc',
             boxShadow: 'none',
+            transition: 'all 0.3s ease-in-out',
             '&:hover': {
                 borderColor: '#ccc'
             }
@@ -28,6 +29,20 @@ export const messageStyle = {
             }
         };
     }
+};
+
+export const getErroredSelect = (baseControl: StylesConfig) => {
+    return {
+        control: (styles: StylesConfig) => ({
+            ...styles,
+            ...baseControl,
+            borderColor: 'tomato',
+            boxShadow: '0 0 0 3px rgba(255,196,186,0.5) !important;',
+            '&:hover': {
+                borderColor: 'tomato'
+            }
+        })
+    };
 };
 
 export const small = {
