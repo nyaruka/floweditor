@@ -29,7 +29,9 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
         return (
             <>
                 <div>
-                    {action.text}
+                    {action.text.split(/\r?\n/).map((line: string) => (
+                        <div className={styles.line}>{line}</div>
+                    ))}
                     {action.attachments && action.attachments.length > 0 ? (
                         <div data-advanced={true} className={`${styles.attachment} fe-paperclip`} />
                     ) : null}

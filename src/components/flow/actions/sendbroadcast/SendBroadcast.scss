@@ -1,4 +1,4 @@
-@import "~/variables.scss";
+@import '~/variables.scss';
 
 .recipients {
     margin-bottom: 15px;
@@ -6,14 +6,13 @@
 
 .node {
     .to {
-
         padding: 3px $action_padding;
         background: $light_gray_2;
         width: 100%;
-        font-size: 11px;
+        font-size: 12px;
 
         .name {
-            font-size: 10px;   
+            font-size: 10px;
         }
 
         .icon {
@@ -28,7 +27,14 @@
     }
 
     .message {
+        background: #fff;
         padding: $action_padding;
         width: 100%;
+
+        .line {
+            display: block;
+            margin-top: 3px;
+            min-height: 11px;
+        }
     }
 }

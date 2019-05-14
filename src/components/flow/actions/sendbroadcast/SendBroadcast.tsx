@@ -19,7 +19,11 @@ const SendBroadcastComp: React.SFC<BroadcastMsg> = (
                 <div className={styles.to}>
                     {renderAssetList(assets, MAX_TO_SHOW, context.config.endpoints)}
                 </div>
-                <div className={styles.message}>{action.text}</div>
+                <div className={styles.message}>
+                    {action.text.split(/\r?\n/).map((line: string) => (
+                        <div className={styles.line}>{line}</div>
+                    ))}
+                </div>
             </div>
         );
     }
