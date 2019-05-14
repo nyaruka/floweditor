@@ -14,32 +14,33 @@
     }
 
     > .error-list {
+        position: relative;
         > .error {
             visibility: hidden;
             position: absolute;
             z-index: 30000;
-            background: #fff; // lighten($error_color, 20%);
-            border: 2px solid $error_color;
+            background: #fff;
+            border: 1px solid $error_color;
+            box-shadow: 0 0 0 3px rgba(255, 196, 186, 0.5) !important;
             border-radius: 5px;
-            padding: 7px 7px;
+            padding: 3px 3px;
             margin: 0;
-            margin-left: -4px;
+            margin-left: 1px;
             font-size: 14px;
             width: 100px;
             text-align: center;
             color: $error_color;
-            right: -130px;
-            top: 0px;
+            top: 6px;
 
             .arrow-up {
                 width: 0px;
                 height: 0px;
-                border-top: 8px solid transparent;
-                border-bottom: 8px solid transparent;
-                border-right: 8px solid $error_color;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-bottom: 6px solid $error_color;
                 position: absolute;
-                margin-top: 6px;
-                margin-left: -15px;
+                margin-top: -9px;
+                margin-left: 6px;
             }
 
             &.send-msg-error {

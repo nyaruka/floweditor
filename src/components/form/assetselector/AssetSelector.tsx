@@ -94,6 +94,7 @@ interface AssetSelectorState {
     completionOptions: Asset[];
     entry: AssetEntry;
     isLoading: boolean;
+    menuOpen: boolean;
     message?: string;
 }
 
@@ -125,6 +126,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         }
 
         this.state = {
+            menuOpen: false,
             defaultOptions,
             entry: this.props.entry,
             isLoading: false,
@@ -258,6 +260,19 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         this.setState({ isLoading: false });
     }
 
+    public handleMenuOpen(): void {
+        this.setState({
+            menuOpen: true,
+            message: null
+        });
+    }
+
+    public handleMenuClose(): void {
+        this.setState({
+            menuOpen: false
+        });
+    }
+
     public handleClearMessage(): void {
         if (this.state.message) {
             this.setState({ message: null });
@@ -310,7 +325,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             components: { Option: AssetOption },
             styles: this.getStyle(),
             onChange: this.handleChanged,
-            onMenuOpen: this.handleClearMessage,
+            onMenuOpen: this.handleMenuOpen,
+            onMenuClose: this.handleMenuClose,
             onBlur: this.handleClearMessage,
             menuShouldBlockScroll: true,
             isMulti: this.props.multi,
@@ -337,6 +353,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                     entry={this.props.entry}
                     showLabel={this.props.showLabel}
                     helpText={this.props.helpText}
+                    hideError={this.state.menuOpen}
                 >
                     <Creatable
                         {...commonAttributes}
@@ -382,6 +399,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
                     entry={this.props.entry}
                     showLabel={this.props.showLabel}
                     helpText={this.props.helpText}
+                    hideError={this.state.menuOpen}
                 >
                     <Async
                         {...commonAttributes}

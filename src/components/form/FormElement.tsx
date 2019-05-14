@@ -17,6 +17,7 @@ export interface FormElementProps {
     sendMsgError?: boolean;
     kaseError?: boolean;
     attribError?: boolean;
+    hideError?: boolean;
 }
 
 export default class FormElement extends React.PureComponent<FormElementProps> {
@@ -55,7 +56,7 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
     }
 
     private getErrors(): JSX.Element {
-        if (this.hasErrors()) {
+        if (this.hasErrors() && !this.props.hideError) {
             const errors = this.getMergedErrors().map((failure, idx) => {
                 const className = cx({
                     [styles.error]: true,
