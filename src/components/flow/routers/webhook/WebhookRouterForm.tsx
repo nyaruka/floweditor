@@ -129,7 +129,11 @@ export default class WebhookRouterForm extends React.Component<
     }
 
     private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
+        const resultName = validate('Result Name', value, [
+            Required,
+            Alphanumeric,
+            StartIsNonNumeric
+        ]);
         this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
     }
 
