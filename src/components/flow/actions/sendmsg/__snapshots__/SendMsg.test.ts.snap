@@ -11,7 +11,11 @@ exports[`SendMsgComp render should render placeholder when text prop isn't passe
 exports[`SendMsgComp render should render text prop when passed 1`] = `
 <Fragment>
   <div>
-    Hey!
+    <div
+      className="line"
+    >
+      Hey!
+    </div>
   </div>
   <div
     className="summary"
