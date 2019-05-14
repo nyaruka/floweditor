@@ -1,3 +1,4 @@
+import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import * as styles from '~/components/button/Button.scss';
 import { renderIf } from '~/utils';
@@ -18,25 +19,58 @@ export interface ButtonProps {
     onRef?: (ele: any) => void;
 }
 
-const Button: React.SFC<ButtonProps> = ({
-    onRef,
-    name,
-    onClick,
-    type,
-    disabled,
-    leftSpacing,
-    topSpacing,
-    iconName
-}) => (
-    <div
-        ref={onRef}
-        style={{ marginLeft: leftSpacing ? 10 : 0, marginTop: topSpacing ? 10 : 0 }}
-        onClick={onClick}
-        className={`${styles.btn} ${styles[type]} ${disabled ? styles.disabled : ''}`}
-    >
-        {renderIf(iconName != null)(<span style={{ paddingRight: 4 }} className={iconName} />)}
-        {name}
-    </div>
-);
+interface ButtonState {
+    active: boolean;
+}
 
-export default Button;
+export default class Button extends React.Component<ButtonProps, ButtonState> {
+    constructor(props: ButtonProps) {
+        super(props);
+        this.state = {
+            active: false
+        };
+
+        bindCallbacks(this, {
+            include: [/^handle/]
+        });
+    }
+
+    private handleMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+        this.setState({ active: true });
+    }
+
+    private handleMouseUp(event: React.MouseEvent<HTMLDivElement>): void {
+        this.setState({ active: false });
+    }
+
+    public render(): JSX.Element {
+        const {
+            onRef,
+            name,
+            onClick,
+            type,
+            disabled,
+            leftSpacing,
+            topSpacing,
+            iconName
+        } = this.props;
+
+        return (
+            <div
+                ref={onRef}
+                style={{ marginLeft: leftSpacing ? 10 : 0, marginTop: topSpacing ? 10 : 0 }}
+                onClick={onClick}
+                onMouseDown={this.handleMouseDown}
+                onMouseUp={this.handleMouseUp}
+                className={`${styles.btn} ${styles[type]} ${disabled ? styles.disabled : ''} ${
+                    this.state.active ? styles.active : ''
+                }`}
+            >
+                {renderIf(iconName != null)(
+                    <span style={{ paddingRight: 4 }} className={iconName} />
+                )}
+                {name}
+            </div>
+        );
+    }
+}
