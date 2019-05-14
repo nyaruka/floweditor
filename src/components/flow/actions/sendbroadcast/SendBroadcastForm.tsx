@@ -16,7 +16,7 @@ import {
     StringEntry,
     ValidationFailure
 } from '~/store/nodeEditor';
-import { validate, Required } from '~/store/validators';
+import { Required, validate } from '~/store/validators';
 
 export interface SendBroadcastFormState extends FormState {
     message: StringEntry;

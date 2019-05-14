@@ -4,6 +4,7 @@ import { Async, components, Creatable } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType, ValueType } from 'react-select/lib/types';
+import { hasErrors } from '~/components/flow/actions/helpers';
 import { sortByName } from '~/components/form/assetselector/helpers';
 import { getIconForAssetType } from '~/components/form/assetselector/widgets';
 import FormElement, { FormElementProps } from '~/components/form/FormElement';
@@ -19,7 +20,7 @@ import {
 import { AssetEntry } from '~/store/nodeEditor';
 import { uniqueBy } from '~/utils';
 import { getCompletionOptions } from '~/utils/completion';
-import { large, messageStyle } from '~/utils/reactselect';
+import { getErroredSelect as getErroredControl, large, messageStyle } from '~/utils/reactselect';
 
 import * as styles from './AssetSelector.scss';
 
@@ -100,7 +101,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     constructor(props: AssetSelectorProps) {
         super(props);
         bindCallbacks(this, {
-            include: [/^is/, /^handle/]
+            include: [/^is/, /^handle/, /^get/]
         });
 
         let defaultOptions: Asset[] = [];
@@ -288,13 +289,26 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         }
     }
 
+    private getStyle(): StylesConfig {
+        if (this.state.message) {
+            return messageStyle;
+        }
+
+        let style = this.props.styles || large;
+        if (hasErrors(this.props.entry)) {
+            const erroredControl = getErroredControl(style.control({}, {}));
+            style = { ...style, ...erroredControl };
+        }
+        return style;
+    }
+
     public render(): JSX.Element {
         const commonAttributes = {
             placeholder: this.props.placeholder || 'Select ' + this.props.name,
             className: styles.selection,
             value: this.state.entry.value,
             components: { Option: AssetOption },
-            styles: this.state.message ? messageStyle : this.props.styles || large,
+            styles: this.getStyle(),
             onChange: this.handleChanged,
             onMenuOpen: this.handleClearMessage,
             onBlur: this.handleClearMessage,
