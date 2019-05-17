@@ -93,7 +93,7 @@ exports[`Simulator renders 1`] = `
         <div
           className="footer"
         >
-          <a
+          <span
             className="reset inactive"
             onClick={[Function]}
           />

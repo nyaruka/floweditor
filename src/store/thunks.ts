@@ -680,8 +680,7 @@ export const onAddToNode = (node: FlowNode) => (
     getState: GetState
 ) => {
     const {
-        flowContext: { definition, nodes },
-        editorState: { language }
+        flowContext: { nodes }
     } = getState();
 
     // TODO: remove the need for this once we all have formHelpers
@@ -813,7 +812,8 @@ export const onConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) =>
     let resultCount = names.length + 1;
     let key = `result_${resultCount}`;
 
-    while (names.find((name: string) => name === key)) {
+    const hasResult = names.find((name: string) => name === key);
+    while (hasResult) {
         resultCount++;
         key = `result_${resultCount}`;
     }
@@ -936,8 +936,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 ) => {
     const {
         flowContext: {
-            definition: { localization },
-            assetStore
+            definition: { localization }
         },
         editorState: { language, translating }
     } = getState();
@@ -973,17 +972,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     // Account for hybrids or clicking on the empty exit table
     if (!action && node.actions.length > 0) {
         action = node.actions[node.actions.length - 1];
-    }
-
-    let resultName = '';
-
-    if (node.router) {
-        /* istanbul ignore else */
-        if (node.router.result_name) {
-            ({
-                router: { result_name: resultName }
-            } = node);
-        }
     }
 
     const typeConfig = determineTypeConfig(settings);

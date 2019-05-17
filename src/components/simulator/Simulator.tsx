@@ -8,7 +8,7 @@ import { getURL } from 'external';
 import { FlowDefinition, Group, Wait } from 'flowTypes';
 import update from 'immutability-helper';
 import { ReactNode } from 'react';
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Activity } from 'store/editor';
@@ -233,9 +233,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       this.props.mergeEditorState({ activity });
 
       if (activeFlow && activeFlow !== this.currentFlow) {
-        const flow = this.flows.find((other: FlowDefinition) => {
-          return other.uuid === activeFlow;
-        });
         this.currentFlow = activeFlow;
       }
     }
@@ -600,7 +597,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             this.sendAttachment("image/jpeg:" + IMAGE_A);
           }}
         >
-          <img src={IMAGE_A} />
+          <img src={IMAGE_A} alt="Attachment"/>
         </div>
         <div
           className={styles.drawer_item}
@@ -608,7 +605,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             this.sendAttachment("image/jpeg:" + IMAGE_B);
           }}
         >
-          <img src={IMAGE_B} />
+          <img src={IMAGE_B} alt="Attachment" />
         </div>
         <div
           className={styles.drawer_item}
@@ -616,7 +613,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             this.sendAttachment("image/jpeg:" + IMAGE_C);
           }}
         >
-          <img src={IMAGE_C} />
+          <img src={IMAGE_C} alt="Attachment" />
         </div>
       </div>
     );
@@ -630,7 +627,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           this.sendAttachment("geo:2.904194,-79.003418");
         }}
       >
-        <img src={MAP_THUMB} />
+        <img src={MAP_THUMB} alt="Attachment" />
       </div>
     );
   }
@@ -658,7 +655,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             this.sendAttachment("video/mp4:" + VIDEO_A);
           }}
         >
-          <img src={VIDEO_A_THUMB} />
+          <img src={VIDEO_A_THUMB} alt="Attachment" />
         </div>
         <div
           className={styles.drawer_item}
@@ -666,7 +663,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             this.sendAttachment("video/mp4:" + VIDEO_A);
           }}
         >
-          <img src={VIDEO_A_THUMB} />
+          <img src={VIDEO_A_THUMB} alt="Attachment" />
         </div>
         <div
           className={styles.drawer_item}
@@ -674,7 +671,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             this.sendAttachment("video/mp4:" + VIDEO_A);
           }}
         >
-          <img src={VIDEO_A_THUMB} />
+          <img src={VIDEO_A_THUMB} alt="Attachment" />
         </div>
       </div>
     );
@@ -955,7 +952,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               {this.getAttachmentOptions()}
               {this.getDrawer()}
               <div className={styles.footer}>
-                <a
+                <span
                   className={
                     styles.reset +
                     " " +
