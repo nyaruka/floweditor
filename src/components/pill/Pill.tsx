@@ -1,49 +1,52 @@
 import * as React from 'react';
 
-import * as styles from './Pill.scss';
+import styles from './Pill.module.scss';
 
 export interface PillProps {
-    advanced?: boolean;
-    onClick?(event: React.MouseEvent<HTMLDivElement>): void;
-    text: string;
-    maxLength?: number;
-    icon?: string;
-    large?: boolean;
-    style?: React.CSSProperties;
+  advanced?: boolean;
+  onClick?(event: React.MouseEvent<HTMLDivElement>): void;
+  text: string;
+  maxLength?: number;
+  icon?: string;
+  large?: boolean;
+  style?: React.CSSProperties;
 }
 
 const Pill: React.SFC<PillProps> = (props: PillProps): JSX.Element => {
-    let text = props.text;
+  let text = props.text;
 
-    if (props.text.startsWith('@')) {
-        text = '@(exp)';
-    } else if (props.maxLength && text.length > props.maxLength) {
-        text = props.text.substring(0, props.maxLength) + '...';
-    }
+  if (props.text.startsWith("@")) {
+    text = "@(exp)";
+  } else if (props.maxLength && text.length > props.maxLength) {
+    text = props.text.substring(0, props.maxLength) + "...";
+  }
 
-    const pillStyles = [styles.pill];
+  const pillStyles = [styles.pill];
 
-    if (props.large) {
-        pillStyles.push(styles.large);
-    }
+  if (props.large) {
+    pillStyles.push(styles.large);
+  }
 
-    if (props.onClick) {
-        pillStyles.push(styles.clickable);
-    }
+  if (props.onClick) {
+    pillStyles.push(styles.clickable);
+  }
 
-    return (
-        <div
-            style={props.style}
-            data-advanced={props.advanced}
-            onClick={props.onClick}
-            className={pillStyles.join(' ')}
-        >
-            {text}
-            {props.icon ? (
-                <span data-advanced={props.advanced} className={styles.icon + ' ' + props.icon} />
-            ) : null}
-        </div>
-    );
+  return (
+    <div
+      style={props.style}
+      data-advanced={props.advanced}
+      onClick={props.onClick}
+      className={pillStyles.join(" ")}
+    >
+      {text}
+      {props.icon ? (
+        <span
+          data-advanced={props.advanced}
+          className={styles.icon + " " + props.icon}
+        />
+      ) : null}
+    </div>
+  );
 };
 
 export default Pill;

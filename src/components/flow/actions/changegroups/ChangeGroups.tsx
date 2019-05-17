@@ -1,59 +1,62 @@
+import { renderAssetList } from 'components/flow/actions/helpers';
+import { fakePropType } from 'config/ConfigProvider';
+import { Types } from 'config/interfaces';
+import { ChangeGroups, Endpoints } from 'flowTypes';
 import * as React from 'react';
-import { renderAssetList } from '~/components/flow/actions/helpers';
-import { fakePropType } from '~/config/ConfigProvider';
-import { Types } from '~/config/interfaces';
-import { ChangeGroups, Endpoints } from '~/flowTypes';
-import { AssetType } from '~/store/flowContext';
+import { AssetType } from 'store/flowContext';
 
-export const removeAllSpecId = 'remove_from_all';
-export const contentSpecId = 'content';
-export const removeAllText = 'Remove from all groups';
-export const ellipsesText = '...';
+export const removeAllSpecId = "remove_from_all";
+export const contentSpecId = "content";
+export const removeAllText = "Remove from all groups";
+export const ellipsesText = "...";
 
 export const MAX_TO_SHOW = 3;
 export const getRemoveAllMarkup = (
-    key = removeAllSpecId,
-    specId = removeAllSpecId,
-    text = removeAllText
+  key = removeAllSpecId,
+  specId = removeAllSpecId,
+  text = removeAllText
 ) => (
-    <div key={key} data-spec={specId}>
-        {text}
-    </div>
+  <div key={key} data-spec={specId}>
+    {text}
+  </div>
 );
 
 export const getContentMarkup = (
-    { type, groups }: ChangeGroups,
-    endpoints?: Endpoints
+  { type, groups }: ChangeGroups,
+  endpoints?: Endpoints
 ): JSX.Element[] => {
-    const content = [];
+  const content = [];
 
-    if (type === Types.remove_contact_groups && (!groups || !groups.length)) {
-        content.push(getRemoveAllMarkup());
-    } else {
-        return renderAssetList(
-            groups.map(group => {
-                return { id: group.uuid, name: group.name, type: AssetType.Group };
-            }),
-            MAX_TO_SHOW,
-            endpoints
-        );
-    }
+  if (type === Types.remove_contact_groups && (!groups || !groups.length)) {
+    content.push(getRemoveAllMarkup());
+  } else {
+    return renderAssetList(
+      groups.map(group => {
+        return { id: group.uuid, name: group.name, type: AssetType.Group };
+      }),
+      MAX_TO_SHOW,
+      endpoints!
+    );
+  }
 
-    return content;
+  return content;
 };
 
 export const getChangeGroupsMarkup = (
-    action: ChangeGroups,
-    endpoints?: Endpoints,
-    specId = contentSpecId
+  action: ChangeGroups,
+  endpoints?: Endpoints,
+  specId = contentSpecId
 ) => <div data-spec={specId}>{getContentMarkup(action, endpoints)}</div>;
 
-const ChangeGroupsComp: React.SFC<ChangeGroups> = (props, context: any): JSX.Element => {
-    return getChangeGroupsMarkup(props, context.config.endpoints);
+const ChangeGroupsComp: React.SFC<ChangeGroups> = (
+  props,
+  context: any
+): JSX.Element => {
+  return getChangeGroupsMarkup(props, context.config.endpoints);
 };
 
 ChangeGroupsComp.contextTypes = {
-    config: fakePropType
+  config: fakePropType
 };
 
 export default ChangeGroupsComp;

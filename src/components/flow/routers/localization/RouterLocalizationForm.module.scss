@@ -1,0 +1,61 @@
+@import "variables.module.scss";
+
+.translating_categories {
+  clear: both;
+}
+
+.translating_category {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.translating_from {
+  background: $translation_bg;
+  border-radius: 5px;
+  padding: 9px;
+  border: 1px solid darken($translation_bg, 5%);
+  display: inline-block;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+}
+
+.translating_to {
+  display: inline-block;
+  width: 355px;
+}
+
+.translating_operator_title {
+  font-weight: 400;
+  font-size: 18px;
+  margin: 0 9px 15px;
+}
+
+.translating_operator_instructions {
+  margin: 0 10px 15px;
+}
+
+.translating_operator_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.translating_operator {
+  overflow: hidden;
+  width: 145px;
+  font-style: italic;
+  padding-top: 10px;
+  padding-left: 10px;
+}

@@ -1,0 +1,48 @@
+{
+    "results":[
+        {
+            "name":"Eric Newcomer",
+            "id":"23ff7152-b588-43e4-90de-fda77aeaf7c0",
+            "type": "contact"
+        },
+        {
+            "name":"Norbert Kwizera",
+            "id":"2429d573-80d7-47f8-879f-f2ba442a1bfd",
+            "type": "contact"
+        },
+        {
+            "name":"Nic Pottier",
+            "id":"cdbf9e01-aaa7-4381-8259-ee042447bcac",
+            "type": "contact"
+        },
+        {
+            "name":"Rowan Seymour",
+            "id":"afaba971-8943-4dd8-860b-3561ed4f1fe1",
+            "type": "contact"
+        },
+        {
+            "name":"Evan Wheeler",
+            "id":"5510bddf-01bd-45b5-a519-33b28bac48d0",
+            "type": "contact"
+        },
+        {
+            "name":"Subscribers",
+            "id":"33b28bac-b588-43e4-90de-fda77aeaf7c0",
+            "type":"group"
+        },
+        {
+            "name":"Kellan Alexander",
+            "path":"+250788382382",
+            "scheme":"tel",
+            "id":"tel:+250788382382",
+            "type": "urn"
+        },
+        {
+            "name":"Eric Newcomer",
+            "path":"ericnewcomer",
+            "scheme":"twitter",
+            "id":"twitter:ericnewcomer",
+            "type": "urn"
+        }
+    ]
+}

@@ -1,39 +1,41 @@
-import { SetRunResult } from '~/flowTypes';
-import { composeComponentTestUtils } from '~/testUtils';
-import { createSetRunResultAction } from '~/testUtils/assetCreators';
-import { setEmpty } from '~/utils';
+import { SetRunResult } from "flowTypes";
+import { composeComponentTestUtils } from "testUtils";
+import { createSetRunResultAction } from "testUtils/assetCreators";
+import { setEmpty } from "utils";
 
 import SetRunResultComp, {
-    getClearPlaceholder,
-    getResultNameMarkup,
-    getSavePlaceholder
-} from '~/components/flow/actions/setrunresult/SetRunResult';
+  getClearPlaceholder,
+  getResultNameMarkup,
+  getSavePlaceholder
+} from "components/flow/actions/setrunresult/SetRunResult";
 
 const setRunResultAction = createSetRunResultAction();
 
 const { setup } = composeComponentTestUtils<SetRunResult>(
-    SetRunResultComp,
-    setRunResultAction as SetRunResult
+  SetRunResultComp,
+  setRunResultAction as SetRunResult
 );
 
 describe(SetRunResultComp.name, () => {
-    it('should render save placeholder when value prop passed', () => {
-        const { wrapper, props } = setup();
+  it("should render save placeholder when value prop passed", () => {
+    const { wrapper, props } = setup();
 
-        expect(
-            wrapper.containsMatchingElement(
-                getSavePlaceholder(props.value, getResultNameMarkup(props.name))
-            )
-        ).toBeTruthy();
-        expect(wrapper).toMatchSnapshot();
-    });
+    expect(
+      wrapper.containsMatchingElement(
+        getSavePlaceholder(props.value, getResultNameMarkup(props.name))
+      )
+    ).toBeTruthy();
+    expect(wrapper).toMatchSnapshot();
+  });
 
-    it("should render with clear placholder when value prop isn't passed", () => {
-        const { wrapper, props } = setup(true, { value: setEmpty() });
+  it("should render with clear placholder when value prop isn't passed", () => {
+    const { wrapper, props } = setup(true, { value: setEmpty() });
 
-        expect(
-            wrapper.containsMatchingElement(getClearPlaceholder(getResultNameMarkup(props.name)))
-        ).toBeTruthy();
-        expect(wrapper).toMatchSnapshot();
-    });
+    expect(
+      wrapper.containsMatchingElement(
+        getClearPlaceholder(getResultNameMarkup(props.name))
+      )
+    ).toBeTruthy();
+    expect(wrapper).toMatchSnapshot();
+  });
 });

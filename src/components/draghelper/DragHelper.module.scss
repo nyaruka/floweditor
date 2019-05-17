@@ -1,0 +1,70 @@
+@import "variables.module.scss";
+
+$speed: 0.2s;
+
+.drag_helper {
+  position: relative;
+  bottom: -7px;
+  z-index: 1;
+
+  &.visible {
+    .arrow {
+      top: 0px;
+      opacity: 1;
+      .tail {
+        height: 24px;
+      }
+    }
+
+    .help_text {
+      opacity: 1;
+      left: 20px;
+    }
+  }
+
+  .arrow {
+    position: absolute;
+    left: -7px;
+    opacity: 0;
+    transition: all $speed ease-in-out;
+
+    .tail {
+      position: relative;
+      width: 4px;
+      height: 0px;
+      background: $red;
+      margin: 0 auto;
+      transition: all $speed ease-in-out;
+    }
+
+    .head {
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 12px solid $red;
+      margin: 0 auto;
+    }
+  }
+
+  .help_text {
+    transition: all $speed ease-in-out;
+    transition-delay: $speed;
+
+    box-shadow: 0px 0px 7px 7px rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: $curvature;
+    padding: 5px;
+
+    font-size: 12px;
+    position: absolute;
+    margin: 0 50%;
+    top: 5px;
+    left: 0px;
+    width: 150px;
+    opacity: 0;
+    .bold {
+      font-weight: bold;
+    }
+  }
+}

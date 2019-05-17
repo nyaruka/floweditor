@@ -1,0 +1,52 @@
+@import "variables.module.scss";
+
+.lead_in {
+  margin-bottom: 5px;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 6px;
+}
+
+.lead-in-sub {
+  margin-bottom: 5px;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 6px;
+  margin-left: 8px;
+}
+
+.result_select {
+  width: 254px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: -10px;
+  vertical-align: top;
+}
+
+.result-select-delimited {
+  width: 166px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: -10px;
+  vertical-align: top;
+}
+
+.should_delimit {
+  margin-top: 20px;
+}
+
+.field_number {
+  width: 96px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: -10px;
+  vertical-align: top;
+}
+
+.delimiter {
+  width: 158px;
+  display: inline-block;
+  margin-left: 12px;
+  margin-bottom: -10px;
+  vertical-align: top;
+}

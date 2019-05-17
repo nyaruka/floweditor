@@ -9,7 +9,7 @@ exports[`LanguageSelector render should render select control: language selector
     key="lang_eng"
   >
     <div
-      className="languageLink active"
+      className="language_link active"
       onClick={[Function]}
     >
       English
@@ -25,7 +25,7 @@ exports[`LanguageSelector render should render select control: language selector
       |
     </div>
     <div
-      className="languageLink "
+      className="language_link "
       onClick={[Function]}
     >
       French
@@ -41,7 +41,7 @@ exports[`LanguageSelector render should render select control: language selector
       |
     </div>
     <div
-      className="languageLink "
+      className="language_link "
       onClick={[Function]}
     >
       Spanish

@@ -1,0 +1,109 @@
+@import "variables.module.scss";
+
+.random {
+  background: $light_gray;
+}
+
+.wait_for_audio,
+.wait_for_image,
+.wait_for_video,
+.wait_for_location,
+.wait_for_menu,
+.wait_for_digits,
+.wait_for_response {
+  background: $dark_blue;
+}
+
+.add_contact_groups {
+  background: $green;
+}
+
+.remove_contact_groups {
+  background: $red;
+}
+
+.send_email,
+.send_broadcast {
+  background: $purple;
+}
+
+.msg,
+.say_msg,
+.send_msg {
+  background: $blue;
+}
+
+.transfer_airtime,
+.enter_flow,
+.start_session {
+  background: $pink;
+}
+
+.set_run_result {
+  background: $dark_teal;
+}
+
+.add_input_labels,
+.add_contact_urn,
+.set_contact_name,
+.set_contact_field,
+.set_contact_language,
+.set_contact_channel {
+  background: $teal;
+}
+
+.play_audio {
+  background: $yellow;
+}
+
+.missing {
+  $color_1: rgba(243, 78, 78, 0.6);
+  $color_2: rgba(228, 37, 37, 0.4);
+  background-image: repeating-linear-gradient(
+    60deg,
+    $color_1,
+    $color_1 12px,
+    $color_2 12px,
+    $color_2 24px
+  );
+}
+
+.subflow,
+.split_by_random,
+.split_by_expression,
+.split_by_groups,
+.split_by_contact_field,
+.split_by_run_result {
+  background: $dark_gray;
+}
+
+.call_resthook,
+.call_webhook {
+  background: $orange;
+}
+
+.breaks {
+  word-wrap: break-word;
+}
+
+.url {
+  width: $node_min_width;
+}
+
+.node_asset {
+  .node_group {
+    padding-right: 5px;
+  }
+
+  .node_label {
+    padding-right: 5px;
+  }
+}
+
+.advanced_title {
+  font-size: 12px;
+}
+
+.alert {
+  background: $red;
+}

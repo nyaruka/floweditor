@@ -2,10 +2,10 @@
 
 exports[`TimeoutControl handles initial values 1`] = `
 <div
-  className="timeoutControlContainer"
+  className="timeout_control_container"
 >
   <div
-    className="leftSection"
+    className="left_section"
   >
     <CheckboxElement
       checkboxClassName="checkbox"
@@ -16,12 +16,9 @@ exports[`TimeoutControl handles initial values 1`] = `
     />
   </div>
   <div
-    className="dropDown"
+    className="drop_down"
   >
-    <StateManager
-      defaultInputValue=""
-      defaultMenuIsOpen={false}
-      defaultValue={null}
+    <Component
       isClearable={false}
       isSearchable={false}
       menuPlacement="auto"
@@ -123,10 +120,10 @@ exports[`TimeoutControl handles initial values 1`] = `
 
 exports[`TimeoutControl renders 1`] = `
 <div
-  className="timeoutControlContainer"
+  className="timeout_control_container"
 >
   <div
-    className="leftSection"
+    className="left_section"
   >
     <CheckboxElement
       checkboxClassName="checkbox"

@@ -23,7 +23,7 @@ exports[`AddLabelsForm render should render a base action 1`] = `
       Object {
         "component": [Function],
         "description": "Label the incoming message",
-        "form": undefined,
+        "form": [Function],
         "name": "Add Labels",
         "type": "add_input_labels",
       }

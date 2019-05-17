@@ -1,0 +1,38 @@
+.form_element {
+  width: 430px;
+
+  .transfer {
+    margin-top: 10px;
+
+    .currency {
+      display: inline-block;
+      width: 200px;
+    }
+
+    .amount {
+      display: inline-block;
+      width: 200px;
+      margin-left: 10px;
+      vertical-align: top;
+      input {
+        font-size: 12px !important;
+        height: 28px !important;
+        vertical-align: super;
+      }
+    }
+
+    .remove {
+      display: inline-block;
+      font-size: 10px;
+      padding-left: 5px;
+      visibility: hidden;
+      cursor: pointer;
+    }
+
+    &:hover {
+      .remove {
+        visibility: visible;
+      }
+    }
+  }
+}

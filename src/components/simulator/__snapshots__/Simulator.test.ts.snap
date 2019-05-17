@@ -2,11 +2,11 @@
 
 exports[`Simulator renders 1`] = `
 <div
-  className="simContainer"
+  className="sim_container"
 >
   <div>
     <div
-      className="simulator simHidden"
+      className="simulator sim_hidden"
       id="simulator"
       key="sim"
     >
@@ -50,7 +50,7 @@ exports[`Simulator renders 1`] = `
             type="text"
           />
           <div
-            className="showAttachmentsButton"
+            className="show_attachments_button"
           >
             <div
               className="fe-paperclip"
@@ -59,7 +59,7 @@ exports[`Simulator renders 1`] = `
           </div>
         </div>
         <div
-          className="attachmentButtons "
+          className="attachment_buttons "
         >
           <div
             className="fe-x"
@@ -102,14 +102,14 @@ exports[`Simulator renders 1`] = `
     </div>
   </div>
   <div
-    className="simulatorTab "
+    className="simulator_tab "
     onClick={[Function]}
   >
     <div
-      className="simulatorTabIcon fe-smartphone"
+      className="simulator_tab_icon fe-smartphone"
     />
     <div
-      className="simulatorTabText"
+      className="simulator_tab_text"
     >
       Run in
       <br />

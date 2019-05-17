@@ -1,74 +1,86 @@
 import { react as bindCallbacks } from 'auto-bind';
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import { hasErrors } from 'components/flow/actions/helpers';
+import { RouterFormProps } from 'components/flow/props';
+import { createResultNameInput } from 'components/flow/routers/widgets';
+import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { hasErrors } from '~/components/flow/actions/helpers';
-import { RouterFormProps } from '~/components/flow/props';
-import { createResultNameInput } from '~/components/flow/routers/widgets';
-import TypeList from '~/components/nodeeditor/TypeList';
-import { FormState, StringEntry } from '~/store/nodeEditor';
-import { Alphanumeric, StartIsNonNumeric, validate } from '~/store/validators';
+import { FormState, StringEntry } from 'store/nodeEditor';
+import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
-import * as styles from './WaitRouterForm.scss';
+import styles from './WaitRouterForm.module.scss';
 
 export interface WaitRouterFormState extends FormState {
-    resultName: StringEntry;
+  resultName: StringEntry;
 }
 
-export default class WaitRouterForm extends React.Component<RouterFormProps, WaitRouterFormState> {
-    constructor(props: RouterFormProps) {
-        super(props);
+export default class WaitRouterForm extends React.Component<
+  RouterFormProps,
+  WaitRouterFormState
+> {
+  constructor(props: RouterFormProps) {
+    super(props);
 
-        this.state = nodeToState(this.props.nodeSettings);
+    this.state = nodeToState(this.props.nodeSettings);
 
-        bindCallbacks(this, {
-            include: [/^on/, /^handle/]
-        });
+    bindCallbacks(this, {
+      include: [/^on/, /^handle/]
+    });
+  }
+
+  private handleUpdateResultName(value: string): void {
+    const resultName = validate("Result Name", value, [
+      Alphanumeric,
+      StartIsNonNumeric
+    ]);
+    this.setState({
+      resultName,
+      valid: this.state.valid && !hasErrors(resultName)
+    });
+  }
+
+  private handleSave(): void {
+    if (this.state.valid) {
+      this.props.updateRouter(
+        stateToNode(this.props.nodeSettings, this.state, this.props.typeConfig)
+      );
+      this.props.onClose(false);
     }
+  }
 
-    private handleUpdateResultName(value: string): void {
-        const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
-        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
-    }
+  private getButtons(): ButtonSet {
+    return {
+      primary: { name: "Ok", onClick: this.handleSave },
+      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+    };
+  }
 
-    private handleSave(): void {
-        if (this.state.valid) {
-            this.props.updateRouter(
-                stateToNode(this.props.nodeSettings, this.state, this.props.typeConfig)
-            );
-            this.props.onClose(false);
-        }
-    }
+  public renderEdit(): JSX.Element {
+    const typeConfig = this.props.typeConfig;
 
-    private getButtons(): ButtonSet {
-        return {
-            primary: { name: 'Ok', onClick: this.handleSave },
-            secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
-        };
-    }
+    return (
+      <Dialog
+        title={typeConfig.name}
+        headerClass={typeConfig.type}
+        buttons={this.getButtons()}
+      >
+        <TypeList
+          __className=""
+          initialType={typeConfig}
+          onChange={this.props.onTypeChange}
+        />
+        <div className={styles.result_name}>
+          {createResultNameInput(
+            this.state.resultName,
+            this.handleUpdateResultName
+          )}
+        </div>
+      </Dialog>
+    );
+  }
 
-    public renderEdit(): JSX.Element {
-        const typeConfig = this.props.typeConfig;
-
-        return (
-            <Dialog
-                title={typeConfig.name}
-                headerClass={typeConfig.type}
-                buttons={this.getButtons()}
-            >
-                <TypeList
-                    __className=""
-                    initialType={typeConfig}
-                    onChange={this.props.onTypeChange}
-                />
-                <div className={styles.resultName}>
-                    {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
-                </div>
-            </Dialog>
-        );
-    }
-
-    public render(): JSX.Element {
-        return this.renderEdit();
-    }
+  public render(): JSX.Element {
+    return this.renderEdit();
+  }
 }

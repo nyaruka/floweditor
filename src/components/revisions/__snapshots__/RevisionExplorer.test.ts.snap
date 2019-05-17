@@ -18,7 +18,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
     visible={false}
   >
     <div
-      className="explorerWrapper"
+      className="explorer_wrapper"
     >
       <div
         className="explorer"
@@ -37,7 +37,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
               current
             </div>
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 11, 2019, 9:34 PM
             </div>
@@ -53,7 +53,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 11, 2019, 9:34 PM
             </div>
@@ -69,7 +69,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 11, 2019, 9:34 PM
             </div>
@@ -85,7 +85,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 11, 2019, 8:34 PM
             </div>
@@ -101,7 +101,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 11, 2019, 8:34 PM
             </div>
@@ -117,7 +117,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 6:00 PM
             </div>
@@ -133,7 +133,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:59 PM
             </div>
@@ -149,7 +149,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:59 PM
             </div>
@@ -165,7 +165,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:59 PM
             </div>
@@ -181,7 +181,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:59 PM
             </div>
@@ -197,7 +197,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:59 PM
             </div>
@@ -213,7 +213,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:59 PM
             </div>
@@ -229,7 +229,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:59 PM
             </div>
@@ -245,7 +245,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:58 PM
             </div>
@@ -261,7 +261,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:58 PM
             </div>
@@ -277,7 +277,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:58 PM
             </div>
@@ -293,7 +293,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:58 PM
             </div>
@@ -309,7 +309,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 5:58 PM
             </div>
@@ -325,7 +325,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 6, 2019, 1:18 AM
             </div>
@@ -341,7 +341,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 5, 2019, 11:16 PM
             </div>
@@ -357,7 +357,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               February 1, 2019, 6:23 PM
             </div>
@@ -373,7 +373,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               January 31, 2019, 9:32 PM
             </div>
@@ -389,7 +389,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               January 31, 2019, 9:30 PM
             </div>
@@ -405,7 +405,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               January 31, 2019, 9:30 PM
             </div>
@@ -421,7 +421,7 @@ exports[`RevisionExplorer render should render base component 1`] = `
             onClick={[Function]}
           >
             <div
-              className="createdOn"
+              className="created_on"
             >
               January 31, 2019, 9:30 PM
             </div>

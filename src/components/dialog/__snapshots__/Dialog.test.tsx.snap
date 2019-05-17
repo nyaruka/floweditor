@@ -9,10 +9,10 @@ exports[`Dialog should render 1`] = `
     onClick={[Function]}
   >
     <span
-      className="headerIcon fe-icon"
+      className="header_icon fe-icon"
     />
     <div
-      className="titleContainer"
+      className="title_container"
     >
       <div
         className="title"
@@ -36,7 +36,7 @@ exports[`Dialog should render 1`] = `
       className="buttons"
     >
       <div
-        className="leftButtons"
+        className="left_buttons"
       >
         <Button
           key="0"
@@ -53,7 +53,7 @@ exports[`Dialog should render 1`] = `
         </div>
       </div>
       <div
-        className="rightButtons"
+        className="right_buttons"
       >
         <Button
           key="0"

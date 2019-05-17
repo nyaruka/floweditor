@@ -1,85 +1,137 @@
+import CaseElement, { CaseElementProps } from 'components/flow/routers/case/CaseElement';
+import { Operators } from 'config/interfaces';
 import * as React from 'react';
-import CaseElement, { CaseElementProps } from '~/components/flow/routers/case/CaseElement';
-import { Operators } from '~/config/interfaces';
-import { getOperatorConfig } from '~/config/operatorConfigs';
-import { composeComponentTestUtils, setMock } from '~/testUtils';
+import { fireEvent, render } from 'test/utils';
+import { createUUID } from 'utils';
 
-const caseUUID = '29b18c7e-c232-414c-9fc0-2e0b6260d9ca';
-const { setup } = composeComponentTestUtils<CaseElementProps>(CaseElement, {
-    name: `case_${caseUUID}`,
-    kase: {
-        uuid: caseUUID,
-        type: Operators.has_any_word,
-        arguments: [''],
-        category_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
-    },
-    categoryName: '',
-    onRemove: jest.fn(),
-    onChange: jest.fn()
-});
+const caseUUID = createUUID();
+
+const caseProps: CaseElementProps = {
+  name: `case_${caseUUID}`,
+  kase: {
+    uuid: caseUUID,
+    type: Operators.has_any_word,
+    arguments: [""],
+    category_uuid: createUUID()
+  },
+  categoryName: null,
+  onRemove: jest.fn(),
+  onChange: jest.fn()
+};
+
+// const { setup } = composeComponentTestUtils<CaseElementProps>(CaseElement, caseProps);
 
 describe(CaseElement.name, () => {
-    describe('render', () => {
-        it('should render empty case', () => {
-            const { wrapper } = setup(true);
-            expect(wrapper).toMatchSnapshot();
-        });
-
-        it('renders no argument rules', () => {
-            const { wrapper } = setup(true, {
-                $merge: {
-                    kase: {
-                        uuid: caseUUID,
-                        type: Operators.has_number,
-                        exit_uuid: '38c1m4g4-b424-585d-8cgi-384d6260ymca'
-                    }
-                }
-            });
-            expect(wrapper).toMatchSnapshot();
-        });
+  describe("render", () => {
+    it("should render empty case", () => {
+      const { baseElement } = render(<CaseElement {...caseProps} />);
+      expect(baseElement).toMatchSnapshot();
     });
 
-    describe('operator changes', () => {
-        // we need a full renders because we update our category reference
-        it('should handle updates', () => {
-            const { instance } = setup(false);
-            instance.handleOperatorChanged(getOperatorConfig(Operators.has_any_word));
-            expect(instance.state).toMatchSnapshot();
-        });
+    it("renders no argument rules", () => {
+      const kase = {
+        uuid: caseUUID,
+        type: Operators.has_number,
+        category_uuid: createUUID()
+      };
 
-        it('should should set arguments for numeric range', () => {
-            const { instance } = setup(false);
-            instance.handleOperatorChanged(getOperatorConfig(Operators.has_number_between));
-            expect(instance.state).toMatchSnapshot();
-        });
+      const { baseElement } = render(
+        <CaseElement {...caseProps} kase={kase} />
+      );
+      expect(baseElement).toMatchSnapshot();
+    });
+  });
 
-        it('shouldnt update exit if it has been edited', () => {
-            const { instance } = setup(false);
-            instance.handleExitChanged('My Exit Name');
-            instance.handleOperatorChanged(getOperatorConfig(Operators.has_any_word));
-            expect(instance.state).toMatchSnapshot();
-        });
+  describe("operator changes", () => {
+    // we need a full renders because we update our category reference
+    it("should handle updates", () => {
+      const { baseElement, getByTestId } = render(
+        <CaseElement {...caseProps} />
+      );
+
+      fireEvent.change(getByTestId("select"), {
+        target: { value: Operators.has_phone }
+      });
+
+      expect(baseElement).toMatchSnapshot();
     });
 
-    describe('update', () => {
-        it('handles removes', () => {
-            const { instance, props } = setup(true, { onRemove: setMock() });
-            instance.handleRemoveClicked();
-            expect(props.onRemove).toHaveBeenCalled();
-        });
+    it("should should set arguments for numeric range", () => {
+      const { baseElement, getByTestId } = render(
+        <CaseElement {...caseProps} />
+      );
 
-        it('handles argument change', () => {
-            const { instance } = setup(false);
-            instance.handleArgumentChanged('Green');
-            expect(instance.state).toMatchSnapshot();
-        });
+      fireEvent.change(getByTestId("select"), {
+        target: { value: Operators.has_number_between }
+      });
 
-        it('handles multiple argument change', () => {
-            const { instance } = setup(false);
-            instance.handleOperatorChanged(getOperatorConfig(Operators.has_number_between));
-            instance.handleMinChanged('1');
-            instance.handleMaxChanged('100');
-            expect(instance.state).toMatchSnapshot();
-        });
+      expect(baseElement).toMatchSnapshot();
     });
+
+    it("shouldnt update exit if it has been edited", () => {
+      const {
+        baseElement,
+        queryByDisplayValue,
+        getByTestId,
+        getByDisplayValue
+      } = render(<CaseElement {...caseProps} />);
+
+      // make us a has phone so we can look up our category by value
+      fireEvent.change(getByTestId("select"), {
+        target: { value: Operators.has_phone }
+      });
+
+      // update our category to a user supplied value
+      const category = getByDisplayValue("Has Phone");
+      fireEvent.change(category, { target: { value: "My Exit Name" } });
+
+      // now swithc our type to force a category change
+      fireEvent.change(getByTestId("select"), {
+        target: { value: Operators.has_number }
+      });
+
+      // we shouldn't have updated our category
+      expect(queryByDisplayValue("My Exit Name")).not.toBeNull();
+      expect(queryByDisplayValue("Has Number")).toBeNull();
+      expect(baseElement).toMatchSnapshot();
+    });
+  });
+
+  describe("update", () => {
+    it("handles removes", () => {
+      const onRemove = jest.fn();
+      const { getByTestId } = render(
+        <CaseElement {...caseProps} onRemove={onRemove} />
+      );
+
+      fireEvent.click(getByTestId(`remove-case-${caseProps.kase.uuid}`));
+      expect(onRemove).toHaveBeenCalled();
+    });
+
+    it("handles argument change", () => {
+      const onRemove = jest.fn();
+      const { baseElement, getAllByTestId } = render(
+        <CaseElement {...caseProps} onRemove={onRemove} />
+      );
+      const args = getAllByTestId("input");
+      fireEvent.change(args[0], { target: { value: "Purple, p" } });
+      expect(baseElement).toMatchSnapshot();
+    });
+
+    it("handles multiple argument change", () => {
+      const onRemove = jest.fn();
+      const { baseElement, getByTestId, getAllByTestId } = render(
+        <CaseElement {...caseProps} onRemove={onRemove} />
+      );
+
+      fireEvent.change(getByTestId("select"), {
+        target: { value: Operators.has_number_between }
+      });
+
+      const args = getAllByTestId("input");
+      fireEvent.change(args[0], { target: { value: "1" } });
+      fireEvent.change(args[1], { target: { value: "100" } });
+      expect(baseElement).toMatchSnapshot();
+    });
+  });
 });

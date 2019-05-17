@@ -1,51 +1,51 @@
-@import '~/variables.scss';
+@import "variables.module.scss";
 
 $inner_spacing: 15px;
 
 .title {
-    font-weight: 400;
-    font-size: 18px;
-    margin-bottom: 8px;
+  font-weight: 400;
+  font-size: 18px;
+  margin-bottom: 8px;
 }
 
 .instructions {
-    padding-bottom: 12px;
+  padding-bottom: 12px;
 }
 
 .intro {
-    padding-bottom: 10px;
+  padding-bottom: 10px;
 }
 
 .node_editor {
-    padding: 20px;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 15px;
-    box-sizing: border-box;
+  padding: 20px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 15px;
+  box-sizing: border-box;
 }
 
 .type_chooser {
-    margin: 0 0 $inner_spacing 0;
+  margin: 0 0 $inner_spacing 0;
 }
 
 .type_chooser_switch {
-    margin: 0 15px $inner_spacing;
+  margin: 0 15px $inner_spacing;
 }
 
 .advanced {
-    background: #fefefe;
+  background: #fefefe;
 }
 
 .header {
-    margin-bottom: $inner_spacing;
+  margin-bottom: $inner_spacing;
 }
 
 .save_link {
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 11px;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 11px;
 }
 
 .save_as {
-    padding: 15px 15px 0px 15px;
+  padding: 15px 15px 0px 15px;
 }

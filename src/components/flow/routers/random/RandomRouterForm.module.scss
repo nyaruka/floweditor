@@ -1,0 +1,31 @@
+@import "variables.module.scss";
+
+.lead_in {
+  margin-bottom: 5px;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 6px;
+}
+
+.bucket_select {
+  width: 154px;
+  display: inline-block;
+  margin-left: 10px;
+  margin-bottom: -10px;
+  vertical-align: top;
+}
+
+$bucketSpacing: 6px;
+
+.bucket_list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  margin: 0px -$bucketSpacing;
+  margin-top: 5px;
+}
+
+.bucket_name {
+  flex: 1 1 120px;
+  margin: $bucketSpacing;
+}

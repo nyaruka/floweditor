@@ -89,7 +89,7 @@ exports[`WebhookRouterForm should render 1`] = `
         ],
         "component": [Function],
         "description": "Call a webook",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",

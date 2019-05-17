@@ -38,7 +38,7 @@ exports[`DigitsRouterForm initializes 1`] = `
     onChange={[MockFunction]}
   />
   <p
-    className="leadIn"
+    className="lead_in"
   >
     If the keypad entry before the # symbol..
   </p>
@@ -100,7 +100,7 @@ exports[`DigitsRouterForm should render 1`] = `
     onChange={[MockFunction]}
   />
   <p
-    className="leadIn"
+    className="lead_in"
   >
     If the keypad entry before the # symbol..
   </p>

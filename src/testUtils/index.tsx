@@ -1,116 +1,127 @@
 // TODO: Remove use of Function
 // tslint:disable:ban-types
+import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
+import { FlowDefinition, FlowEditorConfig } from 'flowTypes';
 import mutate, { Query } from 'immutability-helper';
 import * as React from 'react';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { ConfigProviderContext } from '~/config';
-import { fakePropType } from '~/config/ConfigProvider';
-import { FlowDefinition, FlowEditorConfig } from '~/flowTypes';
-import createStore from '~/store/createStore';
-import { RenderNodeMap } from '~/store/flowContext';
-import { getFlowComponents } from '~/store/helpers';
-import AppState, { initialState } from '~/store/state';
-import * as matchers from '~/testUtils/matchers';
-import { merge, set } from '~/utils';
+import createStore from 'store/createStore';
+import { RenderNodeMap } from 'store/flowContext';
+import { getFlowComponents } from 'store/helpers';
+import AppState, { initialState } from 'store/state';
+import * as matchers from 'testUtils/matchers';
+import { merge, set } from 'utils';
 
 // we need to use require syntax to bust implicit any
-const config = require('~/test/config');
+const config = require("test/config");
 
-const boring: FlowDefinition = require('~/test/flows/boring.json');
+const boring: FlowDefinition = require("test/flows/boring.json");
 
 // force our matchers to be read in
 const match = matchers;
 
 export interface Resp {
-    assets: Array<{ [key: string]: any }>;
+  assets: Array<{ [key: string]: any }>;
 }
 
 export interface QueryString {
-    [key: string]: string;
+  [key: string]: string;
 }
 
 export const contextTypes: { [key: string]: Function } = {
-    config: fakePropType,
-    store: fakePropType,
-    assetService: fakePropType
+  config: fakePropType,
+  store: fakePropType,
+  assetService: fakePropType
 };
 
 export const baseState: AppState = mutate(initialState, {
-    flowContext: merge({
-        definition: require('~/test/flows/colors.json') as FlowDefinition
-    }),
-    editorState: merge({
-        language: { id: 'eng', name: 'English' }
-    })
+  flowContext: merge({
+    definition: require("test/flows/colors.json") as FlowDefinition
+  }),
+  editorState: merge({
+    language: { id: "eng", name: "English" }
+  })
 });
 
 const flowEditorConfig: FlowEditorConfig = config;
 
 export const configProviderContext: ConfigProviderContext = {
-    config: flowEditorConfig
+  config: flowEditorConfig
 };
 
-export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>
-    set(jest.fn(implementation));
+export const setMock = (
+  implementation?: (...args: any[]) => any
+): Query<jest.Mock> => set(jest.fn(implementation));
 
 /**
  * Compose setup method for component tests
  */
 export const composeSetup = <P extends {}>(
-    Component: React.ComponentClass | React.SFC,
-    baseProps: P = {} as any,
-    baseDuxState: AppState | Partial<AppState> = baseState,
-    baseContext: ConfigProviderContext = configProviderContext
+  Component: React.ComponentClass | React.SFC,
+  baseProps: P = {} as any,
+  baseDuxState: AppState | Partial<AppState> = baseState,
+  baseContext: ConfigProviderContext = configProviderContext
 ) => (
-    shallowRender: boolean = true,
-    propOverrides: Query<P | Partial<P>> = {},
-    duxStateOverrides: Query<AppState | Partial<AppState>> = {},
-    contextOverrides: Query<ConfigProviderContext | Partial<ConfigProviderContext>> = {},
-    childContextTypeOverrides: { [key: string]: Function } = {},
-    children: Array<JSX.Element | React.ComponentClass | React.SFC> = []
+  shallowRender: boolean = true,
+  propOverrides: Query<P | Partial<P>> = {},
+  duxStateOverrides: Query<AppState | Partial<AppState>> = {},
+  contextOverrides: Query<
+    ConfigProviderContext | Partial<ConfigProviderContext>
+  > = {},
+  childContextTypeOverrides: { [key: string]: Function } = {},
+  children: Array<JSX.Element | React.ComponentClass | React.SFC> = []
 ) => {
-    const props = mutate(baseProps, propOverrides);
-    const store = createStore(mutate(baseDuxState, duxStateOverrides) as AppState);
-    let context = mutate(baseContext, merge({ store }));
+  const props = mutate(baseProps, propOverrides);
+  const store = createStore(mutate(
+    baseDuxState,
+    duxStateOverrides
+  ) as AppState);
+  let context = mutate(baseContext, merge({ store }));
 
-    if (Object.keys(duxStateOverrides).length > 0) {
-        context = mutate(context, duxStateOverrides);
+  if (Object.keys(duxStateOverrides).length > 0) {
+    context = mutate(context, duxStateOverrides);
+  }
+
+  if (Object.keys(contextOverrides).length > 0) {
+    context = mutate(context, contextOverrides as ConfigProviderContext);
+  }
+
+  const childContextTypes: { [contextProp: string]: Function } = mutate(
+    contextTypes,
+    childContextTypeOverrides
+  );
+  // tslint:disable-next-line:ban-types
+  const wrapper = (shallowRender ? (shallow as Function) : (mount as Function))(
+    <Component {...props}>{children}</Component>,
+    {
+      context,
+      childContextTypes
     }
+  );
 
-    if (Object.keys(contextOverrides).length > 0) {
-        context = mutate(context, contextOverrides as ConfigProviderContext);
-    }
-
-    const childContextTypes: { [contextProp: string]: Function } = mutate(
-        contextTypes,
-        childContextTypeOverrides
-    );
-    // tslint:disable-next-line:ban-types
-    const wrapper = (shallowRender ? (shallow as Function) : (mount as Function))(
-        <Component {...props}>{children}</Component>,
-        {
-            context,
-            childContextTypes
-        }
-    );
-
-    return {
-        wrapper,
-        props,
-        context,
-        instance: wrapper.instance()
-    };
+  return {
+    wrapper,
+    props,
+    context,
+    instance: wrapper.instance()
+  };
 };
 
-export const composeSpy = (obj: Object | React.ComponentClass) => (instanceMethod: string) =>
-    jest.spyOn((obj as React.ComponentClass).prototype || obj, instanceMethod as any);
+export const composeSpy = (obj: Object | React.ComponentClass) => (
+  instanceMethod: string
+) =>
+  jest.spyOn(
+    (obj as React.ComponentClass).prototype || obj,
+    instanceMethod as any
+  );
 
 /**
  * Wait for promises in queue to resolve
  */
-export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
+export const flushPromises = () =>
+  new Promise(resolve => setImmediate(resolve));
 
 /**
  * Restore spy mocks (distinct from mocks created w/ jest.fn()).
@@ -118,7 +129,7 @@ export const flushPromises = () => new Promise(resolve => setImmediate(resolve))
  * otherwise just call .mockRestore() on lone spy.
  */
 export const restoreSpies = (...spies: Array<jest.SpyInstance<any>>) =>
-    spies.forEach(spy => spy.mockRestore());
+  spies.forEach(spy => spy.mockRestore());
 
 // To-do: type this method's output, can pass it prop generic ingested by getComponentTestUtils
 /**
@@ -131,44 +142,51 @@ export const restoreSpies = (...spies: Array<jest.SpyInstance<any>>) =>
  * @returns {ReactWrapper|ReactWrapper[]|ShallowWrapper|ShallowWrapper[]} Matching DOM components
  */
 export const getSpecWrapper = (
-    componentWrapper: ReactWrapper<{}, {}> | ShallowWrapper<{}, {}>,
-    specName: string,
-    attributeName: string = 'data-spec'
+  componentWrapper: ReactWrapper<{}, {}> | ShallowWrapper<{}, {}>,
+  specName: string,
+  attributeName: string = "data-spec"
 ): any => componentWrapper.find(`[${attributeName}="${specName}"]`);
 
 export const composeDuxState = (
-    query: Query<AppState | Partial<AppState>> = {},
-    duxState = baseState
+  query: Query<AppState | Partial<AppState>> = {},
+  duxState = baseState
 ) => mutate(duxState, query);
 
 export const composeComponentTestUtils = <P extends {}>(
-    Component: React.ComponentClass | React.SFC,
-    baseProps: P = {} as any,
-    baseDuxState: AppState | Partial<AppState> = baseState,
-    baseContext: ConfigProviderContext = configProviderContext
+  Component: React.ComponentClass | React.SFC | any,
+  baseProps: P = {} as any,
+  baseDuxState: AppState | Partial<AppState> = baseState,
+  baseContext: ConfigProviderContext = configProviderContext
 ) => ({
-    setup: composeSetup<P>(Component, baseProps, baseDuxState, baseContext),
-    spyOn: composeSpy(Component)
+  setup: composeSetup<P>(Component, baseProps, baseDuxState, baseContext),
+  spyOn: composeSpy(Component)
 });
 
-export const prepMockDuxState = (): { testNodes: RenderNodeMap; mockDuxState: AppState } => {
-    const testNodes = getFlowComponents(boring).renderNodeMap;
+export const prepMockDuxState = (): {
+  testNodes: RenderNodeMap;
+  mockDuxState: AppState;
+} => {
+  const testNodes = getFlowComponents(boring).renderNodeMap;
 
-    return {
-        testNodes,
-        mockDuxState: {
-            ...initialState,
-            flowContext: {
-                ...initialState.flowContext,
-                definition: boring,
-                nodes: testNodes
-            }
-        }
-    };
+  return {
+    testNodes,
+    mockDuxState: {
+      ...initialState,
+      flowContext: {
+        ...initialState.flowContext,
+        definition: boring,
+        nodes: testNodes
+      }
+    }
+  };
 };
 
 export const createMockStore: Function = configureStore([thunk]);
 
-export const mock = <T extends {}, K extends keyof T>(object: T, property: K, value: T[K]) => {
-    Object.defineProperty(object, property, { get: () => value });
+export const mock = <T extends {}, K extends keyof T>(
+  object: T,
+  property: K,
+  value: T[K]
+) => {
+  Object.defineProperty(object, property, { get: () => value });
 };

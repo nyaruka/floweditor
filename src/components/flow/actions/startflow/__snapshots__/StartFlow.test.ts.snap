@@ -3,11 +3,11 @@
 exports[`StartFlowComp render should render flow name 1`] = `
 <Fragment>
   <div
-    className="nodeAsset"
+    className="node_asset"
     key="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
   >
     <span
-      className="nodeLabel fe-split"
+      className="node_label fe-split"
     />
     <a
       href="/flow/editor/b1f332f3-bdd3-4891-aec5-1843a712dbf1"

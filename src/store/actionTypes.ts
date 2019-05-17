@@ -1,133 +1,158 @@
-import { Type } from '~/config';
-import { FlowDefinition } from '~/flowTypes';
-import Constants from '~/store/constants';
-import { EditorState } from '~/store/editor';
-import { Asset, AssetStore, ContactFields, RenderNodeMap } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
+import { Type } from 'config/interfaces';
+import { FlowDefinition } from 'flowTypes';
+import Constants from 'store/constants';
+import { EditorState } from 'store/editor';
+import { Asset, AssetStore, ContactFields, RenderNodeMap } from 'store/flowContext';
+import { NodeEditorSettings } from 'store/nodeEditor';
 
 // Redux action generic
-interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> {
-    type: T;
-    payload?: P;
+interface DuxAction<
+  T extends Constants,
+  P extends { [key: string]: any } = {}
+> {
+  type: T;
+  payload?: P;
 }
 
 // Payload types
 interface EditorStatePayload {
-    editorState: EditorState;
+  editorState: EditorState;
 }
 
 interface DefinitionPayload {
-    definition: FlowDefinition;
+  definition: FlowDefinition;
 }
 
 interface BaseLanguagePayload {
-    baseLanguage: Asset;
+  baseLanguage: Asset;
 }
 
 interface LanguagesPayload {
-    languages: Asset[];
+  languages: Asset[];
 }
 
 interface UpdateFlowsPayload {
-    flows: Array<{ uuid: string; name: string }>;
+  flows: Array<{ uuid: string; name: string }>;
 }
 
 interface UpdateDependenciesPayload {
-    dependencies: FlowDefinition[];
+  dependencies: FlowDefinition[];
 }
 
 interface UpdateAssetMapPayload {
-    assets: AssetStore;
+  assets: AssetStore;
 }
 
 interface UpdateNodesPayload {
-    nodes: RenderNodeMap;
+  nodes: RenderNodeMap;
 }
 
 interface UpdateTypeConfigPayload {
-    typeConfig: Type;
+  typeConfig: Type;
 }
 
 interface UpdateUserAddingActionPayload {
-    userAddingAction: boolean;
+  userAddingAction: boolean;
 }
 
 interface UpdateNodeEditorSettingsPayload {
-    settings: NodeEditorSettings;
+  settings: NodeEditorSettings;
 }
 
 interface UpdateContactFieldsPayload {
-    contactFields: ContactFields;
+  contactFields: ContactFields;
 }
 
 // Action types
 export type UpdateNodeEditorSettings = DuxAction<
-    Constants.UPDATE_NODE_EDITOR_SETTINGS,
-    UpdateNodeEditorSettingsPayload
+  Constants.UPDATE_NODE_EDITOR_SETTINGS,
+  UpdateNodeEditorSettingsPayload
 >;
 
-export type UpdateEditorState = DuxAction<Constants.UPDATE_EDITOR_STATE, EditorStatePayload>;
+export type UpdateEditorState = DuxAction<
+  Constants.UPDATE_EDITOR_STATE,
+  EditorStatePayload
+>;
 
 export type UpdateBaseLanguageAction = DuxAction<
-    Constants.UPDATE_BASE_LANGUAGE,
-    BaseLanguagePayload
+  Constants.UPDATE_BASE_LANGUAGE,
+  BaseLanguagePayload
 >;
 
-export type UpdateLanguagesAction = DuxAction<Constants.UPDATE_LANGUAGES, LanguagesPayload>;
+export type UpdateLanguagesAction = DuxAction<
+  Constants.UPDATE_LANGUAGES,
+  LanguagesPayload
+>;
 
-export type UpdateDefinitionAction = DuxAction<Constants.UPDATE_DEFINITION, DefinitionPayload>;
+export type UpdateDefinitionAction = DuxAction<
+  Constants.UPDATE_DEFINITION,
+  DefinitionPayload
+>;
 
-export type UpdateFlowsAction = DuxAction<Constants.UPDATE_FLOWS, UpdateFlowsPayload>;
+export type UpdateFlowsAction = DuxAction<
+  Constants.UPDATE_FLOWS,
+  UpdateFlowsPayload
+>;
 
 export type UpdateDependenciesAction = DuxAction<
-    Constants.UPDATE_DEPENDENCIES,
-    UpdateDependenciesPayload
+  Constants.UPDATE_DEPENDENCIES,
+  UpdateDependenciesPayload
 >;
 
-export type UpdateAssetsAction = DuxAction<Constants.UPDATE_ASSET_MAP, UpdateAssetMapPayload>;
+export type UpdateAssetsAction = DuxAction<
+  Constants.UPDATE_ASSET_MAP,
+  UpdateAssetMapPayload
+>;
 
 export type IncrementSuggestedResultNameCountAction = DuxAction<
-    Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
+  Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
 >;
 
-export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
+export type UpdateNodesAction = DuxAction<
+  Constants.UPDATE_NODES,
+  UpdateNodesPayload
+>;
 
 export type UpdateTypeConfigAction = DuxAction<
-    Constants.UPDATE_TYPE_CONFIG,
-    UpdateTypeConfigPayload
+  Constants.UPDATE_TYPE_CONFIG,
+  UpdateTypeConfigPayload
 >;
 
 export type UpdateUserAddingActionAction = DuxAction<
-    Constants.UPDATE_USER_ADDING_ACTION,
-    UpdateUserAddingActionPayload
+  Constants.UPDATE_USER_ADDING_ACTION,
+  UpdateUserAddingActionPayload
 >;
 
 export type UpdateContactFieldsAction = DuxAction<
-    Constants.UPDATE_CONTACT_FIELDS,
-    UpdateContactFieldsPayload
+  Constants.UPDATE_CONTACT_FIELDS,
+  UpdateContactFieldsPayload
 >;
 
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
-export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
+export type UpdateUserAddingAction = (
+  userAddingAction: boolean
+) => UpdateUserAddingActionAction;
 
-export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
+export type UpdateBaseLanguage = (
+  baseLanguage: Asset
+) => UpdateBaseLanguageAction;
 
 export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
 
 type ActionTypes =
-    | UpdateEditorState
-    | UpdateNodeEditorSettings
-    | UpdateDefinitionAction
-    | UpdateFlowsAction
-    | UpdateDependenciesAction
-    | UpdateAssetsAction
-    | IncrementSuggestedResultNameCountAction
-    | UpdateNodesAction
-    | UpdateTypeConfigAction
-    | UpdateUserAddingActionAction
-    | UpdateBaseLanguageAction
-    | UpdateLanguagesAction
-    | UpdateContactFieldsAction;
+  | UpdateEditorState
+  | UpdateNodeEditorSettings
+  | UpdateDefinitionAction
+  | UpdateFlowsAction
+  | UpdateDependenciesAction
+  | UpdateAssetsAction
+  | IncrementSuggestedResultNameCountAction
+  | UpdateNodesAction
+  | UpdateTypeConfigAction
+  | UpdateUserAddingActionAction
+  | UpdateBaseLanguageAction
+  | UpdateLanguagesAction
+  | UpdateContactFieldsAction;
 
 export default ActionTypes;

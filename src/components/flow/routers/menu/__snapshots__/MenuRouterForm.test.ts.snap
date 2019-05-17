@@ -22,7 +22,7 @@ exports[`MenuRouterForm should render 1`] = `
     initialType={
       Object {
         "description": "Wait for menu selection",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
@@ -40,7 +40,7 @@ exports[`MenuRouterForm should render 1`] = `
     className="menu"
   >
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-0"
     >
       <div
@@ -63,7 +63,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-1"
     >
       <div
@@ -86,7 +86,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-2"
     >
       <div
@@ -109,7 +109,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-3"
     >
       <div
@@ -132,7 +132,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-4"
     >
       <div
@@ -155,7 +155,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-5"
     >
       <div
@@ -178,7 +178,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-6"
     >
       <div
@@ -201,7 +201,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-7"
     >
       <div
@@ -224,7 +224,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-8"
     >
       <div
@@ -247,7 +247,7 @@ exports[`MenuRouterForm should render 1`] = `
       </div>
     </div>
     <div
-      className="menuOption"
+      className="menu_option"
       key="menuoption-9"
     >
       <div

@@ -23,7 +23,7 @@ exports[`SetRunResultForm render should render 1`] = `
       Object {
         "component": [Function],
         "description": "Save a result for this flow",
-        "form": undefined,
+        "form": [Function],
         "name": "Save Flow Result",
         "type": "set_run_result",
       }

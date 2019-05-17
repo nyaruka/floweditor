@@ -1,0 +1,75 @@
+@import "variables.module.scss";
+
+.checkbox {
+  margin-top: 20px;
+}
+
+.quick_reply_summary {
+  margin-top: -20px;
+  position: relative;
+}
+
+.type_choice {
+  display: inline-block;
+  width: 180px;
+}
+
+.url_attachment {
+  margin-bottom: 8px;
+
+  .upload {
+    vertical-align: sub;
+  }
+
+  .remove_upload {
+    display: inline-block;
+    margin-left: 8px;
+  }
+
+  .url {
+    display: inline-block;
+    margin-left: 8px;
+    width: 329px;
+    margin-right: 10px;
+
+    input {
+      vertical-align: sub;
+      height: 28px !important;
+      margin-top: 3px;
+      width: 100%;
+      font-size: 12px;
+    }
+  }
+
+  .remove {
+    vertical-align: sub;
+    display: inline-block;
+  }
+}
+
+.existing_quick_replies {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid $light_gray;
+
+  .existing_quick_reply {
+    margin: 2px;
+    display: inline-block;
+  }
+}
+
+.add_quick_replies {
+  margin-top: 10px;
+}
+
+.template_text {
+  margin-top: 10px;
+  padding: 10px;
+  background: $light_gray_2;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.variable {
+  margin-bottom: 6px;
+}

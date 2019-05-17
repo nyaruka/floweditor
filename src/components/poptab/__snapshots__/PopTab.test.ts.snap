@@ -2,7 +2,7 @@
 
 exports[`PopTab render should render base component 1`] = `
 <div
-  className="popWrapper visible"
+  className="pop_wrapper visible"
   style={
     Object {
       "right": -400,
@@ -11,7 +11,7 @@ exports[`PopTab render should render base component 1`] = `
   }
 >
   <div
-    className="tabWrapper"
+    className="tab_wrapper"
   >
     <div
       className="tab"
@@ -59,7 +59,7 @@ exports[`PopTab render should render base component 1`] = `
         onClick={[Function]}
       />
       <div
-        className="headerLabel"
+        className="header_label"
       >
         Revisions
       </div>

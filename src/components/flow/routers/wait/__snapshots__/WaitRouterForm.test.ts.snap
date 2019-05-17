@@ -37,7 +37,7 @@ exports[`WaitRouterForm should render 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="resultName"
+    className="result_name"
   >
     <OptionalTextInput
       helpText="By naming the result, you can reference it later using @results.result"

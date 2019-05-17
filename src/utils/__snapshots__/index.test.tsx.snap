@@ -26,6 +26,7 @@ LocalizedObject {
     "type": "send_msg",
     "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
+  "name": undefined,
 }
 `;
 
@@ -43,6 +44,7 @@ LocalizedObject {
     "type": "send_msg",
     "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
+  "name": undefined,
 }
 `;
 
@@ -60,6 +62,7 @@ LocalizedObject {
     "type": "send_msg",
     "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
   },
+  "name": undefined,
 }
 `;
 
