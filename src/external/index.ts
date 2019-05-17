@@ -159,7 +159,6 @@ export const isMatch = (
     if (shouldExclude && shouldExclude(asset)) {
         return false;
     }
-    console.log(asset);
     return asset.name.toLowerCase().includes(input.toLowerCase());
 };
 
