@@ -17,10 +17,10 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "lambda:serve": "netlify-lambda serve lambda -p 5000",
+    "lambda:serve": "netlify-lambda serve lambda -p 6000",
     "lambda:build": "netlify-lambda build lambda",
-    "netlify": "npm run build && npm run lambda:build",
-    "version": "npm run build:umd && auto-changelog -p && git add CHANGELOG.md",
+    "netlify": "yarn run build && yarn run lambda:build",
+    "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -3,7 +3,7 @@ const proxy = require('http-proxy-middleware');
 module.exports = function(app) {
     app.use(
         proxy('/.netlify/functions/', {
-            target: 'http://localhost:5000/',
+            target: 'http://localhost:6000/',
             pathRewrite: {
                 '^/\\.netlify/functions': ''
             }
@@ -12,7 +12,7 @@ module.exports = function(app) {
 
     app.use(
         proxy('/assets/', {
-            target: 'http://localhost:5000/',
+            target: 'http://localhost:6000/',
             pathRewrite: {
                 '^/assets': ''
             }
