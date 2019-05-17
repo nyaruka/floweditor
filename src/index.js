@@ -2,21 +2,13 @@ import './global.module.scss';
 import 'static/fonts/floweditor/style.css';
 
 import FlowEditor from 'components';
-import { getConfig } from 'previewConfig';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import * as serviceWorker from './serviceWorker';
 
-const root = document.getElementById("flow-editor");
-if (root) {
-  const config = getConfig();
-  config.flow = root.getAttribute("uuid") || config.flow;
-  ReactDOM.render(<FlowEditor config={config} />, root);
-}
-
 window.showFlowEditor = (ele, config) => {
-  ReactDOM.render(<FlowEditor config={config} />, ele);
+    ReactDOM.render(<FlowEditor config={config} />, ele);
 };
 
 // ReactDOM.render(<App />, document.getElementById("root"));

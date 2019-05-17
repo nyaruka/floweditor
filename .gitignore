@@ -10,5 +10,6 @@ coverage/
 scratch.tsx
 stats.json
 report.html
-lambda
+lambda-build
 lib
+build

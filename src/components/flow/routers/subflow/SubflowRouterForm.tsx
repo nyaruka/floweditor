@@ -1,96 +1,93 @@
-import { react as bindCallbacks } from "auto-bind";
-import * as React from "react";
-import Dialog, { ButtonSet } from "components/dialog/Dialog";
-import { RouterFormProps } from "components/flow/props";
-import {
-  nodeToState,
-  stateToNode
-} from "components/flow/routers/subflow/helpers";
-import AssetSelector from "components/form/assetselector/AssetSelector";
-import TypeList from "components/nodeeditor/TypeList";
-import { fakePropType } from "config/ConfigProvider";
-import { Asset } from "store/flowContext";
-import { AssetEntry, FormState, mergeForm } from "store/nodeEditor";
-import { validate, Required } from "store/validators";
+import { react as bindCallbacks } from 'auto-bind';
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import { RouterFormProps } from 'components/flow/props';
+import { nodeToState, stateToNode } from 'components/flow/routers/subflow/helpers';
+import AssetSelector from 'components/form/assetselector/AssetSelector';
+import TypeList from 'components/nodeeditor/TypeList';
+import { fakePropType } from 'config/ConfigProvider';
+import * as React from 'react';
+import { Asset } from 'store/flowContext';
+import { AssetEntry, FormState, mergeForm } from 'store/nodeEditor';
+import { Required, validate } from 'store/validators';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
-  flow: AssetEntry;
+    flow: AssetEntry;
 }
 
 export default class SubflowRouterForm extends React.PureComponent<
-  RouterFormProps,
-  SubflowRouterFormState
+    RouterFormProps,
+    SubflowRouterFormState
 > {
-  public static contextTypes = {
-    config: fakePropType
-  };
-
-  constructor(props: RouterFormProps) {
-    super(props);
-
-    this.state = nodeToState(props.nodeSettings);
-
-    bindCallbacks(this, {
-      include: [/^on/, /^handle/]
-    });
-  }
-
-  public handleFlowChanged(flows: Asset[]): boolean {
-    const updates: Partial<SubflowRouterFormState> = {
-      flow: validate("Flow", flows[0], [Required])
+    public static contextTypes = {
+        config: fakePropType
     };
 
-    const updated = mergeForm(this.state, updates);
-    this.setState(updated);
-    return updated.valid;
-  }
+    constructor(props: RouterFormProps) {
+        super(props);
 
-  private handleSave(): void {
-    // validate our flow in case they haven't interacted
-    this.handleFlowChanged([this.state.flow.value]);
+        this.state = nodeToState(props.nodeSettings);
 
-    if (this.state.valid) {
-      this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
-      this.props.onClose(false);
+        bindCallbacks(this, {
+            include: [/^on/, /^handle/]
+        });
     }
-  }
 
-  private getButtons(): ButtonSet {
-    return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
-    };
-  }
+    public handleFlowChanged(flows: Asset[]): boolean {
+        const updates: Partial<SubflowRouterFormState> = {
+            flow: validate('Flow', flows[0], [Required])
+        };
 
-  private handleFilter(asset: Asset): boolean {
-    // only show flows that match our flow type
-    return asset.content.type === this.context.config.flowType;
-  }
+        const updated = mergeForm(this.state, updates);
+        this.setState(updated);
+        return updated.valid;
+    }
 
-  public render(): JSX.Element {
-    const typeConfig = this.props.typeConfig;
-    return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
-        <AssetSelector
-          name="Flow"
-          placeholder="Select the flow to start"
-          assets={this.props.assetStore.flows}
-          entry={this.state.flow}
-          searchable={true}
-          onFilter={this.handleFilter}
-          onChange={this.handleFlowChanged}
-        />
-      </Dialog>
-    );
-  }
+    private handleSave(): void {
+        // validate our flow in case they haven't interacted
+        this.handleFlowChanged([this.state.flow.value]);
+
+        if (this.state.valid) {
+            this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
+            this.props.onClose(false);
+        }
+    }
+
+    private getButtons(): ButtonSet {
+        return {
+            primary: { name: 'Ok', onClick: this.handleSave },
+            secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+        };
+    }
+
+    private handleFilter(asset: Asset): boolean {
+        // only show flows that match our flow type
+        return asset.content.type === this.context.config.flowType;
+    }
+
+    public render(): JSX.Element {
+        const typeConfig = this.props.typeConfig;
+        return (
+            <Dialog
+                title={typeConfig.name}
+                headerClass={typeConfig.type}
+                buttons={this.getButtons()}
+            >
+                <TypeList
+                    __className=""
+                    initialType={typeConfig}
+                    onChange={this.props.onTypeChange}
+                />
+                <AssetSelector
+                    name="Flow"
+                    placeholder="Select the flow to start"
+                    assets={this.props.assetStore.flows}
+                    entry={this.state.flow}
+                    searchable={true}
+                    onFilter={this.handleFilter}
+                    onChange={this.handleFlowChanged}
+                />
+            </Dialog>
+        );
+    }
 }
