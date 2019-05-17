@@ -7,5 +7,8 @@ cache:
 install:
     - npm ci --no-optional
     - npm i -g codecov
+script:
+    - yarn run build
+    - yarn test --coverage
 after_success:
     - codecov --file=coverage/lcov.info --disable=search,gcov
