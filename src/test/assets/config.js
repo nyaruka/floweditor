@@ -2,7 +2,7 @@ const config = {
     flow: 'boring'
 };
 
-module.exports =
+export const merged =
     process.env.NODE_ENV === 'preview'
         ? Object.assign({}, config, {
               localStorage: true,
