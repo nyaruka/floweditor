@@ -12,7 +12,6 @@
   ],
   "private": true,
   "dependencies": {
-    "fsevents": "2.0.7",
     "lodash.clonedeep": "4.5.0",
     "prop-types": "15.5.7",
     "react": "^16.8.6",
@@ -23,6 +22,8 @@
     "lambda:serve": "netlify-lambda serve lambda -p 6000",
     "lambda:build": "netlify-lambda build lambda",
     "netlify": "yarn run build && yarn run lambda:build",
+    "preversion": "yarn test",
+    "postversion": "git push --tags && yarn publish . --tag $npm_package_version && git push && echo \"Successfully released version $npm_package_version!\"",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "start": "react-scripts start",
     "build": "react-scripts build",
