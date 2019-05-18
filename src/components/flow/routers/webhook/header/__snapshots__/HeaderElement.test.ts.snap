@@ -71,7 +71,7 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
       />
     </div>
     <div
-      className="removeIco"
+      className="remove_ico"
       data-spec="remove-icon"
       onClick={[Function]}
     >
@@ -151,7 +151,7 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
       />
     </div>
     <div
-      className="removeIco"
+      className="remove_ico"
       data-spec="remove-icon"
       onClick={[Function]}
     >
@@ -228,7 +228,7 @@ exports[`HeaderElement render should render remove icon 1`] = `
       />
     </div>
     <div
-      className="removeIco"
+      className="remove_ico"
       data-spec="remove-icon"
       onClick={[Function]}
     >
@@ -303,7 +303,7 @@ exports[`HeaderElement render should render self, children with base props 2`] =
       />
     </div>
     <div
-      className="removeIco"
+      className="remove_ico"
       data-spec="remove-icon"
       onClick={[Function]}
     >

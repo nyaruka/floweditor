@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { reject } from 'core-js/fn/promise';
-import { Endpoints } from '~/flowTypes';
-import { AssetMap, AssetStore, CompletionOption } from '~/store/flowContext';
+import { Endpoints } from 'flowTypes';
+import { AssetMap, AssetStore, CompletionOption } from 'store/flowContext';
 
 export enum TopLevelVariables {
     contact = 'contact',
@@ -26,7 +26,10 @@ export const getCompletionSignature = (option: CompletionOption): string => {
 export const getFlowOptions = (accessor: string = ''): CompletionOption[] => {
     const prefix = accessor ? accessor : TopLevelVariables.run;
     return [
-        { name: `${prefix}.flow`, summary: `The flow in which a ${accessor} run takes place` },
+        {
+            name: `${prefix}.flow`,
+            summary: `The flow in which a ${accessor} run takes place`
+        },
         {
             name: `${prefix}.flow.uuid`,
             summary: `The UUID of the flow in which a ${accessor} run takes place`
@@ -77,7 +80,10 @@ export const getWebhookOptions = (accessor: string = ''): CompletionOption[] => 
             name: `${prefix}.webhook.response`,
             summary: `The raw response last received in a ${accessor} run, including headers`
         },
-        { name: `${prefix}.results`, summary: `Results collected in a ${accessor} run` }
+        {
+            name: `${prefix}.results`,
+            summary: `Results collected in a ${accessor} run`
+        }
     ];
 };
 
@@ -85,8 +91,14 @@ export const INPUT_OPTIONS: CompletionOption[] = [
     { name: 'input', summary: 'The most recent input' },
     { name: 'input.uuid', summary: 'The UUID of the last input' },
     { name: 'input.type', summary: 'The type of the last input' },
-    { name: 'input.channel', summary: 'The channel the last input was received on' },
-    { name: 'input.channel.address', summary: 'The channel the last input was received on' },
+    {
+        name: 'input.channel',
+        summary: 'The channel the last input was received on'
+    },
+    {
+        name: 'input.channel.address',
+        summary: 'The channel the last input was received on'
+    },
     {
         name: 'input.channel.name',
         summary: 'The name of the channel the last input was received on'
@@ -117,12 +129,18 @@ export const getContactOptions = (accessor?: string): CompletionOption[] => {
             : `${accessor} run's`
         : '';
     return [
-        { name: `${prefix}contact`, summary: `The name of the ${descriptor} contact` },
+        {
+            name: `${prefix}contact`,
+            summary: `The name of the ${descriptor} contact`
+        },
         {
             name: `${prefix}contact.first_name`,
             summary: `The first name of a ${descriptor} contact`
         },
-        { name: `${prefix}contact.name`, summary: `The name of the ${descriptor} contact` },
+        {
+            name: `${prefix}contact.name`,
+            summary: `The name of the ${descriptor} contact`
+        },
         {
             name: `${prefix}contact.display`,
             summary: `The name or urn of the ${descriptor} contact`
@@ -131,7 +149,10 @@ export const getContactOptions = (accessor?: string): CompletionOption[] => {
             name: `${prefix}contact.fields`,
             summary: `Custom fields on a ${descriptor} contact`
         },
-        { name: `${prefix}contact.urn`, summary: `The primary urn for a ${descriptor} contact` },
+        {
+            name: `${prefix}contact.urn`,
+            summary: `The primary urn for a ${descriptor} contact`
+        },
         {
             name: `${prefix}contact.language`,
             summary: `The language iso code for a ${descriptor} contact`
@@ -152,7 +173,10 @@ export const getContactOptions = (accessor?: string): CompletionOption[] => {
             name: `${prefix}contact.urns`,
             summary: `The urns for a ${descriptor} contact`
         },
-        { name: `${prefix}contact.uuid`, summary: `The uuid of the ${descriptor} contact` },
+        {
+            name: `${prefix}contact.uuid`,
+            summary: `The uuid of the ${descriptor} contact`
+        },
         {
             name: `${prefix}contact.channel`,
             summary: `A ${descriptor} contact's preferred channel`
@@ -180,7 +204,10 @@ export const RUN_OPTIONS: CompletionOption[] = [
 ];
 
 export const CHILD_OPTIONS: CompletionOption[] = [
-    { name: TopLevelVariables.child, summary: 'Run details collected in a child flow, if any' },
+    {
+        name: TopLevelVariables.child,
+        summary: 'Run details collected in a child flow, if any'
+    },
     ...getFlowOptions(TopLevelVariables.child),
     ...getContactOptions(TopLevelVariables.child),
     ...getWebhookOptions(TopLevelVariables.child)
@@ -198,14 +225,20 @@ export const PARENT_OPTIONS: CompletionOption[] = [
 
 export const TRIGGER_OPTIONS: CompletionOption[] = [
     { name: 'trigger', summary: 'A trigger that initiated a session' },
-    { name: 'trigger.type', summary: 'The type of a trigger, one of “manual” or “flow”' },
+    {
+        name: 'trigger.type',
+        summary: 'The type of a trigger, one of “manual” or “flow”'
+    },
     { name: 'trigger.params', summary: 'The parameters passed to a trigger' }
 ];
 
 export const URN_OPTIONS: CompletionOption[] = [
     { name: 'urns', summary: 'The urns for the contact' },
     { name: 'urns.facebook', summary: 'The Facebook urn for the contact' },
-    { name: 'urns.fcm', summary: 'The Firebase Cloud Messaging id for the contact' },
+    {
+        name: 'urns.fcm',
+        summary: 'The Firebase Cloud Messaging id for the contact'
+    },
     { name: 'urns.jiochat', summary: 'The Jiochat id for the contact' },
     { name: 'urns.line', summary: 'The Line id for the contact' },
     { name: 'urns.mailto', summary: 'The email address for the contact' },
@@ -264,6 +297,7 @@ export const filterOptions = (
                 (rest.length === 0 || rest.substr(1).indexOf('.') === -1)
             );
         }
+        return false;
     });
 };
 

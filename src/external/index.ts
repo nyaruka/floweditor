@@ -1,11 +1,11 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
-import { Revision } from '~/components/revisions/RevisionExplorer';
-import { Endpoints, Exit, FlowDefinition } from '~/flowTypes';
-import { currencies } from '~/store/currencies';
-import { Activity, RecentMessage } from '~/store/editor';
-import { Asset, AssetMap, Assets, AssetStore, AssetType } from '~/store/flowContext';
-import { assetListToMap } from '~/store/helpers';
+import { Revision } from 'components/revisions/RevisionExplorer';
+import { Endpoints, Exit, FlowDefinition } from 'flowTypes';
+import { currencies } from 'store/currencies';
+import { Activity, RecentMessage } from 'store/editor';
+import { Asset, AssetMap, Assets, AssetStore, AssetType } from 'store/flowContext';
+import { assetListToMap } from 'store/helpers';
 
 export interface FlowDetails {
     uuid: string;
@@ -14,9 +14,9 @@ export interface FlowDetails {
     dependencies: FlowDefinition[];
 }
 
-if (process.env.NODE_ENV === 'preview') {
-    axios.defaults.baseURL = '/.netlify/functions/';
-}
+// if (process.env.NODE_ENV === "preview") {
+// axios.defaults.baseURL = "/.netlify/functions/";
+// }
 
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
@@ -136,7 +136,6 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
 
 export const resultToAsset = (result: any, type: AssetType, id: string): Asset => {
     const idKey = id || 'uuid';
-
     const asset: Asset = {
         name: result.name || result.text || result.label || result[idKey],
         id: result[idKey],
@@ -324,9 +323,9 @@ export const getURL = (path: string): string => {
     }
 
     // Set url for netlify deployments
-    if (process.env.NODE_ENV === 'preview') {
-        url = '/.netlify/functions/' + url;
-    }
+    // if (process.env.NODE_ENV === "preview") {
+    // url = "/.netlify/functions/" + url;
+    // }
 
     const result = `${getBaseURL() + url}`;
     return result;

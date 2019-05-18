@@ -53,10 +53,10 @@ exports[`SendMsgForm render should render 1`] = `
              attachments to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <div
-            className="urlAttachment"
+            className="url_attachment"
           >
             <div
-              className="typeChoice"
+              className="type_choice"
             >
               <SelectElement
                 entry={
@@ -136,7 +136,7 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "component": [Function],
         "description": "Send the contact a message",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "text",

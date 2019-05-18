@@ -1,90 +1,95 @@
-import { EventProps } from '~/components/simulator/LogEvent';
-import { FlowDefinition } from '~/flowTypes';
-import { AssetStore, AssetType } from '~/store/flowContext';
-import { assetMapToList } from '~/store/helpers';
-import { createUUID } from '~/utils';
+import { EventProps } from "components/simulator/LogEvent";
+import { FlowDefinition } from "flowTypes";
+import { AssetStore, AssetType } from "store/flowContext";
+import { assetMapToList } from "store/helpers";
+import { createUUID } from "utils";
 
 const SIMULATOR_CHANNEL = {
-    uuid: createUUID(),
-    name: 'Simulator',
-    address: '+12065550000',
-    schemes: ['tel'],
-    roles: ['send', 'receive']
+  uuid: createUUID(),
+  name: "Simulator",
+  address: "+12065550000",
+  schemes: ["tel"],
+  roles: ["send", "receive"]
 };
 
 interface SimAsset {
-    type: AssetType;
-    url: string;
-    content: any;
+  type: AssetType;
+  url: string;
+  content: any;
 }
 
 export const getTime = (): string => {
-    const now = new Date();
-    const mins = now.getMinutes();
-    let minStr = '' + mins;
-    if (mins < 10) {
-        minStr = '0' + mins;
-    }
-    return Math.abs(12 - now.getHours()) + ':' + minStr;
+  const now = new Date();
+  const mins = now.getMinutes();
+  let minStr = "" + mins;
+  if (mins < 10) {
+    minStr = "0" + mins;
+  }
+  return Math.abs(12 - now.getHours()) + ":" + minStr;
 };
 
-export const getSimulationAssets = (assets: AssetStore, flow: FlowDefinition): any => {
-    const simAssets: SimAsset[] = [];
+export const getSimulationAssets = (
+  assets: AssetStore,
+  flow: FlowDefinition
+): any => {
+  const simAssets: SimAsset[] = [];
 
-    // our group set asset
-    simAssets.push({
-        type: AssetType.Group,
-        url: assets.groups.endpoint,
-        content: assetMapToList(assets.groups.items)
-    });
+  // our group set asset
+  simAssets.push({
+    type: AssetType.Group,
+    url: assets.groups.endpoint,
+    content: assetMapToList(assets.groups.items)
+  });
 
-    // our fields
-    simAssets.push({
-        type: AssetType.Field,
-        url: assets.fields.endpoint,
-        content: assetMapToList(assets.fields.items)
-    });
+  // our fields
+  simAssets.push({
+    type: AssetType.Field,
+    url: assets.fields.endpoint,
+    content: assetMapToList(assets.fields.items)
+  });
 
-    // our labels
-    simAssets.push({
-        type: AssetType.Label,
-        url: assets.labels.endpoint,
-        content: assetMapToList(assets.labels.items)
-    });
+  // our labels
+  simAssets.push({
+    type: AssetType.Label,
+    url: assets.labels.endpoint,
+    content: assetMapToList(assets.labels.items)
+  });
 
-    // our channels
-    simAssets.push({
-        type: AssetType.Channel,
-        url: assets.channels.endpoint,
-        content: [SIMULATOR_CHANNEL]
-    });
+  // our channels
+  simAssets.push({
+    type: AssetType.Channel,
+    url: assets.channels.endpoint,
+    content: [SIMULATOR_CHANNEL]
+  });
 
-    simAssets.push({
-        type: AssetType.Flow,
-        url: assets.flows.endpoint + `${flow.uuid}/`,
-        content: flow
-    });
+  simAssets.push({
+    type: AssetType.Flow,
+    url: assets.flows.endpoint + `${flow.uuid}/`,
+    content: flow
+  });
 
-    const payload = {
-        assets: simAssets,
-        asset_server: {
-            type_urls: {
-                [AssetType.Flow]: assets.flows.endpoint,
-                [AssetType.Field]: assets.fields.endpoint,
-                [AssetType.Channel]: assets.channels.endpoint,
-                [AssetType.Group]: assets.groups.endpoint,
-                [AssetType.Label]: assets.labels.endpoint
-            }
-        }
-    };
+  const payload = {
+    assets: simAssets,
+    asset_server: {
+      type_urls: {
+        [AssetType.Flow]: assets.flows.endpoint,
+        [AssetType.Field]: assets.fields.endpoint,
+        [AssetType.Channel]: assets.channels.endpoint,
+        [AssetType.Group]: assets.groups.endpoint,
+        [AssetType.Label]: assets.labels.endpoint
+      }
+    }
+  };
 
-    return payload;
+  return payload;
 };
 
 export const isMessage = (event: EventProps): boolean => {
-    return !!['msg_created', 'msg_received', 'ivr_created'].find(type => type === event.type);
+  return !!["msg_created", "msg_received", "ivr_created"].find(
+    type => type === event.type
+  );
 };
 
 export const isMT = (event: EventProps): boolean => {
-    return !!['msg_created', 'ivr_created'].find(type => type === event.type);
+  return !!["msg_created", "ivr_created"].find(type => type === event.type);
 };

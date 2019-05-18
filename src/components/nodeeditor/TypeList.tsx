@@ -1,72 +1,79 @@
+import { fakePropType } from 'config/ConfigProvider';
+import { filterTypeConfigs } from 'config/helpers';
+import { Type } from 'config/interfaces';
+import { configsToDisplay } from 'config/typeConfigs';
 import * as React from 'react';
 import Select from 'react-select';
-import * as styles from '~/components/nodeeditor/TypeList.scss';
-import { Type } from '~/config';
-import { fakePropType } from '~/config/ConfigProvider';
-import { filterTypeConfigs } from '~/config/helpers';
-import { configsToDisplay } from '~/config/typeConfigs';
-import { large } from '~/utils/reactselect';
+import { large } from 'utils/reactselect';
+
+import styles from './TypeList.module.scss';
 
 export interface TypeListProps {
-    __className: string;
-    initialType: Type;
-    onChange(config: Type): void;
+  __className: string;
+  initialType: Type;
+  onChange(config: Type): void;
 }
 
 export interface TypeListState {
-    config: Type;
+  config: Type;
 }
 
-export default class TypeList extends React.PureComponent<TypeListProps, TypeListState> {
-    private typeConfigs: Type[];
+export default class TypeList extends React.PureComponent<
+  TypeListProps,
+  TypeListState
+> {
+  private typeConfigs: Type[];
 
-    constructor(props: TypeListProps) {
-        super(props);
+  constructor(props: TypeListProps) {
+    super(props);
 
-        this.state = {
-            config: this.props.initialType
-        };
-
-        this.handleChangeType = this.handleChangeType.bind(this);
-    }
-
-    public static contextTypes = {
-        config: fakePropType
+    this.state = {
+      config: this.props.initialType
     };
 
-    private handleChangeType(config: Type): void {
-        this.setState(
-            {
-                config
-            },
-            () => this.props.onChange(config)
-        );
-    }
+    this.handleChangeType = this.handleChangeType.bind(this);
+  }
 
-    private getTypeConfigs(): Type[] {
-        if (this.typeConfigs === undefined) {
-            this.typeConfigs = filterTypeConfigs(configsToDisplay, this.context.config.flowType);
-        }
-        return this.typeConfigs;
-    }
+  public static contextTypes = {
+    config: fakePropType
+  };
 
-    public render(): JSX.Element {
-        return (
-            <div className={`${this.props.__className} ${styles.typeList}`}>
-                <p>When a contact arrives at this point in your flow...</p>
-                <div>
-                    <Select
-                        styles={large}
-                        value={this.state.config}
-                        onChange={this.handleChangeType}
-                        isSearchable={true}
-                        isClearable={false}
-                        getOptionValue={(option: Type) => option.type}
-                        getOptionLabel={(option: Type) => option.description}
-                        options={this.getTypeConfigs()}
-                    />
-                </div>
-            </div>
-        );
+  private handleChangeType(config: Type): void {
+    this.setState(
+      {
+        config
+      },
+      () => this.props.onChange(config)
+    );
+  }
+
+  private getTypeConfigs(): Type[] {
+    if (this.typeConfigs === undefined) {
+      this.typeConfigs = filterTypeConfigs(
+        configsToDisplay,
+        this.context.config.flowType
+      );
     }
+    return this.typeConfigs;
+  }
+
+  public render(): JSX.Element {
+    return (
+      <div className={`${this.props.__className} ${styles.type_list}`}>
+        <p>When a contact arrives at this point in your flow...</p>
+        <div>
+          <Select
+            styles={large as any}
+            value={this.state.config}
+            onChange={this.handleChangeType as any}
+            isSearchable={true}
+            isClearable={false}
+            getOptionValue={(option: Type) => option.type}
+            getOptionLabel={(option: Type) => option.description}
+            options={this.getTypeConfigs()}
+          />
+        </div>
+      </div>
+    );
+  }
 }

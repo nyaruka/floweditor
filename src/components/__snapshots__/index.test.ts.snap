@@ -36,7 +36,7 @@ exports[`Root render should apply translating style if passed a truthy translati
       className="footer"
     >
       <div
-        className="downloadButton"
+        className="download_button"
       >
         <Button
           name="Download"
@@ -73,7 +73,7 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
       className="footer"
     >
       <div
-        className="downloadButton"
+        className="download_button"
       >
         <Button
           name="Download"
@@ -111,7 +111,7 @@ exports[`Root render should render self, children with required props 1`] = `
       className="footer"
     >
       <div
-        className="downloadButton"
+        className="download_button"
       >
         <Button
           name="Download"

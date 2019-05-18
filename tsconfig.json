@@ -1,27 +1,24 @@
 {
     "compilerOptions": {
-        "baseUrl": "./",
-        "paths": {
-            "~/*": ["./src/*"]
-        },
-        "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node",
-        "jsx": "react",
-        "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "skipLibCheck": true,
-        "sourceMap": true,
-        "outDir": "lib",
-        "preserveConstEnums": true,
-        "removeComments": false,
-        "resolveJsonModule": true,
+        "baseUrl": "src",
         "target": "es5",
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "esnext",
+        "moduleResolution": "node",
         "downlevelIteration": true,
-        "traceResolution": true,
-        "module": "commonjs",
-        "alwaysStrict": true,
-        "lib": ["es6", "dom"]
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "preserve",
+        "strictNullChecks": false,
+        "resolveJsonModule": true
     },
-    "include": ["./src/**/*.ts*"],
-    "exclude": ["node_modules", "__mocks__", "lib"]
+    "include": ["src"],
+    "exclude": ["__mocks__", "node_modules", "src/setupProxy.js"]
 }

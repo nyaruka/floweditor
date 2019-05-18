@@ -23,7 +23,7 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
       Object {
         "component": [Function],
         "description": "Add the contact to a group",
-        "form": undefined,
+        "form": [Function],
         "name": "Add to Group",
         "type": "add_contact_groups",
       }

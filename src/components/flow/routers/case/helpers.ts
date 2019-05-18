@@ -1,16 +1,8 @@
-import { isRelativeDate } from '~/components/flow/routers/helpers';
-import { Operator, Operators } from '~/config/interfaces';
-import { getOperatorConfig } from '~/config/operatorConfigs';
-import {
-    LessThan,
-    MoreThan,
-    Numeric,
-    NumOrExp,
-    Regex,
-    Required,
-    validate
-} from '~/store/validators';
-import { titleCase } from '~/utils';
+import { isRelativeDate } from 'components/flow/routers/helpers';
+import { Operator, Operators } from 'config/interfaces';
+import { getOperatorConfig } from 'config/operatorConfigs';
+import { LessThan, MoreThan, Numeric, NumOrExp, Regex, Required, validate } from 'store/validators';
+import { titleCase } from 'utils';
 
 import { CaseElementProps, CaseElementState } from './CaseElement';
 
@@ -96,7 +88,7 @@ export const getMinMax = (args: string[] = []): { min: string; max: string } => 
 
 export const isFloat = (val: string): boolean => /^[+-]?\d?(\.\d*)?$/.test(val.trim());
 
-export const isInt = (val: string): boolean => /^[\+\-]?\d+$/.test(val.trim());
+export const isInt = (val: string): boolean => /^[+-]?\d+$/.test(val.trim());
 
 export const strContainsNum = (str: string): boolean => {
     const trimmed = str.trim();
@@ -140,7 +132,6 @@ export const validateCase = (keys: {
             case Operators.has_number_gte:
             case Operators.has_number_lt:
             case Operators.has_number_lte:
-            case Operators.has_date_gt:
                 validators.push(NumOrExp);
                 break;
             case Operators.has_date_eq:

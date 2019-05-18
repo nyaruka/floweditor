@@ -14,7 +14,7 @@ exports[`Flipper should render 1`] = `
     className="side front"
   >
     <span
-      className="toggleButton fe-cog"
+      className="toggle_button fe-cog"
       onClick={[Function]}
     />
     <div>
@@ -25,7 +25,7 @@ exports[`Flipper should render 1`] = `
     className="side back"
   >
     <span
-      className="toggleButton fe-back"
+      className="toggle_button fe-back"
       onClick={[Function]}
     />
     <div>

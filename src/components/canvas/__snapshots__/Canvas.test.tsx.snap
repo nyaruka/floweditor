@@ -18,20 +18,15 @@ Object {
 `;
 
 exports[`Canvas render default 1`] = `
-<div
-  className="canvasContainer"
->
+<div>
   <div
-    className="canvas"
-    id="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
-    onMouseDown={[Function]}
-    onMouseMove={[Function]}
-    onMouseUp={[Function]}
-    style={
-      Object {
-        "height": 0,
-      }
-    }
-  />
+    class="canvas_container"
+  >
+    <div
+      class="canvas"
+      id="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+      style="height: 0px;"
+    />
+  </div>
 </div>
 `;

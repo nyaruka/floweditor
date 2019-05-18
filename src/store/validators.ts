@@ -1,5 +1,5 @@
-import { Asset } from '~/store/flowContext';
-import { FormEntry, ValidationFailure } from '~/store/nodeEditor';
+import { Asset } from 'store/flowContext';
+import { FormEntry, ValidationFailure } from 'store/nodeEditor';
 
 export type FormInput = string | string[] | number | Asset | Asset[];
 export type ValidatorFunc = (
@@ -113,11 +113,17 @@ export const Empty: ValidatorFunc = (name: string, input: FormInput) => {
 
     if (typeof input === 'string') {
         if ((input as string).trim().length !== 0) {
-            return { value: input, failures: [{ message: `${name} is not finished` }] };
+            return {
+                value: input,
+                failures: [{ message: `${name} is not finished` }]
+            };
         }
     } else if (Array.isArray(input)) {
         if (input.length !== 0) {
-            return { value: input, failures: [{ message: `${name} is not finished` }] };
+            return {
+                value: input,
+                failures: [{ message: `${name} is not finished` }]
+            };
         }
     }
     return { failures: [], value: input };
@@ -199,7 +205,7 @@ export const MoreThan = (amount: number, checkName: string): ValidatorFunc => (
 export const MaxOfTenItems = fromMaxItems(10);
 export const StartIsNonNumeric = fromRegex(/^(?!\d)/, "can't start with a number");
 export const ValidURL = fromRegex(REGEX_URL, 'is not a valid URL');
-export const HeaderName = fromRegex(/^[\w\-]+$/, 'is invalid');
+export const HeaderName = fromRegex(/^[\w-]+$/, 'is invalid');
 export const Numeric = fromRegex(/^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number');
 export const Alphanumeric = fromRegex(/^[a-z\d\-_\s]+$/i, 'can only have letters and numbers');
 export const NumOrExp = fromRegex(/^@.*$|^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number');

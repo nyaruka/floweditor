@@ -26,7 +26,7 @@ exports[`SubflowRouterForm render should render 1`] = `
         ],
         "component": [Function],
         "description": "Enter another flow",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",

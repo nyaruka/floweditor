@@ -1,9 +1,8 @@
-import { Types } from '~/config/interfaces';
-import { Case, SwitchRouter, Category } from '~/flowTypes';
-import { LocalizedObject } from '~/services/Localization';
-import { RenderNode } from '~/store/flowContext';
-import { NodeEditorSettings } from '~/store/nodeEditor';
-import { dump } from '~/utils';
+import { Types } from 'config/interfaces';
+import { Case, Category, SwitchRouter } from 'flowTypes';
+import { LocalizedObject } from 'services/Localization';
+import { RenderNode } from 'store/flowContext';
+import { NodeEditorSettings } from 'store/nodeEditor';
 
 export enum LocalizedType {
     Category,

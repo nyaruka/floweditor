@@ -106,7 +106,7 @@ exports[`ExitComp shows recent messages 1`] = `
     onMouseLeave={[Function]}
   />
   <div
-    className="recentMessages"
+    className="recent_messages"
   >
     <div
       className="title"

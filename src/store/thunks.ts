@@ -1,13 +1,11 @@
-import * as isEqual from 'fast-deep-equal';
-import mutate from 'immutability-helper';
-import { Dispatch } from 'redux';
-import { determineTypeConfig } from '~/components/flow/helpers';
-import { getResultName } from '~/components/flow/node/helpers';
-import { getSwitchRouter } from '~/components/flow/routers/helpers';
-import { Revision } from '~/components/revisions/RevisionExplorer';
-import { FlowTypes, Type, Types } from '~/config/interfaces';
-import { getTypeConfig } from '~/config/typeConfigs';
-import { createAssetStore, getFlowDefinition, saveRevision } from '~/external';
+import { determineTypeConfig } from 'components/flow/helpers';
+import { getResultName } from 'components/flow/node/helpers';
+import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { Revision } from 'components/revisions/RevisionExplorer';
+import { FlowTypes, Type, Types } from 'config/interfaces';
+import { getTypeConfig } from 'config/typeConfigs';
+import { createAssetStore, getFlowDefinition, saveRevision } from 'external';
+import isEqual from 'fast-deep-equal';
 import {
     Action,
     AnyAction,
@@ -21,8 +19,10 @@ import {
     SetContactField,
     SetRunResult,
     StickyNote
-} from '~/flowTypes';
-import { CanvasPositions, EditorState, EMPTY_DRAG_STATE, updateEditorState } from '~/store/editor';
+} from 'flowTypes';
+import mutate from 'immutability-helper';
+import { Dispatch } from 'redux';
+import { CanvasPositions, EditorState, EMPTY_DRAG_STATE, updateEditorState } from 'store/editor';
 import {
     Asset,
     AssetStore,
@@ -34,7 +34,7 @@ import {
     updateContactFields,
     updateDefinition,
     updateNodes
-} from '~/store/flowContext';
+} from 'store/flowContext';
 import {
     createEmptyNode,
     fetchFlowActivity,
@@ -44,16 +44,11 @@ import {
     getLocalizations,
     getNode,
     mergeAssetMaps
-} from '~/store/helpers';
-import * as mutators from '~/store/mutators';
-import {
-    NodeEditorSettings,
-    updateNodeEditorSettings,
-    updateTypeConfig,
-    updateUserAddingAction
-} from '~/store/nodeEditor';
-import AppState from '~/store/state';
-import { createUUID, NODE_SPACING, timeEnd, timeStart } from '~/utils';
+} from 'store/helpers';
+import * as mutators from 'store/mutators';
+import { NodeEditorSettings, updateNodeEditorSettings, updateTypeConfig, updateUserAddingAction } from 'store/nodeEditor';
+import AppState from 'store/state';
+import { createUUID, NODE_SPACING, timeEnd, timeStart } from 'utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -189,7 +184,12 @@ export const createDirty = (
 
                 const updatedAssets = mutators.addRevision(assetStore, revision);
                 dispatch(updateAssets(updatedAssets));
-                dispatch(mergeEditorState({ currentRevision: revision.revision, saving: false }));
+                dispatch(
+                    mergeEditorState({
+                        currentRevision: revision.revision,
+                        saving: false
+                    })
+                );
                 postingRevision = false;
             },
             (error: any) => {
@@ -522,7 +522,9 @@ export const spliceInRouter = (
         top += NODE_SPACING;
 
         // update our routerNode for the presence of a top node
-        newRouterNode.inboundConnections = { [topNode.node.exits[0].uuid]: topNode.node.uuid };
+        newRouterNode.inboundConnections = {
+            [topNode.node.exits[0].uuid]: topNode.node.uuid
+        };
         newRouterNode.ui.position.top += NODE_SPACING;
     } else {
         newRouterNode.inboundConnections = { ...previousNode.inboundConnections };
@@ -547,7 +549,9 @@ export const spliceInRouter = (
             ui: {
                 position: { left, top }
             },
-            inboundConnections: { [newRouterNode.node.exits[0].uuid]: newRouterNode.node.uuid }
+            inboundConnections: {
+                [newRouterNode.node.exits[0].uuid]: newRouterNode.node.uuid
+            }
         };
         updatedNodes = mutators.mergeNode(updatedNodes, bottomNode);
     } else {
@@ -676,8 +680,7 @@ export const onAddToNode = (node: FlowNode) => (
     getState: GetState
 ) => {
     const {
-        flowContext: { definition, nodes },
-        editorState: { language }
+        flowContext: { nodes }
     } = getState();
 
     // TODO: remove the need for this once we all have formHelpers
@@ -809,7 +812,8 @@ export const onConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) =>
     let resultCount = names.length + 1;
     let key = `result_${resultCount}`;
 
-    while (names.find((name: string) => name === key)) {
+    const hasResult = names.find((name: string) => name === key);
+    while (hasResult) {
         resultCount++;
         key = `result_${resultCount}`;
     }
@@ -932,8 +936,7 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
 ) => {
     const {
         flowContext: {
-            definition: { localization },
-            assetStore
+            definition: { localization }
         },
         editorState: { language, translating }
     } = getState();
@@ -969,17 +972,6 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
     // Account for hybrids or clicking on the empty exit table
     if (!action && node.actions.length > 0) {
         action = node.actions[node.actions.length - 1];
-    }
-
-    let resultName = '';
-
-    if (node.router) {
-        /* istanbul ignore else */
-        if (node.router.result_name) {
-            ({
-                router: { result_name: resultName }
-            } = node);
-        }
     }
 
     const typeConfig = determineTypeConfig(settings);

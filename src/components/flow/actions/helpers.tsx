@@ -1,10 +1,10 @@
+import { Contact, Endpoints, Group, RecipientsAction } from 'flowTypes';
 import * as React from 'react';
-import { Contact, Endpoints, Group, RecipientsAction } from '~/flowTypes';
-import { Asset, AssetType } from '~/store/flowContext';
-import { FormEntry, NodeEditorSettings, ValidationFailure } from '~/store/nodeEditor';
-import { createUUID } from '~/utils';
+import { Asset, AssetType } from 'store/flowContext';
+import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
+import { createUUID } from 'utils';
 
-const styles = require('~/components/shared.scss');
+const styles = require('components/shared.module.scss');
 
 export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: string): string => {
     if (nodeSettings.originalAction && nodeSettings.originalAction.type === currentType) {
@@ -53,30 +53,33 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
     switch (asset.type) {
         case AssetType.Group:
             return (
-                <div className={styles.nodeAsset} key={asset.id}>
-                    <span className={`${styles.nodeGroup} fe-group`} />
+                <div className={styles.node_asset} key={asset.id}>
+                    <span className={`${styles.node_group} fe-group`} />
                     {asset.name}
                 </div>
             );
         case AssetType.Label:
             return (
-                <div className={styles.nodeAsset} key={asset.id}>
-                    <span className={`${styles.nodeLabel} fe-label`} />
+                <div className={styles.node_asset} key={asset.id}>
+                    <span className={`${styles.node_label} fe-label`} />
                     {asset.name}
                 </div>
             );
         case AssetType.Flow:
             return (
-                <div className={styles.nodeAsset} key={asset.id}>
-                    <span className={`${styles.nodeLabel} fe-split`} />
+                <div className={styles.node_asset} key={asset.id}>
+                    <span className={`${styles.node_label} fe-split`} />
                     <a
                         onMouseDown={(e: any) => {
-                            e.preventDefault(), e.stopPropagation();
+                            e.preventDefault();
+                            e.stopPropagation();
                         }}
                         onMouseUp={(e: any) => {
-                            e.preventDefault(), e.stopPropagation();
+                            e.preventDefault();
+                            e.stopPropagation();
                         }}
                         href={`${endpoints.editor}/${asset.id}`}
+                        rel="noopener noreferrer"
                         target="_blank"
                     >
                         {asset.name}
@@ -86,7 +89,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
     }
 
     return (
-        <div className={styles.nodeAsset} key={asset.id}>
+        <div className={styles.node_asset} key={asset.id}>
             {asset.name}
         </div>
     );

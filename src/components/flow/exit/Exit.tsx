@@ -1,20 +1,21 @@
 import { react as bindCallbacks } from 'auto-bind';
-import * as classNames from 'classnames/bind';
+import classNames from 'classnames/bind';
+import Counter from 'components/counter/Counter';
+import DragHelper from 'components/draghelper/DragHelper';
+import { getExitActivityKey } from 'components/flow/exit/helpers';
+import { fakePropType } from 'config/ConfigProvider';
+import { Cancel, getRecentMessages } from 'external';
+import { Category, Exit, FlowNode, LocalizationMap } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Counter from '~/components/counter/Counter';
-import DragHelper from '~/components/draghelper/DragHelper';
-import * as styles from '~/components/flow/exit/Exit.scss';
-import { getExitActivityKey } from '~/components/flow/exit/helpers';
-import { fakePropType } from '~/config/ConfigProvider';
-import { Cancel, getRecentMessages } from '~/external';
-import { Category, Exit, FlowNode, LocalizationMap } from '~/flowTypes';
-import { RecentMessage } from '~/store/editor';
-import { Asset } from '~/store/flowContext';
-import AppState from '~/store/state';
-import { DisconnectExit, disconnectExit, DispatchWithState } from '~/store/thunks';
-import { createClickHandler, getLocalization, renderIf } from '~/utils';
+import { RecentMessage } from 'store/editor';
+import { Asset } from 'store/flowContext';
+import AppState from 'store/state';
+import { DisconnectExit, disconnectExit, DispatchWithState } from 'store/thunks';
+import { createClickHandler, getLocalization, renderIf } from 'utils';
+
+import styles from './Exit.module.scss';
 
 export interface ExitPassedProps {
     exit: Exit;
@@ -50,7 +51,7 @@ export interface ExitState {
     showDragHelper: boolean;
 }
 
-const cx = classNames.bind(styles);
+const cx: any = classNames.bind(styles);
 
 export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private timeout: number;
@@ -126,12 +127,12 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         }
     }
 
-    private handleMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
+    private handleMouseDown(event: React.MouseEvent<HTMLElement>): void {
         event.preventDefault();
         event.stopPropagation();
     }
 
-    private handleClick(event: React.MouseEvent<HTMLDivElement>): void {
+    private handleClick(event: React.MouseEvent<HTMLElement>): void {
         if (!this.props.translating) {
             if (this.props.exit.destination_uuid) {
                 event.preventDefault();
@@ -165,7 +166,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         }
     }
 
-    private onDisconnect(event: React.MouseEvent<HTMLDivElement>): void {
+    private onDisconnect(event: React.MouseEvent<HTMLElement>): void {
         if (this.timeout) {
             window.clearTimeout(this.timeout);
         }
@@ -255,7 +256,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     private getRecentMessages(): JSX.Element {
         if (this.state.fetchingRecentMessages || this.state.recentMessages.length > 0) {
             return (
-                <div className={styles.recentMessages}>
+                <div className={styles.recent_messages}>
                     <div className={styles.title}>Recent Messages</div>
                     {this.state.recentMessages.map((recentMessage: RecentMessage, idx: number) => (
                         <div key={'recent_' + idx} className={styles.message}>
@@ -285,11 +286,11 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         ) : null;
         const exitClasses: string = cx({
             [styles.exit]: true,
-            ['plumb-exit']: true,
+            'plumb-exit': true,
             [styles.translating]: this.props.translating,
             [styles.unnamed_exit]: name == null,
             [styles.missing_localization]: name && this.props.translating && !localized,
-            [styles.confirmDelete]: confirmDelete
+            [styles.confirm_delete]: confirmDelete
         });
         const activity = this.getSegmentCount();
         return (

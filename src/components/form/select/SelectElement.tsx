@@ -1,7 +1,7 @@
+import FormElement, { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
 import Select from 'react-select';
 import { StylesConfig } from 'react-select/lib/styles';
-import FormElement, { FormElementProps } from '~/components/form/FormElement';
 
 interface SelectElementProps extends FormElementProps {
     onChange?(value: any): void;
@@ -16,10 +16,6 @@ export interface SelectOption {
 }
 
 export default class SelectElement extends React.Component<SelectElementProps> {
-    constructor(props: any) {
-        super(props);
-    }
-
     public render(): JSX.Element {
         return (
             <FormElement name={this.props.name} entry={this.props.entry}>

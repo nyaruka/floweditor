@@ -1,0 +1,51 @@
+@import "variables.module.scss";
+
+$background_offset: ($grid_size / 2) + ($node_padding) + px;
+
+.canvas_container {
+  position: relative;
+  padding: 20px;
+  padding-right: 0;
+  background-color: #f9f9f9;
+  background-position: $background_offset $background_offset;
+  $color_1: rgba(61, 177, 255, 0.15);
+  background-image: linear-gradient(
+      0deg,
+      transparent 24%,
+      $color_1 25%,
+      $color_1 26%,
+      transparent 27%,
+      transparent 74%,
+      $color_1 75%,
+      $color_1 76%,
+      transparent 77%,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      transparent 24%,
+      $color_1 25%,
+      $color_1 26%,
+      transparent 27%,
+      transparent 74%,
+      $color_1 75%,
+      $color_1 76%,
+      transparent 77%,
+      transparent
+    );
+  background-size: ($grid_size * 2) + px ($grid_size * 2) + px;
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+}
+
+.drag_selection {
+  position: absolute;
+  background: $selection_square;
+  border: 0px solid darken($selection_square, 10%);
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: $z_selection;
+}

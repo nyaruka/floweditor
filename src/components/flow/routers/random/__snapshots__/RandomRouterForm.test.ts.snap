@@ -22,7 +22,7 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
     initialType={
       Object {
         "description": "Split by random chance",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
@@ -34,12 +34,12 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="leadIn"
+    className="lead_in"
   >
     Split them randomly into one of
   </div>
   <div
-    className="bucketSelect"
+    className="bucket_select"
   >
     <SelectElement
       entry={
@@ -106,10 +106,10 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
     />
   </div>
   <div
-    className="bucketList"
+    className="bucket_list"
   >
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -121,7 +121,7 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
       onChange={[Function]}
     />
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -241,7 +241,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
     initialType={
       Object {
         "description": "Split by random chance",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
@@ -253,12 +253,12 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="leadIn"
+    className="lead_in"
   >
     Split them randomly into one of
   </div>
   <div
-    className="bucketSelect"
+    className="bucket_select"
   >
     <SelectElement
       entry={
@@ -325,10 +325,10 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
     />
   </div>
   <div
-    className="bucketList"
+    className="bucket_list"
   >
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -340,7 +340,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
       onChange={[Function]}
     />
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -352,7 +352,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
       onChange={[Function]}
     />
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -364,7 +364,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
       onChange={[Function]}
     />
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -376,7 +376,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
       onChange={[Function]}
     />
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -425,7 +425,7 @@ exports[`RandomRouterForm should render 1`] = `
     initialType={
       Object {
         "description": "Split by random chance",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
@@ -437,12 +437,12 @@ exports[`RandomRouterForm should render 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="leadIn"
+    className="lead_in"
   >
     Split them randomly into one of
   </div>
   <div
-    className="bucketSelect"
+    className="bucket_select"
   >
     <SelectElement
       entry={
@@ -509,10 +509,10 @@ exports[`RandomRouterForm should render 1`] = `
     />
   </div>
   <div
-    className="bucketList"
+    className="bucket_list"
   >
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {
@@ -524,7 +524,7 @@ exports[`RandomRouterForm should render 1`] = `
       onChange={[Function]}
     />
     <Connect(TextInputElement)
-      __className="bucketName"
+      __className="bucket_name"
       data-spec="optional-field"
       entry={
         Object {

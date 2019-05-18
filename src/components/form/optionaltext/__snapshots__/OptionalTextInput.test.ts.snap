@@ -2,10 +2,10 @@
 
 exports[`OptionalTextInput renders 1`] = `
 <div
-  className="optionalTextInput"
+  className="optional_text_input"
 >
   <span
-    className="toggleLink"
+    className="toggle_link"
     data-spec="toggle-link"
     onClick={[Function]}
   >

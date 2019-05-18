@@ -1,0 +1,22 @@
+@import "variables.module.scss";
+
+.empty_flow {
+  margin: 13px;
+  width: 400px;
+
+  h1 {
+    font-family: "Helvetica Neue", "RobotoThin", sans-serif;
+    letter-spacing: 1px;
+    padding: 0;
+    text-transform: none;
+    font-weight: 100;
+    font-size: 18px;
+    margin: 0;
+  }
+
+  div {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 18px;
+  }
+}

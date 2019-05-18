@@ -1,0 +1,118 @@
+@import "variables.module.scss";
+
+$spacing: 10px;
+
+.group {
+  padding-bottom: 0 !important;
+  margin-bottom: 0px;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+.divider {
+  padding-left: $spacing;
+  padding-right: $spacing;
+  padding-top: 7px;
+}
+
+.kase {
+  display: inline-flex;
+  width: 100%;
+  height: 25px;
+  padding-top: 15px;
+  .form_group {
+    margin: 0;
+  }
+  .choice {
+    width: 185px;
+  }
+  .single_operand {
+    position: relative;
+    margin-left: $spacing;
+    width: 166px;
+    input {
+      width: 166px;
+    }
+  }
+  .multi_operand {
+    display: inline-flex;
+    width: 166px;
+    justify-content: center;
+    margin-left: $spacing;
+    input {
+      width: 60px;
+    }
+  }
+  .categorize_as {
+    font-size: 13px;
+    line-height: 13px;
+    position: relative;
+    top: 7px;
+    margin: 0px $spacing;
+  }
+  .category {
+    position: relative;
+    input {
+      width: 155px;
+    }
+  }
+  &:hover {
+    .remove_icon {
+      opacity: 1;
+    }
+
+    .dnd_icon {
+      opacity: 1;
+    }
+  }
+  input {
+    padding: 6px 7px;
+    height: 28px !important;
+    font-size: 13px !important;
+    border: 1px solid #ccc;
+  }
+
+  .relative_date {
+    display: inline-block;
+    width: 50px;
+    input {
+      width: 50px;
+    }
+  }
+}
+
+.dnd_icon {
+  color: #aaa;
+  font-weight: bold;
+  padding-top: 9px;
+  padding-right: 2px;
+  padding-left: 5px;
+  float: left;
+  opacity: 0;
+  font-size: 9px;
+  line-height: 9px;
+}
+
+.remove_icon {
+  color: #aaa;
+  padding-top: 8px;
+  float: right;
+  opacity: 0;
+  line-height: 12px;
+  cursor: pointer;
+  margin-left: 2px;
+  font-size: 9px;
+  z-index: 3000;
+}
+
+.empty {
+  display: inline-block;
+  width: 15px;
+}
+
+[data-draggable="true"] {
+  cursor: pointer;
+}

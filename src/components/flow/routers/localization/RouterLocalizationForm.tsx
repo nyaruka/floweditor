@@ -1,19 +1,15 @@
 import { react as bindCallbacks } from 'auto-bind';
+import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
+import { determineTypeConfig } from 'components/flow/helpers';
+import { LocalizationFormProps } from 'components/flow/props';
+import TextInputElement from 'components/form/textinput/TextInputElement';
+import { getOperatorConfig } from 'config/operatorConfigs';
+import { Case, Category } from 'flowTypes';
 import * as React from 'react';
-import Dialog, { ButtonSet, HeaderStyle, Tab } from '~/components/dialog/Dialog';
-import { determineTypeConfig } from '~/components/flow/helpers';
-import { LocalizationFormProps } from '~/components/flow/props';
-import {
-    getLocalizedObjects,
-    LocalizedType,
-    getOriginalCase,
-    getOriginalCategory
-} from '~/components/flow/routers/localization/helpers';
-import * as styles from '~/components/flow/routers/localization/RouterLocalizationForm.scss';
-import TextInputElement from '~/components/form/textinput/TextInputElement';
-import { getOperatorConfig } from '~/config/operatorConfigs';
-import { Case, Category } from '~/flowTypes';
-import { FormState, mergeForm } from '~/store/nodeEditor';
+import { FormState, mergeForm } from 'store/nodeEditor';
+
+import { getLocalizedObjects, getOriginalCase, getOriginalCategory, LocalizedType } from './helpers';
+import styles from './RouterLocalizationForm.module.scss';
 
 export interface RouterLocalizationFormState extends FormState {
     categories: Category[];
@@ -212,25 +208,7 @@ export default class RouterLocalizationForm extends React.Component<
             </Dialog>
         );
 
-        const back = (
-            <Dialog
-                title={`${this.props.language.name} Rules`}
-                headerStyle={HeaderStyle.BARBER}
-                headerClass={typeConfig.type}
-                headerIcon="fe-cog"
-                subtitle="Advanced Settings"
-                buttons={this.getButtons()}
-            >
-                <p data-spec="instructions">
-                    Sometimes languages need special rules to route things properly. If a
-                    translation is not provided, the original rule will be used.
-                </p>
-                {this.renderCases()}
-            </Dialog>
-        );
-
         // if we have cases, use a flipper
-
         return categories;
     }
 }

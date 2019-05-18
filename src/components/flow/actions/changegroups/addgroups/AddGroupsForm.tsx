@@ -1,13 +1,13 @@
 import { react as bindCallbacks } from 'auto-bind';
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import { ActionFormProps } from 'components/flow/props';
+import AssetSelector from 'components/form/assetselector/AssetSelector';
+import TypeList from 'components/nodeeditor/TypeList';
+import { ChangeGroups } from 'flowTypes';
 import * as React from 'react';
-import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { ActionFormProps } from '~/components/flow/props';
-import AssetSelector from '~/components/form/assetselector/AssetSelector';
-import TypeList from '~/components/nodeeditor/TypeList';
-import { ChangeGroups } from '~/flowTypes';
-import { Asset } from '~/store/flowContext';
-import { mergeForm } from '~/store/nodeEditor';
-import { validate, Required } from '~/store/validators';
+import { Asset } from 'store/flowContext';
+import { mergeForm } from 'store/nodeEditor';
+import { Required, validate } from 'store/validators';
 
 import { ChangeGroupsFormState, excludeDynamicGroups, labelSpecId } from '../helpers';
 import { initializeForm, stateToAction } from './helpers';
@@ -23,7 +23,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     }
 
     public handleSave(): void {
-        const valid = this.handleGroupsChanged(this.state.groups.value);
+        const valid = this.handleGroupsChanged(this.state.groups.value!);
         if (valid) {
             const newAction = stateToAction(this.props.nodeSettings, this.state);
             this.props.updateAction(newAction as ChangeGroups);

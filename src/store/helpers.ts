@@ -1,33 +1,33 @@
-import { fieldToAsset } from '~/components/flow/actions/updatecontact/helpers';
-import { getResultName } from '~/components/flow/node/helpers';
-import { DefaultExitNames } from '~/components/flow/routers/constants';
-import { getSwitchRouter } from '~/components/flow/routers/helpers';
-import { FlowTypes, Types } from '~/config/interfaces';
-import { getActivity } from '~/external';
+import { fieldToAsset } from 'components/flow/actions/updatecontact/helpers';
+import { getResultName } from 'components/flow/node/helpers';
+import { DefaultExitNames } from 'components/flow/routers/constants';
+import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { FlowTypes, Types } from 'config/interfaces';
+import { getActivity } from 'external';
 import {
-    AddLabels,
-    AnyAction,
-    Category,
-    ChangeGroups,
-    FlowDefinition,
-    FlowNode,
-    FlowPosition,
-    HintTypes,
-    RouterTypes,
-    SetContactField,
-    SetRunResult,
-    StickyNote,
-    SwitchRouter,
-    UIMetaData,
-    Wait,
-    WaitTypes
-} from '~/flowTypes';
-import Localization, { LocalizedObject } from '~/services/Localization';
-import { Activity, EditorState } from '~/store/editor';
-import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from '~/store/flowContext';
-import { addResult } from '~/store/mutators';
-import { DispatchWithState, GetState, mergeEditorState } from '~/store/thunks';
-import { createUUID, snakify } from '~/utils';
+  AddLabels,
+  AnyAction,
+  Category,
+  ChangeGroups,
+  FlowDefinition,
+  FlowNode,
+  FlowPosition,
+  HintTypes,
+  RouterTypes,
+  SetContactField,
+  SetRunResult,
+  StickyNote,
+  SwitchRouter,
+  UIMetaData,
+  Wait,
+  WaitTypes
+} from 'flowTypes';
+import Localization, { LocalizedObject } from 'services/Localization';
+import { Activity, EditorState } from 'store/editor';
+import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from 'store/flowContext';
+import { addResult } from 'store/mutators';
+import { DispatchWithState, GetState, mergeEditorState } from 'store/thunks';
+import { createUUID, snakify } from 'utils';
 
 export interface Bounds {
     left: number;
@@ -186,7 +186,7 @@ export const getLocalizations = (
 };
 
 export const getUniqueDestinations = (node: FlowNode): string[] => {
-    const destinations = {};
+    const destinations: any = {};
     for (const exit of node.exits) {
         if (exit.destination_uuid) {
             destinations[exit.destination_uuid] = true;
@@ -202,12 +202,10 @@ export const getCurrentDefinition = (
 ): FlowDefinition => {
     const renderNodes = getOrderedNodes(nodeMap);
     const nodes: FlowNode[] = [];
-    renderNodes.map((renderNode: RenderNode) => {
-        nodes.push(renderNode.node);
-    });
+    renderNodes.forEach((renderNode: RenderNode) => nodes.push(renderNode.node));
 
     // tslint:disable-next-line:variable-name
-    const uiNodes = {};
+    const uiNodes: any = {};
     for (const uuid of Object.keys(nodeMap)) {
         uiNodes[uuid] = nodeMap[uuid].ui;
     }
@@ -276,7 +274,7 @@ export const getCollisions = (
     stickies: { [key: string]: StickyNote },
     box: FlowPosition
 ): { [uuid: string]: FlowPosition } => {
-    const collisions = {};
+    const collisions: any = {};
     for (const nodeUUID of Object.keys(nodes)) {
         const node = nodes[nodeUUID];
         if (collides(box, node.ui.position)) {
@@ -426,7 +424,7 @@ export const generateResultQuery = (resultName: string) => `@run.results.${snaki
  * Converts a list of assets to a map keyed by their id
  */
 export const assetListToMap = (assets: Asset[]): AssetMap => {
-    const assetMap = {};
+    const assetMap: any = {};
     for (const asset of assets) {
         assetMap[asset.id] = asset;
     }
@@ -524,7 +522,10 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
                 const key = snakify(resultAction.name);
 
                 if (key in results) {
-                    results[key].references.push({ nodeUUID: node.uuid, actionUUID: action.uuid });
+                    results[key].references.push({
+                        nodeUUID: node.uuid,
+                        actionUUID: action.uuid
+                    });
                 } else {
                     results[key] = {
                         name: resultAction.name,

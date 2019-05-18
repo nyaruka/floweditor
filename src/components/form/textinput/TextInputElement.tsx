@@ -1,25 +1,21 @@
 import { react as bindCallbacks } from 'auto-bind';
-import * as classNames from 'classnames/bind';
+import classNames from 'classnames/bind';
+import FormElement, { FormElementProps } from 'components/form/FormElement';
+import shared from 'components/form/FormElement.module.scss';
+import CharCount from 'components/form/textinput/CharCount';
+import { COMPLETION_HELP, KeyValues } from 'components/form/textinput/constants';
+import ExcellentParser, { isWordChar } from 'components/form/textinput/ExcellentParser';
+import { getMsgStats, UnicodeCharMap } from 'components/form/textinput/helpers';
+import { Type, Types } from 'config/interfaces';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import * as getCaretCoordinates from 'textarea-caret';
-import FormElement, { FormElementProps } from '~/components/form/FormElement';
-import * as shared from '~/components/form/FormElement.scss';
-import CharCount from '~/components/form/textinput/CharCount';
-import { COMPLETION_HELP, KeyValues } from '~/components/form/textinput/constants';
-import ExcellentParser, { isWordChar } from '~/components/form/textinput/ExcellentParser';
-import { getMsgStats, UnicodeCharMap } from '~/components/form/textinput/helpers';
-import * as styles from '~/components/form/textinput/TextInputElement.scss';
-import { Type, Types } from '~/config/interfaces';
-import { AssetStore, CompletionOption, FunctionExample } from '~/store/flowContext';
-import { StringEntry, ValidationFailure } from '~/store/nodeEditor';
-import AppState from '~/store/state';
-import {
-    filterOptions,
-    getCompletionName,
-    getCompletionOptions,
-    getCompletionSignature
-} from '~/utils/completion';
+import { AssetStore, CompletionOption, FunctionExample } from 'store/flowContext';
+import { StringEntry, ValidationFailure } from 'store/nodeEditor';
+import AppState from 'store/state';
+import getCaretCoordinates from 'textarea-caret';
+import { filterOptions, getCompletionName, getCompletionOptions, getCompletionSignature } from 'utils/completion';
+
+import styles from './TextInputElement.module.scss';
 
 const ReactMarkdown = require('react-markdown');
 
@@ -85,7 +81,7 @@ const initialState: InitialState = {
     query: ''
 };
 
-const cx = classNames.bind({ ...styles, ...shared });
+const cx: any = classNames.bind({ ...styles, ...shared });
 
 export class TextInputElement extends React.Component<TextInputProps, TextInputState> {
     private selectedEl: HTMLLIElement;
@@ -182,19 +178,27 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                 }
                 break;
             case KeyValues.KEY_P:
-                if (!event.ctrlKey) {
-                    break;
+                if (event.ctrlKey) {
+                    if (this.state.completionVisible) {
+                        this.setSelection(this.state.selectedOptionIndex - 1);
+                        event.preventDefault();
+                    }
                 }
+                break;
             case KeyValues.KEY_UP:
                 if (this.state.completionVisible) {
                     this.setSelection(this.state.selectedOptionIndex - 1);
                     event.preventDefault();
                 }
-                return;
+                break;
             case KeyValues.KEY_N:
-                if (!event.ctrlKey) {
-                    break;
+                if (event.ctrlKey) {
+                    if (this.state.completionVisible) {
+                        this.setSelection(this.state.selectedOptionIndex + 1);
+                        event.preventDefault();
+                    }
                 }
+                break;
             case KeyValues.KEY_DOWN:
                 if (this.state.completionVisible) {
                     this.setSelection(this.state.selectedOptionIndex + 1);
@@ -297,11 +301,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                     event.currentTarget.selectionStart - 1
                 );
                 return;
-            case KeyValues.KEY_SPACE:
-                this.setState({
-                    completionVisible: false
-                });
-                return;
         }
     }
 
@@ -395,7 +394,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
     private executeQuery(value: string, position: number): Partial<TextInputState> {
         // go backwards until we have a query
-        const caret = position - 1;
         const expression = this.parser.expressionContext(value.substr(0, position));
 
         let fn: CompletionOption = null;
@@ -515,7 +513,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
         if (showSummary) {
             summary = (
-                <div data-spec="option-summary" className={styles.optionSummary}>
+                <div data-spec="option-summary" className={styles.option_summary}>
                     <ReactMarkdown source={option.summary} />
                 </div>
             );
@@ -523,7 +521,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
         if (option.examples && numExamples > 0) {
             examples = (
-                <div data-spec="option-example" className={styles.optionExamples}>
+                <div data-spec="option-example" className={styles.option_examples}>
                     <div>
                         EXAMPLE
                         {numExamples !== 1 ? 'S' : ''}
@@ -539,8 +537,8 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
         return (
             <>
-                <div data-spec="option-name" className={styles.optionName}>
-                    {option.signature ? <div className={styles.fnMarker}>ƒ</div> : null}
+                <div data-spec="option-name" className={styles.option_name}>
+                    {option.signature ? <div className={styles.fn_marker}>ƒ</div> : null}
                     {name}
 
                     {showSummary && option.signature ? (
@@ -626,6 +624,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             return (
                 <textarea
                     data-spec="input"
+                    data-testid="input"
                     ref={this.textElRef}
                     className={textElClasses}
                     value={text}
@@ -642,6 +641,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             return (
                 <input
                     data-spec="input"
+                    data-testid="input"
                     ref={this.textElRef}
                     type="text"
                     className={textElClasses}
@@ -660,12 +660,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
     public render(): JSX.Element {
         const completionClasses = cx({
-            [styles.completionContainer]: true,
+            [styles.completion_container]: true,
             [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
         });
 
         const fnClasses = cx({
-            [styles.fnContainer]: true,
+            [styles.fn_container]: true,
             [styles.hidden]: !this.state.completionVisible || this.state.matches.length === 0
         });
         const options: JSX.Element[] = this.getOptions();
@@ -706,7 +706,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
                         }}
                         data-spec="completion-options"
                     >
-                        <div className={styles.optionsWrapper}>
+                        <div className={styles.options_wrapper}>
                             <ul className={styles.option_list} data-spec="completion-list">
                                 {options}
                             </ul>

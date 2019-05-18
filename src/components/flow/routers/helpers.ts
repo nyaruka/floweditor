@@ -1,24 +1,23 @@
-import React from 'react';
-import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { DefaultExitNames } from '~/components/flow/routers/constants';
-import { Operators, Types } from '~/config/interfaces';
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
+import { DefaultExitNames } from 'components/flow/routers/constants';
+import { Operators, Types } from 'config/interfaces';
 import {
-    Action,
-    CallResthook,
-    CallWebhook,
-    Case,
-    Category,
-    Exit,
-    FlowNode,
-    Router,
-    RouterTypes,
-    SwitchRouter,
-    TransferAirtime,
-    UIConfig,
-    WebhookExitNames
-} from '~/flowTypes';
-import { RenderNode } from '~/store/flowContext';
-import { createUUID, snakify } from '~/utils';
+  Action,
+  CallResthook,
+  CallWebhook,
+  Case,
+  Category,
+  Exit,
+  FlowNode,
+  Router,
+  RouterTypes,
+  SwitchRouter,
+  TransferAirtime,
+  UIConfig,
+  WebhookExitNames
+} from 'flowTypes';
+import { RenderNode } from 'store/flowContext';
+import { createUUID, snakify } from 'utils';
 
 export interface CategorizedCases {
     cases: Case[];
@@ -310,7 +309,10 @@ export const resolveRoutes = (
     resolved.categories.push(defaultCategory);
     resolved.exits.push(defaultExit);
 
-    const results: ResolvedRoutes = { ...resolved, defaultCategory: defaultCategory.uuid };
+    const results: ResolvedRoutes = {
+        ...resolved,
+        defaultCategory: defaultCategory.uuid
+    };
 
     // add in a timeout route if we need one
     if (hasTimeout) {

@@ -1,11 +1,11 @@
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import { MediaPlayer } from 'components/mediaplayer/MediaPlayer';
+import Modal from 'components/modal/Modal';
+import styles from 'components/simulator/LogEvent.module.scss';
+import { Types } from 'config/interfaces';
+import { Flow, Group } from 'flowTypes';
 import * as React from 'react';
-import Dialog, { ButtonSet } from '~/components/dialog/Dialog';
-import { MediaPlayer } from '~/components/mediaplayer/MediaPlayer';
-import Modal from '~/components/modal/Modal';
-import * as styles from '~/components/simulator/LogEvent.scss';
-import { Types } from '~/config/interfaces';
-import { Flow, Group } from '~/flowTypes';
-import { createUUID } from '~/utils';
+import { createUUID } from 'utils';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
@@ -56,7 +56,7 @@ export enum Direction {
 }
 
 const getStyleForDirection = (direction: Direction): string => {
-    return direction === Direction.MO ? styles.msgReceived : styles.sendMsg;
+    return direction === Direction.MO ? styles.msg_received : styles.send_msg;
 };
 
 const renderError = (error: string): JSX.Element => {
@@ -82,20 +82,20 @@ const renderAttachment = (attachment: string): JSX.Element => {
         const url = attachment.substr(idx + 1);
         if (type.startsWith('audio')) {
             return (
-                <div className={styles.audioAttachment}>
-                    <div className={styles.mediaPlayer}>
+                <div className={styles.audio_attachment}>
+                    <div className={styles.media_player}>
                         <MediaPlayer url={url} />
                     </div>
-                    <div className={styles.audioText}>Audio Recording</div>
+                    <div className={styles.audio_text}>Audio Recording</div>
                 </div>
             );
         } else if (type.startsWith('image')) {
-            return <img src={url} />;
+            return <img src={url} alt="Attachment" />;
         } else if (type.startsWith('geo')) {
-            return <img src={MAP_THUMB} />;
+            return <img src={MAP_THUMB} alt="Attachment" />;
         } else if (type.startsWith('video')) {
             return (
-                <div className={styles.videoAttachment}>
+                <div className={styles.video_attachment}>
                     <video controls={true} src={url} />
                 </div>
             );
@@ -114,7 +114,7 @@ const renderMessage = (text: string, attachments: string[], direction: Direction
             {text
                 ? text.split('\n').map((item, key) => {
                       return (
-                          <div key={createUUID()} className={styles.msgText}>
+                          <div key={createUUID()} className={styles.msg_text}>
                               {item}
                           </div>
                       );
@@ -179,7 +179,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 buttons={this.getButtons()}
                 noPadding={true}
             >
-                <div className={styles.emailDetails}>
+                <div className={styles.email_details}>
                     <div className={styles.to}>To: {this.props.addresses.join(', ')}</div>
                     <div className={styles.subject}>Subject: {this.props.subject}</div>
                     <div className={styles.body}>{this.props.body}</div>
@@ -199,7 +199,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
                 buttons={this.getButtons()}
                 noPadding={true}
             >
-                <div className={styles.webhookDetails}>
+                <div className={styles.webhook_details}>
                     <div className={''}>{this.props.request}</div>
                     <div className={styles.response}>{this.props.response}</div>
                 </div>
@@ -210,11 +210,11 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
     private renderClickable(element: JSX.Element, details: JSX.Element): JSX.Element {
         return (
             <div>
-                <div className={styles.hasDetail} onClick={this.showDetails}>
+                <div className={styles.has_detail} onClick={this.showDetails}>
                     {element}
                 </div>
                 <Modal show={this.state.detailsVisible}>
-                    <div className={styles.eventViewer}>{details}</div>
+                    <div className={styles.event_viewer}>{details}</div>
                 </Modal>
             </div>
         );

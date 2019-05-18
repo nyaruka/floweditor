@@ -1,28 +1,28 @@
 import { react as bindCallbacks } from 'auto-bind';
+import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
+import { hasErrors } from 'components/flow/actions/helpers';
+import { RouterFormProps } from 'components/flow/props';
+import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
+import { createResultNameInput } from 'components/flow/routers/widgets';
+import AssetSelector from 'components/form/assetselector/AssetSelector';
+import CheckboxElement from 'components/form/checkbox/CheckboxElement';
+import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import Dialog, { ButtonSet, HeaderStyle, Tab } from '~/components/dialog/Dialog';
-import { hasErrors } from '~/components/flow/actions/helpers';
-import { RouterFormProps } from '~/components/flow/props';
-import CaseList, { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import { createResultNameInput } from '~/components/flow/routers/widgets';
-import AssetSelector from '~/components/form/assetselector/AssetSelector';
-import CheckboxElement from '~/components/form/checkbox/CheckboxElement';
-import SelectElement, { SelectOption } from '~/components/form/select/SelectElement';
-import TypeList from '~/components/nodeeditor/TypeList';
-import { Asset } from '~/store/flowContext';
-import { AssetEntry, FormState, mergeForm, StringEntry } from '~/store/nodeEditor';
-import { Alphanumeric, Required, StartIsNonNumeric, validate } from '~/store/validators';
-import { small } from '~/utils/reactselect';
+import { Asset } from 'store/flowContext';
+import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
+import { small } from 'utils/reactselect';
 
 import {
-    DELIMITER_OPTIONS,
-    FIELD_NUMBER_OPTIONS,
-    getDelimiterOption,
-    getFieldOption,
-    nodeToState,
-    stateToNode
+  DELIMITER_OPTIONS,
+  FIELD_NUMBER_OPTIONS,
+  getDelimiterOption,
+  getFieldOption,
+  nodeToState,
+  stateToNode
 } from './helpers';
-import * as styles from './ResultRouterForm.scss';
+import styles from './ResultRouterForm.module.scss';
 
 export interface ResultRouterFormState extends FormState {
     result: AssetEntry;
@@ -52,7 +52,10 @@ export default class ResultRouterForm extends React.Component<
 
     private handleUpdateResultName(value: string): void {
         const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
-        this.setState({ resultName, valid: this.state.valid && !hasErrors(resultName) });
+        this.setState({
+            resultName,
+            valid: this.state.valid && !hasErrors(resultName)
+        });
     }
 
     private handleResultChanged(selected: Asset[]): boolean {
@@ -99,11 +102,11 @@ export default class ResultRouterForm extends React.Component<
     private renderField(): JSX.Element {
         return (
             <>
-                <div className={styles.leadIn}>If the flow result</div>
-                <div className={styles.resultSelect}>
+                <div className={styles.lead_in}>If the flow result</div>
+                <div className={styles.result_select}>
                     <AssetSelector
                         entry={this.state.result}
-                        styles={small}
+                        styles={small as any}
                         name="Flow Result"
                         placeholder="Select Result"
                         searchable={false}
@@ -118,21 +121,21 @@ export default class ResultRouterForm extends React.Component<
     private renderFieldDelimited(): JSX.Element {
         return (
             <>
-                <div className={styles.leadIn}>If the</div>
-                <div className={styles.fieldNumber}>
+                <div className={styles.lead_in}>If the</div>
+                <div className={styles.field_number}>
                     <SelectElement
-                        styles={small}
+                        styles={small as any}
                         name="Field Number"
                         entry={{ value: getFieldOption(this.state.fieldNumber) }}
                         onChange={this.handleFieldNumberChanged}
                         options={FIELD_NUMBER_OPTIONS}
                     />
                 </div>
-                <div className={styles.leadInSub}>field of</div>
-                <div className={styles.resultSelectDelimited}>
+                <div className={styles.lead_in_sub}>field of</div>
+                <div className={styles.result_select_delimited}>
                     <AssetSelector
                         entry={this.state.result}
-                        styles={small}
+                        styles={small as any}
                         name="Flow Result"
                         placeholder="Select Result"
                         searchable={false}
@@ -140,10 +143,10 @@ export default class ResultRouterForm extends React.Component<
                         onChange={this.handleResultChanged}
                     />
                 </div>
-                <div className={styles.leadInSub}>delimited by</div>
+                <div className={styles.lead_in_sub}>delimited by</div>
                 <div className={styles.delimiter}>
                     <SelectElement
-                        styles={small}
+                        styles={small as any}
                         name="Delimiter"
                         entry={{ value: getDelimiterOption(this.state.delimiter) }}
                         onChange={this.handleDelimiterChanged}
@@ -156,22 +159,10 @@ export default class ResultRouterForm extends React.Component<
 
     public render(): JSX.Element {
         const typeConfig = this.props.typeConfig;
-
-        const back = (
-            <Dialog
-                title={typeConfig.name}
-                headerClass={typeConfig.type}
-                headerStyle={HeaderStyle.BARBER}
-                subtitle="Advanced Settings"
-                buttons={this.getButtons()}
-                headerIcon="fe-cog"
-            />
-        );
-
         const advanced: Tab = {
             name: 'Advanced',
             body: (
-                <div className={styles.shouldDelimit}>
+                <div className={styles.should_delimit}>
                     <CheckboxElement
                         name="Delimit"
                         title="Delimit Result"

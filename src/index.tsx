@@ -1,19 +1,19 @@
 import '../fonts/floweditor/style.css';
-import './global.scss';
+import './global.module.scss';
 
-import React = require('react');
+import FlowEditor from 'components';
+import { FlowEditorConfig } from 'flowTypes';
+import * as React from 'react';
 import { render } from 'react-dom';
-import FlowEditor from '~/components';
-import { FlowEditorConfig } from '~/flowTypes';
 
 declare global {
-    interface Window {
-        fe: any;
-    }
+  interface Window {
+    fe: any;
+  }
 }
 
 (window as any).showFlowEditor = (ele: any, config: FlowEditorConfig) => {
-    render(<FlowEditor config={config} />, ele);
+  render(<FlowEditor config={config} />, ele);
 };
 
 /* istanbul ignore next */

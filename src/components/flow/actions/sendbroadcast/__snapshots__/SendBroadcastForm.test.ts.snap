@@ -35,7 +35,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
       Object {
         "component": [Function],
         "description": "Send somebody else a message",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "text",
@@ -100,7 +100,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
       Object {
         "component": [Function],
         "description": "Send somebody else a message",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "text",

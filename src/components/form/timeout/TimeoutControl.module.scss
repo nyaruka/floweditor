@@ -1,0 +1,32 @@
+@import "mixins.module.scss";
+
+.timeout_control_container {
+  display: inline-block;
+  padding-left: 5px;
+  padding-right: 20px;
+  font-size: 13px;
+  // line-height: 45px;
+  vertical-align: middle;
+}
+
+.left_section {
+  display: inline-block;
+  font-size: 13px;
+  vertical-align: middle;
+  line-height: 32px;
+}
+
+.label {
+  cursor: pointer;
+}
+
+.checkbox {
+  background-color: white;
+}
+
+.drop_down {
+  display: inline-block;
+  width: 160px;
+  margin-left: 10px;
+  vertical-align: middle;
+}

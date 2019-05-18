@@ -1,0 +1,103 @@
+@import './palette_ec.scss';
+
+// how big our blocks are
+$grid_size: 20;
+
+// buffer to bump out connections
+$node_padding: 3;
+
+$action_padding: 10px;
+
+// how much extra room to add during reflow
+$node_spacing: 13;
+
+:export {
+    grid_size: $grid_size;
+}
+:export {
+    node_spacing: $node_spacing;
+}
+:export {
+    node_padding: $node_padding;
+}
+:export {
+    background-size: $node_spacing;
+}
+
+// generic colors
+$link_color: rgb(52, 152, 219);
+$blue_selected: rgb(230, 247, 255);
+$blue_baby: #80b9fb;
+$blue_bold: rgb(52, 152, 219);
+$light_gray: #e6e6e6;
+$light_gray_2: lighten($light_gray, 5%);
+$dark_gray: #aaa;
+$med_gray: #ccc;
+
+// specific color styling
+$node_shadow: 4px 4px 0px 0px;
+$node_shadow_color: rgba(99, 184, 226, 0.1);
+$node_shadow_hover: rgba(145, 218, 255, 0.25);
+$selection_square: rgb(173, 216, 230);
+$selected: rgba(52, 152, 219, 0.5);
+$connector_color: #95cbef;
+$connector_hover_color: $lime;
+$removal_confirmation: $red;
+$path_color: #fff;
+$text_color: #666;
+$borders: rgba(224, 224, 224, 0.6);
+$active_color: $blue_bold;
+$activity_color: $light_gray_2;
+$terminal_color: $red;
+$error_color: $red;
+$placeholder_color: $light_gray;
+
+// sticky notes
+$sticky_yellow: rgb(255, 249, 194);
+$sticky_blue: rgb(230, 247, 255);
+$sticky_purple: rgb(251, 205, 255);
+$sticky_gray: rgb(243, 243, 243);
+$sticky_green: rgb(219, 255, 173);
+
+// properties
+$node_min_width: $grid_size * 10;
+$node_max_width: $grid_size * 14;
+$curvature: 10px;
+
+$shadow_color: rgba(0, 0, 0, 0.13);
+$shadow_down: 1px 1px 0px 2px $shadow_color;
+
+// localization
+$translation_connector: #ddd;
+$translation_bg: rgb(255, 254, 221);
+$translation_text: #92928b;
+$translation_missing: #da8d7a;
+
+// buttons
+$button_light: $blue;
+$button_dark: darken($blue, 5%);
+$button_hover: lighten($blue, 5%);
+$button_disabled: #ddd;
+
+// z index ordering
+$z_connectors: 100;
+$z_nodes: 150;
+$z_endpoints: 200;
+$z_nodes_hover: 250;
+$z_counters: 225;
+$z_sticky: 240;
+$z_group_drag_anchor: 300;
+$z_editor_menu: 400;
+$z_footer: 900;
+$z_simulator_tab: 1000;
+$z_simulator: 1000;
+$z_recent_messages: 1005;
+$z_revision_mask: 1020;
+$z_revision_explorer: 1021;
+$z_dragging: 1500;
+$z_saving: 1900;
+$z_modal: 2000;
+$z_modal_header: 2050;
+$z_modal_tabs: 2075;
+$z_completion: 2100;
+$z_selection: 2125;

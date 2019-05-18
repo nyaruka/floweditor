@@ -35,11 +35,11 @@ exports[`FieldRouterForm initializes 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="leadIn"
+    className="lead_in"
   >
     If the contact's
     <div
-      className="fieldSelect select-small"
+      className="field_select select-small"
     >
       <AssetSelector
         additionalOptions={
@@ -219,11 +219,11 @@ exports[`FieldRouterForm should render 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="leadIn"
+    className="lead_in"
   >
     If the contact's
     <div
-      className="fieldSelect select-small"
+      className="field_select select-small"
     >
       <AssetSelector
         additionalOptions={

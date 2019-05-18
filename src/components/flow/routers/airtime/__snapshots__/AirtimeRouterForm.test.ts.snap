@@ -26,7 +26,7 @@ exports[`AirtimeRouterForm render should render 1`] = `
         ],
         "component": [Function],
         "description": "Send the contact airtime",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
@@ -88,7 +88,7 @@ exports[`AirtimeRouterForm render should render 1`] = `
     />
   </div>
   <div
-    className="resultName"
+    className="result_name"
   >
     <OptionalTextInput
       helpText="By naming the result, you can reference it later using @results.result"

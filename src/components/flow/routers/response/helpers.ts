@@ -1,18 +1,11 @@
-import { CaseProps } from '~/components/flow/routers/caselist/CaseList';
-import {
-    createCaseProps,
-    createRenderNode,
-    hasCases,
-    resolveRoutes
-} from '~/components/flow/routers/helpers';
-import ResponseRouterForm, {
-    ResponseRouterFormState
-} from '~/components/flow/routers/response/ResponseRouterForm';
-import { DEFAULT_OPERAND } from '~/components/nodeeditor/constants';
-import { Types } from '~/config/interfaces';
-import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from '~/flowTypes';
-import { RenderNode } from '~/store/flowContext';
-import { NodeEditorSettings, StringEntry } from '~/store/nodeEditor';
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
+import { createCaseProps, createRenderNode, hasCases, resolveRoutes } from 'components/flow/routers/helpers';
+import { ResponseRouterFormState } from 'components/flow/routers/response/ResponseRouterForm';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { Types } from 'config/interfaces';
+import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from 'flowTypes';
+import { RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormState => {
     let initialCases: CaseProps[] = [];

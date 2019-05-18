@@ -53,7 +53,7 @@ exports[`ResthookRouterForm render should render 1`] = `
     searchable={true}
   />
   <div
-    className="resultName"
+    className="result_name"
   >
     <OptionalTextInput
       helpText="By naming the result, you can reference it later using @results.result"

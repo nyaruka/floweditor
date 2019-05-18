@@ -1,14 +1,15 @@
 import { react as bindCallbacks } from 'auto-bind';
+import { FlowDefinition, StickyNote } from 'flowTypes';
 import * as React from 'react';
 import TextareaAutosize from 'react-autosize-textarea/lib';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as styles from '~/components/sticky/Sticky.scss';
-import { FlowDefinition, StickyNote } from '~/flowTypes';
-import { DragEvent } from '~/services/Plumber';
-import AppState from '~/store/state';
-import { DispatchWithState, UpdateSticky, updateSticky } from '~/store/thunks';
-import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from '~/utils';
+import { DragEvent } from 'services/Plumber';
+import AppState from 'store/state';
+import { DispatchWithState, UpdateSticky, updateSticky } from 'store/thunks';
+import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from 'utils';
+
+import styles from './Sticky.module.scss';
 
 type DragFunction = (event: DragEvent) => void;
 export const STICKY_SPEC_ID: string = 'sticky-container';
@@ -39,7 +40,7 @@ interface StickyState {
     showConfirmation: boolean;
 }
 
-const COLOR_OPTIONS = {
+const COLOR_OPTIONS: any = {
     yellow: styles.yellow,
     blue: styles.blue,
     green: styles.green,
@@ -161,8 +162,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     private getColorChooser(): JSX.Element {
         return (
-            <div className={styles.colorChooserContainer}>
-                <div className={styles.colorChooser}>
+            <div className={styles.color_chooser_container}>
+                <div className={styles.color_chooser}>
                     {Object.keys(COLOR_OPTIONS).map((color: string) => {
                         return (
                             <div
@@ -170,7 +171,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
                                 onClick={() => {
                                     this.handleChangeColor(color);
                                 }}
-                                className={styles.colorOption + ' ' + COLOR_OPTIONS[color]}
+                                className={styles.color_option + ' ' + COLOR_OPTIONS[color]}
                             />
                         );
                     })}
@@ -180,15 +181,13 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     public render(): JSX.Element {
-        const sticky = this.props.sticky;
-
         // add our removal class if necessary
-        const titleClasses = [styles.titleWrapper];
+        const titleClasses = [styles.title_wrapper];
         if (this.state.showConfirmation) {
             titleClasses.push(styles.removal);
         }
 
-        const containerClasses = [styles.stickyContainer];
+        const containerClasses = [styles.sticky_container];
         if (!this.props.sticky.color) {
             this.props.sticky.color = 'yellow';
         }
@@ -211,7 +210,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
             >
                 <div className={stickyClasses.join(' ')}>
                     <div className={titleClasses.join(' ')}>
-                        <div className={styles.removeButton} onClick={this.handleClickRemove}>
+                        <div className={styles.remove_button} onClick={this.handleClickRemove}>
                             <span className="fe-x" />
                         </div>
                         <div className={styles.confirmation}>Remove?</div>
@@ -222,7 +221,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
                             onFocusCapture={this.handleTitleFocused}
                         />
                     </div>
-                    <div className={styles.bodyWrapper}>
+                    <div className={styles.body_wrapper}>
                         <TextareaAutosize
                             className={styles.body}
                             value={this.state.body}

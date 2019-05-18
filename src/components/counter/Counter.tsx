@@ -1,7 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
+import styles from 'components/counter/Counter.module.scss';
 import * as React from 'react';
-import * as styles from '~/components/counter/Counter.scss';
-import { addCommas } from '~/utils';
+import { addCommas } from 'utils';
 
 export interface CounterProps {
     keepVisible: boolean;
@@ -14,7 +14,7 @@ export interface CounterProps {
 }
 
 export default class Counter extends React.Component<CounterProps> {
-    private ele: HTMLDivElement;
+    private ele!: HTMLDivElement;
 
     constructor(props: CounterProps) {
         super(props);
@@ -56,18 +56,18 @@ export default class Counter extends React.Component<CounterProps> {
     }
 
     private handleMouseEnter(event: React.MouseEvent<HTMLDivElement>): void {
-        this.handleMouseEvent(event, this.props.onMouseEnter);
+        this.handleMouseEvent(event, this.props.onMouseEnter!);
     }
 
     private handleMouseLeave(event: React.MouseEvent<HTMLDivElement>): void {
-        this.handleMouseEvent(event, this.props.onMouseLeave);
+        this.handleMouseEvent(event, this.props.onMouseLeave!);
     }
 
     private handleClick(event: React.MouseEvent<HTMLDivElement>): void {
-        this.handleMouseEvent(event, this.props.onClick);
+        this.handleMouseEvent(event, this.props.onClick!);
     }
 
-    public render(): JSX.Element {
+    public render(): JSX.Element | null {
         const count = addCommas(this.props.count);
         return (
             <div
@@ -96,6 +96,5 @@ export default class Counter extends React.Component<CounterProps> {
                 </div>
             </div>
         );
-        return null;
     }
 }

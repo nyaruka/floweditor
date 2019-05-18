@@ -1,28 +1,21 @@
 import { react as bindCallbacks } from 'auto-bind';
+import { hasErrors } from 'components/flow/actions/helpers';
+import { sortByName } from 'components/form/assetselector/helpers';
+import { getIconForAssetType } from 'components/form/assetselector/widgets';
+import FormElement, { FormElementProps } from 'components/form/FormElement';
+import { getAssets, isMatch, postNewAsset, searchAssetMap } from 'external';
 import * as React from 'react';
 import { Async, components, Creatable } from 'react-select';
 import { OptionProps } from 'react-select/lib/components/Option';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType, ValueType } from 'react-select/lib/types';
-import { hasErrors } from '~/components/flow/actions/helpers';
-import { sortByName } from '~/components/form/assetselector/helpers';
-import { getIconForAssetType } from '~/components/form/assetselector/widgets';
-import FormElement, { FormElementProps } from '~/components/form/FormElement';
-import { getAssets, isMatch, postNewAsset, searchAssetMap } from '~/external';
-import {
-    Asset,
-    Assets,
-    AssetStore,
-    AssetType,
-    CompletionOption,
-    REMOVE_VALUE_ASSET
-} from '~/store/flowContext';
-import { AssetEntry } from '~/store/nodeEditor';
-import { uniqueBy } from '~/utils';
-import { getCompletionOptions } from '~/utils/completion';
-import { getErroredSelect as getErroredControl, large, messageStyle } from '~/utils/reactselect';
+import { Asset, Assets, AssetStore, AssetType, CompletionOption, REMOVE_VALUE_ASSET } from 'store/flowContext';
+import { AssetEntry } from 'store/nodeEditor';
+import { uniqueBy } from 'utils';
+import { getCompletionOptions } from 'utils/completion';
+import { getErroredSelect as getErroredControl, large, messageStyle } from 'utils/reactselect';
 
-import * as styles from './AssetSelector.scss';
+import styles from './AssetSelector.module.scss';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
@@ -99,6 +92,8 @@ interface AssetSelectorState {
 }
 
 export default class AssetSelector extends React.Component<AssetSelectorProps, AssetSelectorState> {
+    private lastCreation: number = 0;
+
     constructor(props: AssetSelectorProps) {
         super(props);
         bindCallbacks(this, {
@@ -280,17 +275,23 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
 
     public handleCreateOption(input: string): void {
+        // this is a hack due to react-select triggering two creates in a race
+        const now = new Date().getTime();
+        if (now - this.lastCreation < 1000) {
+            return;
+        }
+
+        this.lastCreation = now;
         // mark us as loading
         const asset: Asset = this.props.createAssetFromInput(input);
 
         if (this.props.assets.endpoint) {
             this.setState({ isLoading: true, message: null });
-
             postNewAsset(this.props.assets, asset)
                 .then((result: Asset) => {
                     this.setState({ isLoading: false });
                     this.props.onAssetCreated(result);
-                    this.props.onChange([result]);
+                    // this.props.onChange([...(this.state.entry.value as any)]);
                 })
                 .catch(error => {
                     console.log(error);
@@ -304,7 +305,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         }
     }
 
-    private getStyle(): StylesConfig {
+    private getStyle(): any {
         if (this.state.message) {
             return messageStyle;
         }

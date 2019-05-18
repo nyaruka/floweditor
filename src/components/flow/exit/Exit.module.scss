@@ -1,0 +1,164 @@
+@import "variables.module.scss";
+
+.exit {
+  font-size: 13px;
+  border-left: 1px solid $borders;
+  flex-grow: 1;
+  background: #fff;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: stretch;
+  flex-direction: column;
+  flex-shrink: 0;
+
+  &:first-child {
+    border-left: none;
+    border-bottom-left-radius: $curvature;
+  }
+
+  &:last-child {
+    border-bottom-right-radius: $curvature;
+  }
+
+  &.translating {
+    &.unnamed_exit {
+      height: 0px;
+      border-bottom-left-radius: 0px !important;
+      border-bottom-right-radius: 0px !important;
+    }
+
+    border-left: 1px solid darken($translation_bg, 5%);
+    background: $translation_bg;
+
+    .endpoint {
+      position: relative;
+      z-index: 1;
+      visibility: hidden;
+      top: 0px;
+    }
+
+    &:last-child {
+      border-bottom-right-radius: $curvature;
+    }
+
+    &:first-child {
+      border-bottom-left-radius: $curvature;
+      border-left: none;
+    }
+  }
+
+  &.missing_localization {
+    color: $translation_missing;
+
+    &:last-child {
+      border-bottom-right-radius: $curvature;
+    }
+
+    &:first-child {
+      border-bottom-left-radius: $curvature;
+    }
+  }
+
+  .name {
+    line-height: 1.2em;
+    padding: 12px;
+    margin: auto;
+    max-width: 110px;
+    text-align: center;
+  }
+
+  .activity {
+    margin: 0 auto;
+    margin-bottom: -30px;
+    margin-top: 15px;
+    cursor: pointer;
+    .count {
+      font-size: 10px;
+      position: relative;
+      border: 1px solid darken($activity_color, 10%);
+      color: darken($activity_color, 70%);
+      background: $activity_color;
+      padding: 2px 4px;
+      width: fit-content;
+      margin: 0 auto;
+      clear: both;
+      line-height: 0.9;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+  }
+
+  .endpoint {
+    position: relative;
+    background: $terminal_color;
+    width: 12px;
+    height: 12px;
+    top: 7px;
+    margin-top: -14px;
+    border-radius: 50%;
+
+    // this is needed to maintain consistency with disconnected endpoints
+    border-bottom: 1px solid transparent;
+  }
+
+  &.confirm_delete {
+    .activity {
+      .count {
+        border-color: $red !important;
+        background: lighten($red, 10%) !important;
+        color: #fff;
+      }
+    }
+    .endpoint {
+      background: $red !important;
+      border-color: $red !important;
+      .confirm_x {
+        color: white;
+        position: absolute;
+        font-size: 10px;
+        font-weight: 400;
+        left: 0.04rem;
+        top: 0.11rem;
+      }
+    }
+  }
+}
+
+.recent_messages {
+  position: absolute;
+  width: $node_min_width;
+  margin-top: 40px;
+  z-index: $z_recent_messages;
+  background: $light_gray_2;
+  border-radius: $curvature;
+  box-shadow: 0px 1px 0px 1px rgba(130, 130, 130, 0.2);
+
+  .title {
+    border-top-left-radius: $curvature;
+    border-top-right-radius: $curvature;
+    background: #999;
+    color: #fff;
+    padding: 6px 0px;
+    text-align: center;
+  }
+
+  .message {
+    text-align: left;
+    padding: 8px 10px;
+    .text {
+      font-size: 13px;
+    }
+
+    .sent {
+      padding-top: 3px;
+      font-size: 10px;
+    }
+  }
+}
+
+.confirm_x {
+  color: white;
+}

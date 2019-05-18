@@ -31,7 +31,7 @@ exports[`ResponseRouterForm initializes case config 1`] = `
           "switch",
         ],
         "description": "Wait for the contact to respond",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
@@ -130,7 +130,7 @@ exports[`ResponseRouterForm should render 1`] = `
           "switch",
         ],
         "description": "Wait for the contact to respond",
-        "form": undefined,
+        "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
           "exits",
@@ -394,7 +394,7 @@ Array [
       "config": Object {
         "cases": Object {
           "b1f332f3-bdd3-4891-aec5-1843a712dbf1": Object {
-            "arguments_1": Array [
+            "arguments": Array [
               "5",
             ],
           },

@@ -1,472 +1,1568 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`CaseElement operator changes should handle updates 1`] = `
-Object {
-  "argument": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "categoryName": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "categoryNameEdited": false,
-  "errors": Array [],
-  "max": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "min": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "operatorConfig": Object {
-    "operands": 1,
-    "type": "has_any_word",
-    "verboseName": "has any of the words",
-    "visibility": Array [
-      "message",
-      "message_offline",
-    ],
-  },
-  "valid": true,
-}
+<body>
+  <div>
+    <div
+      class="ele group"
+    >
+      <div
+        class="kase"
+        data-draggable="true"
+      >
+        <span
+          class="fe-chevrons-expand dnd_icon"
+          data-draggable="true"
+        />
+        <div
+          class="choice select-medium"
+        >
+          <select
+            data-testid="select"
+          >
+            <option
+              value="has_any_word"
+            >
+              has any of the words
+            </option>
+            <option
+              value="has_all_words"
+            >
+              has all of the words
+            </option>
+            <option
+              value="has_phrase"
+            >
+              has the phrase
+            </option>
+            <option
+              value="has_only_phrase"
+            >
+              has only the phrase
+            </option>
+            <option
+              value="has_beginning"
+            >
+              starts with
+            </option>
+            <option
+              value="has_text"
+            >
+              has some text
+            </option>
+            <option
+              value="has_number"
+            >
+              has a number
+            </option>
+            <option
+              value="has_number_between"
+            >
+              has a number between
+            </option>
+            <option
+              value="has_number_lt"
+            >
+              has a number below
+            </option>
+            <option
+              value="has_number_lte"
+            >
+              has a number at or below
+            </option>
+            <option
+              value="has_number_eq"
+            >
+              has a number equal to
+            </option>
+            <option
+              value="has_number_gte"
+            >
+              has a number at or above
+            </option>
+            <option
+              value="has_number_gt"
+            >
+              has a number above
+            </option>
+            <option
+              value="has_date"
+            >
+              has a date
+            </option>
+            <option
+              value="has_date_lt"
+            >
+              has a date before
+            </option>
+            <option
+              value="has_date_eq"
+            >
+              has a date equal to
+            </option>
+            <option
+              value="has_date_gt"
+            >
+              has a date after
+            </option>
+            <option
+              value="has_time"
+            >
+              has a time
+            </option>
+            <option
+              value="has_phone"
+            >
+              has a phone number
+            </option>
+            <option
+              value="has_email"
+            >
+              has an email
+            </option>
+            <option
+              value="has_value"
+            >
+              is not empty
+            </option>
+            <option
+              value="has_pattern"
+            >
+              matches regex
+            </option>
+          </select>
+        </div>
+        <div
+          class="single_operand"
+        />
+        <div
+          class="categorize_as"
+          data-draggable="true"
+        >
+          categorize as
+        </div>
+        <div
+          class="category"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="36"
+                type="text"
+                value="Has Phone"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="fe-x remove_icon"
+          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        />
+      </div>
+    </div>
+  </div>
+</body>
 `;
 
 exports[`CaseElement operator changes should should set arguments for numeric range 1`] = `
-Object {
-  "argument": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "categoryName": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "categoryNameEdited": false,
-  "errors": Array [],
-  "max": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "min": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "operatorConfig": Object {
-    "operands": 2,
-    "type": "has_number_between",
-    "verboseName": "has a number between",
-  },
-  "valid": true,
-}
+<body>
+  <div>
+    <div
+      class="ele group"
+    >
+      <div
+        class="kase"
+        data-draggable="true"
+      >
+        <span
+          class="fe-chevrons-expand dnd_icon"
+          data-draggable="true"
+        />
+        <div
+          class="choice select-medium"
+        >
+          <select
+            data-testid="select"
+          >
+            <option
+              value="has_any_word"
+            >
+              has any of the words
+            </option>
+            <option
+              value="has_all_words"
+            >
+              has all of the words
+            </option>
+            <option
+              value="has_phrase"
+            >
+              has the phrase
+            </option>
+            <option
+              value="has_only_phrase"
+            >
+              has only the phrase
+            </option>
+            <option
+              value="has_beginning"
+            >
+              starts with
+            </option>
+            <option
+              value="has_text"
+            >
+              has some text
+            </option>
+            <option
+              value="has_number"
+            >
+              has a number
+            </option>
+            <option
+              value="has_number_between"
+            >
+              has a number between
+            </option>
+            <option
+              value="has_number_lt"
+            >
+              has a number below
+            </option>
+            <option
+              value="has_number_lte"
+            >
+              has a number at or below
+            </option>
+            <option
+              value="has_number_eq"
+            >
+              has a number equal to
+            </option>
+            <option
+              value="has_number_gte"
+            >
+              has a number at or above
+            </option>
+            <option
+              value="has_number_gt"
+            >
+              has a number above
+            </option>
+            <option
+              value="has_date"
+            >
+              has a date
+            </option>
+            <option
+              value="has_date_lt"
+            >
+              has a date before
+            </option>
+            <option
+              value="has_date_eq"
+            >
+              has a date equal to
+            </option>
+            <option
+              value="has_date_gt"
+            >
+              has a date after
+            </option>
+            <option
+              value="has_time"
+            >
+              has a time
+            </option>
+            <option
+              value="has_phone"
+            >
+              has a phone number
+            </option>
+            <option
+              value="has_email"
+            >
+              has an email
+            </option>
+            <option
+              value="has_value"
+            >
+              is not empty
+            </option>
+            <option
+              value="has_pattern"
+            >
+              matches regex
+            </option>
+          </select>
+        </div>
+        <div
+          class="multi_operand"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value=""
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span
+            class="divider"
+          >
+            and
+          </span>
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value=""
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="categorize_as"
+          data-draggable="true"
+        >
+          categorize as
+        </div>
+        <div
+          class="category"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="36"
+                type="text"
+                value=""
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="fe-x remove_icon"
+          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        />
+      </div>
+    </div>
+  </div>
+</body>
 `;
 
 exports[`CaseElement operator changes shouldnt update exit if it has been edited 1`] = `
-Object {
-  "argument": Object {
-    "validationFailures": Array [
-      Object {
-        "message": "Value is required",
-      },
-    ],
-    "value": "",
-  },
-  "categoryName": Object {
-    "validationFailures": Array [],
-    "value": "My Exit Name",
-  },
-  "categoryNameEdited": true,
-  "errors": Array [],
-  "max": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "min": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "operatorConfig": Object {
-    "operands": 1,
-    "type": "has_any_word",
-    "verboseName": "has any of the words",
-    "visibility": Array [
-      "message",
-      "message_offline",
-    ],
-  },
-  "valid": false,
-}
+<body>
+  <div>
+    <div
+      class="ele group"
+    >
+      <div
+        class="kase"
+        data-draggable="true"
+      >
+        <span
+          class="fe-chevrons-expand dnd_icon"
+          data-draggable="true"
+        />
+        <div
+          class="choice select-medium"
+        >
+          <select
+            data-testid="select"
+          >
+            <option
+              value="has_any_word"
+            >
+              has any of the words
+            </option>
+            <option
+              value="has_all_words"
+            >
+              has all of the words
+            </option>
+            <option
+              value="has_phrase"
+            >
+              has the phrase
+            </option>
+            <option
+              value="has_only_phrase"
+            >
+              has only the phrase
+            </option>
+            <option
+              value="has_beginning"
+            >
+              starts with
+            </option>
+            <option
+              value="has_text"
+            >
+              has some text
+            </option>
+            <option
+              value="has_number"
+            >
+              has a number
+            </option>
+            <option
+              value="has_number_between"
+            >
+              has a number between
+            </option>
+            <option
+              value="has_number_lt"
+            >
+              has a number below
+            </option>
+            <option
+              value="has_number_lte"
+            >
+              has a number at or below
+            </option>
+            <option
+              value="has_number_eq"
+            >
+              has a number equal to
+            </option>
+            <option
+              value="has_number_gte"
+            >
+              has a number at or above
+            </option>
+            <option
+              value="has_number_gt"
+            >
+              has a number above
+            </option>
+            <option
+              value="has_date"
+            >
+              has a date
+            </option>
+            <option
+              value="has_date_lt"
+            >
+              has a date before
+            </option>
+            <option
+              value="has_date_eq"
+            >
+              has a date equal to
+            </option>
+            <option
+              value="has_date_gt"
+            >
+              has a date after
+            </option>
+            <option
+              value="has_time"
+            >
+              has a time
+            </option>
+            <option
+              value="has_phone"
+            >
+              has a phone number
+            </option>
+            <option
+              value="has_email"
+            >
+              has an email
+            </option>
+            <option
+              value="has_value"
+            >
+              is not empty
+            </option>
+            <option
+              value="has_pattern"
+            >
+              matches regex
+            </option>
+          </select>
+        </div>
+        <div
+          class="single_operand"
+        />
+        <div
+          class="categorize_as"
+          data-draggable="true"
+        >
+          categorize as
+        </div>
+        <div
+          class="category"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="36"
+                type="text"
+                value="My Exit Name"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="fe-x remove_icon"
+          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        />
+      </div>
+    </div>
+  </div>
+</body>
 `;
 
 exports[`CaseElement render renders no argument rules 1`] = `
-<FormElement
-  __className="group"
-  data-spec="case-form"
-  kaseError={false}
-  name="case_29b18c7e-c232-414c-9fc0-2e0b6260d9ca"
->
-  <div
-    className="kase"
-    data-draggable={true}
-  >
-    <span
-      className="fe-chevrons-expand dndIcon"
-      data-draggable={true}
-    />
+<body>
+  <div>
     <div
-      className="choice select-medium"
+      class="ele group"
     >
-      <StateManager
-        className="select-base"
-        data-spec="operator-list"
-        defaultInputValue=""
-        defaultMenuIsOpen={false}
-        defaultValue={null}
-        getOptionLabel={[Function]}
-        getOptionValue={[Function]}
-        isClearable={false}
-        isSearchable={false}
-        menuPlacement="auto"
-        name="operator"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "operands": 1,
-              "type": "has_beginning",
-              "verboseName": "starts with",
-            },
-            Object {
-              "categoryName": "Has Number",
-              "operands": 0,
-              "type": "has_number",
-              "verboseName": "has a number",
-            },
-            Object {
-              "operands": 2,
-              "type": "has_number_between",
-              "verboseName": "has a number between",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_lt",
-              "verboseName": "has a number below",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_lte",
-              "verboseName": "has a number at or below",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_eq",
-              "verboseName": "has a number equal to",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_gte",
-              "verboseName": "has a number at or above",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_gt",
-              "verboseName": "has a number above",
-            },
-            Object {
-              "categoryName": "Has Phone",
-              "operands": 0,
-              "type": "has_phone",
-              "verboseName": "has a phone number",
-            },
-            Object {
-              "categoryName": "Not Empty",
-              "operands": 0,
-              "type": "has_value",
-              "verboseName": "is not empty",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_pattern",
-              "verboseName": "matches regex",
-            },
-          ]
-        }
-        styles={
-          Object {
-            "control": [Function],
-            "indicatorsContainer": [Function],
-            "input": [Function],
-            "menuList": [Function],
-            "option": [Function],
-            "singleValue": [Function],
-            "valueContainer": [Function],
-          }
-        }
-        value={
-          Object {
-            "categoryName": "Has Number",
-            "operands": 0,
-            "type": "has_number",
-            "verboseName": "has a number",
-          }
-        }
-      />
+      <div
+        class="kase"
+        data-draggable="true"
+      >
+        <span
+          class="fe-chevrons-expand dnd_icon"
+          data-draggable="true"
+        />
+        <div
+          class="choice select-medium"
+        >
+          <select
+            data-testid="select"
+          >
+            <option
+              value="has_any_word"
+            >
+              has any of the words
+            </option>
+            <option
+              value="has_all_words"
+            >
+              has all of the words
+            </option>
+            <option
+              value="has_phrase"
+            >
+              has the phrase
+            </option>
+            <option
+              value="has_only_phrase"
+            >
+              has only the phrase
+            </option>
+            <option
+              value="has_beginning"
+            >
+              starts with
+            </option>
+            <option
+              value="has_text"
+            >
+              has some text
+            </option>
+            <option
+              value="has_number"
+            >
+              has a number
+            </option>
+            <option
+              value="has_number_between"
+            >
+              has a number between
+            </option>
+            <option
+              value="has_number_lt"
+            >
+              has a number below
+            </option>
+            <option
+              value="has_number_lte"
+            >
+              has a number at or below
+            </option>
+            <option
+              value="has_number_eq"
+            >
+              has a number equal to
+            </option>
+            <option
+              value="has_number_gte"
+            >
+              has a number at or above
+            </option>
+            <option
+              value="has_number_gt"
+            >
+              has a number above
+            </option>
+            <option
+              value="has_date"
+            >
+              has a date
+            </option>
+            <option
+              value="has_date_lt"
+            >
+              has a date before
+            </option>
+            <option
+              value="has_date_eq"
+            >
+              has a date equal to
+            </option>
+            <option
+              value="has_date_gt"
+            >
+              has a date after
+            </option>
+            <option
+              value="has_time"
+            >
+              has a time
+            </option>
+            <option
+              value="has_phone"
+            >
+              has a phone number
+            </option>
+            <option
+              value="has_email"
+            >
+              has an email
+            </option>
+            <option
+              value="has_value"
+            >
+              is not empty
+            </option>
+            <option
+              value="has_pattern"
+            >
+              matches regex
+            </option>
+          </select>
+        </div>
+        <div
+          class="single_operand"
+        />
+        <div
+          class="categorize_as"
+          data-draggable="true"
+        >
+          categorize as
+        </div>
+        <div
+          class="category"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="36"
+                type="text"
+                value=""
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="fe-x remove_icon"
+          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        />
+      </div>
     </div>
-    <div
-      className="singleOperand"
-    />
-    <div
-      className="categorizeAs"
-      data-draggable={true}
-    >
-      categorize as
-    </div>
-    <div
-      className="category"
-    >
-      <Connect(TextInputElement)
-        data-spec="exit-input"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        maxLength={36}
-        name="exitName"
-        onChange={[Function]}
-        showInvalid={false}
-      />
-    </div>
-    <span
-      className="fe-x removeIcon"
-      onClick={[Function]}
-    />
   </div>
-</FormElement>
+</body>
 `;
 
 exports[`CaseElement render should render empty case 1`] = `
-<FormElement
-  __className="group"
-  data-spec="case-form"
-  kaseError={false}
-  name="case_29b18c7e-c232-414c-9fc0-2e0b6260d9ca"
->
-  <div
-    className="kase"
-    data-draggable={true}
-  >
-    <span
-      className="fe-chevrons-expand dndIcon"
-      data-draggable={true}
-    />
+<body>
+  <div>
     <div
-      className="choice select-medium"
+      class="ele group"
     >
-      <StateManager
-        className="select-base"
-        data-spec="operator-list"
-        defaultInputValue=""
-        defaultMenuIsOpen={false}
-        defaultValue={null}
-        getOptionLabel={[Function]}
-        getOptionValue={[Function]}
-        isClearable={false}
-        isSearchable={false}
-        menuPlacement="auto"
-        name="operator"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "operands": 1,
-              "type": "has_beginning",
-              "verboseName": "starts with",
-            },
-            Object {
-              "categoryName": "Has Number",
-              "operands": 0,
-              "type": "has_number",
-              "verboseName": "has a number",
-            },
-            Object {
-              "operands": 2,
-              "type": "has_number_between",
-              "verboseName": "has a number between",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_lt",
-              "verboseName": "has a number below",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_lte",
-              "verboseName": "has a number at or below",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_eq",
-              "verboseName": "has a number equal to",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_gte",
-              "verboseName": "has a number at or above",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_number_gt",
-              "verboseName": "has a number above",
-            },
-            Object {
-              "categoryName": "Has Phone",
-              "operands": 0,
-              "type": "has_phone",
-              "verboseName": "has a phone number",
-            },
-            Object {
-              "categoryName": "Not Empty",
-              "operands": 0,
-              "type": "has_value",
-              "verboseName": "is not empty",
-            },
-            Object {
-              "operands": 1,
-              "type": "has_pattern",
-              "verboseName": "matches regex",
-            },
-          ]
-        }
-        styles={
-          Object {
-            "control": [Function],
-            "indicatorsContainer": [Function],
-            "input": [Function],
-            "menuList": [Function],
-            "option": [Function],
-            "singleValue": [Function],
-            "valueContainer": [Function],
-          }
-        }
-        value={
-          Object {
-            "operands": 1,
-            "type": "has_any_word",
-            "verboseName": "has any of the words",
-            "visibility": Array [
-              "message",
-              "message_offline",
-            ],
-          }
-        }
-      />
+      <div
+        class="kase"
+        data-draggable="true"
+      >
+        <span
+          class="fe-chevrons-expand dnd_icon"
+          data-draggable="true"
+        />
+        <div
+          class="choice select-medium"
+        >
+          <select
+            data-testid="select"
+          >
+            <option
+              value="has_any_word"
+            >
+              has any of the words
+            </option>
+            <option
+              value="has_all_words"
+            >
+              has all of the words
+            </option>
+            <option
+              value="has_phrase"
+            >
+              has the phrase
+            </option>
+            <option
+              value="has_only_phrase"
+            >
+              has only the phrase
+            </option>
+            <option
+              value="has_beginning"
+            >
+              starts with
+            </option>
+            <option
+              value="has_text"
+            >
+              has some text
+            </option>
+            <option
+              value="has_number"
+            >
+              has a number
+            </option>
+            <option
+              value="has_number_between"
+            >
+              has a number between
+            </option>
+            <option
+              value="has_number_lt"
+            >
+              has a number below
+            </option>
+            <option
+              value="has_number_lte"
+            >
+              has a number at or below
+            </option>
+            <option
+              value="has_number_eq"
+            >
+              has a number equal to
+            </option>
+            <option
+              value="has_number_gte"
+            >
+              has a number at or above
+            </option>
+            <option
+              value="has_number_gt"
+            >
+              has a number above
+            </option>
+            <option
+              value="has_date"
+            >
+              has a date
+            </option>
+            <option
+              value="has_date_lt"
+            >
+              has a date before
+            </option>
+            <option
+              value="has_date_eq"
+            >
+              has a date equal to
+            </option>
+            <option
+              value="has_date_gt"
+            >
+              has a date after
+            </option>
+            <option
+              value="has_time"
+            >
+              has a time
+            </option>
+            <option
+              value="has_phone"
+            >
+              has a phone number
+            </option>
+            <option
+              value="has_email"
+            >
+              has an email
+            </option>
+            <option
+              value="has_value"
+            >
+              is not empty
+            </option>
+            <option
+              value="has_pattern"
+            >
+              matches regex
+            </option>
+          </select>
+        </div>
+        <div
+          class="single_operand"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value=""
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="categorize_as"
+          data-draggable="true"
+        >
+          categorize as
+        </div>
+        <div
+          class="category"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="36"
+                type="text"
+                value=""
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="fe-x remove_icon"
+          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        />
+      </div>
     </div>
-    <div
-      className="singleOperand"
-    >
-      <Connect(TextInputElement)
-        autocomplete={true}
-        data-spec="args-input"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        name="arguments"
-        onChange={[Function]}
-        onFieldFailures={[Function]}
-      />
-    </div>
-    <div
-      className="categorizeAs"
-      data-draggable={true}
-    >
-      categorize as
-    </div>
-    <div
-      className="category"
-    >
-      <Connect(TextInputElement)
-        data-spec="exit-input"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        maxLength={36}
-        name="exitName"
-        onChange={[Function]}
-        showInvalid={false}
-      />
-    </div>
-    <span
-      className="fe-x removeIcon"
-      onClick={[Function]}
-    />
   </div>
-</FormElement>
+</body>
 `;
 
 exports[`CaseElement update handles argument change 1`] = `
-Object {
-  "argument": Object {
-    "validationFailures": Array [],
-    "value": "Green",
-  },
-  "categoryName": Object {
-    "validationFailures": Array [],
-    "value": "Green",
-  },
-  "categoryNameEdited": false,
-  "errors": Array [],
-  "max": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "min": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "operatorConfig": Object {
-    "operands": 1,
-    "type": "has_any_word",
-    "verboseName": "has any of the words",
-    "visibility": Array [
-      "message",
-      "message_offline",
-    ],
-  },
-  "valid": true,
-}
+<body>
+  <div>
+    <div
+      class="ele group"
+    >
+      <div
+        class="kase"
+        data-draggable="true"
+      >
+        <span
+          class="fe-chevrons-expand dnd_icon"
+          data-draggable="true"
+        />
+        <div
+          class="choice select-medium"
+        >
+          <select
+            data-testid="select"
+          >
+            <option
+              value="has_any_word"
+            >
+              has any of the words
+            </option>
+            <option
+              value="has_all_words"
+            >
+              has all of the words
+            </option>
+            <option
+              value="has_phrase"
+            >
+              has the phrase
+            </option>
+            <option
+              value="has_only_phrase"
+            >
+              has only the phrase
+            </option>
+            <option
+              value="has_beginning"
+            >
+              starts with
+            </option>
+            <option
+              value="has_text"
+            >
+              has some text
+            </option>
+            <option
+              value="has_number"
+            >
+              has a number
+            </option>
+            <option
+              value="has_number_between"
+            >
+              has a number between
+            </option>
+            <option
+              value="has_number_lt"
+            >
+              has a number below
+            </option>
+            <option
+              value="has_number_lte"
+            >
+              has a number at or below
+            </option>
+            <option
+              value="has_number_eq"
+            >
+              has a number equal to
+            </option>
+            <option
+              value="has_number_gte"
+            >
+              has a number at or above
+            </option>
+            <option
+              value="has_number_gt"
+            >
+              has a number above
+            </option>
+            <option
+              value="has_date"
+            >
+              has a date
+            </option>
+            <option
+              value="has_date_lt"
+            >
+              has a date before
+            </option>
+            <option
+              value="has_date_eq"
+            >
+              has a date equal to
+            </option>
+            <option
+              value="has_date_gt"
+            >
+              has a date after
+            </option>
+            <option
+              value="has_time"
+            >
+              has a time
+            </option>
+            <option
+              value="has_phone"
+            >
+              has a phone number
+            </option>
+            <option
+              value="has_email"
+            >
+              has an email
+            </option>
+            <option
+              value="has_value"
+            >
+              is not empty
+            </option>
+            <option
+              value="has_pattern"
+            >
+              matches regex
+            </option>
+          </select>
+        </div>
+        <div
+          class="single_operand"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Purple, p"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="categorize_as"
+          data-draggable="true"
+        >
+          categorize as
+        </div>
+        <div
+          class="category"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="36"
+                type="text"
+                value="Purple"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="fe-x remove_icon"
+          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        />
+      </div>
+    </div>
+  </div>
+</body>
 `;
 
 exports[`CaseElement update handles multiple argument change 1`] = `
-Object {
-  "argument": Object {
-    "validationFailures": Array [],
-    "value": "",
-  },
-  "categoryName": Object {
-    "validationFailures": Array [],
-    "value": "1 - 100",
-  },
-  "categoryNameEdited": false,
-  "errors": Array [],
-  "max": Object {
-    "validationFailures": Array [],
-    "value": "100",
-  },
-  "min": Object {
-    "validationFailures": Array [],
-    "value": "1",
-  },
-  "operatorConfig": Object {
-    "operands": 2,
-    "type": "has_number_between",
-    "verboseName": "has a number between",
-  },
-  "valid": true,
-}
+<body>
+  <div>
+    <div
+      class="ele group"
+    >
+      <div
+        class="kase"
+        data-draggable="true"
+      >
+        <span
+          class="fe-chevrons-expand dnd_icon"
+          data-draggable="true"
+        />
+        <div
+          class="choice select-medium"
+        >
+          <select
+            data-testid="select"
+          >
+            <option
+              value="has_any_word"
+            >
+              has any of the words
+            </option>
+            <option
+              value="has_all_words"
+            >
+              has all of the words
+            </option>
+            <option
+              value="has_phrase"
+            >
+              has the phrase
+            </option>
+            <option
+              value="has_only_phrase"
+            >
+              has only the phrase
+            </option>
+            <option
+              value="has_beginning"
+            >
+              starts with
+            </option>
+            <option
+              value="has_text"
+            >
+              has some text
+            </option>
+            <option
+              value="has_number"
+            >
+              has a number
+            </option>
+            <option
+              value="has_number_between"
+            >
+              has a number between
+            </option>
+            <option
+              value="has_number_lt"
+            >
+              has a number below
+            </option>
+            <option
+              value="has_number_lte"
+            >
+              has a number at or below
+            </option>
+            <option
+              value="has_number_eq"
+            >
+              has a number equal to
+            </option>
+            <option
+              value="has_number_gte"
+            >
+              has a number at or above
+            </option>
+            <option
+              value="has_number_gt"
+            >
+              has a number above
+            </option>
+            <option
+              value="has_date"
+            >
+              has a date
+            </option>
+            <option
+              value="has_date_lt"
+            >
+              has a date before
+            </option>
+            <option
+              value="has_date_eq"
+            >
+              has a date equal to
+            </option>
+            <option
+              value="has_date_gt"
+            >
+              has a date after
+            </option>
+            <option
+              value="has_time"
+            >
+              has a time
+            </option>
+            <option
+              value="has_phone"
+            >
+              has a phone number
+            </option>
+            <option
+              value="has_email"
+            >
+              has an email
+            </option>
+            <option
+              value="has_value"
+            >
+              is not empty
+            </option>
+            <option
+              value="has_pattern"
+            >
+              matches regex
+            </option>
+          </select>
+        </div>
+        <div
+          class="multi_operand"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="1"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span
+            class="divider"
+          >
+            and
+          </span>
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="100"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="categorize_as"
+          data-draggable="true"
+        >
+          categorize as
+        </div>
+        <div
+          class="category"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="36"
+                type="text"
+                value="1 - 100"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span
+          class="fe-x remove_icon"
+          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        />
+      </div>
+    </div>
+  </div>
+</body>
 `;
