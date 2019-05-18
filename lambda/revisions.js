@@ -41,7 +41,7 @@ exports.handler = (request, context, callback) => {
             version: '13',
             revision: id
         };
-        assetList.push(asset);
+        assetList.unshift(asset);
         respond(callback, asset);
         return;
     }
