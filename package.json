@@ -10,7 +10,7 @@
   "files": [
     "umd"
   ],
-  "private": true,
+  "private": false,
   "dependencies": {
     "lodash.clonedeep": "4.5.0",
     "prop-types": "15.5.7",
@@ -23,7 +23,7 @@
     "lambda:build": "netlify-lambda build lambda",
     "lambda": "yarn run lambda:build && yarn run lambda:serve",
     "netlify": "yarn run build && yarn run lambda:build",
-    "preversion": "yarn test",
+    "preversion": "yarn test --watchAll=false",
     "postversion": "git push --tags && yarn publish . --tag $npm_package_version && git push && echo \"Successfully released version $npm_package_version!\"",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "start": "react-scripts start",
