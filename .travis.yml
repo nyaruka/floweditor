@@ -5,8 +5,8 @@ cache:
     directories:
         - $HOME/.npm
 install:
-    - npm ci --no-optional
-    - npm i -g codecov
+    - yarn install
+    - yarn global add codecov
 script:
     - yarn run build
     - yarn test --coverage
