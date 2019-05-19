@@ -35,16 +35,10 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
             </div>
           ))}
           {action.attachments && action.attachments.length > 0 ? (
-            <div
-              data-advanced={true}
-              className={`${styles.attachment} fe-paperclip`}
-            />
+            <div data-advanced={true} className={`${styles.attachment} fe-paperclip`} />
           ) : null}
           {action.templating && action.templating.template ? (
-            <div
-              data-advanced={true}
-              className={`${styles.whatsapp} fe-whatsapp`}
-            />
+            <div data-advanced={true} className={`${styles.whatsapp} fe-whatsapp`} />
           ) : null}
         </div>
         <div className={styles.summary}>{replies}</div>

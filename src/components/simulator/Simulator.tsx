@@ -21,16 +21,11 @@ import { createUUID } from 'utils';
 const MESSAGE_DELAY_MS = 200;
 
 const MAP_THUMB = require("static/images/map.jpg");
-const IMAGE_A =
-  "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg";
-const IMAGE_B =
-  "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg";
-const IMAGE_C =
-  "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg";
-const AUDIO_A =
-  "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_audio_a.mp3";
-const VIDEO_A =
-  "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4";
+const IMAGE_A = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg";
+const IMAGE_B = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg";
+const IMAGE_C = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg";
+const AUDIO_A = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_audio_a.mp3";
+const VIDEO_A = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4";
 
 const VIDEO_A_THUMB =
   "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg";
@@ -288,8 +283,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   }
 
   private updateRunContext(runContext: RunContext, msg?: PostMessage): void {
-    const wasJustActive =
-      this.state.active || (runContext.events && runContext.events.length > 0);
+    const wasJustActive = this.state.active || (runContext.events && runContext.events.length > 0);
     this.setState({ quickReplies: [] }, () => {
       if (!runContext.events || (runContext.events.length === 0 && msg)) {
         runContext.events = [
@@ -400,11 +394,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         const now = new Date().toISOString();
         const body: any = {
           contact: this.state.contact,
-          flow: getCurrentDefinition(
-            this.props.definition,
-            this.props.nodes,
-            false
-          ),
+          flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
           trigger: {
             type: "manual",
             environment: {
@@ -430,10 +420,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         };
 
         axios.default
-          .post(
-            getURL(this.context.config.endpoints.simulateStart),
-            JSON.stringify(body, null, 2)
-          )
+          .post(getURL(this.context.config.endpoints.simulateStart), JSON.stringify(body, null, 2))
           .then((response: axios.AxiosResponse) => {
             this.updateRunContext(response.data as RunContext);
           });
@@ -457,54 +444,49 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       return;
     }
 
-    this.setState(
-      { sprinting: true, attachmentOptionsVisible: false, drawerOpen: false },
-      () => {
-        const now = new Date().toISOString();
+    this.setState({ sprinting: true, attachmentOptionsVisible: false, drawerOpen: false }, () => {
+      const now = new Date().toISOString();
 
-        const msg: PostMessage = {
-          text,
-          uuid: createUUID(),
-          urn: this.state.session.contact.urns[0],
-          attachments: attachment ? [attachment] : []
-        };
+      const msg: PostMessage = {
+        text,
+        uuid: createUUID(),
+        urn: this.state.session.contact.urns[0],
+        attachments: attachment ? [attachment] : []
+      };
 
-        const body: any = {
-          flow: getCurrentDefinition(
-            this.props.definition,
-            this.props.nodes,
-            false
-          ),
-          session: this.state.session,
-          resume: {
-            type: "msg",
-            msg,
-            resumed_on: now,
-            contact: this.state.session.contact
+      const body: any = {
+        flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
+        session: this.state.session,
+        resume: {
+          type: "msg",
+          msg,
+          resumed_on: now,
+          contact: this.state.session.contact
+        }
+      };
+
+      axios.default
+        .post(getURL(this.context.config.endpoints.simulateResume), JSON.stringify(body, null, 2))
+        .then((response: axios.AxiosResponse) => {
+          this.updateRunContext(response.data as RunContext, msg);
+        })
+        .catch(error => {
+          if (error.response.status) {
           }
-        };
-
-        axios.default
-          .post(
-            getURL(this.context.config.endpoints.simulateResume),
-            JSON.stringify(body, null, 2)
-          )
-          .then((response: axios.AxiosResponse) => {
-            this.updateRunContext(response.data as RunContext, msg);
-          })
-          .catch(error => {
-            const events = update(this.state.events, {
-              $push: [
-                {
-                  type: "error",
-                  text: error.response.data.error
-                }
-              ]
-            }) as EventProps[];
-            this.setState({ events });
-          });
-      }
-    );
+          const events = update(this.state.events, {
+            $push: [
+              {
+                type: "error",
+                text:
+                  error.response.status > 499
+                    ? "Server error, try again later"
+                    : error.response.data.error
+              }
+            ]
+          }) as EventProps[];
+          this.setState({ events });
+        });
+    });
   }
 
   private onReset(event: any): void {
@@ -522,10 +504,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
   }
 
-  public componentDidUpdate(
-    prevProps: SimulatorProps,
-    prevState: SimulatorState
-  ): void {
+  public componentDidUpdate(prevProps: SimulatorProps, prevState: SimulatorState): void {
     if (this.drawerEle !== null) {
       if (
         prevState.drawerHeight !== this.drawerEle.clientHeight ||
@@ -578,14 +557,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   }
 
   private sendAttachment(attachment: string): void {
-    this.setState(
-      { drawerOpen: false, attachmentOptionsVisible: false },
-      () => {
-        window.setTimeout(() => {
-          this.resume(null, attachment);
-        }, 200);
-      }
-    );
+    this.setState({ drawerOpen: false, attachmentOptionsVisible: false }, () => {
+      window.setTimeout(() => {
+        this.resume(null, attachment);
+      }, 200);
+    });
   }
 
   private getImageDrawer(): JSX.Element {
@@ -597,7 +573,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             this.sendAttachment("image/jpeg:" + IMAGE_A);
           }}
         >
-          <img src={IMAGE_A} alt="Attachment"/>
+          <img src={IMAGE_A} alt="Attachment" />
         </div>
         <div
           className={styles.drawer_item}
@@ -704,7 +680,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         this.setState({ keypadEntry: "" });
       } else {
         this.setState((prevState: SimulatorState) => {
-          return { keypadEntry: (prevState.keypadEntry += btn) };
+          return { keypadEntry: prevState.keypadEntry += btn };
         });
       }
     }
@@ -733,9 +709,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   private getKeypadDrawer(multiple: boolean): JSX.Element {
     return (
       <div className={styles.keypad}>
-        {multiple ? (
-          <div className={styles.keypad_entry}>{this.state.keypadEntry}</div>
-        ) : null}
+        {multiple ? <div className={styles.keypad_entry}>{this.state.keypadEntry}</div> : null}
         <div className={styles.keys}>
           {this.getKeyRow(["1", "2", "3"], multiple)}
           {this.getKeyRow(["4", "5", "6"], multiple)}
@@ -760,9 +734,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         return this.getQuickRepliesDrawer();
       case DrawerType.digits:
       case DrawerType.digit:
-        return this.getKeypadDrawer(
-          this.state.drawerType === DrawerType.digits
-        );
+        return this.getKeypadDrawer(this.state.drawerType === DrawerType.digits);
     }
     return null;
   }
@@ -824,10 +796,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     );
   }
 
-  private getAttachmentButton(
-    icon: string,
-    drawerType: DrawerType
-  ): JSX.Element {
+  private getAttachmentButton(icon: string, drawerType: DrawerType): JSX.Element {
     return (
       <div
         className={icon}
@@ -882,12 +851,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   public render(): ReactNode {
     const messages: JSX.Element[] = [];
     for (const event of this.state.events) {
-      messages.push(
-        <LogEvent
-          {...event}
-          key={event.type + "_" + String(event.created_on)}
-        />
-      );
+      messages.push(<LogEvent {...event} key={event.type + "_" + String(event.created_on)} />);
     }
 
     const simHidden = !this.state.visible ? styles.sim_hidden : "";
@@ -905,17 +869,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     return (
       <div className={styles.sim_container}>
         <div>
-          <div
-            id="simulator"
-            className={styles.simulator + " " + simHidden}
-            key={"sim"}
-          >
+          <div id="simulator" className={styles.simulator + " " + simHidden} key={"sim"}>
             <div className={styles.screen}>
               <div className={styles.header}>
-                <div
-                  className={styles.close + " fe-x"}
-                  onClick={this.onToggle}
-                />
+                <div className={styles.close + " fe-x"} onClick={this.onToggle} />
               </div>
               <div className={styles.messages} style={messagesStyle}>
                 {messages}
@@ -931,11 +888,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                   type="text"
                   onKeyUp={this.onKeyUp}
                   disabled={this.state.sprinting}
-                  placeholder={
-                    this.state.active
-                      ? "Enter message"
-                      : "Press home to start again"
-                  }
+                  placeholder={this.state.active ? "Enter message" : "Press home to start again"}
                 />
                 <div className={styles.show_attachments_button}>
                   <div
@@ -954,9 +907,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               <div className={styles.footer}>
                 <span
                   className={
-                    styles.reset +
-                    " " +
-                    (this.state.active ? styles.active : styles.inactive)
+                    styles.reset + " " + (this.state.active ? styles.active : styles.inactive)
                   }
                   onClick={this.onReset}
                 />
@@ -964,10 +915,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             </div>
           </div>
         </div>
-        <div
-          className={styles.simulator_tab + " " + tabHidden}
-          onClick={this.onToggle}
-        >
+        <div className={styles.simulator_tab + " " + tabHidden} onClick={this.onToggle}>
           <div className={styles.simulator_tab_icon + " fe-smartphone"} />
           <div className={styles.simulator_tab_text}>
             Run in
@@ -992,8 +940,7 @@ const mapStateToProps = ({
 });
 
 /* istanbul ignore next */
-const mapDispatchToProps = (dispatch: DispatchWithState) =>
-  bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch: DispatchWithState) => bindActionCreators({}, dispatch);
 
 export default connect(
   mapStateToProps,
