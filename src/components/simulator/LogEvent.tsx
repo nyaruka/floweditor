@@ -7,7 +7,7 @@ import { Flow, Group } from 'flowTypes';
 import * as React from 'react';
 import { createUUID } from 'utils';
 
-const MAP_THUMB = require("static/images/map.jpg");
+const MAP_THUMB = require('static/images/map.jpg');
 
 interface MsgProps {
   text: string;
@@ -76,11 +76,11 @@ const renderInfo = (info: string): JSX.Element => {
 };
 
 const renderAttachment = (attachment: string): JSX.Element => {
-  const idx = attachment.indexOf(":");
+  const idx = attachment.indexOf(':');
   if (idx > -1) {
     const type = attachment.substr(0, idx);
     const url = attachment.substr(idx + 1);
-    if (type.startsWith("audio")) {
+    if (type.startsWith('audio')) {
       return (
         <div className={styles.audio_attachment}>
           <div className={styles.media_player}>
@@ -89,11 +89,11 @@ const renderAttachment = (attachment: string): JSX.Element => {
           <div className={styles.audio_text}>Audio Recording</div>
         </div>
       );
-    } else if (type.startsWith("image")) {
+    } else if (type.startsWith('image')) {
       return <img src={url} alt="Attachment" />;
-    } else if (type.startsWith("geo")) {
+    } else if (type.startsWith('geo')) {
       return <img src={MAP_THUMB} alt="Attachment" />;
-    } else if (type.startsWith("video")) {
+    } else if (type.startsWith('video')) {
       return (
         <div className={styles.video_attachment}>
           <video controls={true} src={url} />
@@ -112,7 +112,7 @@ const renderMessage = (text: string, attachments: string[], direction: Direction
         <div key={text + attachment}>{renderAttachment(attachment)}</div>
       ))}
       {text
-        ? text.split("\n").map((item, key) => {
+        ? text.split('\n').map((item, key) => {
             return (
               <div key={createUUID()} className={styles.msg_text}>
                 {item}
@@ -141,7 +141,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
   private getButtons(): ButtonSet {
     return {
       primary: {
-        name: "Ok",
+        name: 'Ok',
         onClick: () => {
           this.setState({ detailsVisible: false });
         }
@@ -155,11 +155,11 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
   private renderGroupChange(): JSX.Element {
     const groups = this.props.groups_added || this.props.groups_removed;
-    let groupText = this.props.groups_added ? "Added to " : "Removed from ";
-    let delim = " ";
+    let groupText = this.props.groups_added ? 'Added to ' : 'Removed from ';
+    let delim = ' ';
     groups.forEach(group => {
       groupText += `${delim}"${group.name}"`;
-      delim = ", ";
+      delim = ', ';
     });
 
     return renderInfo(groupText);
@@ -167,8 +167,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
   private renderEmail(): JSX.Element {
     return this.renderClickable(
-      <div className={styles.info + " " + styles.email}>
-        {`Sent email to "${this.props.addresses.join(", ")}" with subject "${this.props.subject}
+      <div className={styles.info + ' ' + styles.email}>
+        {`Sent email to "${this.props.addresses.join(', ')}" with subject "${this.props.subject}
                 "`}
       </div>,
       <Dialog
@@ -178,7 +178,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         noPadding={true}
       >
         <div className={styles.email_details}>
-          <div className={styles.to}>To: {this.props.addresses.join(", ")}</div>
+          <div className={styles.to}>To: {this.props.addresses.join(', ')}</div>
           <div className={styles.subject}>Subject: {this.props.subject}</div>
           <div className={styles.body}>{this.props.body}</div>
         </div>
@@ -188,7 +188,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
   private renderWebhook(): JSX.Element {
     return this.renderClickable(
-      <div className={styles.info + " " + styles.webhook}>
+      <div className={styles.info + ' ' + styles.webhook}>
         <span>Called webhook {this.props.url}</span>
       </div>,
       <Dialog
@@ -198,7 +198,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         noPadding={true}
       >
         <div className={styles.webhook_details}>
-          <div className={""}>{this.props.request}</div>
+          <div className={''}>{this.props.request}</div>
           <div className={styles.response}>{this.props.response}</div>
         </div>
       </Dialog>
@@ -220,52 +220,52 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
   public renderLogEvent(): JSX.Element {
     switch (this.props.type) {
-      case "msg_received":
+      case 'msg_received':
         return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MO);
-      case "msg_created":
+      case 'msg_created':
         return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MT);
-      case "ivr_created":
+      case 'ivr_created':
         return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MT);
-      case "error":
+      case 'error':
         return renderError(this.props.text);
-      case "msg_wait":
-        return renderInfo("Waiting for reply");
-      case "contact_groups_changed":
+      case 'msg_wait':
+        return renderInfo('Waiting for reply');
+      case 'contact_groups_changed':
         return this.renderGroupChange();
-      case "contact_urns_changed":
-        return renderInfo("Added a URN for the contact");
-      case "contact_field_changed":
+      case 'contact_urns_changed':
+        return renderInfo('Added a URN for the contact');
+      case 'contact_field_changed':
         return renderInfo(`Set contact "${this.props.field.name}" to "${this.props.value.text}"`);
-      case "run_result_changed":
+      case 'run_result_changed':
         return renderInfo(`Set result "${this.props.name}" to "${this.props.value}"`);
-      case "contact_name_changed":
+      case 'contact_name_changed':
         return renderInfo(`Set contact name to "${this.props.name}"`);
-      case "email_created":
+      case 'email_created':
         return this.renderEmail();
-      case "broadcast_created":
+      case 'broadcast_created':
         return renderMessage(
           this.props.translations[this.props.base_language].text,
           this.props.msg ? this.props.msg.attachments : [],
           Direction.MT
         );
-      case "resthook_called":
+      case 'resthook_called':
         return renderInfo(`Trigerred flow event ${this.props.resthook}`);
-      case "webhook_called":
+      case 'webhook_called':
         return this.renderWebhook();
-      case "flow_entered":
+      case 'flow_entered':
         return renderInfo(`Entered flow ${this.props.flow.name}`);
-      case "session_triggered":
+      case 'session_triggered':
         return renderInfo(`Started somebody else in ${this.props.flow.name}`);
-      case "contact_language_changed":
+      case 'contact_language_changed':
         return renderInfo(`Set preferred language to ${this.props.language}`);
-      case "info":
+      case 'info':
         return renderInfo(this.props.text);
-      case "environment_refreshed":
+      case 'environment_refreshed':
         return null;
     }
 
     // should only get here if we are get an unexpected event
-    console.log("Simulator render missing", this.props);
+    console.log('Simulator render missing', this.props);
     return null;
   }
 

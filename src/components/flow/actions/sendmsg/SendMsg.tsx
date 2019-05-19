@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import styles from './SendMsg.module.scss';
 
-export const PLACEHOLDER = "Send a message to the contact";
+export const PLACEHOLDER = 'Send a message to the contact';
 
 const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   if (action.text) {

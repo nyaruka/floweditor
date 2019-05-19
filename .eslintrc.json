@@ -1,12 +1,12 @@
 {
-    "extends": "react-app",
-    "env": {
-        "node": true
-    },
-    "plugins": ["prettier"],
-    "rules": {
-        "prettier/prettier": "error",
-        "camelcase": "off",
-        "object-curly-spacing": "off"
-    }
+  "extends": "react-app",
+  "env": {
+    "node": true
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "camelcase": "off",
+    "object-curly-spacing": "off"
+  }
 }
