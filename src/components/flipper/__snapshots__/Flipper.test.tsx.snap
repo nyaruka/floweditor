@@ -1,36 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Flipper should flip 1`] = `
-Object {
-  "flipped": true,
-}
+<body>
+  <div>
+    <div
+      class="flipper flipped"
+    >
+      <div
+        class="side front"
+      >
+        <span
+          class="toggle_button fe-cog"
+          data-testid="flip"
+        />
+        <div>
+          Front
+        </div>
+      </div>
+      <div
+        class="side back"
+      >
+        <span
+          class="toggle_button fe-back"
+        />
+        <div>
+          Back
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 `;
 
 exports[`Flipper should render 1`] = `
-<div
-  className="flipper"
->
-  <div
-    className="side front"
-  >
-    <span
-      className="toggle_button fe-cog"
-      onClick={[Function]}
-    />
-    <div>
-      Front
+<body>
+  <div>
+    <div
+      class="flipper"
+    >
+      <div
+        class="side front"
+      >
+        <span
+          class="toggle_button fe-cog"
+          data-testid="flip"
+        />
+        <div>
+          Front
+        </div>
+      </div>
+      <div
+        class="side back"
+      >
+        <span
+          class="toggle_button fe-back"
+        />
+        <div>
+          Back
+        </div>
+      </div>
     </div>
   </div>
-  <div
-    className="side back"
-  >
-    <span
-      className="toggle_button fe-back"
-      onClick={[Function]}
-    />
-    <div>
-      Back
-    </div>
-  </div>
-</div>
+</body>
 `;

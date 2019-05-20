@@ -1,76 +1,77 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Dialog should render 1`] = `
-<div
-  className="dialog"
->
-  <div
-    className="header header-class iconed barber"
-    onClick={[Function]}
-  >
-    <span
-      className="header_icon fe-icon"
-    />
+<body>
+  <div>
     <div
-      className="title_container"
+      class="dialog"
     >
       <div
-        className="title"
+        class="header header-class iconed barber"
       >
-        My Dialog
-      </div>
-      <div
-        className="subtitle"
-      >
-        Subtitlf
-      </div>
-    </div>
-  </div>
-  <div
-    className="content"
-  />
-  <div
-    className="footer"
-  >
-    <div
-      className="buttons"
-    >
-      <div
-        className="left_buttons"
-      >
-        <Button
-          key="0"
-          name="Other"
-          onClick={[MockFunction]}
-          type="tertiary"
+        <span
+          class="header_icon fe-icon"
         />
-      </div>
-      <div
-        className="gutter"
-      >
-        <div>
-          The Gutter
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            My Dialog
+          </div>
+          <div
+            class="subtitle"
+          >
+            Subtitlf
+          </div>
         </div>
       </div>
       <div
-        className="right_buttons"
+        class="content"
+      />
+      <div
+        class="footer"
       >
-        <Button
-          key="0"
-          name="Cancel"
-          onClick={[MockFunction]}
-          type="secondary"
-        />
-        <Button
-          key="button_Ok"
-          leftSpacing={true}
-          name="Ok"
-          onClick={[Function]}
-          onRef={[Function]}
-          type="primary"
-        />
+        <div
+          class="buttons"
+        >
+          <div
+            class="left_buttons"
+          >
+            <div
+              class="btn tertiary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Other
+            </div>
+          </div>
+          <div
+            class="gutter"
+          >
+            <div>
+              The Gutter
+            </div>
+          </div>
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</body>
 `;
