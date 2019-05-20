@@ -1,17 +1,13 @@
 import { Canvas, CANVAS_PADDING, CanvasProps } from 'components/canvas/Canvas';
 import { CanvasDraggableProps } from 'components/canvas/CanvasDraggable';
-import { getOrderedDraggables } from 'components/canvas/helpers';
 import React from 'react';
-import { render } from 'react-testing-library';
-import { composeComponentTestUtils, mock } from 'testUtils';
-import * as utils from 'utils';
+import { fireEvent, render } from 'react-testing-library';
+import { createUUID } from 'utils';
 
-mock(utils, "createUUID", utils.seededUUIDs());
-
-const ele = (selected: boolean): JSX.Element => null;
+const ele = (selected: boolean): JSX.Element => <div>I am a draggable element</div>;
 
 const baseProps: CanvasProps = {
-  uuid: utils.createUUID(),
+  uuid: createUUID(),
   draggingNew: false,
   dragActive: false,
   onDragging: jest.fn(),
@@ -21,71 +17,62 @@ const baseProps: CanvasProps = {
   draggables: []
 };
 
-const { setup } = composeComponentTestUtils(Canvas, baseProps);
-
 describe(Canvas.name, () => {
-  it("render default", () => {
-    // const { wrapper } = setup();
-    const { container } = render(<Canvas {...baseProps} />);
-
-    expect(container).toMatchSnapshot();
+  it('render default', () => {
+    const { baseElement } = render(<Canvas {...baseProps} />);
+    expect(baseElement).toMatchSnapshot();
   });
 
-  it("initializes the height to 1000", () => {
-    const { instance } = setup();
-
-    expect(instance.state.height).toEqual(0);
-  });
-
-  it("initializes the height to the lowest draggable", () => {
+  it('initializes the height to the lowest draggable', () => {
     const lowest: CanvasDraggableProps = {
       ele,
-      uuid: utils.createUUID(),
+      uuid: createUUID(),
       position: { top: 1200, left: 100, bottom: 1290, right: 300 }
     };
-
-    const { instance } = setup(true, { $merge: { draggables: [lowest] } });
-    expect(instance.state.height).toEqual(1290 + CANVAS_PADDING);
+    const { baseElement, getByTestId } = render(<Canvas {...baseProps} draggables={[lowest]} />);
+    expect(getByTestId('canvas').style.height).toBe(1290 + CANVAS_PADDING + 'px');
+    expect(baseElement).toMatchSnapshot();
   });
 
-  it("adjust the height when updating dimensions", () => {
+  it('adjusts the height when updating dimensions', () => {
+    const uuid = createUUID();
     const lowest: CanvasDraggableProps = {
       ele,
-      uuid: utils.createUUID(),
-      position: { top: 1200, left: 100 }
+      uuid,
+      position: { top: 1200, left: 100, right: 200, bottom: 1400 }
     };
-    const { instance } = setup(true, { $merge: { draggables: [lowest] } });
-    expect(instance.state.height).toEqual(0);
 
-    instance.handleUpdateDimensions(lowest.uuid, { width: 200, height: 300 });
-    expect(instance.state.height).toBe(
-      lowest.position.top + 300 + CANVAS_PADDING
-    );
+    const { baseElement, getByTestId } = render(<Canvas {...baseProps} draggables={[lowest]} />);
+    expect(getByTestId('canvas').style.height).toBe(lowest.position.bottom + CANVAS_PADDING + 'px');
+    expect(baseElement).toMatchSnapshot();
   });
 
-  it("reflows collisions", () => {
+  it('reflows collisions', () => {
+    jest.useFakeTimers();
+
     const first: CanvasDraggableProps = {
       ele,
-      uuid: utils.createUUID(),
+      uuid: createUUID(),
       position: { top: 100, bottom: 200, left: 100, right: 200 }
     };
 
     const second: CanvasDraggableProps = {
       ele,
-      uuid: utils.createUUID(),
+      uuid: createUUID(),
       position: { top: 150, left: 100, bottom: 250, right: 200 }
     };
 
-    const { instance } = setup(true, {
-      $merge: { draggables: [first, second] }
-    });
+    const onDragging = jest.fn();
 
-    instance.doReflow();
+    const { getByTestId } = render(
+      <Canvas {...baseProps} draggables={[first, second]} onDragging={onDragging} />
+    );
 
-    const ordered = getOrderedDraggables(instance.state.positions);
-    expect(ordered[0].uuid).toBe(first.uuid);
-    expect(ordered[1].uuid).toBe(second.uuid);
+    // trigger reflow by simulating a drag event
+    fireEvent.mouseDown(getByTestId('draggable_' + first.uuid));
+    fireEvent.mouseUp(getByTestId('draggable_' + first.uuid));
+    jest.runAllTimers();
 
-    expect(instance.state.positions).toMatchSnapshot();
+    expect(onDragging).toMatchCallSnapshot();
   });
 });

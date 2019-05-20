@@ -93,12 +93,12 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     }
     this.parentOffset = { left: offset.left, top: offset.top + window.scrollY };
 
-    window.addEventListener("resize", this.handleWindowResize);
-    document.addEventListener("keydown", this.handleKeyDown);
+    window.addEventListener('resize', this.handleWindowResize);
+    document.addEventListener('keydown', this.handleKeyDown);
   }
 
   private handleKeyDown(event: any): void {
-    if (this.state.selected && event.key === "Backspace") {
+    if (this.state.selected && event.key === 'Backspace') {
       const nodeUUIDs = Object.keys(this.state.selected);
       if (nodeUUIDs.length > 0) {
         this.props.onRemoveNodes(Object.keys(this.state.selected));
@@ -107,8 +107,8 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   }
 
   public componentWillUnmount(): void {
-    window.removeEventListener("resize", this.handleWindowResize);
-    document.removeEventListener("keydown", this.handleKeyDown);
+    window.removeEventListener('resize', this.handleWindowResize);
+    document.removeEventListener('keydown', this.handleKeyDown);
   }
 
   public componentDidUpdate(prevProps: CanvasProps): void {
@@ -128,9 +128,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     // have we removed something
     Object.keys(updatedPositions).forEach((uuid: string) => {
       if (
-        !this.props.draggables.find(
-          (draggable: CanvasDraggableProps) => draggable.uuid === uuid
-        )
+        !this.props.draggables.find((draggable: CanvasDraggableProps) => draggable.uuid === uuid)
       ) {
         updatedPositions = mutate(updatedPositions, { $unset: [[uuid]] });
         updated = true;
@@ -151,12 +149,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
       const width = Math.max(drag.startX, drag.currentX) - left;
       const height = Math.max(drag.startY, drag.currentY) - top;
       if (this.state.dragSelection && this.state.dragSelection.startX) {
-        return (
-          <div
-            className={styles.drag_selection}
-            style={{ left, top, width, height }}
-          />
-        );
+        return <div className={styles.drag_selection} style={{ left, top, width, height }} />;
       }
     }
 
@@ -201,13 +194,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     if (this.state.dragSelection && this.state.dragSelection.startX) {
       const drag = this.state.dragSelection;
 
-      if (
-        drag &&
-        drag.startX &&
-        drag.startY &&
-        drag.currentX &&
-        drag.currentY
-      ) {
+      if (drag && drag.startX && drag.startY && drag.currentX && drag.currentY) {
         const left = Math.min(drag.startX, drag.currentX);
         const top = Math.min(drag.startY, drag.currentY);
         const right = Math.max(drag.startX, drag.currentX);
@@ -302,9 +289,8 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   public handleUpdateDimensions(uuid: string, dimensions: Dimensions): void {
     let pos = this.state.positions[uuid];
     if (!pos) {
-      pos = this.props.draggables.find(
-        (item: CanvasDraggableProps) => item.uuid === uuid
-      )!.position;
+      pos = this.props.draggables.find((item: CanvasDraggableProps) => item.uuid === uuid)!
+        .position;
     }
 
     const newPosition = {
@@ -315,10 +301,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     };
 
     if (newPosition.bottom !== pos.bottom || newPosition.right !== pos.right) {
-      if (
-        newPosition.right !== pos.right ||
-        newPosition.bottom !== pos.bottom
-      ) {
+      if (newPosition.right !== pos.right || newPosition.bottom !== pos.bottom) {
         this.setState((prevState: CanvasState) => {
           const newPositions = mutate(prevState.positions, {
             $merge: {
@@ -328,10 +311,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
 
           return {
             positions: newPositions,
-            height: Math.max(
-              newPosition.bottom + CANVAS_PADDING,
-              prevState.height
-            )
+            height: Math.max(newPosition.bottom + CANVAS_PADDING, prevState.height)
           };
         });
 
@@ -341,10 +321,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   }
 
   public doReflow(): void {
-    const { positions, changed } = reflow(
-      this.state.positions,
-      COLLISION_FUDGE
-    );
+    const { positions, changed } = reflow(this.state.positions, COLLISION_FUDGE);
     if (changed) {
       this.setState({ positions });
 
@@ -405,10 +382,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
           }
         }
         // if we are scrolling but given a clientY then user is mousing
-        else if (
-          windowY !== 0 &&
-          (windowY > 100 && windowY + 100 < viewportHeight)
-        ) {
+        else if (windowY !== 0 && (windowY > 100 && windowY + 100 < viewportHeight)) {
           window.clearInterval(this.isScrolling);
           this.isScrolling = null;
         }
@@ -416,12 +390,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     );
   }
 
-  private updatePositions(
-    pageX: number,
-    pageY: number,
-    clientY: number,
-    snap: boolean
-  ): void {
+  private updatePositions(pageX: number, pageY: number, clientY: number, snap: boolean): void {
     if (this.state.dragUUID) {
       const { dragUUID } = this.state;
 
@@ -435,16 +404,10 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
 
       if (this.state.dragDownPosition) {
         const xd =
-          pageX -
-          this.parentOffset.left -
-          this.state.dragDownPosition.left -
-          startPosition.left;
+          pageX - this.parentOffset.left - this.state.dragDownPosition.left - startPosition.left;
 
         const yd =
-          pageY -
-          this.parentOffset.top -
-          this.state.dragDownPosition.top -
-          startPosition.top;
+          pageY - this.parentOffset.top - this.state.dragDownPosition.top - startPosition.top;
 
         let lowestNode: number | undefined = 0;
         if (this.props.dragActive) {
@@ -501,13 +464,10 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
 
   /** Gets all the positions for nodes that were dragged */
   private getSelectedPositions(): CanvasPositions {
-    return Object.keys(this.state.selected).reduce(
-      (result: CanvasPositions, uuid: string) => {
-        result[uuid] = this.state.positions[uuid];
-        return result;
-      },
-      {}
-    );
+    return Object.keys(this.state.selected).reduce((result: CanvasPositions, uuid: string) => {
+      result[uuid] = this.state.positions[uuid];
+      return result;
+    }, {});
   }
 
   private handleDragStop(): void {
@@ -533,6 +493,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     return (
       <div className={styles.canvas_container}>
         <div
+          data-testid="canvas"
           style={{ height: this.state.height }}
           id={this.state.uuid}
           ref={(ele: HTMLDivElement) => {
@@ -544,14 +505,13 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
           onMouseUp={this.handleMouseUpCapture}
         >
           {this.props.draggables.map((draggable: CanvasDraggableProps) => {
-            const pos =
-              this.state.positions[draggable.uuid] || draggable.position;
+            const pos = this.state.positions[draggable.uuid] || draggable.position;
             return (
               <CanvasDraggable
                 onAnimated={(uuid: string) => {
                   this.props.onDragging([uuid]);
                 }}
-                key={"draggable_" + draggable.uuid}
+                key={'draggable_' + draggable.uuid}
                 uuid={draggable.uuid}
                 updateDimensions={this.handleUpdateDimensions}
                 position={pos}
