@@ -1,8 +1,13 @@
 import { KeyValues } from 'components/form/textinput/constants';
-import { TextInputElement, TextInputProps, TextInputState } from 'components/form/textinput/TextInputElement';
+import {
+  TextInputElement,
+  TextInputProps,
+  TextInputState
+} from 'components/form/textinput/TextInputElement';
 import { Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import setCaretPosition from 'get-input-selection';
+import { AssetType } from 'store/flowContext';
 import { composeComponentTestUtils } from 'testUtils';
 import { setFunctions } from 'utils/completion';
 
@@ -10,14 +15,14 @@ import { setFunctions } from 'utils/completion';
 let mockCursor = 0;
 
 const baseProps: TextInputProps = {
-  name: "Message",
+  name: 'Message',
   typeConfig: getTypeConfig(Types.send_msg),
-  assetStore: {}
+  assetStore: { fields: { items: {}, type: AssetType.Field } }
 };
 
 const { setup, spyOn } = composeComponentTestUtils(TextInputElement, baseProps);
 
-jest.mock("get-input-selection", () => ({
+jest.mock('get-input-selection', () => ({
   default: jest.fn()
 }));
 
@@ -31,14 +36,14 @@ const mockEvent = {
 };
 
 const simulateString = (wrap: any, keys: string) => {
-  const input = wrap.find("textarea");
+  const input = wrap.find('textarea');
 
   const value: string = wrap.instance().textEl.value;
   let result = value.substr(0, mockCursor);
   const end = value.substr(mockCursor);
 
   for (const key of keys) {
-    input.prop("onKeyDown")({
+    input.prop('onKeyDown')({
       ...mockEvent,
       key
     });
@@ -46,12 +51,12 @@ const simulateString = (wrap: any, keys: string) => {
     result += key;
     mockCursor++;
 
-    input.prop("onKeyUp")({
+    input.prop('onKeyUp')({
       ...mockEvent,
       key
     });
 
-    input.prop("onChange")({
+    input.prop('onChange')({
       currentTarget: {
         value: result + end,
         selectionStart: mockCursor
@@ -60,21 +65,16 @@ const simulateString = (wrap: any, keys: string) => {
   }
 };
 
-const simulateKey = (
-  wrap: any,
-  key: KeyValues,
-  ctrlKey: boolean = false,
-  presses: number = 1
-) => {
+const simulateKey = (wrap: any, key: KeyValues, ctrlKey: boolean = false, presses: number = 1) => {
   for (let i = 0; i < presses; i++) {
     if (key === KeyValues.KEY_AT) {
       simulateString(wrap, key);
     } else {
-      const input = wrap.find("textarea");
+      const input = wrap.find('textarea');
       const startLength = wrap.instance().textEl.value.length;
 
       // fire a key event
-      input.prop("onKeyDown")({
+      input.prop('onKeyDown')({
         ...mockEvent,
         key,
         ctrlKey,
@@ -85,7 +85,7 @@ const simulateKey = (
       });
 
       // fire a key event
-      input.prop("onKeyUp")({
+      input.prop('onKeyUp')({
         ...mockEvent,
         key,
         ctrlKey,
@@ -116,7 +116,9 @@ const createWrapper = () => {
     $merge: {
       onChange: jest.fn(),
       textarea: true,
-      autocomplete: true
+      autocomplete: true,
+      onFieldFailures: jest.fn(),
+      onBlur: jest.fn()
     }
   }).wrapper;
 };
@@ -126,25 +128,24 @@ describe(TextInputElement.name, () => {
     mockCursor = 0;
     setFunctions([
       {
-        signature: "default(value, default)",
-        summary:
-          "Returns `value` if is not empty or an error, otherwise it returns `default`.",
-        detail: "",
+        signature: 'default(value, default)',
+        summary: 'Returns `value` if is not empty or an error, otherwise it returns `default`.',
+        detail: '',
         examples: [
           {
             template: '@(default(undeclared.var, "default_value"))',
-            output: "default_value"
+            output: 'default_value'
           }
         ]
       },
       {
-        signature: "max(numbers...)",
-        summary: "Returns the maximum value in `numbers`.",
-        detail: "",
+        signature: 'max(numbers...)',
+        summary: 'Returns the maximum value in `numbers`.',
+        detail: '',
         examples: [
           {
-            template: "@(max(1, 2))",
-            output: "2"
+            template: '@(max(1, 2))',
+            output: '2'
           }
         ]
       }
@@ -154,80 +155,80 @@ describe(TextInputElement.name, () => {
     setCaretPosition.default.mockReset();
   });
 
-  describe("function context", () => {
-    it("should use the most recent incomplete function", () => {
+  describe('function context', () => {
+    it('should use the most recent incomplete function', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@(max(default(contact.rank, cont");
+      simulateString(wrapper, '@(max(default(contact.rank, cont');
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.query).toEqual("cont");
+      expect(state.query).toEqual('cont');
       expect(state.matches.length).toBe(1);
       expect(state.matches).toMatchSnapshot();
-      expect(state.fn.signature).toEqual("default(value, default)");
+      expect(state.fn.signature).toEqual('default(value, default)');
     });
 
-    it("should use fold back on function completion", () => {
+    it('should use fold back on function completion', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@(max(default(contact.rank, contact.age), ");
+      simulateString(wrapper, '@(max(default(contact.rank, contact.age), ');
 
       const state = getState(wrapper);
-      expect(state.query).toEqual("");
-      expect(state.fn.signature).toEqual("max(numbers...)");
+      expect(state.query).toEqual('');
+      expect(state.fn.signature).toEqual('max(numbers...)');
     });
   });
 
-  describe("filtering", () => {
-    it("should bring up completion menu for top level options", () => {
+  describe('filtering', () => {
+    it('should bring up completion menu for top level options', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@");
+      simulateString(wrapper, '@');
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.query).toEqual("");
+      expect(state.query).toEqual('');
 
       // should show all top level options
       expect(state.matches).toMatchSnapshot();
     });
 
-    it("should show filter options", () => {
+    it('should show filter options', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@co");
+      simulateString(wrapper, '@co');
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.query).toEqual("co");
+      expect(state.query).toEqual('co');
 
       // only our contact option should be there
       expect(state.matches.length).toBe(1);
       expect(state.matches).toMatchSnapshot();
     });
 
-    it("should show filter at the second level", () => {
+    it('should show filter at the second level', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@contact.first");
+      simulateString(wrapper, '@contact.first');
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.query).toEqual("contact.first");
+      expect(state.query).toEqual('contact.first');
 
       // should see first name
       expect(state.matches.length).toBe(1);
       expect(state.matches).toMatchSnapshot();
     });
 
-    it("should not match functions without open paren", () => {
+    it('should not match functions without open paren', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@max");
+      simulateString(wrapper, '@max');
 
       const state = getState(wrapper);
       expect(state.matches.length).toBe(0);
       expect(state.completionVisible).toBeFalsy();
     });
 
-    it("should bring up completion menu for top level options and functions", () => {
+    it('should bring up completion menu for top level options and functions', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@(");
+      simulateString(wrapper, '@(');
 
       const state = getState(wrapper);
       // should show all top level options and functions
@@ -235,9 +236,9 @@ describe(TextInputElement.name, () => {
       expect(state.completionVisible).toBeTruthy();
     });
 
-    it("should bring up functions within text", () => {
+    it('should bring up functions within text', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "some text @(");
+      simulateString(wrapper, 'some text @(');
 
       const state = getState(wrapper);
       expect(state.matches.length).toBeGreaterThan(10);
@@ -245,100 +246,100 @@ describe(TextInputElement.name, () => {
     });
   });
 
-  describe("completion", () => {
+  describe('completion', () => {
     it('should handle completion w/ "Enter" key', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@cont");
+      simulateString(wrapper, '@cont');
       simulateKey(wrapper, KeyValues.KEY_ENTER);
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeFalsy();
-      expect(state.query).toEqual("");
+      expect(state.query).toEqual('');
       expect(state.matches.length).toBe(0);
     });
 
     it('should handle completion w/ "Tab" key', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@cont");
+      simulateString(wrapper, '@cont');
       simulateKey(wrapper, KeyValues.KEY_TAB);
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.query).toEqual("contact");
+      expect(state.query).toEqual('contact');
 
       // tabbing forward should give us all our contact options
       expect(state.matches).toMatchSnapshot();
     });
 
-    it("should complete in the middle of text", () => {
+    it('should complete in the middle of text', () => {
       const wrapper = createWrapper();
 
       // type some text then move cursor back
-      simulateString(wrapper, "hello world");
+      simulateString(wrapper, 'hello world');
       simulateKey(wrapper, KeyValues.KEY_LEFT, false, 6);
 
       // enter a query and complete it
-      simulateString(wrapper, " @cont");
+      simulateString(wrapper, ' @cont');
       simulateKey(wrapper, KeyValues.KEY_TAB);
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.query).toEqual("contact");
-      expect(state.value).toBe("hello @contact world");
+      expect(state.query).toEqual('contact');
+      expect(state.value).toBe('hello @contact world');
 
       // tabbing forward should give us all our contact options
       expect(state.matches).toMatchSnapshot();
     });
 
-    it("should complete over adjacent text", () => {
+    it('should complete over adjacent text', () => {
       const wrapper = createWrapper();
 
       // type some text then move cursor back
-      simulateString(wrapper, "hello contact");
+      simulateString(wrapper, 'hello contact');
       simulateKey(wrapper, KeyValues.KEY_LEFT, false, 7);
       simulateKey(wrapper, KeyValues.KEY_AT);
       simulateKey(wrapper, KeyValues.KEY_TAB);
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.value).toBe("hello @contact");
+      expect(state.value).toBe('hello @contact');
     });
 
-    it("should complete over dot extensions", () => {
+    it('should complete over dot extensions', () => {
       const wrapper = createWrapper();
 
       // type some text then move cursor back
-      simulateString(wrapper, "hello @contact.first_name");
+      simulateString(wrapper, 'hello @contact.first_name');
       simulateKey(wrapper, KeyValues.KEY_LEFT, false, 17);
-      simulateString(wrapper, "h");
+      simulateString(wrapper, 'h');
       simulateKey(wrapper, KeyValues.KEY_TAB);
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.value).toBe("hello @child");
+      expect(state.value).toBe('hello @child');
     });
   });
 
-  describe("navigation", () => {
-    it("should filter after tabbing", () => {
+  describe('navigation', () => {
+    it('should filter after tabbing', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@cont");
+      simulateString(wrapper, '@cont');
       simulateKey(wrapper, KeyValues.KEY_TAB);
-      simulateString(wrapper, ".fir");
+      simulateString(wrapper, '.fir');
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeTruthy();
-      expect(state.query).toEqual("contact.fir");
+      expect(state.query).toEqual('contact.fir');
 
       // tabbing forward should give us all our contact options
       expect(state.matches.length).toBe(1);
-      expect(state.matches[0].name).toBe("contact.first_name");
+      expect(state.matches[0].name).toBe('contact.first_name');
       expect(state.matches).toMatchSnapshot();
     });
 
-    it("should allow navigation with arrow keys", () => {
+    it('should allow navigation with arrow keys', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@c");
+      simulateString(wrapper, '@c');
 
       simulateKey(wrapper, KeyValues.KEY_DOWN);
       let state = getState(wrapper);
@@ -349,9 +350,9 @@ describe(TextInputElement.name, () => {
       expect(state.selectedOptionIndex).toBe(0);
     });
 
-    it("should allow navigation with OSX shortcuts", () => {
+    it('should allow navigation with OSX shortcuts', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@c");
+      simulateString(wrapper, '@c');
 
       simulateKey(wrapper, KeyValues.KEY_N, true);
       let state = getState(wrapper);
@@ -363,23 +364,30 @@ describe(TextInputElement.name, () => {
     });
   });
 
-  describe("visibility", () => {
-    it("should hide if outside completed expression", () => {
+  describe('visibility', () => {
+    it('should check contact fields on blur', () => {
       const wrapper = createWrapper();
-      simulateString(wrapper, "@(default(contact.first_name, contact.name))");
+      simulateString(wrapper, '@fields.missing');
+      wrapper.instance().handleBlur({});
+      expect(wrapper.props().onFieldFailures).toHaveBeenCalled();
+    });
+
+    it('should hide if outside completed expression', () => {
+      const wrapper = createWrapper();
+      simulateString(wrapper, '@(default(contact.first_name, contact.name))');
 
       const state = getState(wrapper);
       expect(state.completionVisible).toBeFalsy();
       expect(state.matches.length).toBe(0);
     });
 
-    it("should hide if navigating out of expression", () => {
+    it('should hide if navigating out of expression', () => {
       const wrapper = createWrapper();
 
       // enter some text, backpedal and insert an expression
-      simulateString(wrapper, "hello world");
+      simulateString(wrapper, 'hello world');
       simulateKey(wrapper, KeyValues.KEY_LEFT, false, 6);
-      simulateString(wrapper, " @cont");
+      simulateString(wrapper, ' @cont');
 
       // now move right until we are out of the expression
       simulateKey(wrapper, KeyValues.KEY_RIGHT, false, 4);
@@ -389,11 +397,11 @@ describe(TextInputElement.name, () => {
       expect(state.matches.length).toBe(0);
     });
 
-    it("should show completion with ctrl+space", () => {
+    it('should show completion with ctrl+space', () => {
       const wrapper = createWrapper();
 
       // enter some text, backpedal and insert an expression
-      simulateString(wrapper, "@contact.first_name is ready");
+      simulateString(wrapper, '@contact.first_name is ready');
       simulateKey(wrapper, KeyValues.KEY_LEFT, false, 10);
 
       // shouldn't see completion yet
