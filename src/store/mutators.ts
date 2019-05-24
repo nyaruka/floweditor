@@ -1,6 +1,6 @@
-import { getResultName } from "components/flow/node/helpers";
-import { Revision } from "components/revisions/RevisionExplorer";
-import { Types } from "config/interfaces";
+import { getResultName } from 'components/flow/node/helpers';
+import { Revision } from 'components/revisions/RevisionExplorer';
+import { Types } from 'config/interfaces';
 import {
   AnyAction,
   Dimensions,
@@ -10,7 +10,7 @@ import {
   RouterTypes,
   StickyNote,
   SwitchRouter
-} from "flowTypes";
+} from 'flowTypes';
 import {
   Asset,
   AssetMap,
@@ -19,28 +19,13 @@ import {
   Reference,
   RenderNode,
   RenderNodeMap
-} from "store/flowContext";
-import {
-  assetListToMap,
-  detectLoops,
-  getActionIndex,
-  getExitIndex,
-  getNode
-} from "store/helpers";
-import { NodeEditorSettings } from "store/nodeEditor";
-import { LocalizationUpdates } from "store/thunks";
-import {
-  createUUID,
-  merge,
-  push,
-  set,
-  snakify,
-  snapToGrid,
-  splice,
-  unset
-} from "utils";
+} from 'store/flowContext';
+import { assetListToMap, detectLoops, getActionIndex, getExitIndex, getNode } from 'store/helpers';
+import { NodeEditorSettings } from 'store/nodeEditor';
+import { LocalizationUpdates } from 'store/thunks';
+import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from 'utils';
 
-const mutate = require("immutability-helper");
+const mutate = require('immutability-helper');
 
 export const uniquifyNode = (newNode: FlowNode): FlowNode => {
   // Give our node a unique uuid
@@ -50,17 +35,11 @@ export const uniquifyNode = (newNode: FlowNode): FlowNode => {
 export const getDefaultExit = (node: FlowNode) => {
   if (node.router.type === RouterTypes.switch) {
     const switchRouter = node.router as SwitchRouter;
-    return node.exits.find(
-      exit => exit.uuid === switchRouter.default_category_uuid
-    );
+    return node.exits.find(exit => exit.uuid === switchRouter.default_category_uuid);
   }
 };
 
-export const addAssets = (
-  type: string,
-  store: AssetStore,
-  assets: Asset[]
-): AssetStore => {
+export const addAssets = (type: string, store: AssetStore, assets: Asset[]): AssetStore => {
   const assetMap = assetListToMap(assets);
   const updated = mutate(store, {
     [type]: {
@@ -83,8 +62,7 @@ export const removeResultReference = (
     const item = items[key];
     const filteredRefs = item.references.filter(
       (ref: Reference) =>
-        ref.nodeUUID !== reference.nodeUUID ||
-        ref.actionUUID !== reference.actionUUID
+        ref.nodeUUID !== reference.nodeUUID || ref.actionUUID !== reference.actionUUID
     );
 
     if (filteredRefs.length === 0) {
@@ -107,8 +85,7 @@ export const removeResultReference = (
   if (
     !result.references.find(
       (ref: Reference) =>
-        ref.nodeUUID === reference.nodeUUID &&
-        ref.actionUUID === reference.actionUUID
+        ref.nodeUUID === reference.nodeUUID && ref.actionUUID === reference.actionUUID
     )
   ) {
     result.references.push(reference);
@@ -123,11 +100,7 @@ export const removeResultFromStore = (
   reference: Reference
 ): AssetStore => {
   if (resultName && assets.results) {
-    const items = removeResultReference(
-      resultName,
-      assets.results.items,
-      reference
-    );
+    const items = removeResultReference(resultName, assets.results.items, reference);
     return mutate(assets, { results: { items: { $set: items } } });
   }
   return assets;
@@ -144,11 +117,7 @@ export const addResultToStore = (
   }
 };
 
-export const addResult = (
-  resultName: string,
-  items: AssetMap,
-  reference: Reference
-): AssetMap => {
+export const addResult = (resultName: string, items: AssetMap, reference: Reference): AssetMap => {
   const key = snakify(resultName);
   const result =
     key in items
@@ -163,8 +132,7 @@ export const addResult = (
   if (
     !result.references.find(
       (ref: Reference) =>
-        ref.nodeUUID === reference.nodeUUID &&
-        ref.actionUUID === reference.actionUUID
+        ref.nodeUUID === reference.nodeUUID && ref.actionUUID === reference.actionUUID
     )
   ) {
     result.references.push(reference);
@@ -173,19 +141,13 @@ export const addResult = (
   return mutate(items, { $merge: { [key]: result } });
 };
 
-export const addRevision = (
-  assets: AssetStore,
-  revision: Revision
-): AssetStore => {
+export const addRevision = (assets: AssetStore, revision: Revision): AssetStore => {
   return mutate(assets, {
     revisions: { items: { $merge: { [revision.id]: revision } } }
   });
 };
 
-export const addFlowResult = (
-  assets: AssetStore,
-  node: FlowNode
-): AssetStore => {
+export const addFlowResult = (assets: AssetStore, node: FlowNode): AssetStore => {
   let updated = assets;
 
   // TODO: initialize these to empties further up to avoid this
@@ -288,10 +250,7 @@ export const removeConnection = (
  * @param nodes
  * @param node the node to add, if unique uuid, it will be added
  */
-export const mergeNode = (
-  nodes: RenderNodeMap,
-  node: RenderNode
-): RenderNodeMap => {
+export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap => {
   let updatedNodes = nodes;
 
   // if the node is already there, remove it first
@@ -352,9 +311,7 @@ export const updateAction = (
 ) => {
   const originalNode = getNode(nodes, nodeUUID);
   // If we have existing actions, find our action and update it
-  const actionIdx = originalAction
-    ? getActionIndex(originalNode.node, originalAction.uuid)
-    : 0;
+  const actionIdx = originalAction ? getActionIndex(originalNode.node, originalAction.uuid) : 0;
   return mutate(nodes, {
     [nodeUUID]: {
       node: {
@@ -394,11 +351,7 @@ export const spliceInAction = (
 };
 
 /** Removes a specific action from a node */
-export const removeAction = (
-  nodes: RenderNodeMap,
-  nodeUUID: string,
-  actionUUID: string
-) => {
+export const removeAction = (nodes: RenderNodeMap, nodeUUID: string, actionUUID: string) => {
   const renderNode = getNode(nodes, nodeUUID);
   const actionIdx = getActionIndex(renderNode.node, actionUUID);
   return mutate(nodes, {
@@ -412,18 +365,14 @@ export const removeAction = (
  * @param nodeUUID
  * @param action
  */
-export const moveActionUp = (
-  nodes: RenderNodeMap,
-  nodeUUID: string,
-  actionUUID: string
-) => {
+export const moveActionUp = (nodes: RenderNodeMap, nodeUUID: string, actionUUID: string) => {
   const renderNode = getNode(nodes, nodeUUID);
 
   const actions = renderNode.node.actions;
   const actionIdx = getActionIndex(renderNode.node, actionUUID);
 
   if (actionIdx === 0) {
-    throw new Error("Cannot move an action at the top upwards");
+    throw new Error('Cannot move an action at the top upwards');
   }
 
   const action = actions[actionIdx];
@@ -696,9 +645,21 @@ export const updateLocalization = (
   // Apply changes
   changes.forEach(({ translations, uuid }) => {
     if (translations) {
+      // console.log(translations);
+      // normalize our translations so all are treated as arrays
+      const normalizedTranslations: { [uuid: string]: string[] } = {};
+      for (const key of Object.keys(translations)) {
+        const prev = translations[key];
+        if (Array.isArray(prev)) {
+          normalizedTranslations[key] = prev;
+        } else {
+          normalizedTranslations[key] = [prev];
+        }
+      }
+
       // adding localization
       newDef = mutate(newDef, {
-        localization: { [language]: { [uuid]: set(translations) } }
+        localization: { [language]: { [uuid]: set(normalizedTranslations) } }
       });
     } else {
       // removing localization

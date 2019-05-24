@@ -10,7 +10,13 @@ import UploadButton from 'components/uploadbutton/UploadButton';
 import { fakePropType } from 'config/ConfigProvider';
 import { SendMsg } from 'flowTypes';
 import * as React from 'react';
-import { FormState, mergeForm, StringArrayEntry, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import {
+  FormState,
+  mergeForm,
+  StringArrayEntry,
+  StringEntry,
+  ValidationFailure
+} from 'store/nodeEditor';
 import { MaxOfTenItems, validate } from 'store/validators';
 
 import { initializeLocalizedForm } from './helpers';
@@ -57,17 +63,15 @@ export default class MsgLocalizationForm extends React.Component<
   }): boolean {
     const updates: Partial<MsgLocalizationFormState> = {};
 
-    if (keys.hasOwnProperty("text")) {
-      updates.message = validate("Message", keys.text!, []);
+    if (keys.hasOwnProperty('text')) {
+      updates.message = validate('Message', keys.text!, []);
     }
 
-    if (keys.hasOwnProperty("quickReplies")) {
-      updates.quickReplies = validate("Quick Replies", keys.quickReplies!, [
-        MaxOfTenItems
-      ]);
+    if (keys.hasOwnProperty('quickReplies')) {
+      updates.quickReplies = validate('Quick Replies', keys.quickReplies!, [MaxOfTenItems]);
     }
 
-    if (keys.hasOwnProperty("audio")) {
+    if (keys.hasOwnProperty('audio')) {
       updates.audio! = { value: keys.audio! };
     }
 
@@ -82,7 +86,7 @@ export default class MsgLocalizationForm extends React.Component<
     // make sure we are valid for saving, only quick replies can be invalid
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
     const valid =
-      typeConfig.localizeableKeys!.indexOf("quick_replies") > -1
+      typeConfig.localizeableKeys!.indexOf('quick_replies') > -1
         ? this.handleQuickRepliesUpdate(this.state.quickReplies.value)
         : true;
 
@@ -114,8 +118,8 @@ export default class MsgLocalizationForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -144,16 +148,12 @@ export default class MsgLocalizationForm extends React.Component<
   private handleRemoveQuickReply(toRemove: string): void {
     this.setState({
       quickReplies: {
-        value: this.state.quickReplies.value.filter(
-          (reply: string) => reply !== toRemove
-        )
+        value: this.state.quickReplies.value.filter((reply: string) => reply !== toRemove)
       }
     });
   }
 
-  public handleQuickReplyFieldFailures(
-    persistantFailures: ValidationFailure[]
-  ): void {
+  public handleQuickReplyFieldFailures(persistantFailures: ValidationFailure[]): void {
     const quickReplies = { ...this.state.quickReplies, persistantFailures };
     this.setState({
       quickReplies,
@@ -165,16 +165,14 @@ export default class MsgLocalizationForm extends React.Component<
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
     const tabs: Tab[] = [];
 
-    if (typeConfig.localizeableKeys!.indexOf("quick_replies") > -1) {
+    if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
       tabs.push({
-        name: "Quick Replies",
+        name: 'Quick Replies',
         body: (
           <>
             <MultiChoiceInput
               name="Quick Reply"
-              helpText={`Add a new ${
-                this.props.language.name
-              } Quick Reply and press enter.`}
+              helpText={`Add a new ${this.props.language.name} Quick Reply and press enter.`}
               items={this.state.quickReplies}
               onRemoved={this.handleRemoveQuickReply}
               onItemAdded={this.handleAddQuickReply}
@@ -186,7 +184,7 @@ export default class MsgLocalizationForm extends React.Component<
     }
 
     let audioButton: JSX.Element | null = null;
-    if (typeConfig.localizeableKeys!.indexOf("audio_url") > 0) {
+    if (typeConfig.localizeableKeys!.indexOf('audio_url') > 0) {
       audioButton = (
         <UploadButton
           icon="fe-mic"
