@@ -38,10 +38,25 @@ import {
   updateSticky,
   UpdateSticky
 } from 'store/thunks';
-import { ACTIVITY_INTERVAL, createUUID, isRealValue, NODE_PADDING, renderIf, snapToGrid, timeEnd, timeStart } from 'utils';
+import {
+  ACTIVITY_INTERVAL,
+  createUUID,
+  isRealValue,
+  NODE_PADDING,
+  renderIf,
+  snapToGrid,
+  timeEnd,
+  timeStart
+} from 'utils';
 import Debug from 'utils/debug';
 
 import styles from './Flow.module.scss';
+
+declare global {
+  interface Window {
+    fe: any;
+  }
+}
 
 export interface FlowStoreProps {
   editorState: Partial<EditorState>;
@@ -69,10 +84,10 @@ export const DRAG_THRESHOLD = 3;
 export const REPAINT_TIMEOUT = 500;
 export const GHOST_POSITION_INITIAL = { left: -1000, top: -1000 };
 
-export const nodeSpecId = "node";
-export const nodesContainerSpecId = "node-container";
-export const ghostNodeSpecId = "ghost-node";
-export const dragSelectSpecId = "drag-select";
+export const nodeSpecId = 'node';
+export const nodesContainerSpecId = 'node-container';
+export const ghostNodeSpecId = 'ghost-node';
+export const dragSelectSpecId = 'drag-select';
 
 export const isDraggingBack = (event: ConnectionEvent) => {
   return event.suspendedElementId === event.targetId && event.source !== null;
@@ -119,7 +134,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       include: [/Ref$/, /^on/, /^is/, /^get/]
     });
 
-    timeStart("RenderAndPlumb");
+    timeStart('RenderAndPlumb');
   }
 
   private onRef(ref: HTMLDivElement): HTMLDivElement {
@@ -131,28 +146,26 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
   }
 
   public componentDidMount(): void {
-    this.Plumber.bind("connection", (event: ConnectionEvent) =>
+    this.Plumber.bind('connection', (event: ConnectionEvent) =>
       this.props.updateConnection(event.sourceId, event.targetId)
     );
-    this.Plumber.bind("beforeDrag", (event: ConnectionEvent) => {
+    this.Plumber.bind('beforeDrag', (event: ConnectionEvent) => {
       this.beforeConnectionDrag(event);
     });
 
-    this.Plumber.bind("connectionDrag", (event: ConnectionEvent) => {
+    this.Plumber.bind('connectionDrag', (event: ConnectionEvent) => {
       this.props.onConnectionDrag(event, this.context.config.flowType);
     });
 
-    this.Plumber.bind("connectionDragStop", (event: ConnectionEvent) =>
+    this.Plumber.bind('connectionDragStop', (event: ConnectionEvent) =>
       this.onConnectorDrop(event)
     );
     this.Plumber.bind(
-      "beforeStartDetach",
+      'beforeStartDetach',
       (event: ConnectionEvent) => !this.props.editorState.translating
     );
-    this.Plumber.bind("beforeDetach", (event: ConnectionEvent) => true);
-    this.Plumber.bind("beforeDrop", (event: ConnectionEvent) =>
-      this.onBeforeConnectorDrop(event)
-    );
+    this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => true);
+    this.Plumber.bind('beforeDrop', (event: ConnectionEvent) => this.onBeforeConnectorDrop(event));
 
     let offset = { left: 0, top: 0 };
 
@@ -165,7 +178,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       containerOffset: { left: offset.left, top: offset.top + window.scrollY }
     });
 
-    timeEnd("RenderAndPlumb");
+    timeEnd('RenderAndPlumb');
 
     // deals with safari load rendering throwing
     // off the jsplumb offsets
@@ -178,8 +191,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
   public componentWillUpdate(prevProps: FlowStoreProps): void {
     if (
-      prevProps.editorState.activityInterval ===
-        this.props.editorState.activityInterval &&
+      prevProps.editorState.activityInterval === this.props.editorState.activityInterval &&
       this.props.editorState.activityInterval !== ACTIVITY_INTERVAL
     ) {
       this.props.mergeEditorState({ activityInterval: ACTIVITY_INTERVAL });
@@ -191,7 +203,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
    */
   private onBeforeConnectorDrop(event: ConnectionEvent): boolean {
     this.props.resetNodeEditingState();
-    const fromNodeUUID = event.sourceId.split(":")[0];
+    const fromNodeUUID = event.sourceId.split(':')[0];
     try {
       detectLoops(this.props.nodes, fromNodeUUID, event.targetId);
     } catch {
@@ -212,10 +224,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       this.Plumber.recalculate(ghostNode.node.uuid);
 
       const dragPoint = getDraggedFrom(ghostNode);
-      this.Plumber.connect(
-        dragPoint.nodeUUID + ":" + dragPoint.exitUUID,
-        ghostNode.node.uuid
-      );
+      this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.node.uuid);
 
       // Save our position for later
       const { left, top } = (this.ghost &&
@@ -238,44 +247,42 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     }
 
     /* istanbul ignore next */
-    document.removeEventListener("mousemove", (window as any).ghostListener);
+    document.removeEventListener('mousemove', (window as any).ghostListener);
 
     return true;
   }
 
   private beforeConnectionDrag(event: ConnectionEvent): boolean {
     if (event.source) {
-      event.source.dispatchEvent(new Event("disconnect"));
+      event.source.dispatchEvent(new Event('disconnect'));
     }
     return !this.props.editorState.translating;
   }
 
   private getNodes(): CanvasDraggableProps[] {
     const onlyNode = Object.keys(this.props.nodes).length === 1;
-    return getOrderedNodes(this.props.nodes).map(
-      (renderNode: RenderNode, idx: number) => {
-        return {
-          uuid: renderNode.node.uuid,
-          position: renderNode.ui.position,
-          ele: (selected: boolean) => (
-            <Node
-              onlyNode={onlyNode}
-              startingNode={idx === 0}
-              selected={selected}
-              key={renderNode.node.uuid}
-              data-spec={nodeSpecId}
-              nodeUUID={renderNode.node.uuid}
-              plumberMakeTarget={this.Plumber.makeTarget}
-              plumberRemove={this.Plumber.remove}
-              plumberRecalculate={this.Plumber.recalculate}
-              plumberMakeSource={this.Plumber.makeSource}
-              plumberConnectExit={this.Plumber.connectExit}
-              plumberUpdateClass={this.Plumber.updateClass}
-            />
-          )
-        };
-      }
-    );
+    return getOrderedNodes(this.props.nodes).map((renderNode: RenderNode, idx: number) => {
+      return {
+        uuid: renderNode.node.uuid,
+        position: renderNode.ui.position,
+        ele: (selected: boolean) => (
+          <Node
+            onlyNode={onlyNode}
+            startingNode={idx === 0}
+            selected={selected}
+            key={renderNode.node.uuid}
+            data-spec={nodeSpecId}
+            nodeUUID={renderNode.node.uuid}
+            plumberMakeTarget={this.Plumber.makeTarget}
+            plumberRemove={this.Plumber.remove}
+            plumberRecalculate={this.Plumber.recalculate}
+            plumberMakeSource={this.Plumber.makeSource}
+            plumberConnectExit={this.Plumber.connectExit}
+            plumberUpdateClass={this.Plumber.updateClass}
+          />
+        )
+      };
+    });
   }
 
   private getStickies(): CanvasDraggableProps[] {
@@ -284,12 +291,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       return {
         uuid,
         ele: (selected: boolean) => (
-          <Sticky
-            key={uuid}
-            uuid={uuid}
-            sticky={stickyMap[uuid]}
-            selected={selected}
-          />
+          <Sticky key={uuid} uuid={uuid} sticky={stickyMap[uuid]} selected={selected} />
         ),
         position: stickyMap[uuid].position
       };
@@ -301,7 +303,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       <div
         data-spec={ghostNodeSpecId}
         key={this.props.editorState.ghostNode.node.uuid}
-        style={{ position: "absolute", display: "block" }}
+        style={{ position: 'absolute', display: 'block' }}
       >
         <Node
           onlyNode={false}
@@ -322,14 +324,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
   }
 
   private getSimulator(): JSX.Element {
-    return renderIf(
-      this.context.config.endpoints &&
-        this.context.config.endpoints.simulateStart
-    )(
-      <Simulator
-        key="simulator"
-        mergeEditorState={this.props.mergeEditorState}
-      />
+    return renderIf(this.context.config.endpoints && this.context.config.endpoints.simulateStart)(
+      <Simulator key="simulator" mergeEditorState={this.props.mergeEditorState} />
     );
   }
 
@@ -351,14 +347,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
   private onDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
     if (this.isClickOnCanvas(event)) {
       const { left, top } = snapToGrid(
-        event.pageX -
-          this.props.editorState.containerOffset.left -
-          100 +
-          NODE_PADDING,
-        event.pageY -
-          this.props.editorState.containerOffset.top -
-          NODE_PADDING * 2 -
-          40
+        event.pageX - this.props.editorState.containerOffset.left - 100 + NODE_PADDING,
+        event.pageY - this.props.editorState.containerOffset.top - NODE_PADDING * 2 - 40
       );
 
       this.props.updateSticky(createUUID(), {
@@ -374,20 +364,15 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       <div key="create_node" className={styles.empty_flow}>
         <h1>Let's get started</h1>
         <div>
-          We recommend starting your flow by sending a message. This message
-          will be sent to anybody right after they join the flow. This is your
-          chance to send a single message or ask them a question.
+          We recommend starting your flow by sending a message. This message will be sent to anybody
+          right after they join the flow. This is your chance to send a single message or ask them a
+          question.
         </div>
 
         <Button
           name="Create Message"
           onClick={() => {
-            const emptyNode = createEmptyNode(
-              null,
-              null,
-              1,
-              this.context.config.flowType
-            );
+            const emptyNode = createEmptyNode(null, null, 1, this.context.config.flowType);
             this.props.onOpenNodeEditor({
               originalNode: emptyNode,
               originalAction: emptyNode.node.actions[0]
@@ -420,7 +405,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
               if (uuid in this.props.nodes) {
                 this.props.nodes[uuid].node.exits.forEach((exit: Exit) => {
                   if (exit.destination_uuid) {
-                    uuids.push(uuid + ":" + exit.uuid);
+                    uuids.push(uuid + ':' + exit.uuid);
                   }
                 });
               }

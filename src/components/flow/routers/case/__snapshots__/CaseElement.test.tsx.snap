@@ -183,7 +183,7 @@ exports[`CaseElement operator changes should handle updates 1`] = `
         </div>
         <span
           class="fe-x remove_icon"
-          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
         />
       </div>
     </div>
@@ -452,7 +452,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
         </div>
         <span
           class="fe-x remove_icon"
-          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
         />
       </div>
     </div>
@@ -643,7 +643,7 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
         </div>
         <span
           class="fe-x remove_icon"
-          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
         />
       </div>
     </div>
@@ -834,7 +834,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
         </div>
         <span
           class="fe-x remove_icon"
-          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
         />
       </div>
     </div>
@@ -1062,7 +1062,7 @@ exports[`CaseElement render should render empty case 1`] = `
         </div>
         <span
           class="fe-x remove_icon"
-          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
         />
       </div>
     </div>
@@ -1290,7 +1290,7 @@ exports[`CaseElement update handles argument change 1`] = `
         </div>
         <span
           class="fe-x remove_icon"
-          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
         />
       </div>
     </div>
@@ -1559,7 +1559,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
         </div>
         <span
           class="fe-x remove_icon"
-          data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          data-testid="remove-case-763e4844-3e1b-407a-a1b5-5fdfcd308b41"
         />
       </div>
     </div>

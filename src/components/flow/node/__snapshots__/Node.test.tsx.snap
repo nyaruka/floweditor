@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NodeComp renders 1`] = `
+<body>
+  <div>
+    <div
+      class="node_container plumb-drag flow_start"
+      id="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    >
+      <div
+        class="node"
+      >
+        <div
+          class="flow_start_message"
+        >
+          Flow Start
+        </div>
+        <div
+          class="counter active clickable "
+          data-spec="counter-outter"
+        >
+          <div
+            class=""
+            data-spec="counter-inner"
+          >
+            0
+          </div>
+        </div>
+        <div
+          class="cropped"
+        />
+        <div
+          class="exit_table"
+        >
+          <div
+            class="exits"
+          >
+            <div
+              class="exit plumb-exit"
+            >
+              <div
+                class="endpoint"
+                id="b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+              />
+              <div
+                class="drag_helper "
+              >
+                <div
+                  class="arrow"
+                >
+                  <div
+                    class="tail"
+                  />
+                  <div
+                    class="head"
+                  />
+                </div>
+                <div
+                  class="help_text"
+                >
+                  To connect nodes, 
+                  <span
+                    class="bold"
+                  >
+                    drag
+                  </span>
+                   from the red circle.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="add"
+          >
+            <span
+              class="fe-add"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

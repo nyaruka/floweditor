@@ -8,10 +8,8 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
 window.showFlowEditor = (ele, config) => {
-    ReactDOM.render(<FlowEditor config={config} />, ele);
+  ReactDOM.render(<FlowEditor config={config} />, ele);
 };
-
-// ReactDOM.render(<App />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
