@@ -922,11 +922,11 @@ Object {
   "language": "eng",
   "localization": Object {
     "spa": Object {
-      "node0_action0": Array [
-        Object {
-          "text": "Hola Mundo!",
-        },
-      ],
+      "node0_action0": Object {
+        "text": Array [
+          "Hola Mundo!",
+        ],
+      },
     },
   },
   "name": "Boring Flow",

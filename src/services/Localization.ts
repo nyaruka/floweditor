@@ -37,11 +37,16 @@ export class LocalizedObject {
     // localization shouldn't side-affect the original object
     if (!this.localized) {
       this.localizedObject = Object.assign({}, this.localizedObject);
-
       this.localized = true;
     }
 
-    this.localizedObject[key] = value;
+    if (Array.isArray(this.localizedObject[key])) {
+      this.localizedObject[key] = value;
+    } else {
+      if (value.length === 1) {
+        this.localizedObject[key] = value[0];
+      }
+    }
 
     this.localizedKeys[key] = true;
   }

@@ -173,16 +173,10 @@ exports[`RouterLocalizationForm initializes 1`] = `
         data-spec="localize-category"
         entry={
           Object {
-            "value": Array [
-              "Otro",
-            ],
+            "value": "Otro",
           }
         }
-        name={
-          Array [
-            "Otro",
-          ]
-        }
+        name="Otro"
         onChange={[Function]}
         placeholder="Spanish Translation"
         showLabel={false}
@@ -365,16 +359,10 @@ exports[`RouterLocalizationForm should render 1`] = `
         data-spec="localize-category"
         entry={
           Object {
-            "value": Array [
-              "Otro",
-            ],
+            "value": "Otro",
           }
         }
-        name={
-          Array [
-            "Otro",
-          ]
-        }
+        name="Otro"
         onChange={[Function]}
         placeholder="Spanish Translation"
         showLabel={false}
@@ -411,9 +399,7 @@ Object {
     },
     Object {
       "exit_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
-      "name": Array [
-        "Otro",
-      ],
+      "name": "Otro",
       "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     },
   ],
@@ -436,9 +422,7 @@ Array [
     },
     Object {
       "translations": Object {
-        "name": Array [
-          "Otro",
-        ],
+        "name": "Otro",
       },
       "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     },
