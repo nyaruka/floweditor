@@ -1,18 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Button render should render self, children with base props 1`] = `
-<div
-  className="btn primary  "
-  onClick={[MockFunction]}
-  onMouseDown={[Function]}
-  onMouseUp={[Function]}
-  style={
-    Object {
-      "marginLeft": 0,
-      "marginTop": 0,
-    }
-  }
->
-  Save
-</div>
+<body>
+  <div>
+    <div
+      class="btn primary  "
+      style="margin-left: 0px; margin-top: 0px;"
+    >
+      Save
+    </div>
+  </div>
+</body>
 `;

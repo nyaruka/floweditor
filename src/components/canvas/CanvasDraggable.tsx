@@ -18,16 +18,13 @@ export interface CanvasDraggableProps {
   onDragStop?: () => void;
 }
 
-export class CanvasDraggable extends React.PureComponent<
-  CanvasDraggableProps,
-  {}
-> {
+export class CanvasDraggable extends React.PureComponent<CanvasDraggableProps, {}> {
   private ele!: HTMLDivElement;
 
   constructor(props: CanvasDraggableProps) {
     super(props);
     bindCallbacks(this, {
-      include: [/^handle/, "ref"]
+      include: [/^handle/, 'ref']
     });
   }
 
@@ -37,13 +34,11 @@ export class CanvasDraggable extends React.PureComponent<
 
   public componentDidMount(): void {
     if (this.ele) {
-      if (this.ele.clientWidth && this.ele.clientHeight) {
-        if (this.props.updateDimensions) {
-          this.props.updateDimensions(this.props.uuid, {
-            width: this.ele.clientWidth,
-            height: this.ele.clientHeight
-          });
-        }
+      if (this.props.updateDimensions) {
+        this.props.updateDimensions(this.props.uuid, {
+          width: this.ele.clientWidth || this.props.position.right - this.props.position.left,
+          height: this.ele.clientHeight || this.props.position.bottom - this.props.position.top
+        });
       }
     }
   }
@@ -76,10 +71,14 @@ export class CanvasDraggable extends React.PureComponent<
 
     return (
       <div
+        data-testid={'draggable_' + this.props.uuid}
         onTransitionEnd={handleAnimated}
         ref={this.ref}
-        className={classes.join(" ")}
-        style={{ left: this.props.position.left, top: this.props.position.top }}
+        className={classes.join(' ')}
+        style={{
+          left: this.props.position.left,
+          top: this.props.position.top
+        }}
         onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
           // ignore right clicks
           if (event.nativeEvent.which === 3) {
