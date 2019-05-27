@@ -65,7 +65,11 @@ export const getRecentMessages = (
     cancel.reject = reject;
     return axios
       .get(`${recentsEndpoint}?exits=${exit.uuid}&to=${exit.destination_uuid}`)
-      .then((response: AxiosResponse) => resolve(response.data as RecentMessage[]))
+      .then((response: AxiosResponse) =>
+        window.setTimeout(() => {
+          resolve(response.data as RecentMessage[]);
+        }, 4000)
+      )
       .catch(error => reject(error));
   });
 
