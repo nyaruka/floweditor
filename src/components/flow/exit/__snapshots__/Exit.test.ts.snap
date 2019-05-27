@@ -15,15 +15,23 @@ exports[`ExitComp should render 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <Counter
-    containerStyle="activity"
-    count={1000}
-    countStyle="count"
-    keepVisible={false}
-    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-  />
+  <div
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+  >
+    <Counter
+      containerStyle="activity"
+      count={1000}
+      countStyle="count"
+      keepVisible={false}
+      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    />
+  </div>
 </div>
 `;
 
@@ -42,15 +50,23 @@ exports[`ExitComp shows localization 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <Counter
-    containerStyle="activity"
-    count={1000}
-    countStyle="count"
-    keepVisible={false}
-    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-  />
+  <div
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+  >
+    <Counter
+      containerStyle="activity"
+      count={1000}
+      countStyle="count"
+      keepVisible={false}
+      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    />
+  </div>
 </div>
 `;
 
@@ -69,15 +85,23 @@ exports[`ExitComp shows missing localization 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <Counter
-    containerStyle="activity"
-    count={1000}
-    countStyle="count"
-    keepVisible={false}
-    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-  />
+  <div
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+  >
+    <Counter
+      containerStyle="activity"
+      count={1000}
+      countStyle="count"
+      keepVisible={false}
+      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    />
+  </div>
 </div>
 `;
 
@@ -96,51 +120,59 @@ exports[`ExitComp shows recent messages 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <Counter
-    containerStyle="activity"
-    count={1000}
-    countStyle="count"
-    keepVisible={false}
-    key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-  />
   <div
-    className="recent_messages"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
   >
+    <Counter
+      containerStyle="activity"
+      count={1000}
+      countStyle="count"
+      keepVisible={false}
+      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+    />
     <div
-      className="title"
-    >
-      Recent Messages
-    </div>
-    <div
-      className="message"
-      key="recent_0"
-    >
-      <div
-        className="text"
-      >
-        Hi Mom!
-      </div>
-      <div
-        className="sent"
-      >
-        Apr 1, 2019
-      </div>
-    </div>
-    <div
-      className="message"
-      key="recent_1"
+      className="recent_messages"
     >
       <div
-        className="text"
+        className="title"
       >
-        Hi Dad!
+        Recent Messages
       </div>
       <div
-        className="sent"
+        className="message"
+        key="recent_0"
       >
-        Apr 2, 2019
+        <div
+          className="text"
+        >
+          Hi Mom!
+        </div>
+        <div
+          className="sent"
+        >
+          Apr 1, 2019
+        </div>
+      </div>
+      <div
+        className="message"
+        key="recent_1"
+      >
+        <div
+          className="text"
+        >
+          Hi Dad!
+        </div>
+        <div
+          className="sent"
+        >
+          Apr 2, 2019
+        </div>
       </div>
     </div>
   </div>

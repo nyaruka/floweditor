@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import Counter from 'components/counter/Counter';
 import DragHelper from 'components/draghelper/DragHelper';
 import { getExitActivityKey } from 'components/flow/exit/helpers';
+import Loading from 'components/loading/Loading';
 import { fakePropType } from 'config/ConfigProvider';
 import { Cancel, getRecentMessages } from 'external';
 import { Category, Exit, FlowNode, LocalizationMap } from 'flowTypes';
@@ -64,7 +65,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
     this.state = {
       confirmDelete: false,
-      recentMessages: [],
+      recentMessages: null,
       fetchingRecentMessages: false,
       showDragHelper: props.showDragHelper
     };
@@ -188,9 +189,13 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         this.context.config.endpoints.recents,
         this.props.exit,
         this.pendingMessageFetch
-      ).then((recentMessages: RecentMessage[]) => {
-        this.setState({ recentMessages, fetchingRecentMessages: false });
-      });
+      )
+        .then((recentMessages: RecentMessage[]) => {
+          this.setState({ recentMessages, fetchingRecentMessages: false });
+        })
+        .catch(() => {
+          // we may have been canceled
+        });
     });
   }
 
@@ -200,7 +205,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       this.pendingMessageFetch = {};
     }
 
-    this.setState({ fetchingRecentMessages: false, recentMessages: [] });
+    this.setState({ fetchingRecentMessages: false, recentMessages: null });
   }
 
   private getSegmentCount(): JSX.Element {
@@ -208,7 +213,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     if (this.props.exit.destination_uuid) {
       const key = `count:${this.props.exit.uuid}:${this.props.exit.destination_uuid}`;
       return (
-        <>
+        <div style={{ position: 'relative' }}>
           <Counter
             key={key}
             count={this.props.segmentCount}
@@ -219,7 +224,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             onMouseLeave={this.handleHideRecentMessages}
           />
           {this.getRecentMessages()}
-        </>
+        </div>
       );
     }
     return null;
@@ -254,16 +259,32 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private getRecentMessages(): JSX.Element {
-    if (this.state.fetchingRecentMessages || this.state.recentMessages.length > 0) {
+    if (this.state.fetchingRecentMessages || this.state.recentMessages !== null) {
+      const recentMessages = this.state.recentMessages || [];
+      const hasRecents = recentMessages.length !== 0;
+
+      const recentStyles = [styles.recent_messages];
+
+      let title = 'Recent Messages';
+      if (!hasRecents && !this.state.fetchingRecentMessages) {
+        title = 'No Recent Messages';
+        recentStyles.push(styles.no_recents);
+      }
+
       return (
-        <div className={styles.recent_messages}>
-          <div className={styles.title}>Recent Messages</div>
-          {this.state.recentMessages.map((recentMessage: RecentMessage, idx: number) => (
+        <div className={recentStyles.join(' ')}>
+          <div className={styles.title}>{title}</div>
+          {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
             <div key={'recent_' + idx} className={styles.message}>
               <div className={styles.text}>{recentMessage.text}</div>
               <div className={styles.sent}>{recentMessage.sent}</div>
             </div>
           ))}
+          {this.state.recentMessages === null ? (
+            <div className={styles.loading}>
+              <Loading size={10} units={6} color="#999999" />
+            </div>
+          ) : null}
         </div>
       );
     }

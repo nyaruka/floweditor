@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .exit {
   font-size: 13px;
@@ -129,12 +129,23 @@
 
 .recent_messages {
   position: absolute;
-  width: $node_min_width;
+  min-width: 150px;
   margin-top: 40px;
   z-index: $z_recent_messages;
   background: $light_gray_2;
   border-radius: $curvature;
   box-shadow: 0px 1px 0px 1px rgba(130, 130, 130, 0.2);
+
+  &.no_recents {
+    .title {
+      border-radius: $curvature;
+    }
+  }
+
+  .loading {
+    text-align: center;
+    padding-bottom: 6px;
+  }
 
   .title {
     border-top-left-radius: $curvature;
