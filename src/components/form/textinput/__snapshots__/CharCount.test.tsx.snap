@@ -24,8 +24,7 @@ exports[`CharCount > render > should display count 1`] = `
         </b>
          
         characters
-         long. We estimate it will take
-         
+         long. We estimate it will take 
         <b>
           2
         </b>
