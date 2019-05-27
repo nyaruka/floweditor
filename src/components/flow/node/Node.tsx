@@ -184,13 +184,13 @@ export class NodeComp extends React.Component<NodeProps> {
 
   private getExits(): JSX.Element[] {
     if (this.props.renderNode.node.exits) {
-      return this.props.renderNode.node.exits.map(exit => (
+      return this.props.renderNode.node.exits.map((exit: Exit, idx: number) => (
         <ExitComp
           key={exit.uuid}
           node={this.props.renderNode.node}
           categories={getCategoriesForExit(this.props.renderNode, exit)}
           exit={exit}
-          showDragHelper={this.props.onlyNode}
+          showDragHelper={this.props.onlyNode && idx === 0}
           plumberMakeSource={this.props.plumberMakeSource}
           plumberRemove={this.props.plumberRemove}
           plumberConnectExit={this.props.plumberConnectExit}

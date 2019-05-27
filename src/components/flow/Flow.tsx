@@ -303,7 +303,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       <div
         data-spec={ghostNodeSpecId}
         key={this.props.editorState.ghostNode.node.uuid}
-        style={{ position: 'absolute', display: 'block' }}
+        style={{ position: 'absolute', display: 'block', visibility: 'hidden' }}
       >
         <Node
           onlyNode={false}

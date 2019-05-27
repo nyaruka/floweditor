@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 @mixin color-choice($color) {
   &.color_option {
@@ -27,7 +27,7 @@
   @include color-choice($sticky_green);
 }
 
-.color-chooser-container {
+.color_chooser_container {
   height: 17px;
   width: 100%;
   overflow: hidden;
@@ -143,7 +143,7 @@
         background: none;
         font-weight: 500;
         font-size: 12px;
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         line-height: 14px;
         width: 140px;
         resize: none !important;
@@ -161,7 +161,7 @@
       width: 160px;
 
       textarea.body {
-        font-family: "Roboto", sans-serif;
+        font-family: 'Roboto', sans-serif;
         outline: none;
         box-shadow: none;
         border: none;
