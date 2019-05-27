@@ -22,10 +22,10 @@ import { nodeToState, stateToNode } from './helpers';
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 export enum InputToFocus {
-  args = "args",
-  min = "min",
-  max = "max",
-  exit = "exit"
+  args = 'args',
+  min = 'min',
+  max = 'max',
+  exit = 'exit'
 }
 
 export interface FieldRouterFormState extends FormState {
@@ -45,7 +45,7 @@ export const getRoutableFields = (): Asset[] => {
   ];
 };
 
-export const leadInSpecId = "lead-in";
+export const leadInSpecId = 'lead-in';
 
 export default class FieldRouterForm extends React.Component<
   RouterFormProps,
@@ -66,10 +66,7 @@ export default class FieldRouterForm extends React.Component<
   };
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate("Result Name", value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -93,8 +90,8 @@ export default class FieldRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -102,16 +99,8 @@ export default class FieldRouterForm extends React.Component<
     const typeConfig = this.props.typeConfig;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.lead_in}>
           If the contact's
           <div className={`${styles.field_select} select-small`}>
@@ -132,10 +121,7 @@ export default class FieldRouterForm extends React.Component<
           cases={this.state.cases}
           onCasesUpdated={this.handleCasesUpdated}
         />
-        {createResultNameInput(
-          this.state.resultName,
-          this.handleUpdateResultName
-        )}
+        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
       </Dialog>
     );
   }

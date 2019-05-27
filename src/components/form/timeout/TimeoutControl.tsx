@@ -8,23 +8,23 @@ import { small } from 'utils/reactselect';
 import styles from './TimeoutControl.module.scss';
 
 export const TIMEOUT_OPTIONS = [
-  { value: 60, label: "1 minute" },
-  { value: 120, label: "2 minutes" },
-  { value: 180, label: "3 minutes" },
-  { value: 240, label: "4 minutes" },
-  { value: 300, label: "5 minutes" },
-  { value: 600, label: "10 minutes" },
-  { value: 900, label: "15 minutes" },
-  { value: 3600, label: "1 hours" },
-  { value: 7200, label: "2 hours" },
-  { value: 10800, label: "3 hours" },
-  { value: 21600, label: "6 hours" },
-  { value: 43200, label: "12 hours" },
-  { value: 64800, label: "18 hours" },
-  { value: 86400, label: "1 days" },
-  { value: 172800, label: "2 days" },
-  { value: 259200, label: "3 days" },
-  { value: 604800, label: "1 week" }
+  { value: 60, label: '1 minute' },
+  { value: 120, label: '2 minutes' },
+  { value: 180, label: '3 minutes' },
+  { value: 240, label: '4 minutes' },
+  { value: 300, label: '5 minutes' },
+  { value: 600, label: '10 minutes' },
+  { value: 900, label: '15 minutes' },
+  { value: 3600, label: '1 hours' },
+  { value: 7200, label: '2 hours' },
+  { value: 10800, label: '3 hours' },
+  { value: 21600, label: '6 hours' },
+  { value: 43200, label: '12 hours' },
+  { value: 64800, label: '18 hours' },
+  { value: 86400, label: '1 days' },
+  { value: 172800, label: '2 days' },
+  { value: 259200, label: '3 days' },
+  { value: 604800, label: '1 week' }
 ];
 
 export const DEFAULT_TIMEOUT = TIMEOUT_OPTIONS[4];
@@ -36,9 +36,7 @@ export interface TimeoutControlProps {
   onChanged(timeout: number): void;
 }
 
-export default class TimeoutControl extends React.Component<
-  TimeoutControlProps
-> {
+export default class TimeoutControl extends React.Component<TimeoutControlProps> {
   constructor(props: TimeoutControlProps) {
     super(props);
     bindCallbacks(this, {
@@ -60,7 +58,7 @@ export default class TimeoutControl extends React.Component<
   }
 
   private getInstructions(): string {
-    const base = "Continue when there is no response";
+    const base = 'Continue when there is no response';
     return this.isChecked() ? `${base} for` : ellipsize(base);
   }
 

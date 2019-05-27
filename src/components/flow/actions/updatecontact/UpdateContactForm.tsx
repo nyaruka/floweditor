@@ -7,7 +7,12 @@ import {
   stateToAction,
   UpdateContactFormState
 } from 'components/flow/actions/updatecontact/helpers';
-import { ActionFormProps, CHANNEL_PROPERTY, LANGUAGE_PROPERTY, NAME_PROPERTY } from 'components/flow/props';
+import {
+  ActionFormProps,
+  CHANNEL_PROPERTY,
+  LANGUAGE_PROPERTY,
+  NAME_PROPERTY
+} from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
@@ -23,11 +28,7 @@ import { Required, validate } from 'store/validators';
 
 import styles from './UpdateContactForm.module.scss';
 
-export const CONTACT_PROPERTIES: Asset[] = [
-  NAME_PROPERTY,
-  LANGUAGE_PROPERTY,
-  CHANNEL_PROPERTY
-];
+export const CONTACT_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, CHANNEL_PROPERTY];
 
 export default class UpdateContactForm extends React.Component<
   ActionFormProps,
@@ -57,27 +58,27 @@ export default class UpdateContactForm extends React.Component<
   }): boolean {
     const updates: Partial<UpdateContactFormState> = {};
 
-    if (keys.hasOwnProperty("type")) {
+    if (keys.hasOwnProperty('type')) {
       updates.type = keys.type;
     }
 
-    if (keys.hasOwnProperty("name")) {
+    if (keys.hasOwnProperty('name')) {
       updates.name = { value: keys.name };
     }
 
-    if (keys.hasOwnProperty("channel")) {
-      updates.channel = validate("Channel", keys.channel, [Required]);
+    if (keys.hasOwnProperty('channel')) {
+      updates.channel = validate('Channel', keys.channel, [Required]);
     }
 
-    if (keys.hasOwnProperty("language")) {
-      updates.language = validate("Language", keys.language, [Required]);
+    if (keys.hasOwnProperty('language')) {
+      updates.language = validate('Language', keys.language, [Required]);
     }
 
-    if (keys.hasOwnProperty("field")) {
+    if (keys.hasOwnProperty('field')) {
       updates.field = { value: keys.field };
     }
 
-    if (keys.hasOwnProperty("fieldValue")) {
+    if (keys.hasOwnProperty('fieldValue')) {
       updates.fieldValue = { value: keys.fieldValue, validationFailures: [] };
     }
 
@@ -94,7 +95,7 @@ export default class UpdateContactForm extends React.Component<
           return this.handleUpdate({
             field: selection,
             type: Types.set_contact_name,
-            name: ""
+            name: ''
           });
         case ContactProperties.Language:
           return this.handleUpdate({
@@ -111,7 +112,7 @@ export default class UpdateContactForm extends React.Component<
     return this.handleUpdate({
       type: Types.set_contact_field,
       field: selection,
-      fieldValue: ""
+      fieldValue: ''
     });
   }
 
@@ -124,11 +125,11 @@ export default class UpdateContactForm extends React.Component<
   }
 
   private handleFieldValueUpdate(fieldValue: string): boolean {
-    return this.handleUpdate({ fieldValue, name: "" });
+    return this.handleUpdate({ fieldValue, name: '' });
   }
 
   private handleNameUpdate(name: string): boolean {
-    return this.handleUpdate({ name, fieldValue: "" });
+    return this.handleUpdate({ name, fieldValue: '' });
   }
 
   private onUpdated(dispatch: DispatchWithState, getState: GetState): void {
@@ -137,17 +138,13 @@ export default class UpdateContactForm extends React.Component<
     } = getState();
 
     if (this.state.field.value.type === AssetType.Field) {
-      dispatch(
-        updateAssets(
-          mutators.addAssets("fields", assetStore, [this.state.field.value])
-        )
-      );
+      dispatch(updateAssets(mutators.addAssets('fields', assetStore, [this.state.field.value])));
     }
   }
 
   public handleFieldAdded(field: Asset): void {
     // update our store with our new group
-    this.props.addAsset("fields", field);
+    this.props.addAsset('fields', field);
     this.handlePropertyChange([field]);
   }
 
@@ -182,18 +179,15 @@ export default class UpdateContactForm extends React.Component<
 */
     if (valid) {
       // do the saving!
-      this.props.updateAction(
-        stateToAction(this.props.nodeSettings, this.state),
-        this.onUpdated
-      );
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state), this.onUpdated);
       this.props.onClose(true);
     }
   }
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -269,23 +263,15 @@ export default class UpdateContactForm extends React.Component<
   }
 
   public handleCreateAssetFromInput(input: string): any {
-    return { label: input, value_type: "text" };
+    return { label: input, value_type: 'text' };
   }
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 
         <p>Select what to update</p>
         <AssetSelector

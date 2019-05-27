@@ -12,82 +12,74 @@ import { Required, validate } from 'store/validators';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
-    flow: AssetEntry;
+  flow: AssetEntry;
 }
 
 export default class SubflowRouterForm extends React.PureComponent<
-    RouterFormProps,
-    SubflowRouterFormState
+  RouterFormProps,
+  SubflowRouterFormState
 > {
-    public static contextTypes = {
-        config: fakePropType
+  public static contextTypes = {
+    config: fakePropType
+  };
+
+  constructor(props: RouterFormProps) {
+    super(props);
+
+    this.state = nodeToState(props.nodeSettings);
+
+    bindCallbacks(this, {
+      include: [/^on/, /^handle/]
+    });
+  }
+
+  public handleFlowChanged(flows: Asset[]): boolean {
+    const updates: Partial<SubflowRouterFormState> = {
+      flow: validate('Flow', flows[0], [Required])
     };
 
-    constructor(props: RouterFormProps) {
-        super(props);
+    const updated = mergeForm(this.state, updates);
+    this.setState(updated);
+    return updated.valid;
+  }
 
-        this.state = nodeToState(props.nodeSettings);
+  private handleSave(): void {
+    // validate our flow in case they haven't interacted
+    this.handleFlowChanged([this.state.flow.value]);
 
-        bindCallbacks(this, {
-            include: [/^on/, /^handle/]
-        });
+    if (this.state.valid) {
+      this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
+      this.props.onClose(false);
     }
+  }
 
-    public handleFlowChanged(flows: Asset[]): boolean {
-        const updates: Partial<SubflowRouterFormState> = {
-            flow: validate('Flow', flows[0], [Required])
-        };
+  private getButtons(): ButtonSet {
+    return {
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+    };
+  }
 
-        const updated = mergeForm(this.state, updates);
-        this.setState(updated);
-        return updated.valid;
-    }
+  private handleFilter(asset: Asset): boolean {
+    // only show flows that match our flow type
+    return asset.content.type === this.context.config.flowType;
+  }
 
-    private handleSave(): void {
-        // validate our flow in case they haven't interacted
-        this.handleFlowChanged([this.state.flow.value]);
-
-        if (this.state.valid) {
-            this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
-            this.props.onClose(false);
-        }
-    }
-
-    private getButtons(): ButtonSet {
-        return {
-            primary: { name: 'Ok', onClick: this.handleSave },
-            secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
-        };
-    }
-
-    private handleFilter(asset: Asset): boolean {
-        // only show flows that match our flow type
-        return asset.content.type === this.context.config.flowType;
-    }
-
-    public render(): JSX.Element {
-        const typeConfig = this.props.typeConfig;
-        return (
-            <Dialog
-                title={typeConfig.name}
-                headerClass={typeConfig.type}
-                buttons={this.getButtons()}
-            >
-                <TypeList
-                    __className=""
-                    initialType={typeConfig}
-                    onChange={this.props.onTypeChange}
-                />
-                <AssetSelector
-                    name="Flow"
-                    placeholder="Select the flow to start"
-                    assets={this.props.assetStore.flows}
-                    entry={this.state.flow}
-                    searchable={true}
-                    onFilter={this.handleFilter}
-                    onChange={this.handleFlowChanged}
-                />
-            </Dialog>
-        );
-    }
+  public render(): JSX.Element {
+    const typeConfig = this.props.typeConfig;
+    return (
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
+        <AssetSelector
+          name="Flow"
+          placeholder="Select the flow to start"
+          assets={this.props.assetStore.flows}
+          entry={this.state.flow}
+          searchable={true}
+          onFilter={this.handleFilter}
+          onChange={this.handleFlowChanged}
+        />
+      </Dialog>
+    );
+  }
 }

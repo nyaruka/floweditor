@@ -23,6 +23,7 @@
     "lambda:serve": "netlify-lambda serve lambda -p 6000",
     "lambda:build": "netlify-lambda build lambda",
     "lambda": "yarn run lambda:build && yarn run lambda:serve",
+    "prettify": "prettier --write 'src/**/*.{ts,tsx,json,js,css,md}'",
     "netlify": "yarn run build && yarn run lambda:build",
     "precommit": "lint-staged",
     "preversion": "yarn test --watchAll=false",

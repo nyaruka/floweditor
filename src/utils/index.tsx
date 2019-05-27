@@ -1,4 +1,11 @@
-import { Action, Case, Category, ContactProperties, FlowPosition, LocalizationMap } from 'flowTypes';
+import {
+  Action,
+  Case,
+  Category,
+  ContactProperties,
+  FlowPosition,
+  LocalizationMap
+} from 'flowTypes';
 import { Query } from 'immutability-helper';
 import * as React from 'react';
 import Localization, { LocalizedObject } from 'services/Localization';
@@ -32,21 +39,14 @@ interface Bounds {
   bottom: number;
 }
 
-export type LabelIdCb = (
-  label?: string,
-  labelKey?: string,
-  valueKey?: string
-) => string;
+export type LabelIdCb = (label?: string, labelKey?: string, valueKey?: string) => string;
 
 /**
  * Adjusts the left and top offsets to a grid
  * @param left horizontal offset
  * @param top vertical offset
  */
-export const snapToGrid = (
-  left: number,
-  top: number
-): { left: number; top: number } => {
+export const snapToGrid = (left: number, top: number): { left: number; top: number } => {
   let leftAdjust = left % GRID_SIZE;
   let topAdjust = top % GRID_SIZE;
 
@@ -120,7 +120,7 @@ export const toBoolMap = (array: string[]): BoolMap =>
  * @returns {string} A comma-separated string, e.g. 10,000
  */
 export const addCommas = (value: number): string =>
-  value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
 /**
  * Replaces spaces with underscores
@@ -131,7 +131,7 @@ export const snakify = (value: string): string =>
   value
     .toLowerCase()
     .trim()
-    .replace(SNAKED_CHARS, "_");
+    .replace(SNAKED_CHARS, '_');
 /**
  * Returns true if a given UUID matches v4 format
  * @param {string} uuid - A version 4 UUID (no braces, uppercase OK)
@@ -145,35 +145,24 @@ export const validUUID = (uuid: string): boolean => V4_UUID.test(uuid);
  * @returns {string} Title-cased string
  */
 export const titleCase = (str: string): string =>
-  str.replace(
-    /\b\w+/g,
-    s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase()
-  );
+  str.replace(/\b\w+/g, s => s.charAt(0).toUpperCase() + s.substr(1).toLowerCase());
 
 export const getSelectClassForEntry = (entry: FormEntry): string => {
-  if (
-    entry &&
-    entry.validationFailures &&
-    entry.validationFailures.length > 0
-  ) {
-    return "select-invalid";
+  if (entry && entry.validationFailures && entry.validationFailures.length > 0) {
+    return 'select-invalid';
   }
-  return "";
+  return '';
 };
 
 export const getSelectClass = (errors: number): string => {
   if (errors === 0) {
-    return "select-base";
+    return 'select-base';
   }
   // We use a global selector here for react-select
-  return "select-base select-invalid";
+  return 'select-base select-invalid';
 };
 
-export const reorderList = (
-  list: any[],
-  startIndex: number,
-  endIndex: number
-): any[] => {
+export const reorderList = (list: any[], startIndex: number, endIndex: number): any[] => {
   const [removed] = list.splice(startIndex, 1);
 
   list.splice(endIndex, 0, removed);
@@ -274,24 +263,21 @@ export const propertyExists = (propertyToCheck: string) => {
 /**
  * Should x element be rendered?
  */
-export const renderIf = (predicate: boolean) => (
-  then: JSX.Element,
-  otherwise?: JSX.Element
-) => (predicate ? then : otherwise ? otherwise : null);
+export const renderIf = (predicate: boolean) => (then: JSX.Element, otherwise?: JSX.Element) =>
+  predicate ? then : otherwise ? otherwise : null;
 
 /**
  * Does the label meet our length requirements?
  * @param {string} label - label created by react-select
  */
-export const properLabelLength = (label: string = "") =>
+export const properLabelLength = (label: string = '') =>
   label.length > 0 && label.length <= MAX_LABEL_LENGTH;
 
 /**
  * Does the label meet our character requirements?
  * @param {string} label
  */
-export const containsOnlyLabelChars = (label: string = "") =>
-  LABEL_CHARS.test(label);
+export const containsOnlyLabelChars = (label: string = '') => LABEL_CHARS.test(label);
 
 /**
  * Does the label meet our length, character requirements?
@@ -304,11 +290,11 @@ export const isRealValue = (obj: any) => obj !== null && obj !== undefined;
 
 /* istanbul ignore next */
 export const timeStart = (name: string) =>
-  process.env.NODE_ENV === "development" && console.time(name);
+  process.env.NODE_ENV === 'development' && console.time(name);
 
 /* istanbul ignore next */
 export const timeEnd = (name: string) =>
-  process.env.NODE_ENV === "development" && console.timeEnd(name);
+  process.env.NODE_ENV === 'development' && console.timeEnd(name);
 
 export const capitalize = (str: string) =>
   str.replace(/(?:^|\s)\S/g, captured => captured.toUpperCase());
@@ -321,7 +307,7 @@ export const setFalse = (): Query<false> => set(false);
 
 export const setNull = (): Query<null> => set(null);
 
-export const setEmpty = (): Query<string> => set("");
+export const setEmpty = (): Query<string> => set('');
 
 export const merge = (val: any): Query<any> => ({ $merge: val });
 
@@ -335,9 +321,7 @@ export const splice = (arr: Array<Array<any>>): Query<Array<Array<any>>> => ({
 });
 
 export const optionExists = (newOptName: string, options: any[]) =>
-  options.find(
-    ({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim()
-  )
+  options.find(({ name }) => name.toLowerCase().trim() === newOptName.toLowerCase().trim())
     ? true
     : false;
 
@@ -373,11 +357,10 @@ export const uniqueBy = (a: any[], key: string): any[] => {
 
 export const downloadJSON = (obj: any, name: string): void => {
   const dataStr =
-    "data:text/json;charset=utf-8," +
-    encodeURIComponent(JSON.stringify(obj, null, 2));
-  const downloadAnchorNode = document.createElement("a");
-  downloadAnchorNode.setAttribute("href", dataStr);
-  downloadAnchorNode.setAttribute("download", name + ".json");
+    'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(obj, null, 2));
+  const downloadAnchorNode = document.createElement('a');
+  downloadAnchorNode.setAttribute('href', dataStr);
+  downloadAnchorNode.setAttribute('download', name + '.json');
   document.body.appendChild(downloadAnchorNode); // required for firefox
   downloadAnchorNode.click();
   downloadAnchorNode.remove();
@@ -410,8 +393,5 @@ export const seededUUIDs = (seed: number = 1): any => {
 export const range = (start: number, end: number) =>
   Array.from({ length: end - start }, (v: number, k: number) => k + start);
 
-export const pluralize = (
-  count: number,
-  noun: string,
-  suffix: string = "s"
-): string => `${noun}${count !== 1 ? suffix : ""}`;
+export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
+  `${noun}${count !== 1 ? suffix : ''}`;

@@ -2,13 +2,13 @@ import {
   excludeDynamicGroups,
   mapAssetsToGroups,
   mapGroupsToAssets
-} from "components/flow/actions/changegroups/helpers";
-import { AssetType } from "store/flowContext";
+} from 'components/flow/actions/changegroups/helpers';
+import { AssetType } from 'store/flowContext';
 
-const { results: groups } = require("test/assets/groups.json");
+const { results: groups } = require('test/assets/groups.json');
 
-describe("mapGroupsToSearchResults", () => {
-  it("should return a list of SearchResult objects", () => {
+describe('mapGroupsToSearchResults', () => {
+  it('should return a list of SearchResult objects', () => {
     const searchResults = mapGroupsToAssets(groups);
 
     searchResults.forEach((searchResult, idx) => {
@@ -19,8 +19,8 @@ describe("mapGroupsToSearchResults", () => {
   });
 });
 
-describe("mapSearchResultsToGroups", () => {
-  it("should return a list of Group objects", () => {
+describe('mapSearchResultsToGroups', () => {
+  it('should return a list of Group objects', () => {
     const searchResults = mapGroupsToAssets(groups);
     const groupList = mapAssetsToGroups(searchResults);
 
@@ -32,21 +32,21 @@ describe("mapSearchResultsToGroups", () => {
   });
 });
 
-describe("utils", () => {
-  it("should filter on excluedDynamicGroups", () => {
+describe('utils', () => {
+  it('should filter on excluedDynamicGroups', () => {
     expect(
       excludeDynamicGroups({
-        id: "dynamic_id",
-        name: "Dynamic",
+        id: 'dynamic_id',
+        name: 'Dynamic',
         type: AssetType.Group,
-        content: { query: "some query" }
+        content: { query: 'some query' }
       })
     ).toBeTruthy();
 
     expect(
       excludeDynamicGroups({
-        id: "static_id",
-        name: "Static",
+        id: 'static_id',
+        name: 'Static',
         type: AssetType.Group,
         content: { query: null }
       })

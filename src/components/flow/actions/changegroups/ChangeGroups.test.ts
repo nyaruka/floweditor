@@ -4,32 +4,29 @@ import ChangeGroupsComp, {
   getChangeGroupsMarkup,
   getContentMarkup,
   getRemoveAllMarkup
-} from "components/flow/actions/changegroups/ChangeGroups";
-import { Types } from "config/interfaces";
-import { ChangeGroups } from "flowTypes";
-import { composeComponentTestUtils, getSpecWrapper } from "testUtils";
-import { createAddGroupsAction } from "testUtils/assetCreators";
-import { set } from "utils";
+} from 'components/flow/actions/changegroups/ChangeGroups';
+import { Types } from 'config/interfaces';
+import { ChangeGroups } from 'flowTypes';
+import { composeComponentTestUtils, getSpecWrapper } from 'testUtils';
+import { createAddGroupsAction } from 'testUtils/assetCreators';
+import { set } from 'utils';
 
-const { results: groups } = require("test/assets/groups.json");
+const { results: groups } = require('test/assets/groups.json');
 
 const addGroupsAction = createAddGroupsAction({ groups: groups.slice(2) });
 
-const { setup } = composeComponentTestUtils<ChangeGroups>(
-  ChangeGroupsComp,
-  addGroupsAction
-);
+const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, addGroupsAction);
 
 describe(ChangeGroupsComp.name, () => {
-  describe("helpers", () => {
-    describe("getRemoveAllMarkup", () => {
-      it("should return remove-all markup", () => {
+  describe('helpers', () => {
+    describe('getRemoveAllMarkup', () => {
+      it('should return remove-all markup', () => {
         expect(getRemoveAllMarkup()).toMatchSnapshot();
       });
     });
 
-    describe("getContentMarkup", () => {
-      it("should return list of elements that contains remove-all markup", () => {
+    describe('getContentMarkup', () => {
+      it('should return list of elements that contains remove-all markup', () => {
         const markup = getContentMarkup({
           type: Types.remove_contact_groups,
           groups: []
@@ -39,7 +36,7 @@ describe(ChangeGroupsComp.name, () => {
         expect(markup).toMatchSnapshot();
       });
 
-      it("should return list of group elements", () => {
+      it('should return list of group elements', () => {
         const markup = getContentMarkup(addGroupsAction);
 
         expect(markup.length).toBeGreaterThanOrEqual(1);
@@ -47,21 +44,21 @@ describe(ChangeGroupsComp.name, () => {
       });
     });
 
-    describe("getChangeGroupsMarkup", () => {
+    describe('getChangeGroupsMarkup', () => {
       it(`should return ${ChangeGroupsComp.name} markup w/ container`, () => {
         expect(getChangeGroupsMarkup(addGroupsAction)).toMatchSnapshot();
       });
     });
   });
-  describe("render", () => {
-    it("should render group name", () => {
+  describe('render', () => {
+    it('should render group name', () => {
       const { wrapper, props } = setup();
 
       expect(wrapper.html().indexOf(props.groups[0].name)).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should limit div to 3 groups, include ellipsesText", () => {
+    it('should limit div to 3 groups, include ellipsesText', () => {
       const { wrapper } = setup(true, { groups: set(groups) });
       const content = getSpecWrapper(wrapper, contentSpecId);
 
@@ -77,9 +74,7 @@ describe(ChangeGroupsComp.name, () => {
       });
 
       expect(wrapper.children().length).toBe(1);
-      expect(
-        wrapper.containsMatchingElement(getRemoveAllMarkup())
-      ).toBeTruthy();
+      expect(wrapper.containsMatchingElement(getRemoveAllMarkup())).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
   });

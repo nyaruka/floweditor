@@ -2,9 +2,9 @@ import {
   containerClasses,
   LanguageSelector,
   LanguageSelectorProps
-} from "components/languageselector/LanguageSelector";
-import { composeComponentTestUtils, getSpecWrapper, setMock } from "testUtils";
-import { English, languages, Spanish } from "testUtils/assetCreators";
+} from 'components/languageselector/LanguageSelector';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from 'testUtils';
+import { English, languages, Spanish } from 'testUtils/assetCreators';
 
 const baseProps: LanguageSelectorProps = {
   language: English,
@@ -15,16 +15,16 @@ const baseProps: LanguageSelectorProps = {
 const { setup } = composeComponentTestUtils(LanguageSelector, baseProps);
 
 describe(LanguageSelector.name, () => {
-  describe("render", () => {
-    it("should render select control", () => {
+  describe('render', () => {
+    it('should render select control', () => {
       const { wrapper } = setup();
-      expect(wrapper).toMatchSnapshot("language selector");
+      expect(wrapper).toMatchSnapshot('language selector');
     });
   });
 
-  describe("instance methods", () => {
-    describe("onChange", () => {
-      it("should call action creators that update language, translating state", () => {
+  describe('instance methods', () => {
+    describe('onChange', () => {
+      it('should call action creators that update language, translating state', () => {
         const component = setup(true, {
           handleLanguageChanged: setMock()
         });

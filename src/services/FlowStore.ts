@@ -1,8 +1,8 @@
 /* istanbul ignore file */
-import axios, { AxiosResponse } from "axios";
-import { FlowDefinition } from "flowTypes";
+import axios, { AxiosResponse } from 'axios';
+import { FlowDefinition } from 'flowTypes';
 
-const storage = require("local-storage");
+const storage = require('local-storage');
 
 export class FlowStore {
   private static singleton: FlowStore = new FlowStore();
@@ -14,11 +14,11 @@ export class FlowStore {
   private constructor() {}
 
   reset() {
-    storage.remove("flow");
+    storage.remove('flow');
   }
 
   getFlowFromStore(uuid: string): FlowDefinition {
-    var flow = storage.get("flow");
+    var flow = storage.get('flow');
     if (flow != null) {
       return flow as FlowDefinition;
     } else {
@@ -45,7 +45,7 @@ export class FlowStore {
   }
 
   save(definition: FlowDefinition) {
-    console.log("Saving: ", definition);
-    storage.set("flow", definition);
+    console.log('Saving: ', definition);
+    storage.set('flow', definition);
   }
 }

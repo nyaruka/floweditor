@@ -15,7 +15,7 @@ export interface LanguageSelectorProps {
   handleLanguageChange: HandleLanguageChange;
 }
 
-export const containerClasses = "language-selector";
+export const containerClasses = 'language-selector';
 
 export class LanguageSelector extends React.Component<LanguageSelectorProps> {
   constructor(props: LanguageSelectorProps, context: ConfigProviderContext) {
@@ -30,11 +30,11 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
   }
 
   public handleLanguageSort(a: Asset, b: Asset): number {
-    if (a.id === "base") {
+    if (a.id === 'base') {
       return -1;
     }
 
-    if (b.id === "base") {
+    if (b.id === 'base') {
       return 1;
     }
 
@@ -58,13 +58,13 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
       <div className={containerClasses}>
         {languages.map((lang: Asset, idx: number) => {
           return (
-            <div key={"lang_" + lang.id} className={styles.language}>
+            <div key={'lang_' + lang.id} className={styles.language}>
               {idx > 0 ? <div className={styles.separator}>|</div> : null}
               <div
                 className={
                   styles.language_link +
-                  " " +
-                  (this.props.language.id === lang.id ? styles.active : "")
+                  ' ' +
+                  (this.props.language.id === lang.id ? styles.active : '')
                 }
                 onClick={() => {
                   this.handleLanguageChanged(lang);
@@ -81,10 +81,7 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = ({
-  flowContext: { assetStore },
-  editorState: { language }
-}: AppState) => ({
+const mapStateToProps = ({ flowContext: { assetStore }, editorState: { language } }: AppState) => ({
   languages: assetStore.languages,
   language
 });

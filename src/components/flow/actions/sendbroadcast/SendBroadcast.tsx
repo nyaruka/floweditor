@@ -5,7 +5,7 @@ import * as React from 'react';
 
 import styles from './SendBroadcast.module.scss';
 
-export const PLACEHOLDER = "Send a message to the contact";
+export const PLACEHOLDER = 'Send a message to the contact';
 
 const MAX_TO_SHOW = 3;
 

@@ -66,8 +66,7 @@ export const mergeForm = (
     if (Array.isArray(entry)) {
       for (const item of entry) {
         // we support objects with uuids or FormEntry's with uuids
-        const isEntry =
-          item.hasOwnProperty("value") && typeof item.value === "object";
+        const isEntry = item.hasOwnProperty('value') && typeof item.value === 'object';
 
         if ((isEntry && item.value.uuid) || item.uuid) {
           const existingIdx = (form as any)[key].findIndex((existing: any) => {
@@ -98,16 +97,13 @@ export const mergeForm = (
   }
 
   // removals can be items in an array
-  for (const remove of toRemove.filter(
-    (item: any) => typeof item === "object"
-  )) {
+  for (const remove of toRemove.filter((item: any) => typeof item === 'object')) {
     for (const key of Object.keys(remove)) {
       const entry: any = remove[key];
       if (Array.isArray(entry)) {
         for (const item of entry) {
           // we support objects with uuids or FormEntry's with uuids
-          const isEntry =
-            item.hasOwnProperty("value") && typeof item.value === "object";
+          const isEntry = item.hasOwnProperty('value') && typeof item.value === 'object';
           if ((isEntry && item.value.uuid) || item.uuid) {
             updated = mutate(updated, {
               [key]: (items: any) =>
@@ -125,7 +121,7 @@ export const mergeForm = (
     }
   }
 
-  const removeKeys = toRemove.filter((item: any) => typeof item === "string");
+  const removeKeys = toRemove.filter((item: any) => typeof item === 'string');
   updated = mutate(updated, {
     $merge: toMerge,
     $unset: removeKeys
@@ -141,7 +137,7 @@ export const mergeForm = (
           break;
         }
       }
-    } else if (entry && typeof entry === "object") {
+    } else if (entry && typeof entry === 'object') {
       if (hasErrors(entry)) {
         valid = false;
         break;
@@ -204,10 +200,7 @@ export const updateUserAddingAction = (
 });
 
 // Reducers
-export const typeConfig = (
-  state: Type | null = initialState.typeConfig,
-  action: ActionTypes
-) => {
+export const typeConfig = (state: Type | null = initialState.typeConfig, action: ActionTypes) => {
   switch (action.type) {
     case Constants.UPDATE_TYPE_CONFIG:
       return action.payload!.typeConfig;

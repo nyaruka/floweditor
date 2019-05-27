@@ -1,5 +1,5 @@
-import { combineReducers } from "redux";
-import { FlowDefinition, FlowNode, UINode } from "flowTypes";
+import { combineReducers } from 'redux';
+import { FlowDefinition, FlowNode, UINode } from 'flowTypes';
 import ActionTypes, {
   UpdateAssetsAction,
   UpdateBaseLanguageAction,
@@ -7,8 +7,8 @@ import ActionTypes, {
   UpdateDefinitionAction,
   UpdateDependenciesAction,
   UpdateNodesAction
-} from "store/actionTypes";
-import Constants from "store/constants";
+} from 'store/actionTypes';
+import Constants from 'store/constants';
 
 // tslint:disable:no-shadowed-variable
 export interface RenderNodeMap {
@@ -42,24 +42,24 @@ export interface ContactFields {
 }
 
 export enum AssetType {
-  Channel = "channel",
-  Currency = "currency",
-  Template = "template",
-  Revision = "revision",
-  Flow = "flow",
-  Group = "group",
-  Field = "field",
-  Result = "result",
-  Contact = "contact",
-  Resthook = "resthook",
-  URN = "urn",
-  Label = "label",
-  Language = "language",
-  Environment = "environment",
-  Remove = "remove",
-  ContactProperty = "property",
-  Scheme = "scheme",
-  Expression = "expression"
+  Channel = 'channel',
+  Currency = 'currency',
+  Template = 'template',
+  Revision = 'revision',
+  Flow = 'flow',
+  Group = 'group',
+  Field = 'field',
+  Result = 'result',
+  Contact = 'contact',
+  Resthook = 'resthook',
+  URN = 'urn',
+  Label = 'label',
+  Language = 'language',
+  Environment = 'environment',
+  Remove = 'remove',
+  ContactProperty = 'property',
+  Scheme = 'scheme',
+  Expression = 'expression'
 }
 
 export interface Reference {
@@ -79,12 +79,12 @@ export interface Asset {
 
 export const REMOVE_VALUE_ASSET = {
   id: AssetType.Remove,
-  name: "Remove Value",
+  name: 'Remove Value',
   type: AssetType.Remove
 };
 export const DEFAULT_LANGUAGE = {
-  id: "base",
-  name: "Default",
+  id: 'base',
+  name: 'Default',
   type: AssetType.Language
 };
 
@@ -132,9 +132,7 @@ export const initialState: FlowContext = {
 };
 
 // Action Creators
-export const updateDefinition = (
-  definition: FlowDefinition
-): UpdateDefinitionAction => ({
+export const updateDefinition = (definition: FlowDefinition): UpdateDefinitionAction => ({
   type: Constants.UPDATE_DEFINITION,
   payload: {
     definition
@@ -148,27 +146,21 @@ export const updateNodes = (nodes: RenderNodeMap): UpdateNodesAction => ({
   }
 });
 
-export const updateDependencies = (
-  dependencies: FlowDefinition[]
-): UpdateDependenciesAction => ({
+export const updateDependencies = (dependencies: FlowDefinition[]): UpdateDependenciesAction => ({
   type: Constants.UPDATE_DEPENDENCIES,
   payload: {
     dependencies
   }
 });
 
-export const updateBaseLanguage = (
-  baseLanguage: Asset
-): UpdateBaseLanguageAction => ({
+export const updateBaseLanguage = (baseLanguage: Asset): UpdateBaseLanguageAction => ({
   type: Constants.UPDATE_BASE_LANGUAGE,
   payload: {
     baseLanguage
   }
 });
 
-export const updateContactFields = (
-  contactFields: ContactFields
-): UpdateContactFieldsAction => ({
+export const updateContactFields = (contactFields: ContactFields): UpdateContactFieldsAction => ({
   type: Constants.UPDATE_CONTACT_FIELDS,
   payload: {
     contactFields
@@ -216,10 +208,7 @@ export const dependencies = (
   }
 };
 
-export const assetStore = (
-  state: AssetStore = initialState.assetStore,
-  action: ActionTypes
-) => {
+export const assetStore = (state: AssetStore = initialState.assetStore, action: ActionTypes) => {
   switch (action.type) {
     case Constants.UPDATE_ASSET_MAP:
       return action.payload.assets;
@@ -228,10 +217,7 @@ export const assetStore = (
   }
 };
 
-export const baseLanguage = (
-  state: Asset = initialState.baseLanguage,
-  action: ActionTypes
-) => {
+export const baseLanguage = (state: Asset = initialState.baseLanguage, action: ActionTypes) => {
   switch (action.type) {
     case Constants.UPDATE_BASE_LANGUAGE:
       return action.payload.baseLanguage;

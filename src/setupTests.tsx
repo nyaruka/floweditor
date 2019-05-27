@@ -10,7 +10,7 @@ import * as utils from 'utils';
 
 // import { Exit } from 'flowTypes';
 // import { RenderNode } from 'store/flowContext';
-mock(utils, "createUUID", utils.seededUUIDs());
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 // Declare custom matcher types
 declare global {
@@ -41,14 +41,14 @@ configure(config);
   setTimeout(callback, 0);
 };
 
-jest.mock("get-input-selection", () => ({
+jest.mock('get-input-selection', () => ({
   default: jest.fn()
 }));
 
 // we mock react-select to look like a normal select widget, this makes
 // testing much easier since we can use the standard event model
 jest.mock(
-  "react-select",
+  'react-select',
   () => ({
     options,
     value,

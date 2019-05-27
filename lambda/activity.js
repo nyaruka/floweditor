@@ -1,6 +1,6 @@
 const activity = {
-    nodes: {},
-    segments: {}
+  nodes: {},
+  segments: {}
 };
 
 const { getOpts } = require('./utils');

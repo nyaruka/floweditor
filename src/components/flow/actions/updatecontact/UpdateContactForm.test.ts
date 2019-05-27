@@ -1,12 +1,12 @@
-import UpdateContactForm from "components/flow/actions/updatecontact/UpdateContactForm";
+import UpdateContactForm from 'components/flow/actions/updatecontact/UpdateContactForm';
 import {
   ActionFormProps,
   CHANNEL_PROPERTY,
   LANGUAGE_PROPERTY,
   NAME_PROPERTY
-} from "components/flow/props";
-import { AssetType } from "store/flowContext";
-import { composeComponentTestUtils, mock } from "testUtils";
+} from 'components/flow/props';
+import { AssetType } from 'store/flowContext';
+import { composeComponentTestUtils, mock } from 'testUtils';
 import {
   createAddGroupsAction,
   createSetContactChannelAction,
@@ -14,10 +14,10 @@ import {
   createSetContactLanguageAction,
   createSetContactNameAction,
   getActionFormProps
-} from "testUtils/assetCreators";
-import * as utils from "utils";
+} from 'testUtils/assetCreators';
+import * as utils from 'utils';
 
-mock(utils, "createUUID", utils.seededUUIDs());
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const { setup } = composeComponentTestUtils<ActionFormProps>(
   UpdateContactForm,
@@ -25,34 +25,34 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 );
 
 describe(UpdateContactForm.name, () => {
-  describe("render", () => {
-    it("initial for field", () => {
+  describe('render', () => {
+    it('initial for field', () => {
       const { wrapper } = setup(true);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("initial for channel", () => {
+    it('initial for channel', () => {
       const { wrapper } = setup(true, {
         $set: getActionFormProps(createSetContactChannelAction())
       });
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("initial for language", () => {
+    it('initial for language', () => {
       const { wrapper } = setup(true, {
         $set: getActionFormProps(createSetContactLanguageAction())
       });
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("initial for name", () => {
+    it('initial for name', () => {
       const { wrapper } = setup(true, {
         $set: getActionFormProps(createSetContactNameAction())
       });
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should render an empty form with different action", () => {
+    it('should render an empty form with different action', () => {
       const { wrapper } = setup(true, {
         $merge: {
           nodeSettings: {
@@ -64,7 +64,7 @@ describe(UpdateContactForm.name, () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should render an empty form with no action", () => {
+    it('should render an empty form with no action', () => {
       const { wrapper } = setup(true, {
         $merge: {
           nodeSettings: { originalNode: null, originalAction: null }
@@ -74,50 +74,50 @@ describe(UpdateContactForm.name, () => {
     });
   });
 
-  describe("updates", () => {
+  describe('updates', () => {
     let form: any;
 
     beforeEach(() => {
       form = setup(true);
     });
 
-    it("should update name", () => {
+    it('should update name', () => {
       form.instance.handlePropertyChange([NAME_PROPERTY]);
-      form.instance.handleNameUpdate("Rowan Seymour");
+      form.instance.handleNameUpdate('Rowan Seymour');
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
       expect(form.props.updateAction).toMatchCallSnapshot();
     });
 
-    it("should update field value", () => {
+    it('should update field value', () => {
       form.instance.handlePropertyChange([
-        { id: "birthday", name: "Birthday", type: AssetType.Field }
+        { id: 'birthday', name: 'Birthday', type: AssetType.Field }
       ]);
-      form.instance.handleFieldValueUpdate("12/25/00");
+      form.instance.handleFieldValueUpdate('12/25/00');
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
       expect(form.props.updateAction).toMatchCallSnapshot();
     });
 
-    it("should update language", () => {
+    it('should update language', () => {
       form.instance.handlePropertyChange([LANGUAGE_PROPERTY]);
-      form.instance.handleLanguageUpdate("eng");
+      form.instance.handleLanguageUpdate('eng');
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
       expect(form.props.updateAction).toMatchCallSnapshot();
     });
 
-    it("should update channel", () => {
+    it('should update channel', () => {
       form.instance.handlePropertyChange([CHANNEL_PROPERTY]);
       form.instance.handleChannelUpdate([
-        { id: "channel_id", name: "Channel Name", type: AssetType.Channel }
+        { id: 'channel_id', name: 'Channel Name', type: AssetType.Channel }
       ]);
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
       expect(form.props.updateAction).toMatchCallSnapshot();
     });
 
-    it("should validate before saving", () => {
+    it('should validate before saving', () => {
       form.instance.handlePropertyChange([CHANNEL_PROPERTY]);
       form.instance.handleChannelUpdate([null]);
 
@@ -129,56 +129,54 @@ describe(UpdateContactForm.name, () => {
       expect(form.props.onClose).not.toBeCalled();
     });
 
-    it("should cancel changes", () => {
+    it('should cancel changes', () => {
       form.instance.handlePropertyChange([NAME_PROPERTY]);
-      form.instance.handleNameUpdate("Rowan Seymour");
+      form.instance.handleNameUpdate('Rowan Seymour');
       form.instance.getButtons().secondary.onClick();
       expect(form.props.updateAction).not.toBeCalled();
     });
   });
 
-  describe("should allow switching from router", () => {
-    it("to contact name", () => {
+  describe('should allow switching from router', () => {
+    it('to contact name', () => {
       const { instance, props } = setup(true, {
         $merge: { updateAction: jest.fn() },
         nodeSettings: { $merge: { originalAction: null } }
       });
 
       instance.handlePropertyChange([NAME_PROPERTY]);
-      instance.handleNameUpdate("Rowan Seymour");
+      instance.handleNameUpdate('Rowan Seymour');
       instance.handleSave();
       expect(props.updateAction).toMatchCallSnapshot();
     });
 
-    it("to field value", () => {
+    it('to field value', () => {
       const { instance, props } = setup(true, {
         $merge: { updateAction: jest.fn() },
         nodeSettings: { $merge: { originalAction: null } }
       });
 
-      instance.handlePropertyChange([
-        { id: "birthday", name: "Birthday", type: AssetType.Field }
-      ]);
-      instance.handleFieldValueUpdate("12/25/00");
+      instance.handlePropertyChange([{ id: 'birthday', name: 'Birthday', type: AssetType.Field }]);
+      instance.handleFieldValueUpdate('12/25/00');
       instance.handleSave();
       expect(instance.state).toMatchSnapshot();
       expect(props.updateAction).toMatchCallSnapshot();
     });
 
-    it("to language", () => {
+    it('to language', () => {
       const { instance, props } = setup(true, {
         $merge: { updateAction: jest.fn() },
         nodeSettings: { $merge: { originalAction: null } }
       });
 
       instance.handlePropertyChange([LANGUAGE_PROPERTY]);
-      instance.handleLanguageUpdate("eng");
+      instance.handleLanguageUpdate('eng');
       instance.handleSave();
       expect(instance.state).toMatchSnapshot();
       expect(props.updateAction).toMatchCallSnapshot();
     });
 
-    it("to channel", () => {
+    it('to channel', () => {
       const { instance, props } = setup(true, {
         $merge: { updateAction: jest.fn() },
         nodeSettings: { $merge: { originalAction: null } }
@@ -186,7 +184,7 @@ describe(UpdateContactForm.name, () => {
 
       instance.handlePropertyChange([CHANNEL_PROPERTY]);
       instance.handleChannelUpdate([
-        { id: "channel_id", name: "Channel Name", type: AssetType.Channel }
+        { id: 'channel_id', name: 'Channel Name', type: AssetType.Channel }
       ]);
       instance.handleSave();
       expect(instance.state).toMatchSnapshot();

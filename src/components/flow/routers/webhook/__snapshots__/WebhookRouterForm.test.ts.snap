@@ -160,8 +160,7 @@ exports[`WebhookRouterForm should render 1`] = `
       { "product": "Solar Charging Kit", "stock level": 32 }
     </pre>
     <p>
-      This response would add
-       
+      This response would add 
       <span
         className="example"
       >

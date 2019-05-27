@@ -15,10 +15,7 @@ interface MediaPlayerState {
   playing: boolean;
 }
 
-export class MediaPlayer extends React.Component<
-  MediaPlayerProps,
-  MediaPlayerState
-> {
+export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerState> {
   private ele: HTMLAudioElement;
 
   private stroke = 1;
@@ -99,22 +96,15 @@ export class MediaPlayer extends React.Component<
 
   public render(): JSX.Element {
     const progress = this.state.progress || 0;
-    const strokeDashoffset =
-      this.circumference - (progress / 100) * this.circumference;
+    const strokeDashoffset = this.circumference - (progress / 100) * this.circumference;
 
     return (
       <div
-        className={
-          styles.player + " " + (this.state.playing ? styles.playing : "")
-        }
+        className={styles.player + ' ' + (this.state.playing ? styles.playing : '')}
         style={{ height: this.radius * 2, width: this.radius * 2 }}
         onMouseDown={this.handleTogglePlay}
       >
-        <audio
-          ref={this.handleRef}
-          onTimeUpdate={this.handleTimeUpdate}
-          src={this.props.url}
-        />
+        <audio ref={this.handleRef} onTimeUpdate={this.handleTimeUpdate} src={this.props.url} />
 
         <div className={styles.circles}>
           <svg height={this.radius * 2} width={this.radius * 2}>
@@ -141,7 +131,7 @@ export class MediaPlayer extends React.Component<
               stroke="cornflowerblue"
               fill="transparent"
               strokeWidth={this.stroke}
-              strokeDasharray={this.circumference + " " + this.circumference}
+              strokeDasharray={this.circumference + ' ' + this.circumference}
               style={{ strokeDashoffset }}
               r={this.radiusNormalized}
               cx={this.radius}
@@ -149,13 +139,7 @@ export class MediaPlayer extends React.Component<
             />
           </svg>
         </div>
-        <div
-          className={
-            styles.button +
-            " " +
-            (this.state.playing ? "fe-stop" : "fe-play_arrow")
-          }
-        />
+        <div className={styles.button + ' ' + (this.state.playing ? 'fe-stop' : 'fe-play_arrow')} />
       </div>
     );
   }

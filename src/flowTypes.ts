@@ -81,8 +81,8 @@ export interface Exit {
 }
 
 export enum RouterTypes {
-  switch = "switch",
-  random = "random"
+  switch = 'switch',
+  random = 'random'
 }
 
 export interface Router {
@@ -130,15 +130,15 @@ export interface SwitchRouter extends Router {
 }
 
 export enum WaitTypes {
-  msg = "msg"
+  msg = 'msg'
 }
 
 export enum HintTypes {
-  digits = "digits",
-  audio = "audio",
-  image = "image",
-  video = "video",
-  location = "location"
+  digits = 'digits',
+  audio = 'audio',
+  image = 'image',
+  video = 'video',
+  location = 'location'
 }
 
 export interface Hint {
@@ -215,10 +215,7 @@ export interface SetContactChannel extends Action {
   channel: Channel;
 }
 
-export type SetContactProperty =
-  | SetContactName
-  | SetContactLanguage
-  | SetContactChannel;
+export type SetContactProperty = SetContactName | SetContactLanguage | SetContactChannel;
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
@@ -383,27 +380,27 @@ export type AnyAction =
   | StartSession;
 
 export enum ContactProperties {
-  UUID = "uuid",
-  "Created By" = "created_by",
-  "Modified By" = "modified_by",
-  Org = "org",
-  Name = "name",
-  Language = "language",
-  Timezone = "timezone",
-  Channel = "channel",
-  Email = "email",
-  Mailto = "mailto",
-  Phone = "phone",
-  Groups = "groups"
+  UUID = 'uuid',
+  'Created By' = 'created_by',
+  'Modified By' = 'modified_by',
+  Org = 'org',
+  Name = 'name',
+  Language = 'language',
+  Timezone = 'timezone',
+  Channel = 'channel',
+  Email = 'email',
+  Mailto = 'mailto',
+  Phone = 'phone',
+  Groups = 'groups'
 }
 
 export enum ValueType {
-  text = "text",
-  numeric = "numeric",
-  datetime = "datetime",
-  state = "state",
-  district = "district",
-  ward = "ward"
+  text = 'text',
+  numeric = 'numeric',
+  datetime = 'datetime',
+  state = 'state',
+  district = 'district',
+  ward = 'ward'
 }
 
 export interface CreateOptions {
@@ -416,21 +413,21 @@ export interface CreateOptions {
 }
 
 export enum StartFlowArgs {
-  Complete = "C",
-  Expired = "E"
+  Complete = 'C',
+  Expired = 'E'
 }
 
 export enum StartFlowExitNames {
-  Complete = "Complete",
-  Expired = "Expired"
+  Complete = 'Complete',
+  Expired = 'Expired'
 }
 
 export enum WebhookExitNames {
-  Success = "Success",
-  Failure = "Failure"
+  Success = 'Success',
+  Failure = 'Failure'
 }
 
 export enum TransferAirtimeExitNames {
-  Success = "Success",
-  Failure = "Failed"
+  Success = 'Success',
+  Failure = 'Failed'
 }

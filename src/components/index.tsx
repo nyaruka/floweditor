@@ -33,7 +33,7 @@ import {
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf } from 'utils';
 import { fetchFunctions } from 'utils/completion';
 
-const { default: PageVisibility } = require("react-page-visibility");
+const { default: PageVisibility } = require('react-page-visibility');
 
 export interface FlowEditorContainerProps {
   config: FlowEditorConfig;
@@ -60,9 +60,7 @@ export interface FlowEditorStoreProps {
 const hotStore = createStore();
 
 // Root container, wires up context-providers
-export const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({
-  config
-}) => {
+export const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
   fetchFunctions(config.endpoints);
 
   return (
@@ -78,8 +76,8 @@ export const contextTypes = {
   config: fakePropType
 };
 
-export const editorContainerSpecId = "editor-container";
-export const editorSpecId = "editor";
+export const editorContainerSpecId = 'editor-container';
+export const editorSpecId = 'editor';
 
 /**
  * The main editor view for editing a flow
@@ -103,10 +101,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
   }
 
   private handleDownloadClicked(): void {
-    downloadJSON(
-      getCurrentDefinition(this.props.definition, this.props.nodes),
-      "definition"
-    );
+    downloadJSON(getCurrentDefinition(this.props.definition, this.props.nodes), 'definition');
   }
 
   private handleVisibilityChanged(visible: boolean): void {
@@ -129,16 +124,14 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
           headerClass="alert"
           buttons={{
             primary: {
-              name: "Ok",
+              name: 'Ok',
               onClick: () => {
                 this.props.mergeEditorState({ modalMessage: null });
               }
             }
           }}
         >
-          <div className={styles.alert_body}>
-            {this.props.modalMessage.body}
-          </div>
+          <div className={styles.alert_body}>{this.props.modalMessage.body}</div>
         </Dialog>
       </Modal>
     );
@@ -162,11 +155,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     return !this.props.fetchingFlow && this.context.config.showDownload ? (
       <div className={styles.footer}>
         <div className={styles.download_button}>
-          <Button
-            name="Download"
-            onClick={this.handleDownloadClicked}
-            type={ButtonTypes.primary}
-          />
+          <Button name="Download" onClick={this.handleDownloadClicked} type={ButtonTypes.primary} />
         </div>
       </div>
     ) : null;
@@ -183,18 +172,15 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
           {this.getFooter()}
           {this.getAlertModal()}
           <div className={styles.editor} data-spec={editorSpecId}>
-            {renderIf(
-              this.props.languages &&
-                Object.keys(this.props.languages.items).length > 0
-            )(<ConnectedLanguageSelector />)}
+            {renderIf(this.props.languages && Object.keys(this.props.languages.items).length > 0)(
+              <ConnectedLanguageSelector />
+            )}
 
             {this.getSavingIndicator()}
 
-            {renderIf(
-              this.props.definition &&
-                this.props.language &&
-                !this.props.fetchingFlow
-            )(<ConnectedFlow />)}
+            {renderIf(this.props.definition && this.props.language && !this.props.fetchingFlow)(
+              <ConnectedFlow />
+            )}
 
             <RevisionExplorer
               simulating={this.props.simulating}
@@ -211,14 +197,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
 const mapStateToProps = ({
   flowContext: { definition, dependencies, nodes, assetStore },
-  editorState: {
-    translating,
-    language,
-    fetchingFlow,
-    simulating,
-    modalMessage,
-    saving
-  }
+  editorState: { translating, language, fetchingFlow, simulating, modalMessage, saving }
 }: AppState) => {
   const languages = assetStore ? assetStore.languages : null;
 

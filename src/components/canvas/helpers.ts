@@ -1,8 +1,15 @@
 import { FlowPosition } from 'flowTypes';
 import { CanvasPositions } from 'store/editor';
-import { MAX_REFLOW_ATTEMPTS, NODE_SPACING, set, snapPositionToGrid, timeEnd, timeStart } from 'utils';
+import {
+  MAX_REFLOW_ATTEMPTS,
+  NODE_SPACING,
+  set,
+  snapPositionToGrid,
+  timeEnd,
+  timeStart
+} from 'utils';
 
-const mutate = require("immutability-helper");
+const mutate = require('immutability-helper');
 
 export const collides = (a: FlowPosition, b: FlowPosition, fudge: number) => {
   // don't bother with collision if we don't have full dimensions
@@ -13,12 +20,7 @@ export const collides = (a: FlowPosition, b: FlowPosition, fudge: number) => {
 
   a.bottom += fudge;
 
-  return !(
-    b.left > a.right! ||
-    b.right! < a.left ||
-    b.top > a.bottom ||
-    b.bottom < a.top
-  );
+  return !(b.left > a.right! || b.right! < a.left || b.top > a.bottom || b.bottom < a.top);
 };
 
 export const getDraggablesInBox = (
@@ -39,9 +41,7 @@ interface DraggablePosition extends FlowPosition {
   uuid: string;
 }
 
-export const getOrderedDraggables = (
-  positions: CanvasPositions
-): DraggablePosition[] => {
+export const getOrderedDraggables = (positions: CanvasPositions): DraggablePosition[] => {
   const sorted: DraggablePosition[] = [];
   Object.keys(positions).forEach((uuid: string) => {
     sorted.push({ ...positions[uuid], uuid });
@@ -124,7 +124,7 @@ export const reflow = (
   // if for some reason we can't reflow, don't blow up
   let attempts = 0;
 
-  timeStart("reflow");
+  timeStart('reflow');
 
   let collision = getFirstCollision(positions, changed, fudge);
   while (collision.length > 0 && attempts < MAX_REFLOW_ATTEMPTS) {
@@ -153,7 +153,7 @@ export const reflow = (
     collision = getFirstCollision(newPositions, changed, fudge);
   }
 
-  timeEnd("reflow");
+  timeEnd('reflow');
 
   return { positions: newPositions, changed };
 };

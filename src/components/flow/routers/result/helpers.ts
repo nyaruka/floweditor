@@ -1,47 +1,43 @@
-import { CaseProps } from "components/flow/routers/caselist/CaseList";
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import {
   createCaseProps,
   createRenderNode,
   hasCases,
   resolveRoutes
-} from "components/flow/routers/helpers";
-import { SelectOption } from "components/form/select/SelectElement";
-import { DEFAULT_OPERAND } from "components/nodeeditor/constants";
-import { Types } from "config/interfaces";
-import { Router, RouterTypes, SwitchRouter } from "flowTypes";
-import { AssetStore, AssetType, RenderNode } from "store/flowContext";
-import { NodeEditorSettings, StringEntry } from "store/nodeEditor";
+} from 'components/flow/routers/helpers';
+import { SelectOption } from 'components/form/select/SelectElement';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { Types } from 'config/interfaces';
+import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
+import { AssetStore, AssetType, RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
-import { ResultRouterFormState } from "./ResultRouterForm";
+import { ResultRouterFormState } from './ResultRouterForm';
 
 export const FIELD_NUMBER_OPTIONS: SelectOption[] = [
-  { value: "1", label: "first" },
-  { value: "2", label: "second" },
-  { value: "3", label: "third" },
-  { value: "4", label: "fourth" },
-  { value: "5", label: "fifth" },
-  { value: "6", label: "sixth" },
-  { value: "7", label: "seventh" },
-  { value: "8", label: "eighth" },
-  { value: "9", label: "ninth" }
+  { value: '1', label: 'first' },
+  { value: '2', label: 'second' },
+  { value: '3', label: 'third' },
+  { value: '4', label: 'fourth' },
+  { value: '5', label: 'fifth' },
+  { value: '6', label: 'sixth' },
+  { value: '7', label: 'seventh' },
+  { value: '8', label: 'eighth' },
+  { value: '9', label: 'ninth' }
 ];
 
 export const getFieldOption = (value: number): SelectOption => {
-  return FIELD_NUMBER_OPTIONS.find(
-    (option: SelectOption) => option.value === "" + value
-  );
+  return FIELD_NUMBER_OPTIONS.find((option: SelectOption) => option.value === '' + value);
 };
 
 export const DELIMITER_OPTIONS: SelectOption[] = [
-  { value: " ", label: "spaces" },
-  { value: ".", label: "periods" },
-  { value: "+", label: "plusses" }
+  { value: ' ', label: 'spaces' },
+  { value: '.', label: 'periods' },
+  { value: '+', label: 'plusses' }
 ];
 
 export const getDelimiterOption = (value: string): SelectOption => {
-  return DELIMITER_OPTIONS.find(
-    (option: SelectOption) => option.value === value
-  );
+  return DELIMITER_OPTIONS.find((option: SelectOption) => option.value === value);
 };
 
 export const nodeToState = (
@@ -51,16 +47,15 @@ export const nodeToState = (
   let initialCases: CaseProps[] = [];
 
   // TODO: work out an incremental result name
-  let resultName: StringEntry = { value: "" };
+  let resultName: StringEntry = { value: '' };
 
   let result: any = null;
   let fieldNumber = 1;
-  let delimiter = " ";
+  let delimiter = ' ';
   let shouldDelimit = false;
 
   if (
-    (settings.originalNode &&
-      settings.originalNode.ui.type === Types.split_by_run_result) ||
+    (settings.originalNode && settings.originalNode.ui.type === Types.split_by_run_result) ||
     settings.originalNode.ui.type === Types.split_by_run_result_delimited
   ) {
     const router = settings.originalNode.node.router as SwitchRouter;
@@ -70,7 +65,7 @@ export const nodeToState = (
         initialCases = createCaseProps(router.cases, settings.originalNode);
       }
 
-      resultName = { value: router.result_name || "" };
+      resultName = { value: router.result_name || '' };
     }
 
     const config = settings.originalNode.ui.config;
@@ -103,15 +98,13 @@ export const stateToNode = (
   settings: NodeEditorSettings,
   state: ResultRouterFormState
 ): RenderNode => {
-  const {
-    cases,
-    exits,
-    defaultCategory: defaultExit,
-    caseConfig,
-    categories
-  } = resolveRoutes(state.cases, false, settings.originalNode.node);
+  const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
+    state.cases,
+    false,
+    settings.originalNode.node
+  );
 
-  const optionalRouter: Pick<Router, "result_name"> = {};
+  const optionalRouter: Pick<Router, 'result_name'> = {};
   if (state.resultName.value) {
     optionalRouter.result_name = state.resultName.value;
   }

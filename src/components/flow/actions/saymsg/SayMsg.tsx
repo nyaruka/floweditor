@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import styles from './SayMsg.module.scss';
 
-export const PLACEHOLDER = "Send a message to the contact";
+export const PLACEHOLDER = 'Send a message to the contact';
 
 const SayMsgComp: React.SFC<SayMsg> = (action: SayMsg): JSX.Element => {
   if (action.text) {

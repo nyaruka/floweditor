@@ -5,13 +5,8 @@ import { AddLabels } from 'flowTypes';
 import { Asset, AssetType } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 
-export const initializeForm = (
-  settings: NodeEditorSettings
-): AddLabelsFormState => {
-  if (
-    settings.originalAction &&
-    settings.originalAction.type === Types.add_input_labels
-  ) {
+export const initializeForm = (settings: NodeEditorSettings): AddLabelsFormState => {
+  if (settings.originalAction && settings.originalAction.type === Types.add_input_labels) {
     const action = settings.originalAction as AddLabels;
     return {
       labels: {

@@ -3,20 +3,15 @@ import {
   getExpressions,
   getRecipients,
   getRecipientsByAsset
-} from "components/flow/actions/helpers";
-import { StartSessionFormState } from "components/flow/actions/startsession/StartSessionForm";
-import { Types } from "config/interfaces";
-import { StartSession } from "flowTypes";
-import { Asset, AssetType } from "store/flowContext";
-import { NodeEditorSettings } from "store/nodeEditor";
+} from 'components/flow/actions/helpers';
+import { StartSessionFormState } from 'components/flow/actions/startsession/StartSessionForm';
+import { Types } from 'config/interfaces';
+import { StartSession } from 'flowTypes';
+import { Asset, AssetType } from 'store/flowContext';
+import { NodeEditorSettings } from 'store/nodeEditor';
 
-export const initializeForm = (
-  settings: NodeEditorSettings
-): StartSessionFormState => {
-  if (
-    settings.originalAction &&
-    settings.originalAction.type === Types.start_session
-  ) {
+export const initializeForm = (settings: NodeEditorSettings): StartSessionFormState => {
+  if (settings.originalAction && settings.originalAction.type === Types.start_session) {
     const action = settings.originalAction as StartSession;
     return {
       recipients: { value: getRecipients(action) },

@@ -1,16 +1,11 @@
-import { getActionUUID } from "components/flow/actions/helpers";
-import { PlayAudioFormState } from "components/flow/actions/playaudio/PlayAudioForm";
-import { Types } from "config/interfaces";
-import { PlayAudio } from "flowTypes";
-import { NodeEditorSettings } from "store/nodeEditor";
+import { getActionUUID } from 'components/flow/actions/helpers';
+import { PlayAudioFormState } from 'components/flow/actions/playaudio/PlayAudioForm';
+import { Types } from 'config/interfaces';
+import { PlayAudio } from 'flowTypes';
+import { NodeEditorSettings } from 'store/nodeEditor';
 
-export const initializeForm = (
-  settings: NodeEditorSettings
-): PlayAudioFormState => {
-  if (
-    settings.originalAction &&
-    settings.originalAction.type === Types.play_audio
-  ) {
+export const initializeForm = (settings: NodeEditorSettings): PlayAudioFormState => {
+  if (settings.originalAction && settings.originalAction.type === Types.play_audio) {
     const action = settings.originalAction as PlayAudio;
     return {
       audio: { value: action.audio_url },
@@ -19,7 +14,7 @@ export const initializeForm = (
   }
 
   return {
-    audio: { value: "" },
+    audio: { value: '' },
     valid: false
   };
 };

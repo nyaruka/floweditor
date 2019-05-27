@@ -29,10 +29,7 @@ export interface Revision {
 export interface RevisionExplorerProps {
   simulating: boolean;
   assetStore: AssetStore;
-  loadFlowDefinition: (
-    definition: FlowDefinition,
-    assetStore: AssetStore
-  ) => void;
+  loadFlowDefinition: (definition: FlowDefinition, assetStore: AssetStore) => void;
   createNewRevision: () => void;
   utc?: boolean;
 }
@@ -65,7 +62,7 @@ export class RevisionExplorer extends React.Component<
   public handleUpdateRevisions(): Promise<void> {
     if (this.props.assetStore !== null) {
       const assets = this.props.assetStore.revisions;
-      return getAssets(assets.endpoint, assets.type, assets.id || "id").then(
+      return getAssets(assets.endpoint, assets.type, assets.id || 'id').then(
         (remoteAssets: Asset[]) => {
           if (remoteAssets.length > 0) {
             remoteAssets[0].content.current = true;
@@ -85,17 +82,13 @@ export class RevisionExplorer extends React.Component<
         if (this.state.visible) {
           this.handleUpdateRevisions();
         } else {
-          if (
-            this.state.revision &&
-            this.state.revision.id !== this.state.revisions[0].id
-          ) {
-            getFlowDefinition(
-              this.props.assetStore.revisions,
-              this.state.revisions[0].id
-            ).then((definition: FlowDefinition) => {
-              this.props.loadFlowDefinition(definition, this.props.assetStore);
-              this.setState({ revision: null });
-            });
+          if (this.state.revision && this.state.revision.id !== this.state.revisions[0].id) {
+            getFlowDefinition(this.props.assetStore.revisions, this.state.revisions[0].id).then(
+              (definition: FlowDefinition) => {
+                this.props.loadFlowDefinition(definition, this.props.assetStore);
+                this.setState({ revision: null });
+              }
+            );
           }
         }
       }
@@ -153,35 +146,28 @@ export class RevisionExplorer extends React.Component<
                 {this.state.revisions.map((asset: Asset) => {
                   const revision = asset.content as Revision;
 
-                  const isSelected =
-                    this.state.revision && asset.id === this.state.revision.id;
+                  const isSelected = this.state.revision && asset.id === this.state.revision.id;
 
-                  const selectedClass =
-                    revision.current || isSelected ? styles.selected : "";
+                  const selectedClass = revision.current || isSelected ? styles.selected : '';
 
                   return (
                     <div
-                      className={styles.revision + " " + selectedClass}
-                      key={"revision_" + asset.id}
+                      className={styles.revision + ' ' + selectedClass}
+                      key={'revision_' + asset.id}
                       onClick={this.onRevisionClicked(asset)}
                     >
                       {renderIf(revision.current)(
-                        <div className={styles.button + " " + styles.current}>
-                          current
-                        </div>
+                        <div className={styles.button + ' ' + styles.current}>current</div>
                       )}
                       {renderIf(isSelected && !revision.current)(
-                        <div
-                          onClick={this.onRevertClicked(asset)}
-                          className={styles.button}
-                        >
+                        <div onClick={this.onRevertClicked(asset)} className={styles.button}>
                           revert
                         </div>
                       )}
                       <div className={styles.created_on}>
                         {dateFormat(
                           new Date(revision.created_on),
-                          "mmmm d, yyyy, h:MM TT",
+                          'mmmm d, yyyy, h:MM TT',
                           this.props.utc
                         )}
                       </div>

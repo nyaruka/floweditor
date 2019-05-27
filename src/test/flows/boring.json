@@ -1,204 +1,204 @@
 {
-    "localization": {},
-    "language": "eng",
-    "name": "Boring Flow",
-    "uuid": "boring",
-    "nodes": [
+  "localization": {},
+  "language": "eng",
+  "name": "Boring Flow",
+  "uuid": "boring",
+  "nodes": [
+    {
+      "uuid": "node0",
+      "actions": [
         {
-            "uuid": "node0",
-            "actions": [
-                {
-                    "uuid": "node0_action0",
-                    "type": "send_msg",
-                    "text": "Hi there, this is your first action!"
-                },
-                {
-                    "uuid": "node0_action1",
-                    "type": "add_contact_groups",
-                    "groups": [
-                        {
-                            "uuid": "group_0",
-                            "name": "Flow Participants"
-                        }
-                    ]
-                },
-                {
-                    "uuid": "node0_action2",
-                    "type": "remove_contact_groups",
-                    "groups": [
-                        {
-                            "uuid": "group_1",
-                            "name": "Nonresponsive"
-                        }
-                    ]
-                },
-                {
-                    "uuid": "node0_action3",
-                    "type": "add_input_labels",
-                    "labels": [
-                        {
-                            "uuid": "label_0",
-                            "name": "Help"
-                        },
-                        {
-                            "uuid": "label_1",
-                            "name": "Feedback"
-                        }
-                    ]
-                },
-                {
-                    "uuid": "node0_action4",
-                    "type": "set_run_result",
-                    "name": "Started",
-                    "value": "true"
-                }
-            ],
-            "exits": [
-                {
-                    "name": null,
-                    "uuid": "node0_exit0",
-                    "destination_uuid": "node1"
-                }
-            ]
+          "uuid": "node0_action0",
+          "type": "send_msg",
+          "text": "Hi there, this is your first action!"
         },
         {
-            "uuid": "node1",
-            "router": {
-                "type": "switch",
-                "default_exit_uuid": "node1_exit2",
-                "cases": [
-                    {
-                        "uuid": "node1_case0",
-                        "type": "has_any_word",
-                        "category_uuid": "node1_cat0",
-                        "arguments": ["red"]
-                    },
-                    {
-                        "uuid": "node1_case1",
-                        "type": "has_any_word",
-                        "category_uuid": "node1_cat1",
-                        "arguments": ["green"]
-                    }
-                ],
-                "categories": [
-                    {
-                        "name": "Red",
-                        "uuid": "node1_cat0",
-                        "exit_uuid": "node1_exit0"
-                    },
-                    {
-                        "name": "Green",
-                        "uuid": "node1_cat1",
-                        "exit_uuid": "node1_exit1"
-                    },
-                    {
-                        "name": "Other",
-                        "uuid": "node1_cat2",
-                        "exit_uuid": "node1_exit2"
-                    }
-                ],
-                "wait": {
-                    "type": "msg"
-                },
-                "operand": "@run.input",
-                "result_name": "color"
-            },
-            "exits": [
-                {
-                    "uuid": "node1_exit0",
-                    "destination_uuid": "node2"
-                },
-                {
-                    "uuid": "node1_exit1",
-                    "destination_uuid": "node2"
-                },
-                {
-                    "uuid": "node1_exit2",
-                    "destination_uuid": "node2"
-                }
-            ]
-        },
-        {
-            "uuid": "node2",
-            "actions": [
-                {
-                    "uuid": "node2_action0",
-                    "type": "send_msg",
-                    "text": "This has been really great."
-                },
-                {
-                    "uuid": "node2_action1",
-                    "type": "set_contact_field",
-                    "field": {
-                        "key": "unknown_field",
-                        "name": "Unknown Field"
-                    },
-                    "value": "Some Value"
-                }
-            ],
-            "exits": [
-                {
-                    "name": null,
-                    "uuid": "node2_exit0",
-                    "destination_uuid": "node3"
-                }
-            ]
-        },
-        {
-            "uuid": "node3",
-            "actions": [
-                {
-                    "uuid": "node3_action0",
-                    "type": "send_msg",
-                    "text": "Thanks for playing!"
-                }
-            ],
-            "exits": [
-                {
-                    "name": null,
-                    "uuid": "node3_exit0",
-                    "destination_uuid": null
-                }
-            ]
-        }
-    ],
-    "_ui": {
-        "nodes": {
-            "node0": {
-                "position": {
-                    "left": 0,
-                    "top": 0,
-                    "right": 220,
-                    "bottom": 254
-                }
-            },
-            "node1": {
-                "position": {
-                    "left": 0,
-                    "top": 280,
-                    "bottom": 370,
-                    "right": 220
-                },
-                "type": "wait_for_response"
-            },
-            "node2": {
-                "position": {
-                    "left": 0,
-                    "top": 400,
-                    "bottom": 498,
-                    "right": 220
-                }
-            },
-            "node3": {
-                "position": {
-                    "left": 0,
-                    "top": 520,
-                    "bottom": 598,
-                    "right": 220
-                }
+          "uuid": "node0_action1",
+          "type": "add_contact_groups",
+          "groups": [
+            {
+              "uuid": "group_0",
+              "name": "Flow Participants"
             }
+          ]
         },
-        "languages": [],
-        "stickies": {}
+        {
+          "uuid": "node0_action2",
+          "type": "remove_contact_groups",
+          "groups": [
+            {
+              "uuid": "group_1",
+              "name": "Nonresponsive"
+            }
+          ]
+        },
+        {
+          "uuid": "node0_action3",
+          "type": "add_input_labels",
+          "labels": [
+            {
+              "uuid": "label_0",
+              "name": "Help"
+            },
+            {
+              "uuid": "label_1",
+              "name": "Feedback"
+            }
+          ]
+        },
+        {
+          "uuid": "node0_action4",
+          "type": "set_run_result",
+          "name": "Started",
+          "value": "true"
+        }
+      ],
+      "exits": [
+        {
+          "name": null,
+          "uuid": "node0_exit0",
+          "destination_uuid": "node1"
+        }
+      ]
+    },
+    {
+      "uuid": "node1",
+      "router": {
+        "type": "switch",
+        "default_exit_uuid": "node1_exit2",
+        "cases": [
+          {
+            "uuid": "node1_case0",
+            "type": "has_any_word",
+            "category_uuid": "node1_cat0",
+            "arguments": ["red"]
+          },
+          {
+            "uuid": "node1_case1",
+            "type": "has_any_word",
+            "category_uuid": "node1_cat1",
+            "arguments": ["green"]
+          }
+        ],
+        "categories": [
+          {
+            "name": "Red",
+            "uuid": "node1_cat0",
+            "exit_uuid": "node1_exit0"
+          },
+          {
+            "name": "Green",
+            "uuid": "node1_cat1",
+            "exit_uuid": "node1_exit1"
+          },
+          {
+            "name": "Other",
+            "uuid": "node1_cat2",
+            "exit_uuid": "node1_exit2"
+          }
+        ],
+        "wait": {
+          "type": "msg"
+        },
+        "operand": "@run.input",
+        "result_name": "color"
+      },
+      "exits": [
+        {
+          "uuid": "node1_exit0",
+          "destination_uuid": "node2"
+        },
+        {
+          "uuid": "node1_exit1",
+          "destination_uuid": "node2"
+        },
+        {
+          "uuid": "node1_exit2",
+          "destination_uuid": "node2"
+        }
+      ]
+    },
+    {
+      "uuid": "node2",
+      "actions": [
+        {
+          "uuid": "node2_action0",
+          "type": "send_msg",
+          "text": "This has been really great."
+        },
+        {
+          "uuid": "node2_action1",
+          "type": "set_contact_field",
+          "field": {
+            "key": "unknown_field",
+            "name": "Unknown Field"
+          },
+          "value": "Some Value"
+        }
+      ],
+      "exits": [
+        {
+          "name": null,
+          "uuid": "node2_exit0",
+          "destination_uuid": "node3"
+        }
+      ]
+    },
+    {
+      "uuid": "node3",
+      "actions": [
+        {
+          "uuid": "node3_action0",
+          "type": "send_msg",
+          "text": "Thanks for playing!"
+        }
+      ],
+      "exits": [
+        {
+          "name": null,
+          "uuid": "node3_exit0",
+          "destination_uuid": null
+        }
+      ]
     }
+  ],
+  "_ui": {
+    "nodes": {
+      "node0": {
+        "position": {
+          "left": 0,
+          "top": 0,
+          "right": 220,
+          "bottom": 254
+        }
+      },
+      "node1": {
+        "position": {
+          "left": 0,
+          "top": 280,
+          "bottom": 370,
+          "right": 220
+        },
+        "type": "wait_for_response"
+      },
+      "node2": {
+        "position": {
+          "left": 0,
+          "top": 400,
+          "bottom": 498,
+          "right": 220
+        }
+      },
+      "node3": {
+        "position": {
+          "left": 0,
+          "top": 520,
+          "bottom": 598,
+          "right": 220
+        }
+      }
+    },
+    "languages": [],
+    "stickies": {}
+  }
 }

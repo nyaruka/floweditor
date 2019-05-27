@@ -1,7 +1,7 @@
-import * as React from "react";
-import { hasPendingTranslation } from "components/form/assetselector/helpers";
-import { Template } from "flowTypes";
-import { Asset, AssetType } from "store/flowContext";
+import * as React from 'react';
+import { hasPendingTranslation } from 'components/form/assetselector/helpers';
+import { Template } from 'flowTypes';
+import { Asset, AssetType } from 'store/flowContext';
 
 export const getIconForAssetType = (asset: Asset): JSX.Element => {
   switch (asset.type) {

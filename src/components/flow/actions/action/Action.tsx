@@ -11,7 +11,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Asset, RenderNode } from 'store/flowContext';
 import AppState from 'store/state';
-import { ActionAC, DispatchWithState, moveActionUp, OnOpenNodeEditor, onOpenNodeEditor, removeAction } from 'store/thunks';
+import {
+  ActionAC,
+  DispatchWithState,
+  moveActionUp,
+  OnOpenNodeEditor,
+  onOpenNodeEditor,
+  removeAction
+} from 'store/thunks';
 import { createClickHandler, getLocalization } from 'utils';
 
 import styles from './Action.module.scss';
@@ -33,13 +40,12 @@ export interface ActionWrapperStoreProps {
   moveActionUp: ActionAC;
 }
 
-export type ActionWrapperProps = ActionWrapperPassedProps &
-  ActionWrapperStoreProps;
+export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperStoreProps;
 
-export const actionContainerSpecId = "action-container";
-export const actionOverlaySpecId = "action-overlay";
-export const actionInteractiveDivSpecId = "interactive-div";
-export const actionBodySpecId = "action-body";
+export const actionContainerSpecId = 'action-container';
+export const actionOverlaySpecId = 'action-overlay';
+export const actionInteractiveDivSpecId = 'interactive-div';
+export const actionBodySpecId = 'action-body';
 
 const cx: any = classNames.bind({ ...shared, ...styles });
 
@@ -61,9 +67,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const target = event.target as any;
 
     const showAdvanced =
-      target &&
-      target.attributes &&
-      target.getAttribute("data-advanced") === "true";
+      target && target.attributes && target.getAttribute('data-advanced') === 'true';
 
     this.props.onOpenNodeEditor({
       originalNode: this.props.renderNode,
@@ -112,7 +116,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         this.props.action.type === Types.send_broadcast ||
         this.props.action.type === Types.say_msg
       ) {
-        localizedKeys.push("text");
+        localizedKeys.push('text');
       }
 
       if (localizedKeys.length !== 0) {
@@ -140,7 +144,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     return cx({
       [styles.action]: true,
       [styles.has_router]:
-        this.props.renderNode.node.hasOwnProperty("router") &&
+        this.props.renderNode.node.hasOwnProperty('router') &&
         this.props.renderNode.node.router !== null,
       [styles.translating]: this.props.translating,
       [styles.not_localizable]: notLocalizable,
@@ -153,10 +157,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const { name } = getTypeConfig(this.props.action.type);
     const classes = this.getClasses();
     const actionToInject = this.getAction();
-    const titleBarClass =
-      (shared as any)[this.props.action.type] || shared.missing;
-    const actionClass =
-      (styles as any)[this.props.action.type] || styles.missing;
+    const titleBarClass = (shared as any)[this.props.action.type] || shared.missing;
+    const actionClass = (styles as any)[this.props.action.type] || styles.missing;
     const showRemoval = !this.props.translating;
     const showMove = !this.props.first && !this.props.translating;
 
@@ -168,10 +170,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
       >
         <div className={styles.overlay} data-spec={actionOverlaySpecId} />
         <div
-          {...createClickHandler(
-            this.handleActionClicked,
-            () => this.props.selected
-          )}
+          {...createClickHandler(this.handleActionClicked, () => this.props.selected)}
           data-spec={actionInteractiveDivSpecId}
         >
           <TitleBar
@@ -183,10 +182,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
             onMoveUp={this.handleMoveUp}
             shouldCancelClick={() => this.props.selected}
           />
-          <div
-            className={styles.body + " " + actionClass}
-            data-spec={actionBodySpecId}
-          >
+          <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
             {this.props.render(actionToInject, this.context.config.endpoints)}
           </div>
         </div>

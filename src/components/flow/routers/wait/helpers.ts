@@ -1,32 +1,17 @@
-import {
-  createRenderNode,
-  resolveRoutes
-} from "components/flow/routers/helpers";
-import { WaitRouterFormState } from "components/flow/routers/wait/WaitRouterForm";
-import { DEFAULT_OPERAND } from "components/nodeeditor/constants";
-import { Type, Types } from "config/interfaces";
-import {
-  HintTypes,
-  Router,
-  RouterTypes,
-  SwitchRouter,
-  Wait,
-  WaitTypes
-} from "flowTypes";
-import { RenderNode } from "store/flowContext";
-import { NodeEditorSettings, StringEntry } from "store/nodeEditor";
+import { createRenderNode, resolveRoutes } from 'components/flow/routers/helpers';
+import { WaitRouterFormState } from 'components/flow/routers/wait/WaitRouterForm';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { Type, Types } from 'config/interfaces';
+import { HintTypes, Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from 'flowTypes';
+import { RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
-export const nodeToState = (
-  settings: NodeEditorSettings
-): WaitRouterFormState => {
-  let resultName: StringEntry = { value: "Result" };
-  if (
-    settings.originalNode &&
-    settings.originalNode.ui.type === Types.wait_for_response
-  ) {
+export const nodeToState = (settings: NodeEditorSettings): WaitRouterFormState => {
+  let resultName: StringEntry = { value: 'Result' };
+  if (settings.originalNode && settings.originalNode.ui.type === Types.wait_for_response) {
     const router = settings.originalNode.node.router as SwitchRouter;
     if (router) {
-      resultName = { value: router.result_name || "" };
+      resultName = { value: router.result_name || '' };
     }
   }
 
@@ -41,14 +26,13 @@ export const stateToNode = (
   state: WaitRouterFormState,
   typeConfig: Type
 ): RenderNode => {
-  const {
-    exits,
-    defaultCategory: defaultExit,
-    caseConfig,
-    categories
-  } = resolveRoutes([], false, settings.originalNode.node);
+  const { exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
+    [],
+    false,
+    settings.originalNode.node
+  );
 
-  const optionalRouter: Pick<Router, "result_name"> = {};
+  const optionalRouter: Pick<Router, 'result_name'> = {};
   if (state.resultName.value) {
     optionalRouter.result_name = state.resultName.value;
   }

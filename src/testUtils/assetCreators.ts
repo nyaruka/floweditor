@@ -51,21 +51,21 @@ import { assetListToMap } from 'store/helpers';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
 
-const { results: groupsResults } = require("test/assets/groups.json");
-const languagesResults = require("test/assets/languages.json");
-mock(utils, "createUUID", utils.seededUUIDs());
+const { results: groupsResults } = require('test/assets/groups.json');
+const languagesResults = require('test/assets/languages.json');
+mock(utils, 'createUUID', utils.seededUUIDs());
 /**
  * Create a select control option
  */
 export const createSelectOption = ({ label }: { label: string }) => ({
   label: utils.capitalize(label.trim()),
-  labelKey: "name",
-  valueKey: "id"
+  labelKey: 'name',
+  valueKey: 'id'
 });
 
 export const createSayMsgAction = ({
   uuid = utils.createUUID(),
-  text = "Welcome to Moviefone!"
+  text = 'Welcome to Moviefone!'
 }: {
   uuid?: string;
   text?: string;
@@ -77,7 +77,7 @@ export const createSayMsgAction = ({
 
 export const createPlayAudioAction = ({
   uuid = utils.createUUID(),
-  audio_url = "/my_audio.mp3"
+  audio_url = '/my_audio.mp3'
 }: {
   uuid?: string;
   text?: string;
@@ -90,7 +90,7 @@ export const createPlayAudioAction = ({
 
 export const createSendMsgAction = ({
   uuid = utils.createUUID(),
-  text = "Hey!",
+  text = 'Hey!',
   all_urns = false
 }: {
   uuid?: string;
@@ -106,9 +106,9 @@ export const createSendMsgAction = ({
 
 export const createSendEmailAction = ({
   uuid = utils.createUUID(),
-  subject = "New Sign Up",
-  body = "@run.results.name just signed up.",
-  addresses = ["jane@example.com"]
+  subject = 'New Sign Up',
+  body = '@run.results.name just signed up.',
+  addresses = ['jane@example.com']
 }: {
   uuid?: string;
   subject?: string;
@@ -132,13 +132,13 @@ export const createTransferAirtimeAction = ({
   amounts: {
     USD: 1.5
   },
-  result_name: "Result"
+  result_name: 'Result'
 });
 
 export const createCallResthookAction = ({
   uuid = utils.createUUID(),
-  resthook = "my-resthook",
-  result_name = "result"
+  resthook = 'my-resthook',
+  result_name = 'result'
 }: {
   uuid?: string;
   resthook?: string;
@@ -152,9 +152,9 @@ export const createCallResthookAction = ({
 
 export const createCallWebhookAction = ({
   uuid = utils.createUUID(),
-  url = "https://www.example.com",
+  url = 'https://www.example.com',
   method = Methods.GET,
-  result_name = "result_name"
+  result_name = 'result_name'
 }: {
   uuid?: string;
   url?: string;
@@ -171,17 +171,17 @@ export const createCallWebhookAction = ({
 export const createStartSessionAction = ({
   uuid = utils.createUUID(),
   groups = [
-    { uuid: utils.createUUID(), name: "Cat Fanciers" },
-    { uuid: utils.createUUID(), name: "Cat Facts" }
+    { uuid: utils.createUUID(), name: 'Cat Fanciers' },
+    { uuid: utils.createUUID(), name: 'Cat Facts' }
   ],
   contacts = [
-    { uuid: utils.createUUID(), name: "Kellan Alexander" },
-    { uuid: utils.createUUID(), name: "Norbert Kwizera" },
-    { uuid: utils.createUUID(), name: "Rowan Seymour" }
+    { uuid: utils.createUUID(), name: 'Kellan Alexander' },
+    { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
+    { uuid: utils.createUUID(), name: 'Rowan Seymour' }
   ],
   flow = {
-    uuid: "flow_uuid",
-    name: "Flow to Start"
+    uuid: 'flow_uuid',
+    name: 'Flow to Start'
   }
 }: {
   uuid?: string;
@@ -199,15 +199,15 @@ export const createStartSessionAction = ({
 export const createBroadcastMsgAction = ({
   uuid = utils.createUUID(),
   groups = [
-    { uuid: utils.createUUID(), name: "Cat Fanciers" },
-    { uuid: utils.createUUID(), name: "Cat Facts" }
+    { uuid: utils.createUUID(), name: 'Cat Fanciers' },
+    { uuid: utils.createUUID(), name: 'Cat Facts' }
   ],
   contacts = [
-    { uuid: utils.createUUID(), name: "Kellan Alexander" },
-    { uuid: utils.createUUID(), name: "Norbert Kwizera" },
-    { uuid: utils.createUUID(), name: "Rowan Seymour" }
+    { uuid: utils.createUUID(), name: 'Kellan Alexander' },
+    { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
+    { uuid: utils.createUUID(), name: 'Rowan Seymour' }
   ],
-  text = "Hello World"
+  text = 'Hello World'
 }: {
   uuid?: string;
   groups?: Group[];
@@ -243,8 +243,8 @@ export const createRemoveGroupsAction = ({
 export const createStartFlowAction = ({
   uuid = utils.createUUID(),
   flow = {
-    name: "Colors",
-    uuid: "d4a3a01c-1dee-4324-b107-4ac7a21d836f"
+    name: 'Colors',
+    uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f'
   }
 }: {
   uuid?: string;
@@ -254,7 +254,7 @@ export const createStartFlowAction = ({
   };
 } = {}): StartFlow => ({
   type: Types.enter_flow,
-  uuid: "d4a3a01c-1dee-4324-b107-4ac7a21d836f",
+  uuid: 'd4a3a01c-1dee-4324-b107-4ac7a21d836f',
   flow: {
     name: utils.capitalize(flow.name.trim()),
     uuid
@@ -263,7 +263,7 @@ export const createStartFlowAction = ({
 
 export const createSetContactNameAction = ({
   uuid = utils.createUUID(),
-  name = "Jane Goodall"
+  name = 'Jane Goodall'
 }: {
   uuid?: string;
   name?: string;
@@ -276,10 +276,10 @@ export const createSetContactNameAction = ({
 export const createSetContactFieldAction = ({
   uuid = utils.createUUID(),
   field = {
-    key: "age",
-    name: "Age"
+    key: 'age',
+    name: 'Age'
   },
-  value = "25"
+  value = '25'
 }: {
   uuid?: string;
   field?: Field;
@@ -293,7 +293,7 @@ export const createSetContactFieldAction = ({
 
 export const createSetContactLanguageAction = ({
   uuid = utils.createUUID(),
-  language = "eng"
+  language = 'eng'
 }: {
   uuid?: string;
   language?: string;
@@ -305,7 +305,7 @@ export const createSetContactLanguageAction = ({
 
 export const createSetContactChannelAction = ({
   uuid = utils.createUUID(),
-  channelName = "Twilio Channel"
+  channelName = 'Twilio Channel'
 }: {
   uuid?: string;
   channelName?: string;
@@ -320,9 +320,9 @@ export const createSetContactChannelAction = ({
 
 export const createSetRunResultAction = ({
   uuid = utils.createUUID(),
-  name = "Name",
-  value = "Grace",
-  category = ""
+  name = 'Name',
+  value = 'Grace',
+  category = ''
 }: {
   uuid?: string;
   name?: string;
@@ -336,9 +336,7 @@ export const createSetRunResultAction = ({
   type: Types.set_run_result
 });
 
-export const createWebhookNode = (
-  action: CallWebhook | CallResthook | TransferAirtime
-) => {
+export const createWebhookNode = (action: CallWebhook | CallResthook | TransferAirtime) => {
   const { categories, exits } = createCategories([
     WebhookExitNames.Success,
     WebhookExitNames.Failure
@@ -372,9 +370,9 @@ export const createWebhookRouterNode = (): FlowNode => {
     uuid: utils.createUUID(),
     headers: {},
     type: Types.call_webhook,
-    url: "http://www.google.com",
+    url: 'http://www.google.com',
     method: Methods.GET,
-    result_name: "Response"
+    result_name: 'Response'
   };
   return createWebhookNode(action);
 };
@@ -392,9 +390,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
   }
 });
 
-export const getRouterFormProps = (
-  renderNode: RenderNode
-): RouterFormProps => ({
+export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => ({
   updateRouter: jest.fn(),
   onClose: jest.fn(),
   onTypeChange: jest.fn(),
@@ -472,10 +468,7 @@ export const createCases = (categories: string[]): CaseProps[] => {
   return cases;
 };
 
-export const createRoutes = (
-  categories: string[],
-  hasTimeout: boolean = false
-): ResolvedRoutes => {
+export const createRoutes = (categories: string[], hasTimeout: boolean = false): ResolvedRoutes => {
   const cases: CaseProps[] = [];
   categories.forEach((category: string) => {
     cases.push(createMatchCase(category));
@@ -484,14 +477,8 @@ export const createRoutes = (
   return resolveRoutes(cases, hasTimeout, null);
 };
 
-export const createMatchRouter = (
-  matches: string[],
-  hasTimeout: boolean = false
-): RenderNode => {
-  const { exits, categories, cases, timeoutCategory } = createRoutes(
-    matches,
-    hasTimeout
-  );
+export const createMatchRouter = (matches: string[], hasTimeout: boolean = false): RenderNode => {
+  const { exits, categories, cases, timeoutCategory } = createRoutes(matches, hasTimeout);
 
   const wait: Wait = hasTimeout
     ? {
@@ -521,7 +508,7 @@ export const createMatchRouter = (
 export const createSwitchRouter = ({
   cases,
   categories = [],
-  operand = "@input",
+  operand = '@input',
   wait = null,
   default_category_uuid = null
 }: {
@@ -589,9 +576,7 @@ export const createFlowNode = ({
   ...(wait ? { wait } : ({} as any))
 });
 
-export const createCategories = (
-  names: string[]
-): { categories: Category[]; exits: Exit[] } => {
+export const createCategories = (names: string[]): { categories: Category[]; exits: Exit[] } => {
   const exits = names.map((cat: string) => {
     return {
       uuid: utils.createUUID(),
@@ -612,9 +597,7 @@ export const createCategories = (
 
 export const createRandomNode = (buckets: number) => {
   const { categories, exits } = createCategories(
-    utils
-      .range(0, buckets)
-      .map((bucketIdx: number) => `Bucket ${bucketIdx + 1}`)
+    utils.range(0, buckets).map((bucketIdx: number) => `Bucket ${bucketIdx + 1}`)
   );
   return createRenderNode({
     actions: [],
@@ -657,16 +640,14 @@ export const createSubflowNode = (
           args: [StartFlowArgs.Expired]
         })
       ],
-      operand: "@child",
+      operand: '@child',
       default_category_uuid: null
     }),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_subflow }
   });
 };
 
-export const createAirtimeTransferNode = (
-  transferAirtimeAction: TransferAirtime
-): RenderNode => {
+export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime): RenderNode => {
   return {
     node: createWebhookNode(transferAirtimeAction),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_airtime },
@@ -674,9 +655,7 @@ export const createAirtimeTransferNode = (
   };
 };
 
-export const createResthookNode = (
-  callResthookAction: CallResthook
-): RenderNode => {
+export const createResthookNode = (callResthookAction: CallResthook): RenderNode => {
   return {
     node: createWebhookNode(callResthookAction),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook },
@@ -727,7 +706,7 @@ export const createGroupsRouterNode = (
     router: createSwitchRouter({
       categories,
       cases,
-      operand: "@contact",
+      operand: '@contact',
       default_category_uuid: categories[categories.length - 1].uuid
     }),
     ui: {
@@ -753,40 +732,38 @@ export const getGroups = (sliceAt: number, groups: Group[] = groupsResults) =>
 
 export const createAddLabelsAction = (labels: Label[]) => ({
   type: Types.add_input_labels,
-  uuid: "aa15ef19-da81-43d0-b6e5-84b47216aeb8",
+  uuid: 'aa15ef19-da81-43d0-b6e5-84b47216aeb8',
   labels
 });
 
-export const English = { name: "English", id: "eng", type: AssetType.Language };
+export const English = { name: 'English', id: 'eng', type: AssetType.Language };
 
-export const Spanish = { name: "Spanish", id: "spa", type: AssetType.Language };
+export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
 
 export const SubscribersGroup = {
-  name: "Subscriber",
-  id: "68223118-109f-442a-aed3-7bb3e1eab687",
+  name: 'Subscriber',
+  id: '68223118-109f-442a-aed3-7bb3e1eab687',
   type: AssetType.Group
 };
 
 export const ColorFlowAsset = {
-  name: "Favorite Color",
-  uuid: "9a93ede6-078f-44c9-ad0a-133793be5d56"
+  name: 'Favorite Color',
+  uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56'
 };
 
 export const ResthookAsset = {
-  id: "new-resthook",
-  name: "new-resthook",
+  id: 'new-resthook',
+  name: 'new-resthook',
   type: AssetType.Resthook
 };
 
 export const FeedbackLabel = {
-  name: "Feedback",
-  id: "feedback_label",
+  name: 'Feedback',
+  id: 'feedback_label',
   type: AssetType.Label
 };
 
 export const languages: Assets = {
-  items: assetListToMap(
-    languagesResults.results.map((language: any) => languageToAsset(language))
-  ),
+  items: assetListToMap(languagesResults.results.map((language: any) => languageToAsset(language))),
   type: AssetType.Language
 };

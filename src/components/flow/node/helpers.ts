@@ -1,25 +1,13 @@
-import { getSwitchRouter } from "components/flow/routers/helpers";
-import { Types } from "config/interfaces";
-import {
-  CallResthook,
-  CallWebhook,
-  Category,
-  Exit,
-  FlowNode,
-  TransferAirtime
-} from "flowTypes";
-import { RenderNode } from "store/flowContext";
+import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { Types } from 'config/interfaces';
+import { CallResthook, CallWebhook, Category, Exit, FlowNode, TransferAirtime } from 'flowTypes';
+import { RenderNode } from 'store/flowContext';
 
-export const getCategoriesForExit = (
-  renderNode: RenderNode,
-  exit: Exit
-): Category[] => {
+export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Category[] => {
   if (!renderNode.node.router) {
     return [];
   }
-  return renderNode.node.router.categories.filter(
-    (cat: Category) => cat.exit_uuid === exit.uuid
-  );
+  return renderNode.node.router.categories.filter((cat: Category) => cat.exit_uuid === exit.uuid);
 };
 
 export const getResultName = (node: FlowNode) => {
@@ -34,10 +22,7 @@ export const getResultName = (node: FlowNode) => {
       action.type === Types.call_resthook ||
       action.type === Types.transfer_airtime
     ) {
-      const resultAction = action as
-        | CallWebhook
-        | CallResthook
-        | TransferAirtime;
+      const resultAction = action as CallWebhook | CallResthook | TransferAirtime;
       return resultAction.result_name;
     }
   }

@@ -50,12 +50,12 @@ export default class StartSessionForm extends React.Component<
   private handleUpdate(keys: { flow?: Asset; recipients?: Asset[] }): boolean {
     const updates: Partial<StartSessionFormState> = {};
 
-    if (keys.hasOwnProperty("recipients")) {
-      updates.recipients = validate("Recipients", keys.recipients, [Required]);
+    if (keys.hasOwnProperty('recipients')) {
+      updates.recipients = validate('Recipients', keys.recipients, [Required]);
     }
 
-    if (keys.hasOwnProperty("flow")) {
-      updates.flow = validate("Flow", keys.flow, [Required]);
+    if (keys.hasOwnProperty('flow')) {
+      updates.flow = validate('Flow', keys.flow, [Required]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -71,9 +71,7 @@ export default class StartSessionForm extends React.Component<
     });
 
     if (valid) {
-      this.props.updateAction(
-        stateToAction(this.props.nodeSettings, this.state)
-      );
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
       // notify our modal we are done
       this.props.onClose(false);
@@ -82,24 +80,16 @@ export default class StartSessionForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
           <AssetSelector
             name="Recipients"

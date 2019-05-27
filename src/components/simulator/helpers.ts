@@ -1,15 +1,15 @@
-import { EventProps } from "components/simulator/LogEvent";
-import { FlowDefinition } from "flowTypes";
-import { AssetStore, AssetType } from "store/flowContext";
-import { assetMapToList } from "store/helpers";
-import { createUUID } from "utils";
+import { EventProps } from 'components/simulator/LogEvent';
+import { FlowDefinition } from 'flowTypes';
+import { AssetStore, AssetType } from 'store/flowContext';
+import { assetMapToList } from 'store/helpers';
+import { createUUID } from 'utils';
 
 const SIMULATOR_CHANNEL = {
   uuid: createUUID(),
-  name: "Simulator",
-  address: "+12065550000",
-  schemes: ["tel"],
-  roles: ["send", "receive"]
+  name: 'Simulator',
+  address: '+12065550000',
+  schemes: ['tel'],
+  roles: ['send', 'receive']
 };
 
 interface SimAsset {
@@ -21,17 +21,14 @@ interface SimAsset {
 export const getTime = (): string => {
   const now = new Date();
   const mins = now.getMinutes();
-  let minStr = "" + mins;
+  let minStr = '' + mins;
   if (mins < 10) {
-    minStr = "0" + mins;
+    minStr = '0' + mins;
   }
-  return Math.abs(12 - now.getHours()) + ":" + minStr;
+  return Math.abs(12 - now.getHours()) + ':' + minStr;
 };
 
-export const getSimulationAssets = (
-  assets: AssetStore,
-  flow: FlowDefinition
-): any => {
+export const getSimulationAssets = (assets: AssetStore, flow: FlowDefinition): any => {
   const simAssets: SimAsset[] = [];
 
   // our group set asset
@@ -85,11 +82,9 @@ export const getSimulationAssets = (
 };
 
 export const isMessage = (event: EventProps): boolean => {
-  return !!["msg_created", "msg_received", "ivr_created"].find(
-    type => type === event.type
-  );
+  return !!['msg_created', 'msg_received', 'ivr_created'].find(type => type === event.type);
 };
 
 export const isMT = (event: EventProps): boolean => {
-  return !!["msg_created", "ivr_created"].find(type => type === event.type);
+  return !!['msg_created', 'ivr_created'].find(type => type === event.type);
 };

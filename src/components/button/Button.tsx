@@ -5,9 +5,9 @@ import { renderIf } from 'utils';
 import styles from './Button.module.scss';
 
 export enum ButtonTypes {
-  primary = "primary",
-  secondary = "secondary",
-  tertiary = "tertiary"
+  primary = 'primary',
+  secondary = 'secondary',
+  tertiary = 'tertiary'
 }
 export interface ButtonProps {
   name: string;
@@ -45,16 +45,7 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   public render(): JSX.Element {
-    const {
-      onRef,
-      name,
-      onClick,
-      type,
-      disabled,
-      leftSpacing,
-      topSpacing,
-      iconName
-    } = this.props;
+    const { onRef, name, onClick, type, disabled, leftSpacing, topSpacing, iconName } = this.props;
 
     return (
       <div
@@ -66,13 +57,11 @@ export default class Button extends React.Component<ButtonProps, ButtonState> {
         onClick={onClick}
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}
-        className={`${styles.btn} ${styles[type!]} ${
-          disabled ? styles.disabled : ""
-        } ${this.state.active ? styles.active : ""}`}
+        className={`${styles.btn} ${styles[type!]} ${disabled ? styles.disabled : ''} ${
+          this.state.active ? styles.active : ''
+        }`}
       >
-        {renderIf(iconName != null)(
-          <span style={{ paddingRight: 4 }} className={iconName} />
-        )}
+        {renderIf(iconName != null)(<span style={{ paddingRight: 4 }} className={iconName} />)}
         {name}
       </div>
     );

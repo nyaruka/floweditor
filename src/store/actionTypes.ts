@@ -6,10 +6,7 @@ import { Asset, AssetStore, ContactFields, RenderNodeMap } from 'store/flowConte
 import { NodeEditorSettings } from 'store/nodeEditor';
 
 // Redux action generic
-interface DuxAction<
-  T extends Constants,
-  P extends { [key: string]: any } = {}
-> {
+interface DuxAction<T extends Constants, P extends { [key: string]: any } = {}> {
   type: T;
   payload?: P;
 }
@@ -69,49 +66,31 @@ export type UpdateNodeEditorSettings = DuxAction<
   UpdateNodeEditorSettingsPayload
 >;
 
-export type UpdateEditorState = DuxAction<
-  Constants.UPDATE_EDITOR_STATE,
-  EditorStatePayload
->;
+export type UpdateEditorState = DuxAction<Constants.UPDATE_EDITOR_STATE, EditorStatePayload>;
 
 export type UpdateBaseLanguageAction = DuxAction<
   Constants.UPDATE_BASE_LANGUAGE,
   BaseLanguagePayload
 >;
 
-export type UpdateLanguagesAction = DuxAction<
-  Constants.UPDATE_LANGUAGES,
-  LanguagesPayload
->;
+export type UpdateLanguagesAction = DuxAction<Constants.UPDATE_LANGUAGES, LanguagesPayload>;
 
-export type UpdateDefinitionAction = DuxAction<
-  Constants.UPDATE_DEFINITION,
-  DefinitionPayload
->;
+export type UpdateDefinitionAction = DuxAction<Constants.UPDATE_DEFINITION, DefinitionPayload>;
 
-export type UpdateFlowsAction = DuxAction<
-  Constants.UPDATE_FLOWS,
-  UpdateFlowsPayload
->;
+export type UpdateFlowsAction = DuxAction<Constants.UPDATE_FLOWS, UpdateFlowsPayload>;
 
 export type UpdateDependenciesAction = DuxAction<
   Constants.UPDATE_DEPENDENCIES,
   UpdateDependenciesPayload
 >;
 
-export type UpdateAssetsAction = DuxAction<
-  Constants.UPDATE_ASSET_MAP,
-  UpdateAssetMapPayload
->;
+export type UpdateAssetsAction = DuxAction<Constants.UPDATE_ASSET_MAP, UpdateAssetMapPayload>;
 
 export type IncrementSuggestedResultNameCountAction = DuxAction<
   Constants.INCREMENT_SUGGESTED_RESULT_NAME_COUNT
 >;
 
-export type UpdateNodesAction = DuxAction<
-  Constants.UPDATE_NODES,
-  UpdateNodesPayload
->;
+export type UpdateNodesAction = DuxAction<Constants.UPDATE_NODES, UpdateNodesPayload>;
 
 export type UpdateTypeConfigAction = DuxAction<
   Constants.UPDATE_TYPE_CONFIG,
@@ -130,13 +109,9 @@ export type UpdateContactFieldsAction = DuxAction<
 
 export type UpdateTypeConfig = (typeConfig: Type) => UpdateTypeConfigAction;
 
-export type UpdateUserAddingAction = (
-  userAddingAction: boolean
-) => UpdateUserAddingActionAction;
+export type UpdateUserAddingAction = (userAddingAction: boolean) => UpdateUserAddingActionAction;
 
-export type UpdateBaseLanguage = (
-  baseLanguage: Asset
-) => UpdateBaseLanguageAction;
+export type UpdateBaseLanguage = (baseLanguage: Asset) => UpdateBaseLanguageAction;
 
 export type IncrementSuggestedResultNameCount = () => IncrementSuggestedResultNameCountAction;
 

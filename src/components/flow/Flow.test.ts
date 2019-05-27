@@ -1,16 +1,29 @@
-import { Flow, FlowStoreProps, getDragStyle, ghostNodeSpecId, isDraggingBack, REPAINT_TIMEOUT } from 'components/flow/Flow';
+import {
+  Flow,
+  FlowStoreProps,
+  getDragStyle,
+  ghostNodeSpecId,
+  isDraggingBack,
+  REPAINT_TIMEOUT
+} from 'components/flow/Flow';
 import { getDraggedFrom } from 'components/helpers';
 import { FlowTypes } from 'config/interfaces';
 import { createEmptyNode, getFlowComponents } from 'store/helpers';
 import { ConnectionEvent } from 'store/thunks';
-import { composeComponentTestUtils, composeDuxState, getSpecWrapper, mock, setMock } from 'testUtils';
+import {
+  composeComponentTestUtils,
+  composeDuxState,
+  getSpecWrapper,
+  mock,
+  setMock
+} from 'testUtils';
 import { createUUID, merge, set } from 'utils';
 import * as utils from 'utils';
 
-jest.mock("services/Plumber");
+jest.mock('services/Plumber');
 jest.useFakeTimers();
 
-mock(utils, "createUUID", utils.seededUUIDs());
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const {
   flowContext: { definition }
@@ -81,26 +94,24 @@ describe(Flow.name, () => {
     currentX: 500,
     currentY: 302,
     selected: {
-      "46e8d603-8e5d-4435-97dd-1333291aafca": { left: 500, top: 300 },
-      "bc978e00-2f3d-41f2-87c1-26b3f14e5925": { left: 300, top: 200 }
+      '46e8d603-8e5d-4435-97dd-1333291aafca': { left: 500, top: 300 },
+      'bc978e00-2f3d-41f2-87c1-26b3f14e5925': { left: 300, top: 200 }
     }
   };
 
-  describe("helpers", () => {
-    describe("isDraggingBack", () => {
-      it("should return false if event indicates user is not returning to drag origin", () => {
-        expect(
-          isDraggingBack(mockConnectionEvent as ConnectionEvent)
-        ).toBeFalsy();
+  describe('helpers', () => {
+    describe('isDraggingBack', () => {
+      it('should return false if event indicates user is not returning to drag origin', () => {
+        expect(isDraggingBack(mockConnectionEvent as ConnectionEvent)).toBeFalsy();
       });
 
-      it("should return true if event indicates user is returning to drag origin", () => {
+      it('should return true if event indicates user is returning to drag origin', () => {
         const suspendedElementId = createUUID();
 
         expect(
           isDraggingBack({
             ...mockConnectionEvent,
-            source: document.createElement("div"),
+            source: document.createElement('div'),
             suspendedElementId,
             targetId: suspendedElementId
           } as ConnectionEvent)
@@ -108,37 +119,37 @@ describe(Flow.name, () => {
       });
     });
 
-    describe("getDragStyle", () => {
-      it("should return style object for drag selection box", () => {
+    describe('getDragStyle', () => {
+      it('should return style object for drag selection box', () => {
         expect(getDragStyle(dragSelection)).toMatchSnapshot();
       });
     });
   });
 
-  describe("render", () => {
-    it("should render NodeEditor", () => {
+  describe('render', () => {
+    it('should render NodeEditor', () => {
       const { wrapper } = setup(true, {
         mergeEditorState: set(jest.fn()),
         nodeEditorSettings: { $set: { originalNode: null } }
       });
 
-      expect(wrapper.find("Connect(NodeEditor)").props()).toMatchSnapshot();
+      expect(wrapper.find('Connect(NodeEditor)').props()).toMatchSnapshot();
     });
 
-    it("should render Simulator", () => {
+    it('should render Simulator', () => {
       const { wrapper } = setup(
         true,
         { mergeEditorState: set(jest.fn()) },
         {},
         {
-          config: { endpoints: merge({ simulateStart: "startMeUp" }) }
+          config: { endpoints: merge({ simulateStart: 'startMeUp' }) }
         }
       );
 
-      expect(wrapper.find("Connect(Simulator)").props()).toMatchSnapshot();
+      expect(wrapper.find('Connect(Simulator)').props()).toMatchSnapshot();
     });
 
-    it("should render dragNode", () => {
+    it('should render dragNode', () => {
       const { wrapper, instance, props } = setup(true, {
         mergeEditorState: set(jest.fn()),
         editorState: { ghostNode: set(ghostNodeFromWait) }
@@ -149,9 +160,9 @@ describe(Flow.name, () => {
     });
   });
 
-  describe("instance methods", () => {
-    describe("componentDidMount", () => {
-      const componentDidMountSpy = spyOn("componentDidMount");
+  describe('instance methods', () => {
+    describe('componentDidMount', () => {
+      const componentDidMountSpy = spyOn('componentDidMount');
       const { instance, props } = setup(true);
 
       jest.runAllTimers();
@@ -159,45 +170,24 @@ describe(Flow.name, () => {
       expect(componentDidMountSpy).toHaveBeenCalledTimes(1);
 
       expect(instance.Plumber.bind).toHaveBeenCalledTimes(7);
+      expect(instance.Plumber.bind).toHaveBeenCalledWith('connection', expect.any(Function));
+      expect(instance.Plumber.bind).toHaveBeenCalledWith('connection', expect.any(Function));
+      expect(instance.Plumber.bind).toHaveBeenCalledWith('connectionDrag', expect.any(Function));
       expect(instance.Plumber.bind).toHaveBeenCalledWith(
-        "connection",
+        'connectionDragStop',
         expect.any(Function)
       );
-      expect(instance.Plumber.bind).toHaveBeenCalledWith(
-        "connection",
-        expect.any(Function)
-      );
-      expect(instance.Plumber.bind).toHaveBeenCalledWith(
-        "connectionDrag",
-        expect.any(Function)
-      );
-      expect(instance.Plumber.bind).toHaveBeenCalledWith(
-        "connectionDragStop",
-        expect.any(Function)
-      );
-      expect(instance.Plumber.bind).toHaveBeenCalledWith(
-        "beforeStartDetach",
-        expect.any(Function)
-      );
-      expect(instance.Plumber.bind).toHaveBeenCalledWith(
-        "beforeDetach",
-        expect.any(Function)
-      );
-      expect(instance.Plumber.bind).toHaveBeenCalledWith(
-        "beforeDrop",
-        expect.any(Function)
-      );
-      expect(setTimeout).toHaveBeenCalledWith(
-        expect.any(Function),
-        REPAINT_TIMEOUT
-      );
+      expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeStartDetach', expect.any(Function));
+      expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeDetach', expect.any(Function));
+      expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeDrop', expect.any(Function));
+      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), REPAINT_TIMEOUT);
       expect(instance.Plumber.repaint).toHaveBeenCalledTimes(1);
 
       componentDidMountSpy.mockRestore();
     });
 
-    describe("componenWillUnmount", () => {
-      const componentWillUnmountSpy = spyOn("componentWillUnmount");
+    describe('componenWillUnmount', () => {
+      const componentWillUnmountSpy = spyOn('componentWillUnmount');
       const { wrapper, instance } = setup();
 
       wrapper.unmount();
@@ -208,8 +198,8 @@ describe(Flow.name, () => {
       componentWillUnmountSpy.mockRestore();
     });
 
-    describe("onBeforeConnectorDrop", () => {
-      it("should call resetNodeEditingState prop", () => {
+    describe('onBeforeConnectorDrop', () => {
+      it('should call resetNodeEditingState prop', () => {
         const { wrapper, instance, props } = setup(true, {
           resetNodeEditingState: setMock()
         });
@@ -219,7 +209,7 @@ describe(Flow.name, () => {
         expect(props.resetNodeEditingState).toHaveBeenCalledTimes(1);
       });
 
-      it("should return false if pointing to itself", () => {
+      it('should return false if pointing to itself', () => {
         const { instance } = setup();
         const sourceId = createUUID();
 
@@ -232,7 +222,7 @@ describe(Flow.name, () => {
         ).toBeFalsy();
       });
 
-      it("should return true if not pointing to itself", () => {
+      it('should return true if not pointing to itself', () => {
         const { instance, props } = setup();
         const uuids = Object.keys(props.nodes);
         const connectionEvent = {
@@ -246,8 +236,8 @@ describe(Flow.name, () => {
       });
     });
 
-    describe("onConnectorDrop", () => {
-      it("should not do NodeEditor work if the user is dragging back", () => {
+    describe('onConnectorDrop', () => {
+      it('should not do NodeEditor work if the user is dragging back', () => {
         const { instance, props } = setup(true, {
           onOpenNodeEditor: setMock()
         });
@@ -262,7 +252,7 @@ describe(Flow.name, () => {
         expect(props.onOpenNodeEditor).not.toHaveBeenCalled();
       });
 
-      it("should do NodeEditor work if the user is not dragging back", () => {
+      it('should do NodeEditor work if the user is not dragging back', () => {
         // tslint:disable-next-line:no-shadowed-variable
         const { instance, props } = setup(true, {
           editorState: {
@@ -273,7 +263,7 @@ describe(Flow.name, () => {
 
         instance.onConnectorDrop({
           ...mockConnectionEvent,
-          source: document.createElement("div")
+          source: document.createElement('div')
         });
 
         jest.runAllTimers();
@@ -295,8 +285,8 @@ describe(Flow.name, () => {
       });
     });
 
-    describe("beforeConnectionDrag", () => {
-      it("should return reversse of translating prop", () => {
+    describe('beforeConnectionDrag', () => {
+      it('should return reversse of translating prop', () => {
         const { wrapper, instance, props } = setup();
 
         expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(

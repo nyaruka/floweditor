@@ -1,21 +1,17 @@
-import { RouterFormProps } from "components/flow/props";
-import { CaseProps } from "components/flow/routers/caselist/CaseList";
-import ResponseRouterForm from "components/flow/routers/response/ResponseRouterForm";
-import { DEFAULT_OPERAND } from "components/nodeeditor/constants";
-import { Operators } from "config/interfaces";
-import { Types } from "config/interfaces";
-import { RouterTypes, SwitchRouter, WaitTypes } from "flowTypes";
-import { composeComponentTestUtils, mock } from "testUtils";
-import {
-  createRenderNode,
-  getRouterFormProps,
-  createMatchRouter
-} from "testUtils/assetCreators";
-import * as utils from "utils";
-import { createUUID } from "utils";
-import { getSwitchRouter } from "components/flow/routers/helpers";
+import { RouterFormProps } from 'components/flow/props';
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
+import ResponseRouterForm from 'components/flow/routers/response/ResponseRouterForm';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { Operators } from 'config/interfaces';
+import { Types } from 'config/interfaces';
+import { RouterTypes, SwitchRouter, WaitTypes } from 'flowTypes';
+import { composeComponentTestUtils, mock } from 'testUtils';
+import { createRenderNode, getRouterFormProps, createMatchRouter } from 'testUtils/assetCreators';
+import * as utils from 'utils';
+import { createUUID } from 'utils';
+import { getSwitchRouter } from 'components/flow/routers/helpers';
 
-const routerNode = createMatchRouter(["Red"]);
+const routerNode = createMatchRouter(['Red']);
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(
   ResponseRouterForm,
@@ -24,18 +20,18 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
 
 describe(ResponseRouterForm.name, () => {
   beforeEach(() => {
-    mock(utils, "createUUID", utils.seededUUIDs());
+    mock(utils, 'createUUID', utils.seededUUIDs());
   });
 
-  it("should render", () => {
+  it('should render', () => {
     const { wrapper } = setup(true);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("initializes case config", () => {
+  it('initializes case config', () => {
     const dateCase = createUUID();
 
-    const dateNode = createMatchRouter(["Red"]);
+    const dateNode = createMatchRouter(['Red']);
     const router = getSwitchRouter(dateNode.node);
     router.cases.push({
       uuid: dateCase,
@@ -47,7 +43,7 @@ describe(ResponseRouterForm.name, () => {
     dateNode.ui = {
       position: { left: 0, top: 0 },
       type: Types.wait_for_response,
-      config: { cases: { [dateCase]: { arguments: ["5"] } } }
+      config: { cases: { [dateCase]: { arguments: ['5'] } } }
     };
 
     const { wrapper } = setup(true, {
@@ -61,31 +57,31 @@ describe(ResponseRouterForm.name, () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  describe("updates", () => {
-    it("should save changes", () => {
+  describe('updates', () => {
+    it('should save changes', () => {
       const { instance, props } = setup(true, {
         $merge: { onClose: jest.fn(), updateRouter: jest.fn() }
       });
 
       instance.handleUpdateTimeout(180);
-      instance.handleUpdateResultName("Favorite Color");
+      instance.handleUpdateResultName('Favorite Color');
       instance.handleCasesUpdated([
         {
           uuid: createUUID(),
-          kase: { type: Operators.has_any_word, arguments: ["red"] },
-          categoryName: "Red",
+          kase: { type: Operators.has_any_word, arguments: ['red'] },
+          categoryName: 'Red',
           valid: true
         },
         {
           uuid: createUUID(),
-          kase: { type: Operators.has_any_word, arguments: ["maroon"] },
-          categoryName: "Red",
+          kase: { type: Operators.has_any_word, arguments: ['maroon'] },
+          categoryName: 'Red',
           valid: true
         },
         {
           uuid: createUUID(),
-          kase: { type: Operators.has_any_word, arguments: ["green"] },
-          categoryName: "Green",
+          kase: { type: Operators.has_any_word, arguments: ['green'] },
+          categoryName: 'Green',
           valid: true
         }
       ] as CaseProps[]);
@@ -98,7 +94,7 @@ describe(ResponseRouterForm.name, () => {
       expect(props.updateRouter).toMatchCallSnapshot();
     });
 
-    it("should save save config for relative dates", () => {
+    it('should save save config for relative dates', () => {
       const { instance, props } = setup(true, {
         $merge: { onClose: jest.fn(), updateRouter: jest.fn() }
       });
@@ -106,8 +102,8 @@ describe(ResponseRouterForm.name, () => {
       instance.handleCasesUpdated([
         {
           uuid: createUUID(),
-          kase: { type: Operators.has_date_gt, arguments: ["5"] },
-          categoryName: "In the Zone",
+          kase: { type: Operators.has_date_gt, arguments: ['5'] },
+          categoryName: 'In the Zone',
           valid: true
         }
       ] as CaseProps[]);
@@ -120,7 +116,7 @@ describe(ResponseRouterForm.name, () => {
       expect(props.updateRouter).toMatchCallSnapshot();
     });
 
-    it("should cancel", () => {
+    it('should cancel', () => {
       const { instance, props } = setup(true, {
         $merge: { onClose: jest.fn(), updateRouter: jest.fn() }
       });

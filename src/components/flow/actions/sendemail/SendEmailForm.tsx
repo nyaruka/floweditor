@@ -6,7 +6,13 @@ import TaggingElement from 'components/form/select/tags/TaggingElement';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import { FormState, mergeForm, StringArrayEntry, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import {
+  FormState,
+  mergeForm,
+  StringArrayEntry,
+  StringEntry,
+  ValidationFailure
+} from 'store/nodeEditor';
 import { Required, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -20,10 +26,7 @@ export interface SendEmailFormState extends FormState {
   body: StringEntry;
 }
 
-export default class SendEmailForm extends React.Component<
-  ActionFormProps,
-  SendEmailFormState
-> {
+export default class SendEmailForm extends React.Component<ActionFormProps, SendEmailFormState> {
   constructor(props: ActionFormProps) {
     super(props);
 
@@ -46,23 +49,19 @@ export default class SendEmailForm extends React.Component<
     return this.handleUpdate({ body });
   }
 
-  private handleUpdate(keys: {
-    recipients?: string[];
-    subject?: string;
-    body?: string;
-  }): boolean {
+  private handleUpdate(keys: { recipients?: string[]; subject?: string; body?: string }): boolean {
     const updates: Partial<SendEmailFormState> = {};
 
-    if (keys.hasOwnProperty("recipients")) {
-      updates.recipients = validate("Recipients", keys.recipients!, [Required]);
+    if (keys.hasOwnProperty('recipients')) {
+      updates.recipients = validate('Recipients', keys.recipients!, [Required]);
     }
 
-    if (keys.hasOwnProperty("subject")) {
-      updates.subject = validate("Subject", keys.subject!, [Required]);
+    if (keys.hasOwnProperty('subject')) {
+      updates.subject = validate('Subject', keys.subject!, [Required]);
     }
 
-    if (keys.hasOwnProperty("body")) {
-      updates.body = validate("Body", keys.body!, [Required]);
+    if (keys.hasOwnProperty('body')) {
+      updates.body = validate('Body', keys.body!, [Required]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -79,9 +78,7 @@ export default class SendEmailForm extends React.Component<
     });
 
     if (valid) {
-      this.props.updateAction(
-        stateToAction(this.props.nodeSettings, this.state)
-      );
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
       // notify our modal we are done
       this.props.onClose(false);
@@ -90,8 +87,8 @@ export default class SendEmailForm extends React.Component<
 
   public getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -102,16 +99,8 @@ export default class SendEmailForm extends React.Component<
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.ele}>
           <TaggingElement
             name="Recipient"

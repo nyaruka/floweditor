@@ -4,11 +4,11 @@ export const large = {
   control: (styles: StylesConfig, state: any) => {
     return {
       ...styles,
-      borderColor: "#ccc",
-      boxShadow: "none",
-      transition: "all 0.3s ease-in-out",
-      "&:hover": {
-        borderColor: "#ccc"
+      borderColor: '#ccc',
+      boxShadow: 'none',
+      transition: 'all 0.3s ease-in-out',
+      '&:hover': {
+        borderColor: '#ccc'
       }
     };
   }
@@ -18,13 +18,13 @@ export const messageStyle = {
   control: (styles: StylesConfig, state: any) => {
     return {
       ...styles,
-      borderColor: "#ccc",
-      boxShadow: "none",
-      borderBottom: "none",
-      borderBottomRightRadius: "0px",
-      borderBottomLeftRadius: "0px",
-      "&:hover": {
-        borderColor: "#ccc"
+      borderColor: '#ccc',
+      boxShadow: 'none',
+      borderBottom: 'none',
+      borderBottomRightRadius: '0px',
+      borderBottomLeftRadius: '0px',
+      '&:hover': {
+        borderColor: '#ccc'
       }
     };
   }
@@ -35,10 +35,10 @@ export const getErroredSelect = (baseControl: any): any => {
     control: (styles: StylesConfig) => ({
       ...styles,
       ...baseControl,
-      borderColor: "tomato",
-      boxShadow: "0 0 0 3px rgba(255,196,186,0.5) !important;",
-      "&:hover": {
-        borderColor: "tomato"
+      borderColor: 'tomato',
+      boxShadow: '0 0 0 3px rgba(255,196,186,0.5) !important;',
+      '&:hover': {
+        borderColor: 'tomato'
       }
     })
   };
@@ -47,10 +47,10 @@ export const getErroredSelect = (baseControl: any): any => {
 export const small = {
   control: (styles: StylesConfig) => ({
     ...styles,
-    borderColor: "#ccc",
-    boxShadow: "none",
-    "&:hover": {
-      borderColor: "#ccc"
+    borderColor: '#ccc',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: '#ccc'
     },
     minHeight: 28,
     maxHeight: 28,
@@ -88,10 +88,10 @@ export const tagging = {
   control: (styles: StylesConfig, state: any) => {
     return {
       ...styles,
-      borderColor: "#ccc",
-      boxShadow: "none",
-      "&:hover": {
-        borderColor: "#ccc"
+      borderColor: '#ccc',
+      boxShadow: 'none',
+      '&:hover': {
+        borderColor: '#ccc'
       }
     };
   },
@@ -100,9 +100,9 @@ export const tagging = {
       ...styles,
       maxHeight: 24,
       minHeight: 24,
-      lineHeight: "17px",
-      backgroundColor: "hsl(0, 0%, 94%)",
-      border: "1px solid hsl(0, 0%, 85%)"
+      lineHeight: '17px',
+      backgroundColor: 'hsl(0, 0%, 94%)',
+      border: '1px solid hsl(0, 0%, 85%)'
     };
   }
 };

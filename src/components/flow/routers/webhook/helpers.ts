@@ -1,16 +1,16 @@
-import { createWebhookBasedNode } from "components/flow/routers/helpers";
-import { WebhookRouterFormState } from "components/flow/routers/webhook/WebhookRouterForm";
-import { DEFAULT_BODY } from "components/nodeeditor/constants";
-import { Types } from "config/interfaces";
-import { CallWebhook } from "flowTypes";
-import { RenderNode } from "store/flowContext";
-import { NodeEditorSettings, StringEntry } from "store/nodeEditor";
-import { createUUID } from "utils";
+import { createWebhookBasedNode } from 'components/flow/routers/helpers';
+import { WebhookRouterFormState } from 'components/flow/routers/webhook/WebhookRouterForm';
+import { DEFAULT_BODY } from 'components/nodeeditor/constants';
+import { Types } from 'config/interfaces';
+import { CallWebhook } from 'flowTypes';
+import { RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+import { createUUID } from 'utils';
 
 export enum Methods {
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT"
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT'
 }
 
 export interface MethodOption {
@@ -33,30 +33,25 @@ export const METHOD_OPTIONS: MethodOption[] = [
   { value: Methods.PUT, label: Methods.PUT }
 ];
 
-export const getOriginalAction = (
-  settings: NodeEditorSettings
-): CallWebhook => {
+export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 &&
-      settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
 
   if (action.type === Types.call_webhook) {
     return action as CallWebhook;
   }
 };
 
-export const nodeToState = (
-  settings: NodeEditorSettings
-): WebhookRouterFormState => {
+export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormState => {
   // TODO: work out an incremental result name
-  const resultName: StringEntry = { value: "Result" };
+  const resultName: StringEntry = { value: 'Result' };
 
   const state: WebhookRouterFormState = {
     headers: [],
     resultName,
     method: { value: GET_METHOD },
-    url: { value: "" },
+    url: { value: '' },
     postBody: { value: DEFAULT_BODY },
     valid: false
   };
@@ -84,8 +79,8 @@ export const nodeToState = (
     state.headers.push({
       value: {
         uuid: createUUID(),
-        name: "Content-Type",
-        value: "application/json"
+        name: 'Content-Type',
+        value: 'application/json'
       }
     });
   }
@@ -94,8 +89,8 @@ export const nodeToState = (
   state.headers.push({
     value: {
       uuid: createUUID(),
-      name: "",
-      value: ""
+      name: '',
+      value: ''
     }
   });
 

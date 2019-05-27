@@ -30,21 +30,21 @@ export class Fixy extends React.PureComponent<FixyProps, FixyState> {
   }
 
   public componentWillUnmount(): void {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   public componentDidMount(): void {
     const top = this.ele!.getBoundingClientRect().top + window.scrollY;
     const fixed = window.scrollY > top;
     this.setState({ top, fixed });
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
   }
 
   public render(): JSX.Element {
-    let styles: React.CSSProperties = { position: "absolute" };
+    let styles: React.CSSProperties = { position: 'absolute' };
     if (this.state.fixed) {
       styles = {
-        position: "fixed",
+        position: 'fixed',
         top: 0
       };
     }

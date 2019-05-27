@@ -34,11 +34,7 @@ export default class ResthookRouterForm extends React.PureComponent<
   }
 
   private handleUpdateResultName(result: string): void {
-    const resultName = validate("Result Name", result, [
-      Required,
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', result, [Required, Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -47,7 +43,7 @@ export default class ResthookRouterForm extends React.PureComponent<
 
   public handleResthookChanged(selected: Asset[]): boolean {
     const updates: Partial<ResthookRouterFormState> = {
-      resthook: validate("Resthook", selected[0], [Required])
+      resthook: validate('Resthook', selected[0], [Required])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -67,24 +63,16 @@ export default class ResthookRouterForm extends React.PureComponent<
 
   public getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
           name="Resthook"
           placeholder="Select the resthook to call"
@@ -94,10 +82,7 @@ export default class ResthookRouterForm extends React.PureComponent<
           onChange={this.handleResthookChanged}
         />
         <div className={styles.result_name}>
-          {createResultNameInput(
-            this.state.resultName,
-            this.handleUpdateResultName
-          )}
+          {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         </div>
       </Dialog>
     );

@@ -40,9 +40,9 @@ export const cleanMsg = (msg: string): string =>
   msg
     .replace(/[\u2018\u2019]/g, "'") // Smart single quotes
     .replace(/[\u201C\u201D]/g, '"') // Smart double quotes
-    .replace(/[\u2013\u2014]/g, "-") // En/em dash
-    .replace(/\u2026/g, "...") // Horizontal ellipsis
-    .replace(/\u2002/g, " "); // En space
+    .replace(/[\u2013\u2014]/g, '-') // En/em dash
+    .replace(/\u2026/g, '...') // Horizontal ellipsis
+    .replace(/\u2002/g, ' '); // En space
 
 /**
  * First pass at providing the user with an accurate character count for their SMS messages.
@@ -51,10 +51,7 @@ export const cleanMsg = (msg: string): string =>
  * @param value
  * @param replace
  */
-export const getMsgStats = (
-  value: string | string[],
-  replace?: boolean
-): MsgStats => {
+export const getMsgStats = (value: string | string[], replace?: boolean): MsgStats => {
   let newVal = value as string;
 
   // Localized values are stored as string arrays

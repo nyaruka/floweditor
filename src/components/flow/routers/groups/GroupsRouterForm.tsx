@@ -1,24 +1,16 @@
-import { react as bindCallbacks } from "auto-bind";
-import * as React from "react";
-import Dialog, { ButtonSet } from "components/dialog/Dialog";
-import { RouterFormProps } from "components/flow/props";
-import { GROUP_LABEL } from "components/flow/routers/constants";
-import {
-  nodeToState,
-  stateToNode
-} from "components/flow/routers/groups/helpers";
-import { createResultNameInput } from "components/flow/routers/widgets";
-import AssetSelector from "components/form/assetselector/AssetSelector";
-import TypeList from "components/nodeeditor/TypeList";
-import { fakePropType } from "config/ConfigProvider";
-import { Asset } from "store/flowContext";
-import {
-  AssetArrayEntry,
-  FormState,
-  mergeForm,
-  StringEntry
-} from "store/nodeEditor";
-import { Required, validate } from "store/validators";
+import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import { RouterFormProps } from 'components/flow/props';
+import { GROUP_LABEL } from 'components/flow/routers/constants';
+import { nodeToState, stateToNode } from 'components/flow/routers/groups/helpers';
+import { createResultNameInput } from 'components/flow/routers/widgets';
+import AssetSelector from 'components/form/assetselector/AssetSelector';
+import TypeList from 'components/nodeeditor/TypeList';
+import { fakePropType } from 'config/ConfigProvider';
+import { Asset } from 'store/flowContext';
+import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { Required, validate } from 'store/validators';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -53,17 +45,14 @@ export default class GroupsRouterForm extends React.Component<
     this.handleUpdate({ resultName });
   }
 
-  private handleUpdate(keys: {
-    groups?: Asset[];
-    resultName?: string;
-  }): boolean {
+  private handleUpdate(keys: { groups?: Asset[]; resultName?: string }): boolean {
     const updates: Partial<GroupsRouterFormState> = {};
 
-    if (keys.hasOwnProperty("groups")) {
-      updates.groups = validate("Groups", keys.groups, [Required]);
+    if (keys.hasOwnProperty('groups')) {
+      updates.groups = validate('Groups', keys.groups, [Required]);
     }
 
-    if (keys.hasOwnProperty("resultName")) {
+    if (keys.hasOwnProperty('resultName')) {
       updates.resultName = { value: keys.resultName };
     }
 
@@ -81,8 +70,8 @@ export default class GroupsRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -90,16 +79,8 @@ export default class GroupsRouterForm extends React.Component<
     const typeConfig = this.props.typeConfig;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p>{GROUP_LABEL}</p>
         <AssetSelector
           name="Groups"
@@ -109,10 +90,7 @@ export default class GroupsRouterForm extends React.Component<
           onChange={this.handleGroupsChanged}
           multi={true}
         />
-        {createResultNameInput(
-          this.state.resultName,
-          this.handleUpdateResultName
-        )}
+        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
       </Dialog>
     );
   }
