@@ -101,9 +101,7 @@ export const initialState: EditorState = {
 };
 
 // Action Creator
-export const updateEditorState = (
-  editorState: EditorState
-): UpdateEditorState => ({
+export const updateEditorState = (editorState: EditorState): UpdateEditorState => ({
   type: Constants.UPDATE_EDITOR_STATE,
   payload: {
     editorState
@@ -111,10 +109,7 @@ export const updateEditorState = (
 });
 
 /* Reducer */
-export const editorState = (
-  editorState: EditorState = initialState,
-  action: ActionTypes
-) => {
+export const editorState = (editorState: EditorState = initialState, action: ActionTypes) => {
   switch (action.type) {
     case Constants.UPDATE_EDITOR_STATE:
       return action.payload!.editorState;

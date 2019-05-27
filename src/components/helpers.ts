@@ -1,4 +1,4 @@
-import { RenderNode } from "store/flowContext";
+import { RenderNode } from 'store/flowContext';
 
 export interface DragPoint {
   exitUUID: string;

@@ -1,21 +1,21 @@
-import Pill, { PillProps } from "components/pill/Pill";
-import { composeComponentTestUtils } from "testUtils";
+import Pill, { PillProps } from 'components/pill/Pill';
+import { composeComponentTestUtils } from 'testUtils';
 
 const { setup } = composeComponentTestUtils<PillProps>(Pill, {
   advanced: false,
-  text: "This is my pill text",
+  text: 'This is my pill text',
   maxLength: 10
 });
 
 describe(Pill.name, () => {
-  it("renders", () => {
+  it('renders', () => {
     const { wrapper } = setup();
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("treats @ text differently", () => {
+  it('treats @ text differently', () => {
     const { wrapper } = setup(true, {
-      text: { $set: "@(CONCAT(contact.name, contact.age))" }
+      text: { $set: '@(CONCAT(contact.name, contact.age))' }
     });
     expect(wrapper).toMatchSnapshot();
   });

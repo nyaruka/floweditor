@@ -15,10 +15,10 @@ export interface PillProps {
 const Pill: React.SFC<PillProps> = (props: PillProps): JSX.Element => {
   let text = props.text;
 
-  if (props.text.startsWith("@")) {
-    text = "@(exp)";
+  if (props.text.startsWith('@')) {
+    text = '@(exp)';
   } else if (props.maxLength && text.length > props.maxLength) {
-    text = props.text.substring(0, props.maxLength) + "...";
+    text = props.text.substring(0, props.maxLength) + '...';
   }
 
   const pillStyles = [styles.pill];
@@ -36,14 +36,11 @@ const Pill: React.SFC<PillProps> = (props: PillProps): JSX.Element => {
       style={props.style}
       data-advanced={props.advanced}
       onClick={props.onClick}
-      className={pillStyles.join(" ")}
+      className={pillStyles.join(' ')}
     >
       {text}
       {props.icon ? (
-        <span
-          data-advanced={props.advanced}
-          className={styles.icon + " " + props.icon}
-        />
+        <span data-advanced={props.advanced} className={styles.icon + ' ' + props.icon} />
       ) : null}
     </div>
   );

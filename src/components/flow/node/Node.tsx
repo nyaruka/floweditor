@@ -93,10 +93,7 @@ export class NodeComp extends React.Component<NodeProps> {
       include: [/Ref$/, /^on/, /^get/, /^handle/]
     });
 
-    this.events = createClickHandler(
-      this.onClick,
-      this.handleShouldCancelClick
-    );
+    this.events = createClickHandler(this.onClick, this.handleShouldCancelClick);
   }
 
   private handleShouldCancelClick(): boolean {
@@ -112,16 +109,13 @@ export class NodeComp extends React.Component<NodeProps> {
       // move our ghost node into position
       const width = this.ele.getBoundingClientRect().width;
       const left = e.pageX - width / 2 - 15;
-      const top =
-        e.pageY + this.ele.scrollTop - (this.props.containerOffset.top + 20);
+      const top = e.pageY + this.ele.scrollTop - (this.props.containerOffset.top + 20);
       const style = this.ele.style;
-      style.left = left + "px";
-      style.top = top + "px";
+      style.left = left + 'px';
+      style.top = top + 'px';
 
       // Hide ourselves if there's a drop target
-      style.visibility = document.querySelector(".plumb-drop-hover")
-        ? "hidden"
-        : "visible";
+      style.visibility = document.querySelector('.plumb-drop-hover') ? 'hidden' : 'visible';
     };
   }
 
@@ -136,7 +130,7 @@ export class NodeComp extends React.Component<NodeProps> {
       // TODO: rework ghost node to manage its location like other nodes
       const ghostListener: any = this.getGhostListener();
       (window as any).ghostListener = ghostListener;
-      document.addEventListener("mousemove", ghostListener);
+      document.addEventListener('mousemove', ghostListener);
     }
   }
 
@@ -146,9 +140,7 @@ export class NodeComp extends React.Component<NodeProps> {
       try {
         this.props.plumberRecalculate(this.props.renderNode.node.uuid);
         for (const exit of this.props.renderNode.node.exits) {
-          this.props.plumberRecalculate(
-            this.props.renderNode.node.uuid + ":" + exit.uuid
-          );
+          this.props.plumberRecalculate(this.props.renderNode.node.uuid + ':' + exit.uuid);
         }
       } catch (error) {
         // console.log(error);
@@ -167,9 +159,9 @@ export class NodeComp extends React.Component<NodeProps> {
     range.selectNodeContents(event.currentTarget);
     selection.removeAllRanges();
     selection.addRange(range);
-    document.execCommand("copy");
+    document.execCommand('copy');
     selection.removeAllRanges();
-    console.log(event.currentTarget.textContent + " copied to clipboard.");
+    console.log(event.currentTarget.textContent + ' copied to clipboard.');
   }
 
   private handleAddToNode(): void {
@@ -225,8 +217,7 @@ export class NodeComp extends React.Component<NodeProps> {
     }
 
     if (this.props.renderNode.node.router) {
-      const kases =
-        (this.props.renderNode.node.router as SwitchRouter).cases || [];
+      const kases = (this.props.renderNode.node.router as SwitchRouter).cases || [];
       for (const kase of kases) {
         if (!getOperatorConfig(kase.type)) {
           return true;
@@ -267,40 +258,30 @@ export class NodeComp extends React.Component<NodeProps> {
         ref: (ref: any) => (this.firstAction = ref)
       };
 
-      this.props.renderNode.node.actions.forEach(
-        (action: AnyAction, idx: number) => {
-          const actionConfig = getTypeConfig(action.type);
+      this.props.renderNode.node.actions.forEach((action: AnyAction, idx: number) => {
+        const actionConfig = getTypeConfig(action.type);
 
-          if (
-            actionConfig.hasOwnProperty("component") &&
-            actionConfig.component
-          ) {
-            const { component: ActionDiv } = actionConfig;
-            actions.push(
-              <ActionWrapper
-                {...firstRef}
-                key={action.uuid}
-                renderNode={this.props.renderNode}
-                selected={this.props.selected}
-                action={action}
-                first={idx === 0}
-                render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
-              />
-            );
-          }
-
-          firstRef = {};
+        if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
+          const { component: ActionDiv } = actionConfig;
+          actions.push(
+            <ActionWrapper
+              {...firstRef}
+              key={action.uuid}
+              renderNode={this.props.renderNode}
+              selected={this.props.selected}
+              action={action}
+              first={idx === 0}
+              render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
+            />
+          );
         }
-      );
+
+        firstRef = {};
+      });
 
       actionList =
         actions.length > 0 ? (
-          <FlipMove
-            enterAnimation="fade"
-            leaveAnimation="fade"
-            duration={300}
-            easing="ease-out"
-          >
+          <FlipMove enterAnimation="fade" leaveAnimation="fade" duration={300} easing="ease-out">
             {actions}
           </FlipMove>
         ) : null;
@@ -330,11 +311,9 @@ export class NodeComp extends React.Component<NodeProps> {
           title = `Split by ${this.props.renderNode.ui.config.operand.name}`;
         } else {
           if (this.props.renderNode.ui.type === Types.split_by_expression) {
-            title = "Split by Expression";
-          } else if (
-            this.props.renderNode.ui.type === Types.wait_for_response
-          ) {
-            title = "Wait for Message";
+            title = 'Split by Expression';
+          } else if (this.props.renderNode.ui.type === Types.wait_for_response) {
+            title = 'Wait for Message';
           }
         }
 
@@ -355,9 +334,7 @@ export class NodeComp extends React.Component<NodeProps> {
           this.props.renderNode.ui.type === Types.split_by_run_result_delimited)
       ) {
         if (this.props.renderNode.ui.config.operand.id in this.props.results) {
-          title = `Split by ${
-            this.props.results[this.props.renderNode.ui.config.operand.id].name
-          }`;
+          title = `Split by ${this.props.results[this.props.renderNode.ui.config.operand.id].name}`;
         } else {
           title = `Missing ${this.props.renderNode.ui.config.operand.id}`;
         }
@@ -367,20 +344,15 @@ export class NodeComp extends React.Component<NodeProps> {
         title = config.name;
       }
 
-      if (
-        !this.props.renderNode.node.actions ||
-        !this.props.renderNode.node.actions.length
-      ) {
+      if (!this.props.renderNode.node.actions || !this.props.renderNode.node.actions.length) {
         // Router headers are introduced here while action headers are introduced in ./Action/Action
 
         header = (
           // Wrap in a relative parent so it honors node clipping
-          <div style={{ position: "relative" }}>
+          <div style={{ position: 'relative' }}>
             <div {...this.events}>
               <TitleBar
-                __className={
-                  (shared as any)[this.hasMissing() ? "missing" : config.type]
-                }
+                __className={(shared as any)[this.hasMissing() ? 'missing' : config.type]}
                 showRemoval={!this.props.translating}
                 onRemoval={this.handleRemoval}
                 shouldCancelClick={this.handleShouldCancelClick}
@@ -396,10 +368,7 @@ export class NodeComp extends React.Component<NodeProps> {
         addActions = (
           <div
             className={styles.add}
-            {...createClickHandler(
-              this.handleAddToNode,
-              this.handleShouldCancelClick
-            )}
+            {...createClickHandler(this.handleAddToNode, this.handleShouldCancelClick)}
           >
             <span className="fe-add" />
           </div>
@@ -410,7 +379,7 @@ export class NodeComp extends React.Component<NodeProps> {
     const exits: JSX.Element[] = this.getExits();
 
     const classes = cx({
-      "plumb-drag": true,
+      'plumb-drag': true,
       [styles.ghost]: this.props.ghost,
       [styles.flow_start]: this.isStartNodeVisible(),
       [styles.selected]: this.isSelected()
@@ -433,14 +402,11 @@ export class NodeComp extends React.Component<NodeProps> {
           <Counter
             count={this.props.activeCount}
             containerStyle={styles.active}
-            countStyle={""}
+            countStyle={''}
             keepVisible={this.props.simulating}
             onClick={() => {
               if (this.context.config.onActivityClicked) {
-                this.context.config.onActivityClicked(
-                  this.props.nodeUUID,
-                  this.props.activeCount
-                );
+                this.context.config.onActivityClicked(this.props.nodeUUID, this.props.activeCount);
               }
             }}
           />
@@ -473,14 +439,7 @@ const mapStateToProps = (
         results: { items }
       }
     },
-    editorState: {
-      translating,
-      debug,
-      ghostNode,
-      simulating,
-      containerOffset,
-      activity
-    }
+    editorState: { translating, debug, ghostNode, simulating, containerOffset, activity }
   }: AppState,
   props: NodePassedProps
 ) => {

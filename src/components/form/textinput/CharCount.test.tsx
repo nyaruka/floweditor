@@ -2,9 +2,9 @@ import CharCount from 'components/form/textinput/CharCount';
 import React from 'react';
 import { render } from 'test/utils';
 
-describe("CharCount >", () => {
-  describe("render >", () => {
-    it("should display count", () => {
+describe('CharCount >', () => {
+  describe('render >', () => {
+    it('should display count', () => {
       const count = 67;
       const parts = 2;
       const unicodeChars = {};
@@ -19,14 +19,14 @@ describe("CharCount >", () => {
       const count = 67;
       const parts = 2;
       const unicodeChars = {
-        "💩": true,
-        "🚨": true
+        '💩': true,
+        '🚨': true
       };
       const { getByTestId } = render(
         <CharCount count={count} parts={parts} unicodeChars={unicodeChars} />
       );
 
-      expect(getByTestId("unicode-list")).toMatchSnapshot();
+      expect(getByTestId('unicode-list')).toMatchSnapshot();
     });
 
     it("shouldn't render UnicodeList if 'unicodeChars' prop isn't substantive", () => {
@@ -37,7 +37,7 @@ describe("CharCount >", () => {
         <CharCount count={count} parts={parts} unicodeChars={unicodeChars} />
       );
 
-      expect(queryByTestId("unicode-list")).toBeNull();
+      expect(queryByTestId('unicode-list')).toBeNull();
     });
   });
 });

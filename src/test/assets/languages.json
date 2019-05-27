@@ -1,16 +1,16 @@
 {
-    "results": [
-        {
-            "iso": "eng", 
-            "name": "English"
-        },
-        {
-            "iso": "spa", 
-            "name": "Spanish"
-        }, 
-        {
-            "iso": "fra", 
-            "name": "French"
-        }
-    ]
+  "results": [
+    {
+      "iso": "eng",
+      "name": "English"
+    },
+    {
+      "iso": "spa",
+      "name": "Spanish"
+    },
+    {
+      "iso": "fra",
+      "name": "French"
+    }
+  ]
 }

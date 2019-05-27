@@ -35,7 +35,7 @@ export default class MultiChoiceInput extends React.Component<
       };
     } else {
       this.state = {
-        currentInput: { value: "" }
+        currentInput: { value: '' }
       };
     }
 
@@ -62,11 +62,11 @@ export default class MultiChoiceInput extends React.Component<
         const newItem = this.state.currentInput.value.trim();
 
         if (this.props.onItemAdded(newItem)) {
-          this.setState({ currentInput: { value: "" } });
+          this.setState({ currentInput: { value: '' } });
         }
 
         if (this.props.onEntryChanged) {
-          this.props.onEntryChanged({ value: "" });
+          this.props.onEntryChanged({ value: '' });
         }
       }
     }, 0);
@@ -74,11 +74,7 @@ export default class MultiChoiceInput extends React.Component<
   }
 
   private handleValidateEmpty(): void {
-    const currentInput = validate(
-      this.props.name,
-      this.state.currentInput.value,
-      [Empty]
-    );
+    const currentInput = validate(this.props.name, this.state.currentInput.value, [Empty]);
     this.setState({ currentInput }, () => {
       if (this.props.onEntryChanged) {
         this.props.onEntryChanged(currentInput);
@@ -94,7 +90,7 @@ export default class MultiChoiceInput extends React.Component<
             <div key={`item_${item}`} className={styles.item}>
               <Pill
                 icon="fe-x"
-                text={" " + item}
+                text={' ' + item}
                 large={true}
                 onClick={() => {
                   this.props.onRemoved(item);

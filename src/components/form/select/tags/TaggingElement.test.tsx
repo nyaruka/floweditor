@@ -4,19 +4,17 @@ import { render } from 'react-testing-library';
 import TaggingElement, { TaggingElementProps } from './TaggingElement';
 
 const taggingElementProps: TaggingElementProps = {
-  entry: { value: ["Red", "Green", "Blue"] },
-  prompt: "Enter a Color",
-  name: "Color",
+  entry: { value: ['Red', 'Green', 'Blue'] },
+  prompt: 'Enter a Color',
+  name: 'Color',
   onCheckValid: jest.fn(),
   onChange: jest.fn()
 };
 
 describe(TaggingElement.name, () => {
-  describe("render", () => {
-    it("should render self, children", () => {
-      const { getAllByDisplayValue } = render(
-        <TaggingElement {...taggingElementProps} />
-      );
+  describe('render', () => {
+    it('should render self, children', () => {
+      const { getAllByDisplayValue } = render(<TaggingElement {...taggingElementProps} />);
       expect(getAllByDisplayValue(/Red|Green|Blue/)).toMatchSnapshot();
     });
   });

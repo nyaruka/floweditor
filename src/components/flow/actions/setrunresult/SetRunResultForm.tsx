@@ -46,27 +46,19 @@ export default class SetRunResultForm extends React.PureComponent<
     return this.handleUpdate({ category });
   }
 
-  private handleUpdate(keys: {
-    name?: Asset;
-    value?: string;
-    category?: string;
-  }): boolean {
+  private handleUpdate(keys: { name?: Asset; value?: string; category?: string }): boolean {
     const updates: Partial<SetRunResultFormState> = {};
 
-    if (keys.hasOwnProperty("name")) {
-      updates.name = validate("Name", keys.name, [
-        Required,
-        Alphanumeric,
-        StartIsNonNumeric
-      ]);
+    if (keys.hasOwnProperty('name')) {
+      updates.name = validate('Name', keys.name, [Required, Alphanumeric, StartIsNonNumeric]);
     }
 
-    if (keys.hasOwnProperty("value")) {
-      updates.value = validate("Value", keys.value, []);
+    if (keys.hasOwnProperty('value')) {
+      updates.value = validate('Value', keys.value, []);
     }
 
-    if (keys.hasOwnProperty("category")) {
-      updates.category = validate("Category", keys.category, []);
+    if (keys.hasOwnProperty('category')) {
+      updates.category = validate('Category', keys.category, []);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -81,9 +73,7 @@ export default class SetRunResultForm extends React.PureComponent<
     });
 
     if (valid) {
-      this.props.updateAction(
-        stateToAction(this.props.nodeSettings, this.state)
-      );
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
       // notify our modal we are done
       this.props.onClose(false);
@@ -92,8 +82,8 @@ export default class SetRunResultForm extends React.PureComponent<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -108,16 +98,8 @@ export default class SetRunResultForm extends React.PureComponent<
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.form}>
           <AssetSelector
             name="Result"

@@ -31,10 +31,7 @@ const hexToRgb = (hex: string): Color => {
     : null;
 };
 
-export default class Loading extends React.Component<
-  LoadingProps,
-  LoadingState
-> {
+export default class Loading extends React.Component<LoadingProps, LoadingState> {
   constructor(props: LoadingProps) {
     super(props);
 
@@ -56,7 +53,7 @@ export default class Loading extends React.Component<
           <div
             key={`ball_${num}`}
             style={{
-              borderRadius: this.props.square ? "0" : "50%",
+              borderRadius: this.props.square ? '0' : '50%',
               width: this.props.size,
               height: this.props.size,
               margin: this.props.size / 3,

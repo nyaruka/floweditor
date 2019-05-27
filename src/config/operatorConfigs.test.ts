@@ -1,11 +1,7 @@
-import {
-  getOperatorConfig,
-  operatorConfigList,
-  operatorConfigMap
-} from "config/operatorConfigs";
+import { getOperatorConfig, operatorConfigList, operatorConfigMap } from 'config/operatorConfigs';
 
-describe("Providers: ConfigProvider: operatorConfigs", () => {
-  it("should provide operator config", () => {
+describe('Providers: ConfigProvider: operatorConfigs', () => {
+  it('should provide operator config', () => {
     expect(operatorConfigList).toMatchSnapshot();
     expect(operatorConfigMap).toMatchSnapshot();
 

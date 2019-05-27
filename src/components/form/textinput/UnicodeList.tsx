@@ -11,11 +11,11 @@ export interface UnicodeListProps {
 export const utfWarning = (num: number) =>
   ` Note that your message may require more segments to send because it contains the following ${pluralize(
     num,
-    "character"
+    'character'
   )}:`;
 
-export const unicodeListContainerSpecId = "unicode-list-container";
-export const unicodeListSpecId = "unicode-list";
+export const unicodeListContainerSpecId = 'unicode-list-container';
+export const unicodeListSpecId = 'unicode-list';
 
 const UnicodeList: React.SFC<UnicodeListProps> = ({ unicodeChars }) => {
   const chars = Object.keys(unicodeChars);

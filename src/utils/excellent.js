@@ -50,30 +50,30 @@ export var excellent = () => {
       return null;
     }
 
-    var fragment = "";
+    var fragment = '';
     var skipChar = false;
     var neededParentheses = [];
     var inQuotes = false;
-    var prependFlag = "";
+    var prependFlag = '';
 
     for (var pos = partialExpression.length - 1; pos >= 0; pos--) {
       var ch = partialExpression[pos];
 
-      if (ch === " ") {
+      if (ch === ' ') {
         skipChar = true;
       }
 
-      if (ch === ",") {
+      if (ch === ',') {
         skipChar = true;
-        if (neededParentheses[neededParentheses.length - 1] != "(") {
-          neededParentheses.push("(");
+        if (neededParentheses[neededParentheses.length - 1] != '(') {
+          neededParentheses.push('(');
         }
       }
 
-      if (ch === ")" && !inQuotes) {
+      if (ch === ')' && !inQuotes) {
         skipChar = true;
-        neededParentheses.push("(");
-        neededParentheses.push("(");
+        neededParentheses.push('(');
+        neededParentheses.push('(');
       }
 
       if (ch === '"') {
@@ -81,8 +81,8 @@ export var excellent = () => {
       }
 
       if (skipChar) {
-        if (ch === "(" && !inQuotes) {
-          if (neededParentheses[neededParentheses.length - 1] == "(") {
+        if (ch === '(' && !inQuotes) {
+          if (neededParentheses[neededParentheses.length - 1] == '(') {
             neededParentheses.pop();
           }
 
@@ -92,15 +92,15 @@ export var excellent = () => {
         }
       }
 
-      if (ch === "(" && fragment == "") {
-        prependFlag = "#";
+      if (ch === '(' && fragment == '') {
+        prependFlag = '#';
       }
 
-      if (skipChar || inQuotes || (ch === "(" && fragment == "")) {
+      if (skipChar || inQuotes || (ch === '(' && fragment == '')) {
         continue;
       }
 
-      if (isWordChar(ch) || ch === ".") {
+      if (isWordChar(ch) || ch === '.') {
         fragment = ch + fragment;
       } else {
         break;
@@ -136,25 +136,25 @@ export var excellent = () => {
 
     // initial state is string literal if number of quotes is odd
     var state = inString ? STATE_IGNORE : STATE_STRING_LITERAL;
-    var identifier = "";
+    var identifier = '';
     var parenthesesLevel = 0;
 
     for (var pos = partialExpression.length - 1; pos >= 0; pos--) {
       var ch = partialExpression[pos];
 
       if (state == STATE_IGNORE) {
-        if (parenthesesLevel == 0 && (isWordChar(ch) || ch === ".")) {
+        if (parenthesesLevel == 0 && (isWordChar(ch) || ch === '.')) {
           state = STATE_IDENTIFIER;
           identifier = ch + identifier;
         } else if (ch == '"') {
           state = STATE_STRING_LITERAL;
-        } else if (ch === "(") {
+        } else if (ch === '(') {
           parenthesesLevel--;
-        } else if (ch === ")") {
+        } else if (ch === ')') {
           parenthesesLevel++;
         }
       } else if (state == STATE_IDENTIFIER) {
-        if (isWordChar(ch) || ch === ".") {
+        if (isWordChar(ch) || ch === '.') {
           identifier = ch + identifier;
         } else {
           return identifier;
@@ -186,22 +186,16 @@ export var excellent = () => {
       var nextNextCh = pos < text.length - 2 ? text[pos + 2] : 0;
 
       if (state == STATE_BODY) {
-        if (
-          ch == this.expressionPrefix &&
-          (isWordChar(nextCh) || nextCh == "(")
-        ) {
+        if (ch == this.expressionPrefix && (isWordChar(nextCh) || nextCh == '(')) {
           state = STATE_PREFIX;
           currentExpression = { start: pos, end: null, text: ch };
-        } else if (
-          ch == this.expressionPrefix &&
-          nextCh == this.expressionPrefix
-        ) {
+        } else if (ch == this.expressionPrefix && nextCh == this.expressionPrefix) {
           state = STATE_ESCAPED_PREFIX;
         }
       } else if (state == STATE_PREFIX) {
         if (isWordChar(ch)) {
           state = STATE_IDENTIFIER; // we're parsing an expression like @XXX
-        } else if (ch == "(") {
+        } else if (ch == '(') {
           // we're parsing an expression like @(1 + 2)
           state = STATE_BALANCED;
           parenthesesLevel += 1;
@@ -210,9 +204,9 @@ export var excellent = () => {
       } else if (state == STATE_IDENTIFIER) {
         currentExpression.text += ch;
       } else if (state == STATE_BALANCED) {
-        if (ch == "(") {
+        if (ch == '(') {
           parenthesesLevel += 1;
-        } else if (ch == ")") {
+        } else if (ch == ')') {
           parenthesesLevel -= 1;
         } else if (ch == '"') {
           state = STATE_STRING_LITERAL;
@@ -239,28 +233,18 @@ export var excellent = () => {
       //  3. next char is a period, but it's not followed by a word character
       if (state == STATE_IDENTIFIER) {
         if (
-          (!isWordChar(nextCh) && nextCh !== ".") ||
-          (nextCh === "." && !isWordChar(nextNextCh))
+          (!isWordChar(nextCh) && nextCh !== '.') ||
+          (nextCh === '.' && !isWordChar(nextNextCh))
         ) {
           currentExpression.end = pos + 1;
         }
       }
 
-      if (
-        currentExpression != null &&
-        (currentExpression.end != null || nextCh === 0)
-      ) {
+      if (currentExpression != null && (currentExpression.end != null || nextCh === 0)) {
         var allowIncomplete = nextCh === 0; // if we're at the end of the input, allow incomplete expressions
 
-        if (
-          isValidStart(
-            currentExpression.text,
-            this.allowedTopLevels,
-            allowIncomplete
-          )
-        ) {
-          currentExpression.closed =
-            currentExpression.text[1] === "(" && parenthesesLevel == 0;
+        if (isValidStart(currentExpression.text, this.allowedTopLevels, allowIncomplete)) {
+          currentExpression.closed = currentExpression.text[1] === '(' && parenthesesLevel == 0;
           currentExpression.end = pos + 1;
           expressions.push(currentExpression);
         }
@@ -279,11 +263,11 @@ export var excellent = () => {
   function isValidStart(partialExpression, allowedTopLevels, allowIncomplete) {
     var body = partialExpression.substring(1); // strip prefix
 
-    if (body[0] === "(") {
+    if (body[0] === '(') {
       return true;
     } else {
       // if expression doesn't start with ( then check it's an allowed top level context reference
-      var topLevel = body.split(".")[0].toLowerCase();
+      var topLevel = body.split('.')[0].toLowerCase();
 
       if (allowIncomplete) {
         for (var n = 0; n < allowedTopLevels.length; n++) {
@@ -310,10 +294,7 @@ export var excellent = () => {
    */
   function isWordChar(ch) {
     return (
-      (ch >= "a" && ch <= "z") ||
-      (ch >= "A" && ch <= "Z") ||
-      (ch >= "0" && ch <= "9") ||
-      ch == "_"
+      (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch == '_'
     );
   }
 };

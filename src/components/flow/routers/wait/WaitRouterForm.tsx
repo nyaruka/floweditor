@@ -15,10 +15,7 @@ export interface WaitRouterFormState extends FormState {
   resultName: StringEntry;
 }
 
-export default class WaitRouterForm extends React.Component<
-  RouterFormProps,
-  WaitRouterFormState
-> {
+export default class WaitRouterForm extends React.Component<RouterFormProps, WaitRouterFormState> {
   constructor(props: RouterFormProps) {
     super(props);
 
@@ -30,10 +27,7 @@ export default class WaitRouterForm extends React.Component<
   }
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate("Result Name", value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -51,8 +45,8 @@ export default class WaitRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -60,21 +54,10 @@ export default class WaitRouterForm extends React.Component<
     const typeConfig = this.props.typeConfig;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.result_name}>
-          {createResultNameInput(
-            this.state.resultName,
-            this.handleUpdateResultName
-          )}
+          {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         </div>
       </Dialog>
     );

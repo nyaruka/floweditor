@@ -48,7 +48,7 @@ import { RenderNode } from 'store/flowContext';
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
   return typeConfigs.filter(config => {
-    if (config.type === "missing") {
+    if (config.type === 'missing') {
       return false;
     }
     const { name: key } = config;
@@ -68,147 +68,143 @@ export interface Scheme {
 }
 
 export const SCHEMES: Scheme[] = [
-  { scheme: "ext", name: "External ID" },
-  { scheme: "facebook", name: "Facebook ID" },
-  { scheme: "fcm", name: "Firebase ID" },
-  { scheme: "jiochat", name: "Jiochat ID" },
-  { scheme: "line", name: "Line ID" },
-  { scheme: "mailto", name: "Email Address" },
-  { scheme: "tel", name: "Phone Number" },
-  { scheme: "telegram", name: "Telegram ID" },
-  { scheme: "twitterid", name: "Twitter ID" },
-  { scheme: "wechat", name: "Wechat ID" },
-  { scheme: "whatsapp", name: "Whatsapp Number" },
-  { scheme: "viber", name: "Viber ID" }
+  { scheme: 'ext', name: 'External ID' },
+  { scheme: 'facebook', name: 'Facebook ID' },
+  { scheme: 'fcm', name: 'Firebase ID' },
+  { scheme: 'jiochat', name: 'Jiochat ID' },
+  { scheme: 'line', name: 'Line ID' },
+  { scheme: 'mailto', name: 'Email Address' },
+  { scheme: 'tel', name: 'Phone Number' },
+  { scheme: 'telegram', name: 'Telegram ID' },
+  { scheme: 'twitterid', name: 'Twitter ID' },
+  { scheme: 'wechat', name: 'Wechat ID' },
+  { scheme: 'whatsapp', name: 'Whatsapp Number' },
+  { scheme: 'viber', name: 'Viber ID' }
 ];
 
 export const typeConfigList: Type[] = [
   {
     type: Types.missing,
-    name: "Missing",
-    description: " ** Unsupported ** ",
+    name: 'Missing',
+    description: ' ** Unsupported ** ',
     component: MissingComp,
     visibility: HIDDEN
   },
 
   {
     type: Types.say_msg,
-    name: "Play Message",
-    description: "Play a message",
+    name: 'Play Message',
+    description: 'Play a message',
     form: SayMsgForm,
     localization: MsgLocalizationForm,
-    localizeableKeys: ["text", "audio_url"],
+    localizeableKeys: ['text', 'audio_url'],
     component: SayMsgComp,
     visibility: VOICE
   },
 
   {
     type: Types.wait_for_menu,
-    name: "Wait for Menu Selection",
-    description: "Wait for menu selection",
+    name: 'Wait for Menu Selection',
+    description: 'Wait for menu selection',
     form: MenuRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     visibility: VOICE
   },
   {
     type: Types.wait_for_digits,
-    name: "Wait for Digits",
-    description: "Wait for multiple digits",
+    name: 'Wait for Digits',
+    description: 'Wait for multiple digits',
     form: DigitsRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits", "cases"],
+    localizeableKeys: ['exits', 'cases'],
     visibility: VOICE
   },
 
   {
     type: Types.send_msg,
-    name: "Send Message",
-    description: "Send the contact a message",
+    name: 'Send Message',
+    description: 'Send the contact a message',
     form: SendMsgForm,
     localization: MsgLocalizationForm,
-    localizeableKeys: ["text", "quick_replies"],
+    localizeableKeys: ['text', 'quick_replies'],
     component: SendMsgComp
   },
   {
     type: Types.wait_for_response,
-    name: "Wait for Response",
-    description: "Wait for the contact to respond",
+    name: 'Wait for Response',
+    description: 'Wait for the contact to respond',
     form: ResponseRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits", "cases"],
+    localizeableKeys: ['exits', 'cases'],
     aliases: [RouterTypes.switch],
     visibility: TEXT_TYPES
   },
 
   {
     type: Types.send_broadcast,
-    name: "Send Broadcast",
-    description: "Send somebody else a message",
+    name: 'Send Broadcast',
+    description: 'Send somebody else a message',
     form: SendBroadcastForm,
     localization: MsgLocalizationForm,
-    localizeableKeys: ["text"],
+    localizeableKeys: ['text'],
     component: SendBroadcastComp
   },
   {
     type: Types.add_input_labels,
-    name: "Add Labels",
-    description: "Label the incoming message",
+    name: 'Add Labels',
+    description: 'Label the incoming message',
     form: AddLabelsForm,
     component: AddLabelsComp
   },
   {
     type: Types.add_contact_urn,
-    name: "Add URN",
-    description: "Add a URN for the contact",
+    name: 'Add URN',
+    description: 'Add a URN for the contact',
     form: AddURNForm,
     component: AddURNComp
   },
   {
     type: Types.add_contact_groups,
-    name: "Add to Group",
-    description: "Add the contact to a group",
+    name: 'Add to Group',
+    description: 'Add the contact to a group',
     form: AddGroupsForm,
     component: ChangeGroupsComp
   },
   {
     type: Types.remove_contact_groups,
-    name: "Remove from Group",
-    description: "Remove the contact from a group",
+    name: 'Remove from Group',
+    description: 'Remove the contact from a group',
     form: RemoveGroupsForm,
     component: ChangeGroupsComp
   },
   {
     type: Types.set_contact_field,
-    aliases: [
-      Types.set_contact_name,
-      Types.set_contact_language,
-      Types.set_contact_channel
-    ],
-    name: "Update Contact",
-    description: "Update the contact",
+    aliases: [Types.set_contact_name, Types.set_contact_language, Types.set_contact_channel],
+    name: 'Update Contact',
+    description: 'Update the contact',
     form: UpdateContactForm,
     component: UpdateContactComp
   },
   {
     type: Types.send_email,
-    name: "Send Email",
-    description: "Send an email",
+    name: 'Send Email',
+    description: 'Send an email',
     form: SendEmailForm,
     component: SendEmailComp
   },
   {
     type: Types.set_run_result,
-    name: "Save Flow Result",
-    description: "Save a result for this flow",
+    name: 'Save Flow Result',
+    description: 'Save a result for this flow',
     form: SetRunResultForm,
     component: SetRunResultComp
   },
 
   {
     type: Types.play_audio,
-    name: "Play Recording",
-    description: "Play a contact recording",
+    name: 'Play Recording',
+    description: 'Play a contact recording',
     form: PlayAudioForm,
     component: PlayAudioComp,
     visibility: VOICE
@@ -216,50 +212,50 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.call_webhook,
-    name: "Call Webhook",
-    description: "Call a webook",
+    name: 'Call Webhook',
+    description: 'Call a webook',
     form: WebhookRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     component: CallWebhookComp,
     aliases: [Types.split_by_webhook]
   },
   {
     type: Types.call_resthook,
-    name: "Call Zapier",
-    description: "Call Zapier",
+    name: 'Call Zapier',
+    description: 'Call Zapier',
     form: ResthookRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     component: CallResthookComp,
     aliases: [Types.split_by_resthook]
   },
   {
     type: Types.enter_flow,
-    name: "Enter a Flow",
-    description: "Enter another flow",
+    name: 'Enter a Flow',
+    description: 'Enter another flow',
     form: SubflowRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     component: StartFlowComp,
     aliases: [Types.split_by_subflow]
   },
   {
     type: Types.start_session,
-    name: "Start Somebody Else",
-    description: "Start somebody else in a flow",
+    name: 'Start Somebody Else',
+    description: 'Start somebody else in a flow',
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     form: StartSessionForm,
     component: StartSessionComp
   },
   {
     type: Types.transfer_airtime,
-    name: "Send Airtime",
-    description: "Send the contact airtime",
+    name: 'Send Airtime',
+    description: 'Send the contact airtime',
     form: AirtimeRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     component: TransferAirtimeComp,
     aliases: [Types.split_by_airtime]
   },
@@ -268,79 +264,79 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.wait_for_audio,
-    name: "Wait for Audio",
-    description: "Wait for an audio recording",
+    name: 'Wait for Audio',
+    description: 'Wait for an audio recording',
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     visibility: SURVEY
   },
   {
     type: Types.wait_for_image,
-    name: "Wait for Image",
-    description: "Wait for an image",
+    name: 'Wait for Image',
+    description: 'Wait for an image',
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     visibility: SURVEY
   },
   {
     type: Types.wait_for_video,
-    name: "Wait for Video",
-    description: "Wait for a video",
+    name: 'Wait for Video',
+    description: 'Wait for a video',
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     visibility: SURVEY
   },
   {
     type: Types.wait_for_location,
-    name: "Wait for Location",
-    description: "Wait for location GPS coordinates",
+    name: 'Wait for Location',
+    description: 'Wait for location GPS coordinates',
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     visibility: SURVEY
   },
   {
     type: Types.split_by_expression,
-    name: "Split by Expression",
-    description: "Split by a custom expression",
+    name: 'Split by Expression',
+    description: 'Split by a custom expression',
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits", "cases"],
+    localizeableKeys: ['exits', 'cases'],
     form: ExpressionRouterForm
   },
   {
     type: Types.split_by_contact_field,
-    name: "Split by Contact Field",
-    description: "Split by a contact field",
+    name: 'Split by Contact Field',
+    description: 'Split by a contact field',
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits", "cases"],
+    localizeableKeys: ['exits', 'cases'],
     form: FieldRouterForm
   },
   {
     type: Types.split_by_run_result,
     aliases: [Types.split_by_run_result_delimited],
-    name: "Split by Flow Result",
-    description: "Split by a result in the flow",
+    name: 'Split by Flow Result',
+    description: 'Split by a result in the flow',
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits", "cases"],
+    localizeableKeys: ['exits', 'cases'],
     form: ResultRouterForm
   },
   {
     type: Types.split_by_random,
-    name: "Split Randomly",
-    description: "Split by random chance",
+    name: 'Split Randomly',
+    description: 'Split by random chance',
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     form: RandomRouterForm
   },
   {
     type: Types.split_by_groups,
-    name: "Split by Group Membership",
-    description: "Split by group membership",
+    name: 'Split by Group Membership',
+    description: 'Split by group membership',
     localization: RouterLocalizationForm,
-    localizeableKeys: ["exits"],
+    localizeableKeys: ['exits'],
     form: GroupsRouterForm
   }
 
@@ -349,16 +345,13 @@ export const typeConfigList: Type[] = [
 
 export const configsToDisplay = dedupeTypeConfigs(typeConfigList);
 
-export const typeConfigMap: TypeMap = typeConfigList.reduce(
-  (map: TypeMap, typeConfig: Type) => {
-    map[typeConfig.type] = typeConfig;
-    if (typeConfig.aliases) {
-      typeConfig.aliases.forEach((alias: string) => (map[alias] = typeConfig));
-    }
-    return map;
-  },
-  {}
-);
+export const typeConfigMap: TypeMap = typeConfigList.reduce((map: TypeMap, typeConfig: Type) => {
+  map[typeConfig.type] = typeConfig;
+  if (typeConfig.aliases) {
+    typeConfig.aliases.forEach((alias: string) => (map[alias] = typeConfig));
+  }
+  return map;
+}, {});
 
 /**
  * Shortcut for constant lookup of type config in type configs map

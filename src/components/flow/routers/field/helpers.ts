@@ -1,20 +1,20 @@
-import { NAME_PROPERTY } from "components/flow/props";
-import { CaseProps } from "components/flow/routers/caselist/CaseList";
+import { NAME_PROPERTY } from 'components/flow/props';
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import {
   FieldRouterFormState,
   getRoutableFields
-} from "components/flow/routers/field/FieldRouterForm";
+} from 'components/flow/routers/field/FieldRouterForm';
 import {
   createCaseProps,
   createRenderNode,
   hasCases,
   resolveRoutes
-} from "components/flow/routers/helpers";
-import { DEFAULT_OPERAND } from "components/nodeeditor/constants";
-import { Types } from "config/interfaces";
-import { Router, RouterTypes, SwitchRouter } from "flowTypes";
-import { Asset, AssetStore, AssetType, RenderNode } from "store/flowContext";
-import { NodeEditorSettings, StringEntry } from "store/nodeEditor";
+} from 'components/flow/routers/helpers';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { Types } from 'config/interfaces';
+import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
+import { Asset, AssetStore, AssetType, RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 export const nodeToState = (
   settings: NodeEditorSettings,
@@ -23,14 +23,11 @@ export const nodeToState = (
   let initialCases: CaseProps[] = [];
 
   // TODO: work out an incremental result name
-  let resultName: StringEntry = { value: "" };
+  let resultName: StringEntry = { value: '' };
 
   let field: any = null;
 
-  if (
-    settings.originalNode &&
-    settings.originalNode.ui.type === Types.split_by_contact_field
-  ) {
+  if (settings.originalNode && settings.originalNode.ui.type === Types.split_by_contact_field) {
     const router = settings.originalNode.node.router as SwitchRouter;
 
     if (router) {
@@ -38,7 +35,7 @@ export const nodeToState = (
         initialCases = createCaseProps(router.cases, settings.originalNode);
       }
 
-      resultName = { value: router.result_name || "" };
+      resultName = { value: router.result_name || '' };
     }
 
     const operand = settings.originalNode.ui.config.operand;
@@ -52,9 +49,7 @@ export const nodeToState = (
 
     // couldn't find the asset, checkour routable fields
     if (!field) {
-      field = getRoutableFields().find(
-        (asset: Asset) => asset.id === operand.id
-      );
+      field = getRoutableFields().find((asset: Asset) => asset.id === operand.id);
     }
   }
 
@@ -75,15 +70,13 @@ export const stateToNode = (
   settings: NodeEditorSettings,
   state: FieldRouterFormState
 ): RenderNode => {
-  const {
-    cases,
-    exits,
-    defaultCategory: defaultExit,
-    caseConfig,
-    categories
-  } = resolveRoutes(state.cases, false, settings.originalNode.node);
+  const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
+    state.cases,
+    false,
+    settings.originalNode.node
+  );
 
-  const optionalRouter: Pick<Router, "result_name"> = {};
+  const optionalRouter: Pick<Router, 'result_name'> = {};
   if (state.resultName.value) {
     optionalRouter.result_name = state.resultName.value;
   }

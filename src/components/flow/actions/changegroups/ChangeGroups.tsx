@@ -5,10 +5,10 @@ import { ChangeGroups, Endpoints } from 'flowTypes';
 import * as React from 'react';
 import { AssetType } from 'store/flowContext';
 
-export const removeAllSpecId = "remove_from_all";
-export const contentSpecId = "content";
-export const removeAllText = "Remove from all groups";
-export const ellipsesText = "...";
+export const removeAllSpecId = 'remove_from_all';
+export const contentSpecId = 'content';
+export const removeAllText = 'Remove from all groups';
+export const ellipsesText = '...';
 
 export const MAX_TO_SHOW = 3;
 export const getRemoveAllMarkup = (
@@ -48,10 +48,7 @@ export const getChangeGroupsMarkup = (
   specId = contentSpecId
 ) => <div data-spec={specId}>{getContentMarkup(action, endpoints)}</div>;
 
-const ChangeGroupsComp: React.SFC<ChangeGroups> = (
-  props,
-  context: any
-): JSX.Element => {
+const ChangeGroupsComp: React.SFC<ChangeGroups> = (props, context: any): JSX.Element => {
   return getChangeGroupsMarkup(props, context.config.endpoints);
 };
 

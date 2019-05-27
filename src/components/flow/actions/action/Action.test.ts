@@ -5,9 +5,9 @@ import {
   actionOverlaySpecId,
   ActionWrapper,
   ActionWrapperProps
-} from "components/flow/actions/action/Action";
-import { getTypeConfig } from "config/typeConfigs";
-import { composeComponentTestUtils, getSpecWrapper, setMock } from "testUtils";
+} from 'components/flow/actions/action/Action';
+import { getTypeConfig } from 'config/typeConfigs';
+import { composeComponentTestUtils, getSpecWrapper, setMock } from 'testUtils';
 import {
   createExit,
   createRenderNode,
@@ -15,13 +15,13 @@ import {
   createStartFlowAction,
   createSubflowNode,
   English
-} from "testUtils/assetCreators";
-import { getLocalization, set, setFalse, setTrue } from "utils";
+} from 'testUtils/assetCreators';
+import { getLocalization, set, setFalse, setTrue } from 'utils';
 
 const sendMsgAction = createSendMsgAction();
 const sendMsgAction1 = createSendMsgAction({
-  uuid: "0ed4b887-2924-45ea-babe-4d580cdfb000",
-  text: "Yo!"
+  uuid: '0ed4b887-2924-45ea-babe-4d580cdfb000',
+  text: 'Yo!'
 });
 const sendMsgNode = createRenderNode({
   actions: [sendMsgAction],
@@ -32,7 +32,7 @@ const subflowNode = createSubflowNode(startFlowAction);
 const localization = {
   spa: {
     [sendMsgAction.uuid]: {
-      text: ["¡Hola!"]
+      text: ['¡Hola!']
     }
   }
 };
@@ -54,106 +54,86 @@ const baseProps: ActionWrapperProps = {
 const { setup, spyOn } = composeComponentTestUtils(ActionWrapper, baseProps);
 
 describe(ActionWrapper.name, () => {
-  describe("render", () => {
-    it("should render self, children with base props", () => {
+  describe('render', () => {
+    it('should render self, children with base props', () => {
       const { wrapper, props, instance } = setup(true, {
         render: setMock()
       });
       const { name } = getTypeConfig(props.action.type);
       const actionContainer = getSpecWrapper(wrapper, actionContainerSpecId);
 
-      expect(actionContainer.prop("id")).toBe(`action-${props.action.uuid}`);
-      expect(actionContainer.hasClass("action")).toBeTruthy();
-      expect(
-        getSpecWrapper(wrapper, actionOverlaySpecId).hasClass("overlay")
-      ).toBeTruthy();
-      expect(
-        getSpecWrapper(wrapper, actionInteractiveDivSpecId).exists()
-      ).toBeTruthy();
-      expect(wrapper.find("TitleBar").props()).toMatchSnapshot();
-      expect(
-        getSpecWrapper(wrapper, actionBodySpecId).hasClass("body")
-      ).toBeTruthy();
+      expect(actionContainer.prop('id')).toBe(`action-${props.action.uuid}`);
+      expect(actionContainer.hasClass('action')).toBeTruthy();
+      expect(getSpecWrapper(wrapper, actionOverlaySpecId).hasClass('overlay')).toBeTruthy();
+      expect(getSpecWrapper(wrapper, actionInteractiveDivSpecId).exists()).toBeTruthy();
+      expect(wrapper.find('TitleBar').props()).toMatchSnapshot();
+      expect(getSpecWrapper(wrapper, actionBodySpecId).hasClass('body')).toBeTruthy();
       expect(props.render).toHaveBeenCalledTimes(1);
-      expect(props.render).toHaveBeenCalledWith(
-        props.action,
-        instance.context.config.endpoints
-      );
+      expect(props.render).toHaveBeenCalledWith(props.action, instance.context.config.endpoints);
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should show move icon", () => {
+    it('should show move icon', () => {
       const { wrapper } = setup(true, { first: setFalse() });
 
-      expect(wrapper.find("TitleBar").prop("showMove")).toBeTruthy();
+      expect(wrapper.find('TitleBar').prop('showMove')).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should display translating style", () => {
+    it('should display translating style', () => {
       const { wrapper } = setup(true, { translating: setTrue() });
 
-      expect(
-        getSpecWrapper(wrapper, actionContainerSpecId).hasClass("translating")
-      ).toBeTruthy();
+      expect(getSpecWrapper(wrapper, actionContainerSpecId).hasClass('translating')).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should display not_localizable style", () => {
+    it('should display not_localizable style', () => {
       const { wrapper } = setup(true, {
         action: set(startFlowAction),
         translating: setTrue()
       });
 
       expect(
-        getSpecWrapper(wrapper, actionContainerSpecId).hasClass(
-          "not_localizable"
-        )
+        getSpecWrapper(wrapper, actionContainerSpecId).hasClass('not_localizable')
       ).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should display hybrid style", () => {
+    it('should display hybrid style', () => {
       const { wrapper, props } = setup(true, {
         renderNode: set(subflowNode)
       });
 
-      expect(
-        getSpecWrapper(wrapper, actionContainerSpecId).hasClass("has_router")
-      ).toBeTruthy();
+      expect(getSpecWrapper(wrapper, actionContainerSpecId).hasClass('has_router')).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should display missing_localization style", () => {
+    it('should display missing_localization style', () => {
       const { wrapper } = setup(true, {
         action: set(sendMsgAction1),
         translating: setTrue()
       });
 
       expect(
-        getSpecWrapper(wrapper, actionContainerSpecId).hasClass(
-          "missing_localization"
-        )
+        getSpecWrapper(wrapper, actionContainerSpecId).hasClass('missing_localization')
       ).toBeTruthy();
       expect(wrapper).toMatchSnapshot();
     });
   });
 
-  describe("instance methods", () => {
-    describe("handleActionClicked", () => {
-      it("should be called when interactive div is clicked", () => {
-        const onClickSpy = spyOn("handleActionClicked");
+  describe('instance methods', () => {
+    describe('handleActionClicked', () => {
+      it('should be called when interactive div is clicked', () => {
+        const onClickSpy = spyOn('handleActionClicked');
         const { wrapper } = setup();
-        const interactiveDiv = getSpecWrapper(
-          wrapper,
-          actionInteractiveDivSpecId
-        );
+        const interactiveDiv = getSpecWrapper(wrapper, actionInteractiveDivSpecId);
         const mockEvent = {
           preventDefault: jest.fn(),
           stopPropagation: jest.fn()
         };
 
-        interactiveDiv.simulate("mouseDown", mockEvent);
-        interactiveDiv.simulate("mouseUp", mockEvent);
+        interactiveDiv.simulate('mouseDown', mockEvent);
+        interactiveDiv.simulate('mouseUp', mockEvent);
 
         expect(onClickSpy).toHaveBeenCalledTimes(1);
 
@@ -183,8 +163,8 @@ describe(ActionWrapper.name, () => {
       });
     });
 
-    describe("handleRemoval", () => {
-      it("should call removeAction action creator", () => {
+    describe('handleRemoval', () => {
+      it('should call removeAction action creator', () => {
         const { props, instance } = setup(true, {
           removeAction: setMock()
         }) as { instance: ActionWrapper; props: ActionWrapperProps };
@@ -196,15 +176,12 @@ describe(ActionWrapper.name, () => {
         instance.handleRemoval(mockEvent);
 
         expect(props.removeAction).toHaveBeenCalledTimes(1);
-        expect(props.removeAction).toHaveBeenCalledWith(
-          props.renderNode.node.uuid,
-          props.action
-        );
+        expect(props.removeAction).toHaveBeenCalledWith(props.renderNode.node.uuid, props.action);
       });
     });
 
-    describe("onMoveUp", () => {
-      it("should call moveActionUp action creator", () => {
+    describe('onMoveUp', () => {
+      it('should call moveActionUp action creator', () => {
         const { props, instance } = setup(true, {
           moveActionUp: setMock()
         }) as { instance: ActionWrapper; props: ActionWrapperProps };
@@ -217,15 +194,12 @@ describe(ActionWrapper.name, () => {
         instance.handleMoveUp(mockEvent);
 
         expect(props.moveActionUp).toHaveBeenCalledTimes(1);
-        expect(props.moveActionUp).toHaveBeenCalledWith(
-          props.renderNode.node.uuid,
-          props.action
-        );
+        expect(props.moveActionUp).toHaveBeenCalledWith(props.renderNode.node.uuid, props.action);
       });
     });
 
-    describe("getAction", () => {
-      it("should return the action passed via props if not localized", () => {
+    describe('getAction', () => {
+      it('should return the action passed via props if not localized', () => {
         const { wrapper, props, instance } = setup(true, {
           node: set(sendMsgAction1)
         });
@@ -233,7 +207,7 @@ describe(ActionWrapper.name, () => {
         expect(instance.getAction()).toEqual(props.action);
       });
 
-      it("should return localized action if localized", () => {
+      it('should return localized action if localized', () => {
         const { wrapper, props, context, instance } = setup();
         const localizedObject = getLocalization(
           props.action,

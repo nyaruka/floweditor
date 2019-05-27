@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Action } from "flowTypes";
+import * as React from 'react';
+import { Action } from 'flowTypes';
 
-export const PLACEHOLDER = "Send a message to the contact";
+export const PLACEHOLDER = 'Send a message to the contact';
 
 /* istanbul ignore next */
 const MissingComp: React.SFC<Action> = ({ type }): JSX.Element => {

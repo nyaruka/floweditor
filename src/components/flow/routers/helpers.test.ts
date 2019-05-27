@@ -1,56 +1,39 @@
-import {
-  getSwitchRouter,
-  resolveRoutes
-} from "components/flow/routers/helpers";
-import {
-  createCases,
-  createMatchRouter,
-  createRoutes
-} from "testUtils/assetCreators";
+import { getSwitchRouter, resolveRoutes } from 'components/flow/routers/helpers';
+import { createCases, createMatchRouter, createRoutes } from 'testUtils/assetCreators';
 
-describe("routers", () => {
-  describe("system categories", () => {
-    it("creates all responses category", () => {
+describe('routers', () => {
+  describe('system categories', () => {
+    it('creates all responses category', () => {
       const { categories } = resolveRoutes(createCases([]), false, null);
       expect(categories.length).toBe(1);
-      expect(categories[0].name).toBe("All Responses");
+      expect(categories[0].name).toBe('All Responses');
     });
 
-    it("creates converts all responses category to other", () => {
+    it('creates converts all responses category to other', () => {
       const renderNode = createMatchRouter([]);
       const router = getSwitchRouter(renderNode.node);
       expect(router.categories.length).toBe(1);
-      expect(router.categories[0].name).toBe("All Responses");
+      expect(router.categories[0].name).toBe('All Responses');
 
       // now edit our node to add a rule
-      const { categories } = resolveRoutes(
-        createCases(["Red"]),
-        false,
-        renderNode.node
-      );
+      const { categories } = resolveRoutes(createCases(['Red']), false, renderNode.node);
       expect(categories.length).toBe(2);
-      expect(categories[1].name).toBe("Other");
+      expect(categories[1].name).toBe('Other');
     });
 
-    it("creates other category", () => {
-      const { categories } = resolveRoutes(
-        createCases(["Red", "Green", "Blue"]),
-        false,
-        null
-      );
+    it('creates other category', () => {
+      const { categories } = resolveRoutes(createCases(['Red', 'Green', 'Blue']), false, null);
       expect(categories.length).toBe(4);
-      expect(categories[categories.length - 1].name).toBe("Other");
+      expect(categories[categories.length - 1].name).toBe('Other');
     });
 
-    it("reuses other category", () => {
-      const renderNode = createMatchRouter(["Red", "Green", "Blue"]);
+    it('reuses other category', () => {
+      const renderNode = createMatchRouter(['Red', 'Green', 'Blue']);
       const originalCategories = renderNode.node.router.categories;
-      expect(originalCategories[originalCategories.length - 1].name).toBe(
-        "Other"
-      );
+      expect(originalCategories[originalCategories.length - 1].name).toBe('Other');
 
       const { categories } = resolveRoutes(
-        createCases(["Red", "Green", "Blue"]),
+        createCases(['Red', 'Green', 'Blue']),
         false,
         renderNode.node
       );
@@ -61,25 +44,19 @@ describe("routers", () => {
       );
     });
 
-    it("creates timeout category", () => {
-      const { categories } = resolveRoutes(
-        createCases(["Red", "Green", "Blue"]),
-        true,
-        null
-      );
+    it('creates timeout category', () => {
+      const { categories } = resolveRoutes(createCases(['Red', 'Green', 'Blue']), true, null);
       expect(categories.length).toBe(5);
-      expect(categories[categories.length - 1].name).toBe("No Response");
+      expect(categories[categories.length - 1].name).toBe('No Response');
     });
 
-    it("reuses timeout category", () => {
-      const renderNode = createMatchRouter(["Red", "Green", "Blue"], true);
+    it('reuses timeout category', () => {
+      const renderNode = createMatchRouter(['Red', 'Green', 'Blue'], true);
       const originalCategories = renderNode.node.router.categories;
-      expect(originalCategories[originalCategories.length - 1].name).toBe(
-        "No Response"
-      );
+      expect(originalCategories[originalCategories.length - 1].name).toBe('No Response');
 
       const { categories } = resolveRoutes(
-        createCases(["Red", "Green", "Blue"]),
+        createCases(['Red', 'Green', 'Blue']),
         true,
         renderNode.node
       );
@@ -91,13 +68,9 @@ describe("routers", () => {
     });
   });
 
-  describe("route resolving", () => {
-    it("chains cases to categories to exits", () => {
-      const { cases, categories, exits } = createRoutes([
-        "Red",
-        "Green",
-        "Blue"
-      ]);
+  describe('route resolving', () => {
+    it('chains cases to categories to exits', () => {
+      const { cases, categories, exits } = createRoutes(['Red', 'Green', 'Blue']);
 
       expect(cases.length).toEqual(3);
       expect(categories.length).toEqual(4);
@@ -112,26 +85,22 @@ describe("routers", () => {
       }
     });
 
-    it("ignores empty cases", () => {
-      const { cases } = createRoutes(["Red", "Green", "Blue", ""]);
+    it('ignores empty cases', () => {
+      const { cases } = createRoutes(['Red', 'Green', 'Blue', '']);
       expect(cases.length).toEqual(3);
     });
 
-    it("reuses existing categories and exits", () => {
+    it('reuses existing categories and exits', () => {
       // start off with a red case
-      const originalNode = createMatchRouter(["Red"]);
+      const originalNode = createMatchRouter(['Red']);
       const categories = originalNode.node.router.categories;
       const cases = getSwitchRouter(originalNode.node).cases;
       const exits = originalNode.node.exits;
 
-      expect(categories[0].name).toBe("Red");
-      expect(categories[1].name).toBe("Other");
+      expect(categories[0].name).toBe('Red');
+      expect(categories[1].name).toBe('Other');
 
-      const routes = resolveRoutes(
-        createCases(["Red", "Green", "Blue"]),
-        false,
-        originalNode.node
-      );
+      const routes = resolveRoutes(createCases(['Red', 'Green', 'Blue']), false, originalNode.node);
 
       // we now have three cases
       expect(routes.cases.length).toBe(3);

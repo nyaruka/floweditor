@@ -20,15 +20,15 @@ import { createUUID } from 'utils';
 
 const MESSAGE_DELAY_MS = 200;
 
-const MAP_THUMB = require("static/images/map.jpg");
-const IMAGE_A = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg";
-const IMAGE_B = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg";
-const IMAGE_C = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg";
-const AUDIO_A = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_audio_a.mp3";
-const VIDEO_A = "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4";
+const MAP_THUMB = require('static/images/map.jpg');
+const IMAGE_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg';
+const IMAGE_B = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg';
+const IMAGE_C = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg';
+const AUDIO_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_audio_a.mp3';
+const VIDEO_A = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4';
 
 const VIDEO_A_THUMB =
-  "https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg";
+  'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
 
 interface PostMessage {
   text: string;
@@ -58,13 +58,13 @@ export interface SimulatorPassedProps {
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
 
 enum DrawerType {
-  audio = "audio",
-  images = "images",
-  videos = "videos",
-  location = "location",
-  digit = "digit",
-  digits = "digits",
-  quickReplies = "quickReplies"
+  audio = 'audio',
+  images = 'images',
+  videos = 'videos',
+  location = 'location',
+  digit = 'digit',
+  digits = 'digits',
+  quickReplies = 'quickReplies'
 }
 
 interface SimulatorState {
@@ -161,11 +161,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       events: [],
       contact: {
         uuid: createUUID(),
-        urns: ["tel:+12065551212"],
+        urns: ['tel:+12065551212'],
         fields: {},
         groups: []
       },
-      keypadEntry: "",
+      keypadEntry: '',
       drawerHeight: 0,
       channel: createUUID(),
       time: getTime(),
@@ -203,7 +203,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         for (const step of run.path) {
           if (lastExit) {
-            const key = lastExit + ":" + step.node_uuid;
+            const key = lastExit + ':' + step.node_uuid;
             let pathCount = paths[key];
             if (!pathCount) {
               pathCount = 0;
@@ -214,7 +214,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           finalStep = step;
         }
 
-        if (run.status === "waiting" && finalStep) {
+        if (run.status === 'waiting' && finalStep) {
           let count = active[finalStep.node_uuid];
           if (!count) {
             count = 0;
@@ -294,7 +294,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               text: msg.text,
               attachments: msg.attachments
             },
-            type: "msg_created",
+            type: 'msg_created',
             created_on: new Date()
           }
         ];
@@ -303,7 +303,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       this.updateEvents(runContext.events, () => {
         let active = false;
         for (const run of runContext.session.runs) {
-          if (run.status === "waiting") {
+          if (run.status === 'waiting') {
             active = true;
             break;
           }
@@ -314,8 +314,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           newEvents = update(this.state.events, {
             $push: [
               {
-                type: "info",
-                text: "Exited flow",
+                type: 'info',
+                text: 'Exited flow',
                 created_on: new Date()
               }
             ]
@@ -330,26 +330,26 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         let drawerType = null;
         if (waitingForHint) {
           switch (runContext.session.wait.hint.type) {
-            case "audio":
+            case 'audio':
               drawerType = DrawerType.audio;
               break;
-            case "video":
+            case 'video':
               drawerType = DrawerType.videos;
               break;
-            case "image":
+            case 'image':
               drawerType = DrawerType.images;
               break;
-            case "location":
+            case 'location':
               drawerType = DrawerType.location;
               break;
-            case "digits":
+            case 'digits':
               drawerType = DrawerType.digit;
               if (runContext.session.wait.hint.count !== 1) {
                 drawerType = DrawerType.digits;
               }
               break;
             default:
-              console.log("Unknown hint", runContext.session.wait.hint.type);
+              console.log('Unknown hint', runContext.session.wait.hint.type);
           }
         }
 
@@ -396,16 +396,16 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           contact: this.state.contact,
           flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
           trigger: {
-            type: "manual",
+            type: 'manual',
             environment: {
-              date_format: "DD-MM-YYYY",
-              time_format: "hh:mm",
-              timezone: "America/New_York",
+              date_format: 'DD-MM-YYYY',
+              time_format: 'hh:mm',
+              timezone: 'America/New_York',
               languages: []
             },
             contact: {
               uuid: createUUID(),
-              urns: ["tel:+12065551212"],
+              urns: ['tel:+12065551212'],
               fields: {},
               groups: [],
               created_on: now
@@ -433,13 +433,13 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       return;
     }
 
-    if (text === "\\debug") {
+    if (text === '\\debug') {
       console.log(JSON.stringify(this.debug, null, 2));
       return;
     }
 
-    if (text === "\\recalc") {
-      console.log("recal..");
+    if (text === '\\recalc') {
+      console.log('recal..');
       // this.props.plumberRepaint();
       return;
     }
@@ -458,7 +458,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
         session: this.state.session,
         resume: {
-          type: "msg",
+          type: 'msg',
           msg,
           resumed_on: now,
           contact: this.state.session.contact
@@ -476,10 +476,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           const events = update(this.state.events, {
             $push: [
               {
-                type: "error",
+                type: 'error',
                 text:
                   error.response.status > 499
-                    ? "Server error, try again later"
+                    ? 'Server error, try again later'
                     : error.response.data.error
               }
             ]
@@ -518,10 +518,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   }
 
   private onKeyUp(event: any): void {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       const ele = event.target;
       const text = ele.value;
-      ele.value = "";
+      ele.value = '';
       this.resume(text);
     }
   }
@@ -570,7 +570,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div
           className={styles.drawer_item}
           onClick={() => {
-            this.sendAttachment("image/jpeg:" + IMAGE_A);
+            this.sendAttachment('image/jpeg:' + IMAGE_A);
           }}
         >
           <img src={IMAGE_A} alt="Attachment" />
@@ -578,7 +578,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div
           className={styles.drawer_item}
           onClick={() => {
-            this.sendAttachment("image/jpeg:" + IMAGE_B);
+            this.sendAttachment('image/jpeg:' + IMAGE_B);
           }}
         >
           <img src={IMAGE_B} alt="Attachment" />
@@ -586,7 +586,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div
           className={styles.drawer_item}
           onClick={() => {
-            this.sendAttachment("image/jpeg:" + IMAGE_C);
+            this.sendAttachment('image/jpeg:' + IMAGE_C);
           }}
         >
           <img src={IMAGE_C} alt="Attachment" />
@@ -600,7 +600,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       <div
         className={styles.map_thumb}
         onClick={() => {
-          this.sendAttachment("geo:2.904194,-79.003418");
+          this.sendAttachment('geo:2.904194,-79.003418');
         }}
       >
         <img src={MAP_THUMB} alt="Attachment" />
@@ -613,10 +613,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       <div
         className={styles.audio_picker}
         onClick={() => {
-          this.sendAttachment("audio/mp3:" + AUDIO_A);
+          this.sendAttachment('audio/mp3:' + AUDIO_A);
         }}
       >
-        <div className={styles.audio_icon + " fe-mic"} />
+        <div className={styles.audio_icon + ' fe-mic'} />
         <div className={styles.audio_message}>Upload Audio</div>
       </div>
     );
@@ -628,7 +628,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div
           className={styles.drawer_item}
           onClick={() => {
-            this.sendAttachment("video/mp4:" + VIDEO_A);
+            this.sendAttachment('video/mp4:' + VIDEO_A);
           }}
         >
           <img src={VIDEO_A_THUMB} alt="Attachment" />
@@ -636,7 +636,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div
           className={styles.drawer_item}
           onClick={() => {
-            this.sendAttachment("video/mp4:" + VIDEO_A);
+            this.sendAttachment('video/mp4:' + VIDEO_A);
           }}
         >
           <img src={VIDEO_A_THUMB} alt="Attachment" />
@@ -644,7 +644,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div
           className={styles.drawer_item}
           onClick={() => {
-            this.sendAttachment("video/mp4:" + VIDEO_A);
+            this.sendAttachment('video/mp4:' + VIDEO_A);
           }}
         >
           <img src={VIDEO_A_THUMB} alt="Attachment" />
@@ -675,9 +675,9 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     if (!multiple) {
       this.resume(btn);
     } else {
-      if (btn === "#") {
+      if (btn === '#') {
         this.resume(this.state.keypadEntry);
-        this.setState({ keypadEntry: "" });
+        this.setState({ keypadEntry: '' });
       } else {
         this.setState((prevState: SimulatorState) => {
           return { keypadEntry: prevState.keypadEntry += btn };
@@ -692,7 +692,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         {keys.map((key: string) => {
           return (
             <div
-              key={"btn_" + key}
+              key={'btn_' + key}
               onClick={() => {
                 this.handleKeyPress(key, multiple);
               }}
@@ -711,10 +711,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       <div className={styles.keypad}>
         {multiple ? <div className={styles.keypad_entry}>{this.state.keypadEntry}</div> : null}
         <div className={styles.keys}>
-          {this.getKeyRow(["1", "2", "3"], multiple)}
-          {this.getKeyRow(["4", "5", "6"], multiple)}
-          {this.getKeyRow(["7", "8", "9"], multiple)}
-          {this.getKeyRow(["*", "0", "#"], multiple)}
+          {this.getKeyRow(['1', '2', '3'], multiple)}
+          {this.getKeyRow(['4', '5', '6'], multiple)}
+          {this.getKeyRow(['7', '8', '9'], multiple)}
+          {this.getKeyRow(['*', '0', '#'], multiple)}
         </div>
       </div>
     );
@@ -765,10 +765,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         style={style}
         className={
           styles.drawer +
-          " " +
-          (this.state.drawerOpen ? styles.drawer_visible : "") +
-          " " +
-          (this.state.attachmentOptionsVisible ? "" : styles.forced)
+          ' ' +
+          (this.state.drawerOpen ? styles.drawer_visible : '') +
+          ' ' +
+          (this.state.attachmentOptionsVisible ? '' : styles.forced)
         }
       >
         {this.getDrawerContents()}
@@ -812,15 +812,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       <div
         className={
           styles.attachment_buttons +
-          " " +
-          (this.state.attachmentOptionsVisible ? styles.visible : "")
+          ' ' +
+          (this.state.attachmentOptionsVisible ? styles.visible : '')
         }
       >
         <div className="fe-x" onClick={this.handleHideAttachments} />
-        {this.getAttachmentButton("fe-picture2", DrawerType.images)}
-        {this.getAttachmentButton("fe-video", DrawerType.videos)}
-        {this.getAttachmentButton("fe-mic", DrawerType.audio)}
-        {this.getAttachmentButton("fe-map-marker", DrawerType.location)}
+        {this.getAttachmentButton('fe-picture2', DrawerType.images)}
+        {this.getAttachmentButton('fe-video', DrawerType.videos)}
+        {this.getAttachmentButton('fe-mic', DrawerType.audio)}
+        {this.getAttachmentButton('fe-map-marker', DrawerType.location)}
       </div>
     );
   }
@@ -851,11 +851,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   public render(): ReactNode {
     const messages: JSX.Element[] = [];
     for (const event of this.state.events) {
-      messages.push(<LogEvent {...event} key={event.type + "_" + String(event.created_on)} />);
+      messages.push(<LogEvent {...event} key={event.type + '_' + String(event.created_on)} />);
     }
 
-    const simHidden = !this.state.visible ? styles.sim_hidden : "";
-    const tabHidden = this.state.visible ? styles.tab_hidden : "";
+    const simHidden = !this.state.visible ? styles.sim_hidden : '';
+    const tabHidden = this.state.visible ? styles.tab_hidden : '';
 
     const messagesStyle: any = {
       height: 366 - (this.state.drawerOpen ? this.state.drawerHeight - 20 : 0)
@@ -869,16 +869,16 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     return (
       <div className={styles.sim_container}>
         <div>
-          <div id="simulator" className={styles.simulator + " " + simHidden} key={"sim"}>
+          <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
             <div className={styles.screen}>
               <div className={styles.header}>
-                <div className={styles.close + " fe-x"} onClick={this.onToggle} />
+                <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
               </div>
               <div className={styles.messages} style={messagesStyle}>
                 {messages}
                 <div
                   id="bottom"
-                  style={{ float: "left", clear: "both", marginTop: 20 }}
+                  style={{ float: 'left', clear: 'both', marginTop: 20 }}
                   ref={this.bottomRef}
                 />
               </div>
@@ -888,7 +888,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                   type="text"
                   onKeyUp={this.onKeyUp}
                   disabled={this.state.sprinting}
-                  placeholder={this.state.active ? "Enter message" : "Press home to start again"}
+                  placeholder={this.state.active ? 'Enter message' : 'Press home to start again'}
                 />
                 <div className={styles.show_attachments_button}>
                   <div
@@ -907,7 +907,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               <div className={styles.footer}>
                 <span
                   className={
-                    styles.reset + " " + (this.state.active ? styles.active : styles.inactive)
+                    styles.reset + ' ' + (this.state.active ? styles.active : styles.inactive)
                   }
                   onClick={this.onReset}
                 />
@@ -915,8 +915,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             </div>
           </div>
         </div>
-        <div className={styles.simulator_tab + " " + tabHidden} onClick={this.onToggle}>
-          <div className={styles.simulator_tab_icon + " fe-smartphone"} />
+        <div className={styles.simulator_tab + ' ' + tabHidden} onClick={this.onToggle}>
+          <div className={styles.simulator_tab_icon + ' fe-smartphone'} />
           <div className={styles.simulator_tab_text}>
             Run in
             <br />

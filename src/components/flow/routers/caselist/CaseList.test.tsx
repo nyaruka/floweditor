@@ -5,7 +5,7 @@ import { fireEvent, render } from 'test/utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
 
-mock(utils, "createUUID", utils.seededUUIDs());
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const caseUUID1 = utils.createUUID();
 const caseUUID2 = utils.createUUID();
@@ -16,10 +16,10 @@ const cases = [
     kase: {
       uuid: caseUUID1,
       type: Operators.has_any_word,
-      arguments: ["Red, r"],
+      arguments: ['Red, r'],
       category_uuid: utils.createUUID()
     },
-    categoryName: "Red",
+    categoryName: 'Red',
     valid: true
   },
   {
@@ -27,33 +27,29 @@ const cases = [
     kase: {
       uuid: caseUUID2,
       type: Operators.has_any_word,
-      arguments: ["Green, g"],
+      arguments: ['Green, g'],
       category_uuid: utils.createUUID()
     },
-    categoryName: "Green",
+    categoryName: 'Green',
     valid: true
   }
 ];
 
 describe(CaseList.name, () => {
-  describe("render", () => {
-    it("should render empty list", () => {
-      const { baseElement } = render(
-        <CaseList cases={[]} onCasesUpdated={jest.fn()} />
-      );
+  describe('render', () => {
+    it('should render empty list', () => {
+      const { baseElement } = render(<CaseList cases={[]} onCasesUpdated={jest.fn()} />);
       expect(baseElement).toMatchSnapshot();
     });
 
-    it("should render list of cases", () => {
-      const { baseElement } = render(
-        <CaseList cases={cases} onCasesUpdated={jest.fn()} />
-      );
+    it('should render list of cases', () => {
+      const { baseElement } = render(<CaseList cases={cases} onCasesUpdated={jest.fn()} />);
       expect(baseElement).toMatchSnapshot();
     });
   });
 
-  describe("updates", () => {
-    it("should remove cases", () => {
+  describe('updates', () => {
+    it('should remove cases', () => {
       const { baseElement, getByTestId, queryByTestId } = render(
         <CaseList cases={cases} onCasesUpdated={jest.fn()} />
       );
@@ -66,14 +62,14 @@ describe(CaseList.name, () => {
       expect(queryByTestId(removeCase)).toBeNull();
     });
 
-    it("should update cases", () => {
+    it('should update cases', () => {
       const onCasesUpdated = jest.fn();
       const { baseElement, getByDisplayValue } = render(
         <CaseList cases={cases} onCasesUpdated={onCasesUpdated} />
       );
 
-      const argsInput = getByDisplayValue("Red, r") as any;
-      fireEvent.change(argsInput, { target: { value: "Purple, p" } });
+      const argsInput = getByDisplayValue('Red, r') as any;
+      fireEvent.change(argsInput, { target: { value: 'Purple, p' } });
       expect(onCasesUpdated).toHaveBeenCalledTimes(1);
       expect(baseElement).toMatchSnapshot();
     });

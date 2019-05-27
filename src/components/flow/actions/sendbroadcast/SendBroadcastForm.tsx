@@ -9,7 +9,13 @@ import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import { AssetArrayEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import {
+  AssetArrayEntry,
+  FormState,
+  mergeForm,
+  StringEntry,
+  ValidationFailure
+} from 'store/nodeEditor';
 import { Required, validate } from 'store/validators';
 
 export interface SendBroadcastFormState extends FormState {
@@ -46,12 +52,12 @@ export default class SendBroadcastForm extends React.Component<
   private handleUpdate(keys: { text?: string; recipients?: Asset[] }): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
 
-    if (keys.hasOwnProperty("recipients")) {
-      updates.recipients = validate("Recipients", keys.recipients!, [Required]);
+    if (keys.hasOwnProperty('recipients')) {
+      updates.recipients = validate('Recipients', keys.recipients!, [Required]);
     }
 
-    if (keys.hasOwnProperty("text")) {
-      updates.message = validate("Message", keys.text!, [Required]);
+    if (keys.hasOwnProperty('text')) {
+      updates.message = validate('Message', keys.text!, [Required]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -67,9 +73,7 @@ export default class SendBroadcastForm extends React.Component<
     });
 
     if (valid) {
-      this.props.updateAction(
-        stateToAction(this.props.nodeSettings, this.state)
-      );
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
       // notify our modal we are done
       this.props.onClose(false);
@@ -78,24 +82,16 @@ export default class SendBroadcastForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
           name="Recipients"
           assets={this.props.assetStore.recipients}

@@ -1,26 +1,23 @@
-import { react as bindCallbacks } from "auto-bind";
-import * as React from "react";
-import Dialog, { ButtonSet } from "components/dialog/Dialog";
-import { hasErrors } from "components/flow/actions/helpers";
-import { RouterFormProps } from "components/flow/props";
-import CaseList, { CaseProps } from "components/flow/routers/caselist/CaseList";
-import {
-  nodeToState,
-  stateToNode
-} from "components/flow/routers/response/helpers";
-import { createResultNameInput } from "components/flow/routers/widgets";
-import TimeoutControl from "components/form/timeout/TimeoutControl";
-import TypeList from "components/nodeeditor/TypeList";
-import { FormState, StringEntry } from "store/nodeEditor";
-import { Alphanumeric, StartIsNonNumeric, validate } from "store/validators";
+import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import { hasErrors } from 'components/flow/actions/helpers';
+import { RouterFormProps } from 'components/flow/props';
+import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
+import { nodeToState, stateToNode } from 'components/flow/routers/response/helpers';
+import { createResultNameInput } from 'components/flow/routers/widgets';
+import TimeoutControl from 'components/form/timeout/TimeoutControl';
+import TypeList from 'components/nodeeditor/TypeList';
+import { FormState, StringEntry } from 'store/nodeEditor';
+import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 export enum InputToFocus {
-  args = "args",
-  min = "min",
-  max = "max",
-  exit = "exit"
+  args = 'args',
+  min = 'min',
+  max = 'max',
+  exit = 'exit'
 }
 
 export interface ResponseRouterFormState extends FormState {
@@ -29,7 +26,7 @@ export interface ResponseRouterFormState extends FormState {
   timeout: number;
 }
 
-export const leadInSpecId = "lead-in";
+export const leadInSpecId = 'lead-in';
 
 export default class ResponseRouterForm extends React.Component<
   RouterFormProps,
@@ -46,10 +43,7 @@ export default class ResponseRouterForm extends React.Component<
   }
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate("Result Name", value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -74,8 +68,8 @@ export default class ResponseRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -88,27 +82,17 @@ export default class ResponseRouterForm extends React.Component<
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         gutter={
-          <TimeoutControl
-            timeout={this.state.timeout}
-            onChanged={this.handleUpdateTimeout}
-          />
+          <TimeoutControl timeout={this.state.timeout} onChanged={this.handleUpdateTimeout} />
         }
       >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>If the message response...</div>
         <CaseList
           data-spec="cases"
           cases={this.state.cases}
           onCasesUpdated={this.handleCasesUpdated}
         />
-        {createResultNameInput(
-          this.state.resultName,
-          this.handleUpdateResultName
-        )}
+        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
       </Dialog>
     );
   }

@@ -1,7 +1,7 @@
-import CallResthookComp from "./CallResthook";
-import { CallResthook } from "flowTypes";
-import { composeComponentTestUtils } from "testUtils";
-import { createCallResthookAction } from "testUtils/assetCreators";
+import CallResthookComp from './CallResthook';
+import { CallResthook } from 'flowTypes';
+import { composeComponentTestUtils } from 'testUtils';
+import { createCallResthookAction } from 'testUtils/assetCreators';
 
 const callResthookAction = createCallResthookAction();
 
@@ -11,8 +11,8 @@ const { setup } = composeComponentTestUtils<CallResthook>(
 );
 
 describe(CallResthookComp.name, () => {
-  describe("render", () => {
-    it("should render self", () => {
+  describe('render', () => {
+    it('should render self', () => {
       const { wrapper, props } = setup();
       expect(wrapper.text()).toBe(props.resthook);
       expect(wrapper).toMatchSnapshot();

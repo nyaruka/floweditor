@@ -32,10 +32,7 @@ export default class DigitsRouterForm extends React.Component<
   }
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate("Result Name", value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -55,8 +52,8 @@ export default class DigitsRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -64,28 +61,15 @@ export default class DigitsRouterForm extends React.Component<
     const typeConfig = this.props.typeConfig;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
-        <p className={styles.lead_in}>
-          If the keypad entry before the # symbol..
-        </p>
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
+        <p className={styles.lead_in}>If the keypad entry before the # symbol..</p>
         <CaseList
           data-spec="cases"
           cases={this.state.cases}
           onCasesUpdated={this.handleCasesUpdated}
         />
-        {createResultNameInput(
-          this.state.resultName,
-          this.handleUpdateResultName
-        )}
+        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
       </Dialog>
     );
   }

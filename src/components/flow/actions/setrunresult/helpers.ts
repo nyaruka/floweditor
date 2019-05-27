@@ -1,18 +1,13 @@
-import { getActionUUID } from "components/flow/actions/helpers";
-import { SetRunResultFormState } from "components/flow/actions/setrunresult/SetRunResultForm";
-import { Types } from "config/interfaces";
-import { SetRunResult } from "flowTypes";
-import { AssetType } from "store/flowContext";
-import { NodeEditorSettings } from "store/nodeEditor";
-import { snakify } from "utils";
+import { getActionUUID } from 'components/flow/actions/helpers';
+import { SetRunResultFormState } from 'components/flow/actions/setrunresult/SetRunResultForm';
+import { Types } from 'config/interfaces';
+import { SetRunResult } from 'flowTypes';
+import { AssetType } from 'store/flowContext';
+import { NodeEditorSettings } from 'store/nodeEditor';
+import { snakify } from 'utils';
 
-export const initializeForm = (
-  settings: NodeEditorSettings
-): SetRunResultFormState => {
-  if (
-    settings.originalAction &&
-    settings.originalAction.type === Types.set_run_result
-  ) {
+export const initializeForm = (settings: NodeEditorSettings): SetRunResultFormState => {
+  if (settings.originalAction && settings.originalAction.type === Types.set_run_result) {
     const action = settings.originalAction as SetRunResult;
 
     return {
@@ -31,8 +26,8 @@ export const initializeForm = (
 
   return {
     name: { value: null },
-    value: { value: "" },
-    category: { value: "" },
+    value: { value: '' },
+    category: { value: '' },
     valid: false
   };
 };

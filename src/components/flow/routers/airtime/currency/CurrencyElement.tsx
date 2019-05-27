@@ -24,9 +24,7 @@ export interface CurrencyElementProps {
   onRemove(index: number): void;
 }
 
-export default class CurrencyElement extends React.Component<
-  CurrencyElementProps
-> {
+export default class CurrencyElement extends React.Component<CurrencyElementProps> {
   constructor(props: CurrencyElementProps) {
     super(props);
 
@@ -46,7 +44,7 @@ export default class CurrencyElement extends React.Component<
     const validationFailures: ValidationFailure[] = [];
     if (isNaN(Number(value))) {
       validationFailures.push({
-        message: "Invalid amount, please enter a number"
+        message: 'Invalid amount, please enter a number'
       });
     }
     this.props.onChange(this.props.index, {
@@ -56,9 +54,9 @@ export default class CurrencyElement extends React.Component<
   }
 
   public render(): JSX.Element {
-    let placeholder = "Transfer Amount";
+    let placeholder = 'Transfer Amount';
 
-    let amount = "";
+    let amount = '';
     let currency: any = null;
 
     if (this.props.transfer.value) {
@@ -68,7 +66,7 @@ export default class CurrencyElement extends React.Component<
         currency = { id: transfer.code };
       }
 
-      amount = "" + transfer.amount;
+      amount = '' + transfer.amount;
     }
 
     const amountInput =
@@ -104,11 +102,7 @@ export default class CurrencyElement extends React.Component<
     };
 
     return (
-      <FormElement
-        name="Currency"
-        entry={this.props.transfer}
-        __className={styles.form_element}
-      >
+      <FormElement name="Currency" entry={this.props.transfer} __className={styles.form_element}>
         <div className={styles.transfer}>
           <div className={styles.currency}>
             <AssetSelector

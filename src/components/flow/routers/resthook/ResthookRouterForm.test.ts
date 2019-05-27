@@ -1,4 +1,4 @@
-import { composeComponentTestUtils, mock, setMock } from "testUtils";
+import { composeComponentTestUtils, mock, setMock } from 'testUtils';
 import {
   ColorFlowAsset,
   createStartFlowAction,
@@ -7,29 +7,26 @@ import {
   createResthookNode,
   createCallResthookAction,
   ResthookAsset
-} from "testUtils/assetCreators";
-import * as utils from "utils";
-import ResthookRouterForm from "components/flow/routers/resthook/ResthookRouterForm";
-import { AssetType } from "store/flowContext";
+} from 'testUtils/assetCreators';
+import * as utils from 'utils';
+import ResthookRouterForm from 'components/flow/routers/resthook/ResthookRouterForm';
+import { AssetType } from 'store/flowContext';
 
-mock(utils, "createUUID", utils.seededUUIDs());
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const routerNode = createResthookNode(createCallResthookAction());
-const { setup } = composeComponentTestUtils(
-  ResthookRouterForm,
-  getRouterFormProps(routerNode)
-);
+const { setup } = composeComponentTestUtils(ResthookRouterForm, getRouterFormProps(routerNode));
 
 describe(ResthookRouterForm.name, () => {
-  describe("render", () => {
-    it("should render", () => {
+  describe('render', () => {
+    it('should render', () => {
       const { wrapper } = setup();
       expect(wrapper).toMatchSnapshot();
     });
   });
 
-  describe("updates", () => {
-    it("should update and save", () => {
+  describe('updates', () => {
+    it('should update and save', () => {
       const components = setup(true, { updateRouter: setMock() });
       const instance = components.instance as ResthookRouterForm;
 
@@ -39,7 +36,7 @@ describe(ResthookRouterForm.name, () => {
       expect(components.props.updateRouter).toMatchCallSnapshot();
     });
 
-    it("should cancel changes", () => {
+    it('should cancel changes', () => {
       const components = setup(true, { updateRouter: setMock() });
       const instance = components.instance as ResthookRouterForm;
 
@@ -48,7 +45,7 @@ describe(ResthookRouterForm.name, () => {
       expect(components.props.updateRouter).not.toBeCalled();
     });
 
-    it("coverts from other node types", () => {
+    it('coverts from other node types', () => {
       const components = setup(true, {
         updateRouter: setMock(),
         nodeSettings: {
@@ -62,7 +59,7 @@ describe(ResthookRouterForm.name, () => {
       expect(components.props.updateRouter).toMatchCallSnapshot();
     });
 
-    it("creates its own action uuid if necessary", () => {
+    it('creates its own action uuid if necessary', () => {
       const components = setup(true, {
         updateRouter: setMock(),
         nodeSettings: {
@@ -80,7 +77,7 @@ describe(ResthookRouterForm.name, () => {
       expect(components.props.updateRouter).toMatchCallSnapshot();
     });
 
-    it("validates before saving", () => {
+    it('validates before saving', () => {
       const components = setup(true, { updateRouter: setMock() });
       const instance = components.instance as ResthookRouterForm;
 

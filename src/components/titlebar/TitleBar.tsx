@@ -19,21 +19,18 @@ interface TitleBarState {
 
 export const confirmationTime = 2000;
 
-export const titlebarContainerSpecId = "titlebar-container";
-export const titlebarSpecId = "titlebar";
-export const moveIconSpecId = "move-icon";
-export const moveSpecId = "move";
-export const removeIconSpecId = "remove-icon";
-export const confirmationSpecId = "confirmation";
-export const confirmRemovalSpecId = "confirm-removal";
+export const titlebarContainerSpecId = 'titlebar-container';
+export const titlebarSpecId = 'titlebar';
+export const moveIconSpecId = 'move-icon';
+export const moveSpecId = 'move';
+export const removeIconSpecId = 'remove-icon';
+export const confirmationSpecId = 'confirmation';
+export const confirmRemovalSpecId = 'confirm-removal';
 
 /**
  * Simple title bar with confirmation removal
  */
-export default class TitleBar extends React.Component<
-  TitleBarProps,
-  TitleBarState
-> {
+export default class TitleBar extends React.Component<TitleBarProps, TitleBarState> {
   private confirmationTimeout: number;
 
   constructor(props: TitleBarProps) {
@@ -155,10 +152,7 @@ export default class TitleBar extends React.Component<
     const remove: JSX.Element = this.getRemove();
     return (
       <div className={styles.titlebar} data-spec={titlebarContainerSpecId}>
-        <div
-          className={`${this.props.__className} ${styles.normal}`}
-          data-spec={titlebarSpecId}
-        >
+        <div className={`${this.props.__className} ${styles.normal}`} data-spec={titlebarSpecId}>
           {moveArrow}
           {remove}
           {this.props.title}

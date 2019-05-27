@@ -1,11 +1,7 @@
-import { getActionUUID } from "components/flow/actions/helpers";
-import {
-  CHANNEL_PROPERTY,
-  LANGUAGE_PROPERTY,
-  NAME_PROPERTY
-} from "components/flow/props";
-import { Types } from "config/interfaces";
-import { getTypeConfig } from "config/typeConfigs";
+import { getActionUUID } from 'components/flow/actions/helpers';
+import { CHANNEL_PROPERTY, LANGUAGE_PROPERTY, NAME_PROPERTY } from 'components/flow/props';
+import { Types } from 'config/interfaces';
+import { getTypeConfig } from 'config/typeConfigs';
 import {
   Channel,
   Field,
@@ -15,14 +11,9 @@ import {
   SetContactField,
   SetContactLanguage,
   SetContactName
-} from "flowTypes";
-import { Asset, AssetType, REMOVE_VALUE_ASSET } from "store/flowContext";
-import {
-  AssetEntry,
-  FormState,
-  NodeEditorSettings,
-  StringEntry
-} from "store/nodeEditor";
+} from 'flowTypes';
+import { Asset, AssetType, REMOVE_VALUE_ASSET } from 'store/flowContext';
+import { AssetEntry, FormState, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 export interface UpdateContactFormState extends FormState {
   type: Types;
@@ -33,25 +24,21 @@ export interface UpdateContactFormState extends FormState {
   fieldValue: StringEntry;
 }
 
-export const initializeForm = (
-  settings: NodeEditorSettings
-): UpdateContactFormState => {
+export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormState => {
   const state: UpdateContactFormState = {
     type: Types.set_contact_name,
     valid: false,
-    name: { value: "" },
+    name: { value: '' },
     channel: { value: null },
     language: { value: null },
     field: { value: NAME_PROPERTY },
-    fieldValue: { value: "" }
+    fieldValue: { value: '' }
   };
 
   if (settings.originalAction) {
     const originalType = settings.originalAction.type;
     // these have aliases, so compare the config we resolve to
-    if (
-      getTypeConfig(originalType) === getTypeConfig(Types.set_contact_field)
-    ) {
+    if (getTypeConfig(originalType) === getTypeConfig(Types.set_contact_field)) {
       state.type = originalType;
 
       switch (originalType) {
@@ -157,7 +144,7 @@ export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
   return a.name.localeCompare(b.name);
 };
 
-export const fieldToAsset = (field: Field = { key: "", name: "" }): Asset => ({
+export const fieldToAsset = (field: Field = { key: '', name: '' }): Asset => ({
   id: field.key,
   name: field.name,
   type: AssetType.Field
@@ -181,7 +168,7 @@ export const assetToChannel = (asset: Asset): any => {
 
 export const assetToLanguage = (asset: Asset): string => {
   if (asset.id === REMOVE_VALUE_ASSET.id) {
-    return "";
+    return '';
   }
   return asset.id;
 };

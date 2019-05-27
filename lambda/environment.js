@@ -1,8 +1,8 @@
 const environment = {
-    date_format: 'YYYY-MM-DD',
-    time_format: 'hh:mm',
-    timezone: 'Africa/Kigali',
-    languages: ['eng', 'spa', 'fra']
+  date_format: 'YYYY-MM-DD',
+  time_format: 'hh:mm',
+  timezone: 'Africa/Kigali',
+  languages: ['eng', 'spa', 'fra']
 };
 const { getOpts } = require('./utils');
 

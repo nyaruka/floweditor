@@ -40,10 +40,7 @@ export interface CaseElementState extends FormState {
   max: StringEntry;
 }
 
-export default class CaseElement extends React.Component<
-  CaseElementProps,
-  CaseElementState
-> {
+export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
   private operators: Operator[];
 
   constructor(props: CaseElementProps) {
@@ -62,10 +59,7 @@ export default class CaseElement extends React.Component<
 
   private getOperators(): Operator[] {
     if (this.operators === undefined) {
-      this.operators = filterOperators(
-        operatorConfigList,
-        this.context.config.flowType
-      );
+      this.operators = filterOperators(operatorConfigList, this.context.config.flowType);
     }
 
     return this.operators;
@@ -156,9 +150,7 @@ export default class CaseElement extends React.Component<
         uuid: this.props.kase.uuid,
 
         // if the exit name changed, we'll need to recompute our exit
-        category_uuid: this.state.categoryNameEdited
-          ? null
-          : this.props.kase.category_uuid
+        category_uuid: this.state.categoryNameEdited ? null : this.props.kase.category_uuid
       },
       valid: this.state.valid
     };
@@ -250,11 +242,8 @@ export default class CaseElement extends React.Component<
         kaseError={this.state.errors.length > 0}
       >
         <div className={`${styles.kase}`} data-draggable={true}>
-          <span
-            className={`fe-chevrons-expand ${styles.dnd_icon}`}
-            data-draggable={true}
-          />
-          <div className={styles.choice + " select-medium"}>
+          <span className={`fe-chevrons-expand ${styles.dnd_icon}`} data-draggable={true} />
+          <div className={styles.choice + ' select-medium'}>
             <Select
               className={getSelectClass(0)}
               styles={small as any}
@@ -292,7 +281,7 @@ export default class CaseElement extends React.Component<
             />
           </div>
           <span
-            data-testid={"remove-case-" + this.props.kase.uuid}
+            data-testid={'remove-case-' + this.props.kase.uuid}
             className={`fe-x ${styles.remove_icon}`}
             onClick={this.handleRemoveClicked}
           />

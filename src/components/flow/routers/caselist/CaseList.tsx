@@ -11,8 +11,8 @@ import { FormState, mergeForm } from 'store/nodeEditor';
 import styles from './CaseList.module.scss';
 
 export enum DragCursor {
-  move = "move",
-  pointer = "pointer"
+  move = 'move',
+  pointer = 'pointer'
 }
 
 export interface CaseProps {
@@ -35,10 +35,7 @@ export interface CaseListState extends FormState {
  * CaseList is a component made up of case elements that lets
  * the user configure rules and drag and drop to set their order.
  */
-export default class CaseList extends React.Component<
-  CaseListProps,
-  CaseListState
-> {
+export default class CaseList extends React.Component<CaseListProps, CaseListState> {
   private sortableItem = SortableElement(({ value: caseProps }: any) => (
     <div className={styles.kase}>
       <CaseElement
@@ -93,15 +90,12 @@ export default class CaseList extends React.Component<
     config: fakePropType
   };
 
-  private handleUpdate(keys: {
-    caseProps?: CaseProps;
-    removeCase?: any;
-  }): boolean {
+  private handleUpdate(keys: { caseProps?: CaseProps; removeCase?: any }): boolean {
     const updates: Partial<CaseListState> = {};
 
     let ensureEmptyCase = false;
 
-    if (keys.hasOwnProperty("caseProps")) {
+    if (keys.hasOwnProperty('caseProps')) {
       updates.currentCases = [keys.caseProps];
       ensureEmptyCase = true;
       if (!keys.caseProps.valid) {
@@ -110,7 +104,7 @@ export default class CaseList extends React.Component<
     }
 
     let toRemove: any[] = [];
-    if (keys.hasOwnProperty("removeCase")) {
+    if (keys.hasOwnProperty('removeCase')) {
       toRemove = [{ currentCases: [keys.removeCase] }];
       ensureEmptyCase = true;
     }
@@ -133,11 +127,7 @@ export default class CaseList extends React.Component<
   }
 
   private hasEmptyCase(cases: CaseProps[]): boolean {
-    return (
-      cases.find(
-        (caseProps: CaseProps) => caseProps.categoryName.trim().length === 0
-      ) != null
-    );
+    return cases.find((caseProps: CaseProps) => caseProps.categoryName.trim().length === 0) != null;
   }
 
   private handleRemoveCase(uuid: string): boolean {
@@ -156,9 +146,7 @@ export default class CaseList extends React.Component<
         currentCases: arrayMove(
           currentCases,
           oldIndex,
-          newIndex === this.state.currentCases.length - 1
-            ? newIndex - 1
-            : newIndex
+          newIndex === this.state.currentCases.length - 1 ? newIndex - 1 : newIndex
         )
       }),
       () => {

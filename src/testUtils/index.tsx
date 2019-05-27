@@ -15,9 +15,9 @@ import * as matchers from 'testUtils/matchers';
 import { merge, set } from 'utils';
 
 // we need to use require syntax to bust implicit any
-const config = require("test/config");
+const config = require('test/config');
 
-const boring: FlowDefinition = require("test/flows/boring.json");
+const boring: FlowDefinition = require('test/flows/boring.json');
 
 // force our matchers to be read in
 const match = matchers;
@@ -38,10 +38,10 @@ export const contextTypes: { [key: string]: Function } = {
 
 export const baseState: AppState = mutate(initialState, {
   flowContext: merge({
-    definition: require("test/flows/colors.json") as FlowDefinition
+    definition: require('test/flows/colors.json') as FlowDefinition
   }),
   editorState: merge({
-    language: { id: "eng", name: "English" }
+    language: { id: 'eng', name: 'English' }
   })
 });
 
@@ -51,9 +51,8 @@ export const configProviderContext: ConfigProviderContext = {
   config: flowEditorConfig
 };
 
-export const setMock = (
-  implementation?: (...args: any[]) => any
-): Query<jest.Mock> => set(jest.fn(implementation));
+export const setMock = (implementation?: (...args: any[]) => any): Query<jest.Mock> =>
+  set(jest.fn(implementation));
 
 /**
  * Compose setup method for component tests
@@ -67,17 +66,12 @@ export const composeSetup = <P extends {}>(
   shallowRender: boolean = true,
   propOverrides: Query<P | Partial<P>> = {},
   duxStateOverrides: Query<AppState | Partial<AppState>> = {},
-  contextOverrides: Query<
-    ConfigProviderContext | Partial<ConfigProviderContext>
-  > = {},
+  contextOverrides: Query<ConfigProviderContext | Partial<ConfigProviderContext>> = {},
   childContextTypeOverrides: { [key: string]: Function } = {},
   children: Array<JSX.Element | React.ComponentClass | React.SFC> = []
 ) => {
   const props = mutate(baseProps, propOverrides);
-  const store = createStore(mutate(
-    baseDuxState,
-    duxStateOverrides
-  ) as AppState);
+  const store = createStore(mutate(baseDuxState, duxStateOverrides) as AppState);
   let context = mutate(baseContext, merge({ store }));
 
   if (Object.keys(duxStateOverrides).length > 0) {
@@ -109,19 +103,13 @@ export const composeSetup = <P extends {}>(
   };
 };
 
-export const composeSpy = (obj: Object | React.ComponentClass) => (
-  instanceMethod: string
-) =>
-  jest.spyOn(
-    (obj as React.ComponentClass).prototype || obj,
-    instanceMethod as any
-  );
+export const composeSpy = (obj: Object | React.ComponentClass) => (instanceMethod: string) =>
+  jest.spyOn((obj as React.ComponentClass).prototype || obj, instanceMethod as any);
 
 /**
  * Wait for promises in queue to resolve
  */
-export const flushPromises = () =>
-  new Promise(resolve => setImmediate(resolve));
+export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
 
 /**
  * Restore spy mocks (distinct from mocks created w/ jest.fn()).
@@ -144,7 +132,7 @@ export const restoreSpies = (...spies: Array<jest.SpyInstance<any>>) =>
 export const getSpecWrapper = (
   componentWrapper: ReactWrapper<{}, {}> | ShallowWrapper<{}, {}>,
   specName: string,
-  attributeName: string = "data-spec"
+  attributeName: string = 'data-spec'
 ): any => componentWrapper.find(`[${attributeName}="${specName}"]`);
 
 export const composeDuxState = (
@@ -183,10 +171,6 @@ export const prepMockDuxState = (): {
 
 export const createMockStore: Function = configureStore([thunk]);
 
-export const mock = <T extends {}, K extends keyof T>(
-  object: T,
-  property: K,
-  value: T[K]
-) => {
+export const mock = <T extends {}, K extends keyof T>(object: T, property: K, value: T[K]) => {
   Object.defineProperty(object, property, { get: () => value });
 };

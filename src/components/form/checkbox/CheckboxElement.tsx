@@ -18,19 +18,16 @@ interface CheckboxState {
   checked: boolean;
 }
 
-export const boxIco = "fe-square";
-export const checkedBoxIco = "fe-check-square";
+export const boxIco = 'fe-square';
+export const checkedBoxIco = 'fe-check-square';
 
-export const checkboxSpecId = "checkbox";
-export const titleSpecId = "title";
-export const descSpecId = "description";
+export const checkboxSpecId = 'checkbox';
+export const titleSpecId = 'title';
+export const descSpecId = 'description';
 
 const cx: any = classNames.bind(styles);
 
-export default class CheckboxElement extends React.Component<
-  CheckboxElementProps,
-  CheckboxState
-> {
+export default class CheckboxElement extends React.Component<CheckboxElementProps, CheckboxState> {
   constructor(props: any) {
     super(props);
 
@@ -57,10 +54,7 @@ export default class CheckboxElement extends React.Component<
   public render(): JSX.Element {
     const checkboxIcon = this.state.checked ? checkedBoxIco : boxIco;
     return (
-      <label
-        className={cx(styles.label, this.props.labelClassName)}
-        onClick={this.handleChange}
-      >
+      <label className={cx(styles.label, this.props.labelClassName)} onClick={this.handleChange}>
         <span
           data-spec={checkboxSpecId}
           className={cx(checkboxIcon, this.props.checkboxClassName)}
@@ -73,9 +67,7 @@ export default class CheckboxElement extends React.Component<
         {renderIf(isRealValue(this.props.description))(
           <div
             data-spec={descSpecId}
-            className={
-              this.props.title ? styles.description : styles.description_solo
-            }
+            className={this.props.title ? styles.description : styles.description_solo}
           >
             {this.props.description}
           </div>

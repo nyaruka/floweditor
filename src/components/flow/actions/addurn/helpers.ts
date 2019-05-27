@@ -23,13 +23,8 @@ export const schemeToSelectOption = (scheme: Scheme): SelectOption => {
   return { value: scheme.scheme, label: scheme.name };
 };
 
-export const initializeForm = (
-  settings: NodeEditorSettings
-): AddURNFormState => {
-  if (
-    settings.originalAction &&
-    settings.originalAction.type === Types.add_contact_urn
-  ) {
+export const initializeForm = (settings: NodeEditorSettings): AddURNFormState => {
+  if (settings.originalAction && settings.originalAction.type === Types.add_contact_urn) {
     const { scheme, path } = settings.originalAction as AddURN;
 
     return {
@@ -40,16 +35,13 @@ export const initializeForm = (
   }
 
   return {
-    scheme: { value: getSchemeSelectOption("tel") },
-    path: { value: "" },
+    scheme: { value: getSchemeSelectOption('tel') },
+    path: { value: '' },
     valid: false
   };
 };
 
-export const stateToAction = (
-  settings: NodeEditorSettings,
-  formState: AddURNFormState
-): AddURN => {
+export const stateToAction = (settings: NodeEditorSettings, formState: AddURNFormState): AddURN => {
   return {
     type: Types.add_contact_urn,
     uuid: getActionUUID(settings, Types.add_input_labels),

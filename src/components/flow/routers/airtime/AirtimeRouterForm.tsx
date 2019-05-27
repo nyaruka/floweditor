@@ -2,7 +2,9 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
-import CurrencyElement, { AirtimeTransfer } from 'components/flow/routers/airtime/currency/CurrencyElement';
+import CurrencyElement, {
+  AirtimeTransfer
+} from 'components/flow/routers/airtime/currency/CurrencyElement';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import ValidationFailures from 'components/form/ValidationFailures';
 import TypeList from 'components/nodeeditor/TypeList';
@@ -47,8 +49,7 @@ export default class AirtimeRouterForm extends React.PureComponent<
     });
 
     let valid: boolean = !!!this.state.amounts.find(
-      (entry: AirtimeTransferEntry) =>
-        (entry.validationFailures || []).length > 0
+      (entry: AirtimeTransferEntry) => (entry.validationFailures || []).length > 0
     );
 
     // make sure at least one has a value
@@ -61,9 +62,7 @@ export default class AirtimeRouterForm extends React.PureComponent<
       if (!valid) {
         this.setState({
           valid: false,
-          validationFailures: [
-            { message: "At least one amount to transfer is required" }
-          ]
+          validationFailures: [{ message: 'At least one amount to transfer is required' }]
         });
       }
     }
@@ -75,11 +74,7 @@ export default class AirtimeRouterForm extends React.PureComponent<
   }
 
   private handleUpdateResultName(result: string): void {
-    const resultName = validate("Result Name", result, [
-      Required,
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', result, [Required, Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -88,8 +83,8 @@ export default class AirtimeRouterForm extends React.PureComponent<
 
   public getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -101,10 +96,7 @@ export default class AirtimeRouterForm extends React.PureComponent<
     this.setState({ amounts: updated });
   }
 
-  public handleTransferChanged(
-    idx: number,
-    transfer: AirtimeTransferEntry
-  ): void {
+  public handleTransferChanged(idx: number, transfer: AirtimeTransferEntry): void {
     let updated: any = this.state.amounts;
 
     if (idx > -1) {
@@ -122,13 +114,10 @@ export default class AirtimeRouterForm extends React.PureComponent<
     this.setState({ amounts: updated, validationFailures: [] });
   }
 
-  private renderAmount(
-    index: number,
-    entry: AirtimeTransferEntry
-  ): JSX.Element {
+  private renderAmount(index: number, entry: AirtimeTransferEntry): JSX.Element {
     return (
       <CurrencyElement
-        key={"currency_" + index}
+        key={'currency_' + index}
         exclude={this.state.amounts}
         currencies={this.props.assetStore.currencies}
         transfer={entry}
@@ -140,16 +129,14 @@ export default class AirtimeRouterForm extends React.PureComponent<
   }
 
   private renderAmounts(): JSX.Element {
-    const amounts = this.state.amounts.map(
-      (entry: AirtimeTransferEntry, index: number) => {
-        return this.renderAmount(index, entry);
-      }
-    );
+    const amounts = this.state.amounts.map((entry: AirtimeTransferEntry, index: number) => {
+      return this.renderAmount(index, entry);
+    });
 
     return (
       <div>
         {amounts}
-        {this.renderAmount(-1, { value: { code: null, amount: "" } })}
+        {this.renderAmount(-1, { value: { code: null, amount: '' } })}
       </div>
     );
   }
@@ -162,23 +149,12 @@ export default class AirtimeRouterForm extends React.PureComponent<
     ) : null;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         {this.renderAmounts()}
         {errors}
         <div className={styles.result_name}>
-          {createResultNameInput(
-            this.state.resultName,
-            this.handleUpdateResultName
-          )}
+          {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         </div>
       </Dialog>
     );

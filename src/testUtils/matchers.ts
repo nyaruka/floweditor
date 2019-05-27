@@ -1,8 +1,8 @@
-import { commaListsOr } from "common-tags";
-import { Exit } from "flowTypes";
-import { RenderNode } from "store/flowContext";
+import { commaListsOr } from 'common-tags';
+import { Exit } from 'flowTypes';
+import { RenderNode } from 'store/flowContext';
 
-const snapshot = require("jest-snapshot");
+const snapshot = require('jest-snapshot');
 
 const matchers: jest.ExpectExtendMap = {};
 
@@ -16,17 +16,10 @@ function toMatchCallSnapshot<T>(
   received: any,
   snapshotName?: string
 ): MatchResult {
-  return snapshot.toMatchSnapshot.call(
-    this,
-    received.mock.calls[0],
-    snapshotName
-  );
+  return snapshot.toMatchSnapshot.call(this, received.mock.calls[0], snapshotName);
 }
 
-function toHaveInboundConnections<T>(
-  this: jest.MatcherUtils,
-  received: RenderNode
-): MatchResult {
+function toHaveInboundConnections<T>(this: jest.MatcherUtils, received: RenderNode): MatchResult {
   if (Object.keys(received.inboundConnections).length > 1) {
     return {
       message: () => `Node ${received.node.uuid} has an inbound connection`,
@@ -48,10 +41,7 @@ function toHaveInboundFrom<T>(
   for (const exitUUID of Object.keys(received.inboundConnections)) {
     if (exitUUID === expected.uuid) {
       return {
-        message: () =>
-          `Node ${received.node.uuid} incorrectly has inbound from ${
-            expected.uuid
-          }`,
+        message: () => `Node ${received.node.uuid} incorrectly has inbound from ${expected.uuid}`,
         pass: true
       };
     }
@@ -59,42 +49,30 @@ function toHaveInboundFrom<T>(
 
   return {
     message: () =>
-      `Node ${received.node.uuid} doesn't have inbound connection from ${
-        expected.uuid
-      }`,
+      `Node ${received.node.uuid} doesn't have inbound connection from ${expected.uuid}`,
     pass: false
   };
 }
 
-function toPointTo<T>(
-  this: jest.MatcherUtils,
-  received: Exit,
-  expected: RenderNode
-): MatchResult {
+function toPointTo<T>(this: jest.MatcherUtils, received: Exit, expected: RenderNode): MatchResult {
   if (received.destination_uuid === expected.node.uuid) {
     return {
-      message: () =>
-        `${received.uuid} incorrectly points to ${expected.node.uuid}`,
+      message: () => `${received.uuid} incorrectly points to ${expected.node.uuid}`,
       pass: true
     };
   }
 
   return {
-    message: () =>
-      `Expected ${received.uuid} to point to ${expected.node.uuid}`,
+    message: () => `Expected ${received.uuid} to point to ${expected.node.uuid}`,
     pass: false
   };
 }
 
-function toHaveExitWithDestination<T>(
-  this: jest.MatcherUtils,
-  received: RenderNode
-): MatchResult {
+function toHaveExitWithDestination<T>(this: jest.MatcherUtils, received: RenderNode): MatchResult {
   for (const exit of received.node.exits) {
     if (exit.destination_uuid !== null) {
       return {
-        message: () =>
-          `Exit ${exit.uuid} in node ${received.node.uuid} has a destination`,
+        message: () => `Exit ${exit.uuid} in node ${received.node.uuid} has a destination`,
         pass: true
       };
     }
@@ -114,10 +92,7 @@ function toHaveExitThatPointsTo<T>(
   for (const exit of received.node.exits) {
     if (exit.destination_uuid === expected.node.uuid) {
       return {
-        message: () =>
-          `${exit.uuid} incorrectly has exit that points to ${
-            expected.node.uuid
-          }`,
+        message: () => `${exit.uuid} incorrectly has exit that points to ${expected.node.uuid}`,
         pass: true
       };
     }
@@ -125,9 +100,7 @@ function toHaveExitThatPointsTo<T>(
 
   return {
     message: () =>
-      `Expected ${received.node.uuid} to have an exit that points to ${
-        expected.node.uuid
-      }`,
+      `Expected ${received.node.uuid} to have an exit that points to ${expected.node.uuid}`,
     pass: false
   };
 }
@@ -143,8 +116,7 @@ function toHavePayload<T>(
     if (actionTaken.type === actionType) {
       if (JSON.stringify(actionTaken.payload) === payload) {
         return {
-          message: () =>
-            `Result contained action type ${actionType} with payload ${payload}`,
+          message: () => `Result contained action type ${actionType} with payload ${payload}`,
           pass: true
         };
       }
@@ -152,8 +124,7 @@ function toHavePayload<T>(
   }
 
   return {
-    message: () =>
-      `Could not find action type ${actionType} with payload ${payload}`,
+    message: () => `Could not find action type ${actionType} with payload ${payload}`,
     pass: false
   };
 }
@@ -178,8 +149,7 @@ function toHaveReduxActions<T>(
   }
 
   return {
-    message: () =>
-      commaListsOr`Could not find action type(s): ${[...missedTypes]}`,
+    message: () => commaListsOr`Could not find action type(s): ${[...missedTypes]}`,
     pass: false
   };
 }

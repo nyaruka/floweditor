@@ -1,10 +1,10 @@
-import { UpdateLocalizations } from "components/nodeeditor/NodeEditor";
-import { Type } from "config/interfaces";
-import { AnyAction, ContactProperties } from "flowTypes";
-import { Asset, AssetStore, AssetType, RenderNode } from "store/flowContext";
-import { NodeEditorSettings } from "store/nodeEditor";
-import { DispatchWithState, GetState } from "store/thunks";
-import { titleCase } from "utils";
+import { UpdateLocalizations } from 'components/nodeeditor/NodeEditor';
+import { Type } from 'config/interfaces';
+import { AnyAction, ContactProperties } from 'flowTypes';
+import { Asset, AssetStore, AssetType, RenderNode } from 'store/flowContext';
+import { NodeEditorSettings } from 'store/nodeEditor';
+import { DispatchWithState, GetState } from 'store/thunks';
+import { titleCase } from 'utils';
 
 export interface ActionFormProps {
   // action details
@@ -42,10 +42,7 @@ export interface RouterFormProps {
 export interface LocalizationFormProps {
   language: Asset;
   nodeSettings: NodeEditorSettings;
-  updateLocalizations(
-    languageCode: string,
-    localizations: any[]
-  ): UpdateLocalizations;
+  updateLocalizations(languageCode: string, localizations: any[]): UpdateLocalizations;
   onClose(canceled: boolean): void;
 }
 

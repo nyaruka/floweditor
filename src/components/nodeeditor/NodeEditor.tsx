@@ -1,15 +1,15 @@
-import { react as bindCallbacks } from "auto-bind";
-import * as React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { getDraggedFrom } from "components/helpers";
-import Modal from "components/modal/Modal";
-import { Type } from "config/interfaces";
-import { Action, AnyAction, FlowDefinition } from "flowTypes";
-import { UpdateUserAddingAction } from "store/actionTypes";
-import { Asset, AssetStore, RenderNode } from "store/flowContext";
-import { NodeEditorSettings, updateUserAddingAction } from "store/nodeEditor";
-import AppState from "store/state";
+import { react as bindCallbacks } from 'auto-bind';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getDraggedFrom } from 'components/helpers';
+import Modal from 'components/modal/Modal';
+import { Type } from 'config/interfaces';
+import { Action, AnyAction, FlowDefinition } from 'flowTypes';
+import { UpdateUserAddingAction } from 'store/actionTypes';
+import { Asset, AssetStore, RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, updateUserAddingAction } from 'store/nodeEditor';
+import AppState from 'store/state';
 import {
   AddAsset,
   addAsset,
@@ -28,12 +28,9 @@ import {
   OnUpdateRouter,
   onUpdateRouter,
   resetNodeEditingState
-} from "store/thunks";
+} from 'store/thunks';
 
-export type UpdateLocalizations = (
-  language: string,
-  changes: LocalizationUpdates
-) => void;
+export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -95,10 +92,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     });
   }
 
-  private updateLocalizations(
-    language: string,
-    changes: LocalizationUpdates
-  ): void {
+  private updateLocalizations(language: string, changes: LocalizationUpdates): void {
     this.props.onUpdateLocalizations(language, changes);
   }
 

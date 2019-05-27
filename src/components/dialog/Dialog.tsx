@@ -7,8 +7,8 @@ import { renderIf } from 'utils';
 import styles from './Dialog.module.scss';
 
 export enum HeaderStyle {
-  NORMAL = "normal",
-  BARBER = "barber"
+  NORMAL = 'normal',
+  BARBER = 'barber'
 }
 
 export interface ButtonSet {
@@ -91,7 +91,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
   }
 
   private handleKey(event: KeyboardEvent): void {
-    if (event.key === "Enter" && event.shiftKey) {
+    if (event.key === 'Enter' && event.shiftKey) {
       if (this.primaryButton) {
         event.preventDefault();
         event.stopPropagation();
@@ -99,20 +99,20 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
         this.primaryButton.click();
         (event.target as any).focus();
       } else {
-        console.log("No primary button!");
+        console.log('No primary button!');
       }
     }
   }
 
   public componentDidMount(): void {
-    window.document.addEventListener("keydown", this.handleKey, {
+    window.document.addEventListener('keydown', this.handleKey, {
       capture: true
     });
   }
 
   public componentWillUnmount(): void {
     window.clearTimeout(this.tabFocus);
-    window.document.removeEventListener("keydown", this.handleKey, {
+    window.document.removeEventListener('keydown', this.handleKey, {
       capture: true
     });
   }
@@ -126,15 +126,13 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     };
 
     if (buttons.secondary) {
-      rightButtons.push(
-        <Button key={0} type={ButtonTypes.secondary} {...buttons.secondary} />
-      );
+      rightButtons.push(<Button key={0} type={ButtonTypes.secondary} {...buttons.secondary} />);
     }
 
     if (buttons.primary) {
       rightButtons.push(
         <Button
-          key={"button_" + buttons.primary.name}
+          key={'button_' + buttons.primary.name}
           onRef={(ref: any) => {
             this.primaryButton = ref;
           }}
@@ -153,9 +151,7 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
 
     // Our left most button if we have one
     if (buttons.tertiary) {
-      leftButtons.push(
-        <Button key={0} type={ButtonTypes.tertiary} {...buttons.tertiary} />
-      );
+      leftButtons.push(<Button key={0} type={ButtonTypes.tertiary} {...buttons.tertiary} />);
     }
 
     return {
@@ -191,29 +187,20 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
     }
 
     return (
-      <div className={activeClasses.join(" ")}>
+      <div className={activeClasses.join(' ')}>
         {(this.props.tabs || []).length > 0 ? (
           <div className={styles.tabs}>
             {(this.props.tabs || []).map((tab: Tab, index: number) => (
               <div
-                key={"tab_" + tab.name}
-                className={
-                  styles.tab +
-                  " " +
-                  (index === this.state.activeTab ? styles.active : "")
-                }
+                key={'tab_' + tab.name}
+                className={styles.tab + ' ' + (index === this.state.activeTab ? styles.active : '')}
                 onClick={(evt: React.MouseEvent<HTMLDivElement>) => {
                   evt.stopPropagation();
                   this.setState({ activeTab: index });
                 }}
               >
-                {tab.name}{" "}
-                {tab.icon ? (
-                  <span className={styles.tab_icon + " " + tab.icon} />
-                ) : null}
-                {tab.checked ? (
-                  <span className={styles.tab_icon + " fe-check"} />
-                ) : null}
+                {tab.name} {tab.icon ? <span className={styles.tab_icon + ' ' + tab.icon} /> : null}
+                {tab.checked ? <span className={styles.tab_icon + ' fe-check'} /> : null}
               </div>
             ))}
           </div>
@@ -222,22 +209,18 @@ export default class Dialog extends React.Component<DialogProps, DialogState> {
           onClick={() => {
             this.setState({ activeTab: -1 });
           }}
-          className={headerClasses.join(" ")}
+          className={headerClasses.join(' ')}
         >
-          {this.state.activeTab > -1 ? (
-            <div className={styles.header_overlay} />
-          ) : null}
+          {this.state.activeTab > -1 ? <div className={styles.header_overlay} /> : null}
           {renderIf(this.props.headerIcon !== undefined)(
-            <span
-              className={`${styles.header_icon} ${this.props.headerIcon}`}
-            />
+            <span className={`${styles.header_icon} ${this.props.headerIcon}`} />
           )}
           <div className={styles.title_container}>
             <div className={styles.title}>{this.props.title}</div>
             <div className={styles.subtitle}>{this.props.subtitle}</div>
           </div>
         </div>
-        <div className={this.props.noPadding ? "" : styles.content}>
+        <div className={this.props.noPadding ? '' : styles.content}>
           {this.state.activeTab > -1
             ? this.props.tabs![this.state.activeTab].body
             : this.props.children}

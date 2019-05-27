@@ -1,240 +1,240 @@
-import { AssetType } from "store/flowContext";
+import { AssetType } from 'store/flowContext';
 
 export const currencies = {
   ARS: {
-    id: "ARS",
-    name: "Argentine Peso",
+    id: 'ARS',
+    name: 'Argentine Peso',
     type: AssetType.Currency
   },
   AUD: {
-    id: "AUD",
-    name: "Australian Dollar",
+    id: 'AUD',
+    name: 'Australian Dollar',
     type: AssetType.Currency
   },
   BIF: {
-    id: "BIF",
-    name: "Burundi Franc",
+    id: 'BIF',
+    name: 'Burundi Franc',
     type: AssetType.Currency
   },
   BRL: {
-    id: "BRL",
-    name: "Brazilian Real",
+    id: 'BRL',
+    name: 'Brazilian Real',
     type: AssetType.Currency
   },
 
   CAD: {
-    id: "CAD",
-    name: "Canadian Dollar",
+    id: 'CAD',
+    name: 'Canadian Dollar',
     type: AssetType.Currency
   },
   CDF: {
-    id: "CDF",
-    name: "Congolese Franc",
+    id: 'CDF',
+    name: 'Congolese Franc',
     type: AssetType.Currency
   },
   CLP: {
-    id: "CLP",
-    name: "Chilean Peso",
+    id: 'CLP',
+    name: 'Chilean Peso',
     type: AssetType.Currency
   },
   COP: {
-    id: "COP",
-    name: "Colombian Peso",
+    id: 'COP',
+    name: 'Colombian Peso',
     type: AssetType.Currency
   },
   DJF: {
-    id: "DJF",
-    name: "Djibouti Franc",
+    id: 'DJF',
+    name: 'Djibouti Franc',
     type: AssetType.Currency
   },
   DOP: {
-    id: "DOP",
-    name: "Dominican Peso",
+    id: 'DOP',
+    name: 'Dominican Peso',
     type: AssetType.Currency
   },
   DZD: {
-    id: "DZD",
-    name: "Algerian Dinar",
+    id: 'DZD',
+    name: 'Algerian Dinar',
     type: AssetType.Currency
   },
   EUR: {
-    id: "EUR",
-    name: "Euro",
+    id: 'EUR',
+    name: 'Euro',
     type: AssetType.Currency
   },
   GBP: {
-    id: "GBP",
-    name: "Pound Sterling",
+    id: 'GBP',
+    name: 'Pound Sterling',
     type: AssetType.Currency
   },
   GHS: {
-    id: "GHS",
-    name: "Ghana Cedi",
+    id: 'GHS',
+    name: 'Ghana Cedi',
     type: AssetType.Currency
   },
   GNF: {
-    id: "GNF",
-    name: "Guinean Franc",
+    id: 'GNF',
+    name: 'Guinean Franc',
     type: AssetType.Currency
   },
   KES: {
-    id: "KES",
-    name: "Kenyan Shilling",
+    id: 'KES',
+    name: 'Kenyan Shilling',
     type: AssetType.Currency
   },
   LBP: {
-    id: "LBP",
-    name: "Lebanese Pound",
+    id: 'LBP',
+    name: 'Lebanese Pound',
     type: AssetType.Currency
   },
   LKR: {
-    id: "LKR",
-    name: "Sri Lanka Rupee",
+    id: 'LKR',
+    name: 'Sri Lanka Rupee',
     type: AssetType.Currency
   },
   LRD: {
-    id: "LRD",
-    name: "Liberian Dollar",
+    id: 'LRD',
+    name: 'Liberian Dollar',
     type: AssetType.Currency
   },
   MWK: {
-    id: "MWK",
-    name: "Malawi Kwacha",
+    id: 'MWK',
+    name: 'Malawi Kwacha',
     type: AssetType.Currency
   },
   MXN: {
-    id: "MXN",
-    name: "Mexican Peso",
+    id: 'MXN',
+    name: 'Mexican Peso',
     type: AssetType.Currency
   },
   NAD: {
-    id: "NAD",
-    name: "Namibia Dollar",
+    id: 'NAD',
+    name: 'Namibia Dollar',
     type: AssetType.Currency
   },
   NPR: {
-    id: "NPR",
-    name: "Nepalese Rupee",
+    id: 'NPR',
+    name: 'Nepalese Rupee',
     type: AssetType.Currency
   },
   NZD: {
-    id: "NZD",
-    name: "New Zealand Dollar",
+    id: 'NZD',
+    name: 'New Zealand Dollar',
     type: AssetType.Currency
   },
   PHP: {
-    id: "PHP",
-    name: "Philippine Piso",
+    id: 'PHP',
+    name: 'Philippine Piso',
     type: AssetType.Currency
   },
   PKR: {
-    id: "PKR",
-    name: "Pakistan Rupee",
+    id: 'PKR',
+    name: 'Pakistan Rupee',
     type: AssetType.Currency
   },
   RUB: {
-    id: "RUB",
-    name: "Russian Ruble",
+    id: 'RUB',
+    name: 'Russian Ruble',
     type: AssetType.Currency
   },
   RWF: {
-    id: "RWF",
-    name: "Rwanda Franc",
+    id: 'RWF',
+    name: 'Rwanda Franc',
     type: AssetType.Currency
   },
   SDG: {
-    id: "SDG",
-    name: "Sudanese Pound",
+    id: 'SDG',
+    name: 'Sudanese Pound',
     type: AssetType.Currency
   },
   SGD: {
-    id: "SGD",
-    name: "Singapore Dollar",
+    id: 'SGD',
+    name: 'Singapore Dollar',
     type: AssetType.Currency
   },
   SLL: {
-    id: "SLL",
-    name: "Leone",
+    id: 'SLL',
+    name: 'Leone',
     type: AssetType.Currency
   },
   SOS: {
-    id: "SOS",
-    name: "Somali Shilling",
+    id: 'SOS',
+    name: 'Somali Shilling',
     type: AssetType.Currency
   },
   SRD: {
-    id: "SRD",
-    name: "Surinam Dollar",
+    id: 'SRD',
+    name: 'Surinam Dollar',
     type: AssetType.Currency
   },
   SVC: {
-    id: "SVC",
-    name: "El Salvador Colon",
+    id: 'SVC',
+    name: 'El Salvador Colon',
     type: AssetType.Currency
   },
   TND: {
-    id: "TND",
-    name: "Tunisian Dinar",
+    id: 'TND',
+    name: 'Tunisian Dinar',
     type: AssetType.Currency
   },
   TRY: {
-    id: "TRY",
-    name: "Turkish Lira",
+    id: 'TRY',
+    name: 'Turkish Lira',
     type: AssetType.Currency
   },
   TZS: {
-    id: "TZS",
-    name: "Tanzanian Shilling",
+    id: 'TZS',
+    name: 'Tanzanian Shilling',
     type: AssetType.Currency
   },
   UGX: {
-    id: "UGX",
-    name: "Uganda Shilling",
+    id: 'UGX',
+    name: 'Uganda Shilling',
     type: AssetType.Currency
   },
   USD: {
-    id: "USD",
-    name: "US Dollar",
+    id: 'USD',
+    name: 'US Dollar',
     type: AssetType.Currency
   },
   UYU: {
-    id: "UYU",
-    name: "Peso Uruguayo",
+    id: 'UYU',
+    name: 'Peso Uruguayo',
     type: AssetType.Currency
   },
   UZS: {
-    id: "UZS",
-    name: "Uzbekistan Sum",
+    id: 'UZS',
+    name: 'Uzbekistan Sum',
     type: AssetType.Currency
   },
   VEF: {
-    id: "VEF",
-    name: "Bolívar",
+    id: 'VEF',
+    name: 'Bolívar',
     type: AssetType.Currency
   },
   XCD: {
-    id: "XCD",
-    name: "East Caribbean Dollar",
+    id: 'XCD',
+    name: 'East Caribbean Dollar',
     type: AssetType.Currency
   },
   YER: {
-    id: "YER",
-    name: "Yemeni Rial",
+    id: 'YER',
+    name: 'Yemeni Rial',
     type: AssetType.Currency
   },
   ZAR: {
-    id: "ZAR",
-    name: "Rand",
+    id: 'ZAR',
+    name: 'Rand',
     type: AssetType.Currency
   },
   ZMW: {
-    id: "ZMW",
-    name: "Zambian Kwacha",
+    id: 'ZMW',
+    name: 'Zambian Kwacha',
     type: AssetType.Currency
   },
   ZWL: {
-    id: "ZWL",
-    name: "Zimbabwe Dollar",
+    id: 'ZWL',
+    name: 'Zimbabwe Dollar',
     type: AssetType.Currency
   }
 };

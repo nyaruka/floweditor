@@ -1,9 +1,9 @@
-import { applyMiddleware, createStore, Middleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
+import { applyMiddleware, createStore, Middleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk from 'redux-thunk';
 
-import rootReducer from "store/rootReducer";
-import AppState, { initialState } from "store/state";
+import rootReducer from 'store/rootReducer';
+import AppState, { initialState } from 'store/state';
 
 const middlewares: Middleware[] = [thunk];
 
@@ -16,8 +16,8 @@ export default (state: AppState = initialState) => {
 
   /* istanbul ignore next */
   if (module.hot) {
-    module.hot.accept("./rootReducer", () => {
-      const { default: nextRootReducer } = require("./rootReducer");
+    module.hot.accept('./rootReducer', () => {
+      const { default: nextRootReducer } = require('./rootReducer');
       store.replaceReducer(nextRootReducer);
     });
   }

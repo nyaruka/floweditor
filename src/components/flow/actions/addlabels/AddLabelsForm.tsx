@@ -15,7 +15,7 @@ export interface AddLabelsFormState extends FormState {
   labels: AssetArrayEntry;
 }
 
-export const controlLabelSpecId = "label";
+export const controlLabelSpecId = 'label';
 
 export default class AddLabelsForm extends React.PureComponent<
   ActionFormProps,
@@ -46,7 +46,7 @@ export default class AddLabelsForm extends React.PureComponent<
 
   public handleLabelsChanged(selected: Asset[]): boolean {
     const updates: Partial<AddLabelsFormState> = {
-      labels: validate("Labels", selected, [Required])
+      labels: validate('Labels', selected, [Required])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -56,8 +56,8 @@ export default class AddLabelsForm extends React.PureComponent<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -67,7 +67,7 @@ export default class AddLabelsForm extends React.PureComponent<
 
   public handleLabelCreated(label: Asset): void {
     // update our store with our new group
-    this.props.addAsset("labels", label);
+    this.props.addAsset('labels', label);
 
     this.handleLabelsChanged(this.state.labels.value!.concat(label));
   }
@@ -75,19 +75,9 @@ export default class AddLabelsForm extends React.PureComponent<
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
-        <p data-spec={controlLabelSpecId}>
-          Select the labels to apply to the incoming message.
-        </p>
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
+        <p data-spec={controlLabelSpecId}>Select the labels to apply to the incoming message.</p>
 
         <AssetSelector
           name="Labels"

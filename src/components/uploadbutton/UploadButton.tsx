@@ -1,8 +1,8 @@
-import { react as bindCallbacks } from "auto-bind";
-import axios from "axios";
-import * as React from "react";
-import Button, { ButtonTypes } from "components/button/Button";
-import { getCookie } from "external";
+import { react as bindCallbacks } from 'auto-bind';
+import axios from 'axios';
+import * as React from 'react';
+import Button, { ButtonTypes } from 'components/button/Button';
+import { getCookie } from 'external';
 
 export interface UploadButtonState {}
 
@@ -15,10 +15,7 @@ export interface UploadButtonProps {
   onUploadChanged: (url: string) => void;
 }
 
-export default class UploadButton extends React.Component<
-  UploadButtonProps,
-  UploadButtonState
-> {
+export default class UploadButton extends React.Component<UploadButtonProps, UploadButtonState> {
   private filePicker: any;
 
   constructor(props: UploadButtonProps) {
@@ -35,11 +32,11 @@ export default class UploadButton extends React.Component<
 
   private handleUploadFile(files: FileList): void {
     const data = new FormData();
-    data.append("file", files[0]);
+    data.append('file', files[0]);
 
     // if we have a csrf in our cookie, pass it along as a header
-    const csrf = getCookie("csrftoken");
-    const headers = csrf ? { "X-CSRFToken": csrf } : {};
+    const csrf = getCookie('csrftoken');
+    const headers = csrf ? { 'X-CSRFToken': csrf } : {};
 
     axios
       .post(this.props.endpoint, data, { headers })
@@ -56,7 +53,7 @@ export default class UploadButton extends React.Component<
       <>
         <input
           style={{
-            display: "none"
+            display: 'none'
           }}
           ref={ele => {
             this.filePicker = ele;

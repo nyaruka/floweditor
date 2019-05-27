@@ -13,19 +13,16 @@ import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
 import { nodeToState, stateToNode } from './helpers';
 import styles from './MenuRouterForm.module.scss';
 
-const mutate = require("immutability-helper");
+const mutate = require('immutability-helper');
 
 export interface MenuRouterFormState extends FormState {
   resultName: StringEntry;
   menu: string[];
 }
 
-export const leadInSpecId = "lead-in";
+export const leadInSpecId = 'lead-in';
 
-export default class MenuRouterForm extends React.Component<
-  RouterFormProps,
-  MenuRouterFormState
-> {
+export default class MenuRouterForm extends React.Component<RouterFormProps, MenuRouterFormState> {
   constructor(props: RouterFormProps) {
     super(props);
 
@@ -41,10 +38,7 @@ export default class MenuRouterForm extends React.Component<
   };
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate("Result Name", value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -58,8 +52,8 @@ export default class MenuRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -70,11 +64,11 @@ export default class MenuRouterForm extends React.Component<
 
   private renderOption(index: number): JSX.Element {
     return (
-      <div key={"menuoption-" + index} className={styles.menu_option}>
+      <div key={'menuoption-' + index} className={styles.menu_option}>
         <div className={styles.digit}>{index === 9 ? 0 : index + 1}</div>
         <div className={styles.category}>
           <TextInputElement
-            name={"Menu " + index}
+            name={'Menu ' + index}
             entry={{ value: this.state.menu[index] }}
             onChange={(value: string) => {
               this.handleMenuChanged(index, value);
@@ -98,21 +92,10 @@ export default class MenuRouterForm extends React.Component<
     const typeConfig = this.props.typeConfig;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.menu}>{this.renderMenu()}</div>
-        {createResultNameInput(
-          this.state.resultName,
-          this.handleUpdateResultName
-        )}
+        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
       </Dialog>
     );
   }

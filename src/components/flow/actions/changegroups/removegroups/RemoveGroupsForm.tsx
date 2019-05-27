@@ -16,15 +16,15 @@ import { renderIf } from 'utils';
 import { initializeForm, stateToAction } from './helpers';
 import styles from './RemoveGroupsForm.module.scss';
 
-export const LABEL = "Select the group(s) to remove the contact from.";
-export const NOT_FOUND = "Enter the name of an existing group";
-export const PLACEHOLDER = "Enter the name an existing group";
-export const REMOVE_FROM_ALL = "Remove from All";
+export const LABEL = 'Select the group(s) to remove the contact from.';
+export const NOT_FOUND = 'Enter the name of an existing group';
+export const PLACEHOLDER = 'Enter the name an existing group';
+export const REMOVE_FROM_ALL = 'Remove from All';
 export const REMOVE_FROM_ALL_DESC =
   "Remove the active contact from all groups they're a member of.";
 
-export const labelSpecId = "label";
-export const fieldContainerSpecId = "field-container";
+export const labelSpecId = 'label';
+export const fieldContainerSpecId = 'field-container';
 
 export default class RemoveGroupsForm extends React.Component<
   ActionFormProps,
@@ -36,9 +36,7 @@ export default class RemoveGroupsForm extends React.Component<
 
   constructor(props: ActionFormProps) {
     super(props);
-    this.state = initializeForm(
-      this.props.nodeSettings
-    ) as ChangeGroupsFormState;
+    this.state = initializeForm(this.props.nodeSettings) as ChangeGroupsFormState;
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
     });
@@ -53,24 +51,21 @@ export default class RemoveGroupsForm extends React.Component<
     }
   }
 
-  private handleUpdate(keys: {
-    groups?: Asset[];
-    removeAll?: boolean;
-  }): boolean {
+  private handleUpdate(keys: { groups?: Asset[]; removeAll?: boolean }): boolean {
     const updates: Partial<ChangeGroupsFormState> = {};
 
     // we only require groups if removeAll isn't checked
     let groupValidators = this.state.removeAll ? [] : [Required];
 
-    if (keys.hasOwnProperty("removeAll")) {
+    if (keys.hasOwnProperty('removeAll')) {
       updates.removeAll = keys.removeAll;
       if (keys.removeAll) {
         groupValidators = [];
       }
     }
 
-    if (keys.hasOwnProperty("groups")) {
-      updates.groups = validate("Groups", keys.groups!, groupValidators);
+    if (keys.hasOwnProperty('groups')) {
+      updates.groups = validate('Groups', keys.groups!, groupValidators);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -88,24 +83,16 @@ export default class RemoveGroupsForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 
         {renderIf(!this.state.removeAll)(
           <div>
@@ -125,7 +112,7 @@ export default class RemoveGroupsForm extends React.Component<
         <CheckboxElement
           name={REMOVE_FROM_ALL}
           title={REMOVE_FROM_ALL}
-          labelClassName={this.state.removeAll ? "" : styles.checkbox}
+          labelClassName={this.state.removeAll ? '' : styles.checkbox}
           checked={this.state.removeAll!}
           description={REMOVE_FROM_ALL_DESC}
           onChange={this.handleRemoveAllUpdate}

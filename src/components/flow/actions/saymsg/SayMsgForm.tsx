@@ -17,10 +17,7 @@ export interface SayMsgFormState extends FormState {
   audio: StringEntry;
 }
 
-export default class SayMsgForm extends React.Component<
-  ActionFormProps,
-  SayMsgFormState
-> {
+export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgFormState> {
   constructor(props: ActionFormProps) {
     super(props);
     this.state = initializeForm(this.props.nodeSettings);
@@ -36,8 +33,8 @@ export default class SayMsgForm extends React.Component<
   private handleUpdate(keys: { text?: string }): boolean {
     const updates: Partial<SayMsgFormState> = {};
 
-    if (keys.hasOwnProperty("text")) {
-      updates.message = validate("Message", keys.text!, [Required]);
+    if (keys.hasOwnProperty('text')) {
+      updates.message = validate('Message', keys.text!, [Required]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -56,9 +53,7 @@ export default class SayMsgForm extends React.Component<
     });
 
     if (valid) {
-      this.props.updateAction(
-        stateToAction(this.props.nodeSettings, this.state)
-      );
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
 
       // notify our modal we are done
       this.props.onClose(false);
@@ -67,8 +62,8 @@ export default class SayMsgForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -80,16 +75,8 @@ export default class SayMsgForm extends React.Component<
     const typeConfig = this.props.typeConfig;
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <TextInputElement
           name="Message"
           showLabel={false}

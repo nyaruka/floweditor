@@ -6,7 +6,13 @@ import SelectElement, { SelectOption } from 'components/form/select/SelectElemen
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import { FormState, mergeForm, SelectOptionEntry, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import {
+  FormState,
+  mergeForm,
+  SelectOptionEntry,
+  StringEntry,
+  ValidationFailure
+} from 'store/nodeEditor';
 import { Required, validate } from 'store/validators';
 
 import styles from './AddURNForm.module.scss';
@@ -17,12 +23,9 @@ export interface AddURNFormState extends FormState {
   path: StringEntry;
 }
 
-export const controlLabelSpecId = "label";
+export const controlLabelSpecId = 'label';
 
-export default class AddURNForm extends React.PureComponent<
-  ActionFormProps,
-  AddURNFormState
-> {
+export default class AddURNForm extends React.PureComponent<ActionFormProps, AddURNFormState> {
   constructor(props: ActionFormProps) {
     super(props);
     this.state = initializeForm(this.props.nodeSettings);
@@ -51,7 +54,7 @@ export default class AddURNForm extends React.PureComponent<
 
   public handlePathChanged(value: string): boolean {
     const updates: Partial<AddURNFormState> = {
-      path: validate("URN", value, [Required])
+      path: validate('URN', value, [Required])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -61,24 +64,16 @@ export default class AddURNForm extends React.PureComponent<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p data-spec={controlLabelSpecId}>
           Add a new URN to reach the contact such as a phone number.
         </p>

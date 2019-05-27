@@ -18,10 +18,7 @@ export interface TypeListState {
   config: Type;
 }
 
-export default class TypeList extends React.PureComponent<
-  TypeListProps,
-  TypeListState
-> {
+export default class TypeList extends React.PureComponent<TypeListProps, TypeListState> {
   private typeConfigs: Type[];
 
   constructor(props: TypeListProps) {
@@ -49,10 +46,7 @@ export default class TypeList extends React.PureComponent<
 
   private getTypeConfigs(): Type[] {
     if (this.typeConfigs === undefined) {
-      this.typeConfigs = filterTypeConfigs(
-        configsToDisplay,
-        this.context.config.flowType
-      );
+      this.typeConfigs = filterTypeConfigs(configsToDisplay, this.context.config.flowType);
     }
     return this.typeConfigs;
   }

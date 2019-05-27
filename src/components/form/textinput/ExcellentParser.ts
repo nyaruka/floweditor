@@ -30,11 +30,11 @@ const isValidStart = (
 ): boolean => {
   const body = partialExpression.substring(1); // strip prefix
 
-  if (body[0] === "(") {
+  if (body[0] === '(') {
     return true;
   } else {
     // if expression doesn't start with ( then check it's an allowed top level context reference
-    const topLevel = body.split(".")[0].toLowerCase();
+    const topLevel = body.split('.')[0].toLowerCase();
 
     if (allowIncomplete) {
       for (const allowed of allowedTopLevels) {
@@ -54,10 +54,7 @@ const isValidStart = (
  */
 export const isWordChar = (ch: string | 0): boolean => {
   return (
-    (ch >= "a" && ch <= "z") ||
-    (ch >= "A" && ch <= "Z") ||
-    (ch >= "0" && ch <= "9") ||
-    ch === "_"
+    (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9') || ch === '_'
   );
 };
 
@@ -119,29 +116,29 @@ export default class ExcellentParser {
     }
 
     const neededParentheses = [];
-    let fragment = "";
+    let fragment = '';
     let skipChar = false;
     let inQuotes = false;
-    let prependFlag = "";
+    let prependFlag = '';
 
     for (let pos = partialExpression.length - 1; pos >= 0; pos--) {
       const ch = partialExpression[pos];
 
-      if (ch === " ") {
+      if (ch === ' ') {
         skipChar = true;
       }
 
-      if (ch === ",") {
+      if (ch === ',') {
         skipChar = true;
-        if (neededParentheses[neededParentheses.length - 1] !== "(") {
-          neededParentheses.push("(");
+        if (neededParentheses[neededParentheses.length - 1] !== '(') {
+          neededParentheses.push('(');
         }
       }
 
-      if (ch === ")" && !inQuotes) {
+      if (ch === ')' && !inQuotes) {
         skipChar = true;
-        neededParentheses.push("(");
-        neededParentheses.push("(");
+        neededParentheses.push('(');
+        neededParentheses.push('(');
       }
 
       if (ch === '"') {
@@ -149,8 +146,8 @@ export default class ExcellentParser {
       }
 
       if (skipChar) {
-        if (ch === "(" && !inQuotes) {
-          if (neededParentheses[neededParentheses.length - 1] === "(") {
+        if (ch === '(' && !inQuotes) {
+          if (neededParentheses[neededParentheses.length - 1] === '(') {
             neededParentheses.pop();
           }
 
@@ -160,15 +157,15 @@ export default class ExcellentParser {
         }
       }
 
-      if (ch === "(" && fragment === "") {
-        prependFlag = "#";
+      if (ch === '(' && fragment === '') {
+        prependFlag = '#';
       }
 
-      if (skipChar || inQuotes || (ch === "(" && fragment === "")) {
+      if (skipChar || inQuotes || (ch === '(' && fragment === '')) {
         continue;
       }
 
-      if (isWordChar(ch) || ch === ".") {
+      if (isWordChar(ch) || ch === '.') {
         fragment = ch + fragment;
       } else {
         break;
@@ -190,29 +187,29 @@ export default class ExcellentParser {
 
     // initial state is string literal if number of quotes is odd
     let state = inString ? STATE_STRING_LITERAL : STATE_IGNORE;
-    let identifier = "";
-    let parenthesesLevel = partialExpression[-1] === "(" ? 0 : 1;
+    let identifier = '';
+    let parenthesesLevel = partialExpression[-1] === '(' ? 0 : 1;
 
     for (let pos = partialExpression.length - 1; pos >= 0; pos--) {
       const ch = partialExpression[pos];
 
-      if (ch === "@") {
-        return "";
+      if (ch === '@') {
+        return '';
       }
 
       if (state === STATE_IGNORE) {
-        if (parenthesesLevel === 0 && (isWordChar(ch) || ch === ".")) {
+        if (parenthesesLevel === 0 && (isWordChar(ch) || ch === '.')) {
           state = STATE_IDENTIFIER;
           identifier = ch + identifier;
         } else if (ch === '"') {
           state = STATE_STRING_LITERAL;
-        } else if (ch === "(") {
+        } else if (ch === '(') {
           parenthesesLevel--;
-        } else if (ch === ")") {
+        } else if (ch === ')') {
           parenthesesLevel++;
         }
       } else if (state === STATE_IDENTIFIER) {
-        if (isWordChar(ch) || ch === ".") {
+        if (isWordChar(ch) || ch === '.') {
           identifier = ch + identifier;
         } else {
           return identifier;
@@ -223,7 +220,7 @@ export default class ExcellentParser {
         }
       }
     }
-    return "";
+    return '';
   }
 
   public getContactFields(text: string): string[] {
@@ -258,10 +255,7 @@ export default class ExcellentParser {
       const nextNextCh = pos < text.length - 2 ? text[pos + 2] : 0;
 
       if (state === STATE_BODY) {
-        if (
-          ch === this.expressionPrefix &&
-          (isWordChar(nextCh) || nextCh === "(")
-        ) {
+        if (ch === this.expressionPrefix && (isWordChar(nextCh) || nextCh === '(')) {
           state = STATE_PREFIX;
           currentExpression = {
             start: pos,
@@ -269,16 +263,13 @@ export default class ExcellentParser {
             text: ch,
             closed: false
           };
-        } else if (
-          ch === this.expressionPrefix &&
-          nextCh === this.expressionPrefix
-        ) {
+        } else if (ch === this.expressionPrefix && nextCh === this.expressionPrefix) {
           state = STATE_ESCAPED_PREFIX;
         }
       } else if (state === STATE_PREFIX) {
         if (isWordChar(ch)) {
           state = STATE_IDENTIFIER; // we're parsing an expression like @XXX
-        } else if (ch === "(") {
+        } else if (ch === '(') {
           // we're parsing an expression like @(1 + 2)
           state = STATE_BALANCED;
           parenthesesLevel += 1;
@@ -287,9 +278,9 @@ export default class ExcellentParser {
       } else if (state === STATE_IDENTIFIER) {
         currentExpression.text += ch;
       } else if (state === STATE_BALANCED) {
-        if (ch === "(") {
+        if (ch === '(') {
           parenthesesLevel += 1;
-        } else if (ch === ")") {
+        } else if (ch === ')') {
           parenthesesLevel -= 1;
         } else if (ch === '"') {
           state = STATE_STRING_LITERAL;
@@ -316,27 +307,17 @@ export default class ExcellentParser {
       //  3. next char is a period, but it's not followed by a word character
       if (state === STATE_IDENTIFIER) {
         if (
-          (!isWordChar(nextCh) && nextCh !== ".") ||
-          (nextCh === "." && !isWordChar(nextNextCh))
+          (!isWordChar(nextCh) && nextCh !== '.') ||
+          (nextCh === '.' && !isWordChar(nextNextCh))
         ) {
           currentExpression.end = pos + 1;
         }
       }
 
-      if (
-        currentExpression != null &&
-        (currentExpression.end != null || nextCh === 0)
-      ) {
+      if (currentExpression != null && (currentExpression.end != null || nextCh === 0)) {
         const allowIncomplete = nextCh === 0; // if we're at the end of the input, allow incomplete expressions
-        if (
-          isValidStart(
-            currentExpression.text,
-            this.allowedTopLevels,
-            allowIncomplete
-          )
-        ) {
-          currentExpression.closed =
-            currentExpression.text[1] === "(" && parenthesesLevel === 0;
+        if (isValidStart(currentExpression.text, this.allowedTopLevels, allowIncomplete)) {
+          currentExpression.closed = currentExpression.text[1] === '(' && parenthesesLevel === 0;
           currentExpression.end = pos + 1;
           expressions.push(currentExpression);
         }

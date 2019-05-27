@@ -19,10 +19,10 @@ import styles from './RandomRouterForm.module.scss';
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 export enum InputToFocus {
-  args = "args",
-  min = "min",
-  max = "max",
-  exit = "exit"
+  args = 'args',
+  min = 'min',
+  max = 'max',
+  exit = 'exit'
 }
 
 export interface RandomRouterFormState extends FormState {
@@ -31,7 +31,7 @@ export interface RandomRouterFormState extends FormState {
   categories: Category[];
 }
 
-export const leadInSpecId = "lead-in";
+export const leadInSpecId = 'lead-in';
 
 export default class RandomRouterForm extends React.Component<
   RouterFormProps,
@@ -52,10 +52,7 @@ export default class RandomRouterForm extends React.Component<
   };
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate("Result Name", value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -92,8 +89,8 @@ export default class RandomRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -127,16 +124,8 @@ export default class RandomRouterForm extends React.Component<
     }
 
     return (
-      <Dialog
-        title={typeConfig.name}
-        headerClass={typeConfig.type}
-        buttons={this.getButtons()}
-      >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+      <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.lead_in}>Split them randomly into one of</div>
         <div className={styles.bucket_select}>
           <SelectElement
@@ -148,10 +137,7 @@ export default class RandomRouterForm extends React.Component<
           />
         </div>
         <div className={styles.bucket_list}>{this.renderBucketNames()}</div>
-        {createResultNameInput(
-          this.state.resultName,
-          this.handleUpdateResultName
-        )}
+        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
       </Dialog>
     );
   }

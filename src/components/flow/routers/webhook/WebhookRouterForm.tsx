@@ -65,7 +65,7 @@ export default class WebhookRouterForm extends React.Component<
 
     let ensureEmptyHeader = false;
 
-    if (keys.hasOwnProperty("method")) {
+    if (keys.hasOwnProperty('method')) {
       updates.method = { value: keys.method };
 
       if (keys.method.value !== GET_METHOD.value) {
@@ -77,27 +77,25 @@ export default class WebhookRouterForm extends React.Component<
       }
     }
 
-    if (keys.hasOwnProperty("url")) {
-      updates.url = validate("URL", keys.url, [Required, ValidURL]);
+    if (keys.hasOwnProperty('url')) {
+      updates.url = validate('URL', keys.url, [Required, ValidURL]);
     }
 
-    if (keys.hasOwnProperty("resultName")) {
-      updates.resultName = validate("Result Name", keys.resultName, [Required]);
+    if (keys.hasOwnProperty('resultName')) {
+      updates.resultName = validate('Result Name', keys.resultName, [Required]);
     }
 
-    if (keys.hasOwnProperty("postBody")) {
+    if (keys.hasOwnProperty('postBody')) {
       updates.postBody = { value: keys.postBody };
     }
 
-    if (keys.hasOwnProperty("header")) {
-      updates.headers = [
-        { value: keys.header, validationFailures: keys.validationFailures }
-      ];
+    if (keys.hasOwnProperty('header')) {
+      updates.headers = [{ value: keys.header, validationFailures: keys.validationFailures }];
       ensureEmptyHeader = true;
     }
 
     let toRemove: any[] = [];
-    if (keys.hasOwnProperty("removeHeader")) {
+    if (keys.hasOwnProperty('removeHeader')) {
       toRemove = [{ headers: [{ value: keys.removeHeader }] }];
       ensureEmptyHeader = true;
     }
@@ -110,7 +108,7 @@ export default class WebhookRouterForm extends React.Component<
       if (ensureEmptyHeader) {
         let needsHeader = true;
         for (const header of this.state.headers) {
-          if (header.value.name.trim() === "") {
+          if (header.value.name.trim() === '') {
             needsHeader = false;
             break;
           }
@@ -125,11 +123,7 @@ export default class WebhookRouterForm extends React.Component<
   }
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate("Result Name", value, [
-      Required,
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
+    const resultName = validate('Result Name', value, [Required, Alphanumeric, StartIsNonNumeric]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -148,10 +142,7 @@ export default class WebhookRouterForm extends React.Component<
     return this.handleUpdate({ removeHeader });
   }
 
-  private handleHeaderUpdated(
-    header: Header,
-    validationFailures: ValidationFailure[]
-  ): boolean {
+  private handleHeaderUpdated(header: Header, validationFailures: ValidationFailure[]): boolean {
     return this.handleUpdate({ header, validationFailures });
   }
 
@@ -159,8 +150,8 @@ export default class WebhookRouterForm extends React.Component<
     return this.handleUpdate({
       header: {
         uuid: createUUID(),
-        name: "",
-        value: ""
+        name: '',
+        value: ''
       }
     });
   }
@@ -171,8 +162,7 @@ export default class WebhookRouterForm extends React.Component<
 
   private handleSave(): void {
     // validate our url in case they haven't interacted
-    const valid =
-      this.handleUrlUpdate(this.state.url.value) && this.state.valid;
+    const valid = this.handleUrlUpdate(this.state.url.value) && this.state.valid;
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);
@@ -181,8 +171,8 @@ export default class WebhookRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: "Ok", onClick: this.handleSave },
-      secondary: { name: "Cancel", onClick: () => this.props.onClose(true) }
+      primary: { name: 'Ok', onClick: this.handleSave },
+      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
     };
   }
 
@@ -206,15 +196,12 @@ export default class WebhookRouterForm extends React.Component<
 
     const tabs: Tab[] = [];
     tabs.push({
-      name: "HTTP Headers",
-      hasErrors: !!this.state.headers.find((header: HeaderEntry) =>
-        hasErrors(header)
-      ),
+      name: 'HTTP Headers',
+      hasErrors: !!this.state.headers.find((header: HeaderEntry) => hasErrors(header)),
       body: (
         <>
           <p className={styles.info}>
-            Add any additional headers below that you would like to send along
-            with your request.
+            Add any additional headers below that you would like to send along with your request.
           </p>
           <FlipMove
             easing="ease-out"
@@ -232,22 +219,18 @@ export default class WebhookRouterForm extends React.Component<
     const method = this.state.method.value.value;
     if (method === Methods.POST || method === Methods.PUT) {
       tabs.push({
-        name: "POST Body",
+        name: 'POST Body',
         body: (
           <div key="post_body" className={styles.body_form}>
             <h4>{this.state.method.value.label} Body</h4>
-            <p>
-              Modify the body of your {this.state.method.value.label} request.
-            </p>
+            <p>Modify the body of your {this.state.method.value.label} request.</p>
             <TextInputElement
               __className={styles.req_body}
               name="Body"
               showLabel={false}
               entry={this.state.postBody}
               onChange={this.handlePostBodyUpdate}
-              helpText={`Modify the body of the ${
-                this.state.method.value.label
-              } 
+              helpText={`Modify the body of the ${this.state.method.value.label} 
                         request that will be sent to your webhook.`}
               onFieldFailures={(persistantFailures: ValidationFailure[]) => {
                 const postBody = { ...this.state.postBody, persistantFailures };
@@ -272,11 +255,7 @@ export default class WebhookRouterForm extends React.Component<
         buttons={this.getButtons()}
         tabs={tabs}
       >
-        <TypeList
-          __className=""
-          initialType={typeConfig}
-          onChange={this.props.onTypeChange}
-        />
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.method}>
           <SelectElement
             name="MethodMap"
@@ -302,24 +281,16 @@ export default class WebhookRouterForm extends React.Component<
           />
         </div>
         <div className={styles.instructions}>
-          <p>
-            If your server responds with JSON, each property will be added to
-            the Flow.
-          </p>
+          <p>If your server responds with JSON, each property will be added to the Flow.</p>
           <pre className={styles.code}>
             {'{ "product": "Solar Charging Kit", "stock level": 32 }'}
           </pre>
           <p>
-            This response would add{" "}
-            <span className={styles.example}>@webhook.product</span> and{" "}
-            <span className={styles.example}>@webhook["stock level"]</span> for
-            use in the flow.
+            This response would add <span className={styles.example}>@webhook.product</span> and{' '}
+            <span className={styles.example}>@webhook["stock level"]</span> for use in the flow.
           </p>
         </div>
-        {createResultNameInput(
-          this.state.resultName,
-          this.handleUpdateResultName
-        )}
+        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
       </Dialog>
     );
   }

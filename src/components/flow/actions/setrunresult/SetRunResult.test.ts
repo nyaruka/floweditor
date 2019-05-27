@@ -1,13 +1,13 @@
-import { SetRunResult } from "flowTypes";
-import { composeComponentTestUtils } from "testUtils";
-import { createSetRunResultAction } from "testUtils/assetCreators";
-import { setEmpty } from "utils";
+import { SetRunResult } from 'flowTypes';
+import { composeComponentTestUtils } from 'testUtils';
+import { createSetRunResultAction } from 'testUtils/assetCreators';
+import { setEmpty } from 'utils';
 
 import SetRunResultComp, {
   getClearPlaceholder,
   getResultNameMarkup,
   getSavePlaceholder
-} from "components/flow/actions/setrunresult/SetRunResult";
+} from 'components/flow/actions/setrunresult/SetRunResult';
 
 const setRunResultAction = createSetRunResultAction();
 
@@ -17,7 +17,7 @@ const { setup } = composeComponentTestUtils<SetRunResult>(
 );
 
 describe(SetRunResultComp.name, () => {
-  it("should render save placeholder when value prop passed", () => {
+  it('should render save placeholder when value prop passed', () => {
     const { wrapper, props } = setup();
 
     expect(
@@ -32,9 +32,7 @@ describe(SetRunResultComp.name, () => {
     const { wrapper, props } = setup(true, { value: setEmpty() });
 
     expect(
-      wrapper.containsMatchingElement(
-        getClearPlaceholder(getResultNameMarkup(props.name))
-      )
+      wrapper.containsMatchingElement(getClearPlaceholder(getResultNameMarkup(props.name)))
     ).toBeTruthy();
     expect(wrapper).toMatchSnapshot();
   });

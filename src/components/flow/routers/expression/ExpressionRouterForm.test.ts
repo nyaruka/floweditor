@@ -1,19 +1,15 @@
-import { RouterFormProps } from "components/flow/props";
-import { CaseProps } from "components/flow/routers/caselist/CaseList";
-import ExpressionRouterForm from "components/flow/routers/expression/ExpressionRouterForm";
-import { DEFAULT_OPERAND } from "components/nodeeditor/constants";
-import { Operators, Types } from "config/interfaces";
-import { RouterTypes, SwitchRouter } from "flowTypes";
-import { composeComponentTestUtils, mock } from "testUtils";
-import {
-  createRenderNode,
-  getRouterFormProps,
-  createMatchRouter
-} from "testUtils/assetCreators";
-import * as utils from "utils";
-import { createUUID } from "utils";
+import { RouterFormProps } from 'components/flow/props';
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
+import ExpressionRouterForm from 'components/flow/routers/expression/ExpressionRouterForm';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { Operators, Types } from 'config/interfaces';
+import { RouterTypes, SwitchRouter } from 'flowTypes';
+import { composeComponentTestUtils, mock } from 'testUtils';
+import { createRenderNode, getRouterFormProps, createMatchRouter } from 'testUtils/assetCreators';
+import * as utils from 'utils';
+import { createUUID } from 'utils';
 
-mock(utils, "createUUID", utils.seededUUIDs());
+mock(utils, 'createUUID', utils.seededUUIDs());
 
 const routerNode = createMatchRouter([]);
 routerNode.ui = {
@@ -27,30 +23,30 @@ const { setup } = composeComponentTestUtils<RouterFormProps>(
 );
 
 describe(ExpressionRouterForm.name, () => {
-  it("should render", () => {
+  it('should render', () => {
     const { wrapper } = setup(true);
     expect(wrapper).toMatchSnapshot();
   });
 
-  describe("updates", () => {
-    it("should save changes", () => {
+  describe('updates', () => {
+    it('should save changes', () => {
       const { instance, props } = setup(true, {
         $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
       });
 
-      instance.handleUpdateResultName("Favorite Color");
+      instance.handleUpdateResultName('Favorite Color');
       instance.handleCasesUpdated([
         {
-          kase: { type: Operators.has_any_word, arguments: ["red"] },
-          categoryName: "Red"
+          kase: { type: Operators.has_any_word, arguments: ['red'] },
+          categoryName: 'Red'
         },
         {
-          kase: { type: Operators.has_any_word, arguments: ["maroon"] },
-          categoryName: "Red"
+          kase: { type: Operators.has_any_word, arguments: ['maroon'] },
+          categoryName: 'Red'
         },
         {
-          kase: { type: Operators.has_any_word, arguments: ["green"] },
-          categoryName: "Green"
+          kase: { type: Operators.has_any_word, arguments: ['green'] },
+          categoryName: 'Green'
         }
       ] as CaseProps[]);
 
@@ -62,12 +58,12 @@ describe(ExpressionRouterForm.name, () => {
       expect(props.updateRouter).toMatchCallSnapshot();
     });
 
-    it("should cancel", () => {
+    it('should cancel', () => {
       const { instance, props } = setup(true, {
         $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
       });
 
-      instance.handleOperandUpdated("@date.now");
+      instance.handleOperandUpdated('@date.now');
       instance.getButtons().secondary.onClick();
       expect(props.onClose).toHaveBeenCalled();
       expect(props.updateRouter).not.toHaveBeenCalled();

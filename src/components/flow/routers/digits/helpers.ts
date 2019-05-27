@@ -1,31 +1,23 @@
-import { CaseProps } from "components/flow/routers/caselist/CaseList";
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import {
   createCaseProps,
   createRenderNode,
   hasCases,
   resolveRoutes
-} from "components/flow/routers/helpers";
-import { Types } from "config/interfaces";
-import { getType } from "config/typeConfigs";
-import {
-  HintTypes,
-  Router,
-  RouterTypes,
-  SwitchRouter,
-  WaitTypes
-} from "flowTypes";
-import { RenderNode } from "store/flowContext";
-import { NodeEditorSettings, StringEntry } from "store/nodeEditor";
+} from 'components/flow/routers/helpers';
+import { Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
+import { HintTypes, Router, RouterTypes, SwitchRouter, WaitTypes } from 'flowTypes';
+import { RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
-import { DigitsRouterFormState } from "./DigitsRouterForm";
+import { DigitsRouterFormState } from './DigitsRouterForm';
 
-export const nodeToState = (
-  settings: NodeEditorSettings
-): DigitsRouterFormState => {
+export const nodeToState = (settings: NodeEditorSettings): DigitsRouterFormState => {
   let initialCases: CaseProps[] = [];
 
   // TODO: work out an incremental result name
-  let resultName: StringEntry = { value: "" };
+  let resultName: StringEntry = { value: '' };
 
   if (getType(settings.originalNode) === Types.wait_for_digits) {
     const router = settings.originalNode.node.router as SwitchRouter;
@@ -34,7 +26,7 @@ export const nodeToState = (
         initialCases = createCaseProps(router.cases, settings.originalNode);
       }
 
-      resultName = { value: router.result_name || "" };
+      resultName = { value: router.result_name || '' };
     }
   }
 
@@ -49,15 +41,13 @@ export const stateToNode = (
   settings: NodeEditorSettings,
   state: DigitsRouterFormState
 ): RenderNode => {
-  const {
-    cases,
-    exits,
-    categories,
-    defaultCategory: defaultExit,
-    caseConfig
-  } = resolveRoutes(state.cases, false, settings.originalNode.node);
+  const { cases, exits, categories, defaultCategory: defaultExit, caseConfig } = resolveRoutes(
+    state.cases,
+    false,
+    settings.originalNode.node
+  );
 
-  const optionalRouter: Pick<Router, "result_name"> = {};
+  const optionalRouter: Pick<Router, 'result_name'> = {};
   if (state.resultName.value) {
     optionalRouter.result_name = state.resultName.value;
   }
@@ -67,7 +57,7 @@ export const stateToNode = (
     default_category_uuid: defaultExit,
     categories,
     cases,
-    operand: "@input",
+    operand: '@input',
     wait: { type: WaitTypes.msg, hint: { type: HintTypes.digits } },
     ...optionalRouter
   };

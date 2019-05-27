@@ -1,10 +1,8 @@
-import { MsgLocalizationFormState } from "components/flow/actions/localization/MsgLocalizationForm";
-import { Types } from "config/interfaces";
-import { NodeEditorSettings } from "store/nodeEditor";
+import { MsgLocalizationFormState } from 'components/flow/actions/localization/MsgLocalizationForm';
+import { Types } from 'config/interfaces';
+import { NodeEditorSettings } from 'store/nodeEditor';
 
-export const initializeLocalizedForm = (
-  settings: NodeEditorSettings
-): MsgLocalizationFormState => {
+export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocalizationFormState => {
   // check if our form should use a localized action
   if (
     settings.originalAction &&
@@ -18,17 +16,13 @@ export const initializeLocalizedForm = (
       const action = localized.getObject() as any;
       return {
         message: {
-          value: "text" in localized.localizedKeys ? action.text : ""
+          value: 'text' in localized.localizedKeys ? action.text : ''
         },
         quickReplies: {
-          value:
-            "quick_replies" in localized.localizedKeys
-              ? action.quick_replies || []
-              : []
+          value: 'quick_replies' in localized.localizedKeys ? action.quick_replies || [] : []
         },
         audio: {
-          value:
-            "audio_url" in localized.localizedKeys ? action.audio_url : null
+          value: 'audio_url' in localized.localizedKeys ? action.audio_url : null
         },
         valid: true
       };
@@ -36,7 +30,7 @@ export const initializeLocalizedForm = (
   }
 
   return {
-    message: { value: "" },
+    message: { value: '' },
     quickReplies: { value: [] },
     audio: { value: null },
     valid: true

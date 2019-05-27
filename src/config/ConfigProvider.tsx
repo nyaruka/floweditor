@@ -1,5 +1,5 @@
-import * as React from "react";
-import { FlowEditorConfig } from "flowTypes";
+import * as React from 'react';
+import { FlowEditorConfig } from 'flowTypes';
 
 export const fakePropType: any = (): any => null;
 fakePropType.isRequired = (): any => null;
@@ -15,14 +15,11 @@ export interface ConfigProviderContext {
 
 // ----------------------------------------------------------------------------------------------
 
-export const SINGLE_CHILD_ERROR =
-  "ConfigProvider expects only one child component.";
+export const SINGLE_CHILD_ERROR = 'ConfigProvider expects only one child component.';
 export const VALID_CHILD_ERROR =
-  "ConfigProvider expects a valid React element: https://reactjs.org/docs/react-api.html#isvalidelement";
+  'ConfigProvider expects a valid React element: https://reactjs.org/docs/react-api.html#isvalidelement';
 
-export default class ConfigProvider extends React.Component<
-  ConfigProviderProps
-> {
+export default class ConfigProvider extends React.Component<ConfigProviderProps> {
   public static childContextTypes = {
     config: fakePropType,
     assetService: fakePropType

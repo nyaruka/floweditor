@@ -1,11 +1,11 @@
-import { Exit, FlowNode } from "flowTypes";
-import { GRID_SIZE } from "utils";
+import { Exit, FlowNode } from 'flowTypes';
+import { GRID_SIZE } from 'utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
 const {
   jsPlumb: { importDefaults }
-} = require("../../node_modules/jsplumb/dist/js/jsplumb");
+} = require('../../node_modules/jsplumb/dist/js/jsplumb');
 export interface DragEvent {
   el: Element;
   pos: number[];
@@ -28,18 +28,18 @@ export interface PendingConnections {
 
 export const REPAINT_DURATION = 600;
 export const TARGET_DEFAULTS = {
-  anchor: ["Continuous", { shape: "Dot", faces: ["top", "left", "right"] }],
+  anchor: ['Continuous', { shape: 'Dot', faces: ['top', 'left', 'right'] }],
   endpoint: [
-    "Dot",
+    'Dot',
     {
       radius: 13,
-      cssClass: "plumb-endpoint",
-      hoverClass: "plumb-endpoint-hover"
+      cssClass: 'plumb-endpoint',
+      hoverClass: 'plumb-endpoint-hover'
     }
   ],
   dropOptions: {
-    tolerance: "touch",
-    hoverClass: "plumb-drop-hover",
+    tolerance: 'touch',
+    hoverClass: 'plumb-drop-hover',
     isTarget: false
   },
   dragAllowedWhenFull: false,
@@ -48,7 +48,7 @@ export const TARGET_DEFAULTS = {
 };
 
 export const SOURCE_DEFAULTS = {
-  anchor: "BottomCenter",
+  anchor: 'BottomCenter',
   maxConnections: 1,
   dragAllowedWhenFull: false,
   deleteEndpointsOnEmpty: true,
@@ -57,20 +57,20 @@ export const SOURCE_DEFAULTS = {
 
 export const getAnchor = (sourceEle: any, targetEle: any): any[] => {
   return [
-    "Continuous",
+    'Continuous',
     {
-      shape: "Dot",
+      shape: 'Dot',
       faces:
         sourceEle.getBoundingClientRect().bottom + GRID_SIZE / 3 <
         targetEle.getBoundingClientRect().top
-          ? ["top"]
-          : ["right", "left"]
+          ? ['top']
+          : ['right', 'left']
     }
   ];
 };
 
 const defaultConnector = [
-  "Flowchart",
+  'Flowchart',
   {
     stub: 12,
     midpoint: 0.75,
@@ -92,25 +92,25 @@ export default class Plumber {
 
   constructor() {
     this.jsPlumb = importDefaults({
-      DragOptions: { cursor: "pointer", zIndex: 1000 },
-      DropOptions: { tolerance: "touch", hoverClass: "plumb-hover" },
-      Endpoint: "Blank",
-      EndpointStyle: { strokeStyle: "transparent" },
+      DragOptions: { cursor: 'pointer', zIndex: 1000 },
+      DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
+      Endpoint: 'Blank',
+      EndpointStyle: { strokeStyle: 'transparent' },
       PaintStyle: { strokeWidth: 3.5 },
       ConnectionsDetachable: true,
       Connector: defaultConnector,
       ConnectionOverlays: [
         [
-          "PlainArrow",
+          'PlainArrow',
           {
             location: 0.999,
             width: 12,
             length: 12,
-            cssClass: "jtk-arrow"
+            cssClass: 'jtk-arrow'
           }
         ]
       ],
-      Container: "editor-container"
+      Container: 'editor-container'
     });
 
     this.debug = this.debug.bind(this);
@@ -126,9 +126,7 @@ export default class Plumber {
     this.repaintForDuration = this.repaintForDuration.bind(this);
     this.repaintFor = this.repaintFor.bind(this);
     this.handlePendingConnections = this.handlePendingConnections.bind(this);
-    this.checkForPendingConnections = this.checkForPendingConnections.bind(
-      this
-    );
+    this.checkForPendingConnections = this.checkForPendingConnections.bind(this);
     this.connect = this.connect.bind(this);
     this.bind = this.bind.bind(this);
     this.repaint = this.repaint.bind(this);
@@ -157,11 +155,7 @@ export default class Plumber {
     this.jsPlumb.makeTarget(uuid, TARGET_DEFAULTS);
   }
 
-  public connectExit(
-    node: FlowNode,
-    exit: Exit,
-    className: string = null
-  ): void {
+  public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
     this.connect(
       `${node.uuid}:${exit.uuid}`,
       exit.destination_uuid,
@@ -171,12 +165,7 @@ export default class Plumber {
     );
   }
 
-  public updateClass(
-    node: FlowNode,
-    exit: Exit,
-    className: string,
-    add: boolean
-  ): void {
+  public updateClass(node: FlowNode, exit: Exit, className: string, add: boolean): void {
     const source = `${node.uuid}:${exit.uuid}`;
     const connection = this.jsPlumb.select({ source });
     if (add) {
@@ -194,9 +183,7 @@ export default class Plumber {
     this.cancelDurationRepaint();
     this.jsPlumb.clearDragSelection();
 
-    Object.keys(selected).forEach(uuid =>
-      this.jsPlumb.addToDragSelection(uuid)
-    );
+    Object.keys(selected).forEach(uuid => this.jsPlumb.addToDragSelection(uuid));
   }
 
   public clearDragSelection(): void {
@@ -239,7 +226,7 @@ export default class Plumber {
     this.jsPlumb.batch(() => {
       const batch = Object.keys(this.pendingConnections).length;
       if (batch > 1) {
-        console.log("batching " + batch + " connections");
+        console.log('batching ' + batch + ' connections');
       }
 
       for (const key in this.pendingConnections) {
@@ -249,11 +236,8 @@ export default class Plumber {
 
           const anchors = target
             ? [
-                "Bottom",
-                getAnchor(
-                  document.getElementById(source),
-                  document.getElementById(target)
-                )
+                'Bottom',
+                getAnchor(document.getElementById(source), document.getElementById(target))
               ]
             : [];
 
@@ -311,7 +295,7 @@ export default class Plumber {
 
     // revalidate the targets that we updated
     for (const target in targets) {
-      if (targets.hasOwnProperty("target")) {
+      if (targets.hasOwnProperty('target')) {
         this.recalculate(target);
       }
     }
@@ -374,9 +358,7 @@ export default class Plumber {
           .getConnections({ target: uuid })
           .concat(this.jsPlumb.getConnections({ source: uuid }));
         for (const c of connections) {
-          c.endpoints[1].setAnchor(
-            getAnchor(c.endpoints[0].element, c.endpoints[1].element)
-          );
+          c.endpoints[1].setAnchor(getAnchor(c.endpoints[0].element, c.endpoints[1].element));
         }
         this.jsPlumb.revalidate(uuid);
       });

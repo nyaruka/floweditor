@@ -1,7 +1,7 @@
-import { createRenderNode } from "components/flow/routers/helpers";
-import { SubflowRouterFormState } from "components/flow/routers/subflow/SubflowRouterForm";
-import { SUBFLOW_OPERAND } from "components/nodeeditor/constants";
-import { Operators, Types } from "config/interfaces";
+import { createRenderNode } from 'components/flow/routers/helpers';
+import { SubflowRouterFormState } from 'components/flow/routers/subflow/SubflowRouterForm';
+import { SUBFLOW_OPERAND } from 'components/nodeeditor/constants';
+import { Operators, Types } from 'config/interfaces';
 import {
   Case,
   Category,
@@ -11,14 +11,12 @@ import {
   StartFlow,
   StartFlowExitNames,
   SwitchRouter
-} from "flowTypes";
-import { Asset, AssetType, RenderNode } from "store/flowContext";
-import { NodeEditorSettings } from "store/nodeEditor";
-import { createUUID } from "utils";
+} from 'flowTypes';
+import { Asset, AssetType, RenderNode } from 'store/flowContext';
+import { NodeEditorSettings } from 'store/nodeEditor';
+import { createUUID } from 'utils';
 
-export const nodeToState = (
-  settings: NodeEditorSettings
-): SubflowRouterFormState => {
+export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormState => {
   if (settings.originalNode.ui.type === Types.split_by_subflow) {
     const action = (settings.originalAction ||
       (settings.originalNode.node.actions.length > 0 &&
@@ -39,8 +37,7 @@ export const stateToNode = (
 ): RenderNode => {
   const action =
     settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 &&
-      settings.originalNode.node.actions[0]);
+    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
 
   const newAction: StartFlow = {
     uuid: action.uuid || createUUID(),
@@ -86,12 +83,12 @@ export const stateToNode = (
       {
         uuid: createUUID(),
         type: Operators.has_only_text,
-        arguments: ["completed"],
+        arguments: ['completed'],
         category_uuid: categories[0].uuid
       },
       {
         uuid: createUUID(),
-        arguments: ["expired"],
+        arguments: ['expired'],
         type: Operators.has_only_text,
         category_uuid: categories[1].uuid
       }
@@ -117,7 +114,7 @@ export const stateToNode = (
   return newRenderNode;
 };
 
-const flowToAsset = (field: Flow = { uuid: "", name: "" }): Asset => ({
+const flowToAsset = (field: Flow = { uuid: '', name: '' }): Asset => ({
   id: field.uuid,
   name: field.name,
   type: AssetType.Flow

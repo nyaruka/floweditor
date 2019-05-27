@@ -24,9 +24,7 @@ export const optionsToTags = (tags: TagList): string[] =>
     return tag.label;
   });
 
-export default class TaggingElement extends React.Component<
-  TaggingElementProps
-> {
+export default class TaggingElement extends React.Component<TaggingElementProps> {
   constructor(props: any) {
     super(props);
     bindCallbacks(this, {
@@ -52,9 +50,7 @@ export default class TaggingElement extends React.Component<
   }
 
   public render(): JSX.Element {
-    const className: string = getSelectClass(
-      (this.props.entry.validationFailures || []).length
-    );
+    const className: string = getSelectClass((this.props.entry.validationFailures || []).length);
 
     const tags = tagsToOptions(this.props.entry);
     return (
