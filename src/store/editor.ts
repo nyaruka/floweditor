@@ -22,11 +22,12 @@ export interface CanvasPositions {
 export interface Activity {
   nodes: { [uuid: string]: number };
   segments: { [exitToNodeKey: string]: number };
+  recentMessages?: { [key: string]: RecentMessage[] };
   is_starting?: boolean;
 }
 
 export interface RecentMessage {
-  sent: string;
+  sent: Date;
   text: string;
 }
 

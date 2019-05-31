@@ -67,6 +67,11 @@ export const getRecentMessages = (
       .get(`${recentsEndpoint}?exits=${exit.uuid}&to=${exit.destination_uuid}`)
       .then((response: AxiosResponse) =>
         window.setTimeout(() => {
+          const recentMessages: RecentMessage[] = [];
+          for (const row of response.data) {
+            recentMessages.push({ text: row.text, sent: new Date(row.sent) });
+          }
+
           resolve(response.data as RecentMessage[]);
         }, 4000)
       )

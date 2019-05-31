@@ -41,6 +41,7 @@ export interface ExitStoreProps {
   localization: LocalizationMap;
   disconnectExit: DisconnectExit;
   segmentCount: number;
+  recentMessages: RecentMessage[];
 }
 
 export type ExitProps = ExitPassedProps & ExitStoreProps;
@@ -184,6 +185,11 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private handleShowRecentMessages(): void {
+    if (this.props.recentMessages) {
+      this.setState({ recentMessages: this.props.recentMessages });
+      return;
+    }
+
     this.setState({ fetchingRecentMessages: true }, () => {
       getRecentMessages(
         this.context.config.endpoints.recents,
@@ -277,7 +283,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
           {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
             <div key={'recent_' + idx} className={styles.message}>
               <div className={styles.text}>{recentMessage.text}</div>
-              <div className={styles.sent}>{recentMessage.sent}</div>
+              <div className={styles.sent}>{recentMessage.sent.toLocaleString()}</div>
             </div>
           ))}
           {this.state.recentMessages === null ? (
@@ -347,13 +353,21 @@ const mapStateToProps = (
   }: AppState,
   props: ExitPassedProps
 ) => {
+  // see if we have some passed in (simulated) messages
+  let recentMessages: RecentMessage[] = null;
+  const key = getExitActivityKey(props.exit);
+  if (key in (activity.recentMessages || {})) {
+    recentMessages = activity.recentMessages[key];
+  }
+
   const segmentCount = activity.segments[getExitActivityKey(props.exit)] || 0;
   return {
     dragging: dragActive,
     segmentCount,
     translating,
     language,
-    localization
+    localization,
+    recentMessages
   };
 };
 

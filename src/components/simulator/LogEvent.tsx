@@ -18,8 +18,9 @@ interface MsgProps {
 }
 
 export interface EventProps {
+  step_uuid: string;
   uuid?: string;
-  created_on?: Date;
+  created_on?: string;
   type?: string;
   field?: { key: string; name: string };
   field_uuid?: string;

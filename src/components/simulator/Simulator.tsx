@@ -11,7 +11,7 @@ import { ReactNode } from 'react';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Activity } from 'store/editor';
+import { Activity, RecentMessage } from 'store/editor';
 import { AssetStore, RenderNodeMap } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
 import AppState from 'store/state';
@@ -46,13 +46,15 @@ export interface SimulatorStoreProps {
   nodes: RenderNodeMap;
   definition: FlowDefinition;
   assetStore: AssetStore;
+
+  activity: Activity;
+
+  // TODO: take away responsibility of simulator for resetting this
+  liveActivity: Activity;
 }
 
 export interface SimulatorPassedProps {
   mergeEditorState: MergeEditorState;
-
-  // TODO: take away responsibility of simulator for resetting this
-  liveActivity: Activity;
 }
 
 export type SimulatorProps = SimulatorStoreProps & SimulatorPassedProps;
@@ -108,8 +110,7 @@ interface Contact {
 
 interface Step {
   arrived_on: Date;
-  events: EventProps[];
-  node: string;
+  uuid: string;
   exit_uuid: string;
   node_uuid: string;
 }
@@ -118,6 +119,7 @@ interface Run {
   path: Step[];
   flow_uuid: string;
   status: string;
+  events?: EventProps[];
   wait?: Wait;
 }
 
@@ -129,7 +131,6 @@ interface RunContext {
 
 interface Session {
   runs: Run[];
-  events: EventProps[];
   contact: Contact;
   input?: any;
   wait?: Wait;
@@ -191,7 +192,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     this.inputBox = ref;
   }
 
-  private updateActivity(): void {
+  private updateActivity(recentMessages: { [key: string]: RecentMessage[] } = {}): void {
     if (this.state.session) {
       let lastExit: string = null;
       const paths: { [key: string]: number } = {};
@@ -224,7 +225,19 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }
       }
 
-      const activity: Activity = { segments: paths, nodes: active };
+      const simulatedMessages = this.props.activity.recentMessages || {};
+
+      for (const key in recentMessages) {
+        let messages = simulatedMessages[key] || [];
+        messages = recentMessages[key].concat(messages);
+        simulatedMessages[key] = messages;
+      }
+
+      const activity: Activity = {
+        segments: paths,
+        nodes: active,
+        recentMessages: simulatedMessages
+      };
       this.props.mergeEditorState({ activity });
 
       if (activeFlow && activeFlow !== this.currentFlow) {
@@ -233,7 +246,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
   }
 
-  private updateEvents(events: EventProps[], callback: () => void): void {
+  private updateEvents(
+    events: EventProps[],
+    session: Session,
+    recentMessages: { [key: string]: RecentMessage[] },
+    callback: () => void
+  ): void {
     if (events && events.length > 0) {
       const toAdd = [];
 
@@ -245,6 +263,37 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         if (isMessage(event)) {
           messageFound = true;
+
+          // if it's a message add it to our recent messages
+          let fromUUID = '';
+          let toUUID = '';
+
+          // work backwards, since our events are recent
+          for (let i = session.runs.length - 1; i >= 0; i--) {
+            const path = session.runs[i].path;
+
+            for (let j = path.length - 1; j >= 0; j--) {
+              if (path[j].uuid === event.step_uuid) {
+                fromUUID = path[j].exit_uuid;
+                toUUID = path[j + 1].node_uuid;
+                break;
+              }
+            }
+
+            if (fromUUID && toUUID) {
+              const key = `${fromUUID}:${toUUID}`;
+              const msg: RecentMessage = {
+                sent: new Date(event.created_on),
+                text: event.msg.text
+              };
+
+              if (key in recentMessages) {
+                recentMessages[key].unshift(msg);
+              } else {
+                recentMessages[key] = [msg];
+              }
+            }
+          }
 
           if (isMT(event)) {
             // save off any quick replies we might have
@@ -273,7 +322,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           callback();
         } else {
           window.setTimeout(() => {
-            this.updateEvents(events, callback);
+            this.updateEvents(events, session, recentMessages, callback);
           }, MESSAGE_DELAY_MS);
         }
       });
@@ -286,6 +335,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     const wasJustActive = this.state.active || (runContext.events && runContext.events.length > 0);
     this.setState({ quickReplies: [] }, () => {
       if (!runContext.events || (runContext.events.length === 0 && msg)) {
+        const runs = runContext.session.runs;
+        const run = runs[runs.length - 1];
+        const step = run.path[run.path.length - 1];
+
         runContext.events = [
           {
             msg: {
@@ -295,12 +348,15 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               attachments: msg.attachments
             },
             type: 'msg_created',
-            created_on: new Date()
+            created_on: new Date().toISOString(),
+            step_uuid: step.uuid
           }
         ];
       }
 
-      this.updateEvents(runContext.events, () => {
+      const newlyRecentMessages = {};
+
+      this.updateEvents(runContext.events, runContext.session, newlyRecentMessages, () => {
         let active = false;
         for (const run of runContext.session.runs) {
           if (run.status === 'waiting') {
@@ -367,13 +423,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             sprinting: false,
             session: runContext.session,
             events: newEvents,
-            // attachmentOptionsVisible: !waitingForHint,
             drawerOpen,
             drawerType,
             waitingForHint
           },
           () => {
-            this.updateActivity();
+            this.updateActivity(newlyRecentMessages);
             this.handleFocusUpdate();
           }
         );
@@ -931,9 +986,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { definition, nodes, assetStore },
-  editorState: { liveActivity }
+  editorState: { liveActivity, activity }
 }: AppState) => ({
   liveActivity,
+  activity,
   assetStore,
   definition,
   nodes
