@@ -38,6 +38,10 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
       return 1;
     }
 
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+
     return a.name.localeCompare(b.name);
   }
 

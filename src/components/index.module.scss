@@ -1,8 +1,8 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .editor {
   position: relative;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 300;
   color: $text_color; // height: 100vh;
   height: 100%;
@@ -27,7 +27,7 @@
   :global {
     svg path {
       stroke: $translation_connector !important;
-      &.jtk_arrow {
+      &.jtk-arrow {
         fill: $translation_connector !important;
       }
     }

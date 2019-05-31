@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
 import { FlowDefinition, FlowNode, UINode } from 'flowTypes';
+import { combineReducers } from 'redux';
 import ActionTypes, {
   UpdateAssetsAction,
   UpdateBaseLanguageAction,
@@ -72,6 +72,7 @@ export interface Asset {
   name: string;
   type: AssetType;
 
+  order?: number;
   references?: Reference[];
   isNew?: boolean;
   content?: any;
