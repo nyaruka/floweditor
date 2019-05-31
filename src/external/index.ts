@@ -133,9 +133,11 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
     axios
       .get(url)
       .then((response: AxiosResponse) => {
-        const assets: Asset[] = response.data.results.map((result: any) =>
-          resultToAsset(result, type, id)
-        );
+        const assets: Asset[] = response.data.results.map((result: any, idx: number) => {
+          const asset = resultToAsset(result, type, id);
+          asset.order = idx;
+          return asset;
+        });
         resolve(assets);
       })
       .catch(error => reject(error));
