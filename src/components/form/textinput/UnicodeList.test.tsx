@@ -1,6 +1,6 @@
 import UnicodeList, { UnicodeListProps, utfWarning } from 'components/form/textinput/UnicodeList';
 import React from 'react';
-import { render } from 'react-testing-library';
+import { render } from 'test/utils';
 import { composeComponentTestUtils } from 'testUtils';
 
 const baseProps: UnicodeListProps = {

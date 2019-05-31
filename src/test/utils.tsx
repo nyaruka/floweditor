@@ -1,9 +1,9 @@
 // test-utils.js
+import { render } from '@testing-library/react';
 import ConfigProvider from 'config';
 import { FlowDefinition, FlowNode } from 'flowTypes';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from 'react-testing-library';
 import createStore from 'store/createStore';
 import { initialState } from 'store/state';
 import { createUUID } from 'utils';
@@ -43,7 +43,7 @@ const customRender = (ui: any, options?: any) =>
   render(ui, { wrapper: AllTheProviders, ...options });
 
 // re-export everything
-export * from 'react-testing-library';
+export * from '@testing-library/react';
 
 // override render method
 export { customRender as render };
