@@ -238,6 +238,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         nodes: active,
         recentMessages: simulatedMessages
       };
+
       this.props.mergeEditorState({ activity });
 
       if (activeFlow && activeFlow !== this.currentFlow) {
