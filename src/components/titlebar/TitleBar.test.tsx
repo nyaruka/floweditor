@@ -5,7 +5,7 @@ import TitleBar, {
   TitleBarProps
 } from 'components/titlebar/TitleBar';
 import React from 'react';
-import { fireEvent, render } from 'react-testing-library';
+import { fireEvent, render } from 'test/utils';
 
 const baseProps: TitleBarProps = {
   title: 'Send Message',

@@ -1,7 +1,7 @@
 import { Canvas, CANVAS_PADDING, CanvasProps } from 'components/canvas/Canvas';
 import { CanvasDraggableProps } from 'components/canvas/CanvasDraggable';
 import React from 'react';
-import { fireEvent, render } from 'react-testing-library';
+import { fireEvent, render } from 'test/utils';
 import { createUUID } from 'utils';
 
 const ele = (selected: boolean): JSX.Element => <div>I am a draggable element</div>;
