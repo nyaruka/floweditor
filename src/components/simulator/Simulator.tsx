@@ -374,7 +374,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                 type: 'info',
                 text: 'Exited flow',
                 created_on: new Date()
-              }
+              } as any
             ]
           }) as EventProps[];
         }
@@ -537,7 +537,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                   error.response.status > 499
                     ? 'Server error, try again later'
                     : error.response.data.error
-              }
+              } as any
             ]
           }) as EventProps[];
           this.setState({ events });

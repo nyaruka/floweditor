@@ -130,7 +130,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
       if (
         !this.props.draggables.find((draggable: CanvasDraggableProps) => draggable.uuid === uuid)
       ) {
-        updatedPositions = mutate(updatedPositions, { $unset: [[uuid]] });
+        updatedPositions = mutate(updatedPositions, { $unset: [[uuid]] } as any);
         updated = true;
       }
     });

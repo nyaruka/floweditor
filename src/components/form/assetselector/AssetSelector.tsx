@@ -224,7 +224,11 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
   }
 
-  public handleCheckValid(input: string, value: ValueType<Asset>, options: Asset[]): boolean {
+  public handleCheckValid(
+    input: string,
+    value: ValueType<Asset>,
+    options: OptionsType<Asset>
+  ): boolean {
     if (!this.props.createAssetFromInput) {
       return false;
     }
