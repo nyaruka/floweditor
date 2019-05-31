@@ -56,6 +56,7 @@ export const saveRevision = (endpoint: string, definition: FlowDefinition): Prom
       .catch(error => reject(error));
   });
 };
+
 export const getRecentMessages = (
   recentsEndpoint: string,
   exit: Exit,
@@ -65,11 +66,14 @@ export const getRecentMessages = (
     cancel.reject = reject;
     return axios
       .get(`${recentsEndpoint}?exits=${exit.uuid}&to=${exit.destination_uuid}`)
-      .then((response: AxiosResponse) =>
-        window.setTimeout(() => {
-          resolve(response.data as RecentMessage[]);
-        }, 4000)
-      )
+      .then((response: AxiosResponse) => {
+        const recentMessages: RecentMessage[] = [];
+        for (const row of response.data) {
+          recentMessages.push({ text: row.text, sent: new Date(row.sent) });
+        }
+
+        resolve(response.data as RecentMessage[]);
+      })
       .catch(error => reject(error));
   });
 
