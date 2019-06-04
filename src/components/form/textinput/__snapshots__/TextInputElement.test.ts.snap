@@ -141,6 +141,10 @@ Array [
     "summary": "Run details collected by a parent flow, if any",
   },
   Object {
+    "name": "webhook",
+    "summary": "The parsed JSON payload of the last webhook call",
+  },
+  Object {
     "name": "trigger",
     "summary": "A trigger that initiated a session",
   },
