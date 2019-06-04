@@ -10,7 +10,7 @@ You can view and interact with the component [here](https://floweditor.nyaruka.c
 
 ## Prerequisites
 
-```bash
+```
 yarn
 Node.js >= 10.x
 ```
@@ -19,7 +19,7 @@ Node.js >= 10.x
 
 The flow editor is a non-ejected project based on create-react-app. We use yarn for all dependencies.
 
-```bash
+```
 % yarn install
 ```
 
@@ -27,7 +27,7 @@ The flow editor is a non-ejected project based on create-react-app. We use yarn 
 
 Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/build`.
 
-```bash
+```
 % yarn run build
 ```
 
@@ -37,7 +37,7 @@ To run the flow editor in development mode, it requires an asset server. This is
 
 First, compile and run the local version for a faux asset server.
 
-```bash
+```
 % yarn lambda
 ```
 
@@ -51,7 +51,7 @@ Then you are ready to fire up the development server for the editor.
 
 This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [react-testing-library](https://testing-library.com/docs/react-testing-library/intro) where we can. The project has some older more complex tests that use [Enzyme](https://github.com/airbnb/enzyme). Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest).
 
-```bash
+```
 % yarn test
 ```
 
@@ -59,8 +59,8 @@ Note that running this locally will automatically multithread based on how many 
 
 You can also run tests locally without watch mode
 
-```bash
-yarn test --watchAll=false
+```
+% yarn test --watchAll=false
 ```
 
 ### Formatting
@@ -69,7 +69,7 @@ yarn test --watchAll=false
 
 It is possible to run prettify against the entire project without commits. This is only necessary if the project conventions change.
 
-```bash
+```
 % yarn run prettify
 ```
 
