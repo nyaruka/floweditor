@@ -215,8 +215,8 @@ export const COMPLETION_VARIABLES: CompletionOption[] = [
   ...RUN_OPTIONS,
   ...CHILD_OPTIONS,
   ...PARENT_OPTIONS,
-  ...TRIGGER_OPTIONS,
-  { name: 'webhook', summary: 'The parsed JSON payload of the last webhook call' }
+  { name: 'webhook', summary: 'The parsed JSON payload of the last webhook call' },
+  ...TRIGGER_OPTIONS
 ];
 
 export const TOP_LEVEL_OPTIONS = COMPLETION_VARIABLES.filter((option: CompletionOption) => {
@@ -403,9 +403,9 @@ export const getCompletionOptions = (
   const options = functions ? COMPLETIONS_WITH_FUNCTIONS : COMPLETION_VARIABLES;
   return autocomplete
     ? [
-      ...options,
-      ...getContactFieldOptions(assets.fields ? assets.fields.items : {}),
-      ...getResultsOptions(assets.results ? assets.results.items : {})
-    ]
+        ...options,
+        ...getContactFieldOptions(assets.fields ? assets.fields.items : {}),
+        ...getResultsOptions(assets.results ? assets.results.items : {})
+      ]
     : options;
 };
