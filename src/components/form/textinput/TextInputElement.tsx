@@ -110,16 +110,16 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     };
 
     this.parser = new ExcellentParser('@', [
-      'trigger',
-      'run',
-      'results',
-      'child',
-      'parent',
       'contact',
-      'date',
+      'child',
       'fields',
+      'input',
+      'parent',
+      'results',
+      'run',
+      'trigger',
       'urns',
-      'input'
+      'webhook'
     ]);
 
     bindCallbacks(this, {

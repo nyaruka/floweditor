@@ -4,15 +4,16 @@ import { Endpoints } from 'flowTypes';
 import { AssetMap, AssetStore, CompletionOption } from 'store/flowContext';
 
 export enum TopLevelVariables {
+  child = 'child',
   contact = 'contact',
+  fields = 'fields',
   input = 'input',
+  parent = 'parent',
   results = 'results',
   run = 'run',
-  parent = 'parent',
-  child = 'child',
   trigger = 'trigger',
-  fields = 'fields',
-  urns = 'urns'
+  urns = 'urns',
+  webhook = 'webhook'
 }
 
 export const getCompletionName = (option: CompletionOption): string => {
@@ -41,48 +42,6 @@ export const getFlowOptions = (accessor: string = ''): CompletionOption[] => {
     {
       name: `${prefix}.flow.revision`,
       summary: `The revision number of the flow in which a ${accessor} run takes place`
-    }
-  ];
-};
-
-export const getWebhookOptions = (accessor: string = ''): CompletionOption[] => {
-  const prefix = accessor ? accessor : TopLevelVariables.run;
-  return [
-    {
-      name: `${prefix}.webhook`,
-      summary: `The body of the response to the last webhook request made in a ${accessor} run`
-    },
-    {
-      name: `${prefix}.webhook.status`,
-      summary: `The status of the last webhook request made in a ${accessor} run`
-    },
-    {
-      name: `${prefix}.webhook.status_code`,
-      summary: `The status code returned from the last webhook request made in a ${accessor} run`
-    },
-    {
-      name: `${prefix}.webhook.url`,
-      summary: `The URL that was called by the last webhook request in a ${accessor} run`
-    },
-    {
-      name: `${prefix}.webhook.body`,
-      summary: `The body of the last webhook request made in a ${accessor} run`
-    },
-    {
-      name: `${prefix}.webhook.json`,
-      summary: `The JSON parsed body of the response to the last webhook request in a ${accessor} run, can access subelements`
-    },
-    {
-      name: `${prefix}.webhook.request`,
-      summary: `The raw request last made in a ${accessor} run, including headers`
-    },
-    {
-      name: `${prefix}.webhook.response`,
-      summary: `The raw response last received in a ${accessor} run, including headers`
-    },
-    {
-      name: `${prefix}.results`,
-      summary: `Results collected in a ${accessor} run`
     }
   ];
 };
@@ -199,8 +158,7 @@ export const getContactOptions = (accessor?: string): CompletionOption[] => {
 export const RUN_OPTIONS: CompletionOption[] = [
   { name: TopLevelVariables.run, summary: 'A run in this flow' },
   ...getFlowOptions(),
-  ...getContactOptions(TopLevelVariables.run),
-  ...getWebhookOptions()
+  ...getContactOptions(TopLevelVariables.run)
 ];
 
 export const CHILD_OPTIONS: CompletionOption[] = [
@@ -209,8 +167,7 @@ export const CHILD_OPTIONS: CompletionOption[] = [
     summary: 'Run details collected in a child flow, if any'
   },
   ...getFlowOptions(TopLevelVariables.child),
-  ...getContactOptions(TopLevelVariables.child),
-  ...getWebhookOptions(TopLevelVariables.child)
+  ...getContactOptions(TopLevelVariables.child)
 ];
 
 export const PARENT_OPTIONS: CompletionOption[] = [
@@ -219,8 +176,7 @@ export const PARENT_OPTIONS: CompletionOption[] = [
     summary: 'Run details collected by a parent flow, if any'
   },
   ...getFlowOptions(TopLevelVariables.parent),
-  ...getContactOptions(TopLevelVariables.parent),
-  ...getWebhookOptions(TopLevelVariables.parent)
+  ...getContactOptions(TopLevelVariables.parent)
 ];
 
 export const TRIGGER_OPTIONS: CompletionOption[] = [
@@ -259,21 +215,23 @@ export const COMPLETION_VARIABLES: CompletionOption[] = [
   ...RUN_OPTIONS,
   ...CHILD_OPTIONS,
   ...PARENT_OPTIONS,
-  ...TRIGGER_OPTIONS
+  ...TRIGGER_OPTIONS,
+  { name: 'webhook', summary: 'The parsed JSON payload of the last webhook call' }
 ];
 
 export const TOP_LEVEL_OPTIONS = COMPLETION_VARIABLES.filter((option: CompletionOption) => {
   const name = getCompletionName(option);
   return (
+    name === TopLevelVariables.child ||
     name === TopLevelVariables.contact ||
+    name === TopLevelVariables.fields ||
     name === TopLevelVariables.input ||
+    name === TopLevelVariables.parent ||
     name === TopLevelVariables.results ||
     name === TopLevelVariables.run ||
-    name === TopLevelVariables.parent ||
-    name === TopLevelVariables.child ||
     name === TopLevelVariables.trigger ||
-    name === TopLevelVariables.fields ||
-    name === TopLevelVariables.urns
+    name === TopLevelVariables.urns ||
+    name === TopLevelVariables.webhook
   );
 });
 
@@ -445,9 +403,9 @@ export const getCompletionOptions = (
   const options = functions ? COMPLETIONS_WITH_FUNCTIONS : COMPLETION_VARIABLES;
   return autocomplete
     ? [
-        ...options,
-        ...getContactFieldOptions(assets.fields ? assets.fields.items : {}),
-        ...getResultsOptions(assets.results ? assets.results.items : {})
-      ]
+      ...options,
+      ...getContactFieldOptions(assets.fields ? assets.fields.items : {}),
+      ...getResultsOptions(assets.results ? assets.results.items : {})
+    ]
     : options;
 };
