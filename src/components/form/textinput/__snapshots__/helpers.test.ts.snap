@@ -36,10 +36,6 @@ Array [
     "name": "child.contact",
     "summary": "The name of the child run's contact",
   },
-  Object {
-    "name": "child.results",
-    "summary": "Results collected in a child run",
-  },
 ]
 `;
 
@@ -52,10 +48,6 @@ Array [
   Object {
     "name": "child.contact",
     "summary": "The name of the child run's contact",
-  },
-  Object {
-    "name": "child.results",
-    "summary": "Results collected in a child run",
   },
 ]
 `;
@@ -611,33 +603,6 @@ Array [
   Object {
     "name": "child.flow.uuid",
     "summary": "The UUID of the flow in which a child run takes place",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.r" 1`] = `
-Array [
-  Object {
-    "name": "child.results",
-    "summary": "Results collected in a child run",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.re" 1`] = `
-Array [
-  Object {
-    "name": "child.results",
-    "summary": "Results collected in a child run",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "child.results" 1`] = `
-Array [
-  Object {
-    "name": "child.results",
-    "summary": "Results collected in a child run",
   },
 ]
 `;
@@ -1503,10 +1468,6 @@ Array [
     "name": "parent.contact",
     "summary": "The name of the parent run's contact",
   },
-  Object {
-    "name": "parent.results",
-    "summary": "Results collected in a parent run",
-  },
 ]
 `;
 
@@ -1519,10 +1480,6 @@ Array [
   Object {
     "name": "parent.contact",
     "summary": "The name of the parent run's contact",
-  },
-  Object {
-    "name": "parent.results",
-    "summary": "Results collected in a parent run",
   },
 ]
 `;
@@ -2082,33 +2039,6 @@ Array [
 ]
 `;
 
-exports[`helpers filterOptions should filter options for "parent.r" 1`] = `
-Array [
-  Object {
-    "name": "parent.results",
-    "summary": "Results collected in a parent run",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.re" 1`] = `
-Array [
-  Object {
-    "name": "parent.results",
-    "summary": "Results collected in a parent run",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "parent.results" 1`] = `
-Array [
-  Object {
-    "name": "parent.results",
-    "summary": "Results collected in a parent run",
-  },
-]
-`;
-
 exports[`helpers filterOptions should filter options for "r" 1`] = `
 Array [
   Object {
@@ -2165,10 +2095,6 @@ Array [
     "name": "run.contact",
     "summary": "The name of the run's contact",
   },
-  Object {
-    "name": "run.results",
-    "summary": "Results collected in a  run",
-  },
 ]
 `;
 
@@ -2181,10 +2107,6 @@ Array [
   Object {
     "name": "run.contact",
     "summary": "The name of the run's contact",
-  },
-  Object {
-    "name": "run.results",
-    "summary": "Results collected in a  run",
   },
 ]
 `;
@@ -2740,33 +2662,6 @@ Array [
   Object {
     "name": "run.flow.uuid",
     "summary": "The UUID of the flow in which a  run takes place",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.r" 1`] = `
-Array [
-  Object {
-    "name": "run.results",
-    "summary": "Results collected in a  run",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.re" 1`] = `
-Array [
-  Object {
-    "name": "run.results",
-    "summary": "Results collected in a  run",
-  },
-]
-`;
-
-exports[`helpers filterOptions should filter options for "run.results" 1`] = `
-Array [
-  Object {
-    "name": "run.results",
-    "summary": "Results collected in a  run",
   },
 ]
 `;
