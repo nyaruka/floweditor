@@ -11,75 +11,66 @@ You can view and interact with the component [here](https://floweditor.nyaruka.c
 ## Prerequisites
 
 ```bash
-NPM
-Node.js >= 8.x
+yarn
+Node.js >= 10.x
 ```
 
 ## Installation
 
-The flow editor uses npm for all dependencies.
+The flow editor is a non-ejected project based on create-react-app. We use yarn for all dependencies.
 
 ```bash
-% npm install
+% yarn install
 ```
 
 ## Building
 
-Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/preview/dist` for development or `/dist` for production.
+Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/build`.
 
 ```bash
-% npm run build:prev
-```
-
-or
-
-```bash
-% npm run build:prod
+% yarn run build
 ```
 
 ## Development
 
-You can run the editor in a development server whose content base includes the `/preview/src` and `/assets` directories. To start a development server, compile all necessary bits, and then launch your default browser with the results, run the command below. The resulting server will watch for changes to any TypeScript or SASS files and automatically recompile.
+To run the flow editor in development mode, it requires an asset server. This is what is responsible for serving up flow definitions, groups, contact fields, etc. This project includes an in memory asset server for testing purposes. These are the same lambda functions used by our netlify preview site.
+
+First, compile and run the local version for a faux asset server.
 
 ```bash
-% npm run start:dev
+% yarn lambda
 ```
 
-### API Server
+Then you are ready to fire up the development server for the editor.
 
-A small server exists in `/assets` to provide sample payloads defined in JSON to a version of the Flow Editor living at the hosting service of your choosing. You can choose to provide your own Sentry DSN and a valid `now.json` file, or remove them in favor of your own config. Use the `dev` NPM script in that directory to run the server in development.
-
-### Configuration
-
-This component is configured with the sample config at `/assets/config.js`. Universal information like `languages` and `endpoints` is made available throughout the component by `ConfigProvider`, which makes use of React's [context API](https://reactjs.org/docs/context.html).
-
-### Styling
-
-This project uses SASS (SCSS) to compose styles and [CSS Modules](https://github.com/css-modules/css-modules) to scope those styles to components. Typings for CSS Modules are generated on the fly by [typings-for-css-modules-loader](https://github.com/Jimdo/typings-for-css-modules-loader).
+```bash
+% yarn start
+```
 
 ## Running Tests
 
-This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [Enzyme](https://github.com/airbnb/enzyme) to test React components. Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest).
+This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [react-testing-library](https://testing-library.com/docs/react-testing-library/intro) where we can. The project has some older more complex tests that use [Enzyme](https://github.com/airbnb/enzyme). Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest).
 
 ```bash
-% npm run test:local
+% yarn test
 ```
 
-### Linting
+Note that running this locally will automatically multithread based on how many cores your box has. It will also run it in the interactive watch mode. This mode is what you can use to easily run only failed tests or update snapshots. When this same command is run on CI, the tests will be run without watch mode automatically.
 
-This project uses both [eslint](https://eslint.org/) (Node) & [tslint](https://github.com/palantir/tslint) (TypeScript) to enforce consistent style.
+You can also run tests locally without watch mode
 
 ```bash
-% npm run lint:es
-% npm run lint:ts
+yarn test --watchAll=false
 ```
 
 ### Formatting
 
-[Prettier](https://github.com/prettier/prettier) is used to keep formatting consistent.
+[Prettier](https://github.com/prettier/prettier) is used to keep formatting consistent. We use huskey pre-commit hooks to run prettier on every commit.
+
+It is possible to run prettify against the entire project without commits. This is only necessary if the project conventions change.
 
 ```bash
-% npm run prettify
+% yarn run prettify
 ```
 
 ## Contributing
