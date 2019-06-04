@@ -273,7 +273,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           for (let i = session.runs.length - 1; i >= 0; i--) {
             const path = session.runs[i].path;
 
-            for (let j = path.length - 1; j >= 0; j--) {
+            // start at the penultimate node since we have nowhere to render recent messages for the last node
+            for (let j = path.length - 2; j >= 0; j--) {
               if (path[j].uuid === event.step_uuid) {
                 fromUUID = path[j].exit_uuid;
                 toUUID = path[j + 1].node_uuid;
