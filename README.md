@@ -8,14 +8,14 @@ This is a standalone flow editing tool designed for use within the [RapidPro](ht
 
 You can view and interact with the component [here](https://floweditor.nyaruka.com/).
 
-## Prerequisites
+### Prerequisites
 
 ```
 yarn
 Node.js >= 10.x
 ```
 
-## Installation
+### Installation
 
 The flow editor is a non-ejected project based on create-react-app. We use yarn for all dependencies.
 
@@ -23,7 +23,7 @@ The flow editor is a non-ejected project based on create-react-app. We use yarn 
 % yarn install
 ```
 
-## Building
+### Building
 
 Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/build`.
 
@@ -31,7 +31,7 @@ Webpack is used to transpile TypeScript and SASS. After invoking a build, the co
 % yarn run build
 ```
 
-## Development
+### Development
 
 To run the flow editor in development mode, it requires an asset server. This is what is responsible for serving up flow definitions, groups, contact fields, etc. This project includes an in memory asset server for testing purposes. These are the same lambda functions used by our netlify preview site.
 
@@ -47,7 +47,7 @@ Then you are ready to fire up the development server for the editor.
 % yarn start
 ```
 
-## Running Tests
+### Running Tests
 
 This project uses [Jest](https://facebook.github.io/jest/) for unit/snapshot testing and [react-testing-library](https://testing-library.com/docs/react-testing-library/intro) where we can. The project has some older more complex tests that use [Enzyme](https://github.com/airbnb/enzyme). Typescript and Jest are integrated via [ts-jest](https://github.com/kulshekhar/ts-jest).
 
@@ -73,6 +73,6 @@ It is possible to run prettify against the entire project without commits. This 
 % yarn run prettify
 ```
 
-## Contributing
+### Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/nyaruka/floweditor/blob/master/CONTRIBUTING.md) for details on this project's code of conduct, and the process for submitting pull requests to this repo.
