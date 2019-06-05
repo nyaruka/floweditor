@@ -14,10 +14,6 @@ export interface FlowDetails {
   dependencies: FlowDefinition[];
 }
 
-// if (process.env.NODE_ENV === "preview") {
-// axios.defaults.baseURL = "/.netlify/functions/";
-// }
-
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.defaults.responseType = 'json';
@@ -124,12 +120,13 @@ export const fetchAsset = (assets: Assets, id: string): Promise<Asset> => {
   });
 };
 
-export const getAssets = (url: string, type: AssetType, id: string): Promise<Asset[]> => {
-  if (!url) {
-    return new Promise<Asset[]>((resolve, reject) => resolve([]));
-  }
+interface AssetPage {
+  assets: Asset[];
+  next: string;
+}
 
-  return new Promise<Asset[]>((resolve, reject) => {
+export const getAssetPage = (url: string, type: AssetType, id: string): Promise<AssetPage> => {
+  return new Promise<AssetPage>((resolve, reject) => {
     axios
       .get(url)
       .then((response: AxiosResponse) => {
@@ -138,10 +135,25 @@ export const getAssets = (url: string, type: AssetType, id: string): Promise<Ass
           asset.order = idx;
           return asset;
         });
-        resolve(assets);
+        resolve({ assets, next: response.data.next });
       })
       .catch(error => reject(error));
   });
+};
+
+export const getAssets = async (url: string, type: AssetType, id: string): Promise<Asset[]> => {
+  if (!url) {
+    return new Promise<Asset[]>((resolve, reject) => resolve([]));
+  }
+
+  let assets: Asset[] = [];
+  let pageUrl = url;
+  while (pageUrl) {
+    const assetPage = await getAssetPage(pageUrl, type, id);
+    assets = assets.concat(assetPage.assets);
+    pageUrl = assetPage.next;
+  }
+  return assets;
 };
 
 export const resultToAsset = (result: any, type: AssetType, id: string): Asset => {
