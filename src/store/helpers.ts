@@ -2,6 +2,7 @@ import { fieldToAsset } from 'components/flow/actions/updatecontact/helpers';
 import { getResultName } from 'components/flow/node/helpers';
 import { DefaultExitNames } from 'components/flow/routers/constants';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { GROUPS_OPERAND } from 'components/nodeeditor/constants';
 import { FlowTypes, Types } from 'config/interfaces';
 import { getActivity } from 'external';
 import {
@@ -416,6 +417,54 @@ export const isGroupAction = (actionType: string) => {
     actionType === Types.remove_contact_groups ||
     actionType === Types.send_broadcast
   );
+};
+
+/**
+ * This isn't necessarily supported, but lets make a best effort to guess node
+ * types from cues within the definition if somebody loads a flow without _ui details.
+ * @param node
+ */
+export const guessNodeType = (node: FlowNode) => {
+  // router based nodes
+  if (node.router) {
+    // hybrid nodes
+    if (node.actions.length === 1) {
+      if (node.actions[0].type === Types.call_webhook) {
+        return Types.split_by_webhook;
+      }
+
+      if (node.actions[0].type === Types.transfer_airtime) {
+        return Types.split_by_airtime;
+      }
+
+      if (node.actions[0].type === Types.call_resthook) {
+        return Types.split_by_resthook;
+      }
+
+      if (node.actions[0].type === Types.enter_flow) {
+        return Types.split_by_subflow;
+      }
+    }
+
+    if (node.router.wait) {
+      return Types.wait_for_response;
+    }
+
+    if (node.router.type === RouterTypes.random) {
+      return Types.split_by_random;
+    }
+
+    const switchRouter = getSwitchRouter(node);
+    if (switchRouter) {
+      if (switchRouter.operand === GROUPS_OPERAND) {
+        return Types.split_by_groups;
+      }
+    }
+
+    return Types.split_by_expression;
+  }
+
+  return Types.execute_actions;
 };
 
 export const generateResultQuery = (resultName: string) => `@run.results.${snakify(resultName)}`;

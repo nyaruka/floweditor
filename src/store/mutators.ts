@@ -618,7 +618,7 @@ export const mergeNodeEditorSettings = (
  * @param definition our full definition
  */
 export const pruneDefinition = (definition: FlowDefinition): FlowDefinition =>
-  mutate(definition, { nodes: [], _ui: { $merge: { nodes: [] } } });
+  mutate(definition, { nodes: [], _ui: { $merge: { nodes: {} } } });
 
 /**
  * Update the localization in the definition with the provided changes for a language
