@@ -73,6 +73,14 @@ It is possible to run prettify against the entire project without commits. This 
 % yarn run prettify
 ```
 
+### Publishing
+
+To publish, simply invoke the desired semver -- patch, minor or major. This will version the package and publish it to the npm repository automatically.
+
+```
+% yarn version --patch
+```
+
 ### Contributing
 
 Please read [CONTRIBUTING.md](https://github.com/nyaruka/floweditor/blob/master/CONTRIBUTING.md) for details on this project's code of conduct, and the process for submitting pull requests to this repo.
