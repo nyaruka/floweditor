@@ -43,6 +43,7 @@ import {
   getFlowComponents,
   getLocalizations,
   getNode,
+  guessNodeType,
   mergeAssetMaps
 } from 'store/helpers';
 import * as mutators from 'store/mutators';
@@ -253,6 +254,23 @@ export const loadFlowDefinition = (
     dispatch(mergeEditorState({ fetchingFlow: true }));
   }
 
+  // while we don't officially support doing it, lets make a best effort to load
+  // definitions that don't have _ui information (created outside of the editor)
+  definition.localization = definition.localization || {};
+  definition._ui = definition._ui || { nodes: {}, languages: [], stickies: {} };
+
+  // make sure we have a ui entry for each node
+  let currentTop = 0;
+  for (const node of definition.nodes) {
+    if (!definition._ui.nodes[node.uuid]) {
+      definition._ui.nodes[node.uuid] = {
+        position: { left: 0, top: currentTop },
+        type: guessNodeType(node)
+      };
+      currentTop += 150;
+    }
+  }
+
   // add assets we found in our flow to our asset store
   const components = getFlowComponents(definition);
   mergeAssetMaps(assetStore.fields.items, components.fields);
@@ -315,10 +333,6 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void
   };
 
   const definition = await getFlowDefinition(assetStore.revisions);
-
-  // make sure we have reasonable defaults for our localization map and ui bits
-  definition.localization = definition.localization || {};
-  definition._ui = definition._ui || { nodes: {}, languages: [], stickies: {} };
 
   dispatch(loadFlowDefinition(definition, assetStore, onLoad));
   dispatch(mergeEditorState({ currentRevision: definition.revision }));

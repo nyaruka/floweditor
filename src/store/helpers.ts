@@ -418,6 +418,45 @@ export const isGroupAction = (actionType: string) => {
   );
 };
 
+/**
+ * This isn't necessarily supported, but lets make a best effort to guess node
+ * types from cues within the definition if somebody loads a flow without _ui details.
+ * @param node
+ */
+export const guessNodeType = (node: FlowNode) => {
+  // router based nodes
+  if (node.router) {
+    // hybrid nodes
+    if (node.actions.length === 1) {
+      if (node.actions[0].type === Types.call_webhook) {
+        return Types.split_by_webhook;
+      }
+
+      if (node.actions[0].type === Types.transfer_airtime) {
+        return Types.split_by_airtime;
+      }
+
+      if (node.actions[0].type === Types.call_resthook) {
+        return Types.split_by_resthook;
+      }
+
+      if (node.actions[0].type === Types.enter_flow) {
+        return Types.split_by_subflow;
+      }
+    }
+
+    if (node.router.wait) {
+      return Types.wait_for_response;
+    }
+
+    return Types.split_by_expression;
+  }
+
+  if (node.actions.length > 0) {
+    return Types.execute_actions;
+  }
+};
+
 export const generateResultQuery = (resultName: string) => `@run.results.${snakify(resultName)}`;
 
 /**
