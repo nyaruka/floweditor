@@ -213,7 +213,7 @@ export const typeConfigList: Type[] = [
   {
     type: Types.call_webhook,
     name: 'Call Webhook',
-    description: 'Call a webook',
+    description: 'Call a webhook',
     form: WebhookRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],

@@ -88,7 +88,7 @@ exports[`WebhookRouterForm should render 1`] = `
           "split_by_webhook",
         ],
         "component": [Function],
-        "description": "Call a webook",
+        "description": "Call a webhook",
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [

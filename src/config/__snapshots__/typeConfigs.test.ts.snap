@@ -163,7 +163,7 @@ Array [
       "split_by_webhook",
     ],
     "component": [Function],
-    "description": "Call a webook",
+    "description": "Call a webhook",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -378,7 +378,7 @@ Object {
       "split_by_webhook",
     ],
     "component": [Function],
-    "description": "Call a webook",
+    "description": "Call a webhook",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
@@ -644,7 +644,7 @@ Object {
       "split_by_webhook",
     ],
     "component": [Function],
-    "description": "Call a webook",
+    "description": "Call a webhook",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [

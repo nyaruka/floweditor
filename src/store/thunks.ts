@@ -315,6 +315,11 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void
   };
 
   const definition = await getFlowDefinition(assetStore.revisions);
+
+  // make sure we have reasonable defaults for our localization map and ui bits
+  definition.localization = definition.localization || {};
+  definition._ui = definition._ui || { nodes: {}, languages: [], stickies: {} };
+
   dispatch(loadFlowDefinition(definition, assetStore, onLoad));
   dispatch(mergeEditorState({ currentRevision: definition.revision }));
 
