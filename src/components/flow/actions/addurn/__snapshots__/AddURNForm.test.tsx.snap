@@ -88,7 +88,7 @@ exports[`AddURNForm renders 1`] = `
               <option
                 value="call_webhook"
               >
-                Call a webook
+                Call a webhook
               </option>
               <option
                 value="call_resthook"

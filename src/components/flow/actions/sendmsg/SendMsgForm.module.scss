@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .checkbox {
   margin-top: 20px;
@@ -18,7 +18,7 @@
   margin-bottom: 8px;
 
   .upload {
-    vertical-align: sub;
+    vertical-align: super;
   }
 
   .remove_upload {
@@ -31,18 +31,17 @@
     margin-left: 8px;
     width: 329px;
     margin-right: 10px;
-
     input {
-      vertical-align: sub;
+      vertical-align: top;
       height: 28px !important;
-      margin-top: 3px;
+      margin-top: -11px;
       width: 100%;
       font-size: 12px;
     }
   }
 
   .remove {
-    vertical-align: sub;
+    vertical-align: super;
     display: inline-block;
   }
 }

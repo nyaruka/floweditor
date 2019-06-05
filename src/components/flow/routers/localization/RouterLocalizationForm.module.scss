@@ -1,35 +1,31 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .translating_categories {
   clear: both;
 }
 
 .translating_category {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: distribute;
-  justify-content: space-around;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 }
 
 .translating_from {
   background: $translation_bg;
   border-radius: 5px;
-  padding: 9px;
+  padding: 0px 9px;
   border: 1px solid darken($translation_bg, 5%);
   display: inline-block;
   width: 200px;
   white-space: nowrap;
   overflow: hidden;
-  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   margin-right: 10px;
+  line-height: 36px;
 }
 
 .translating_to {
   display: inline-block;
   width: 355px;
+  vertical-align: top;
 }
 
 .translating_operator_title {
