@@ -4,13 +4,14 @@ import { getTypeConfig } from 'config/typeConfigs';
 import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from 'flowTypes';
 import mutate from 'immutability-helper';
 import Constants from 'store/constants';
-import { RenderNode, RenderNodeMap } from 'store/flowContext';
+import { AssetStore, AssetType, RenderNode, RenderNodeMap } from 'store/flowContext';
 import { getFlowComponents, getNodeWithAction, getUniqueDestinations } from 'store/helpers';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { initialState } from 'store/state';
 import {
   disconnectExit,
   handleTypeConfigChange,
+  loadFlowDefinition,
   LocalizationUpdates,
   moveActionUp,
   onAddToNode,
@@ -49,6 +50,22 @@ const getUpdatedNodes = (currentStore: any): { [uuid: string]: RenderNode } => {
   return nodes;
 };
 
+const emptyAssetStore: AssetStore = {
+  fields: { type: AssetType.Field, items: {} },
+  groups: { type: AssetType.Group, items: {} },
+  labels: { type: AssetType.Label, items: {} },
+  results: { type: AssetType.Result, items: {} },
+  languages: { type: AssetType.Language, items: {} }
+};
+
+const getActionFromStore = (store: any, type: string) => {
+  for (const action of store.getActions()) {
+    if (action.type === type) {
+      return action.payload;
+    }
+  }
+};
+
 describe('fetch flows', () => {
   const store = createMockStore({});
 });
@@ -82,6 +99,15 @@ describe('Flow Manipulation', () => {
       expect(updated.localization.spa.node0_action0).toEqual({
         text: ['espanols']
       });
+    });
+
+    it('should gracefully handle missing ui', () => {
+      const missingUI = { ...boring, _ui: undefined as any };
+      store.dispatch(loadFlowDefinition(missingUI, emptyAssetStore, () => {}));
+      const action = getActionFromStore(store, Constants.UPDATE_NODES);
+
+      // should have some default ui in our render nodes
+      expect(action).toMatchSnapshot();
     });
   });
 
