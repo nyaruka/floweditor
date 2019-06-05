@@ -5,7 +5,7 @@ import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from 'components/flow/routers/constants';
 import { ResolvedRoutes, resolveRoutes } from 'components/flow/routers/helpers';
 import { Methods } from 'components/flow/routers/webhook/helpers';
-import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { DEFAULT_OPERAND, GROUPS_OPERAND } from 'components/nodeeditor/constants';
 import { Operators, Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import {
@@ -706,7 +706,7 @@ export const createGroupsRouterNode = (
     router: createSwitchRouter({
       categories,
       cases,
-      operand: '@contact',
+      operand: GROUPS_OPERAND,
       default_category_uuid: categories[categories.length - 1].uuid
     }),
     ui: {

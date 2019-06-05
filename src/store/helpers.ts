@@ -2,6 +2,7 @@ import { fieldToAsset } from 'components/flow/actions/updatecontact/helpers';
 import { getResultName } from 'components/flow/node/helpers';
 import { DefaultExitNames } from 'components/flow/routers/constants';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { GROUPS_OPERAND } from 'components/nodeeditor/constants';
 import { FlowTypes, Types } from 'config/interfaces';
 import { getActivity } from 'external';
 import {
@@ -449,12 +450,21 @@ export const guessNodeType = (node: FlowNode) => {
       return Types.wait_for_response;
     }
 
+    if (node.router.type === RouterTypes.random) {
+      return Types.split_by_random;
+    }
+
+    const switchRouter = getSwitchRouter(node);
+    if (switchRouter) {
+      if (switchRouter.operand === GROUPS_OPERAND) {
+        return Types.split_by_groups;
+      }
+    }
+
     return Types.split_by_expression;
   }
 
-  if (node.actions.length > 0) {
-    return Types.execute_actions;
-  }
+  return Types.execute_actions;
 };
 
 export const generateResultQuery = (resultName: string) => `@run.results.${snakify(resultName)}`;

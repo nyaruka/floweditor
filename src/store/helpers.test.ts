@@ -6,9 +6,24 @@ import {
   getFlowComponents,
   getLocalizations,
   getOrderedNodes,
-  getUniqueDestinations
+  getUniqueDestinations,
+  guessNodeType
 } from 'store/helpers';
-import { Spanish } from 'testUtils/assetCreators';
+import {
+  createAirtimeTransferNode,
+  createCallResthookAction,
+  createCallWebhookAction,
+  createGroupsRouterNode,
+  createMatchRouter,
+  createRandomNode,
+  createResthookNode,
+  createStartFlowAction,
+  createSubflowNode,
+  createTransferAirtimeAction,
+  createWebhookNode,
+  Spanish
+} from 'testUtils/assetCreators';
+import { createUUID } from 'utils';
 
 const mutate = require('immutability-helper');
 
@@ -34,6 +49,51 @@ describe('helpers', () => {
     it('should find results in definition', () => {
       const flowDetails = getFlowComponents(definition);
       expect(flowDetails.results).toMatchSnapshot();
+    });
+
+    it('should guess node types', () => {
+      // guess an action node
+      expect(
+        guessNodeType({
+          uuid: createUUID(),
+          actions: [{ uuid: createUUID(), type: Types.send_msg }],
+          exits: []
+        })
+      ).toBe(Types.execute_actions);
+
+      // guess a subflow
+      expect(guessNodeType(createSubflowNode(createStartFlowAction()).node)).toBe(
+        Types.split_by_subflow
+      );
+
+      // guess a resthook
+      expect(guessNodeType(createResthookNode(createCallResthookAction()).node)).toBe(
+        Types.split_by_resthook
+      );
+
+      // guess an airtime node
+      expect(guessNodeType(createAirtimeTransferNode(createTransferAirtimeAction()).node)).toBe(
+        Types.split_by_airtime
+      );
+
+      // guess a webhook node
+      expect(guessNodeType(createWebhookNode(createCallWebhookAction()))).toBe(
+        Types.split_by_webhook
+      );
+
+      // guess groups split
+      expect(guessNodeType(createGroupsRouterNode().node)).toBe(Types.split_by_groups);
+
+      // guess random router
+      expect(guessNodeType(createRandomNode(3).node)).toBe(Types.split_by_random);
+
+      // split by expression
+      const waitNode = createMatchRouter(['Red', 'Green']).node;
+      expect(guessNodeType(waitNode)).toBe(Types.wait_for_response);
+
+      // now remove the wait so it's an expression
+      waitNode.router.wait = undefined;
+      expect(guessNodeType(waitNode)).toBe(Types.split_by_expression);
     });
   });
 
