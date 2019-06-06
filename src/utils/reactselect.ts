@@ -11,8 +11,6 @@ export const large = {
     return { ...styles, marginLeft: '0px' };
   },
   input: (styles: StylesConfig, state: any) => {
-    console.log(state);
-    console.log(state.isFocused);
     return {
       ...styles,
       marginLeft: '0px',

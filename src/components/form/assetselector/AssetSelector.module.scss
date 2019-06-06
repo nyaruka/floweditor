@@ -1,22 +1,5 @@
 @import 'variables.module.scss';
 
-/*.selection {
-  input {
-    outline: none !important;
-    border: none !important;
-    box-shadow: none !important;
-    margin: 2px !important;
-    color: $gray !important;
-
-    &:focus {
-      outline: none !important;
-      border: none !important;
-      box-shadow: none !important;
-    }
-  }
-}
-*/
-
 .message {
   color: lighten($gray, 7%);
   font-size: 12px;
