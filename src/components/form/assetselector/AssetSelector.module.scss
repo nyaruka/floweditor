@@ -1,6 +1,6 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
-.selection {
+/*.selection {
   input {
     outline: none !important;
     border: none !important;
@@ -15,6 +15,7 @@
     }
   }
 }
+*/
 
 .message {
   color: lighten($gray, 7%);

@@ -1,6 +1,27 @@
 import { StylesConfig } from 'react-select/lib/styles';
 
 export const large = {
+  placeholder: (styles: StylesConfig, state: any) => {
+    return { ...styles, color: '#ddd', marginLeft: '3px' };
+  },
+  singleValue: (styles: StylesConfig, state: any) => {
+    return { ...styles, marginLeft: '3px' };
+  },
+  multiValue: (styles: StylesConfig, state: any) => {
+    return { ...styles, marginLeft: '0px' };
+  },
+  input: (styles: StylesConfig, state: any) => {
+    console.log(state);
+    console.log(state.isFocused);
+    return {
+      ...styles,
+      marginLeft: '0px',
+      caretColor: '#999',
+      marginBottom: '0px',
+      boxShadow: 'none',
+      border: 'none'
+    };
+  },
   control: (styles: StylesConfig, state: any) => {
     return {
       ...styles,

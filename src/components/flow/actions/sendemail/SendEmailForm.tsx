@@ -13,7 +13,7 @@ import {
   StringEntry,
   ValidationFailure
 } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 import styles from './SendEmailForm.module.scss';
@@ -49,19 +49,22 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
     return this.handleUpdate({ body });
   }
 
-  private handleUpdate(keys: { recipients?: string[]; subject?: string; body?: string }): boolean {
+  private handleUpdate(
+    keys: { recipients?: string[]; subject?: string; body?: string },
+    submitting = false
+  ): boolean {
     const updates: Partial<SendEmailFormState> = {};
 
     if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate('Recipients', keys.recipients!, [Required]);
+      updates.recipients = validate('Recipients', keys.recipients!, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('subject')) {
-      updates.subject = validate('Subject', keys.subject!, [Required]);
+      updates.subject = validate('Subject', keys.subject!, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('body')) {
-      updates.body = validate('Body', keys.body!, [Required]);
+      updates.body = validate('Body', keys.body!, [shouldRequireIf(submitting)]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -71,11 +74,14 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
 
   public handleSave(): void {
     // validate in case they never updated an empty field
-    const valid = this.handleUpdate({
-      recipients: this.state.recipients.value,
-      subject: this.state.subject.value,
-      body: this.state.body.value
-    });
+    const valid = this.handleUpdate(
+      {
+        recipients: this.state.recipients.value,
+        subject: this.state.subject.value,
+        body: this.state.body.value
+      },
+      true
+    );
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));

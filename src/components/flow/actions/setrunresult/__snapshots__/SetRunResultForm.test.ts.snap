@@ -45,7 +45,8 @@ exports[`SetRunResultForm render should render 1`] = `
           },
         }
       }
-      helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
+      formClearable={true}
+      helpText="The name of the result, used to reference later as @results.name"
       name="Result"
       onChange={[Function]}
       searchable={true}

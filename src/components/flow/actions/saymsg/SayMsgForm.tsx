@@ -8,7 +8,7 @@ import UploadButton from 'components/uploadbutton/UploadButton';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
@@ -30,11 +30,11 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
     config: fakePropType
   };
 
-  private handleUpdate(keys: { text?: string }): boolean {
+  private handleUpdate(keys: { text?: string }, submitting = false): boolean {
     const updates: Partial<SayMsgFormState> = {};
 
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate('Message', keys.text!, [Required]);
+      updates.message = validate('Message', keys.text!, [shouldRequireIf(submitting)]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -42,15 +42,13 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
     return updated.valid;
   }
 
-  public handleMessageUpdate(text: string): boolean {
-    return this.handleUpdate({ text });
+  public handleMessageUpdate(text: string, submitting = false): boolean {
+    return this.handleUpdate({ text }, submitting);
   }
 
   private handleSave(): void {
     // make sure we validate untouched text fields
-    const valid = this.handleUpdate({
-      text: this.state.message.value
-    });
+    const valid = this.handleUpdate({ text: this.state.message.value }, true);
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));

@@ -54,7 +54,7 @@ const inputAsString = (input: FormInput): string => {
   }
 
   // if we are an object consider the name to match assets
-  if (typeof input === 'object') {
+  if (input && typeof input === 'object') {
     value = (input as any).name || undefined;
   }
 
@@ -198,6 +198,16 @@ export const MoreThan = (amount: number, checkName: string): ValidatorFunc => (
     }
 
     return { failures: [], value: input };
+  }
+  return { failures: [], value: input };
+};
+
+export const shouldRequireIf = (required: boolean): ValidatorFunc => (
+  name: string,
+  input: FormInput
+) => {
+  if (required) {
+    return Required(name, input);
   }
   return { failures: [], value: input };
 };

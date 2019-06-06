@@ -19,7 +19,14 @@ import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
 import { FormEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
-import { Alphanumeric, Required, StartIsNonNumeric, validate, ValidURL } from 'store/validators';
+import {
+  Alphanumeric,
+  Required,
+  shouldRequireIf,
+  StartIsNonNumeric,
+  validate,
+  ValidURL
+} from 'store/validators';
 import { createUUID } from 'utils';
 
 import styles from './WebhookRouterForm.module.scss';
@@ -52,15 +59,18 @@ export default class WebhookRouterForm extends React.Component<
     });
   }
 
-  private handleUpdate(keys: {
-    method?: MethodOption;
-    url?: string;
-    postBody?: string;
-    header?: Header;
-    removeHeader?: Header;
-    validationFailures?: ValidationFailure[];
-    resultName?: string;
-  }): boolean {
+  private handleUpdate(
+    keys: {
+      method?: MethodOption;
+      url?: string;
+      postBody?: string;
+      header?: Header;
+      removeHeader?: Header;
+      validationFailures?: ValidationFailure[];
+      resultName?: string;
+    },
+    submitting = false
+  ): boolean {
     const updates: Partial<WebhookRouterFormState> = {};
 
     let ensureEmptyHeader = false;
@@ -78,11 +88,11 @@ export default class WebhookRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('url')) {
-      updates.url = validate('URL', keys.url, [Required, ValidURL]);
+      updates.url = validate('URL', keys.url, [shouldRequireIf(submitting), ValidURL]);
     }
 
     if (keys.hasOwnProperty('resultName')) {
-      updates.resultName = validate('Result Name', keys.resultName, [Required]);
+      updates.resultName = validate('Result Name', keys.resultName, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('postBody')) {
@@ -134,8 +144,8 @@ export default class WebhookRouterForm extends React.Component<
     return this.handleUpdate({ method });
   }
 
-  private handleUrlUpdate(url: string): boolean {
-    return this.handleUpdate({ url });
+  private handleUrlUpdate(url: string, submitting = false): boolean {
+    return this.handleUpdate({ url }, submitting);
   }
 
   private handleHeaderRemoved(removeHeader: Header): boolean {
@@ -162,7 +172,11 @@ export default class WebhookRouterForm extends React.Component<
 
   private handleSave(): void {
     // validate our url in case they haven't interacted
-    const valid = this.handleUrlUpdate(this.state.url.value) && this.state.valid;
+    const valid = this.handleUpdate(
+      { url: this.state.url.value, resultName: this.state.resultName.value },
+      true
+    );
+
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);

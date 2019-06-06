@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 :global {
   ::-webkit-scrollbar {
@@ -8,7 +8,7 @@
 
   body {
     margin: 0;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
     color: #777;
@@ -50,6 +50,19 @@
       opacity: 0;
     }
 
+    .react-select {
+      input {
+        font-family: 'Roboto';
+        font-weight: 100;
+        line-height: 28px;
+        margin-left: 3px;
+        transition: none !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+
+    /*
     .select-base {
       input {
         box-shadow: none !important;
@@ -128,6 +141,7 @@
         }
       }
     }
+    */
 
     // jsplumb, no text selection while dragging
     .jtk-drag-select * {
@@ -204,9 +218,11 @@
     }
   }
 
+  /*
   .Select-clear-zone {
     display: none !important;
   }
+  */
 
   .clearfix {
     clear: both;

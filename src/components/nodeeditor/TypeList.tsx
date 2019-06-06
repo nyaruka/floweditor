@@ -57,6 +57,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
         <p>When a contact arrives at this point in your flow...</p>
         <div>
           <Select
+            className="react-select"
             styles={large as any}
             value={this.state.config}
             onChange={this.handleChangeType as any}
