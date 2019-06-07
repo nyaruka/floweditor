@@ -140,6 +140,10 @@ Array [
     "form": [Function],
     "name": "Send Email",
     "type": "send_email",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   Object {
     "component": [Function],
@@ -171,6 +175,10 @@ Array [
     ],
     "name": "Call Webhook",
     "type": "call_webhook",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   Object {
     "aliases": Array [
@@ -185,6 +193,10 @@ Array [
     ],
     "name": "Call Zapier",
     "type": "call_resthook",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   Object {
     "aliases": Array [
@@ -210,6 +222,10 @@ Array [
     ],
     "name": "Start Somebody Else",
     "type": "start_session",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   Object {
     "aliases": Array [
@@ -372,6 +388,10 @@ Object {
     ],
     "name": "Call Zapier",
     "type": "call_resthook",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "call_webhook": Object {
     "aliases": Array [
@@ -386,6 +406,10 @@ Object {
     ],
     "name": "Call Webhook",
     "type": "call_webhook",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "enter_flow": Object {
     "aliases": Array [
@@ -459,6 +483,10 @@ Object {
     "form": [Function],
     "name": "Send Email",
     "type": "send_email",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "send_msg": Object {
     "component": [Function],
@@ -596,6 +624,10 @@ Object {
     ],
     "name": "Call Zapier",
     "type": "call_resthook",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "split_by_run_result": Object {
     "aliases": Array [
@@ -652,6 +684,10 @@ Object {
     ],
     "name": "Call Webhook",
     "type": "call_webhook",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "start_session": Object {
     "component": [Function],
@@ -663,6 +699,10 @@ Object {
     ],
     "name": "Start Somebody Else",
     "type": "start_session",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "switch": Object {
     "aliases": Array [

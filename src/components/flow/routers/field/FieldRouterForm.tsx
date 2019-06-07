@@ -2,22 +2,20 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors } from 'components/flow/actions/helpers';
 import { sortFieldsAndProperties } from 'components/flow/actions/updatecontact/helpers';
-import { CONTACT_PROPERTIES } from 'components/flow/actions/updatecontact/UpdateContactForm';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
-import { Scheme, SCHEMES } from 'config/typeConfigs';
 import * as React from 'react';
-import { Asset, AssetType } from 'store/flowContext';
+import { Asset } from 'store/flowContext';
 import { AssetEntry, FormState, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
 import { small } from 'utils/reactselect';
 
 import styles from './FieldRouterForm.module.scss';
-import { nodeToState, stateToNode } from './helpers';
+import { getRoutableFields, nodeToState, stateToNode } from './helpers';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -34,36 +32,25 @@ export interface FieldRouterFormState extends FormState {
   resultName: StringEntry;
 }
 
-export const getRoutableFields = (): Asset[] => {
-  return [
-    ...CONTACT_PROPERTIES,
-    ...SCHEMES.map((scheme: Scheme) => ({
-      name: scheme.name,
-      id: scheme.scheme,
-      type: AssetType.Scheme
-    }))
-  ];
-};
-
 export const leadInSpecId = 'lead-in';
 
 export default class FieldRouterForm extends React.Component<
   RouterFormProps,
   FieldRouterFormState
 > {
+  public static contextTypes = {
+    assetService: fakePropType,
+    config: fakePropType
+  };
+
   constructor(props: RouterFormProps) {
     super(props);
-
     this.state = nodeToState(this.props.nodeSettings, this.props.assetStore);
 
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
     });
   }
-
-  public static contextTypes = {
-    assetService: fakePropType
-  };
 
   private handleUpdateResultName(value: string): void {
     const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
@@ -108,7 +95,7 @@ export default class FieldRouterForm extends React.Component<
               name="Contact Field"
               styles={small as any}
               assets={this.props.assetStore.fields}
-              additionalOptions={getRoutableFields()}
+              additionalOptions={getRoutableFields(this.context.config.flowType)}
               entry={this.state.field}
               searchable={true}
               sortFunction={sortFieldsAndProperties}

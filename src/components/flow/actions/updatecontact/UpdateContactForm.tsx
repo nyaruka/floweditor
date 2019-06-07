@@ -7,14 +7,10 @@ import {
   stateToAction,
   UpdateContactFormState
 } from 'components/flow/actions/updatecontact/helpers';
-import {
-  ActionFormProps,
-  CHANNEL_PROPERTY,
-  LANGUAGE_PROPERTY,
-  NAME_PROPERTY
-} from 'components/flow/props';
+import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TextInputElement from 'components/form/textinput/TextInputElement';
+import { getContactProperties } from 'components/helpers';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
@@ -28,14 +24,13 @@ import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './UpdateContactForm.module.scss';
 
-export const CONTACT_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, CHANNEL_PROPERTY];
-
 export default class UpdateContactForm extends React.Component<
   ActionFormProps,
   UpdateContactFormState
 > {
   public static contextTypes = {
-    assetService: fakePropType
+    assetService: fakePropType,
+    config: fakePropType
   };
 
   constructor(props: ActionFormProps) {
@@ -280,7 +275,7 @@ export default class UpdateContactForm extends React.Component<
         <AssetSelector
           name="Contact Field"
           assets={this.props.assetStore.fields}
-          additionalOptions={CONTACT_PROPERTIES}
+          additionalOptions={getContactProperties(this.context.config.flowType)}
           entry={this.state.field}
           searchable={true}
           sortFunction={sortFieldsAndProperties}
