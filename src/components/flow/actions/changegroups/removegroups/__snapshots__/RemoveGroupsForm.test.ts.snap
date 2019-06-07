@@ -37,7 +37,6 @@ exports[`RemoveGroupsForm render should render 1`] = `
       Select the group(s) to remove the contact from.
     </p>
     <AssetSelector
-      createPrefix="Create Group: "
       entry={
         Object {
           "value": Array [

@@ -10,7 +10,7 @@ import { ChangeGroups } from 'flowTypes';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { mergeForm } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 import { renderIf } from 'utils';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -43,7 +43,7 @@ export default class RemoveGroupsForm extends React.Component<
   }
 
   public handleSave(): void {
-    const valid = this.handleGroupsChanged(this.state.groups.value!);
+    const valid = this.handleGroupsChanged(this.state.groups.value!, true);
     if (valid) {
       const newAction = stateToAction(this.props.nodeSettings, this.state);
       this.props.updateAction(newAction as ChangeGroups);
@@ -51,11 +51,14 @@ export default class RemoveGroupsForm extends React.Component<
     }
   }
 
-  private handleUpdate(keys: { groups?: Asset[]; removeAll?: boolean }): boolean {
+  private handleUpdate(
+    keys: { groups?: Asset[]; removeAll?: boolean },
+    submitting: boolean = false
+  ): boolean {
     const updates: Partial<ChangeGroupsFormState> = {};
 
     // we only require groups if removeAll isn't checked
-    let groupValidators = this.state.removeAll ? [] : [Required];
+    let groupValidators = this.state.removeAll ? [] : [shouldRequireIf(submitting)];
 
     if (keys.hasOwnProperty('removeAll')) {
       updates.removeAll = keys.removeAll;
@@ -73,8 +76,8 @@ export default class RemoveGroupsForm extends React.Component<
     return updated.valid;
   }
 
-  public handleGroupsChanged(groups: Asset[]): boolean {
-    return this.handleUpdate({ groups });
+  public handleGroupsChanged(groups: Asset[], submitting: boolean = false): boolean {
+    return this.handleUpdate({ groups }, submitting);
   }
 
   public handleRemoveAllUpdate(removeAll: boolean): boolean {
@@ -99,7 +102,6 @@ export default class RemoveGroupsForm extends React.Component<
             <p data-spec={labelSpecId}>{LABEL}</p>
             <AssetSelector
               name="Groups"
-              createPrefix="Create Group: "
               assets={this.props.assetStore.groups}
               entry={this.state.groups}
               searchable={true}

@@ -11,7 +11,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
+import { Alphanumeric, shouldRequireIf, StartIsNonNumeric, validate } from 'store/validators';
 import { small } from 'utils/reactselect';
 
 import {
@@ -58,9 +58,9 @@ export default class ResultRouterForm extends React.Component<
     });
   }
 
-  private handleResultChanged(selected: Asset[]): boolean {
+  private handleResultChanged(selected: Asset[], submitting = false): boolean {
     const updates: Partial<ResultRouterFormState> = {
-      result: validate('Result to split on', selected[0], [Required])
+      result: validate('Result to split on', selected[0], [shouldRequireIf(submitting)])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -73,7 +73,7 @@ export default class ResultRouterForm extends React.Component<
   }
 
   private handleSave(): void {
-    const valid = this.handleResultChanged([this.state.result.value]);
+    const valid = this.handleResultChanged([this.state.result.value], true);
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);

@@ -24,7 +24,7 @@ import { Asset, AssetType, updateAssets } from 'store/flowContext';
 import * as mutators from 'store/mutators';
 import { mergeForm, ValidationFailure } from 'store/nodeEditor';
 import { DispatchWithState, GetState } from 'store/thunks';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './UpdateContactForm.module.scss';
 
@@ -48,14 +48,17 @@ export default class UpdateContactForm extends React.Component<
     });
   }
 
-  private handleUpdate(keys: {
-    type?: Types;
-    name?: string;
-    channel?: Asset;
-    language?: Asset;
-    field?: Asset;
-    fieldValue?: string;
-  }): boolean {
+  private handleUpdate(
+    keys: {
+      type?: Types;
+      name?: string;
+      channel?: Asset;
+      language?: Asset;
+      field?: Asset;
+      fieldValue?: string;
+    },
+    submitting = false
+  ): boolean {
     const updates: Partial<UpdateContactFormState> = {};
 
     if (keys.hasOwnProperty('type')) {
@@ -67,11 +70,11 @@ export default class UpdateContactForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('channel')) {
-      updates.channel = validate('Channel', keys.channel, [Required]);
+      updates.channel = validate('Channel', keys.channel, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('language')) {
-      updates.language = validate('Language', keys.language, [Required]);
+      updates.language = validate('Language', keys.language, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('field')) {
@@ -116,12 +119,12 @@ export default class UpdateContactForm extends React.Component<
     });
   }
 
-  private handleChannelUpdate(selection: Asset[]): boolean {
-    return this.handleUpdate({ channel: selection[0] });
+  private handleChannelUpdate(selection: Asset[], submitting = false): boolean {
+    return this.handleUpdate({ channel: selection[0] }, submitting);
   }
 
-  private handleLanguageUpdate(selection: Asset[]): boolean {
-    return this.handleUpdate({ language: selection[0] });
+  private handleLanguageUpdate(selection: Asset[], submitting = false): boolean {
+    return this.handleUpdate({ language: selection[0] }, submitting);
   }
 
   private handleFieldValueUpdate(fieldValue: string): boolean {
@@ -153,12 +156,12 @@ export default class UpdateContactForm extends React.Component<
 
     // check if language required
     if (this.state.type === Types.set_contact_language) {
-      valid = this.handleLanguageUpdate([this.state.language.value]) && valid;
+      valid = this.handleLanguageUpdate([this.state.language.value], true) && valid;
     }
 
     // check if channel required
     if (this.state.type === Types.set_contact_channel) {
-      valid = this.handleChannelUpdate([this.state.channel.value]) && valid;
+      valid = this.handleChannelUpdate([this.state.channel.value], true) && valid;
     }
 
     /*        if (this.state.type === Types.set_contact_field) {

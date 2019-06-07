@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 :global {
   ::-webkit-scrollbar {
@@ -8,7 +8,7 @@
 
   body {
     margin: 0;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
     color: #777;
@@ -50,82 +50,15 @@
       opacity: 0;
     }
 
-    .select-base {
+    .react-select {
       input {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 100;
+        line-height: 28px;
+        margin-left: 3px;
+        transition: none !important;
+        border: none !important;
         box-shadow: none !important;
-      }
-    }
-
-    .select-invalid {
-      .Select-control {
-        border-color: $error_color !important;
-      }
-      .Select-menu-outer {
-        border-left-color: $error_color !important;
-        border-right-color: $error_color !important;
-        border-bottom-color: $error_color !important;
-      }
-    }
-
-    .select-small {
-      .Select-menu-outer {
-        z-index: 6000;
-        .Select-option {
-          font-size: 11px;
-          padding: 3px 10px;
-        }
-      }
-      .Select-control {
-        font-size: 11px;
-        height: 24px;
-        .Select-placeholder {
-          line-height: 22px;
-        }
-        .Select-value {
-          line-height: 22px !important;
-          .Select-value-label {
-            line-height: 22px;
-          }
-        }
-        .Select-input {
-          height: 22px;
-        }
-      }
-
-      input {
-        font-size: 12px !important;
-        height: 11px !important;
-        margin: 0 !important;
-        line-height: 13px !important;
-      }
-    }
-
-    .select-small-timeout {
-      display: inline-block;
-      margin: 0;
-      margin-left: 8px;
-      top: 10px;
-      line-height: 22px;
-      .Select-menu-outer {
-        width: 125px;
-        .Select-option {
-          font-size: 12px;
-          padding: 3px 10px;
-        }
-      }
-      .Select-control {
-        font-size: 12px;
-        height: 22px;
-        width: 125px;
-        .Select-value {
-          line-height: 22px !important;
-          .Select-value-label {
-            line-height: 22px;
-          }
-        }
-        .Select-input {
-          height: 22px;
-        }
       }
     }
 
@@ -204,9 +137,11 @@
     }
   }
 
+  /*
   .Select-clear-zone {
     display: none !important;
   }
+  */
 
   .clearfix {
     clear: both;

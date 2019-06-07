@@ -7,21 +7,21 @@ exports[`AssetSelector renders 1`] = `
       class="ele"
     >
       <div
-        class="css-10nd86i selection"
+        class="css-1pcexqc-container react-select selection"
       >
         <div
-          class="css-ux7jtm"
+          class="css-en22e2-control"
         >
           <div
             class="css-1hwfws3"
           >
             <div
-              class="css-1492t68"
+              class="css-wirkz0-placeholder"
             >
-              Select Groups
+              Select an existing groups or enter a new one
             </div>
             <div
-              class="css-1g6gooi"
+              class="css-10fb2c7"
             >
               <div
                 class=""
@@ -49,11 +49,11 @@ exports[`AssetSelector renders 1`] = `
             class="css-1wy0on6"
           >
             <span
-              class="css-d8oujb"
+              class="css-bgvzuu-indicatorSeparator"
             />
             <div
               aria-hidden="true"
-              class="css-1ep9fjw"
+              class="css-16pqwjk-indicatorContainer"
             >
               <svg
                 aria-hidden="true"
