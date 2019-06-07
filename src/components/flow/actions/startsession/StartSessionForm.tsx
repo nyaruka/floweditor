@@ -7,7 +7,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, AssetEntry, FormState, mergeForm } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
@@ -47,15 +47,15 @@ export default class StartSessionForm extends React.Component<
     return this.handleUpdate({ flow });
   }
 
-  private handleUpdate(keys: { flow?: Asset; recipients?: Asset[] }): boolean {
+  private handleUpdate(keys: { flow?: Asset; recipients?: Asset[] }, submitting = false): boolean {
     const updates: Partial<StartSessionFormState> = {};
 
     if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate('Recipients', keys.recipients, [Required]);
+      updates.recipients = validate('Recipients', keys.recipients, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('flow')) {
-      updates.flow = validate('Flow', keys.flow, [Required]);
+      updates.flow = validate('Flow', keys.flow, [shouldRequireIf(submitting)]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -65,10 +65,13 @@ export default class StartSessionForm extends React.Component<
 
   private handleSave(): void {
     // validate in case they never updated an empty field
-    const valid = this.handleUpdate({
-      recipients: this.state.recipients.value,
-      flow: this.state.flow.value
-    });
+    const valid = this.handleUpdate(
+      {
+        recipients: this.state.recipients.value,
+        flow: this.state.flow.value
+      },
+      true
+    );
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));

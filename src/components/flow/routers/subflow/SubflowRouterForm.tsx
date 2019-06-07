@@ -8,7 +8,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { AssetEntry, FormState, mergeForm } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
@@ -33,9 +33,9 @@ export default class SubflowRouterForm extends React.PureComponent<
     });
   }
 
-  public handleFlowChanged(flows: Asset[]): boolean {
+  public handleFlowChanged(flows: Asset[], submitting = false): boolean {
     const updates: Partial<SubflowRouterFormState> = {
-      flow: validate('Flow', flows[0], [Required])
+      flow: validate('Flow', flows[0], [shouldRequireIf(submitting)])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -45,7 +45,7 @@ export default class SubflowRouterForm extends React.PureComponent<
 
   private handleSave(): void {
     // validate our flow in case they haven't interacted
-    this.handleFlowChanged([this.state.flow.value]);
+    this.handleFlowChanged([this.state.flow.value], true);
 
     if (this.state.valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));

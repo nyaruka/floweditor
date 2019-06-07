@@ -7,7 +7,7 @@ import { ChangeGroups } from 'flowTypes';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { mergeForm } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import { ChangeGroupsFormState, excludeDynamicGroups, labelSpecId } from '../helpers';
 import { initializeForm, stateToAction } from './helpers';
@@ -23,7 +23,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
   }
 
   public handleSave(): void {
-    const valid = this.handleGroupsChanged(this.state.groups.value!);
+    const valid = this.handleGroupsChanged(this.state.groups.value!, true);
     if (valid) {
       const newAction = stateToAction(this.props.nodeSettings, this.state);
       this.props.updateAction(newAction as ChangeGroups);
@@ -31,9 +31,9 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     }
   }
 
-  public handleGroupsChanged(groups: Asset[]): boolean {
+  public handleGroupsChanged(groups: Asset[], submitting: boolean = false): boolean {
     const updates: Partial<ChangeGroupsFormState> = {
-      groups: validate('Groups', groups, [Required])
+      groups: validate('Groups', groups, [shouldRequireIf(submitting)])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -46,7 +46,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     this.props.addAsset('groups', group);
 
     // try to add the group
-    this.handleGroupsChanged((this.state.groups.value || []).concat(group));
+    this.handleGroupsChanged((this.state.groups.value || []).concat(group), false);
   }
 
   public handleCreateAssetFromInput(input: string): any {

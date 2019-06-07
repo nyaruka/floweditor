@@ -324,8 +324,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
   public render(): JSX.Element {
     const commonAttributes = {
-      placeholder: this.props.placeholder || 'Select ' + this.props.name,
-      className: styles.selection,
+      className: 'react-select ' + styles.selection,
       value: this.state.entry.value,
       components: { Option: AssetOption },
       styles: this.getStyle(),
@@ -352,6 +351,9 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         this.props.shouldExclude
       );
 
+      const article = !this.props.multi ? 'an' : '';
+      const newLanguage = this.props.multi ? 'new ones' : 'a new one';
+
       return (
         <FormElement
           name={this.props.name}
@@ -359,9 +361,14 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           showLabel={this.props.showLabel}
           helpText={this.props.helpText}
           hideError={this.state.menuOpen}
+          __className={styles.ele}
         >
           <Creatable
             {...commonAttributes}
+            placeholder={
+              this.props.placeholder ||
+              `Select ${article} existing ${this.props.name.toLocaleLowerCase()} or enter ${newLanguage}`
+            }
             options={localMatches.sort(this.props.sortFunction || sortByName)}
             isValidNewOption={this.handleCheckValid}
             formatCreateLabel={this.handleCreatePrompt}
@@ -405,6 +412,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           showLabel={this.props.showLabel}
           helpText={this.props.helpText}
           hideError={this.state.menuOpen}
+          __className={styles.ele}
         >
           <Async
             {...commonAttributes}

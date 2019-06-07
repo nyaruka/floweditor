@@ -8,7 +8,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { AssetEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
-import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
+import { Alphanumeric, shouldRequireIf, StartIsNonNumeric, validate } from 'store/validators';
 import { snakify } from 'utils';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -46,11 +46,18 @@ export default class SetRunResultForm extends React.PureComponent<
     return this.handleUpdate({ category });
   }
 
-  private handleUpdate(keys: { name?: Asset; value?: string; category?: string }): boolean {
+  private handleUpdate(
+    keys: { name?: Asset; value?: string; category?: string },
+    submitting: boolean = false
+  ): boolean {
     const updates: Partial<SetRunResultFormState> = {};
 
     if (keys.hasOwnProperty('name')) {
-      updates.name = validate('Name', keys.name, [Required, Alphanumeric, StartIsNonNumeric]);
+      updates.name = validate('Name', keys.name, [
+        shouldRequireIf(submitting),
+        Alphanumeric,
+        StartIsNonNumeric
+      ]);
     }
 
     if (keys.hasOwnProperty('value')) {
@@ -68,9 +75,7 @@ export default class SetRunResultForm extends React.PureComponent<
 
   private handleSave(): void {
     // make sure we validate untouched text fields
-    const valid = this.handleUpdate({
-      name: this.state.name.value
-    });
+    const valid = this.handleUpdate({ name: this.state.name.value }, true);
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
@@ -97,6 +102,11 @@ export default class SetRunResultForm extends React.PureComponent<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
+    const snaked =
+      !hasErrors(this.state.name) && this.state.name.value
+        ? '.' + snakify(this.state.name.value.name)
+        : '';
+
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
@@ -109,8 +119,9 @@ export default class SetRunResultForm extends React.PureComponent<
             createPrefix="New: "
             onChange={this.handleNameUpdate}
             createAssetFromInput={this.handleCreateAssetFromInput}
+            formClearable={true}
             showLabel={true}
-            helpText="The name of the result, used to reference later, for example: @run.results.my_result_name"
+            helpText={`The name of the result, used to reference later as @results${snaked}`}
           />
 
           <TextInputElement

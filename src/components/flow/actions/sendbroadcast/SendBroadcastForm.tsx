@@ -16,7 +16,7 @@ import {
   StringEntry,
   ValidationFailure
 } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 export interface SendBroadcastFormState extends FormState {
   message: StringEntry;
@@ -49,15 +49,15 @@ export default class SendBroadcastForm extends React.Component<
     return this.handleUpdate({ text });
   }
 
-  private handleUpdate(keys: { text?: string; recipients?: Asset[] }): boolean {
+  private handleUpdate(keys: { text?: string; recipients?: Asset[] }, submitting = false): boolean {
     const updates: Partial<SendBroadcastFormState> = {};
 
     if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate('Recipients', keys.recipients!, [Required]);
+      updates.recipients = validate('Recipients', keys.recipients!, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate('Message', keys.text!, [Required]);
+      updates.message = validate('Message', keys.text!, [shouldRequireIf(submitting)]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -67,10 +67,13 @@ export default class SendBroadcastForm extends React.Component<
 
   private handleSave(): void {
     // validate in case they never updated an empty field
-    const valid = this.handleUpdate({
-      text: this.state.message.value,
-      recipients: this.state.recipients.value!
-    });
+    const valid = this.handleUpdate(
+      {
+        text: this.state.message.value,
+        recipients: this.state.recipients.value!
+      },
+      true
+    );
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));

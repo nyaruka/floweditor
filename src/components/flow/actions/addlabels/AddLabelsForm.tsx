@@ -7,7 +7,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 
@@ -35,7 +35,7 @@ export default class AddLabelsForm extends React.PureComponent<
   }
 
   public handleSave(): void {
-    const valid = this.handleLabelsChanged(this.state.labels.value!);
+    const valid = this.handleLabelsChanged(this.state.labels.value!, true);
 
     if (valid) {
       const newAction = stateToAction(this.props.nodeSettings, this.state);
@@ -44,9 +44,9 @@ export default class AddLabelsForm extends React.PureComponent<
     }
   }
 
-  public handleLabelsChanged(selected: Asset[]): boolean {
+  public handleLabelsChanged(selected: Asset[], submitting: boolean = false): boolean {
     const updates: Partial<AddLabelsFormState> = {
-      labels: validate('Labels', selected, [Required])
+      labels: validate('Labels', selected, [shouldRequireIf(submitting)])
     };
 
     const updated = mergeForm(this.state, updates);

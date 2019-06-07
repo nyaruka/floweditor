@@ -1,4 +1,7 @@
-import { RenderNode } from 'store/flowContext';
+import { CHANNEL_PROPERTY, LANGUAGE_PROPERTY, NAME_PROPERTY } from 'components/flow/props';
+import { isOnlineFlowType } from 'config/helpers';
+import { FlowTypes } from 'config/interfaces';
+import { Asset, RenderNode } from 'store/flowContext';
 
 export interface DragPoint {
   exitUUID: string;
@@ -14,4 +17,11 @@ export const getDraggedFrom = (ghostNode: RenderNode): DragPoint => {
       return { exitUUID, nodeUUID };
     }
   }
+};
+
+const ONLINE_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, CHANNEL_PROPERTY];
+const OFFLINE_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY];
+
+export const getContactProperties = (flowType: FlowTypes = null): Asset[] => {
+  return !flowType || isOnlineFlowType(flowType) ? ONLINE_PROPERTIES : OFFLINE_PROPERTIES;
 };

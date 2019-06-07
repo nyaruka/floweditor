@@ -13,7 +13,7 @@ import {
   StringEntry,
   ValidationFailure
 } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './AddURNForm.module.scss';
 import { getSchemeOptions, initializeForm, stateToAction } from './helpers';
@@ -35,7 +35,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
   }
 
   public handleSave(): void {
-    const valid = this.handlePathChanged(this.state.path.value);
+    const valid = this.handlePathChanged(this.state.path.value, true);
     if (valid) {
       const newAction = stateToAction(this.props.nodeSettings, this.state);
       this.props.updateAction(newAction);
@@ -52,9 +52,9 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
     return updated.valid;
   }
 
-  public handlePathChanged(value: string): boolean {
+  public handlePathChanged(value: string, submitting: boolean = false): boolean {
     const updates: Partial<AddURNFormState> = {
-      path: validate('URN', value, [Required])
+      path: validate('URN', value, [shouldRequireIf(submitting)])
     };
 
     const updated = mergeForm(this.state, updates);

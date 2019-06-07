@@ -6,16 +6,17 @@ import {
   languageToAsset,
   sortFieldsAndProperties
 } from 'components/flow/actions/updatecontact/helpers';
-import { CONTACT_PROPERTIES } from 'components/flow/actions/updatecontact/UpdateContactForm';
+import { getContactProperties } from 'components/helpers';
 import { REMOVE_VALUE_ASSET } from 'store/flowContext';
 
 describe('UpdateContact.helpers', () => {
   it('should sort options', () => {
     const fields = require('test/assets/fields.json');
+    const contactProperties = getContactProperties();
     for (const field of fields.results) {
-      CONTACT_PROPERTIES.push(fieldToAsset(field));
+      contactProperties.push(fieldToAsset(field));
     }
-    expect(CONTACT_PROPERTIES.sort(sortFieldsAndProperties)).toMatchSnapshot();
+    expect(contactProperties.sort(sortFieldsAndProperties)).toMatchSnapshot();
   });
 
   it('should return remove asset', () => {

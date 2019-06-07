@@ -29,7 +29,7 @@ import {
   StringEntry,
   ValidationFailure
 } from 'store/nodeEditor';
-import { MaxOfTenItems, Required, validate } from 'store/validators';
+import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
 import { createUUID, range } from 'utils';
 import { small } from 'utils/reactselect';
 
@@ -92,14 +92,17 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     config: fakePropType
   };
 
-  private handleUpdate(keys: {
-    text?: string;
-    sendAll?: boolean;
-    quickReplies?: string[];
-  }): boolean {
+  private handleUpdate(
+    keys: {
+      text?: string;
+      sendAll?: boolean;
+      quickReplies?: string[];
+    },
+    submitting = false
+  ): boolean {
     const updates: Partial<SendMsgFormState> = {};
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate('Message', keys.text, [Required]);
+      updates.message = validate('Message', keys.text, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('sendAll')) {
@@ -116,8 +119,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return updated.valid;
   }
 
-  public handleMessageUpdate(message: string): boolean {
-    return this.handleUpdate({ text: message });
+  public handleMessageUpdate(message: string, submitting = false): boolean {
+    return this.handleUpdate({ text: message }, submitting);
   }
 
   public handleQuickRepliesUpdate(quickReplies: string[]): boolean {
@@ -129,11 +132,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleSave(): void {
-    let valid = true;
-
     // make sure we validate untouched text fields and contact fields
-    const message = validate('Message', this.state.message.value, [Required]);
-    valid = valid && !hasErrors(message);
+    let valid = this.handleMessageUpdate(this.state.message.value, true);
 
     let templateVariables = this.state.templateVariables;
     // make sure we don't have untouched template variables
@@ -152,7 +152,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       // notify our modal we are done
       this.props.onClose(false);
     } else {
-      this.setState({ message, templateVariables, valid });
+      this.setState({ templateVariables, valid });
     }
   }
 

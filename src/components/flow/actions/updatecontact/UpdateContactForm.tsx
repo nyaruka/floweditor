@@ -7,14 +7,10 @@ import {
   stateToAction,
   UpdateContactFormState
 } from 'components/flow/actions/updatecontact/helpers';
-import {
-  ActionFormProps,
-  CHANNEL_PROPERTY,
-  LANGUAGE_PROPERTY,
-  NAME_PROPERTY
-} from 'components/flow/props';
+import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TextInputElement from 'components/form/textinput/TextInputElement';
+import { getContactProperties } from 'components/helpers';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
@@ -24,18 +20,17 @@ import { Asset, AssetType, updateAssets } from 'store/flowContext';
 import * as mutators from 'store/mutators';
 import { mergeForm, ValidationFailure } from 'store/nodeEditor';
 import { DispatchWithState, GetState } from 'store/thunks';
-import { Required, validate } from 'store/validators';
+import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './UpdateContactForm.module.scss';
-
-export const CONTACT_PROPERTIES: Asset[] = [NAME_PROPERTY, LANGUAGE_PROPERTY, CHANNEL_PROPERTY];
 
 export default class UpdateContactForm extends React.Component<
   ActionFormProps,
   UpdateContactFormState
 > {
   public static contextTypes = {
-    assetService: fakePropType
+    assetService: fakePropType,
+    config: fakePropType
   };
 
   constructor(props: ActionFormProps) {
@@ -48,14 +43,17 @@ export default class UpdateContactForm extends React.Component<
     });
   }
 
-  private handleUpdate(keys: {
-    type?: Types;
-    name?: string;
-    channel?: Asset;
-    language?: Asset;
-    field?: Asset;
-    fieldValue?: string;
-  }): boolean {
+  private handleUpdate(
+    keys: {
+      type?: Types;
+      name?: string;
+      channel?: Asset;
+      language?: Asset;
+      field?: Asset;
+      fieldValue?: string;
+    },
+    submitting = false
+  ): boolean {
     const updates: Partial<UpdateContactFormState> = {};
 
     if (keys.hasOwnProperty('type')) {
@@ -67,11 +65,11 @@ export default class UpdateContactForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('channel')) {
-      updates.channel = validate('Channel', keys.channel, [Required]);
+      updates.channel = validate('Channel', keys.channel, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('language')) {
-      updates.language = validate('Language', keys.language, [Required]);
+      updates.language = validate('Language', keys.language, [shouldRequireIf(submitting)]);
     }
 
     if (keys.hasOwnProperty('field')) {
@@ -116,12 +114,12 @@ export default class UpdateContactForm extends React.Component<
     });
   }
 
-  private handleChannelUpdate(selection: Asset[]): boolean {
-    return this.handleUpdate({ channel: selection[0] });
+  private handleChannelUpdate(selection: Asset[], submitting = false): boolean {
+    return this.handleUpdate({ channel: selection[0] }, submitting);
   }
 
-  private handleLanguageUpdate(selection: Asset[]): boolean {
-    return this.handleUpdate({ language: selection[0] });
+  private handleLanguageUpdate(selection: Asset[], submitting = false): boolean {
+    return this.handleUpdate({ language: selection[0] }, submitting);
   }
 
   private handleFieldValueUpdate(fieldValue: string): boolean {
@@ -153,12 +151,12 @@ export default class UpdateContactForm extends React.Component<
 
     // check if language required
     if (this.state.type === Types.set_contact_language) {
-      valid = this.handleLanguageUpdate([this.state.language.value]) && valid;
+      valid = this.handleLanguageUpdate([this.state.language.value], true) && valid;
     }
 
     // check if channel required
     if (this.state.type === Types.set_contact_channel) {
-      valid = this.handleChannelUpdate([this.state.channel.value]) && valid;
+      valid = this.handleChannelUpdate([this.state.channel.value], true) && valid;
     }
 
     /*        if (this.state.type === Types.set_contact_field) {
@@ -277,7 +275,7 @@ export default class UpdateContactForm extends React.Component<
         <AssetSelector
           name="Contact Field"
           assets={this.props.assetStore.fields}
-          additionalOptions={CONTACT_PROPERTIES}
+          additionalOptions={getContactProperties(this.context.config.flowType)}
           entry={this.state.field}
           searchable={true}
           sortFunction={sortFieldsAndProperties}

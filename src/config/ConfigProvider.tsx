@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { FlowEditorConfig } from 'flowTypes';
+import * as React from 'react';
 
 export const fakePropType: any = (): any => null;
 fakePropType.isRequired = (): any => null;
