@@ -1,20 +1,30 @@
 import { NAME_PROPERTY } from 'components/flow/props';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
-import {
-  FieldRouterFormState,
-  getRoutableFields
-} from 'components/flow/routers/field/FieldRouterForm';
+import { FieldRouterFormState } from 'components/flow/routers/field/FieldRouterForm';
 import {
   createCaseProps,
   createRenderNode,
   hasCases,
   resolveRoutes
 } from 'components/flow/routers/helpers';
+import { getContactProperties } from 'components/helpers';
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
-import { Types } from 'config/interfaces';
+import { FlowTypes, Types } from 'config/interfaces';
+import { Scheme, SCHEMES } from 'config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
 import { Asset, AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+
+export const getRoutableFields = (flowType: FlowTypes = null): Asset[] => {
+  return [
+    ...getContactProperties(flowType),
+    ...SCHEMES.map((scheme: Scheme) => ({
+      name: scheme.name,
+      id: scheme.scheme,
+      type: AssetType.Scheme
+    }))
+  ];
+};
 
 export const nodeToState = (
   settings: NodeEditorSettings,

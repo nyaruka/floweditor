@@ -41,7 +41,7 @@ import ResultRouterForm from 'components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from 'components/flow/routers/subflow/SubflowRouterForm';
 import WaitRouterForm from 'components/flow/routers/wait/WaitRouterForm';
 import WebhookRouterForm from 'components/flow/routers/webhook/WebhookRouterForm';
-import { HIDDEN, SURVEY, TEXT_TYPES, Type, Types, VOICE } from 'config/interfaces';
+import { HIDDEN, ONLINE, SURVEY, TEXT_TYPES, Type, Types, VOICE } from 'config/interfaces';
 import { HintTypes, RouterTypes } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 
@@ -191,7 +191,8 @@ export const typeConfigList: Type[] = [
     name: 'Send Email',
     description: 'Send an email',
     form: SendEmailForm,
-    component: SendEmailComp
+    component: SendEmailComp,
+    visibility: ONLINE
   },
   {
     type: Types.set_run_result,
@@ -218,7 +219,8 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     component: CallWebhookComp,
-    aliases: [Types.split_by_webhook]
+    aliases: [Types.split_by_webhook],
+    visibility: ONLINE
   },
   {
     type: Types.call_resthook,
@@ -228,7 +230,8 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     component: CallResthookComp,
-    aliases: [Types.split_by_resthook]
+    aliases: [Types.split_by_resthook],
+    visibility: ONLINE
   },
   {
     type: Types.enter_flow,
@@ -247,7 +250,8 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: StartSessionForm,
-    component: StartSessionComp
+    component: StartSessionComp,
+    visibility: ONLINE
   },
   {
     type: Types.transfer_airtime,
