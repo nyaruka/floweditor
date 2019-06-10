@@ -27,7 +27,7 @@
     "netlify": "yarn run build && yarn run lambda:build",
     "precommit": "lint-staged",
     "preversion": "yarn test --watchAll=false",
-    "postversion": "git push --tags && yarn publish --new-version $npm_package_version && git push && echo \"Successfully released version $npm_package_version!\"",
+    "postversion": "git push --tags",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "start": "react-scripts start",
     "build": "react-scripts build",
