@@ -75,10 +75,11 @@ It is possible to run prettify against the entire project without commits. This 
 
 ### Publishing
 
-To publish, simply invoke the desired semver -- patch, minor or major. This will version the package and publish it to the npm repository automatically.
+To publish, simply invoke the desired semver -- patch, minor or major. This will version the package and travis will publish it to the npm repository automatically.
 
 ```
 % yarn version --patch
+% git push --tags
 ```
 
 ### Contributing
