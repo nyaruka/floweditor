@@ -316,16 +316,16 @@ export class NodeComp extends React.Component<NodeProps> {
             title = 'Wait for Message';
           }
         }
+      }
 
-        const resultName = getResultName(this.props.renderNode.node);
-        if (resultName) {
-          summary = (
-            <div {...this.events} className={styles.save_result}>
-              <div className={styles.save_as}>Save as </div>
-              <div className={styles.result_name}>{resultName}</div>
-            </div>
-          );
-        }
+      const resultName = getResultName(this.props.renderNode.node);
+      if (resultName) {
+        summary = (
+          <div {...this.events} className={styles.save_result}>
+            <div className={styles.save_as}>Save as </div>
+            <div className={styles.result_name}>{resultName}</div>
+          </div>
+        );
       }
 
       if (

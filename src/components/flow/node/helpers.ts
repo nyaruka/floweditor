@@ -1,6 +1,14 @@
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import { Types } from 'config/interfaces';
-import { CallResthook, CallWebhook, Category, Exit, FlowNode, TransferAirtime } from 'flowTypes';
+import {
+  CallResthook,
+  CallWebhook,
+  Category,
+  Exit,
+  FlowNode,
+  RouterTypes,
+  TransferAirtime
+} from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 
 export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Category[] => {
@@ -15,6 +23,11 @@ export const getResultName = (node: FlowNode) => {
   if (switchRouter && switchRouter.result_name) {
     return switchRouter.result_name;
   }
+
+  if (node.router && node.router.type === RouterTypes.random) {
+    return node.router.result_name;
+  }
+
   if (node.actions.length === 1) {
     const action = node.actions[0];
     if (
