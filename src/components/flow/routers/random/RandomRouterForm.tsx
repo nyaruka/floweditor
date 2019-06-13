@@ -105,7 +105,6 @@ export default class RandomRouterForm extends React.Component<
       <TextInputElement
         key={cat.uuid}
         __className={styles.bucket_name}
-        data-spec="optional-field"
         name={cat.uuid}
         entry={{ value: cat.name }}
         onChange={(value: string) => {
