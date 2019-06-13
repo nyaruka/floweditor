@@ -58,6 +58,9 @@ export const stateToNode = (
   const exits =
     settings.originalNode.ui.type === Types.split_by_random ? settings.originalNode.node.exits : [];
 
+  const count = parseInt(state.bucketChoice.value.value, 10);
+  exits.splice(count, exits.length - count);
+
   state.categories.forEach((category: Category, idx: number) => {
     if (idx < exits.length) {
       category.exit_uuid = exits[idx].uuid;

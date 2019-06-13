@@ -82,3 +82,154 @@ exports[`NodeComp renders 1`] = `
   </div>
 </body>
 `;
+
+exports[`NodeComp renders a named random split 1`] = `
+<body>
+  <div>
+    <div
+      class="node_container plumb-drag flow_start"
+      id="2dc85899-0577-4f1b-a620-f12094e34b5e"
+    >
+      <div
+        class="node"
+      >
+        <div
+          class="flow_start_message"
+        >
+          Flow Start
+        </div>
+        <div
+          class="counter active clickable "
+          data-spec="counter-outter"
+        >
+          <div
+            class=""
+            data-spec="counter-inner"
+          >
+            0
+          </div>
+        </div>
+        <div
+          class="cropped"
+        >
+          <div
+            style="position: relative;"
+          >
+            <div>
+              <div
+                class="titlebar"
+                data-spec="titlebar-container"
+              >
+                <div
+                  class="split_by_random normal"
+                  data-spec="titlebar"
+                >
+                  <div
+                    class="up_button"
+                    data-spec="move"
+                  />
+                  <div
+                    class="remove_button"
+                    data-testid="remove-icon"
+                  >
+                    <span
+                      class="fe-x"
+                    />
+                  </div>
+                  Split Randomly
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="save_result"
+          >
+            <div
+              class="save_as"
+            >
+              Save as 
+            </div>
+            <div
+              class="result_name"
+            >
+              My Random Split
+            </div>
+          </div>
+        </div>
+        <div
+          class="exit_table"
+        >
+          <div
+            class="exits"
+          >
+            <div
+              class="exit plumb-exit"
+            >
+              <div
+                class="name"
+              >
+                Bucket 1
+              </div>
+              <div
+                class="endpoint"
+                id="2dc85899-0577-4f1b-a620-f12094e34b5e:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+              />
+              <div
+                class="drag_helper "
+              >
+                <div
+                  class="arrow"
+                >
+                  <div
+                    class="tail"
+                  />
+                  <div
+                    class="head"
+                  />
+                </div>
+                <div
+                  class="help_text"
+                >
+                  To connect nodes, 
+                  <span
+                    class="bold"
+                  >
+                    drag
+                  </span>
+                   from the red circle.
+                </div>
+              </div>
+            </div>
+            <div
+              class="exit plumb-exit"
+            >
+              <div
+                class="name"
+              >
+                Bucket 2
+              </div>
+              <div
+                class="endpoint"
+                id="2dc85899-0577-4f1b-a620-f12094e34b5e:1dce2b34-9aab-4e20-81c4-3f0408dcb671"
+              />
+            </div>
+            <div
+              class="exit plumb-exit"
+            >
+              <div
+                class="name"
+              >
+                Bucket 3
+              </div>
+              <div
+                class="endpoint"
+                id="2dc85899-0577-4f1b-a620-f12094e34b5e:763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

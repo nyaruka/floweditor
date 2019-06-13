@@ -17,7 +17,7 @@ Node.js >= 10.x
 
 ### Installation
 
-The flow editor is a non-ejected project based on create-react-app. We use yarn for all dependencies.
+The flow editor is a non-ejected project based on create-react-app. We use yarn to manage dependencies.
 
 ```
 % yarn install

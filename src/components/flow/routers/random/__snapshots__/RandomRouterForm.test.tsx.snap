@@ -1,0 +1,1191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RandomRouterForm should convert from a non-random node 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="split_by_random"
+  title="Split Randomly"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Split by random chance",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Split Randomly",
+        "type": "split_by_random",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="lead_in"
+  >
+    Split them randomly into one of
+  </div>
+  <div
+    className="bucket_select"
+  >
+    <SelectElement
+      entry={
+        Object {
+          "value": Object {
+            "label": "2 buckets",
+            "value": "2",
+          },
+        }
+      }
+      name="Buckets"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "label": "2 buckets",
+            "value": "2",
+          },
+          Object {
+            "label": "3 buckets",
+            "value": "3",
+          },
+          Object {
+            "label": "4 buckets",
+            "value": "4",
+          },
+          Object {
+            "label": "5 buckets",
+            "value": "5",
+          },
+          Object {
+            "label": "6 buckets",
+            "value": "6",
+          },
+          Object {
+            "label": "7 buckets",
+            "value": "7",
+          },
+          Object {
+            "label": "8 buckets",
+            "value": "8",
+          },
+          Object {
+            "label": "9 buckets",
+            "value": "9",
+          },
+          Object {
+            "label": "10 buckets",
+            "value": "10",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "control": [Function],
+          "indicatorsContainer": [Function],
+          "input": [Function],
+          "menuList": [Function],
+          "option": [Function],
+          "singleValue": [Function],
+          "valueContainer": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="bucket_list"
+  >
+    <Connect(TextInputElement)
+      __className="bucket_name"
+      entry={
+        Object {
+          "value": "Bucket 1",
+        }
+      }
+      key="306dee46-46c7-4a8a-8a33-ab2b7e42b02e"
+      name="306dee46-46c7-4a8a-8a33-ab2b7e42b02e"
+      onChange={[Function]}
+    />
+    <Connect(TextInputElement)
+      __className="bucket_name"
+      entry={
+        Object {
+          "value": "Bucket 2",
+        }
+      }
+      key="90e20a49-6ecc-4b0b-97bf-bcbd37069b63"
+      name="90e20a49-6ecc-4b0b-97bf-bcbd37069b63"
+      onChange={[Function]}
+    />
+  </div>
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @results"
+    maxLength={64}
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`RandomRouterForm should convert from a non-random node 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "uuid": "b5292cef-6113-4066-80f5-371178abf28b",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "f627a69c-a227-451f-9520-ce969f02162e",
+        },
+      ],
+      "router": Object {
+        "categories": Array [
+          Object {
+            "exit_uuid": "b5292cef-6113-4066-80f5-371178abf28b",
+            "name": "Bucket 1",
+            "uuid": "306dee46-46c7-4a8a-8a33-ab2b7e42b02e",
+          },
+          Object {
+            "exit_uuid": "f627a69c-a227-451f-9520-ce969f02162e",
+            "name": "Bucket 2",
+            "uuid": "90e20a49-6ecc-4b0b-97bf-bcbd37069b63",
+          },
+        ],
+        "type": "random",
+      },
+      "uuid": "c99dcf07-2ad6-4730-9e99-810a39f5a58d",
+    },
+    "ui": Object {
+      "config": null,
+      "position": null,
+      "type": "split_by_random",
+    },
+  },
+]
+`;
+
+exports[`RandomRouterForm should convert from a non-random node 3`] = `
+Object {
+  "inboundConnections": Object {},
+  "node": Object {
+    "actions": Array [
+      Object {
+        "all_urns": false,
+        "text": "A message",
+        "type": "send_msg",
+        "uuid": "38282c32-100e-4376-af57-7f6a36ddafba",
+      },
+    ],
+    "exits": Array [
+      Object {
+        "uuid": "b5a6cc81-02ba-4931-b4be-a0d7204be029",
+      },
+    ],
+    "uuid": "c99dcf07-2ad6-4730-9e99-810a39f5a58d",
+  },
+  "ui": Object {
+    "position": Object {
+      "left": 100,
+      "top": 100,
+    },
+    "type": "execute_actions",
+  },
+}
+`;
+
+exports[`RandomRouterForm should initialize existing random 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header split_by_random"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split Randomly
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="lead_in"
+        >
+          Split them randomly into one of
+        </div>
+        <div
+          class="bucket_select"
+        >
+          <div
+            class="ele"
+          >
+            <select
+              data-testid="select"
+            >
+              <option
+                value="2"
+              >
+                2 buckets
+              </option>
+              <option
+                value="3"
+              >
+                3 buckets
+              </option>
+              <option
+                value="4"
+              >
+                4 buckets
+              </option>
+              <option
+                value="5"
+              >
+                5 buckets
+              </option>
+              <option
+                value="6"
+              >
+                6 buckets
+              </option>
+              <option
+                value="7"
+              >
+                7 buckets
+              </option>
+              <option
+                value="8"
+              >
+                8 buckets
+              </option>
+              <option
+                value="9"
+              >
+                9 buckets
+              </option>
+              <option
+                value="10"
+              >
+                10 buckets
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="bucket_list"
+        >
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 1"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 2"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 3"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 4"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 5"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+          >
+            Save as..
+          </span>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`RandomRouterForm should remove exits when shrinking 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header split_by_random"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split Randomly
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="lead_in"
+        >
+          Split them randomly into one of
+        </div>
+        <div
+          class="bucket_select"
+        >
+          <div
+            class="ele"
+          >
+            <select
+              data-testid="select"
+            >
+              <option
+                value="2"
+              >
+                2 buckets
+              </option>
+              <option
+                value="3"
+              >
+                3 buckets
+              </option>
+              <option
+                value="4"
+              >
+                4 buckets
+              </option>
+              <option
+                value="5"
+              >
+                5 buckets
+              </option>
+              <option
+                value="6"
+              >
+                6 buckets
+              </option>
+              <option
+                value="7"
+              >
+                7 buckets
+              </option>
+              <option
+                value="8"
+              >
+                8 buckets
+              </option>
+              <option
+                value="9"
+              >
+                9 buckets
+              </option>
+              <option
+                value="10"
+              >
+                10 buckets
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="bucket_list"
+        >
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 1"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 2"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ele bucket_name"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                type="text"
+                value="Bucket 3"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+          >
+            Save as..
+          </span>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`RandomRouterForm should remove exits when shrinking 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+        },
+      ],
+      "router": Object {
+        "categories": Array [
+          Object {
+            "exit_uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+            "name": "Bucket 1",
+            "uuid": "e81b3f1a-0863-4418-8a72-9c9f8aa72b7c",
+          },
+          Object {
+            "exit_uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+            "name": "Bucket 2",
+            "uuid": "1888ae1f-2518-4727-98e2-731674e1760e",
+          },
+          Object {
+            "exit_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+            "name": "Bucket 3",
+            "uuid": "dd57500e-a8e8-4a98-8b5b-a33637523a8d",
+          },
+        ],
+        "type": "random",
+      },
+      "uuid": "96249bdc-cb58-4489-a188-0eeb6686a8c9",
+    },
+    "ui": Object {
+      "config": null,
+      "position": null,
+      "type": "split_by_random",
+    },
+  },
+]
+`;
+
+exports[`RandomRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="split_by_random"
+  title="Split Randomly"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Split by random chance",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Split Randomly",
+        "type": "split_by_random",
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="lead_in"
+  >
+    Split them randomly into one of
+  </div>
+  <div
+    className="bucket_select"
+  >
+    <SelectElement
+      entry={
+        Object {
+          "value": Object {
+            "label": "2 buckets",
+            "value": "2",
+          },
+        }
+      }
+      name="Buckets"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "label": "2 buckets",
+            "value": "2",
+          },
+          Object {
+            "label": "3 buckets",
+            "value": "3",
+          },
+          Object {
+            "label": "4 buckets",
+            "value": "4",
+          },
+          Object {
+            "label": "5 buckets",
+            "value": "5",
+          },
+          Object {
+            "label": "6 buckets",
+            "value": "6",
+          },
+          Object {
+            "label": "7 buckets",
+            "value": "7",
+          },
+          Object {
+            "label": "8 buckets",
+            "value": "8",
+          },
+          Object {
+            "label": "9 buckets",
+            "value": "9",
+          },
+          Object {
+            "label": "10 buckets",
+            "value": "10",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "control": [Function],
+          "indicatorsContainer": [Function],
+          "input": [Function],
+          "menuList": [Function],
+          "option": [Function],
+          "singleValue": [Function],
+          "valueContainer": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="bucket_list"
+  >
+    <Connect(TextInputElement)
+      __className="bucket_name"
+      entry={
+        Object {
+          "value": "Bucket 1",
+        }
+      }
+      key="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
+      name="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
+      onChange={[Function]}
+    />
+    <Connect(TextInputElement)
+      __className="bucket_name"
+      entry={
+        Object {
+          "value": "Bucket 2",
+        }
+      }
+      key="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+      name="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+      onChange={[Function]}
+    />
+  </div>
+  <OptionalTextInput
+    helpText="By naming the result, you can reference it later using @results"
+    maxLength={64}
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;
