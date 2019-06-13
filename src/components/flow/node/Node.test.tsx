@@ -2,6 +2,7 @@ import { NodeComp, NodeProps } from 'components/flow/node/Node';
 import { Types } from 'config/interfaces';
 import React from 'react';
 import { render, TEST_DEFINITION, TEST_NODE } from 'test/utils';
+import { createRandomNode } from 'testUtils/assetCreators';
 import { createUUID } from 'utils';
 
 const baseProps: NodeProps = {
@@ -40,6 +41,13 @@ const baseProps: NodeProps = {
 describe(NodeComp.name, () => {
   it('renders', () => {
     const { baseElement } = render(<NodeComp {...baseProps} />);
+    expect(baseElement).toMatchSnapshot();
+  });
+
+  it('renders a named random split', () => {
+    const randomSplit = createRandomNode(3);
+    randomSplit.node.router.result_name = 'My Random Split';
+    const { baseElement } = render(<NodeComp {...baseProps} renderNode={randomSplit} />);
     expect(baseElement).toMatchSnapshot();
   });
 });

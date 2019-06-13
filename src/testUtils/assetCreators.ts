@@ -595,7 +595,7 @@ export const createCategories = (names: string[]): { categories: Category[]; exi
   return { exits, categories };
 };
 
-export const createRandomNode = (buckets: number) => {
+export const createRandomNode = (buckets: number): RenderNode => {
   const { categories, exits } = createCategories(
     utils.range(0, buckets).map((bucketIdx: number) => `Bucket ${bucketIdx + 1}`)
   );
