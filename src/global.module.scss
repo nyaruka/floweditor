@@ -62,6 +62,17 @@
       }
     }
 
+    .select-small {
+      .react-select {
+        input {
+          margin-left: 0px;
+          line-height: 13px;
+          font-size: 13px;
+          height: 16px;
+        }
+      }
+    }
+
     // jsplumb, no text selection while dragging
     .jtk-drag-select * {
       -webkit-touch-callout: none;

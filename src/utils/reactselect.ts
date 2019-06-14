@@ -71,9 +71,10 @@ export const small = {
     '&:hover': {
       borderColor: '#ccc'
     },
-    minHeight: 28,
-    maxHeight: 28,
-    fontSize: 12
+    maxHeight: '28px',
+    minHeight: '28px',
+    fontSize: '12px',
+    lineHeight: '12px'
   }),
   menuList: (styles: StylesConfig) => ({
     ...styles,
@@ -85,7 +86,8 @@ export const small = {
   }),
   singleValue: (styles: StylesConfig) => ({
     ...styles,
-    maxHeight: 28
+    maxHeight: 28,
+    lineHeight: '13px'
   }),
   indicatorsContainer: (styles: StylesConfig) => ({
     ...styles,
@@ -99,7 +101,13 @@ export const small = {
   }),
   input: (styles: StylesConfig) => ({
     ...styles,
-    margin: 0
+    margin: 0,
+    caretColor: '#999',
+    boxShadow: 'none',
+    border: 'none',
+    maxHeight: '20px',
+    minHeight: '20px',
+    lineHeight: '12px'
   })
 };
 

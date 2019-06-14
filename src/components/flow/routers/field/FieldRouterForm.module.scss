@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .lead_in {
   margin-bottom: 5px;
@@ -9,4 +9,5 @@
   display: inline-block;
   margin-left: 10px;
   margin-bottom: -10px;
+  vertical-align: sub;
 }
