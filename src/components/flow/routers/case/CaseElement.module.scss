@@ -15,6 +15,9 @@ input:focus {
 .divider {
   padding-left: $spacing;
   padding-right: $spacing;
+  vertical-align: sub;
+  font-size: 13px;
+  line-height: 13px;
   padding-top: 7px;
 }
 
@@ -31,6 +34,7 @@ input:focus {
     width: 185px;
   }
   .single_operand {
+    display: inline-flex;
     position: relative;
     margin-left: $spacing;
     width: 166px;
