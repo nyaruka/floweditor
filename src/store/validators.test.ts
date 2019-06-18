@@ -82,7 +82,7 @@ describe('validators', () => {
   it('validates http header names', () => {
     expect(HeaderName('arg', 'good-name').failures.length).toEqual(0);
     expect(HeaderName('arg', 'bad name').failures.length).toEqual(1);
-    expect(HeaderName('arg', 'bad-name$').failures.length).toEqual(1);
-    expect(HeaderName('arg', '#$123').failures.length).toEqual(1);
+    expect(HeaderName('arg', 'bad-name$').failures.length).toEqual(0);
+    expect(HeaderName('arg', '#$123').failures.length).toEqual(0);
   });
 });
