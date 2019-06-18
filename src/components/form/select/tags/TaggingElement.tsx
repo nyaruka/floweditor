@@ -11,6 +11,7 @@ export type TagList = Array<{ label: string; value: string }>;
 export interface TaggingElementProps extends FormElementProps {
   placeholder?: string;
   prompt: string;
+  createPrompt?: string;
   onChange?: (values: string[]) => void;
   onCheckValid: (value: string) => boolean;
 }
@@ -66,6 +67,11 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
           isSearchable={true}
           isValidNewOption={this.handleCheckValid}
           noOptionsMessage={() => this.props.prompt}
+          formatCreateLabel={(input: string) => {
+            return this.props.createPrompt !== undefined
+              ? this.props.createPrompt + input
+              : 'Create new ' + input;
+          }}
           options={[]}
         />
       </FormElement>

@@ -99,7 +99,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
   }
 
   public handleCheckValid(value: string): boolean {
-    return EMAIL_PATTERN.test(value);
+    return EMAIL_PATTERN.test(value) || value.startsWith('@');
   }
 
   public render(): JSX.Element {
@@ -115,6 +115,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
             onCheckValid={this.handleCheckValid}
             entry={this.state.recipients}
             onChange={this.handleRecipientsChanged}
+            createPrompt={''}
           />
           <TextInputElement
             __className={styles.subject}

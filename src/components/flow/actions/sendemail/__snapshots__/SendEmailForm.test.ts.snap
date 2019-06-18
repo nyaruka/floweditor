@@ -38,6 +38,7 @@ exports[`SendEmailForm render should render 1`] = `
     className="ele"
   >
     <TaggingElement
+      createPrompt=""
       entry={
         Object {
           "value": Array [
