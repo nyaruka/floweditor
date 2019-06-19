@@ -13,5 +13,5 @@ export const DEFAULT_BODY: string = `@(json(object(
     "uuid", run.flow.uuid, 
     "name", run.flow.name
   ),
-  "results", results
+  "results", foreach_value(results, extract_object, "value", "category")
 )))`;
