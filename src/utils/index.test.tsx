@@ -115,10 +115,10 @@ describe('utils', () => {
 
   describe('getSelectClass', () => {
     it('should return an base if passed "errors" arg less than 1', () =>
-      expect(getSelectClass(0)).toEqual('select-base'));
+      expect(getSelectClass(0)).toEqual('react-select select-base'));
 
     it("should return an array containing react-select's invalid class", () =>
-      expect(getSelectClass(1)).toEqual('select-base select-invalid'));
+      expect(getSelectClass(1)).toEqual('react-select select-base select-invalid'));
   });
 
   describe('titleCase', () => {

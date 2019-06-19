@@ -117,9 +117,20 @@ export const tagging = {
       ...styles,
       borderColor: '#ccc',
       boxShadow: 'none',
+      transition: 'all 0.3s ease-in-out',
       '&:hover': {
         borderColor: '#ccc'
       }
+    };
+  },
+  input: (styles: StylesConfig, state: any) => {
+    return {
+      ...styles,
+      marginLeft: '0px',
+      caretColor: '#999',
+      marginBottom: '0px',
+      boxShadow: 'none',
+      border: 'none'
     };
   },
   multiValue: (styles: StylesConfig) => {
