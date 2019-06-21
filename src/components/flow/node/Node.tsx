@@ -56,6 +56,7 @@ export interface NodePassedProps {
 
 export interface NodeStoreProps {
   results: AssetMap;
+  languages: AssetMap;
   activeCount: number;
   containerOffset: { top: number; left: number };
   translating: boolean;
@@ -271,7 +272,9 @@ export class NodeComp extends React.Component<NodeProps> {
               selected={this.props.selected}
               action={action}
               first={idx === 0}
-              render={(anyAction: AnyAction) => <ActionDiv {...anyAction} />}
+              render={(anyAction: AnyAction) => (
+                <ActionDiv {...anyAction} languages={this.props.languages} />
+              )}
             />
           );
         }
@@ -436,7 +439,8 @@ const mapStateToProps = (
       nodes,
       definition,
       assetStore: {
-        results: { items }
+        results: { items: results },
+        languages: { items: languages }
       }
     },
     editorState: { translating, debug, ghostNode, simulating, containerOffset, activity }
@@ -462,7 +466,8 @@ const mapStateToProps = (
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
   return {
-    results: items,
+    results,
+    languages,
     activeCount,
     containerOffset,
     translating,
