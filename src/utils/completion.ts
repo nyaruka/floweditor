@@ -321,7 +321,7 @@ export const getResultsOptions = (assets: AssetMap) =>
       // @results
       {
         name: `results.${key}`,
-        summary: `${asset.name} for the run.`
+        summary: `${asset.name} value for the run.`
       },
       {
         name: `results.${key}.value`,
@@ -354,16 +354,24 @@ export const getResultsOptions = (assets: AssetMap) =>
 
       // @run.results
       {
+        name: `run.results`,
+        summary: `Results for the run.`
+      },
+      {
         name: `run.results.${key}`,
-        summary: `${asset.name} for the run.`
+        summary: `${asset.name} value for the run.`
       },
       {
-        name: `run.results.${key}.categories`,
-        summary: `${asset.name} categories for the run.`
+        name: `run.results.${key}.category`,
+        summary: `${asset.name} category for the run.`
       },
       {
-        name: `run.results.${key}.categories_localized`,
-        summary: `${asset.name} localized categories for the run.`
+        name: `run.results.${key}.category_localized`,
+        summary: `${asset.name} localized category for the run.`
+      },
+      {
+        name: `run.results.${key}.node_uuid`,
+        summary: 'The uuid for the node that created this result.'
       },
       {
         name: `run.results.${key}.input`,
