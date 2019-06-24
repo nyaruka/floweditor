@@ -16,6 +16,8 @@
 
 .url_attachment {
   margin-bottom: 8px;
+  display: flex;
+  align-items: center;
 
   .upload {
     vertical-align: super;
@@ -29,6 +31,7 @@
   .url {
     display: inline-block;
     margin-left: 8px;
+    margin-bottom: -15px;
     width: 329px;
     margin-right: 10px;
     input {
