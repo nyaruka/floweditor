@@ -378,7 +378,7 @@ export const createWebhookRouterNode = (): FlowNode => {
 };
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
-  assetStore: {},
+  assetStore: { languages: { items: {}, type: AssetType.Language } },
   addAsset: jest.fn(),
   updateAction: jest.fn(),
   onClose: jest.fn(),

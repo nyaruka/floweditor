@@ -29,14 +29,13 @@ export default class UpdateContactForm extends React.Component<
   UpdateContactFormState
 > {
   public static contextTypes = {
-    assetService: fakePropType,
     config: fakePropType
   };
 
   constructor(props: ActionFormProps) {
     super(props);
 
-    this.state = initializeForm(this.props.nodeSettings);
+    this.state = initializeForm(this.props.nodeSettings, this.props.assetStore);
 
     bindCallbacks(this, {
       include: [/^get/, /^on/, /^handle/]
@@ -219,6 +218,7 @@ export default class UpdateContactForm extends React.Component<
           searchable={true}
           valueClearable={true}
           onChange={this.handleLanguageUpdate}
+          shouldExclude={(asset: Asset) => asset.id === 'base'}
         />
       );
     } else if (this.state.type === Types.set_contact_name) {

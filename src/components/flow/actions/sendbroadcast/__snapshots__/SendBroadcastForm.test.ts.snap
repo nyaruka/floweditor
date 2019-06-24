@@ -47,7 +47,14 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     onChange={[MockFunction]}
   />
   <AssetSelector
-    completion={Object {}}
+    completion={
+      Object {
+        "languages": Object {
+          "items": Object {},
+          "type": "language",
+        },
+      }
+    }
     entry={
       Object {
         "value": Array [],
@@ -112,7 +119,14 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     onChange={[MockFunction]}
   />
   <AssetSelector
-    completion={Object {}}
+    completion={
+      Object {
+        "languages": Object {
+          "items": Object {},
+          "type": "language",
+        },
+      }
+    }
     entry={
       Object {
         "value": Array [

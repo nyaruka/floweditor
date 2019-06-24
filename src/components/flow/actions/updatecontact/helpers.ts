@@ -12,7 +12,7 @@ import {
   SetContactLanguage,
   SetContactName
 } from 'flowTypes';
-import { Asset, AssetType, REMOVE_VALUE_ASSET } from 'store/flowContext';
+import { Asset, AssetMap, AssetStore, AssetType, REMOVE_VALUE_ASSET } from 'store/flowContext';
 import { AssetEntry, FormState, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 export interface UpdateContactFormState extends FormState {
@@ -24,7 +24,10 @@ export interface UpdateContactFormState extends FormState {
   fieldValue: StringEntry;
 }
 
-export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormState => {
+export const initializeForm = (
+  settings: NodeEditorSettings,
+  assetStore: AssetStore
+): UpdateContactFormState => {
   const state: UpdateContactFormState = {
     type: Types.set_contact_name,
     valid: false,
@@ -61,7 +64,7 @@ export const initializeForm = (settings: NodeEditorSettings): UpdateContactFormS
           state.language = {
             value: languageToAsset({
               iso: languageAction.language,
-              name: languageAction.language
+              name: getLanguageForCode(languageAction.language, assetStore.languages.items)
             })
           };
           return state;
@@ -196,7 +199,10 @@ export const channelToAsset = ({ uuid, name }: Channel) => {
   };
 };
 
-/* export const createNewOption = composeCreateNewOption({
-    idCb: label => snakify(label),
-    type: AssetType.Field
-});*/
+export const getLanguageForCode = (code: string, languages: AssetMap) => {
+  let lang = code;
+  if (languages && lang in languages) {
+    lang = languages[lang].name;
+  }
+  return lang;
+};

@@ -52,7 +52,14 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
   />
   <div>
     <AssetSelector
-      completion={Object {}}
+      completion={
+        Object {
+          "languages": Object {
+            "items": Object {},
+            "type": "language",
+          },
+        }
+      }
       entry={
         Object {
           "value": Array [],
@@ -119,7 +126,14 @@ exports[`StartSessionForm render should render self, children with base props 1`
   />
   <div>
     <AssetSelector
-      completion={Object {}}
+      completion={
+        Object {
+          "languages": Object {
+            "items": Object {},
+            "type": "language",
+          },
+        }
+      }
       entry={
         Object {
           "value": Array [

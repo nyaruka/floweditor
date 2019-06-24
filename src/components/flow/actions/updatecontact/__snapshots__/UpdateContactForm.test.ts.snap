@@ -273,6 +273,12 @@ exports[`UpdateContactForm render initial for language 1`] = `
     className="value"
   >
     <AssetSelector
+      assets={
+        Object {
+          "items": Object {},
+          "type": "language",
+        }
+      }
       entry={
         Object {
           "value": Object {
@@ -287,6 +293,7 @@ exports[`UpdateContactForm render initial for language 1`] = `
       onChange={[Function]}
       placeholder="Select the language to use for this contact"
       searchable={true}
+      shouldExclude={[Function]}
       valueClearable={true}
     />
   </div>
