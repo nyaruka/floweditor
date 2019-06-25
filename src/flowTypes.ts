@@ -50,6 +50,9 @@ export interface FlowEditorConfig {
   headers?: any;
   onLoad?: () => void;
   onActivityClicked?: (uuid: string) => void;
+
+  // whether to force a save on load
+  forceSaveOnLoad?: boolean;
 }
 
 export interface LocalizationMap {
