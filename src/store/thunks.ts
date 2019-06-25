@@ -343,7 +343,7 @@ export const fetchFlow = (
   markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);
 
   if (forceSave) {
-    markDirty();
+    markDirty(0);
   }
 };
 
