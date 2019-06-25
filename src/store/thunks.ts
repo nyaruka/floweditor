@@ -85,7 +85,8 @@ export type UpdateDimensions = (uuid: string, dimensions: Dimensions) => Thunk<v
 export type FetchFlow = (
   endpoints: Endpoints,
   uuid: string,
-  onLoad: () => void
+  onLoad: () => void,
+  forceSave: boolean
 ) => Thunk<Promise<void>>;
 
 export type LoadFlowDefinition = (
@@ -311,10 +312,12 @@ export const loadFlowDefinition = (
  * @param endpoints where our assets live
  * @param uuid the uuid for the flow to fetch
  */
-export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void) => async (
-  dispatch: DispatchWithState,
-  getState: GetState
-) => {
+export const fetchFlow = (
+  endpoints: Endpoints,
+  uuid: string,
+  onLoad: () => void,
+  forceSave = false
+) => async (dispatch: DispatchWithState, getState: GetState) => {
   // mark us as underway
   dispatch(mergeEditorState({ fetchingFlow: true }));
 
@@ -338,6 +341,10 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, onLoad: () => void
   dispatch(mergeEditorState({ currentRevision: definition.revision }));
 
   markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);
+
+  if (forceSave) {
+    markDirty();
+  }
 };
 
 export const addAsset: AddAsset = (assetType: string, asset: Asset) => (

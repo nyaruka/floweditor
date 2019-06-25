@@ -93,11 +93,8 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
   }
 
   public componentDidMount(): void {
-    this.props.fetchFlow(
-      this.context.config.endpoints,
-      this.context.config.flow,
-      this.context.config.onLoad
-    );
+    const { endpoints, flow, onLoad, forceSaveOnLoad } = this.context.config;
+    this.props.fetchFlow(endpoints, flow, onLoad, forceSaveOnLoad);
   }
 
   private handleDownloadClicked(): void {
