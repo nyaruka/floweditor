@@ -298,9 +298,12 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           // this.props.onChange([...(this.state.entry.value as any)]);
         })
         .catch(error => {
-          console.log(error);
+          let suffix = '';
+          if (error.response && error.response.data && error.response.data.non_field_errors) {
+            suffix = ' ' + error.response.data.non_field_errors.join(', ');
+          }
           this.setState({
-            message: `Couldn't create new ${this.props.assets.type} "${input}"`,
+            message: `Couldn't create new ${this.props.assets.type} "${input}".${suffix}`,
             isLoading: false
           });
         });
@@ -385,6 +388,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
             //      https://github.com/JedWatson/react-select/pull/3319
             //
           />
+          {this.state.message ? <div className={styles.message}>{this.state.message}</div> : null}
         </FormElement>
       );
     } else {
