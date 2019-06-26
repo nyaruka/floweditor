@@ -28,7 +28,7 @@
     "netlify": "yarn run build && yarn run lambda:build",
     "precommit": "lint-staged",
     "preversion": "yarn test --watchAll=false",
-    "postversion": "git push --tags",
+    "postversion": "git push --tags && git push origin master",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "start": "react-scripts start",
     "build": "react-scripts build",
