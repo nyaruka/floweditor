@@ -395,3 +395,6 @@ export const range = (start: number, end: number) =>
 
 export const pluralize = (count: number, noun: string, suffix: string = 's'): string =>
   `${noun}${count !== 1 ? suffix : ''}`;
+
+export const hasString = (names: string[], key: string): boolean =>
+  !!names.find((item: string) => item === key);

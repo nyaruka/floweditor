@@ -54,7 +54,7 @@ import {
   updateUserAddingAction
 } from 'store/nodeEditor';
 import AppState from 'store/state';
-import { createUUID, NODE_SPACING, timeEnd, timeStart } from 'utils';
+import { createUUID, hasString, NODE_SPACING, timeEnd, timeStart } from 'utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -838,8 +838,7 @@ export const onConnectionDrag = (event: ConnectionEvent, flowType: FlowTypes) =>
   let resultCount = names.length + 1;
   let key = `result_${resultCount}`;
 
-  const hasResult = names.find((name: string) => name === key);
-  while (hasResult) {
+  while (hasString(names, key)) {
     resultCount++;
     key = `result_${resultCount}`;
   }
