@@ -13,12 +13,8 @@
   ],
   "private": false,
   "dependencies": {
-    "http-headers-validation": "0.0.1",
-    "lodash.clonedeep": "4.5.0",
-    "prop-types": "15.5.7",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-dom": "^16.8.6"
   },
   "scripts": {
     "lambda:serve": "netlify-lambda serve lambda -p 6000",
@@ -91,6 +87,9 @@
     "@types/uniqid": "^4.1.2",
     "@types/uuid": "^3.4.3",
     "@types/webpack-env": "^1.13.6",
+    "http-headers-validation": "0.0.1",
+    "lodash.clonedeep": "4.5.0",
+    "prop-types": "15.5.7",
     "ajv": "6.5.2",
     "array-move": "2.1.0",
     "auto-bind": "2.1.0",
@@ -132,6 +131,7 @@
     "react-page-visibility": "3.2.1",
     "react-player": "1.9.3",
     "react-redux": "5.0.7",
+    "react-scripts": "3.0.1",
     "react-select": "2.4.4",
     "react-sortable-hoc": "1.9.1",
     "redux": "3.7.2",
