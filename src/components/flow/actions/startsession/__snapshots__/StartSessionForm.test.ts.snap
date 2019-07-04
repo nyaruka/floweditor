@@ -2,6 +2,7 @@
 
 exports[`StartSessionForm render should render an empty form with no action 1`] = `
 Object {
+  "createContact": false,
   "flow": Object {
     "value": null,
   },
@@ -81,6 +82,14 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       onChange={[Function]}
       placeholder="Select the flow to start"
       searchable={true}
+    />
+    <p />
+    <CheckboxElement
+      checked={false}
+      description="Creates an empty contact to start in the flow"
+      name="Create a new contact"
+      onChange={[Function]}
+      title="Create a new contact"
     />
   </div>
 </Dialog>
@@ -186,6 +195,13 @@ exports[`StartSessionForm render should render self, children with base props 1`
       placeholder="Select the flow to start"
       searchable={true}
     />
+    <p />
+    <CheckboxElement
+      description="Creates an empty contact to start in the flow"
+      name="Create a new contact"
+      onChange={[Function]}
+      title="Create a new contact"
+    />
   </div>
 </Dialog>
 `;
@@ -194,6 +210,7 @@ exports[`StartSessionForm updates should allow switching from router 1`] = `
 Array [
   Object {
     "contacts": Array [],
+    "create_contact": false,
     "flow": Object {
       "name": "My Flow",
       "uuid": "my_flow",
@@ -213,6 +230,7 @@ Array [
 
 exports[`StartSessionForm updates should save changes 1`] = `
 Object {
+  "createContact": undefined,
   "flow": Object {
     "validationFailures": Array [],
     "value": Object {
@@ -239,6 +257,7 @@ exports[`StartSessionForm updates should save changes 2`] = `
 Array [
   Object {
     "contacts": Array [],
+    "create_contact": false,
     "flow": Object {
       "name": "My Flow",
       "uuid": "my_flow",

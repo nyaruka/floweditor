@@ -2,18 +2,21 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
+import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, AssetEntry, FormState, mergeForm } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
+import { renderIf } from 'utils';
 
 import { initializeForm, stateToAction } from './helpers';
 
 export interface StartSessionFormState extends FormState {
   recipients: AssetArrayEntry;
   flow: AssetEntry;
+  createContact: boolean;
 }
 
 export default class StartSessionForm extends React.Component<
@@ -47,15 +50,33 @@ export default class StartSessionForm extends React.Component<
     return this.handleUpdate({ flow });
   }
 
-  private handleUpdate(keys: { flow?: Asset; recipients?: Asset[] }, submitting = false): boolean {
+  public handleCreateContact(createContact: boolean): boolean {
+    return this.handleUpdate({ createContact });
+  }
+
+  private handleUpdate(
+    keys: { flow?: Asset; recipients?: Asset[]; createContact?: boolean },
+    submitting = false
+  ): boolean {
     const updates: Partial<StartSessionFormState> = {};
 
     if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate('Recipients', keys.recipients, [shouldRequireIf(submitting)]);
+      updates.recipients = validate('Recipients', keys.recipients, [
+        shouldRequireIf(submitting && !this.state.createContact)
+      ]);
     }
 
     if (keys.hasOwnProperty('flow')) {
       updates.flow = validate('Flow', keys.flow, [shouldRequireIf(submitting)]);
+    }
+
+    if (keys.hasOwnProperty('createContact')) {
+      updates.createContact = keys.createContact;
+
+      // no recipients if creating a new contact
+      if (keys.createContact) {
+        updates.recipients = { value: [] };
+      }
     }
 
     const updated = mergeForm(this.state, updates);
@@ -94,16 +115,21 @@ export default class StartSessionForm extends React.Component<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
-          <AssetSelector
-            name="Recipients"
-            assets={this.props.assetStore.recipients}
-            completion={this.props.assetStore}
-            entry={this.state.recipients}
-            searchable={true}
-            multi={true}
-            onChange={this.handleRecipientsChanged}
-          />
-          <p />
+          {renderIf(!this.state.createContact)(
+            <>
+              <AssetSelector
+                name="Recipients"
+                assets={this.props.assetStore.recipients}
+                completion={this.props.assetStore}
+                entry={this.state.recipients}
+                searchable={true}
+                multi={true}
+                onChange={this.handleRecipientsChanged}
+              />
+              <p />
+            </>
+          )}
+
           <AssetSelector
             name="Flow"
             placeholder="Select the flow to start"
@@ -111,6 +137,14 @@ export default class StartSessionForm extends React.Component<
             entry={this.state.flow}
             searchable={true}
             onChange={this.handleFlowChanged}
+          />
+          <p />
+          <CheckboxElement
+            name="Create a new contact"
+            title="Create a new contact"
+            checked={this.state.createContact!}
+            description="Creates an empty contact to start in the flow"
+            onChange={this.handleCreateContact}
           />
         </div>
       </Dialog>

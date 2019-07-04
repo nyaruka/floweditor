@@ -13,6 +13,7 @@ import { NodeEditorSettings } from 'store/nodeEditor';
 export const initializeForm = (settings: NodeEditorSettings): StartSessionFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.start_session) {
     const action = settings.originalAction as StartSession;
+
     return {
       recipients: { value: getRecipients(action) },
       flow: {
@@ -22,6 +23,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
           type: AssetType.Flow
         }
       },
+      createContact: action.create_contact,
       valid: true
     };
   }
@@ -29,6 +31,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
   return {
     recipients: { value: [] },
     flow: { value: null },
+    createContact: false,
     valid: false
   };
 };
@@ -43,6 +46,7 @@ export const stateToAction = (
     legacy_vars: getExpressions(state.recipients.value),
     contacts: getRecipientsByAsset(state.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(state.recipients.value, AssetType.Group),
+    create_contact: !!state.createContact,
     flow: { name: flow.name, uuid: flow.id },
     type: Types.start_session,
     uuid: getActionUUID(settings, Types.start_session)

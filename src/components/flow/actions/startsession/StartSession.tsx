@@ -16,7 +16,9 @@ const StartSessionComp: React.SFC<StartSession> = (
   return (
     <div className={styles.node}>
       <div className={styles.to}>
-        {renderAssetList(recipients, MAX_TO_SHOW, context.config.endpoints)}
+        {action.create_contact
+          ? 'Create a new contact'
+          : renderAssetList(recipients, MAX_TO_SHOW, context.config.endpoints)}
       </div>
       <div className={styles.flow}>
         {renderAssetList(
