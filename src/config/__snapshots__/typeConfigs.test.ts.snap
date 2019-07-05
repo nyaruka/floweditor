@@ -54,6 +54,20 @@ Array [
     ],
   },
   Object {
+    "description": "Wait for an audio recording",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Wait for Audio",
+    "type": "wait_for_audio",
+    "visibility": Array [
+      "message_offline",
+      "voice",
+    ],
+  },
+  Object {
     "component": [Function],
     "description": "Send the contact a message",
     "form": [Function],
@@ -240,19 +254,6 @@ Array [
     ],
     "name": "Send Airtime",
     "type": "transfer_airtime",
-  },
-  Object {
-    "description": "Wait for an audio recording",
-    "form": [Function],
-    "localization": [Function],
-    "localizeableKeys": Array [
-      "exits",
-    ],
-    "name": "Wait for Audio",
-    "type": "wait_for_audio",
-    "visibility": Array [
-      "message_offline",
-    ],
   },
   Object {
     "description": "Wait for an image",
@@ -747,6 +748,7 @@ Object {
     "type": "wait_for_audio",
     "visibility": Array [
       "message_offline",
+      "voice",
     ],
   },
   "wait_for_digits": Object {

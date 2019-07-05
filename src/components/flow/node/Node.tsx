@@ -304,20 +304,12 @@ export class NodeComp extends React.Component<NodeProps> {
 
       const config = getTypeConfig(type);
 
-      // let { name: title } = config;
-
-      let title: string = null;
+      let title: string = config.name;
 
       const switchRouter = getSwitchRouter(this.props.renderNode.node);
       if (switchRouter) {
         if (this.props.renderNode.ui.type === Types.split_by_contact_field) {
           title = `Split by ${this.props.renderNode.ui.config.operand.name}`;
-        } else {
-          if (this.props.renderNode.ui.type === Types.split_by_expression) {
-            title = 'Split by Expression';
-          } else if (this.props.renderNode.ui.type === Types.wait_for_response) {
-            title = 'Wait for Message';
-          }
         }
       }
 
