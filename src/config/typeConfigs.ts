@@ -41,7 +41,16 @@ import ResultRouterForm from 'components/flow/routers/result/ResultRouterForm';
 import SubflowRouterForm from 'components/flow/routers/subflow/SubflowRouterForm';
 import WaitRouterForm from 'components/flow/routers/wait/WaitRouterForm';
 import WebhookRouterForm from 'components/flow/routers/webhook/WebhookRouterForm';
-import { HIDDEN, ONLINE, SURVEY, TEXT_TYPES, Type, Types, VOICE } from 'config/interfaces';
+import {
+  FlowTypes,
+  HIDDEN,
+  ONLINE,
+  SURVEY,
+  TEXT_TYPES,
+  Type,
+  Types,
+  VOICE
+} from 'config/interfaces';
 import { HintTypes, RouterTypes } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 
@@ -119,6 +128,16 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits', 'cases'],
     visibility: VOICE
+  },
+
+  {
+    type: Types.wait_for_audio,
+    name: 'Wait for Audio',
+    description: 'Wait for an audio recording',
+    form: WaitRouterForm,
+    localization: RouterLocalizationForm,
+    localizeableKeys: ['exits'],
+    visibility: [FlowTypes.SURVEY, FlowTypes.VOICE]
   },
 
   {
@@ -267,15 +286,6 @@ export const typeConfigList: Type[] = [
   /** Routers */
 
   {
-    type: Types.wait_for_audio,
-    name: 'Wait for Audio',
-    description: 'Wait for an audio recording',
-    form: WaitRouterForm,
-    localization: RouterLocalizationForm,
-    localizeableKeys: ['exits'],
-    visibility: SURVEY
-  },
-  {
     type: Types.wait_for_image,
     name: 'Wait for Image',
     description: 'Wait for an image',
@@ -372,7 +382,7 @@ export const getTypeConfig = (type: Types | RouterTypes): Type => {
 };
 
 export const getType = (renderNode: RenderNode): any => {
-  const wait = renderNode.node.router.wait;
+  const wait = renderNode.node.router && renderNode.node.router.wait;
   if (wait && wait.hint) {
     switch (wait.hint.type) {
       case HintTypes.digits:
