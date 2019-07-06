@@ -12,16 +12,16 @@ $action_padding: 10px;
 $node_spacing: 13;
 
 :export {
-    grid_size: $grid_size;
+  grid_size: $grid_size;
 }
 :export {
-    node_spacing: $node_spacing;
+  node_spacing: $node_spacing;
 }
 :export {
-    node_padding: $node_padding;
+  node_padding: $node_padding;
 }
 :export {
-    background-size: $node_spacing;
+  background-size: $node_spacing;
 }
 
 // generic colors
