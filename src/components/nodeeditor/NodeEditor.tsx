@@ -1,11 +1,11 @@
 import { react as bindCallbacks } from 'auto-bind';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getDraggedFrom } from 'components/helpers';
 import Modal from 'components/modal/Modal';
 import { Type } from 'config/interfaces';
 import { Action, AnyAction, FlowDefinition } from 'flowTypes';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { UpdateUserAddingAction } from 'store/actionTypes';
 import { Asset, AssetStore, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, updateUserAddingAction } from 'store/nodeEditor';
@@ -157,6 +157,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
       }
 
       const { form: Form } = typeConfig;
+
       const formProps: FormProps = {
         assetStore: this.props.assetStore,
         addAsset: this.handleAddAsset,

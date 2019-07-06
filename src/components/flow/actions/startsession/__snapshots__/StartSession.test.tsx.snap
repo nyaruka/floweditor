@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StartSessionComp render should render a long list of both contacts and proups 1`] = `
+<body>
+  <div>
+    <div
+      class="node"
+    >
+      <div
+        class="to"
+      >
+        <div
+          class="node_asset"
+        >
+          <span
+            class="node_group fe-group"
+          />
+          Cat Fanciers
+        </div>
+        <div
+          class="node_asset"
+        >
+          Norbert Kwizera
+        </div>
+        <div
+          class="node_asset"
+        >
+          Kellan Alexander
+        </div>
+        <div>
+          ...
+        </div>
+      </div>
+      <div
+        class="flow"
+      >
+        <div
+          class="node_asset"
+        >
+          <span
+            class="node_label fe-split"
+          />
+          <a
+            href="/flow/editor/flow_uuid"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Flow to Start
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StartSessionComp render should render all props 1`] = `
+<body>
+  <div>
+    <div
+      class="node"
+    >
+      <div
+        class="to"
+      >
+        <div
+          class="node_asset"
+        >
+          <span
+            class="node_group fe-group"
+          />
+          Cat Fanciers
+        </div>
+        <div
+          class="node_asset"
+        >
+          Norbert Kwizera
+        </div>
+        <div
+          class="node_asset"
+        >
+          Rowan Seymour
+        </div>
+      </div>
+      <div
+        class="flow"
+      >
+        <div
+          class="node_asset"
+        >
+          <span
+            class="node_label fe-split"
+          />
+          <a
+            href="/flow/editor/flow_uuid"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Flow to Start
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StartSessionComp render should render creating a new contact 1`] = `
+<body>
+  <div>
+    <div
+      class="node"
+    >
+      <div
+        class="to"
+      >
+        Create a new contact
+      </div>
+      <div
+        class="flow"
+      >
+        <div
+          class="node_asset"
+        >
+          <span
+            class="node_label fe-split"
+          />
+          <a
+            href="/flow/editor/flow_uuid"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Flow to Start
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

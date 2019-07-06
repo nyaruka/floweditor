@@ -327,6 +327,7 @@ export interface StartFlow extends Action {
 
 export interface StartSession extends RecipientsAction {
   flow: Flow;
+  create_contact?: boolean;
 }
 
 export interface UIMetaData {

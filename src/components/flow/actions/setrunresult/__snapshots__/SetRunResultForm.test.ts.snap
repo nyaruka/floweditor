@@ -34,6 +34,12 @@ exports[`SetRunResultForm render should render 1`] = `
     className="form"
   >
     <AssetSelector
+      assets={
+        Object {
+          "items": Object {},
+          "type": "result",
+        }
+      }
       createAssetFromInput={[Function]}
       createPrefix="New: "
       entry={

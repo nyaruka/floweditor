@@ -8,7 +8,7 @@ import styles from './StartSession.module.scss';
 
 const MAX_TO_SHOW = 3;
 
-const StartSessionComp: React.SFC<StartSession> = (
+export const StartSessionComp: React.SFC<StartSession> = (
   action: StartSession,
   context: any
 ): JSX.Element => {
@@ -16,7 +16,9 @@ const StartSessionComp: React.SFC<StartSession> = (
   return (
     <div className={styles.node}>
       <div className={styles.to}>
-        {renderAssetList(recipients, MAX_TO_SHOW, context.config.endpoints)}
+        {action.create_contact
+          ? 'Create a new contact'
+          : renderAssetList(recipients, MAX_TO_SHOW, context.config.endpoints)}
       </div>
       <div className={styles.flow}>
         {renderAssetList(

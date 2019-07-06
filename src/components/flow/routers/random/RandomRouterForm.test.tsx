@@ -1,5 +1,4 @@
 import { RouterFormProps } from 'components/flow/props';
-import RandomRouterForm from 'components/flow/routers/random/RandomRouterForm';
 import { getTypeConfig } from 'config';
 import { Types } from 'config/interfaces';
 import * as React from 'react';
@@ -12,6 +11,8 @@ import {
   getRouterFormProps
 } from 'testUtils/assetCreators';
 import * as utils from 'utils';
+
+import RandomRouterForm from './RandomRouterForm';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
