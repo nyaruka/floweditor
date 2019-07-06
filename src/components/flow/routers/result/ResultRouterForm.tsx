@@ -120,7 +120,7 @@ export default class ResultRouterForm extends React.Component<
 
   private renderFieldDelimited(): JSX.Element {
     return (
-      <>
+      <div className={styles.delimited}>
         <div className={styles.lead_in}>If the</div>
         <div className={styles.field_number}>
           <SelectElement
@@ -153,7 +153,7 @@ export default class ResultRouterForm extends React.Component<
             options={DELIMITER_OPTIONS}
           />
         </div>
-      </>
+      </div>
     );
   }
 

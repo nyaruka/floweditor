@@ -1,16 +1,15 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
+
+.delimited {
+  display: flex;
+}
 
 .lead_in {
-  margin-bottom: 5px;
-  display: inline-block;
-  vertical-align: top;
   margin-top: 6px;
 }
 
-.lead-in-sub {
+.lead_in_sub {
   margin-bottom: 5px;
-  display: inline-block;
-  vertical-align: top;
   margin-top: 6px;
   margin-left: 8px;
 }
@@ -23,9 +22,8 @@
   vertical-align: top;
 }
 
-.result-select-delimited {
+.result_select_delimited {
   width: 166px;
-  display: inline-block;
   margin-left: 10px;
   margin-bottom: -10px;
   vertical-align: top;
