@@ -170,12 +170,8 @@ export const createCallWebhookAction = ({
 
 export const createStartSessionAction = ({
   uuid = utils.createUUID(),
-  groups = [
-    { uuid: utils.createUUID(), name: 'Cat Fanciers' },
-    { uuid: utils.createUUID(), name: 'Cat Facts' }
-  ],
+  groups = [{ uuid: utils.createUUID(), name: 'Cat Fanciers' }],
   contacts = [
-    { uuid: utils.createUUID(), name: 'Kellan Alexander' },
     { uuid: utils.createUUID(), name: 'Norbert Kwizera' },
     { uuid: utils.createUUID(), name: 'Rowan Seymour' }
   ],
@@ -378,14 +374,31 @@ export const createWebhookRouterNode = (): FlowNode => {
 };
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
-  assetStore: { languages: { items: {}, type: AssetType.Language } },
+  assetStore: {
+    channels: { items: {}, type: AssetType.Channel },
+    fields: { items: {}, type: AssetType.Field },
+    languages: { items: {}, type: AssetType.Language },
+    labels: { items: {}, type: AssetType.Label },
+    results: { items: {}, type: AssetType.Result },
+    flows: { items: {}, type: AssetType.Flow },
+    recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN }
+  },
   addAsset: jest.fn(),
   updateAction: jest.fn(),
   onClose: jest.fn(),
   onTypeChange: jest.fn(),
   typeConfig: getTypeConfig(action.type),
   nodeSettings: {
-    originalNode: null,
+    originalNode: createRenderNode({
+      actions: [action],
+      uuid: utils.createUUID(),
+      router: null,
+      exits: [{ uuid: utils.createUUID() }],
+      ui: {
+        position: { left: 0, top: 0 },
+        type: Types.execute_actions
+      }
+    }),
     originalAction: action
   }
 });

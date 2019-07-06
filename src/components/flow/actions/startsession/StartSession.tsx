@@ -8,7 +8,7 @@ import styles from './StartSession.module.scss';
 
 const MAX_TO_SHOW = 3;
 
-const StartSessionComp: React.SFC<StartSession> = (
+export const StartSessionComp: React.SFC<StartSession> = (
   action: StartSession,
   context: any
 ): JSX.Element => {

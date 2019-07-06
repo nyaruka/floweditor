@@ -1,6 +1,7 @@
-import StartSessionForm from 'components/flow/actions/startsession/StartSessionForm';
 import { ActionFormProps } from 'components/flow/props';
+import React from 'react';
 import { AssetType } from 'store/flowContext';
+import { fireEvent, render } from 'test/utils';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import {
   createStartSessionAction,
@@ -8,6 +9,8 @@ import {
   SubscribersGroup
 } from 'testUtils/assetCreators';
 import * as utils from 'utils';
+
+import { StartSessionForm } from './StartSessionForm';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -18,6 +21,27 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 
 describe(StartSessionForm.name, () => {
   describe('render', () => {
+    it('should render', () => {
+      const props = getActionFormProps(createStartSessionAction());
+      const { baseElement, getByText } = render(<StartSessionForm {...props} />);
+      expect(baseElement).toMatchSnapshot();
+    });
+
+    it('should render create new contacts', () => {
+      const props = getActionFormProps(createStartSessionAction());
+      const { baseElement, getByText, queryByTestId } = render(<StartSessionForm {...props} />);
+      expect(baseElement).toMatchSnapshot();
+
+      expect(queryByTestId('recipients')).not.toBeNull();
+
+      // should have an option to create a new contact
+      const checkbox = getByText('Create a new contact');
+      fireEvent.click(checkbox);
+
+      expect(queryByTestId('recipients')).toBeNull();
+      expect(baseElement).toMatchSnapshot();
+    });
+
     it('should render self, children with base props', () => {
       const { wrapper } = setup(true);
       expect(wrapper).toMatchSnapshot();

@@ -5,6 +5,7 @@ import { FlowDefinition, FlowNode } from 'flowTypes';
 import React from 'react';
 import { Provider } from 'react-redux';
 import createStore from 'store/createStore';
+import { AssetType } from 'store/flowContext';
 import { initialState } from 'store/state';
 import { createUUID } from 'utils';
 
@@ -28,8 +29,17 @@ export const TEST_DEFINITION: FlowDefinition = {
 
 const initial = initialState;
 initial.flowContext.definition = TEST_DEFINITION;
+initial.flowContext.assetStore = {
+  channels: { items: {}, type: AssetType.Channel },
+  fields: { items: {}, type: AssetType.Field },
+  languages: { items: {}, type: AssetType.Language },
+  labels: { items: {}, type: AssetType.Label },
+  results: { items: {}, type: AssetType.Result },
+  flows: { items: {}, type: AssetType.Flow },
+  recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN }
+};
 
-const store = createStore(initialState);
+const store = createStore(initial);
 
 const AllTheProviders = ({ children }: { children: any }) => {
   return (

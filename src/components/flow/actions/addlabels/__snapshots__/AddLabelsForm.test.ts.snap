@@ -36,6 +36,12 @@ exports[`AddLabelsForm render should render a base action 1`] = `
     Select the labels to apply to the incoming message.
   </p>
   <AssetSelector
+    assets={
+      Object {
+        "items": Object {},
+        "type": "label",
+      }
+    }
     createAssetFromInput={[Function]}
     createPrefix="Create Label: "
     entry={
@@ -74,7 +80,7 @@ Array [
       },
     ],
     "type": "add_input_labels",
-    "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
   },
 ]
 `;

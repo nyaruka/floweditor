@@ -4,7 +4,6 @@ import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import TypeList from 'components/nodeeditor/TypeList';
-import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, AssetEntry, FormState, mergeForm } from 'store/nodeEditor';
@@ -19,15 +18,7 @@ export interface StartSessionFormState extends FormState {
   createContact: boolean;
 }
 
-export default class StartSessionForm extends React.Component<
-  ActionFormProps,
-  StartSessionFormState
-> {
-  public static contextTypes = {
-    endpoints: fakePropType,
-    assetService: fakePropType
-  };
-
+export class StartSessionForm extends React.Component<ActionFormProps, StartSessionFormState> {
   constructor(props: ActionFormProps) {
     super(props);
 
@@ -111,12 +102,13 @@ export default class StartSessionForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
+
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
           {renderIf(!this.state.createContact)(
-            <>
+            <div data-testid={'recipients'}>
               <AssetSelector
                 name="Recipients"
                 assets={this.props.assetStore.recipients}
@@ -127,7 +119,7 @@ export default class StartSessionForm extends React.Component<
                 onChange={this.handleRecipientsChanged}
               />
               <p />
-            </>
+            </div>
           )}
 
           <AssetSelector
@@ -151,3 +143,5 @@ export default class StartSessionForm extends React.Component<
     );
   }
 }
+
+export default StartSessionForm;
