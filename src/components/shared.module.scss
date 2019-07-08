@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .random {
   background: $light_gray;
@@ -87,7 +87,7 @@
 }
 
 .url {
-  width: $node_min_width;
+  width: $node_min_width + px;
 }
 
 .node_asset {

@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .action {
   position: relative;
@@ -53,7 +53,7 @@
   &.send_broadcast,
   &.start_session {
     padding: 0px;
-    width: $node_min_width;
+    width: $node_min_width + px;
   }
 
   &.missing {
