@@ -71,6 +71,10 @@ export const INPUT_OPTIONS: CompletionOption[] = [
     summary: 'The date of the last input'
   },
   {
+    name: 'input.external_id',
+    summary: 'The external id associated with the input'
+  },
+  {
     name: 'input.text',
     summary: 'The text from the last message'
   },
