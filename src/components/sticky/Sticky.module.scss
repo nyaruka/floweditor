@@ -73,6 +73,10 @@
   padding: $node_padding + px;
   z-index: $z_sticky;
 
+  textarea::selection {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
   .sticky {
     font-size: 13px;
     width: 176px;
