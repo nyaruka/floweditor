@@ -132,6 +132,34 @@ exports[`MsgLocalizationForm render should render 1`] = `
 </Dialog>
 `;
 
+exports[`MsgLocalizationForm updates should ignore empty quick replies 1`] = `
+Object {
+  "audio": Object {
+    "value": null,
+  },
+  "message": Object {
+    "value": "",
+  },
+  "quickReplies": Object {
+    "validationFailures": Array [],
+    "value": Array [],
+  },
+  "valid": true,
+}
+`;
+
+exports[`MsgLocalizationForm updates should ignore empty quick replies 2`] = `
+Array [
+  "spa",
+  Array [
+    Object {
+      "translations": Object {},
+      "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+    },
+  ],
+]
+`;
+
 exports[`MsgLocalizationForm updates should save changes 1`] = `
 Object {
   "audio": Object {
