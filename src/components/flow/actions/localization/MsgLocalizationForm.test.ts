@@ -59,6 +59,20 @@ describe(SendMsgLocalizationForm.name, () => {
       expect(props.updateLocalizations).toHaveBeenCalled();
       expect(props.updateLocalizations).toMatchCallSnapshot();
     });
+
+    it('should ignore empty quick replies', () => {
+      const { instance, props } = setup(true, {
+        $merge: { updateLocalizations: jest.fn(), onClose: jest.fn() }
+      });
+
+      instance.handleQuickRepliesUpdate([]);
+      expect(instance.state).toMatchSnapshot();
+
+      instance.handleSave();
+      expect(props.onClose).toHaveBeenCalled();
+      expect(props.updateLocalizations).toHaveBeenCalled();
+      expect(props.updateLocalizations).toMatchCallSnapshot();
+    });
   });
 
   describe('cancel', () => {

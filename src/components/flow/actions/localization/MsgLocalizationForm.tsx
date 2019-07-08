@@ -77,6 +77,7 @@ export default class MsgLocalizationForm extends React.Component<
 
     const updated = mergeForm(this.state, updates);
     this.setState(updated);
+
     return updated.valid;
   }
 
@@ -96,7 +97,7 @@ export default class MsgLocalizationForm extends React.Component<
         translations.text = text.value;
       }
 
-      if (quickReplies.value) {
+      if (quickReplies.value && quickReplies.value.length > 0) {
         translations.quick_replies = quickReplies.value;
       }
 
