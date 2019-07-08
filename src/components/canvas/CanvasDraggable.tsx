@@ -80,6 +80,11 @@ export class CanvasDraggable extends React.PureComponent<CanvasDraggableProps, {
           top: this.props.position.top
         }}
         onMouseDown={(event: React.MouseEvent<HTMLDivElement>) => {
+          // ignore clicks in textareas
+          if (!this.props.selected && (event.target as any).tagName.toUpperCase() === 'TEXTAREA') {
+            return;
+          }
+
           // ignore right clicks
           if (event.nativeEvent.which === 3) {
             return;
