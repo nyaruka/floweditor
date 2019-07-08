@@ -1152,6 +1152,10 @@ Array [
     "summary": "The date of the last input",
   },
   Object {
+    "name": "input.external_id",
+    "summary": "The external id associated with the input",
+  },
+  Object {
     "name": "input.text",
     "summary": "The text from the last message",
   },
@@ -1179,6 +1183,10 @@ Array [
   Object {
     "name": "input.created_on",
     "summary": "The date of the last input",
+  },
+  Object {
+    "name": "input.external_id",
+    "summary": "The external id associated with the input",
   },
   Object {
     "name": "input.text",
@@ -1356,6 +1364,33 @@ Array [
   Object {
     "name": "input.created_on",
     "summary": "The date of the last input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.e" 1`] = `
+Array [
+  Object {
+    "name": "input.external_id",
+    "summary": "The external id associated with the input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.ex" 1`] = `
+Array [
+  Object {
+    "name": "input.external_id",
+    "summary": "The external id associated with the input",
+  },
+]
+`;
+
+exports[`helpers filterOptions should filter options for "input.external_id" 1`] = `
+Array [
+  Object {
+    "name": "input.external_id",
+    "summary": "The external id associated with the input",
   },
 ]
 `;
