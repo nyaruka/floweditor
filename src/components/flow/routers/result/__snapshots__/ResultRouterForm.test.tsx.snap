@@ -1,0 +1,1106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResultRouterForm should create the right operand on save 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "categories": Array [
+          Object {
+            "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+            "name": "All Responses",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          },
+        ],
+        "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "operand": "@(field(results.my_test_result, 1, '+'))",
+        "type": "switch",
+      },
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+    },
+    "ui": Object {
+      "config": Object {
+        "cases": Object {},
+        "delimiter": "+",
+        "index": 1,
+        "operand": Object {
+          "id": "my_test_result",
+          "name": "My Test Result",
+          "type": "result",
+        },
+      },
+      "position": null,
+      "type": "split_by_run_result_delimited",
+    },
+  },
+]
+`;
+
+exports[`ResultRouterForm should render 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+        </div>
+      </div>
+      <div
+        class="header split_by_run_result"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split by Flow Result
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="non_delimited"
+        >
+          <div
+            class="lead_in"
+          >
+            If the flow result
+          </div>
+          <div
+            class="result_select"
+          >
+            <div
+              class="ele"
+            >
+              <div
+                class="css-1pcexqc-container react-select selection"
+              >
+                <div
+                  class="css-q1jqhh-control"
+                >
+                  <div
+                    class="css-c2yhe2"
+                  >
+                    <div
+                      class="css-151xaom-placeholder"
+                    >
+                      Select...
+                    </div>
+                    <input
+                      class="css-gj7qu5-dummyInput"
+                      id="react-select-2-input"
+                      readonly=""
+                      tabindex="0"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="css-1l76mts"
+                  >
+                    <span
+                      class="css-bgvzuu-indicatorSeparator"
+                    />
+                    <div
+                      aria-hidden="true"
+                      class="css-16pqwjk-indicatorContainer"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="css-19bqh2r"
+                        focusable="false"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        width="20"
+                      >
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="case_list"
+        >
+          <div
+            class="kase"
+          >
+            <div
+              class="ele group"
+            >
+              <div
+                class="kase"
+                data-draggable="true"
+              >
+                <span
+                  class="fe-chevrons-expand dnd_icon"
+                  data-draggable="true"
+                />
+                <div
+                  class="choice select-medium"
+                >
+                  <select
+                    data-testid="select"
+                  >
+                    <option
+                      value="has_any_word"
+                    >
+                      has any of the words
+                    </option>
+                    <option
+                      value="has_all_words"
+                    >
+                      has all of the words
+                    </option>
+                    <option
+                      value="has_phrase"
+                    >
+                      has the phrase
+                    </option>
+                    <option
+                      value="has_only_phrase"
+                    >
+                      has only the phrase
+                    </option>
+                    <option
+                      value="has_beginning"
+                    >
+                      starts with
+                    </option>
+                    <option
+                      value="has_text"
+                    >
+                      has some text
+                    </option>
+                    <option
+                      value="has_number"
+                    >
+                      has a number
+                    </option>
+                    <option
+                      value="has_number_between"
+                    >
+                      has a number between
+                    </option>
+                    <option
+                      value="has_number_lt"
+                    >
+                      has a number below
+                    </option>
+                    <option
+                      value="has_number_lte"
+                    >
+                      has a number at or below
+                    </option>
+                    <option
+                      value="has_number_eq"
+                    >
+                      has a number equal to
+                    </option>
+                    <option
+                      value="has_number_gte"
+                    >
+                      has a number at or above
+                    </option>
+                    <option
+                      value="has_number_gt"
+                    >
+                      has a number above
+                    </option>
+                    <option
+                      value="has_date"
+                    >
+                      has a date
+                    </option>
+                    <option
+                      value="has_date_lt"
+                    >
+                      has a date before
+                    </option>
+                    <option
+                      value="has_date_eq"
+                    >
+                      has a date equal to
+                    </option>
+                    <option
+                      value="has_date_gt"
+                    >
+                      has a date after
+                    </option>
+                    <option
+                      value="has_time"
+                    >
+                      has a time
+                    </option>
+                    <option
+                      value="has_phone"
+                    >
+                      has a phone number
+                    </option>
+                    <option
+                      value="has_email"
+                    >
+                      has an email
+                    </option>
+                    <option
+                      value="has_value"
+                    >
+                      is not empty
+                    </option>
+                    <option
+                      value="has_pattern"
+                    >
+                      matches regex
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="single_operand"
+                >
+                  <div
+                    class="ele"
+                  >
+                    <div
+                      class="wrapper"
+                    >
+                      <input
+                        class="textinput"
+                        data-spec="input"
+                        data-testid="input"
+                        maxlength="-1"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        class="completion_container hidden"
+                        data-spec="completion-options"
+                        style="top: 0px; left: 0px;"
+                      >
+                        <div
+                          class="options_wrapper"
+                        >
+                          <ul
+                            class="option_list"
+                            data-spec="completion-list"
+                          />
+                          <div
+                            class="help"
+                            data-spec="completion-help"
+                          >
+                            Tab to complete, enter to select
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="categorize_as"
+                  data-draggable="true"
+                >
+                  categorize as
+                </div>
+                <div
+                  class="category"
+                >
+                  <div
+                    class="ele"
+                  >
+                    <div
+                      class="wrapper"
+                    >
+                      <input
+                        class="textinput"
+                        data-spec="input"
+                        data-testid="input"
+                        maxlength="36"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        class="completion_container hidden"
+                        data-spec="completion-options"
+                        style="top: 0px; left: 0px;"
+                      >
+                        <div
+                          class="options_wrapper"
+                        >
+                          <ul
+                            class="option_list"
+                            data-spec="completion-list"
+                          />
+                          <div
+                            class="help"
+                            data-spec="completion-help"
+                          >
+                            Tab to complete, enter to select
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span
+                  class="fe-x remove_icon"
+                  data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+          >
+            Save as..
+          </span>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ResultRouterForm should show delimit options 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Advanced
+           
+          <span
+            class="tab_icon fe-check"
+          />
+        </div>
+      </div>
+      <div
+        class="header split_by_run_result"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split by Flow Result
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="delimited"
+        >
+          <div
+            class="lead_in"
+          >
+            If the
+          </div>
+          <div
+            class="field_number"
+          >
+            <div
+              class="ele"
+            >
+              <select
+                data-testid="select"
+              >
+                <option
+                  value="1"
+                >
+                  first
+                </option>
+                <option
+                  value="2"
+                >
+                  second
+                </option>
+                <option
+                  value="3"
+                >
+                  third
+                </option>
+                <option
+                  value="4"
+                >
+                  fourth
+                </option>
+                <option
+                  value="5"
+                >
+                  fifth
+                </option>
+                <option
+                  value="6"
+                >
+                  sixth
+                </option>
+                <option
+                  value="7"
+                >
+                  seventh
+                </option>
+                <option
+                  value="8"
+                >
+                  eighth
+                </option>
+                <option
+                  value="9"
+                >
+                  ninth
+                </option>
+              </select>
+            </div>
+          </div>
+          <div
+            class="lead_in_sub"
+          >
+            field of
+          </div>
+          <div
+            class="result_select_delimited"
+          >
+            <div
+              class="ele"
+            >
+              <div
+                class="css-1pcexqc-container react-select selection"
+              >
+                <div
+                  class="css-q1jqhh-control"
+                >
+                  <div
+                    class="css-c2yhe2"
+                  >
+                    <div
+                      class="css-151xaom-placeholder"
+                    >
+                      Select...
+                    </div>
+                    <input
+                      class="css-gj7qu5-dummyInput"
+                      id="react-select-4-input"
+                      readonly=""
+                      tabindex="0"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="css-1l76mts"
+                  >
+                    <span
+                      class="css-bgvzuu-indicatorSeparator"
+                    />
+                    <div
+                      aria-hidden="true"
+                      class="css-16pqwjk-indicatorContainer"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="css-19bqh2r"
+                        focusable="false"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        width="20"
+                      >
+                        <path
+                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="lead_in_sub"
+          >
+            delimited by
+          </div>
+          <div
+            class="delimiter"
+          >
+            <div
+              class="ele"
+            >
+              <select
+                data-testid="select"
+              >
+                <option
+                  value=" "
+                >
+                  spaces
+                </option>
+                <option
+                  value="."
+                >
+                  periods
+                </option>
+                <option
+                  value="+"
+                >
+                  plusses
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div
+          class="case_list"
+        >
+          <div
+            class="kase"
+          >
+            <div
+              class="ele group"
+            >
+              <div
+                class="kase"
+                data-draggable="true"
+              >
+                <span
+                  class="fe-chevrons-expand dnd_icon"
+                  data-draggable="true"
+                />
+                <div
+                  class="choice select-medium"
+                >
+                  <select
+                    data-testid="select"
+                  >
+                    <option
+                      value="has_any_word"
+                    >
+                      has any of the words
+                    </option>
+                    <option
+                      value="has_all_words"
+                    >
+                      has all of the words
+                    </option>
+                    <option
+                      value="has_phrase"
+                    >
+                      has the phrase
+                    </option>
+                    <option
+                      value="has_only_phrase"
+                    >
+                      has only the phrase
+                    </option>
+                    <option
+                      value="has_beginning"
+                    >
+                      starts with
+                    </option>
+                    <option
+                      value="has_text"
+                    >
+                      has some text
+                    </option>
+                    <option
+                      value="has_number"
+                    >
+                      has a number
+                    </option>
+                    <option
+                      value="has_number_between"
+                    >
+                      has a number between
+                    </option>
+                    <option
+                      value="has_number_lt"
+                    >
+                      has a number below
+                    </option>
+                    <option
+                      value="has_number_lte"
+                    >
+                      has a number at or below
+                    </option>
+                    <option
+                      value="has_number_eq"
+                    >
+                      has a number equal to
+                    </option>
+                    <option
+                      value="has_number_gte"
+                    >
+                      has a number at or above
+                    </option>
+                    <option
+                      value="has_number_gt"
+                    >
+                      has a number above
+                    </option>
+                    <option
+                      value="has_date"
+                    >
+                      has a date
+                    </option>
+                    <option
+                      value="has_date_lt"
+                    >
+                      has a date before
+                    </option>
+                    <option
+                      value="has_date_eq"
+                    >
+                      has a date equal to
+                    </option>
+                    <option
+                      value="has_date_gt"
+                    >
+                      has a date after
+                    </option>
+                    <option
+                      value="has_time"
+                    >
+                      has a time
+                    </option>
+                    <option
+                      value="has_phone"
+                    >
+                      has a phone number
+                    </option>
+                    <option
+                      value="has_email"
+                    >
+                      has an email
+                    </option>
+                    <option
+                      value="has_value"
+                    >
+                      is not empty
+                    </option>
+                    <option
+                      value="has_pattern"
+                    >
+                      matches regex
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="single_operand"
+                >
+                  <div
+                    class="ele"
+                  >
+                    <div
+                      class="wrapper"
+                    >
+                      <input
+                        class="textinput"
+                        data-spec="input"
+                        data-testid="input"
+                        maxlength="-1"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        class="completion_container hidden"
+                        data-spec="completion-options"
+                        style="top: 0px; left: 0px;"
+                      >
+                        <div
+                          class="options_wrapper"
+                        >
+                          <ul
+                            class="option_list"
+                            data-spec="completion-list"
+                          />
+                          <div
+                            class="help"
+                            data-spec="completion-help"
+                          >
+                            Tab to complete, enter to select
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="categorize_as"
+                  data-draggable="true"
+                >
+                  categorize as
+                </div>
+                <div
+                  class="category"
+                >
+                  <div
+                    class="ele"
+                  >
+                    <div
+                      class="wrapper"
+                    >
+                      <input
+                        class="textinput"
+                        data-spec="input"
+                        data-testid="input"
+                        maxlength="36"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        class="completion_container hidden"
+                        data-spec="completion-options"
+                        style="top: 0px; left: 0px;"
+                      >
+                        <div
+                          class="options_wrapper"
+                        >
+                          <ul
+                            class="option_list"
+                            data-spec="completion-list"
+                          />
+                          <div
+                            class="help"
+                            data-spec="completion-help"
+                          >
+                            Tab to complete, enter to select
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span
+                  class="fe-x remove_icon"
+                  data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+          >
+            Save as..
+          </span>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

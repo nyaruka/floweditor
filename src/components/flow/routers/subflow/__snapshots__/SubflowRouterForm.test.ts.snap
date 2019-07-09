@@ -38,6 +38,12 @@ exports[`SubflowRouterForm render should render 1`] = `
     onChange={[MockFunction]}
   />
   <AssetSelector
+    assets={
+      Object {
+        "items": Object {},
+        "type": "flow",
+      }
+    }
     entry={
       Object {
         "value": Object {

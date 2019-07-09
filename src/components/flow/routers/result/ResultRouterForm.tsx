@@ -101,7 +101,7 @@ export default class ResultRouterForm extends React.Component<
 
   private renderField(): JSX.Element {
     return (
-      <>
+      <div className={styles.non_delimited}>
         <div className={styles.lead_in}>If the flow result</div>
         <div className={styles.result_select}>
           <AssetSelector
@@ -114,7 +114,7 @@ export default class ResultRouterForm extends React.Component<
             onChange={this.handleResultChanged}
           />
         </div>
-      </>
+      </div>
     );
   }
 
