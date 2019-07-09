@@ -48,6 +48,7 @@ import {
 } from 'flowTypes';
 import { Assets, AssetType, RenderNode } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
+import { EMPTY_TEST_ASSETS } from 'test/utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
 
@@ -408,7 +409,7 @@ export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => (
   onClose: jest.fn(),
   onTypeChange: jest.fn(),
   typeConfig: determineTypeConfig({ originalNode: renderNode }),
-  assetStore: {},
+  assetStore: EMPTY_TEST_ASSETS,
   nodeSettings: {
     originalNode: renderNode,
     originalAction: null

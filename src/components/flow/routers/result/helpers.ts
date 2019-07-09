@@ -6,10 +6,9 @@ import {
   resolveRoutes
 } from 'components/flow/routers/helpers';
 import { SelectOption } from 'components/form/select/SelectElement';
-import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { Types } from 'config/interfaces';
 import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
-import { AssetStore, AssetType, RenderNode } from 'store/flowContext';
+import { AssetStore, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 import { ResultRouterFormState } from './ResultRouterForm';
@@ -110,15 +109,9 @@ export const stateToNode = (
   }
 
   let nodeType = Types.split_by_run_result;
-  let operand = DEFAULT_OPERAND;
+
   const asset = state.result.value;
-  if (asset.type === AssetType.URN) {
-    operand = `@(format_urn(contact.urns.${asset.id}))`;
-  } else if (asset.type === AssetType.Field) {
-    operand = `@contact.fields.${asset.id}`;
-  } else {
-    operand = `@contact.${asset.id}`;
-  }
+  const operand = `@(field(results.${asset.id}, ${state.fieldNumber}, '${state.delimiter}'))`;
 
   const config: any = {
     operand: {

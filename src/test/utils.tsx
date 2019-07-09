@@ -27,9 +27,7 @@ export const TEST_DEFINITION: FlowDefinition = {
   _ui: null
 };
 
-const initial = initialState;
-initial.flowContext.definition = TEST_DEFINITION;
-initial.flowContext.assetStore = {
+export const EMPTY_TEST_ASSETS = {
   channels: { items: {}, type: AssetType.Channel },
   fields: { items: {}, type: AssetType.Field },
   languages: { items: {}, type: AssetType.Language },
@@ -38,6 +36,10 @@ initial.flowContext.assetStore = {
   flows: { items: {}, type: AssetType.Flow },
   recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN }
 };
+
+const initial = initialState;
+initial.flowContext.definition = TEST_DEFINITION;
+initial.flowContext.assetStore = { ...EMPTY_TEST_ASSETS };
 
 const store = createStore(initial);
 

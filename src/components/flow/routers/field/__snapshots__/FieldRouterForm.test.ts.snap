@@ -121,6 +121,12 @@ exports[`FieldRouterForm initializes 1`] = `
             },
           ]
         }
+        assets={
+          Object {
+            "items": Object {},
+            "type": "field",
+          }
+        }
         entry={
           Object {
             "value": Object {
@@ -304,6 +310,12 @@ exports[`FieldRouterForm should render 1`] = `
               "type": "scheme",
             },
           ]
+        }
+        assets={
+          Object {
+            "items": Object {},
+            "type": "field",
+          }
         }
         entry={
           Object {
