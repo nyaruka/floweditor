@@ -111,7 +111,7 @@ export const stateToNode = (
   let nodeType = Types.split_by_run_result;
 
   const asset = state.result.value;
-  const operand = `@(field(results.${asset.id}, ${state.fieldNumber}, '${state.delimiter}'))`;
+  const operand = `@(field(results.${asset.id}, ${state.fieldNumber}, "${state.delimiter}"))`;
 
   const config: any = {
     operand: {
