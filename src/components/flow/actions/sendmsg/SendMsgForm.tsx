@@ -119,7 +119,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return updated.valid;
   }
 
-  public handleMessageUpdate(message: string, submitting = false): boolean {
+  public handleMessageUpdate(message: string, name: string, submitting = false): boolean {
     return this.handleUpdate({ text: message }, submitting);
   }
 
@@ -133,7 +133,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleSave(): void {
     // make sure we validate untouched text fields and contact fields
-    let valid = this.handleMessageUpdate(this.state.message.value, true);
+    let valid = this.handleMessageUpdate(this.state.message.value, null, true);
 
     let templateVariables = this.state.templateVariables;
     // make sure we don't have untouched template variables

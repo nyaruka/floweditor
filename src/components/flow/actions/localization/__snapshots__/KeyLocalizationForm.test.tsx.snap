@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KeyLocalizationForm handles changes 1`] = `
+Array [
+  "eng",
+  Array [
+    Object {
+      "translations": Object {
+        "body": "translated body",
+        "subject": "translated subject",
+      },
+      "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+    },
+  ],
+]
+`;
+
+exports[`KeyLocalizationForm removes translations 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Body Translation
+           
+        </div>
+      </div>
+      <div
+        class="header send_email"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Send Email
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div>
+          <div
+            data-spec="translation-container"
+          >
+            <div
+              class="translate_from"
+              data-spec="text-to-translate"
+            >
+              New Sign Up
+            </div>
+          </div>
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <textarea
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                placeholder="Spanish Translation"
+              >
+                hola
+              </textarea>
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`KeyLocalizationForm removes translations 2`] = `
+Array [
+  "spa",
+  Array [
+    Object {
+      "translations": Object {},
+      "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+    },
+  ],
+]
+`;
+
+exports[`KeyLocalizationForm renders send email 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Body Translation
+           
+        </div>
+      </div>
+      <div
+        class="header send_email"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Send Email
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div>
+          <div
+            data-spec="translation-container"
+          >
+            <div
+              class="translate_from"
+              data-spec="text-to-translate"
+            >
+              New Sign Up
+            </div>
+          </div>
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <textarea
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                placeholder="English Translation"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

@@ -42,7 +42,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
     return updated.valid;
   }
 
-  public handleMessageUpdate(text: string, submitting = false): boolean {
+  public handleMessageUpdate(text: string, name: string, submitting = false): boolean {
     return this.handleUpdate({ text }, submitting);
   }
 

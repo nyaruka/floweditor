@@ -180,7 +180,8 @@ export default class MsgLocalizationForm extends React.Component<
               onFieldErrors={this.handleQuickReplyFieldFailures}
             />
           </>
-        )
+        ),
+        checked: this.state.quickReplies.value.length > 0
       });
     }
 

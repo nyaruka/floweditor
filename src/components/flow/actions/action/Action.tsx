@@ -119,6 +119,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         localizedKeys.push('text');
       }
 
+      if (this.props.action.type === Types.send_email) {
+        localizedKeys.push('subject');
+      }
+
       if (localizedKeys.length !== 0) {
         const localization = getLocalization(
           this.props.action,

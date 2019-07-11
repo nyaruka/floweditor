@@ -1,6 +1,28 @@
+import { KeyLocalizationFormState } from 'components/flow/actions/localization/KeyLocalizationForm';
 import { MsgLocalizationFormState } from 'components/flow/actions/localization/MsgLocalizationForm';
 import { Types } from 'config/interfaces';
-import { NodeEditorSettings } from 'store/nodeEditor';
+import { getTypeConfig } from 'config/typeConfigs';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+
+export const initializeLocalizedKeyForm = (
+  settings: NodeEditorSettings
+): KeyLocalizationFormState => {
+  const keyValues: { [key: string]: StringEntry } = {};
+  const localized = settings.localizations[0];
+  const action = localized.getObject() as any;
+
+  const keys = settings.originalAction
+    ? getTypeConfig(settings.originalAction.type).localizeableKeys || []
+    : [];
+  keys.forEach((key: string) => {
+    keyValues[key] = { value: key in localized.localizedKeys ? action[key] : '' };
+  });
+
+  return {
+    keyValues,
+    valid: true
+  };
+};
 
 export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocalizationFormState => {
   // check if our form should use a localized action
