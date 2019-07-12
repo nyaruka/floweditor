@@ -7,6 +7,7 @@ import CallWebhookComp from 'components/flow/actions/callwebhook/CallWebhook';
 import AddGroupsForm from 'components/flow/actions/changegroups/addgroups/AddGroupsForm';
 import ChangeGroupsComp from 'components/flow/actions/changegroups/ChangeGroups';
 import RemoveGroupsForm from 'components/flow/actions/changegroups/removegroups/RemoveGroupsForm';
+import KeyLocalizationForm from 'components/flow/actions/localization/KeyLocalizationForm';
 import MsgLocalizationForm from 'components/flow/actions/localization/MsgLocalizationForm';
 import MissingComp from 'components/flow/actions/missing/Missing';
 import PlayAudioComp from 'components/flow/actions/playaudio/PlayAudio';
@@ -165,7 +166,7 @@ export const typeConfigList: Type[] = [
     name: 'Send Broadcast',
     description: 'Send somebody else a message',
     form: SendBroadcastForm,
-    localization: MsgLocalizationForm,
+    localization: KeyLocalizationForm,
     localizeableKeys: ['text'],
     component: SendBroadcastComp
   },
@@ -210,6 +211,8 @@ export const typeConfigList: Type[] = [
     name: 'Send Email',
     description: 'Send an email',
     form: SendEmailForm,
+    localization: KeyLocalizationForm,
+    localizeableKeys: ['subject', 'body'],
     component: SendEmailComp,
     visibility: ONLINE
   },

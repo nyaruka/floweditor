@@ -52,7 +52,7 @@ export interface TextInputPassedProps extends FormElementProps {
   showInvalid?: boolean;
   maxLength?: number;
   onFieldFailures?: (failures: ValidationFailure[]) => void;
-  onChange?: (value: string) => void;
+  onChange?: (value: string, name?: string) => void;
   onBlur?: (event: React.ChangeEvent<HTMLTextElement>) => void;
   onEnter?: (event: React.KeyboardEvent<HTMLTextElement>) => boolean;
 }
@@ -276,7 +276,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
             },
             () => {
               if (this.props.onChange) {
-                this.props.onChange(this.state.value);
+                this.props.onChange(this.state.value, this.props.name);
               }
               this.nextCaret = newCaret;
             }
@@ -466,7 +466,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
 
     if (this.props.onChange) {
-      this.props.onChange(value);
+      this.props.onChange(value, this.props.name);
     }
   }
 

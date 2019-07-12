@@ -1,6 +1,6 @@
 import { languageToAsset } from 'components/flow/actions/updatecontact/helpers';
 import { determineTypeConfig } from 'components/flow/helpers';
-import { ActionFormProps, RouterFormProps } from 'components/flow/props';
+import { ActionFormProps, LocalizationFormProps, RouterFormProps } from 'components/flow/props';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from 'components/flow/routers/constants';
 import { ResolvedRoutes, resolveRoutes } from 'components/flow/routers/helpers';
@@ -46,7 +46,8 @@ import {
   WaitTypes,
   WebhookExitNames
 } from 'flowTypes';
-import { Assets, AssetType, RenderNode } from 'store/flowContext';
+import Localization from 'services/Localization';
+import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
 import { EMPTY_TEST_ASSETS } from 'test/utils';
 import { mock } from 'testUtils';
@@ -372,6 +373,33 @@ export const createWebhookRouterNode = (): FlowNode => {
     result_name: 'Response'
   };
   return createWebhookNode(action);
+};
+
+export const getLocalizationFormProps = (
+  action: AnyAction,
+  lang?: Asset,
+  translations?: { [uuid: string]: any }
+): LocalizationFormProps => {
+  const language = lang || { id: 'eng', name: 'English', type: AssetType.Language };
+  return {
+    language,
+    onClose: jest.fn(),
+    updateLocalizations: jest.fn(),
+    nodeSettings: {
+      originalNode: createRenderNode({
+        actions: [action],
+        uuid: utils.createUUID(),
+        router: null,
+        exits: [{ uuid: utils.createUUID() }],
+        ui: {
+          position: { left: 0, top: 0 },
+          type: Types.execute_actions
+        }
+      }),
+      originalAction: action,
+      localizations: [Localization.translate(action, language, translations)]
+    }
+  };
 };
 
 export const getActionFormProps = (action: AnyAction): ActionFormProps => ({

@@ -144,7 +144,7 @@ export default class WebhookRouterForm extends React.Component<
     return this.handleUpdate({ method });
   }
 
-  private handleUrlUpdate(url: string, submitting = false): boolean {
+  private handleUrlUpdate(url: string, name: string, submitting = false): boolean {
     return this.handleUpdate({ url }, submitting);
   }
 

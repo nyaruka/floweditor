@@ -24,6 +24,11 @@ exports[`SendEmailForm render should render 1`] = `
         "component": [Function],
         "description": "Send an email",
         "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "subject",
+          "body",
+        ],
         "name": "Send Email",
         "type": "send_email",
         "visibility": Array [

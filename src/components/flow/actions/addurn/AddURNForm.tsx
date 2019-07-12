@@ -35,7 +35,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
   }
 
   public handleSave(): void {
-    const valid = this.handlePathChanged(this.state.path.value, true);
+    const valid = this.handlePathChanged(this.state.path.value, null, true);
     if (valid) {
       const newAction = stateToAction(this.props.nodeSettings, this.state);
       this.props.updateAction(newAction);
@@ -52,7 +52,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
     return updated.valid;
   }
 
-  public handlePathChanged(value: string, submitting: boolean = false): boolean {
+  public handlePathChanged(value: string, name: string, submitting: boolean = false): boolean {
     const updates: Partial<AddURNFormState> = {
       path: validate('URN', value, [shouldRequireIf(submitting)])
     };

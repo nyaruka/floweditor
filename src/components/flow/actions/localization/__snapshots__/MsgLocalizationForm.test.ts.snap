@@ -32,6 +32,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
             onRemoved={[Function]}
           />
         </React.Fragment>,
+        "checked": false,
         "name": "Quick Replies",
       },
     ]
@@ -98,6 +99,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
             onRemoved={[Function]}
           />
         </React.Fragment>,
+        "checked": false,
         "name": "Quick Replies",
       },
     ]
