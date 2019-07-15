@@ -14,6 +14,7 @@ const categories = [{ uuid: utils.createUUID(), name: 'Red', exit_uuid: exit.uui
 const { setup } = composeComponentTestUtils<ExitProps>(ExitComp, {
   exit,
   categories,
+  recentMessages: [],
   node: { uuid: utils.createUUID(), actions: [], exits: [] },
   showDragHelper: false,
   translating: false,

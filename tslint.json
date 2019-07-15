@@ -1,26 +1,23 @@
 {
-    "defaultSeverity": "warn",
-    "extends": [
-        "tslint:recommended",
-        "tslint-react",
-        "tslint-eslint-rules",
-        "tslint-config-prettier"
-    ],
-    "rules": {
-        "forin": false,
-        "no-console": false,
-        "no-unused-variable": true,
-        "no-var-keyword": true,
-        "jsx-no-lambda": false,
-        "no-parameter-reassignment": true,
-        "typedef": [true, "call-signature"],
-        "interface-name": [true, "never-prefix"],
-        "member-ordering": false,
-        "max-classes-per-file": [true, 3],
-        "ordered-imports": false,
-        "object-literal-sort-keys": false,
-        "no-var-requires": false,
-        "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
-        "no-bitwise": false
-    }
+  "defaultSeverity": "warn",
+  "extends": ["tslint:recommended"],
+  "rules": {
+    "forin": false,
+    "no-console": false,
+    "no-unused-variable": true,
+    "no-var-keyword": true,
+    "jsx-no-lambda": false,
+    "no-parameter-reassignment": true,
+    "typedef": [true, "call-signature"],
+    "interface-name": [true, "never-prefix"],
+    "member-ordering": false,
+    "max-classes-per-file": [true, 3],
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "no-var-requires": false,
+    "semicolon": true,
+    "trailing-comma": false,
+    "quotemark": [true, "single", "jsx-double", "avoid-template", "avoid-escape"],
+    "no-bitwise": false
+  }
 }

@@ -33,7 +33,7 @@ export const getActivity = (
     axios
       .get(`${activityEndpoint}?flow=${flowUUID}`, { headers })
       .then((response: AxiosResponse) => resolve(response.data as Activity))
-      .catch(error => reject(error))
+      .catch((error: any) => reject(error))
   );
 
 export interface Cancel {

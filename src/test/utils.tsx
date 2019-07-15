@@ -9,7 +9,7 @@ import { AssetType } from 'store/flowContext';
 import { initialState } from 'store/state';
 import { createUUID } from 'utils';
 
-import * as config from './config';
+import config from './config';
 
 export const TEST_NODE: FlowNode = {
   uuid: createUUID(),

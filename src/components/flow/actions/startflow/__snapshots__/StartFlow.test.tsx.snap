@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StartFlowComp render should render flow name 1`] = `
+<body>
+  <div>
+    <div
+      class="node_asset"
+    >
+      <span
+        class="node_label fe-split"
+      />
+      <a
+        href="/flow/editor/b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Colors
+      </a>
+    </div>
+  </div>
+</body>
+`;

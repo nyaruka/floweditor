@@ -5,7 +5,6 @@ import ConfigProvider, {
 } from 'config/ConfigProvider';
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { findRenderedComponentWithType, renderIntoDocument } from 'react-dom/test-utils';
 import config from 'test/config';
 
 describe('ConfigProvider >', () => {
@@ -42,16 +41,5 @@ describe('ConfigProvider >', () => {
         </ConfigProvider>
       )
     ).toThrowError(VALID_CHILD_ERROR);
-  });
-
-  it("should provide config to child's context", () => {
-    const Child = createChild();
-    const tree = renderIntoDocument(
-      <ConfigProvider config={config}>
-        <Child />
-      </ConfigProvider>
-    ) as React.Component<any, {}>;
-    const childComp = findRenderedComponentWithType(tree, Child);
-    expect(childComp.context).toMatchSnapshot();
   });
 });
