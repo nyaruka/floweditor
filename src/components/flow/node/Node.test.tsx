@@ -6,6 +6,7 @@ import { createRandomNode } from 'testUtils/assetCreators';
 import { createUUID } from 'utils';
 
 const baseProps: NodeProps = {
+  languages: {},
   nodeUUID: createUUID(),
   startingNode: true,
   onlyNode: true,

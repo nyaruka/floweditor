@@ -13,7 +13,7 @@ import {
 
 const definition: FlowDefinition = require('test/assets/flows/a4f64f1b-85bc-477e-b706-de313a022979.json');
 
-const optionQueryMap = COMPLETION_VARIABLES.reduce((argMap, option: CompletionOption) => {
+const optionQueryMap = COMPLETION_VARIABLES.reduce((argMap: any, option: CompletionOption) => {
   const name = getCompletionName(option);
 
   const lastIndex = name.lastIndexOf('.');
@@ -36,7 +36,7 @@ describe('helpers', () => {
   describe('isUnicode', () => {
     it('should return true if arg is Unicode, false otherwise', () => {
       expect(isUnicode(winkEmoji)).toBeTruthy();
-      Object.keys(GSM).forEach(key => expect(isUnicode(key)).toBeFalsy());
+      Object.keys(GSM).forEach((key: string) => expect(isUnicode(key)).toBeFalsy());
     });
   });
 
@@ -59,7 +59,7 @@ describe('helpers', () => {
     it('should return top-level options if not passed a query', () =>
       expect(filterOptions(COMPLETION_VARIABLES, '', false)).toEqual(TOP_LEVEL_OPTIONS));
 
-    Object.keys(optionQueryMap).forEach(query =>
+    Object.keys(optionQueryMap).forEach((query: string) =>
       it(`should filter options for "${query}"`, () =>
         expect(filterOptions(COMPLETION_VARIABLES, query, true)).toMatchSnapshot())
     );

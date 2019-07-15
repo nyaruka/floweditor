@@ -1,4 +1,3 @@
-import { Types } from 'config/interfaces';
 import { getTypeConfig, typeConfigList, typeConfigMap } from 'config/typeConfigs';
 
 describe('typeConfigs', () => {
@@ -6,8 +5,8 @@ describe('typeConfigs', () => {
     expect(typeConfigList).toMatchSnapshot();
     expect(typeConfigMap).toMatchSnapshot();
 
-    Object.keys(typeConfigMap).forEach((key: Types) =>
-      expect(getTypeConfig(key)).toEqual(typeConfigMap[key])
+    Object.keys(typeConfigMap).forEach((key: string) =>
+      expect(getTypeConfig(key as any)).toEqual(typeConfigMap[key])
     );
   });
 });

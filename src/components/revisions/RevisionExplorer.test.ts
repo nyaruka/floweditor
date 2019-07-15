@@ -9,6 +9,11 @@ const baseProps: RevisionExplorerProps = {
       endpoint: '/assets/revisions.json',
       type: AssetType.Revision,
       items: {}
+    },
+    flows: {
+      endpoint: '/assets/flows.json',
+      type: AssetType.Flow,
+      items: {}
     }
   },
   createNewRevision: jest.fn(),

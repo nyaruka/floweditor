@@ -11,12 +11,11 @@ import createStore from 'store/createStore';
 import { RenderNodeMap } from 'store/flowContext';
 import { getFlowComponents } from 'store/helpers';
 import AppState, { initialState } from 'store/state';
+import config from 'test/config';
 import * as matchers from 'testUtils/matchers';
 import { merge, set } from 'utils';
 
 // we need to use require syntax to bust implicit any
-const config = require('test/config');
-
 const boring: FlowDefinition = require('test/flows/boring.json');
 
 // force our matchers to be read in
@@ -109,7 +108,7 @@ export const composeSpy = (obj: Object | React.ComponentClass) => (instanceMetho
 /**
  * Wait for promises in queue to resolve
  */
-export const flushPromises = () => new Promise(resolve => setImmediate(resolve));
+export const flushPromises = () => new Promise((resolve: any) => setImmediate(resolve));
 
 /**
  * Restore spy mocks (distinct from mocks created w/ jest.fn()).
@@ -117,7 +116,7 @@ export const flushPromises = () => new Promise(resolve => setImmediate(resolve))
  * otherwise just call .mockRestore() on lone spy.
  */
 export const restoreSpies = (...spies: Array<jest.SpyInstance<any>>) =>
-  spies.forEach(spy => spy.mockRestore());
+  spies.forEach((spy: any) => spy.mockRestore());
 
 // To-do: type this method's output, can pass it prop generic ingested by getComponentTestUtils
 /**

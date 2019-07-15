@@ -50,6 +50,7 @@ exports[`SayMsgForm render should render 1`] = `
     textarea={true}
   />
   <UploadButton
+    endpoint="/assets/attachments.json"
     icon="fe-mic"
     onUploadChanged={[Function]}
     removeText="Remove Recording"
