@@ -11,9 +11,6 @@ describe(StartFlowComp.name, () => {
       const { baseElement, getByText } = render(<StartFlowComp {...startFlowAction} />);
       getByText(startFlowAction.flow.name);
       expect(baseElement).toMatchSnapshot();
-      // const { wrapper, props } = setup();
-      // expect(wrapper.text()).toEqual(startFlowAction.flow.name);
-      // expect(wrapper).toMatchSnapshot();
     });
   });
 });
