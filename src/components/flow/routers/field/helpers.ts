@@ -95,7 +95,7 @@ export const stateToNode = (
   let operand = DEFAULT_OPERAND;
   const asset = state.field.value;
   if (asset.type === AssetType.Scheme) {
-    operand = `@(format_urn(urns.${asset.id}))`;
+    operand = `@(urn_parts(urns.${asset.id}).path)`;
   } else if (asset.type === AssetType.Field) {
     operand = `@contact.fields.${asset.id}`;
   } else {

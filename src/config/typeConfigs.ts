@@ -404,6 +404,7 @@ export const getType = (renderNode: RenderNode): any => {
     }
   }
 
+  // if we are splitting by field, but don't know the name, force it into split by expression
   if (renderNode.ui.type === Types.split_by_contact_field && !renderNode.ui.config.operand.name) {
     return Types.split_by_expression;
   }
