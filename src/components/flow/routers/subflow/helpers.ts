@@ -2,6 +2,7 @@ import { createRenderNode } from 'components/flow/routers/helpers';
 import { SubflowRouterFormState } from 'components/flow/routers/subflow/SubflowRouterForm';
 import { SUBFLOW_OPERAND } from 'components/nodeeditor/constants';
 import { Operators, Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import {
   Case,
   Category,
@@ -17,7 +18,7 @@ import { NodeEditorSettings } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 
 export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormState => {
-  if (settings.originalNode.ui.type === Types.split_by_subflow) {
+  if (getType(settings.originalNode) === Types.split_by_subflow) {
     const action = (settings.originalAction ||
       (settings.originalNode.node.actions.length > 0 &&
         settings.originalNode.node.actions[0])) as StartFlow;
@@ -50,7 +51,7 @@ export const stateToNode = (
   let cases: Case[];
   let categories: Category[];
 
-  if (settings.originalNode.ui.type === Types.split_by_subflow) {
+  if (getType(settings.originalNode) === Types.split_by_subflow) {
     ({ exits } = settings.originalNode.node);
     ({ cases, categories } = settings.originalNode.node.router as SwitchRouter);
   } else {

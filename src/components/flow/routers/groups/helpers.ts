@@ -3,6 +3,7 @@ import { GroupsRouterFormState } from 'components/flow/routers/groups/GroupsRout
 import { createRenderNode, getSwitchRouter, resolveRoutes } from 'components/flow/routers/helpers';
 import { GROUPS_OPERAND } from 'components/nodeeditor/constants';
 import { Operators, Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { Category, FlowNode, RouterTypes, SwitchRouter } from 'flowTypes';
 import { Asset, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
@@ -15,7 +16,7 @@ export const nodeToState = (settings: NodeEditorSettings): GroupsRouterFormState
     valid: false
   };
 
-  if (settings.originalNode.ui.type === Types.split_by_groups) {
+  if (getType(settings.originalNode) === Types.split_by_groups) {
     state.groups.value = extractGroups(settings.originalNode.node);
     state.resultName = {
       value: (settings.originalNode.node.router as SwitchRouter).result_name || ''

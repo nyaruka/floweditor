@@ -403,5 +403,11 @@ export const getType = (renderNode: RenderNode): any => {
         return Types.wait_for_video;
     }
   }
+
+  // if we are splitting by field, but don't know the name, force it into split by expression
+  if (renderNode.ui.type === Types.split_by_contact_field && !renderNode.ui.config.operand.name) {
+    return Types.split_by_expression;
+  }
+
   return renderNode.ui.type;
 };

@@ -2,6 +2,7 @@ import { createRenderNode } from 'components/flow/routers/helpers';
 import { RandomRouterFormState } from 'components/flow/routers/random/RandomRouterForm';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { Category, Exit, Router, RouterTypes } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
@@ -27,7 +28,7 @@ export const nodeToState = (settings: NodeEditorSettings): RandomRouterFormState
   let buckets = 2;
 
   let categories: Category[] = [];
-  if (settings.originalNode && settings.originalNode.ui.type === Types.split_by_random) {
+  if (settings.originalNode && getType(settings.originalNode) === Types.split_by_random) {
     const router = settings.originalNode.node.router as Router;
     resultName = { value: router.result_name || '' };
     buckets = settings.originalNode.node.exits.length;
@@ -56,7 +57,9 @@ export const stateToNode = (
   }
 
   const exits =
-    settings.originalNode.ui.type === Types.split_by_random ? settings.originalNode.node.exits : [];
+    getType(settings.originalNode) === Types.split_by_random
+      ? settings.originalNode.node.exits
+      : [];
 
   const count = parseInt(state.bucketChoice.value.value, 10);
   exits.splice(count, exits.length - count);
