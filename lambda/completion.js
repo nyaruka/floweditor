@@ -1,4 +1,4 @@
-const completion = {
+export const completion = {
   types: [
     {
       name: 'fields',

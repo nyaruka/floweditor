@@ -8,6 +8,7 @@ import { Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import setCaretPosition from 'get-input-selection';
 import { AssetType } from 'store/flowContext';
+import * as completionSchema from 'test/assets/completion.json';
 import { composeComponentTestUtils } from 'testUtils';
 import { setFunctions } from 'utils/completion';
 
@@ -17,7 +18,8 @@ let mockCursor = 0;
 const baseProps: TextInputProps = {
   name: 'Message',
   typeConfig: getTypeConfig(Types.send_msg),
-  assetStore: { fields: { items: {}, type: AssetType.Field } }
+  assetStore: { fields: { items: {}, type: AssetType.Field } },
+  completionSchema
 };
 
 const { setup, spyOn } = composeComponentTestUtils(TextInputElement, baseProps);

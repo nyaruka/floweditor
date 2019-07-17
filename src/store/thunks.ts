@@ -4,7 +4,7 @@ import { getSwitchRouter } from 'components/flow/routers/helpers';
 import { Revision } from 'components/revisions/RevisionExplorer';
 import { FlowTypes, Type, Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
-import { createAssetStore, getFlowDefinition, saveRevision } from 'external';
+import { createAssetStore, getCompletionSchema, getFlowDefinition, saveRevision } from 'external';
 import isEqual from 'fast-deep-equal';
 import {
   Action,
@@ -335,10 +335,12 @@ export const fetchFlow = (
     fetchFlowActivity(endpoints.activity, dispatch, getState, uuid);
   };
 
+  const completionSchema = await getCompletionSchema(endpoints.completion);
   const definition = await getFlowDefinition(assetStore.revisions);
 
+  console.log(completionSchema);
   dispatch(loadFlowDefinition(definition, assetStore, onLoad));
-  dispatch(mergeEditorState({ currentRevision: definition.revision }));
+  dispatch(mergeEditorState({ currentRevision: definition.revision, completionSchema }));
 
   markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);
 

@@ -10,6 +10,7 @@ const fieldsResp = require('test/assets/fields.json');
 const recipientsResp = require('test/assets/recipients.json');
 const labelsResp = require('test/assets/labels.json');
 const revisionsResp = require('test/assets/revisions.json');
+const completionResp = require('test/assets/completion.json');
 
 const getEndpoint = (urlStr: string) => {
   const queryIdx = urlStr.indexOf('?');

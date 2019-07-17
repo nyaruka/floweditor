@@ -369,6 +369,10 @@ Array [
           "segments": Object {},
         },
         "activityInterval": 5000,
+        "completionSchema": Object {
+          "root": Array [],
+          "types": Array [],
+        },
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -408,6 +412,10 @@ Array [
           "segments": Object {},
         },
         "activityInterval": 5000,
+        "completionSchema": Object {
+          "root": Array [],
+          "types": Array [],
+        },
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -1133,6 +1141,10 @@ Array [
           "segments": Object {},
         },
         "activityInterval": 5000,
+        "completionSchema": Object {
+          "root": Array [],
+          "types": Array [],
+        },
         "containerOffset": Object {
           "left": 0,
           "top": 0,

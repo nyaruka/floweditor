@@ -3,6 +3,74 @@ import { reject } from 'core-js/fn/promise';
 import { Endpoints } from 'flowTypes';
 import { AssetMap, AssetStore, CompletionOption } from 'store/flowContext';
 
+export interface CompletionProperty {
+  key: string;
+  help: string;
+  type: string;
+}
+
+export interface CompletionType {
+  name: string;
+
+  key_source?: string;
+  property_template?: CompletionProperty;
+  properties?: CompletionProperty[];
+}
+
+export interface CompletionSchema {
+  types: CompletionType[];
+  root: CompletionProperty[];
+}
+
+/**
+ * Takes a dot query and returns the completions options at the current level
+ * @param dotQuery query such as "results.field_name.ca"
+ */
+export const getCompletions = (
+  schema: CompletionSchema,
+  assetStore: AssetStore,
+  dotQuery: string
+): CompletionOption[] => {
+  const parts = dotQuery.split('.');
+  let currentProps: CompletionProperty[] = schema.root;
+
+  let prefix = '';
+  let part = '';
+  while (parts.length > 0) {
+    part = parts.shift();
+    if (part) {
+      // eslint-disable-next-line
+      const nextProp = currentProps.find((prop: CompletionProperty) => prop.type === part);
+      if (nextProp) {
+        // eslint-disable-next-line
+        const nextType = schema.types.find((type: CompletionType) => type.name === nextProp.type);
+        if (nextType && nextType.properties) {
+          currentProps = nextType.properties;
+          prefix += part + '.';
+        } else {
+          // eslint-disable-next-line
+          currentProps = currentProps.filter((prop: CompletionProperty) =>
+            prop.key.startsWith(part.toLowerCase())
+          );
+          break;
+        }
+      } else {
+        // eslint-disable-next-line
+        currentProps = currentProps.filter((prop: CompletionProperty) =>
+          prop.key.startsWith(part.toLowerCase())
+        );
+        break;
+      }
+    }
+  }
+
+  return currentProps.map((prop: CompletionProperty) => {
+    const name =
+      prop.key === '__default__' ? prefix.substr(0, prefix.length - 1) : prefix + prop.key;
+    return { name, summary: prop.help };
+  });
+};
+
 export enum TopLevelVariables {
   child = 'child',
   contact = 'contact',
@@ -308,7 +376,7 @@ export const getContactFieldOptions = (assets: AssetMap) =>
     });
 
     const accessors = ['', 'parent.', 'run.', 'child.'];
-    accessors.forEach(accessor =>
+    accessors.forEach((accessor: string) =>
       options.push({
         name: `${accessor}contact.fields.${key}`,
         summary: `${asset.name} for the contact.`
@@ -358,8 +426,8 @@ export const getResultsOptions = (assets: AssetMap) =>
 
       // @run.results
       {
-        name: `run.results`,
-        summary: `Results for the run.`
+        name: 'run.results',
+        summary: 'Results for the run.'
       },
       {
         name: `run.results.${key}`,

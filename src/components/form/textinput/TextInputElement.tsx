@@ -14,9 +14,11 @@ import { StringEntry, ValidationFailure } from 'store/nodeEditor';
 import AppState from 'store/state';
 import getCaretCoordinates from 'textarea-caret';
 import {
+  CompletionSchema,
   filterOptions,
   getCompletionName,
   getCompletionOptions,
+  getCompletions,
   getCompletionSignature
 } from 'utils/completion';
 
@@ -39,6 +41,7 @@ export type HTMLTextElement = HTMLTextAreaElement | HTMLInputElement;
 export interface TextInputStoreProps {
   typeConfig: Type;
   assetStore: AssetStore;
+  completionSchema: CompletionSchema;
 }
 
 export interface TextInputPassedProps extends FormElementProps {
@@ -420,7 +423,10 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
           }
 
           const query = expression.substr(i, expression.length - i);
-          const matches = filterOptions(this.state.options, query, includeFunctions);
+          const matches = getCompletions(this.props.completionSchema, this.props.assetStore, query);
+
+          // console.log(this.state.options);
+          // console.log(filterOptions(this.state.options, query, includeFunctions));
 
           const completionVisible = matches.length > 0;
           return {
@@ -720,10 +726,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { assetStore },
+  editorState: { completionSchema },
   nodeEditor: { typeConfig }
 }: AppState) => ({
   typeConfig,
-  assetStore
+  assetStore,
+  completionSchema
 });
 
 const ConnectedTextInputElement = connect(
