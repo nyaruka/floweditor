@@ -7,6 +7,7 @@ import {
 } from 'components/flow/routers/helpers';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
 import { AssetStore, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
@@ -53,9 +54,11 @@ export const nodeToState = (
   let delimiter = ' ';
   let shouldDelimit = false;
 
+  const type = getType(settings.originalNode);
+
   if (
-    (settings.originalNode && settings.originalNode.ui.type === Types.split_by_run_result) ||
-    settings.originalNode.ui.type === Types.split_by_run_result_delimited
+    (settings.originalNode && type === Types.split_by_run_result) ||
+    type === Types.split_by_run_result_delimited
   ) {
     const router = settings.originalNode.node.router as SwitchRouter;
 
@@ -75,7 +78,7 @@ export const nodeToState = (
           : null;
     }
 
-    if (settings.originalNode.ui.type === Types.split_by_run_result_delimited) {
+    if (type === Types.split_by_run_result_delimited) {
       fieldNumber = config.index;
       delimiter = config.delimiter;
       shouldDelimit = true;

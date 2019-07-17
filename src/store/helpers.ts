@@ -4,6 +4,7 @@ import { DefaultExitNames } from 'components/flow/routers/constants';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import { GROUPS_OPERAND } from 'components/nodeeditor/constants';
 import { FlowTypes, Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { getActivity } from 'external';
 import {
   AddLabels,
@@ -93,10 +94,10 @@ export const hasWait = (renderNode: RenderNode): boolean => {
 };
 
 export const hasLoopSplit = (renderNode: RenderNode): boolean => {
+  const type = getType(renderNode);
+
   return (
-    hasWait(renderNode) ||
-    renderNode.ui.type === Types.split_by_expression ||
-    renderNode.ui.type === Types.split_by_subflow
+    hasWait(renderNode) || type === Types.split_by_expression || type === Types.split_by_subflow
   );
 };
 
@@ -507,19 +508,22 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     }
 
     const ui = _ui.nodes[node.uuid];
-    renderNodeMap[node.uuid] = {
+    const renderNode = {
       node,
       ui,
       inboundConnections: {}
     };
+    renderNodeMap[node.uuid] = renderNode;
 
     const resultName = getResultName(node);
     if (resultName) {
       results = addResult(resultName, results, { nodeUUID: node.uuid });
     }
 
+    const type = getType(renderNode);
+
     // if we are split by group, look at our categories for groups
-    if (ui.type === Types.split_by_groups) {
+    if (type === Types.split_by_groups) {
       const router = getSwitchRouter(node);
 
       for (const kase of router.cases) {

@@ -1,4 +1,5 @@
 import { Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { Case, Category, SwitchRouter } from 'flowTypes';
 import { LocalizedObject } from 'services/Localization';
 import { RenderNode } from 'store/flowContext';
@@ -20,7 +21,7 @@ export const getOriginalCategory = (nodeSettings: NodeEditorSettings, uuid: stri
 };
 
 export const hasLocalizableCases = (renderNode: RenderNode) => {
-  const type = renderNode.ui.type;
+  const type = getType(renderNode);
   return type === Types.wait_for_response || type === Types.split_by_expression;
 };
 

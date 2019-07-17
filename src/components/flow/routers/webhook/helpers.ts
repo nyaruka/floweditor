@@ -2,6 +2,7 @@ import { createWebhookBasedNode } from 'components/flow/routers/helpers';
 import { WebhookRouterFormState } from 'components/flow/routers/webhook/WebhookRouterForm';
 import { DEFAULT_BODY } from 'components/nodeeditor/constants';
 import { Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { CallWebhook } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
@@ -56,7 +57,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
     valid: false
   };
 
-  if (settings.originalNode.ui.type === Types.split_by_webhook) {
+  if (getType(settings.originalNode) === Types.split_by_webhook) {
     const action = getOriginalAction(settings) as CallWebhook;
 
     // add in our headers

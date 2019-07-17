@@ -8,6 +8,7 @@ import {
 } from 'components/flow/routers/helpers';
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
@@ -20,7 +21,7 @@ export const nodeToState = (settings: NodeEditorSettings): ExpressionRouterFormS
 
   let operand = DEFAULT_OPERAND;
 
-  if (settings.originalNode && settings.originalNode.ui.type === Types.split_by_expression) {
+  if (settings.originalNode && getType(settings.originalNode) === Types.split_by_expression) {
     const router = settings.originalNode.node.router as SwitchRouter;
     if (router) {
       if (hasCases(settings.originalNode.node)) {

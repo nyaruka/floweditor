@@ -8,6 +8,7 @@ import {
 import { ResponseRouterFormState } from 'components/flow/routers/response/ResponseRouterForm';
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { Types } from 'config/interfaces';
+import { getType } from 'config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
@@ -19,7 +20,7 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
   let resultName: StringEntry = { value: 'Result' };
   let timeout = 0;
 
-  if (settings.originalNode && settings.originalNode.ui.type === Types.wait_for_response) {
+  if (settings.originalNode && getType(settings.originalNode) === Types.wait_for_response) {
     const router = settings.originalNode.node.router as SwitchRouter;
     if (router) {
       if (hasCases(settings.originalNode.node)) {
