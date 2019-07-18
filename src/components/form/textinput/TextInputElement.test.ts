@@ -9,8 +9,8 @@ import { getTypeConfig } from 'config/typeConfigs';
 import setCaretPosition from 'get-input-selection';
 import { AssetType } from 'store/flowContext';
 import * as completionSchema from 'test/assets/completion.json';
+import functions from 'test/assets/functions.json';
 import { composeComponentTestUtils } from 'testUtils';
-import { setFunctions } from 'utils/completion';
 
 // we need to track where our cursor would be to simulate properly
 let mockCursor = 0;
@@ -19,7 +19,8 @@ const baseProps: TextInputProps = {
   name: 'Message',
   typeConfig: getTypeConfig(Types.send_msg),
   assetStore: { fields: { items: {}, type: AssetType.Field } },
-  completionSchema
+  completionSchema,
+  functions
 };
 
 const { setup, spyOn } = composeComponentTestUtils(TextInputElement, baseProps);
@@ -128,30 +129,6 @@ const createWrapper = () => {
 describe(TextInputElement.name, () => {
   beforeEach(() => {
     mockCursor = 0;
-    setFunctions([
-      {
-        signature: 'default(value, default)',
-        summary: 'Returns `value` if is not empty or an error, otherwise it returns `default`.',
-        detail: '',
-        examples: [
-          {
-            template: '@(default(undeclared.var, "default_value"))',
-            output: 'default_value'
-          }
-        ]
-      },
-      {
-        signature: 'max(numbers...)',
-        summary: 'Returns the maximum value in `numbers`.',
-        detail: '',
-        examples: [
-          {
-            template: '@(max(1, 2))',
-            output: '2'
-          }
-        ]
-      }
-    ]);
   });
   afterEach(() => {
     setCaretPosition.default.mockReset();
@@ -228,7 +205,7 @@ describe(TextInputElement.name, () => {
       expect(state.completionVisible).toBeFalsy();
     });
 
-    xit('should bring up completion menu for top level options and functions', () => {
+    it('should bring up completion menu for top level options and functions', () => {
       const wrapper = createWrapper();
       simulateString(wrapper, '@(');
 
@@ -238,7 +215,7 @@ describe(TextInputElement.name, () => {
       expect(state.completionVisible).toBeTruthy();
     });
 
-    xit('should bring up functions within text', () => {
+    it('should bring up functions within text', () => {
       const wrapper = createWrapper();
       simulateString(wrapper, 'some text @(');
 

@@ -15,11 +15,11 @@ import AppState from 'store/state';
 import getCaretCoordinates from 'textarea-caret';
 import {
   CompletionSchema,
-  filterOptions,
-  getCompletionName,
-  getCompletionOptions,
   getCompletions,
-  getCompletionSignature
+  getFunctions,
+  getCompletionName,
+  getCompletionSignature,
+  CompletionAssets
 } from 'utils/completion';
 
 import styles from './TextInputElement.module.scss';
@@ -42,6 +42,7 @@ export interface TextInputStoreProps {
   typeConfig: Type;
   assetStore: AssetStore;
   completionSchema: CompletionSchema;
+  functions: CompletionOption[];
 }
 
 export interface TextInputPassedProps extends FormElementProps {
@@ -69,7 +70,6 @@ export interface TextInputState {
   selectedOptionIndex: number;
   matches: CompletionOption[];
   query: string;
-  options: CompletionOption[];
   parts?: string[];
   characterCount?: number;
   unicodeChars?: UnicodeCharMap;
@@ -96,9 +96,15 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
   private textEl: HTMLTextElement;
   private parser: ExcellentParser;
   private nextCaret = -1;
+  private completion: CompletionAssets;
 
   constructor(props: TextInputProps) {
     super(props);
+
+    this.completion = {
+      schema: this.props.completionSchema,
+      assetStore: this.props.assetStore
+    };
 
     let initial = '';
     if (this.props.entry && this.props.entry.value) {
@@ -107,7 +113,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 
     this.state = {
       value: initial,
-      options: getCompletionOptions(this.props.autocomplete, this.props.assetStore),
       ...initialState,
       ...(this.props.count && this.props.count === Count.SMS ? getMsgStats(initial) : {})
     };
@@ -262,14 +267,12 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
           if (event.key === KeyValues.KEY_TAB || option.signature) {
             query = option.name;
 
-            const otherMatches = getCompletions(
-              this.props.completionSchema,
-              this.props.assetStore,
-              query
-            );
+            const otherMatches = getCompletions(this.completion, query);
+
+            const functions = getFunctions(this.props.functions, query);
 
             ///filterOptions(this.state.options, query, true)
-            matches.push(...otherMatches);
+            matches.push(...otherMatches, ...functions);
             completionVisible = matches.length > 0;
             if (option.signature && option.signature.indexOf('()') === -1) {
               fn = option;
@@ -409,7 +412,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
       if (includeFunctions) {
         const functionQuery = this.parser.functionContext(expression);
         if (functionQuery) {
-          const fns = filterOptions(this.state.options, functionQuery, includeFunctions);
+          const fns = getFunctions(this.props.functions, functionQuery);
           if (fns.length > 0) {
             fn = fns[0];
           }
@@ -431,7 +434,11 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
           }
 
           const query = expression.substr(i, expression.length - i);
-          const matches = getCompletions(this.props.completionSchema, this.props.assetStore, query);
+          const matches = getCompletions(this.completion, query);
+
+          if (includeFunctions) {
+            matches.push(...getFunctions(this.props.functions, query));
+          }
 
           // console.log(this.state.options);
           // console.log(filterOptions(this.state.options, query, includeFunctions));
@@ -531,13 +538,16 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     if (option.examples && numExamples > 0) {
       examples = (
         <div data-spec="option-example" className={styles.option_examples}>
-          <div>
+          <div className={styles.example_header}>
             EXAMPLE
             {numExamples !== 1 ? 'S' : ''}
           </div>
-          {option.examples.slice(0, numExamples).map((example: FunctionExample, idx: number) => (
-            <div key={option.name + '_example_' + idx}> {example.template}</div>
-          ))}
+
+          <div className={styles.example}>
+            {option.examples.slice(0, numExamples).map((example: FunctionExample, idx: number) => (
+              <div key={option.name + '_example_' + idx}> {example.template}</div>
+            ))}
+          </div>
         </div>
       );
     }
@@ -734,12 +744,13 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { assetStore },
-  editorState: { completionSchema },
+  editorState: { completionSchema, functions },
   nodeEditor: { typeConfig }
 }: AppState) => ({
   typeConfig,
   assetStore,
-  completionSchema
+  completionSchema,
+  functions
 });
 
 const ConnectedTextInputElement = connect(

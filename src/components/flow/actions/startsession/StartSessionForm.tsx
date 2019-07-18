@@ -112,7 +112,10 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
               <AssetSelector
                 name="Recipients"
                 assets={this.props.assetStore.recipients}
-                completion={this.props.assetStore}
+                completion={{
+                  assetStore: this.props.assetStore,
+                  schema: this.props.completionSchema
+                }}
                 entry={this.state.recipients}
                 searchable={true}
                 multi={true}

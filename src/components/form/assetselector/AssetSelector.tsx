@@ -11,20 +11,13 @@ import { OptionProps } from 'react-select/lib/components/Option';
 import Creatable from 'react-select/lib/Creatable';
 import { StylesConfig } from 'react-select/lib/styles';
 import { OptionsType, ValueType } from 'react-select/lib/types';
-import {
-  Asset,
-  Assets,
-  AssetStore,
-  AssetType,
-  CompletionOption,
-  REMOVE_VALUE_ASSET
-} from 'store/flowContext';
+import { Asset, Assets, AssetType, CompletionOption, REMOVE_VALUE_ASSET } from 'store/flowContext';
 import { AssetEntry } from 'store/nodeEditor';
 import { uniqueBy } from 'utils';
-import { getCompletionOptions } from 'utils/completion';
 import { getErroredSelect as getErroredControl, large, messageStyle } from 'utils/reactselect';
 
 import styles from './AssetSelector.module.scss';
+import { getCompletions, CompletionAssets } from 'utils/completion';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
@@ -88,12 +81,11 @@ export interface AssetSelectorProps extends FormElementProps {
   sortFunction?(a: Asset, b: Asset): number;
 
   // completion options
-  completion?: AssetStore;
+  completion?: CompletionAssets;
 }
 
 interface AssetSelectorState {
   defaultOptions: Asset[];
-  completionOptions: Asset[];
   entry: AssetEntry;
   isLoading: boolean;
   menuOpen: boolean;
@@ -116,25 +108,11 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
       defaultOptions = searchAssetMap('', props.assets.items);
     }
 
-    let completionOptions: Asset[] = [];
-    if (this.props.completion) {
-      completionOptions = getCompletionOptions(true, this.props.completion, false).map(
-        (option: CompletionOption) => {
-          return {
-            id: '@' + option.name,
-            name: '@' + option.name,
-            type: AssetType.Expression
-          };
-        }
-      );
-    }
-
     this.state = {
       menuOpen: false,
       defaultOptions,
       entry: this.props.entry,
-      isLoading: false,
-      completionOptions
+      isLoading: false
     };
   }
 
@@ -169,9 +147,18 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
   public handleLoadOptions(input: string, callback: CallbackFunction): void {
     let options = this.props.additionalOptions || [];
 
-    if (this.state.completionOptions.length > 0 && input.startsWith('@')) {
-      options = options.concat(this.state.completionOptions);
-      callback(searchAssetMap(input, {}, options, this.props.shouldExclude));
+    if (input.startsWith('@')) {
+      const completions = getCompletions(this.props.completion, input.substr(1));
+
+      callback(
+        completions.map((option: CompletionOption) => {
+          return {
+            id: '@' + option.name,
+            name: '@' + option.name,
+            type: AssetType.Expression
+          };
+        })
+      );
       return;
     }
 

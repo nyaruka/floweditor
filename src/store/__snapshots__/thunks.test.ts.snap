@@ -386,6 +386,7 @@ Array [
         "dragSelection": null,
         "dragStartTime": 0,
         "fetchingFlow": false,
+        "functions": Array [],
         "ghostNode": null,
         "language": null,
         "liveActivity": Object {
@@ -429,6 +430,7 @@ Array [
         "dragSelection": null,
         "dragStartTime": 0,
         "fetchingFlow": false,
+        "functions": Array [],
         "ghostNode": null,
         "language": null,
         "liveActivity": Object {
@@ -1158,6 +1160,7 @@ Array [
         "dragSelection": null,
         "dragStartTime": 0,
         "fetchingFlow": false,
+        "functions": Array [],
         "ghostNode": Object {
           "ghost": true,
           "inboundConnections": Object {

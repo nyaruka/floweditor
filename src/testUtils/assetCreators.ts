@@ -412,6 +412,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
     flows: { items: {}, type: AssetType.Flow },
     recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN }
   },
+  completionSchema: { root: [], types: [] },
   addAsset: jest.fn(),
   updateAction: jest.fn(),
   onClose: jest.fn(),

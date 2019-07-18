@@ -4,7 +4,14 @@ import { Revision } from 'components/revisions/RevisionExplorer';
 import { Endpoints, Exit, FlowDefinition } from 'flowTypes';
 import { currencies } from 'store/currencies';
 import { Activity, RecentMessage } from 'store/editor';
-import { Asset, AssetMap, Assets, AssetStore, AssetType } from 'store/flowContext';
+import {
+  Asset,
+  AssetMap,
+  Assets,
+  AssetStore,
+  AssetType,
+  CompletionOption
+} from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
 import { CompletionSchema } from 'utils/completion';
 
@@ -293,6 +300,17 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
     Promise.all(fetches).then((results: any) => {
       resolve(assetStore);
     });
+  });
+};
+
+export const getFunctions = (endpoint: string): Promise<CompletionOption[]> => {
+  return new Promise<CompletionOption[]>((resolve, reject) => {
+    axios
+      .get(endpoint)
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(error => reject(error));
   });
 };
 
