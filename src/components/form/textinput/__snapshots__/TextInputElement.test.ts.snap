@@ -4,51 +4,51 @@ exports[`TextInputElement completion should complete in the middle of text 1`] =
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of the  contact",
-  },
-  Object {
-    "name": "contact.first_name",
-    "summary": "The first name of a  contact",
-  },
-  Object {
-    "name": "contact.name",
-    "summary": "The name of the  contact",
-  },
-  Object {
-    "name": "contact.display",
-    "summary": "The name or urn of the  contact",
-  },
-  Object {
-    "name": "contact.fields",
-    "summary": "Custom fields on a  contact",
-  },
-  Object {
-    "name": "contact.urn",
-    "summary": "The primary urn for a  contact",
-  },
-  Object {
-    "name": "contact.language",
-    "summary": "The language iso code for a  contact",
-  },
-  Object {
-    "name": "contact.created_on",
-    "summary": "The creation date for the  contact",
-  },
-  Object {
-    "name": "contact.groups",
-    "summary": "The groups a  contact is a member of",
-  },
-  Object {
-    "name": "contact.urns",
-    "summary": "The urns for a  contact",
+    "summary": "the name or URN",
   },
   Object {
     "name": "contact.uuid",
-    "summary": "The uuid of the  contact",
+    "summary": "the UUID of the contact",
+  },
+  Object {
+    "name": "contact.id",
+    "summary": "the numeric ID of the contact",
+  },
+  Object {
+    "name": "contact.first_name",
+    "summary": "the first name of the contact",
+  },
+  Object {
+    "name": "contact.name",
+    "summary": "the name of the contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "the language of the contact as 3-letter ISO code",
+  },
+  Object {
+    "name": "contact.created_on",
+    "summary": "the creation date of the contact",
+  },
+  Object {
+    "name": "contact.urns",
+    "summary": "the URNs belonging to the contact",
+  },
+  Object {
+    "name": "contact.urn",
+    "summary": "the preferred URN of the contact",
+  },
+  Object {
+    "name": "contact.groups",
+    "summary": "the groups the contact belongs to",
+  },
+  Object {
+    "name": "contact.fields",
+    "summary": "the custom field values of the contact",
   },
   Object {
     "name": "contact.channel",
-    "summary": "A  contact's preferred channel",
+    "summary": "the preferred channel of the contact",
   },
 ]
 `;
@@ -57,51 +57,51 @@ exports[`TextInputElement completion should handle completion w/ "Tab" key 1`] =
 Array [
   Object {
     "name": "contact",
-    "summary": "The name of the  contact",
-  },
-  Object {
-    "name": "contact.first_name",
-    "summary": "The first name of a  contact",
-  },
-  Object {
-    "name": "contact.name",
-    "summary": "The name of the  contact",
-  },
-  Object {
-    "name": "contact.display",
-    "summary": "The name or urn of the  contact",
-  },
-  Object {
-    "name": "contact.fields",
-    "summary": "Custom fields on a  contact",
-  },
-  Object {
-    "name": "contact.urn",
-    "summary": "The primary urn for a  contact",
-  },
-  Object {
-    "name": "contact.language",
-    "summary": "The language iso code for a  contact",
-  },
-  Object {
-    "name": "contact.created_on",
-    "summary": "The creation date for the  contact",
-  },
-  Object {
-    "name": "contact.groups",
-    "summary": "The groups a  contact is a member of",
-  },
-  Object {
-    "name": "contact.urns",
-    "summary": "The urns for a  contact",
+    "summary": "the name or URN",
   },
   Object {
     "name": "contact.uuid",
-    "summary": "The uuid of the  contact",
+    "summary": "the UUID of the contact",
+  },
+  Object {
+    "name": "contact.id",
+    "summary": "the numeric ID of the contact",
+  },
+  Object {
+    "name": "contact.first_name",
+    "summary": "the first name of the contact",
+  },
+  Object {
+    "name": "contact.name",
+    "summary": "the name of the contact",
+  },
+  Object {
+    "name": "contact.language",
+    "summary": "the language of the contact as 3-letter ISO code",
+  },
+  Object {
+    "name": "contact.created_on",
+    "summary": "the creation date of the contact",
+  },
+  Object {
+    "name": "contact.urns",
+    "summary": "the URNs belonging to the contact",
+  },
+  Object {
+    "name": "contact.urn",
+    "summary": "the preferred URN of the contact",
+  },
+  Object {
+    "name": "contact.groups",
+    "summary": "the groups the contact belongs to",
+  },
+  Object {
+    "name": "contact.fields",
+    "summary": "the custom field values of the contact",
   },
   Object {
     "name": "contact.channel",
-    "summary": "A  contact's preferred channel",
+    "summary": "the preferred channel of the contact",
   },
 ]
 `;

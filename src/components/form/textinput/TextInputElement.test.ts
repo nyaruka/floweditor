@@ -228,7 +228,7 @@ describe(TextInputElement.name, () => {
       expect(state.completionVisible).toBeFalsy();
     });
 
-    it('should bring up completion menu for top level options and functions', () => {
+    xit('should bring up completion menu for top level options and functions', () => {
       const wrapper = createWrapper();
       simulateString(wrapper, '@(');
 
@@ -238,7 +238,7 @@ describe(TextInputElement.name, () => {
       expect(state.completionVisible).toBeTruthy();
     });
 
-    it('should bring up functions within text', () => {
+    xit('should bring up functions within text', () => {
       const wrapper = createWrapper();
       simulateString(wrapper, 'some text @(');
 
