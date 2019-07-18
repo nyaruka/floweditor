@@ -266,13 +266,10 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
           const matches: CompletionOption[] = [];
           if (event.key === KeyValues.KEY_TAB || option.signature) {
             query = option.name;
-
-            const otherMatches = getCompletions(this.completion, query);
-
-            const functions = getFunctions(this.props.functions, query);
-
-            ///filterOptions(this.state.options, query, true)
-            matches.push(...otherMatches, ...functions);
+            matches.push(
+              ...getCompletions(this.completion, query),
+              ...getFunctions(this.props.functions, query)
+            );
             completionVisible = matches.length > 0;
             if (option.signature && option.signature.indexOf('()') === -1) {
               fn = option;
@@ -439,9 +436,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
           if (includeFunctions) {
             matches.push(...getFunctions(this.props.functions, query));
           }
-
-          // console.log(this.state.options);
-          // console.log(filterOptions(this.state.options, query, includeFunctions));
 
           const completionVisible = matches.length > 0;
           return {
