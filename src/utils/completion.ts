@@ -40,13 +40,21 @@ export const getCompletions = (
     part = parts.shift();
     if (part) {
       // eslint-disable-next-line
-      const nextProp = currentProps.find((prop: CompletionProperty) => prop.type === part);
+      const nextProp = currentProps.find((prop: CompletionProperty) => prop.key === part);
       if (nextProp) {
         // eslint-disable-next-line
         const nextType = schema.types.find((type: CompletionType) => type.name === nextProp.type);
         if (nextType && nextType.properties) {
           currentProps = nextType.properties;
           prefix += part + '.';
+        } else if (nextType && nextType.property_template) {
+          prefix += part + '.';
+          const template = nextType.property_template;
+          currentProps = Object.keys(assetStore[nextType.name].items).map((key: string) => ({
+            key: template.key.replace('{key}', key),
+            help: template.help.replace('{key}', key),
+            type: template.type
+          }));
         } else {
           // eslint-disable-next-line
           currentProps = currentProps.filter((prop: CompletionProperty) =>

@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .option_list {
   overflow-y: auto;
@@ -147,7 +147,7 @@
 .textinput {
   border-radius: 4px !important;
   color: $gray !important;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 14px !important;
   font-weight: 300 !important;
   border: 1px solid $light_gray;

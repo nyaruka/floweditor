@@ -261,7 +261,15 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
           const matches: CompletionOption[] = [];
           if (event.key === KeyValues.KEY_TAB || option.signature) {
             query = option.name;
-            matches.push(...filterOptions(this.state.options, query, true));
+
+            const otherMatches = getCompletions(
+              this.props.completionSchema,
+              this.props.assetStore,
+              query
+            );
+
+            ///filterOptions(this.state.options, query, true)
+            matches.push(...otherMatches);
             completionVisible = matches.length > 0;
             if (option.signature && option.signature.indexOf('()') === -1) {
               fn = option;
