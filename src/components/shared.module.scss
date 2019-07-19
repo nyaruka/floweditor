@@ -91,6 +91,9 @@
 }
 
 .node_asset {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   .node_group {
     padding-right: 5px;
   }

@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .recipients {
   margin-bottom: 15px;
@@ -8,7 +8,6 @@
   .to {
     padding: 3px $action_padding;
     background: $light_gray_2;
-    width: 100%;
     font-size: 12px;
 
     .name {

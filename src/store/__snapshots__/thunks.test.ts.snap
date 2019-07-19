@@ -369,6 +369,10 @@ Array [
           "segments": Object {},
         },
         "activityInterval": 5000,
+        "completionSchema": Object {
+          "root": Array [],
+          "types": Array [],
+        },
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -382,6 +386,7 @@ Array [
         "dragSelection": null,
         "dragStartTime": 0,
         "fetchingFlow": false,
+        "functions": Array [],
         "ghostNode": null,
         "language": null,
         "liveActivity": Object {
@@ -408,6 +413,10 @@ Array [
           "segments": Object {},
         },
         "activityInterval": 5000,
+        "completionSchema": Object {
+          "root": Array [],
+          "types": Array [],
+        },
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -421,6 +430,7 @@ Array [
         "dragSelection": null,
         "dragStartTime": 0,
         "fetchingFlow": false,
+        "functions": Array [],
         "ghostNode": null,
         "language": null,
         "liveActivity": Object {
@@ -1133,6 +1143,10 @@ Array [
           "segments": Object {},
         },
         "activityInterval": 5000,
+        "completionSchema": Object {
+          "root": Array [],
+          "types": Array [],
+        },
         "containerOffset": Object {
           "left": 0,
           "top": 0,
@@ -1146,6 +1160,7 @@ Array [
         "dragSelection": null,
         "dragStartTime": 0,
         "fetchingFlow": false,
+        "functions": Array [],
         "ghostNode": Object {
           "ghost": true,
           "inboundConnections": Object {

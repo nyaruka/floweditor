@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .option_list {
   overflow-y: auto;
@@ -40,7 +40,6 @@
 .option {
   padding: 5px 15px;
   font-size: 14px;
-  word-break: break-all;
 
   &.selected {
     padding-top: 10px;
@@ -115,10 +114,20 @@
 }
 
 .option_examples {
-  font-size: 66%;
-  line-height: 11px;
-  font-weight: 100;
-  color: $gray;
+  .example_header {
+    font-size: 50%;
+    margin-top: 5px;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+    margin-bottom: 2px;
+  }
+
+  .example {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 70%;
+    font-weight: 100;
+    color: $gray;
+  }
 }
 
 .fn_signature {
@@ -147,7 +156,7 @@
 .textinput {
   border-radius: 4px !important;
   color: $gray !important;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 14px !important;
   font-weight: 300 !important;
   border: 1px solid $light_gray;

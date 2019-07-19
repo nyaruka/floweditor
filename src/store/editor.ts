@@ -1,7 +1,8 @@
 import { FlowPosition } from 'flowTypes';
 import ActionTypes, { UpdateEditorState } from 'store/actionTypes';
 import Constants from 'store/constants';
-import { Asset, RenderNode } from 'store/flowContext';
+import { Asset, RenderNode, CompletionOption } from 'store/flowContext';
+import { CompletionSchema } from 'utils/completion';
 
 // tslint:disable:no-shadowed-variable
 export interface DragSelection {
@@ -50,6 +51,12 @@ export interface EditorState {
   modalMessage?: ModalMessage;
   saving?: boolean;
 
+  // our schema for peform dot completion
+  completionSchema: CompletionSchema;
+
+  // our function list for completion
+  functions: CompletionOption[];
+
   // the currently shown activity, can be
   // simulation or live
   activity: Activity;
@@ -80,6 +87,8 @@ export const EMPTY_DRAG_STATE: any = {
 
 // Initial state
 export const initialState: EditorState = {
+  completionSchema: { types: [], root: [] },
+  functions: [],
   containerOffset: { top: 0, left: 0 },
   currentRevision: null,
   simulating: false,

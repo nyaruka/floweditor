@@ -31,9 +31,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -76,7 +73,7 @@
     "@types/enzyme": "^3.9.3",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "24.0.13",
-    "@types/react": "^16.8.17",
+    "@types/react": "16.8.23",
     "@types/react-addons-shallow-compare": "0.14.22",
     "@types/react-dom": "16.8.4",
     "@types/react-modal": "^3.8.1",
@@ -87,6 +84,8 @@
     "@types/uniqid": "^4.1.2",
     "@types/uuid": "^3.4.3",
     "@types/webpack-env": "^1.13.6",
+    "@typescript-eslint/eslint-plugin": "1.12.0",
+    "@typescript-eslint/parser": "1.12.0",
     "ajv": "6.5.2",
     "array-move": "2.1.0",
     "auto-bind": "2.1.0",
@@ -103,6 +102,8 @@
     "enzyme-adapter-utils": "1.12.0",
     "enzyme-to-json": "^3.3.4",
     "eslint": "5.16.0",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-config-react": "1.1.7",
     "eslint-plugin-prettier": "3.1.0",
     "fast-deep-equal": "2.0.1",
     "get-input-selection": "1.1.4",
@@ -118,7 +119,7 @@
     "lodash.clonedeep": "4.5.0",
     "netlify-lambda": "^1.4.9",
     "node-sass": "4.12.0",
-    "prettier": "1.17.1",
+    "prettier": "1.18.2",
     "pretty-quick": "^1.11.0",
     "prop-types": "15.5.7",
     "raf": "^3.4.0",
@@ -144,6 +145,8 @@
     "split-sms": "0.1.7",
     "textarea-caret": "3.1.0",
     "tslint": "5.17.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-plugin-prettier": "2.0.1",
     "typescript": "3.4.5",
     "uniqid": "5.0.3",
     "uuid": "3.3.2"

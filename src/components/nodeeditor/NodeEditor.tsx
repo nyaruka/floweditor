@@ -29,6 +29,7 @@ import {
   onUpdateRouter,
   resetNodeEditingState
 } from 'store/thunks';
+import { CompletionSchema } from 'utils/completion';
 
 export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
@@ -55,6 +56,7 @@ export interface NodeEditorStoreProps {
   onUpdateAction: OnUpdateAction;
   onUpdateRouter: OnUpdateRouter;
   updateUserAddingAction: UpdateUserAddingAction;
+  completionSchema: CompletionSchema;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
@@ -65,6 +67,7 @@ export interface FormProps {
   updateAction(action: AnyAction): void;
 
   addAsset(assetType: string, asset: Asset): void;
+  completionSchema: CompletionSchema;
 
   assetStore: AssetStore;
 
@@ -160,6 +163,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
       const formProps: FormProps = {
         assetStore: this.props.assetStore,
+        completionSchema: this.props.completionSchema,
         addAsset: this.handleAddAsset,
         updateAction: this.updateAction,
         updateRouter: this.updateRouter,
@@ -182,7 +186,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { definition, nodes, assetStore },
-  editorState: { language, translating },
+  editorState: { language, translating, completionSchema },
   nodeEditor: { typeConfig, settings }
 }: AppState) => ({
   language,
@@ -191,7 +195,8 @@ const mapStateToProps = ({
   translating,
   typeConfig,
   settings,
-  assetStore
+  assetStore,
+  completionSchema
 });
 
 /* istanbul ignore next */
