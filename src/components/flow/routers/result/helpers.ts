@@ -23,7 +23,18 @@ export const FIELD_NUMBER_OPTIONS: SelectOption[] = [
   { value: '6', label: 'sixth' },
   { value: '7', label: 'seventh' },
   { value: '8', label: 'eighth' },
-  { value: '9', label: 'ninth' }
+  { value: '9', label: 'ninth' },
+  { value: '10', label: 'tenth' },
+  { value: '11', label: '11th' },
+  { value: '12', label: '12th' },
+  { value: '13', label: '13th' },
+  { value: '14', label: '14th' },
+  { value: '15', label: '15th' },
+  { value: '16', label: '16th' },
+  { value: '17', label: '17th' },
+  { value: '18', label: '18th' },
+  { value: '19', label: '19th' },
+  { value: '20', label: '20th' }
 ];
 
 export const getFieldOption = (value: number): SelectOption => {
