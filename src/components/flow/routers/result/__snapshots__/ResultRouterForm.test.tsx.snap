@@ -739,6 +739,61 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                 >
                   ninth
                 </option>
+                <option
+                  value="10"
+                >
+                  tenth
+                </option>
+                <option
+                  value="11"
+                >
+                  11th
+                </option>
+                <option
+                  value="12"
+                >
+                  12th
+                </option>
+                <option
+                  value="13"
+                >
+                  13th
+                </option>
+                <option
+                  value="14"
+                >
+                  14th
+                </option>
+                <option
+                  value="15"
+                >
+                  15th
+                </option>
+                <option
+                  value="16"
+                >
+                  16th
+                </option>
+                <option
+                  value="17"
+                >
+                  17th
+                </option>
+                <option
+                  value="18"
+                >
+                  18th
+                </option>
+                <option
+                  value="19"
+                >
+                  19th
+                </option>
+                <option
+                  value="20"
+                >
+                  20th
+                </option>
               </select>
             </div>
           </div>
