@@ -55,6 +55,27 @@ describe(ResultRouterForm.name, () => {
     };
 
     props.assetStore.results.items = { [testResult.id]: testResult };
+    const { getByText } = render(<ResultRouterForm {...props} />);
+
+    fireEvent.click(getByText('Ok'));
+    expect(props.updateRouter).toHaveBeenCalled();
+    expect(props.updateRouter).toMatchCallSnapshot();
+  });
+
+  it('should a fielded operand if configured', () => {
+    const props = getRouterFormProps(routerNode);
+
+    const testResult = {
+      id: 'my_test_result',
+      name: 'My Test Result',
+      type: AssetType.Result
+    };
+
+    props.nodeSettings.originalNode.ui.config = {
+      operand: testResult
+    };
+
+    props.assetStore.results.items = { [testResult.id]: testResult };
     props.nodeSettings.originalNode.ui.type = Types.split_by_run_result_delimited;
 
     const { getByText, getAllByTestId } = render(<ResultRouterForm {...props} />);
