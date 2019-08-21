@@ -78,7 +78,7 @@ export const groupsToCases = (groups: Asset[] = []): CaseProps[] =>
     kase: {
       uuid: createUUID(),
       type: Operators.has_group,
-      arguments: [id],
+      arguments: [id, name],
       category_uuid: ''
     },
     categoryName: name,

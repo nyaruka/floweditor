@@ -167,6 +167,7 @@ Array [
           Object {
             "arguments": Array [
               "68223118-109f-442a-aed3-7bb3e1eab687",
+              "Subscriber",
             ],
             "category_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "type": "has_group",
