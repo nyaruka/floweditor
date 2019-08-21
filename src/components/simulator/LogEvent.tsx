@@ -229,6 +229,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         return renderMessage(this.props.msg.text, this.props.msg.attachments, Direction.MT);
       case 'error':
         return renderError(this.props.text);
+      case 'failure':
+        return renderError(this.props.text);
       case 'msg_wait':
         return renderInfo('Waiting for reply');
       case 'contact_groups_changed':
