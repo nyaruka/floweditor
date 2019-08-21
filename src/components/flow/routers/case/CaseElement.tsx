@@ -38,6 +38,9 @@ export interface CaseElementState extends FormState {
   // for numeric operators
   min: StringEntry;
   max: StringEntry;
+
+  state: StringEntry;
+  district: StringEntry;
 }
 
 export default class CaseElement extends React.Component<CaseElementProps, CaseElementState> {
@@ -70,9 +73,15 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       return [];
     }
 
-    return this.state.operatorConfig.type === Operators.has_number_between
-      ? [this.state.min.value, this.state.max.value]
-      : [this.state.argument.value];
+    if (this.state.operatorConfig.type === Operators.has_number_between) {
+      return [this.state.min.value, this.state.max.value];
+    }
+
+    if (this.state.operatorConfig.type === Operators.has_ward) {
+      return [this.state.state.value, this.state.district.value];
+    }
+
+    return [this.state.argument.value];
   }
 
   private handleOperatorChanged(operatorConfig: Operator): void {
@@ -92,6 +101,33 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     const updates = validateCase({
       operatorConfig: this.state.operatorConfig,
       argument: value,
+      exitName: this.state.categoryName.value,
+      exitEdited: this.state.categoryNameEdited
+    });
+
+    this.setState(updates as CaseElementState, () => this.handleChange());
+  }
+
+  private handleDistrictChanged(value: string): void {
+    const updates = validateCase({
+      operatorConfig: this.state.operatorConfig,
+      argument: this.state.argument.value,
+      state: this.state.state.value,
+      district: value,
+      exitName: this.state.categoryName.value,
+      exitEdited: this.state.categoryNameEdited
+    });
+
+    this.setState(updates as CaseElementState, () => this.handleChange());
+  }
+
+  /** The user changed the value for the state (a location-based state) */
+  private handleStateChanged(value: string): void {
+    const updates = validateCase({
+      operatorConfig: this.state.operatorConfig,
+      argument: this.state.argument.value,
+      district: this.state.district.value,
+      state: value,
       exitName: this.state.categoryName.value,
       exitEdited: this.state.categoryNameEdited
     });
@@ -126,6 +162,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
   private handleExitChanged(value: string): void {
     const updates = validateCase({
       operatorConfig: this.state.operatorConfig,
+      state: this.state.state.value,
+      district: this.state.district.value,
       argument: this.state.argument.value,
       min: this.state.min.value,
       max: this.state.max.value,
@@ -182,21 +220,41 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     if (this.state.operatorConfig.operands > 0) {
       // First pass at displaying, handling Operators.has_number_between inputs
       if (this.state.operatorConfig.operands > 1) {
-        return (
-          <>
-            <TextInputElement
-              name="arguments"
-              onChange={this.handleMinChanged}
-              entry={this.state.min}
-            />
-            <span className={styles.divider}>and</span>
-            <TextInputElement
-              name="arguments"
-              onChange={this.handleMaxChanged}
-              entry={this.state.max}
-            />
-          </>
-        );
+        if (this.state.operatorConfig.type === Operators.has_number_between) {
+          return (
+            <>
+              <TextInputElement
+                name="arguments"
+                onChange={this.handleMinChanged}
+                entry={this.state.min}
+              />
+              <span className={styles.divider}>and</span>
+              <TextInputElement
+                name="arguments"
+                onChange={this.handleMaxChanged}
+                entry={this.state.max}
+              />
+            </>
+          );
+        } else {
+          return (
+            <>
+              <TextInputElement
+                name="State"
+                placeholder="State"
+                onChange={this.handleStateChanged}
+                entry={this.state.state}
+              />
+              <span className={styles.divider}>and</span>
+              <TextInputElement
+                name="District"
+                placeholder="District"
+                onChange={this.handleDistrictChanged}
+                entry={this.state.district}
+              />
+            </>
+          );
+        }
       } else if (isRelativeDate(this.state.operatorConfig.type)) {
         return (
           <>
@@ -217,6 +275,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             name="arguments"
             onChange={this.handleArgumentChanged}
             entry={this.state.argument}
+            placeholder={this.state.operatorConfig.type === Operators.has_district ? 'State' : ''}
             onFieldFailures={(persistantFailures: ValidationFailure[]) => {
               const argument = { ...this.state.argument, persistantFailures };
               this.setState({
@@ -261,7 +320,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           </div>
           <div
             className={
-              this.state.operatorConfig.type === Operators.has_number_between
+              this.state.operatorConfig.type === Operators.has_number_between ||
+              this.state.operatorConfig.type === Operators.has_ward
                 ? styles.multi_operand
                 : styles.single_operand
             }

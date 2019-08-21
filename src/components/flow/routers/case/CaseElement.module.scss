@@ -36,10 +36,10 @@ input:focus {
   .single_operand {
     display: inline-flex;
     position: relative;
-    margin-left: $spacing;
-    width: 166px;
+    margin-left: 6px; // $spacing;
+    width: 170px;
     input {
-      width: 166px;
+      width: 174px;
     }
   }
   .multi_operand {
@@ -48,7 +48,7 @@ input:focus {
     justify-content: center;
     margin-left: $spacing;
     input {
-      width: 60px;
+      width: 66px;
     }
   }
   .categorize_as {

@@ -125,6 +125,24 @@ export const operatorConfigList: Operator[] = [
     visibility: TEXT_TYPES
   },
   {
+    type: Operators.has_state,
+    verboseName: 'has state',
+    operands: 0,
+    categoryName: 'Has State'
+  },
+  {
+    type: Operators.has_district,
+    verboseName: 'has district',
+    operands: 1,
+    categoryName: 'Has District'
+  },
+  {
+    type: Operators.has_ward,
+    verboseName: 'has ward',
+    operands: 2,
+    categoryName: 'Has Ward'
+  },
+  {
     type: Operators.has_error,
     verboseName: 'has an error',
     operands: 0,

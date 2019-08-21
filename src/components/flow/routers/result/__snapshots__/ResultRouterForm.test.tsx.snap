@@ -381,6 +381,21 @@ exports[`ResultRouterForm should render 1`] = `
                       has an email
                     </option>
                     <option
+                      value="has_state"
+                    >
+                      has state
+                    </option>
+                    <option
+                      value="has_district"
+                    >
+                      has district
+                    </option>
+                    <option
+                      value="has_ward"
+                    >
+                      has ward
+                    </option>
+                    <option
                       value="has_value"
                     >
                       is not empty
@@ -406,6 +421,7 @@ exports[`ResultRouterForm should render 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="-1"
+                        placeholder=""
                         type="text"
                         value=""
                       />
@@ -1015,6 +1031,21 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                       has an email
                     </option>
                     <option
+                      value="has_state"
+                    >
+                      has state
+                    </option>
+                    <option
+                      value="has_district"
+                    >
+                      has district
+                    </option>
+                    <option
+                      value="has_ward"
+                    >
+                      has ward
+                    </option>
+                    <option
                       value="has_value"
                     >
                       is not empty
@@ -1040,6 +1071,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="-1"
+                        placeholder=""
                         type="text"
                         value=""
                       />
