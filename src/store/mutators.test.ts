@@ -1,6 +1,6 @@
 import { Types } from 'config/interfaces';
 import { Category, Exit, FlowDefinition, RouterTypes, SendMsg } from 'flowTypes';
-import { RenderNode } from 'store/flowContext';
+import { RenderNode, AssetMap, AssetType } from 'store/flowContext';
 import {
   detectLoops,
   getActionIndex,
@@ -20,7 +20,9 @@ import {
   updateConnection,
   updateLocalization,
   updateNodeDimensions,
-  updatePosition
+  updatePosition,
+  removeResultReference,
+  removeResultFromStore
 } from 'store/mutators';
 import { createMatchRouter, createSendMsgAction } from 'testUtils/assetCreators';
 import { createUUID } from 'utils';
@@ -86,6 +88,27 @@ describe('mutators', () => {
     expect(action.type).toBe(Types.send_msg);
     expect(action.text).toBe('Hello World');
     expect(updated).toMatchSnapshot();
+  });
+
+  it('should remove results', () => {
+    const nodeUUID = createUUID();
+    const items: AssetMap = {
+      result_1: {
+        name: 'Result 1',
+        id: 'result_1',
+        type: AssetType.Result,
+        references: [{ nodeUUID }]
+      }
+    };
+    const assets = removeResultReference('Result 1', items, { nodeUUID });
+    expect(Object.keys(assets).length).toBe(0);
+  });
+
+  it('should not add results if they were never there', () => {
+    const nodeUUID = createUUID();
+    const items: AssetMap = {};
+    const assets = removeResultReference('Result 1', items, { nodeUUID });
+    expect(Object.keys(assets).length).toBe(0);
   });
 
   describe('updateAction()', () => {

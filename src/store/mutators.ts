@@ -71,27 +71,7 @@ export const removeResultReference = (
 
     return mutate(items, { [key]: { references: { $set: filteredRefs } } });
   }
-
-  const result =
-    key in items
-      ? items[key]
-      : {
-          name: resultName,
-          id: key,
-          type: AssetType.Result,
-          references: []
-        };
-
-  if (
-    !result.references.find(
-      (ref: Reference) =>
-        ref.nodeUUID === reference.nodeUUID && ref.actionUUID === reference.actionUUID
-    )
-  ) {
-    result.references.push(reference);
-  }
-
-  return mutate(items, { $merge: { [key]: result } });
+  return items;
 };
 
 export const removeResultFromStore = (
