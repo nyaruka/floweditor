@@ -3,427 +3,426 @@
 $reset_color: #666;
 
 .sim_container {
-    position: fixed;
-    right: 0;
-    z-index: $z_simulator;
+  position: fixed;
+  right: 0;
+  z-index: $z_simulator;
 }
 
 .simulator.sim_hidden {
-    left: 0px !important;
-    transition: all 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
-    transition-delay: 100ms;
+  left: 0px !important;
+  transition: all 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+  transition-delay: 100ms;
 }
 
 .simulator {
-    background: $black;
-    border-radius: 12px;
-    box-shadow: $node_shadow $node_shadow_color;
+  background: $black;
+  border-radius: 12px;
+  box-shadow: $node_shadow $node_shadow_color;
 
-    img {
-        height: auto;
-        max-width: 100%;
-        vertical-align: middle;
-        border: 0;
+  img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+  }
+
+  input {
+    &:focus {
+      outline-color: transparent;
+      outline-style: none;
+    }
+    &::-webkit-input-placeholder {
+      color: $placeholder_color;
+    }
+    &::-moz-placeholder {
+      color: $placeholder_color;
+    }
+    &:-ms-input-placeholder {
+      color: $placeholder_color;
+    }
+    &:-moz-placeholder {
+      color: $placeholder_color;
+    }
+  }
+  input:disabled {
+    background: lighten(#e6e6e6, 5%);
+    cursor: not-allowed;
+    $disabled_color: darken($placeholder_color, 5%);
+    &::-webkit-input-placeholder {
+      color: $disabled_color;
+    }
+    &::-moz-placeholder {
+      color: $disabled_color;
+    }
+    &:-ms-input-placeholder {
+      color: $disabled_color;
+    }
+    &:-moz-placeholder {
+      color: $disabled_color;
+    }
+  }
+  left: -300px;
+  top: 0px;
+  position: absolute;
+  height: 500px;
+  width: 260px;
+  cursor: pointer;
+  z-index: $z_simulator;
+  transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+  transition-delay: 100ms;
+
+  .screen {
+    top: 6px;
+    height: 488px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    margin: 0px 5px;
+    cursor: default;
+
+    .header {
+      color: #eee;
+      background: #555;
+      height: 32px;
+      .close {
+        font-size: 20px;
+        width: 25px;
+        height: 25px;
+        right: 5px;
+        top: 5px;
+        position: absolute;
+        color: #ddd;
+        cursor: pointer;
+        &:hover {
+          color: #fff;
+        }
+      }
+      .time {
+        display: inline-block;
+        visibility: hidden;
+      }
+      .battery {
+        display: inline-block;
+        visibility: hidden;
+        right: 12px;
+        position: absolute;
+        font-size: 13px;
+      }
+      .wifi {
+        visibility: hidden;
+        display: inline-block;
+        right: 38px;
+        position: absolute;
+      }
     }
 
-    input {
+    .footer {
+      color: #eee;
+      background: #555;
+      height: 35px;
+      position: absolute;
+      z-index: 200;
+      bottom: 0;
+      width: 100%;
+
+      $light_reset: lighten($reset_color, 7%);
+
+      .reset {
+        background-color: $reset_color;
+        border: 2px solid lighten($reset_color, 7%);
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 16px;
+        cursor: pointer;
+        width: 60px;
+        height: 15px;
+        position: absolute;
+        left: 94px;
+        margin: 8px 0px;
+
+        &:hover {
+          background-color: $light_reset;
+          border: 2px solid lighten($light_reset, 5%);
+        }
+
+        .inactive {
+          background-color: $reset_color;
+          border: 2px solid $light_reset;
+        }
+
+        .active {
+          background-color: $reset_color;
+          border: 2px solid $light_reset;
+        }
+      }
+    }
+
+    .messages {
+      background-color: #fff;
+      user-select: none;
+      padding: 10px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-weight: 300;
+      position: relative;
+      transition: height 0.3s linear;
+    }
+    .controls {
+      z-index: 100;
+      background: #444;
+      bottom: 0px;
+      width: 240px;
+      padding: 5px 5px;
+      bottom: 35px;
+      position: absolute;
+
+      input {
         &:focus {
-            outline-color: transparent;
-            outline-style: none;
+          outline: none;
+          box-shadow: none;
+          border: none;
         }
-        &::-webkit-input-placeholder {
-            color: $placeholder_color;
-        }
-        &::-moz-placeholder {
-            color: $placeholder_color;
-        }
-        &:-ms-input-placeholder {
-            color: $placeholder_color;
-        }
-        &:-moz-placeholder {
-            color: $placeholder_color;
-        }
+        border-radius: 4px;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        font-size: 12px !important;
+        font-weight: 300;
+        height: 13px;
+        width: 213px;
+        padding: 6px 8px;
+        padding-right: 18px;
+        color: #333;
+        display: inline-block;
+        margin: 0;
+      }
     }
-    input:disabled {
-        background: lighten(#e6e6e6, 5%);
-        cursor: not-allowed;
-        $disabled_color: darken($placeholder_color, 5%);
-        &::-webkit-input-placeholder {
-            color: $disabled_color;
-        }
-        &::-moz-placeholder {
-            color: $disabled_color;
-        }
-        &:-ms-input-placeholder {
-            color: $disabled_color;
-        }
-        &:-moz-placeholder {
-            color: $disabled_color;
-        }
+
+    .show_attachments_button {
+      display: inline-block;
+      vertical-align: sub;
+      padding: 0px 5px;
+      position: absolute;
+      top: 11px;
+      right: 4px;
+      cursor: pointer;
+      transform: rotate(20deg);
+
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.075);
+      &:hover {
+        transform: rotate(0deg) scale(1.1);
+        color: #333;
+      }
     }
-    left: -300px;
-    top: 0px;
-    position: absolute;
-    height: 500px;
-    width: 260px;
-    cursor: pointer;
-    z-index: $z_simulator;
-    transition: right 400ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
-    transition-delay: 100ms;
 
-    .screen {
-        top: 6px;
-        height: 488px;
-        border-radius: 10px;
-        overflow: hidden;
-        position: relative;
-        margin: 0px 5px;
-        background: #fff;
-        cursor: default;
+    .attachment_buttons {
+      bottom: -100px;
+      position: absolute;
+      transition: bottom 200ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+      width: 100%;
+      background: #666;
+      height: 40px;
+      color: #e6e6e6;
+      z-index: 100;
+      text-align: center;
 
-        .header {
-            color: #eee;
-            background: #555;
-            height: 32px;
-            .close {
-                font-size: 20px;
-                width: 25px;
-                height: 25px;
-                right: 5px;
-                top: 5px;
-                position: absolute;
-                color: #ddd;
-                cursor: pointer;
-                &:hover {
-                    color: #fff;
-                }
-            }
-            .time {
-                display: inline-block;
-                visibility: hidden;
-            }
-            .battery {
-                display: inline-block;
-                visibility: hidden;
-                right: 12px;
-                position: absolute;
-                font-size: 13px;
-            }
-            .wifi {
-                visibility: hidden;
-                display: inline-block;
-                right: 38px;
-                position: absolute;
-            }
+      &.visible {
+        bottom: 30px;
+      }
+
+      div {
+        display: inline-block;
+        cursor: pointer;
+        padding-left: 7px;
+        padding-right: 7px;
+        padding-top: 10px;
+        font-size: 15px;
+        &:hover {
+          color: #ccc;
         }
-
-        .footer {
-            color: #eee;
-            background: #555;
-            height: 35px;
-            position: absolute;
-            z-index: 200;
-            bottom: 0;
-            width: 100%;
-
-            $light_reset: lighten($reset_color, 7%);
-
-            .reset {
-                background-color: $reset_color;
-                border: 2px solid lighten($reset_color, 7%);
-                -webkit-border-radius: 20px;
-                -moz-border-radius: 20px;
-                border-radius: 16px;
-                cursor: pointer;
-                width: 60px;
-                height: 15px;
-                position: absolute;
-                left: 94px;
-                margin: 8px 0px;
-
-                &:hover {
-                    background-color: $light_reset;
-                    border: 2px solid lighten($light_reset, 5%);
-                }
-
-                .inactive {
-                    background-color: $reset_color;
-                    border: 2px solid $light_reset;
-                }
-
-                .active {
-                    background-color: $reset_color;
-                    border: 2px solid $light_reset;
-                }
-            }
-        }
-
-        .messages {
-            background-color: #fff;
-            user-select: none;
-            padding: 10px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            font-weight: 300;
-            position: relative;
-            transition: height 0.3s linear;
-        }
-        .controls {
-            z-index: 100;
-            background: #444;
-            bottom: 0px;
-            width: 240px;
-            padding: 5px 5px;
-            bottom: 35px;
-            position: absolute;
-
-            input {
-                &:focus {
-                    outline: none;
-                    box-shadow: none;
-                    border: none;
-                }
-                border-radius: 4px;
-                border: none;
-                outline: none;
-                box-shadow: none;
-                font-size: 12px !important;
-                font-weight: 300;
-                height: 13px;
-                width: 213px;
-                padding: 6px 8px;
-                padding-right: 18px;
-                color: #333;
-                display: inline-block;
-                margin: 0;
-            }
-        }
-
-        .show_attachments_button {
-            display: inline-block;
-            vertical-align: sub;
-            padding: 0px 5px;
-            position: absolute;
-            top: 11px;
-            right: 4px;
-            cursor: pointer;
-            transform: rotate(20deg);
-
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.075);
-            &:hover {
-                transform: rotate(0deg) scale(1.1);
-                color: #333;
-            }
-        }
-
-        .attachment_buttons {
-            bottom: -100px;
-            position: absolute;
-            transition: bottom 200ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
-            width: 100%;
-            background: #666;
-            height: 40px;
-            color: #e6e6e6;
-            z-index: 100;
-            text-align: center;
-
-            &.visible {
-                bottom: 30px;
-            }
-
-            div {
-                display: inline-block;
-                cursor: pointer;
-                padding-left: 7px;
-                padding-right: 7px;
-                padding-top: 10px;
-                font-size: 15px;
-                &:hover {
-                    color: #ccc;
-                }
-            }
-        }
+      }
     }
+  }
 }
 
 .drawer {
-    &.drawer_visible {
-        &.forced {
-            background: #666;
-        }
+  &.drawer_visible {
+    &.forced {
+      background: #666;
     }
+  }
 
-    width: 100%;
-    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    z-index: 50;
+  width: 100%;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  z-index: 50;
+  background: #555;
+  transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding-bottom: 20px;
+
+  .drawer_header {
+    height: 10px;
     background: #555;
-    transition: bottom 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    padding-bottom: 20px;
+    color: $light_gray;
+    width: 100%;
+  }
 
-    .drawer_header {
-        height: 10px;
-        background: #555;
-        color: $light_gray;
-        width: 100%;
+  .map_thumb {
+    height: 74px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .audio_picker {
+    padding: 20px;
+    color: $light_gray;
+    cursor: pointer;
+    text-align: center;
+
+    &:hover {
+      background: #777;
+    }
+    .audio_icon {
+      display: inline;
+      font-size: 26px;
+    }
+    .audio_message {
+      display: inline;
+      font-size: 15px;
+      padding-left: 3px;
+      vertical-align: super;
+    }
+  }
+
+  .keypad {
+    .keypad_entry {
+      background: #555;
+      color: $light_gray;
+      font-size: 18px;
+      padding: 5px;
+      text-align: center;
+      letter-spacing: 4px;
     }
 
-    .map_thumb {
-        height: 74px;
+    .keys {
+      color: $light_gray;
+      padding: 5px;
+      .row {
         width: 100%;
-        cursor: pointer;
-    }
-
-    .audio_picker {
-        padding: 20px;
-        color: $light_gray;
-        cursor: pointer;
+        margin: 0;
         text-align: center;
 
-        &:hover {
-            background: #777;
+        .key {
+          padding: 4px 13px;
+          background: #777;
+          border-radius: 6px;
+          font-weight: bold;
+          border: 1px solid $light_gray;
+          display: inline-block;
+          text-align: center;
+          margin: 2px;
+          font-size: 14px;
+          cursor: pointer;
+
+          &:hover {
+            background: #999;
+          }
         }
-        .audio_icon {
-            display: inline;
-            font-size: 26px;
-        }
-        .audio_message {
-            display: inline;
-            font-size: 15px;
-            padding-left: 3px;
-            vertical-align: super;
-        }
+      }
     }
+  }
 
-    .keypad {
-        .keypad_entry {
-            background: #555;
-            color: $light_gray;
-            font-size: 18px;
-            padding: 5px;
-            text-align: center;
-            letter-spacing: 4px;
-        }
+  .drawer_items {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0;
+    padding-right: 10px;
 
-        .keys {
-            color: $light_gray;
-            padding: 5px;
-            .row {
-                width: 100%;
-                margin: 0;
-                text-align: center;
+    .drawer_item {
+      width: 70px;
+      padding-left: 10px;
+      flex: 1 1 auto;
+      cursor: pointer;
+      transition: transform 0.1s linear;
 
-                .key {
-                    padding: 4px 13px;
-                    background: #777;
-                    border-radius: 6px;
-                    font-weight: bold;
-                    border: 1px solid $light_gray;
-                    display: inline-block;
-                    text-align: center;
-                    margin: 2px;
-                    font-size: 14px;
-                    cursor: pointer;
-
-                    &:hover {
-                        background: #999;
-                    }
-                }
-            }
-        }
+      &:hover {
+        transform: scale(1.05);
+      }
     }
-
-    .drawer_items {
-        display: flex;
-        flex-direction: row;
-        padding: 10px 0;
-        padding-right: 10px;
-
-        .drawer_item {
-            width: 70px;
-            padding-left: 10px;
-            flex: 1 1 auto;
-            cursor: pointer;
-            transition: transform 0.1s linear;
-
-            &:hover {
-                transform: scale(1.05);
-            }
-        }
-    }
+  }
 }
 
 .simulator_tab.tab_hidden,
 .simulator_tab:hover.tab_hidden {
-    right: -110px;
-    transition: right 100ms;
+  right: -110px;
+  transition: right 100ms;
 }
 
 .simulator_tab {
-    background-color: #2db379;
-    width: 113px;
-    height: 50px;
-    position: fixed;
-    right: -75px;
-    top: 300px;
-    cursor: pointer;
-    z-index: $z_simulator;
-    transition: right 200ms, opacity 300ms;
-    transition-delay: 300ms;
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    .simulator_tab_icon {
-        position: absolute;
-        font-size: 34px;
-        color: white;
-        padding: 8px 0px;
-        margin-left: 3px;
-    }
-    .simulator_tab_text {
-        position: absolute;
-        left: 40px;
-        top: 10px;
-        color: white;
-        opacity: 0.01;
-        font-weight: 400;
-        transition: opacity 500ms;
-        transition-delay: 1000ms;
-    }
+  background-color: #2db379;
+  width: 113px;
+  height: 50px;
+  position: fixed;
+  right: -75px;
+  top: 300px;
+  cursor: pointer;
+  z-index: $z_simulator;
+  transition: right 200ms, opacity 300ms;
+  transition-delay: 300ms;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  .simulator_tab_icon {
+    position: absolute;
+    font-size: 34px;
+    color: white;
+    padding: 8px 0px;
+    margin-left: 3px;
+  }
+  .simulator_tab_text {
+    position: absolute;
+    left: 40px;
+    top: 10px;
+    color: white;
+    opacity: 0.01;
+    font-weight: 400;
+    transition: opacity 500ms;
+    transition-delay: 1000ms;
+  }
 }
 
 .simulator_tab:hover {
-    right: -10px;
-    transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    .simulator_tab_text {
-        opacity: 0.99;
-        transition: opacity 500ms;
-    }
+  right: -10px;
+  transition: right 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  .simulator_tab_text {
+    opacity: 0.99;
+    transition: opacity 500ms;
+  }
 }
 
 .detail_webhook_called {
-    background: $orange;
+  background: $orange;
 }
 
 .quick_replies {
+  text-align: center;
+  padding: 5px;
+
+  .quick_reply {
+    // white-space: nowrap;
+    display: inline-block;
+    color: $light_gray;
     text-align: center;
-    padding: 5px;
+    padding: 5px 16px;
+    border: 1px solid #666;
+    margin: 3px 6px;
+    border-radius: 14px;
+    cursor: pointer;
+    background: #444;
 
-    .quick_reply {
-        // white-space: nowrap;
-        display: inline-block;
-        color: $light_gray;
-        text-align: center;
-        padding: 5px 16px;
-        border: 1px solid #666;
-        margin: 3px 6px;
-        border-radius: 14px;
-        cursor: pointer;
-        background: #444;
-
-        transition: transform 0.1s linear;
-        &:hover {
-            background: #333;
-            transform: scale(1.05);
-        }
+    transition: transform 0.1s linear;
+    &:hover {
+      background: #333;
+      transform: scale(1.05);
     }
+  }
 }
