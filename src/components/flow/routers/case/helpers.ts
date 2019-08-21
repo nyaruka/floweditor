@@ -22,6 +22,14 @@ export const initializeForm = (props: CaseElementProps): CaseElementState => {
       value:
         props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[1] : ''
     },
+    state: {
+      value:
+        props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[0] : ''
+    },
+    district: {
+      value:
+        props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[1] : ''
+    },
     categoryName: { value: props.categoryName || '' },
     categoryNameEdited: !!props.categoryName,
     valid: true
@@ -107,6 +115,8 @@ export const parseNum = (str: string): number => {
 export const validateCase = (keys: {
   operatorConfig: Operator;
   argument?: string;
+  state?: string;
+  district?: string;
   min?: string;
   max?: string;
   exitName?: string;
@@ -118,6 +128,12 @@ export const validateCase = (keys: {
   const updates: Partial<CaseElementState> = {
     operatorConfig: keys.operatorConfig
   };
+
+  updates.district = { value: '', validationFailures: [] };
+  updates.state = { value: '', validationFailures: [] };
+  updates.min = { value: '', validationFailures: [] };
+  updates.max = { value: '', validationFailures: [] };
+  updates.argument = { value: '', validationFailures: [] };
 
   if (keys.operatorConfig.operands > 0) {
     switch (keys.operatorConfig.type) {
@@ -150,28 +166,30 @@ export const validateCase = (keys: {
         keys.max || '',
         validators.concat([Numeric, MoreThan(parseFloat(keys.min), 'the minimum')])
       );
-
-      updates.argument = { value: '', validationFailures: [] };
+    } else if (keys.operatorConfig.type === Operators.has_district) {
+      updates.argument = validate('State', keys.argument || '', validators.concat([]));
+    } else if (keys.operatorConfig.type === Operators.has_ward) {
+      updates.state = validate('State', keys.state || '', validators.concat([]));
+      updates.district = validate('District', keys.district || '', validators.concat([]));
     } else {
-      updates.min = { value: '', validationFailures: [] };
-      updates.max = { value: '', validationFailures: [] };
       updates.argument = validate('Value', keys.argument || '', validators);
     }
-  } else {
-    // no operand clear them all
-    updates.min = { value: '', validationFailures: [] };
-    updates.max = { value: '', validationFailures: [] };
-    updates.argument = { value: '', validationFailures: [] };
   }
 
   updates.categoryNameEdited = !!keys.exitEdited;
   updates.categoryName = validate(
     'Category',
     updates.categoryNameEdited ? keys.exitName : getCategoryName(updates),
-    updates.argument.value || (updates.min.value && updates.max.value) ? [Required] : []
+    updates.argument.value ||
+      (updates.min.value && updates.max.value) ||
+      (updates.state.value && updates.district.value)
+      ? [Required]
+      : []
   );
 
   updates.valid =
+    updates.state.validationFailures.length === 0 &&
+    updates.district.validationFailures.length === 0 &&
     updates.min.validationFailures.length === 0 &&
     updates.max.validationFailures.length === 0 &&
     updates.argument.validationFailures.length === 0 &&
