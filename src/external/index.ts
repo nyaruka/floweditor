@@ -55,7 +55,11 @@ export const saveRevision = (endpoint: string, definition: FlowDefinition): Prom
     axios
       .post(endpoint, definition, { headers })
       .then((response: AxiosResponse) => {
-        resolve(response.data.revision as Revision);
+        if (response.status === 200) {
+          resolve(response.data.revision as Revision);
+        } else {
+          reject(response);
+        }
       })
       .catch(error => reject(error));
   });

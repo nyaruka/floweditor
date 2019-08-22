@@ -166,6 +166,10 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const showRemoval = !this.props.translating;
     const showMove = !this.props.first && !this.props.translating;
 
+    const events = this.context.config.mutable
+      ? createClickHandler(this.handleActionClicked, () => this.props.selected)
+      : {};
+
     return (
       <div
         id={`action-${this.props.action.uuid}`}
@@ -173,10 +177,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
         data-spec={actionContainerSpecId}
       >
         <div className={styles.overlay} data-spec={actionOverlaySpecId} />
-        <div
-          {...createClickHandler(this.handleActionClicked, () => this.props.selected)}
-          data-spec={actionInteractiveDivSpecId}
-        >
+        <div {...events} data-spec={actionInteractiveDivSpecId}>
           <TitleBar
             __className={titleBarClass}
             title={name}
