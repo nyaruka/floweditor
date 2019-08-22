@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createClickHandler } from 'utils';
 
 import styles from './TitleBar.module.scss';
-import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
+import { fakePropType } from 'config/ConfigProvider';
 
 export interface TitleBarProps {
   title: string;

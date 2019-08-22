@@ -7,7 +7,7 @@ import { getCategoriesForExit, getResultName } from 'components/flow/node/helper
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import shared from 'components/shared.module.scss';
 import TitleBar from 'components/titlebar/TitleBar';
-import ConfigProvider, { fakePropType } from 'config/ConfigProvider';
+import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
 import { getOperatorConfig } from 'config/operatorConfigs';
 import { getType, getTypeConfig } from 'config/typeConfigs';
