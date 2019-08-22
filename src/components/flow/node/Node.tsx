@@ -87,14 +87,16 @@ export class NodeComp extends React.Component<NodeProps> {
     config: fakePropType
   };
 
-  constructor(props: NodeProps) {
+  constructor(props: NodeProps, context: any) {
     super(props);
 
     bindCallbacks(this, {
       include: [/Ref$/, /^on/, /^get/, /^handle/]
     });
 
-    this.events = createClickHandler(this.onClick, this.handleShouldCancelClick);
+    this.events = context.config.mutable
+      ? createClickHandler(this.onClick, this.handleShouldCancelClick)
+      : {};
   }
 
   private handleShouldCancelClick(): boolean {
@@ -350,7 +352,7 @@ export class NodeComp extends React.Component<NodeProps> {
       }
     } else {
       // Don't show add actions option if we are translating
-      if (!this.props.translating) {
+      if (!this.props.translating && this.context.config.mutable) {
         addActions = (
           <div
             className={styles.add}
@@ -368,7 +370,8 @@ export class NodeComp extends React.Component<NodeProps> {
       'plumb-drag': true,
       [styles.ghost]: this.props.ghost,
       [styles.flow_start]: this.isStartNodeVisible(),
-      [styles.selected]: this.isSelected()
+      [styles.selected]: this.isSelected(),
+      [styles.immutable]: !this.context.config.mutable
     });
 
     const uuid: JSX.Element = this.renderDebug();

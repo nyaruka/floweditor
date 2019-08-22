@@ -61,6 +61,7 @@ import {
 } from 'store/nodeEditor';
 import AppState from 'store/state';
 import { createUUID, hasString, NODE_SPACING, timeEnd, timeStart } from 'utils';
+import { AxiosError } from 'axios';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -205,7 +206,7 @@ export const createDirty = (
         );
         postingRevision = false;
       },
-      (error: any) => {
+      (error: AxiosError) => {
         const errorMessage = error.response.data as ErrorMessage;
 
         const body =

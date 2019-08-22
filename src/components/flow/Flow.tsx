@@ -162,7 +162,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     );
     this.Plumber.bind(
       'beforeStartDetach',
-      (event: ConnectionEvent) => !this.props.editorState.translating
+      (event: ConnectionEvent) => !this.props.editorState.translating && this.context.config.mutable
     );
     this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => true);
     this.Plumber.bind('beforeDrop', (event: ConnectionEvent) => this.onBeforeConnectorDrop(event));
@@ -399,6 +399,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     return (
       <div onDoubleClick={this.onDoubleClick} ref={this.onRef}>
         <Canvas
+          mutable={this.context.config.mutable}
           draggingNew={!!this.props.editorState.ghostNode}
           onDragging={(uuids: string[]) => {
             uuids.forEach((uuid: string) => {
