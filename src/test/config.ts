@@ -6,6 +6,7 @@ export const config: FlowEditorConfig = {
   localStorage: true,
   showDownload: true,
   flowType: FlowTypes.MESSAGE,
+  mutable: true,
   endpoints: {
     resthooks: '/assets/resthooks.json',
     flows: '/assets/flows.json',

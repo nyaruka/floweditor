@@ -305,12 +305,13 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     const dragNodeClasses = cx(styles.endpoint, connected);
     const confirmDelete =
       this.state.confirmDelete && this.props.exit.hasOwnProperty('destination_uuid');
-    const confirm: JSX.Element = confirmDelete ? (
-      <div
-        className={styles.confirm_x + ' fe-x'}
-        {...createClickHandler(this.onDisconnect, () => this.props.dragging)}
-      />
-    ) : null;
+    const confirm: JSX.Element =
+      confirmDelete && this.context.config.mutable ? (
+        <div
+          className={styles.confirm_x + ' fe-x'}
+          {...createClickHandler(this.onDisconnect, () => this.props.dragging)}
+        />
+      ) : null;
     const exitClasses: string = cx({
       [styles.exit]: true,
       'plumb-exit': true,
@@ -320,18 +321,23 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       [styles.confirm_delete]: confirmDelete
     });
     const activity = this.getSegmentCount();
+
+    const events = this.context.config.mutable
+      ? createClickHandler(
+          this.handleClick,
+          () => {
+            return this.props.dragging;
+          },
+          this.handleMouseDown
+        )
+      : {};
+
     return (
       <div className={exitClasses}>
         {name ? <div className={nameStyle}>{name}</div> : null}
         <div
           ref={(ref: HTMLDivElement) => (this.ele = ref)}
-          {...createClickHandler(
-            this.handleClick,
-            () => {
-              return this.props.dragging;
-            },
-            this.handleMouseDown
-          )}
+          {...events}
           id={`${this.props.node.uuid}:${this.props.exit.uuid}`}
           className={dragNodeClasses}
         >

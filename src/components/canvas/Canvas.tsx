@@ -20,6 +20,7 @@ export interface CanvasProps {
   dragActive: boolean;
   draggingNew: boolean;
   draggables: CanvasDraggableProps[];
+  mutable: boolean;
   onDragging: (draggedUUIDs: string[]) => void;
   onUpdatePositions: (positions: CanvasPositions) => void;
   onRemoveNodes: (nodeUUIDs: string[]) => void;
@@ -170,6 +171,10 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
       return;
     }
 
+    if (!this.props.mutable) {
+      return;
+    }
+
     this.justSelected = false;
     if (this.isClickOnCanvas(event)) {
       this.setState({
@@ -184,6 +189,10 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   }
 
   private handleMouseMove(event: React.MouseEvent<HTMLDivElement>): void {
+    if (!this.props.mutable) {
+      return;
+    }
+
     if (this.props.draggingNew) {
       this.lastX = event.pageX;
       this.lastY = event.pageY;
@@ -249,6 +258,10 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   }
 
   private handleMouseUpCapture(event: React.MouseEvent<HTMLDivElement>): void {
+    if (!this.props.mutable) {
+      return;
+    }
+
     // ignore right clicks
     if (event.nativeEvent.which === 3) {
       return;

@@ -46,6 +46,7 @@ export interface FlowEditorConfig {
   flowType: FlowTypes;
   showTemplates?: boolean;
   showDownload?: boolean;
+  mutable?: boolean;
   debug?: boolean;
   path?: string;
   headers?: any;

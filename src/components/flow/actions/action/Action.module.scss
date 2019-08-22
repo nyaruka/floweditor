@@ -71,6 +71,12 @@
   }
 }
 
+.immutable {
+  .overlay {
+    display: block;
+  }
+}
+
 .translate_from {
   background: $translation_bg;
   -webkit-border-radius: 5px;
