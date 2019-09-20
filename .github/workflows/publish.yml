@@ -1,0 +1,33 @@
+name: Publish to NPM
+
+on:   
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        version: 10.x
+    - name: Build and Test
+      run: |
+        yarn install
+        yarn run build --if-present
+        yarn test
+    - name: Tag
+      uses: actions/bin/filter@master
+      with:
+        args: tag
+    - name: Publish
+      uses: actions/npm@master
+      env:
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      with:
+        args: publish
