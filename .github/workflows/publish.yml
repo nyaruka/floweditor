@@ -1,9 +1,6 @@
 name: Publish to NPM
 
-on:   
-  push:
-    tags:
-      - '*'
+on: [push]
 
 jobs:
   build:
@@ -11,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
-    - name: Use Node.js 10.x
+    - uses: actions/checkout@v1
+    - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
-        version: 10.x
+        version: 12.x
     - name: Build and Test
       run: |
         yarn install
