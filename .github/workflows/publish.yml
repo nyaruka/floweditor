@@ -18,6 +18,8 @@ jobs:
         yarn install
         yarn run build --if-present
         yarn test
+      env:
+        CI: true
     - name: Tag
       uses: actions/bin/filter@master
       with:
