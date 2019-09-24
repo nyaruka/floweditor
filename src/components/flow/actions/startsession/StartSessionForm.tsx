@@ -2,20 +2,36 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import { AssetArrayEntry, AssetEntry, FormState, mergeForm } from 'store/nodeEditor';
+import {
+  AssetArrayEntry,
+  AssetEntry,
+  FormState,
+  mergeForm,
+  StringEntry,
+  SelectOptionEntry,
+  ValidationFailure
+} from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import { renderIf } from 'utils';
-
+import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import { initializeForm, stateToAction } from './helpers';
+import TextInputElement from 'components/form/textinput/TextInputElement';
+import { large } from 'utils/reactselect';
+
+export const START_TYPE_ASSETS = { label: 'Select recipients manually', value: 'assets' };
+export const START_TYPE_CREATE = { label: 'Create a new contact', value: 'create_contact' };
+export const START_TYPE_QUERY = { label: 'Select recipients from a query', value: 'contact_query' };
+
+const START_TYPE_OPTIONS = [START_TYPE_ASSETS, START_TYPE_QUERY, START_TYPE_CREATE];
 
 export interface StartSessionFormState extends FormState {
   recipients: AssetArrayEntry;
   flow: AssetEntry;
-  createContact: boolean;
+  startType: SelectOptionEntry;
+  contactQuery: StringEntry;
 }
 
 export class StartSessionForm extends React.Component<ActionFormProps, StartSessionFormState> {
@@ -41,33 +57,45 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
     return this.handleUpdate({ flow });
   }
 
-  public handleCreateContact(createContact: boolean): boolean {
-    return this.handleUpdate({ createContact });
+  public handleStartTypeChanged(startType: SelectOption): boolean {
+    return this.handleUpdate({ startType });
+  }
+
+  public handleContactQueryChanged(contactQuery: string): boolean {
+    return this.handleUpdate({ contactQuery });
   }
 
   private handleUpdate(
-    keys: { flow?: Asset; recipients?: Asset[]; createContact?: boolean },
+    keys: { flow?: Asset; recipients?: Asset[]; startType?: SelectOption; contactQuery?: string },
     submitting = false
   ): boolean {
     const updates: Partial<StartSessionFormState> = {};
 
+    if (keys.hasOwnProperty('startType')) {
+      updates.startType = { value: keys.startType };
+      if (keys.startType !== START_TYPE_ASSETS) {
+        updates.recipients = { value: [] };
+      }
+
+      if (keys.startType !== START_TYPE_QUERY) {
+        updates.contactQuery = { value: '' };
+      }
+    }
+
+    if (keys.hasOwnProperty('contactQuery')) {
+      updates.contactQuery = validate('Contact query', keys.contactQuery, [
+        shouldRequireIf(submitting && this.state.startType.value === START_TYPE_QUERY)
+      ]);
+    }
+
     if (keys.hasOwnProperty('recipients')) {
       updates.recipients = validate('Recipients', keys.recipients, [
-        shouldRequireIf(submitting && !this.state.createContact)
+        shouldRequireIf(submitting && this.state.startType.value === START_TYPE_ASSETS)
       ]);
     }
 
     if (keys.hasOwnProperty('flow')) {
       updates.flow = validate('Flow', keys.flow, [shouldRequireIf(submitting)]);
-    }
-
-    if (keys.hasOwnProperty('createContact')) {
-      updates.createContact = keys.createContact;
-
-      // no recipients if creating a new contact
-      if (keys.createContact) {
-        updates.recipients = { value: [] };
-      }
     }
 
     const updated = mergeForm(this.state, updates);
@@ -80,7 +108,8 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
     const valid = this.handleUpdate(
       {
         recipients: this.state.recipients.value,
-        flow: this.state.flow.value
+        flow: this.state.flow.value,
+        contactQuery: this.state.contactQuery.value
       },
       true
     );
@@ -107,10 +136,21 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
-          {renderIf(!this.state.createContact)(
+          <SelectElement
+            name="Start Type"
+            styles={large as any}
+            entry={this.state.startType}
+            onChange={this.handleStartTypeChanged}
+            options={START_TYPE_OPTIONS}
+          />
+        </div>
+        <p />
+        <div>
+          {renderIf(this.state.startType.value === START_TYPE_ASSETS)(
             <div data-testid={'recipients'}>
               <AssetSelector
                 name="Recipients"
+                placeholder="Choose who should be started in the flow"
                 assets={this.props.assetStore.recipients}
                 completion={{
                   assetStore: this.props.assetStore,
@@ -125,21 +165,34 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
             </div>
           )}
 
+          {renderIf(this.state.startType.value === START_TYPE_QUERY)(
+            <div data-testid={'contact_query'}>
+              <TextInputElement
+                name="Contact Query"
+                placeholder={'@fields.household_members > 2'}
+                onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+                  const contactQuery = { ...this.state.contactQuery, persistantFailures };
+                  this.setState({
+                    contactQuery,
+                    valid: this.state.valid // && !hasErrors(fieldValue)
+                  });
+                }}
+                onChange={this.handleContactQueryChanged}
+                entry={this.state.contactQuery}
+                autocomplete={true}
+                focus={true}
+              />
+              <p />
+            </div>
+          )}
+
           <AssetSelector
             name="Flow"
-            placeholder="Select the flow to start"
+            placeholder="Choose which flow to start"
             assets={this.props.assetStore.flows}
             entry={this.state.flow}
             searchable={true}
             onChange={this.handleFlowChanged}
-          />
-          <p />
-          <CheckboxElement
-            name="Create a new contact"
-            title="Create a new contact"
-            checked={this.state.createContact!}
-            description="Creates an empty contact to start in the flow"
-            onChange={this.handleCreateContact}
           />
         </div>
       </Dialog>

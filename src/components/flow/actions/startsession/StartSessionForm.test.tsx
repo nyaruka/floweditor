@@ -28,16 +28,8 @@ describe(StartSessionForm.name, () => {
     });
 
     it('should render create new contacts', () => {
-      const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, getByText, queryByTestId } = render(<StartSessionForm {...props} />);
-      expect(baseElement).toMatchSnapshot();
-
-      expect(queryByTestId('recipients')).not.toBeNull();
-
-      // should have an option to create a new contact
-      const checkbox = getByText('Create a new contact');
-      fireEvent.click(checkbox);
-
+      const props = getActionFormProps(createStartSessionAction({ create_contact: true }));
+      const { baseElement, queryByTestId } = render(<StartSessionForm {...props} />);
       expect(queryByTestId('recipients')).toBeNull();
       expect(baseElement).toMatchSnapshot();
     });
