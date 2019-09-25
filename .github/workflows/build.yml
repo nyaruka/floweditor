@@ -23,6 +23,13 @@ jobs:
         yarn global add codecov
         yarn run build --if-present
         yarn test --coverage
-        codecov --file=coverage/lcov.info --disable=search,gcov
       env:
         CI: true
+    - name: Upload coverage to Codecov  
+      uses: codecov/codecov-action@v1.0.2
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        file: coverage/lcov.info
+        flags: disable=search,gcov
+        name: codecov-umbrella
+
