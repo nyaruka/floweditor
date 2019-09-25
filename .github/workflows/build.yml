@@ -4,13 +4,10 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
-
+        node-version: [10.x, 12.x]
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
@@ -20,15 +17,7 @@ jobs:
     - name: install, build, and test
       run: |
         yarn install
-        yarn global add codecov
         yarn run build --if-present
-        yarn test --coverage
+        yarn test
       env:
         CI: true
-    - name: Upload coverage to Codecov  
-      uses: codecov/codecov-action@v1.0.2
-      if: matrix.node-version == '12.x'
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        file: coverage/lcov.info
-
