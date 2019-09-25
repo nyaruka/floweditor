@@ -1,5 +1,5 @@
 // test-utils.js
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import ConfigProvider from 'config';
 import { FlowDefinition, FlowNode } from 'flowTypes';
 import React from 'react';
@@ -53,6 +53,10 @@ const AllTheProviders = ({ children }: { children: any }) => {
 
 const customRender = (ui: any, options?: any) =>
   render(ui, { wrapper: AllTheProviders, ...options });
+
+export const fireChangeText = (ele: any, value: string): void => {
+  fireEvent.change(ele, { currentTarget: { value }, target: { value } });
+};
 
 // re-export everything
 export * from '@testing-library/react';

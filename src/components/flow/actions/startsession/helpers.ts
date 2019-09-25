@@ -37,7 +37,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
           ? START_TYPE_QUERY
           : START_TYPE_ASSETS
       },
-      contactQuery: { value: action.contact_query },
+      contactQuery: { value: action.contact_query || '' },
       valid: true
     };
 
@@ -59,14 +59,20 @@ export const stateToAction = (
 ): StartSession => {
   const flow: Asset = state.flow.value;
 
-  return {
+  const action: StartSession = {
     legacy_vars: getExpressions(state.recipients.value),
     contacts: getRecipientsByAsset(state.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(state.recipients.value, AssetType.Group),
     create_contact: state.startType.value === START_TYPE_CREATE,
-    contact_query: state.contactQuery.value,
     flow: { name: flow.name, uuid: flow.id },
     type: Types.start_session,
     uuid: getActionUUID(settings, Types.start_session)
   };
+
+  // only include contact query if it is set
+  if (state.contactQuery.value) {
+    action['contact_query'] = state.contactQuery.value;
+  }
+
+  return action;
 };

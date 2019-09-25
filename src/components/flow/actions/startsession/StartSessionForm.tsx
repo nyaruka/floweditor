@@ -147,7 +147,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
         <p />
         <div>
           {renderIf(this.state.startType.value === START_TYPE_ASSETS)(
-            <div data-testid={'recipients'}>
+            <div data-testid="recipients">
               <AssetSelector
                 name="Recipients"
                 placeholder="Choose who should be started in the flow"
@@ -166,15 +166,15 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
           )}
 
           {renderIf(this.state.startType.value === START_TYPE_QUERY)(
-            <div data-testid={'contact_query'}>
+            <div data-testid="contact_query">
               <TextInputElement
                 name="Contact Query"
-                placeholder={'@fields.household_members > 2'}
+                placeholder={'household_id = @fields.household_id'}
                 onFieldFailures={(persistantFailures: ValidationFailure[]) => {
                   const contactQuery = { ...this.state.contactQuery, persistantFailures };
                   this.setState({
                     contactQuery,
-                    valid: this.state.valid // && !hasErrors(fieldValue)
+                    valid: this.state.valid
                   });
                 }}
                 onChange={this.handleContactQueryChanged}

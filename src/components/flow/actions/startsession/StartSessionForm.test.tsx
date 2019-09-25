@@ -1,7 +1,7 @@
 import { ActionFormProps } from 'components/flow/props';
 import React from 'react';
 import { AssetType } from 'store/flowContext';
-import { fireEvent, render } from 'test/utils';
+import { fireEvent, render, fireChangeText } from 'test/utils';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import {
   createStartSessionAction,
@@ -10,7 +10,7 @@ import {
 } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 
-import { StartSessionForm } from './StartSessionForm';
+import { StartSessionForm, START_TYPE_CREATE, START_TYPE_QUERY } from './StartSessionForm';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -23,14 +23,56 @@ describe(StartSessionForm.name, () => {
   describe('render', () => {
     it('should render', () => {
       const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, getByText } = render(<StartSessionForm {...props} />);
+      const { baseElement, queryByTestId } = render(<StartSessionForm {...props} />);
       expect(baseElement).toMatchSnapshot();
+      expect(queryByTestId('recipients')).not.toBeNull();
     });
 
     it('should render create new contacts', () => {
-      const props = getActionFormProps(createStartSessionAction({ create_contact: true }));
-      const { baseElement, queryByTestId } = render(<StartSessionForm {...props} />);
+      const props = getActionFormProps(createStartSessionAction());
+      const { baseElement, queryByTestId, getAllByTestId, getByTestId } = render(
+        <StartSessionForm {...props} />
+      );
+
+      fireEvent.change(getAllByTestId('select')[1], {
+        target: START_TYPE_CREATE
+      });
+
       expect(queryByTestId('recipients')).toBeNull();
+      expect(baseElement).toMatchSnapshot();
+    });
+
+    it('should render contact query', () => {
+      const props = getActionFormProps(createStartSessionAction());
+      const { baseElement, queryByTestId, getAllByTestId, getByTestId, getByText } = render(
+        <StartSessionForm {...props} />
+      );
+
+      fireEvent.change(getAllByTestId('select')[1], {
+        target: START_TYPE_QUERY
+      });
+
+      fireChangeText(getByTestId('input'), 'my_field > 6');
+      expect(baseElement).toMatchSnapshot();
+
+      fireEvent.click(getByText('Ok'));
+      expect(props.updateAction).toHaveBeenCalled();
+      expect(props.updateAction).toMatchCallSnapshot();
+    });
+
+    it('should warn about invalid fields in contact queries', () => {
+      const props = getActionFormProps(createStartSessionAction());
+      const { baseElement, getAllByTestId, getByTestId, getByText } = render(
+        <StartSessionForm {...props} />
+      );
+
+      fireEvent.change(getAllByTestId('select')[1], {
+        target: START_TYPE_QUERY
+      });
+
+      const input = getByTestId('input');
+      fireChangeText(input, '@fields.arst = 34');
+      fireEvent.blur(input);
       expect(baseElement).toMatchSnapshot();
     });
 
