@@ -134,6 +134,15 @@ exports[`WebhookRouterForm should render 1`] = `
           },
         ]
       }
+      styles={
+        Object {
+          "control": [Function],
+          "input": [Function],
+          "multiValue": [Function],
+          "placeholder": [Function],
+          "singleValue": [Function],
+        }
+      }
     />
   </div>
   <div

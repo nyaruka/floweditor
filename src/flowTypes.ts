@@ -330,6 +330,7 @@ export interface StartFlow extends Action {
 export interface StartSession extends RecipientsAction {
   flow: Flow;
   create_contact?: boolean;
+  contact_query?: string;
 }
 
 export interface UIMetaData {

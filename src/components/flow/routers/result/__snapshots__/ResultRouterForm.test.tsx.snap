@@ -260,7 +260,7 @@ exports[`ResultRouterForm should render 1`] = `
                     <div
                       class="css-151xaom-placeholder"
                     >
-                      Select...
+                      Select Result
                     </div>
                     <input
                       class="css-gj7qu5-dummyInput"
@@ -878,7 +878,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                     <div
                       class="css-151xaom-placeholder"
                     >
-                      Select...
+                      Select Result
                     </div>
                     <input
                       class="css-gj7qu5-dummyInput"

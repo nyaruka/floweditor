@@ -314,6 +314,9 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
   }
 
   public render(): JSX.Element {
+    const article = !this.props.multi ? 'an' : '';
+    const newLanguage = this.props.multi ? 'new ones' : 'a new one';
+
     const commonAttributes = {
       className: 'react-select ' + styles.selection,
       value: this.state.entry.value,
@@ -330,7 +333,10 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
       isClearable: this.props.formClearable,
       isSearchable: this.props.searchable,
       getOptionValue: (option: Asset) => option.id,
-      getOptionLabel: (option: Asset) => option.name
+      getOptionLabel: (option: Asset) => option.name,
+      placeholder:
+        this.props.placeholder ||
+        `Select ${article} existing ${this.props.name.toLocaleLowerCase()} or enter ${newLanguage}`
     };
 
     if (this.props.createAssetFromInput) {
@@ -341,9 +347,6 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         this.props.additionalOptions,
         this.props.shouldExclude
       );
-
-      const article = !this.props.multi ? 'an' : '';
-      const newLanguage = this.props.multi ? 'new ones' : 'a new one';
 
       return (
         <FormElement
@@ -356,10 +359,6 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         >
           <Creatable
             {...commonAttributes}
-            placeholder={
-              this.props.placeholder ||
-              `Select ${article} existing ${this.props.name.toLocaleLowerCase()} or enter ${newLanguage}`
-            }
             options={localMatches.sort(this.props.sortFunction || sortByName)}
             isValidNewOption={this.handleCheckValid}
             formatCreateLabel={this.handleCreatePrompt}

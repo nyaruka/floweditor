@@ -140,6 +140,32 @@ exports[`StartSessionForm render should render 1`] = `
         </div>
         <div>
           <div
+            class="ele"
+          >
+            <select
+              data-testid="select"
+            >
+              <option
+                value="assets"
+              >
+                Select recipients manually
+              </option>
+              <option
+                value="contact_query"
+              >
+                Select recipients from a query
+              </option>
+              <option
+                value="create_contact"
+              >
+                Create a new contact
+              </option>
+            </select>
+          </div>
+        </div>
+        <p />
+        <div>
+          <div
             data-testid="recipients"
           >
             <div
@@ -369,27 +395,6 @@ exports[`StartSessionForm render should render 1`] = `
               </div>
             </div>
           </div>
-          <p />
-          <label
-            class="label"
-          >
-            <span
-              class="fe-square"
-              data-spec="checkbox"
-            />
-            <div
-              class="title"
-              data-spec="title"
-            >
-              Create a new contact
-            </div>
-            <div
-              class="description"
-              data-spec="description"
-            >
-              Creates an empty contact to start in the flow
-            </div>
-          </label>
         </div>
       </div>
       <div
@@ -423,12 +428,20 @@ exports[`StartSessionForm render should render 1`] = `
 
 exports[`StartSessionForm render should render an empty form with no action 1`] = `
 Object {
-  "createContact": false,
+  "contactQuery": Object {
+    "value": "",
+  },
   "flow": Object {
     "value": null,
   },
   "recipients": Object {
     "value": Array [],
+  },
+  "startType": Object {
+    "value": Object {
+      "label": "Select recipients manually",
+      "value": "assets",
+    },
   },
   "valid": false,
 }
@@ -472,6 +485,46 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
     }
     onChange={[MockFunction]}
   />
+  <div>
+    <SelectElement
+      entry={
+        Object {
+          "value": Object {
+            "label": "Select recipients manually",
+            "value": "assets",
+          },
+        }
+      }
+      name="Start Type"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "label": "Select recipients manually",
+            "value": "assets",
+          },
+          Object {
+            "label": "Select recipients from a query",
+            "value": "contact_query",
+          },
+          Object {
+            "label": "Create a new contact",
+            "value": "create_contact",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "control": [Function],
+          "input": [Function],
+          "multiValue": [Function],
+          "placeholder": [Function],
+          "singleValue": [Function],
+        }
+      }
+    />
+  </div>
+  <p />
   <div>
     <div
       data-testid="recipients"
@@ -529,6 +582,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         multi={true}
         name="Recipients"
         onChange={[Function]}
+        placeholder="Choose who should be started in the flow"
         searchable={true}
       />
       <p />
@@ -547,19 +601,336 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       }
       name="Flow"
       onChange={[Function]}
-      placeholder="Select the flow to start"
+      placeholder="Choose which flow to start"
       searchable={true}
-    />
-    <p />
-    <CheckboxElement
-      checked={false}
-      description="Creates an empty contact to start in the flow"
-      name="Create a new contact"
-      onChange={[Function]}
-      title="Create a new contact"
     />
   </div>
 </Dialog>
+`;
+
+exports[`StartSessionForm render should render contact query 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header start_session"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Start Somebody Else
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div
+            class="ele"
+          >
+            <select
+              data-testid="select"
+            >
+              <option
+                value="assets"
+              >
+                Select recipients manually
+              </option>
+              <option
+                value="contact_query"
+              >
+                Select recipients from a query
+              </option>
+              <option
+                value="create_contact"
+              >
+                Create a new contact
+              </option>
+            </select>
+          </div>
+        </div>
+        <p />
+        <div>
+          <div
+            data-testid="contact_query"
+          >
+            <div
+              class="ele"
+            >
+              <div
+                class="wrapper"
+              >
+                <input
+                  class="textinput"
+                  data-spec="input"
+                  data-testid="input"
+                  maxlength="-1"
+                  placeholder="household_id = @fields.household_id"
+                  type="text"
+                  value="my_field > 6"
+                />
+                <div
+                  class="completion_container hidden"
+                  data-spec="completion-options"
+                  style="top: 0px; left: 0px;"
+                >
+                  <div
+                    class="options_wrapper"
+                  >
+                    <ul
+                      class="option_list"
+                      data-spec="completion-list"
+                    />
+                    <div
+                      class="help"
+                      data-spec="completion-help"
+                    >
+                      Tab to complete, enter to select
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p />
+          </div>
+          <div
+            class="ele"
+          >
+            <div
+              class="css-1pcexqc-container react-select selection"
+            >
+              <div
+                class="css-en22e2-control"
+              >
+                <div
+                  class="css-1hwfws3"
+                >
+                  <div
+                    class="css-whijrq-singleValue"
+                  >
+                    Flow to Start
+                  </div>
+                  <div
+                    class="css-10fb2c7"
+                  >
+                    <div
+                      class=""
+                      style="display: inline-block;"
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        autocapitalize="none"
+                        autocomplete="off"
+                        autocorrect="off"
+                        id="react-select-7-input"
+                        spellcheck="false"
+                        style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
+                        tabindex="0"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="css-1wy0on6"
+                >
+                  <span
+                    class="css-bgvzuu-indicatorSeparator"
+                  />
+                  <div
+                    aria-hidden="true"
+                    class="css-16pqwjk-indicatorContainer"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="css-19bqh2r"
+                      focusable="false"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      width="20"
+                    >
+                      <path
+                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`StartSessionForm render should render contact query 2`] = `
+Array [
+  Object {
+    "contact_query": "my_field > 6",
+    "contacts": Array [],
+    "create_contact": false,
+    "flow": Object {
+      "name": "Flow to Start",
+      "uuid": "flow_uuid",
+    },
+    "groups": Array [],
+    "legacy_vars": Array [],
+    "type": "start_session",
+    "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+  },
+]
 `;
 
 exports[`StartSessionForm render should render create new contacts 1`] = `
@@ -702,166 +1073,31 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
         </div>
         <div>
           <div
-            data-testid="recipients"
+            class="ele"
           >
-            <div
-              class="ele"
+            <select
+              data-testid="select"
             >
-              <div
-                class="css-1pcexqc-container react-select selection"
+              <option
+                value="assets"
               >
-                <div
-                  class="css-en22e2-control"
-                >
-                  <div
-                    class="css-1hwfws3"
-                  >
-                    <div
-                      class="css-8ql5qv-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Cat Fanciers
-                      </div>
-                      <div
-                        class="css-1alnv5e"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-19bqh2r"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-8ql5qv-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Norbert Kwizera
-                      </div>
-                      <div
-                        class="css-1alnv5e"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-19bqh2r"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-8ql5qv-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Rowan Seymour
-                      </div>
-                      <div
-                        class="css-1alnv5e"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-19bqh2r"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-10fb2c7"
-                    >
-                      <div
-                        class=""
-                        style="display: inline-block;"
-                      >
-                        <input
-                          aria-autocomplete="list"
-                          autocapitalize="none"
-                          autocomplete="off"
-                          autocorrect="off"
-                          id="react-select-4-input"
-                          spellcheck="false"
-                          style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                          tabindex="0"
-                          type="text"
-                          value=""
-                        />
-                        <div
-                          style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="css-1wy0on6"
-                  >
-                    <div
-                      aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="css-19bqh2r"
-                        focusable="false"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        width="20"
-                      >
-                        <path
-                          d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class="css-bgvzuu-indicatorSeparator"
-                    />
-                    <div
-                      aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="css-19bqh2r"
-                        focusable="false"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        width="20"
-                      >
-                        <path
-                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p />
+                Select recipients manually
+              </option>
+              <option
+                value="contact_query"
+              >
+                Select recipients from a query
+              </option>
+              <option
+                value="create_contact"
+              >
+                Create a new contact
+              </option>
+            </select>
           </div>
+        </div>
+        <p />
+        <div>
           <div
             class="ele"
           >
@@ -931,27 +1167,6 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
               </div>
             </div>
           </div>
-          <p />
-          <label
-            class="label"
-          >
-            <span
-              class="fe-square"
-              data-spec="checkbox"
-            />
-            <div
-              class="title"
-              data-spec="title"
-            >
-              Create a new contact
-            </div>
-            <div
-              class="description"
-              data-spec="description"
-            >
-              Creates an empty contact to start in the flow
-            </div>
-          </label>
         </div>
       </div>
       <div
@@ -983,7 +1198,188 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
 </body>
 `;
 
-exports[`StartSessionForm render should render create new contacts 2`] = `
+exports[`StartSessionForm render should render self, children with base props 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="start_session"
+  title="Start Somebody Else"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "component": [Function],
+        "description": "Start somebody else in a flow",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Start Somebody Else",
+        "type": "start_session",
+        "visibility": Array [
+          "message",
+          "voice",
+        ],
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div>
+    <SelectElement
+      entry={
+        Object {
+          "value": Object {
+            "label": "Select recipients manually",
+            "value": "assets",
+          },
+        }
+      }
+      name="Start Type"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "label": "Select recipients manually",
+            "value": "assets",
+          },
+          Object {
+            "label": "Select recipients from a query",
+            "value": "contact_query",
+          },
+          Object {
+            "label": "Create a new contact",
+            "value": "create_contact",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "control": [Function],
+          "input": [Function],
+          "multiValue": [Function],
+          "placeholder": [Function],
+          "singleValue": [Function],
+        }
+      }
+    />
+  </div>
+  <p />
+  <div>
+    <div
+      data-testid="recipients"
+    >
+      <AssetSelector
+        assets={
+          Object {
+            "items": Object {},
+            "type": "contact",
+          }
+        }
+        completion={
+          Object {
+            "assetStore": Object {
+              "channels": Object {
+                "items": Object {},
+                "type": "channel",
+              },
+              "fields": Object {
+                "items": Object {},
+                "type": "field",
+              },
+              "flows": Object {
+                "items": Object {},
+                "type": "flow",
+              },
+              "labels": Object {
+                "items": Object {},
+                "type": "label",
+              },
+              "languages": Object {
+                "items": Object {},
+                "type": "language",
+              },
+              "recipients": Object {
+                "items": Object {},
+                "type": "contact",
+              },
+              "results": Object {
+                "items": Object {},
+                "type": "result",
+              },
+            },
+            "schema": Object {
+              "root": Array [],
+              "types": Array [],
+            },
+          }
+        }
+        entry={
+          Object {
+            "value": Array [
+              Object {
+                "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+                "name": "Cat Fanciers",
+                "type": "group",
+              },
+              Object {
+                "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+                "name": "Norbert Kwizera",
+                "type": "contact",
+              },
+              Object {
+                "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+                "name": "Rowan Seymour",
+                "type": "contact",
+              },
+            ],
+          }
+        }
+        multi={true}
+        name="Recipients"
+        onChange={[Function]}
+        placeholder="Choose who should be started in the flow"
+        searchable={true}
+      />
+      <p />
+    </div>
+    <AssetSelector
+      assets={
+        Object {
+          "items": Object {},
+          "type": "flow",
+        }
+      }
+      entry={
+        Object {
+          "value": Object {
+            "id": "flow_uuid",
+            "name": "Flow to Start",
+            "type": "flow",
+          },
+        }
+      }
+      name="Flow"
+      onChange={[Function]}
+      placeholder="Choose which flow to start"
+      searchable={true}
+    />
+  </div>
+</Dialog>
+`;
+
+exports[`StartSessionForm render should warn about invalid fields in contact queries 1`] = `
 <body>
   <div>
     <div
@@ -1125,6 +1521,88 @@ exports[`StartSessionForm render should render create new contacts 2`] = `
           <div
             class="ele"
           >
+            <select
+              data-testid="select"
+            >
+              <option
+                value="assets"
+              >
+                Select recipients manually
+              </option>
+              <option
+                value="contact_query"
+              >
+                Select recipients from a query
+              </option>
+              <option
+                value="create_contact"
+              >
+                Create a new contact
+              </option>
+            </select>
+          </div>
+        </div>
+        <p />
+        <div>
+          <div
+            data-testid="contact_query"
+          >
+            <div
+              class="ele invalid"
+            >
+              <div
+                class="wrapper"
+              >
+                <input
+                  class="textinput invalid"
+                  data-spec="input"
+                  data-testid="input"
+                  maxlength="-1"
+                  placeholder="household_id = @fields.household_id"
+                  type="text"
+                  value="@fields.arst = 34"
+                />
+                <div
+                  class="completion_container hidden"
+                  data-spec="completion-options"
+                  style="top: 0px; left: 0px;"
+                >
+                  <div
+                    class="options_wrapper"
+                  >
+                    <ul
+                      class="option_list"
+                      data-spec="completion-list"
+                    />
+                    <div
+                      class="help"
+                      data-spec="completion-help"
+                    >
+                      Tab to complete, enter to select
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="error_list"
+              >
+                <div
+                  class="error"
+                >
+                  <div
+                    class="arrow_up"
+                  />
+                  <div>
+                    arst is not a valid contact field
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p />
+          </div>
+          <div
+            class="ele"
+          >
             <div
               class="css-1pcexqc-container react-select selection"
             >
@@ -1151,7 +1629,7 @@ exports[`StartSessionForm render should render create new contacts 2`] = `
                         autocapitalize="none"
                         autocomplete="off"
                         autocorrect="off"
-                        id="react-select-5-input"
+                        id="react-select-9-input"
                         spellcheck="false"
                         style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
                         tabindex="0"
@@ -1191,27 +1669,6 @@ exports[`StartSessionForm render should render create new contacts 2`] = `
               </div>
             </div>
           </div>
-          <p />
-          <label
-            class="label"
-          >
-            <span
-              class="fe-check-square"
-              data-spec="checkbox"
-            />
-            <div
-              class="title"
-              data-spec="title"
-            >
-              Create a new contact
-            </div>
-            <div
-              class="description"
-              data-spec="description"
-            >
-              Creates an empty contact to start in the flow
-            </div>
-          </label>
         </div>
       </div>
       <div
@@ -1243,153 +1700,6 @@ exports[`StartSessionForm render should render create new contacts 2`] = `
 </body>
 `;
 
-exports[`StartSessionForm render should render self, children with base props 1`] = `
-<Dialog
-  buttons={
-    Object {
-      "primary": Object {
-        "name": "Ok",
-        "onClick": [Function],
-      },
-      "secondary": Object {
-        "name": "Cancel",
-        "onClick": [Function],
-      },
-    }
-  }
-  headerClass="start_session"
-  title="Start Somebody Else"
->
-  <TypeList
-    __className=""
-    initialType={
-      Object {
-        "component": [Function],
-        "description": "Start somebody else in a flow",
-        "form": [Function],
-        "localization": [Function],
-        "localizeableKeys": Array [
-          "exits",
-        ],
-        "name": "Start Somebody Else",
-        "type": "start_session",
-        "visibility": Array [
-          "message",
-          "voice",
-        ],
-      }
-    }
-    onChange={[MockFunction]}
-  />
-  <div>
-    <div
-      data-testid="recipients"
-    >
-      <AssetSelector
-        assets={
-          Object {
-            "items": Object {},
-            "type": "contact",
-          }
-        }
-        completion={
-          Object {
-            "assetStore": Object {
-              "channels": Object {
-                "items": Object {},
-                "type": "channel",
-              },
-              "fields": Object {
-                "items": Object {},
-                "type": "field",
-              },
-              "flows": Object {
-                "items": Object {},
-                "type": "flow",
-              },
-              "labels": Object {
-                "items": Object {},
-                "type": "label",
-              },
-              "languages": Object {
-                "items": Object {},
-                "type": "language",
-              },
-              "recipients": Object {
-                "items": Object {},
-                "type": "contact",
-              },
-              "results": Object {
-                "items": Object {},
-                "type": "result",
-              },
-            },
-            "schema": Object {
-              "root": Array [],
-              "types": Array [],
-            },
-          }
-        }
-        entry={
-          Object {
-            "value": Array [
-              Object {
-                "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-                "name": "Cat Fanciers",
-                "type": "group",
-              },
-              Object {
-                "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-                "name": "Norbert Kwizera",
-                "type": "contact",
-              },
-              Object {
-                "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-                "name": "Rowan Seymour",
-                "type": "contact",
-              },
-            ],
-          }
-        }
-        multi={true}
-        name="Recipients"
-        onChange={[Function]}
-        searchable={true}
-      />
-      <p />
-    </div>
-    <AssetSelector
-      assets={
-        Object {
-          "items": Object {},
-          "type": "flow",
-        }
-      }
-      entry={
-        Object {
-          "value": Object {
-            "id": "flow_uuid",
-            "name": "Flow to Start",
-            "type": "flow",
-          },
-        }
-      }
-      name="Flow"
-      onChange={[Function]}
-      placeholder="Select the flow to start"
-      searchable={true}
-    />
-    <p />
-    <CheckboxElement
-      description="Creates an empty contact to start in the flow"
-      name="Create a new contact"
-      onChange={[Function]}
-      title="Create a new contact"
-    />
-  </div>
-</Dialog>
-`;
-
 exports[`StartSessionForm updates should allow switching from router 1`] = `
 Array [
   Object {
@@ -1407,14 +1717,16 @@ Array [
     ],
     "legacy_vars": Array [],
     "type": "start_session",
-    "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+    "uuid": "c99dcf07-2ad6-4730-9e99-810a39f5a58d",
   },
 ]
 `;
 
 exports[`StartSessionForm updates should save changes 1`] = `
 Object {
-  "createContact": undefined,
+  "contactQuery": Object {
+    "value": "",
+  },
   "flow": Object {
     "validationFailures": Array [],
     "value": Object {
@@ -1432,6 +1744,12 @@ Object {
         "type": "group",
       },
     ],
+  },
+  "startType": Object {
+    "value": Object {
+      "label": "Select recipients manually",
+      "value": "assets",
+    },
   },
   "valid": true,
 }
