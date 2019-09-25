@@ -23,5 +23,6 @@ jobs:
         yarn global add codecov
         yarn run build --if-present
         yarn test --coverage
+        codecov --file=coverage/lcov.info --disable=search,gcov
       env:
         CI: true
