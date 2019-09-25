@@ -1,4 +1,4 @@
-name: Build
+name: Coverage
 
 on: [push]
 
@@ -7,17 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x]
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: install, build, and test
+    - name: install and coverage
       run: |
         yarn install
-        yarn run build --if-present
-        yarn test
+        yarn test --coverage
       env:
         CI: true
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1.0.2
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        file: coverage/lcov.info
