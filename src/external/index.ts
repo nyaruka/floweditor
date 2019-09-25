@@ -334,9 +334,13 @@ export const getFlowDefinition = (
     (async () => {
       let revisionToLoad = id;
       if (!revisionToLoad) {
-        const response = await axios.get(`${revisions.endpoint}`);
-        if (response.data.results.length > 0) {
-          revisionToLoad = response.data.results[0].id;
+        try {
+          const response = await axios.get(`${revisions.endpoint}`);
+          if (response.data.results.length > 0) {
+            revisionToLoad = response.data.results[0].id;
+          }
+        } catch (error) {
+          reject(new Error("Couldn't reach revisions endpoint"));
         }
       }
 
