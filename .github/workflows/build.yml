@@ -30,6 +30,4 @@ jobs:
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         file: coverage/lcov.info
-        flags: disable=search,gcov
-        name: codecov-umbrella
 
