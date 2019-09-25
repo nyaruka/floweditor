@@ -1,6 +1,5 @@
 # Flow Editor
-
-[![Build Status](https://travis-ci.org/nyaruka/floweditor.svg?branch=master)](https://travis-ci.org/nyaruka/floweditor)
+[![Build Status](https://github.com/nyaruka/floweditor/workflows/Build/badge.svg)](https://github.com/nyaruka/floweditor/actions?workflow=Build)
 [![codecov](https://codecov.io/gh/nyaruka/floweditor/branch/master/graph/badge.svg)](https://codecov.io/gh/nyaruka/floweditor)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c2200da1ba5a0176836e/maintainability)](https://codeclimate.com/github/nyaruka/floweditor/maintainability)
 
