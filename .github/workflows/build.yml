@@ -27,6 +27,7 @@ jobs:
         CI: true
     - name: Upload coverage to Codecov  
       uses: codecov/codecov-action@v1.0.2
+      if: matrix.node-version == '12.x'
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         file: coverage/lcov.info
