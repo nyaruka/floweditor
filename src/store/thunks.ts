@@ -344,16 +344,25 @@ export const fetchFlow = (
 
   const completionSchema = await getCompletionSchema(endpoints.completion);
   const functions = await getFunctions(endpoints.functions);
-  const definition = await getFlowDefinition(assetStore.revisions);
 
-  dispatch(loadFlowDefinition(definition, assetStore, onLoad));
-  dispatch(mergeEditorState({ currentRevision: definition.revision, completionSchema, functions }));
+  getFlowDefinition(assetStore.revisions)
+    .then((definition: FlowDefinition) => {
+      dispatch(loadFlowDefinition(definition, assetStore, onLoad));
+      dispatch(
+        mergeEditorState({ currentRevision: definition.revision, completionSchema, functions })
+      );
 
-  markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);
-
-  if (forceSave) {
-    markDirty(0);
-  }
+      markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);
+      if (forceSave) {
+        markDirty(0);
+      }
+    })
+    .catch(error => {
+      // not much we can do without our flow definition
+      // log it to the console, this should really only happen if
+      // misconfigured or the endpoint is unavailable
+      console.error(error);
+    });
 };
 
 export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
