@@ -21,7 +21,7 @@ Array [
           },
         ],
         "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-        "operand": "@(field(results.my_test_result, 1, \\"+\\"))",
+        "operand": "@(field(results.my_test_result, 0, \\"+\\"))",
         "type": "switch",
       },
       "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
@@ -30,7 +30,7 @@ Array [
       "config": Object {
         "cases": Object {},
         "delimiter": "+",
-        "index": 1,
+        "index": 0,
         "operand": Object {
           "id": "my_test_result",
           "name": "My Test Result",
@@ -753,102 +753,102 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                 data-testid="select"
               >
                 <option
-                  value="1"
+                  value="0"
                 >
                   first
                 </option>
                 <option
-                  value="2"
+                  value="1"
                 >
                   second
                 </option>
                 <option
-                  value="3"
+                  value="2"
                 >
                   third
                 </option>
                 <option
-                  value="4"
+                  value="3"
                 >
                   fourth
                 </option>
                 <option
-                  value="5"
+                  value="4"
                 >
                   fifth
                 </option>
                 <option
-                  value="6"
+                  value="5"
                 >
                   sixth
                 </option>
                 <option
-                  value="7"
+                  value="6"
                 >
                   seventh
                 </option>
                 <option
-                  value="8"
+                  value="7"
                 >
                   eighth
                 </option>
                 <option
-                  value="9"
+                  value="8"
                 >
                   ninth
                 </option>
                 <option
-                  value="10"
+                  value="9"
                 >
                   tenth
                 </option>
                 <option
-                  value="11"
+                  value="10"
                 >
                   11th
                 </option>
                 <option
-                  value="12"
+                  value="11"
                 >
                   12th
                 </option>
                 <option
-                  value="13"
+                  value="12"
                 >
                   13th
                 </option>
                 <option
-                  value="14"
+                  value="13"
                 >
                   14th
                 </option>
                 <option
-                  value="15"
+                  value="14"
                 >
                   15th
                 </option>
                 <option
-                  value="16"
+                  value="15"
                 >
                   16th
                 </option>
                 <option
-                  value="17"
+                  value="16"
                 >
                   17th
                 </option>
                 <option
-                  value="18"
+                  value="17"
                 >
                   18th
                 </option>
                 <option
-                  value="19"
+                  value="18"
                 >
                   19th
                 </option>
                 <option
-                  value="20"
+                  value="19"
                 >
                   20th
                 </option>
