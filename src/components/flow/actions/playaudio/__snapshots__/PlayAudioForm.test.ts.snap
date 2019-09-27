@@ -44,7 +44,7 @@ exports[`PlayAudioForm render should render 1`] = `
       }
     }
     focus={true}
-    helpText="Enter a variable that contains a recording the contact has previously recorded. For example, @flow.voicemail or @contact.short_bio."
+    helpText="Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio."
     name="Message"
     onChange={[Function]}
     onFieldFailures={[Function]}

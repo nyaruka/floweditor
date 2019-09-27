@@ -73,7 +73,7 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
           autocomplete={true}
           focus={true}
           helpText={
-            'Enter a variable that contains a recording the contact has previously recorded. For example, @flow.voicemail or @contact.short_bio.'
+            'Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.'
           }
         />
       </Dialog>
