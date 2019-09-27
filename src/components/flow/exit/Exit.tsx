@@ -111,6 +111,10 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       }
     }
 
+    if (prevProps.showDragHelper && !this.props.showDragHelper) {
+      this.setState({ showDragHelper: false });
+    }
+
     this.props.plumberUpdateClass(
       this.props.node,
       this.props.exit,
