@@ -1,36 +1,14 @@
 import { RouterFormProps } from 'components/flow/props';
 import { Types } from 'config/interfaces';
-import * as React from 'react';
-import { WaitTypes, HintTypes, RouterTypes, Wait } from 'flowTypes';
-import { composeComponentTestUtils, mock } from 'testUtils';
-import {
-  createRenderNode,
-  getRouterFormProps,
-  createMatchCase,
-  createMatchRouter,
-  createWaitRouter
-} from 'testUtils/assetCreators';
-import * as utils from 'utils';
+import { HintTypes } from 'flowTypes';
+import { createMatchRouter, createWaitRouter } from 'testUtils/assetCreators';
 import WaitRouterForm from 'components/flow/routers/wait/WaitRouterForm';
 import { getTypeConfig } from 'config';
-import { render, fireEvent } from 'test/utils';
+import { render, fireEvent, mock } from 'test/utils';
+import * as React from 'react';
+import * as utils from 'utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
-
-const routerNode = createMatchRouter([]);
-routerNode.node.router.wait = {
-  type: WaitTypes.msg,
-  hint: {
-    type: HintTypes.audio
-  }
-};
-
-routerNode.ui.type = Types.wait_for_audio;
-
-const { setup } = composeComponentTestUtils<RouterFormProps>(
-  WaitRouterForm,
-  getRouterFormProps(routerNode)
-);
 
 describe(WaitRouterForm.name, () => {
   it('should render a normal wait', () => {
@@ -45,17 +23,8 @@ describe(WaitRouterForm.name, () => {
       onClose: jest.fn()
     };
 
-    const { baseElement, getAllByTestId, getByText } = render(<WaitRouterForm {...props} />);
+    const { baseElement, getByText } = render(<WaitRouterForm {...props} />);
     expect(baseElement).toMatchSnapshot();
-
-    // the second select box is our bucket, choose 3 buckets
-    // fireEvent.change(getAllByTestId('select')[1], {
-    // target: { value: 3 }
-    // });
-
-    // now we should only have three input buckets
-    // expect(getAllByTestId('input').length).toEqual(3);
-    //
 
     // now lets save our form
     fireEvent.click(getByText('Ok'));

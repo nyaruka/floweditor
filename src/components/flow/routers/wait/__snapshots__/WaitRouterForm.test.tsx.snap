@@ -190,26 +190,26 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+          "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
         },
       ],
       "router": Object {
         "cases": Array [],
         "categories": Array [
           Object {
-            "exit_uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+            "exit_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
             "name": "All Responses",
-            "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+            "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
           },
         ],
-        "default_category_uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+        "default_category_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
         "operand": "@input.text",
         "type": "switch",
         "wait": Object {
           "type": "msg",
         },
       },
-      "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+      "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
     },
     "ui": Object {
       "config": Object {
