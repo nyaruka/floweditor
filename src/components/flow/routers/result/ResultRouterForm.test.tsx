@@ -1,11 +1,12 @@
 import ResultRouterForm from 'components/flow/routers/result/ResultRouterForm';
 import { Types } from 'config/interfaces';
 import * as React from 'react';
-import { AssetType } from 'store/flowContext';
-import { fireEvent, render } from 'test/utils';
+import { AssetType, RenderNode } from 'store/flowContext';
+import { fireEvent, render, getCallParams } from 'test/utils';
 import { mock } from 'testUtils';
 import { createMatchRouter, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
+import { getSwitchRouter } from 'components/flow/routers/helpers';
 
 const routerNode = createMatchRouter([]);
 routerNode.ui = {
@@ -38,6 +39,7 @@ describe(ResultRouterForm.name, () => {
 
     // should have delimit options
     getByText('delimited by');
+
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -58,6 +60,11 @@ describe(ResultRouterForm.name, () => {
     const { getByText } = render(<ResultRouterForm {...props} />);
 
     fireEvent.click(getByText('Ok'));
+
+    const [renderNode]: [RenderNode] = getCallParams(props.updateRouter);
+    const router = getSwitchRouter(renderNode.node);
+    expect(router.operand).toEqual('@results.my_test_result');
+
     expect(props.updateRouter).toHaveBeenCalled();
     expect(props.updateRouter).toMatchCallSnapshot();
   });
@@ -90,6 +97,11 @@ describe(ResultRouterForm.name, () => {
     });
 
     fireEvent.click(getByText('Ok'));
+
+    const [renderNode]: [RenderNode] = getCallParams(props.updateRouter);
+    const router = getSwitchRouter(renderNode.node);
+    expect(router.operand).toEqual('@(field(results.my_test_result, 0, "+"))');
+
     expect(props.updateRouter).toHaveBeenCalled();
     expect(props.updateRouter).toMatchCallSnapshot();
   });

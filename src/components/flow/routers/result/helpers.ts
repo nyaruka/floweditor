@@ -15,26 +15,26 @@ import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { ResultRouterFormState } from './ResultRouterForm';
 
 export const FIELD_NUMBER_OPTIONS: SelectOption[] = [
-  { value: '1', label: 'first' },
-  { value: '2', label: 'second' },
-  { value: '3', label: 'third' },
-  { value: '4', label: 'fourth' },
-  { value: '5', label: 'fifth' },
-  { value: '6', label: 'sixth' },
-  { value: '7', label: 'seventh' },
-  { value: '8', label: 'eighth' },
-  { value: '9', label: 'ninth' },
-  { value: '10', label: 'tenth' },
-  { value: '11', label: '11th' },
-  { value: '12', label: '12th' },
-  { value: '13', label: '13th' },
-  { value: '14', label: '14th' },
-  { value: '15', label: '15th' },
-  { value: '16', label: '16th' },
-  { value: '17', label: '17th' },
-  { value: '18', label: '18th' },
-  { value: '19', label: '19th' },
-  { value: '20', label: '20th' }
+  { value: '0', label: 'first' },
+  { value: '1', label: 'second' },
+  { value: '2', label: 'third' },
+  { value: '3', label: 'fourth' },
+  { value: '4', label: 'fifth' },
+  { value: '5', label: 'sixth' },
+  { value: '6', label: 'seventh' },
+  { value: '7', label: 'eighth' },
+  { value: '8', label: 'ninth' },
+  { value: '9', label: 'tenth' },
+  { value: '10', label: '11th' },
+  { value: '11', label: '12th' },
+  { value: '12', label: '13th' },
+  { value: '13', label: '14th' },
+  { value: '14', label: '15th' },
+  { value: '15', label: '16th' },
+  { value: '16', label: '17th' },
+  { value: '17', label: '18th' },
+  { value: '18', label: '19th' },
+  { value: '19', label: '20th' }
 ];
 
 export const getFieldOption = (value: number): SelectOption => {
