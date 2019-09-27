@@ -44,7 +44,8 @@ import {
   UINode,
   Wait,
   WaitTypes,
-  WebhookExitNames
+  WebhookExitNames,
+  HintTypes
 } from 'flowTypes';
 import Localization from 'services/Localization';
 import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
@@ -521,6 +522,13 @@ export const createRoutes = (categories: string[], hasTimeout: boolean = false):
   });
 
   return resolveRoutes(cases, hasTimeout, null);
+};
+
+export const createWaitRouter = (hintType: HintTypes, resultName: string = 'Result Name') => {
+  const originalNode = createMatchRouter([]);
+  originalNode.node.router.wait = { type: WaitTypes.msg, hint: { type: hintType } };
+  originalNode.node.router.result_name = resultName;
+  return originalNode;
 };
 
 export const createMatchRouter = (matches: string[], hasTimeout: boolean = false): RenderNode => {

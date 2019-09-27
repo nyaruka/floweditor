@@ -58,6 +58,10 @@ export const fireChangeText = (ele: any, value: string): void => {
   fireEvent.change(ele, { currentTarget: { value }, target: { value } });
 };
 
+export const mock = <T extends {}, K extends keyof T>(object: T, property: K, value: T[K]) => {
+  Object.defineProperty(object, property, { get: () => value });
+};
+
 // re-export everything
 export * from '@testing-library/react';
 

@@ -1,0 +1,446 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WaitRouterForm should render a normal wait 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header wait_for_response"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Wait for Response
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="result_name"
+        >
+          <div
+            class="optional_text_input"
+          >
+            <span
+              class="toggle_link"
+              data-spec="toggle-link"
+            >
+              Save as..
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`WaitRouterForm should render a normal wait 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+        },
+      ],
+      "router": Object {
+        "cases": Array [],
+        "categories": Array [
+          Object {
+            "exit_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+            "name": "All Responses",
+            "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+          },
+        ],
+        "default_category_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        "operand": "@input.text",
+        "type": "switch",
+        "wait": Object {
+          "type": "msg",
+        },
+      },
+      "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+    },
+    "ui": Object {
+      "config": Object {
+        "cases": Object {},
+      },
+      "position": null,
+      "type": "wait_for_response",
+    },
+  },
+]
+`;
+
+exports[`WaitRouterForm should render wait for audio 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header wait_for_audio"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Wait for Audio
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="result_name"
+        >
+          <div
+            class="optional_text_input"
+          >
+            <div
+              class="ele"
+            >
+              <div
+                class="label"
+              >
+                Result Name
+              </div>
+              <div
+                class="wrapper"
+              >
+                <input
+                  class="textinput"
+                  data-spec="input"
+                  data-testid="input"
+                  maxlength="64"
+                  type="text"
+                  value="Previous Name"
+                />
+                <div
+                  class="completion_container hidden"
+                  data-spec="completion-options"
+                  style="top: 0px; left: 0px;"
+                >
+                  <div
+                    class="options_wrapper"
+                  >
+                    <ul
+                      class="option_list"
+                      data-spec="completion-list"
+                    />
+                    <div
+                      class="help"
+                      data-spec="completion-help"
+                    >
+                      Tab to complete, enter to select
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="help_text"
+              >
+                By naming the result, you can reference it later using @results.previous_name
+                 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
