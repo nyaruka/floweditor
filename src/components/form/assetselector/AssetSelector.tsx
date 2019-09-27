@@ -147,7 +147,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
   public handleLoadOptions(input: string, callback: CallbackFunction): void {
     let options = this.props.additionalOptions || [];
 
-    if (input.startsWith('@')) {
+    if (this.props.completion && input.startsWith('@')) {
       const completions = getCompletions(this.props.completion, input.substr(1));
 
       callback(
