@@ -26,32 +26,6 @@ const { setup } = composeComponentTestUtils<ActionFormProps>(
 
 describe(UpdateContactForm.name, () => {
   describe('render', () => {
-    it('initial for field', () => {
-      const { wrapper } = setup(true);
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('initial for channel', () => {
-      const { wrapper } = setup(true, {
-        $set: getActionFormProps(createSetContactChannelAction())
-      });
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('initial for language', () => {
-      const { wrapper } = setup(true, {
-        $set: getActionFormProps(createSetContactLanguageAction())
-      });
-      expect(wrapper).toMatchSnapshot();
-    });
-
-    it('initial for name', () => {
-      const { wrapper } = setup(true, {
-        $set: getActionFormProps(createSetContactNameAction())
-      });
-      expect(wrapper).toMatchSnapshot();
-    });
-
     it('should render an empty form with different action', () => {
       const { wrapper } = setup(true, {
         $merge: {
