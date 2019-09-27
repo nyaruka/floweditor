@@ -1,6 +1,6 @@
 import { createRenderNode, resolveRoutes } from 'components/flow/routers/helpers';
 import { WaitRouterFormState } from 'components/flow/routers/wait/WaitRouterForm';
-import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { DEFAULT_OPERAND, MEDIA_OPERAND } from 'components/nodeeditor/constants';
 import { Type, Types } from 'config/interfaces';
 import { HintTypes, Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
@@ -39,19 +39,24 @@ export const stateToNode = (
     optionalRouter.result_name = state.resultName.value;
   }
 
+  let operand = DEFAULT_OPERAND;
   const wait = { type: WaitTypes.msg } as Wait;
   switch (typeConfig.type) {
     case Types.wait_for_audio:
       wait.hint = { type: HintTypes.audio };
+      operand = MEDIA_OPERAND;
       break;
     case Types.wait_for_image:
       wait.hint = { type: HintTypes.image };
+      operand = MEDIA_OPERAND;
       break;
     case Types.wait_for_location:
       wait.hint = { type: HintTypes.location };
+      operand = MEDIA_OPERAND;
       break;
     case Types.wait_for_video:
       wait.hint = { type: HintTypes.video };
+      operand = MEDIA_OPERAND;
       break;
   }
 
@@ -61,7 +66,7 @@ export const stateToNode = (
     cases: [],
     categories,
     wait,
-    operand: DEFAULT_OPERAND,
+    operand,
     ...optionalRouter
   };
 

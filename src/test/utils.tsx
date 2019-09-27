@@ -62,6 +62,10 @@ export const mock = <T extends {}, K extends keyof T>(object: T, property: K, va
   Object.defineProperty(object, property, { get: () => value });
 };
 
+export const getCallParams = (mockCall: any) => {
+  return mockCall.mock.calls[0];
+};
+
 // re-export everything
 export * from '@testing-library/react';
 
