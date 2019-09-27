@@ -79,7 +79,7 @@ exports[`TimeoutControl handles initial values 1`] = `
             "value": 64800,
           },
           Object {
-            "label": "1 days",
+            "label": "1 day",
             "value": 86400,
           },
           Object {
