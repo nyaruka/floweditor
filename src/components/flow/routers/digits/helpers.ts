@@ -12,6 +12,7 @@ import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 import { DigitsRouterFormState } from './DigitsRouterForm';
+import { DIGITS_OPERAND } from 'components/nodeeditor/constants';
 
 export const nodeToState = (settings: NodeEditorSettings): DigitsRouterFormState => {
   let initialCases: CaseProps[] = [];
@@ -57,7 +58,7 @@ export const stateToNode = (
     default_category_uuid: defaultExit,
     categories,
     cases,
-    operand: '@input',
+    operand: DIGITS_OPERAND,
     wait: { type: WaitTypes.msg, hint: { type: HintTypes.digits } },
     ...optionalRouter
   };

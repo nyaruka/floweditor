@@ -222,7 +222,7 @@ Array [
           },
         ],
         "default_category_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-        "operand": "@input",
+        "operand": "@input.text",
         "result_name": "Favorite Color",
         "type": "switch",
         "wait": Object {
