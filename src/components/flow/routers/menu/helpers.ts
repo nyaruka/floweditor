@@ -8,6 +8,7 @@ import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 
 import { MenuRouterFormState } from './MenuRouterForm';
+import { MENU_OPERAND } from 'components/nodeeditor/constants';
 
 export const nodeToState = (settings: NodeEditorSettings): MenuRouterFormState => {
   let resultName: StringEntry = { value: '' };
@@ -62,7 +63,7 @@ export const stateToNode = (
 
   const router: SwitchRouter = {
     type: RouterTypes.switch,
-    operand: '@input',
+    operand: MENU_OPERAND,
     default_category_uuid: defaultExit,
     cases,
     categories,

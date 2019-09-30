@@ -466,7 +466,7 @@ Array [
           },
         ],
         "default_category_uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
-        "operand": "@input.attachments",
+        "operand": "@input",
         "result_name": "Previous Name",
         "type": "switch",
         "wait": Object {
