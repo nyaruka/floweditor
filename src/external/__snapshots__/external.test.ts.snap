@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`External result type should trump request type 1`] = `
+Object {
+  "content": Object {
+    "type": "group",
+  },
+  "id": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+  "name": "My Test Group",
+  "type": "group",
+}
+`;

@@ -18,7 +18,7 @@ exports[`AssetSelector renders 1`] = `
             <div
               class="css-wirkz0-placeholder"
             >
-              Select an existing groups or enter a new one
+              Select an existing recipients or enter a new one
             </div>
             <div
               class="css-10fb2c7"
