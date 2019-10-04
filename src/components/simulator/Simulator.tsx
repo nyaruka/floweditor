@@ -5,7 +5,7 @@ import LogEvent, { EventProps } from 'components/simulator/LogEvent';
 import styles from 'components/simulator/Simulator.module.scss';
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { getURL } from 'external';
-import { FlowDefinition, Group, Wait, Language } from 'flowTypes';
+import { FlowDefinition, Group, Wait } from 'flowTypes';
 import update from 'immutability-helper';
 import { ReactNode } from 'react';
 import React from 'react';
