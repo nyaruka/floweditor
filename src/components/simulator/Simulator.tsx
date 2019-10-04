@@ -12,7 +12,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Activity, RecentMessage } from 'store/editor';
-import { AssetStore, RenderNodeMap } from 'store/flowContext';
+import { AssetStore, RenderNodeMap, Asset } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
 import AppState from 'store/state';
 import { DispatchWithState, MergeEditorState } from 'store/thunks';
@@ -48,6 +48,8 @@ export interface SimulatorStoreProps {
   assetStore: AssetStore;
 
   activity: Activity;
+
+  language: Asset;
 
   // TODO: take away responsibility of simulator for resetting this
   liveActivity: Activity;
@@ -439,6 +441,20 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   }
 
   private startFlow(): void {
+    const now = new Date().toISOString();
+    const contact: any = {
+      uuid: createUUID(),
+      urns: ['tel:+12065551212'],
+      fields: {},
+      groups: [],
+      created_on: now
+    };
+
+    // use the current displayed language when simulating
+    if (this.props.language) {
+      contact.language = this.props.language.id;
+    }
+
     // reset our events and contact
     this.setState(
       {
@@ -448,7 +464,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         events: []
       },
       () => {
-        const now = new Date().toISOString();
         const body: any = {
           contact: this.state.contact,
           flow: getCurrentDefinition(this.props.definition, this.props.nodes, false),
@@ -460,13 +475,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               timezone: 'America/New_York',
               languages: []
             },
-            contact: {
-              uuid: createUUID(),
-              urns: ['tel:+12065551212'],
-              fields: {},
-              groups: [],
-              created_on: now
-            },
+            contact,
             flow: {
               uuid: this.props.definition.uuid,
               name: this.props.definition.name
@@ -988,13 +997,14 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { definition, nodes, assetStore },
-  editorState: { liveActivity, activity }
+  editorState: { liveActivity, activity, language }
 }: AppState) => ({
   liveActivity,
   activity,
   assetStore,
   definition,
-  nodes
+  nodes,
+  language
 });
 
 /* istanbul ignore next */
