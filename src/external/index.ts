@@ -170,10 +170,16 @@ export const getAssets = async (url: string, type: AssetType, id: string): Promi
 
 export const resultToAsset = (result: any, type: AssetType, id: string): Asset => {
   const idKey = id || 'uuid';
+
+  let assetType = type;
+  if (result.type) {
+    assetType = result.type;
+  }
+
   const asset: Asset = {
     name: result.name || result.text || result.label || result[idKey],
     id: result[idKey],
-    type
+    type: assetType
   };
 
   delete result[idKey];
