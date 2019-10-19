@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
 const languages = [
   {
-    uuid: '732e4776-dc63-48ad-ae5f-79abd6c462a2',
-    name: 'Purrington',
+    uuid: '732e4776-dc63-48ad-ae5f-79abd6c462a3',
+    name: 'Travel Agency',
     type: 'wit',
-    intents: ['i want', 'show me', 'tell me'],
+    intents: ['book flight', 'rent car'],
     created_on: '2019-10-15T20:07:58.529130Z'
   }
 ];
