@@ -874,7 +874,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
                 maxlength="36"
                 name="exitName"
                 type="text"
-                value=""
+                value="Has Number"
               />
               <div
                 class="completion_container hidden"
