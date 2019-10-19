@@ -21,8 +21,6 @@ import { renderIf } from 'utils';
 import { intentOperatorList } from 'config/operatorConfigs';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
-import { Case } from 'flowTypes';
-import { thisExpression } from '@babel/types';
 import { fetchAsset } from 'external';
 
 export interface ClassifyRouterFormState extends FormState {
@@ -121,6 +119,8 @@ export default class ClassifyRouterForm extends React.Component<
     };
   }
 
+  private dialog: Dialog;
+
   private renderEdit(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
@@ -130,7 +130,10 @@ export default class ClassifyRouterForm extends React.Component<
       checked: this.state.operand.value !== DEFAULT_OPERAND,
       body: (
         <>
-          <p>If the expression...</p>
+          <p>
+            Enter an expression to use as the input to your classifier. To classify the last
+            response from the contact use <code>{DEFAULT_OPERAND}</code>.
+          </p>
           <TextInputElement
             name="Operand"
             showLabel={false}
@@ -148,11 +151,24 @@ export default class ClassifyRouterForm extends React.Component<
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         tabs={tabs}
+        ref={ele => {
+          this.dialog = ele;
+        }}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p>
           <span>Run </span>
-          <a className="link">the last response</a>
+          <a
+            className="link"
+            href="javascript:void()"
+            onClick={() => {
+              this.dialog.showTab(0);
+            }}
+          >
+            {this.state.operand.value === DEFAULT_OPERAND
+              ? 'the last response'
+              : this.state.operand.value}
+          </a>
           <span> through the classifier...</span>
         </p>
         <AssetSelector
