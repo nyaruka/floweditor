@@ -54,6 +54,8 @@ import {
 } from 'config/interfaces';
 import { HintTypes, RouterTypes } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
+import CallClassifierComp from 'components/flow/actions/callclassifier/CallClassifier';
+import ClassifyRouterForm from 'components/flow/routers/classify/ClassifyRouterForm';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -100,7 +102,6 @@ export const typeConfigList: Type[] = [
     component: MissingComp,
     visibility: HIDDEN
   },
-
   {
     type: Types.say_msg,
     name: 'Play Message',
@@ -314,6 +315,17 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     visibility: SURVEY
+  },
+  {
+    type: Types.split_by_intent,
+    name: 'Split by Intent',
+    description: 'Split by intent',
+    form: ClassifyRouterForm,
+    localization: RouterLocalizationForm,
+    localizeableKeys: ['exits'],
+    component: CallClassifierComp,
+    aliases: [Types.call_classifier],
+    visibility: ONLINE
   },
   {
     type: Types.split_by_expression,

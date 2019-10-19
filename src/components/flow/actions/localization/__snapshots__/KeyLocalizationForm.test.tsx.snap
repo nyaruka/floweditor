@@ -72,6 +72,7 @@ exports[`KeyLocalizationForm removes translations 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="Subject"
                 placeholder="Spanish Translation"
               >
                 hola
@@ -198,6 +199,7 @@ exports[`KeyLocalizationForm renders send email 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="Subject"
                 placeholder="English Translation"
               />
               <div

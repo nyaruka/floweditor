@@ -16,6 +16,7 @@ export enum Types {
   set_contact_name = 'set_contact_name',
   set_contact_language = 'set_contact_language',
   set_run_result = 'set_run_result',
+  call_classifier = 'call_classifier',
   call_resthook = 'call_resthook',
   call_webhook = 'call_webhook',
   send_msg = 'send_msg',
@@ -30,6 +31,7 @@ export enum Types {
   split_by_run_result = 'split_by_run_result',
   split_by_run_result_delimited = 'split_by_run_result_delimited',
   split_by_groups = 'split_by_groups',
+  split_by_intent = 'split_by_intent',
   split_by_random = 'split_by_random',
   split_by_resthook = 'split_by_resthook',
   split_by_subflow = 'split_by_subflow',
@@ -75,7 +77,10 @@ export enum Operators {
   has_state = 'has_state',
   has_ward = 'has_ward',
   has_pattern = 'has_pattern',
-  has_error = 'has_error'
+  has_error = 'has_error',
+  has_intent = 'has_intent',
+  has_top_intent = 'has_top_intent',
+  has_category = 'has_category'
 }
 
 export interface FlowTypeVisibility {

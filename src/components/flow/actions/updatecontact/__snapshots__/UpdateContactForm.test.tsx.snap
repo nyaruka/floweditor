@@ -111,6 +111,11 @@ exports[`UpdateContactForm should render channel 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -424,6 +429,11 @@ exports[`UpdateContactForm should render field 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -537,6 +547,7 @@ exports[`UpdateContactForm should render field 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="Field Value"
                 placeholder="Enter a new value for Age"
                 type="text"
                 value="25"
@@ -703,6 +714,11 @@ exports[`UpdateContactForm should render language 1`] = `
                 value="transfer_airtime"
               >
                 Send the contact airtime
+              </option>
+              <option
+                value="split_by_intent"
+              >
+                Split by intent
               </option>
               <option
                 value="split_by_expression"
@@ -1018,6 +1034,11 @@ exports[`UpdateContactForm should render name 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -1131,6 +1152,7 @@ exports[`UpdateContactForm should render name 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="Name"
                 placeholder="Enter a new name for the contact"
                 type="text"
                 value="Jane Goodall"

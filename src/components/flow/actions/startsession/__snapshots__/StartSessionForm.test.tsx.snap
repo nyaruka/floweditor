@@ -111,6 +111,11 @@ exports[`StartSessionForm render should render 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -719,6 +724,11 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -787,6 +797,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                   data-spec="input"
                   data-testid="input"
                   maxlength="-1"
+                  name="Contact Query"
                   placeholder="household_id = @fields.household_id"
                   type="text"
                   value="my_field > 6"
@@ -1042,6 +1053,11 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                 value="transfer_airtime"
               >
                 Send the contact airtime
+              </option>
+              <option
+                value="split_by_intent"
+              >
+                Split by intent
               </option>
               <option
                 value="split_by_expression"
@@ -1490,6 +1506,11 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -1558,6 +1579,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                   data-spec="input"
                   data-testid="input"
                   maxlength="-1"
+                  name="Contact Query"
                   placeholder="household_id = @fields.household_id"
                   type="text"
                   value="@fields.arst = 34"

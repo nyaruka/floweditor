@@ -11,12 +11,15 @@ import { operatorConfigList } from 'config/operatorConfigs';
 import { Case } from 'flowTypes';
 import * as React from 'react';
 import Select from 'react-select';
-import { FormState, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import { FormState, StringEntry, ValidationFailure, SelectOptionEntry } from 'store/nodeEditor';
 import { getSelectClass, hasErrorType } from 'utils';
 import { small } from 'utils/reactselect';
 
 import styles from './CaseElement.module.scss';
 import { initializeForm, validateCase } from './helpers';
+import { Asset } from 'store/flowContext';
+import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+import { thisTypeAnnotation } from '@babel/types';
 
 export interface CaseElementProps {
   kase: Case;
@@ -24,6 +27,8 @@ export interface CaseElementProps {
   name?: string; // satisfy form widget props
   onRemove?(uuid: string): void;
   onChange?(c: CaseProps): void;
+  operators?: Operator[];
+  classifier?: Asset;
 }
 
 export interface CaseElementState extends FormState {
@@ -38,6 +43,10 @@ export interface CaseElementState extends FormState {
   // for numeric operators
   min: StringEntry;
   max: StringEntry;
+
+  // intents
+  intent: SelectOptionEntry;
+  confidence: StringEntry;
 
   state: StringEntry;
   district: StringEntry;
@@ -60,9 +69,28 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     config: fakePropType
   };
 
+  public componentDidUpdate(previous: CaseElementProps): void {
+    if (this.props.classifier && this.props.classifier !== previous.classifier) {
+      const updates = validateCase({
+        operatorConfig: this.state.operatorConfig,
+        argument: this.state.argument.value,
+        min: this.state.min.value,
+        max: this.state.max.value,
+        intent: this.state.intent.value,
+        confidence: this.state.confidence.value,
+        exitName: this.state.categoryName.value,
+        exitEdited: this.state.categoryNameEdited,
+        classifier: this.props.classifier
+      });
+
+      this.setState(updates as CaseElementState, this.handleChange);
+    }
+  }
+
   private getOperators(): Operator[] {
+    let operators = this.props.operators || operatorConfigList;
     if (this.operators === undefined) {
-      this.operators = filterOperators(operatorConfigList, this.context.config.flowType);
+      this.operators = filterOperators(operators, this.context.config.flowType);
     }
 
     return this.operators;
@@ -71,6 +99,17 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
   private getArgumentArray(): string[] {
     if (this.state.operatorConfig.operands === 0) {
       return [];
+    }
+
+    if (
+      this.state.operatorConfig.type === Operators.has_intent ||
+      this.state.operatorConfig.type === Operators.has_top_intent
+    ) {
+      if (this.state.intent.value) {
+        return [this.state.intent.value.value, this.state.confidence.value];
+      } else {
+        return ['', this.state.confidence.value];
+      }
     }
 
     if (this.state.operatorConfig.type === Operators.has_number_between) {
@@ -90,8 +129,11 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       argument: this.state.argument.value,
       min: this.state.min.value,
       max: this.state.max.value,
+      intent: this.state.intent.value,
+      confidence: this.state.confidence.value,
       exitName: this.state.categoryName.value,
-      exitEdited: this.state.categoryNameEdited
+      exitEdited: this.state.categoryNameEdited,
+      classifier: this.props.classifier
     });
 
     this.setState(updates as CaseElementState, () => this.handleChange());
@@ -135,6 +177,32 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     this.setState(updates as CaseElementState, () => this.handleChange());
   }
 
+  private handleIntentChanged(selected: SelectOption): void {
+    const updates = validateCase({
+      operatorConfig: this.state.operatorConfig,
+      intent: selected,
+      confidence: this.state.confidence.value,
+      exitName: this.state.categoryName.value,
+      exitEdited: this.state.categoryNameEdited,
+      classifier: this.props.classifier
+    });
+
+    this.setState(updates as CaseElementState, () => this.handleChange());
+  }
+
+  private handleConfidenceChanged(value: string): void {
+    const updates = validateCase({
+      operatorConfig: this.state.operatorConfig,
+      intent: this.state.intent.value,
+      confidence: value,
+      exitName: this.state.categoryName.value,
+      exitEdited: this.state.categoryNameEdited,
+      classifier: this.props.classifier
+    });
+
+    this.setState(updates as CaseElementState, () => this.handleChange());
+  }
+
   private handleMinChanged(value: string): void {
     const updates = validateCase({
       operatorConfig: this.state.operatorConfig,
@@ -167,6 +235,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       argument: this.state.argument.value,
       min: this.state.min.value,
       max: this.state.max.value,
+      intent: this.state.intent.value,
+      confidence: this.state.confidence.value,
+      classifier: this.props.classifier,
       exitName: value,
       exitEdited: true
     });
@@ -228,12 +299,61 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 onChange={this.handleMinChanged}
                 entry={this.state.min}
               />
-              <span className={styles.divider}>and</span>
+              <span className={styles.divider} data-draggable={true}>
+                and
+              </span>
               <TextInputElement
                 name="arguments"
                 onChange={this.handleMaxChanged}
                 entry={this.state.max}
               />
+            </>
+          );
+        } else if (
+          this.state.operatorConfig.type === Operators.has_intent ||
+          this.state.operatorConfig.type === Operators.has_top_intent
+        ) {
+          let intents: SelectOption[] = [];
+
+          if (this.props.classifier && this.props.classifier.content) {
+            intents = this.props.classifier.content.intents.map((intent: string) => {
+              const option = {
+                label: intent,
+                value: intent
+              };
+              return option;
+            });
+          }
+
+          return (
+            <>
+              <div style={{ width: '114px' }}>
+                <SelectElement
+                  styles={small as any}
+                  name="Intent"
+                  entry={this.state.intent}
+                  onChange={this.handleIntentChanged}
+                  options={intents}
+                  onMenuOpen={(() => {
+                    this.setState({ intent: { value: this.state.intent.value } });
+                  }).bind(this)}
+                  onMenuClose={(() => {
+                    this.handleIntentChanged(this.state.intent.value);
+                  }).bind(this)}
+                  placeholder=""
+                ></SelectElement>
+              </div>
+              <span className={styles.divider} data-draggable={true}>
+                above
+              </span>
+              <div style={{ width: '34px' }}>
+                <TextInputElement
+                  name="confidence"
+                  onChange={this.handleConfidenceChanged}
+                  entry={this.state.confidence}
+                  placeholder=".9"
+                />
+              </div>
             </>
           );
         } else {
@@ -245,7 +365,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 onChange={this.handleStateChanged}
                 entry={this.state.state}
               />
-              <span className={styles.divider}>and</span>
+              <span className={styles.divider} data-draggable={true}>
+                and
+              </span>
               <TextInputElement
                 name="District"
                 placeholder="District"
@@ -258,7 +380,9 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       } else if (isRelativeDate(this.state.operatorConfig.type)) {
         return (
           <>
-            <span className={styles.divider}>today + </span>
+            <span className={styles.divider} data-draggable={true}>
+              today +{' '}
+            </span>
             <TextInputElement
               __className={styles.relative_date}
               name="arguments"
@@ -300,7 +424,10 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         __className={styles.group}
         kaseError={this.state.errors.length > 0}
       >
-        <div className={`${styles.kase}`} data-draggable={true}>
+        <div
+          className={`${styles.kase} ${styles[this.state.operatorConfig.type]}`}
+          data-draggable={true}
+        >
           <span className={`fe-chevrons-expand ${styles.dnd_icon}`} data-draggable={true} />
           <div className={styles.choice + ' select-medium'}>
             <Select
@@ -320,10 +447,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           </div>
           <div
             className={
-              this.state.operatorConfig.type === Operators.has_number_between ||
-              this.state.operatorConfig.type === Operators.has_ward
-                ? styles.multi_operand
-                : styles.single_operand
+              this.state.operatorConfig.operands > 1 ? styles.multi_operand : styles.single_operand
             }
           >
             {this.renderArguments()}

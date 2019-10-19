@@ -1,8 +1,10 @@
 import * as headerUtils from 'http-headers-validation';
 import { Asset } from 'store/flowContext';
 import { FormEntry, ValidationFailure } from 'store/nodeEditor';
+import { SelectOption } from 'components/form/select/SelectElement';
+import { object } from 'prop-types';
 
-export type FormInput = string | string[] | number | Asset | Asset[];
+export type FormInput = string | string[] | number | Asset | Asset[] | SelectOption;
 export type ValidatorFunc = (
   name: string,
   input: FormInput
@@ -218,6 +220,27 @@ export const HeaderName: ValidatorFunc = (name: string, input: FormInput) => {
     if (input.trim().length > 0 && !headerUtils.validateHeaderName(input)) {
       return { failures: [{ message: 'Invalid header name' }], value: input };
     }
+  }
+  return { failures: [], value: input };
+};
+
+export const IsValidIntent = (classifier: Asset): ValidatorFunc => (
+  name: string,
+  input: FormInput
+) => {
+  if (typeof input === 'object') {
+    const option = input as SelectOption;
+
+    if (option && classifier && classifier.content) {
+      const exists = !!classifier.content.intents.find((intent: string) => intent === option.value);
+      if (!exists) {
+        return {
+          value: input,
+          failures: [{ message: `${option.value} is not a valid intent for ${classifier.name}` }]
+        };
+      }
+    }
+    return { failures: [], value: input };
   }
   return { failures: [], value: input };
 };

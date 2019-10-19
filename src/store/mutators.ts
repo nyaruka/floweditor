@@ -24,6 +24,7 @@ import { assetListToMap, detectLoops, getActionIndex, getExitIndex, getNode } fr
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { LocalizationUpdates } from 'store/thunks';
 import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from 'utils';
+import { nodeToState } from 'components/flow/routers/webhook/helpers';
 
 const mutate = require('immutability-helper');
 
@@ -238,7 +239,7 @@ export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap
     updatedNodes = removeNode(nodes, node.node.uuid);
   }
 
-  // add our node updted node
+  // add our node upadted node
   updatedNodes = mutate(nodes, merge({ [node.node.uuid]: node }));
 
   // if we have inbound connections, update our nodes accordingly
@@ -258,6 +259,7 @@ export const mergeNode = (nodes: RenderNodeMap, node: RenderNode): RenderNodeMap
       }
     });
   }
+
   return updatedNodes;
 };
 
@@ -625,7 +627,6 @@ export const updateLocalization = (
   // Apply changes
   changes.forEach(({ translations, uuid }) => {
     if (translations) {
-      // console.log(translations);
       // normalize our translations so all are treated as arrays
       const normalizedTranslations: { [uuid: string]: string[] } = {};
       for (const key of Object.keys(translations)) {

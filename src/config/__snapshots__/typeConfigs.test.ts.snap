@@ -300,6 +300,24 @@ Array [
     ],
   },
   Object {
+    "aliases": Array [
+      "call_classifier",
+    ],
+    "component": [Function],
+    "description": "Split by intent",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Split by Intent",
+    "type": "split_by_intent",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
+  },
+  Object {
     "description": "Split by a custom expression",
     "form": [Function],
     "localization": [Function],
@@ -380,6 +398,24 @@ Object {
     "form": [Function],
     "name": "Add Labels",
     "type": "add_input_labels",
+  },
+  "call_classifier": Object {
+    "aliases": Array [
+      "call_classifier",
+    ],
+    "component": [Function],
+    "description": "Split by intent",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Split by Intent",
+    "type": "split_by_intent",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "call_resthook": Object {
     "aliases": Array [
@@ -611,6 +647,24 @@ Object {
     ],
     "name": "Split by Group Membership",
     "type": "split_by_groups",
+  },
+  "split_by_intent": Object {
+    "aliases": Array [
+      "call_classifier",
+    ],
+    "component": [Function],
+    "description": "Split by intent",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Split by Intent",
+    "type": "split_by_intent",
+    "visibility": Array [
+      "message",
+      "voice",
+    ],
   },
   "split_by_random": Object {
     "description": "Split by random chance",

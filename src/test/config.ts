@@ -18,6 +18,7 @@ export const config: FlowEditorConfig = {
     channels: '/assets/channels.json',
     environment: '/assets/environment.json',
     revisions: '/assets/revisions.json',
+    classifiers: '/assets/classifiers.json',
     completion: '/assets/completion.json',
     functions: '/assets/functions.json',
     attachments: '/assets/attachments.json',
