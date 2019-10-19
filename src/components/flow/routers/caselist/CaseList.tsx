@@ -3,14 +3,13 @@ import { react as bindCallbacks } from 'auto-bind';
 import CaseElement from 'components/flow/routers/case/CaseElement';
 import { createEmptyCase } from 'components/flow/routers/caselist/helpers';
 import { fakePropType } from 'config/ConfigProvider';
-import { Case, Classifier } from 'flowTypes';
+import { Case } from 'flowTypes';
 import * as React from 'react';
 import { SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
 import { FormState, mergeForm } from 'store/nodeEditor';
 
 import styles from './CaseList.module.scss';
-import { Operator, HIDDEN } from 'config/interfaces';
-import { getOperatorConfig } from 'config/operatorConfigs';
+import { Operator } from 'config/interfaces';
 import { Asset } from 'store/flowContext';
 
 export enum DragCursor {
@@ -116,7 +115,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         // TODO: refactor this to be a form entry
         // mock our case to have validation failures, this is so the case list sees
         // the existence of errors which mergeForm uses when merging form validity
-        (keys.caseProps as any).validationFailures = [{ message: 'invalid case' }];
+        // (keys.caseProps as any).validationFailures = [{ message: 'invalid case' }];
         updates.valid = false;
       }
     }

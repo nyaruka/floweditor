@@ -15,8 +15,7 @@ import { titleCase } from 'utils';
 
 import { CaseElementProps, CaseElementState } from './CaseElement';
 import { SelectOption } from 'components/form/select/SelectElement';
-import { updateContactFields, Asset } from 'store/flowContext';
-import { updateSticky } from 'store/thunks';
+import { Asset } from 'store/flowContext';
 
 export const initializeForm = (props: CaseElementProps): CaseElementState => {
   const arg1 =

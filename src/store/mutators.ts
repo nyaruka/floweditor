@@ -24,7 +24,6 @@ import { assetListToMap, detectLoops, getActionIndex, getExitIndex, getNode } fr
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { LocalizationUpdates } from 'store/thunks';
 import { createUUID, merge, push, set, snakify, snapToGrid, splice, unset } from 'utils';
-import { nodeToState } from 'components/flow/routers/webhook/helpers';
 
 const mutate = require('immutability-helper');
 

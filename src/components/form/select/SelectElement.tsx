@@ -6,7 +6,7 @@ import { hasErrors } from 'components/flow/actions/helpers';
 import { large, getErroredSelect } from 'utils/reactselect';
 
 interface SelectElementProps extends FormElementProps {
-  onChange?(value: any): void;
+  onChange?(value: any, action?: any): void;
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
   options: any;

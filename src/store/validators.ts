@@ -2,7 +2,6 @@ import * as headerUtils from 'http-headers-validation';
 import { Asset } from 'store/flowContext';
 import { FormEntry, ValidationFailure } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
-import { object } from 'prop-types';
 
 export type FormInput = string | string[] | number | Asset | Asset[] | SelectOption;
 export type ValidatorFunc = (

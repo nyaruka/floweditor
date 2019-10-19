@@ -1,0 +1,7 @@
+@import 'variables.module.scss';
+
+.link {
+  cursor: pointer;
+  color: $link_color;
+  text-decoration: underline;
+}

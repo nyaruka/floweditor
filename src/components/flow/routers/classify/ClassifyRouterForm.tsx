@@ -22,6 +22,7 @@ import { intentOperatorList } from 'config/operatorConfigs';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { fetchAsset } from 'external';
+import styles from './ClassifyRouterForm.module.scss';
 
 export interface ClassifyRouterFormState extends FormState {
   hiddenCases: CaseProps[];
@@ -44,11 +45,13 @@ export default class ClassifyRouterForm extends React.Component<
     });
 
     // we need to resolve our classifier for intent selection
-    fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.id).then(
-      (classifier: Asset) => {
-        this.handleUpdate({ classifier });
-      }
-    );
+    if (this.state.classifier.value) {
+      fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.id).then(
+        (classifier: Asset) => {
+          this.handleUpdate({ classifier });
+        }
+      );
+    }
   }
 
   private handleUpdate(
@@ -65,7 +68,7 @@ export default class ClassifyRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('classifier')) {
-      updates.classifier = { value: keys.classifier };
+      updates.classifier = validate('Classifier', keys.classifier, [shouldRequireIf(submitting)]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -96,7 +99,13 @@ export default class ClassifyRouterForm extends React.Component<
     }
 
     // validate our result name in case they haven't interacted
-    const valid = this.handleUpdate({ resultName: this.state.resultName.value }, true);
+    const valid = this.handleUpdate(
+      {
+        resultName: this.state.resultName.value,
+        classifier: this.state.classifier.value
+      },
+      true
+    );
 
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
@@ -124,26 +133,27 @@ export default class ClassifyRouterForm extends React.Component<
   private renderEdit(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
-    const tabs: Tab[] = [];
-    tabs.push({
-      name: 'Classifier Input',
-      checked: this.state.operand.value !== DEFAULT_OPERAND,
-      body: (
-        <>
-          <p>
-            Enter an expression to use as the input to your classifier. To classify the last
-            response from the contact use <code>{DEFAULT_OPERAND}</code>.
-          </p>
-          <TextInputElement
-            name="Operand"
-            showLabel={false}
-            autocomplete={true}
-            onChange={this.handleOperandUpdated}
-            entry={this.state.operand}
-          />
-        </>
-      )
-    });
+    const tabs: Tab[] = [
+      {
+        name: 'Classifier Input',
+        checked: this.state.operand.value !== DEFAULT_OPERAND,
+        body: (
+          <>
+            <p>
+              Enter an expression to use as the input to your classifier. To classify the last
+              response from the contact use <code>{DEFAULT_OPERAND}</code>.
+            </p>
+            <TextInputElement
+              name="Operand"
+              showLabel={false}
+              autocomplete={true}
+              onChange={this.handleOperandUpdated}
+              entry={this.state.operand}
+            />
+          </>
+        )
+      }
+    ];
 
     return (
       <Dialog
@@ -158,9 +168,8 @@ export default class ClassifyRouterForm extends React.Component<
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p>
           <span>Run </span>
-          <a
-            className="link"
-            href="javascript:void()"
+          <span
+            className={styles.link}
             onClick={() => {
               this.dialog.showTab(0);
             }}
@@ -168,7 +177,7 @@ export default class ClassifyRouterForm extends React.Component<
             {this.state.operand.value === DEFAULT_OPERAND
               ? 'the last response'
               : this.state.operand.value}
-          </a>
+          </span>
           <span> through the classifier...</span>
         </p>
         <AssetSelector

@@ -19,7 +19,6 @@ import styles from './CaseElement.module.scss';
 import { initializeForm, validateCase } from './helpers';
 import { Asset } from 'store/flowContext';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
-import { thisTypeAnnotation } from '@babel/types';
 
 export interface CaseElementProps {
   kase: Case;
@@ -69,8 +68,28 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     config: fakePropType
   };
 
-  public componentDidUpdate(previous: CaseElementProps): void {
-    if (this.props.classifier && this.props.classifier !== previous.classifier) {
+  public componentDidMount() {
+    const updates = validateCase({
+      operatorConfig: this.state.operatorConfig,
+      argument: this.state.argument.value,
+      min: this.state.min.value,
+      max: this.state.max.value,
+      intent: this.state.intent.value,
+      confidence: this.state.confidence.value,
+      exitName: this.state.categoryName.value,
+      exitEdited: this.state.categoryNameEdited,
+      classifier: this.props.classifier
+    });
+
+    this.setState(updates as CaseElementState, this.handleChange);
+  }
+
+  public componentDidUpdate(previousProps: CaseElementProps): void {
+    if (
+      this.props.classifier &&
+      this.props.classifier !== previousProps.classifier &&
+      this.state.intent.value
+    ) {
       const updates = validateCase({
         operatorConfig: this.state.operatorConfig,
         argument: this.state.argument.value,
@@ -250,7 +269,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
   }
 
   private getCaseProps(): CaseProps {
-    return {
+    const props = {
       uuid: this.props.kase.uuid,
       categoryName: this.state.categoryName.value,
       kase: {
@@ -263,6 +282,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       },
       valid: this.state.valid
     };
+
+    return props;
   }
 
   private handleChange(): void {
@@ -285,6 +306,19 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     }
 
     this.props.onChange(this.getCaseProps());
+  }
+
+  private handleIntentMenuOpened() {
+    // hiding any errors when the menu opens
+    this.setState({ intent: { value: this.state.intent.value } });
+  }
+
+  private handleIntentMenuClosed() {
+    // we want to revalidate close without selection
+    // wait a cycle for selection event to fire first
+    window.setTimeout(() => {
+      this.handleIntentChanged(this.state.intent.value);
+    }, 0);
   }
 
   private renderArguments(): JSX.Element {
@@ -334,12 +368,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                   entry={this.state.intent}
                   onChange={this.handleIntentChanged}
                   options={intents}
-                  onMenuOpen={(() => {
-                    this.setState({ intent: { value: this.state.intent.value } });
-                  }).bind(this)}
-                  onMenuClose={(() => {
-                    this.handleIntentChanged(this.state.intent.value);
-                  }).bind(this)}
+                  onMenuOpen={this.handleIntentMenuOpened}
+                  onMenuClose={this.handleIntentMenuClosed}
                   placeholder=""
                 ></SelectElement>
               </div>

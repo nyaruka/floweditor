@@ -1,34 +1,20 @@
 import {
-  createWebhookBasedNode,
-  createSplitOnActionResultNode,
   hasCases,
   createCaseProps,
   resolveRoutes,
   ResolvedRoutes,
-  categorizeCases,
   createRenderNode
 } from 'components/flow/routers/helpers';
-import { WebhookRouterFormState } from 'components/flow/routers/webhook/WebhookRouterForm';
-import { DEFAULT_BODY, DEFAULT_OPERAND } from 'components/nodeeditor/constants';
-import { Types, Operators, Operator, HIDDEN } from 'config/interfaces';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
+import { Types, Operators, HIDDEN } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
-import {
-  CallWebhook,
-  CallClassifier,
-  SwitchRouter,
-  Case,
-  Exit,
-  Category,
-  RouterTypes
-} from 'flowTypes';
-import { RenderNode, Asset, AssetType, AssetStore } from 'store/flowContext';
+import { CallClassifier, SwitchRouter, Case, Exit, Category, RouterTypes } from 'flowTypes';
+import { RenderNode, AssetType } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry, AssetEntry } from 'store/nodeEditor';
 import { createUUID, scalarArrayEquals, snakify } from 'utils';
 import { ClassifyRouterFormState } from 'components/flow/routers/classify/ClassifyRouterForm';
-import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
-import { getCategoryName } from 'components/flow/routers/case/helpers';
+import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { getOperatorConfig } from 'config';
-import { fetchAsset } from 'external';
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallClassifier => {
   const action =
