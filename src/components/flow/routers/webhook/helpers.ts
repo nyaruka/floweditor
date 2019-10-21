@@ -131,5 +131,5 @@ export const stateToNode = (
     newAction.body = state.postBody.value;
   }
 
-  return createWebhookBasedNode(newAction, settings.originalNode);
+  return createWebhookBasedNode(newAction, settings.originalNode, false);
 };

@@ -338,7 +338,10 @@ export const createSetRunResultAction = ({
   type: Types.set_run_result
 });
 
-export const createWebhookNode = (action: CallWebhook | CallResthook | TransferAirtime) => {
+export const createWebhookNode = (
+  action: CallWebhook | CallResthook | TransferAirtime,
+  useCategoryTest: boolean
+) => {
   const { categories, exits } = createCategories([
     WebhookExitNames.Success,
     WebhookExitNames.Failure
@@ -347,18 +350,23 @@ export const createWebhookNode = (action: CallWebhook | CallResthook | TransferA
   const cases: Case[] = [
     {
       uuid: utils.createUUID(),
-      type: Operators.has_only_text,
+      type: useCategoryTest ? Operators.has_category : Operators.has_only_text,
       arguments: [WebhookExitNames.Success],
       category_uuid: categories[0].uuid
     }
   ];
+
+  let operand = '@results.' + utils.snakify(action.result_name);
+  if (!useCategoryTest) {
+    operand += '.category';
+  }
 
   return {
     uuid: utils.createUUID(),
     actions: [action],
     router: {
       type: RouterTypes.switch,
-      operand: `@results.${utils.snakify(action.result_name)}.category`,
+      operand: operand,
       cases,
       categories,
       default_category_uuid: categories[categories.length - 1].uuid
@@ -376,7 +384,7 @@ export const createWebhookRouterNode = (): FlowNode => {
     method: Methods.GET,
     result_name: 'Response'
   };
-  return createWebhookNode(action);
+  return createWebhookNode(action, false);
 };
 
 export const getLocalizationFormProps = (
@@ -703,7 +711,7 @@ export const createSubflowNode = (
 
 export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime): RenderNode => {
   return {
-    node: createWebhookNode(transferAirtimeAction),
+    node: createWebhookNode(transferAirtimeAction, true),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_airtime },
     inboundConnections: {}
   };
@@ -711,7 +719,7 @@ export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime
 
 export const createResthookNode = (callResthookAction: CallResthook): RenderNode => {
   return {
-    node: createWebhookNode(callResthookAction),
+    node: createWebhookNode(callResthookAction, false),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_resthook },
     inboundConnections: {}
   };
