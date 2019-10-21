@@ -319,7 +319,8 @@ export const resolveRoutes = (
 
 export const createWebhookBasedNode = (
   action: CallWebhook | CallResthook | TransferAirtime,
-  originalNode: RenderNode
+  originalNode: RenderNode,
+  useCategoryTest: boolean
 ): RenderNode => {
   const exits: Exit[] = [];
   let cases: Case[] = [];
@@ -364,16 +365,21 @@ export const createWebhookBasedNode = (
     cases = [
       {
         uuid: createUUID(),
-        type: Operators.has_only_text,
+        type: useCategoryTest ? Operators.has_category : Operators.has_only_text,
         arguments: [WebhookExitNames.Success],
         category_uuid: categories[0].uuid
       }
     ];
   }
 
+  let operand = '@results.' + snakify(action.result_name);
+  if (!useCategoryTest) {
+    operand += '.category';
+  }
+
   const router: SwitchRouter = {
     type: RouterTypes.switch,
-    operand: '@results.' + snakify(action.result_name) + '.category',
+    operand: operand,
     cases,
     categories,
     default_category_uuid: categories[categories.length - 1].uuid

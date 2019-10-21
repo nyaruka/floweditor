@@ -74,6 +74,7 @@ export enum Operators {
   has_district = 'has_district',
   has_state = 'has_state',
   has_ward = 'has_ward',
+  has_category = 'has_category',
   has_pattern = 'has_pattern',
   has_error = 'has_error'
 }
