@@ -26,6 +26,7 @@ exports[`AirtimeRouterForm render should render 1`] = `
         ],
         "component": [Function],
         "description": "Send the contact airtime",
+        "filter": "airtime",
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
@@ -33,6 +34,10 @@ exports[`AirtimeRouterForm render should render 1`] = `
         ],
         "name": "Send Airtime",
         "type": "transfer_airtime",
+        "visibility": Array [
+          "message",
+          "voice",
+        ],
       }
     }
     onChange={[MockFunction]}

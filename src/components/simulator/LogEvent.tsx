@@ -187,14 +187,14 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
     );
   }
 
-  private renderWebhook(): JSX.Element {
+  private renderWebhook(headerClass: Types): JSX.Element {
     return this.renderClickable(
       <div className={styles.info + ' ' + styles.webhook}>
-        <span>Called webhook {this.props.url}</span>
+        <span>Called {this.props.url}</span>
       </div>,
       <Dialog
-        title="Webhook Details"
-        headerClass={Types.call_webhook}
+        title="HTTP Request Details"
+        headerClass={headerClass}
         buttons={this.getButtons()}
         noPadding={true}
       >
@@ -253,8 +253,10 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         );
       case 'resthook_called':
         return renderInfo(`Trigerred flow event ${this.props.resthook}`);
+      case 'classifier_called':
+        return this.renderWebhook(Types.call_classifier);
       case 'webhook_called':
-        return this.renderWebhook();
+        return this.renderWebhook(Types.call_webhook);
       case 'flow_entered':
         return renderInfo(`Entered flow ${this.props.flow.name}`);
       case 'session_triggered':

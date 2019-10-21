@@ -9,6 +9,8 @@ import { SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc'
 import { FormState, mergeForm } from 'store/nodeEditor';
 
 import styles from './CaseList.module.scss';
+import { Operator } from 'config/interfaces';
+import { Asset } from 'store/flowContext';
 
 export enum DragCursor {
   move = 'move',
@@ -20,11 +22,16 @@ export interface CaseProps {
   kase: Case;
   categoryName: string;
   valid: boolean;
+  operators?: Operator[];
+  classifier?: Asset;
 }
 
 export interface CaseListProps {
   cases: CaseProps[];
   onCasesUpdated(cases: CaseProps[]): void;
+  operators?: Operator[];
+  classifier?: Asset;
+  createEmptyCase?: () => CaseProps;
 }
 
 export interface CaseListState extends FormState {
@@ -43,6 +50,8 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         {...caseProps}
         onRemove={this.handleRemoveCase}
         onChange={this.handleUpdateCase}
+        operators={this.props.operators}
+        classifier={this.props.classifier}
       />
     </div>
   ));
@@ -76,7 +85,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
     const caseProps = this.props.cases;
 
     if (!this.hasEmptyCase(caseProps)) {
-      caseProps.push(createEmptyCase());
+      caseProps.push(this.createEmptyCase());
     }
 
     // initialize our cases
@@ -86,11 +95,15 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
     };
   }
 
+  private createEmptyCase(): CaseProps {
+    return this.props.createEmptyCase ? this.props.createEmptyCase() : createEmptyCase();
+  }
+
   public static contextTypes = {
     config: fakePropType
   };
 
-  private handleUpdate(keys: { caseProps?: CaseProps; removeCase?: any }): boolean {
+  private handleUpdate(keys: { caseProps?: CaseProps; removeCase?: any }) {
     const updates: Partial<CaseListState> = {};
 
     let ensureEmptyCase = false;
@@ -99,6 +112,10 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
       updates.currentCases = [keys.caseProps];
       ensureEmptyCase = true;
       if (!keys.caseProps.valid) {
+        // TODO: refactor this to be a form entry
+        // mock our case to have validation failures, this is so the case list sees
+        // the existence of errors which mergeForm uses when merging form validity
+        // (keys.caseProps as any).validationFailures = [{ message: 'invalid case' }];
         updates.valid = false;
       }
     }
@@ -109,35 +126,38 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
       ensureEmptyCase = true;
     }
 
-    const updated = mergeForm(this.state, updates, toRemove) as CaseListState;
-
-    // notify our listener
-    this.props.onCasesUpdated(updated.currentCases);
-
     // update our form
-    this.setState(updated, () => {
-      // if we no longer have an empty case, add one
-      if (ensureEmptyCase) {
-        if (!this.hasEmptyCase(this.state.currentCases)) {
-          this.handleUpdate({ caseProps: createEmptyCase() });
+    this.setState(
+      (prevState: CaseListState) => {
+        const updated = mergeForm(prevState, updates, toRemove) as CaseListState;
+
+        // notify our listener
+        this.props.onCasesUpdated(updated.currentCases);
+        return updated;
+      },
+      () => {
+        // if we no longer have an empty case, add one
+        if (ensureEmptyCase) {
+          if (!this.hasEmptyCase(this.state.currentCases)) {
+            this.handleUpdate({ caseProps: this.createEmptyCase() });
+          }
         }
       }
-    });
-    return updated.valid;
+    );
   }
 
   private hasEmptyCase(cases: CaseProps[]): boolean {
     return cases.find((caseProps: CaseProps) => caseProps.categoryName.trim().length === 0) != null;
   }
 
-  private handleRemoveCase(uuid: string): boolean {
+  private handleRemoveCase(uuid: string) {
     return this.handleUpdate({
       removeCase: { uuid }
     });
   }
 
-  private handleUpdateCase(caseProps: CaseProps): boolean {
-    return this.handleUpdate({ caseProps });
+  private handleUpdateCase(caseProps: CaseProps) {
+    this.handleUpdate({ caseProps });
   }
 
   private handleSortEnd({ oldIndex, newIndex }: SortEnd): void {

@@ -16,6 +16,7 @@ export enum Types {
   set_contact_name = 'set_contact_name',
   set_contact_language = 'set_contact_language',
   set_run_result = 'set_run_result',
+  call_classifier = 'call_classifier',
   call_resthook = 'call_resthook',
   call_webhook = 'call_webhook',
   send_msg = 'send_msg',
@@ -30,6 +31,7 @@ export enum Types {
   split_by_run_result = 'split_by_run_result',
   split_by_run_result_delimited = 'split_by_run_result_delimited',
   split_by_groups = 'split_by_groups',
+  split_by_intent = 'split_by_intent',
   split_by_random = 'split_by_random',
   split_by_resthook = 'split_by_resthook',
   split_by_subflow = 'split_by_subflow',
@@ -74,13 +76,23 @@ export enum Operators {
   has_district = 'has_district',
   has_state = 'has_state',
   has_ward = 'has_ward',
-  has_category = 'has_category',
   has_pattern = 'has_pattern',
-  has_error = 'has_error'
+  has_error = 'has_error',
+  has_intent = 'has_intent',
+  has_top_intent = 'has_top_intent',
+  has_category = 'has_category'
+}
+
+export enum FeatureFilter {
+  HAS_RESTHOOK = 'resthook',
+  HAS_WHATSAPP = 'whatsapp',
+  HAS_AIRTIME = 'airtime',
+  HAS_CLASSIFIER = 'classifier'
 }
 
 export interface FlowTypeVisibility {
   visibility?: FlowTypes[];
+  filter?: FeatureFilter;
 }
 
 export interface Type extends FlowTypeVisibility {

@@ -26,6 +26,7 @@ exports[`ResthookRouterForm render should render 1`] = `
         ],
         "component": [Function],
         "description": "Call Zapier",
+        "filter": "resthook",
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [

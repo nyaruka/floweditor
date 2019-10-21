@@ -1,0 +1,13 @@
+{
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "uuid": "732e4776-dc63-48ad-ae5f-79abd6c462a2",
+      "name": "Purrington",
+      "type": "wit",
+      "intents": ["i want", "show me", "tell me"],
+      "created_on": "2019-10-15T20:07:58.529130Z"
+    }
+  ]
+}

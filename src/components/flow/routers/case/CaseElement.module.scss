@@ -21,6 +21,17 @@ input:focus {
   padding-top: 7px;
 }
 
+.kase.has_intent,
+.kase.has_top_intent {
+  .choice {
+    width: 150px;
+  }
+
+  .multi_operand {
+    width: 202px;
+  }
+}
+
 .kase {
   display: inline-flex;
   width: 100%;
@@ -36,19 +47,26 @@ input:focus {
   .single_operand {
     display: inline-flex;
     position: relative;
-    margin-left: 6px;
+    margin-left: $spacing;
+
     width: 170px;
     input {
-      width: 174px;
+      width: 170px;
     }
   }
+
   .multi_operand {
     display: inline-flex;
-    width: 166px;
-    justify-content: center;
     margin-left: $spacing;
-    input {
-      width: 66px;
+    width: 170px;
+
+    input[name='intent'] {
+      width: 105px;
+    }
+
+    input[name='confidence'] {
+      // width: 40px;
+      padding: 10px 6px !important;
     }
   }
   .categorize_as {
@@ -56,7 +74,8 @@ input:focus {
     line-height: 13px;
     position: relative;
     top: 7px;
-    margin: 0px $spacing;
+    width: 79px;
+    margin: 0px $spacing - 2;
   }
   .category {
     position: relative;

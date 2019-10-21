@@ -207,6 +207,11 @@ exports[`ResultRouterForm should render 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -309,7 +314,7 @@ exports[`ResultRouterForm should render 1`] = `
               class="ele group"
             >
               <div
-                class="kase"
+                class="kase has_any_word"
                 data-draggable="true"
               >
                 <span
@@ -463,6 +468,7 @@ exports[`ResultRouterForm should render 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="-1"
+                        name="arguments"
                         placeholder=""
                         type="text"
                         value=""
@@ -510,6 +516,7 @@ exports[`ResultRouterForm should render 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="36"
+                        name="exitName"
                         type="text"
                         value=""
                       />
@@ -706,6 +713,11 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                 value="transfer_airtime"
               >
                 Send the contact airtime
+              </option>
+              <option
+                value="split_by_intent"
+              >
+                Split by intent
               </option>
               <option
                 value="split_by_expression"
@@ -959,7 +971,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               class="ele group"
             >
               <div
-                class="kase"
+                class="kase has_any_word"
                 data-draggable="true"
               >
                 <span
@@ -1113,6 +1125,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="-1"
+                        name="arguments"
                         placeholder=""
                         type="text"
                         value=""
@@ -1160,6 +1173,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="36"
+                        name="exitName"
                         type="text"
                         value=""
                       />

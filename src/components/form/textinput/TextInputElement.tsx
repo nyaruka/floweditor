@@ -632,6 +632,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     if (this.props.textarea) {
       return (
         <textarea
+          name={this.props.name}
           data-spec="input"
           data-testid="input"
           ref={this.textElRef}
@@ -649,6 +650,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     } else {
       return (
         <input
+          name={this.props.name}
           data-spec="input"
           data-testid="input"
           ref={this.textElRef}

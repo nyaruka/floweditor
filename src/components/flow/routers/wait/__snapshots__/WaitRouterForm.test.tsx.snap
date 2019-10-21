@@ -151,6 +151,11 @@ exports[`WaitRouterForm should render a normal wait 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -333,6 +338,11 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -382,6 +392,7 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
                   data-spec="input"
                   data-testid="input"
                   maxlength="64"
+                  name="Result Name"
                   type="text"
                   value="Previous Name"
                 />

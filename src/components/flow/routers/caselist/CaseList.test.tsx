@@ -1,7 +1,7 @@
 import CaseList from 'components/flow/routers/caselist/CaseList';
 import { Operators } from 'config/interfaces';
 import React from 'react';
-import { fireEvent, render } from 'test/utils';
+import { fireEvent, render, waitForDomChange } from 'test/utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
 
@@ -70,7 +70,8 @@ describe(CaseList.name, () => {
 
       const argsInput = getByDisplayValue('Red, r') as any;
       fireEvent.change(argsInput, { target: { value: 'Purple, p' } });
-      expect(onCasesUpdated).toHaveBeenCalledTimes(1);
+
+      expect(onCasesUpdated).toHaveBeenCalledTimes(4);
       expect(baseElement).toMatchSnapshot();
     });
   });

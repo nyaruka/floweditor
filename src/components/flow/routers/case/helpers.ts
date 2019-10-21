@@ -1,35 +1,38 @@
 import { isRelativeDate } from 'components/flow/routers/helpers';
 import { Operator, Operators } from 'config/interfaces';
 import { getOperatorConfig } from 'config/operatorConfigs';
-import { LessThan, MoreThan, Numeric, NumOrExp, Regex, Required, validate } from 'store/validators';
+import {
+  LessThan,
+  MoreThan,
+  Numeric,
+  NumOrExp,
+  Regex,
+  Required,
+  validate,
+  IsValidIntent
+} from 'store/validators';
 import { titleCase } from 'utils';
 
 import { CaseElementProps, CaseElementState } from './CaseElement';
+import { SelectOption } from 'components/form/select/SelectElement';
+import { Asset } from 'store/flowContext';
 
 export const initializeForm = (props: CaseElementProps): CaseElementState => {
+  const arg1 =
+    props.kase.arguments && props.kase.arguments.length >= 1 ? props.kase.arguments[0] : '';
+  const arg2 =
+    props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[1] : '';
+
   return {
     errors: [],
     operatorConfig: getOperatorConfig(props.kase.type),
-    argument: {
-      value:
-        props.kase.arguments && props.kase.arguments.length === 1 ? props.kase.arguments[0] : ''
-    },
-    min: {
-      value:
-        props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[0] : ''
-    },
-    max: {
-      value:
-        props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[1] : ''
-    },
-    state: {
-      value:
-        props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[0] : ''
-    },
-    district: {
-      value:
-        props.kase.arguments && props.kase.arguments.length === 2 ? props.kase.arguments[1] : ''
-    },
+    argument: { value: arg1 },
+    min: { value: arg1 },
+    max: { value: arg2 },
+    state: { value: arg1 },
+    district: { value: arg2 },
+    intent: { value: arg1 ? { label: arg1, value: arg1 } : null },
+    confidence: { value: arg2 },
     categoryName: { value: props.categoryName || '' },
     categoryNameEdited: !!props.categoryName,
     valid: true
@@ -119,8 +122,11 @@ export const validateCase = (keys: {
   district?: string;
   min?: string;
   max?: string;
+  confidence?: string;
+  intent?: SelectOption;
   exitName?: string;
   exitEdited?: boolean;
+  classifier?: Asset;
 }): Partial<CaseElementState> => {
   // when the exit is set, our arguments become required
   const validators = keys.exitEdited && keys.exitName ? [Required] : [];
@@ -134,6 +140,8 @@ export const validateCase = (keys: {
   updates.min = { value: '', validationFailures: [] };
   updates.max = { value: '', validationFailures: [] };
   updates.argument = { value: '', validationFailures: [] };
+  updates.intent = { value: null, validationFailures: [] };
+  updates.confidence = { value: '', validationFailures: [] };
 
   if (keys.operatorConfig.operands > 0) {
     switch (keys.operatorConfig.type) {
@@ -171,6 +179,20 @@ export const validateCase = (keys: {
     } else if (keys.operatorConfig.type === Operators.has_ward) {
       updates.state = validate('State', keys.state || '', validators.concat([]));
       updates.district = validate('District', keys.district || '', validators.concat([]));
+    } else if (
+      keys.operatorConfig.type === Operators.has_top_intent ||
+      keys.operatorConfig.type === Operators.has_intent
+    ) {
+      const intentValidators = [IsValidIntent(keys.classifier)];
+      if (keys.confidence) {
+        intentValidators.push(Required);
+      }
+      updates.intent = validate('Intent', keys.intent, intentValidators);
+      updates.confidence = validate(
+        'Confidence',
+        keys.confidence || '',
+        validators.concat(keys.intent ? [Numeric, Required] : [Numeric])
+      );
     } else {
       updates.argument = validate('Value', keys.argument || '', validators);
     }
@@ -193,6 +215,8 @@ export const validateCase = (keys: {
     updates.min.validationFailures.length === 0 &&
     updates.max.validationFailures.length === 0 &&
     updates.argument.validationFailures.length === 0 &&
+    updates.intent.validationFailures.length === 0 &&
+    updates.confidence.validationFailures.length === 0 &&
     updates.categoryName.validationFailures.length === 0;
 
   return updates;
@@ -205,6 +229,15 @@ export const getCategoryName = (state: Partial<CaseElementState>): string => {
 
   if (state.operatorConfig.operands === 0) {
     return state.operatorConfig.categoryName;
+  }
+
+  if (
+    state.operatorConfig.type === Operators.has_intent ||
+    state.operatorConfig.type === Operators.has_top_intent
+  ) {
+    if (state.intent.value) {
+      return titleCase(state.intent.value.label.replace('_', ' '));
+    }
   }
 
   if (
@@ -236,5 +269,6 @@ export const getCategoryName = (state: Partial<CaseElementState>): string => {
 
     return pre + titleCase(state.argument.value);
   }
+
   return '';
 };
