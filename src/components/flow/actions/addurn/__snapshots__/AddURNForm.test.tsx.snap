@@ -111,6 +111,11 @@ exports[`AddURNForm renders 1`] = `
                 Send the contact airtime
               </option>
               <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
                 value="split_by_expression"
               >
                 Split by a custom expression
@@ -229,6 +234,7 @@ exports[`AddURNForm renders 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="URN"
                 placeholder="Enter the URN value"
                 type="text"
                 value="+12065551212"

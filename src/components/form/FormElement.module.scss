@@ -15,10 +15,11 @@
 
   > .error_list {
     position: relative;
+    z-index: 1;
+
     > .error {
       visibility: hidden;
       position: absolute;
-      z-index: 30000;
       background: #fff;
       border: 1px solid $error_color;
       box-shadow: 0 0 0 3px rgba(255, 196, 186, 0.5) !important;

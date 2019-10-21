@@ -50,6 +50,11 @@
     padding: $action_padding;
   }
 
+  &.call_classifier {
+    padding: $action_padding;
+    width: inherit;
+  }
+
   &.send_broadcast,
   &.start_session {
     padding: 0px;

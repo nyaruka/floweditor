@@ -7,7 +7,7 @@ exports[`CaseElement operator changes should handle updates 1`] = `
       class="ele group"
     >
       <div
-        class="kase"
+        class="kase has_phone"
         data-draggable="true"
       >
         <span
@@ -170,6 +170,7 @@ exports[`CaseElement operator changes should handle updates 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
+                name="exitName"
                 type="text"
                 value="Has Phone"
               />
@@ -213,7 +214,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
       class="ele group"
     >
       <div
-        class="kase"
+        class="kase has_number_between"
         data-draggable="true"
       >
         <span
@@ -367,6 +368,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="arguments"
                 type="text"
                 value=""
               />
@@ -394,6 +396,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
           </div>
           <span
             class="divider"
+            data-draggable="true"
           >
             and
           </span>
@@ -408,6 +411,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="arguments"
                 type="text"
                 value=""
               />
@@ -454,6 +458,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
+                name="exitName"
                 type="text"
                 value=""
               />
@@ -497,7 +502,7 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
       class="ele group"
     >
       <div
-        class="kase"
+        class="kase has_number"
         data-draggable="true"
       >
         <span
@@ -660,6 +665,7 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
+                name="exitName"
                 type="text"
                 value="My Exit Name"
               />
@@ -703,7 +709,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
       class="ele group"
     >
       <div
-        class="kase"
+        class="kase has_number"
         data-draggable="true"
       >
         <span
@@ -866,8 +872,9 @@ exports[`CaseElement render renders no argument rules 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
+                name="exitName"
                 type="text"
-                value=""
+                value="Has Number"
               />
               <div
                 class="completion_container hidden"
@@ -909,7 +916,7 @@ exports[`CaseElement render should render empty case 1`] = `
       class="ele group"
     >
       <div
-        class="kase"
+        class="kase has_any_word"
         data-draggable="true"
       >
         <span
@@ -1063,6 +1070,7 @@ exports[`CaseElement render should render empty case 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="arguments"
                 placeholder=""
                 type="text"
                 value=""
@@ -1110,6 +1118,7 @@ exports[`CaseElement render should render empty case 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
+                name="exitName"
                 type="text"
                 value=""
               />
@@ -1153,7 +1162,7 @@ exports[`CaseElement update handles argument change 1`] = `
       class="ele group"
     >
       <div
-        class="kase"
+        class="kase has_any_word"
         data-draggable="true"
       >
         <span
@@ -1307,6 +1316,7 @@ exports[`CaseElement update handles argument change 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="arguments"
                 placeholder=""
                 type="text"
                 value="Purple, p"
@@ -1354,6 +1364,7 @@ exports[`CaseElement update handles argument change 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
+                name="exitName"
                 type="text"
                 value="Purple"
               />
@@ -1397,7 +1408,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
       class="ele group"
     >
       <div
-        class="kase"
+        class="kase has_number_between"
         data-draggable="true"
       >
         <span
@@ -1551,6 +1562,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="arguments"
                 type="text"
                 value="1"
               />
@@ -1578,6 +1590,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
           </div>
           <span
             class="divider"
+            data-draggable="true"
           >
             and
           </span>
@@ -1592,6 +1605,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="-1"
+                name="arguments"
                 type="text"
                 value="100"
               />
@@ -1638,6 +1652,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
+                name="exitName"
                 type="text"
                 value="1 - 100"
               />

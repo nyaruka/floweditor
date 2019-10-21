@@ -895,6 +895,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
   if (originalNode) {
     const previousPosition = originalNode.ui.position;
     renderNode.ui.position = previousPosition;
+    renderNode.inboundConnections = originalNode.inboundConnections;
   }
 
   if (originalNode.ghost) {

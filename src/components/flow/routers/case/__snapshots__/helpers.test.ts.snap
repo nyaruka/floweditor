@@ -42,6 +42,8 @@ exports[`helpers prefix should prefix "has some text" operator appropriately 1`]
 
 exports[`helpers prefix should prefix "has state" operator appropriately 1`] = `""`;
 
+exports[`helpers prefix should prefix "has the category" operator appropriately 1`] = `""`;
+
 exports[`helpers prefix should prefix "has the phrase" operator appropriately 1`] = `""`;
 
 exports[`helpers prefix should prefix "has ward" operator appropriately 1`] = `""`;
@@ -65,9 +67,17 @@ Object {
     "value": "50 - 3",
   },
   "categoryNameEdited": false,
+  "confidence": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "district": Object {
     "validationFailures": Array [],
     "value": "",
+  },
+  "intent": Object {
+    "validationFailures": Array [],
+    "value": null,
   },
   "max": Object {
     "validationFailures": Array [
@@ -109,9 +119,17 @@ Object {
     "value": "",
   },
   "categoryNameEdited": false,
+  "confidence": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "district": Object {
     "validationFailures": Array [],
     "value": "",
+  },
+  "intent": Object {
+    "validationFailures": Array [],
+    "value": null,
   },
   "max": Object {
     "validationFailures": Array [],
@@ -149,9 +167,17 @@ Object {
     "value": "",
   },
   "categoryNameEdited": false,
+  "confidence": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "district": Object {
     "validationFailures": Array [],
     "value": "",
+  },
+  "intent": Object {
+    "validationFailures": Array [],
+    "value": null,
   },
   "max": Object {
     "validationFailures": Array [],
@@ -189,9 +215,17 @@ Object {
     "value": "My Exit",
   },
   "categoryNameEdited": true,
+  "confidence": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "district": Object {
     "validationFailures": Array [],
     "value": "",
+  },
+  "intent": Object {
+    "validationFailures": Array [],
+    "value": null,
   },
   "max": Object {
     "validationFailures": Array [],
@@ -229,9 +263,17 @@ Object {
     "value": "5 - 40",
   },
   "categoryNameEdited": false,
+  "confidence": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "district": Object {
     "validationFailures": Array [],
     "value": "",
+  },
+  "intent": Object {
+    "validationFailures": Array [],
+    "value": null,
   },
   "max": Object {
     "validationFailures": Array [],
@@ -265,9 +307,17 @@ Object {
     "value": "Has Text",
   },
   "categoryNameEdited": false,
+  "confidence": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
   "district": Object {
     "validationFailures": Array [],
     "value": "",
+  },
+  "intent": Object {
+    "validationFailures": Array [],
+    "value": null,
   },
   "max": Object {
     "validationFailures": Array [],
