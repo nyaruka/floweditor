@@ -56,6 +56,8 @@ export interface FlowEditorConfig {
 
   // whether to force a save on load
   forceSaveOnLoad?: boolean;
+
+  filters?: string[];
 }
 
 export interface LocalizationMap {

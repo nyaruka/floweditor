@@ -20,6 +20,29 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "body": <React.Fragment>
           <p>
+            Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.
+          </p>
+          <AssetSelector
+            entry={
+              Object {
+                "value": null,
+              }
+            }
+            formClearable={true}
+            name="Template"
+            noOptionsMessage="No templates found"
+            onChange={[Function]}
+            searchable={true}
+            shouldExclude={[Function]}
+          />
+        </React.Fragment>,
+        "checked": false,
+        "hasErrors": false,
+        "name": "WhatsApp",
+      },
+      Object {
+        "body": <React.Fragment>
+          <p>
             Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".
           </p>
           <MultiChoiceInput

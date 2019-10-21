@@ -34,6 +34,8 @@ import { createUUID, range } from 'utils';
 import { small } from 'utils/reactselect';
 
 import styles from './SendMsgForm.module.scss';
+import { hasFeature } from 'config/typeConfigs';
+import { FeatureFilter } from 'config/interfaces';
 
 const MAX_ATTACHMENTS = 3;
 
@@ -536,7 +538,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     const tabs = [quickReplies, attachments, advanced];
 
-    if (this.context.config.showTemplates) {
+    if (hasFeature(this.context.config, FeatureFilter.HAS_WHATSAPP)) {
       const templates: Tab = {
         name: 'WhatsApp',
         body: this.renderTemplateConfig(),

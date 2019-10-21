@@ -50,9 +50,10 @@ import {
   TEXT_TYPES,
   Type,
   Types,
-  VOICE
+  VOICE,
+  FeatureFilter
 } from 'config/interfaces';
-import { HintTypes, RouterTypes } from 'flowTypes';
+import { HintTypes, RouterTypes, FlowEditorConfig } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import CallClassifierComp from 'components/flow/actions/callclassifier/CallClassifier';
 import ClassifyRouterForm from 'components/flow/routers/classify/ClassifyRouterForm';
@@ -254,6 +255,7 @@ export const typeConfigList: Type[] = [
     localizeableKeys: ['exits'],
     component: CallResthookComp,
     aliases: [Types.split_by_resthook],
+    filter: FeatureFilter.HAS_RESTHOOK,
     visibility: ONLINE
   },
   {
@@ -284,7 +286,9 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     component: TransferAirtimeComp,
-    aliases: [Types.split_by_airtime]
+    aliases: [Types.split_by_airtime],
+    visibility: ONLINE,
+    filter: FeatureFilter.HAS_AIRTIME
   },
 
   /** Routers */
@@ -325,7 +329,8 @@ export const typeConfigList: Type[] = [
     localizeableKeys: ['exits'],
     component: CallClassifierComp,
     aliases: [Types.call_classifier],
-    visibility: ONLINE
+    visibility: ONLINE,
+    filter: FeatureFilter.HAS_CLASSIFIER
   },
   {
     type: Types.split_by_expression,
@@ -422,4 +427,8 @@ export const getType = (renderNode: RenderNode): any => {
   }
 
   return renderNode.ui.type;
+};
+
+export const hasFeature = (config: FlowEditorConfig, filter: FeatureFilter) => {
+  return !!(config.filters || []).find((name: string) => name === filter);
 };

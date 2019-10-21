@@ -109,7 +109,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
   private getOperators(): Operator[] {
     let operators = this.props.operators || operatorConfigList;
     if (this.operators === undefined) {
-      this.operators = filterOperators(operators, this.context.config.flowType);
+      this.operators = filterOperators(operators, this.context.config);
     }
 
     return this.operators;

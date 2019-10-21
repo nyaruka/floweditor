@@ -46,7 +46,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
 
   private getTypeConfigs(): Type[] {
     if (this.typeConfigs === undefined) {
-      this.typeConfigs = filterTypeConfigs(configsToDisplay, this.context.config.flowType);
+      this.typeConfigs = filterTypeConfigs(configsToDisplay, this.context.config);
     }
     return this.typeConfigs;
   }

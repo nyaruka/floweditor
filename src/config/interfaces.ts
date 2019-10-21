@@ -83,8 +83,16 @@ export enum Operators {
   has_category = 'has_category'
 }
 
+export enum FeatureFilter {
+  HAS_RESTHOOK = 'resthook',
+  HAS_WHATSAPP = 'whatsapp',
+  HAS_AIRTIME = 'airtime',
+  HAS_CLASSIFIER = 'classifier'
+}
+
 export interface FlowTypeVisibility {
   visibility?: FlowTypes[];
+  filter?: FeatureFilter;
 }
 
 export interface Type extends FlowTypeVisibility {
