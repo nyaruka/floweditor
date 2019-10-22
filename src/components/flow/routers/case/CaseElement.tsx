@@ -200,7 +200,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
     const updates = validateCase({
       operatorConfig: this.state.operatorConfig,
       intent: selected,
-      confidence: this.state.confidence.value,
+      confidence: this.state.confidence.value || '.9',
       exitName: this.state.categoryName.value,
       exitEdited: this.state.categoryNameEdited,
       classifier: this.props.classifier
