@@ -6,7 +6,6 @@ import { Types } from 'config/interfaces';
 import { Flow, Group } from 'flowTypes';
 import * as React from 'react';
 import { createUUID } from 'utils';
-import { string, number } from 'prop-types';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
