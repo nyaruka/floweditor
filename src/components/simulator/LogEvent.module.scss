@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 @keyframes fadein {
   from {
@@ -133,7 +133,7 @@
 
 .webhook_details {
   unicode-bidi: embed;
-  font-family: "Roboto Mono", sans-serif;
+  font-family: 'Roboto Mono', sans-serif;
   font-weight: 300;
   font-size: 11px;
   line-height: 13px;
@@ -146,7 +146,7 @@
   white-space: -o-pre-wrap;
   word-wrap: break-word;
   ::first-line {
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 400;
     line-height: 34px;
@@ -176,4 +176,17 @@
 
 .has_detail {
   cursor: pointer;
+}
+
+.classification {
+  width: 100%;
+  font-size: 90%;
+  color: #bbb;
+  td {
+    padding: 0 5px;
+  }
+  td:last-child {
+    text-align: right;
+    font-size: 90%;
+  }
 }
