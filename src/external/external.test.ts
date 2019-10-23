@@ -16,4 +16,18 @@ describe('External', () => {
     expect(group.type).toEqual(AssetType.Group);
     expect(group).toMatchSnapshot();
   });
+
+  it('converts rp api flow types', () => {
+    // survey converts to the goflowy message_offline
+    expect(resultToAsset({ type: 'survey' }, AssetType.Flow, 'uuid').content.type).toEqual(
+      'message_offline'
+    );
+
+    // message and voice stay the same
+    expect(resultToAsset({ type: 'message' }, AssetType.Flow, 'uuid').content.type).toEqual(
+      'message'
+    );
+
+    expect(resultToAsset({ type: 'voice' }, AssetType.Flow, 'uuid').content.type).toEqual('voice');
+  });
 });
