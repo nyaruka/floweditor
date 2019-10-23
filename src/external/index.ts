@@ -14,6 +14,7 @@ import {
 } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
 import { CompletionSchema } from 'utils/completion';
+import { FlowTypes } from 'config/interfaces';
 
 export interface FlowDetails {
   uuid: string;
@@ -166,7 +167,22 @@ export const resultToAsset = (result: any, type: AssetType, id: string): Asset =
   const idKey = id || 'uuid';
 
   let assetType = type;
-  if (result.type) {
+
+  if (type === AssetType.Flow && result.type) {
+    switch (result.type) {
+      case 'message':
+        result.type = FlowTypes.MESSAGE;
+        break;
+      case 'voice':
+        result.type = FlowTypes.VOICE;
+        break;
+      case 'survey':
+        result.type = FlowTypes.SURVEY;
+        break;
+    }
+  }
+
+  if (type !== AssetType.Flow && result.type) {
     assetType = result.type;
   }
 
@@ -181,7 +197,6 @@ export const resultToAsset = (result: any, type: AssetType, id: string): Asset =
   delete result.text;
 
   asset.content = result;
-
   return asset;
 };
 
