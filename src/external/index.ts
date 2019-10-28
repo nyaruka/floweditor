@@ -208,7 +208,15 @@ export const isMatch = (
   if (shouldExclude && shouldExclude(asset)) {
     return false;
   }
-  return asset.name.toLowerCase().includes(input.toLowerCase());
+
+  const inputLower = input.toLowerCase();
+  // some assets have ids worth matching
+  if (asset.type === AssetType.Currency || asset.type === AssetType.Language) {
+    if (asset.id.toLowerCase().includes(inputLower)) {
+      return true;
+    }
+  }
+  return asset.name.toLowerCase().includes(inputLower);
 };
 
 /**
