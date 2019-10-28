@@ -5,7 +5,7 @@ import styles from 'components/simulator/LogEvent.module.scss';
 import { Types } from 'config/interfaces';
 import { Flow, Group } from 'flowTypes';
 import * as React from 'react';
-import { createUUID } from 'utils';
+import { createUUID, getURNPath } from 'utils';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
@@ -63,6 +63,20 @@ export interface EventProps {
   msg?: MsgProps;
   http_logs?: WebRequestLog[];
   extra?: any;
+}
+
+interface FlowEvent {
+  step_uuid: string;
+  type: string;
+}
+
+interface AirtimeTransferEvent extends FlowEvent {
+  actual_amount: number;
+  desired_amount: number;
+  currency: string;
+  http_logs: WebRequestLog[];
+  recipient: string;
+  sender: string;
 }
 
 interface LogEventState {
@@ -234,7 +248,9 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         </>
       );
     }
-    return this.renderHTTPRequest(headerClass, this.props as WebRequestLog);
+    if (this.props.url) {
+      return this.renderHTTPRequest(headerClass, this.props as WebRequestLog);
+    }
   }
 
   private renderClickable(element: JSX.Element, details: JSX.Element): JSX.Element {
@@ -331,6 +347,18 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         return renderInfo(this.props.text);
       case 'environment_refreshed':
         return null;
+      case 'airtime_transferred':
+        const event = this.props as AirtimeTransferEvent;
+        return (
+          <>
+            {this.renderWebhook(Types.transfer_airtime)}
+            {renderInfo(
+              `Transferred ${event.actual_amount} ${event.currency} to ${getURNPath(
+                event.recipient
+              )}`
+            )}
+          </>
+        );
     }
 
     // should only get here if we are get an unexpected event
