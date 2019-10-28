@@ -401,3 +401,7 @@ export const hasString = (names: string[], key: string): boolean =>
 
 export const scalarArrayEquals = (a: any[], b: any[]) =>
   a.every((value, index) => value === b[index]);
+
+export const getURNPath = (urn: string) => {
+  return urn.split(':')[1];
+};

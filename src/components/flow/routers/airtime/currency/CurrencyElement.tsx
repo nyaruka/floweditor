@@ -113,6 +113,7 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
               entry={{ value: currency }}
               searchable={true}
               onChange={this.handleCurrencyChanged}
+              placeholder={'Select a currency'}
             />
           </div>
           {amountInput} {removeIco}
