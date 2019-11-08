@@ -9,7 +9,6 @@ import { Asset, AssetStore } from 'store/flowContext';
 import { renderIf } from 'utils';
 
 import styles from './RevisionExplorer.module.scss';
-import i18next from 'i18next';
 import i18n from 'config/i18n';
 
 const cx: any = classNames.bind(styles);
