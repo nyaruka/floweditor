@@ -1,4 +1,5 @@
 # Flow Editor
+
 [![Build Status](https://github.com/nyaruka/floweditor/workflows/Build/badge.svg)](https://github.com/nyaruka/floweditor/actions?workflow=Build)
 [![codecov](https://codecov.io/gh/nyaruka/floweditor/branch/master/graph/badge.svg)](https://codecov.io/gh/nyaruka/floweditor)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c2200da1ba5a0176836e/maintainability)](https://codeclimate.com/github/nyaruka/floweditor/maintainability)
@@ -45,6 +46,16 @@ Then you are ready to fire up the development server for the editor.
 ```bash
 % yarn start
 ```
+
+### Localization
+
+The project is fully localized using `i18next` and leans on `react-i18next` to integrate it inside components. To generate new keys and defaults for localization, we use `i18next-scanner`. Use the yarn command `scan` to update localization keys.
+
+```bash
+% yarn scan
+```
+
+This file is then uploaded to Transifex for broad language translations. Once a language reaches full translation, it will be merged into the project.
 
 ### Running Tests
 

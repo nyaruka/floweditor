@@ -26,6 +26,7 @@
     "preversion": "yarn test --watchAll=false",
     "postversion": "git push --tags && git push origin master",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
+    "scan": "./node_modules/i18next-scanner/bin/cli.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

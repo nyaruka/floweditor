@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-// const fs = require('fs');
 var typescriptTransform = require('i18next-scanner-typescript');
 
 // eslint-disable-next-line no-undef
@@ -27,21 +26,10 @@ module.exports = {
       jsonIndent: 2,
       lineEnding: '\n'
     },
-    // nsSeparator: false,
-    // keySeparator: false,
     interpolation: {
       prefix: '[[',
       suffix: ']]'
     }
   },
   transform: typescriptTransform({ extensions: ['.tsx'] })
-  /* transform: function(file, enc, done) {
-    const parser = this.parser;
-    const content = fs.readFileSync(file.path, enc);
-    parser.parseFuncFromString(content, { list: ['i18n.t'] }, function(key) {
-      parser.set(key, key);
-    });
-
-    done();
-  }*/
 };
