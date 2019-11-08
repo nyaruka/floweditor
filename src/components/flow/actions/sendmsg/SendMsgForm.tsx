@@ -37,6 +37,9 @@ import styles from './SendMsgForm.module.scss';
 import { hasFeature } from 'config/typeConfigs';
 import { FeatureFilter } from 'config/interfaces';
 
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
+
 const MAX_ATTACHMENTS = 3;
 
 const TYPE_OPTIONS: SelectOption[] = [
@@ -181,8 +184,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -334,8 +340,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return (
       <>
         <p>
-          Add up to {MAX_ATTACHMENTS} attachments to each message. Each attachment can be a file you
-          upload or a dynamic URL using expressions and variables from your Flow.
+          {i18n.t(
+            'forms.send_msg.summary',
+            'Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.',
+            { count: MAX_ATTACHMENTS }
+          )}
         </p>
         {attachments}
         {emptyOption}
@@ -411,9 +420,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return (
       <>
         <p>
-          Sending messages over a WhatsApp channel requires that a template be used if you have not
-          received a message from a contact in the last 24 hours. Setting a template to use over
-          WhatsApp is especially important for the first message in your flow.
+          {i18n.t(
+            'forms.send_msg.whatsapp_warning',
+            'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
+          )}
         </p>
         <AssetSelector
           name="Template"
@@ -495,13 +505,19 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       body: (
         <>
           <p>
-            Quick Replies are made into buttons for supported channels. For example, when asking a
-            question, you might add a Quick Reply for "Yes" and one for "No".
+            {i18n.t(
+              'forms.send_msg.quick_replies',
+              'Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".'
+            )}
           </p>
 
           <MultiChoiceInput
             name="Quick Reply"
-            helpText="Add a new Quick Reply and press enter."
+            helpText={
+              <Trans i18nKey="forms.send_msg.add_quick_reply">
+                Add a new Quick Reply and press enter.
+              </Trans>
+            }
             items={this.state.quickReplies}
             entry={this.state.quickReplyEntry}
             onRemoved={this.handleRemoveQuickReply}
@@ -529,7 +545,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           title="All Destinations"
           labelClassName={styles.checkbox}
           checked={this.state.sendAll}
-          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+          description={i18n.t(
+            'forms.send_msg.all_destinations',
+            "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+          )}
           onChange={this.handleSendAllUpdate}
         />
       ),

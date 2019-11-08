@@ -3,6 +3,7 @@ import { createClickHandler } from 'utils';
 
 import styles from './TitleBar.module.scss';
 import { fakePropType } from 'config/ConfigProvider';
+import i18n from 'config/i18n';
 
 export interface TitleBarProps {
   title: string;
@@ -143,7 +144,7 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
           >
             <span className="fe-x" />
           </div>
-          Remove?
+          {i18n.t('removal_confirmation', 'Remove?')}
         </div>
       );
     }

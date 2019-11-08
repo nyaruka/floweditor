@@ -9,6 +9,7 @@ import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { AssetEntry, FormState, mergeForm } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
+import i18n from 'config/i18n';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
@@ -55,8 +56,11 @@ export default class SubflowRouterForm extends React.PureComponent<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 

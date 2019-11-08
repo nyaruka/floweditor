@@ -55,7 +55,7 @@ exports[`SendEmailForm render should render 1`] = `
       onChange={[Function]}
       onCheckValid={[Function]}
       placeholder="To"
-      prompt="Enter e-mail address"
+      prompt="Enter email address"
     />
     <Connect(TextInputElement)
       __className="subject"

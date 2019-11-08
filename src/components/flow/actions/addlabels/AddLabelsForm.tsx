@@ -10,6 +10,8 @@ import { AssetArrayEntry, FormState, mergeForm } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
 
 export interface AddLabelsFormState extends FormState {
   labels: AssetArrayEntry;
@@ -56,8 +58,11 @@ export default class AddLabelsForm extends React.PureComponent<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -77,17 +82,24 @@ export default class AddLabelsForm extends React.PureComponent<
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <p data-spec={controlLabelSpecId}>Select the labels to apply to the incoming message.</p>
+        <p data-spec={controlLabelSpecId}>
+          <Trans i18nKey="forms.add_labels.summary">
+            Select the labels to apply to the incoming message.
+          </Trans>
+        </p>
 
         <AssetSelector
           name="Labels"
-          placeholder="Enter the name of an existing label or create a new one"
+          placeholder={i18n.t(
+            'enter_to_create_label',
+            'Enter the name of an existing label or create a new one'
+          )}
           assets={this.props.assetStore.labels}
           entry={this.state.labels}
           searchable={true}
           multi={true}
           onChange={this.handleLabelsChanged}
-          createPrefix="Create Label: "
+          createPrefix={i18n.t('create_label', 'Create Label') + ': '}
           createAssetFromInput={this.handleCreateAssetFromInput}
           onAssetCreated={this.handleLabelCreated}
         />

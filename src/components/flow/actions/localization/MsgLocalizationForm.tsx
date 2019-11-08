@@ -20,6 +20,8 @@ import {
 import { MaxOfTenItems, validate } from 'store/validators';
 
 import { initializeLocalizedForm } from './helpers';
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -119,8 +121,11 @@ export default class MsgLocalizationForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -173,7 +178,14 @@ export default class MsgLocalizationForm extends React.Component<
           <>
             <MultiChoiceInput
               name="Quick Reply"
-              helpText={`Add a new ${this.props.language.name} Quick Reply and press enter.`}
+              helpText={
+                <Trans
+                  i18nKey="forms.send_msg.localized_quick_replies"
+                  values={{ language: this.props.language.name }}
+                >
+                  Add a new [[language]] Quick Reply and press enter.
+                </Trans>
+              }
               items={this.state.quickReplies}
               onRemoved={this.handleRemoveQuickReply}
               onItemAdded={this.handleAddQuickReply}

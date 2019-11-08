@@ -11,6 +11,8 @@ import { shouldRequireIf, validate } from 'store/validators';
 
 import { ChangeGroupsFormState, excludeDynamicGroups, labelSpecId } from '../helpers';
 import { initializeForm, stateToAction } from './helpers';
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
 
 export default class AddGroupsForm extends React.Component<ActionFormProps, ChangeGroupsFormState> {
   constructor(props: ActionFormProps) {
@@ -55,8 +57,11 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -65,19 +70,21 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <p data-spec={labelSpecId}>Select the group(s) to add the contact to.</p>
+        <p data-spec={labelSpecId}>
+          <Trans i18nKey="forms.add_groups.summary">Select the groups to add the contact to.</Trans>
+        </p>
 
         <AssetSelector
-          name="Groups"
+          name={i18n.t('groups', 'Groups')}
           multi={true}
-          noOptionsMessage="Enter a name to create a new group"
+          noOptionsMessage={i18n.t('enter_to_create_group', 'Enter a name to create a new group')}
           assets={this.props.assetStore.groups}
           entry={this.state.groups}
           onChange={this.handleGroupsChanged}
           searchable={true}
           shouldExclude={excludeDynamicGroups}
           // Groups can be created on the fly
-          createPrefix="Create Group: "
+          createPrefix={i18n.t('create_group', 'Create Group') + ': '}
           createAssetFromInput={this.handleCreateAssetFromInput}
           onAssetCreated={this.handleGroupAdded}
         />

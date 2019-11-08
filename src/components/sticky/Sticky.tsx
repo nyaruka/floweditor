@@ -10,11 +10,12 @@ import { DispatchWithState, UpdateSticky, updateSticky } from 'store/thunks';
 import { CONFIRMATION_TIME, QUIET_NOTE, snapToGrid } from 'utils';
 
 import styles from './Sticky.module.scss';
+import i18n from 'config/i18n';
 
 type DragFunction = (event: DragEvent) => void;
 export const STICKY_SPEC_ID: string = 'sticky-container';
-export const STICKY_TITLE = 'New Note';
-export const STICKY_BODY = '...';
+export const STICKY_TITLE = i18n.t('sticky.title', 'New Note');
+export const STICKY_BODY = i18n.t('sticky.body', '...');
 
 export interface StickyPassedProps {
   uuid: string;

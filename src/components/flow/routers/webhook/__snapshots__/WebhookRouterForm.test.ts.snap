@@ -22,7 +22,11 @@ exports[`WebhookRouterForm should render 1`] = `
           <p
             className="info"
           >
-            Add any additional headers below that you would like to send along with your request.
+            <Trans
+              i18nKey="forms.call_webhook.header_summary"
+            >
+              Add any additional headers below that you would like to send along with your request.
+            </Trans>
           </p>
           <FlipMovePropConverter
             delay={0}
@@ -165,7 +169,11 @@ exports[`WebhookRouterForm should render 1`] = `
     className="instructions"
   >
     <p>
-      If your server responds with JSON, each property will be added to the Flow.
+      <Trans
+        i18nKey="forms.call_webhook.help"
+      >
+        If your server responds with JSON, each property will be added to the Flow.
+      </Trans>
     </p>
     <pre
       className="code"
@@ -173,24 +181,39 @@ exports[`WebhookRouterForm should render 1`] = `
       { "product": "Solar Charging Kit", "stock level": 32 }
     </pre>
     <p>
-      This response would add 
-      <span
-        className="example"
+      <Trans
+        i18nKey="forms.call_webhook.example"
       >
-        @webhook.product
-      </span>
-       and
-       
-      <span
-        className="example"
-      >
-        @webhook["stock level"]
-      </span>
-       for use in the flow.
+        This response would add 
+        <span
+          className="example"
+        >
+          @webhook.product
+        </span>
+         and
+         
+        <span
+          className="example"
+        >
+          @webhook["stock level"]
+        </span>
+         for use in the flow.
+      </Trans>
     </p>
   </div>
   <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @results.result"
+    helpText={
+      <Trans
+        i18nKey="forms.result_name_help"
+        values={
+          Object {
+            "resultFormat": "@results.result",
+          }
+        }
+      >
+        By naming the result, you can reference it later using [[resultFormat]]
+      </Trans>
+    }
     maxLength={64}
     name="Result Name"
     onChange={[Function]}

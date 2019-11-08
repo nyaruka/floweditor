@@ -5,7 +5,7 @@ import { configsToDisplay } from 'config/typeConfigs';
 import * as React from 'react';
 import Select from 'react-select';
 import { large } from 'utils/reactselect';
-
+import i18n from 'config/i18n';
 import styles from './TypeList.module.scss';
 
 export interface TypeListProps {
@@ -54,7 +54,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
   public render(): JSX.Element {
     return (
       <div className={`${this.props.__className} ${styles.type_list}`}>
-        <p>When a contact arrives at this point in your flow...</p>
+        <p>{i18n.t('forms.type_label', 'When a contact arrives at this point in your flow...')}</p>
         <div>
           <Select
             className="react-select"

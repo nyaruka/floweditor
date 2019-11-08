@@ -2,7 +2,8 @@
 
 exports[`AddURNComp should display urn on action 1`] = `
 <Fragment>
-  Add 
+  Add
+   
   Phone Number
    
   +12065551212

@@ -15,7 +15,7 @@ export interface MultiChoiceInputProps {
   onItemAdded: (item: string) => boolean;
   onFieldErrors: (validationFailures: ValidationFailure[]) => void;
   onEntryChanged?: (entry: StringEntry) => void;
-  helpText?: string;
+  helpText?: JSX.Element;
 }
 
 interface MultiChoiceInputState {

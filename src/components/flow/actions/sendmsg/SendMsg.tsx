@@ -3,8 +3,9 @@ import { SendMsg } from 'flowTypes';
 import * as React from 'react';
 
 import styles from './SendMsg.module.scss';
+import i18n from 'config/i18n';
 
-export const PLACEHOLDER = 'Send a message to the contact';
+export const PLACEHOLDER = i18n.t('actions.send_msg.placeholder', 'Send a message to the contact');
 
 const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   if (action.text) {

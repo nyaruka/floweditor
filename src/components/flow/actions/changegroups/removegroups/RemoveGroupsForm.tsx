@@ -15,13 +15,25 @@ import { renderIf } from 'utils';
 
 import { initializeForm, stateToAction } from './helpers';
 import styles from './RemoveGroupsForm.module.scss';
+import i18n from 'config/i18n';
 
-export const LABEL = 'Select the group(s) to remove the contact from.';
-export const NOT_FOUND = 'Enter the name of an existing group';
-export const PLACEHOLDER = 'Enter the name an existing group';
-export const REMOVE_FROM_ALL = 'Remove from All';
-export const REMOVE_FROM_ALL_DESC =
-  "Remove the active contact from all groups they're a member of.";
+export const LABEL = i18n.t(
+  'forms.remove_groups.summary',
+  'Select the groups to remove the contact from.'
+);
+export const NOT_FOUND = i18n.t('errors.group_not_found', 'Enter the name of an existing group');
+export const PLACEHOLDER = i18n.t(
+  'forms.remove_groups.placeholder',
+  'Enter the name of an existing group'
+);
+export const REMOVE_FROM_ALL = i18n.t(
+  'forms.remove_groups.remove_from_all_label',
+  'Remove from all'
+);
+export const REMOVE_FROM_ALL_DESC = i18n.t(
+  'forms.remove_groups.remove_from_all_summary',
+  "Remove the active contact from all groups they're a member of."
+);
 
 export const labelSpecId = 'label';
 export const fieldContainerSpecId = 'field-container';
@@ -86,8 +98,11 @@ export default class RemoveGroupsForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -101,7 +116,7 @@ export default class RemoveGroupsForm extends React.Component<
           <div>
             <p data-spec={labelSpecId}>{LABEL}</p>
             <AssetSelector
-              name="Groups"
+              name={i18n.t('groups', 'Groups')}
               assets={this.props.assetStore.groups}
               entry={this.state.groups}
               searchable={true}
