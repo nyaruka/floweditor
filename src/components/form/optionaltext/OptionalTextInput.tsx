@@ -10,7 +10,7 @@ export interface OptionalTextInputProps {
   value: StringEntry;
   toggleText: string;
   onChange(value: string): void;
-  helpText?: string;
+  helpText?: string | JSX.Element;
   maxLength?: number;
 }
 

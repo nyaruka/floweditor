@@ -23,6 +23,7 @@ import { DispatchWithState, GetState } from 'store/thunks';
 import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './UpdateContactForm.module.scss';
+import i18n from 'config/i18n';
 
 export default class UpdateContactForm extends React.Component<
   ActionFormProps,
@@ -183,8 +184,11 @@ export default class UpdateContactForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 

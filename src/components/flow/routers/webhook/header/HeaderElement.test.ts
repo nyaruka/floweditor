@@ -51,7 +51,7 @@ describe(HeaderElement.name, () => {
 
       expect(inputs.at(0).props()).toEqual({
         placeholder: NAME_PLACEHOLDER,
-        name: 'name',
+        name: NAME_PLACEHOLDER,
         onChange: instance.handleChangeName,
         entry: { value: props.entry.value.name }
       });

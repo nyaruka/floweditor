@@ -9,6 +9,7 @@ import { Asset, AssetStore } from 'store/flowContext';
 import { renderIf } from 'utils';
 
 import styles from './RevisionExplorer.module.scss';
+import i18n from 'config/i18n';
 
 const cx: any = classNames.bind(styles);
 
@@ -131,10 +132,10 @@ export class RevisionExplorer extends React.Component<
       <div className={classes}>
         <div className={styles.mask} />
         <PopTab
-          header="Revisions"
+          header={i18n.t('revisions.header', 'Revisions')}
           color="#8e5ea7"
           icon="fe-time"
-          label="Revision History"
+          label={i18n.t('revisions.label', 'Revision History')}
           top="360px"
           visible={this.state.visible}
           onShow={this.handleTabClicked}

@@ -51,7 +51,13 @@ exports[`SendMsgForm render should render 1`] = `
                 "value": "",
               }
             }
-            helpText="Add a new Quick Reply and press enter."
+            helpText={
+              <Trans
+                i18nKey="forms.send_msg.add_quick_reply"
+              >
+                Add a new Quick Reply and press enter.
+              </Trans>
+            }
             items={
               Object {
                 "value": Array [],
@@ -71,9 +77,7 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "body": <React.Fragment>
           <p>
-            Add up to 
-            3
-             attachments to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+            Add up to 3 attachments to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <div
             className="url_attachment"

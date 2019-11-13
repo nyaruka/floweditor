@@ -132,7 +132,18 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
     />
   </div>
   <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @results"
+    helpText={
+      <Trans
+        i18nKey="forms.result_name_help"
+        values={
+          Object {
+            "resultFormat": "@results",
+          }
+        }
+      >
+        By naming the result, you can reference it later using [[resultFormat]]
+      </Trans>
+    }
     maxLength={64}
     name="Result Name"
     onChange={[Function]}
@@ -1194,7 +1205,18 @@ exports[`RandomRouterForm should render 1`] = `
     />
   </div>
   <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @results"
+    helpText={
+      <Trans
+        i18nKey="forms.result_name_help"
+        values={
+          Object {
+            "resultFormat": "@results",
+          }
+        }
+      >
+        By naming the result, you can reference it later using [[resultFormat]]
+      </Trans>
+    }
     maxLength={64}
     name="Result Name"
     onChange={[Function]}

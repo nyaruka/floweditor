@@ -10,6 +10,8 @@ import TimeoutControl from 'components/form/timeout/TimeoutControl';
 import TypeList from 'components/nodeeditor/TypeList';
 import { FormState, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
+import { WAIT_LABEL } from 'components/flow/routers/constants';
+import i18n from 'config/i18n';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -68,8 +70,11 @@ export default class ResponseRouterForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -86,7 +91,7 @@ export default class ResponseRouterForm extends React.Component<
         }
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <div>If the message response...</div>
+        <div>{WAIT_LABEL}</div>
         <CaseList
           data-spec="cases"
           cases={this.state.cases}

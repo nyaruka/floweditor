@@ -52,7 +52,18 @@ exports[`SetRunResultForm render should render 1`] = `
         }
       }
       formClearable={true}
-      helpText="The name of the result, used to reference later as @results.name"
+      helpText={
+        <Trans
+          i18nKey="forms.result_name_help"
+          values={
+            Object {
+              "resultFormat": "@results.name",
+            }
+          }
+        >
+          By naming the result, you can reference it later using [[resultFormat]]
+        </Trans>
+      }
       name="Result"
       onChange={[Function]}
       searchable={true}

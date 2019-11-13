@@ -11,6 +11,7 @@ import { FormState, mergeForm, StringEntry, ValidationFailure } from 'store/node
 import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
+import i18n from 'config/i18n';
 
 export interface SayMsgFormState extends FormState {
   message: StringEntry;
@@ -60,8 +61,11 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 

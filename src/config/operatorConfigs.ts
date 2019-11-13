@@ -1,15 +1,16 @@
 import { HIDDEN, Operator, OperatorMap, Operators, TEXT_TYPES, ONLINE } from 'config/interfaces';
+import i18n from 'config/i18n';
 
 export const intentOperatorList: Operator[] = [
   {
     type: Operators.has_top_intent,
-    verboseName: 'has top intent',
+    verboseName: i18n.t('operators.has_top_intent', 'has top intent'),
     operands: 2,
     visibility: ONLINE
   },
   {
     type: Operators.has_intent,
-    verboseName: 'has intent',
+    verboseName: i18n.t('operators.has_intent', 'has intent'),
     operands: 2,
     visibility: ONLINE
   }
@@ -18,167 +19,167 @@ export const intentOperatorList: Operator[] = [
 export const operatorConfigList: Operator[] = [
   {
     type: Operators.has_any_word,
-    verboseName: 'has any of the words',
+    verboseName: i18n.t('operators.has_any_word', 'has any of the words'),
     operands: 1,
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_all_words,
-    verboseName: 'has all of the words',
+    verboseName: i18n.t('operators.has_all_words', 'has all of the words'),
     operands: 1,
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_phrase,
-    verboseName: 'has the phrase',
+    verboseName: i18n.t('operators.has_phrase', 'has the phrase'),
     operands: 1,
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_only_phrase,
-    verboseName: 'has only the phrase',
+    verboseName: i18n.t('operators.has_only_phrase', 'has only the phrase'),
     operands: 1,
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_beginning,
-    verboseName: 'starts with',
+    verboseName: i18n.t('operators.has_beginning', 'starts with'),
     operands: 1
   },
   {
     type: Operators.has_text,
-    verboseName: 'has some text',
+    verboseName: i18n.t('operators.has_text', 'has some text'),
     operands: 0,
     categoryName: 'Has Text',
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_number,
-    verboseName: 'has a number',
+    verboseName: i18n.t('operators.has_number', 'has a number'),
     operands: 0,
     categoryName: 'Has Number'
   },
   {
     type: Operators.has_number_between,
-    verboseName: 'has a number between',
+    verboseName: i18n.t('operators.has_number_between', 'has a number between'),
     operands: 2
   },
   {
     type: Operators.has_number_lt,
-    verboseName: 'has a number below',
+    verboseName: i18n.t('operators.has_number_lt', 'has a number below'),
     operands: 1
   },
   {
     type: Operators.has_number_lte,
-    verboseName: 'has a number at or below',
+    verboseName: i18n.t('operators.has_number_lte', 'has a number at or below'),
     operands: 1
   },
   {
     type: Operators.has_number_eq,
-    verboseName: 'has a number equal to',
+    verboseName: i18n.t('operators.has_number_eq', 'has a number equal to'),
     operands: 1
   },
   {
     type: Operators.has_number_gte,
-    verboseName: 'has a number at or above',
+    verboseName: i18n.t('operators.has_number_gte', 'has a number at or above'),
     operands: 1
   },
   {
     type: Operators.has_number_gt,
-    verboseName: 'has a number above',
+    verboseName: i18n.t('operators.has_number_gt', 'has a number above'),
     operands: 1
   },
   {
     type: Operators.has_date,
-    verboseName: 'has a date',
+    verboseName: i18n.t('operators.has_date', 'has a date'),
     operands: 0,
-    categoryName: 'Has Date',
+    categoryName: i18n.t('operators.has_date_category', 'Has Date'),
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_date_lt,
-    verboseName: 'has a date before',
+    verboseName: i18n.t('operators.has_date_lt', 'has a date before'),
     operands: 1,
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_date_eq,
-    verboseName: 'has a date equal to',
+    verboseName: i18n.t('operators.has_date_eq', 'has a date equal to'),
     operands: 1,
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_date_gt,
-    verboseName: 'has a date after',
+    verboseName: i18n.t('operators.has_date_gt', 'has a date after'),
     operands: 1,
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_time,
-    verboseName: 'has a time',
+    verboseName: i18n.t('operators.has_time', 'has a time'),
     operands: 0,
     categoryName: 'Has Time',
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_group,
-    verboseName: 'is in the group',
+    verboseName: i18n.t('operators.has_group', 'is in the group'),
     operands: 1,
     visibility: HIDDEN
   },
   {
     type: Operators.has_category,
-    verboseName: 'has the category',
+    verboseName: i18n.t('operators.has_category', 'has the category'),
     operands: 0,
     visibility: HIDDEN
   },
   {
     type: Operators.has_phone,
-    verboseName: 'has a phone number',
+    verboseName: i18n.t('operators.has_phone', 'has a phone number'),
     operands: 0,
-    categoryName: 'Has Phone'
+    categoryName: i18n.t('operators.has_phone_category', 'Has Phone')
   },
   {
     type: Operators.has_email,
-    verboseName: 'has an email',
+    verboseName: i18n.t('operators.has_email', 'has an email'),
     operands: 0,
-    categoryName: 'Has Email',
+    categoryName: i18n.t('operators.has_email_category', 'Has Email'),
     visibility: TEXT_TYPES
   },
   {
     type: Operators.has_state,
-    verboseName: 'has state',
+    verboseName: i18n.t('operators.has_state', 'has state'),
     operands: 0,
-    categoryName: 'Has State'
+    categoryName: i18n.t('operators.has_state_category', 'Has State')
   },
   {
     type: Operators.has_district,
-    verboseName: 'has district',
+    verboseName: i18n.t('operators.has_district', 'has district'),
     operands: 1,
-    categoryName: 'Has District'
+    categoryName: i18n.t('operators.has_district_category', 'Has District')
   },
   {
     type: Operators.has_ward,
-    verboseName: 'has ward',
+    verboseName: i18n.t('operators.has_ward', 'has ward'),
     operands: 2,
-    categoryName: 'Has Ward'
+    categoryName: i18n.t('operators.has_ward_category', 'Has Ward')
   },
   {
     type: Operators.has_error,
-    verboseName: 'has an error',
+    verboseName: i18n.t('operators.has_error', 'has an error'),
     operands: 0,
-    categoryName: 'Has Error',
+    categoryName: i18n.t('operators.has_error_category', 'Has Error'),
     visibility: HIDDEN
   },
   {
     type: Operators.has_value,
-    verboseName: 'is not empty',
+    verboseName: i18n.t('operators.has_value', 'is not empty'),
     operands: 0,
-    categoryName: 'Not Empty'
+    categoryName: i18n.t('operators.has_value_category', 'Not Empty')
   },
   {
     type: Operators.has_pattern,
-    verboseName: 'matches regex',
+    verboseName: i18n.t('operator.has_pattern', 'matches regex'),
     operands: 1
   }
 ];

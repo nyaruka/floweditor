@@ -51,6 +51,7 @@ import {
 import Debug from 'utils/debug';
 
 import styles from './Flow.module.scss';
+import { Trans } from 'react-i18next';
 
 declare global {
   interface Window {
@@ -362,12 +363,14 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
   private getEmptyFlow(): JSX.Element {
     return (
       <div key="create_node" className={styles.empty_flow}>
-        <h1>Let's get started</h1>
-        <div>
-          We recommend starting your flow by sending a message. This message will be sent to anybody
-          right after they join the flow. This is your chance to send a single message or ask them a
-          question.
-        </div>
+        <Trans i18nKey="empty_flow_message">
+          <h1>Let's get started</h1>
+          <div>
+            We recommend starting your flow by sending a message. This message will be sent to
+            anybody right after they join the flow. This is your chance to send a single message or
+            ask them a question.
+          </div>
+        </Trans>
 
         <Button
           name="Create Message"

@@ -17,6 +17,7 @@ import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 import styles from './SendEmailForm.module.scss';
+import i18n from 'config/i18n';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
@@ -91,10 +92,13 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
     }
   }
 
-  public getButtons(): ButtonSet {
+  private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -109,9 +113,9 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.ele}>
           <TaggingElement
-            name="Recipient"
-            placeholder="To"
-            prompt="Enter e-mail address"
+            name={i18n.t('forms.send_email.recipient_name', 'Recipient')}
+            placeholder={i18n.t('forms.send_email.recipient_placeholder', 'To')}
+            prompt={i18n.t('forms.send_email.recipient_prompt', 'Enter email address')}
             onCheckValid={this.handleCheckValid}
             entry={this.state.recipients}
             onChange={this.handleRecipientsChanged}
@@ -119,8 +123,8 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
           />
           <TextInputElement
             __className={styles.subject}
-            name="Subject"
-            placeholder="Subject"
+            name={i18n.t('forms.send_email.subject_name', 'Subject')}
+            placeholder={i18n.t('forms.send_email.subject_placeholder', 'Subject')}
             onChange={this.handleSubjectChanged}
             entry={this.state.subject}
             onFieldFailures={(persistantFailures: ValidationFailure[]) => {
@@ -134,7 +138,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
           />
           <TextInputElement
             __className={styles.message}
-            name="Message"
+            name={i18n.t('forms.send_email.message_name', 'Message')}
             showLabel={false}
             onChange={this.handleBodyChanged}
             entry={this.state.body}

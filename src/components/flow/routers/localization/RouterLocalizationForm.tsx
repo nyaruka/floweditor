@@ -15,6 +15,7 @@ import {
   LocalizedType
 } from './helpers';
 import styles from './RouterLocalizationForm.module.scss';
+import i18n from 'config/i18n';
 
 export interface RouterLocalizationFormState extends FormState {
   categories: Category[];
@@ -102,8 +103,11 @@ export default class RouterLocalizationForm extends React.Component<
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 

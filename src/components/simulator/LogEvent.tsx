@@ -6,6 +6,8 @@ import { Types } from 'config/interfaces';
 import { Flow, Group } from 'flowTypes';
 import * as React from 'react';
 import { createUUID, getURNPath } from 'utils';
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
 
 const MAP_THUMB = require('static/images/map.jpg');
 
@@ -188,7 +190,9 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
   private renderGroupChange(): JSX.Element {
     const groups = this.props.groups_added || this.props.groups_removed;
-    let groupText = this.props.groups_added ? 'Added to ' : 'Removed from ';
+    let groupText = this.props.groups_added
+      ? i18n.t('simulator.added_to_group', 'Added to ')
+      : i18n.t('simulator.removed_from_group', 'Removed from ');
     let delim = ' ';
     groups.forEach(group => {
       groupText += `${delim}"${group.name}"`;
@@ -201,18 +205,26 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
   private renderEmail(): JSX.Element {
     return this.renderClickable(
       <div className={styles.info + ' ' + styles.email}>
-        {`Sent email to "${this.props.addresses.join(', ')}" with subject "${this.props.subject}
-                "`}
+        <Trans
+          i18nKey="simulator.sent_email"
+          values={{ recipients: this.props.addresses.join(', '), subject: this.props.subject }}
+        >
+          Sent email to "[[recipients]]" with subject "[[subject]]"
+        </Trans>
       </div>,
       <Dialog
-        title="Email Details"
+        title={i18n.t('simulator.sent_email_dialog', 'Email Details')}
         headerClass={Types.send_email}
         buttons={this.getButtons()}
         noPadding={true}
       >
         <div className={styles.email_details}>
-          <div className={styles.to}>To: {this.props.addresses.join(', ')}</div>
-          <div className={styles.subject}>Subject: {this.props.subject}</div>
+          <div className={styles.to}>
+            {i18n.t('simulator.sent_email.to', 'To')}: {this.props.addresses.join(', ')}
+          </div>
+          <div className={styles.subject}>
+            {i18n.t('simulator.sent_email.subject', 'Subject')}: {this.props.subject}
+          </div>
           <div className={styles.body}>{this.props.body}</div>
         </div>
       </Dialog>
@@ -225,7 +237,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         <span>Called {log.url}</span>
       </div>,
       <Dialog
-        title="HTTP Request Details"
+        title={i18n.t('simulator.httplog_dialog', 'HTTP Request Details')}
         headerClass={headerClass}
         buttons={this.getButtons()}
         noPadding={true}
@@ -312,17 +324,31 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       case 'failure':
         return renderError(this.props.text);
       case 'msg_wait':
-        return renderInfo('Waiting for reply');
+        return renderInfo(i18n.t('simulator.msg_wait', 'Waiting for reply'));
       case 'contact_groups_changed':
         return this.renderGroupChange();
       case 'contact_urns_changed':
         return renderInfo('Added a URN for the contact');
       case 'contact_field_changed':
-        return renderInfo(`Set contact "${this.props.field.name}" to "${this.props.value.text}"`);
+        return renderInfo(
+          i18n.t('simulator.contact_field_changed', 'Set contact "[[field]]" to "[[value]]"', {
+            field: this.props.field.name,
+            value: this.props.value.text
+          })
+        );
       case 'run_result_changed':
-        return renderInfo(`Set result "${this.props.name}" to "${this.props.value}"`);
+        return renderInfo(
+          i18n.t('simulator.run_result_changed', 'Set result "[[field]]" to "[[value]]"', {
+            field: this.props.name,
+            value: this.props.value
+          })
+        );
       case 'contact_name_changed':
-        return renderInfo(`Set contact name to "${this.props.name}"`);
+        return renderInfo(
+          i18n.t('simulator.contact_name_changed', 'Set contact name to "[[name]]"', {
+            name: this.props.name
+          })
+        );
       case 'email_created':
         return this.renderEmail();
       case 'broadcast_created':
@@ -332,17 +358,33 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
           Direction.MT
         );
       case 'resthook_called':
-        return renderInfo(`Trigerred flow event ${this.props.resthook}`);
+        return renderInfo(
+          i18n.t('simulator.resthook_called', 'Triggered flow event "[[resthook]]"', {
+            resthook: this.props.resthook
+          })
+        );
       case 'classifier_called':
         return this.renderWebhook(Types.call_classifier);
       case 'webhook_called':
         return this.renderWebhook(Types.call_webhook);
       case 'flow_entered':
-        return renderInfo(`Entered flow ${this.props.flow.name}`);
+        return renderInfo(
+          i18n.t('simulator.flow_entered', 'Entered flow "[[flow]]"', {
+            flow: this.props.flow.name
+          })
+        );
       case 'session_triggered':
-        return renderInfo(`Started somebody else in ${this.props.flow.name}`);
+        return renderInfo(
+          i18n.t('simulator.session_triggered', 'Started somebody else in "[[flow]]"', {
+            flow: this.props.flow.name
+          })
+        );
       case 'contact_language_changed':
-        return renderInfo(`Set preferred language to ${this.props.language}`);
+        return renderInfo(
+          i18n.t('simulator.contact_language_changed', 'Set preferred language to "[[language]]"', {
+            language: this.props.language
+          })
+        );
       case 'info':
         return renderInfo(this.props.text);
       case 'environment_refreshed':
@@ -352,10 +394,17 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         return (
           <>
             {this.renderWebhook(Types.transfer_airtime)}
+
             {renderInfo(
-              `Transferred ${event.actual_amount} ${event.currency} to ${getURNPath(
-                event.recipient
-              )}`
+              i18n.t(
+                'simulator.airtime_transferred',
+                'Transferred [[amount]] [[currency]] to [[recipient]]',
+                {
+                  amount: event.actual_amount,
+                  currency: event.currency,
+                  recipient: getURNPath(event.recipient)
+                }
+              )
             )}
           </>
         );

@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import styles from './DragHelper.module.scss';
+import { Trans } from 'react-i18next';
 
 interface DragHelperState {
   visible: boolean;
@@ -30,7 +31,9 @@ export default class DragHelper extends React.Component<{}, DragHelperState> {
           <div className={styles.head} />
         </div>
         <div className={styles.help_text}>
-          To connect nodes, <span className={styles.bold}>drag</span> from the red circle.
+          <Trans i18nKey="drag_helper">
+            To connect nodes, <span className={styles.bold}>drag</span> from the red circle.
+          </Trans>
         </div>
       </div>
     );

@@ -7,6 +7,7 @@ import TextInputElement from 'components/form/textinput/TextInputElement';
 import * as React from 'react';
 import { StringEntry, ValidationFailure } from 'store/nodeEditor';
 import { HeaderName, validate } from 'store/validators';
+import i18n from 'config/i18n';
 
 // TODO: move this into webhook router component
 export interface Header {
@@ -33,9 +34,12 @@ export const nameContainerSpecId = 'name-container';
 export const valueConatainerSpecId = 'value-container';
 export const removeIcoSpecId = 'remove-icon';
 
-export const HEADER_NAME_ERROR = 'HTTP headers must have a name';
-export const NAME_PLACEHOLDER = 'Header Name';
-export const VALUE_PLACEHOLDER = 'Value';
+export const HEADER_NAME_ERROR = i18n.t(
+  'errors.http_header_missing_name',
+  'HTTP headers must have a name'
+);
+export const NAME_PLACEHOLDER = i18n.t('forms.call_webhook.header_name', 'Header Name');
+export const VALUE_PLACEHOLDER = i18n.t('forms.call_webhook.header_value', 'Value');
 
 export default class HeaderElement extends React.Component<HeaderElementProps, HeaderElementState> {
   constructor(props: HeaderElementProps) {
@@ -98,12 +102,12 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
   public render(): JSX.Element {
     const removeIco: JSX.Element = this.getRemoveIco();
     return (
-      <FormElement name="Header" entry={this.props.entry}>
+      <FormElement name={i18n.t('forms.call_webhook.header', 'Header')} entry={this.props.entry}>
         <div className={styles.header} data-spec={headerContainerSpecId}>
           <div className={styles.header_name} data-spec={nameContainerSpecId}>
             <TextInputElement
               placeholder={NAME_PLACEHOLDER}
-              name="name"
+              name={NAME_PLACEHOLDER}
               onChange={this.handleChangeName}
               entry={this.state.name}
             />
@@ -111,11 +115,11 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
           <div className={styles.header_value} data-spec={valueConatainerSpecId}>
             <TextInputElement
               placeholder={VALUE_PLACEHOLDER}
-              name="value"
+              name={VALUE_PLACEHOLDER}
               onChange={this.handleChangeValue}
               entry={this.state.value}
               onFieldFailures={(validationFailures: ValidationFailure[]) => {
-                const name = validate('Header name', this.state.name.value, [HeaderName]);
+                const name = validate(NAME_PLACEHOLDER, this.state.name.value, [HeaderName]);
                 this.props.onChange(
                   this.getHeader(),
                   validationFailures.concat(getAllErrors(name))

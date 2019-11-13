@@ -34,7 +34,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
     <p
       data-spec="label"
     >
-      Select the group(s) to remove the contact from.
+      Select the groups to remove the contact from.
     </p>
     <AssetSelector
       entry={
@@ -78,9 +78,9 @@ exports[`RemoveGroupsForm render should render 1`] = `
     checked={false}
     description="Remove the active contact from all groups they're a member of."
     labelClassName="checkbox"
-    name="Remove from All"
+    name="Remove from all"
     onChange={[Function]}
-    title="Remove from All"
+    title="Remove from all"
   />
 </Dialog>
 `;

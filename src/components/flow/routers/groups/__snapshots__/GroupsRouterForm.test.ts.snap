@@ -74,7 +74,7 @@ exports[`GroupsRouterForm render should render 1`] = `
     onChange={[MockFunction]}
   />
   <p>
-    Select the group(s) you'd like to split by below
+    Select the groups you'd like to split by below
   </p>
   <AssetSelector
     entry={
@@ -114,7 +114,18 @@ exports[`GroupsRouterForm render should render 1`] = `
     searchable={true}
   />
   <OptionalTextInput
-    helpText="By naming the result, you can reference it later using @results"
+    helpText={
+      <Trans
+        i18nKey="forms.result_name_help"
+        values={
+          Object {
+            "resultFormat": "@results",
+          }
+        }
+      >
+        By naming the result, you can reference it later using [[resultFormat]]
+      </Trans>
+    }
     maxLength={64}
     name="Result Name"
     onChange={[Function]}

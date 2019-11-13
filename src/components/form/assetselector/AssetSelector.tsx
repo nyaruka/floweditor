@@ -18,6 +18,7 @@ import { getErroredSelect as getErroredControl, large, messageStyle } from 'util
 
 import styles from './AssetSelector.module.scss';
 import { getCompletions, CompletionAssets } from 'utils/completion';
+import i18n from 'config/i18n';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
@@ -314,8 +315,11 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
   }
 
   public render(): JSX.Element {
-    const article = !this.props.multi ? 'an' : '';
-    const newLanguage = this.props.multi ? 'new ones' : 'a new one';
+    const fallbackPlaceholder = i18n.t(
+      'asset_selector.placeholder',
+      'Select existing [[name]] or enter a new one',
+      { name: this.props.name.toLocaleLowerCase(), count: this.props.multi ? 1000 : 1 }
+    );
 
     const commonAttributes = {
       className: 'react-select ' + styles.selection,
@@ -334,9 +338,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
       isSearchable: this.props.searchable,
       getOptionValue: (option: Asset) => option.id,
       getOptionLabel: (option: Asset) => option.name,
-      placeholder:
-        this.props.placeholder ||
-        `Select ${article} existing ${this.props.name.toLocaleLowerCase()} or enter ${newLanguage}`
+      placeholder: this.props.placeholder || fallbackPlaceholder
     };
 
     if (this.props.createAssetFromInput) {

@@ -57,6 +57,7 @@ import { HintTypes, RouterTypes, FlowEditorConfig } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import CallClassifierComp from 'components/flow/actions/callclassifier/CallClassifier';
 import ClassifyRouterForm from 'components/flow/routers/classify/ClassifyRouterForm';
+import i18n from 'config/i18n';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -81,18 +82,18 @@ export interface Scheme {
 }
 
 export const SCHEMES: Scheme[] = [
-  { scheme: 'ext', name: 'External ID' },
-  { scheme: 'facebook', name: 'Facebook ID' },
-  { scheme: 'fcm', name: 'Firebase ID' },
-  { scheme: 'jiochat', name: 'Jiochat ID' },
-  { scheme: 'line', name: 'Line ID' },
-  { scheme: 'mailto', name: 'Email Address' },
-  { scheme: 'tel', name: 'Phone Number' },
-  { scheme: 'telegram', name: 'Telegram ID' },
-  { scheme: 'twitterid', name: 'Twitter ID' },
-  { scheme: 'wechat', name: 'Wechat ID' },
-  { scheme: 'whatsapp', name: 'Whatsapp Number' },
-  { scheme: 'viber', name: 'Viber ID' }
+  { scheme: 'ext', name: i18n.t('schemes.external', 'External ID') },
+  { scheme: 'facebook', name: i18n.t('schemes.facebook', 'Facebook ID') },
+  { scheme: 'fcm', name: i18n.t('schemes.firebase', 'Firebase ID') },
+  { scheme: 'jiochat', name: i18n.t('schemes.jiochat', 'Jiochat ID') },
+  { scheme: 'line', name: i18n.t('schemes.line', 'Line ID') },
+  { scheme: 'mailto', name: i18n.t('schemes.email', 'Email Address') },
+  { scheme: 'tel', name: i18n.t('schemes.phone', 'Phone Number') },
+  { scheme: 'telegram', name: i18n.t('schemes.telegram', 'Telegram ID') },
+  { scheme: 'twitterid', name: i18n.t('schemes.twitter', 'Twitter ID') },
+  { scheme: 'wechat', name: i18n.t('schemes.wechat', 'Wechat ID') },
+  { scheme: 'whatsapp', name: i18n.t('schemes.whatsapp', 'Whatsapp Number') },
+  { scheme: 'viber', name: i18n.t('schemes.viber', 'Viber ID') }
 ];
 
 export const typeConfigList: Type[] = [
@@ -105,8 +106,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.say_msg,
-    name: 'Play Message',
-    description: 'Play a message',
+    name: i18n.t('actions.play_message.name', 'Play Message'),
+    description: i18n.t('actions.play_message.description', 'Play a message'),
     form: SayMsgForm,
     localization: MsgLocalizationForm,
     localizeableKeys: ['text', 'audio_url'],
@@ -116,8 +117,8 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.wait_for_menu,
-    name: 'Wait for Menu Selection',
-    description: 'Wait for menu selection',
+    name: i18n.t('actions.wait_for_menu.name', 'Wait for Menu Selection'),
+    description: i18n.t('actions.wait_for_menu.description', 'Wait for menu selection'),
     form: MenuRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -125,8 +126,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.wait_for_digits,
-    name: 'Wait for Digits',
-    description: 'Wait for multiple digits',
+    name: i18n.t('actions.wait_for_digits.name', 'Wait for Digits'),
+    description: i18n.t('actions.wait_for_digits.description', 'Wait for multiple digits'),
     form: DigitsRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits', 'cases'],
@@ -135,8 +136,8 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.wait_for_audio,
-    name: 'Wait for Audio',
-    description: 'Wait for an audio recording',
+    name: i18n.t('actions.wait_for_audio.name', 'Wait for Audio'),
+    description: i18n.t('actions.wait_for_audio.description', 'Wait for an audio recording'),
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -145,8 +146,8 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.send_msg,
-    name: 'Send Message',
-    description: 'Send the contact a message',
+    name: i18n.t('actions.send_msg.name', 'Send Message'),
+    description: i18n.t('actions.send_msg.description', 'Send the contact a message'),
     form: SendMsgForm,
     localization: MsgLocalizationForm,
     localizeableKeys: ['text', 'quick_replies'],
@@ -154,8 +155,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.wait_for_response,
-    name: 'Wait for Response',
-    description: 'Wait for the contact to respond',
+    name: i18n.t('actions.wait_for_response.name', 'Wait for Response'),
+    description: i18n.t('actions.wait_for_response.description', 'Wait for the contact to respond'),
     form: ResponseRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits', 'cases'],
@@ -165,8 +166,8 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.send_broadcast,
-    name: 'Send Broadcast',
-    description: 'Send somebody else a message',
+    name: i18n.t('actions.send_broadcast.name', 'Send Broadcast'),
+    description: i18n.t('actions.send_broadcast.description', 'Send somebody else a message'),
     form: SendBroadcastForm,
     localization: KeyLocalizationForm,
     localizeableKeys: ['text'],
@@ -174,44 +175,47 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.add_input_labels,
-    name: 'Add Labels',
-    description: 'Label the incoming message',
+    name: i18n.t('actions.add_input.name', 'Add Labels'),
+    description: i18n.t('actions.add_input.description', 'Label the incoming message'),
     form: AddLabelsForm,
     component: AddLabelsComp
   },
   {
     type: Types.add_contact_urn,
-    name: 'Add URN',
-    description: 'Add a URN for the contact',
+    name: i18n.t('actions.add_contact_urn.name', 'Add URN'),
+    description: i18n.t('actions.add_contact_urn.description', 'Add a URN for the contact'),
     form: AddURNForm,
     component: AddURNComp
   },
   {
     type: Types.add_contact_groups,
-    name: 'Add to Group',
-    description: 'Add the contact to a group',
+    name: i18n.t('actions.add_contact_groups.name', 'Add to Group'),
+    description: i18n.t('actions.add_contact_groups.description', 'Add the contact to a group'),
     form: AddGroupsForm,
     component: ChangeGroupsComp
   },
   {
     type: Types.remove_contact_groups,
-    name: 'Remove from Group',
-    description: 'Remove the contact from a group',
+    name: i18n.t('actions.remove_contact_groups.name', 'Remove from Group'),
+    description: i18n.t(
+      'actions.remove_contact_groups.description',
+      'Remove the contact from a group'
+    ),
     form: RemoveGroupsForm,
     component: ChangeGroupsComp
   },
   {
     type: Types.set_contact_field,
     aliases: [Types.set_contact_name, Types.set_contact_language, Types.set_contact_channel],
-    name: 'Update Contact',
-    description: 'Update the contact',
+    name: i18n.t('actions.set_contact_field.name', 'Update Contact'),
+    description: i18n.t('actions.set_contact_field.description', 'Update the contact'),
     form: UpdateContactForm,
     component: UpdateContactComp
   },
   {
     type: Types.send_email,
-    name: 'Send Email',
-    description: 'Send an email',
+    name: i18n.t('actions.send_email.name', 'Send Email'),
+    description: i18n.t('actions.send_email.description', 'Send an email'),
     form: SendEmailForm,
     localization: KeyLocalizationForm,
     localizeableKeys: ['subject', 'body'],
@@ -220,16 +224,16 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.set_run_result,
-    name: 'Save Flow Result',
-    description: 'Save a result for this flow',
+    name: i18n.t('actions.set_run_result.name', 'Save Flow Result'),
+    description: i18n.t('actions.set_run_result.description', 'Save a result for this flow'),
     form: SetRunResultForm,
     component: SetRunResultComp
   },
 
   {
     type: Types.play_audio,
-    name: 'Play Recording',
-    description: 'Play a contact recording',
+    name: i18n.t('actions.play_audio.name', 'Play Recording'),
+    description: i18n.t('actions.play_audio.description', 'Play a contact recording'),
     form: PlayAudioForm,
     component: PlayAudioComp,
     visibility: VOICE
@@ -237,8 +241,8 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.call_webhook,
-    name: 'Call Webhook',
-    description: 'Call a webhook',
+    name: i18n.t('actions.call_webhook.name', 'Call Webhook'),
+    description: i18n.t('actions.call_webhook.description', 'Call a webhook'),
     form: WebhookRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -248,8 +252,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.call_resthook,
-    name: 'Call Zapier',
-    description: 'Call Zapier',
+    name: i18n.t('actions.call_resthook.name', 'Call Zapier'),
+    description: i18n.t('actions.call_resthook.description', 'Call Zapier'),
     form: ResthookRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -260,8 +264,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.enter_flow,
-    name: 'Enter a Flow',
-    description: 'Enter another flow',
+    name: i18n.t('actions.enter_flow.name', 'Enter a Flow'),
+    description: i18n.t('actions.enter_flow.description', 'Enter another flow'),
     form: SubflowRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -270,8 +274,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.start_session,
-    name: 'Start Somebody Else',
-    description: 'Start somebody else in a flow',
+    name: i18n.t('actions.start_session.name', 'Start Somebody Else'),
+    description: i18n.t('actions.start_session.description', 'Start somebody else in a flow'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: StartSessionForm,
@@ -280,8 +284,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.transfer_airtime,
-    name: 'Send Airtime',
-    description: 'Send the contact airtime',
+    name: i18n.t('actions.transfer_airtime.name', 'Send Airtime'),
+    description: i18n.t('actions.transfer_airtime.description', 'Send the contact airtime'),
     form: AirtimeRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -295,8 +299,8 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.wait_for_image,
-    name: 'Wait for Image',
-    description: 'Wait for an image',
+    name: i18n.t('actions.wait_for_image.name', 'Wait for Image'),
+    description: i18n.t('actions.wait_for_image.description', 'Wait for an image'),
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -304,8 +308,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.wait_for_video,
-    name: 'Wait for Video',
-    description: 'Wait for a video',
+    name: i18n.t('actions.wait_for_video.name', 'Wait for Video'),
+    description: i18n.t('actions.wait_for_video.description', 'Wait for a video'),
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -313,8 +317,11 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.wait_for_location,
-    name: 'Wait for Location',
-    description: 'Wait for location GPS coordinates',
+    name: i18n.t('actions.wait_for_location.name', 'Wait for Location'),
+    description: i18n.t(
+      'actions.wait_for_location.description',
+      'Wait for location GPS coordinates'
+    ),
     form: WaitRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -322,8 +329,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.split_by_intent,
-    name: 'Split by Intent',
-    description: 'Split by intent',
+    name: i18n.t('actions.split_by_intent.name', 'Split by Intent'),
+    description: i18n.t('actions.split_by_intent.description', 'Split by intent'),
     form: ClassifyRouterForm,
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
@@ -334,16 +341,16 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.split_by_expression,
-    name: 'Split by Expression',
-    description: 'Split by a custom expression',
+    name: i18n.t('actions.split_by_expression.name', 'Split by Expression'),
+    description: i18n.t('actions.split_by_expression.description', 'Split by a custom expression'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits', 'cases'],
     form: ExpressionRouterForm
   },
   {
     type: Types.split_by_contact_field,
-    name: 'Split by Contact Field',
-    description: 'Split by a contact field',
+    name: i18n.t('actions.split_by_contact_field.name', 'Split by Contact Field'),
+    description: i18n.t('actions.split_by_contact_field.description', 'Split by a contact field'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits', 'cases'],
     form: FieldRouterForm
@@ -351,24 +358,24 @@ export const typeConfigList: Type[] = [
   {
     type: Types.split_by_run_result,
     aliases: [Types.split_by_run_result_delimited],
-    name: 'Split by Flow Result',
-    description: 'Split by a result in the flow',
+    name: i18n.t('actions.split_by_run_result.name', 'Split by Flow Result'),
+    description: i18n.t('actions.split_by_run_result.description', 'Split by a result in the flow'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits', 'cases'],
     form: ResultRouterForm
   },
   {
     type: Types.split_by_random,
-    name: 'Split Randomly',
-    description: 'Split by random chance',
+    name: i18n.t('actions.split_by_random.name', 'Split Randomly'),
+    description: i18n.t('actions.split_by_random.description', 'Split by random chance'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: RandomRouterForm
   },
   {
     type: Types.split_by_groups,
-    name: 'Split by Group Membership',
-    description: 'Split by group membership',
+    name: i18n.t('actions.split_by_groups.name', 'Split by Group Membership'),
+    description: i18n.t('actions.split_by_groups.description', 'Split by group membership'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: GroupsRouterForm

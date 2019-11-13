@@ -9,6 +9,8 @@ import { FormState, mergeForm, StringEntry, ValidationFailure } from 'store/node
 import { validate, Required } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
 
 export interface PlayAudioFormState extends FormState {
   audio: StringEntry;
@@ -46,8 +48,11 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -57,9 +62,9 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <p>Previous Recording</p>
+        <p>{i18n.t('forms.play_audio.recording_label', 'Previous Recording')}</p>
         <TextInputElement
-          name="Message"
+          name={i18n.t('message', 'Message')}
           showLabel={false}
           onChange={this.handleAudioUpdate}
           entry={this.state.audio}
@@ -73,7 +78,10 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
           autocomplete={true}
           focus={true}
           helpText={
-            'Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.'
+            <Trans i18nKey="forms.play_audio.help_text">
+              Enter a variable that contains a recording the contact has previously recorded. For
+              example, @results.voicemail or @fields.short_bio.
+            </Trans>
           }
         />
       </Dialog>

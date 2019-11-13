@@ -20,6 +20,7 @@ import SelectElement, { SelectOption } from 'components/form/select/SelectElemen
 import { initializeForm, stateToAction } from './helpers';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import { large } from 'utils/reactselect';
+import i18n from 'config/i18n';
 
 export const START_TYPE_ASSETS = { label: 'Select recipients manually', value: 'assets' };
 export const START_TYPE_CREATE = { label: 'Create a new contact', value: 'create_contact' };
@@ -124,8 +125,11 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 

@@ -17,6 +17,8 @@ import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './AddURNForm.module.scss';
 import { getSchemeOptions, initializeForm, stateToAction } from './helpers';
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
 
 export interface AddURNFormState extends FormState {
   scheme: SelectOptionEntry;
@@ -64,8 +66,11 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 
@@ -75,7 +80,9 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p data-spec={controlLabelSpecId}>
-          Add a new URN to reach the contact such as a phone number.
+          <Trans i18nKey="forms.add_urn.summary">
+            Add a new URN to reach the contact such as a phone number.
+          </Trans>
         </p>
         <div className={styles.scheme_selection}>
           <SelectElement

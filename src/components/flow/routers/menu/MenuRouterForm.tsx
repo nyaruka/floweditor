@@ -12,6 +12,7 @@ import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
 
 import { nodeToState, stateToNode } from './helpers';
 import styles from './MenuRouterForm.module.scss';
+import i18n from 'config/i18n';
 
 const mutate = require('immutability-helper');
 
@@ -52,8 +53,11 @@ export default class MenuRouterForm extends React.Component<RouterFormProps, Men
 
   private getButtons(): ButtonSet {
     return {
-      primary: { name: 'Ok', onClick: this.handleSave },
-      secondary: { name: 'Cancel', onClick: () => this.props.onClose(true) }
+      primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+      secondary: {
+        name: i18n.t('buttons.cancel', 'Cancel'),
+        onClick: () => this.props.onClose(true)
+      }
     };
   }
 

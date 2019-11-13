@@ -10,7 +10,7 @@ const cx: any = classNames.bind(styles);
 
 export interface FormElementProps {
   name: string;
-  helpText?: string;
+  helpText?: string | JSX.Element;
   entry?: FormEntry;
   showLabel?: boolean;
   __className?: string;

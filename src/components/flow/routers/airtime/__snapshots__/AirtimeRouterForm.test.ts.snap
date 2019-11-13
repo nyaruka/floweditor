@@ -96,7 +96,18 @@ exports[`AirtimeRouterForm render should render 1`] = `
     className="result_name"
   >
     <OptionalTextInput
-      helpText="By naming the result, you can reference it later using @results.result"
+      helpText={
+        <Trans
+          i18nKey="forms.result_name_help"
+          values={
+            Object {
+              "resultFormat": "@results.result",
+            }
+          }
+        >
+          By naming the result, you can reference it later using [[resultFormat]]
+        </Trans>
+      }
       maxLength={64}
       name="Result Name"
       onChange={[Function]}
