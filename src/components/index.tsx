@@ -62,7 +62,7 @@ const hotStore = createStore();
 export const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
   return (
     <ConfigProvider config={{ ...config }}>
-      <ReduxProvider store={hotStore}>
+      <ReduxProvider store={hotStore as any}>
         <ConnectedFlowEditor />
       </ReduxProvider>
     </ConfigProvider>

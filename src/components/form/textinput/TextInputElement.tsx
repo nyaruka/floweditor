@@ -143,7 +143,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     return (this.textEl = ref);
   }
 
-  public componentWillReceiveProps(nextProps: TextInputProps): void {
+  public UNSAFE_componentWillReceiveProps(nextProps: TextInputProps): void {
     if (nextProps.entry.value !== this.props.entry.value || this.nextCaret > -1) {
       this.setState({ value: nextProps.entry.value }, () => {
         if (this.nextCaret > -1) {
@@ -753,7 +753,7 @@ const ConnectedTextInputElement = connect(
   mapStateToProps,
   null,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(TextInputElement);
 
 export default ConnectedTextInputElement;

@@ -69,7 +69,7 @@ export type DispatchWithState = Dispatch<AppState>;
 
 export type GetState = () => AppState;
 
-export type Thunk<T> = (dispatch: DispatchWithState, getState?: GetState) => T;
+export type Thunk<T> = (dispatch: Dispatch<AppState>, getState?: GetState) => T;
 
 export type AsyncThunk = Thunk<Promise<void>>;
 
@@ -98,8 +98,9 @@ export type FetchFlow = (
 
 export type LoadFlowDefinition = (
   definition: FlowDefinition,
-  assetStore: AssetStore
-) => Thunk<Promise<void>>;
+  assetStore: AssetStore,
+  onLoad?: () => void
+) => Thunk<void>;
 
 export type CreateNewRevision = () => Thunk<void>;
 

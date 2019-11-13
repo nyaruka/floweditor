@@ -479,5 +479,5 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
   null,
-  { withRef: true }
+  { forwardRef: true }
 )(NodeComp);
