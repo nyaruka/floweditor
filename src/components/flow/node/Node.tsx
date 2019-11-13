@@ -13,7 +13,6 @@ import { getOperatorConfig } from 'config/operatorConfigs';
 import { getType, getTypeConfig } from 'config/typeConfigs';
 import { AnyAction, Exit, FlowDefinition, FlowNode, SwitchRouter } from 'flowTypes';
 import * as React from 'react';
-import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DebugState } from 'store/editor';
@@ -252,7 +251,6 @@ export class NodeComp extends React.Component<NodeProps> {
   public render(): JSX.Element {
     const actions: JSX.Element[] = [];
 
-    let actionList: JSX.Element = null;
     if (this.props.renderNode.node.actions) {
       // Save the first reference off to manage our clicks
       let firstRef: { ref: (ref: any) => any } | {} = {
@@ -281,13 +279,6 @@ export class NodeComp extends React.Component<NodeProps> {
 
         firstRef = {};
       });
-
-      actionList =
-        actions.length > 0 ? (
-          <FlipMove enterAnimation="fade" leaveAnimation="fade" duration={300} easing="ease-out">
-            {actions}
-          </FlipMove>
-        ) : null;
     }
 
     let header: JSX.Element = null;
@@ -402,7 +393,7 @@ export class NodeComp extends React.Component<NodeProps> {
 
           <div className={styles.cropped}>
             {header}
-            {actionList}
+            {actions}
             {summary}
           </div>
 

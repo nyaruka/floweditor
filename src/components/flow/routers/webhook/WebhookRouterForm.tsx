@@ -17,7 +17,6 @@ import TextInputElement from 'components/form/textinput/TextInputElement';
 import { DEFAULT_BODY } from 'components/nodeeditor/constants';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import FlipMove from 'react-flip-move';
 import { FormEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
 import {
   Alphanumeric,
@@ -225,14 +224,7 @@ export default class WebhookRouterForm extends React.Component<
               Add any additional headers below that you would like to send along with your request.
             </Trans>
           </p>
-          <FlipMove
-            easing="ease-out"
-            enterAnimation="elevator"
-            leaveAnimation="elevator"
-            duration={100}
-          >
-            {headerElements}
-          </FlipMove>
+          {headerElements}
         </>
       ),
       checked: this.state.headers.length > 1

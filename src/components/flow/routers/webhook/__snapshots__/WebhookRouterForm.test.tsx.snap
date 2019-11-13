@@ -1,0 +1,696 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WebhookRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="call_webhook"
+  tabs={
+    Array [
+      Object {
+        "body": <React.Fragment>
+          <p
+            className="info"
+          >
+            <Trans
+              i18nKey="forms.call_webhook.header_summary"
+            >
+              Add any additional headers below that you would like to send along with your request.
+            </Trans>
+          </p>
+          <div>
+            <HeaderElement
+              entry={
+                Object {
+                  "value": Object {
+                    "name": "Content-Type",
+                    "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+                    "value": "application/json",
+                  },
+                }
+              }
+              index={0}
+              onChange={[Function]}
+              onRemove={[Function]}
+            />
+          </div>
+          <div>
+            <HeaderElement
+              entry={
+                Object {
+                  "value": Object {
+                    "name": "",
+                    "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+                    "value": "",
+                  },
+                }
+              }
+              index={1}
+              onChange={[Function]}
+              onRemove={[Function]}
+            />
+          </div>
+        </React.Fragment>,
+        "checked": true,
+        "hasErrors": false,
+        "name": "HTTP Headers",
+      },
+    ]
+  }
+  title="Call Webhook"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "aliases": Array [
+          "split_by_webhook",
+        ],
+        "component": [Function],
+        "description": "Call a webhook",
+        "form": [Function],
+        "localization": [Function],
+        "localizeableKeys": Array [
+          "exits",
+        ],
+        "name": "Call Webhook",
+        "type": "call_webhook",
+        "visibility": Array [
+          "message",
+          "voice",
+        ],
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <div
+    className="method"
+  >
+    <SelectElement
+      entry={
+        Object {
+          "value": Object {
+            "label": "GET",
+            "value": "GET",
+          },
+        }
+      }
+      name="MethodMap"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "label": "GET",
+            "value": "GET",
+          },
+          Object {
+            "label": "POST",
+            "value": "POST",
+          },
+          Object {
+            "label": "PUT",
+            "value": "PUT",
+          },
+        ]
+      }
+      styles={
+        Object {
+          "control": [Function],
+          "input": [Function],
+          "multiValue": [Function],
+          "placeholder": [Function],
+          "singleValue": [Function],
+        }
+      }
+    />
+  </div>
+  <div
+    className="url"
+  >
+    <Connect(TextInputElement)
+      autocomplete={true}
+      entry={
+        Object {
+          "value": "",
+        }
+      }
+      name="URL"
+      onChange={[Function]}
+      onFieldFailures={[Function]}
+      placeholder="Enter a URL"
+    />
+  </div>
+  <div
+    className="instructions"
+  >
+    <p>
+      <Trans
+        i18nKey="forms.call_webhook.help"
+      >
+        If your server responds with JSON, each property will be added to the Flow.
+      </Trans>
+    </p>
+    <pre
+      className="code"
+    >
+      { "product": "Solar Charging Kit", "stock level": 32 }
+    </pre>
+    <p>
+      <Trans
+        i18nKey="forms.call_webhook.example"
+      >
+        This response would add 
+        <span
+          className="example"
+        >
+          @webhook.product
+        </span>
+         and
+         
+        <span
+          className="example"
+        >
+          @webhook["stock level"]
+        </span>
+         for use in the flow.
+      </Trans>
+    </p>
+  </div>
+  <OptionalTextInput
+    helpText={
+      <Trans
+        i18nKey="forms.result_name_help"
+        values={
+          Object {
+            "resultFormat": "@results.result",
+          }
+        }
+      >
+        By naming the result, you can reference it later using [[resultFormat]]
+      </Trans>
+    }
+    maxLength={64}
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "Result",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`WebhookRouterForm updates should repopulate post body 1`] = `
+Object {
+  "headers": Array [
+    Object {
+      "value": Object {
+        "name": "Content-Type",
+        "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "value": Object {
+        "name": "",
+        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        "value": "",
+      },
+    },
+  ],
+  "method": Object {
+    "value": Object {
+      "value": "GET",
+    },
+  },
+  "postBody": Object {
+    "value": null,
+  },
+  "resultName": Object {
+    "value": "Result",
+  },
+  "url": Object {
+    "validationFailures": Array [],
+    "value": "http://domain.com/",
+  },
+  "valid": true,
+}
+`;
+
+exports[`WebhookRouterForm updates should repopulate post body 2`] = `
+Object {
+  "headers": Array [
+    Object {
+      "value": Object {
+        "name": "Content-Type",
+        "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+        "value": "application/json",
+      },
+    },
+    Object {
+      "value": Object {
+        "name": "",
+        "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        "value": "",
+      },
+    },
+  ],
+  "method": Object {
+    "value": "POST",
+  },
+  "postBody": Object {
+    "value": "@(json(object(
+  \\"contact\\", object(
+    \\"uuid\\", contact.uuid, 
+    \\"name\\", contact.name, 
+    \\"urn\\", contact.urn
+  ),
+  \\"flow\\", object(
+    \\"uuid\\", run.flow.uuid, 
+    \\"name\\", run.flow.name
+  ),
+  \\"results\\", foreach_value(results, extract_object, \\"value\\", \\"category\\")
+)))",
+  },
+  "resultName": Object {
+    "value": "Result",
+  },
+  "url": Object {
+    "validationFailures": Array [],
+    "value": "http://domain.com/",
+  },
+  "valid": true,
+}
+`;
+
+exports[`WebhookRouterForm updates should save changes 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          HTTP Headers
+           
+          <span
+            class="tab_icon fe-check"
+          />
+        </div>
+      </div>
+      <div
+        class="header call_webhook"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Call Webhook
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="method"
+        >
+          <div
+            class="ele"
+          >
+            <select
+              data-testid="select"
+            >
+              <option
+                value="GET"
+              >
+                GET
+              </option>
+              <option
+                value="POST"
+              >
+                POST
+              </option>
+              <option
+                value="PUT"
+              >
+                PUT
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="url"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="-1"
+                name="URL"
+                placeholder="Enter a URL"
+                type="text"
+                value=""
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="instructions"
+        >
+          <p>
+            If your server responds with JSON, each property will be added to the Flow.
+          </p>
+          <pre
+            class="code"
+          >
+            { "product": "Solar Charging Kit", "stock level": 32 }
+          </pre>
+          <p>
+            This response would add 
+            <span
+              class="example"
+            >
+              @webhook.product
+            </span>
+             and 
+            <span
+              class="example"
+            >
+              @webhook["stock level"]
+            </span>
+             for use in the flow.
+          </p>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="label"
+            >
+              Result Name
+            </div>
+            <div
+              class="wrapper"
+            >
+              <input
+                class="textinput"
+                data-spec="input"
+                data-testid="input"
+                maxlength="64"
+                name="Result Name"
+                type="text"
+                value="Result"
+              />
+              <div
+                class="completion_container hidden"
+                data-spec="completion-options"
+                style="top: 0px; left: 0px;"
+              >
+                <div
+                  class="options_wrapper"
+                >
+                  <ul
+                    class="option_list"
+                    data-spec="completion-list"
+                  />
+                  <div
+                    class="help"
+                    data-spec="completion-help"
+                  >
+                    Tab to complete, enter to select
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="help_text"
+            >
+              By naming the result, you can reference it later using @results.result
+               
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`WebhookRouterForm updates should save changes 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [
+        Object {
+          "body": "Updated post body",
+          "headers": Object {
+            "Content-Type": "application/json",
+          },
+          "method": "POST",
+          "result_name": "My Webhook Result",
+          "type": "call_webhook",
+          "url": "http://app.rapidpro.io",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
+        },
+      ],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "Success",
+            ],
+            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "type": "has_only_text",
+            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "name": "Success",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+          Object {
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "name": "Failure",
+            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+          },
+        ],
+        "default_category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "operand": "@results.my_webhook_result.category",
+        "type": "switch",
+      },
+      "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_webhook",
+    },
+  },
+]
+`;
