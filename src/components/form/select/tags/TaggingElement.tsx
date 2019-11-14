@@ -1,10 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import FormElement, { FormElementProps } from 'components/form/FormElement';
 import React from 'react';
-import Creatable from 'react-select/lib/Creatable';
 import { StringArrayEntry } from 'store/nodeEditor';
 import { getSelectClass } from 'utils';
 import { tagging } from 'utils/reactselect';
+import CreatableSelect from 'react-select/creatable';
 
 export type TagList = Array<{ label: string; value: string }>;
 
@@ -56,7 +56,7 @@ export default class TaggingElement extends React.Component<TaggingElementProps>
     const tags = tagsToOptions(this.props.entry);
     return (
       <FormElement name={this.props.name} entry={this.props.entry}>
-        <Creatable
+        <CreatableSelect
           styles={tagging as any}
           className={className}
           name={this.props.name}

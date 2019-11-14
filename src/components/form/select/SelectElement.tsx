@@ -1,7 +1,6 @@
 import FormElement, { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
-import Select from 'react-select';
-import { StylesConfig } from 'react-select/lib/styles';
+import Select, { StylesConfig } from 'react-select';
 import { hasErrors } from 'components/flow/actions/helpers';
 import { large, getErroredSelect } from 'utils/reactselect';
 
