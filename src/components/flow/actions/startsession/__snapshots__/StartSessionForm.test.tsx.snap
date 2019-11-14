@@ -177,91 +177,21 @@ exports[`StartSessionForm render should render 1`] = `
               class="ele"
             >
               <div
-                class="css-1pcexqc-container react-select selection"
+                class=" css-2b097c-container"
               >
                 <div
-                  class="css-en22e2-control"
+                  class=" css-yk16xz-control"
                 >
                   <div
-                    class="css-1hwfws3"
+                    class=" css-1hwfws3"
                   >
                     <div
-                      class="css-8ql5qv-multiValue"
+                      class=" css-1wa3eu0-placeholder"
                     >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Cat Fanciers
-                      </div>
-                      <div
-                        class="css-1alnv5e"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-19bqh2r"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
+                      Select...
                     </div>
                     <div
-                      class="css-8ql5qv-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Norbert Kwizera
-                      </div>
-                      <div
-                        class="css-1alnv5e"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-19bqh2r"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-8ql5qv-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Rowan Seymour
-                      </div>
-                      <div
-                        class="css-1alnv5e"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-19bqh2r"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-10fb2c7"
+                      class="css-b8ldur-Input"
                     >
                       <div
                         class=""
@@ -286,35 +216,18 @@ exports[`StartSessionForm render should render 1`] = `
                     </div>
                   </div>
                   <div
-                    class="css-1wy0on6"
+                    class=" css-1hb7zxy-IndicatorsContainer"
                   >
-                    <div
-                      aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="css-19bqh2r"
-                        focusable="false"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        width="20"
-                      >
-                        <path
-                          d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                        />
-                      </svg>
-                    </div>
                     <span
-                      class="css-bgvzuu-indicatorSeparator"
+                      class=" css-1okebmr-indicatorSeparator"
                     />
                     <div
                       aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
+                      class=" css-tlfecz-indicatorContainer"
                     >
                       <svg
                         aria-hidden="true"
-                        class="css-19bqh2r"
+                        class="css-6q0nyr-Svg"
                         focusable="false"
                         height="20"
                         viewBox="0 0 20 20"
@@ -335,21 +248,21 @@ exports[`StartSessionForm render should render 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class=" css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-yk16xz-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1wa3eu0-placeholder"
                   >
-                    Flow to Start
+                    Select...
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-b8ldur-Input"
                   >
                     <div
                       class=""
@@ -374,18 +287,18 @@ exports[`StartSessionForm render should render 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -830,21 +743,21 @@ exports[`StartSessionForm render should render contact query 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class=" css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-yk16xz-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1wa3eu0-placeholder"
                   >
-                    Flow to Start
+                    Select...
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-b8ldur-Input"
                   >
                     <div
                       class=""
@@ -869,18 +782,18 @@ exports[`StartSessionForm render should render contact query 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -1118,21 +1031,21 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class=" css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-yk16xz-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1wa3eu0-placeholder"
                   >
-                    Flow to Start
+                    Select...
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-b8ldur-Input"
                   >
                     <div
                       class=""
@@ -1157,18 +1070,18 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -1626,21 +1539,21 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class=" css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-yk16xz-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1wa3eu0-placeholder"
                   >
-                    Flow to Start
+                    Select...
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-b8ldur-Input"
                   >
                     <div
                       class=""
@@ -1665,18 +1578,18 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"

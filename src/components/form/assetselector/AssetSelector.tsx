@@ -13,12 +13,9 @@ import { getErroredSelect as getErroredControl, large, messageStyle } from 'util
 import styles from './AssetSelector.module.scss';
 import { getCompletions, CompletionAssets } from 'utils/completion';
 import i18n from 'config/i18n';
-import { OptionProps } from 'react-select/src/components/Option';
-import { OptionsType, ValueType } from 'react-select/src/types';
-import { StylesConfig } from 'react-select/src/styles';
+import { OptionProps, OptionsType, ValueType, StylesConfig, components } from 'react-select';
+import Creatable from 'react-select/creatable';
 import AsyncSelect from 'react-select/async';
-import CreatableSelect from 'react-select/creatable';
-import { components } from 'react-select';
 
 type CallbackFunction = (options: OptionsType<Asset>) => void;
 
@@ -359,7 +356,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           hideError={this.state.menuOpen}
           __className={styles.ele}
         >
-          <CreatableSelect
+          <Creatable
             {...commonAttributes}
             options={localMatches.sort(this.props.sortFunction || sortByName)}
             isValidNewOption={this.handleCheckValid}
@@ -408,7 +405,6 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           __className={styles.ele}
         >
           <AsyncSelect
-            {...commonAttributes}
             defaultOptions={defaultOptions}
             cacheOptions={true}
             loadOptions={this.handleLoadOptions}

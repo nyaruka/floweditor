@@ -10,7 +10,6 @@ import {
 import * as utils from 'utils';
 import * as React from 'react';
 import { render, fireEvent } from 'test/utils';
-import { O_TRUNC } from 'constants';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 

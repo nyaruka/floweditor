@@ -254,40 +254,57 @@ exports[`ResultRouterForm should render 1`] = `
               class="ele"
             >
               <div
-                class="css-1pcexqc-container react-select selection"
+                class=" css-2b097c-container"
               >
                 <div
-                  class="css-q1jqhh-control"
+                  class=" css-yk16xz-control"
                 >
                   <div
-                    class="css-c2yhe2"
+                    class=" css-1hwfws3"
                   >
                     <div
-                      class="css-151xaom-placeholder"
+                      class=" css-1wa3eu0-placeholder"
                     >
-                      Select Result
+                      Select...
                     </div>
-                    <input
-                      class="css-gj7qu5-dummyInput"
-                      id="react-select-2-input"
-                      readonly=""
-                      tabindex="0"
-                      value=""
-                    />
+                    <div
+                      class="css-b8ldur-Input"
+                    >
+                      <div
+                        class=""
+                        style="display: inline-block;"
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          autocapitalize="none"
+                          autocomplete="off"
+                          autocorrect="off"
+                          id="react-select-2-input"
+                          spellcheck="false"
+                          style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
+                          tabindex="0"
+                          type="text"
+                          value=""
+                        />
+                        <div
+                          style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div
-                    class="css-1l76mts"
+                    class=" css-1hb7zxy-IndicatorsContainer"
                   >
                     <span
-                      class="css-bgvzuu-indicatorSeparator"
+                      class=" css-1okebmr-indicatorSeparator"
                     />
                     <div
                       aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
+                      class=" css-tlfecz-indicatorContainer"
                     >
                       <svg
                         aria-hidden="true"
-                        class="css-19bqh2r"
+                        class="css-6q0nyr-Svg"
                         focusable="false"
                         height="20"
                         viewBox="0 0 20 20"
@@ -879,40 +896,57 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               class="ele"
             >
               <div
-                class="css-1pcexqc-container react-select selection"
+                class=" css-2b097c-container"
               >
                 <div
-                  class="css-q1jqhh-control"
+                  class=" css-yk16xz-control"
                 >
                   <div
-                    class="css-c2yhe2"
+                    class=" css-1hwfws3"
                   >
                     <div
-                      class="css-151xaom-placeholder"
+                      class=" css-1wa3eu0-placeholder"
                     >
-                      Select Result
+                      Select...
                     </div>
-                    <input
-                      class="css-gj7qu5-dummyInput"
-                      id="react-select-4-input"
-                      readonly=""
-                      tabindex="0"
-                      value=""
-                    />
+                    <div
+                      class="css-b8ldur-Input"
+                    >
+                      <div
+                        class=""
+                        style="display: inline-block;"
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          autocapitalize="none"
+                          autocomplete="off"
+                          autocorrect="off"
+                          id="react-select-4-input"
+                          spellcheck="false"
+                          style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
+                          tabindex="0"
+                          type="text"
+                          value=""
+                        />
+                        <div
+                          style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div
-                    class="css-1l76mts"
+                    class=" css-1hb7zxy-IndicatorsContainer"
                   >
                     <span
-                      class="css-bgvzuu-indicatorSeparator"
+                      class=" css-1okebmr-indicatorSeparator"
                     />
                     <div
                       aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
+                      class=" css-tlfecz-indicatorContainer"
                     >
                       <svg
                         aria-hidden="true"
-                        class="css-19bqh2r"
+                        class="css-6q0nyr-Svg"
                         focusable="false"
                         height="20"
                         viewBox="0 0 20 20"
