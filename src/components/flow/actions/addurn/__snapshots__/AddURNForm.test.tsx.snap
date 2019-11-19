@@ -203,6 +203,11 @@ exports[`AddURNForm renders 1`] = `
                 Twitter ID
               </option>
               <option
+                value="twitter"
+              >
+                Twitter Handle
+              </option>
+              <option
                 value="wechat"
               >
                 Wechat ID

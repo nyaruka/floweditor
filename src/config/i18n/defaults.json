@@ -263,7 +263,8 @@
     "line": "Line ID",
     "phone": "Phone Number",
     "telegram": "Telegram ID",
-    "twitter": "Twitter ID",
+    "twitter": "Twitter Handle",
+    "twitterid": "Twitter ID",
     "viber": "Viber ID",
     "wechat": "Wechat ID",
     "whatsapp": "Whatsapp Number"
