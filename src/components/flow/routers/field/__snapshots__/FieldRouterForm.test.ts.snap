@@ -105,6 +105,11 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "scheme",
             },
             Object {
+              "id": "twitter",
+              "name": "Twitter Handle",
+              "type": "scheme",
+            },
+            Object {
               "id": "wechat",
               "name": "Wechat ID",
               "type": "scheme",
@@ -303,6 +308,11 @@ exports[`FieldRouterForm should render 1`] = `
             Object {
               "id": "twitterid",
               "name": "Twitter ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "twitter",
+              "name": "Twitter Handle",
               "type": "scheme",
             },
             Object {
