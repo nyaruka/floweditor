@@ -90,7 +90,8 @@ export const SCHEMES: Scheme[] = [
   { scheme: 'mailto', name: i18n.t('schemes.email', 'Email Address') },
   { scheme: 'tel', name: i18n.t('schemes.phone', 'Phone Number') },
   { scheme: 'telegram', name: i18n.t('schemes.telegram', 'Telegram ID') },
-  { scheme: 'twitterid', name: i18n.t('schemes.twitter', 'Twitter ID') },
+  { scheme: 'twitterid', name: i18n.t('schemes.twitterid', 'Twitter ID') },
+  { scheme: 'twitter', name: i18n.t('schemes.twitter', 'Twitter Handle') },
   { scheme: 'wechat', name: i18n.t('schemes.wechat', 'Wechat ID') },
   { scheme: 'whatsapp', name: i18n.t('schemes.whatsapp', 'Whatsapp Number') },
   { scheme: 'viber', name: i18n.t('schemes.viber', 'Viber ID') }
