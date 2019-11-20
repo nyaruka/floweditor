@@ -4,6 +4,7 @@
   position: relative;
   margin: 0px;
   overflow: hidden;
+  display: inline;
 
   &:last-child {
     border-bottom-right-radius: $curvature;
