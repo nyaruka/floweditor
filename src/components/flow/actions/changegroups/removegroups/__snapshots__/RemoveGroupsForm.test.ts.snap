@@ -72,6 +72,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
       name="Groups"
       onChange={[Function]}
       searchable={true}
+      shouldExclude={[Function]}
     />
   </div>
   <CheckboxElement
