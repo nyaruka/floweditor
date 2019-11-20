@@ -18,7 +18,10 @@ import { NodeEditorSettings } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 
 export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormState => {
-  if (getType(settings.originalNode) === Types.split_by_subflow) {
+  if (
+    getType(settings.originalNode) === Types.split_by_subflow ||
+    (settings.originalAction && settings.originalAction.type === Types.enter_flow)
+  ) {
     const action = (settings.originalAction ||
       (settings.originalNode.node.actions.length > 0 &&
         settings.originalNode.node.actions[0])) as StartFlow;

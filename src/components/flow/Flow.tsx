@@ -463,7 +463,5 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { forwardRef: true }
+  mapDispatchToProps
 )(Flow);

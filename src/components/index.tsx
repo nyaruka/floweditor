@@ -223,9 +223,7 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
 
 export const ConnectedFlowEditor = connect(
   mapStateToProps,
-  mapDispatchToProps,
-  null,
-  { forwardRef: true }
+  mapDispatchToProps
 )(FlowEditor);
 
 export default FlowEditorContainer;

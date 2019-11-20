@@ -181,6 +181,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
         const remoteMatches = remoteAssets.filter((asset: Asset) =>
           isMatch(input, asset, this.props.shouldExclude)
         );
+
         const removalAsset: Asset[] = this.props.valueClearable ? [REMOVE_VALUE_ASSET] : [];
 
         // concat them all together and uniquify them
@@ -311,6 +312,14 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     return style;
   }
 
+  public getOptionValue(option: any) {
+    return option.value || option.id;
+  }
+
+  public getOptionLabel(option: any) {
+    return option.label || option.name;
+  }
+
   public render(): JSX.Element {
     const fallbackPlaceholder = i18n.t(
       'asset_selector.placeholder',
@@ -320,6 +329,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
     const commonAttributes = {
       className: 'react-select ' + styles.selection,
+      captureMenuScroll: false,
       value: this.state.entry.value,
       components: { Option: AssetOption },
       styles: this.getStyle(),
@@ -333,8 +343,8 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
       isLoading: this.state.isLoading,
       isClearable: this.props.formClearable,
       isSearchable: this.props.searchable,
-      getOptionValue: (option: Asset) => option.id,
-      getOptionLabel: (option: Asset) => option.name,
+      getOptionValue: this.getOptionValue,
+      getOptionLabel: this.getOptionLabel,
       placeholder: this.props.placeholder || fallbackPlaceholder
     };
 
@@ -405,6 +415,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           __className={styles.ele}
         >
           <AsyncSelect
+            {...commonAttributes}
             defaultOptions={defaultOptions}
             cacheOptions={true}
             loadOptions={this.handleLoadOptions}
