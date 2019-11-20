@@ -9,10 +9,7 @@ import { AssetType } from 'store/flowContext';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import {
   createAddGroupsAction,
-  createSetContactChannelAction,
   createSetContactFieldAction,
-  createSetContactLanguageAction,
-  createSetContactNameAction,
   getActionFormProps
 } from 'testUtils/assetCreators';
 import * as utils from 'utils';

@@ -129,6 +129,11 @@ exports[`NodeComp renders a named random split 1`] = `
                     data-spec="move"
                   />
                   <div
+                    class="titletext"
+                  >
+                    Split Randomly
+                  </div>
+                  <div
                     class="remove_button"
                     data-testid="remove-icon"
                   >
@@ -136,7 +141,6 @@ exports[`NodeComp renders a named random split 1`] = `
                       class="fe-x"
                     />
                   </div>
-                  Split Randomly
                 </div>
               </div>
             </div>

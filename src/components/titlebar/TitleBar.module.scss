@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .titlebar {
   padding: 0px;
@@ -9,20 +9,28 @@
   text-align: center;
   border: 0px solid transparent;
 
+  .titletext {
+    flex-grow: 1;
+  }
+
   .normal {
-    padding: 6px 23px;
+    padding: 6px 0px;
+    width: 100%;
+    display: flex;
   }
 
   .remove_confirm {
-    position: absolute;
+    position: relative;
     margin-top: -27px;
     border: 0px solid $removal_confirmation;
     background: $removal_confirmation;
-    padding: 6px;
+    padding: 6px 0px;
     width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    display: flex;
+    z-index: 100;
 
     .remove_button {
       visibility: visible;
@@ -30,7 +38,6 @@
   }
 
   .remove_button {
-    position: absolute;
     padding-right: 3px;
     visibility: hidden;
     font-size: 15px;
@@ -41,8 +48,6 @@
   }
 
   .up_button {
-    // float: left;
-    position: absolute;
     visibility: hidden;
     font-size: 10px;
     line-height: 15px;

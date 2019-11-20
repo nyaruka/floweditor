@@ -150,21 +150,21 @@ exports[`UpdateContactForm should render channel 1`] = `
           class="ele"
         >
           <div
-            class="css-1pcexqc-container react-select selection"
+            class="react-select selection css-2b097c-container"
           >
             <div
-              class="css-en22e2-control"
+              class=" css-1h1mxjq-control"
             >
               <div
-                class="css-1hwfws3"
+                class=" css-1hwfws3"
               >
                 <div
-                  class="css-whijrq-singleValue"
+                  class=" css-1sdgdfu-singleValue"
                 >
                   Channel
                 </div>
                 <div
-                  class="css-10fb2c7"
+                  class="css-1al1kbh-Input"
                 >
                   <div
                     class=""
@@ -189,18 +189,18 @@ exports[`UpdateContactForm should render channel 1`] = `
                 </div>
               </div>
               <div
-                class="css-1wy0on6"
+                class=" css-1hb7zxy-IndicatorsContainer"
               >
                 <span
-                  class="css-bgvzuu-indicatorSeparator"
+                  class=" css-1okebmr-indicatorSeparator"
                 />
                 <div
                   aria-hidden="true"
-                  class="css-16pqwjk-indicatorContainer"
+                  class=" css-tlfecz-indicatorContainer"
                 >
                   <svg
                     aria-hidden="true"
-                    class="css-19bqh2r"
+                    class="css-6q0nyr-Svg"
                     focusable="false"
                     height="20"
                     viewBox="0 0 20 20"
@@ -222,21 +222,21 @@ exports[`UpdateContactForm should render channel 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1sdgdfu-singleValue"
                   >
                     Twilio Channel
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
@@ -261,18 +261,18 @@ exports[`UpdateContactForm should render channel 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -468,21 +468,21 @@ exports[`UpdateContactForm should render field 1`] = `
           class="ele"
         >
           <div
-            class="css-1pcexqc-container react-select selection"
+            class="react-select selection css-2b097c-container"
           >
             <div
-              class="css-en22e2-control"
+              class=" css-1h1mxjq-control"
             >
               <div
-                class="css-1hwfws3"
+                class=" css-1hwfws3"
               >
                 <div
-                  class="css-whijrq-singleValue"
+                  class=" css-1sdgdfu-singleValue"
                 >
                   Age
                 </div>
                 <div
-                  class="css-10fb2c7"
+                  class="css-1al1kbh-Input"
                 >
                   <div
                     class=""
@@ -507,18 +507,18 @@ exports[`UpdateContactForm should render field 1`] = `
                 </div>
               </div>
               <div
-                class="css-1wy0on6"
+                class=" css-1hb7zxy-IndicatorsContainer"
               >
                 <span
-                  class="css-bgvzuu-indicatorSeparator"
+                  class=" css-1okebmr-indicatorSeparator"
                 />
                 <div
                   aria-hidden="true"
-                  class="css-16pqwjk-indicatorContainer"
+                  class=" css-tlfecz-indicatorContainer"
                 >
                   <svg
                     aria-hidden="true"
-                    class="css-19bqh2r"
+                    class="css-6q0nyr-Svg"
                     focusable="false"
                     height="20"
                     viewBox="0 0 20 20"
@@ -755,21 +755,21 @@ exports[`UpdateContactForm should render language 1`] = `
           class="ele"
         >
           <div
-            class="css-1pcexqc-container react-select selection"
+            class="react-select selection css-2b097c-container"
           >
             <div
-              class="css-en22e2-control"
+              class=" css-1h1mxjq-control"
             >
               <div
-                class="css-1hwfws3"
+                class=" css-1hwfws3"
               >
                 <div
-                  class="css-whijrq-singleValue"
+                  class=" css-1sdgdfu-singleValue"
                 >
                   Language
                 </div>
                 <div
-                  class="css-10fb2c7"
+                  class="css-1al1kbh-Input"
                 >
                   <div
                     class=""
@@ -794,18 +794,18 @@ exports[`UpdateContactForm should render language 1`] = `
                 </div>
               </div>
               <div
-                class="css-1wy0on6"
+                class=" css-1hb7zxy-IndicatorsContainer"
               >
                 <span
-                  class="css-bgvzuu-indicatorSeparator"
+                  class=" css-1okebmr-indicatorSeparator"
                 />
                 <div
                   aria-hidden="true"
-                  class="css-16pqwjk-indicatorContainer"
+                  class=" css-tlfecz-indicatorContainer"
                 >
                   <svg
                     aria-hidden="true"
-                    class="css-19bqh2r"
+                    class="css-6q0nyr-Svg"
                     focusable="false"
                     height="20"
                     viewBox="0 0 20 20"
@@ -827,21 +827,21 @@ exports[`UpdateContactForm should render language 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1sdgdfu-singleValue"
                   >
                     eng
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
@@ -866,18 +866,18 @@ exports[`UpdateContactForm should render language 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -1073,21 +1073,21 @@ exports[`UpdateContactForm should render name 1`] = `
           class="ele"
         >
           <div
-            class="css-1pcexqc-container react-select selection"
+            class="react-select selection css-2b097c-container"
           >
             <div
-              class="css-en22e2-control"
+              class=" css-1h1mxjq-control"
             >
               <div
-                class="css-1hwfws3"
+                class=" css-1hwfws3"
               >
                 <div
-                  class="css-whijrq-singleValue"
+                  class=" css-1sdgdfu-singleValue"
                 >
                   Name
                 </div>
                 <div
-                  class="css-10fb2c7"
+                  class="css-1al1kbh-Input"
                 >
                   <div
                     class=""
@@ -1112,18 +1112,18 @@ exports[`UpdateContactForm should render name 1`] = `
                 </div>
               </div>
               <div
-                class="css-1wy0on6"
+                class=" css-1hb7zxy-IndicatorsContainer"
               >
                 <span
-                  class="css-bgvzuu-indicatorSeparator"
+                  class=" css-1okebmr-indicatorSeparator"
                 />
                 <div
                   aria-hidden="true"
-                  class="css-16pqwjk-indicatorContainer"
+                  class=" css-tlfecz-indicatorContainer"
                 >
                   <svg
                     aria-hidden="true"
-                    class="css-19bqh2r"
+                    class="css-6q0nyr-Svg"
                     focusable="false"
                     height="20"
                     viewBox="0 0 20 20"

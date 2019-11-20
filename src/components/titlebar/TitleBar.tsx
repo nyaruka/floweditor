@@ -133,6 +133,8 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
     if (this.state.confirmingRemoval && this.context.config.mutable) {
       confirmation = (
         <div className={styles.remove_confirm} data-spec={confirmationSpecId}>
+          <div className={styles.up_button} data-spec={moveSpecId} />
+          <div className={styles.titletext}>{i18n.t('removal_confirmation', 'Remove?')}</div>
           <div
             className={styles.remove_button}
             {...createClickHandler(
@@ -144,7 +146,6 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
           >
             <span className="fe-x" />
           </div>
-          {i18n.t('removal_confirmation', 'Remove?')}
         </div>
       );
     }
@@ -160,8 +161,8 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
       <div className={styles.titlebar} data-spec={titlebarContainerSpecId}>
         <div className={`${this.props.__className} ${styles.normal}`} data-spec={titlebarSpecId}>
           {moveArrow}
+          <div className={styles.titletext}>{this.props.title}</div>
           {remove}
-          {this.props.title}
         </div>
         {confirmation}
       </div>

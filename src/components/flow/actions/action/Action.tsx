@@ -221,7 +221,9 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
 
 const ConnectedActionWrapper = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  null,
+  { forwardRef: true }
 )(ActionWrapper);
 
 export default ConnectedActionWrapper;

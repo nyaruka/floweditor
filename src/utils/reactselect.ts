@@ -1,4 +1,4 @@
-import { StylesConfig } from 'react-select/lib/styles';
+import { StylesConfig } from 'react-select';
 
 export const large = {
   placeholder: (styles: StylesConfig, state: any) => {

@@ -46,7 +46,7 @@ const store = createStore(initial);
 const AllTheProviders = ({ children }: { children: any }) => {
   return (
     <ConfigProvider config={config as any}>
-      <Provider store={store}>{children}</Provider>
+      <Provider store={store as any}>{children}</Provider>
     </ConfigProvider>
   );
 };

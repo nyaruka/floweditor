@@ -254,21 +254,21 @@ exports[`ResultRouterForm should render 1`] = `
               class="ele"
             >
               <div
-                class="css-1pcexqc-container react-select selection"
+                class="react-select selection css-2b097c-container"
               >
                 <div
-                  class="css-q1jqhh-control"
+                  class=" css-zx7s85-control"
                 >
                   <div
-                    class="css-c2yhe2"
+                    class=" css-c2yhe2"
                   >
                     <div
-                      class="css-151xaom-placeholder"
+                      class=" css-1wa3eu0-placeholder"
                     >
                       Select Result
                     </div>
                     <input
-                      class="css-gj7qu5-dummyInput"
+                      class="css-62g3xt-dummyInput"
                       id="react-select-2-input"
                       readonly=""
                       tabindex="0"
@@ -276,18 +276,18 @@ exports[`ResultRouterForm should render 1`] = `
                     />
                   </div>
                   <div
-                    class="css-1l76mts"
+                    class=" css-1ywtfjx-IndicatorsContainer"
                   >
                     <span
-                      class="css-bgvzuu-indicatorSeparator"
+                      class=" css-1okebmr-indicatorSeparator"
                     />
                     <div
                       aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
+                      class=" css-tlfecz-indicatorContainer"
                     >
                       <svg
                         aria-hidden="true"
-                        class="css-19bqh2r"
+                        class="css-6q0nyr-Svg"
                         focusable="false"
                         height="20"
                         viewBox="0 0 20 20"
@@ -879,21 +879,21 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               class="ele"
             >
               <div
-                class="css-1pcexqc-container react-select selection"
+                class="react-select selection css-2b097c-container"
               >
                 <div
-                  class="css-q1jqhh-control"
+                  class=" css-zx7s85-control"
                 >
                   <div
-                    class="css-c2yhe2"
+                    class=" css-c2yhe2"
                   >
                     <div
-                      class="css-151xaom-placeholder"
+                      class=" css-1wa3eu0-placeholder"
                     >
                       Select Result
                     </div>
                     <input
-                      class="css-gj7qu5-dummyInput"
+                      class="css-62g3xt-dummyInput"
                       id="react-select-4-input"
                       readonly=""
                       tabindex="0"
@@ -901,18 +901,18 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                     />
                   </div>
                   <div
-                    class="css-1l76mts"
+                    class=" css-1ywtfjx-IndicatorsContainer"
                   >
                     <span
-                      class="css-bgvzuu-indicatorSeparator"
+                      class=" css-1okebmr-indicatorSeparator"
                     />
                     <div
                       aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
+                      class=" css-tlfecz-indicatorContainer"
                     >
                       <svg
                         aria-hidden="true"
-                        class="css-19bqh2r"
+                        class="css-6q0nyr-Svg"
                         focusable="false"
                         height="20"
                         viewBox="0 0 20 20"

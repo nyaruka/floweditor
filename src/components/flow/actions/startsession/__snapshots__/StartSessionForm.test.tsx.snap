@@ -177,16 +177,16 @@ exports[`StartSessionForm render should render 1`] = `
               class="ele"
             >
               <div
-                class="css-1pcexqc-container react-select selection"
+                class="react-select selection css-2b097c-container"
               >
                 <div
-                  class="css-en22e2-control"
+                  class=" css-1h1mxjq-control"
                 >
                   <div
-                    class="css-1hwfws3"
+                    class=" css-1hwfws3"
                   >
                     <div
-                      class="css-8ql5qv-multiValue"
+                      class="css-bgswfd-multiValue"
                     >
                       <div
                         class="css-12jo7m5"
@@ -194,11 +194,11 @@ exports[`StartSessionForm render should render 1`] = `
                         Cat Fanciers
                       </div>
                       <div
-                        class="css-1alnv5e"
+                        class="css-xb97g8"
                       >
                         <svg
                           aria-hidden="true"
-                          class="css-19bqh2r"
+                          class="css-6q0nyr-Svg"
                           focusable="false"
                           height="14"
                           viewBox="0 0 20 20"
@@ -211,7 +211,7 @@ exports[`StartSessionForm render should render 1`] = `
                       </div>
                     </div>
                     <div
-                      class="css-8ql5qv-multiValue"
+                      class="css-bgswfd-multiValue"
                     >
                       <div
                         class="css-12jo7m5"
@@ -219,11 +219,11 @@ exports[`StartSessionForm render should render 1`] = `
                         Norbert Kwizera
                       </div>
                       <div
-                        class="css-1alnv5e"
+                        class="css-xb97g8"
                       >
                         <svg
                           aria-hidden="true"
-                          class="css-19bqh2r"
+                          class="css-6q0nyr-Svg"
                           focusable="false"
                           height="14"
                           viewBox="0 0 20 20"
@@ -236,7 +236,7 @@ exports[`StartSessionForm render should render 1`] = `
                       </div>
                     </div>
                     <div
-                      class="css-8ql5qv-multiValue"
+                      class="css-bgswfd-multiValue"
                     >
                       <div
                         class="css-12jo7m5"
@@ -244,11 +244,11 @@ exports[`StartSessionForm render should render 1`] = `
                         Rowan Seymour
                       </div>
                       <div
-                        class="css-1alnv5e"
+                        class="css-xb97g8"
                       >
                         <svg
                           aria-hidden="true"
-                          class="css-19bqh2r"
+                          class="css-6q0nyr-Svg"
                           focusable="false"
                           height="14"
                           viewBox="0 0 20 20"
@@ -261,7 +261,7 @@ exports[`StartSessionForm render should render 1`] = `
                       </div>
                     </div>
                     <div
-                      class="css-10fb2c7"
+                      class="css-1al1kbh-Input"
                     >
                       <div
                         class=""
@@ -286,15 +286,15 @@ exports[`StartSessionForm render should render 1`] = `
                     </div>
                   </div>
                   <div
-                    class="css-1wy0on6"
+                    class=" css-1hb7zxy-IndicatorsContainer"
                   >
                     <div
                       aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
+                      class=" css-tlfecz-indicatorContainer"
                     >
                       <svg
                         aria-hidden="true"
-                        class="css-19bqh2r"
+                        class="css-6q0nyr-Svg"
                         focusable="false"
                         height="20"
                         viewBox="0 0 20 20"
@@ -306,15 +306,15 @@ exports[`StartSessionForm render should render 1`] = `
                       </svg>
                     </div>
                     <span
-                      class="css-bgvzuu-indicatorSeparator"
+                      class=" css-1okebmr-indicatorSeparator"
                     />
                     <div
                       aria-hidden="true"
-                      class="css-16pqwjk-indicatorContainer"
+                      class=" css-tlfecz-indicatorContainer"
                     >
                       <svg
                         aria-hidden="true"
-                        class="css-19bqh2r"
+                        class="css-6q0nyr-Svg"
                         focusable="false"
                         height="20"
                         viewBox="0 0 20 20"
@@ -335,21 +335,21 @@ exports[`StartSessionForm render should render 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1sdgdfu-singleValue"
                   >
                     Flow to Start
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
@@ -374,18 +374,18 @@ exports[`StartSessionForm render should render 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -830,21 +830,21 @@ exports[`StartSessionForm render should render contact query 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1sdgdfu-singleValue"
                   >
                     Flow to Start
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
@@ -869,18 +869,18 @@ exports[`StartSessionForm render should render contact query 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -1118,21 +1118,21 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1sdgdfu-singleValue"
                   >
                     Flow to Start
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
@@ -1157,18 +1157,18 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
@@ -1626,21 +1626,21 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             class="ele"
           >
             <div
-              class="css-1pcexqc-container react-select selection"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class="css-en22e2-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
-                  class="css-1hwfws3"
+                  class=" css-1hwfws3"
                 >
                   <div
-                    class="css-whijrq-singleValue"
+                    class=" css-1sdgdfu-singleValue"
                   >
                     Flow to Start
                   </div>
                   <div
-                    class="css-10fb2c7"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
@@ -1665,18 +1665,18 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                   </div>
                 </div>
                 <div
-                  class="css-1wy0on6"
+                  class=" css-1hb7zxy-IndicatorsContainer"
                 >
                   <span
-                    class="css-bgvzuu-indicatorSeparator"
+                    class=" css-1okebmr-indicatorSeparator"
                   />
                   <div
                     aria-hidden="true"
-                    class="css-16pqwjk-indicatorContainer"
+                    class=" css-tlfecz-indicatorContainer"
                   >
                     <svg
                       aria-hidden="true"
-                      class="css-19bqh2r"
+                      class="css-6q0nyr-Svg"
                       focusable="false"
                       height="20"
                       viewBox="0 0 20 20"
