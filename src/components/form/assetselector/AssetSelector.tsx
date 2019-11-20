@@ -134,7 +134,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
 
   private handleChanged(selected: any): void {
     this.setState({ message: null });
-    if (Array.isArray(selected)) {
+    if (Array.isArray(selected) || !selected) {
       this.props.onChange(selected);
     } else if (this.props.onChange) {
       /* istanbul ignore else */

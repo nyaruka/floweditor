@@ -1,6 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { ChangeGroupsFormState } from 'components/flow/actions/changegroups/helpers';
+import {
+  ChangeGroupsFormState,
+  excludeDynamicGroups
+} from 'components/flow/actions/changegroups/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
@@ -119,6 +122,7 @@ export default class RemoveGroupsForm extends React.Component<
               name={i18n.t('groups', 'Groups')}
               assets={this.props.assetStore.groups}
               entry={this.state.groups}
+              shouldExclude={excludeDynamicGroups}
               searchable={true}
               onChange={this.handleGroupsChanged}
               multi={true}
