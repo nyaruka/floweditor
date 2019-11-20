@@ -401,7 +401,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       <div onDoubleClick={this.onDoubleClick} ref={this.onRef}>
         <Canvas
           mutable={this.context.config.mutable}
-          draggingNew={!!this.props.editorState.ghostNode}
+          draggingNew={!!this.props.editorState.ghostNode && !this.props.nodeEditorSettings}
           onDragging={(uuids: string[]) => {
             uuids.forEach((uuid: string) => {
               if (uuid in this.props.nodes) {
