@@ -222,21 +222,21 @@ exports[`UpdateContactForm should render channel 1`] = `
             class="ele"
           >
             <div
-              class=" css-2b097c-container"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class=" css-yk16xz-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
                   class=" css-1hwfws3"
                 >
                   <div
-                    class=" css-1wa3eu0-placeholder"
+                    class=" css-1sdgdfu-singleValue"
                   >
-                    Select...
+                    Twilio Channel
                   </div>
                   <div
-                    class="css-b8ldur-Input"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
@@ -827,21 +827,21 @@ exports[`UpdateContactForm should render language 1`] = `
             class="ele"
           >
             <div
-              class=" css-2b097c-container"
+              class="react-select selection css-2b097c-container"
             >
               <div
-                class=" css-yk16xz-control"
+                class=" css-1h1mxjq-control"
               >
                 <div
                   class=" css-1hwfws3"
                 >
                   <div
-                    class=" css-1wa3eu0-placeholder"
+                    class=" css-1sdgdfu-singleValue"
                   >
-                    Select...
+                    eng
                   </div>
                   <div
-                    class="css-b8ldur-Input"
+                    class="css-1al1kbh-Input"
                   >
                     <div
                       class=""
