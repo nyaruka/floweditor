@@ -22,6 +22,7 @@ export interface Endpoints {
   resthooks: string;
   recents: string;
   fields: string;
+  globals: string;
   groups: string;
   recipients: string;
   flows: string;

@@ -44,23 +44,24 @@ export interface ContactFields {
 export enum AssetType {
   Channel = 'channel',
   Classifier = 'classifier',
-  Currency = 'currency',
-  Template = 'template',
-  Revision = 'revision',
-  Flow = 'flow',
-  Group = 'group',
-  Field = 'field',
-  Result = 'result',
   Contact = 'contact',
-  Resthook = 'resthook',
-  URN = 'urn',
+  ContactProperty = 'property',
+  Currency = 'currency',
+  Environment = 'environment',
+  Expression = 'expression',
+  Field = 'field',
+  Flow = 'flow',
+  Global = 'global',
+  Group = 'group',
   Label = 'label',
   Language = 'language',
-  Environment = 'environment',
   Remove = 'remove',
-  ContactProperty = 'property',
+  Resthook = 'resthook',
+  Result = 'result',
+  Revision = 'revision',
   Scheme = 'scheme',
-  Expression = 'expression'
+  Template = 'template',
+  URN = 'urn'
 }
 
 export interface Reference {
@@ -84,6 +85,7 @@ export const REMOVE_VALUE_ASSET = {
   name: 'Remove Value',
   type: AssetType.Remove
 };
+
 export const DEFAULT_LANGUAGE = {
   id: 'base',
   name: 'Default',

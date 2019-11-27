@@ -271,6 +271,12 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         id: 'key',
         items: {}
       },
+      globals: {
+        endpoint: getURL(endpoints.globals),
+        type: AssetType.Global,
+        id: 'key',
+        items: {}
+      },
       groups: {
         endpoint: getURL(endpoints.groups),
         type: AssetType.Group,
@@ -318,7 +324,7 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
 
     // prefetch some of our assets
     const fetches: any[] = [];
-    ['languages', 'fields', 'groups', 'labels'].forEach((storeId: string) => {
+    ['languages', 'fields', 'groups', 'labels', 'globals'].forEach((storeId: string) => {
       const store = assetStore[storeId];
       fetches.push(
         getAssets(store.endpoint, store.type, store.id || 'uuid').then((assets: Asset[]) => {

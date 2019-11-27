@@ -62,13 +62,15 @@ export const getCompletions = (
         } else if (nextType && nextType.property_template) {
           prefix += part + '.';
           const template = nextType.property_template;
-          currentProps = Object.keys(completion.assetStore[nextType.name].items).map(
-            (key: string) => ({
-              key: template.key.replace('{key}', key),
-              help: template.help.replace('{key}', key),
-              type: template.type
-            })
-          );
+
+          const assetStore = completion.assetStore[nextType.name];
+          currentProps = assetStore
+            ? Object.keys(assetStore.items).map((key: string) => ({
+                key: template.key.replace('{key}', key),
+                help: template.help.replace('{key}', key),
+                type: template.type
+              }))
+            : [];
         } else {
           // eslint-disable-next-line
           currentProps = currentProps.filter((prop: CompletionProperty) =>
