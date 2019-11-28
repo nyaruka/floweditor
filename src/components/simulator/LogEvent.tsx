@@ -48,6 +48,7 @@ export interface EventProps {
   value?: { text: string };
   body?: string;
   addresses?: string[];
+  to?: string[];
   subject?: string;
   url?: string;
   status?: string;
@@ -203,11 +204,12 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
   }
 
   private renderEmail(): JSX.Element {
+    const recipients = this.props.to || this.props.addresses;
     return this.renderClickable(
       <div className={styles.info + ' ' + styles.email}>
         <Trans
           i18nKey="simulator.sent_email"
-          values={{ recipients: this.props.addresses.join(', '), subject: this.props.subject }}
+          values={{ recipients: recipients.join(', '), subject: this.props.subject }}
         >
           Sent email to "[[recipients]]" with subject "[[subject]]"
         </Trans>
@@ -220,7 +222,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       >
         <div className={styles.email_details}>
           <div className={styles.to}>
-            {i18n.t('simulator.sent_email.to', 'To')}: {this.props.addresses.join(', ')}
+            {i18n.t('simulator.sent_email.to', 'To')}: {recipients.join(', ')}
           </div>
           <div className={styles.subject}>
             {i18n.t('simulator.sent_email.subject', 'Subject')}: {this.props.subject}
@@ -350,6 +352,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
           })
         );
       case 'email_created':
+      case 'email_sent':
         return this.renderEmail();
       case 'broadcast_created':
         return renderMessage(
