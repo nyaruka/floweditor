@@ -121,6 +121,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
       'contact',
       'child',
       'fields',
+      'globals',
       'input',
       'parent',
       'results',

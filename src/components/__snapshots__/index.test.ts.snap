@@ -13,6 +13,7 @@ Array [
     "fields": "/assets/fields.json",
     "flows": "/assets/flows.json",
     "functions": "/assets/functions.json",
+    "globals": "/assets/globals.json",
     "groups": "/assets/groups.json",
     "labels": "/assets/labels.json",
     "languages": "/assets/languages.json",

@@ -11,6 +11,7 @@ export const config: FlowEditorConfig = {
   endpoints: {
     resthooks: '/assets/resthooks.json',
     flows: '/assets/flows.json',
+    globals: '/assets/globals.json',
     groups: '/assets/groups.json',
     fields: '/assets/fields.json',
     recipients: '/assets/recipients.json',
