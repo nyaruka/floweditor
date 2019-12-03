@@ -286,6 +286,7 @@
       "to": "To"
     },
     "sent_email_dialog": "Email Details",
+    "sent_email_summary": "Sent email to \"[[recipients]]\" with subject \"[[subject]]\"",
     "session_triggered": "Started somebody else in \"[[flow]]\""
   },
   "sticky": {

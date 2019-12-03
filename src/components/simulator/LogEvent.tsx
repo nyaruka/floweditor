@@ -208,7 +208,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
     return this.renderClickable(
       <div className={styles.info + ' ' + styles.email}>
         <Trans
-          i18nKey="simulator.sent_email"
+          i18nKey="simulator.sent_email_summary"
           values={{ recipients: recipients.join(', '), subject: this.props.subject }}
         >
           Sent email to "[[recipients]]" with subject "[[subject]]"
