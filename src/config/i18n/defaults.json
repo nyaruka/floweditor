@@ -135,6 +135,10 @@
   "create_group": "Create Group",
   "create_label": "Create Label",
   "drag_helper": "To connect nodes, <1>drag</1> from the red circle.",
+  "email": {
+    "subject": "Subject",
+    "to": "To"
+  },
   "empty_flow_message": "<0>Let's get started</0><1>We recommend starting your flow by sending a message. This message will be sent to anybody right after they join the flow. This is your chance to send a single message or ask them a question.</1>",
   "enter_to_create_group": "Enter a name to create a new group",
   "enter_to_create_label": "Enter the name of an existing label or create a new one",
@@ -282,11 +286,9 @@
     "resthook_called": "Triggered flow event \"[[resthook]]\"",
     "run_result_changed": "Set result \"[[field]]\" to \"[[value]]\"",
     "sent_email": {
-      "subject": "Subject",
-      "to": "To"
+      "summary": "Sent email to \"[[recipients]]\" with subject \"[[subject]]\"",
+      "title": "Email Details"
     },
-    "sent_email_dialog": "Email Details",
-    "sent_email_summary": "Sent email to \"[[recipients]]\" with subject \"[[subject]]\"",
     "session_triggered": "Started somebody else in \"[[flow]]\""
   },
   "sticky": {
