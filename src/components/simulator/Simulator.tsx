@@ -495,7 +495,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   }
 
   private resume(text: string, attachment?: string): void {
-    if ((!text || text.trim().length === 0) && !attachment) {
+    if (!text && !attachment) {
       return;
     }
 
