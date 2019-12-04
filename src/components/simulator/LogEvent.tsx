@@ -208,24 +208,24 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
     return this.renderClickable(
       <div className={styles.info + ' ' + styles.email}>
         <Trans
-          i18nKey="simulator.sent_email"
+          i18nKey="simulator.sent_email.summary"
           values={{ recipients: recipients.join(', '), subject: this.props.subject }}
         >
           Sent email to "[[recipients]]" with subject "[[subject]]"
         </Trans>
       </div>,
       <Dialog
-        title={i18n.t('simulator.sent_email_dialog', 'Email Details')}
+        title={i18n.t('simulator.sent_email.title', 'Email Details')}
         headerClass={Types.send_email}
         buttons={this.getButtons()}
         noPadding={true}
       >
         <div className={styles.email_details}>
           <div className={styles.to}>
-            {i18n.t('simulator.sent_email.to', 'To')}: {recipients.join(', ')}
+            {i18n.t('email.to', 'To')}: {recipients.join(', ')}
           </div>
           <div className={styles.subject}>
-            {i18n.t('simulator.sent_email.subject', 'Subject')}: {this.props.subject}
+            {i18n.t('email.subject', 'Subject')}: {this.props.subject}
           </div>
           <div className={styles.body}>{this.props.body}</div>
         </div>
