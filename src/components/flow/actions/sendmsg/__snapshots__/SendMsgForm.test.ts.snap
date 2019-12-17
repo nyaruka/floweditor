@@ -229,6 +229,9 @@ Object {
     "value": null,
   },
   "templateVariables": Array [],
+  "topic": Object {
+    "value": undefined,
+  },
   "valid": true,
 }
 `;

@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { react as bindCallbacks } from 'auto-bind';
 import axios from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors } from 'components/flow/actions/helpers';
 import {
   initializeForm as stateToForm,
-  stateToAction
+  stateToAction,
+  TOPIC_OPTIONS
 } from 'components/flow/actions/sendmsg/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
@@ -27,11 +30,12 @@ import {
   mergeForm,
   StringArrayEntry,
   StringEntry,
-  ValidationFailure
+  ValidationFailure,
+  SelectOptionEntry
 } from 'store/nodeEditor';
 import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
 import { createUUID, range } from 'utils';
-import { small } from 'utils/reactselect';
+import { small, large } from 'utils/reactselect';
 
 import styles from './SendMsgForm.module.scss';
 import { hasFeature } from 'config/typeConfigs';
@@ -67,6 +71,7 @@ export interface SendMsgFormState extends FormState {
   sendAll: boolean;
   attachments: Attachment[];
   template: AssetEntry;
+  topic: SelectOptionEntry;
   templateVariables: StringEntry[];
   templateTranslation?: TemplateTranslation;
 }
@@ -363,7 +368,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleTemplateChanged(selected: Asset[]): void {
-    const template = selected[0];
+    const template = selected ? selected[0] : null;
 
     if (!template) {
       this.setState({
@@ -414,6 +419,35 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleShouldExcludeTemplate(asset: Asset): boolean {
     return !hasUseableTranslation(asset.content as Template);
+  }
+
+  private renderTopicConfig(): JSX.Element {
+    return (
+      <>
+        <p>
+          {i18n.t(
+            'forms.send_msg.facebook.warning',
+            'Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.'
+          )}
+        </p>
+        <SelectElement
+          styles={large as any}
+          name="MethodMap"
+          entry={this.state.topic}
+          onChange={this.handleTopicUpdate}
+          options={TOPIC_OPTIONS}
+          placeholder={i18n.t(
+            'forms.send_message.facebook.topic_placeholder',
+            'Select a topic to use over Facebook'
+          )}
+          clearable={true}
+        />
+      </>
+    );
+  }
+
+  private handleTopicUpdate(topic: SelectOption) {
+    this.setState({ topic: { value: topic } });
   }
 
   private renderTemplateConfig(): JSX.Element {
@@ -563,6 +597,15 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         body: this.renderTemplateConfig(),
         checked: this.state.template.value != null,
         hasErrors: !!this.state.templateVariables.find((entry: StringEntry) => hasErrors(entry))
+      };
+      tabs.splice(0, 0, templates);
+    }
+
+    if (hasFeature(this.context.config, FeatureFilter.HAS_FACEBOOK)) {
+      const templates: Tab = {
+        name: 'Facebook',
+        body: this.renderTopicConfig(),
+        checked: this.state.topic.value != null
       };
       tabs.splice(0, 0, templates);
     }
