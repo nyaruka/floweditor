@@ -11,6 +11,7 @@ interface SelectElementProps extends FormElementProps {
   options: any;
   placeholder?: string;
   styles?: StylesConfig;
+  clearable?: boolean;
 }
 
 export interface SelectOption {
@@ -41,7 +42,7 @@ export default class SelectElement extends React.Component<SelectElementProps> {
           onMenuOpen={this.props.onMenuOpen}
           onMenuClose={this.props.onMenuClose}
           isSearchable={false}
-          isClearable={false}
+          isClearable={this.props.clearable}
           options={this.props.options}
         />
       </FormElement>

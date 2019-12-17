@@ -264,6 +264,7 @@ export interface SendMsg extends Action {
   all_urns?: boolean;
   quick_replies?: string[];
   attachments?: string[];
+  topic?: string;
   templating?: MsgTemplating;
 }
 
@@ -350,7 +351,7 @@ export interface StartSession extends RecipientsAction {
 
 export interface UIMetaData {
   nodes: { [key: string]: UINode };
-  languages: Array<{ [iso: string]: string }>;
+  languages: { [iso: string]: string }[];
 }
 
 export interface FlowPosition {

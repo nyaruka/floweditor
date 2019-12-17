@@ -87,7 +87,8 @@ export enum FeatureFilter {
   HAS_RESTHOOK = 'resthook',
   HAS_WHATSAPP = 'whatsapp',
   HAS_AIRTIME = 'airtime',
-  HAS_CLASSIFIER = 'classifier'
+  HAS_CLASSIFIER = 'classifier',
+  HAS_FACEBOOK = 'facebook'
 }
 
 export interface FlowTypeVisibility {

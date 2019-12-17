@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 $curvature: 10px;
 
@@ -113,7 +113,7 @@ $curvature: 10px;
     z-index: $z_modal_tabs;
     padding-right: 18px;
     float: right;
-    margin-top: 28px;
+    margin-top: 33px;
     position: relative;
 
     .tab {
@@ -124,12 +124,12 @@ $curvature: 10px;
 
       background: rgba(0, 0, 0, 0.1);
       display: inline-block;
-      padding: 7px 14px;
+      padding: 5px 10px;
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
 
       margin-left: 7px;
-      font-size: 12px;
+      font-size: 11px;
       cursor: pointer;
       color: #fff;
 
