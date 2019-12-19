@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-object-literal-type-assertion */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { RouterFormProps } from 'components/flow/props';
 import WebhookRouterForm from 'components/flow/routers/webhook/WebhookRouterForm';
 import { Types } from 'config/interfaces';
@@ -6,7 +8,7 @@ import { composeComponentTestUtils, mock } from 'testUtils';
 import { createWebhookRouterNode, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 import * as React from 'react';
-import { render, fireEvent, getByLabelText, getByTestId, fireChangeText } from 'test/utils';
+import { render, fireEvent, fireChangeText } from 'test/utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -64,7 +66,7 @@ describe(WebhookRouterForm.name, () => {
     });
 
     it('should repopulate post body', () => {
-      const { instance, props } = setup(true, {
+      const { instance } = setup(true, {
         $merge: { onClose: jest.fn(), updateRouter: jest.fn() }
       });
 
@@ -84,6 +86,26 @@ describe(WebhookRouterForm.name, () => {
       instance.handleUrlUpdate('http://domain.com/');
       expect(props.onClose).toHaveBeenCalled();
       expect(props.updateRouter).not.toHaveBeenCalled();
+    });
+
+    it('should validate urls', () => {
+      webhookForm.updateRouter = jest.fn();
+      const { getByText, getAllByTestId } = render(<WebhookRouterForm {...webhookForm} />);
+
+      // set our url and name
+      const [url, resultName] = getAllByTestId('input');
+      fireChangeText(url, 'bad url');
+      fireChangeText(resultName, 'My Webhook Result');
+
+      // we need a valid url
+      const okButton = getByText('Ok');
+      fireEvent.click(okButton);
+      expect(webhookForm.updateRouter).not.toBeCalled();
+
+      // but not if it has an expression
+      fireChangeText(url, '@fields.valid_url');
+      fireEvent.click(okButton);
+      expect(webhookForm.updateRouter).toBeCalled();
     });
   });
 });

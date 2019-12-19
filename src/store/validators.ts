@@ -214,6 +214,16 @@ export const shouldRequireIf = (required: boolean): ValidatorFunc => (
   return { failures: [], value: input };
 };
 
+export const validateIf = (func: ValidatorFunc, predicate: boolean): ValidatorFunc => (
+  name: string,
+  input: FormInput
+) => {
+  if (predicate) {
+    return func(name, input);
+  }
+  return { failures: [], value: input };
+};
+
 export const HeaderName: ValidatorFunc = (name: string, input: FormInput) => {
   if (typeof input === 'string') {
     if (input.trim().length > 0 && !headerUtils.validateHeaderName(input)) {

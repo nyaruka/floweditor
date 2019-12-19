@@ -24,7 +24,8 @@ import {
   shouldRequireIf,
   StartIsNonNumeric,
   validate,
-  ValidURL
+  ValidURL,
+  validateIf
 } from 'store/validators';
 import { createUUID } from 'utils';
 
@@ -90,7 +91,10 @@ export default class WebhookRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('url')) {
-      updates.url = validate('URL', keys.url, [shouldRequireIf(submitting), ValidURL]);
+      updates.url = validate('URL', keys.url, [
+        shouldRequireIf(submitting),
+        validateIf(ValidURL, keys.url.indexOf('@') === -1)
+      ]);
     }
 
     if (keys.hasOwnProperty('resultName')) {
