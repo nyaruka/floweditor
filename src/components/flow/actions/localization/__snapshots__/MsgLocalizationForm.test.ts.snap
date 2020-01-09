@@ -168,6 +168,8 @@ Object {
     "validationFailures": Array [],
     "value": Array [],
   },
+  "templateVariables": Array [],
+  "templating": null,
   "valid": true,
 }
 `;
@@ -201,6 +203,8 @@ Object {
       "blue",
     ],
   },
+  "templateVariables": Array [],
+  "templating": null,
   "valid": true,
 }
 `;

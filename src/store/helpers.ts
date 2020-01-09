@@ -22,7 +22,8 @@ import {
   SwitchRouter,
   UIMetaData,
   Wait,
-  WaitTypes
+  WaitTypes,
+  SendMsg
 } from 'flowTypes';
 import Localization, { LocalizedObject } from 'services/Localization';
 import { Activity, EditorState } from 'store/editor';
@@ -173,6 +174,15 @@ export const getLocalizations = (
 
   if (action) {
     localizations.push(Localization.translate(action, language, translations));
+    // check for localized template variables]
+    if (action.type === Types.send_msg) {
+      const sendMsgAction = action as SendMsg;
+      if (sendMsgAction.templating) {
+        localizations.push(
+          Localization.translate(sendMsgAction.templating, language, translations)
+        );
+      }
+    }
   }
 
   // Account for localized categories

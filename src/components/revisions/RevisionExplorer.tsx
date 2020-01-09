@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { PopTab } from 'components/poptab/PopTab';
 import dateFormat from 'dateformat';
 import { getAssets, getFlowDefinition } from 'external';
-import { FlowDefinition } from 'flowTypes';
+import { FlowDefinition, SPEC_VERSION } from 'flowTypes';
 import React from 'react';
 import { Asset, AssetStore } from 'store/flowContext';
 import { renderIf } from 'utils';
@@ -63,14 +63,16 @@ export class RevisionExplorer extends React.Component<
   public handleUpdateRevisions(): Promise<void> {
     if (this.props.assetStore !== null) {
       const assets = this.props.assetStore.revisions;
-      return getAssets(assets.endpoint, assets.type, assets.id || 'id').then(
-        (remoteAssets: Asset[]) => {
-          if (remoteAssets.length > 0) {
-            remoteAssets[0].content.current = true;
-          }
-          this.setState({ revisions: remoteAssets });
+      return getAssets(
+        assets.endpoint + '?version=' + SPEC_VERSION,
+        assets.type,
+        assets.id || 'id'
+      ).then((remoteAssets: Asset[]) => {
+        if (remoteAssets.length > 0) {
+          remoteAssets[0].content.current = true;
         }
-      );
+        this.setState({ revisions: remoteAssets });
+      });
     }
   }
 

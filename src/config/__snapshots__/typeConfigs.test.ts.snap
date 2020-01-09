@@ -75,6 +75,7 @@ Array [
     "localizeableKeys": Array [
       "text",
       "quick_replies",
+      "templating",
     ],
     "name": "Send Message",
     "type": "send_msg",
@@ -552,6 +553,7 @@ Object {
     "localizeableKeys": Array [
       "text",
       "quick_replies",
+      "templating",
     ],
     "name": "Send Message",
     "type": "send_msg",
