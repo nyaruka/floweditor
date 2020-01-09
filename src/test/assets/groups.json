@@ -19,6 +19,10 @@
     {
       "name": "Subscribers",
       "uuid": "33b28bac-b588-43e4-90de-fda77aeaf7c0"
+    },
+    {
+      "name": "Champions",
+      "uuid": "e0cccbcf-49be-4eef-88a7-ce2150a6d902"
     }
   ]
 }

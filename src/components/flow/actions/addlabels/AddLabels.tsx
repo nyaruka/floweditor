@@ -4,7 +4,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import { AddLabels } from 'flowTypes';
 import { AssetType } from 'store/flowContext';
 
-export const MAX_TO_SHOW = 3;
+export const MAX_TO_SHOW = 5;
 
 const AddLabelsComp: React.SFC<AddLabels> = ({ labels }, context: any): JSX.Element => (
   <>

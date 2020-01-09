@@ -65,6 +65,11 @@ exports[`RemoveGroupsForm render should render 1`] = `
               "name": "Subscribers",
               "type": "group",
             },
+            Object {
+              "id": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
+              "name": "Champions",
+              "type": "group",
+            },
           ],
         }
       }

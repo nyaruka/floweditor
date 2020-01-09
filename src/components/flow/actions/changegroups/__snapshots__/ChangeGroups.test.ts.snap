@@ -28,6 +28,14 @@ exports[`ChangeGroupsComp helpers getChangeGroupsMarkup should return ChangeGrou
     />
     Subscribers
   </div>
+  <div
+    className="node_asset"
+  >
+    <span
+      className="node_group fe-group"
+    />
+    Champions
+  </div>
 </div>
 `;
 
@@ -67,6 +75,14 @@ Array [
     />
     Subscribers
   </div>,
+  <div
+    className="node_asset"
+  >
+    <span
+      className="node_group fe-group"
+    />
+    Champions
+  </div>,
 ]
 `;
 
@@ -78,7 +94,7 @@ exports[`ChangeGroupsComp helpers getRemoveAllMarkup should return remove-all ma
 </div>
 `;
 
-exports[`ChangeGroupsComp render should limit div to 3 groups, include ellipsesText 1`] = `
+exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = `
 <div
   data-spec="content"
 >
@@ -110,9 +126,29 @@ exports[`ChangeGroupsComp render should limit div to 3 groups, include ellipsesT
     Early Adopters
   </div>
   <div
+    className="node_asset"
+    key="afaba971-8943-4dd8-860b-3561ed4f1fe1"
+  >
+    <span
+      className="node_group fe-group"
+    />
+    Testers
+  </div>
+  <div
+    className="node_asset"
+    key="33b28bac-b588-43e4-90de-fda77aeaf7c0"
+  >
+    <span
+      className="node_group fe-group"
+    />
+    Subscribers
+  </div>
+  <div
     key="ellipses"
   >
-    ...
+    +
+    1
+     more
   </div>
 </div>
 `;
@@ -160,6 +196,15 @@ exports[`ChangeGroupsComp render should render group name 1`] = `
       className="node_group fe-group"
     />
     Subscribers
+  </div>
+  <div
+    className="node_asset"
+    key="e0cccbcf-49be-4eef-88a7-ce2150a6d902"
+  >
+    <span
+      className="node_group fe-group"
+    />
+    Champions
   </div>
 </div>
 `;

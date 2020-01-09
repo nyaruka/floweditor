@@ -27,8 +27,20 @@ exports[`StartSessionComp render should render a long list of both contacts and 
         >
           Kellan Alexander
         </div>
+        <div
+          class="node_asset"
+        >
+          Rowan Seymour
+        </div>
+        <div
+          class="node_asset"
+        >
+          Leah Burgerbuns
+        </div>
         <div>
-          ...
+          +
+          1
+           more
         </div>
       </div>
       <div

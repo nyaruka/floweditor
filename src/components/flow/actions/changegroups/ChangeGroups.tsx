@@ -8,9 +8,8 @@ import { AssetType } from 'store/flowContext';
 export const removeAllSpecId = 'remove_from_all';
 export const contentSpecId = 'content';
 export const removeAllText = 'Remove from all groups';
-export const ellipsesText = '...';
 
-export const MAX_TO_SHOW = 3;
+export const MAX_TO_SHOW = 5;
 export const getRemoveAllMarkup = (
   key = removeAllSpecId,
   specId = removeAllSpecId,

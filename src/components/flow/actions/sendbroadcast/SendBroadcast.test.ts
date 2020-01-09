@@ -46,12 +46,13 @@ describe('SendBroadcastComp', () => {
           ],
           groups: [
             { uuid: 'group-1', name: 'Cat Facts' },
-            { uuid: 'group-2', name: 'Cat Fanciers' }
+            { uuid: 'group-2', name: 'Cat Fanciers' },
+            { uuid: 'group-3', name: 'Cat Tattoos' }
           ]
         }
       });
-      expect(wrapper.html()).toContain('...');
-      expect(wrapper.html()).toMatchSnapshot('ellipsized');
+      expect(wrapper.html()).toContain('+1 more');
+      expect(wrapper.html()).toMatchSnapshot('elided');
     });
 
     it('should render placeholder if missing text', () => {

@@ -8,7 +8,8 @@ const labels = [
   'New',
   'Feedback',
   'Needs Attention',
-  'Running Out of Plausible Label Names'
+  'Running Out of Plausible Label Names',
+  'But alas, here is another one'
 ];
 
 const baseProps: AddLabels = {
