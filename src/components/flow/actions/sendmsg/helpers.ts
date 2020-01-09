@@ -6,6 +6,7 @@ import { MsgTemplating, SendMsg } from 'flowTypes';
 import { AssetStore, AssetType } from 'store/flowContext';
 import { AssetEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
+import { createUUID } from 'utils';
 
 export const TOPIC_OPTIONS: SelectOption[] = [
   { value: 'event', label: 'Event' },
@@ -85,8 +86,18 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
     .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
 
   let templating: MsgTemplating = null;
+
   if (state.template && state.template.value) {
+    let templatingUUID = createUUID();
+    if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
+      const action = settings.originalAction as SendMsg;
+      if (action.templating.template.uuid === state.template.value.id) {
+        templatingUUID = action.templating.uuid;
+      }
+    }
+
     templating = {
+      uuid: templatingUUID,
       template: {
         uuid: state.template.value.id,
         name: state.template.value.name

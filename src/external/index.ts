@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
 import { Revision } from 'components/revisions/RevisionExplorer';
-import { Endpoints, Exit, FlowDefinition } from 'flowTypes';
+import { Endpoints, Exit, FlowDefinition, SPEC_VERSION } from 'flowTypes';
 import { currencies } from 'store/currencies';
 import { Activity, RecentMessage } from 'store/editor';
 import {
@@ -52,6 +52,18 @@ export interface Cancel {
 export const saveRevision = (endpoint: string, definition: FlowDefinition): Promise<Revision> => {
   const csrf = getCookie('csrftoken');
   const headers = csrf ? { 'X-CSRFToken': csrf } : {};
+
+  // update the spec version in our def to the current editor version
+  let patch = '0';
+
+  // honor any existing patch increments
+  let release = definition.spec_version.split('.');
+  if (release.length > 2) {
+    patch = release[2];
+  }
+
+  definition.spec_version = [SPEC_VERSION, patch].join('.');
+
   return new Promise<Revision>((resolve, reject) => {
     axios
       .post(endpoint, definition, { headers })
@@ -369,7 +381,7 @@ export const getFlowDefinition = (
       let revisionToLoad = id;
       if (!revisionToLoad) {
         try {
-          const response = await axios.get(`${revisions.endpoint}`);
+          const response = await axios.get(`${revisions.endpoint}?version=${SPEC_VERSION}`);
           if (response.data.results.length > 0) {
             revisionToLoad = response.data.results[0].id;
           }
@@ -379,7 +391,7 @@ export const getFlowDefinition = (
       }
 
       if (revisionToLoad) {
-        const url = `${revisions.endpoint}${revisionToLoad}`;
+        const url = `${revisions.endpoint}${revisionToLoad}?version=${SPEC_VERSION}`;
         axios
           .get(url)
           .then((response: AxiosResponse) => {

@@ -151,7 +151,7 @@ export const typeConfigList: Type[] = [
     description: i18n.t('actions.send_msg.description', 'Send the contact a message'),
     form: SendMsgForm,
     localization: MsgLocalizationForm,
-    localizeableKeys: ['text', 'quick_replies'],
+    localizeableKeys: ['text', 'quick_replies', 'templating'],
     component: SendMsgComp
   },
   {

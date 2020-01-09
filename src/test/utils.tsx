@@ -1,7 +1,7 @@
 // test-utils.js
 import { render, fireEvent } from '@testing-library/react';
 import ConfigProvider from 'config';
-import { FlowDefinition, FlowNode } from 'flowTypes';
+import { FlowDefinition, FlowNode, SPEC_VERSION } from 'flowTypes';
 import React from 'react';
 import { Provider } from 'react-redux';
 import createStore from 'store/createStore';
@@ -19,6 +19,7 @@ export const TEST_NODE: FlowNode = {
 
 export const TEST_DEFINITION: FlowDefinition = {
   uuid: createUUID(),
+  spec_version: SPEC_VERSION,
   language: 'eng',
   name: 'Favorites',
   nodes: [TEST_NODE],

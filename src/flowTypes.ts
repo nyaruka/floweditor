@@ -1,6 +1,9 @@
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { FlowTypes, Operators, Types } from 'config/interfaces';
 
+// we don't concern ourselves with patch versions
+export const SPEC_VERSION = '13.1';
+
 export interface Languages {
   [iso: string]: string;
 }
@@ -74,6 +77,7 @@ export interface FlowDefinition {
   nodes: FlowNode[];
   uuid: string;
   revision: number;
+  spec_version: string;
   _ui: UIMetaData;
 }
 
@@ -255,6 +259,7 @@ export interface MsgTemplate {
 }
 
 export interface MsgTemplating {
+  uuid: string;
   template: MsgTemplate;
   variables: string[];
 }
