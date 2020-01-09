@@ -4,7 +4,7 @@ import { AddURN } from 'flowTypes';
 import { getSchemeObject } from './helpers';
 import i18n from 'config/i18n';
 
-export const MAX_TO_SHOW = 3;
+export const MAX_TO_SHOW = 5;
 
 const AddURNComp: React.SFC<AddURN> = ({ scheme, path }): JSX.Element => {
   const schemeObject = getSchemeObject(scheme);

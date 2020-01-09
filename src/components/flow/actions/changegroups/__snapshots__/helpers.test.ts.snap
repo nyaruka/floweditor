@@ -27,6 +27,11 @@ Array [
     "name": "Subscribers",
     "type": "group",
   },
+  Object {
+    "id": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
+    "name": "Champions",
+    "type": "group",
+  },
 ]
 `;
 
@@ -51,6 +56,10 @@ Array [
   Object {
     "name": "Subscribers",
     "uuid": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
+  },
+  Object {
+    "name": "Champions",
+    "uuid": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
   },
 ]
 `;

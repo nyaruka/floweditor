@@ -20,13 +20,15 @@ describe('StartSessionComp', () => {
           contacts={[
             { uuid: 'contact-1', name: 'Norbert Kwizera' },
             { uuid: 'contact-2', name: 'Kellan Alexander' },
-            { uuid: 'contact-3', name: 'Rowan Seymour' }
+            { uuid: 'contact-3', name: 'Rowan Seymour' },
+            { uuid: 'contact-4', name: 'Leah Burgerbuns' },
+            { uuid: 'contact-5', name: 'Nic Pottier' }
           ]}
         />
       );
 
       expect(baseElement).toMatchSnapshot();
-      getByText('...');
+      getByText('+1 more');
     });
 
     it('should render creating a new contact', () => {

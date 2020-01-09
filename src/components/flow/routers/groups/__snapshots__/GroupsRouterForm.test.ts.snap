@@ -40,6 +40,14 @@ Object {
 }
 `;
 
+exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 6`] = `
+Object {
+  "id": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
+  "name": "Champions",
+  "type": "group",
+}
+`;
+
 exports[`GroupsRouterForm render should render 1`] = `
 <Dialog
   buttons={
@@ -103,6 +111,11 @@ exports[`GroupsRouterForm render should render 1`] = `
           Object {
             "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
             "name": "Subscribers",
+            "type": "group",
+          },
+          Object {
+            "id": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
+            "name": "Champions",
             "type": "group",
           },
         ],
@@ -170,7 +183,7 @@ Array [
         },
         Object {
           "destination_uuid": null,
-          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
         },
       ],
       "router": Object {
@@ -192,12 +205,12 @@ Array [
             "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
           },
           Object {
-            "exit_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
             "name": "Other",
-            "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+            "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
           },
         ],
-        "default_category_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+        "default_category_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
         "operand": "@contact.groups",
         "result_name": "My Group Result",
         "type": "switch",

@@ -11,7 +11,7 @@ export const PLACEHOLDER = i18n.t(
   'Send a message to the contact'
 );
 
-const MAX_TO_SHOW = 3;
+const MAX_TO_SHOW = 5;
 
 const SendBroadcastComp: React.SFC<BroadcastMsg> = (
   action: BroadcastMsg,

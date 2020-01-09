@@ -43,7 +43,7 @@ export const renderAssetList = (
     if (idx <= max - 1) {
       elements.push(renderAsset(asset, endpoints));
     } else if (idx > max - 1 && elements.length === max) {
-      elements.push(<div key="ellipses">...</div>);
+      elements.push(<div key="ellipses">+{assets.length - max} more</div>);
     }
     return elements;
   }, []);

@@ -1,9 +1,9 @@
 import ChangeGroupsComp, {
   contentSpecId,
-  ellipsesText,
   getChangeGroupsMarkup,
   getContentMarkup,
-  getRemoveAllMarkup
+  getRemoveAllMarkup,
+  MAX_TO_SHOW
 } from 'components/flow/actions/changegroups/ChangeGroups';
 import { Types } from 'config/interfaces';
 import { ChangeGroups } from 'flowTypes';
@@ -58,12 +58,11 @@ describe(ChangeGroupsComp.name, () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it('should limit div to 3 groups, include ellipsesText', () => {
+    it('should limit div to max number of groups', () => {
       const { wrapper } = setup(true, { groups: set(groups) });
       const content = getSpecWrapper(wrapper, contentSpecId);
 
-      expect(content.children().length).toBe(4);
-      expect(content.childAt(3).text()).toBe(ellipsesText);
+      expect(content.children().length).toBe(MAX_TO_SHOW + 1);
       expect(wrapper).toMatchSnapshot();
     });
 

@@ -6,7 +6,7 @@ import { AssetType } from 'store/flowContext';
 
 import styles from './StartSession.module.scss';
 
-const MAX_TO_SHOW = 3;
+const MAX_TO_SHOW = 5;
 
 export const StartSessionComp: React.SFC<StartSession> = (
   action: StartSession,
