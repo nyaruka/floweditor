@@ -104,9 +104,10 @@ const renderError = (error: string): JSX.Element => {
 };
 
 const renderInfo = (info: string): JSX.Element => {
+  // localized text can have html entities, so this isn't as dangerous as it looks
   return (
     <div key={info} className={styles.info}>
-      <span>{info}</span>
+      <span dangerouslySetInnerHTML={{ __html: info }} />
     </div>
   );
 };
