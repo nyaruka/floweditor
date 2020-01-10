@@ -76,7 +76,10 @@ export const getCategories = (renderNode: RenderNode): Category[] => {
 
 export const createCaseProps = (cases: Case[], renderNode: RenderNode): CaseProps[] => {
   const categories: Category[] = getCategories(renderNode);
-  return cases.map((kase: Case) => {
+
+  // make sure we don't mutate the in memory version of our cases
+  const newCases = JSON.parse(JSON.stringify(cases));
+  return newCases.map((kase: Case) => {
     const matchingCategory = categories.find(
       (category: Category) => category.uuid === kase.category_uuid
     );
