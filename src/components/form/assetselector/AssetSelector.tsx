@@ -29,7 +29,7 @@ const AssetOption = (props: OptionProps<Asset>) => {
   }
 
   // TODO: add styling for different asset types
-  return !props.isDisabled ? (
+  return !props.isDisabled && components ? (
     <div ref={props.innerRef} {...props.innerProps}>
       <components.Option {...props}>
         {prefix}
