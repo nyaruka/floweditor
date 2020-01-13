@@ -10,6 +10,10 @@ exports[`Simulator renders 1`] = `
       id="simulator"
       key="sim"
     >
+      <ContextExplorer
+        onClose={[Function]}
+        visible={false}
+      />
       <div
         className="screen"
       >
@@ -49,6 +53,16 @@ exports[`Simulator renders 1`] = `
             placeholder="Press home to start again"
             type="text"
           />
+          <div
+            className="show_context_button"
+          >
+            <div
+              className="context-button"
+              onClick={[Function]}
+            >
+              @
+            </div>
+          </div>
           <div
             className="show_attachments_button"
           >
