@@ -17,7 +17,6 @@ $reset_color: #666;
 .simulator {
   background: $black;
   border-radius: 12px;
-  box-shadow: $node_shadow $node_shadow_color;
 
   img {
     height: auto;
@@ -189,12 +188,27 @@ $reset_color: #666;
         font-size: 12px !important;
         font-weight: 300;
         height: 13px;
-        width: 213px;
+        width: 195px;
         padding: 6px 8px;
-        padding-right: 18px;
+        padding-right: 36px;
         color: #333;
         display: inline-block;
         margin: 0;
+      }
+    }
+
+    .show_context_button {
+      display: inline-block;
+      top: 9px;
+      right: 24px;
+      position: absolute;
+      transform: rotate(20deg);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.075);
+      cursor: pointer;
+
+      &:hover {
+        transform: rotate(0deg) scale(1.1);
+        color: #333;
       }
     }
 
