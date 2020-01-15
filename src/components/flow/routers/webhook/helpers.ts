@@ -120,16 +120,12 @@ export const stateToNode = (
   const newAction: CallWebhook = {
     uuid,
     headers,
+    body: state.postBody.value,
     type: Types.call_webhook,
     url: state.url.value,
     method: state.method.value.value as Methods,
     result_name: state.resultName.value
   };
-
-  // include the body if we aren't a get
-  if (newAction.method !== Methods.GET) {
-    newAction.body = state.postBody.value;
-  }
 
   return createWebhookBasedNode(newAction, settings.originalNode, false);
 };

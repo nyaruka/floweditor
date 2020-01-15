@@ -127,7 +127,6 @@
     "placeholder": "Select existing [[name]] or enter a new one",
     "placeholder_plural": "Select existing [[name]] or enter a new one"
   },
-  "body": "Body",
   "buttons": {
     "cancel": "Cancel",
     "ok": "Ok"
@@ -254,6 +253,7 @@
     "has_ward_category": "Has Ward"
   },
   "removal_confirmation": "Remove?",
+  "request_body": "Request Body",
   "revisions": {
     "header": "Revisions",
     "label": "Revision History"

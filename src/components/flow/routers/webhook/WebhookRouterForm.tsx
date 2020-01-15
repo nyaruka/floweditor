@@ -234,51 +234,48 @@ export default class WebhookRouterForm extends React.Component<
       checked: this.state.headers.length > 1
     });
 
-    const method = this.state.method.value.value;
-    const name = this.state.method.value.label + ' ' + i18n.t('body', 'Body');
-    if (method === Methods.POST || method === Methods.PUT) {
-      tabs.push({
-        name,
-        body: (
-          <div key="post_body" className={styles.body_form}>
-            <h4>{name}</h4>
-            <p>
+    const name = i18n.t('request_body', 'Request Body');
+    tabs.push({
+      name: name,
+      body: (
+        <div key="request_body" className={styles.body_form}>
+          <h4>{name}</h4>
+          <p>
+            <Trans
+              i18nKey="forms.call_webhook.body_summary"
+              values={{ method: this.state.method.value.label }}
+            >
+              Modify the body of the [[method]] request that will be sent to your webhook.
+            </Trans>
+          </p>
+          <TextInputElement
+            __className={styles.req_body}
+            name={name}
+            showLabel={false}
+            entry={this.state.postBody}
+            onChange={this.handlePostBodyUpdate}
+            helpText={
               <Trans
                 i18nKey="forms.call_webhook.body_summary"
                 values={{ method: this.state.method.value.label }}
               >
                 Modify the body of the [[method]] request that will be sent to your webhook.
               </Trans>
-            </p>
-            <TextInputElement
-              __className={styles.req_body}
-              name={name}
-              showLabel={false}
-              entry={this.state.postBody}
-              onChange={this.handlePostBodyUpdate}
-              helpText={
-                <Trans
-                  i18nKey="forms.call_webhook.body_summary"
-                  values={{ method: this.state.method.value.label }}
-                >
-                  Modify the body of the [[method]] request that will be sent to your webhook.
-                </Trans>
-              }
-              onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-                const postBody = { ...this.state.postBody, persistantFailures };
-                this.setState({
-                  postBody,
-                  valid: this.state.valid && !hasErrors(postBody)
-                });
-              }}
-              autocomplete={true}
-              textarea={true}
-            />
-          </div>
-        ),
-        checked: this.state.postBody.value !== DEFAULT_BODY
-      });
-    }
+            }
+            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+              const postBody = { ...this.state.postBody, persistantFailures };
+              this.setState({
+                postBody,
+                valid: this.state.valid && !hasErrors(postBody)
+              });
+            }}
+            autocomplete={true}
+            textarea={true}
+          />
+        </div>
+      ),
+      checked: this.state.postBody.value !== DEFAULT_BODY
+    });
 
     return (
       <Dialog

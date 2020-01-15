@@ -49,10 +49,10 @@ describe(WebhookRouterForm.name, () => {
         target: { value: 'POST' }
       });
 
-      // set a post body
-      fireEvent.click(getByText('POST Body'));
+      // set a request body
+      fireEvent.click(getByText('Request Body'));
       const postBody = getByTestId('input');
-      fireChangeText(postBody, 'Updated post body');
+      fireChangeText(postBody, 'Updated request body');
 
       // add http header
       fireEvent.click(getByText('HTTP Headers'));
@@ -65,7 +65,7 @@ describe(WebhookRouterForm.name, () => {
       expect(webhookForm.updateRouter).toMatchCallSnapshot();
     });
 
-    it('should repopulate post body', () => {
+    it('should repopulate request body', () => {
       const { instance } = setup(true, {
         $merge: { onClose: jest.fn(), updateRouter: jest.fn() }
       });
