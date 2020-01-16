@@ -75,6 +75,7 @@ enum DrawerType {
 interface SimulatorState {
   visible: boolean;
   session?: Session;
+  context?: any;
   contact: Contact;
   channel: string;
   events: EventProps[];
@@ -132,6 +133,7 @@ interface Run {
 interface RunContext {
   contact: Contact;
   session: Session;
+  context?: any;
   events: EventProps[];
 }
 
@@ -429,6 +431,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         this.setState(
           {
             active,
+            context: runContext.context,
             sprinting: false,
             session: runContext.session,
             events: newEvents,
@@ -905,6 +908,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       <ContextExplorer
         visible={this.state.contextExplorerVisible}
         onClose={this.handleContextExplorerClose}
+        contents={this.state.context}
       />
     );
   }
@@ -958,6 +962,21 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
             <div className={styles.screen}>
               <div className={styles.header}>
+                {!this.state.contextExplorerVisible ? (
+                  <div className={styles.show_context_button}>
+                    <div
+                      className="context-button"
+                      onClick={() => {
+                        this.setState({
+                          contextExplorerVisible: true
+                        });
+                      }}
+                    >
+                      <span className="fe-at-sign"></span>
+                    </div>
+                  </div>
+                ) : null}
+
                 <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
               </div>
               <div className={styles.messages} style={messagesStyle}>
@@ -976,20 +995,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                   disabled={this.state.sprinting}
                   placeholder={this.state.active ? 'Enter message' : 'Press home to start again'}
                 />
-                {!this.state.contextExplorerVisible ? (
-                  <div className={styles.show_context_button}>
-                    <div
-                      className="context-button"
-                      onClick={() => {
-                        this.setState({
-                          contextExplorerVisible: true
-                        });
-                      }}
-                    >
-                      @
-                    </div>
-                  </div>
-                ) : null}
                 <div className={styles.show_attachments_button}>
                   <div
                     className="fe-paperclip"

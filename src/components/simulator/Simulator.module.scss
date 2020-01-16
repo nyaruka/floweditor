@@ -83,6 +83,18 @@ $reset_color: #666;
       color: #eee;
       background: #555;
       height: 32px;
+
+      .show_context_button {
+        display: inline-block;
+        padding: 8px;
+        cursor: pointer;
+  
+        &:hover {
+          color: #ddd;
+        }
+      }
+  
+
       .close {
         font-size: 20px;
         width: 25px;
@@ -194,21 +206,6 @@ $reset_color: #666;
         color: #333;
         display: inline-block;
         margin: 0;
-      }
-    }
-
-    .show_context_button {
-      display: inline-block;
-      top: 9px;
-      right: 24px;
-      position: absolute;
-      transform: rotate(20deg);
-      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.075);
-      cursor: pointer;
-
-      &:hover {
-        transform: rotate(0deg) scale(1.1);
-        color: #333;
       }
     }
 

@@ -3,28 +3,95 @@
 .context_explorer {
     position: absolute;
     height: 473px;
-    background-color: #444;
-    left: 5px;
-    width: 245px;
+    background: #555;
+    right: 260px;
+    width: 400px;
     top: 14px;
     cursor: default;
     box-shadow: inset -10px 0 10px -10px #222;
     border-top-left-radius: $curvature;
     border-bottom-left-radius: $curvature;
-
-    transition: left 200ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+    transition: width 200ms cubic-bezier(0.175, 0.885, 0.32, 1.075);
+    width: 0px;
 
     &.visible {
-        left: -240px;  
+        opacity: 1;
+        width: 400px;
+
+        .panel {
+            opacity: 1;
+        }
     }
 
     .close_button {
-        padding: 10px;
+        padding: 6px;
+        font-size: 12px;
         color: #ddd;
         cursor: pointer;
         &:hover {
             color: #fff;
         }
     }
-}
 
+    .panel {
+        padding: 0px 20px;
+        height: 422px;
+        overflow-y: scroll;
+        opacity: 0;
+        transition: opacity 300ms 200ms ease-in-out;
+        .row {
+            padding: 2px 0px;
+            display: flex;
+
+            .arrow_right {
+                color: #ddd;
+                padding-right: 5px;
+                visibility: hidden;
+                cursor: pointer;
+                position: relative;
+                transition: all 200ms ease-in-out;
+
+                &.has_children {
+                    visibility: visible;
+                }
+
+                &.open {
+                    transform: rotate(90deg);
+                    top: 2px;
+                    left: -2px;
+                }
+            }
+
+            .key {
+                font-size: 12px;
+                color: #ddd;
+                &.has_children {
+                    cursor: pointer;
+                    color: #e8b5e8;
+                }
+
+                .key_summary {
+                    display: inline;
+                    margin-left: 4px;
+                    font-size: 90%;
+                    color: #ddd;
+                }
+
+            }
+            .colon {
+                margin-right: 4px;
+                color: #eee;
+                line-height: 14px;
+
+            }
+            .str_value {
+                font-size: 85%;
+                color: #ccc;
+                text-align: right;
+                flex-grow: 1;
+            }
+        }
+    }
+
+
+}
