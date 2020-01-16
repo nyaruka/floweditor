@@ -53,7 +53,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
     resultName,
     method: { value: GET_METHOD },
     url: { value: '' },
-    postBody: { value: DEFAULT_BODY },
+    body: { value: getDefaultBody(Methods.GET) },
     valid: false
   };
 
@@ -74,7 +74,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
     state.resultName = { value: action.result_name };
     state.url = { value: action.url };
     state.method = { value: { label: action.method, value: action.method } };
-    state.postBody = { value: action.body };
+    state.body = { value: action.body };
     state.valid = true;
   } else {
     state.headers.push({
@@ -122,14 +122,14 @@ export const stateToNode = (
     headers,
     type: Types.call_webhook,
     url: state.url.value,
+    body: state.body.value,
     method: state.method.value.value as Methods,
     result_name: state.resultName.value
   };
 
-  // include the body if we aren't a get
-  if (newAction.method !== Methods.GET) {
-    newAction.body = state.postBody.value;
-  }
-
   return createWebhookBasedNode(newAction, settings.originalNode, false);
+};
+
+export const getDefaultBody = (method: string): string => {
+  return method === Methods.GET ? '' : DEFAULT_BODY;
 };

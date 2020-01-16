@@ -4,17 +4,16 @@ import { hasErrors } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import HeaderElement, { Header } from 'components/flow/routers/webhook/header/HeaderElement';
 import {
-  GET_METHOD,
   METHOD_OPTIONS,
   MethodOption,
   Methods,
   nodeToState,
-  stateToNode
+  stateToNode,
+  getDefaultBody
 } from 'components/flow/routers/webhook/helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import SelectElement from 'components/form/select/SelectElement';
 import TextInputElement from 'components/form/textinput/TextInputElement';
-import { DEFAULT_BODY } from 'components/nodeeditor/constants';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { FormEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
@@ -46,7 +45,7 @@ export interface WebhookRouterFormState extends FormState {
   headers: HeaderEntry[];
   method: MethodEntry;
   url: StringEntry;
-  postBody: StringEntry;
+  body: StringEntry;
   resultName: StringEntry;
 }
 
@@ -66,7 +65,7 @@ export default class WebhookRouterForm extends React.Component<
     keys: {
       method?: MethodOption;
       url?: string;
-      postBody?: string;
+      body?: string;
       header?: Header;
       removeHeader?: Header;
       validationFailures?: ValidationFailure[];
@@ -81,12 +80,15 @@ export default class WebhookRouterForm extends React.Component<
     if (keys.hasOwnProperty('method')) {
       updates.method = { value: keys.method };
 
-      if (keys.method.value !== GET_METHOD.value) {
-        if (!this.state.postBody.value) {
-          updates.postBody = { value: DEFAULT_BODY };
-        }
-      } else {
-        updates.postBody = { value: null };
+      const oldMethod = this.state.method.value.value;
+      const newMethod = keys.method.value;
+
+      // if we switched from GET to non-GET or non-GET to GET, reset the body back to the default
+      if (
+        (oldMethod === Methods.GET && newMethod !== Methods.GET) ||
+        (oldMethod !== Methods.GET && newMethod === Methods.GET)
+      ) {
+        updates.body = { value: getDefaultBody(newMethod) };
       }
     }
 
@@ -101,8 +103,8 @@ export default class WebhookRouterForm extends React.Component<
       updates.resultName = validate('Result Name', keys.resultName, [shouldRequireIf(submitting)]);
     }
 
-    if (keys.hasOwnProperty('postBody')) {
-      updates.postBody = { value: keys.postBody };
+    if (keys.hasOwnProperty('body')) {
+      updates.body = { value: keys.body };
     }
 
     if (keys.hasOwnProperty('header')) {
@@ -172,8 +174,8 @@ export default class WebhookRouterForm extends React.Component<
     });
   }
 
-  private handlePostBodyUpdate(postBody: string): boolean {
-    return this.handleUpdate({ postBody });
+  private handleBodyUpdate(body: string): boolean {
+    return this.handleUpdate({ body });
   }
 
   private handleSave(): void {
@@ -236,49 +238,47 @@ export default class WebhookRouterForm extends React.Component<
 
     const method = this.state.method.value.value;
     const name = this.state.method.value.label + ' ' + i18n.t('body', 'Body');
-    if (method === Methods.POST || method === Methods.PUT) {
-      tabs.push({
-        name,
-        body: (
-          <div key="post_body" className={styles.body_form}>
-            <h4>{name}</h4>
-            <p>
+    tabs.push({
+      name,
+      body: (
+        <div key="post_body" className={styles.body_form}>
+          <h4>{name}</h4>
+          <p>
+            <Trans
+              i18nKey="forms.call_webhook.body_summary"
+              values={{ method: this.state.method.value.label }}
+            >
+              Modify the body of the [[method]] request that will be sent to your webhook.
+            </Trans>
+          </p>
+          <TextInputElement
+            __className={styles.req_body}
+            name={name}
+            showLabel={false}
+            entry={this.state.body}
+            onChange={this.handleBodyUpdate}
+            helpText={
               <Trans
                 i18nKey="forms.call_webhook.body_summary"
                 values={{ method: this.state.method.value.label }}
               >
                 Modify the body of the [[method]] request that will be sent to your webhook.
               </Trans>
-            </p>
-            <TextInputElement
-              __className={styles.req_body}
-              name={name}
-              showLabel={false}
-              entry={this.state.postBody}
-              onChange={this.handlePostBodyUpdate}
-              helpText={
-                <Trans
-                  i18nKey="forms.call_webhook.body_summary"
-                  values={{ method: this.state.method.value.label }}
-                >
-                  Modify the body of the [[method]] request that will be sent to your webhook.
-                </Trans>
-              }
-              onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-                const postBody = { ...this.state.postBody, persistantFailures };
-                this.setState({
-                  postBody,
-                  valid: this.state.valid && !hasErrors(postBody)
-                });
-              }}
-              autocomplete={true}
-              textarea={true}
-            />
-          </div>
-        ),
-        checked: this.state.postBody.value !== DEFAULT_BODY
-      });
-    }
+            }
+            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
+              const body = { ...this.state.body, persistantFailures };
+              this.setState({
+                body,
+                valid: this.state.valid && !hasErrors(body)
+              });
+            }}
+            autocomplete={true}
+            textarea={true}
+          />
+        </div>
+      ),
+      checked: this.state.body.value !== getDefaultBody(method)
+    });
 
     return (
       <Dialog
