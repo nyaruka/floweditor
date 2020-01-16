@@ -10,7 +10,7 @@ const assetList = [
     user: user,
     created_on: new Date(),
     id: 1,
-    version: '13',
+    version: '13.0.0',
     revision: 1
   }
 ];
@@ -20,6 +20,7 @@ const assetContent = {
     name: 'Favorites',
     language: 'eng',
     type: 'message',
+    spec_version: '13.0.0',
     uuid: 'a4f64f1b-85bc-477e-b706-de313a022979',
     localization: {},
     nodes: [],
@@ -38,7 +39,7 @@ exports.handler = (request, context, callback) => {
       user: user,
       created_on: new Date(),
       id,
-      version: '13',
+      version: '13.0.0',
       revision: id
     };
     assetList.unshift(asset);
