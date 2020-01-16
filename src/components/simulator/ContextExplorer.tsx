@@ -105,6 +105,8 @@ export default class ContextExplorer extends React.Component<
       [styles.open]: isOpen
     });
     const keyStyles = cx({ [styles.key]: true, [styles.has_children]: hasChildren });
+
+    const isArrayElement = isNaN(parseInt(name, 10));
     const keySummary = Array.isArray(value) ? `[${value.length}]` : null;
 
     const onClick = hasChildren
@@ -122,7 +124,7 @@ export default class ContextExplorer extends React.Component<
         >
           <div className={arrowStyles}>›</div>
           <div className={keyStyles}>
-            {name}
+            {isArrayElement ? name : `[${name}]`}
             <div className={styles.key_summary}>{keySummary}</div>
           </div>
           <div className={styles.str_value}>{text}</div>
@@ -150,7 +152,6 @@ export default class ContextExplorer extends React.Component<
   }
 
   public render(): JSX.Element {
-    console.log(this.props.contents);
     return (
       <div className={styles.context_explorer + ' ' + (this.props.visible ? styles.visible : '')}>
         <div className={'fe-x ' + styles.close_button} onClick={this.handleHide} />
