@@ -14,7 +14,6 @@ import {
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import SelectElement from 'components/form/select/SelectElement';
 import TextInputElement from 'components/form/textinput/TextInputElement';
-import { DEFAULT_BODY } from 'components/nodeeditor/constants';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { FormEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
