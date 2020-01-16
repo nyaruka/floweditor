@@ -79,14 +79,17 @@ export default class WebhookRouterForm extends React.Component<
     let ensureEmptyHeader = false;
 
     if (keys.hasOwnProperty('method')) {
-      const oldMethod = this.state.method.value.value;
-      const newMethod = keys.method.value;
       updates.method = { value: keys.method };
 
-      if (oldMethod === Methods.GET && newMethod !== Methods.GET) {
-        updates.body = { value: DEFAULT_BODY };
-      } else if (oldMethod !== Methods.GET && newMethod === Methods.GET) {
-        updates.body = { value: null };
+      const oldMethod = this.state.method.value.value;
+      const newMethod = keys.method.value;
+
+      // if we switched from GET to non-GET or non-GET to GET, reset the body back to the default
+      if (
+        (oldMethod === Methods.GET && newMethod !== Methods.GET) ||
+        (oldMethod !== Methods.GET && newMethod === Methods.GET)
+      ) {
+        updates.body = { value: getDefaultBody(newMethod) };
       }
     }
 
