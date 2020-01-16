@@ -65,6 +65,55 @@ exports[`WebhookRouterForm should render 1`] = `
         "hasErrors": false,
         "name": "HTTP Headers",
       },
+      Object {
+        "body": <div
+          className="body_form"
+        >
+          <h4>
+            GET Body
+          </h4>
+          <p>
+            <Trans
+              i18nKey="forms.call_webhook.body_summary"
+              values={
+                Object {
+                  "method": "GET",
+                }
+              }
+            >
+              Modify the body of the [[method]] request that will be sent to your webhook.
+            </Trans>
+          </p>
+          <ForwardRef(forwardConnectRef)
+            __className="req_body"
+            autocomplete={true}
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            helpText={
+              <Trans
+                i18nKey="forms.call_webhook.body_summary"
+                values={
+                  Object {
+                    "method": "GET",
+                  }
+                }
+              >
+                Modify the body of the [[method]] request that will be sent to your webhook.
+              </Trans>
+            }
+            name="GET Body"
+            onChange={[Function]}
+            onFieldFailures={[Function]}
+            showLabel={false}
+            textarea={true}
+          />
+        </div>,
+        "checked": false,
+        "name": "GET Body",
+      },
     ]
   }
   title="Call Webhook"
@@ -214,6 +263,9 @@ exports[`WebhookRouterForm should render 1`] = `
 
 exports[`WebhookRouterForm updates should repopulate post body 1`] = `
 Object {
+  "body": Object {
+    "value": "",
+  },
   "headers": Array [
     Object {
       "value": Object {
@@ -235,9 +287,6 @@ Object {
       "value": "GET",
     },
   },
-  "postBody": Object {
-    "value": null,
-  },
   "resultName": Object {
     "value": "Result",
   },
@@ -251,6 +300,20 @@ Object {
 
 exports[`WebhookRouterForm updates should repopulate post body 2`] = `
 Object {
+  "body": Object {
+    "value": "@(json(object(
+  \\"contact\\", object(
+    \\"uuid\\", contact.uuid, 
+    \\"name\\", contact.name, 
+    \\"urn\\", contact.urn
+  ),
+  \\"flow\\", object(
+    \\"uuid\\", run.flow.uuid, 
+    \\"name\\", run.flow.name
+  ),
+  \\"results\\", foreach_value(results, extract_object, \\"value\\", \\"category\\")
+)))",
+  },
   "headers": Array [
     Object {
       "value": Object {
@@ -269,20 +332,6 @@ Object {
   ],
   "method": Object {
     "value": "POST",
-  },
-  "postBody": Object {
-    "value": "@(json(object(
-  \\"contact\\", object(
-    \\"uuid\\", contact.uuid, 
-    \\"name\\", contact.name, 
-    \\"urn\\", contact.urn
-  ),
-  \\"flow\\", object(
-    \\"uuid\\", run.flow.uuid, 
-    \\"name\\", run.flow.name
-  ),
-  \\"results\\", foreach_value(results, extract_object, \\"value\\", \\"category\\")
-)))",
   },
   "resultName": Object {
     "value": "Result",
@@ -312,6 +361,12 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
           <span
             class="tab_icon fe-check"
           />
+        </div>
+        <div
+          class="tab "
+        >
+          GET Body
+           
         </div>
       </div>
       <div
