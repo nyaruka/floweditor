@@ -6,6 +6,7 @@ export const MEDIA_OPERAND = '@input';
 export const DIGITS_OPERAND = '@input.text';
 export const MENU_OPERAND = '@input.text';
 
+// default body for non-GET webhook actions
 export const DEFAULT_BODY: string = `@(json(object(
   "contact", object(
     "uuid", contact.uuid, 
