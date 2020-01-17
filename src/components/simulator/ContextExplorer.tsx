@@ -6,6 +6,12 @@ import classNames from 'classnames/bind';
 const DEFAULT_KEY = '__default__';
 const cx: any = classNames.bind(styles);
 
+const EXCLUDED_PATHS: { [path: string]: boolean } = {
+  'parent.run': true,
+  'child.run': true,
+  legacy_extra: true
+};
+
 type PathStep = number | string;
 
 interface ContextExplorerProps {
@@ -84,8 +90,12 @@ export default class ContextExplorer extends React.Component<
       return null;
     }
 
-    const valueType = typeof value;
+    const newPath = [...path, name];
+    if (EXCLUDED_PATHS[newPath.join('.')]) {
+      return null;
+    }
 
+    const valueType = typeof value;
     let text = valueType === 'string' ? value : '';
     let hasChildren = value && valueType === 'object' && Object.keys(value).length > 0;
 
@@ -96,7 +106,6 @@ export default class ContextExplorer extends React.Component<
       }
     }
 
-    const newPath = [...path, name];
     const isOpen = this.isOpen(newPath);
 
     const arrowStyles = cx({
@@ -138,6 +147,7 @@ export default class ContextExplorer extends React.Component<
     if (!value) {
       return null;
     }
+
     return (
       <>
         {Object.keys(value).map((key: string) => {
