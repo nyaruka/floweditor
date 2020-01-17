@@ -2,6 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as axios from 'axios';
 import { getTime, isMessage, isMT } from 'components/simulator/helpers';
 import LogEvent, { EventProps } from 'components/simulator/LogEvent';
+import ContextExplorer from './ContextExplorer';
 import styles from 'components/simulator/Simulator.module.scss';
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { getURL } from 'external';
@@ -74,6 +75,7 @@ enum DrawerType {
 interface SimulatorState {
   visible: boolean;
   session?: Session;
+  context?: any;
   contact: Contact;
   channel: string;
   events: EventProps[];
@@ -98,6 +100,9 @@ interface SimulatorState {
 
   // is our attachment type selection open
   attachmentOptionsVisible: boolean;
+
+  // if we can see our context explorer
+  contextExplorerVisible: boolean;
 
   // are we at a wait hint, ie, a forced attachment
   waitingForHint: boolean;
@@ -128,6 +133,7 @@ interface Run {
 interface RunContext {
   contact: Contact;
   session: Session;
+  context?: any;
   events: EventProps[];
 }
 
@@ -175,6 +181,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       waitingForHint: false,
       drawerOpen: false,
       attachmentOptionsVisible: false,
+      contextExplorerVisible: false,
       sprinting: false
     };
     this.bottomRef = this.bottomRef.bind(this);
@@ -424,6 +431,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         this.setState(
           {
             active,
+            context: runContext.context,
             sprinting: false,
             session: runContext.session,
             events: newEvents,
@@ -597,7 +605,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     this.props.mergeEditorState({ simulating: newVisible });
 
-    this.setState({ visible: newVisible }, () => {
+    this.setState({ visible: newVisible, contextExplorerVisible: false }, () => {
       // clear our viewing definition
       if (!this.state.visible) {
         window.setTimeout(() => {
@@ -891,6 +899,20 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     );
   }
 
+  private handleContextExplorerClose(): void {
+    this.setState({ contextExplorerVisible: false });
+  }
+
+  private getContextExplorer(): JSX.Element {
+    return (
+      <ContextExplorer
+        visible={this.state.contextExplorerVisible}
+        onClose={this.handleContextExplorerClose}
+        contents={this.state.context}
+      />
+    );
+  }
+
   private handleHideAttachmentDrawer(): void {
     this.setState({ drawerOpen: false });
   }
@@ -936,8 +958,25 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       <div className={styles.sim_container}>
         <div>
           <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
+            {this.getContextExplorer()}
+
             <div className={styles.screen}>
               <div className={styles.header}>
+                {!this.state.contextExplorerVisible ? (
+                  <div className={styles.show_context_button}>
+                    <div
+                      className="context-button"
+                      onClick={() => {
+                        this.setState({
+                          contextExplorerVisible: true
+                        });
+                      }}
+                    >
+                      <span className="fe-at-sign"></span>
+                    </div>
+                  </div>
+                ) : null}
+
                 <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
               </div>
               <div className={styles.messages} style={messagesStyle}>
