@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'floweditor';
-  src: url('fonts/floweditor.ttf?p4jgsg') format('truetype'),
-    url('fonts/floweditor.woff?p4jgsg') format('woff'),
-    url('fonts/floweditor.svg?p4jgsg#floweditor') format('svg');
+  src: url('fonts/floweditor.ttf?3e0cyp') format('truetype'),
+    url('fonts/floweditor.woff?3e0cyp') format('woff'),
+    url('fonts/floweditor.svg?3e0cyp#floweditor') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,38 +24,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.fe-facebook:before {
-  content: '\e904';
+.fe-eye:before {
+  content: '\e6a5';
 }
-.fe-connection1:before {
-  content: '\e97c';
-}
-.fe-battery-4:before {
-  content: '\ee56';
-}
-.fe-add:before {
-  content: '\e901';
-}
-.fe-stop:before {
-  content: '\e907';
-}
-.fe-play_arrow:before {
-  content: '\e906';
-}
-.fe-pause:before {
-  content: '\e905';
-}
-.fe-battery1:before {
-  content: '\e902';
-}
-.fe-battery:before {
-  content: '\e900';
-}
-.fe-whatsapp:before {
-  content: '\e903';
-}
-.fe-battery:before {
-  content: '\e900';
+.fe-eye-crossed:before {
+  content: '\e6a6';
 }
 .fe-home:before {
   content: '\e601';
@@ -416,4 +389,34 @@
 }
 .fe-ellipsis:before {
   content: '\e9e9';
+}
+.fe-facebook:before {
+  content: '\e904';
+}
+.fe-connection1:before {
+  content: '\e97c';
+}
+.fe-battery-4:before {
+  content: '\ee56';
+}
+.fe-add:before {
+  content: '\e901';
+}
+.fe-stop:before {
+  content: '\e907';
+}
+.fe-play_arrow:before {
+  content: '\e906';
+}
+.fe-pause:before {
+  content: '\e905';
+}
+.fe-battery1:before {
+  content: '\e902';
+}
+.fe-whatsapp:before {
+  content: '\e903';
+}
+.fe-battery:before {
+  content: '\e900';
 }

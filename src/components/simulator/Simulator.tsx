@@ -962,21 +962,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
             <div className={styles.screen}>
               <div className={styles.header}>
-                {!this.state.contextExplorerVisible ? (
-                  <div className={styles.show_context_button}>
-                    <div
-                      className="context-button"
-                      onClick={() => {
-                        this.setState({
-                          contextExplorerVisible: true
-                        });
-                      }}
-                    >
-                      <span className="fe-at-sign"></span>
-                    </div>
-                  </div>
-                ) : null}
-
                 <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
               </div>
               <div className={styles.messages} style={messagesStyle}>
@@ -1010,6 +995,34 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               {this.getAttachmentOptions()}
               {this.getDrawer()}
               <div className={styles.footer}>
+                {!this.state.contextExplorerVisible ? (
+                  <div className={styles.show_context_button}>
+                    <div
+                      className="context-button"
+                      onClick={() => {
+                        this.setState({
+                          contextExplorerVisible: true
+                        });
+                      }}
+                    >
+                      <span className="fe-at-sign"></span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className={styles.show_context_button}>
+                    <div
+                      className="context-button"
+                      onClick={() => {
+                        this.setState({
+                          contextExplorerVisible: false
+                        });
+                      }}
+                    >
+                      <span className="fe-x"></span>
+                    </div>
+                  </div>
+                )}
+
                 <span
                   className={
                     styles.reset + ' ' + (this.state.active ? styles.active : styles.inactive)

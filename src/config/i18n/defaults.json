@@ -132,6 +132,11 @@
     "cancel": "Cancel",
     "ok": "Ok"
   },
+  "context_explorer": {
+    "copied_expression": "Copied <1>[[expression]]</1> to clipboard",
+    "hide_empty": "Showing keys with values",
+    "show_empty": "Showing all keys"
+  },
   "create_group": "Create Group",
   "create_label": "Create Label",
   "drag_helper": "To connect nodes, <1>drag</1> from the red circle.",
@@ -189,9 +194,17 @@
       "subject_name": "Subject",
       "subject_placeholder": "Subject"
     },
+    "send_message": {
+      "facebook": {
+        "topic_placeholder": "Select a topic to use over Facebook"
+      }
+    },
     "send_msg": {
       "add_quick_reply": "Add a new Quick Reply and press enter.",
       "all_destinations": "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked.",
+      "facebook": {
+        "warning": "Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow."
+      },
       "localized_quick_replies": "Add a new [[language]] Quick Reply and press enter.",
       "quick_replies": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
       "summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",

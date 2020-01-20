@@ -405,3 +405,7 @@ export const scalarArrayEquals = (a: any[], b: any[]) =>
 export const getURNPath = (urn: string) => {
   return urn.split(':')[1];
 };
+
+export const copyToClipboard = (text: string) => {
+  navigator.clipboard.writeText(text);
+};

@@ -84,17 +84,6 @@ $reset_color: #666;
       background: #555;
       height: 32px;
 
-      .show_context_button {
-        display: inline-block;
-        padding: 8px;
-        cursor: pointer;
-  
-        &:hover {
-          color: #ddd;
-        }
-      }
-  
-
       .close {
         font-size: 20px;
         width: 25px;
@@ -137,6 +126,16 @@ $reset_color: #666;
       width: 100%;
 
       $light_reset: lighten($reset_color, 7%);
+
+      .show_context_button {
+        display: inline-block;
+        padding: 12px;
+        cursor: pointer;
+  
+        &:hover {
+          color: #ddd;
+        }
+      }
 
       .reset {
         background-color: $reset_color;
