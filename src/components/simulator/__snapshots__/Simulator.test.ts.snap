@@ -21,18 +21,6 @@ exports[`Simulator renders 1`] = `
           className="header"
         >
           <div
-            className="show_context_button"
-          >
-            <div
-              className="context-button"
-              onClick={[Function]}
-            >
-              <span
-                className="fe-at-sign"
-              />
-            </div>
-          </div>
-          <div
             className="close fe-x"
             onClick={[Function]}
           />
@@ -109,6 +97,18 @@ exports[`Simulator renders 1`] = `
         <div
           className="footer"
         >
+          <div
+            className="show_context_button"
+          >
+            <div
+              className="context-button"
+              onClick={[Function]}
+            >
+              <span
+                className="fe-at-sign"
+              />
+            </div>
+          </div>
           <span
             className="reset inactive"
             onClick={[Function]}

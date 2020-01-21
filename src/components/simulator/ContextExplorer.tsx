@@ -2,8 +2,11 @@ import * as React from 'react';
 import styles from './ContextExplorer.module.scss';
 import { react as bindCallbacks } from 'auto-bind';
 import classNames from 'classnames/bind';
+import { copyToClipboard } from 'utils';
+import i18n from 'config/i18n';
+import { Trans } from 'react-i18next';
+import { DEFAULT_KEY, pruneEmpty } from './helpers';
 
-const DEFAULT_KEY = '__default__';
 const cx: any = classNames.bind(styles);
 
 const EXCLUDED_PATHS: { [path: string]: boolean } = {
@@ -22,6 +25,10 @@ interface ContextExplorerProps {
 
 interface ContextExplorerState {
   opened: {};
+  expression: string;
+  messageVisible: boolean;
+  message: string;
+  showEmpty: boolean;
 }
 
 export default class ContextExplorer extends React.Component<
@@ -31,7 +38,11 @@ export default class ContextExplorer extends React.Component<
   constructor(props: ContextExplorerProps) {
     super(props);
     this.state = {
-      opened: {}
+      opened: {},
+      expression: null,
+      messageVisible: false,
+      showEmpty: false,
+      message: null
     };
 
     bindCallbacks(this, {
@@ -52,6 +63,35 @@ export default class ContextExplorer extends React.Component<
       }
     }
     return true;
+  }
+
+  private handleCopyPath(key: PathStep, prevPath: PathStep[]) {
+    const path: PathStep[] = [...prevPath, key];
+    const expression = '@' + path.join('.');
+    copyToClipboard(expression);
+    this.setState({ expression, messageVisible: true, message: null }, () => {
+      window.setTimeout(() => {
+        if (this.state.expression === expression) {
+          this.setState({ messageVisible: false });
+        }
+      }, 1500);
+    });
+  }
+
+  private handleToggleHide(): void {
+    const message = this.state.showEmpty
+      ? i18n.t('context_explorer.hide_empty', 'Showing keys with values')
+      : i18n.t('context_explorer.show_empty', 'Showing all keys');
+    this.setState(
+      { showEmpty: !this.state.showEmpty, message, expression: null, messageVisible: true },
+      () => {
+        window.setTimeout(() => {
+          if (this.state.message === message) {
+            this.setState({ messageVisible: false });
+          }
+        }, 1000);
+      }
+    );
   }
 
   private handlePathClick(key: PathStep, prevPath: PathStep[]) {
@@ -114,15 +154,17 @@ export default class ContextExplorer extends React.Component<
       [styles.open]: isOpen
     });
     const keyStyles = cx({ [styles.key]: true, [styles.has_children]: hasChildren });
-
-    const isArrayElement = isNaN(parseInt(name, 10));
     const keySummary = Array.isArray(value) ? `[${value.length}]` : null;
 
-    const onClick = hasChildren
-      ? () => {
+    const onClick = (evt: React.MouseEvent<HTMLDivElement>) => {
+      if (evt.shiftKey) {
+        this.handleCopyPath(name, path);
+      } else {
+        if (hasChildren) {
           this.handlePathClick(name, path);
         }
-      : null;
+      }
+    };
 
     return (
       <div key={name + path.length}>
@@ -133,8 +175,15 @@ export default class ContextExplorer extends React.Component<
         >
           <div className={arrowStyles}>›</div>
           <div className={keyStyles}>
-            {isArrayElement ? name : `[${name}]`}
+            {name}
             <div className={styles.key_summary}>{keySummary}</div>
+            <div
+              className={styles.clipboard + ' fe-clipboard-empty'}
+              onClick={(evt: React.MouseEvent<HTMLDivElement>) => {
+                evt.stopPropagation();
+                this.handleCopyPath(name, path);
+              }}
+            ></div>
           </div>
           <div className={styles.str_value}>{text}</div>
         </div>
@@ -162,10 +211,46 @@ export default class ContextExplorer extends React.Component<
   }
 
   public render(): JSX.Element {
+    let context = this.props.contents;
+    if (this.props.contents && !this.state.showEmpty) {
+      context = pruneEmpty(JSON.parse(JSON.stringify(this.props.contents)));
+    }
+
+    let message = null;
+    if (this.state.message || this.state.expression) {
+      if (this.state.message) {
+        message = this.state.message;
+      } else if (this.state.expression) {
+        message = (
+          <Trans
+            i18nKey="context_explorer.copied_expression"
+            values={{ expression: this.state.expression }}
+          >
+            Copied <span className={styles.expression}>[[expression]]</span> to clipboard
+          </Trans>
+        );
+      }
+    }
+
+    const messageStyle = cx({
+      [styles.message]: true,
+      [styles.visible]: this.state.messageVisible
+    });
+
     return (
       <div className={styles.context_explorer + ' ' + (this.props.visible ? styles.visible : '')}>
-        <div className={'fe-x ' + styles.close_button} onClick={this.handleHide} />
-        <div className={styles.panel}>{this.renderProperties(this.props.contents)}</div>
+        <div className={messageStyle}>{message}</div>
+        <div className={styles.panel}>{this.renderProperties(context)}</div>
+        <div className={styles.footer}>
+          <div
+            className={styles.empty_toggle}
+            onClick={() => {
+              this.handleToggleHide();
+            }}
+          >
+            <div className={this.state.showEmpty ? 'fe-eye' : 'fe-eye-crossed'}></div>
+          </div>
+        </div>
       </div>
     );
   }
