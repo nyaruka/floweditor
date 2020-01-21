@@ -91,7 +91,11 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
     let templatingUUID = createUUID();
     if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
       const action = settings.originalAction as SendMsg;
-      if (action.templating.template.uuid === state.template.value.id) {
+      if (
+        action.templating &&
+        action.templating.template &&
+        action.templating.template.uuid === state.template.value.id
+      ) {
         templatingUUID = action.templating.uuid;
       }
     }
