@@ -84,34 +84,34 @@ export default class WebhookRouterForm extends React.Component<
       const oldMethod = this.state.method.value.value;
       const newMethod = keys.method.value;
 
-      // if we don't have a content-type when switching to a PUT or POST, add one
-      if (oldMethod === Methods.GET && newMethod !== Methods.GET) {
-        const existing = this.state.headers.find(
+      if (oldMethod !== newMethod) {
+        const existingContentTypeHeader = this.state.headers.find(
           (header: HeaderEntry) => header.value.name.toLowerCase() === 'content-type'
         );
-        if (!existing) {
-          let uuid = createUUID();
 
-          // if we have an empty header, use that one
-          const lastHeader =
-            this.state.headers.length > 0
-              ? this.state.headers[this.state.headers.length - 1]
-              : null;
-          if (lastHeader && !lastHeader.value.name) {
-            uuid = lastHeader.value.uuid;
+        // whenever our method changes, update the default body
+        updates.body = { value: getDefaultBody(newMethod) };
+
+        // switching from a GET, add a content-type
+        if (oldMethod === Methods.GET && newMethod !== Methods.GET) {
+          if (!existingContentTypeHeader) {
+            let uuid = createUUID();
+            // if we have an empty header, use that one
+            const lastHeader =
+              this.state.headers.length > 0
+                ? this.state.headers[this.state.headers.length - 1]
+                : null;
+            if (lastHeader && !lastHeader.value.name) {
+              uuid = lastHeader.value.uuid;
+            }
+            keys.header = { uuid, name: 'Content-Type', value: 'application/json' };
           }
-          keys.header = { uuid, name: 'Content-Type', value: 'application/json' };
+        } else if (oldMethod !== Methods.GET && newMethod === Methods.GET) {
+          // remove content type if switching to a GET
+          if (existingContentTypeHeader) {
+            toRemove = [{ headers: [{ value: existingContentTypeHeader.value }] }];
+          }
         }
-        updates.body = { value: getDefaultBody(newMethod) };
-      } else if (oldMethod !== Methods.GET && newMethod === Methods.GET) {
-        // remove content type when resetting to a get
-        const existing = this.state.headers.find(
-          (header: HeaderEntry) => header.value.name.toLowerCase() === 'content-type'
-        );
-        if (existing) {
-          toRemove = [{ headers: [{ value: existing.value }] }];
-        }
-        updates.body = { value: getDefaultBody(newMethod) };
       }
     }
 
