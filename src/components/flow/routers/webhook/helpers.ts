@@ -80,7 +80,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
     state.headers.push({
       value: {
         uuid: createUUID(),
-        name: 'Content-Type',
+        name: 'Accept',
         value: 'application/json'
       }
     });
