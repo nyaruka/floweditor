@@ -76,6 +76,7 @@ export default class WebhookRouterForm extends React.Component<
     const updates: Partial<WebhookRouterFormState> = {};
 
     let ensureEmptyHeader = false;
+    let toRemove: any[] = [];
 
     if (keys.hasOwnProperty('method')) {
       updates.method = { value: keys.method };
@@ -83,12 +84,34 @@ export default class WebhookRouterForm extends React.Component<
       const oldMethod = this.state.method.value.value;
       const newMethod = keys.method.value;
 
-      // if we switched from GET to non-GET or non-GET to GET, reset the body back to the default
-      if (
-        (oldMethod === Methods.GET && newMethod !== Methods.GET) ||
-        (oldMethod !== Methods.GET && newMethod === Methods.GET)
-      ) {
+      if (oldMethod !== newMethod) {
+        const existingContentTypeHeader = this.state.headers.find(
+          (header: HeaderEntry) => header.value.name.toLowerCase() === 'content-type'
+        );
+
+        // whenever our method changes, update the default body
         updates.body = { value: getDefaultBody(newMethod) };
+
+        // switching from a GET, add a content-type
+        if (oldMethod === Methods.GET && newMethod !== Methods.GET) {
+          if (!existingContentTypeHeader) {
+            let uuid = createUUID();
+            // if we have an empty header, use that one
+            const lastHeader =
+              this.state.headers.length > 0
+                ? this.state.headers[this.state.headers.length - 1]
+                : null;
+            if (lastHeader && !lastHeader.value.name) {
+              uuid = lastHeader.value.uuid;
+            }
+            keys.header = { uuid, name: 'Content-Type', value: 'application/json' };
+          }
+        } else if (oldMethod !== Methods.GET && newMethod === Methods.GET) {
+          // remove content type if switching to a GET
+          if (existingContentTypeHeader) {
+            toRemove = [{ headers: [{ value: existingContentTypeHeader.value }] }];
+          }
+        }
       }
     }
 
@@ -112,7 +135,6 @@ export default class WebhookRouterForm extends React.Component<
       ensureEmptyHeader = true;
     }
 
-    let toRemove: any[] = [];
     if (keys.hasOwnProperty('removeHeader')) {
       toRemove = [{ headers: [{ value: keys.removeHeader }] }];
       ensureEmptyHeader = true;
