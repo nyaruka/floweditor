@@ -50,14 +50,18 @@ export default class SubflowRouterForm extends React.PureComponent<
 
   public handleFlowChanged(flows: Asset[], submitting = false): boolean {
     const flow = flows[0];
+
     const updates: Partial<SubflowRouterFormState> = {
       flow: validate('Flow', flow, [shouldRequireIf(submitting)])
     };
 
-    if (!submitting && flow && this.state.flow.value && flow.id !== this.state.flow.value.id) {
-      const params: { [name: string]: StringEntry } = {};
-      for (const param of flow.content.parent_refs) {
-        params[param] = { value: '' };
+    // ensure our parameters are initialized
+    if (flow && flow.content && flow.content.parent_refs) {
+      const params = { ...this.state.params };
+      for (const key of flow.content.parent_refs) {
+        if (!params[key]) {
+          params[key] = { value: '' };
+        }
       }
       updates.params = params;
     }
@@ -143,8 +147,8 @@ export default class SubflowRouterForm extends React.PureComponent<
                 >
                   [[flow]]
                 </a>{' '}
-                expects the following results to be set by the calling flow. These can be set
-                elsewhere in your flow, or you can set them below for convenience.
+                expects the following parameters to be set by this flow. These can be set elsewhere
+                in the flow using a <span>Save Flow Result</span> action, or you can set them below.
               </Trans>
             </p>
             <table className={styles.params}>

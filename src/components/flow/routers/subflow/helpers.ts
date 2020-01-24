@@ -46,7 +46,7 @@ export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormStat
 
   return {
     flow: { value: null },
-    params: { value: null },
+    params: {},
     valid: false
   };
 };

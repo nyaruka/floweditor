@@ -37,7 +37,11 @@ export default class SetRunResultForm extends React.PureComponent<
   }
 
   private handleNameUpdate(selected: Asset[]): void {
-    this.handleUpdate({ name: selected[0] });
+    if (selected) {
+      this.handleUpdate({ name: selected[0] });
+    } else {
+      this.handleUpdate({ name: null });
+    }
   }
 
   public handleValueUpdate(value: string): boolean {

@@ -8,6 +8,7 @@ const assetList = [
     type: 'message',
     archived: false,
     labels: [],
+    parent_refs: ['order_number', 'customer_id'],
     expires: 10080
   }
 ];

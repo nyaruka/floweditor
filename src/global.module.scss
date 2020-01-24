@@ -1,5 +1,12 @@
 @import 'variables.module.scss';
 
+
+.proper {
+  background: #f3f3f3;
+  padding: 2px 5px;
+  border-radius: 2px;
+}
+
 :global {
   ::-webkit-scrollbar {
     width: 0px !important;
