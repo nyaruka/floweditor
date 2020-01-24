@@ -173,7 +173,7 @@
     },
     "enter_flow": {
       "parameters": {
-        "summary": "<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set elsewhere in the flow using a <3>Save Flow Result</3> action, or you can set them below.",
+        "summary": "<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.",
         "tab": "Parameters"
       }
     },
