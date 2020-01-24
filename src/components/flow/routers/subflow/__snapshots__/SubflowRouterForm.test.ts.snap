@@ -15,6 +15,7 @@ exports[`SubflowRouterForm render should render 1`] = `
     }
   }
   headerClass="enter_flow"
+  tabs={Array []}
   title="Enter a Flow"
 >
   <TypeList
@@ -62,7 +63,7 @@ exports[`SubflowRouterForm render should render 1`] = `
 </Dialog>
 `;
 
-exports[`SubflowRouterForm updates coverts from other node types 1`] = `
+exports[`SubflowRouterForm updates converts from other node types 1`] = `
 Array [
   Object {
     "inboundConnections": Object {},
@@ -209,8 +210,18 @@ Object {
   "flow": Object {
     "validationFailures": Array [],
     "value": Object {
+      "content": Object {
+        "parent_refs": Array [
+          "colors",
+        ],
+      },
       "name": "Favorite Color",
       "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
+    },
+  },
+  "params": Object {
+    "colors": Object {
+      "value": "",
     },
   },
   "valid": true,

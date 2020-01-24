@@ -810,7 +810,10 @@ export const SubscribersGroup = {
 
 export const ColorFlowAsset = {
   name: 'Favorite Color',
-  uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56'
+  uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56',
+  content: {
+    parent_refs: ['colors']
+  }
 };
 
 export const ResthookAsset = {

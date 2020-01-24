@@ -7,9 +7,11 @@ import {
   Exit,
   FlowNode,
   RouterTypes,
-  TransferAirtime
+  TransferAirtime,
+  Action
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
+import { getType } from 'config/typeConfigs';
 
 export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Category[] => {
   if (!renderNode.node.router) {
@@ -39,4 +41,13 @@ export const getResultName = (node: FlowNode) => {
       return resultAction.result_name;
     }
   }
+};
+
+export const getVisibleActions = (renderNode: RenderNode): Action[] => {
+  // subflow nodes hide their set run results
+  if (getType(renderNode) === Types.split_by_subflow) {
+    return renderNode.node.actions.filter((action: Action) => action.type !== Types.set_run_result);
+  }
+
+  return renderNode.node.actions;
 };

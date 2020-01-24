@@ -11,26 +11,42 @@ import {
   RouterTypes,
   StartFlow,
   StartFlowExitNames,
-  SwitchRouter
+  SwitchRouter,
+  SetRunResult,
+  AnyAction,
+  Action
 } from 'flowTypes';
 import { Asset, AssetType, RenderNode } from 'store/flowContext';
-import { NodeEditorSettings } from 'store/nodeEditor';
+import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 
 export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormState => {
+  const params: { [key: string]: StringEntry } = {};
   if (
     getType(settings.originalNode) === Types.split_by_subflow ||
     (settings.originalAction && settings.originalAction.type === Types.enter_flow)
   ) {
-    const action = (settings.originalAction ||
-      (settings.originalNode.node.actions.length > 0 &&
-        settings.originalNode.node.actions[0])) as StartFlow;
+    let action = settings.originalAction as StartFlow;
+    if (!action || action.type !== Types.enter_flow) {
+      action = settings.originalNode.node.actions.find(
+        (action: Action) => action.type === Types.enter_flow
+      ) as StartFlow;
+    }
 
-    return { flow: { value: flowToAsset(action.flow) }, valid: true };
+    // look for any run result actions
+    settings.originalNode.node.actions.forEach((action: AnyAction) => {
+      if (action.type === Types.set_run_result) {
+        const setRunResult = action as SetRunResult;
+        params[setRunResult.name] = { value: setRunResult.value };
+      }
+    });
+
+    return { flow: { value: flowToAsset(action.flow) }, params, valid: true };
   }
 
   return {
     flow: { value: null },
+    params: { value: null },
     valid: false
   };
 };
@@ -43,7 +59,7 @@ export const stateToNode = (
     settings.originalAction ||
     (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
 
-  const newAction: StartFlow = {
+  const startFlowAction: StartFlow = {
     uuid: action.uuid || createUUID(),
     type: Types.enter_flow,
     flow: assetToFlow(state.flow.value)
@@ -99,6 +115,24 @@ export const stateToNode = (
     ];
   }
 
+  const actions = [];
+
+  // add some set result actions if needed
+  Object.keys(state.params).forEach((key: string) => {
+    const value = state.params[key] ? state.params[key].value || '' : '';
+    if (value.trim().length > 0) {
+      const setResultAction: SetRunResult = {
+        uuid: createUUID(),
+        name: key,
+        value,
+        type: Types.set_run_result
+      };
+      actions.push(setResultAction);
+    }
+  });
+
+  actions.push(startFlowAction);
+
   const router: SwitchRouter = {
     type: RouterTypes.switch,
     operand: SUBFLOW_OPERAND,
@@ -112,7 +146,7 @@ export const stateToNode = (
     router,
     exits,
     Types.split_by_subflow,
-    [newAction]
+    actions
   );
 
   return newRenderNode;

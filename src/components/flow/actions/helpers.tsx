@@ -100,6 +100,9 @@ export const getAllErrors = (entry: FormEntry): ValidationFailure[] => {
 };
 
 export const hasErrors = (entry: FormEntry): boolean => {
+  if (!entry) {
+    return false;
+  }
   return getAllErrors(entry).length > 0;
 };
 
