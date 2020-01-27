@@ -9,11 +9,10 @@ import {
 import { Query } from 'immutability-helper';
 import * as React from 'react';
 import Localization, { LocalizedObject } from 'services/Localization';
-import { Asset, AssetType, Assets } from 'store/flowContext';
+import { Asset, Assets } from 'store/flowContext';
 import { FormEntry } from 'store/nodeEditor';
 import { v4 as generateUUID } from 'uuid';
 import variables from 'variables.module.scss';
-import { resolve } from 'core-js/fn/promise';
 
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
