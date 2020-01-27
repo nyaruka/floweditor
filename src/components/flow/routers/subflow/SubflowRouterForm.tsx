@@ -39,8 +39,10 @@ export default class SubflowRouterForm extends React.PureComponent<
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
     });
+  }
 
-    // we need to resolve our classifier for intent selection
+  public componentDidMount() {
+    // we need to resolve our flow for it's parent refs
     if (this.state.flow.value) {
       fetchAsset(this.props.assetStore.flows, this.state.flow.value.id).then((flow: Asset) => {
         this.handleFlowChanged([flow]);

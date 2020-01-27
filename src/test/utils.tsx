@@ -5,11 +5,12 @@ import { FlowDefinition, FlowNode, SPEC_VERSION } from 'flowTypes';
 import React from 'react';
 import { Provider } from 'react-redux';
 import createStore from 'store/createStore';
-import { AssetType } from 'store/flowContext';
+import { AssetType, RenderNode } from 'store/flowContext';
 import { initialState } from 'store/state';
 import { createUUID } from 'utils';
 
 import config from './config';
+import { RouterFormProps } from 'components/flow/props';
 
 export const TEST_NODE: FlowNode = {
   uuid: createUUID(),
@@ -65,6 +66,11 @@ export const mock = <T extends {}, K extends keyof T>(object: T, property: K, va
 
 export const getCallParams = (mockCall: any) => {
   return mockCall.mock.calls[0];
+};
+
+export const getUpdatedNode = (props: RouterFormProps): RenderNode => {
+  const calls = (props.updateRouter as any).mock.calls;
+  return calls[calls.length - 1][0];
 };
 
 // re-export everything

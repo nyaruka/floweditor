@@ -1,7 +1,7 @@
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import React from 'react';
 import { Assets, AssetType } from 'store/flowContext';
-import { render, fireEvent } from 'test/utils';
+import { render } from 'test/utils';
 import { createUUID } from 'utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
