@@ -171,6 +171,12 @@
       "help": "If your server responds with JSON, each property will be added to the Flow.",
       "url_placeholder": "Enter a URL"
     },
+    "enter_flow": {
+      "parameters": {
+        "summary": "<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.",
+        "tab": "Parameters"
+      }
+    },
     "expression_label": "If the expression...",
     "message_label": "If the message response...",
     "play_audio": {

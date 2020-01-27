@@ -9,7 +9,7 @@ import {
 import { Query } from 'immutability-helper';
 import * as React from 'react';
 import Localization, { LocalizedObject } from 'services/Localization';
-import { Asset } from 'store/flowContext';
+import { Asset, Assets } from 'store/flowContext';
 import { FormEntry } from 'store/nodeEditor';
 import { v4 as generateUUID } from 'uuid';
 import variables from 'variables.module.scss';
@@ -364,6 +364,12 @@ export const downloadJSON = (obj: any, name: string): void => {
   document.body.appendChild(downloadAnchorNode); // required for firefox
   downloadAnchorNode.click();
   downloadAnchorNode.remove();
+};
+
+export const fetchAsset = (asset: Asset) => (assets: Assets, id: string): Promise<Asset> => {
+  return new Promise<Asset>((resolve, reject) => {
+    resolve(asset);
+  });
 };
 
 export let createUUID = (): string => {

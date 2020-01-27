@@ -36,7 +36,7 @@ describe(SubflowRouterForm.name, () => {
       expect(props.updateRouter).not.toBeCalled();
     });
 
-    it('coverts from other node types', () => {
+    it('converts from other node types', () => {
       const { instance, props } = setup(true, {
         updateRouter: setMock(),
         nodeSettings: {
