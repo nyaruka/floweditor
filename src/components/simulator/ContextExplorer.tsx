@@ -17,7 +17,7 @@ const EXCLUDED_PATHS: { [path: string]: boolean } = {
 
 type PathStep = number | string;
 
-interface ContextExplorerProps {
+export interface ContextExplorerProps {
   visible: boolean;
   onClose: () => void;
   contents: any;
@@ -136,7 +136,7 @@ export default class ContextExplorer extends React.Component<
     }
 
     const valueType = typeof value;
-    let text = valueType === 'string' ? value : '';
+    let text = valueType !== 'object' ? value : '';
     let hasChildren = value && valueType === 'object' && Object.keys(value).length > 0;
 
     if (value && value.hasOwnProperty(DEFAULT_KEY)) {
