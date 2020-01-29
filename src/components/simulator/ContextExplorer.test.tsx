@@ -1,9 +1,6 @@
 import { render, mock, fireEvent } from 'test/utils';
 import * as React from 'react';
-import * as utils from 'utils';
 import ContextExplorer, { ContextExplorerProps } from './ContextExplorer';
-
-mock(utils, 'createUUID', utils.seededUUIDs());
 
 const props: ContextExplorerProps = {
   visible: true,
