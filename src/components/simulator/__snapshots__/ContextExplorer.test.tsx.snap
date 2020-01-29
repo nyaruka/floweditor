@@ -1,0 +1,395 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContextExplorer should expand and collapse 1`] = `
+<body>
+  <div>
+    <div
+      class="context_explorer visible"
+    >
+      <div
+        class="message"
+      />
+      <div
+        class="panel"
+      >
+        <div>
+          <div
+            class="row"
+            style="margin-left: 0px;"
+          >
+            <div
+              class="arrow_right"
+            >
+              ›
+            </div>
+            <div
+              class="key"
+            >
+              day
+              <div
+                class="key_summary"
+              />
+              <div
+                class="clipboard fe-clipboard-empty"
+              />
+            </div>
+            <div
+              class="str_value"
+            >
+              020120
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="row"
+            style="margin-left: 0px;"
+          >
+            <div
+              class="arrow_right has_children open"
+            >
+              ›
+            </div>
+            <div
+              class="key has_children"
+            >
+              temperatures
+              <div
+                class="key_summary"
+              >
+                [6]
+              </div>
+              <div
+                class="clipboard fe-clipboard-empty"
+              />
+            </div>
+            <div
+              class="str_value"
+            />
+          </div>
+          <div>
+            <div
+              class="row"
+              style="margin-left: 10px;"
+            >
+              <div
+                class="arrow_right"
+              >
+                ›
+              </div>
+              <div
+                class="key"
+              >
+                0
+                <div
+                  class="key_summary"
+                />
+                <div
+                  class="clipboard fe-clipboard-empty"
+                />
+              </div>
+              <div
+                class="str_value"
+              >
+                23.2
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="row"
+              style="margin-left: 10px;"
+            >
+              <div
+                class="arrow_right"
+              >
+                ›
+              </div>
+              <div
+                class="key"
+              >
+                1
+                <div
+                  class="key_summary"
+                />
+                <div
+                  class="clipboard fe-clipboard-empty"
+                />
+              </div>
+              <div
+                class="str_value"
+              >
+                21.2
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="row"
+              style="margin-left: 10px;"
+            >
+              <div
+                class="arrow_right"
+              >
+                ›
+              </div>
+              <div
+                class="key"
+              >
+                2
+                <div
+                  class="key_summary"
+                />
+                <div
+                  class="clipboard fe-clipboard-empty"
+                />
+              </div>
+              <div
+                class="str_value"
+              >
+                20.3
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="row"
+              style="margin-left: 10px;"
+            >
+              <div
+                class="arrow_right"
+              >
+                ›
+              </div>
+              <div
+                class="key"
+              >
+                3
+                <div
+                  class="key_summary"
+                />
+                <div
+                  class="clipboard fe-clipboard-empty"
+                />
+              </div>
+              <div
+                class="str_value"
+              >
+                20.5
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="row"
+              style="margin-left: 10px;"
+            >
+              <div
+                class="arrow_right"
+              >
+                ›
+              </div>
+              <div
+                class="key"
+              >
+                4
+                <div
+                  class="key_summary"
+                />
+                <div
+                  class="clipboard fe-clipboard-empty"
+                />
+              </div>
+              <div
+                class="str_value"
+              >
+                20.11
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              class="row"
+              style="margin-left: 10px;"
+            >
+              <div
+                class="arrow_right"
+              >
+                ›
+              </div>
+              <div
+                class="key"
+              >
+                5
+                <div
+                  class="key_summary"
+                />
+                <div
+                  class="clipboard fe-clipboard-empty"
+                />
+              </div>
+              <div
+                class="str_value"
+              >
+                21.3
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="row"
+            style="margin-left: 0px;"
+          >
+            <div
+              class="arrow_right"
+            >
+              ›
+            </div>
+            <div
+              class="key"
+            >
+              location
+              <div
+                class="key_summary"
+              />
+              <div
+                class="clipboard fe-clipboard-empty"
+              />
+            </div>
+            <div
+              class="str_value"
+            >
+              A1B2C3
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="empty_toggle"
+        >
+          <div
+            class="fe-eye-crossed"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ContextExplorer should render 1`] = `
+<body>
+  <div>
+    <div
+      class="context_explorer visible"
+    >
+      <div
+        class="message"
+      />
+      <div
+        class="panel"
+      >
+        <div>
+          <div
+            class="row"
+            style="margin-left: 0px;"
+          >
+            <div
+              class="arrow_right"
+            >
+              ›
+            </div>
+            <div
+              class="key"
+            >
+              day
+              <div
+                class="key_summary"
+              />
+              <div
+                class="clipboard fe-clipboard-empty"
+              />
+            </div>
+            <div
+              class="str_value"
+            >
+              020120
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="row"
+            style="margin-left: 0px;"
+          >
+            <div
+              class="arrow_right has_children"
+            >
+              ›
+            </div>
+            <div
+              class="key has_children"
+            >
+              temperatures
+              <div
+                class="key_summary"
+              >
+                [6]
+              </div>
+              <div
+                class="clipboard fe-clipboard-empty"
+              />
+            </div>
+            <div
+              class="str_value"
+            />
+          </div>
+        </div>
+        <div>
+          <div
+            class="row"
+            style="margin-left: 0px;"
+          >
+            <div
+              class="arrow_right"
+            >
+              ›
+            </div>
+            <div
+              class="key"
+            >
+              location
+              <div
+                class="key_summary"
+              />
+              <div
+                class="clipboard fe-clipboard-empty"
+              />
+            </div>
+            <div
+              class="str_value"
+            >
+              A1B2C3
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="empty_toggle"
+        >
+          <div
+            class="fe-eye-crossed"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

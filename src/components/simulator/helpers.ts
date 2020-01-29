@@ -112,8 +112,10 @@ export const pruneEmpty = (obj: any): any => {
         pruneEmpty(obj[key]);
 
         // now see if we have any new leaves
-        if (Object.keys(obj[key]).length === 0) {
-          delete obj[key];
+        if (obj[key] !== null && typeof obj[key] === 'object') {
+          if (Object.keys(obj[key]).length === 0) {
+            delete obj[key];
+          }
         }
       }
     });
