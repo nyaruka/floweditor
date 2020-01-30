@@ -300,12 +300,13 @@
     "contact_name_changed": "Set contact name to \"[[name]]\"",
     "flow_entered": "Entered flow \"[[flow]]\"",
     "httplog_dialog": "HTTP Request Details",
+    "input_labels_added": "Message labeled with ",
     "msg_wait": "Waiting for reply",
     "removed_from_group": "Removed from ",
     "resthook_called": "Triggered flow event \"[[resthook]]\"",
     "run_result_changed": "Set result \"[[field]]\" to \"[[value]]\"",
     "sent_email": {
-      "summary": "Sent email to \"[[recipients]]\" with subject \"[[subject]]\"",
+      "summary": "Sent email to [[recipients]] with subject \"[[subject]]\"",
       "title": "Email Details"
     },
     "session_triggered": "Started somebody else in \"[[flow]]\""
