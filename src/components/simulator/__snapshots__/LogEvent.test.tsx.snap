@@ -1,0 +1,324 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LogEvent should render broadcast_created event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="send_msg"
+      >
+        <div
+          class="msg_text"
+        >
+          Hi there
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render contact_field_changed event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Set contact "Age" to "38"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render contact_groups_changed event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Added to "U-Reporters", "Youth". Removed from "Unregistered", "Missing Name"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render contact_language_changed event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Set preferred language to "eng"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render contact_name_changed event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Set contact name to "Bobby"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render contact_urns_changed event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Added a URN for the contact
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render email_sent event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div>
+        <div
+          class="has_detail"
+        >
+          <div
+            class="info email"
+          >
+            Sent email to &quot;fun@temba.io&quot;, &quot;events@temba.io&quot; with subject "Party time"
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="ReactModalPortal"
+  />
+</body>
+`;
+
+exports[`LogEvent should render error event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="error"
+      >
+        <span>
+          Error: 
+          I'm an error
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render failure event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="error"
+      >
+        <span>
+          Error: 
+          I'm a failure
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render input_labels_added event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Message labeled with "Spam", "Important"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render ivr_created event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="send_msg"
+      >
+        <div>
+          <img
+            alt="Attachment"
+            src="http://temba.io/test.wav"
+          />
+        </div>
+        <div
+          class="msg_text"
+        >
+          Thanks for getting in touch
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render msg_created event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="send_msg"
+      >
+        <div>
+          <img
+            alt="Attachment"
+            src="http://temba.io/test.jpg"
+          />
+        </div>
+        <div
+          class="msg_text"
+        >
+          Hi there
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render msg_received event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="msg_received"
+      >
+        <div>
+          <img
+            alt="Attachment"
+            src="http://temba.io/test.jpg"
+          />
+        </div>
+        <div
+          class="msg_text"
+        >
+          Thanks for getting in touch
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render msg_wait event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Waiting for reply
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render resthook_called event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Triggered flow event "new-registration"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`LogEvent should render run_result_changed event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Set result "Response 1" to "yes"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;

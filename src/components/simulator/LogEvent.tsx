@@ -3,7 +3,7 @@ import { MediaPlayer } from 'components/mediaplayer/MediaPlayer';
 import Modal from 'components/modal/Modal';
 import styles from 'components/simulator/LogEvent.module.scss';
 import { Types } from 'config/interfaces';
-import { Flow, Group } from 'flowTypes';
+import { Flow, Group, Label } from 'flowTypes';
 import * as React from 'react';
 import { createUUID, getURNPath } from 'utils';
 import i18n from 'config/i18n';
@@ -45,7 +45,7 @@ export interface EventProps {
   result_name?: string;
   text?: string;
   name?: string;
-  value?: { text: string };
+  value?: string | { text: string };
   body?: string;
   addresses?: string[];
   to?: string[];
@@ -63,9 +63,11 @@ export interface EventProps {
   flow?: Flow;
   groups_added?: Group[];
   groups_removed?: Group[];
+  labels?: Label[];
   msg?: MsgProps;
   http_logs?: WebRequestLog[];
   extra?: any;
+  urns?: string[];
 }
 
 interface FlowEvent {
@@ -190,29 +192,35 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
     this.setState({ detailsVisible: true });
   }
 
-  private renderGroupChange(): JSX.Element {
-    const groups = this.props.groups_added || this.props.groups_removed;
-    let groupText = this.props.groups_added
-      ? i18n.t('simulator.added_to_group', 'Added to ')
-      : i18n.t('simulator.removed_from_group', 'Removed from ');
-    let delim = ' ';
-    groups.forEach(group => {
-      groupText += `${delim}"${group.name}"`;
-      delim = ', ';
-    });
+  private renderGroupsChanged(): JSX.Element {
+    let parts: string[] = [];
+    if (this.props.groups_added) {
+      const info = i18n.t('simulator.added_to_group', 'Added to ');
+      parts.push(info + this.renderValueList(this.props.groups_added.map(group => group.name)));
+    }
+    if (this.props.groups_removed) {
+      const info = i18n.t('simulator.removed_from_group', 'Removed from ');
+      parts.push(info + this.renderValueList(this.props.groups_removed.map(group => group.name)));
+    }
 
-    return renderInfo(groupText);
+    return renderInfo(parts.join('. '));
   }
 
-  private renderEmail(): JSX.Element {
+  private renderLabelsAdded(): JSX.Element {
+    let info = i18n.t('simulator.input_labels_added', 'Message labeled with ');
+
+    return renderInfo(info + this.renderValueList(this.props.labels.map(label => label.name)));
+  }
+
+  private renderEmailSent(): JSX.Element {
     const recipients = this.props.to || this.props.addresses;
     return this.renderClickable(
       <div className={styles.info + ' ' + styles.email}>
         <Trans
           i18nKey="simulator.sent_email.summary"
-          values={{ recipients: recipients.join(', '), subject: this.props.subject }}
+          values={{ recipients: this.renderValueList(recipients), subject: this.props.subject }}
         >
-          Sent email to "[[recipients]]" with subject "[[subject]]"
+          Sent email to [[recipients]] with subject "[[subject]]"
         </Trans>
       </div>,
       <Dialog
@@ -223,7 +231,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       >
         <div className={styles.email_details}>
           <div className={styles.to}>
-            {i18n.t('email.to', 'To')}: {recipients.join(', ')}
+            {i18n.t('email.to', 'To')}: {this.renderValueList(recipients)}
           </div>
           <div className={styles.subject}>
             {i18n.t('email.subject', 'Subject')}: {this.props.subject}
@@ -329,21 +337,21 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       case 'msg_wait':
         return renderInfo(i18n.t('simulator.msg_wait', 'Waiting for reply'));
       case 'contact_groups_changed':
-        return this.renderGroupChange();
+        return this.renderGroupsChanged();
       case 'contact_urns_changed':
         return renderInfo('Added a URN for the contact');
       case 'contact_field_changed':
         return renderInfo(
           i18n.t('simulator.contact_field_changed', 'Set contact "[[field]]" to "[[value]]"', {
             field: this.props.field.name,
-            value: this.props.value.text
+            value: this.getValue(this.props.value)
           })
         );
       case 'run_result_changed':
         return renderInfo(
           i18n.t('simulator.run_result_changed', 'Set result "[[field]]" to "[[value]]"', {
             field: this.props.name,
-            value: this.props.value
+            value: this.getValue(this.props.value)
           })
         );
       case 'contact_name_changed':
@@ -354,7 +362,7 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         );
       case 'email_created':
       case 'email_sent':
-        return this.renderEmail();
+        return this.renderEmailSent();
       case 'broadcast_created':
         return renderMessage(
           this.props.translations[this.props.base_language].text,
@@ -391,6 +399,8 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         );
       case 'info':
         return renderInfo(this.props.text);
+      case 'input_labels_added':
+        return this.renderLabelsAdded();
       case 'environment_refreshed':
         return null;
       case 'airtime_transferred':
@@ -421,5 +431,25 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
 
   public render(): JSX.Element {
     return <div className={styles.evt}>{this.renderLogEvent()}</div>;
+  }
+
+  /**
+   * Helper to render a list of values with each value quoted
+   */
+  private renderValueList(values: string[]): string {
+    let text = '';
+    let delim = '';
+    values.forEach(value => {
+      text += `${delim}"${value}"`;
+      delim = ', ';
+    });
+    return text;
+  }
+
+  /**
+   * Helper for value fields which can be an object (contact_field_changed) or string (run_result_changed)
+   */
+  private getValue(value: string | { text: string }): string {
+    return typeof value === 'string' ? value : value.text;
   }
 }
