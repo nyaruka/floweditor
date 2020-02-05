@@ -83,7 +83,12 @@ export default class SchemeRouterForm extends React.Component<
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <p>{i18n.t('forms.split_by_scheme', 'Select which channel types to split by below')}</p>
+        <p>
+          {i18n.t(
+            'forms.split_by_scheme',
+            "The contact's URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below."
+          )}
+        </p>
         <SelectElement
           name="Channel Type"
           entry={this.state.schemes}

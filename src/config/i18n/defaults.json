@@ -86,8 +86,8 @@
       "name": "Split by Flow Result"
     },
     "split_by_scheme": {
-      "description": "Split by channel type",
-      "name": "Split by Channel Type"
+      "description": "Split by URN type",
+      "name": "Split by URN Type"
     },
     "start_session": {
       "description": "Start somebody else in a flow",

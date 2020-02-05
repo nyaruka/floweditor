@@ -440,8 +440,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.split_by_scheme,
-    name: i18n.t('actions.split_by_scheme.name', 'Split by Channel Type'),
-    description: i18n.t('actions.split_by_scheme.description', 'Split by channel type'),
+    name: i18n.t('actions.split_by_scheme.name', 'Split by URN Type'),
+    description: i18n.t('actions.split_by_scheme.description', 'Split by URN type'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: SchemeRouterForm
