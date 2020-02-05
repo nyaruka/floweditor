@@ -1,0 +1,343 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SchemeRouterForm should render 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header split_by_scheme"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split by Channel Type
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <select
+              data-testid="select"
+            >
+              <option
+                value="send_msg"
+              >
+                Send the contact a message
+              </option>
+              <option
+                value="wait_for_response"
+              >
+                Wait for the contact to respond
+              </option>
+              <option
+                value="send_broadcast"
+              >
+                Send somebody else a message
+              </option>
+              <option
+                value="add_input_labels"
+              >
+                Label the incoming message
+              </option>
+              <option
+                value="add_contact_urn"
+              >
+                Add a URN for the contact
+              </option>
+              <option
+                value="add_contact_groups"
+              >
+                Add the contact to a group
+              </option>
+              <option
+                value="remove_contact_groups"
+              >
+                Remove the contact from a group
+              </option>
+              <option
+                value="set_contact_field"
+              >
+                Update the contact
+              </option>
+              <option
+                value="send_email"
+              >
+                Send an email
+              </option>
+              <option
+                value="set_run_result"
+              >
+                Save a result for this flow
+              </option>
+              <option
+                value="call_webhook"
+              >
+                Call a webhook
+              </option>
+              <option
+                value="call_resthook"
+              >
+                Call Zapier
+              </option>
+              <option
+                value="enter_flow"
+              >
+                Enter another flow
+              </option>
+              <option
+                value="start_session"
+              >
+                Start somebody else in a flow
+              </option>
+              <option
+                value="transfer_airtime"
+              >
+                Send the contact airtime
+              </option>
+              <option
+                value="split_by_intent"
+              >
+                Split by intent
+              </option>
+              <option
+                value="split_by_expression"
+              >
+                Split by a custom expression
+              </option>
+              <option
+                value="split_by_contact_field"
+              >
+                Split by a contact field
+              </option>
+              <option
+                value="split_by_run_result"
+              >
+                Split by a result in the flow
+              </option>
+              <option
+                value="split_by_random"
+              >
+                Split by random chance
+              </option>
+              <option
+                value="split_by_groups"
+              >
+                Split by group membership
+              </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by channel type
+              </option>
+            </select>
+          </div>
+        </div>
+        <p>
+          Channel types
+        </p>
+        <div
+          class="ele"
+        >
+          <select
+            data-testid="select"
+            multiple=""
+          >
+            <option
+              value="tel"
+            >
+              SMS
+            </option>
+            <option
+              value="whatsapp"
+            >
+              WhatsApp
+            </option>
+            <option
+              value="facebook"
+            >
+              Facebook
+            </option>
+            <option
+              value="twitterid"
+            >
+              Twitter
+            </option>
+            <option
+              value="telegram"
+            >
+              Telegram
+            </option>
+            <option
+              value="viber"
+            >
+              Viber
+            </option>
+            <option
+              value="line"
+            >
+              Line
+            </option>
+            <option
+              value="wechat"
+            >
+              Wechat
+            </option>
+            <option
+              value="fcm"
+            >
+              Firebase
+            </option>
+            <option
+              value="jiochat"
+            >
+              Jiochat
+            </option>
+            <option
+              value="ext"
+            >
+              External
+            </option>
+          </select>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <span
+            class="toggle_link"
+            data-spec="toggle-link"
+          >
+            Save as..
+          </span>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`SchemeRouterForm should select schemes 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+        },
+        Object {
+          "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+        },
+        Object {
+          "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+        },
+        Object {
+          "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "tel",
+            ],
+            "category_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+            "type": "has_only_phrase",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          },
+          Object {
+            "arguments": Array [
+              "whatsapp",
+            ],
+            "category_uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+            "type": "has_only_phrase",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+          Object {
+            "arguments": Array [
+              "facebook",
+            ],
+            "category_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+            "type": "has_only_phrase",
+            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "name": "SMS",
+            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+          },
+          Object {
+            "exit_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+            "name": "WhatsApp",
+            "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+          },
+          Object {
+            "exit_uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+            "name": "Facebook",
+            "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+          },
+          Object {
+            "exit_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+            "name": "Other",
+            "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+          },
+        ],
+        "default_category_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+        "operand": "@(urn_parts(contact.urn).scheme)",
+        "result_name": "",
+        "type": "switch",
+      },
+      "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+    },
+    "ui": Object {
+      "config": Object {
+        "cases": Object {},
+      },
+      "position": null,
+      "type": "split_by_scheme",
+    },
+  },
+]
+`;
