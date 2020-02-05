@@ -6,7 +6,7 @@ import { getSwitchRouter, resolveRoutes, createRenderNode } from '../helpers';
 import { RenderNode } from 'store/flowContext';
 import { SwitchRouter, FlowNode, RouterTypes, Case } from 'flowTypes';
 import { CaseProps } from '../caselist/CaseList';
-import { createUUID, dump } from 'utils';
+import { createUUID } from 'utils';
 import { Operators, Types } from 'config/interfaces';
 import { SCHEMES_OPERAND } from 'components/nodeeditor/constants';
 
