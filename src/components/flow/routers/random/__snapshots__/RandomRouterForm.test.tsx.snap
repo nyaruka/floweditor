@@ -368,6 +368,11 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
               >
                 Split by group membership
               </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
+              </option>
             </select>
           </div>
         </div>
@@ -801,6 +806,11 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
                 value="split_by_groups"
               >
                 Split by group membership
+              </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
               </option>
             </select>
           </div>

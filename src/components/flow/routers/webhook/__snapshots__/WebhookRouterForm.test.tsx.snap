@@ -512,6 +512,11 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
               >
                 Split by group membership
               </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
+              </option>
             </select>
           </div>
         </div>

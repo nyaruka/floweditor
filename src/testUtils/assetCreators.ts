@@ -5,9 +5,9 @@ import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { DefaultExitNames } from 'components/flow/routers/constants';
 import { ResolvedRoutes, resolveRoutes } from 'components/flow/routers/helpers';
 import { Methods } from 'components/flow/routers/webhook/helpers';
-import { DEFAULT_OPERAND, GROUPS_OPERAND } from 'components/nodeeditor/constants';
+import { DEFAULT_OPERAND, GROUPS_OPERAND, SCHEMES_OPERAND } from 'components/nodeeditor/constants';
 import { Operators, Types } from 'config/interfaces';
-import { getTypeConfig } from 'config/typeConfigs';
+import { getTypeConfig, Scheme } from 'config/typeConfigs';
 import {
   AnyAction,
   BroadcastMsg,
@@ -558,13 +558,36 @@ export const createMatchRouter = (matches: string[], hasTimeout: boolean = false
       categories,
       cases,
       wait,
-      default_category_uuid: categories[categories.length - 1].uuid
+      default_category_uuid: categories[categories.length - 1].uuid,
+      result_name: ''
     } as SwitchRouter,
     ui: {
       type: Types.wait_for_response,
       position: { left: 0, top: 0 }
     }
   });
+};
+
+export const createSchemeRouter = (schemes: Scheme[]): RenderNode => {
+  const matchRouter = createMatchRouter(schemes.map((scheme: Scheme) => scheme.scheme));
+
+  const router = matchRouter.node.router as SwitchRouter;
+
+  // switch our operators to be consistent with scheme routers
+  // set our operand and type for scheme matching
+  delete router['wait'];
+  router.cases.forEach((kase: Case) => {
+    kase.type = Operators.has_only_phrase;
+    const category = router.categories.find(
+      (category: Category) => category.uuid === kase.category_uuid
+    );
+    category.name = schemes.find((scheme: Scheme) => scheme.scheme === kase.arguments[0]).name;
+  });
+
+  router.operand = SCHEMES_OPERAND;
+  matchRouter.ui.type = Types.split_by_scheme;
+
+  return matchRouter;
 };
 
 export const createSwitchRouter = ({

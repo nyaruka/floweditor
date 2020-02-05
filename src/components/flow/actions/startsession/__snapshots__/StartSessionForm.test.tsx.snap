@@ -140,6 +140,11 @@ exports[`StartSessionForm render should render 1`] = `
               >
                 Split by group membership
               </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
+              </option>
             </select>
           </div>
         </div>
@@ -753,6 +758,11 @@ exports[`StartSessionForm render should render contact query 1`] = `
               >
                 Split by group membership
               </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
+              </option>
             </select>
           </div>
         </div>
@@ -1083,6 +1093,11 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                 value="split_by_groups"
               >
                 Split by group membership
+              </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
               </option>
             </select>
           </div>
@@ -1534,6 +1549,11 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 value="split_by_groups"
               >
                 Split by group membership
+              </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
               </option>
             </select>
           </div>

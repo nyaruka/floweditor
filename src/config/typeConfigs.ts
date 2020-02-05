@@ -58,6 +58,7 @@ import { RenderNode } from 'store/flowContext';
 import CallClassifierComp from 'components/flow/actions/callclassifier/CallClassifier';
 import ClassifyRouterForm from 'components/flow/routers/classify/ClassifyRouterForm';
 import i18n from 'config/i18n';
+import SchemeRouterForm from 'components/flow/routers/scheme/SchemeRouterForm';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -79,22 +80,78 @@ export type GetTypeConfig = (type: string) => Type;
 export interface Scheme {
   scheme: string;
   name: string;
+  path: string;
+  excludeFromSplit?: boolean;
 }
 
 export const SCHEMES: Scheme[] = [
-  { scheme: 'ext', name: i18n.t('schemes.external', 'External ID') },
-  { scheme: 'facebook', name: i18n.t('schemes.facebook', 'Facebook ID') },
-  { scheme: 'fcm', name: i18n.t('schemes.firebase', 'Firebase ID') },
-  { scheme: 'jiochat', name: i18n.t('schemes.jiochat', 'Jiochat ID') },
-  { scheme: 'line', name: i18n.t('schemes.line', 'Line ID') },
-  { scheme: 'mailto', name: i18n.t('schemes.email', 'Email Address') },
-  { scheme: 'tel', name: i18n.t('schemes.phone', 'Phone Number') },
-  { scheme: 'telegram', name: i18n.t('schemes.telegram', 'Telegram ID') },
-  { scheme: 'twitterid', name: i18n.t('schemes.twitterid', 'Twitter ID') },
-  { scheme: 'twitter', name: i18n.t('schemes.twitter', 'Twitter Handle') },
-  { scheme: 'wechat', name: i18n.t('schemes.wechat', 'Wechat ID') },
-  { scheme: 'whatsapp', name: i18n.t('schemes.whatsapp', 'Whatsapp Number') },
-  { scheme: 'viber', name: i18n.t('schemes.viber', 'Viber ID') }
+  {
+    scheme: 'tel',
+    name: i18n.t('schemes.phone.name', 'SMS'),
+    path: i18n.t('schemes.phone.path', 'Phone Number')
+  },
+  {
+    scheme: 'whatsapp',
+    name: i18n.t('schemes.whatsapp.name', 'WhatsApp'),
+    path: i18n.t('schemes.whatsapp.path', 'WhatsApp Number')
+  },
+  {
+    scheme: 'facebook',
+    name: i18n.t('schemes.facebook.path', 'Facebook'),
+    path: i18n.t('schemes.facebook.path', 'Facebook ID')
+  },
+  {
+    scheme: 'twitterid',
+    name: i18n.t('schemes.twitterid.name', 'Twitter'),
+    path: i18n.t('schemes.twitterid.path', 'Twitter ID')
+  },
+  {
+    scheme: 'telegram',
+    name: i18n.t('schemes.telegram.name', 'Telegram'),
+    path: i18n.t('schemes.telegram.path', 'Telegram ID')
+  },
+  {
+    scheme: 'viber',
+    name: i18n.t('schemes.viber.name', 'Viber'),
+    path: i18n.t('schemes.viber.path', 'Viber ID')
+  },
+  {
+    scheme: 'line',
+    name: i18n.t('schemes.line.name', 'Line'),
+    path: i18n.t('schemes.line.path', 'Line ID')
+  },
+  {
+    scheme: 'wechat',
+    name: i18n.t('schemes.wechat.name', 'Wechat'),
+    path: i18n.t('schemes.wechat.path', 'Wechat ID')
+  },
+  {
+    scheme: 'fcm',
+    name: i18n.t('schemes.firebase.name', 'Firebase'),
+    path: i18n.t('schemes.firebase.path', 'Firebase ID')
+  },
+  {
+    scheme: 'jiochat',
+    name: i18n.t('schemes.jiojach.name', 'Jiochat'),
+    path: i18n.t('schemes.jiochat.path', 'Jiochat ID')
+  },
+  {
+    scheme: 'mailto',
+    name: i18n.t('schemes.email.name', 'Email'),
+    path: i18n.t('schemes.email.path', 'Email Address'),
+    excludeFromSplit: true
+  },
+  {
+    scheme: 'twitter',
+    name: i18n.t('schemes.twitter.name', 'Twitter'),
+    path: i18n.t('schemes.twitter.path', 'Twitter Handle'),
+    excludeFromSplit: true
+  },
+  {
+    scheme: 'ext',
+    name: i18n.t('schemes.external.name', 'External'),
+    path: i18n.t('schemes.external.path', 'External ID')
+  }
 ];
 
 export const typeConfigList: Type[] = [
@@ -380,6 +437,14 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: GroupsRouterForm
+  },
+  {
+    type: Types.split_by_scheme,
+    name: i18n.t('actions.split_by_scheme.name', 'Split by URN Type'),
+    description: i18n.t('actions.split_by_scheme.description', 'Split by URN type'),
+    localization: RouterLocalizationForm,
+    localizeableKeys: ['exits'],
+    form: SchemeRouterForm
   }
 
   // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}

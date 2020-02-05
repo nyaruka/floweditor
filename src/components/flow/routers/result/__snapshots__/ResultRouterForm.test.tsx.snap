@@ -236,6 +236,11 @@ exports[`ResultRouterForm should render 1`] = `
               >
                 Split by group membership
               </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
+              </option>
             </select>
           </div>
         </div>
@@ -743,6 +748,11 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                 value="split_by_groups"
               >
                 Split by group membership
+              </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
               </option>
             </select>
           </div>

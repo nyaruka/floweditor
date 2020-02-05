@@ -381,6 +381,16 @@ Array [
     "name": "Split by Group Membership",
     "type": "split_by_groups",
   },
+  Object {
+    "description": "Split by URN type",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Split by URN Type",
+    "type": "split_by_scheme",
+  },
 ]
 `;
 
@@ -739,6 +749,16 @@ Object {
     ],
     "name": "Split by Flow Result",
     "type": "split_by_run_result",
+  },
+  "split_by_scheme": Object {
+    "description": "Split by URN type",
+    "form": [Function],
+    "localization": [Function],
+    "localizeableKeys": Array [
+      "exits",
+    ],
+    "name": "Split by URN Type",
+    "type": "split_by_scheme",
   },
   "split_by_subflow": Object {
     "aliases": Array [

@@ -53,6 +53,10 @@ export interface AssetArrayEntry extends FormEntry {
   value: Asset[] | null;
 }
 
+export interface SelectOptionArrayEntry extends FormEntry {
+  value: SelectOption[] | null;
+}
+
 export const mergeForm = (
   form: FormState,
   toMerge: Partial<FormState>,

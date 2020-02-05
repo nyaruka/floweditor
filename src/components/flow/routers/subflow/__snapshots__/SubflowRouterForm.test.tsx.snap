@@ -233,6 +233,11 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
               >
                 Split by group membership
               </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
+              </option>
             </select>
           </div>
         </div>
@@ -474,6 +479,11 @@ exports[`SubflowRouterForm should render 1`] = `
                 value="split_by_groups"
               >
                 Split by group membership
+              </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by URN type
               </option>
             </select>
           </div>
