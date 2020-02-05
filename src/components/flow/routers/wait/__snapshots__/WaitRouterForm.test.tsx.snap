@@ -183,7 +183,7 @@ exports[`WaitRouterForm should render a normal wait 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
@@ -375,7 +375,7 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>

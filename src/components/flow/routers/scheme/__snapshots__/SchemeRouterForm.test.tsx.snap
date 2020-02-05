@@ -15,7 +15,7 @@ exports[`SchemeRouterForm should render 1`] = `
           <div
             class="title"
           >
-            Split by Channel Type
+            Split by URN Type
           </div>
           <div
             class="subtitle"
@@ -143,7 +143,7 @@ exports[`SchemeRouterForm should render 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>

@@ -143,7 +143,7 @@ exports[`UpdateContactForm should render channel 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
@@ -466,7 +466,7 @@ exports[`UpdateContactForm should render field 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
@@ -758,7 +758,7 @@ exports[`UpdateContactForm should render language 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
@@ -1081,7 +1081,7 @@ exports[`UpdateContactForm should render name 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>

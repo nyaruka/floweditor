@@ -236,7 +236,7 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
@@ -483,7 +483,7 @@ exports[`SubflowRouterForm should render 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>

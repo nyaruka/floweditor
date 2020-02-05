@@ -371,7 +371,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
@@ -810,7 +810,7 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>

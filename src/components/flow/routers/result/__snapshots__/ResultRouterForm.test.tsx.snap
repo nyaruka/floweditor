@@ -239,7 +239,7 @@ exports[`ResultRouterForm should render 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
@@ -752,7 +752,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>

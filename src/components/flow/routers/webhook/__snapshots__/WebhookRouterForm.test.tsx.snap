@@ -515,7 +515,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
               <option
                 value="split_by_scheme"
               >
-                Split by channel type
+                Split by URN type
               </option>
             </select>
           </div>
