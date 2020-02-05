@@ -19,7 +19,7 @@ export const getRoutableFields = (flowType: FlowTypes = null): Asset[] => {
   return [
     ...getContactProperties(flowType),
     ...SCHEMES.map((scheme: Scheme) => ({
-      name: scheme.name,
+      name: scheme.path,
       id: scheme.scheme,
       type: AssetType.Scheme
     }))

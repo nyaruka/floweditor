@@ -259,19 +259,19 @@
     "label": "Histórico de Revisão"
   },
   "schemes": {
-    "email": "Endereço de E-mail",
-    "external": "Identificador Externo",
-    "facebook": "Identificador do Facebook",
-    "firebase": "Identificador do Firebase",
-    "jiochat": "Identificador do Jiochat",
-    "line": "Identificador do Line",
-    "phone": "Número de Telefone",
-    "telegram": "Identificador do Telegram",
-    "twitter": "Identificador do Twitter",
-    "twitterid": "Identificador do Twitter",
-    "viber": "Identificador do Viber",
-    "wechat": "Identificador do Wechat",
-    "whatsapp": "Número de Whatsapp"
+    "email": { "path": "Endereço de E-mail" },
+    "external": { "path": "Identificador Externo" },
+    "facebook": { "path": "Identificador do Facebook" },
+    "firebase": { "path": "Identificador do Firebase" },
+    "jiochat": { "path": "Identificador do Jiochat" },
+    "line": { "path": "Identificador do Line" },
+    "phone": { "path": "Número de Telefone" },
+    "telegram": { "path": "Identificador do Telegram" },
+    "twitter": { "path": "Identificador do Twitter" },
+    "twitterid": { "path": "Identificador do Twitter" },
+    "viber": { "path": "Identificador do Viber" },
+    "wechat": { "path": "Identificador do Wechat" },
+    "whatsapp": { "path": "Número de Whatsapp" }
   },
   "simulator": {
     "added_to_group": "Adicionado a ",

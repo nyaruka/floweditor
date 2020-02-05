@@ -71,7 +71,12 @@ jest.mock(
         const value = option.value || getOptionValue(option);
         return value === event.currentTarget.value;
       });
-      onChange(option);
+
+      if (isMulti) {
+        onChange([option]);
+      } else {
+        onChange(option);
+      }
     }
 
     return (
@@ -79,6 +84,7 @@ jest.mock(
         data-testid="select"
         value={getOptionValue ? getOptionValue(value) : value}
         onChange={handleChange}
+        multiple={isMulti}
       >
         {options.map((option: any) => {
           let optionLabel = option.label || getOptionLabel(option);

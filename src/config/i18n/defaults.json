@@ -85,6 +85,10 @@
       "description": "Split by a result in the flow",
       "name": "Split by Flow Result"
     },
+    "split_by_scheme": {
+      "description": "Split by channel type",
+      "name": "Split by Channel Type"
+    },
     "start_session": {
       "description": "Start somebody else in a flow",
       "name": "Start Somebody Else"
@@ -226,6 +230,7 @@
     "split_by_group": {
       "label": "Select the groups you'd like to split by below"
     },
+    "split_by_scheme": "Channel types",
     "type_label": "When a contact arrives at this point in your flow..."
   },
   "groups": "Groups",
@@ -278,19 +283,59 @@
     "label": "Revision History"
   },
   "schemes": {
-    "email": "Email Address",
-    "external": "External ID",
-    "facebook": "Facebook ID",
-    "firebase": "Firebase ID",
-    "jiochat": "Jiochat ID",
-    "line": "Line ID",
-    "phone": "Phone Number",
-    "telegram": "Telegram ID",
-    "twitter": "Twitter Handle",
-    "twitterid": "Twitter ID",
-    "viber": "Viber ID",
-    "wechat": "Wechat ID",
-    "whatsapp": "Whatsapp Number"
+    "email": {
+      "name": "Email",
+      "path": "Email Address"
+    },
+    "external": {
+      "name": "External",
+      "path": "External ID"
+    },
+    "facebook": {
+      "path": "Facebook"
+    },
+    "firebase": {
+      "name": "Firebase",
+      "path": "Firebase ID"
+    },
+    "jiochat": {
+      "path": "Jiochat ID"
+    },
+    "jiojach": {
+      "name": "Jiochat"
+    },
+    "line": {
+      "name": "Line",
+      "path": "Line ID"
+    },
+    "phone": {
+      "name": "SMS",
+      "path": "Phone Number"
+    },
+    "telegram": {
+      "name": "Telegram",
+      "path": "Telegram ID"
+    },
+    "twitter": {
+      "name": "Twitter",
+      "path": "Twitter Handle"
+    },
+    "twitterid": {
+      "name": "Twitter",
+      "path": "Twitter ID"
+    },
+    "viber": {
+      "name": "Viber",
+      "path": "Viber ID"
+    },
+    "wechat": {
+      "name": "Wechat",
+      "path": "Wechat ID"
+    },
+    "whatsapp": {
+      "name": "WhatsApp",
+      "path": "WhatsApp Number"
+    }
   },
   "simulator": {
     "added_to_group": "Added to ",

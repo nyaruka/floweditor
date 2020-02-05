@@ -1,21 +1,8 @@
 import { RouterFormProps } from 'components/flow/props';
 import { Types } from 'config/interfaces';
 import { createSubflowNode, createStartFlowAction } from 'testUtils/assetCreators';
-import WaitRouterForm from 'components/flow/routers/wait/WaitRouterForm';
 import { getTypeConfig } from 'config';
-import {
-  render,
-  mock,
-  prettyDOM,
-  fireEvent,
-  waitForDomChange,
-  wait,
-  waitForElement,
-  getByText,
-  fireChangeText,
-  queryAllByTestId,
-  getUpdatedNode
-} from 'test/utils';
+import { render, mock, fireEvent, wait, fireChangeText, getUpdatedNode } from 'test/utils';
 import * as React from 'react';
 import * as utils from 'utils';
 import { RenderNode, AssetType } from 'store/flowContext';
@@ -69,9 +56,7 @@ describe(SubflowRouterForm.name, () => {
   });
 
   it('should create result actions for parameters', async () => {
-    const { baseElement, getByText, queryAllByTestId } = render(
-      <SubflowRouterForm {...subflowProps} />
-    );
+    const { getByText, queryAllByTestId } = render(<SubflowRouterForm {...subflowProps} />);
     await wait();
 
     // open the parameter tab

@@ -60,13 +60,43 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "property",
             },
             Object {
-              "id": "ext",
-              "name": "External ID",
+              "id": "tel",
+              "name": "Phone Number",
+              "type": "scheme",
+            },
+            Object {
+              "id": "whatsapp",
+              "name": "WhatsApp Number",
               "type": "scheme",
             },
             Object {
               "id": "facebook",
-              "name": "Facebook ID",
+              "name": "Facebook",
+              "type": "scheme",
+            },
+            Object {
+              "id": "twitterid",
+              "name": "Twitter ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "telegram",
+              "name": "Telegram ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "viber",
+              "name": "Viber ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "line",
+              "name": "Line ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "wechat",
+              "name": "Wechat ID",
               "type": "scheme",
             },
             Object {
@@ -80,28 +110,8 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "scheme",
             },
             Object {
-              "id": "line",
-              "name": "Line ID",
-              "type": "scheme",
-            },
-            Object {
               "id": "mailto",
               "name": "Email Address",
-              "type": "scheme",
-            },
-            Object {
-              "id": "tel",
-              "name": "Phone Number",
-              "type": "scheme",
-            },
-            Object {
-              "id": "telegram",
-              "name": "Telegram ID",
-              "type": "scheme",
-            },
-            Object {
-              "id": "twitterid",
-              "name": "Twitter ID",
               "type": "scheme",
             },
             Object {
@@ -110,18 +120,8 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "scheme",
             },
             Object {
-              "id": "wechat",
-              "name": "Wechat ID",
-              "type": "scheme",
-            },
-            Object {
-              "id": "whatsapp",
-              "name": "Whatsapp Number",
-              "type": "scheme",
-            },
-            Object {
-              "id": "viber",
-              "name": "Viber ID",
+              "id": "ext",
+              "name": "External ID",
               "type": "scheme",
             },
           ]
@@ -266,13 +266,43 @@ exports[`FieldRouterForm should render 1`] = `
               "type": "property",
             },
             Object {
-              "id": "ext",
-              "name": "External ID",
+              "id": "tel",
+              "name": "Phone Number",
+              "type": "scheme",
+            },
+            Object {
+              "id": "whatsapp",
+              "name": "WhatsApp Number",
               "type": "scheme",
             },
             Object {
               "id": "facebook",
-              "name": "Facebook ID",
+              "name": "Facebook",
+              "type": "scheme",
+            },
+            Object {
+              "id": "twitterid",
+              "name": "Twitter ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "telegram",
+              "name": "Telegram ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "viber",
+              "name": "Viber ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "line",
+              "name": "Line ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "wechat",
+              "name": "Wechat ID",
               "type": "scheme",
             },
             Object {
@@ -286,28 +316,8 @@ exports[`FieldRouterForm should render 1`] = `
               "type": "scheme",
             },
             Object {
-              "id": "line",
-              "name": "Line ID",
-              "type": "scheme",
-            },
-            Object {
               "id": "mailto",
               "name": "Email Address",
-              "type": "scheme",
-            },
-            Object {
-              "id": "tel",
-              "name": "Phone Number",
-              "type": "scheme",
-            },
-            Object {
-              "id": "telegram",
-              "name": "Telegram ID",
-              "type": "scheme",
-            },
-            Object {
-              "id": "twitterid",
-              "name": "Twitter ID",
               "type": "scheme",
             },
             Object {
@@ -316,18 +326,8 @@ exports[`FieldRouterForm should render 1`] = `
               "type": "scheme",
             },
             Object {
-              "id": "wechat",
-              "name": "Wechat ID",
-              "type": "scheme",
-            },
-            Object {
-              "id": "whatsapp",
-              "name": "Whatsapp Number",
-              "type": "scheme",
-            },
-            Object {
-              "id": "viber",
-              "name": "Viber ID",
+              "id": "ext",
+              "name": "External ID",
               "type": "scheme",
             },
           ]

@@ -140,6 +140,11 @@ exports[`AddURNForm renders 1`] = `
               >
                 Split by group membership
               </option>
+              <option
+                value="split_by_scheme"
+              >
+                Split by channel type
+              </option>
             </select>
           </div>
         </div>
@@ -158,14 +163,44 @@ exports[`AddURNForm renders 1`] = `
               data-testid="select"
             >
               <option
-                value="ext"
+                value="tel"
               >
-                External ID
+                Phone Number
+              </option>
+              <option
+                value="whatsapp"
+              >
+                WhatsApp Number
               </option>
               <option
                 value="facebook"
               >
-                Facebook ID
+                Facebook
+              </option>
+              <option
+                value="twitterid"
+              >
+                Twitter ID
+              </option>
+              <option
+                value="telegram"
+              >
+                Telegram ID
+              </option>
+              <option
+                value="viber"
+              >
+                Viber ID
+              </option>
+              <option
+                value="line"
+              >
+                Line ID
+              </option>
+              <option
+                value="wechat"
+              >
+                Wechat ID
               </option>
               <option
                 value="fcm"
@@ -178,29 +213,9 @@ exports[`AddURNForm renders 1`] = `
                 Jiochat ID
               </option>
               <option
-                value="line"
-              >
-                Line ID
-              </option>
-              <option
                 value="mailto"
               >
                 Email Address
-              </option>
-              <option
-                value="tel"
-              >
-                Phone Number
-              </option>
-              <option
-                value="telegram"
-              >
-                Telegram ID
-              </option>
-              <option
-                value="twitterid"
-              >
-                Twitter ID
               </option>
               <option
                 value="twitter"
@@ -208,19 +223,9 @@ exports[`AddURNForm renders 1`] = `
                 Twitter Handle
               </option>
               <option
-                value="wechat"
+                value="ext"
               >
-                Wechat ID
-              </option>
-              <option
-                value="whatsapp"
-              >
-                Whatsapp Number
-              </option>
-              <option
-                value="viber"
-              >
-                Viber ID
+                External ID
               </option>
             </select>
           </div>
