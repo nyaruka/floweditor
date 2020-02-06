@@ -6,6 +6,10 @@ exports[`AddURNComp should display urn on action 1`] = `
    
   Phone Number
    
-  +12065551212
+  <span
+    className="emph"
+  >
+    +12065551212
+  </span>
 </Fragment>
 `;
