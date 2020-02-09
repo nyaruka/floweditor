@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { CallClassifier, MissingDependencies, Classifier } from 'flowTypes';
-import { Trans } from 'react-i18next';
+import { CallClassifier, MissingDependencies } from 'flowTypes';
 import { renderAsset } from '../helpers';
 import { AssetType } from 'store/flowContext';
 import { fakePropType } from 'config/ConfigProvider';

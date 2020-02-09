@@ -17,16 +17,19 @@ const assetList = [
 
 const assetContent = {
   1: {
-    name: 'Favorites',
-    language: 'eng',
-    type: 'message',
-    spec_version: '13.0.0',
-    uuid: 'a4f64f1b-85bc-477e-b706-de313a022979',
-    localization: {},
-    nodes: [],
-    _ui: {
-      languages: [{ eng: 'English' }, { spa: 'Spanish' }]
-    }
+    definition: {
+      name: 'Favorites',
+      language: 'eng',
+      type: 'message',
+      spec_version: '13.0.0',
+      uuid: 'a4f64f1b-85bc-477e-b706-de313a022979',
+      localization: {},
+      nodes: [],
+      _ui: {
+        languages: [{ eng: 'English' }, { spa: 'Spanish' }]
+      }
+    },
+    metadata: {}
   }
 };
 

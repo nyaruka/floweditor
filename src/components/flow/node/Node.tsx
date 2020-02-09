@@ -14,17 +14,8 @@ import shared from 'components/shared.module.scss';
 import TitleBar from 'components/titlebar/TitleBar';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
-import { getOperatorConfig } from 'config/operatorConfigs';
 import { getType, getTypeConfig } from 'config/typeConfigs';
-import {
-  AnyAction,
-  Exit,
-  FlowDefinition,
-  FlowNode,
-  SwitchRouter,
-  Endpoints,
-  Dependency
-} from 'flowTypes';
+import { AnyAction, Exit, FlowDefinition, FlowNode, Dependency } from 'flowTypes';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
@@ -463,12 +454,9 @@ const mapStateToProps = (
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
   const missingDependencies = metadata.dependencies.filter((dependency: Dependency) => {
-    if (
-      dependency.missing &&
-      dependency.node_uuids.find((uuid: string) => uuid === props.nodeUUID)
-    ) {
-      return dependency;
-    }
+    return (
+      dependency.missing && dependency.node_uuids.find((uuid: string) => uuid === props.nodeUUID)
+    );
   });
 
   return {

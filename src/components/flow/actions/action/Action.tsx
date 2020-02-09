@@ -2,17 +2,10 @@ import { react as bindCallbacks } from 'auto-bind';
 import classNames from 'classnames/bind';
 import shared from 'components/shared.module.scss';
 import TitleBar from 'components/titlebar/TitleBar';
-import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
+import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
-import {
-  Action,
-  AnyAction,
-  Endpoints,
-  LocalizationMap,
-  CallClassifier,
-  Dependency
-} from 'flowTypes';
+import { Action, AnyAction, Endpoints, LocalizationMap, Dependency } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -64,7 +57,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     config: fakePropType
   };
 
-  constructor(props: ActionWrapperProps, context: ConfigProviderContext) {
+  constructor(props: ActionWrapperProps) {
     super(props);
 
     bindCallbacks(this, {

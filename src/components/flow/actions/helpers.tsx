@@ -5,7 +5,6 @@ import {
   RecipientsAction,
   AnyAction,
   Dependency,
-  MissingDependencies,
   RenderAction
 } from 'flowTypes';
 import * as React from 'react';

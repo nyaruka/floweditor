@@ -22,7 +22,6 @@ import {
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { getType } from 'config/typeConfigs';
-import { actionOverlaySpecId } from '../actions/action/Action';
 
 export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Category[] => {
   if (!renderNode.node.router) {
