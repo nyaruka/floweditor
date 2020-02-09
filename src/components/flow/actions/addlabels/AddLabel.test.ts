@@ -1,6 +1,6 @@
 import AddLabelsComp, { MAX_TO_SHOW } from 'components/flow/actions/addlabels/AddLabels';
 import { Types } from 'config/interfaces';
-import { AddLabels } from 'flowTypes';
+import { AddLabels, MissingDependencies } from 'flowTypes';
 import { composeComponentTestUtils } from 'testUtils';
 
 const labels = [
@@ -12,10 +12,11 @@ const labels = [
   'But alas, here is another one'
 ];
 
-const baseProps: AddLabels = {
+const baseProps: AddLabels & MissingDependencies = {
   type: Types.add_input_labels,
   uuid: `${Types.add_input_labels}-0`,
-  labels: labels.map((name, idx) => ({ name, uuid: `label-${idx}` }))
+  labels: labels.map((name, idx) => ({ name, uuid: `label-${idx}` })),
+  missingDependencies: []
 };
 
 const { setup } = composeComponentTestUtils(AddLabelsComp, baseProps);
@@ -26,7 +27,7 @@ describe(AddLabelsComp.name, () => {
 
     // Assert that we're displaying the max labels
     // we want to display plus an ellipses.
-    expect(wrapper.find('div').length).toBe(MAX_TO_SHOW + 1);
+    expect(wrapper.find('div').length).toBe(MAX_TO_SHOW);
     expect(wrapper).toMatchSnapshot();
   });
 });

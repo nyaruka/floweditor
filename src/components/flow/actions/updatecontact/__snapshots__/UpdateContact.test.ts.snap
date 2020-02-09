@@ -13,7 +13,9 @@ exports[`UpdateContactComp render should render clearing the value 1`] = `
 `;
 
 exports[`UpdateContactComp render should render set channel 1`] = `
-<div>
+<div
+  className="node_asset "
+>
   Set 
   channel
    to 
@@ -27,7 +29,9 @@ exports[`UpdateContactComp render should render set channel 1`] = `
 `;
 
 exports[`UpdateContactComp render should render set field 1`] = `
-<div>
+<div
+  className="node_asset "
+>
   Set 
   <span
     className="emph"
@@ -45,7 +49,9 @@ exports[`UpdateContactComp render should render set field 1`] = `
 `;
 
 exports[`UpdateContactComp render should render set language 1`] = `
-<div>
+<div
+  className="node_asset "
+>
   Set 
   language
    to 
@@ -59,7 +65,9 @@ exports[`UpdateContactComp render should render set language 1`] = `
 `;
 
 exports[`UpdateContactComp render should render set name 1`] = `
-<div>
+<div
+  className="node_asset "
+>
   Set 
   name
    to 

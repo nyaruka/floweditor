@@ -5,36 +5,44 @@ exports[`ChangeGroupsComp helpers getChangeGroupsMarkup should return ChangeGrou
   data-spec="content"
 >
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Early Adopters
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Early Adopters
+    </React.Fragment>
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Testers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Testers
+    </React.Fragment>
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Subscribers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Subscribers
+    </React.Fragment>
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Champions
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Champions
+    </React.Fragment>
   </div>
 </div>
 `;
@@ -52,36 +60,44 @@ Array [
 exports[`ChangeGroupsComp helpers getContentMarkup should return list of group elements 1`] = `
 Array [
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Early Adopters
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Early Adopters
+    </React.Fragment>
   </div>,
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Testers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Testers
+    </React.Fragment>
   </div>,
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Subscribers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Subscribers
+    </React.Fragment>
   </div>,
   <div
-    className="node_asset"
+    className="node_asset "
   >
-    <span
-      className="node_group fe-group"
-    />
-    Champions
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Champions
+    </React.Fragment>
   </div>,
 ]
 `;
@@ -99,7 +115,7 @@ exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = 
   data-spec="content"
 >
   <div
-    className="node_asset"
+    className="node_asset "
     key="23ff7152-b588-43e4-90de-fda77aeaf7c0"
   >
     <span
@@ -108,7 +124,7 @@ exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = 
     Customers
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
     key="2429d573-80d7-47f8-879f-f2ba442a1bfd"
   >
     <span
@@ -117,7 +133,7 @@ exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = 
     Unsatisfied Customers
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
     key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
     <span
@@ -126,7 +142,7 @@ exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = 
     Early Adopters
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
     key="afaba971-8943-4dd8-860b-3561ed4f1fe1"
   >
     <span
@@ -135,19 +151,10 @@ exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = 
     Testers
   </div>
   <div
-    className="node_asset"
-    key="33b28bac-b588-43e4-90de-fda77aeaf7c0"
-  >
-    <span
-      className="node_group fe-group"
-    />
-    Subscribers
-  </div>
-  <div
     key="ellipses"
   >
     +
-    1
+    2
      more
   </div>
 </div>
@@ -171,7 +178,7 @@ exports[`ChangeGroupsComp render should render group name 1`] = `
   data-spec="content"
 >
   <div
-    className="node_asset"
+    className="node_asset "
     key="cdbf9e01-aaa7-4381-8259-ee042447bcac"
   >
     <span
@@ -180,7 +187,7 @@ exports[`ChangeGroupsComp render should render group name 1`] = `
     Early Adopters
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
     key="afaba971-8943-4dd8-860b-3561ed4f1fe1"
   >
     <span
@@ -189,7 +196,7 @@ exports[`ChangeGroupsComp render should render group name 1`] = `
     Testers
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
     key="33b28bac-b588-43e4-90de-fda77aeaf7c0"
   >
     <span
@@ -198,7 +205,7 @@ exports[`ChangeGroupsComp render should render group name 1`] = `
     Subscribers
   </div>
   <div
-    className="node_asset"
+    className="node_asset "
     key="e0cccbcf-49be-4eef-88a7-ce2150a6d902"
   >
     <span

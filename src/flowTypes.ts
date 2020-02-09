@@ -451,6 +451,8 @@ export type AnyAction =
   | StartFlow
   | StartSession;
 
+export type RenderAction = AnyAction & MissingDependencies;
+
 export enum ContactProperties {
   UUID = 'uuid',
   'Created By' = 'created_by',

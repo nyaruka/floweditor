@@ -1,5 +1,11 @@
 import UpdateContactComp from 'components/flow/actions/updatecontact/UpdateContact';
-import { SetContactProperty } from 'flowTypes';
+import {
+  SetContactProperty,
+  MissingDependencies,
+  AnyAction,
+  RenderAction,
+  SetContactField
+} from 'flowTypes';
 import { composeComponentTestUtils } from 'testUtils';
 import {
   createSetContactChannelAction,
@@ -7,9 +13,10 @@ import {
   createSetContactLanguageAction,
   createSetContactNameAction
 } from 'testUtils/assetCreators';
+import { createRenderAction } from '../helpers';
 
 describe(UpdateContactComp.name, () => {
-  const baseProps: SetContactProperty = createSetContactNameAction();
+  const baseProps: RenderAction = createRenderAction(createSetContactNameAction());
   const { setup } = composeComponentTestUtils(UpdateContactComp, baseProps);
 
   describe('render', () => {
@@ -20,26 +27,26 @@ describe(UpdateContactComp.name, () => {
 
     it('should render set channel', () => {
       const { wrapper } = setup(true, {
-        $set: createSetContactChannelAction()
+        $set: createRenderAction(createSetContactChannelAction())
       });
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render set field', () => {
-      const { wrapper } = setup(true, { $set: createSetContactFieldAction() });
+      const { wrapper } = setup(true, { $set: createRenderAction(createSetContactFieldAction()) });
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render set language', () => {
       const { wrapper } = setup(true, {
-        $set: createSetContactLanguageAction()
+        $set: createRenderAction(createSetContactLanguageAction())
       });
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render clearing the value', () => {
-      const setFieldAction = createSetContactFieldAction();
-      setFieldAction.value = null;
+      const setFieldAction = createRenderAction(createSetContactFieldAction());
+      (setFieldAction as SetContactField).value = null;
 
       const { wrapper } = setup(true, { $set: setFieldAction });
       expect(wrapper).toMatchSnapshot();

@@ -2,13 +2,11 @@ import { FlowDefinition } from 'flowTypes';
 import Constants from 'store/constants';
 import reducer, {
   definition as definitionReducer,
-  dependencies as dependenciesReducer,
   initialState,
   nodes as nodesReducer,
   RenderNodeMap,
   updateBaseLanguage,
   updateDefinition,
-  updateDependencies,
   updateNodes
 } from 'store/flowContext';
 import { English } from 'testUtils/assetCreators';
@@ -31,20 +29,6 @@ describe('flowContext action creators', () => {
       };
 
       expect(updateDefinition(boringFlow)).toEqual(expectedAction);
-    });
-  });
-
-  describe('updateDependencies', () => {
-    it('should create an action to update dependencies state', () => {
-      const dependencies = [emptyFlow];
-      const expectedAction = {
-        type: Constants.UPDATE_DEPENDENCIES,
-        payload: {
-          dependencies
-        }
-      };
-
-      expect(updateDependencies(dependencies)).toEqual(expectedAction);
     });
   });
 
@@ -73,21 +57,6 @@ describe('flowContext reducers', () => {
     it('should handle UPDATE_DEFINITION', () => {
       const action = updateDefinition(emptyFlow);
       expect(reduce(action)).toEqual(emptyFlow);
-    });
-  });
-
-  describe('dependencies reducer', () => {
-    const reduce = (action: any) => dependenciesReducer(undefined, action);
-
-    it('should return initial state', () => {
-      expect(reduce({})).toEqual(initialState.dependencies);
-    });
-
-    it('should handle UPDATE_DEPENDENCIES', () => {
-      const dependencies = [emptyFlow];
-      const action = updateDependencies(dependencies);
-
-      expect(reduce(action)).toEqual(dependencies);
     });
   });
 

@@ -10,7 +10,7 @@ exports[`StartSessionComp render should render a long list of both contacts and 
         class="to"
       >
         <div
-          class="node_asset"
+          class="node_asset "
         >
           <span
             class="node_group fe-group"
@@ -18,28 +18,23 @@ exports[`StartSessionComp render should render a long list of both contacts and 
           Cat Fanciers
         </div>
         <div
-          class="node_asset"
+          class="node_asset "
         >
           Norbert Kwizera
         </div>
         <div
-          class="node_asset"
+          class="node_asset "
         >
           Kellan Alexander
         </div>
         <div
-          class="node_asset"
+          class="node_asset "
         >
           Rowan Seymour
         </div>
-        <div
-          class="node_asset"
-        >
-          Leah Burgerbuns
-        </div>
         <div>
           +
-          1
+          2
            more
         </div>
       </div>
@@ -47,7 +42,7 @@ exports[`StartSessionComp render should render a long list of both contacts and 
         class="flow"
       >
         <div
-          class="node_asset"
+          class="node_asset "
         >
           <span
             class="node_label fe-split"
@@ -76,7 +71,7 @@ exports[`StartSessionComp render should render all props 1`] = `
         class="to"
       >
         <div
-          class="node_asset"
+          class="node_asset "
         >
           <span
             class="node_group fe-group"
@@ -84,12 +79,12 @@ exports[`StartSessionComp render should render all props 1`] = `
           Cat Fanciers
         </div>
         <div
-          class="node_asset"
+          class="node_asset "
         >
           Norbert Kwizera
         </div>
         <div
-          class="node_asset"
+          class="node_asset "
         >
           Rowan Seymour
         </div>
@@ -98,7 +93,7 @@ exports[`StartSessionComp render should render all props 1`] = `
         class="flow"
       >
         <div
-          class="node_asset"
+          class="node_asset "
         >
           <span
             class="node_label fe-split"
@@ -132,7 +127,7 @@ exports[`StartSessionComp render should render creating a new contact 1`] = `
         class="flow"
       >
         <div
-          class="node_asset"
+          class="node_asset "
         >
           <span
             class="node_label fe-split"

@@ -1,7 +1,14 @@
 import { DefaultExitNames } from 'components/flow/routers/constants';
 import { FlowTypes, Operators, Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
-import { AnyAction, FlowDefinition, RouterTypes, SendMsg, SwitchRouter } from 'flowTypes';
+import {
+  AnyAction,
+  FlowDefinition,
+  RouterTypes,
+  SendMsg,
+  SwitchRouter,
+  FlowDetails
+} from 'flowTypes';
 import mutate from 'immutability-helper';
 import Constants from 'store/constants';
 import { AssetStore, AssetType, RenderNode, RenderNodeMap } from 'store/flowContext';
@@ -102,7 +109,10 @@ describe('Flow Manipulation', () => {
     });
 
     it('should gracefully handle missing ui', () => {
-      const missingUI = { ...boring, _ui: undefined as any };
+      const missingUI: FlowDetails = {
+        definition: { ...boring, _ui: undefined as any },
+        metadata: null
+      };
       store.dispatch(loadFlowDefinition(missingUI, emptyAssetStore, () => {}));
       const action = getActionFromStore(store, Constants.UPDATE_NODES);
 

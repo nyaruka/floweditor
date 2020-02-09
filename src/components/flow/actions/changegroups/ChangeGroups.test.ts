@@ -6,16 +6,20 @@ import ChangeGroupsComp, {
   MAX_TO_SHOW
 } from 'components/flow/actions/changegroups/ChangeGroups';
 import { Types } from 'config/interfaces';
-import { ChangeGroups } from 'flowTypes';
+import { ChangeGroups, MissingDependencies } from 'flowTypes';
 import { composeComponentTestUtils, getSpecWrapper } from 'testUtils';
 import { createAddGroupsAction } from 'testUtils/assetCreators';
 import { set } from 'utils';
 
 const { results: groups } = require('test/assets/groups.json');
 
-const addGroupsAction = createAddGroupsAction({ groups: groups.slice(2) });
+const addGroupsAction: ChangeGroups = createAddGroupsAction({ groups: groups.slice(2) });
+const renderAction: ChangeGroups & MissingDependencies = {
+  ...addGroupsAction,
+  missingDependencies: []
+};
 
-const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, addGroupsAction);
+const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, renderAction);
 
 describe(ChangeGroupsComp.name, () => {
   describe('helpers', () => {
@@ -29,15 +33,16 @@ describe(ChangeGroupsComp.name, () => {
       it('should return list of elements that contains remove-all markup', () => {
         const markup = getContentMarkup({
           type: Types.remove_contact_groups,
-          groups: []
-        } as ChangeGroups);
+          groups: [],
+          missingDependencies: []
+        } as ChangeGroups & MissingDependencies);
 
         expect(markup.length).toBe(1);
         expect(markup).toMatchSnapshot();
       });
 
       it('should return list of group elements', () => {
-        const markup = getContentMarkup(addGroupsAction);
+        const markup = getContentMarkup(renderAction);
 
         expect(markup.length).toBeGreaterThanOrEqual(1);
         expect(markup).toMatchSnapshot();
@@ -46,7 +51,7 @@ describe(ChangeGroupsComp.name, () => {
 
     describe('getChangeGroupsMarkup', () => {
       it(`should return ${ChangeGroupsComp.name} markup w/ container`, () => {
-        expect(getChangeGroupsMarkup(addGroupsAction)).toMatchSnapshot();
+        expect(getChangeGroupsMarkup(renderAction)).toMatchSnapshot();
       });
     });
   });
@@ -62,7 +67,7 @@ describe(ChangeGroupsComp.name, () => {
       const { wrapper } = setup(true, { groups: set(groups) });
       const content = getSpecWrapper(wrapper, contentSpecId);
 
-      expect(content.children().length).toBe(MAX_TO_SHOW + 1);
+      expect(content.children().length).toBe(MAX_TO_SHOW);
       expect(wrapper).toMatchSnapshot();
     });
 

@@ -1,4 +1,13 @@
-import { Contact, Endpoints, Group, RecipientsAction } from 'flowTypes';
+import {
+  Contact,
+  Endpoints,
+  Group,
+  RecipientsAction,
+  AnyAction,
+  Dependency,
+  MissingDependencies,
+  RenderAction
+} from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
@@ -139,4 +148,11 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
     .map((asset: Asset) => {
       return { uuid: asset.id, name: asset.name };
     });
+};
+
+export const createRenderAction = (
+  action: AnyAction,
+  missingDependencies: Dependency[] = []
+): RenderAction => {
+  return { ...action, missingDependencies };
 };
