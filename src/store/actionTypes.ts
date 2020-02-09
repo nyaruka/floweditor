@@ -1,5 +1,5 @@
 import { Type } from 'config/interfaces';
-import { FlowDefinition } from 'flowTypes';
+import { FlowDefinition, FlowMetadata } from 'flowTypes';
 import Constants from 'store/constants';
 import { EditorState } from 'store/editor';
 import { Asset, AssetStore, ContactFields, RenderNodeMap } from 'store/flowContext';
@@ -22,6 +22,10 @@ interface DefinitionPayload {
 
 interface BaseLanguagePayload {
   baseLanguage: Asset;
+}
+
+interface UpdateMetadataPayload {
+  metadata: FlowMetadata;
 }
 
 interface LanguagesPayload {
@@ -79,10 +83,7 @@ export type UpdateDefinitionAction = DuxAction<Constants.UPDATE_DEFINITION, Defi
 
 export type UpdateFlowsAction = DuxAction<Constants.UPDATE_FLOWS, UpdateFlowsPayload>;
 
-export type UpdateDependenciesAction = DuxAction<
-  Constants.UPDATE_DEPENDENCIES,
-  UpdateDependenciesPayload
->;
+export type UpdateMetadataAction = DuxAction<Constants.UPDATE_METADATA, UpdateMetadataPayload>;
 
 export type UpdateAssetsAction = DuxAction<Constants.UPDATE_ASSET_MAP, UpdateAssetMapPayload>;
 
@@ -120,7 +121,7 @@ type ActionTypes =
   | UpdateNodeEditorSettings
   | UpdateDefinitionAction
   | UpdateFlowsAction
-  | UpdateDependenciesAction
+  | UpdateMetadataAction
   | UpdateAssetsAction
   | IncrementSuggestedResultNameCountAction
   | UpdateNodesAction

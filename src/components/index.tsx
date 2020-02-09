@@ -10,7 +10,7 @@ import Modal from 'components/modal/Modal';
 import { RevisionExplorer } from 'components/revisions/RevisionExplorer';
 import ConfigProvider from 'config';
 import { fakePropType } from 'config/ConfigProvider';
-import { FlowDefinition, FlowEditorConfig } from 'flowTypes';
+import { FlowDefinition, FlowEditorConfig, FlowMetadata } from 'flowTypes';
 import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -46,7 +46,7 @@ export interface FlowEditorStoreProps {
   translating: boolean;
   fetchingFlow: boolean;
   definition: FlowDefinition;
-  dependencies: FlowDefinition[];
+  metadata: FlowMetadata;
   fetchFlow: FetchFlow;
   loadFlowDefinition: LoadFlowDefinition;
   createNewRevision: CreateNewRevision;
@@ -190,7 +190,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-  flowContext: { definition, dependencies, nodes, assetStore },
+  flowContext: { definition, metadata, nodes, assetStore },
   editorState: { translating, language, fetchingFlow, simulating, modalMessage, saving }
 }: AppState) => {
   const languages = assetStore ? assetStore.languages : null;
@@ -204,7 +204,7 @@ const mapStateToProps = ({
     language,
     fetchingFlow,
     definition,
-    dependencies,
+    metadata,
     nodes,
     languages
   };

@@ -8,10 +8,21 @@ import {
   FlowNode,
   RouterTypes,
   TransferAirtime,
-  Action
+  Action,
+  AnyAction,
+  Dependency,
+  DependencyType,
+  AddLabels,
+  Label,
+  CallClassifier,
+  SetContactField,
+  ChangeGroups,
+  Group,
+  SetContactChannel
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { getType } from 'config/typeConfigs';
+import { actionOverlaySpecId } from '../actions/action/Action';
 
 export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Category[] => {
   if (!renderNode.node.router) {
@@ -50,4 +61,50 @@ export const getVisibleActions = (renderNode: RenderNode): Action[] => {
   }
 
   return renderNode.node.actions;
+};
+
+export const filterMissingDependenciesForAction = (
+  action: AnyAction,
+  dependencies: Dependency[]
+) => {
+  if (action.type === Types.add_input_labels) {
+    return dependencies.filter((dependency: Dependency) => {
+      return (
+        dependency.type === DependencyType.label &&
+        (action as AddLabels).labels.find((label: Label) => label.uuid === dependency.uuid)
+      );
+    });
+  } else if (action.type === Types.call_classifier) {
+    return dependencies.filter((dependency: Dependency) => {
+      return (
+        dependency.type === DependencyType.classifier &&
+        (action as CallClassifier).classifier.uuid === dependency.uuid
+      );
+    });
+  } else if (action.type === Types.set_contact_field) {
+    return dependencies.filter((dependency: Dependency) => {
+      return (
+        dependency.type === DependencyType.field &&
+        (action as SetContactField).field.key === dependency.key
+      );
+    });
+  } else if (
+    action.type === Types.add_contact_groups ||
+    action.type === Types.remove_contact_groups
+  ) {
+    return dependencies.filter((dependency: Dependency) => {
+      return (
+        dependency.type === DependencyType.group &&
+        (action as ChangeGroups).groups.find((group: Group) => group.uuid === dependency.uuid)
+      );
+    });
+  } else if (action.type === Types.set_contact_channel) {
+    return dependencies.filter((dependency: Dependency) => {
+      return (
+        dependency.type === DependencyType.channel &&
+        (action as SetContactChannel).channel.uuid === dependency.uuid
+      );
+    });
+  }
+  return [];
 };

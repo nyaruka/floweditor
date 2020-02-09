@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
 import { createUUID } from 'utils';
+import { Trans } from 'react-i18next';
 
 const styles = require('components/shared.module.scss');
 
@@ -39,35 +40,48 @@ export const renderAssetList = (
   max: number = 10,
   endpoints: Endpoints
 ): JSX.Element[] => {
+  // show our missing ones first
+  assets.sort((a: Asset, b: Asset) => (a.missing ? -1 : b.missing ? 1 : 0));
   return assets.reduce((elements, asset, idx) => {
-    if (idx <= max - 1) {
+    if (idx <= max - 2 || assets.length === max) {
       elements.push(renderAsset(asset, endpoints));
-    } else if (idx > max - 1 && elements.length === max) {
-      elements.push(<div key="ellipses">+{assets.length - max} more</div>);
+    } else if (idx === max - 1) {
+      elements.push(<div key="ellipses">+{assets.length - max + 1} more</div>);
     }
     return elements;
   }, []);
 };
 
 export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
+  let assetBody = null;
+
   switch (asset.type) {
+    case AssetType.Classifier:
+      assetBody = (
+        <Trans i18nKey="assets.classifier" values={{ name: asset.name }}>
+          Call [[name]] classifier
+        </Trans>
+      );
+      break;
     case AssetType.Group:
-      return (
-        <div className={styles.node_asset} key={asset.id}>
+      assetBody = (
+        <>
           <span className={`${styles.node_group} fe-group`} />
           {asset.name}
-        </div>
+        </>
       );
+      break;
     case AssetType.Label:
-      return (
-        <div className={styles.node_asset} key={asset.id}>
+      assetBody = (
+        <>
           <span className={`${styles.node_label} fe-label`} />
           {asset.name}
-        </div>
+        </>
       );
+      break;
     case AssetType.Flow:
-      return (
-        <div className={styles.node_asset} key={asset.id}>
+      assetBody = (
+        <>
           <span className={`${styles.node_label} fe-split`} />
           <a
             onMouseDown={(e: any) => {
@@ -84,13 +98,21 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
           >
             {asset.name}
           </a>
-        </div>
+        </>
       );
+      break;
+  }
+
+  if (!assetBody) {
+    assetBody = asset.name;
   }
 
   return (
-    <div className={styles.node_asset} key={asset.id}>
-      {asset.name}
+    <div
+      className={`${styles.node_asset} ${asset.missing ? styles.missing_asset : ''}`}
+      key={asset.id}
+    >
+      {assetBody}
     </div>
   );
 };

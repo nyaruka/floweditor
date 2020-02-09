@@ -291,7 +291,7 @@ describe('Flow Manipulation', () => {
     it('should replace router node with a single-action node', () => {
       const { node1: originalRenderNode } = testNodes;
       const incomingAction = createSendMsgAction();
-      const { renderNodeMap } = getFlowComponents(boring);
+      const { renderNodeMap } = getFlowComponents(boring, {});
 
       store = createMockStore(
         mutate(initialState, {

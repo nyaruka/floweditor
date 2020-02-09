@@ -65,7 +65,11 @@
     $color_1 12px,
     $color_2 12px,
     $color_2 24px
-  );
+  ) !important;
+}
+
+.missing_asset {
+  color: $error_color;
 }
 
 .call_classifier,

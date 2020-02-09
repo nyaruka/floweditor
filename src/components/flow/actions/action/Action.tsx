@@ -5,11 +5,18 @@ import TitleBar from 'components/titlebar/TitleBar';
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
-import { Action, AnyAction, Endpoints, LocalizationMap } from 'flowTypes';
+import {
+  Action,
+  AnyAction,
+  Endpoints,
+  LocalizationMap,
+  CallClassifier,
+  Dependency
+} from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Asset, RenderNode } from 'store/flowContext';
+import { Asset, RenderNode, AssetStore } from 'store/flowContext';
 import AppState from 'store/state';
 import {
   ActionAC,
@@ -28,10 +35,12 @@ export interface ActionWrapperPassedProps {
   action: AnyAction;
   localization: LocalizationMap;
   selected: boolean;
+  missingDependencies: Dependency[];
   render: (action: AnyAction, endpoints: Endpoints) => React.ReactNode;
 }
 
 export interface ActionWrapperStoreProps {
+  assetStore: AssetStore;
   renderNode: RenderNode;
   language: Asset;
   translating: boolean;
@@ -106,7 +115,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     return this.props.action;
   }
 
-  private getClasses(): string {
+  private getClasses(hasMissingDependencies: boolean): string {
     const localizedKeys = [];
     let missingLocalization = false;
 
@@ -146,6 +155,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const notLocalizable = this.props.translating && localizedKeys.length === 0;
 
     return cx({
+      [styles.missing_dependencies]: hasMissingDependencies,
       [styles.action]: true,
       [styles.has_router]:
         this.props.renderNode.node.hasOwnProperty('router') &&
@@ -159,12 +169,19 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 
   public render(): JSX.Element {
     const { name } = getTypeConfig(this.props.action.type);
-    const classes = this.getClasses();
+
+    const hasMissingDependencies = this.props.missingDependencies.length > 0;
+    const classes = this.getClasses(hasMissingDependencies);
     const actionToInject = this.getAction();
-    const titleBarClass = (shared as any)[this.props.action.type] || shared.missing;
+
+    let titleBarClass = (shared as any)[this.props.action.type] || shared.missing;
     const actionClass = (styles as any)[this.props.action.type] || styles.missing;
     const showRemoval = !this.props.translating;
     const showMove = !this.props.first && !this.props.translating;
+
+    if (hasMissingDependencies) {
+      titleBarClass = shared.missing;
+    }
 
     const events = this.context.config.mutable
       ? createClickHandler(this.handleActionClicked, () => this.props.selected)
@@ -199,10 +216,12 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: {
+    assetStore,
     definition: { localization }
   },
   editorState: { language, translating }
 }: AppState) => ({
+  assetStore,
   language,
   translating,
   localization

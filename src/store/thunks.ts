@@ -7,7 +7,7 @@ import { getTypeConfig } from 'config/typeConfigs';
 import {
   createAssetStore,
   getCompletionSchema,
-  getFlowDefinition,
+  getFlowDetails,
   saveRevision,
   getFunctions
 } from 'external';
@@ -24,7 +24,8 @@ import {
   SendMsg,
   SetContactField,
   SetRunResult,
-  StickyNote
+  StickyNote,
+  FlowDetails
 } from 'flowTypes';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'redux';
@@ -39,7 +40,8 @@ import {
   updateBaseLanguage,
   updateContactFields,
   updateDefinition,
-  updateNodes
+  updateNodes,
+  updateMetadata
 } from 'store/flowContext';
 import {
   createEmptyNode,
@@ -97,7 +99,7 @@ export type FetchFlow = (
 ) => Thunk<Promise<void>>;
 
 export type LoadFlowDefinition = (
-  definition: FlowDefinition,
+  details: FlowDetails,
   assetStore: AssetStore,
   onLoad?: () => void
 ) => Thunk<void>;
@@ -249,11 +251,14 @@ export const createNewRevision = () => (dispatch: DispatchWithState, getState: G
 };
 
 export const loadFlowDefinition = (
-  definition: FlowDefinition,
+  details: FlowDetails,
   assetStore: AssetStore,
   onLoad: () => void
 ) => (dispatch: DispatchWithState, getState: GetState): void => {
   // first see if we need our asset store initialized
+
+  const definition = details.definition;
+
   const {
     editorState: { fetchingFlow }
   } = getState();
@@ -281,7 +286,7 @@ export const loadFlowDefinition = (
   }
 
   // add assets we found in our flow to our asset store
-  const components = getFlowComponents(definition);
+  const components = getFlowComponents(definition, assetStore);
   mergeAssetMaps(assetStore.fields.items, components.fields);
   mergeAssetMaps(assetStore.groups.items, components.groups);
   mergeAssetMaps(assetStore.labels.items, components.labels);
@@ -300,6 +305,7 @@ export const loadFlowDefinition = (
   }
 
   dispatch(updateBaseLanguage(language));
+  dispatch(updateMetadata(details.metadata));
 
   // store our flow definition without any nodes
   dispatch(updateDefinition(mutators.pruneDefinition(definition)));
@@ -346,11 +352,15 @@ export const fetchFlow = (
   const completionSchema = await getCompletionSchema(endpoints.completion);
   const functions = await getFunctions(endpoints.functions);
 
-  getFlowDefinition(assetStore.revisions)
-    .then((definition: FlowDefinition) => {
-      dispatch(loadFlowDefinition(definition, assetStore, onLoad));
+  getFlowDetails(assetStore.revisions)
+    .then((details: FlowDetails) => {
+      dispatch(loadFlowDefinition(details, assetStore, onLoad));
       dispatch(
-        mergeEditorState({ currentRevision: definition.revision, completionSchema, functions })
+        mergeEditorState({
+          currentRevision: details.definition.revision,
+          completionSchema,
+          functions
+        })
       );
 
       markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);

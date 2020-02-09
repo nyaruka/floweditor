@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
 import { Revision } from 'components/revisions/RevisionExplorer';
-import { Endpoints, Exit, FlowDefinition, SPEC_VERSION } from 'flowTypes';
+import { Endpoints, Exit, FlowDefinition, SPEC_VERSION, FlowDetails } from 'flowTypes';
 import { currencies } from 'store/currencies';
 import { Activity, RecentMessage } from 'store/editor';
 import {
@@ -15,13 +15,6 @@ import {
 import { assetListToMap } from 'store/helpers';
 import { CompletionSchema } from 'utils/completion';
 import { FlowTypes } from 'config/interfaces';
-
-export interface FlowDetails {
-  uuid: string;
-  name: string;
-  definition: FlowDefinition;
-  dependencies: FlowDefinition[];
-}
 
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
@@ -336,15 +329,17 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
 
     // prefetch some of our assets
     const fetches: any[] = [];
-    ['languages', 'fields', 'groups', 'labels', 'globals'].forEach((storeId: string) => {
-      const store = assetStore[storeId];
-      fetches.push(
-        getAssets(store.endpoint, store.type, store.id || 'uuid').then((assets: Asset[]) => {
-          store.items = assetListToMap(assets);
-          store.prefetched = true;
-        })
-      );
-    });
+    ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers'].forEach(
+      (storeId: string) => {
+        const store = assetStore[storeId];
+        fetches.push(
+          getAssets(store.endpoint, store.type, store.id || 'uuid').then((assets: Asset[]) => {
+            store.items = assetListToMap(assets);
+            store.prefetched = true;
+          })
+        );
+      }
+    );
 
     // wait for our prefetches to finish
     Promise.all(fetches).then((results: any) => {
@@ -372,11 +367,8 @@ export const getCompletionSchema = (endpoint: string): Promise<CompletionSchema>
   });
 };
 
-export const getFlowDefinition = (
-  revisions: Assets,
-  id: string = null
-): Promise<FlowDefinition> => {
-  return new Promise<FlowDefinition>((resolve, reject) => {
+export const getFlowDetails = (revisions: Assets, id: string = null): Promise<FlowDetails> => {
+  return new Promise<FlowDetails>((resolve, reject) => {
     (async () => {
       let revisionToLoad = id;
       if (!revisionToLoad) {
@@ -395,8 +387,8 @@ export const getFlowDefinition = (
         axios
           .get(url)
           .then((response: AxiosResponse) => {
-            const definition = response.data as FlowDefinition;
-            return resolve(definition);
+            const details = response.data as FlowDetails;
+            return resolve(details);
           })
           .catch(error => reject(error));
       } else {

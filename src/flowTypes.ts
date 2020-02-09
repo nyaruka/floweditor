@@ -70,6 +70,45 @@ export interface LocalizationMap {
   };
 }
 
+export interface Result {
+  key: string;
+  name: string;
+  categories: string[];
+  node_uuids: string[];
+}
+
+export enum DependencyType {
+  channel = 'channel',
+  classifier = 'classifier',
+  contact = 'contact',
+  field = 'field',
+  flow = 'flow',
+  group = 'group',
+  label = 'label',
+  template = 'template'
+}
+
+export interface Dependency {
+  uuid?: string;
+  key?: string;
+  name: string;
+  type: DependencyType;
+  missing?: boolean;
+  node_uuids: string[];
+}
+
+export interface FlowMetadata {
+  dependencies: Dependency[];
+  waiting_exit_uuids: string[];
+  results: Result[];
+  parent_refs: string[];
+}
+
+export interface FlowDetails {
+  definition: FlowDefinition;
+  metadata: FlowMetadata;
+}
+
 export interface FlowDefinition {
   localization: LocalizationMap;
   language: string;
@@ -318,6 +357,10 @@ export interface Headers {
 export interface Classifier {
   uuid: string;
   name: string;
+}
+
+export interface MissingDependencies {
+  missingDependencies: any[];
 }
 
 export interface TransferAirtime extends Action {

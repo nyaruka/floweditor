@@ -31,7 +31,7 @@ const mutate = require('immutability-helper');
 
 describe('mutators', () => {
   const definition: FlowDefinition = require('test/flows/boring.json');
-  const { renderNodeMap: nodes } = getFlowComponents(definition);
+  const { renderNodeMap: nodes } = getFlowComponents(definition, {});
 
   it('should throw for missing nodes', () => {
     expect(() => {

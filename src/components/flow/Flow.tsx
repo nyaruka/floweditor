@@ -8,7 +8,7 @@ import NodeEditor from 'components/nodeeditor/NodeEditor';
 import Simulator from 'components/simulator/Simulator';
 import Sticky, { STICKY_BODY, STICKY_TITLE } from 'components/sticky/Sticky';
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
-import { Exit, FlowDefinition } from 'flowTypes';
+import { Exit, FlowDefinition, FlowMetadata } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -65,7 +65,7 @@ export interface FlowStoreProps {
 
   definition: FlowDefinition;
   nodes: { [uuid: string]: RenderNode };
-  dependencies: FlowDefinition[];
+  metadata: FlowMetadata;
   nodeEditorSettings: NodeEditorSettings;
 
   updateConnection: UpdateConnection;
@@ -431,7 +431,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-  flowContext: { definition, dependencies, nodes },
+  flowContext: { definition, metadata, nodes },
   // tslint:disable-next-line: no-shadowed-variable
   editorState,
   nodeEditor: { settings }
@@ -440,7 +440,7 @@ const mapStateToProps = ({
     nodeEditorSettings: settings,
     definition,
     nodes,
-    dependencies,
+    metadata,
     editorState: editorState as Partial<EditorState>
   };
 };

@@ -1,7 +1,7 @@
 import { renderAssetList } from 'components/flow/actions/helpers';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
-import { ChangeGroups, Endpoints } from 'flowTypes';
+import { ChangeGroups, Endpoints, Dependency, MissingDependencies } from 'flowTypes';
 import * as React from 'react';
 import { AssetType } from 'store/flowContext';
 
@@ -21,7 +21,7 @@ export const getRemoveAllMarkup = (
 );
 
 export const getContentMarkup = (
-  { type, groups }: ChangeGroups,
+  { type, groups, missingDependencies }: ChangeGroups & MissingDependencies,
   endpoints?: Endpoints
 ): JSX.Element[] => {
   const content = [];
@@ -31,7 +31,12 @@ export const getContentMarkup = (
   } else {
     return renderAssetList(
       groups.map(group => {
-        return { id: group.uuid, name: group.name, type: AssetType.Group };
+        return {
+          id: group.uuid,
+          name: group.name,
+          type: AssetType.Group,
+          missing: !!missingDependencies.find((dep: Dependency) => dep.uuid === group.uuid)
+        };
       }),
       MAX_TO_SHOW,
       endpoints!
@@ -42,12 +47,12 @@ export const getContentMarkup = (
 };
 
 export const getChangeGroupsMarkup = (
-  action: ChangeGroups,
+  action: ChangeGroups & MissingDependencies,
   endpoints?: Endpoints,
   specId = contentSpecId
 ) => <div data-spec={specId}>{getContentMarkup(action, endpoints)}</div>;
 
-const ChangeGroupsComp: React.SFC<ChangeGroups> = (props, context: any): JSX.Element => {
+const ChangeGroupsComp: React.SFC<ChangeGroups> = (props: any, context: any): JSX.Element => {
   return getChangeGroupsMarkup(props, context.config.endpoints);
 };
 

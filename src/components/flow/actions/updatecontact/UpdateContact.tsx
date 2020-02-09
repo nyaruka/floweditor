@@ -4,21 +4,25 @@ import {
   SetContactAttribute,
   SetContactChannel,
   SetContactLanguage,
-  SetContactName
+  SetContactName,
+  MissingDependencies,
+  Dependency
 } from 'flowTypes';
 import * as React from 'react';
 import { emphasize } from 'utils';
+const styles = require('components/shared.module.scss');
 
 const withEmph = (text: string, emph: boolean) => (emph ? emphasize(text) : text);
 
 export const renderSetText = (
   name: string,
   value: string,
-  emphasizeName: boolean = false
+  emphasizeName: boolean = false,
+  missing: boolean
 ): JSX.Element => {
   if (value) {
     return (
-      <div>
+      <div className={`${styles.node_asset} ${missing ? styles.missing_asset : ''}`}>
         Set {withEmph(name, emphasizeName)} to {emphasize(value)}.
       </div>
     );
@@ -27,21 +31,39 @@ export const renderSetText = (
   }
 };
 
-const UpdateContactComp: React.SFC<SetContactAttribute> = (action: any) => {
-  switch (action.type) {
-    case Types.set_contact_field:
-      return renderSetText(action.field.name, action.value, true);
-    case Types.set_contact_channel:
-      return renderSetText('channel', (action as SetContactChannel).channel.name);
-    case Types.set_contact_language:
-      const setLanguageAction = action as SetContactLanguage;
-      return renderSetText(
-        'language',
-        getLanguageForCode(setLanguageAction.language, action.languages)
-      );
-    case Types.set_contact_name:
-      return renderSetText('name', (action as SetContactName).name);
+const UpdateContactComp: React.SFC<SetContactAttribute & MissingDependencies> = (
+  action: SetContactAttribute & MissingDependencies
+): JSX.Element => {
+  if (action.type === Types.set_contact_field) {
+    const missing = !!action.missingDependencies.find(
+      (dep: Dependency) => dep.key === action.field.key
+    );
+    return renderSetText(action.field.name, action.value, true, missing);
   }
+
+  if (action.type === Types.set_contact_channel) {
+    const setContactAction = action as SetContactChannel;
+    const missing = !!action.missingDependencies.find(
+      (dep: Dependency) => dep.uuid === setContactAction.channel.uuid
+    );
+    return renderSetText('channel', setContactAction.channel.name, false, missing);
+  }
+
+  if (action.type === Types.set_contact_language) {
+    const setLanguageAction = action as SetContactLanguage;
+    return renderSetText(
+      'language',
+      getLanguageForCode(setLanguageAction.language, (action as any).languages),
+      false,
+      false
+    );
+  }
+
+  if (action.type === Types.set_contact_name) {
+    return renderSetText('name', (action as SetContactName).name, false, false);
+  }
+
+  return null;
 };
 
 export default UpdateContactComp;

@@ -6,7 +6,8 @@ import ExitComp from 'components/flow/exit/Exit';
 import {
   getCategoriesForExit,
   getResultName,
-  getVisibleActions
+  getVisibleActions,
+  filterMissingDependenciesForAction
 } from 'components/flow/node/helpers';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import shared from 'components/shared.module.scss';
@@ -15,7 +16,15 @@ import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
 import { getOperatorConfig } from 'config/operatorConfigs';
 import { getType, getTypeConfig } from 'config/typeConfigs';
-import { AnyAction, Exit, FlowDefinition, FlowNode, SwitchRouter } from 'flowTypes';
+import {
+  AnyAction,
+  Exit,
+  FlowDefinition,
+  FlowNode,
+  SwitchRouter,
+  Endpoints,
+  Dependency
+} from 'flowTypes';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
@@ -67,6 +76,7 @@ export interface NodeStoreProps {
   simulating: boolean;
   debug: DebugState;
   renderNode: RenderNode;
+  missingDependencies: Dependency[];
   definition: FlowDefinition;
   onAddToNode: OnAddToNode;
   onOpenNodeEditor: OnOpenNodeEditor;
@@ -212,26 +222,6 @@ export class NodeComp extends React.Component<NodeProps> {
     return this.props.selected;
   }
 
-  private hasMissing(): boolean {
-    // see if we are splitting on a missing result
-    const type = getType(this.props.renderNode);
-    if (type === Types.split_by_run_result || type === Types.split_by_run_result_delimited) {
-      if (!(this.props.renderNode.ui.config.operand.id in this.props.results)) {
-        return true;
-      }
-    }
-
-    if (this.props.renderNode.node.router) {
-      const kases = (this.props.renderNode.node.router as SwitchRouter).cases || [];
-      for (const kase of kases) {
-        if (!getOperatorConfig(kase.type)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   private isStartNodeVisible(): boolean {
     return this.props.startingNode;
   }
@@ -266,8 +256,13 @@ export class NodeComp extends React.Component<NodeProps> {
       getVisibleActions(this.props.renderNode).forEach((action: AnyAction, idx: number) => {
         const actionConfig = getTypeConfig(action.type);
 
+        const missingDependencies = filterMissingDependenciesForAction(
+          action,
+          this.props.missingDependencies
+        );
+
         if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
-          const { component: ActionDiv } = actionConfig;
+          const { component: ActionComponent } = actionConfig;
           actions.push(
             <ActionWrapper
               {...firstRef}
@@ -276,9 +271,16 @@ export class NodeComp extends React.Component<NodeProps> {
               selected={this.props.selected}
               action={action}
               first={idx === 0}
-              render={(anyAction: AnyAction) => (
-                <ActionDiv {...anyAction} languages={this.props.languages} />
-              )}
+              missingDependencies={missingDependencies}
+              render={(anyAction: AnyAction) => {
+                return (
+                  <ActionComponent
+                    {...anyAction}
+                    languages={this.props.languages}
+                    missingDependencies={missingDependencies}
+                  />
+                );
+              }}
             />
           );
         }
@@ -344,7 +346,11 @@ export class NodeComp extends React.Component<NodeProps> {
           <div style={{ position: 'relative' }}>
             <div {...this.events}>
               <TitleBar
-                __className={(shared as any)[this.hasMissing() ? 'missing' : config.type]}
+                __className={
+                  (shared as any)[
+                    this.props.missingDependencies.length > 0 ? 'missing' : config.type
+                  ]
+                }
                 showRemoval={!this.props.translating}
                 onRemoval={this.handleRemoval}
                 shouldCancelClick={this.handleShouldCancelClick}
@@ -428,6 +434,7 @@ const mapStateToProps = (
     flowContext: {
       nodes,
       definition,
+      metadata,
       assetStore: {
         results: { items: results },
         languages: { items: languages }
@@ -455,7 +462,17 @@ const mapStateToProps = (
 
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
+  const missingDependencies = metadata.dependencies.filter((dependency: Dependency) => {
+    if (
+      dependency.missing &&
+      dependency.node_uuids.find((uuid: string) => uuid === props.nodeUUID)
+    ) {
+      return dependency;
+    }
+  });
+
   return {
+    missingDependencies,
     results,
     languages,
     activeCount,
