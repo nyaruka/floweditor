@@ -11,6 +11,7 @@ import { AssetType } from 'store/flowContext';
 import * as completionSchema from 'test/assets/completion.json';
 import functions from 'test/assets/functions.json';
 import { composeComponentTestUtils } from 'testUtils';
+import { dump } from 'utils';
 
 // we need to track where our cursor would be to simulate properly
 let mockCursor = 0;
