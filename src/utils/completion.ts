@@ -26,8 +26,8 @@ export interface CompletionSchema {
 
 export const getFunctions = (functions: CompletionOption[], query: string): CompletionOption[] => {
   return functions.filter((option: CompletionOption) => {
-    if (option.signature) {
-      return option.signature.indexOf(query) === 0;
+    if (query && option.signature) {
+      return option.signature.indexOf(query.toLowerCase()) === 0;
     }
     return false;
   });
