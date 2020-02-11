@@ -228,8 +228,13 @@ export default class ExcellentParser {
     const re = /((parent|child\.)*contact\.)*fields\.([a-z0-9_]+)/g;
     const expressions = this.findExpressions(text);
     for (const expression of expressions) {
+      if (expression.text.indexOf('webhook') > -1) {
+        continue;
+      }
+
       let match;
       // tslint:disable-next-line:no-conditional-assignment
+
       while ((match = re.exec(expression.text))) {
         (fields as any)[match[3]] = true;
       }
