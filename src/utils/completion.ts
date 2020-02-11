@@ -27,7 +27,7 @@ export interface CompletionSchema {
 export const getFunctions = (functions: CompletionOption[], query: string): CompletionOption[] => {
   return functions.filter((option: CompletionOption) => {
     if (option.signature) {
-      return option.signature.indexOf(query) === 0;
+      return option.signature.indexOf((query || '').toLowerCase()) === 0;
     }
     return false;
   });
@@ -72,10 +72,8 @@ export const getCompletions = (
               }))
             : [];
         } else {
-          // eslint-disable-next-line
-          currentProps = currentProps.filter((prop: CompletionProperty) =>
-            prop.key.startsWith(part.toLowerCase())
-          );
+          // if not type found, hide completion
+          currentProps = [];
           break;
         }
       } else {

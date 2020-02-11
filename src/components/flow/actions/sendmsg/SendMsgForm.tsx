@@ -142,6 +142,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleSave(): void {
+    // don't continue if our message already has errors
+    if (hasErrors(this.state.message)) {
+      return;
+    }
+
     // make sure we validate untouched text fields and contact fields
     let valid = this.handleMessageUpdate(this.state.message.value, null, true);
 
