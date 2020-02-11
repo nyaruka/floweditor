@@ -1,6 +1,6 @@
 import { getRecipients, renderAssetList } from 'components/flow/actions/helpers';
 import { fakePropType } from 'config/ConfigProvider';
-import { BroadcastMsg } from 'flowTypes';
+import { BroadcastMsg, MissingDependencies } from 'flowTypes';
 import * as React from 'react';
 
 import styles from './SendBroadcast.module.scss';
@@ -13,8 +13,8 @@ export const PLACEHOLDER = i18n.t(
 
 const MAX_TO_SHOW = 5;
 
-const SendBroadcastComp: React.SFC<BroadcastMsg> = (
-  action: BroadcastMsg,
+const SendBroadcastComp: React.SFC<BroadcastMsg & MissingDependencies> = (
+  action: BroadcastMsg & MissingDependencies,
   context: any
 ): JSX.Element => {
   const assets = getRecipients(action);

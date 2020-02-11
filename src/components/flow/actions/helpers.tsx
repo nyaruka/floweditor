@@ -5,7 +5,8 @@ import {
   RecipientsAction,
   AnyAction,
   Dependency,
-  RenderAction
+  RenderAction,
+  MissingDependencies
 } from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
@@ -23,22 +24,33 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
   return createUUID();
 };
 
-export const getRecipients = (action: RecipientsAction): Asset[] => {
-  let selected = (action.groups || []).map((group: Group) => {
-    return { id: group.uuid, name: group.name, type: AssetType.Group };
+export const getRecipients = (action: RecipientsAction & MissingDependencies): Asset[] => {
+  let selected: any[] = (action.groups || []).map((group: Group) => {
+    return {
+      id: group.uuid,
+      name: group.name,
+      type: AssetType.Group
+    };
   });
 
   selected = selected.concat(
     (action.contacts || []).map((contact: Contact) => {
-      return { id: contact.uuid, name: contact.name, type: AssetType.Contact };
+      return { id: contact.uuid, name: contact.name, type: AssetType.Contact, missing: false };
     })
   );
 
   selected = selected.concat(
     (action.legacy_vars || []).map((expression: string) => {
-      return { id: expression, name: expression, type: AssetType.Expression };
+      return { id: expression, name: expression, type: AssetType.Expression, missing: false };
     })
   );
+
+  // flag any recipients that are missing
+  selected.forEach((asset: Asset) => {
+    asset.missing = !!(action.missingDependencies || []).find(
+      (dependency: Dependency) => dependency.uuid === asset.id
+    );
+  });
 
   return selected;
 };

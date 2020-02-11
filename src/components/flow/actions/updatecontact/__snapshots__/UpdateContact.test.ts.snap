@@ -4,7 +4,7 @@ exports[`UpdateContactComp render should render clearing the value 1`] = `
 <div>
   Clear 
   <span
-    className="emph"
+    className="emphasize"
   >
     Age
   </span>
@@ -20,7 +20,7 @@ exports[`UpdateContactComp render should render set channel 1`] = `
   channel
    to 
   <span
-    className="emph"
+    className="emphasize"
   >
     Twilio Channel
   </span>
@@ -34,13 +34,13 @@ exports[`UpdateContactComp render should render set field 1`] = `
 >
   Set 
   <span
-    className="emph"
+    className="emphasize"
   >
     Age
   </span>
    to 
   <span
-    className="emph"
+    className="emphasize"
   >
     25
   </span>
@@ -56,7 +56,7 @@ exports[`UpdateContactComp render should render set language 1`] = `
   language
    to 
   <span
-    className="emph"
+    className="emphasize"
   >
     eng
   </span>
@@ -72,7 +72,7 @@ exports[`UpdateContactComp render should render set name 1`] = `
   name
    to 
   <span
-    className="emph"
+    className="emphasize"
   >
     Jane Goodall
   </span>

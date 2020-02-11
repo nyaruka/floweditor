@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { PopTab } from 'components/poptab/PopTab';
 import dateFormat from 'dateformat';
 import { getAssets, getFlowDetails } from 'external';
-import { FlowDefinition, SPEC_VERSION, FlowDetails } from 'flowTypes';
+import { FlowDefinition, SPEC_VERSION, FlowDetails, FlowMetadata } from 'flowTypes';
 import React from 'react';
 import { Asset, AssetStore } from 'store/flowContext';
 import { renderIf } from 'utils';
@@ -16,6 +16,11 @@ const cx: any = classNames.bind(styles);
 export interface User {
   email: string;
   name: string;
+}
+
+export interface SaveResult {
+  revision: Revision;
+  metadata: FlowMetadata;
 }
 
 export interface Revision {

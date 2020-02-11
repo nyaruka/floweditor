@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import axios, { AxiosResponse } from 'axios';
-import { Revision } from 'components/revisions/RevisionExplorer';
+import { SaveResult } from 'components/revisions/RevisionExplorer';
 import { Endpoints, Exit, FlowDefinition, SPEC_VERSION, FlowDetails } from 'flowTypes';
 import { currencies } from 'store/currencies';
 import { Activity, RecentMessage } from 'store/editor';
@@ -42,7 +42,7 @@ export interface Cancel {
   reject?: () => void;
 }
 
-export const saveRevision = (endpoint: string, definition: FlowDefinition): Promise<Revision> => {
+export const saveRevision = (endpoint: string, definition: FlowDefinition): Promise<SaveResult> => {
   const csrf = getCookie('csrftoken');
   const headers = csrf ? { 'X-CSRFToken': csrf } : {};
 
@@ -57,12 +57,12 @@ export const saveRevision = (endpoint: string, definition: FlowDefinition): Prom
 
   definition.spec_version = [SPEC_VERSION, patch].join('.');
 
-  return new Promise<Revision>((resolve, reject) => {
+  return new Promise<SaveResult>((resolve, reject) => {
     axios
       .post(endpoint, definition, { headers })
       .then((response: AxiosResponse) => {
         if (response.status === 200) {
-          resolve(response.data.revision as Revision);
+          resolve(response.data as SaveResult);
         } else {
           reject(response);
         }

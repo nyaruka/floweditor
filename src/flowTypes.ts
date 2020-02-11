@@ -94,7 +94,7 @@ export interface Dependency {
   name: string;
   type: DependencyType;
   missing?: boolean;
-  node_uuids: string[];
+  nodes: { [uuid: string]: string[] };
 }
 
 export interface FlowMetadata {

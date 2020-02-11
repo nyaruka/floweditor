@@ -1,7 +1,7 @@
 import { determineTypeConfig } from 'components/flow/helpers';
 import { getResultName } from 'components/flow/node/helpers';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
-import { Revision } from 'components/revisions/RevisionExplorer';
+import { SaveResult } from 'components/revisions/RevisionExplorer';
 import { FlowTypes, Type, Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import {
@@ -159,7 +159,7 @@ export interface ErrorMessage {
 }
 
 export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
-const QUIET_SAVE = 2000;
+const QUIET_SAVE = 1000;
 
 let markDirty: (quiet?: number) => void = () => {};
 let lastDirtyAttempt: any = null;
@@ -195,9 +195,11 @@ export const createDirty = (
   lastDirtyAttempt = window.setTimeout(() => {
     postingRevision = true;
     saveRevision(revisionsEndpoint, newDefinition).then(
-      (revision: Revision) => {
+      (result: SaveResult) => {
+        const revision = result.revision;
         definition.revision = revision.revision;
         dispatch(updateDefinition(definition));
+        dispatch(updateMetadata(result.metadata));
 
         const updatedAssets = mutators.addRevision(assetStore, revision);
         dispatch(updateAssets(updatedAssets));

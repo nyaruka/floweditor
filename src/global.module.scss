@@ -1,6 +1,5 @@
 @import 'variables.module.scss';
 
-
 .proper {
   background: #f3f3f3;
   padding: 2px 5px;
@@ -165,8 +164,8 @@
     clear: both;
   }
 
-  .emph {
-    font-weight: 500;
+  .emphasize {
+    font-weight: 400;
   }
 
   /*input[type=text], textarea {

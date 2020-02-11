@@ -204,26 +204,31 @@ exports[`SendBroadcastForm render should render self, children with base props 1
         "value": Array [
           Object {
             "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+            "missing": false,
             "name": "Cat Fanciers",
             "type": "group",
           },
           Object {
             "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "missing": false,
             "name": "Cat Facts",
             "type": "group",
           },
           Object {
             "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "missing": false,
             "name": "Kellan Alexander",
             "type": "contact",
           },
           Object {
             "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "missing": false,
             "name": "Norbert Kwizera",
             "type": "contact",
           },
           Object {
             "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "missing": false,
             "name": "Rowan Seymour",
             "type": "contact",
           },
@@ -282,26 +287,31 @@ Object {
     "value": Array [
       Object {
         "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+        "missing": false,
         "name": "Cat Fanciers",
         "type": "group",
       },
       Object {
         "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        "missing": false,
         "name": "Cat Facts",
         "type": "group",
       },
       Object {
         "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "missing": false,
         "name": "Kellan Alexander",
         "type": "contact",
       },
       Object {
         "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "missing": false,
         "name": "Norbert Kwizera",
         "type": "contact",
       },
       Object {
         "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "missing": false,
         "name": "Rowan Seymour",
         "type": "contact",
       },

@@ -196,7 +196,11 @@ export class NodeComp extends React.Component<NodeProps> {
         <ExitComp
           key={exit.uuid}
           node={this.props.renderNode.node}
-          categories={getCategoriesForExit(this.props.renderNode, exit)}
+          categories={getCategoriesForExit(
+            this.props.renderNode,
+            exit,
+            this.props.missingDependencies
+          )}
           exit={exit}
           showDragHelper={this.props.onlyNode && idx === 0}
           plumberMakeSource={this.props.plumberMakeSource}
@@ -247,7 +251,8 @@ export class NodeComp extends React.Component<NodeProps> {
       getVisibleActions(this.props.renderNode).forEach((action: AnyAction, idx: number) => {
         const actionConfig = getTypeConfig(action.type);
 
-        const missingDependencies = filterMissingDependenciesForAction(
+        const missingDependencies: Dependency[] = filterMissingDependenciesForAction(
+          this.props.nodeUUID,
           action,
           this.props.missingDependencies
         );
@@ -331,7 +336,6 @@ export class NodeComp extends React.Component<NodeProps> {
 
       if (!this.props.renderNode.node.actions || !this.props.renderNode.node.actions.length) {
         // Router headers are introduced here while action headers are introduced in ./Action/Action
-
         header = (
           // Wrap in a relative parent so it honors node clipping
           <div style={{ position: 'relative' }}>
@@ -454,9 +458,7 @@ const mapStateToProps = (
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
   const missingDependencies = metadata.dependencies.filter((dependency: Dependency) => {
-    return (
-      dependency.missing && dependency.node_uuids.find((uuid: string) => uuid === props.nodeUUID)
-    );
+    return dependency.missing && dependency.nodes[props.nodeUUID];
   });
 
   return {
