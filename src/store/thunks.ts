@@ -347,7 +347,12 @@ export const fetchFlow = (
   const functions = await getFunctions(endpoints.functions);
 
   getFlowDefinition(assetStore.revisions)
-    .then((definition: FlowDefinition) => {
+    .then((definition: any) => {
+      // new versions of this endpoint will nest the definition
+      if (definition.definition) {
+        definition = definition.definition;
+      }
+
       dispatch(loadFlowDefinition(definition, assetStore, onLoad));
       dispatch(
         mergeEditorState({ currentRevision: definition.revision, completionSchema, functions })
