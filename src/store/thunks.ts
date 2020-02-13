@@ -199,7 +199,10 @@ export const createDirty = (
         const revision = result.revision;
         definition.revision = revision.revision;
         dispatch(updateDefinition(definition));
-        dispatch(updateMetadata(result.metadata));
+
+        if (result.metadata) {
+          dispatch(updateMetadata(result.metadata));
+        }
 
         const updatedAssets = mutators.addRevision(assetStore, revision);
         dispatch(updateAssets(updatedAssets));
@@ -355,7 +358,12 @@ export const fetchFlow = (
   const functions = await getFunctions(endpoints.functions);
 
   getFlowDetails(assetStore.revisions)
-    .then((details: FlowDetails) => {
+    .then((response: any) => {
+      // backwards compatibitly for during deployment
+      const details: FlowDetails = response.definition
+        ? response
+        : { definition: response as FlowDefinition, metadata: { dependencies: [] } };
+
       dispatch(loadFlowDefinition(details, assetStore, onLoad));
       dispatch(
         mergeEditorState({
