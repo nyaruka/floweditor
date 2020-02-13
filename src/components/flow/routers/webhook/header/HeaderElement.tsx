@@ -118,13 +118,6 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
               name={VALUE_PLACEHOLDER}
               onChange={this.handleChangeValue}
               entry={this.state.value}
-              onFieldFailures={(validationFailures: ValidationFailure[]) => {
-                const name = validate(NAME_PLACEHOLDER, this.state.name.value, [HeaderName]);
-                this.props.onChange(
-                  this.getHeader(),
-                  validationFailures.concat(getAllErrors(name))
-                );
-              }}
               autocomplete={true}
             />
           </div>

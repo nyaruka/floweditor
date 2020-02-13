@@ -94,7 +94,6 @@ exports[`UpdateContactForm render should render an empty form with different act
       focus={true}
       name="Name"
       onChange={[Function]}
-      onFieldFailures={[Function]}
       placeholder="Enter a new name for the contact"
     />
   </div>
@@ -195,7 +194,6 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
       focus={true}
       name="Name"
       onChange={[Function]}
-      onFieldFailures={[Function]}
       placeholder="Enter a new name for the contact"
     />
   </div>

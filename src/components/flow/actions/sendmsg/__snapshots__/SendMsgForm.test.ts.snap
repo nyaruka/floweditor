@@ -65,7 +65,6 @@ exports[`SendMsgForm render should render 1`] = `
             }
             name="Quick Reply"
             onEntryChanged={[Function]}
-            onFieldErrors={[Function]}
             onItemAdded={[Function]}
             onRemoved={[Function]}
           />
@@ -187,7 +186,6 @@ exports[`SendMsgForm render should render 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />

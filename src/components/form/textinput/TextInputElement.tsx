@@ -10,7 +10,7 @@ import { Type, Types } from 'config/interfaces';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AssetStore, CompletionOption, FunctionExample } from 'store/flowContext';
-import { StringEntry, ValidationFailure } from 'store/nodeEditor';
+import { StringEntry } from 'store/nodeEditor';
 import AppState from 'store/state';
 import getCaretCoordinates from 'textarea-caret';
 import {
@@ -23,6 +23,7 @@ import {
 } from 'utils/completion';
 
 import styles from './TextInputElement.module.scss';
+import { hasErrors } from 'components/flow/actions/helpers';
 
 const ReactMarkdown = require('react-markdown');
 
@@ -55,7 +56,6 @@ export interface TextInputPassedProps extends FormElementProps {
   focus?: boolean;
   showInvalid?: boolean;
   maxLength?: number;
-  onFieldFailures?: (failures: ValidationFailure[]) => void;
   onChange?: (value: string, name?: string) => void;
   onBlur?: (event: React.ChangeEvent<HTMLTextElement>) => void;
   onEnter?: (event: React.KeyboardEvent<HTMLTextElement>) => boolean;
@@ -157,7 +157,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
   }
 
   public componentDidMount(): void {
-    this.checkForMissingFields();
     return this.props.focus && this.focusInput();
   }
 
@@ -299,7 +298,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
           return;
         } else {
           if (this.props.onEnter) {
-            this.checkForMissingFields();
             this.props.onEnter(event);
           }
         }
@@ -362,32 +360,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     }
   }
 
-  private checkForMissingFields(): boolean {
-    // check if we have any bogus field references
-    if (this.props.autocomplete && this.props.onFieldFailures) {
-      const fields = this.parser.getContactFields(this.state.value);
-      const missingFields = fields
-        .filter((key: string) => !(key in this.props.assetStore.fields.items))
-        .map((field: string) => {
-          return {
-            message: `${field} is not a valid contact field`
-          };
-        });
-
-      this.props.onFieldFailures(missingFields);
-      return missingFields.length > 0;
-    }
-    return false;
-  }
-
   private handleBlur(event: React.ChangeEvent<HTMLTextElement>): void {
-    if (this.checkForMissingFields()) {
-      if (this.props.onBlur) {
-        this.props.onBlur(event);
-      }
-      return;
-    }
-
     this.setState(
       {
         query: '',
@@ -593,19 +566,6 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
     });
   }
 
-  private hasErrors(): boolean {
-    return this.getMergedErrors().length > 0;
-  }
-
-  private getMergedErrors(): ValidationFailure[] {
-    if (this.props.entry) {
-      return (this.props.entry.validationFailures || []).concat(
-        this.props.entry.persistantFailures || []
-      );
-    }
-    return [];
-  }
-
   private getScroll(): number {
     if (this.textEl) {
       return this.textEl.scrollTop;
@@ -622,7 +582,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
   private getTextElement(): JSX.Element {
     const textElClasses = cx({
       [styles.textinput]: true,
-      [shared.invalid]: this.hasErrors() || this.props.showInvalid === true
+      [shared.invalid]: hasErrors(this.props.entry) || this.props.showInvalid === true
     });
 
     let text = this.state.value;
@@ -691,7 +651,7 @@ export class TextInputElement extends React.Component<TextInputProps, TextInputS
       ) : null;
 
     const sendMsgError =
-      this.hasErrors() &&
+      hasErrors(this.props.entry) &&
       this.props.name === 'Message' &&
       (this.props.typeConfig.type === Types.send_msg ||
         this.props.typeConfig.type === Types.send_broadcast);

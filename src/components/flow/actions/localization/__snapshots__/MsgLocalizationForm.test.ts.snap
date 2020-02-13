@@ -38,7 +38,6 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
               }
             }
             name="Quick Reply"
-            onFieldErrors={[Function]}
             onItemAdded={[Function]}
             onRemoved={[Function]}
           />
@@ -70,7 +69,6 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     placeholder="Spanish Translation"
     showLabel={false}
     textarea={true}
@@ -116,7 +114,6 @@ exports[`MsgLocalizationForm render should render 1`] = `
               }
             }
             name="Quick Reply"
-            onFieldErrors={[Function]}
             onItemAdded={[Function]}
             onRemoved={[Function]}
           />
@@ -148,7 +145,6 @@ exports[`MsgLocalizationForm render should render 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     placeholder="Spanish Translation"
     showLabel={false}
     textarea={true}

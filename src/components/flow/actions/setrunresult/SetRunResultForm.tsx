@@ -7,7 +7,7 @@ import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
-import { AssetEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, shouldRequireIf, StartIsNonNumeric, validate } from 'store/validators';
 import { snakify } from 'utils';
 
@@ -146,13 +146,6 @@ export default class SetRunResultForm extends React.PureComponent<
             showLabel={true}
             onChange={this.handleValueUpdate}
             entry={this.state.value}
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const value = { ...this.state.value, persistantFailures };
-              this.setState({
-                value,
-                valid: this.state.valid && !hasErrors(value)
-              });
-            }}
             autocomplete={true}
             helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
           />

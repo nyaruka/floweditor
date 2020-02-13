@@ -11,8 +11,7 @@ import {
   FormState,
   mergeForm,
   StringEntry,
-  SelectOptionEntry,
-  ValidationFailure
+  SelectOptionEntry
 } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import { renderIf } from 'utils';
@@ -174,13 +173,6 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
               <TextInputElement
                 name="Contact Query"
                 placeholder={'household_id = @fields.household_id'}
-                onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-                  const contactQuery = { ...this.state.contactQuery, persistantFailures };
-                  this.setState({
-                    contactQuery,
-                    valid: this.state.valid
-                  });
-                }}
                 onChange={this.handleContactQueryChanged}
                 entry={this.state.contactQuery}
                 autocomplete={true}

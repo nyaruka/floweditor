@@ -113,7 +113,6 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />
@@ -252,7 +251,6 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />

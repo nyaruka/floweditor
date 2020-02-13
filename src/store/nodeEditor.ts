@@ -22,7 +22,6 @@ export interface ValidationFailure {
 export interface FormEntry {
   value: any;
   validationFailures?: ValidationFailure[];
-  persistantFailures?: ValidationFailure[];
 }
 
 export interface SelectOptionEntry extends FormEntry {

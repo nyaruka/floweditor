@@ -1,18 +1,11 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import TaggingElement from 'components/form/select/tags/TaggingElement';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import {
-  FormState,
-  mergeForm,
-  StringArrayEntry,
-  StringEntry,
-  ValidationFailure
-} from 'store/nodeEditor';
+import { FormState, mergeForm, StringArrayEntry, StringEntry } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -127,13 +120,6 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
             placeholder={i18n.t('forms.send_email.subject_placeholder', 'Subject')}
             onChange={this.handleSubjectChanged}
             entry={this.state.subject}
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const subject = { ...this.state.subject, persistantFailures };
-              this.setState({
-                subject,
-                valid: this.state.valid && !hasErrors(subject)
-              });
-            }}
             autocomplete={true}
           />
           <TextInputElement
@@ -142,13 +128,6 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
             showLabel={false}
             onChange={this.handleBodyChanged}
             entry={this.state.body}
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const body = { ...this.state.body, persistantFailures };
-              this.setState({
-                body,
-                valid: this.state.valid && !hasErrors(body)
-              });
-            }}
             autocomplete={true}
             textarea={true}
           />

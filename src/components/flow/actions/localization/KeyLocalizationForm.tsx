@@ -7,7 +7,7 @@ import { LocalizationFormProps } from 'components/flow/props';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
-import { FormState, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import { FormState, StringEntry } from 'store/nodeEditor';
 import i18n from 'config/i18n';
 
 export interface KeyLocalizationFormState extends FormState {
@@ -92,14 +92,6 @@ export default class KeyLocalizationForm extends React.Component<
             onChange={this.handleKeyUpdate}
             entry={this.state.keyValues[key]}
             placeholder={`${this.props.language.name} Translation`}
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const keyValues = this.state.keyValues;
-              keyValues[key] = { ...this.state.keyValues[key], persistantFailures };
-              this.setState({
-                keyValues,
-                valid: this.state.valid
-              });
-            }}
             autocomplete={true}
             focus={true}
             textarea={true}

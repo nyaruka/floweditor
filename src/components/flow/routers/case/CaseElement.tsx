@@ -1,5 +1,4 @@
 import { react as bindCallbacks } from 'auto-bind';
-import { hasErrors } from 'components/flow/actions/helpers';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { isRelativeDate } from 'components/flow/routers/helpers';
 import FormElement from 'components/form/FormElement';
@@ -11,7 +10,7 @@ import { operatorConfigList } from 'config/operatorConfigs';
 import { Case } from 'flowTypes';
 import * as React from 'react';
 import Select from 'react-select';
-import { FormState, StringEntry, ValidationFailure, SelectOptionEntry } from 'store/nodeEditor';
+import { FormState, StringEntry, SelectOptionEntry } from 'store/nodeEditor';
 import { getSelectClass, hasErrorType } from 'utils';
 import { small } from 'utils/reactselect';
 
@@ -430,13 +429,6 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             onChange={this.handleArgumentChanged}
             entry={this.state.argument}
             placeholder={this.state.operatorConfig.type === Operators.has_district ? 'State' : ''}
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const argument = { ...this.state.argument, persistantFailures };
-              this.setState({
-                argument,
-                valid: this.state.valid && !hasErrors(argument)
-              });
-            }}
             autocomplete={true}
           />
         );

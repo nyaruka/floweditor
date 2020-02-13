@@ -287,13 +287,6 @@ export default class WebhookRouterForm extends React.Component<
                 Modify the body of the [[method]] request that will be sent to your webhook.
               </Trans>
             }
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const body = { ...this.state.body, persistantFailures };
-              this.setState({
-                body,
-                valid: this.state.valid && !hasErrors(body)
-              });
-            }}
             autocomplete={true}
             textarea={true}
           />
@@ -325,13 +318,6 @@ export default class WebhookRouterForm extends React.Component<
             placeholder={i18n.t('forms.call_webhook.url_placeholder', 'Enter a URL')}
             entry={this.state.url}
             onChange={this.handleUrlUpdate}
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const url = { ...this.state.url, persistantFailures };
-              this.setState({
-                url,
-                valid: this.state.valid && !hasErrors(url)
-              });
-            }}
             autocomplete={true}
           />
         </div>

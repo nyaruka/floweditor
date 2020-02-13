@@ -1,11 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
-import { FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import { FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { validate, Required } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -68,13 +67,6 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
           showLabel={false}
           onChange={this.handleAudioUpdate}
           entry={this.state.audio}
-          onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-            const audio = { ...this.state.audio, persistantFailures };
-            this.setState({
-              audio,
-              valid: this.state.valid && !hasErrors(audio)
-            });
-          }}
           autocomplete={true}
           focus={true}
           helpText={

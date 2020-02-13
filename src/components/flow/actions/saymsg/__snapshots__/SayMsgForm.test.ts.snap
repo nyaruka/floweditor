@@ -46,7 +46,6 @@ exports[`SayMsgForm render should render 1`] = `
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />

@@ -66,7 +66,6 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
         }
         name="Value"
         onChange={[Function]}
-        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>
@@ -146,7 +145,6 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
         }
         name="Value"
         onChange={[Function]}
-        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>
@@ -223,7 +221,6 @@ exports[`HeaderElement render should render remove icon 1`] = `
         }
         name="Value"
         onChange={[Function]}
-        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>
@@ -248,7 +245,6 @@ Object {
   },
   "name": "Value",
   "onChange": [Function],
-  "onFieldFailures": [Function],
   "placeholder": "Value",
 }
 `;
@@ -298,7 +294,6 @@ exports[`HeaderElement render should render self, children with base props 2`] =
         }
         name="Value"
         onChange={[Function]}
-        onFieldFailures={[Function]}
         placeholder="Value"
       />
     </div>

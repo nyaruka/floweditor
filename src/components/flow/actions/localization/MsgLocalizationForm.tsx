@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import styles from 'components/flow/actions/action/Action.module.scss';
-import { hasErrors } from 'components/flow/actions/helpers';
 import { determineTypeConfig } from 'components/flow/helpers';
 import { LocalizationFormProps } from 'components/flow/props';
 import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
@@ -11,13 +10,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import { SendMsg, MsgTemplating } from 'flowTypes';
 import * as React from 'react';
 import mutate from 'immutability-helper';
-import {
-  FormState,
-  mergeForm,
-  StringArrayEntry,
-  StringEntry,
-  ValidationFailure
-} from 'store/nodeEditor';
+import { FormState, mergeForm, StringArrayEntry, StringEntry } from 'store/nodeEditor';
 import { MaxOfTenItems, validate } from 'store/validators';
 
 import { initializeLocalizedForm } from './helpers';
@@ -176,14 +169,6 @@ export default class MsgLocalizationForm extends React.Component<
     });
   }
 
-  public handleQuickReplyFieldFailures(persistantFailures: ValidationFailure[]): void {
-    const quickReplies = { ...this.state.quickReplies, persistantFailures };
-    this.setState({
-      quickReplies,
-      valid: this.state.valid && !hasErrors(quickReplies)
-    });
-  }
-
   private handleTemplateVariableChanged(updatedText: string, num: number): void {
     const entry = validate(`Variable ${num + 1}`, updatedText, []);
 
@@ -192,17 +177,6 @@ export default class MsgLocalizationForm extends React.Component<
     }) as StringEntry[];
 
     this.setState({ templateVariables });
-  }
-
-  private handleTemplateFieldFailures(persistantFailures: ValidationFailure[], num: number): void {
-    const templateVariables = mutate(this.state.templateVariables || [], {
-      [num]: { $merge: { persistantFailures: persistantFailures || [] } }
-    }) as StringEntry[];
-
-    this.setState({
-      templateVariables,
-      valid: this.state.valid && !hasErrors(templateVariables[num])
-    });
   }
 
   public render(): JSX.Element {
@@ -239,9 +213,6 @@ export default class MsgLocalizationForm extends React.Component<
                         }}
                         entry={entry}
                         autocomplete={true}
-                        onFieldFailures={(failures: ValidationFailure[]) => {
-                          this.handleTemplateFieldFailures(failures, num);
-                        }}
                       />
                     </div>
                   );
@@ -272,7 +243,6 @@ export default class MsgLocalizationForm extends React.Component<
               items={this.state.quickReplies}
               onRemoved={this.handleRemoveQuickReply}
               onItemAdded={this.handleAddQuickReply}
-              onFieldErrors={this.handleQuickReplyFieldFailures}
             />
           </>
         ),
@@ -313,13 +283,6 @@ export default class MsgLocalizationForm extends React.Component<
           onChange={this.handleMessageUpdate}
           entry={this.state.message}
           placeholder={`${this.props.language.name} Translation`}
-          onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-            const text = { ...this.state.message, persistantFailures };
-            this.setState({
-              message: text,
-              valid: this.state.valid && !hasErrors(text)
-            });
-          }}
           autocomplete={true}
           focus={true}
           textarea={true}

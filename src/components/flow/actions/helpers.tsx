@@ -138,7 +138,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
 };
 
 export const getAllErrors = (entry: FormEntry): ValidationFailure[] => {
-  return (entry.validationFailures || []).concat(entry.persistantFailures || []);
+  return entry ? entry.validationFailures || [] : [];
 };
 
 export const hasErrors = (entry: FormEntry): boolean => {
