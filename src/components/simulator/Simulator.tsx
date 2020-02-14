@@ -234,7 +234,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         }
       }
 
-      const simulatedMessages = this.props.activity.recentMessages || {};
+      // if we are resetting, clear our recent messages
+      const simulatedMessages = this.state.session.input
+        ? this.props.activity.recentMessages || {}
+        : {};
 
       for (const key in recentMessages) {
         let messages = simulatedMessages[key] || [];
@@ -294,7 +297,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             if (fromUUID && toUUID) {
               const key = `${fromUUID}:${toUUID}`;
               const msg: RecentMessage = {
-                sent: new Date(event.created_on),
+                sent: event.created_on,
                 text: event.msg.text
               };
 
