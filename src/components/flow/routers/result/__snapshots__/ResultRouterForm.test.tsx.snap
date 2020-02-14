@@ -448,11 +448,6 @@ exports[`ResultRouterForm should render 1`] = `
                       has ward
                     </option>
                     <option
-                      value="has_value"
-                    >
-                      is not empty
-                    </option>
-                    <option
                       value="has_pattern"
                     >
                       matches regex
@@ -1108,11 +1103,6 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                       value="has_ward"
                     >
                       has ward
-                    </option>
-                    <option
-                      value="has_value"
-                    >
-                      is not empty
                     </option>
                     <option
                       value="has_pattern"

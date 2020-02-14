@@ -136,11 +136,6 @@ exports[`CaseElement operator changes should handle updates 1`] = `
               has ward
             </option>
             <option
-              value="has_value"
-            >
-              is not empty
-            </option>
-            <option
               value="has_pattern"
             >
               matches regex
@@ -341,11 +336,6 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
               value="has_ward"
             >
               has ward
-            </option>
-            <option
-              value="has_value"
-            >
-              is not empty
             </option>
             <option
               value="has_pattern"
@@ -631,11 +621,6 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
               has ward
             </option>
             <option
-              value="has_value"
-            >
-              is not empty
-            </option>
-            <option
               value="has_pattern"
             >
               matches regex
@@ -838,11 +823,6 @@ exports[`CaseElement render renders no argument rules 1`] = `
               has ward
             </option>
             <option
-              value="has_value"
-            >
-              is not empty
-            </option>
-            <option
               value="has_pattern"
             >
               matches regex
@@ -1043,11 +1023,6 @@ exports[`CaseElement render should render empty case 1`] = `
               value="has_ward"
             >
               has ward
-            </option>
-            <option
-              value="has_value"
-            >
-              is not empty
             </option>
             <option
               value="has_pattern"
@@ -1291,11 +1266,6 @@ exports[`CaseElement update handles argument change 1`] = `
               has ward
             </option>
             <option
-              value="has_value"
-            >
-              is not empty
-            </option>
-            <option
               value="has_pattern"
             >
               matches regex
@@ -1535,11 +1505,6 @@ exports[`CaseElement update handles multiple argument change 1`] = `
               value="has_ward"
             >
               has ward
-            </option>
-            <option
-              value="has_value"
-            >
-              is not empty
             </option>
             <option
               value="has_pattern"

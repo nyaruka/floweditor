@@ -175,7 +175,8 @@ export const operatorConfigList: Operator[] = [
     type: Operators.has_value,
     verboseName: i18n.t('operators.has_value', 'is not empty'),
     operands: 0,
-    categoryName: i18n.t('operators.has_value_category', 'Not Empty')
+    categoryName: i18n.t('operators.has_value_category', 'Not Empty'),
+    visibility: HIDDEN
   },
   {
     type: Operators.has_pattern,
