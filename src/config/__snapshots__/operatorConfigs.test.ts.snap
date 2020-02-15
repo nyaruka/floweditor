@@ -200,6 +200,9 @@ Array [
     "operands": 0,
     "type": "has_value",
     "verboseName": "is not empty",
+    "visibility": Array [
+      "-",
+    ],
   },
   Object {
     "operands": 1,
@@ -426,6 +429,9 @@ Object {
     "operands": 0,
     "type": "has_value",
     "verboseName": "is not empty",
+    "visibility": Array [
+      "-",
+    ],
   },
   "has_ward": Object {
     "categoryName": "Has Ward",

@@ -142,11 +142,6 @@ exports[`CaseList render should render empty list 1`] = `
                   has ward
                 </option>
                 <option
-                  value="has_value"
-                >
-                  is not empty
-                </option>
-                <option
                   value="has_pattern"
                 >
                   matches regex
@@ -396,11 +391,6 @@ exports[`CaseList render should render list of cases 1`] = `
                   has ward
                 </option>
                 <option
-                  value="has_value"
-                >
-                  is not empty
-                </option>
-                <option
                   value="has_pattern"
                 >
                   matches regex
@@ -639,11 +629,6 @@ exports[`CaseList render should render list of cases 1`] = `
                   has ward
                 </option>
                 <option
-                  value="has_value"
-                >
-                  is not empty
-                </option>
-                <option
                   value="has_pattern"
                 >
                   matches regex
@@ -880,11 +865,6 @@ exports[`CaseList render should render list of cases 1`] = `
                   value="has_ward"
                 >
                   has ward
-                </option>
-                <option
-                  value="has_value"
-                >
-                  is not empty
                 </option>
                 <option
                   value="has_pattern"
@@ -1136,11 +1116,6 @@ exports[`CaseList updates should remove cases 1`] = `
                   has ward
                 </option>
                 <option
-                  value="has_value"
-                >
-                  is not empty
-                </option>
-                <option
                   value="has_pattern"
                 >
                   matches regex
@@ -1377,11 +1352,6 @@ exports[`CaseList updates should remove cases 1`] = `
                   value="has_ward"
                 >
                   has ward
-                </option>
-                <option
-                  value="has_value"
-                >
-                  is not empty
                 </option>
                 <option
                   value="has_pattern"
@@ -1633,11 +1603,6 @@ exports[`CaseList updates should update cases 1`] = `
                   has ward
                 </option>
                 <option
-                  value="has_value"
-                >
-                  is not empty
-                </option>
-                <option
                   value="has_pattern"
                 >
                   matches regex
@@ -1876,11 +1841,6 @@ exports[`CaseList updates should update cases 1`] = `
                   has ward
                 </option>
                 <option
-                  value="has_value"
-                >
-                  is not empty
-                </option>
-                <option
                   value="has_pattern"
                 >
                   matches regex
@@ -2117,11 +2077,6 @@ exports[`CaseList updates should update cases 1`] = `
                   value="has_ward"
                 >
                   has ward
-                </option>
-                <option
-                  value="has_value"
-                >
-                  is not empty
                 </option>
                 <option
                   value="has_pattern"
