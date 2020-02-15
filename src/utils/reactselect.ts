@@ -74,7 +74,8 @@ export const small = {
     maxHeight: '28px',
     minHeight: '28px',
     fontSize: '12px',
-    lineHeight: '12px'
+    lineHeight: '12px',
+    marginBottom: '-10px'
   }),
   menuList: (styles: StylesConfig) => ({
     ...styles,
@@ -102,7 +103,7 @@ export const small = {
   input: (styles: StylesConfig) => ({
     ...styles,
     marginLeft: '-2px',
-    marginTop: '-10px',
+    marginTop: '0px',
     caretColor: '#999',
     boxShadow: 'none',
     border: 'none',

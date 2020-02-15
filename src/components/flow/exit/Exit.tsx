@@ -16,6 +16,7 @@ import AppState from 'store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from 'store/thunks';
 import { createClickHandler, getLocalization, renderIf } from 'utils';
 
+import * as moment from 'moment';
 import styles from './Exit.module.scss';
 import shared from 'components/shared.module.scss';
 
@@ -303,7 +304,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
           {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
             <div key={'recent_' + idx} className={styles.message}>
               <div className={styles.text}>{recentMessage.text}</div>
-              <div className={styles.sent}>{recentMessage.sent.toLocaleString()}</div>
+              <div className={styles.sent}>{moment.utc(recentMessage.sent).fromNow()}</div>
             </div>
           ))}
           {this.state.recentMessages === null ? (

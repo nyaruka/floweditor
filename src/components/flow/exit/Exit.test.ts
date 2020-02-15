@@ -40,8 +40,8 @@ describe(ExitComp.name, () => {
     instance.setState(
       {
         recentMessages: [
-          { text: 'Hi Mom!', sent: 'Apr 1, 2019' },
-          { text: 'Hi Dad!', sent: 'Apr 2, 2019' }
+          { text: 'Hi Mom!', sent: new Date().toUTCString() },
+          { text: 'Hi Dad!', sent: new Date().toUTCString() }
         ]
       },
       () => {

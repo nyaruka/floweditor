@@ -83,7 +83,7 @@ export const getRecentMessages = (
       .then((response: AxiosResponse) => {
         const recentMessages: RecentMessage[] = [];
         for (const row of response.data) {
-          recentMessages.push({ text: row.text, sent: new Date(row.sent) });
+          recentMessages.push({ text: row.text, sent: row.sent });
         }
 
         resolve(response.data as RecentMessage[]);
