@@ -28,7 +28,7 @@ export interface Activity {
 }
 
 export interface RecentMessage {
-  sent: Date;
+  sent: string;
   text: string;
 }
 

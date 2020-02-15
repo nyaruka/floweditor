@@ -156,7 +156,7 @@ exports[`ExitComp shows recent messages 1`] = `
         <div
           className="sent"
         >
-          Apr 1, 2019
+          a few seconds ago
         </div>
       </div>
       <div
@@ -171,7 +171,7 @@ exports[`ExitComp shows recent messages 1`] = `
         <div
           className="sent"
         >
-          Apr 2, 2019
+          a few seconds ago
         </div>
       </div>
     </div>
