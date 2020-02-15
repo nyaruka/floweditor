@@ -262,7 +262,7 @@ exports[`ResultRouterForm should render 1`] = `
                 class="react-select selection css-2b097c-container"
               >
                 <div
-                  class=" css-zx7s85-control"
+                  class=" css-p773gl-control"
                 >
                   <div
                     class=" css-c2yhe2"
@@ -892,7 +892,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                 class="react-select selection css-2b097c-container"
               >
                 <div
-                  class=" css-zx7s85-control"
+                  class=" css-p773gl-control"
                 >
                   <div
                     class=" css-c2yhe2"
