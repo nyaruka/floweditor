@@ -1,6 +1,6 @@
 import { getRecipients, renderAssetList, renderAsset } from 'components/flow/actions/helpers';
 import { fakePropType } from 'config/ConfigProvider';
-import { StartSession, MissingDependencies } from 'flowTypes';
+import { StartSession, WithIssues } from 'flowTypes';
 import * as React from 'react';
 import { AssetType } from 'store/flowContext';
 
@@ -8,8 +8,8 @@ import styles from './StartSession.module.scss';
 
 const MAX_TO_SHOW = 5;
 
-export const StartSessionComp: React.SFC<StartSession & MissingDependencies> = (
-  action: StartSession & MissingDependencies,
+export const StartSessionComp: React.SFC<StartSession & WithIssues> = (
+  action: StartSession & WithIssues,
   context: any
 ): JSX.Element => {
   const recipients = getRecipients(action);

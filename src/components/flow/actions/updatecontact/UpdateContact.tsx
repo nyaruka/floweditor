@@ -5,8 +5,9 @@ import {
   SetContactChannel,
   SetContactLanguage,
   SetContactName,
-  MissingDependencies,
-  Dependency
+  WithIssues,
+  FlowIssue,
+  FlowIssueType
 } from 'flowTypes';
 import * as React from 'react';
 import { emphasize } from 'utils';
@@ -31,20 +32,23 @@ export const renderSetText = (
   }
 };
 
-const UpdateContactComp: React.SFC<SetContactAttribute & MissingDependencies> = (
-  action: SetContactAttribute & MissingDependencies
+const UpdateContactComp: React.SFC<SetContactAttribute & WithIssues> = (
+  action: SetContactAttribute & WithIssues
 ): JSX.Element => {
   if (action.type === Types.set_contact_field) {
-    const missing = !!action.missingDependencies.find(
-      (dep: Dependency) => dep.key === action.field.key
+    const missing = !!action.issues.find(
+      (issue: FlowIssue) =>
+        issue.type === FlowIssueType.MISSING_DEPENDENCY && issue.dependency.key === action.field.key
     );
     return renderSetText(action.field.name, action.value, true, missing);
   }
 
   if (action.type === Types.set_contact_channel) {
     const setContactAction = action as SetContactChannel;
-    const missing = !!action.missingDependencies.find(
-      (dep: Dependency) => dep.uuid === setContactAction.channel.uuid
+    const missing = !!action.issues.find(
+      (issue: FlowIssue) =>
+        issue.type === FlowIssueType.MISSING_DEPENDENCY &&
+        issue.dependency.uuid === setContactAction.channel.uuid
     );
     return renderSetText('channel', setContactAction.channel.name, false, missing);
   }

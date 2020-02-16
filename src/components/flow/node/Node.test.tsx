@@ -37,7 +37,7 @@ const baseProps: NodeProps = {
   onOpenNodeEditor: jest.fn(),
   removeNode: jest.fn(),
   mergeEditorState: jest.fn(),
-  missingDependencies: []
+  issues: []
 };
 
 describe(NodeComp.name, () => {

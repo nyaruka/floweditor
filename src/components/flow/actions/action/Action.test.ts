@@ -17,7 +17,6 @@ import {
   English
 } from 'testUtils/assetCreators';
 import { getLocalization, set, setFalse, setTrue } from 'utils';
-import { MissingDependencies } from 'flowTypes';
 
 const sendMsgAction = createSendMsgAction();
 const sendMsgAction1 = createSendMsgAction({
@@ -50,7 +49,7 @@ const baseProps: ActionWrapperProps = {
   onOpenNodeEditor: jest.fn(),
   removeAction: jest.fn(),
   moveActionUp: jest.fn(),
-  missingDependencies: [],
+  issues: [],
   assetStore: null
 };
 

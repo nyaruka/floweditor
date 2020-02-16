@@ -134,7 +134,8 @@ export const initialState: FlowContext = {
     dependencies: [],
     results: [],
     waiting_exit_uuids: [],
-    parent_refs: []
+    parent_refs: [],
+    issues: []
   },
   contactFields: {},
   nodes: {},

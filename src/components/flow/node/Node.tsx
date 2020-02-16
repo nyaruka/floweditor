@@ -7,7 +7,7 @@ import {
   getCategoriesForExit,
   getResultName,
   getVisibleActions,
-  filterMissingDependenciesForAction
+  filterIssuesForAction
 } from 'components/flow/node/helpers';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import shared from 'components/shared.module.scss';
@@ -15,7 +15,7 @@ import TitleBar from 'components/titlebar/TitleBar';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
 import { getType, getTypeConfig } from 'config/typeConfigs';
-import { AnyAction, Exit, FlowDefinition, FlowNode, Dependency } from 'flowTypes';
+import { AnyAction, Exit, FlowDefinition, FlowNode, FlowIssue } from 'flowTypes';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
@@ -67,7 +67,7 @@ export interface NodeStoreProps {
   simulating: boolean;
   debug: DebugState;
   renderNode: RenderNode;
-  missingDependencies: Dependency[];
+  issues: FlowIssue[];
   definition: FlowDefinition;
   onAddToNode: OnAddToNode;
   onOpenNodeEditor: OnOpenNodeEditor;
@@ -196,11 +196,7 @@ export class NodeComp extends React.Component<NodeProps> {
         <ExitComp
           key={exit.uuid}
           node={this.props.renderNode.node}
-          categories={getCategoriesForExit(
-            this.props.renderNode,
-            exit,
-            this.props.missingDependencies
-          )}
+          categories={getCategoriesForExit(this.props.renderNode, exit, this.props.issues)}
           exit={exit}
           showDragHelper={this.props.onlyNode && idx === 0}
           plumberMakeSource={this.props.plumberMakeSource}
@@ -251,10 +247,10 @@ export class NodeComp extends React.Component<NodeProps> {
       getVisibleActions(this.props.renderNode).forEach((action: AnyAction, idx: number) => {
         const actionConfig = getTypeConfig(action.type);
 
-        const missingDependencies: Dependency[] = filterMissingDependenciesForAction(
+        const issues: FlowIssue[] = filterIssuesForAction(
           this.props.nodeUUID,
           action,
-          this.props.missingDependencies
+          this.props.issues
         );
 
         if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
@@ -267,13 +263,13 @@ export class NodeComp extends React.Component<NodeProps> {
               selected={this.props.selected}
               action={action}
               first={idx === 0}
-              missingDependencies={missingDependencies}
+              issues={issues}
               render={(anyAction: AnyAction) => {
                 return (
                   <ActionComponent
                     {...anyAction}
                     languages={this.props.languages}
-                    missingDependencies={missingDependencies}
+                    issues={issues}
                   />
                 );
               }}
@@ -342,9 +338,7 @@ export class NodeComp extends React.Component<NodeProps> {
             <div {...this.events}>
               <TitleBar
                 __className={
-                  (shared as any)[
-                    this.props.missingDependencies.length > 0 ? 'missing' : config.type
-                  ]
+                  (shared as any)[this.props.issues.length > 0 ? 'missing' : config.type]
                 }
                 showRemoval={!this.props.translating}
                 onRemoval={this.handleRemoval}
@@ -457,12 +451,10 @@ const mapStateToProps = (
 
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
-  const missingDependencies = metadata.dependencies.filter((dependency: Dependency) => {
-    return dependency.missing && dependency.nodes[props.nodeUUID];
-  });
+  const issues = metadata.issues.filter(issue => issue.node_uuid === props.nodeUUID);
 
   return {
-    missingDependencies,
+    issues,
     results,
     languages,
     activeCount,

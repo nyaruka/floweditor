@@ -5,7 +5,7 @@ import TitleBar from 'components/titlebar/TitleBar';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
-import { Action, AnyAction, Endpoints, LocalizationMap, Dependency } from 'flowTypes';
+import { Action, AnyAction, Endpoints, LocalizationMap, FlowIssue } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,7 +28,7 @@ export interface ActionWrapperPassedProps {
   action: AnyAction;
   localization: LocalizationMap;
   selected: boolean;
-  missingDependencies: Dependency[];
+  issues: FlowIssue[];
   render: (action: AnyAction, endpoints: Endpoints) => React.ReactNode;
 }
 
@@ -163,8 +163,8 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
   public render(): JSX.Element {
     const { name } = getTypeConfig(this.props.action.type);
 
-    const hasMissingDependencies = this.props.missingDependencies.length > 0;
-    const classes = this.getClasses(hasMissingDependencies);
+    const hasIssues = this.props.issues.length > 0;
+    const classes = this.getClasses(hasIssues);
     const actionToInject = this.getAction();
 
     let titleBarClass = (shared as any)[this.props.action.type] || shared.missing;
@@ -172,7 +172,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const showRemoval = !this.props.translating;
     const showMove = !this.props.first && !this.props.translating;
 
-    if (hasMissingDependencies) {
+    if (hasIssues) {
       titleBarClass = shared.missing;
     }
 

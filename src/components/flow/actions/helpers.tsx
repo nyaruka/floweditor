@@ -4,9 +4,10 @@ import {
   Group,
   RecipientsAction,
   AnyAction,
-  Dependency,
   RenderAction,
-  MissingDependencies
+  WithIssues,
+  FlowIssue,
+  FlowIssueType
 } from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
@@ -20,11 +21,10 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
   if (nodeSettings.originalAction && nodeSettings.originalAction.type === currentType) {
     return nodeSettings.originalAction.uuid;
   }
-
   return createUUID();
 };
 
-export const getRecipients = (action: RecipientsAction & MissingDependencies): Asset[] => {
+export const getRecipients = (action: RecipientsAction & WithIssues): Asset[] => {
   let selected: any[] = (action.groups || []).map((group: Group) => {
     return {
       id: group.uuid,
@@ -47,8 +47,9 @@ export const getRecipients = (action: RecipientsAction & MissingDependencies): A
 
   // flag any recipients that are missing
   selected.forEach((asset: Asset) => {
-    asset.missing = !!(action.missingDependencies || []).find(
-      (dependency: Dependency) => dependency.uuid === asset.id
+    asset.missing = !!(action.issues || []).find(
+      (issue: FlowIssue) =>
+        issue.type === FlowIssueType.MISSING_DEPENDENCY && issue.dependency.uuid === asset.id
     );
   });
 
@@ -161,9 +162,6 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
     });
 };
 
-export const createRenderAction = (
-  action: AnyAction,
-  missingDependencies: Dependency[] = []
-): RenderAction => {
-  return { ...action, missingDependencies };
+export const createRenderAction = (action: AnyAction, issues: FlowIssue[] = []): RenderAction => {
+  return { ...action, issues };
 };

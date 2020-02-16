@@ -10,8 +10,8 @@ import {
   TransferAirtime,
   Action,
   AnyAction,
-  Dependency,
-  DependencyType
+  FlowIssue,
+  FlowIssueType
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { getType } from 'config/typeConfigs';
@@ -20,7 +20,7 @@ import { RenderCategory } from '../exit/Exit';
 export const getCategoriesForExit = (
   renderNode: RenderNode,
   exit: Exit,
-  missingDependencies: Dependency[]
+  issues: FlowIssue[]
 ): RenderCategory[] => {
   // if we are
   const isGroupSplit = getType(renderNode) === Types.split_by_groups;
@@ -34,8 +34,11 @@ export const getCategoriesForExit = (
       if (isGroupSplit) {
         return {
           ...cat,
-          missing: !!missingDependencies.find(
-            (dep: Dependency) => dep.type === DependencyType.group && dep.name === cat.name
+          missing: !!issues.find(
+            issue =>
+              issue.type === FlowIssueType.MISSING_DEPENDENCY &&
+              issue.dependency.type === 'group' &&
+              issue.dependency.name === cat.name
           )
         };
       } else {
@@ -76,12 +79,10 @@ export const getVisibleActions = (renderNode: RenderNode): Action[] => {
   return renderNode.node.actions;
 };
 
-export const filterMissingDependenciesForAction = (
+export const filterIssuesForAction = (
   nodeUUID: string,
   action: AnyAction,
-  dependencies: Dependency[]
-): Dependency[] => {
-  return dependencies.filter((dependency: Dependency) => {
-    return !!(dependency.nodes[nodeUUID] || []).find((id: string) => id === action.uuid);
-  });
+  issues: FlowIssue[]
+): FlowIssue[] => {
+  return issues.filter(issue => issue.node_uuid === nodeUUID && issue.action_uuid === action.uuid);
 };

@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { renderAssetList } from 'components/flow/actions/helpers';
 import { fakePropType } from 'config/ConfigProvider';
-import { AddLabels, MissingDependencies, Dependency } from 'flowTypes';
+import { AddLabels, WithIssues, FlowIssueType } from 'flowTypes';
 import { AssetType } from 'store/flowContext';
 
 export const MAX_TO_SHOW = 5;
 
-const AddLabelsComp: React.SFC<AddLabels & MissingDependencies> = (
-  { labels, missingDependencies },
+const AddLabelsComp: React.SFC<AddLabels & WithIssues> = (
+  { labels, issues },
   context: any
 ): JSX.Element => {
   return (
@@ -18,7 +18,11 @@ const AddLabelsComp: React.SFC<AddLabels & MissingDependencies> = (
             id: label.uuid,
             name: label.name,
             type: AssetType.Label,
-            missing: !!missingDependencies.find((dep: Dependency) => dep.uuid === label.uuid)
+            missing: !!issues.find(
+              issue =>
+                issue.type === FlowIssueType.MISSING_DEPENDENCY &&
+                issue.dependency.uuid === label.uuid
+            )
           };
         }),
         MAX_TO_SHOW,

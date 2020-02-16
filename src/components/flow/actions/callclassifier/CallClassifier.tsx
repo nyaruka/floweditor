@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { CallClassifier, MissingDependencies } from 'flowTypes';
+import { CallClassifier, WithIssues } from 'flowTypes';
 import { renderAsset } from '../helpers';
 import { AssetType } from 'store/flowContext';
 import { fakePropType } from 'config/ConfigProvider';
 
-const CallClassifierComp: React.SFC<CallClassifier & MissingDependencies> = (
-  { classifier, missingDependencies },
+const CallClassifierComp: React.SFC<CallClassifier & WithIssues> = (
+  { classifier, issues },
   context: any
 ): JSX.Element => {
   return renderAsset(
@@ -13,7 +13,7 @@ const CallClassifierComp: React.SFC<CallClassifier & MissingDependencies> = (
       id: classifier.uuid,
       name: classifier.name,
       type: AssetType.Classifier,
-      missing: missingDependencies.length > 0
+      missing: issues.length > 0
     },
     context.config.endpoints
   );

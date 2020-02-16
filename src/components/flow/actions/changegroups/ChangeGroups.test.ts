@@ -6,7 +6,7 @@ import ChangeGroupsComp, {
   MAX_TO_SHOW
 } from 'components/flow/actions/changegroups/ChangeGroups';
 import { Types } from 'config/interfaces';
-import { ChangeGroups, MissingDependencies } from 'flowTypes';
+import { ChangeGroups, WithIssues } from 'flowTypes';
 import { composeComponentTestUtils, getSpecWrapper } from 'testUtils';
 import { createAddGroupsAction } from 'testUtils/assetCreators';
 import { set } from 'utils';
@@ -14,9 +14,9 @@ import { set } from 'utils';
 const { results: groups } = require('test/assets/groups.json');
 
 const addGroupsAction: ChangeGroups = createAddGroupsAction({ groups: groups.slice(2) });
-const renderAction: ChangeGroups & MissingDependencies = {
+const renderAction: ChangeGroups & WithIssues = {
   ...addGroupsAction,
-  missingDependencies: []
+  issues: []
 };
 
 const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, renderAction);
@@ -34,8 +34,8 @@ describe(ChangeGroupsComp.name, () => {
         const markup = getContentMarkup({
           type: Types.remove_contact_groups,
           groups: [],
-          missingDependencies: []
-        } as ChangeGroups & MissingDependencies);
+          issues: []
+        } as ChangeGroups & WithIssues);
 
         expect(markup.length).toBe(1);
         expect(markup).toMatchSnapshot();

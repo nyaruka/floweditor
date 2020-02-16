@@ -102,6 +102,19 @@ export interface FlowMetadata {
   waiting_exit_uuids: string[];
   results: Result[];
   parent_refs: string[];
+  issues: FlowIssue[];
+}
+
+export enum FlowIssueType {
+  MISSING_DEPENDENCY = 'missing_dependency'
+}
+
+export interface FlowIssue {
+  type: FlowIssueType;
+  node_uuid: string;
+  action_uuid: string;
+  description: string;
+  dependency?: Dependency;
 }
 
 export interface FlowDetails {
@@ -359,8 +372,8 @@ export interface Classifier {
   name: string;
 }
 
-export interface MissingDependencies {
-  missingDependencies: any[];
+export interface WithIssues {
+  issues: FlowIssue[];
 }
 
 export interface TransferAirtime extends Action {
@@ -451,7 +464,7 @@ export type AnyAction =
   | StartFlow
   | StartSession;
 
-export type RenderAction = AnyAction & MissingDependencies;
+export type RenderAction = AnyAction & WithIssues;
 
 export enum ContactProperties {
   UUID = 'uuid',
