@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionWrapper can have localized quick replies when empty on default language 1`] = `
+<body>
+  <div>
+    <div
+      class="action translating localized"
+      data-spec="action-container"
+      id="action-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    >
+      <div
+        class="overlay"
+        data-spec="action-overlay"
+      />
+      <div
+        data-spec="interactive-div"
+      >
+        <div
+          class="titlebar"
+          data-spec="titlebar-container"
+        >
+          <div
+            class="send_msg normal"
+            data-spec="titlebar"
+          >
+            <div
+              class="up_button"
+              data-spec="move"
+            />
+            <div
+              class="titletext"
+            >
+              Send Message
+            </div>
+          </div>
+        </div>
+        <div
+          class="body send_msg"
+          data-spec="action-body"
+        >
+          <div>
+            <div
+              class="line"
+            >
+              ¡Hola!
+            </div>
+          </div>
+          <div
+            class="summary"
+          >
+            <div
+              class="quick_replies"
+            >
+              <div
+                class="pill"
+                data-advanced="true"
+                style="margin-left: 4px; margin-top: 4px;"
+              >
+                Sí
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ActionWrapper renders a base language 1`] = `
+<body>
+  <div>
+    <div
+      class="action localized"
+      data-spec="action-container"
+      id="action-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+    >
+      <div
+        class="overlay"
+        data-spec="action-overlay"
+      />
+      <div
+        data-spec="interactive-div"
+      >
+        <div
+          class="titlebar"
+          data-spec="titlebar-container"
+        >
+          <div
+            class="send_msg normal"
+            data-spec="titlebar"
+          >
+            <div
+              class="up_button"
+              data-spec="move"
+            />
+            <div
+              class="titletext"
+            >
+              Send Message
+            </div>
+            <div
+              class="remove_button"
+              data-testid="remove-icon"
+            >
+              <span
+                class="fe-x"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="body send_msg"
+          data-spec="action-body"
+        >
+          <div>
+            <div
+              class="line"
+            >
+              Hey!
+            </div>
+          </div>
+          <div
+            class="summary"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

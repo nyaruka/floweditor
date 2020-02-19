@@ -170,6 +170,7 @@ exports[`SendMsgForm render should render 1`] = `
           "quick_replies",
           "templating",
         ],
+        "massageForDisplay": [Function],
         "name": "Send Message",
         "type": "send_msg",
       }

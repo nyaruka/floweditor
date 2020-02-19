@@ -11,10 +11,11 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   if (action.text) {
     let replies = null;
 
-    if ((action.quick_replies || []).length > 0) {
+    let quickReplies = action.quick_replies || [];
+    if (quickReplies.length > 0) {
       replies = (
         <div className={styles.quick_replies}>
-          {action.quick_replies.map(reply => (
+          {quickReplies.map(reply => (
             <Pill
               style={{ marginLeft: 4, marginTop: 4 }}
               maxLength={20}
