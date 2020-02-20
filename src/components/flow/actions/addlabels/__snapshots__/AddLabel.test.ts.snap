@@ -3,7 +3,7 @@
 exports[`AddLabelsComp should display labels on action 1`] = `
 <Fragment>
   <div
-    className="node_asset "
+    className="node_asset"
     key="label-0"
   >
     <span
@@ -12,7 +12,7 @@ exports[`AddLabelsComp should display labels on action 1`] = `
     Help
   </div>
   <div
-    className="node_asset "
+    className="node_asset"
     key="label-1"
   >
     <span
@@ -21,7 +21,7 @@ exports[`AddLabelsComp should display labels on action 1`] = `
     New
   </div>
   <div
-    className="node_asset "
+    className="node_asset"
     key="label-2"
   >
     <span
@@ -30,7 +30,7 @@ exports[`AddLabelsComp should display labels on action 1`] = `
     Feedback
   </div>
   <div
-    className="node_asset "
+    className="node_asset"
     key="label-3"
   >
     <span

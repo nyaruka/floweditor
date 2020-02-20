@@ -7,7 +7,6 @@ import {
   RenderAction,
   WithIssues,
   FlowIssue,
-  DependencyType,
   FlowIssueType
 } from 'flowTypes';
 import * as React from 'react';
@@ -19,7 +18,7 @@ import { Trans } from 'react-i18next';
 const styles = require('components/shared.module.scss');
 
 export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
-  if (issues.length === 0) {
+  if (!issues || issues.length === 0) {
     return null;
   }
 

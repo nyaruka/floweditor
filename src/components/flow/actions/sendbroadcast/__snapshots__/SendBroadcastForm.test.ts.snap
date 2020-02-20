@@ -203,13 +203,11 @@ exports[`SendBroadcastForm render should render self, children with base props 1
         "value": Array [
           Object {
             "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-            "missing": false,
             "name": "Cat Fanciers",
             "type": "group",
           },
           Object {
             "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-            "missing": false,
             "name": "Cat Facts",
             "type": "group",
           },
@@ -285,13 +283,11 @@ Object {
     "value": Array [
       Object {
         "id": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
-        "missing": false,
         "name": "Cat Fanciers",
         "type": "group",
       },
       Object {
         "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
-        "missing": false,
         "name": "Cat Facts",
         "type": "group",
       },

@@ -14,7 +14,7 @@ exports[`UpdateContactComp render should render clearing the value 1`] = `
 
 exports[`UpdateContactComp render should render set channel 1`] = `
 <div
-  className="node_asset "
+  className="node_asset"
 >
   Set 
   channel
@@ -30,7 +30,7 @@ exports[`UpdateContactComp render should render set channel 1`] = `
 
 exports[`UpdateContactComp render should render set field 1`] = `
 <div
-  className="node_asset "
+  className="node_asset"
 >
   Set 
   <span
@@ -50,7 +50,7 @@ exports[`UpdateContactComp render should render set field 1`] = `
 
 exports[`UpdateContactComp render should render set language 1`] = `
 <div
-  className="node_asset "
+  className="node_asset"
 >
   Set 
   language
@@ -66,7 +66,7 @@ exports[`UpdateContactComp render should render set language 1`] = `
 
 exports[`UpdateContactComp render should render set name 1`] = `
 <div
-  className="node_asset "
+  className="node_asset"
 >
   Set 
   name

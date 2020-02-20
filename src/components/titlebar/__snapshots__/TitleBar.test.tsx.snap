@@ -84,6 +84,10 @@ exports[`TitleBar render move icon should call onMoveUp 1`] = `
         >
           Send Message
         </div>
+        <div
+          class="remove_button"
+          data-testid="remove-icon"
+        />
       </div>
     </div>
   </div>
@@ -113,6 +117,10 @@ exports[`TitleBar render move icon should render move icon 1`] = `
       >
         Send Message
       </div>
+      <div
+        class="remove_button"
+        data-testid="remove-icon"
+      />
     </div>
   </div>
 </div>
@@ -175,6 +183,10 @@ exports[`TitleBar render should apply _className prop 1`] = `
       >
         Send Message
       </div>
+      <div
+        class="remove_button"
+        data-testid="remove-icon"
+      />
     </div>
   </div>
 </div>
@@ -199,6 +211,10 @@ exports[`TitleBar render should render self, children with base props 1`] = `
       >
         Send Message
       </div>
+      <div
+        class="remove_button"
+        data-testid="remove-icon"
+      />
     </div>
   </div>
 </div>

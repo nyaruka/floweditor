@@ -32,6 +32,10 @@ export const determineTypeConfig = (nodeSettings: NodeEditorSettings): Type => {
 };
 
 export const hasIssues = (issues: FlowIssue[], translating: boolean, language: Asset): boolean => {
+  if (!issues || issues.length === 0) {
+    return false;
+  }
+
   if (!translating) {
     return !!issues.find((issue: FlowIssue) => !issue.language);
   } else {

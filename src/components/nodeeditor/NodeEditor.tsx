@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import { getDraggedFrom } from 'components/helpers';
 import Modal from 'components/modal/Modal';
 import { Type } from 'config/interfaces';
-import { Action, AnyAction, FlowDefinition, FlowMetadata, FlowIssue } from 'flowTypes';
+import { Action, AnyAction, FlowDefinition, FlowIssue } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
