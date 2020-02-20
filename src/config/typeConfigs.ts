@@ -53,7 +53,7 @@ import {
   VOICE,
   FeatureFilter
 } from 'config/interfaces';
-import { HintTypes, RouterTypes, FlowEditorConfig } from 'flowTypes';
+import { HintTypes, RouterTypes, FlowEditorConfig, SendMsg } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import CallClassifierComp from 'components/flow/actions/callclassifier/CallClassifier';
 import ClassifyRouterForm from 'components/flow/routers/classify/ClassifyRouterForm';
@@ -209,7 +209,12 @@ export const typeConfigList: Type[] = [
     form: SendMsgForm,
     localization: MsgLocalizationForm,
     localizeableKeys: ['text', 'quick_replies', 'templating'],
-    component: SendMsgComp
+    component: SendMsgComp,
+    massageForDisplay: (action: SendMsg) => {
+      // quick replies are optional in the definition, make sure we have
+      // at least an empty array so the localization has a proper cue
+      action.quick_replies = action.quick_replies || [];
+    }
   },
   {
     type: Types.wait_for_response,

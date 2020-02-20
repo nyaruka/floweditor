@@ -255,6 +255,10 @@ export class NodeComp extends React.Component<NodeProps> {
 
         if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
           const { component: ActionComponent } = actionConfig;
+          if (actionConfig.massageForDisplay) {
+            actionConfig.massageForDisplay(action);
+          }
+
           actions.push(
             <ActionWrapper
               {...firstRef}
