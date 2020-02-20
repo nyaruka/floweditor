@@ -3,7 +3,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import axios from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import {
   initializeForm as stateToForm,
   stateToAction,
@@ -604,6 +604,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           focus={true}
           textarea={true}
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

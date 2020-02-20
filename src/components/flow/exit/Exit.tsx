@@ -26,7 +26,7 @@ export interface RenderCategory extends Category {
 
 export interface ExitPassedProps {
   exit: Exit;
-  categories: RenderCategory[];
+  categories: Category[];
   node: FlowNode;
   showDragHelper: boolean;
   plumberMakeSource: (id: string) => void;
@@ -246,17 +246,14 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     return null;
   }
 
-  public getName(): { name: string; missing: boolean; localized?: boolean } {
+  public getName(): { name: string; localized?: boolean } {
     if (this.props.translating) {
       let name: string = '';
       let delim: string = '';
 
       let localized: boolean = false;
-      let missing: boolean = false;
 
-      this.props.categories.forEach((category: RenderCategory) => {
-        missing = missing || category.missing;
-
+      this.props.categories.forEach((category: Category) => {
         const localization = getLocalization(
           category,
           this.props.localization,
@@ -269,18 +266,16 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         delim = ', ';
       });
 
-      return { name, missing, localized };
+      return { name, localized };
     } else {
       const names: string[] = [];
       let missing = false;
-      this.props.categories.forEach((cat: RenderCategory) => {
+      this.props.categories.forEach((cat: Category) => {
         names.push(cat.name);
-        missing = missing || cat.missing;
       });
 
       return {
-        name: names.join(', '),
-        missing
+        name: names.join(', ')
       };
     }
   }
@@ -319,7 +314,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   public render(): JSX.Element {
-    const { name, missing, localized } = this.getName();
+    const { name, localized } = this.getName();
 
     const nameStyle = name ? styles.name : '';
     const connected = this.props.exit.destination_uuid ? ' jtk-connected' : '';
@@ -338,7 +333,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       'plumb-exit': true,
       [styles.translating]: this.props.translating,
       [styles.unnamed_exit]: name == null,
-      [shared.missing_asset]: missing,
       [styles.missing_localization]: name && this.props.translating && !localized,
       [styles.confirm_delete]: confirmDelete
     });

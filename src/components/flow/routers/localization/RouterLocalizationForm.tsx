@@ -16,6 +16,7 @@ import {
 } from './helpers';
 import styles from './RouterLocalizationForm.module.scss';
 import i18n from 'config/i18n';
+import { renderIssues } from 'components/flow/actions/helpers';
 
 export interface RouterLocalizationFormState extends FormState {
   categories: Category[];
@@ -213,6 +214,7 @@ export default class RouterLocalizationForm extends React.Component<
           category will be used. If no translation is provided, the original text will be used.
         </p>
         {this.renderCategories()}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
 

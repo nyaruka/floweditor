@@ -9,6 +9,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { FormState, StringEntry } from 'store/nodeEditor';
 import i18n from 'config/i18n';
+import { renderIssues } from '../helpers';
 
 export interface KeyLocalizationFormState extends FormState {
   keyValues: { [key: string]: StringEntry };
@@ -118,6 +119,7 @@ export default class KeyLocalizationForm extends React.Component<
         tabs={tabs}
       >
         {base}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

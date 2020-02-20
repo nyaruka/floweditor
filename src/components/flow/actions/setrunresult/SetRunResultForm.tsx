@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TextInputElement from 'components/form/textinput/TextInputElement';
@@ -160,6 +160,7 @@ export default class SetRunResultForm extends React.PureComponent<
             helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
           />
         </div>
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
@@ -141,6 +141,7 @@ export default class RandomRouterForm extends React.Component<
         </div>
         <div className={styles.bucket_list}>{this.renderBucketNames()}</div>
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

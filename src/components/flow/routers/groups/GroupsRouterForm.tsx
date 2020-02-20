@@ -12,6 +12,7 @@ import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { Required, validate } from 'store/validators';
 import i18n from 'config/i18n';
+import { renderIssues } from 'components/flow/actions/helpers';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -95,6 +96,7 @@ export default class GroupsRouterForm extends React.Component<
           multi={true}
         />
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

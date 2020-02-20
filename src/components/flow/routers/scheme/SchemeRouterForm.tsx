@@ -10,6 +10,7 @@ import { Required, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { getChannelTypeOptions, nodeToState, stateToNode } from './helpers';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+import { renderIssues } from 'components/flow/actions/helpers';
 
 export interface SchemeRouterFormState extends FormState {
   schemes: SelectOptionArrayEntry;
@@ -97,6 +98,7 @@ export default class SchemeRouterForm extends React.Component<
           multi={true}
         />
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

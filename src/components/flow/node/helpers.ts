@@ -10,18 +10,12 @@ import {
   TransferAirtime,
   Action,
   AnyAction,
-  FlowIssue,
-  FlowIssueType
+  FlowIssue
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { getType } from 'config/typeConfigs';
-import { RenderCategory } from '../exit/Exit';
 
-export const getCategoriesForExit = (
-  renderNode: RenderNode,
-  exit: Exit,
-  issues: FlowIssue[]
-): RenderCategory[] => {
+export const getCategoriesForExit = (renderNode: RenderNode, exit: Exit): Category[] => {
   // if we are
   const isGroupSplit = getType(renderNode) === Types.split_by_groups;
 
@@ -33,13 +27,7 @@ export const getCategoriesForExit = (
     .map((cat: Category) => {
       if (isGroupSplit) {
         return {
-          ...cat,
-          missing: !!issues.find(
-            issue =>
-              issue.type === FlowIssueType.MISSING_DEPENDENCY &&
-              issue.dependency.type === 'group' &&
-              issue.dependency.name === cat.name
-          )
+          ...cat
         };
       } else {
         return { ...cat, missing: false };

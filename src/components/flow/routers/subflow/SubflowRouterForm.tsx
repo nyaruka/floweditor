@@ -14,7 +14,7 @@ import { fetchAsset } from 'external';
 import styles from './SubflowRouterForm.module.scss';
 import { Trans } from 'react-i18next';
 import TextInputElement from 'components/form/textinput/TextInputElement';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
@@ -192,6 +192,7 @@ export default class SubflowRouterForm extends React.PureComponent<
           onFilter={this.handleFilter}
           onChange={this.handleFlowChanged}
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

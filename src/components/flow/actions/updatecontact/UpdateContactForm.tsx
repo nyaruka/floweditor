@@ -23,6 +23,7 @@ import { shouldRequireIf, validate } from 'store/validators';
 
 import styles from './UpdateContactForm.module.scss';
 import i18n from 'config/i18n';
+import { renderIssues } from '../helpers';
 
 export default class UpdateContactForm extends React.Component<
   ActionFormProps,
@@ -260,6 +261,7 @@ export default class UpdateContactForm extends React.Component<
         />
 
         <div className={styles.value}>{this.getValueWidget()}</div>
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

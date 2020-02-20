@@ -19,6 +19,7 @@ import { renderIf } from 'utils';
 import { initializeForm, stateToAction } from './helpers';
 import styles from './RemoveGroupsForm.module.scss';
 import i18n from 'config/i18n';
+import { renderIssues } from '../../helpers';
 
 export const LABEL = i18n.t(
   'forms.remove_groups.summary',
@@ -138,6 +139,7 @@ export default class RemoveGroupsForm extends React.Component<
           description={REMOVE_FROM_ALL_DESC}
           onChange={this.handleRemoveAllUpdate}
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

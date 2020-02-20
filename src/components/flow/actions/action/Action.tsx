@@ -22,6 +22,7 @@ import {
 import { createClickHandler, getLocalization } from 'utils';
 
 import styles from './Action.module.scss';
+import { hasIssues } from 'components/flow/helpers';
 
 export interface ActionWrapperPassedProps {
   first: boolean;
@@ -108,7 +109,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     return this.props.action;
   }
 
-  private getClasses(hasMissingDependencies: boolean): string {
+  private getClasses(): string {
     const localizedKeys = [];
     let missingLocalization = false;
 
@@ -148,7 +149,6 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const notLocalizable = this.props.translating && localizedKeys.length === 0;
 
     return cx({
-      [styles.missing_dependencies]: hasMissingDependencies,
       [styles.action]: true,
       [styles.has_router]:
         this.props.renderNode.node.hasOwnProperty('router') &&
@@ -163,8 +163,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
   public render(): JSX.Element {
     const { name } = getTypeConfig(this.props.action.type);
 
-    const hasIssues = this.props.issues.length > 0;
-    const classes = this.getClasses(hasIssues);
+    const classes = this.getClasses();
     const actionToInject = this.getAction();
 
     let titleBarClass = (shared as any)[this.props.action.type] || shared.missing;
@@ -172,7 +171,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const showRemoval = !this.props.translating;
     const showMove = !this.props.first && !this.props.translating;
 
-    if (hasIssues) {
+    if (hasIssues(this.props.issues, this.props.translating, this.props.language)) {
       titleBarClass = shared.missing;
     }
 

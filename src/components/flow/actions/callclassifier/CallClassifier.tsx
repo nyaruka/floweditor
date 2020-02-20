@@ -12,8 +12,7 @@ const CallClassifierComp: React.SFC<CallClassifier & WithIssues> = (
     {
       id: classifier.uuid,
       name: classifier.name,
-      type: AssetType.Classifier,
-      missing: issues.length > 0
+      type: AssetType.Classifier
     },
     context.config.endpoints
   );

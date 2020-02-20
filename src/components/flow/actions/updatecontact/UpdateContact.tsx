@@ -18,12 +18,11 @@ const withEmph = (text: string, emph: boolean) => (emph ? emphasize(text) : text
 export const renderSetText = (
   name: string,
   value: string,
-  emphasizeName: boolean = false,
-  missing: boolean
+  emphasizeName: boolean = false
 ): JSX.Element => {
   if (value) {
     return (
-      <div className={`${styles.node_asset} ${missing ? styles.missing_asset : ''}`}>
+      <div className={`${styles.node_asset}`}>
         Set {withEmph(name, emphasizeName)} to {emphasize(value)}.
       </div>
     );
@@ -40,7 +39,7 @@ const UpdateContactComp: React.SFC<SetContactAttribute & WithIssues> = (
       (issue: FlowIssue) =>
         issue.type === FlowIssueType.MISSING_DEPENDENCY && issue.dependency.key === action.field.key
     );
-    return renderSetText(action.field.name, action.value, true, missing);
+    return renderSetText(action.field.name, action.value, true);
   }
 
   if (action.type === Types.set_contact_channel) {
@@ -50,7 +49,7 @@ const UpdateContactComp: React.SFC<SetContactAttribute & WithIssues> = (
         issue.type === FlowIssueType.MISSING_DEPENDENCY &&
         issue.dependency.uuid === setContactAction.channel.uuid
     );
-    return renderSetText('channel', setContactAction.channel.name, false, missing);
+    return renderSetText('channel', setContactAction.channel.name, false);
   }
 
   if (action.type === Types.set_contact_language) {
@@ -58,13 +57,12 @@ const UpdateContactComp: React.SFC<SetContactAttribute & WithIssues> = (
     return renderSetText(
       'language',
       getLanguageForCode(setLanguageAction.language, (action as any).languages),
-      false,
       false
     );
   }
 
   if (action.type === Types.set_contact_name) {
-    return renderSetText('name', (action as SetContactName).name, false, false);
+    return renderSetText('name', (action as SetContactName).name, false);
   }
 
   return null;

@@ -4,6 +4,17 @@
   background: $light_gray;
 }
 
+.issues {
+  margin: 15px 0px 5px 0px;
+}
+
+.issue {
+  margin: 10px 0px;
+  padding: 3px 10px;
+  color: $red;
+  border-left: 4px solid $red;
+}
+
 .wait_for_audio,
 .wait_for_image,
 .wait_for_video,
@@ -19,7 +30,7 @@
 }
 
 .remove_contact_groups {
-  background: $red;
+  background: $gray;
 }
 
 .send_email,
@@ -57,14 +68,15 @@
 }
 
 .missing {
-  $color_1: rgba(243, 78, 78, 0.6);
-  $color_2: rgba(228, 37, 37, 0.4);
+  $color_1: tomato;
+  $color_2: tomato + #111;
+
   background-image: repeating-linear-gradient(
-    60deg,
+    120deg,
     $color_1,
-    $color_1 12px,
-    $color_2 12px,
-    $color_2 24px
+    $color_1 6px,
+    $color_2 6px,
+    $color_2 18px
   ) !important;
 }
 

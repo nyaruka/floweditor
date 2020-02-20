@@ -11,6 +11,7 @@ import { shouldRequireIf, validate } from 'store/validators';
 import { initializeForm, stateToAction } from './helpers';
 import styles from './SendEmailForm.module.scss';
 import i18n from 'config/i18n';
+import { renderIssues } from '../helpers';
 
 const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
@@ -132,6 +133,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
             textarea={true}
           />
         </div>
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

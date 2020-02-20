@@ -12,6 +12,7 @@ import styles from './AddURNForm.module.scss';
 import { getSchemeOptions, initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
+import { renderIssues } from '../helpers';
 
 export interface AddURNFormState extends FormState {
   scheme: SelectOptionEntry;
@@ -94,6 +95,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
             autocomplete={true}
           />
         </div>
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

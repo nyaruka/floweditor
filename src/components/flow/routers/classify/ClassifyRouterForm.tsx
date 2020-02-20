@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import { nodeToState, stateToNode, createEmptyCase } from './helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
@@ -205,6 +205,7 @@ export default class ClassifyRouterForm extends React.Component<
         )}
 
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

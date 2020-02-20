@@ -13,6 +13,7 @@ import { ChangeGroupsFormState, excludeDynamicGroups, labelSpecId } from '../hel
 import { initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
+import { renderIssues } from '../../helpers';
 
 export default class AddGroupsForm extends React.Component<ActionFormProps, ChangeGroupsFormState> {
   constructor(props: ActionFormProps) {
@@ -88,6 +89,8 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
           createAssetFromInput={this.handleCreateAssetFromInput}
           onAssetCreated={this.handleGroupAdded}
         />
+
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

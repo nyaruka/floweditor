@@ -17,6 +17,7 @@ import { initializeLocalizedForm } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { range } from 'utils';
+import { renderIssues } from '../helpers';
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -289,6 +290,7 @@ export default class MsgLocalizationForm extends React.Component<
         />
 
         {audioButton}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

@@ -21,7 +21,7 @@ import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DebugState } from 'store/editor';
-import { AssetMap, RenderNode } from 'store/flowContext';
+import { AssetMap, RenderNode, Asset } from 'store/flowContext';
 import AppState from 'store/state';
 import {
   DispatchWithState,
@@ -37,6 +37,7 @@ import {
 import { ClickHandler, createClickHandler } from 'utils';
 
 import styles from './Node.module.scss';
+import { hasIssues } from '../helpers';
 
 export interface NodePassedProps {
   nodeUUID: string;
@@ -60,6 +61,7 @@ export interface NodePassedProps {
 
 export interface NodeStoreProps {
   results: AssetMap;
+  language: Asset;
   languages: AssetMap;
   activeCount: number;
   containerOffset: { top: number; left: number };
@@ -196,7 +198,7 @@ export class NodeComp extends React.Component<NodeProps> {
         <ExitComp
           key={exit.uuid}
           node={this.props.renderNode.node}
-          categories={getCategoriesForExit(this.props.renderNode, exit, this.props.issues)}
+          categories={getCategoriesForExit(this.props.renderNode, exit)}
           exit={exit}
           showDragHelper={this.props.onlyNode && idx === 0}
           plumberMakeSource={this.props.plumberMakeSource}
@@ -323,11 +325,7 @@ export class NodeComp extends React.Component<NodeProps> {
         title === null &&
         (type === Types.split_by_run_result || type === Types.split_by_run_result_delimited)
       ) {
-        if (this.props.renderNode.ui.config.operand.id in this.props.results) {
-          title = `Split by ${this.props.results[this.props.renderNode.ui.config.operand.id].name}`;
-        } else {
-          title = `Missing ${this.props.renderNode.ui.config.operand.id}`;
-        }
+        title = `Split by ${this.props.results[this.props.renderNode.ui.config.operand.id].name}`;
       }
 
       if (title === null) {
@@ -342,7 +340,11 @@ export class NodeComp extends React.Component<NodeProps> {
             <div {...this.events}>
               <TitleBar
                 __className={
-                  (shared as any)[this.props.issues.length > 0 ? 'missing' : config.type]
+                  (shared as any)[
+                    hasIssues(this.props.issues, this.props.translating, this.props.language)
+                      ? 'missing'
+                      : config.type
+                  ]
                 }
                 showRemoval={!this.props.translating}
                 onRemoval={this.handleRemoval}
@@ -433,7 +435,7 @@ const mapStateToProps = (
         languages: { items: languages }
       }
     },
-    editorState: { translating, debug, ghostNode, simulating, containerOffset, activity }
+    editorState: { translating, debug, ghostNode, simulating, containerOffset, activity, language }
   }: AppState,
   props: NodePassedProps
 ) => {
@@ -460,6 +462,7 @@ const mapStateToProps = (
   return {
     issues,
     results,
+    language,
     languages,
     activeCount,
     containerOffset,

@@ -115,6 +115,7 @@ export interface FlowIssue {
   action_uuid: string;
   description: string;
   dependency?: Dependency;
+  language?: string;
 }
 
 export interface FlowDetails {

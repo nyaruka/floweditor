@@ -11,6 +11,7 @@ import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
+import { renderIssues } from '../helpers';
 
 export interface SayMsgFormState extends FormState {
   message: StringEntry;
@@ -96,6 +97,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
           endpoint={this.context.config.endpoints.attachments}
           onUploadChanged={this.handleUploadChanged}
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

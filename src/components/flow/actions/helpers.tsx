@@ -7,6 +7,7 @@ import {
   RenderAction,
   WithIssues,
   FlowIssue,
+  DependencyType,
   FlowIssueType
 } from 'flowTypes';
 import * as React from 'react';
@@ -16,6 +17,45 @@ import { createUUID } from 'utils';
 import { Trans } from 'react-i18next';
 
 const styles = require('components/shared.module.scss');
+
+export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
+  if (issues.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className={styles.issues}>
+      {issues.map((issue: FlowIssue, num: Number) => {
+        const key = issue.node_uuid + issue.action_uuid + num;
+        return renderIssue(issue, key);
+      })}
+    </div>
+  );
+};
+
+export const renderIssue = (issue: FlowIssue, key: string): JSX.Element => {
+  if (issue.type === FlowIssueType.MISSING_DEPENDENCY) {
+    return (
+      <div key={key} className={styles.issue}>
+        <Trans
+          values={{
+            name: issue.dependency.name || issue.dependency.key,
+            type: issue.dependency.type
+          }}
+        >
+          Cannot find a [[type]] for <span className="emphasize">[[name]]</span>
+        </Trans>
+      </div>
+    );
+  }
+
+  // worst case, defer to the default description
+  return (
+    <div key={key} className={styles.issue}>
+      {issue.description}
+    </div>
+  );
+};
 
 export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: string): string => {
   if (nodeSettings.originalAction && nodeSettings.originalAction.type === currentType) {
@@ -45,14 +85,6 @@ export const getRecipients = (action: RecipientsAction & WithIssues): Asset[] =>
     })
   );
 
-  // flag any recipients that are missing
-  selected.forEach((asset: Asset) => {
-    asset.missing = !!(action.issues || []).find(
-      (issue: FlowIssue) =>
-        issue.type === FlowIssueType.MISSING_DEPENDENCY && issue.dependency.uuid === asset.id
-    );
-  });
-
   return selected;
 };
 
@@ -62,7 +94,6 @@ export const renderAssetList = (
   endpoints: Endpoints
 ): JSX.Element[] => {
   // show our missing ones first
-  assets.sort((a: Asset, b: Asset) => (a.missing ? -1 : b.missing ? 1 : 0));
   return assets.reduce((elements, asset, idx) => {
     if (idx <= max - 2 || assets.length === max) {
       elements.push(renderAsset(asset, endpoints));
@@ -129,10 +160,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
   }
 
   return (
-    <div
-      className={`${styles.node_asset} ${asset.missing ? styles.missing_asset : ''}`}
-      key={asset.id}
-    >
+    <div className={`${styles.node_asset}`} key={asset.id}>
       {assetBody}
     </div>
   );

@@ -20,6 +20,7 @@ import { initializeForm, stateToAction } from './helpers';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import { large } from 'utils/reactselect';
 import i18n from 'config/i18n';
+import { renderIssues } from '../helpers';
 
 export const START_TYPE_ASSETS = { label: 'Select recipients manually', value: 'assets' };
 export const START_TYPE_CREATE = { label: 'Create a new contact', value: 'create_contact' };
@@ -191,6 +192,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
             onChange={this.handleFlowChanged}
           />
         </div>
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

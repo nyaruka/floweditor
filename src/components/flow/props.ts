@@ -1,6 +1,6 @@
 import { UpdateLocalizations } from 'components/nodeeditor/NodeEditor';
 import { Type } from 'config/interfaces';
-import { AnyAction, ContactProperties } from 'flowTypes';
+import { AnyAction, ContactProperties, FlowIssue } from 'flowTypes';
 import { Asset, AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { DispatchWithState, GetState } from 'store/thunks';
@@ -13,6 +13,7 @@ export interface ActionFormProps {
   typeConfig: Type;
   assetStore: AssetStore;
   completionSchema: CompletionSchema;
+  issues: FlowIssue[];
 
   addAsset(assetType: string, asset: Asset): void;
 
@@ -32,6 +33,7 @@ export interface RouterFormProps {
   typeConfig: Type;
 
   assetStore: AssetStore;
+  issues: FlowIssue[];
 
   // update handlers
   updateRouter(renderNode: RenderNode): void;
@@ -42,6 +44,7 @@ export interface RouterFormProps {
 }
 
 export interface LocalizationFormProps {
+  issues: FlowIssue[];
   language: Asset;
   nodeSettings: NodeEditorSettings;
   updateLocalizations(languageCode: string, localizations: any[]): UpdateLocalizations;

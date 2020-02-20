@@ -397,6 +397,7 @@ export const getLocalizationFormProps = (
     language,
     onClose: jest.fn(),
     updateLocalizations: jest.fn(),
+    issues: [],
     nodeSettings: {
       originalNode: createRenderNode({
         actions: [action],
@@ -429,6 +430,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
   updateAction: jest.fn(),
   onClose: jest.fn(),
   onTypeChange: jest.fn(),
+  issues: [],
   typeConfig: getTypeConfig(action.type),
   nodeSettings: {
     originalNode: createRenderNode({
@@ -449,6 +451,7 @@ export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => (
   updateRouter: jest.fn(),
   onClose: jest.fn(),
   onTypeChange: jest.fn(),
+  issues: [],
   typeConfig: determineTypeConfig({ originalNode: renderNode }),
   assetStore: EMPTY_TEST_ASSETS,
   nodeSettings: {

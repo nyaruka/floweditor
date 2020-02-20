@@ -10,6 +10,7 @@ import { validate, Required } from 'store/validators';
 import { initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
+import { renderIssues } from '../helpers';
 
 export interface PlayAudioFormState extends FormState {
   audio: StringEntry;
@@ -76,6 +77,7 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
             </Trans>
           }
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

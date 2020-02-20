@@ -11,6 +11,7 @@ import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
+import { renderIssues } from '../helpers';
 
 export interface SendBroadcastFormState extends FormState {
   message: StringEntry;
@@ -112,6 +113,7 @@ export default class SendBroadcastForm extends React.Component<
           focus={true}
           textarea={true}
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }
