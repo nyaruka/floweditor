@@ -52,7 +52,6 @@ exports[`MultiChoiceInput should render 1`] = `
     onBlur={[Function]}
     onChange={[Function]}
     onEnter={[Function]}
-    onFieldFailures={[Function]}
     placeholder="Multi Choice"
     showLabel={false}
   />

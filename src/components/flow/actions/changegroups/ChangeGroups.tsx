@@ -31,7 +31,11 @@ export const getContentMarkup = (
   } else {
     return renderAssetList(
       groups.map(group => {
-        return { id: group.uuid, name: group.name, type: AssetType.Group };
+        return {
+          id: group.uuid,
+          name: group.name,
+          type: AssetType.Group
+        };
       }),
       MAX_TO_SHOW,
       endpoints!
@@ -47,7 +51,7 @@ export const getChangeGroupsMarkup = (
   specId = contentSpecId
 ) => <div data-spec={specId}>{getContentMarkup(action, endpoints)}</div>;
 
-const ChangeGroupsComp: React.SFC<ChangeGroups> = (props, context: any): JSX.Element => {
+const ChangeGroupsComp: React.SFC<ChangeGroups> = (props: any, context: any): JSX.Element => {
   return getChangeGroupsMarkup(props, context.config.endpoints);
 };
 

@@ -12,6 +12,7 @@ import { shouldRequireIf, validate } from 'store/validators';
 import { initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
+import { renderIssues } from '../helpers';
 
 export interface AddLabelsFormState extends FormState {
   labels: AssetArrayEntry;
@@ -103,6 +104,7 @@ export default class AddLabelsForm extends React.PureComponent<
           createAssetFromInput={this.handleCreateAssetFromInput}
           onAssetCreated={this.handleLabelCreated}
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

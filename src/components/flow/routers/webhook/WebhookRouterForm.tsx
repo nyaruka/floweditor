@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import HeaderElement, { Header } from 'components/flow/routers/webhook/header/HeaderElement';
 import {
@@ -287,13 +287,6 @@ export default class WebhookRouterForm extends React.Component<
                 Modify the body of the [[method]] request that will be sent to your webhook.
               </Trans>
             }
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const body = { ...this.state.body, persistantFailures };
-              this.setState({
-                body,
-                valid: this.state.valid && !hasErrors(body)
-              });
-            }}
             autocomplete={true}
             textarea={true}
           />
@@ -325,13 +318,6 @@ export default class WebhookRouterForm extends React.Component<
             placeholder={i18n.t('forms.call_webhook.url_placeholder', 'Enter a URL')}
             entry={this.state.url}
             onChange={this.handleUrlUpdate}
-            onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-              const url = { ...this.state.url, persistantFailures };
-              this.setState({
-                url,
-                valid: this.state.valid && !hasErrors(url)
-              });
-            }}
             autocomplete={true}
           />
         </div>
@@ -352,6 +338,7 @@ export default class WebhookRouterForm extends React.Component<
           </p>
         </div>
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

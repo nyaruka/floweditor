@@ -32,14 +32,9 @@ exports[`StartSessionComp render should render a long list of both contacts and 
         >
           Rowan Seymour
         </div>
-        <div
-          class="node_asset"
-        >
-          Leah Burgerbuns
-        </div>
         <div>
           +
-          1
+          2
            more
         </div>
       </div>

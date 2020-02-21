@@ -19,6 +19,10 @@ import { createClickHandler, getLocalization, renderIf } from 'utils';
 import * as moment from 'moment';
 import styles from './Exit.module.scss';
 
+export interface RenderCategory extends Category {
+  missing: boolean;
+}
+
 export interface ExitPassedProps {
   exit: Exit;
   categories: Category[];
@@ -263,8 +267,13 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
       return { name, localized };
     } else {
+      const names: string[] = [];
+      this.props.categories.forEach((cat: Category) => {
+        names.push(cat.name);
+      });
+
       return {
-        name: this.props.categories.map((category: Category) => category.name).join(', ')
+        name: names.join(', ')
       };
     }
   }

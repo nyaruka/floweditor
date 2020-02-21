@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TextInputElement from 'components/form/textinput/TextInputElement';
@@ -100,6 +100,7 @@ export default class MenuRouterForm extends React.Component<RouterFormProps, Men
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.menu}>{this.renderMenu()}</div>
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

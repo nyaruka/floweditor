@@ -26,8 +26,15 @@ import {
   SendMsg
 } from 'flowTypes';
 import Localization, { LocalizedObject } from 'services/Localization';
-import { Activity, EditorState } from 'store/editor';
-import { Asset, AssetMap, AssetType, RenderNode, RenderNodeMap } from 'store/flowContext';
+import { Activity, EditorState, Warnings } from 'store/editor';
+import {
+  Asset,
+  AssetMap,
+  AssetType,
+  RenderNode,
+  RenderNodeMap,
+  AssetStore
+} from 'store/flowContext';
 import { addResult } from 'store/mutators';
 import { DispatchWithState, GetState, mergeEditorState } from 'store/thunks';
 import { createUUID, snakify } from 'utils';
@@ -420,6 +427,7 @@ export interface FlowComponents {
   fields: AssetMap;
   labels: AssetMap;
   results: AssetMap;
+  warnings: Warnings;
 }
 
 export const isGroupAction = (actionType: string) => {
@@ -501,8 +509,13 @@ export const assetMapToList = (assets: AssetMap): any[] => {
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponents => {
+export const getFlowComponents = (
+  definition: FlowDefinition,
+  assetStore: AssetStore
+): FlowComponents => {
   const renderNodeMap: RenderNodeMap = {};
+  const warnings: Warnings = {};
+  const { nodes, _ui } = definition;
 
   // initialize our nodes
   const pointerMap: { [uuid: string]: { [uuid: string]: string } } = {};
@@ -619,7 +632,7 @@ export const getFlowComponents = ({ nodes, _ui }: FlowDefinition): FlowComponent
     renderNodeMap[nodeUUID].inboundConnections = pointerMap[nodeUUID];
   }
 
-  return { renderNodeMap, groups, fields, labels, results };
+  return { renderNodeMap, groups, fields, labels, results, warnings };
 };
 
 /**

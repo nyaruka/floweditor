@@ -4,13 +4,13 @@ exports[`SetRunResultComp should render save placeholder when value prop passed 
 <div>
   Save 
   <span
-    className="emph"
+    className="emphasize"
   >
     Grace
   </span>
    as 
   <span
-    className="emph"
+    className="emphasize"
   >
     Name
   </span>
@@ -21,7 +21,7 @@ exports[`SetRunResultComp should render with clear placholder when value prop is
 <div>
   Clear value for 
   <span
-    className="emph"
+    className="emphasize"
   >
     Name
   </span>

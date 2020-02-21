@@ -1366,11 +1366,13 @@ exports[`StartSessionForm render should render self, children with base props 1`
               },
               Object {
                 "id": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+                "missing": false,
                 "name": "Norbert Kwizera",
                 "type": "contact",
               },
               Object {
                 "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+                "missing": false,
                 "name": "Rowan Seymour",
                 "type": "contact",
               },
@@ -1589,13 +1591,13 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             data-testid="contact_query"
           >
             <div
-              class="ele invalid"
+              class="ele"
             >
               <div
                 class="wrapper"
               >
                 <input
-                  class="textinput invalid"
+                  class="textinput"
                   data-spec="input"
                   data-testid="input"
                   maxlength="-1"
@@ -1622,20 +1624,6 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                     >
                       Tab to complete, enter to select
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="error_list"
-              >
-                <div
-                  class="error"
-                >
-                  <div
-                    class="arrow_up"
-                  />
-                  <div>
-                    arst is not a valid contact field
                   </div>
                 </div>
               </div>

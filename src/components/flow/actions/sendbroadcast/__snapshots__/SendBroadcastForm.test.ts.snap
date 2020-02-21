@@ -113,7 +113,6 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />
@@ -214,16 +213,19 @@ exports[`SendBroadcastForm render should render self, children with base props 1
           },
           Object {
             "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "missing": false,
             "name": "Kellan Alexander",
             "type": "contact",
           },
           Object {
             "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "missing": false,
             "name": "Norbert Kwizera",
             "type": "contact",
           },
           Object {
             "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "missing": false,
             "name": "Rowan Seymour",
             "type": "contact",
           },
@@ -247,7 +249,6 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     focus={true}
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     showLabel={false}
     textarea={true}
   />
@@ -292,16 +293,19 @@ Object {
       },
       Object {
         "id": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        "missing": false,
         "name": "Kellan Alexander",
         "type": "contact",
       },
       Object {
         "id": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        "missing": false,
         "name": "Norbert Kwizera",
         "type": "contact",
       },
       Object {
         "id": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "missing": false,
         "name": "Rowan Seymour",
         "type": "contact",
       },

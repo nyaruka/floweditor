@@ -6,7 +6,7 @@ exports[`utils capitalize should capitalized all words in a string 2`] = `"Ÿöu
 
 exports[`utils emphasize should apply emphasis style 1`] = `
 <span
-  className="emph"
+  className="emphasize"
 >
   emboldened
 </span>

@@ -2,8 +2,8 @@ import { react as bindCallbacks } from 'auto-bind';
 import classNames from 'classnames/bind';
 import { PopTab } from 'components/poptab/PopTab';
 import dateFormat from 'dateformat';
-import { getAssets, getFlowDefinition } from 'external';
-import { FlowDefinition, SPEC_VERSION } from 'flowTypes';
+import { getAssets, getFlowDetails } from 'external';
+import { FlowDefinition, SPEC_VERSION, FlowDetails, FlowMetadata } from 'flowTypes';
 import React from 'react';
 import { Asset, AssetStore } from 'store/flowContext';
 import { renderIf } from 'utils';
@@ -18,6 +18,11 @@ export interface User {
   name: string;
 }
 
+export interface SaveResult {
+  revision: Revision;
+  metadata: FlowMetadata;
+}
+
 export interface Revision {
   id: number;
   version: string;
@@ -30,7 +35,7 @@ export interface Revision {
 export interface RevisionExplorerProps {
   simulating: boolean;
   assetStore: AssetStore;
-  loadFlowDefinition: (definition: FlowDefinition, assetStore: AssetStore) => void;
+  loadFlowDefinition: (details: FlowDetails, assetStore: AssetStore) => void;
   createNewRevision: () => void;
   utc?: boolean;
 }
@@ -86,9 +91,9 @@ export class RevisionExplorer extends React.Component<
           this.handleUpdateRevisions();
         } else {
           if (this.state.revision && this.state.revision.id !== this.state.revisions[0].id) {
-            getFlowDefinition(this.props.assetStore.revisions, this.state.revisions[0].id).then(
-              (definition: FlowDefinition) => {
-                this.props.loadFlowDefinition(definition, this.props.assetStore);
+            getFlowDetails(this.props.assetStore.revisions, this.state.revisions[0].id).then(
+              (details: FlowDetails) => {
+                this.props.loadFlowDefinition(details, this.props.assetStore);
                 this.setState({ revision: null });
               }
             );
@@ -104,12 +109,10 @@ export class RevisionExplorer extends React.Component<
     return (event: React.MouseEvent<HTMLDivElement>) => {
       event.stopPropagation();
       event.preventDefault();
-      getFlowDefinition(this.props.assetStore.revisions, revision.id).then(
-        (definition: FlowDefinition) => {
-          this.props.loadFlowDefinition(definition, this.props.assetStore);
-          this.setState({ revision });
-        }
-      );
+      getFlowDetails(this.props.assetStore.revisions, revision.id).then((details: FlowDetails) => {
+        this.props.loadFlowDefinition(details, this.props.assetStore);
+        this.setState({ revision });
+      });
     };
   };
 

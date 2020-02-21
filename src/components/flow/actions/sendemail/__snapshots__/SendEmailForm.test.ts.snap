@@ -67,7 +67,6 @@ exports[`SendEmailForm render should render 1`] = `
       }
       name="Subject"
       onChange={[Function]}
-      onFieldFailures={[Function]}
       placeholder="Subject"
     />
     <Connect(TextInputElement)
@@ -80,7 +79,6 @@ exports[`SendEmailForm render should render 1`] = `
       }
       name="Message"
       onChange={[Function]}
-      onFieldFailures={[Function]}
       showLabel={false}
       textarea={true}
     />

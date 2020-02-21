@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import TextInputElement, { HTMLTextElement } from 'components/form/textinput/TextInputElement';
 import Pill from 'components/pill/Pill';
 import * as React from 'react';
-import { StringArrayEntry, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import { StringArrayEntry, StringEntry } from 'store/nodeEditor';
 import { Empty, validate } from 'store/validators';
 
 import styles from './MultiChoice.module.scss';
@@ -13,7 +13,6 @@ export interface MultiChoiceInputProps {
   entry?: StringEntry;
   onRemoved: (item: string) => void;
   onItemAdded: (item: string) => boolean;
-  onFieldErrors: (validationFailures: ValidationFailure[]) => void;
   onEntryChanged?: (entry: StringEntry) => void;
   helpText?: JSX.Element;
 }
@@ -54,10 +53,6 @@ export default class MultiChoiceInput extends React.Component<
   public handleAddItem(event: React.KeyboardEvent<HTMLTextElement>): boolean {
     // hack: we want to evaluate after the state is updated for validation errors
     window.setTimeout(() => {
-      if ((this.state.currentInput.persistantFailures || []).length > 0) {
-        return;
-      }
-
       if (this.state.currentInput.value.trim().length > 0) {
         const newItem = this.state.currentInput.value.trim();
 
@@ -119,22 +114,6 @@ export default class MultiChoiceInput extends React.Component<
           focus={true}
           onBlur={this.handleValidateEmpty}
           onEnter={this.handleAddItem}
-          onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-            const currentInput = {
-              ...this.state.currentInput,
-              persistantFailures
-            };
-            this.setState(
-              {
-                currentInput
-              },
-              () => {
-                if (this.props.onEntryChanged) {
-                  this.props.onEntryChanged(currentInput);
-                }
-              }
-            );
-          }}
         />
       </>
     );

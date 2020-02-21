@@ -6,22 +6,22 @@ import ExitComp from 'components/flow/exit/Exit';
 import {
   getCategoriesForExit,
   getResultName,
-  getVisibleActions
+  getVisibleActions,
+  filterIssuesForAction
 } from 'components/flow/node/helpers';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import shared from 'components/shared.module.scss';
 import TitleBar from 'components/titlebar/TitleBar';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
-import { getOperatorConfig } from 'config/operatorConfigs';
 import { getType, getTypeConfig } from 'config/typeConfigs';
-import { AnyAction, Exit, FlowDefinition, FlowNode, SwitchRouter } from 'flowTypes';
+import { AnyAction, Exit, FlowDefinition, FlowNode, FlowIssue } from 'flowTypes';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DebugState } from 'store/editor';
-import { AssetMap, RenderNode } from 'store/flowContext';
+import { AssetMap, RenderNode, Asset } from 'store/flowContext';
 import AppState from 'store/state';
 import {
   DispatchWithState,
@@ -37,6 +37,7 @@ import {
 import { ClickHandler, createClickHandler } from 'utils';
 
 import styles from './Node.module.scss';
+import { hasIssues } from '../helpers';
 
 export interface NodePassedProps {
   nodeUUID: string;
@@ -60,6 +61,7 @@ export interface NodePassedProps {
 
 export interface NodeStoreProps {
   results: AssetMap;
+  language: Asset;
   languages: AssetMap;
   activeCount: number;
   containerOffset: { top: number; left: number };
@@ -67,6 +69,7 @@ export interface NodeStoreProps {
   simulating: boolean;
   debug: DebugState;
   renderNode: RenderNode;
+  issues: FlowIssue[];
   definition: FlowDefinition;
   onAddToNode: OnAddToNode;
   onOpenNodeEditor: OnOpenNodeEditor;
@@ -212,26 +215,6 @@ export class NodeComp extends React.Component<NodeProps> {
     return this.props.selected;
   }
 
-  private hasMissing(): boolean {
-    // see if we are splitting on a missing result
-    const type = getType(this.props.renderNode);
-    if (type === Types.split_by_run_result || type === Types.split_by_run_result_delimited) {
-      if (!(this.props.renderNode.ui.config.operand.id in this.props.results)) {
-        return true;
-      }
-    }
-
-    if (this.props.renderNode.node.router) {
-      const kases = (this.props.renderNode.node.router as SwitchRouter).cases || [];
-      for (const kase of kases) {
-        if (!getOperatorConfig(kase.type)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
   private isStartNodeVisible(): boolean {
     return this.props.startingNode;
   }
@@ -266,9 +249,14 @@ export class NodeComp extends React.Component<NodeProps> {
       getVisibleActions(this.props.renderNode).forEach((action: AnyAction, idx: number) => {
         const actionConfig = getTypeConfig(action.type);
 
-        if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
-          const { component: ActionDiv } = actionConfig;
+        const issues: FlowIssue[] = filterIssuesForAction(
+          this.props.nodeUUID,
+          action,
+          this.props.issues
+        );
 
+        if (actionConfig.hasOwnProperty('component') && actionConfig.component) {
+          const { component: ActionComponent } = actionConfig;
           if (actionConfig.massageForDisplay) {
             actionConfig.massageForDisplay(action);
           }
@@ -281,9 +269,16 @@ export class NodeComp extends React.Component<NodeProps> {
               selected={this.props.selected}
               action={action}
               first={idx === 0}
-              render={(anyAction: AnyAction) => (
-                <ActionDiv {...anyAction} languages={this.props.languages} />
-              )}
+              issues={issues}
+              render={(anyAction: AnyAction) => {
+                return (
+                  <ActionComponent
+                    {...anyAction}
+                    languages={this.props.languages}
+                    issues={issues}
+                  />
+                );
+              }}
             />
           );
         }
@@ -330,11 +325,7 @@ export class NodeComp extends React.Component<NodeProps> {
         title === null &&
         (type === Types.split_by_run_result || type === Types.split_by_run_result_delimited)
       ) {
-        if (this.props.renderNode.ui.config.operand.id in this.props.results) {
-          title = `Split by ${this.props.results[this.props.renderNode.ui.config.operand.id].name}`;
-        } else {
-          title = `Missing ${this.props.renderNode.ui.config.operand.id}`;
-        }
+        title = `Split by ${this.props.results[this.props.renderNode.ui.config.operand.id].name}`;
       }
 
       if (title === null) {
@@ -343,13 +334,18 @@ export class NodeComp extends React.Component<NodeProps> {
 
       if (!this.props.renderNode.node.actions || !this.props.renderNode.node.actions.length) {
         // Router headers are introduced here while action headers are introduced in ./Action/Action
-
         header = (
           // Wrap in a relative parent so it honors node clipping
           <div style={{ position: 'relative' }}>
             <div {...this.events}>
               <TitleBar
-                __className={(shared as any)[this.hasMissing() ? 'missing' : config.type]}
+                __className={
+                  (shared as any)[
+                    hasIssues(this.props.issues, this.props.translating, this.props.language)
+                      ? 'missing'
+                      : config.type
+                  ]
+                }
                 showRemoval={!this.props.translating}
                 onRemoval={this.handleRemoval}
                 shouldCancelClick={this.handleShouldCancelClick}
@@ -433,12 +429,13 @@ const mapStateToProps = (
     flowContext: {
       nodes,
       definition,
+      metadata,
       assetStore: {
         results: { items: results },
         languages: { items: languages }
       }
     },
-    editorState: { translating, debug, ghostNode, simulating, containerOffset, activity }
+    editorState: { translating, debug, ghostNode, simulating, containerOffset, activity, language }
   }: AppState,
   props: NodePassedProps
 ) => {
@@ -460,8 +457,14 @@ const mapStateToProps = (
 
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
+  const issues = metadata
+    ? (metadata.issues || []).filter(issue => issue.node_uuid === props.nodeUUID)
+    : [];
+
   return {
+    issues,
     results,
+    language,
     languages,
     activeCount,
     containerOffset,

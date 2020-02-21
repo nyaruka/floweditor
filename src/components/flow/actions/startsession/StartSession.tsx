@@ -1,4 +1,4 @@
-import { getRecipients, renderAssetList } from 'components/flow/actions/helpers';
+import { getRecipients, renderAssetList, renderAsset } from 'components/flow/actions/helpers';
 import { fakePropType } from 'config/ConfigProvider';
 import { StartSession } from 'flowTypes';
 import * as React from 'react';
@@ -23,15 +23,12 @@ export const StartSessionComp: React.SFC<StartSession> = (
           : renderAssetList(recipients, MAX_TO_SHOW, context.config.endpoints)}
       </div>
       <div className={styles.flow}>
-        {renderAssetList(
-          [
-            {
-              name: action.flow.name,
-              id: action.flow.uuid,
-              type: AssetType.Flow
-            }
-          ],
-          3,
+        {renderAsset(
+          {
+            name: action.flow.name,
+            id: action.flow.uuid,
+            type: AssetType.Flow
+          },
           context.config.endpoints
         )}
       </div>

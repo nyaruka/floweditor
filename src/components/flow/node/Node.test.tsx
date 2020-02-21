@@ -36,7 +36,8 @@ const baseProps: NodeProps = {
   onAddToNode: jest.fn(),
   onOpenNodeEditor: jest.fn(),
   removeNode: jest.fn(),
-  mergeEditorState: jest.fn()
+  mergeEditorState: jest.fn(),
+  issues: []
 };
 
 describe(NodeComp.name, () => {

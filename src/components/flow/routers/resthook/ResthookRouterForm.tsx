@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
@@ -90,6 +90,7 @@ export default class ResthookRouterForm extends React.PureComponent<
         <div className={styles.result_name}>
           {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         </div>
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

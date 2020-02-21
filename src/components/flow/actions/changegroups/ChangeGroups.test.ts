@@ -13,7 +13,7 @@ import { set } from 'utils';
 
 const { results: groups } = require('test/assets/groups.json');
 
-const addGroupsAction = createAddGroupsAction({ groups: groups.slice(2) });
+const addGroupsAction: ChangeGroups = createAddGroupsAction({ groups: groups.slice(2) });
 
 const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, addGroupsAction);
 
@@ -62,12 +62,12 @@ describe(ChangeGroupsComp.name, () => {
       const { wrapper } = setup(true, { groups: set(groups) });
       const content = getSpecWrapper(wrapper, contentSpecId);
 
-      expect(content.children().length).toBe(MAX_TO_SHOW + 1);
+      expect(content.children().length).toBe(MAX_TO_SHOW);
       expect(wrapper).toMatchSnapshot();
     });
 
     it("should render 'remove from all' markup when passed group action of type Types.remove_contact_groups", () => {
-      const { wrapper, props } = setup(true, {
+      const { wrapper } = setup(true, {
         groups: set([]),
         type: set(Types.remove_contact_groups)
       });

@@ -1,16 +1,16 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors } from 'components/flow/actions/helpers';
 import { ActionFormProps } from 'components/flow/props';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
-import { FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
+import { FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { validate, Required } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
+import { renderIssues } from '../helpers';
 
 export interface PlayAudioFormState extends FormState {
   audio: StringEntry;
@@ -68,13 +68,6 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
           showLabel={false}
           onChange={this.handleAudioUpdate}
           entry={this.state.audio}
-          onFieldFailures={(persistantFailures: ValidationFailure[]) => {
-            const audio = { ...this.state.audio, persistantFailures };
-            this.setState({
-              audio,
-              valid: this.state.valid && !hasErrors(audio)
-            });
-          }}
           autocomplete={true}
           focus={true}
           helpText={
@@ -84,6 +77,7 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
             </Trans>
           }
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

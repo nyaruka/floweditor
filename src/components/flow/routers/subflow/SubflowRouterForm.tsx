@@ -7,15 +7,14 @@ import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import { AssetEntry, FormState, mergeForm, ValidationFailure, StringEntry } from 'store/nodeEditor';
+import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { fetchAsset } from 'external';
 import styles from './SubflowRouterForm.module.scss';
 import { Trans } from 'react-i18next';
 import TextInputElement from 'components/form/textinput/TextInputElement';
-import { hasErrors } from 'components/flow/actions/helpers';
-import mutate from 'immutability-helper';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
@@ -111,17 +110,6 @@ export default class SubflowRouterForm extends React.PureComponent<
     this.setState({ params });
   }
 
-  private handleParamFieldFailures(persistantFailures: ValidationFailure[], name: string): void {
-    const params: { [name: string]: StringEntry } = mutate(this.state.params, {
-      [name]: { $merge: { persistantFailures } }
-    });
-
-    this.setState({
-      params,
-      valid: this.state.valid && !hasErrors(params[name])
-    });
-  }
-
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
@@ -171,9 +159,6 @@ export default class SubflowRouterForm extends React.PureComponent<
                           }}
                           entry={this.state.params[name]}
                           autocomplete={true}
-                          onFieldFailures={(failures: ValidationFailure[]) => {
-                            this.handleParamFieldFailures(failures, name);
-                          }}
                         />
                       </td>
                     </tr>
@@ -207,6 +192,7 @@ export default class SubflowRouterForm extends React.PureComponent<
           onFilter={this.handleFilter}
           onChange={this.handleFlowChanged}
         />
+        {renderIssues(this.props.issues)}
       </Dialog>
     );
   }

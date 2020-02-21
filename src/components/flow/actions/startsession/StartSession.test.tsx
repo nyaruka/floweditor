@@ -28,7 +28,7 @@ describe('StartSessionComp', () => {
       );
 
       expect(baseElement).toMatchSnapshot();
-      getByText('+1 more');
+      getByText('+2 more');
     });
 
     it('should render creating a new contact', () => {

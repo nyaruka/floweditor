@@ -32,6 +32,10 @@ exports[`ActionWrapper can have localized quick replies when empty on default la
             >
               Send Message
             </div>
+            <div
+              class="remove_button"
+              data-testid="remove-icon"
+            />
           </div>
         </div>
         <div

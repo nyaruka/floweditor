@@ -51,7 +51,7 @@ describe('SendBroadcastComp', () => {
           ]
         }
       });
-      expect(wrapper.html()).toContain('+1 more');
+      expect(wrapper.html()).toContain('+2 more');
       expect(wrapper.html()).toMatchSnapshot('elided');
     });
 

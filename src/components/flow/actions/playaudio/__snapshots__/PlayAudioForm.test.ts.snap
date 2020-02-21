@@ -53,7 +53,6 @@ exports[`PlayAudioForm render should render 1`] = `
     }
     name="Message"
     onChange={[Function]}
-    onFieldFailures={[Function]}
     showLabel={false}
   />
 </Dialog>

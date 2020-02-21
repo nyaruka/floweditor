@@ -48,7 +48,9 @@ const baseProps: ActionWrapperProps = {
   translating: false,
   onOpenNodeEditor: jest.fn(),
   removeAction: jest.fn(),
-  moveActionUp: jest.fn()
+  moveActionUp: jest.fn(),
+  issues: [],
+  assetStore: null
 };
 
 const { setup, spyOn } = composeComponentTestUtils(ActionWrapper, baseProps);

@@ -5,6 +5,7 @@ import { FormEntry, ValidationFailure } from 'store/nodeEditor';
 import { renderIf } from 'utils';
 
 import styles from './FormElement.module.scss';
+import { hasErrors } from 'components/flow/actions/helpers';
 
 const cx: any = classNames.bind(styles);
 
@@ -44,21 +45,19 @@ export default class FormElement extends React.PureComponent<FormElementProps> {
   }
 
   private hasErrors(): boolean {
-    return this.getMergedErrors().length > 0;
+    return hasErrors(this.props.entry);
   }
 
-  private getMergedErrors(): ValidationFailure[] {
+  private getValidationErrors(): ValidationFailure[] {
     if (this.props.entry) {
-      return (this.props.entry.validationFailures || []).concat(
-        this.props.entry.persistantFailures || []
-      );
+      return this.props.entry.validationFailures || [];
     }
     return [];
   }
 
   private getErrors(): JSX.Element {
     if (this.hasErrors() && !this.props.hideError) {
-      const errors = this.getMergedErrors().map((failure, idx) => {
+      const errors = this.getValidationErrors().map((failure, idx) => {
         const className = cx({
           [styles.error]: true,
           [styles.send_msg_error]: this.props.sendMsgError === true

@@ -245,7 +245,7 @@ export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 4));
 /**
  * Apply emphasis style
  */
-export const emphasize = (text: string) => <span className="emph">{text}</span>;
+export const emphasize = (text: string) => <span className="emphasize">{text}</span>;
 
 /**
  * Does property exist in our ContactProperties enum?

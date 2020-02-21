@@ -80,7 +80,6 @@ exports[`SetRunResultForm render should render 1`] = `
       helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
       name="Value"
       onChange={[Function]}
-      onFieldFailures={[Function]}
       showLabel={true}
     />
     <Connect(TextInputElement)

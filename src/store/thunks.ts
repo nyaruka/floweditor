@@ -1,13 +1,13 @@
 import { determineTypeConfig } from 'components/flow/helpers';
 import { getResultName } from 'components/flow/node/helpers';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
-import { Revision } from 'components/revisions/RevisionExplorer';
+import { SaveResult } from 'components/revisions/RevisionExplorer';
 import { FlowTypes, Type, Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import {
   createAssetStore,
   getCompletionSchema,
-  getFlowDefinition,
+  getFlowDetails,
   saveRevision,
   getFunctions
 } from 'external';
@@ -24,7 +24,8 @@ import {
   SendMsg,
   SetContactField,
   SetRunResult,
-  StickyNote
+  StickyNote,
+  FlowDetails
 } from 'flowTypes';
 import mutate from 'immutability-helper';
 import { Dispatch } from 'redux';
@@ -39,7 +40,8 @@ import {
   updateBaseLanguage,
   updateContactFields,
   updateDefinition,
-  updateNodes
+  updateNodes,
+  updateMetadata
 } from 'store/flowContext';
 import {
   createEmptyNode,
@@ -97,7 +99,7 @@ export type FetchFlow = (
 ) => Thunk<Promise<void>>;
 
 export type LoadFlowDefinition = (
-  definition: FlowDefinition,
+  details: FlowDetails,
   assetStore: AssetStore,
   onLoad?: () => void
 ) => Thunk<void>;
@@ -157,7 +159,7 @@ export interface ErrorMessage {
 }
 
 export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
-const QUIET_SAVE = 2000;
+const QUIET_SAVE = 1000;
 
 let markDirty: (quiet?: number) => void = () => {};
 let lastDirtyAttempt: any = null;
@@ -193,9 +195,14 @@ export const createDirty = (
   lastDirtyAttempt = window.setTimeout(() => {
     postingRevision = true;
     saveRevision(revisionsEndpoint, newDefinition).then(
-      (revision: Revision) => {
+      (result: SaveResult) => {
+        const revision = result.revision;
         definition.revision = revision.revision;
         dispatch(updateDefinition(definition));
+
+        if (result.metadata) {
+          dispatch(updateMetadata(result.metadata));
+        }
 
         const updatedAssets = mutators.addRevision(assetStore, revision);
         dispatch(updateAssets(updatedAssets));
@@ -249,11 +256,14 @@ export const createNewRevision = () => (dispatch: DispatchWithState, getState: G
 };
 
 export const loadFlowDefinition = (
-  definition: FlowDefinition,
+  details: FlowDetails,
   assetStore: AssetStore,
   onLoad: () => void
 ) => (dispatch: DispatchWithState, getState: GetState): void => {
   // first see if we need our asset store initialized
+
+  const definition = details.definition;
+
   const {
     editorState: { fetchingFlow }
   } = getState();
@@ -281,7 +291,7 @@ export const loadFlowDefinition = (
   }
 
   // add assets we found in our flow to our asset store
-  const components = getFlowComponents(definition);
+  const components = getFlowComponents(definition, assetStore);
   mergeAssetMaps(assetStore.fields.items, components.fields);
   mergeAssetMaps(assetStore.groups.items, components.groups);
   mergeAssetMaps(assetStore.labels.items, components.labels);
@@ -300,6 +310,7 @@ export const loadFlowDefinition = (
   }
 
   dispatch(updateBaseLanguage(language));
+  dispatch(updateMetadata(details.metadata));
 
   // store our flow definition without any nodes
   dispatch(updateDefinition(mutators.pruneDefinition(definition)));
@@ -346,16 +357,20 @@ export const fetchFlow = (
   const completionSchema = await getCompletionSchema(endpoints.completion);
   const functions = await getFunctions(endpoints.functions);
 
-  getFlowDefinition(assetStore.revisions)
-    .then((definition: any) => {
-      // new versions of this endpoint will nest the definition
-      if (definition.definition) {
-        definition = definition.definition;
-      }
+  getFlowDetails(assetStore.revisions)
+    .then((response: any) => {
+      // backwards compatibitly for during deployment
+      const details: FlowDetails = response.definition
+        ? response
+        : { definition: response as FlowDefinition, metadata: { dependencies: [] } };
 
-      dispatch(loadFlowDefinition(definition, assetStore, onLoad));
+      dispatch(loadFlowDefinition(details, assetStore, onLoad));
       dispatch(
-        mergeEditorState({ currentRevision: definition.revision, completionSchema, functions })
+        mergeEditorState({
+          currentRevision: details.definition.revision,
+          completionSchema,
+          functions
+        })
       );
 
       markDirty = createDirty(assetStore.revisions.endpoint, dispatch, getState);

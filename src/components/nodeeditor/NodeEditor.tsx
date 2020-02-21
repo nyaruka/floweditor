@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import { getDraggedFrom } from 'components/helpers';
 import Modal from 'components/modal/Modal';
 import { Type } from 'config/interfaces';
-import { Action, AnyAction, FlowDefinition } from 'flowTypes';
+import { Action, AnyAction, FlowDefinition, FlowIssue } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -51,6 +51,7 @@ export interface NodeEditorStoreProps {
   nodes: { [uuid: string]: RenderNode };
   handleTypeConfigChange: HandleTypeConfigChange;
   resetNodeEditingState: NoParamsAC;
+  issues: FlowIssue[];
   mergeEditorState: MergeEditorState;
   onUpdateLocalizations: OnUpdateLocalizations;
   onUpdateAction: OnUpdateAction;
@@ -70,6 +71,7 @@ export interface FormProps {
   completionSchema: CompletionSchema;
 
   assetStore: AssetStore;
+  issues: FlowIssue[];
 
   nodeSettings?: NodeEditorSettings;
   typeConfig?: Type;
@@ -82,6 +84,7 @@ export interface LocalizationProps {
   typeConfig?: Type;
   onClose?(canceled: boolean): void;
 
+  issues: FlowIssue[];
   updateLocalizations: UpdateLocalizations;
   language: Asset;
 }
@@ -148,7 +151,10 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             nodeSettings: this.props.settings,
             typeConfig: this.props.typeConfig,
             onClose: this.close,
-            language: this.props.language
+            language: this.props.language,
+            issues: this.props.issues.filter(
+              (issue: FlowIssue) => issue.language === this.props.language.id
+            )
           };
 
           return (
@@ -168,6 +174,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         updateAction: this.updateAction,
         updateRouter: this.updateRouter,
         nodeSettings: this.props.settings,
+        issues: this.props.issues.filter((issue: FlowIssue) => !issue.language),
         typeConfig: this.props.typeConfig,
         onTypeChange: this.props.handleTypeConfigChange,
         onClose: this.close
@@ -185,19 +192,30 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
 /* istanbul ignore next */
 const mapStateToProps = ({
-  flowContext: { definition, nodes, assetStore },
+  flowContext: { definition, nodes, assetStore, metadata },
   editorState: { language, translating, completionSchema },
   nodeEditor: { typeConfig, settings }
-}: AppState) => ({
-  language,
-  definition,
-  nodes,
-  translating,
-  typeConfig,
-  settings,
-  assetStore,
-  completionSchema
-});
+}: AppState) => {
+  const issues: FlowIssue[] = metadata
+    ? (metadata.issues || []).filter(
+        (issue: FlowIssue) =>
+          issue.node_uuid === settings.originalNode.node.uuid &&
+          (!settings.originalAction || settings.originalAction.uuid === issue.action_uuid)
+      )
+    : [];
+
+  return {
+    issues,
+    language,
+    definition,
+    nodes,
+    translating,
+    typeConfig,
+    settings,
+    assetStore,
+    completionSchema
+  };
+};
 
 /* istanbul ignore next */
 const mapDispatchToProps = (dispatch: DispatchWithState) =>

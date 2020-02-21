@@ -7,34 +7,42 @@ exports[`ChangeGroupsComp helpers getChangeGroupsMarkup should return ChangeGrou
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Early Adopters
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Early Adopters
+    </React.Fragment>
   </div>
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Testers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Testers
+    </React.Fragment>
   </div>
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Subscribers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Subscribers
+    </React.Fragment>
   </div>
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Champions
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Champions
+    </React.Fragment>
   </div>
 </div>
 `;
@@ -54,34 +62,42 @@ Array [
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Early Adopters
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Early Adopters
+    </React.Fragment>
   </div>,
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Testers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Testers
+    </React.Fragment>
   </div>,
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Subscribers
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Subscribers
+    </React.Fragment>
   </div>,
   <div
     className="node_asset"
   >
-    <span
-      className="node_group fe-group"
-    />
-    Champions
+    <React.Fragment>
+      <span
+        className="node_group fe-group"
+      />
+      Champions
+    </React.Fragment>
   </div>,
 ]
 `;
@@ -135,19 +151,10 @@ exports[`ChangeGroupsComp render should limit div to max number of groups 1`] = 
     Testers
   </div>
   <div
-    className="node_asset"
-    key="33b28bac-b588-43e4-90de-fda77aeaf7c0"
-  >
-    <span
-      className="node_group fe-group"
-    />
-    Subscribers
-  </div>
-  <div
     key="ellipses"
   >
     +
-    1
+    2
      more
   </div>
 </div>

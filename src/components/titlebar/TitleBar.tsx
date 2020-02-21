@@ -106,7 +106,9 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
   }
 
   private getRemove(): JSX.Element {
-    let remove: JSX.Element = null;
+    let remove: JSX.Element = (
+      <div className={styles.remove_button} data-testid={removeIconSpecId}></div>
+    );
 
     if (this.props.showRemoval && this.context.config.mutable) {
       remove = (

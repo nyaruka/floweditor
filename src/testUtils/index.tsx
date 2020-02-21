@@ -153,7 +153,7 @@ export const prepMockDuxState = (): {
   testNodes: RenderNodeMap;
   mockDuxState: AppState;
 } => {
-  const testNodes = getFlowComponents(boring).renderNodeMap;
+  const testNodes = getFlowComponents(boring, initialState.flowContext.assetStore).renderNodeMap;
 
   return {
     testNodes,
