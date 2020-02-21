@@ -27,6 +27,7 @@ export const renderIssue = (issue: FlowIssue, key: string): JSX.Element => {
     return (
       <div key={key} className={styles.issue}>
         <Trans
+          i18nKey="issues.named"
           values={{
             name: issue.dependency.name || issue.dependency.key,
             type: issue.dependency.type

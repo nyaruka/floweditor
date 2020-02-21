@@ -131,6 +131,9 @@
     "placeholder": "Select existing [[name]] or enter a new one",
     "placeholder_plural": "Select existing [[name]] or enter a new one"
   },
+  "assets": {
+    "classifier": "Call [[name]] classifier"
+  },
   "body": "Body",
   "buttons": {
     "cancel": "Cancel",
@@ -234,6 +237,9 @@
     "type_label": "When a contact arrives at this point in your flow..."
   },
   "groups": "Groups",
+  "issues": {
+    "named": "Cannot find a [[type]] for <1>[[name]]</1>"
+  },
   "message": "Message",
   "operator": {
     "has_pattern": "matches regex"
