@@ -191,19 +191,18 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 }
 
 /* istanbul ignore next */
-const mapStateToProps = (
-  {
-    flowContext: { definition, nodes, assetStore, metadata },
-    editorState: { language, translating, completionSchema },
-    nodeEditor: { typeConfig, settings }
-  }: AppState,
-  props: NodeEditorPassedProps
-) => {
-  const issues: FlowIssue[] = metadata.issues.filter(
-    (issue: FlowIssue) =>
-      issue.node_uuid === settings.originalNode.node.uuid &&
-      (!settings.originalAction || settings.originalAction.uuid === issue.action_uuid)
-  );
+const mapStateToProps = ({
+  flowContext: { definition, nodes, assetStore, metadata },
+  editorState: { language, translating, completionSchema },
+  nodeEditor: { typeConfig, settings }
+}: AppState) => {
+  const issues: FlowIssue[] = metadata
+    ? (metadata.issues || []).filter(
+        (issue: FlowIssue) =>
+          issue.node_uuid === settings.originalNode.node.uuid &&
+          (!settings.originalAction || settings.originalAction.uuid === issue.action_uuid)
+      )
+    : [];
 
   return {
     issues,

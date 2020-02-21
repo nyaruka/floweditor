@@ -29,7 +29,9 @@ const assetContent = {
         languages: [{ eng: 'English' }, { spa: 'Spanish' }]
       }
     },
-    metadata: {}
+    metadata: {
+      issues: []
+    }
   }
 };
 

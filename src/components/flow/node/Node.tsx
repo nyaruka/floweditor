@@ -457,7 +457,9 @@ const mapStateToProps = (
 
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
-  const issues = metadata.issues.filter(issue => issue.node_uuid === props.nodeUUID);
+  const issues = metadata
+    ? (metadata.issues || []).filter(issue => issue.node_uuid === props.nodeUUID)
+    : [];
 
   return {
     issues,
