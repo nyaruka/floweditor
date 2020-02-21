@@ -6,19 +6,19 @@ import {
 } from 'components/flow/actions/helpers';
 import { SendBroadcastFormState } from 'components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from 'config/interfaces';
-import { BroadcastMsg, WithIssues } from 'flowTypes';
+import { BroadcastMsg } from 'flowTypes';
 import { AssetType } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 
 export const initializeForm = (settings: NodeEditorSettings): SendBroadcastFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_broadcast) {
-    let action = settings.originalAction as BroadcastMsg & WithIssues;
+    let action = settings.originalAction as BroadcastMsg;
 
     // check if our form should use a localized action
     if (settings.localizations && settings.localizations.length > 0) {
       const localized = settings.localizations[0];
       if (localized.isLocalized()) {
-        action = settings.localizations[0].getObject() as BroadcastMsg & WithIssues;
+        action = settings.localizations[0].getObject() as BroadcastMsg;
       } else {
         return {
           message: { value: '' },

@@ -1,7 +1,7 @@
 import { renderAssetList } from 'components/flow/actions/helpers';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
-import { ChangeGroups, Endpoints, WithIssues, FlowIssueType } from 'flowTypes';
+import { ChangeGroups, Endpoints } from 'flowTypes';
 import * as React from 'react';
 import { AssetType } from 'store/flowContext';
 
@@ -21,7 +21,7 @@ export const getRemoveAllMarkup = (
 );
 
 export const getContentMarkup = (
-  { type, groups, issues }: ChangeGroups & WithIssues,
+  { type, groups }: ChangeGroups,
   endpoints?: Endpoints
 ): JSX.Element[] => {
   const content = [];
@@ -34,12 +34,7 @@ export const getContentMarkup = (
         return {
           id: group.uuid,
           name: group.name,
-          type: AssetType.Group,
-          missing: !!issues.find(
-            issue =>
-              issue.type === FlowIssueType.MISSING_DEPENDENCY &&
-              issue.dependency.uuid === group.uuid
-          )
+          type: AssetType.Group
         };
       }),
       MAX_TO_SHOW,
@@ -51,7 +46,7 @@ export const getContentMarkup = (
 };
 
 export const getChangeGroupsMarkup = (
-  action: ChangeGroups & WithIssues,
+  action: ChangeGroups,
   endpoints?: Endpoints,
   specId = contentSpecId
 ) => <div data-spec={specId}>{getContentMarkup(action, endpoints)}</div>;

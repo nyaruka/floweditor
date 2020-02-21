@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { CallClassifier, WithIssues } from 'flowTypes';
+import { CallClassifier } from 'flowTypes';
 import { renderAsset } from '../helpers';
 import { AssetType } from 'store/flowContext';
 import { fakePropType } from 'config/ConfigProvider';
 
-const CallClassifierComp: React.SFC<CallClassifier & WithIssues> = (
-  { classifier, issues },
+const CallClassifierComp: React.SFC<CallClassifier> = (
+  { classifier },
   context: any
 ): JSX.Element => {
   return renderAsset(

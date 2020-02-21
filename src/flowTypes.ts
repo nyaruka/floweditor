@@ -373,10 +373,6 @@ export interface Classifier {
   name: string;
 }
 
-export interface WithIssues {
-  issues: FlowIssue[];
-}
-
 export interface TransferAirtime extends Action {
   amounts: { [name: string]: number };
   result_name: string;
@@ -464,8 +460,6 @@ export type AnyAction =
   | CallWebhook
   | StartFlow
   | StartSession;
-
-export type RenderAction = AnyAction & WithIssues;
 
 export enum ContactProperties {
   UUID = 'uuid',

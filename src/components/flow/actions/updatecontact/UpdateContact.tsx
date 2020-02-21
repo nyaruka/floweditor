@@ -4,8 +4,7 @@ import {
   SetContactAttribute,
   SetContactChannel,
   SetContactLanguage,
-  SetContactName,
-  WithIssues
+  SetContactName
 } from 'flowTypes';
 import * as React from 'react';
 import { emphasize } from 'utils';
@@ -29,8 +28,8 @@ export const renderSetText = (
   }
 };
 
-const UpdateContactComp: React.SFC<SetContactAttribute & WithIssues> = (
-  action: SetContactAttribute & WithIssues
+const UpdateContactComp: React.SFC<SetContactAttribute> = (
+  action: SetContactAttribute
 ): JSX.Element => {
   if (action.type === Types.set_contact_field) {
     return renderSetText(action.field.name, action.value, true);

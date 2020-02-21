@@ -1,6 +1,6 @@
 import AddLabelsComp, { MAX_TO_SHOW } from 'components/flow/actions/addlabels/AddLabels';
 import { Types } from 'config/interfaces';
-import { AddLabels, WithIssues } from 'flowTypes';
+import { AddLabels } from 'flowTypes';
 import { composeComponentTestUtils } from 'testUtils';
 
 const labels = [
@@ -12,11 +12,10 @@ const labels = [
   'But alas, here is another one'
 ];
 
-const baseProps: AddLabels & WithIssues = {
+const baseProps: AddLabels = {
   type: Types.add_input_labels,
   uuid: `${Types.add_input_labels}-0`,
-  labels: labels.map((name, idx) => ({ name, uuid: `label-${idx}` })),
-  issues: []
+  labels: labels.map((name, idx) => ({ name, uuid: `label-${idx}` }))
 };
 
 const { setup } = composeComponentTestUtils(AddLabelsComp, baseProps);

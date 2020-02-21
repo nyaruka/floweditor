@@ -6,7 +6,7 @@ import ChangeGroupsComp, {
   MAX_TO_SHOW
 } from 'components/flow/actions/changegroups/ChangeGroups';
 import { Types } from 'config/interfaces';
-import { ChangeGroups, WithIssues } from 'flowTypes';
+import { ChangeGroups } from 'flowTypes';
 import { composeComponentTestUtils, getSpecWrapper } from 'testUtils';
 import { createAddGroupsAction } from 'testUtils/assetCreators';
 import { set } from 'utils';
@@ -14,12 +14,8 @@ import { set } from 'utils';
 const { results: groups } = require('test/assets/groups.json');
 
 const addGroupsAction: ChangeGroups = createAddGroupsAction({ groups: groups.slice(2) });
-const renderAction: ChangeGroups & WithIssues = {
-  ...addGroupsAction,
-  issues: []
-};
 
-const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, renderAction);
+const { setup } = composeComponentTestUtils<ChangeGroups>(ChangeGroupsComp, addGroupsAction);
 
 describe(ChangeGroupsComp.name, () => {
   describe('helpers', () => {
@@ -33,16 +29,15 @@ describe(ChangeGroupsComp.name, () => {
       it('should return list of elements that contains remove-all markup', () => {
         const markup = getContentMarkup({
           type: Types.remove_contact_groups,
-          groups: [],
-          issues: []
-        } as ChangeGroups & WithIssues);
+          groups: []
+        } as ChangeGroups);
 
         expect(markup.length).toBe(1);
         expect(markup).toMatchSnapshot();
       });
 
       it('should return list of group elements', () => {
-        const markup = getContentMarkup(renderAction);
+        const markup = getContentMarkup(addGroupsAction);
 
         expect(markup.length).toBeGreaterThanOrEqual(1);
         expect(markup).toMatchSnapshot();
@@ -51,7 +46,7 @@ describe(ChangeGroupsComp.name, () => {
 
     describe('getChangeGroupsMarkup', () => {
       it(`should return ${ChangeGroupsComp.name} markup w/ container`, () => {
-        expect(getChangeGroupsMarkup(renderAction)).toMatchSnapshot();
+        expect(getChangeGroupsMarkup(addGroupsAction)).toMatchSnapshot();
       });
     });
   });
@@ -72,7 +67,7 @@ describe(ChangeGroupsComp.name, () => {
     });
 
     it("should render 'remove from all' markup when passed group action of type Types.remove_contact_groups", () => {
-      const { wrapper, props } = setup(true, {
+      const { wrapper } = setup(true, {
         groups: set([]),
         type: set(Types.remove_contact_groups)
       });

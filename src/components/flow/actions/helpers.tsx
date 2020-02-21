@@ -1,14 +1,4 @@
-import {
-  Contact,
-  Endpoints,
-  Group,
-  RecipientsAction,
-  AnyAction,
-  RenderAction,
-  WithIssues,
-  FlowIssue,
-  FlowIssueType
-} from 'flowTypes';
+import { Contact, Endpoints, Group, RecipientsAction, FlowIssue, FlowIssueType } from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
@@ -63,7 +53,7 @@ export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: str
   return createUUID();
 };
 
-export const getRecipients = (action: RecipientsAction & WithIssues): Asset[] => {
+export const getRecipients = (action: RecipientsAction): Asset[] => {
   let selected: any[] = (action.groups || []).map((group: Group) => {
     return {
       id: group.uuid,
@@ -187,8 +177,4 @@ export const getRecipientsByAsset = (assets: Asset[], type: AssetType): any[] =>
     .map((asset: Asset) => {
       return { uuid: asset.id, name: asset.name };
     });
-};
-
-export const createRenderAction = (action: AnyAction, issues: FlowIssue[] = []): RenderAction => {
-  return { ...action, issues };
 };

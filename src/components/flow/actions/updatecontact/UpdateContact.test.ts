@@ -1,11 +1,5 @@
 import UpdateContactComp from 'components/flow/actions/updatecontact/UpdateContact';
-import {
-  SetContactProperty,
-  MissingDependencies,
-  AnyAction,
-  RenderAction,
-  SetContactField
-} from 'flowTypes';
+import { SetContactProperty, AnyAction, SetContactField } from 'flowTypes';
 import { composeComponentTestUtils } from 'testUtils';
 import {
   createSetContactChannelAction,
@@ -13,11 +7,10 @@ import {
   createSetContactLanguageAction,
   createSetContactNameAction
 } from 'testUtils/assetCreators';
-import { createRenderAction } from '../helpers';
 
 describe(UpdateContactComp.name, () => {
-  const baseProps: RenderAction = createRenderAction(createSetContactNameAction());
-  const { setup } = composeComponentTestUtils(UpdateContactComp, baseProps);
+  const setNameAction = createSetContactNameAction();
+  const { setup } = composeComponentTestUtils(UpdateContactComp, setNameAction);
 
   describe('render', () => {
     it('should render set name', () => {
@@ -27,25 +20,25 @@ describe(UpdateContactComp.name, () => {
 
     it('should render set channel', () => {
       const { wrapper } = setup(true, {
-        $set: createRenderAction(createSetContactChannelAction())
+        $set: createSetContactChannelAction()
       });
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render set field', () => {
-      const { wrapper } = setup(true, { $set: createRenderAction(createSetContactFieldAction()) });
+      const { wrapper } = setup(true, { $set: createSetContactFieldAction() });
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render set language', () => {
       const { wrapper } = setup(true, {
-        $set: createRenderAction(createSetContactLanguageAction())
+        $set: createSetContactLanguageAction()
       });
       expect(wrapper).toMatchSnapshot();
     });
 
     it('should render clearing the value', () => {
-      const setFieldAction = createRenderAction(createSetContactFieldAction());
+      const setFieldAction = createSetContactFieldAction();
       (setFieldAction as SetContactField).value = null;
 
       const { wrapper } = setup(true, { $set: setFieldAction });
