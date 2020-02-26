@@ -6,13 +6,11 @@
 
 .issues {
   margin: 15px 0px 5px 0px;
+  color: $red;
 }
 
 .issue {
-  margin: 10px 0px;
-  padding: 3px 10px;
-  color: $red;
-  border-left: 4px solid $red;
+  padding: 2px 0px;
 }
 
 .wait_for_audio,

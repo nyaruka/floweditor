@@ -23,6 +23,7 @@ import { createClickHandler, getLocalization } from 'utils';
 
 import styles from './Action.module.scss';
 import { hasIssues } from 'components/flow/helpers';
+import MountScroll from 'components/mountscroll/MountScroll';
 
 export interface ActionWrapperPassedProps {
   first: boolean;
@@ -41,6 +42,7 @@ export interface ActionWrapperStoreProps {
   onOpenNodeEditor: OnOpenNodeEditor;
   removeAction: ActionAC;
   moveActionUp: ActionAC;
+  scrollToAction: string;
 }
 
 export type ActionWrapperProps = ActionWrapperPassedProps & ActionWrapperStoreProps;
@@ -179,6 +181,22 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
       ? createClickHandler(this.handleActionClicked, () => this.props.selected)
       : {};
 
+    const body = (
+      <>
+        <TitleBar
+          __className={titleBarClass}
+          title={name}
+          onRemoval={this.handleRemoval}
+          showRemoval={showRemoval}
+          showMove={showMove}
+          onMoveUp={this.handleMoveUp}
+          shouldCancelClick={() => this.props.selected}
+        />
+        <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
+          {this.props.render(actionToInject, this.context.config.endpoints)}
+        </div>
+      </>
+    );
     return (
       <div
         id={`action-${this.props.action.uuid}`}
@@ -187,18 +205,11 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
       >
         <div className={styles.overlay} data-spec={actionOverlaySpecId} />
         <div {...events} data-spec={actionInteractiveDivSpecId}>
-          <TitleBar
-            __className={titleBarClass}
-            title={name}
-            onRemoval={this.handleRemoval}
-            showRemoval={showRemoval}
-            showMove={showMove}
-            onMoveUp={this.handleMoveUp}
-            shouldCancelClick={() => this.props.selected}
-          />
-          <div className={styles.body + ' ' + actionClass} data-spec={actionBodySpecId}>
-            {this.props.render(actionToInject, this.context.config.endpoints)}
-          </div>
+          {this.props.scrollToAction && this.props.scrollToAction === this.props.action.uuid ? (
+            <MountScroll pulseAfterScroll={true}>{body}</MountScroll>
+          ) : (
+            body
+          )}
         </div>
       </div>
     );
@@ -211,8 +222,9 @@ const mapStateToProps = ({
     assetStore,
     definition: { localization }
   },
-  editorState: { language, translating }
+  editorState: { language, translating, scrollToAction }
 }: AppState) => ({
+  scrollToAction,
   assetStore,
   language,
   translating,

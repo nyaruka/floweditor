@@ -1,5 +1,5 @@
 import { FlowDefinition, FlowNode, UINode, FlowMetadata } from 'flowTypes';
-import { combineReducers } from 'redux';
+import { combineReducers, Action } from 'redux';
 import ActionTypes, {
   UpdateAssetsAction,
   UpdateBaseLanguageAction,
@@ -9,6 +9,7 @@ import ActionTypes, {
   UpdateMetadataAction
 } from 'store/actionTypes';
 import Constants from 'store/constants';
+import { Type } from 'config/interfaces';
 
 // tslint:disable:no-shadowed-variable
 export interface RenderNodeMap {
@@ -20,6 +21,12 @@ export interface RenderNode {
   node: FlowNode;
   inboundConnections: { [nodeUUID: string]: string };
   ghost?: boolean;
+}
+
+export interface RenderAction {
+  action: Action;
+  config: Type;
+  index?: number;
 }
 
 export interface FunctionExample {

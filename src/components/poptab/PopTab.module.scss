@@ -1,14 +1,17 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .pop_wrapper {
   position: fixed;
-  z-index: $z_revision_explorer;
+  z-index: $z_pop_tabs;
 
   &.visible {
     .popped {
       opacity: 1;
       transition: right 0.1s ease-out; // cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+      box-shadow: 0px 0px 8px 0px #666;
     }
+
+    z-index: $z_pop_tabs + 1;
 
     .tab_wrapper {
       .tab {
@@ -67,7 +70,7 @@
       .header_label {
         font-size: 13px;
         font-weight: 400;
-        padding: 5px;
+        padding: 5px 10px;
       }
       .close {
         cursor: pointer;
