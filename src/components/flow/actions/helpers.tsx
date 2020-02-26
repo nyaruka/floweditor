@@ -4,8 +4,8 @@ import { Asset, AssetType } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 import { Trans } from 'react-i18next';
-
-const styles = require('components/shared.module.scss');
+import shared from 'components/shared.module.scss';
+import styles from 'components/shared.module.scss';
 
 export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
   if (!issues || issues.length === 0) {
@@ -16,35 +16,33 @@ export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
     <div className={styles.issues}>
       {issues.map((issue: FlowIssue, num: Number) => {
         const key = issue.node_uuid + issue.action_uuid + num;
-        return renderIssue(issue, key);
+        return (
+          <div className={shared.issue} key={key}>
+            {renderIssue(issue)}
+          </div>
+        );
       })}
     </div>
   );
 };
 
-export const renderIssue = (issue: FlowIssue, key: string): JSX.Element => {
+export const renderIssue = (issue: FlowIssue): JSX.Element => {
   if (issue.type === FlowIssueType.MISSING_DEPENDENCY) {
     return (
-      <div key={key} className={styles.issue}>
-        <Trans
-          i18nKey="issues.named"
-          values={{
-            name: issue.dependency.name || issue.dependency.key,
-            type: issue.dependency.type
-          }}
-        >
-          Cannot find a [[type]] for <span className="emphasize">[[name]]</span>
-        </Trans>
-      </div>
+      <Trans
+        i18nKey="issues.named"
+        values={{
+          name: issue.dependency.name || issue.dependency.key,
+          type: issue.dependency.type
+        }}
+      >
+        Cannot find a [[type]] for <span className="emphasize">[[name]]</span>
+      </Trans>
     );
   }
 
   // worst case, defer to the default description
-  return (
-    <div key={key} className={styles.issue}>
-      {issue.description}
-    </div>
-  );
+  return <>{issue.description}</>;
 };
 
 export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: string): string => {

@@ -1,0 +1,82 @@
+@import 'variables.module.scss';
+
+.simulating {
+  visibility: hidden;
+  z-index: 0;
+}
+
+.message {
+  padding: 6px 10px;
+  &:hover {
+    color: $red;
+    cursor: pointer;
+  }
+}
+
+.issues_wrapper {
+  background-color: #fff;
+  width: 250px;
+  height: 325px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  .details {
+    cursor: pointer;
+    margin: 5px;
+    border-radius: $curvature;
+    border: 2px solid transparent;
+
+    &:hover {
+      border: 2px solid $red;
+    }
+
+    .header {
+      color: #fff;
+      padding: 6px 10px;
+      font-weight: 400;
+      border-top-left-radius: $curvature - 1px;
+      border-top-right-radius: $curvature - 2px;
+      text-align: center;
+    }
+
+    .issues {
+      border-bottom-left-radius: $curvature - 1px;
+      border-bottom-right-radius: $curvature - 2px;
+      background: #fff;
+      padding: 6px 10px;
+
+      .issue {
+        // color: $red;
+        font-size: 90%;
+      }
+    }
+  }
+}
+
+.language {
+  padding: 6px 10px;
+  color: #fff;
+  font-weight: 400;
+  background: $red;
+}
+
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  display: none;
+  z-index: -1;
+  transition: opacity 0.6s;
+}
+
+.visible {
+  .mask {
+    opacity: 1;
+    // display: block;
+    z-index: $z_pop_tabs + 1;
+  }
+}
