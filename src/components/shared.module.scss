@@ -6,13 +6,46 @@
 
 .issues {
   margin: 15px 0px 5px 0px;
+  border: 1px solid $red;
+  border-radius: 3px;
+  padding: 10px;
+
+  .icon {
+    display: inline-block;
+    color: $red;
+    vertical-align: top;
+    font-size: 28px;
+    margin-right: 8px;
+  }
+
+  .header {
+    display: inline-block;
+    .title {
+      font-size: 13px;
+      color: $red;
+    }
+
+    .summary {
+      color: $gray + #222;
+      font-size: 11px;
+    }
+
+    margin-bottom: 10px;
+  }
+
+  font-size: 12px;
 }
 
 .issue {
-  margin: 10px 0px;
-  padding: 3px 10px;
-  color: $red;
-  border-left: 4px solid $red;
+  padding: 2px 0px;
+}
+
+.issue_help {
+  cursor: pointer;
+  &:hover {
+    color: $red + #111;
+    text-decoration: underline;
+  }
 }
 
 .wait_for_audio,

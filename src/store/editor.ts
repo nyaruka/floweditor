@@ -78,6 +78,9 @@ export interface EditorState {
 
   // is our page visible or tabbed away
   visible: boolean;
+
+  scrollToNode: string;
+  scrollToAction: string;
 }
 
 export interface ModalMessage {
@@ -117,7 +120,10 @@ export const initialState: EditorState = {
   activity: { segments: {}, nodes: {} },
   liveActivity: { segments: {}, nodes: {} },
   activityInterval: 5000,
-  visible: true
+  visible: true,
+
+  scrollToNode: null,
+  scrollToAction: null
 };
 
 // Action Creator

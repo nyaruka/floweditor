@@ -106,7 +106,9 @@ export interface FlowMetadata {
 }
 
 export enum FlowIssueType {
-  MISSING_DEPENDENCY = 'missing_dependency'
+  MISSING_DEPENDENCY = 'missing_dependency',
+  LEGACY_EXTRA = 'legacy_extra',
+  INVALID_REGEX = 'invalid_regex'
 }
 
 export interface FlowIssue {
@@ -116,6 +118,7 @@ export interface FlowIssue {
   description: string;
   dependency?: Dependency;
   language?: string;
+  regex?: string;
 }
 
 export interface FlowDetails {

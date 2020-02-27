@@ -8,9 +8,10 @@ import ConnectedLanguageSelector from 'components/languageselector/LanguageSelec
 import Loading from 'components/loading/Loading';
 import Modal from 'components/modal/Modal';
 import { RevisionExplorer } from 'components/revisions/RevisionExplorer';
+import { IssuesTab, IssueDetail } from 'components/issues/IssuesTab';
 import ConfigProvider from 'config';
 import { fakePropType } from 'config/ConfigProvider';
-import { FlowDefinition, FlowEditorConfig, FlowMetadata } from 'flowTypes';
+import { FlowDefinition, FlowEditorConfig, FlowMetadata, AnyAction } from 'flowTypes';
 import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,7 +29,11 @@ import {
   LoadFlowDefinition,
   loadFlowDefinition,
   MergeEditorState,
-  mergeEditorState
+  mergeEditorState,
+  onOpenNodeEditor,
+  OnOpenNodeEditor,
+  handleLanguageChange,
+  HandleLanguageChange
 } from 'store/thunks';
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf } from 'utils';
 
@@ -40,6 +45,7 @@ export interface FlowEditorContainerProps {
 
 export interface FlowEditorStoreProps {
   assetStore: AssetStore;
+  baseLanguage: Asset;
   language: Asset;
   languages: Assets;
   simulating: boolean;
@@ -51,9 +57,13 @@ export interface FlowEditorStoreProps {
   loadFlowDefinition: LoadFlowDefinition;
   createNewRevision: CreateNewRevision;
   mergeEditorState: MergeEditorState;
+  onOpenNodeEditor: OnOpenNodeEditor;
+  handleLanguageChange: HandleLanguageChange;
   nodes: RenderNodeMap;
   modalMessage: ModalMessage;
   saving: boolean;
+  scrollToNode: string;
+  scrollToAction: string;
 }
 
 const hotStore = createStore();
@@ -155,6 +165,45 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     ) : null;
   }
 
+  private handleLanguageSetting(issueDetail: IssueDetail): void {
+    if (issueDetail.language) {
+      this.props.handleLanguageChange(issueDetail.language);
+    } else {
+      this.props.handleLanguageChange(this.props.baseLanguage);
+    }
+  }
+
+  public handleOpenIssue(issueDetail: IssueDetail): void {
+    this.handleLanguageSetting(issueDetail);
+    this.props.onOpenNodeEditor({
+      originalNode: issueDetail.renderObjects.renderNode,
+      originalAction: issueDetail.renderObjects.renderAction
+        ? (issueDetail.renderObjects.renderAction.action as AnyAction)
+        : null
+    });
+  }
+
+  public handleScrollToIssue(issueDetail: IssueDetail): void {
+    this.handleLanguageSetting(issueDetail);
+    const issue = issueDetail.issues[0];
+    if (
+      this.props.scrollToNode === issue.node_uuid &&
+      this.props.scrollToAction === issue.action_uuid
+    ) {
+      this.props.mergeEditorState({
+        scrollToNode: null,
+        scrollToAction: null
+      });
+    }
+
+    window.setTimeout(() => {
+      this.props.mergeEditorState({
+        scrollToNode: issue.node_uuid,
+        scrollToAction: issue.action_uuid
+      });
+    }, 0);
+  }
+
   public render(): JSX.Element {
     return (
       <PageVisibility onChange={this.handleVisibilityChanged}>
@@ -182,6 +231,17 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
               createNewRevision={this.props.createNewRevision}
               assetStore={this.props.assetStore}
             />
+
+            {renderIf(this.props.metadata.issues.length > 0)(
+              <IssuesTab
+                simulating={this.props.simulating}
+                issues={this.props.metadata.issues}
+                onIssueClicked={this.handleScrollToIssue}
+                onIssueOpened={this.handleOpenIssue}
+                languages={this.props.languages ? this.props.languages.items : {}}
+                nodes={this.props.nodes}
+              />
+            )}
           </div>
         </div>
       </PageVisibility>
@@ -190,12 +250,22 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-  flowContext: { definition, metadata, nodes, assetStore },
-  editorState: { translating, language, fetchingFlow, simulating, modalMessage, saving }
+  flowContext: { definition, metadata, nodes, assetStore, baseLanguage },
+  editorState: {
+    translating,
+    language,
+    fetchingFlow,
+    simulating,
+    modalMessage,
+    saving,
+    scrollToAction,
+    scrollToNode
+  }
 }: AppState) => {
   const languages = assetStore ? assetStore.languages : null;
 
   return {
+    baseLanguage,
     modalMessage,
     saving,
     simulating,
@@ -206,7 +276,9 @@ const mapStateToProps = ({
     definition,
     metadata,
     nodes,
-    languages
+    languages,
+    scrollToAction,
+    scrollToNode
   };
 };
 
@@ -216,7 +288,9 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
       fetchFlow,
       loadFlowDefinition,
       createNewRevision,
-      mergeEditorState
+      mergeEditorState,
+      onOpenNodeEditor,
+      handleLanguageChange
     },
     dispatch
   );

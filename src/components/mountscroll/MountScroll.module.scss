@@ -1,0 +1,28 @@
+.wrapper {
+  transform: scale(1);
+  z-index: 10000;
+  position: relative;
+
+  &.pulse {
+    animation: pulse_animation 0.3s;
+    animation-delay: 0.1s;
+  }
+}
+
+@keyframes pulse_animation {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  70% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

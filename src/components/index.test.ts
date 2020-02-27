@@ -13,14 +13,19 @@ const baseProps: FlowEditorStoreProps = {
   translating: false,
   fetchingFlow: false,
   definition: null,
-  dependencies: null,
   loadFlowDefinition: jest.fn(),
   createNewRevision: jest.fn(),
   fetchFlow: jest.fn(),
   mergeEditorState: jest.fn(),
   modalMessage: null,
   saving: false,
-  nodes: null
+  nodes: null,
+  baseLanguage: null,
+  onOpenNodeEditor: jest.fn(),
+  handleLanguageChange: jest.fn(),
+  scrollToAction: null,
+  scrollToNode: null,
+  metadata: { issues: [], dependencies: [], waiting_exit_uuids: [], parent_refs: [], results: [] }
 };
 
 const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);

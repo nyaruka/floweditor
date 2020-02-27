@@ -38,6 +38,7 @@ import { ClickHandler, createClickHandler } from 'utils';
 
 import styles from './Node.module.scss';
 import { hasIssues } from '../helpers';
+import MountScroll from 'components/mountscroll/MountScroll';
 
 export interface NodePassedProps {
   nodeUUID: string;
@@ -75,6 +76,8 @@ export interface NodeStoreProps {
   onOpenNodeEditor: OnOpenNodeEditor;
   removeNode: RemoveNode;
   mergeEditorState: MergeEditorState;
+  scrollToNode: string;
+  scrollToAction: string;
 }
 
 export type NodeProps = NodePassedProps & NodeStoreProps;
@@ -381,43 +384,53 @@ export class NodeComp extends React.Component<NodeProps> {
 
     const uuid: JSX.Element = this.renderDebug();
 
+    const body = (
+      <div className={styles.node}>
+        {this.isStartNodeVisible() ? (
+          <div className={styles.flow_start_message}>Flow Start</div>
+        ) : null}
+
+        {uuid}
+        <Counter
+          count={this.props.activeCount}
+          containerStyle={styles.active}
+          countStyle={''}
+          keepVisible={this.props.simulating}
+          onClick={() => {
+            if (this.context.config.onActivityClicked) {
+              this.context.config.onActivityClicked(this.props.nodeUUID, this.props.activeCount);
+            }
+          }}
+        />
+
+        <div className={styles.cropped}>
+          {header}
+          {actionList}
+          {summary}
+        </div>
+
+        <div className={`${styles.exit_table}`}>
+          <div className={styles.exits} {...this.events}>
+            {exits}
+          </div>
+          {addActions}
+        </div>
+      </div>
+    );
+
     const renderedNode = (
       <div
         id={this.props.renderNode.node.uuid}
         className={`${styles.node_container} ${classes}`}
         ref={this.eleRef}
       >
-        <div className={styles.node}>
-          {this.isStartNodeVisible() ? (
-            <div className={styles.flow_start_message}>Flow Start</div>
-          ) : null}
-
-          {uuid}
-          <Counter
-            count={this.props.activeCount}
-            containerStyle={styles.active}
-            countStyle={''}
-            keepVisible={this.props.simulating}
-            onClick={() => {
-              if (this.context.config.onActivityClicked) {
-                this.context.config.onActivityClicked(this.props.nodeUUID, this.props.activeCount);
-              }
-            }}
-          />
-
-          <div className={styles.cropped}>
-            {header}
-            {actionList}
-            {summary}
-          </div>
-
-          <div className={`${styles.exit_table}`}>
-            <div className={styles.exits} {...this.events}>
-              {exits}
-            </div>
-            {addActions}
-          </div>
-        </div>
+        {!this.props.scrollToAction &&
+        this.props.scrollToNode &&
+        this.props.scrollToNode === this.props.nodeUUID ? (
+          <MountScroll pulseAfterScroll={true}>{body}</MountScroll>
+        ) : (
+          body
+        )}
       </div>
     );
     return renderedNode;
@@ -435,7 +448,17 @@ const mapStateToProps = (
         languages: { items: languages }
       }
     },
-    editorState: { translating, debug, ghostNode, simulating, containerOffset, activity, language }
+    editorState: {
+      translating,
+      debug,
+      ghostNode,
+      simulating,
+      containerOffset,
+      activity,
+      language,
+      scrollToAction,
+      scrollToNode
+    }
   }: AppState,
   props: NodePassedProps
 ) => {
@@ -472,7 +495,9 @@ const mapStateToProps = (
     debug,
     definition,
     renderNode,
-    simulating
+    simulating,
+    scrollToNode,
+    scrollToAction
   };
 };
 

@@ -421,3 +421,33 @@ export const getURL = (path: string): string => {
   const result = `${getBaseURL() + url}`;
   return result;
 };
+
+export const isIntercomEnabled = (): boolean => {
+  return !!(window as any).Intercom;
+};
+
+// this is a terrible hack since intercom doesn't
+// currently support deep linking into articles
+export const showIntercomArticle = (tag: string) => {
+  const Intercom = (window as any).Intercom;
+  const update = { article_preview: tag };
+  Intercom('update', update);
+
+  // we don't want to shutdown until our update has fired,
+  // so we need to trigger this in a timer, ugh.
+  window.setTimeout(() => {
+    // terrible: after we update we need to cycle the intercom
+    // app so that it re-evaluates our updated article_preview
+    Intercom('shutdown');
+    Intercom('boot');
+    Intercom('show');
+
+    // clear out our article preview so subsequent shows to have it
+    // this doesn't need to happen right but needs to happen after
+    // the intercom widget is done booting. this won't take effect
+    // until the next page load, but can live with that.
+    window.setTimeout(() => {
+      Intercom('update', { article_preview: null });
+    }, 1000);
+  }, 100);
+};
