@@ -1,10 +1,9 @@
 import { react as bindCallbacks } from 'auto-bind';
 import classNames from 'classnames/bind';
 import React from 'react';
-
 import styles from './IssuesTab.module.scss';
 import i18n from 'config/i18n';
-import { FlowIssue, Action } from 'flowTypes';
+import { FlowIssue, Action, FlowIssueType } from 'flowTypes';
 import { PopTab } from 'components/poptab/PopTab';
 import { renderIssue } from 'components/flow/actions/helpers';
 import { AssetMap, RenderNode, Asset, RenderNodeMap, RenderAction } from 'store/flowContext';
@@ -94,6 +93,19 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
       prevProps.nodes !== this.props.nodes ||
       this.props.languages !== prevProps.languages
     ) {
+      const firstIssue = this.props.issues[0];
+
+      if (firstIssue.type !== FlowIssueType.INVALID_REGEX) {
+        const newIssue: FlowIssue = {
+          ...firstIssue,
+          type: FlowIssueType.INVALID_REGEX,
+          description: 'invalid regex: ^^.(',
+          regex: '^^.('
+        };
+
+        this.props.issues.unshift(newIssue);
+      }
+
       this.setState({ issueDetails: this.buildIssueDetails() });
     }
   }
@@ -205,7 +217,6 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
               let typeConfig: Type = null;
 
               if (!details.renderObjects.renderNode) {
-                console.log(details, this.props.nodes);
                 return null;
               }
 
@@ -215,15 +226,10 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
                 typeConfig = getTypeConfig(getType(details.renderObjects.renderNode));
               }
 
-              const locationHeader: JSX.Element = null; /* (
-                <div className={shared[typeConfig.type] + ' ' + styles.header}>
-                  {typeConfig.name}
-                </div>
-              );*/
-
+              const locationHeader: JSX.Element = null;
               const issues = details.issues.map((issue: FlowIssue, num: number) => (
                 <div className={styles.message}>
-                  {typeConfig.name}: {renderIssue(issue)}
+                  <div className={styles.header}>{typeConfig.name}:</div> {renderIssue(issue)}
                 </div>
               ));
 

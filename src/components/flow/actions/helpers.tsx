@@ -5,7 +5,8 @@ import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEdit
 import { createUUID } from 'utils';
 import { Trans } from 'react-i18next';
 import shared from 'components/shared.module.scss';
-import styles from 'components/shared.module.scss';
+import { showIntercomArticle, isIntercomEnabled } from 'external';
+import i18next from 'i18next';
 
 export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
   if (!issues || issues.length === 0) {
@@ -13,12 +14,23 @@ export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
   }
 
   return (
-    <div className={styles.issues}>
+    <div className={shared.issues}>
+      <div className={`fe-warning ${shared.icon}`} />
+      <div className={shared.header}>
+        <div className={shared.title}>
+          {i18next.t('issues.header', 'Issues that need your attention')}
+        </div>
+        {isIntercomEnabled() ? (
+          <div className={shared.summary}>
+            {i18next.t('issues.help', 'If you need help resolving an issue, click it for help')}
+          </div>
+        ) : null}
+      </div>
       {issues.map((issue: FlowIssue, num: Number) => {
         const key = issue.node_uuid + issue.action_uuid + num;
         return (
           <div className={shared.issue} key={key}>
-            {renderIssue(issue)}
+            {renderIssue(issue, true)}
           </div>
         );
       })}
@@ -26,11 +38,14 @@ export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
   );
 };
 
-export const renderIssue = (issue: FlowIssue): JSX.Element => {
+export const renderIssue = (issue: FlowIssue, showHelp: boolean = false): JSX.Element => {
+  // worst case, defer to the default description
+  let message: JSX.Element = <>{issue.description}</>;
+
   if (issue.type === FlowIssueType.MISSING_DEPENDENCY) {
-    return (
+    message = (
       <Trans
-        i18nKey="issues.named"
+        i18nKey="issues.missing_dependency"
         values={{
           name: issue.dependency.name || issue.dependency.key,
           type: issue.dependency.type
@@ -41,8 +56,34 @@ export const renderIssue = (issue: FlowIssue): JSX.Element => {
     );
   }
 
-  // worst case, defer to the default description
-  return <>{issue.description}</>;
+  if (issue.type === FlowIssueType.INVALID_REGEX) {
+    message = (
+      <Trans i18nKey="issue.legacy_extra" values={{ regex: issue.regex }}>
+        Invalid regular expression found: [[regex]]
+      </Trans>
+    );
+  }
+
+  if (issue.type === FlowIssueType.LEGACY_EXTRA) {
+    message = (
+      <Trans i18nKey="issue.legacy_extra">Expressions should not reference @legacy_extra</Trans>
+    );
+  }
+
+  if (showHelp && isIntercomEnabled()) {
+    return (
+      <div
+        className={shared.issue_help}
+        onClick={() => {
+          showIntercomArticle(issue.type);
+        }}
+      >
+        {message}
+      </div>
+    );
+  }
+
+  return message;
 };
 
 export const getActionUUID = (nodeSettings: NodeEditorSettings, currentType: string): string => {
@@ -106,7 +147,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
     case AssetType.Group:
       assetBody = (
         <>
-          <span className={`${styles.node_group} fe-group`} />
+          <span className={`${shared.node_group} fe-group`} />
           {asset.name}
         </>
       );
@@ -114,7 +155,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
     case AssetType.Label:
       assetBody = (
         <>
-          <span className={`${styles.node_label} fe-label`} />
+          <span className={`${shared.node_label} fe-label`} />
           {asset.name}
         </>
       );
@@ -122,7 +163,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
     case AssetType.Flow:
       assetBody = (
         <>
-          <span className={`${styles.node_label} fe-split`} />
+          <span className={`${shared.node_label} fe-split`} />
           <a
             onMouseDown={(e: any) => {
               e.preventDefault();
@@ -148,7 +189,7 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
   }
 
   return (
-    <div className={`${styles.node_asset}`} key={asset.id}>
+    <div className={`${shared.node_asset}`} key={asset.id}>
       {assetBody}
     </div>
   );
