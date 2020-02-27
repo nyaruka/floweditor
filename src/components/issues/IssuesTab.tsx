@@ -197,7 +197,7 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
         <PopTab
           header={i18n.t('issues.header', 'Flow Issues')}
           color="tomato"
-          icon="fe-wrench"
+          icon="fe-warning"
           label={i18n.t('issues.label', 'Flow Issues')}
           top="416px"
           visible={this.state.visible}
