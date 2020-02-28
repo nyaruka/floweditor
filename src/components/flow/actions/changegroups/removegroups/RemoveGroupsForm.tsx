@@ -139,7 +139,7 @@ export default class RemoveGroupsForm extends React.Component<
           description={REMOVE_FROM_ALL_DESC}
           onChange={this.handleRemoveAllUpdate}
         />
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

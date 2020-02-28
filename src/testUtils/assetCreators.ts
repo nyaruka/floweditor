@@ -398,6 +398,7 @@ export const getLocalizationFormProps = (
     onClose: jest.fn(),
     updateLocalizations: jest.fn(),
     issues: [],
+    helpArticles: {},
     nodeSettings: {
       originalNode: createRenderNode({
         actions: [action],
@@ -425,6 +426,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
     flows: { items: {}, type: AssetType.Flow },
     recipients: { items: {}, type: AssetType.Contact || AssetType.Group || AssetType.URN }
   },
+  helpArticles: {},
   completionSchema: { root: [], types: [] },
   addAsset: jest.fn(),
   updateAction: jest.fn(),
@@ -448,6 +450,7 @@ export const getActionFormProps = (action: AnyAction): ActionFormProps => ({
 });
 
 export const getRouterFormProps = (renderNode: RenderNode): RouterFormProps => ({
+  helpArticles: {},
   updateRouter: jest.fn(),
   onClose: jest.fn(),
   onTypeChange: jest.fn(),

@@ -604,7 +604,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           focus={true}
           textarea={true}
         />
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

@@ -1,25 +1,19 @@
 @import 'variables.module.scss';
 
-.simulating {
+.hidden {
   visibility: hidden;
   z-index: 0;
 }
 
 .message {
-  padding: 6px 10px;
+  padding: 12px 12px;
 
   .header {
-    // color: #fff;
-    // font-weight: 400;
     display: inline-block;
-    // padding: 2px 5px;
-    // font-size: 85%;
-    // border-radius: 2px;
-    // margin-bottom: 2px;
   }
 
   &:hover {
-    color: $red;
+    background: $light_gray_2;
     cursor: pointer;
   }
 }
@@ -30,38 +24,6 @@
   height: 325px;
   overflow-y: auto;
   overflow-x: hidden;
-
-  .details {
-    cursor: pointer;
-    margin: 5px;
-    border-radius: $curvature;
-    border: 2px solid transparent;
-
-    &:hover {
-      border: 2px solid $red;
-    }
-
-    .header {
-      color: #fff;
-      padding: 6px 10px;
-      font-weight: 400;
-      border-top-left-radius: $curvature - 1px;
-      border-top-right-radius: $curvature - 2px;
-      text-align: center;
-    }
-
-    .issues {
-      border-bottom-left-radius: $curvature - 1px;
-      border-bottom-right-radius: $curvature - 2px;
-      background: #fff;
-      padding: 6px 10px;
-
-      .issue {
-        // color: $red;
-        font-size: 90%;
-      }
-    }
-  }
 }
 
 .language {

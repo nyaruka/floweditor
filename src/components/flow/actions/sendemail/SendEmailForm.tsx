@@ -133,7 +133,7 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
             textarea={true}
           />
         </div>
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

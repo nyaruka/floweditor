@@ -9,7 +9,7 @@ import { renderIssue } from 'components/flow/actions/helpers';
 import { AssetMap, RenderNode, Asset, RenderNodeMap, RenderAction } from 'store/flowContext';
 import { getTypeConfig } from 'config';
 import { getType } from 'config/typeConfigs';
-import { Type } from 'config/interfaces';
+import { Type, PopTabType } from 'config/interfaces';
 
 const cx: any = classNames.bind(styles);
 
@@ -17,9 +17,10 @@ export interface IssuesTabProps {
   issues: FlowIssue[];
   languages: AssetMap;
   nodes: RenderNodeMap;
-  simulating: boolean;
+  onToggled: (visible: boolean, tab: PopTabType) => void;
   onIssueClicked: (issueDetail: IssueDetail) => void;
   onIssueOpened: (IssueDetail: IssueDetail) => void;
+  popped: string;
 }
 
 export type IssueDetail = {
@@ -158,6 +159,8 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
   }
 
   public handleTabClicked(): void {
+    this.props.onToggled(!this.state.visible, PopTabType.ISSUES_TAB);
+
     this.setState((prevState: IssuesTabState) => {
       return { visible: !prevState.visible };
     });
@@ -174,7 +177,7 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
   public render(): JSX.Element {
     const classes = cx({
       [styles.visible]: this.state.visible,
-      [styles.simulating]: this.props.simulating
+      [styles.hidden]: this.props.popped && this.props.popped !== PopTabType.ISSUES_TAB
     });
 
     let lastLanguage: Asset = null;
@@ -215,23 +218,19 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
 
               const locationHeader: JSX.Element = null;
               const issues = details.issues.map((issue: FlowIssue, num: number) => (
-                <div className={styles.message}>
+                <div key={getIssueKey(issue) + num} className={styles.message}>
                   <div className={styles.header}>{typeConfig.name}:</div> {renderIssue(issue)}
                 </div>
               ));
 
               return (
-                <>
+                <div key={getIssueKey(details.issues[0]) + '_detail'}>
                   {languageHeader}
-                  <div
-                    className={styles.details_bk}
-                    key={getIssueKey(details.issues[0]) + '_detail'}
-                    onClick={() => this.handleIssueClicked(details)}
-                  >
+                  <div className={styles.details} onClick={() => this.handleIssueClicked(details)}>
                     {locationHeader}
                     <div className={styles.issues_code}>{issues}</div>
                   </div>
-                </>
+                </div>
               );
             })}
           </div>

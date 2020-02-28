@@ -104,7 +104,7 @@ export default class AddLabelsForm extends React.PureComponent<
           createAssetFromInput={this.handleCreateAssetFromInput}
           onAssetCreated={this.handleLabelCreated}
         />
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

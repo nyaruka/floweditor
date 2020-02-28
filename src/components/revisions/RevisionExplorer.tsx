@@ -10,6 +10,7 @@ import { renderIf } from 'utils';
 
 import styles from './RevisionExplorer.module.scss';
 import i18n from 'config/i18n';
+import { PopTabType } from 'config/interfaces';
 
 const cx: any = classNames.bind(styles);
 
@@ -33,11 +34,12 @@ export interface Revision {
 }
 
 export interface RevisionExplorerProps {
-  simulating: boolean;
   assetStore: AssetStore;
   loadFlowDefinition: (details: FlowDetails, assetStore: AssetStore) => void;
   createNewRevision: () => void;
+  onToggled: (visible: boolean, tab: PopTabType) => void;
   utc?: boolean;
+  popped: string;
 }
 
 export interface RevisionExplorerState {
@@ -82,6 +84,8 @@ export class RevisionExplorer extends React.Component<
   }
 
   public handleTabClicked(): void {
+    this.props.onToggled(!this.state.visible, PopTabType.REVISION_HISTORY);
+
     this.setState(
       (prevState: RevisionExplorerState) => {
         return { visible: !prevState.visible };
@@ -130,7 +134,7 @@ export class RevisionExplorer extends React.Component<
   public render(): JSX.Element {
     const classes = cx({
       [styles.visible]: this.state.visible,
-      [styles.simulating]: this.props.simulating
+      [styles.hidden]: this.props.popped && this.props.popped !== PopTabType.REVISION_HISTORY
     });
 
     return (

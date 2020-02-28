@@ -338,7 +338,7 @@ export default class WebhookRouterForm extends React.Component<
           </p>
         </div>
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

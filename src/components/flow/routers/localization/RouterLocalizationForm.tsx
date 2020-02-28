@@ -214,7 +214,7 @@ export default class RouterLocalizationForm extends React.Component<
           category will be used. If no translation is provided, the original text will be used.
         </p>
         {this.renderCategories()}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
 

@@ -119,7 +119,7 @@ export default class KeyLocalizationForm extends React.Component<
         tabs={tabs}
       >
         {base}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

@@ -192,7 +192,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
             onChange={this.handleFlowChanged}
           />
         </div>
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

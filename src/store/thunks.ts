@@ -726,7 +726,7 @@ export const onUpdateAction = (
     dispatch(updateContactFields({ ...contactFields, [field.key]: field.name }));
   }
 
-  markDirty();
+  markDirty(0);
 
   timeEnd('onUpdateAction');
 
@@ -991,7 +991,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
 
   dispatch(updateNodes(updated));
 
-  markDirty();
+  markDirty(0);
   return updated;
 };
 

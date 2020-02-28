@@ -58,6 +58,9 @@ export interface FlowEditorConfig {
   onLoad?: () => void;
   onActivityClicked?: (uuid: string) => void;
 
+  // help links
+  help: { [key: string]: string };
+
   // whether to force a save on load
   forceSaveOnLoad?: boolean;
 

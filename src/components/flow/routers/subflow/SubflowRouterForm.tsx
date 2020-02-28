@@ -192,7 +192,7 @@ export default class SubflowRouterForm extends React.PureComponent<
           onFilter={this.handleFilter}
           onChange={this.handleFlowChanged}
         />
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

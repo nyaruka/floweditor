@@ -113,7 +113,7 @@ export default class SendBroadcastForm extends React.Component<
           focus={true}
           textarea={true}
         />
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }
