@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import React from 'react';
 import styles from './IssuesTab.module.scss';
 import i18n from 'config/i18n';
-import { FlowIssue, Action, FlowIssueType } from 'flowTypes';
+import { FlowIssue, Action } from 'flowTypes';
 import { PopTab } from 'components/poptab/PopTab';
 import { renderIssue } from 'components/flow/actions/helpers';
 import { AssetMap, RenderNode, Asset, RenderNodeMap, RenderAction } from 'store/flowContext';
@@ -93,19 +93,6 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
       prevProps.nodes !== this.props.nodes ||
       this.props.languages !== prevProps.languages
     ) {
-      const firstIssue = this.props.issues[0];
-
-      if (firstIssue.type !== FlowIssueType.INVALID_REGEX) {
-        const newIssue: FlowIssue = {
-          ...firstIssue,
-          type: FlowIssueType.INVALID_REGEX,
-          description: 'invalid regex: ^^.(',
-          regex: '^^.('
-        };
-
-        this.props.issues.unshift(newIssue);
-      }
-
       this.setState({ issueDetails: this.buildIssueDetails() });
     }
   }
@@ -195,10 +182,10 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
       <div className={classes}>
         <div className={styles.mask} />
         <PopTab
-          header={i18n.t('issues.header', 'Flow Issues')}
+          header={`${i18n.t('issues.label', 'Flow Issues')} (${this.props.issues.length})`}
+          label={i18n.t('issues.header', 'Flow Issues')}
           color="tomato"
           icon="fe-warning"
-          label={i18n.t('issues.label', 'Flow Issues')}
           top="416px"
           visible={this.state.visible}
           onShow={this.handleTabClicked}

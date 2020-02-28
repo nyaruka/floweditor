@@ -449,5 +449,5 @@ export const showIntercomArticle = (tag: string) => {
     window.setTimeout(() => {
       Intercom('update', { article_preview: null });
     }, 1000);
-  }, 100);
+  }, 250);
 };

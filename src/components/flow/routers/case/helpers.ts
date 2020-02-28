@@ -6,7 +6,6 @@ import {
   MoreThan,
   Numeric,
   NumOrExp,
-  Regex,
   Required,
   validate,
   IsValidIntent
@@ -156,9 +155,6 @@ export const validateCase = (keys: {
       case Operators.has_date_lt:
       case Operators.has_date_gt:
         validators.push(Numeric);
-        break;
-      case Operators.has_pattern:
-        validators.push(Regex);
         break;
     }
 

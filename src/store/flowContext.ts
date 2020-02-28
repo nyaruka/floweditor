@@ -1,4 +1,11 @@
-import { FlowDefinition, FlowNode, UINode, FlowMetadata } from 'flowTypes';
+import {
+  FlowDefinition,
+  FlowNode,
+  UINode,
+  FlowMetadata,
+  FlowIssue,
+  FlowIssueType
+} from 'flowTypes';
 import { combineReducers, Action } from 'redux';
 import ActionTypes, {
   UpdateAssetsAction,
@@ -10,6 +17,17 @@ import ActionTypes, {
 } from 'store/actionTypes';
 import Constants from 'store/constants';
 import { Type } from 'config/interfaces';
+
+/**
+ * Some issues are ignored in the editor
+ */
+const filterIssues = (metadata: FlowMetadata) => {
+  if (metadata && metadata.issues) {
+    metadata.issues = metadata.issues.filter(
+      (issue: FlowIssue) => issue.type !== FlowIssueType.LEGACY_EXTRA
+    );
+  }
+};
 
 // tslint:disable:no-shadowed-variable
 export interface RenderNodeMap {
@@ -163,12 +181,15 @@ export const updateNodes = (nodes: RenderNodeMap): UpdateNodesAction => ({
   }
 });
 
-export const updateMetadata = (metadata: FlowMetadata): UpdateMetadataAction => ({
-  type: Constants.UPDATE_METADATA,
-  payload: {
-    metadata
-  }
-});
+export const updateMetadata = (metadata: FlowMetadata): UpdateMetadataAction => {
+  filterIssues(metadata);
+  return {
+    type: Constants.UPDATE_METADATA,
+    payload: {
+      metadata
+    }
+  };
+};
 
 export const updateBaseLanguage = (baseLanguage: Asset): UpdateBaseLanguageAction => ({
   type: Constants.UPDATE_BASE_LANGUAGE,
