@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'floweditor';
-  src: url('fonts/floweditor.ttf?tuvsr7') format('truetype'),
-    url('fonts/floweditor.woff?tuvsr7') format('woff'),
-    url('fonts/floweditor.svg?tuvsr7#floweditor') format('svg');
+  src: url('fonts/floweditor.ttf?agwjhc') format('truetype'),
+    url('fonts/floweditor.woff?agwjhc') format('woff'),
+    url('fonts/floweditor.svg?agwjhc#floweditor') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,20 +24,41 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fe-wondering:before {
+  content: '\e908';
+}
+.fe-facebook:before {
+  content: '\e904';
+}
+.fe-connection1:before {
+  content: '\e97c';
+}
+.fe-battery-4:before {
+  content: '\ee56';
+}
+.fe-add:before {
+  content: '\e901';
+}
+.fe-bubble-question:before {
+  content: '\e7da';
+}
+.fe-lifebuoy:before {
+  content: '\e7ed';
+}
+.fe-notification:before {
+  content: '\e954';
+}
+.fe-warning:before {
+  content: '\e955';
+}
+.fe-question-circle:before {
+  content: '\e957';
+}
 .fe-eye:before {
   content: '\e6a5';
 }
 .fe-eye-crossed:before {
   content: '\e6a6';
-}
-.fe-paste:before {
-  content: '\e6c8';
-}
-.fe-clipboard-empty:before {
-  content: '\e6c9';
-}
-.fe-clipboard-check:before {
-  content: '\e6cc';
 }
 .fe-home:before {
   content: '\e601';
@@ -398,18 +419,6 @@
 }
 .fe-ellipsis:before {
   content: '\e9e9';
-}
-.fe-facebook:before {
-  content: '\e904';
-}
-.fe-connection1:before {
-  content: '\e97c';
-}
-.fe-battery-4:before {
-  content: '\ee56';
-}
-.fe-add:before {
-  content: '\e901';
 }
 .fe-stop:before {
   content: '\e907';

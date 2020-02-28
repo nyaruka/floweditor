@@ -6,7 +6,6 @@ import { createUUID } from 'utils';
 import { Trans } from 'react-i18next';
 import shared from 'components/shared.module.scss';
 import { showIntercomArticle, isIntercomEnabled } from 'external';
-import i18next from 'i18next';
 
 export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
   if (!issues || issues.length === 0) {
@@ -14,23 +13,19 @@ export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
   }
 
   return (
-    <div className={shared.issues}>
-      <div className={`fe-warning ${shared.icon}`} />
-      <div className={shared.header}>
-        <div className={shared.title}>
-          {i18next.t('issues.header', 'Issues that need your attention')}
-        </div>
-        {isIntercomEnabled() ? (
-          <div className={shared.summary}>
-            {i18next.t('issues.help', 'If you need help resolving an issue, click it for help')}
-          </div>
-        ) : null}
-      </div>
+    <div style={{ padding: '10px 0px' }}>
       {issues.map((issue: FlowIssue, num: Number) => {
         const key = issue.node_uuid + issue.action_uuid + num;
         return (
-          <div className={shared.issue} key={key}>
-            {renderIssue(issue, true)}
+          <div
+            style={{ margin: '6px 0px', display: 'flex', fontSize: '14px', color: 'tomato' }}
+            key={key}
+          >
+            <div
+              style={{ marginRight: '8px', marginTop: '-2px', fontSize: '18px' }}
+              className={`fe-warning`}
+            />
+            <div>{renderIssue(issue, true)}</div>
           </div>
         );
       })}
