@@ -106,10 +106,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   public componentDidUpdate(prevProps: ExitProps): void {
-    if (
-      !this.props.exit.destination_uuid ||
-      this.props.exit.destination_uuid !== prevProps.exit.destination_uuid
-    ) {
+    if (this.props.exit.destination_uuid !== prevProps.exit.destination_uuid) {
       this.connect();
       if (this.state.confirmDelete) {
         this.setState({ confirmDelete: false });

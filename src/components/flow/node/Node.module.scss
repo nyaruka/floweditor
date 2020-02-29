@@ -19,10 +19,6 @@
   padding: $node_padding + px;
   z-index: $z_nodes;
   position: relative;
-  &:hover {
-    z-index: $z_nodes_hover;
-  }
-  // transition: top 200ms ease-out;
 
   .uuid {
     user-select: text;

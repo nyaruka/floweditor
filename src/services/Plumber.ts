@@ -28,11 +28,12 @@ export interface PendingConnections {
 
 export const REPAINT_DURATION = 600;
 export const TARGET_DEFAULTS = {
-  anchor: ['Continuous', { shape: 'Dot', faces: ['top', 'left', 'right'] }],
+  anchor: ['Continuous', { shape: 'Rectangle', faces: ['top', 'left', 'right'] }],
   endpoint: [
-    'Dot',
+    'Rectangle',
     {
-      radius: 13,
+      width: 23,
+      height: 23,
       cssClass: 'plumb-endpoint',
       hoverClass: 'plumb-endpoint-hover'
     }
@@ -94,7 +95,7 @@ export default class Plumber {
     this.jsPlumb = importDefaults({
       DragOptions: { cursor: 'pointer', zIndex: 1000 },
       DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
-      Endpoint: 'Blank',
+      Endpoint: 'Rectangle',
       EndpointStyle: { strokeStyle: 'transparent' },
       PaintStyle: { strokeWidth: 3.5 },
       ConnectionsDetachable: true,
@@ -365,16 +366,10 @@ export default class Plumber {
     });
   }
 
-  public recalculate(uuid?: string): void {
-    // window.setTimeout(() => {
-    this.jsPlumb.revalidate(uuid);
-    /*if (uuid) {
-            this.jsPlumb.recalculateOffsets(uuid);
-        } else {
-            this.jsPlumb.recalculateOffsets();
-        }
-        this.jsPlumb.repaint(uuid);*/
-    // }, 0);
+  public recalculate(uuid: string): void {
+    window.setTimeout(() => {
+      this.jsPlumb.revalidate(uuid);
+    }, 0);
   }
 
   public reset(): void {
