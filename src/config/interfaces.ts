@@ -97,6 +97,12 @@ export interface FlowTypeVisibility {
   filter?: FeatureFilter;
 }
 
+export enum PopTabType {
+  SIMULATOR = 'Simulator',
+  REVISION_HISTORY = 'Revision History',
+  ISSUES_TAB = 'Issues Tab'
+}
+
 export interface Type extends FlowTypeVisibility {
   type: Types;
   name: string;

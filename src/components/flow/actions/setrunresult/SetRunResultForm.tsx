@@ -160,7 +160,7 @@ export default class SetRunResultForm extends React.PureComponent<
             helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
           />
         </div>
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

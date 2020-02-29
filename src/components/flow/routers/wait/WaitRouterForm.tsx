@@ -63,7 +63,7 @@ export default class WaitRouterForm extends React.Component<RouterFormProps, Wai
         <div className={styles.result_name}>
           {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         </div>
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

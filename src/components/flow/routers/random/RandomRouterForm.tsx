@@ -141,7 +141,7 @@ export default class RandomRouterForm extends React.Component<
         </div>
         <div className={styles.bucket_list}>{this.renderBucketNames()}</div>
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

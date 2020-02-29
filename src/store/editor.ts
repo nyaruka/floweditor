@@ -55,6 +55,9 @@ export interface EditorState {
   dragSelection: DragSelection | null;
   debug?: DebugState | null;
 
+  // which poptab is popped
+  popped: string;
+
   warnings: Warnings;
 
   modalMessage?: ModalMessage;
@@ -116,6 +119,8 @@ export const initialState: EditorState = {
   ghostNode: null,
   debug: null,
   warnings: {},
+
+  popped: null,
 
   activity: { segments: {}, nodes: {} },
   liveActivity: { segments: {}, nodes: {} },

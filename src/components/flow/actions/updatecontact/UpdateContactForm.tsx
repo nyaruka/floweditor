@@ -261,7 +261,7 @@ export default class UpdateContactForm extends React.Component<
         />
 
         <div className={styles.value}>{this.getValueWidget()}</div>
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

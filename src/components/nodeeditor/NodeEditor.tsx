@@ -30,6 +30,7 @@ import {
   resetNodeEditingState
 } from 'store/thunks';
 import { CompletionSchema } from 'utils/completion';
+import { LocalizationFormProps } from 'components/flow/props';
 
 export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
 
@@ -38,6 +39,7 @@ export type UpdateLocalizations = (language: string, changes: LocalizationUpdate
 export interface NodeEditorPassedProps {
   plumberConnectExit: Function;
   plumberRepaintForDuration: Function;
+  helpArticles: { [key: string]: string };
 }
 
 export interface NodeEditorStoreProps {
@@ -72,6 +74,7 @@ export interface FormProps {
 
   assetStore: AssetStore;
   issues: FlowIssue[];
+  helpArticles: { [key: string]: string };
 
   nodeSettings?: NodeEditorSettings;
   typeConfig?: Type;
@@ -79,7 +82,7 @@ export interface FormProps {
   onClose?(canceled: boolean): void;
 }
 
-export interface LocalizationProps {
+/* export interface LocalizationProps {
   nodeSettings?: NodeEditorSettings;
   typeConfig?: Type;
   onClose?(canceled: boolean): void;
@@ -87,7 +90,7 @@ export interface LocalizationProps {
   issues: FlowIssue[];
   updateLocalizations: UpdateLocalizations;
   language: Asset;
-}
+}*/
 
 export class NodeEditor extends React.Component<NodeEditorProps> {
   constructor(props: NodeEditorProps) {
@@ -98,7 +101,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
     });
   }
 
-  private updateLocalizations(language: string, changes: LocalizationUpdates): void {
+  private updateLocalizations(language: string, changes: LocalizationUpdates) {
     this.props.onUpdateLocalizations(language, changes);
   }
 
@@ -146,12 +149,12 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         const { localization: LocalizationForm } = typeConfig;
 
         if (LocalizationForm) {
-          const localizationProps: LocalizationProps = {
+          const localizationProps: LocalizationFormProps = {
             updateLocalizations: this.updateLocalizations,
             nodeSettings: this.props.settings,
-            typeConfig: this.props.typeConfig,
             onClose: this.close,
             language: this.props.language,
+            helpArticles: this.props.helpArticles,
             issues: this.props.issues.filter(
               (issue: FlowIssue) => issue.language === this.props.language.id
             )
@@ -174,6 +177,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
         updateAction: this.updateAction,
         updateRouter: this.updateRouter,
         nodeSettings: this.props.settings,
+        helpArticles: this.props.helpArticles,
         issues: this.props.issues.filter((issue: FlowIssue) => !issue.language),
         typeConfig: this.props.typeConfig,
         onTypeChange: this.props.handleTypeConfigChange,

@@ -74,7 +74,7 @@ export default class DigitsRouterForm extends React.Component<
           onCasesUpdated={this.handleCasesUpdated}
         />
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

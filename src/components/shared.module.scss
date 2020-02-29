@@ -39,7 +39,7 @@
 .issue_help {
   cursor: pointer;
   &:hover {
-    color: $red + #111;
+    color: lighten($red, 3%);
     text-decoration: underline;
   }
 }
@@ -98,7 +98,7 @@
 
 .missing {
   $color_1: tomato;
-  $color_2: tomato + #111;
+  $color_2: lighten(tomato, 3%);
 
   background-image: repeating-linear-gradient(
     120deg,

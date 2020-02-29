@@ -52,6 +52,7 @@ Array [
 
 exports[`Flow render should render NodeEditor 1`] = `
 Object {
+  "helpArticles": Object {},
   "plumberConnectExit": [MockFunction],
   "plumberRepaintForDuration": [MockFunction],
 }
@@ -77,6 +78,8 @@ Object {
       },
     ],
   },
+  "onToggled": [Function],
+  "popped": undefined,
 }
 `;
 

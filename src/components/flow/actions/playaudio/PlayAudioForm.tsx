@@ -77,7 +77,7 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
             </Trans>
           }
         />
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

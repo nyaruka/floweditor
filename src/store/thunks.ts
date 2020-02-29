@@ -362,7 +362,7 @@ export const fetchFlow = (
       // backwards compatibitly for during deployment
       const details: FlowDetails = response.definition
         ? response
-        : { definition: response as FlowDefinition, metadata: { dependencies: [] } };
+        : { definition: response as FlowDefinition, metadata: { issues: [] } };
 
       dispatch(loadFlowDefinition(details, assetStore, onLoad));
       dispatch(
@@ -726,7 +726,7 @@ export const onUpdateAction = (
     dispatch(updateContactFields({ ...contactFields, [field.key]: field.name }));
   }
 
-  markDirty();
+  markDirty(0);
 
   timeEnd('onUpdateAction');
 
@@ -991,7 +991,7 @@ export const onUpdateRouter = (renderNode: RenderNode) => (
 
   dispatch(updateNodes(updated));
 
-  markDirty();
+  markDirty(0);
   return updated;
 };
 

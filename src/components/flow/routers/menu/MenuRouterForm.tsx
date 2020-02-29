@@ -100,7 +100,7 @@ export default class MenuRouterForm extends React.Component<RouterFormProps, Men
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.menu}>{this.renderMenu()}</div>
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

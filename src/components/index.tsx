@@ -36,6 +36,7 @@ import {
   HandleLanguageChange
 } from 'store/thunks';
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf } from 'utils';
+import { PopTabType } from 'config/interfaces';
 
 const { default: PageVisibility } = require('react-page-visibility');
 
@@ -64,6 +65,7 @@ export interface FlowEditorStoreProps {
   saving: boolean;
   scrollToNode: string;
   scrollToAction: string;
+  popped: string;
 }
 
 const hotStore = createStore();
@@ -204,6 +206,14 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }, 0);
   }
 
+  private handleTabPopped(visible: boolean, tab: PopTabType): void {
+    if (visible) {
+      this.props.mergeEditorState({ popped: tab });
+    } else {
+      this.props.mergeEditorState({ popped: null });
+    }
+  }
+
   public render(): JSX.Element {
     return (
       <PageVisibility onChange={this.handleVisibilityChanged}>
@@ -226,20 +236,22 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
             )}
 
             <RevisionExplorer
-              simulating={this.props.simulating}
               loadFlowDefinition={this.props.loadFlowDefinition}
               createNewRevision={this.props.createNewRevision}
               assetStore={this.props.assetStore}
+              onToggled={this.handleTabPopped}
+              popped={this.props.popped}
             />
 
             {renderIf(this.props.metadata.issues.length > 0)(
               <IssuesTab
-                simulating={this.props.simulating}
                 issues={this.props.metadata.issues}
                 onIssueClicked={this.handleScrollToIssue}
                 onIssueOpened={this.handleOpenIssue}
                 languages={this.props.languages ? this.props.languages.items : {}}
                 nodes={this.props.nodes}
+                onToggled={this.handleTabPopped}
+                popped={this.props.popped}
               />
             )}
           </div>
@@ -259,12 +271,14 @@ const mapStateToProps = ({
     modalMessage,
     saving,
     scrollToAction,
-    scrollToNode
+    scrollToNode,
+    popped
   }
 }: AppState) => {
   const languages = assetStore ? assetStore.languages : null;
 
   return {
+    popped,
     baseLanguage,
     modalMessage,
     saving,

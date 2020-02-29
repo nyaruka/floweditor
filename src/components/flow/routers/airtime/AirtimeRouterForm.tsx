@@ -156,7 +156,7 @@ export default class AirtimeRouterForm extends React.PureComponent<
         <div className={styles.result_name}>
           {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         </div>
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

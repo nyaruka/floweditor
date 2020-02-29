@@ -5,9 +5,11 @@ import { FormEntry, NodeEditorSettings, ValidationFailure } from 'store/nodeEdit
 import { createUUID } from 'utils';
 import { Trans } from 'react-i18next';
 import shared from 'components/shared.module.scss';
-import { showIntercomArticle, isIntercomEnabled } from 'external';
+import { showHelpArticle } from 'external';
+import { IssueProps } from '../props';
 
-export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
+export const renderIssues = (issueProps: IssueProps): JSX.Element => {
+  const { issues, helpArticles } = issueProps;
   if (!issues || issues.length === 0) {
     return null;
   }
@@ -25,7 +27,7 @@ export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
               style={{ marginRight: '8px', marginTop: '-2px', fontSize: '18px' }}
               className={`fe-warning`}
             />
-            <div>{renderIssue(issue, true)}</div>
+            <div>{renderIssue(issue, helpArticles)}</div>
           </div>
         );
       })}
@@ -33,7 +35,10 @@ export const renderIssues = (issues: FlowIssue[]): JSX.Element => {
   );
 };
 
-export const renderIssue = (issue: FlowIssue, showHelp: boolean = false): JSX.Element => {
+export const renderIssue = (
+  issue: FlowIssue,
+  helpArticles: { [key: string]: string } = {}
+): JSX.Element => {
   // worst case, defer to the default description
   let message: JSX.Element = <>{issue.description}</>;
 
@@ -65,12 +70,13 @@ export const renderIssue = (issue: FlowIssue, showHelp: boolean = false): JSX.El
     );
   }
 
-  if (showHelp && isIntercomEnabled()) {
+  const article = helpArticles[issue.type];
+  if (article) {
     return (
       <div
         className={shared.issue_help}
         onClick={() => {
-          showIntercomArticle(issue.type);
+          showHelpArticle(article);
         }}
       >
         {message}

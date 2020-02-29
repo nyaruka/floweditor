@@ -205,7 +205,7 @@ export default class ClassifyRouterForm extends React.Component<
         )}
 
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

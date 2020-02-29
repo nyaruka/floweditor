@@ -98,7 +98,7 @@ export default class SchemeRouterForm extends React.Component<
           multi={true}
         />
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

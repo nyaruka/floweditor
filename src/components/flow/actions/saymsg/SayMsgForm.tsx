@@ -97,7 +97,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
           endpoint={this.context.config.endpoints.attachments}
           onUploadChanged={this.handleUploadChanged}
         />
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

@@ -290,7 +290,7 @@ export default class MsgLocalizationForm extends React.Component<
         />
 
         {audioButton}
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

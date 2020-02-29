@@ -8,6 +8,7 @@ export const config: FlowEditorConfig = {
   flowType: FlowTypes.MESSAGE,
   mutable: true,
   filters: ['whatsapp', 'airtime', 'resthook', 'classifier'],
+  help: {},
   endpoints: {
     resthooks: '/assets/resthooks.json',
     flows: '/assets/flows.json',

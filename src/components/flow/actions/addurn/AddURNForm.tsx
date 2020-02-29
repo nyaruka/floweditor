@@ -95,7 +95,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
             autocomplete={true}
           />
         </div>
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }

@@ -90,7 +90,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
           onAssetCreated={this.handleGroupAdded}
         />
 
-        {renderIssues(this.props.issues)}
+        {renderIssues(this.props)}
       </Dialog>
     );
   }
