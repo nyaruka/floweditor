@@ -109,6 +109,7 @@
       }
 
       &.jtk-hover {
+        z-index: $z_connectors_hover;
         path {
           stroke: $connector_hover_color;
           &.jtk-arrow {
@@ -142,6 +143,12 @@
       z-index: $z_endpoints;
       width: 16px;
       height: 16px;
+      z-index: $z_plumb_sources;
+
+      // arrow endpoints
+      &.plumb-endpoint {
+        z-index: $z_plumb_arrows;
+      }
     }
 
     .plumb-exit .jtk-connected {
