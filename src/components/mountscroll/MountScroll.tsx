@@ -57,10 +57,8 @@ export default class MountScroll extends React.Component<MountScrollProps, Mount
       if (scrollTo !== window.scrollY) {
         const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 2;
         if (atBottom && scrollTo > window.scrollY) {
-          console.log('AtBottom', atBottom, scrollTo, window.scrollY);
           this.handleScrollCompleted();
         } else {
-          console.log('Scheduling scroll');
           window.setTimeout(() => {
             window.scrollTo({
               top: scrollTo,

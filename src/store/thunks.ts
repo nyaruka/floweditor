@@ -362,7 +362,7 @@ export const fetchFlow = (
       // backwards compatibitly for during deployment
       const details: FlowDetails = response.definition
         ? response
-        : { definition: response as FlowDefinition, metadata: { dependencies: [] } };
+        : { definition: response as FlowDefinition, metadata: { issues: [] } };
 
       dispatch(loadFlowDefinition(details, assetStore, onLoad));
       dispatch(
