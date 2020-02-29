@@ -1,19 +1,17 @@
-@import "mixins.module.scss";
+@import 'mixins.module.scss';
 
 .timeout_control_container {
-  display: inline-block;
+  display: flex;
   padding-left: 5px;
   padding-right: 20px;
   font-size: 13px;
-  // line-height: 45px;
   vertical-align: middle;
+  margin-top: 6px;
 }
 
 .left_section {
-  display: inline-block;
   font-size: 13px;
   vertical-align: middle;
-  line-height: 32px;
 }
 
 .label {
@@ -25,8 +23,8 @@
 }
 
 .drop_down {
-  display: inline-block;
   width: 160px;
   margin-left: 10px;
   vertical-align: middle;
+  margin-top: -4px;
 }
