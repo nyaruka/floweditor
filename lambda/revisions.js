@@ -40,12 +40,37 @@ exports.handler = (request, context, callback) => {
     const id = Object.keys(assetContent).length + 1;
     assetContent[id] = request.body;
 
+    const issues = [];
+    if (request.body.indexOf('missing_field') > 0) {
+      const definition = JSON.parse(request.body);
+      for (const node of definition.nodes) {
+        for (const action of node.actions) {
+          if (JSON.stringify(action).indexOf('missing_field') > -1) {
+            issues.push({
+              type: 'missing_dependency',
+              description: 'missing field dependency',
+              node_uuid: node.uuid,
+              action_uuid: action.uuid,
+              dependency: {
+                name: 'Missing Field',
+                key: 'missing_field',
+                type: 'field'
+              }
+            });
+          }
+        }
+      }
+    }
+
     const asset = {
       user: user,
       created_on: new Date(),
       id,
       version: '13.0.0',
-      revision: id
+      revision: id,
+      metadata: {
+        issues: issues
+      }
     };
     assetList.unshift(asset);
     respond(callback, asset);
