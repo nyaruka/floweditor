@@ -246,6 +246,10 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       });
     }
 
+    if (isDraggingBack(event)) {
+      this.props.mergeEditorState({ ghostNode: null });
+    }
+
     /* istanbul ignore next */
     document.removeEventListener('mousemove', (window as any).ghostListener);
 
