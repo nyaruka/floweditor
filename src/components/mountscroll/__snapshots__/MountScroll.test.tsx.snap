@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MountScroll renders 1`] = `
+<body>
+  <div>
+    <div
+      class="wrapper"
+    />
+  </div>
+</body>
+`;

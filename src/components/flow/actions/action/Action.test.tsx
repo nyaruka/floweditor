@@ -42,11 +42,14 @@ const getActionWrapperProps = (action: AnyAction, translateTo?: Asset): ActionWr
   }
 
   return {
+    scrollToAction: null,
+    issues: [],
     selected: false,
     localization,
     first: true,
     action: sendMsgAction,
     render: (action: AnyAction) => <ActionDiv {...action} languages={[English, Spanish]} />,
+    assetStore: {},
     renderNode: node,
     language,
     translating,
