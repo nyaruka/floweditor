@@ -29,7 +29,7 @@ const {
   flowContext: { definition }
 } = composeDuxState();
 
-const { renderNodeMap: initialNodes } = getFlowComponents(definition);
+const { renderNodeMap: initialNodes } = getFlowComponents(definition, {});
 
 const baseProps: FlowStoreProps = {
   editorState: {
@@ -39,7 +39,7 @@ const baseProps: FlowStoreProps = {
   definition,
   nodeEditorSettings: null,
   nodes: initialNodes,
-  dependencies: [],
+  metadata: null,
   updateConnection: jest.fn(),
   onOpenNodeEditor: jest.fn(),
   onRemoveNodes: jest.fn(),
