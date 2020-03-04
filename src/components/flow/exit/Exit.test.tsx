@@ -46,7 +46,8 @@ describe(ExitComp.name, () => {
   it('shows activity', () => {
     const { baseElement, getByText } = render(
       <>
-        <div id="overlay_id"></div>
+        <div id="activityId"></div>
+        <div id="recentMessagesId"></div>
         <ExitComp
           {...exitProps}
           recentMessages={[
@@ -68,7 +69,9 @@ describe(ExitComp.name, () => {
   it('shows recent messages on mouse over', () => {
     const { baseElement, getByText, queryAllByText } = render(
       <>
-        <div id="overlay_id"></div>
+        <div id="activityId"></div>
+        <div id="recentMessagesId"></div>
+
         <ExitComp
           {...exitProps}
           recentMessages={[
@@ -87,6 +90,8 @@ describe(ExitComp.name, () => {
     expect(queryAllByText('Recent Messages').length).toEqual(0);
 
     fireEvent.mouseEnter(activity);
+    jest.runAllTimers();
+
     expect(queryAllByText('Recent Messages').length).toEqual(1);
     getByText('Hi Mom!');
     getByText('Hi Dad!');
