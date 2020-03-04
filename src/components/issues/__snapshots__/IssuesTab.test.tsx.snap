@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IssuesTab renders 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="mask"
+      />
+      <div
+        class="pop_wrapper "
+        style="right: -400px; top: 416px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: tomato;"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-warning"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Issues
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: tomato; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: tomato;"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Flow Issues (0)
+            </div>
+          </div>
+          <div
+            class="issues_wrapper"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`IssuesTab renders missing dependencies 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="mask"
+      />
+      <div
+        class="pop_wrapper "
+        style="right: -400px; top: 416px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: tomato;"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-warning"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Issues
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: tomato; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: tomato;"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Flow Issues (3)
+            </div>
+          </div>
+          <div
+            class="issues_wrapper"
+          >
+            <div>
+              <div
+                class="details"
+              >
+                <div
+                  class="issues_code"
+                >
+                  <div
+                    class="message"
+                  >
+                    <div
+                      class="header"
+                    >
+                      Send Message
+                      :
+                    </div>
+                     
+                    Cannot find a group for 
+                    <span
+                      class="emphasize"
+                    >
+                      My Missing Group
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="details"
+              >
+                <div
+                  class="issues_code"
+                >
+                  <div
+                    class="message"
+                  >
+                    <div
+                      class="header"
+                    >
+                      Send Message
+                      :
+                    </div>
+                     
+                    Cannot find a field for 
+                    <span
+                      class="emphasize"
+                    >
+                      My Missing Field
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                class="details"
+              >
+                <div
+                  class="issues_code"
+                >
+                  <div
+                    class="message"
+                  >
+                    <div
+                      class="header"
+                    >
+                      Send Message
+                      :
+                    </div>
+                     
+                    Cannot find a flow for 
+                    <span
+                      class="emphasize"
+                    >
+                      My Missing Flow
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
