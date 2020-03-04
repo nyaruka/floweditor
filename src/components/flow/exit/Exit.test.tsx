@@ -22,21 +22,12 @@ const exitProps: ExitProps = {
   language: null,
   localization: null,
   segmentCount: 1000,
-  plumberConnectExit: (node: FlowNode, exit: Exit, onConnection: (connection: any) => void) => {
-    const connection: any = {
-      getOverlays: () => {
-        return {
-          activity: {
-            getElement: () => {
-              return {
-                id: 'overlay_id'
-              };
-            }
-          }
-        };
-      }
-    };
-    onConnection(connection);
+  plumberConnectExit: (
+    node: FlowNode,
+    exit: Exit,
+    onConnection: (activityId: string, recentMessagesId: string) => void
+  ) => {
+    onConnection('activityId', 'recentMessagesId');
   },
   plumberRemove: jest.fn(),
   plumberMakeSource: jest.fn(),
