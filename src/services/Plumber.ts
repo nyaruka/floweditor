@@ -1,6 +1,5 @@
 import { Exit, FlowNode } from 'flowTypes';
 import { GRID_SIZE } from 'utils';
-import { getLabel } from 'components';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
