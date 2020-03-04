@@ -112,8 +112,11 @@
         z-index: $z_connectors_hover;
         path {
           stroke: $connector_hover_color;
+          stroke-width: 4px;
+
           &.jtk-arrow {
             fill: $connector_hover_color;
+            stroke-width: 1px;
           }
         }
       }
@@ -139,25 +142,30 @@
       }
     }
 
+    // our activity lables
+    .jtk-overlay {
+      z-index: $z_connectors_hover + 1;
+    }
+
+    // source and target endpoints
     .jtk-endpoint {
-      z-index: $z_endpoints;
       width: 16px;
       height: 16px;
-      z-index: $z_plumb_sources;
 
-      // arrow endpoints
+      // target endpoint
       &.plumb-endpoint {
         z-index: $z_plumb_arrows;
+      }
+
+      // target hovered
+      &.plumb-endpoint-hover {
+        cursor: pointer;
       }
     }
 
     .plumb-exit .jtk-connected {
       background: $path_color !important;
       border-bottom: 1px solid $connector_color;
-    }
-
-    .plumb-endpoint-hover {
-      cursor: pointer;
     }
   }
 

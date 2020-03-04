@@ -23,6 +23,7 @@ export interface PendingConnections {
     className: string;
     slot: number;
     totalSlots: number;
+    onConnected: (connection: any) => void;
   };
 }
 
@@ -156,10 +157,16 @@ export default class Plumber {
     this.jsPlumb.makeTarget(uuid, TARGET_DEFAULTS);
   }
 
-  public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
+  public connectExit(
+    node: FlowNode,
+    exit: Exit,
+    onConnection: (connection: any) => void,
+    className: string = null
+  ): void {
     this.connect(
       `${node.uuid}:${exit.uuid}`,
       exit.destination_uuid,
+      onConnection,
       className,
       node.exits.findIndex((e: Exit) => e.uuid === exit.uuid),
       node.exits.length
@@ -262,26 +269,28 @@ export default class Plumber {
             // now make our new connection
             if (target != null) {
               // don't allow manual detachments if our connection is styled
-              if (className) {
-                this.jsPlumb.connect({
-                  source,
-                  target,
-                  anchors,
-                  fireEvent: false,
-                  cssClass: className,
-                  detachable: false,
-                  connector
-                });
-              } else {
-                this.jsPlumb.connect({
-                  source,
-                  target,
-                  anchors,
-                  fireEvent: false,
-                  cssClass: className,
-                  connector
-                });
-              }
+
+              const plumbConnect = this.jsPlumb.connect({
+                source,
+                target,
+                anchors,
+                fireEvent: false,
+                cssClass: className,
+                detachable: !className,
+                overlays: [
+                  [
+                    'Label',
+                    {
+                      label: '',
+                      location: 12,
+                      id: 'activity'
+                    }
+                  ]
+                ],
+                connector
+              });
+
+              connection.onConnected(plumbConnect);
             }
           }
 
@@ -315,6 +324,7 @@ export default class Plumber {
   public connect(
     source: string,
     target: string,
+    onConnected: (connection: any) => void,
     className: string = null,
     slot: number = 0,
     totalSlots: number = 0
@@ -324,7 +334,8 @@ export default class Plumber {
       target,
       className,
       slot,
-      totalSlots
+      totalSlots,
+      onConnected
     };
     this.checkForPendingConnections();
   }

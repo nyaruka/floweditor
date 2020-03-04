@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExitComp renders 1`] = `
+<body>
+  <div>
+    <div
+      class="exit plumb-exit"
+    >
+      <div
+        class="name"
+      >
+        Red
+      </div>
+      <div
+        class="endpoint  jtk-connected"
+        id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ExitComp shows activity 1`] = `
+Object {
+  Symbol(SameObject caches): Object {
+    "attributes": NamedNodeMap {},
+    "childNodes": NodeList [
+      <div>
+        <div
+          id="overlay_id"
+        >
+          <div />
+          <div>
+            <div
+              style="position: relative;"
+            >
+              <div
+                class="counter activity  visible"
+                data-spec="counter-outter"
+              >
+                <div
+                  class="count"
+                  data-spec="counter-inner"
+                >
+                  1,000
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="exit plumb-exit"
+        >
+          <div
+            class="name"
+          >
+            Red
+          </div>
+          <div
+            class="endpoint  jtk-connected"
+            id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+          />
+        </div>
+      </div>,
+    ],
+  },
+}
+`;
+
+exports[`ExitComp shows localization 1`] = `
+<body>
+  <div>
+    <div
+      class="exit plumb-exit translating"
+    >
+      <div
+        class="name"
+      >
+        Hola!
+      </div>
+      <div
+        class="endpoint  jtk-connected"
+        id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ExitComp shows missing localization 1`] = `
+<body>
+  <div>
+    <div
+      class="exit plumb-exit translating missing_localization"
+    >
+      <div
+        class="name"
+      >
+        Red
+      </div>
+      <div
+        class="endpoint  jtk-connected"
+        id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+      />
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ExitComp shows recent messages on mouse over 1`] = `
+<body>
+  <div>
+    <div
+      id="overlay_id"
+    >
+      <div>
+        <div
+          style="position: relative;"
+        >
+          <div
+            class="counter activity  visible"
+            data-spec="counter-outter"
+          >
+            <div
+              class="count"
+              data-spec="counter-inner"
+            >
+              1,000
+            </div>
+          </div>
+          <div
+            class="recent_messages"
+            style="left: 0px;"
+          >
+            <div
+              class="title"
+            >
+              Recent Messages
+            </div>
+            <div
+              class="message"
+            >
+              <div
+                class="text"
+              >
+                Hi Mom!
+              </div>
+              <div
+                class="sent"
+              >
+                a few seconds ago
+              </div>
+            </div>
+            <div
+              class="message"
+            >
+              <div
+                class="text"
+              >
+                Hi Dad!
+              </div>
+              <div
+                class="sent"
+              >
+                a few seconds ago
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="exit plumb-exit"
+    >
+      <div
+        class="name"
+      >
+        Red
+      </div>
+      <div
+        class="endpoint  jtk-connected"
+        id="763e4844-3e1b-407a-a1b5-5fdfcd308b41:b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+      />
+    </div>
+  </div>
+</body>
+`;

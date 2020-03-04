@@ -29,7 +29,7 @@ const {
   flowContext: { definition }
 } = composeDuxState();
 
-const { renderNodeMap: initialNodes } = getFlowComponents(definition);
+const { renderNodeMap: initialNodes } = getFlowComponents(definition, {});
 
 const baseProps: FlowStoreProps = {
   editorState: {
@@ -39,7 +39,7 @@ const baseProps: FlowStoreProps = {
   definition,
   nodeEditorSettings: null,
   nodes: initialNodes,
-  dependencies: [],
+  metadata: null,
   updateConnection: jest.fn(),
   onOpenNodeEditor: jest.fn(),
   onRemoveNodes: jest.fn(),
@@ -273,12 +273,7 @@ describe(Flow.name, () => {
           props.editorState.ghostNode.node.uuid
         );
         expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
-
-        const dragPoint = getDraggedFrom(props.editorState.ghostNode);
-        expect(instance.Plumber.connect).toHaveBeenCalledWith(
-          `${dragPoint.nodeUUID}:${dragPoint.exitUUID}`,
-          props.editorState.ghostNode.node.uuid
-        );
+        expect(instance.Plumber.connect).toMatchCallSnapshot();
 
         expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
         expect(props.onOpenNodeEditor).toMatchCallSnapshot();

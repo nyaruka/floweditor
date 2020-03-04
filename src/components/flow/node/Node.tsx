@@ -46,7 +46,7 @@ export interface NodePassedProps {
   plumberRecalculate: (id: string) => void;
   plumberMakeSource: (id: string) => void;
   plumberRemove: (id: string) => void;
-  plumberConnectExit: (node: FlowNode, exit: Exit) => void;
+  plumberConnectExit: (node: FlowNode, exit: Exit, onConnection: (connection: any) => void) => void;
   plumberUpdateClass: (
     node: FlowNode,
     exit: Exit,

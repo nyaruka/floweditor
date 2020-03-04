@@ -11,6 +11,14 @@ Object {
 
 exports[`Flow instance methods onConnectorDrop should do NodeEditor work if the user is not dragging back 1`] = `
 Array [
+  "46e8d603-8e5d-4435-97dd-1333291aafca:8653ac06-00ba-4890-a79f-d30f3a55193b",
+  "dbb8e943-0501-4405-aeaa-627414f976e1",
+  [Function],
+]
+`;
+
+exports[`Flow instance methods onConnectorDrop should do NodeEditor work if the user is not dragging back 2`] = `
+Array [
   Object {
     "originalAction": Object {
       "text": "",

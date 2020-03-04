@@ -18,6 +18,7 @@ import { createClickHandler, getLocalization, renderIf } from 'utils';
 
 import * as moment from 'moment';
 import styles from './Exit.module.scss';
+import { Portal } from 'components/Portal';
 
 export interface RenderCategory extends Category {
   missing: boolean;
@@ -30,7 +31,7 @@ export interface ExitPassedProps {
   showDragHelper: boolean;
   plumberMakeSource: (id: string) => void;
   plumberRemove: (id: string) => void;
-  plumberConnectExit: (node: FlowNode, exit: Exit) => void;
+  plumberConnectExit: (node: FlowNode, exit: Exit, onConnection: (connection: any) => void) => void;
   plumberUpdateClass: (
     node: FlowNode,
     exit: Exit,
@@ -56,15 +57,16 @@ export interface ExitState {
   recentMessages: RecentMessage[];
   fetchingRecentMessages: boolean;
   showDragHelper: boolean;
+  activityId: string;
 }
 
 const cx: any = classNames.bind(styles);
-
 export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   private timeout: number;
   private hideDragHelper: number;
   private pendingMessageFetch: Cancel = {};
   private ele: HTMLDivElement;
+  private segmentElement: HTMLDivElement = null;
 
   constructor(props: ExitProps) {
     super(props);
@@ -73,7 +75,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       confirmDelete: false,
       recentMessages: null,
       fetchingRecentMessages: false,
-      showDragHelper: props.showDragHelper
+      showDragHelper: props.showDragHelper,
+      activityId: null
     };
 
     bindCallbacks(this, {
@@ -187,7 +190,10 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private connect(): void {
-    this.props.plumberConnectExit(this.props.node, this.props.exit);
+    this.props.plumberConnectExit(this.props.node, this.props.exit, connection => {
+      const activityId = connection.getOverlays()['activity'].getElement().id;
+      this.setState({ activityId });
+    });
   }
 
   private handleShowRecentMessages(): void {
@@ -222,21 +228,26 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
   private getSegmentCount(): JSX.Element {
     // Only exits with a destination have activity
-    if (this.props.exit.destination_uuid) {
-      const key = `count:${this.props.exit.uuid}:${this.props.exit.destination_uuid}`;
+    if (this.props.exit.destination_uuid && this.state.activityId) {
+      const key = `${this.props.exit.uuid}-label`;
       return (
-        <div style={{ position: 'relative' }}>
-          <Counter
-            key={key}
-            count={this.props.segmentCount}
-            containerStyle={styles.activity}
-            countStyle={styles.count}
-            keepVisible={false}
-            onMouseEnter={this.handleShowRecentMessages}
-            onMouseLeave={this.handleHideRecentMessages}
-          />
-          {this.getRecentMessages()}
-        </div>
+        <Portal id={this.state.activityId}>
+          <div
+            style={{ position: 'relative' }}
+            ref={(ref: HTMLDivElement) => (this.segmentElement = ref)}
+          >
+            <Counter
+              key={key}
+              count={this.props.segmentCount}
+              containerStyle={styles.activity}
+              countStyle={styles.count}
+              keepVisible={false}
+              onMouseEnter={this.handleShowRecentMessages}
+              onMouseLeave={this.handleHideRecentMessages}
+            />
+            {this.getRecentMessages()}
+          </div>
+        </Portal>
       );
     }
     return null;
@@ -288,8 +299,16 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         recentStyles.push(styles.no_recents);
       }
 
+      let position = {};
+      if (this.segmentElement) {
+        const rect = this.segmentElement.getBoundingClientRect();
+        position = {
+          left: rect.width / 2
+        };
+      }
+
       return (
-        <div className={recentStyles.join(' ')}>
+        <div className={recentStyles.join(' ')} style={position}>
           <div className={styles.title}>{title}</div>
           {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
             <div key={'recent_' + idx} className={styles.message}>

@@ -64,6 +64,9 @@ exports[`Root render should apply translating style if passed a truthy translati
         loadFlowDefinition={[MockFunction]}
         onToggled={[Function]}
       />
+      <div
+        id="portal-root"
+      />
     </div>
   </div>
 </PageVisibility>
@@ -102,6 +105,9 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
         loadFlowDefinition={[MockFunction]}
         onToggled={[Function]}
       />
+      <div
+        id="portal-root"
+      />
     </div>
   </div>
 </PageVisibility>
@@ -138,6 +144,9 @@ exports[`Root render should render self, children with required props 1`] = `
         createNewRevision={[MockFunction]}
         loadFlowDefinition={[MockFunction]}
         onToggled={[Function]}
+      />
+      <div
+        id="portal-root"
       />
     </div>
   </div>
