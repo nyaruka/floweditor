@@ -70,6 +70,10 @@ export interface FlowEditorStoreProps {
 
 const hotStore = createStore();
 
+export const getLabel = (): JSX.Element => {
+  return <div>testing</div>;
+};
+
 // Root container, wires up context-providers
 export const FlowEditorContainer: React.SFC<FlowEditorContainerProps> = ({ config }) => {
   return (
@@ -254,6 +258,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                 popped={this.props.popped}
               />
             )}
+            <div id="portal-root" />
           </div>
         </div>
       </PageVisibility>

@@ -227,7 +227,11 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       this.Plumber.recalculate(ghostNode.node.uuid);
 
       const dragPoint = getDraggedFrom(ghostNode);
-      this.Plumber.connect(dragPoint.nodeUUID + ':' + dragPoint.exitUUID, ghostNode.node.uuid);
+      this.Plumber.connect(
+        dragPoint.nodeUUID + ':' + dragPoint.exitUUID,
+        ghostNode.node.uuid,
+        connection => {}
+      );
 
       // Save our position for later
       const { left, top } = (this.ghost &&
