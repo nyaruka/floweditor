@@ -273,12 +273,7 @@ describe(Flow.name, () => {
           props.editorState.ghostNode.node.uuid
         );
         expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
-
-        const dragPoint = getDraggedFrom(props.editorState.ghostNode);
-        expect(instance.Plumber.connect).toHaveBeenCalledWith(
-          `${dragPoint.nodeUUID}:${dragPoint.exitUUID}`,
-          props.editorState.ghostNode.node.uuid
-        );
+        expect(instance.Plumber.connect).toMatchCallSnapshot();
 
         expect(props.onOpenNodeEditor).toHaveBeenCalledTimes(1);
         expect(props.onOpenNodeEditor).toMatchCallSnapshot();

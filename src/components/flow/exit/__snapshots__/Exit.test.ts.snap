@@ -15,23 +15,6 @@ exports[`ExitComp should render 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <div
-    style={
-      Object {
-        "position": "relative",
-      }
-    }
-  >
-    <Counter
-      containerStyle="activity"
-      count={1000}
-      countStyle="count"
-      keepVisible={false}
-      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-    />
-  </div>
 </div>
 `;
 
@@ -50,23 +33,6 @@ exports[`ExitComp shows localization 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <div
-    style={
-      Object {
-        "position": "relative",
-      }
-    }
-  >
-    <Counter
-      containerStyle="activity"
-      count={1000}
-      countStyle="count"
-      keepVisible={false}
-      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-    />
-  </div>
 </div>
 `;
 
@@ -85,23 +51,6 @@ exports[`ExitComp shows missing localization 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <div
-    style={
-      Object {
-        "position": "relative",
-      }
-    }
-  >
-    <Counter
-      containerStyle="activity"
-      count={1000}
-      countStyle="count"
-      keepVisible={false}
-      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-    />
-  </div>
 </div>
 `;
 
@@ -120,61 +69,5 @@ exports[`ExitComp shows recent messages 1`] = `
     onMouseDown={[Function]}
     onMouseUp={[Function]}
   />
-  <div
-    style={
-      Object {
-        "position": "relative",
-      }
-    }
-  >
-    <Counter
-      containerStyle="activity"
-      count={1000}
-      countStyle="count"
-      keepVisible={false}
-      key="count:b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
-    />
-    <div
-      className="recent_messages"
-    >
-      <div
-        className="title"
-      >
-        Recent Messages
-      </div>
-      <div
-        className="message"
-        key="recent_0"
-      >
-        <div
-          className="text"
-        >
-          Hi Mom!
-        </div>
-        <div
-          className="sent"
-        >
-          a few seconds ago
-        </div>
-      </div>
-      <div
-        className="message"
-        key="recent_1"
-      >
-        <div
-          className="text"
-        >
-          Hi Dad!
-        </div>
-        <div
-          className="sent"
-        >
-          a few seconds ago
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 `;
