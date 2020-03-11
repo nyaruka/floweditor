@@ -1,4 +1,4 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .link {
   text-decoration: underline;
@@ -11,14 +11,12 @@
 }
 
 .method {
-  width: 15%;
-  float: left;
   margin-right: 10px;
+  min-width: 110px;
 }
 
 .url {
-  width: 512px;
-  display: inline-block;
+  flex-grow: 1;
   input {
     height: 36px;
     border-color: #ccc;
@@ -32,7 +30,7 @@
   -moz-border-radius: 4px;
   border-radius: 4px;
   font-size: 12px;
-  font-family: "Roboto Mono", monospace;
+  font-family: 'Roboto Mono', monospace;
   font-weight: 300;
 }
 
@@ -59,7 +57,7 @@
 .example {
   unicode-bidi: embed;
   font-size: 12px;
-  font-family: "Roboto Mono", monospace;
+  font-family: 'Roboto Mono', monospace;
   font-weight: 300;
   white-space: pre;
   padding: 4px;
@@ -106,7 +104,7 @@
       padding: 5px 5px;
       unicode-bidi: embed;
       font-size: 12px !important;
-      font-family: "Roboto Mono", monospace;
+      font-family: 'Roboto Mono', monospace;
       font-weight: 300;
       white-space: pre;
       min-height: 200px;

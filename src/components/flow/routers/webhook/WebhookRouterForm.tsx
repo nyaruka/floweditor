@@ -303,23 +303,25 @@ export default class WebhookRouterForm extends React.Component<
         tabs={tabs}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <div className={styles.method}>
-          <SelectElement
-            styles={large as any}
-            name="MethodMap"
-            entry={this.state.method}
-            onChange={this.handleMethodUpdate}
-            options={METHOD_OPTIONS}
-          />
-        </div>
-        <div className={styles.url}>
-          <TextInputElement
-            name="URL"
-            placeholder={i18n.t('forms.call_webhook.url_placeholder', 'Enter a URL')}
-            entry={this.state.url}
-            onChange={this.handleUrlUpdate}
-            autocomplete={true}
-          />
+        <div style={{ display: 'flex' }}>
+          <div className={styles.method}>
+            <SelectElement
+              styles={large as any}
+              name="MethodMap"
+              entry={this.state.method}
+              onChange={this.handleMethodUpdate}
+              options={METHOD_OPTIONS}
+            />
+          </div>
+          <div className={styles.url}>
+            <TextInputElement
+              name="URL"
+              placeholder={i18n.t('forms.call_webhook.url_placeholder', 'Enter a URL')}
+              entry={this.state.url}
+              onChange={this.handleUrlUpdate}
+              autocomplete={true}
+            />
+          </div>
         </div>
         <div className={styles.instructions}>
           <p>
