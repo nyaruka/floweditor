@@ -169,6 +169,10 @@ exports[`WebhookRouterForm should render 1`] = `
             "label": "PUT",
             "value": "PUT",
           },
+          Object {
+            "label": "DELETE",
+            "value": "DELETE",
+          },
         ]
       }
       styles={
@@ -541,6 +545,11 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
                 value="PUT"
               >
                 PUT
+              </option>
+              <option
+                value="DELETE"
+              >
+                DELETE
               </option>
             </select>
           </div>
