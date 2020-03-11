@@ -473,6 +473,28 @@ export const completion = {
       help: 'the trigger that started this session',
       type: 'trigger'
     }
+  ],
+  root_no_session: [
+    {
+      key: 'contact',
+      help: 'the contact',
+      type: 'contact'
+    },
+    {
+      key: 'fields',
+      help: 'the custom field values of the contact',
+      type: 'fields'
+    },
+    {
+      key: 'urns',
+      help: 'the URN values of the contact',
+      type: 'urns'
+    },
+    {
+      key: 'globals',
+      help: 'the global values',
+      type: 'globals'
+    }
   ]
 };
 const { getOpts } = require('./utils');
