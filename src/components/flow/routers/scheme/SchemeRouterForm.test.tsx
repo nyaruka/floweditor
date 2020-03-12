@@ -35,7 +35,7 @@ describe(SchemeRouterForm.name, () => {
       (option: SelectOption) => (option.value = 'whatsapp')
     );
 
-    fireEvent.change(getAllByTestId('select')[1], { target });
+    fireEvent.change(getAllByTestId('select')[0], { target });
     fireEvent.click(getByText('Ok'));
 
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);

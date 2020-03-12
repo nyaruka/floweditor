@@ -2,7 +2,7 @@ import { RouterFormProps } from 'components/flow/props';
 import { getTypeConfig } from 'config';
 import { Types } from 'config/interfaces';
 import * as React from 'react';
-import { fireEvent, render } from 'test/utils';
+import { fireEvent, render, fireTembaSelect } from 'test/utils';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import {
   createRandomNode,
@@ -36,7 +36,9 @@ describe(RandomRouterForm.name, () => {
       assetStore: null,
       updateRouter: jest.fn(),
       onTypeChange: jest.fn(),
-      onClose: jest.fn()
+      onClose: jest.fn(),
+      issues: [],
+      helpArticles: {}
     };
 
     const { baseElement } = render(<RandomRouterForm {...props} />);
@@ -52,18 +54,18 @@ describe(RandomRouterForm.name, () => {
       assetStore: null,
       updateRouter: jest.fn(),
       onTypeChange: jest.fn(),
-      onClose: jest.fn()
+      onClose: jest.fn(),
+      helpArticles: {},
+      issues: []
     };
 
-    const { baseElement, getAllByTestId, getByDisplayValue, getByText } = render(
-      <RandomRouterForm {...props} />
-    );
+    const { baseElement, getAllByTestId, getByText } = render(<RandomRouterForm {...props} />);
 
     // we start off with five input boxes for our buckets
     expect(getAllByTestId('input').length).toEqual(5);
 
-    // the second select box is our bucket, choose 3 buckets
-    fireEvent.change(getAllByTestId('select')[1], {
+    // the select box is our bucket, choose 3 buckets
+    fireEvent.change(getAllByTestId('select')[0], {
       target: { value: 3 }
     });
 

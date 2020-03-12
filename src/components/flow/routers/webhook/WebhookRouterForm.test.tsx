@@ -45,7 +45,7 @@ describe(WebhookRouterForm.name, () => {
 
       // make it a post
       const selects = getAllByTestId('select');
-      fireEvent.change(selects[1], {
+      fireEvent.change(selects[0], {
         target: { value: 'POST' }
       });
 

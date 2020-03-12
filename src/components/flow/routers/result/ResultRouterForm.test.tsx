@@ -88,11 +88,11 @@ describe(ResultRouterForm.name, () => {
     const { getByText, getAllByTestId } = render(<ResultRouterForm {...props} />);
 
     const selects = getAllByTestId('select');
-    fireEvent.change(selects[1], {
+    fireEvent.change(selects[0], {
       target: { value: 0 }
     });
 
-    fireEvent.change(selects[2], {
+    fireEvent.change(selects[1], {
       target: { value: '+' }
     });
 

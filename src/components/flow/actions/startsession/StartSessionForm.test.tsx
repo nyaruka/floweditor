@@ -30,11 +30,11 @@ describe(StartSessionForm.name, () => {
 
     it('should render create new contacts', () => {
       const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, queryByTestId, getAllByTestId, getByTestId } = render(
+      const { baseElement, queryByTestId, getAllByTestId } = render(
         <StartSessionForm {...props} />
       );
 
-      fireEvent.change(getAllByTestId('select')[1], {
+      fireEvent.change(getAllByTestId('select')[0], {
         target: START_TYPE_CREATE
       });
 
@@ -44,11 +44,11 @@ describe(StartSessionForm.name, () => {
 
     it('should render contact query', () => {
       const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, queryByTestId, getAllByTestId, getByTestId, getByText } = render(
+      const { baseElement, getAllByTestId, getByTestId, getByText } = render(
         <StartSessionForm {...props} />
       );
 
-      fireEvent.change(getAllByTestId('select')[1], {
+      fireEvent.change(getAllByTestId('select')[0], {
         target: START_TYPE_QUERY
       });
 
@@ -62,11 +62,9 @@ describe(StartSessionForm.name, () => {
 
     it('should warn about invalid fields in contact queries', () => {
       const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, getAllByTestId, getByTestId, getByText } = render(
-        <StartSessionForm {...props} />
-      );
+      const { baseElement, getAllByTestId, getByTestId } = render(<StartSessionForm {...props} />);
 
-      fireEvent.change(getAllByTestId('select')[1], {
+      fireEvent.change(getAllByTestId('select')[0], {
         target: START_TYPE_QUERY
       });
 
