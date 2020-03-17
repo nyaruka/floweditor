@@ -39,7 +39,6 @@ import {
   UpdateSticky
 } from 'store/thunks';
 import {
-  ACTIVITY_INTERVAL,
   createUUID,
   isRealValue,
   NODE_PADDING,
@@ -189,15 +188,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 
   public componentWillUnmount(): void {
     this.Plumber.reset();
-  }
-
-  public UNSAFE_componentWillUpdate(prevProps: FlowStoreProps): void {
-    if (
-      prevProps.editorState.activityInterval === this.props.editorState.activityInterval &&
-      this.props.editorState.activityInterval !== ACTIVITY_INTERVAL
-    ) {
-      this.props.mergeEditorState({ activityInterval: ACTIVITY_INTERVAL });
-    }
   }
 
   /**

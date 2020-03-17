@@ -62,8 +62,9 @@ import {
   updateUserAddingAction
 } from 'store/nodeEditor';
 import AppState from 'store/state';
-import { createUUID, hasString, NODE_SPACING, timeEnd, timeStart } from 'utils';
+import { createUUID, hasString, NODE_SPACING, timeEnd, timeStart, ACTIVITY_INTERVAL } from 'utils';
 import { AxiosError } from 'axios';
+import i18n from 'config/i18n';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -160,18 +161,48 @@ export interface ErrorMessage {
 
 export type LocalizationUpdates = Array<{ uuid: string; translations?: any }>;
 const QUIET_SAVE = 1000;
+const SAVE_ALERT_MILLIS = 1000 * 60;
 
 let markDirty: (quiet?: number) => void = () => {};
-let lastDirtyAttempt: any = null;
+let lastDirtyAttemptTimeout: any = null;
 let postingRevision = false;
+
+let lastDirtyMillis: number = 0;
+let lastSuccessfulMillis: number = 0;
+
+const NETWORK_ERROR = i18n.t(
+  'errors.network',
+  'Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again.'
+);
+
+export const createSaveMonitor = (dispatch: DispatchWithState) => {
+  window.setInterval(() => {
+    if (
+      lastSuccessfulMillis < lastDirtyMillis &&
+      new Date().getTime() - lastDirtyMillis > SAVE_ALERT_MILLIS
+    ) {
+      dispatch(
+        mergeEditorState({
+          modalMessage: {
+            title: "Uh oh, we couldn't save your changes",
+            body: NETWORK_ERROR
+          },
+          saving: false
+        })
+      );
+    }
+  }, 5000);
+};
 
 export const createDirty = (
   revisionsEndpoint: string,
   dispatch: DispatchWithState,
   getState: GetState
 ) => (quiet: number = QUIET_SAVE) => {
-  if (lastDirtyAttempt) {
-    window.clearTimeout(lastDirtyAttempt);
+  lastDirtyMillis = new Date().getTime();
+
+  if (lastDirtyAttemptTimeout) {
+    window.clearTimeout(lastDirtyAttemptTimeout);
   }
 
   const {
@@ -186,13 +217,13 @@ export const createDirty = (
   newDefinition.revision = currentRevision;
 
   if (postingRevision) {
-    lastDirtyAttempt = window.setTimeout(() => {
+    lastDirtyAttemptTimeout = window.setTimeout(() => {
       markDirty();
     }, QUIET_SAVE);
     return;
   }
 
-  lastDirtyAttempt = window.setTimeout(() => {
+  lastDirtyAttemptTimeout = window.setTimeout(() => {
     postingRevision = true;
     saveRevision(revisionsEndpoint, newDefinition).then(
       (result: SaveResult) => {
@@ -209,22 +240,20 @@ export const createDirty = (
         dispatch(
           mergeEditorState({
             currentRevision: revision.revision,
-            saving: false
+            saving: false,
+            activityInterval: ACTIVITY_INTERVAL
           })
         );
+
+        lastSuccessfulMillis = new Date().getTime();
         postingRevision = false;
       },
       (error: AxiosError) => {
-        const errorMessage = error.response.data as ErrorMessage;
+        const errorMessage = error.response
+          ? (error.response.data as ErrorMessage).description
+          : NETWORK_ERROR;
 
-        const body =
-          (errorMessage && errorMessage.description) ||
-          'Hmm, we ran into a problem trying to save your changes. ' +
-            'It could just be that your internet connection is not working ' +
-            'well at the moment. Perhaps wait a minute or so and try again. It may also ' +
-            "be that we encountered a problem we didn't anticipate. " +
-            "If your connection is good and you still can't save your " +
-            'changes, please contact support so we can help you out.';
+        const body = errorMessage;
         dispatch(
           mergeEditorState({
             modalMessage: {
@@ -377,6 +406,8 @@ export const fetchFlow = (
       if (forceSave) {
         markDirty(0);
       }
+
+      createSaveMonitor(dispatch);
     })
     .catch(error => {
       // not much we can do without our flow definition

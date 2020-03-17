@@ -156,7 +156,8 @@
   "enter_to_create_label": "Enter the name of an existing label or create a new one",
   "errors": {
     "group_not_found": "Enter the name of an existing group",
-    "http_header_missing_name": "HTTP headers must have a name"
+    "http_header_missing_name": "HTTP headers must have a name",
+    "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."
   },
   "forms": {
     "add_groups": {
@@ -237,8 +238,13 @@
     "type_label": "When a contact arrives at this point in your flow..."
   },
   "groups": "Groups",
+  "issue": {
+    "legacy_extra": "Invalid regular expression found: [[regex]]"
+  },
   "issues": {
-    "named": "Cannot find a [[type]] for <1>[[name]]</1>"
+    "header": "Flow Issues",
+    "label": "Flow Issues",
+    "missing_dependency": "Cannot find a [[type]] for <1>[[name]]</1>"
   },
   "message": "Message",
   "operator": {
