@@ -94,4 +94,4 @@ To publish, simply invoke the desired semver -- patch, minor or major. This will
 
 ### Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/nyaruka/floweditor/blob/master/CONTRIBUTING.md) for details on this project's code of conduct, and the process for submitting pull requests to this repo.
+We encourage you to open issues on this project with any bugs you encounter or to make feature requests.

@@ -31,7 +31,11 @@ export interface ExitPassedProps {
   showDragHelper: boolean;
   plumberMakeSource: (id: string) => void;
   plumberRemove: (id: string) => void;
-  plumberConnectExit: (node: FlowNode, exit: Exit, onConnection: (connection: any) => void) => void;
+  plumberConnectExit: (
+    node: FlowNode,
+    exit: Exit,
+    onConnection: (activityId: string, recentMessagesId: string) => void
+  ) => void;
   plumberUpdateClass: (
     node: FlowNode,
     exit: Exit,
@@ -58,6 +62,7 @@ export interface ExitState {
   fetchingRecentMessages: boolean;
   showDragHelper: boolean;
   activityId: string;
+  recentMessagesId: string;
 }
 
 const cx: any = classNames.bind(styles);
@@ -66,7 +71,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   private hideDragHelper: number;
   private pendingMessageFetch: Cancel = {};
   private ele: HTMLDivElement;
-  private segmentElement: HTMLDivElement = null;
 
   constructor(props: ExitProps) {
     super(props);
@@ -76,7 +80,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       recentMessages: null,
       fetchingRecentMessages: false,
       showDragHelper: props.showDragHelper,
-      activityId: null
+      activityId: null,
+      recentMessagesId: null
     };
 
     bindCallbacks(this, {
@@ -190,10 +195,13 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private connect(): void {
-    this.props.plumberConnectExit(this.props.node, this.props.exit, connection => {
-      const activityId = connection.getOverlays()['activity'].getElement().id;
-      this.setState({ activityId });
-    });
+    this.props.plumberConnectExit(
+      this.props.node,
+      this.props.exit,
+      (activityId: string, recentMessagesId: string) => {
+        this.setState({ activityId, recentMessagesId });
+      }
+    );
   }
 
   private handleShowRecentMessages(): void {
@@ -232,10 +240,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       const key = `${this.props.exit.uuid}-label`;
       return (
         <Portal id={this.state.activityId}>
-          <div
-            style={{ position: 'relative' }}
-            ref={(ref: HTMLDivElement) => (this.segmentElement = ref)}
-          >
+          <div style={{ position: 'relative' }}>
             <Counter
               key={key}
               count={this.props.segmentCount}
@@ -245,7 +250,6 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
               onMouseEnter={this.handleShowRecentMessages}
               onMouseLeave={this.handleHideRecentMessages}
             />
-            {this.getRecentMessages()}
           </div>
         </Portal>
       );
@@ -299,29 +303,23 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         recentStyles.push(styles.no_recents);
       }
 
-      let position = {};
-      if (this.segmentElement) {
-        const rect = this.segmentElement.getBoundingClientRect();
-        position = {
-          left: rect.width / 2
-        };
-      }
-
       return (
-        <div className={recentStyles.join(' ')} style={position}>
-          <div className={styles.title}>{title}</div>
-          {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
-            <div key={'recent_' + idx} className={styles.message}>
-              <div className={styles.text}>{recentMessage.text}</div>
-              <div className={styles.sent}>{moment.utc(recentMessage.sent).fromNow()}</div>
-            </div>
-          ))}
-          {this.state.recentMessages === null ? (
-            <div className={styles.loading}>
-              <Loading size={10} units={6} color="#999999" />
-            </div>
-          ) : null}
-        </div>
+        <Portal id={this.state.recentMessagesId}>
+          <div className={recentStyles.join(' ')}>
+            <div className={styles.title}>{title}</div>
+            {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
+              <div key={'recent_' + idx} className={styles.message}>
+                <div className={styles.text}>{recentMessage.text}</div>
+                <div className={styles.sent}>{moment.utc(recentMessage.sent).fromNow()}</div>
+              </div>
+            ))}
+            {this.state.recentMessages === null ? (
+              <div className={styles.loading}>
+                <Loading size={10} units={6} color="#999999" />
+              </div>
+            ) : null}
+          </div>
+        </Portal>
       );
     }
     return null;
@@ -350,7 +348,9 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       [styles.missing_localization]: name && this.props.translating && !localized,
       [styles.confirm_delete]: confirmDelete
     });
+
     const activity = this.getSegmentCount();
+    const recents = this.getRecentMessages();
 
     const events = this.context.config.mutable
       ? createClickHandler(
@@ -374,6 +374,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
           {confirm}
         </div>
         {activity}
+        {recents}
         {renderIf(this.state.showDragHelper)(<DragHelper />)}
       </div>
     );

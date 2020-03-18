@@ -166,6 +166,11 @@ export const categorizeCases = (
         }
       }
 
+      // don't pull over an old category more than once
+      if (category && categories.find((cat: Category) => cat.uuid === category.uuid)) {
+        category = null;
+      }
+
       // we found an old category, bring it and its exit over
       if (category) {
         categories.push(category);

@@ -22,21 +22,12 @@ const exitProps: ExitProps = {
   language: null,
   localization: null,
   segmentCount: 1000,
-  plumberConnectExit: (node: FlowNode, exit: Exit, onConnection: (connection: any) => void) => {
-    const connection: any = {
-      getOverlays: () => {
-        return {
-          activity: {
-            getElement: () => {
-              return {
-                id: 'overlay_id'
-              };
-            }
-          }
-        };
-      }
-    };
-    onConnection(connection);
+  plumberConnectExit: (
+    node: FlowNode,
+    exit: Exit,
+    onConnection: (activityId: string, recentMessagesId: string) => void
+  ) => {
+    onConnection('activityId', 'recentMessagesId');
   },
   plumberRemove: jest.fn(),
   plumberMakeSource: jest.fn(),
@@ -55,7 +46,8 @@ describe(ExitComp.name, () => {
   it('shows activity', () => {
     const { baseElement, getByText } = render(
       <>
-        <div id="overlay_id"></div>
+        <div id="activityId"></div>
+        <div id="recentMessagesId"></div>
         <ExitComp
           {...exitProps}
           recentMessages={[
@@ -77,7 +69,9 @@ describe(ExitComp.name, () => {
   it('shows recent messages on mouse over', () => {
     const { baseElement, getByText, queryAllByText } = render(
       <>
-        <div id="overlay_id"></div>
+        <div id="activityId"></div>
+        <div id="recentMessagesId"></div>
+
         <ExitComp
           {...exitProps}
           recentMessages={[
@@ -96,6 +90,8 @@ describe(ExitComp.name, () => {
     expect(queryAllByText('Recent Messages').length).toEqual(0);
 
     fireEvent.mouseEnter(activity);
+    jest.runAllTimers();
+
     expect(queryAllByText('Recent Messages').length).toEqual(1);
     getByText('Hi Mom!');
     getByText('Hi Dad!');

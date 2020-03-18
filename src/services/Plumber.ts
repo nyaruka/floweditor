@@ -23,7 +23,7 @@ export interface PendingConnections {
     className: string;
     slot: number;
     totalSlots: number;
-    onConnected: (connection: any) => void;
+    onConnected: (activityId: string, recentMessagesId: string) => void;
   };
 }
 
@@ -160,7 +160,7 @@ export default class Plumber {
   public connectExit(
     node: FlowNode,
     exit: Exit,
-    onConnection: (connection: any) => void,
+    onConnection: (activityId: string, recentMessagesId: string) => void,
     className: string = null
   ): void {
     this.connect(
@@ -285,12 +285,25 @@ export default class Plumber {
                       location: 12,
                       id: 'activity'
                     }
+                  ],
+                  [
+                    'Label',
+                    {
+                      label: '',
+                      location: 20,
+                      id: 'recent_messages'
+                    }
                   ]
                 ],
                 connector
               });
 
-              connection.onConnected(plumbConnect);
+              const activityElement = plumbConnect.getOverlays()['activity'].getElement();
+              const recentsElement = plumbConnect.getOverlays()['recent_messages'].getElement();
+              activityElement.classList.add('jtk-activity');
+              recentsElement.classList.add('jtk-recents');
+
+              connection.onConnected(activityElement.id, recentsElement.id);
             }
           }
 
@@ -324,7 +337,7 @@ export default class Plumber {
   public connect(
     source: string,
     target: string,
-    onConnected: (connection: any) => void,
+    onConnected: (activityId: string, recentMessagesId: string) => void,
     className: string = null,
     slot: number = 0,
     totalSlots: number = 0
