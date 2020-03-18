@@ -129,8 +129,6 @@ export const categorizeCases = (
   const originalRouter = originalNode && originalNode.router;
   const previousCategories = (originalRouter && originalRouter.categories) || [];
 
-  const isUpdate = JSON.stringify(newCases).indexOf('New Name') > -1;
-
   // look over the new cases and match up categories and exits
   for (const newCase of newCases) {
     // ignore empty cases
