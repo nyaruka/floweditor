@@ -19,6 +19,7 @@ import { FlowTypes } from 'config/interfaces';
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.defaults.responseType = 'json';
+axios.defaults.timeout = 30000;
 
 /**
  * Gets the path activity and the count of active particpants at each node

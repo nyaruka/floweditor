@@ -27,7 +27,7 @@ Object {
     "childNodes": NodeList [
       <div>
         <div
-          id="overlay_id"
+          id="activityId"
         >
           <div />
           <div>
@@ -48,6 +48,9 @@ Object {
             </div>
           </div>
         </div>
+        <div
+          id="recentMessagesId"
+        />
         <div
           class="exit plumb-exit"
         >
@@ -111,7 +114,7 @@ exports[`ExitComp shows recent messages on mouse over 1`] = `
 <body>
   <div>
     <div
-      id="overlay_id"
+      id="activityId"
     >
       <div>
         <div
@@ -128,42 +131,47 @@ exports[`ExitComp shows recent messages on mouse over 1`] = `
               1,000
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="recentMessagesId"
+    >
+      <div>
+        <div
+          class="recent_messages"
+        >
           <div
-            class="recent_messages"
-            style="left: 0px;"
+            class="title"
+          >
+            Recent Messages
+          </div>
+          <div
+            class="message"
           >
             <div
-              class="title"
+              class="text"
             >
-              Recent Messages
+              Hi Mom!
             </div>
             <div
-              class="message"
+              class="sent"
             >
-              <div
-                class="text"
-              >
-                Hi Mom!
-              </div>
-              <div
-                class="sent"
-              >
-                a few seconds ago
-              </div>
+              a few seconds ago
+            </div>
+          </div>
+          <div
+            class="message"
+          >
+            <div
+              class="text"
+            >
+              Hi Dad!
             </div>
             <div
-              class="message"
+              class="sent"
             >
-              <div
-                class="text"
-              >
-                Hi Dad!
-              </div>
-              <div
-                class="sent"
-              >
-                a few seconds ago
-              </div>
+              a few seconds ago
             </div>
           </div>
         </div>

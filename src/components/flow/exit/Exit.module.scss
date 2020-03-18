@@ -106,7 +106,8 @@
 }
 
 .activity {
-  z-index: $z_recent_messages;
+  z-index: $z_activity;
+  position: relative;
 
   margin: 0 auto;
   cursor: pointer;
@@ -132,6 +133,7 @@
   width: 200px;
   margin-top: 12px;
   margin-left: -100px;
+  z-index: $z_recent_messages;
 
   background: $light_gray_2;
   border-radius: $curvature;
