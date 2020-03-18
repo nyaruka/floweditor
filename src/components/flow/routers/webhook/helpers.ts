@@ -11,7 +11,8 @@ import { createUUID } from 'utils';
 export enum Methods {
   GET = 'GET',
   POST = 'POST',
-  PUT = 'PUT'
+  PUT = 'PUT',
+  DELETE = 'DELETE'
 }
 
 export interface MethodOption {
@@ -31,7 +32,8 @@ export const GET_METHOD: MethodOption = {
 export const METHOD_OPTIONS: MethodOption[] = [
   GET_METHOD,
   { value: Methods.POST, label: Methods.POST },
-  { value: Methods.PUT, label: Methods.PUT }
+  { value: Methods.PUT, label: Methods.PUT },
+  { value: Methods.DELETE, label: Methods.DELETE }
 ];
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => {
