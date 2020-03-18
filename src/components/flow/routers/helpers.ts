@@ -18,7 +18,7 @@ import {
   CallClassifier
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
-import { createUUID, snakify } from 'utils';
+import { createUUID, snakify, dump } from 'utils';
 
 export interface CategorizedCases {
   cases: Case[];
@@ -129,6 +129,8 @@ export const categorizeCases = (
   const originalRouter = originalNode && originalNode.router;
   const previousCategories = (originalRouter && originalRouter.categories) || [];
 
+  const isUpdate = JSON.stringify(newCases).indexOf('New Name') > -1;
+
   // look over the new cases and match up categories and exits
   for (const newCase of newCases) {
     // ignore empty cases
@@ -164,6 +166,11 @@ export const categorizeCases = (
             }
           }
         }
+      }
+
+      // don't pull over an old category more than once
+      if (category && categories.find((cat: Category) => cat.uuid === category.uuid)) {
+        category = null;
       }
 
       // we found an old category, bring it and its exit over

@@ -11,6 +11,27 @@ interface MatchResult {
   pass: boolean;
 }
 
+function toBeUnique<T>(this: jest.MatcherUtils, received: any[]): MatchResult {
+  const seen: { [value: string]: boolean } = {};
+
+  for (const item of received) {
+    const stringified = JSON.stringify(item, null, 1);
+    if (seen[stringified]) {
+      return {
+        message: () => `Duplicate item in array:\n${stringified}`,
+        pass: false
+      };
+    } else {
+      seen[stringified] = true;
+    }
+  }
+
+  return {
+    message: () => 'Array is unique',
+    pass: true
+  };
+}
+
 function toMatchCallSnapshot<T>(
   this: jest.MatcherUtils,
   received: any,
@@ -162,5 +183,6 @@ expect.extend({
   toHaveInboundConnections,
   toHavePayload,
   toHaveReduxActions,
-  toMatchCallSnapshot
+  toMatchCallSnapshot,
+  toBeUnique
 });
