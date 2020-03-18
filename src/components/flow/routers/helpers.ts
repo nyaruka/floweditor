@@ -18,7 +18,7 @@ import {
   CallClassifier
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
-import { createUUID, snakify, dump } from 'utils';
+import { createUUID, snakify } from 'utils';
 
 export interface CategorizedCases {
   cases: Case[];
