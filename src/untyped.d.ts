@@ -6,7 +6,9 @@ declare module 'http-headers-validation';
 
 declare namespace JSX {
   interface IntrinsicElements {
-    'rp-select': any;
-    'rp-option': any;
+    'temba-textinput': any;
+    'temba-completion': any;
+    'temba-select': any;
+    'temba-checkbox': any;
   }
 }
