@@ -384,13 +384,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.8.3"
 
-"@babel/plugin-syntax-import-meta@7.8.3":
-  version "7.8.3"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-import-meta/-/plugin-syntax-import-meta-7.8.3.tgz#230afff79d3ccc215b5944b438e4e266daf3d84d"
-  integrity sha512-vYiGd4wQ9gx0Lngb7+bPCwQXGK/PR6FeTIJ+TIOlq+OfOKG/kCAOO2+IBac3oMM9qV7/fU76hfcqxUaLKZf1hQ==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.8.3"
-
 "@babel/plugin-syntax-json-strings@^7.8.0":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-json-strings/-/plugin-syntax-json-strings-7.8.3.tgz#01ca21b668cd8218c9e640cb6dd88c5412b2c96a"
@@ -1246,10 +1239,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@nyaruka/temba-components@0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.0.19.tgz#525eb53b9663889eac9b6c4ffa4b7e364125aea5"
-  integrity sha512-Bqo6KpHmDYIJW7hgGeEJy1M74O/pLmb34Giog/jkJwn0juC4ag882U0mcY8O6Vz24udJ5rVRd/QeTy1cBEoCyg==
+"@nyaruka/temba-components@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.1.2.tgz#d1fb87f671431bbc52e2724599419c671b7046d4"
+  integrity sha512-HyKzmP+zZrwcUqQyLtPM85bBRpAtaBPbn6DiK6qy8AZ3bl1hGwhE8wYK3FDsigMAVaQJkPf2eRScXHCKonMVdA==
   dependencies:
     autosize "4.0.2"
     axios "0.18.1"
