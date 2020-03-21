@@ -8,7 +8,7 @@ import React from 'react';
 import { CanvasPositions, DragSelection } from 'store/editor';
 import { addPosition } from 'store/helpers';
 import { MergeEditorState } from 'store/thunks';
-import { COLLISION_FUDGE, snapPositionToGrid } from 'utils';
+import { COLLISION_FUDGE, snapPositionToGrid, throttle } from 'utils';
 
 import styles from './Canvas.module.scss';
 
@@ -51,6 +51,9 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
 
   // did we just select something
   private justSelected = false;
+
+  private onDragThrottled: (uuids: string[]) => void = throttle(this.props.onDragging, 10);
+  private onMouseThrottled: (event: any) => void = throttle(this.handleMouseMove.bind(this), 10);
 
   constructor(props: CanvasProps) {
     super(props);
@@ -376,7 +379,6 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     otherState: Partial<CanvasState> = {}
   ): void {
     const viewportHeight = document.documentElement.clientHeight;
-
     this.setState(
       (prevState: CanvasState) => {
         return {
@@ -427,7 +429,8 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
           const delta = { left: xd, top: yd };
           const prevState = this.state;
           const uuids = Object.keys(prevState.selected);
-          let newPositions = prevState.positions;
+          let newPositions: { [uuid: string]: FlowPosition } = {};
+
           uuids.forEach((uuid: string) => {
             let newPosition = addPosition(prevState.selected[uuid], delta);
             if (snap) {
@@ -437,16 +440,18 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             if (newPosition && newPosition.bottom! > lowestNode!) {
               lowestNode = newPosition.bottom;
             }
-
-            newPositions = mutate(newPositions, {
-              $merge: { [uuid]: newPosition }
-            });
+            newPositions[uuid] = newPosition;
           });
 
-          this.props.onDragging(uuids);
+          newPositions = mutate(prevState.positions, {
+            $merge: newPositions
+          });
+
           this.updateStateWithScroll(clientY, lowestNode, {
             positions: newPositions
           });
+
+          this.onDragThrottled(uuids);
         } else {
           if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
             let selected = this.state.selected;
@@ -514,7 +519,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
           }}
           className={styles.canvas}
           onMouseDown={this.handleMouseDown}
-          onMouseMove={this.handleMouseMove}
+          onMouseMove={this.onMouseThrottled}
           onMouseUp={this.handleMouseUpCapture}
         >
           {this.props.draggables.map((draggable: CanvasDraggableProps) => {

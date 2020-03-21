@@ -296,6 +296,9 @@ export const timeStart = (name: string) =>
 export const timeEnd = (name: string) =>
   process.env.NODE_ENV === 'development' && console.timeEnd(name);
 
+export const log = (...message: any[]) =>
+  process.env.NODE_ENV === 'development' && console.log(...message);
+
 export const capitalize = (str: string) =>
   str.replace(/(?:^|\s)\S/g, captured => captured.toUpperCase());
 
@@ -414,4 +417,39 @@ export const getURNPath = (urn: string) => {
 
 export const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text);
+};
+
+export const throttle = (func: any, timeout: any) => {
+  let ready: boolean = true;
+
+  return (...args: any) => {
+    if (!ready) {
+      return;
+    }
+
+    ready = false;
+    func(...args);
+    setTimeout(() => {
+      ready = true;
+    }, timeout);
+  };
+};
+
+export const traceUpdate = (component: any, prevProps: any, prevState?: any) => {
+  const messages: string[] = [];
+  Object.entries(component.props).forEach(
+    ([key, val]) => prevProps[key] !== val && messages.push(`Prop: '${key}' changed`)
+  );
+  if (prevState && component.state) {
+    Object.entries(component.state).forEach(
+      ([key, val]) => prevState[key] !== val && messages.push(`State: '${key}' changed`)
+    );
+  }
+
+  if (messages.length > 0) {
+    log('****  ' + component._reactInternalFiber.type.name + ' changed');
+    messages.forEach((message: string) => {
+      log(message);
+    });
+  }
 };

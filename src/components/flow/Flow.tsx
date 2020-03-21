@@ -135,7 +135,7 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
       include: [/Ref$/, /^on/, /^is/, /^get/]
     });
 
-    timeStart('RenderAndPlumb');
+    timeStart('Loaded Flow');
   }
 
   private onRef(ref: HTMLDivElement): HTMLDivElement {
@@ -168,22 +168,18 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     this.Plumber.bind('beforeDetach', (event: ConnectionEvent) => true);
     this.Plumber.bind('beforeDrop', (event: ConnectionEvent) => this.onBeforeConnectorDrop(event));
 
+    // TODO: This looks like it is only used for ghost offset, but forces a 2x render on load
     let offset = { left: 0, top: 0 };
-
-    /* istanbul ignore next */
     if (this.ele) {
       offset = this.ele.getBoundingClientRect();
     }
-
     this.props.mergeEditorState({
       containerOffset: { left: offset.left, top: offset.top + window.scrollY }
     });
 
-    timeEnd('RenderAndPlumb');
+    this.Plumber.triggerLoaded(this.context.config.onLoad);
 
-    // deals with safari load rendering throwing
-    // off the jsplumb offsets
-    window.setTimeout(() => this.Plumber.repaint(), REPAINT_TIMEOUT);
+    timeEnd('Loaded Flow');
   }
 
   public componentWillUnmount(): void {
@@ -342,7 +338,6 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
         key="node-editor"
         helpArticles={this.context.config.help}
         plumberConnectExit={this.Plumber.connectExit}
-        plumberRepaintForDuration={this.Plumber.repaintForDuration}
       />
     );
   }
@@ -393,6 +388,19 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
     );
   }
 
+  public shouldComponentUpdate(nextProps: FlowStoreProps, state: any, context: any): boolean {
+    // ignore activity interval updates
+    // TODO: remove state dependency on full editorState
+    if (nextProps.editorState.activityInterval !== this.props.editorState.activityInterval) {
+      return false;
+    }
+    return true;
+  }
+
+  public componentDidUpdate(prevProps: FlowStoreProps): void {
+    // traceUpdate(this, prevProps);
+  }
+
   public render(): JSX.Element {
     const nodes = this.getNodes();
 
@@ -441,8 +449,8 @@ export class Flow extends React.Component<FlowStoreProps, {}> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { definition, metadata, nodes },
-  // tslint:disable-next-line: no-shadowed-variable
   editorState,
+  // tslint:disable-next-line: no-shadowed-variable
   nodeEditor: { settings }
 }: AppState) => {
   return {
@@ -450,7 +458,7 @@ const mapStateToProps = ({
     definition,
     nodes,
     metadata,
-    editorState: editorState as Partial<EditorState>
+    editorState
   };
 };
 

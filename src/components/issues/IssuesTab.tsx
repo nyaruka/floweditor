@@ -6,7 +6,14 @@ import i18n from 'config/i18n';
 import { FlowIssue, Action } from 'flowTypes';
 import { PopTab } from 'components/poptab/PopTab';
 import { renderIssue } from 'components/flow/actions/helpers';
-import { AssetMap, RenderNode, Asset, RenderNodeMap, RenderAction } from 'store/flowContext';
+import {
+  AssetMap,
+  RenderNode,
+  Asset,
+  RenderNodeMap,
+  RenderAction,
+  FlowIssueMap
+} from 'store/flowContext';
 import { getTypeConfig } from 'config';
 import { getType } from 'config/typeConfigs';
 import { Type, PopTabType } from 'config/interfaces';
@@ -14,7 +21,7 @@ import { Type, PopTabType } from 'config/interfaces';
 const cx: any = classNames.bind(styles);
 
 export interface IssuesTabProps {
-  issues: FlowIssue[];
+  issues: FlowIssueMap;
   languages: AssetMap;
   nodes: RenderNodeMap;
   onToggled: (visible: boolean, tab: PopTabType) => void;
@@ -101,31 +108,33 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
   private buildIssueDetails(): IssueDetail[] {
     const issueMap: IssueMap = {};
     if (Object.keys(this.props.nodes).length > 0) {
-      this.props.issues.forEach((issue: FlowIssue) => {
-        const key = getIssueKey(issue);
-        let issueDetail = issueMap[key];
-        if (!issueDetail) {
-          let language = null;
-          if (issue.language && this.props.languages) {
-            language = this.props.languages[issue.language];
+      for (const issues of Object.values(this.props.issues)) {
+        for (const issue of issues) {
+          const key = getIssueKey(issue);
+          let issueDetail = issueMap[key];
+          if (!issueDetail) {
+            let language = null;
+            if (issue.language && this.props.languages) {
+              language = this.props.languages[issue.language];
+            }
+
+            const renderObjects = getRenderObjects(issue, this.props.nodes);
+            if (renderObjects.renderNode && (!issue.action_uuid || renderObjects.renderAction)) {
+              issueDetail = {
+                issues: [issue],
+                renderObjects: renderObjects,
+                language
+              };
+            }
+          } else {
+            issueDetail.issues.push(issue);
           }
 
-          const renderObjects = getRenderObjects(issue, this.props.nodes);
-          if (renderObjects.renderNode && (!issue.action_uuid || renderObjects.renderAction)) {
-            issueDetail = {
-              issues: [issue],
-              renderObjects: renderObjects,
-              language
-            };
+          if (issueDetail) {
+            issueMap[key] = issueDetail;
           }
-        } else {
-          issueDetail.issues.push(issue);
         }
-
-        if (issueDetail) {
-          issueMap[key] = issueDetail;
-        }
-      });
+      }
     }
 
     return Object.values(issueMap).sort((a: IssueDetail, b: IssueDetail) => {
@@ -175,17 +184,61 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
   }
 
   public render(): JSX.Element {
+    let issueCount = 0;
+
+    let lastLanguage: Asset = null;
+
+    const issues = this.state.issueDetails.map((details: IssueDetail) => {
+      issueCount += details.issues.length;
+
+      let languageHeader: JSX.Element = null;
+
+      if (details.language && details.language !== lastLanguage) {
+        languageHeader = <div className={styles.language}>{details.language.name}</div>;
+      }
+
+      lastLanguage = details.language;
+
+      let typeConfig: Type = null;
+
+      if (!details.renderObjects.renderNode) {
+        return null;
+      }
+
+      if (details.renderObjects.renderAction) {
+        typeConfig = details.renderObjects.renderAction.config;
+      } else {
+        typeConfig = getTypeConfig(getType(details.renderObjects.renderNode));
+      }
+
+      const locationHeader: JSX.Element = null;
+      const issues = details.issues.map((issue: FlowIssue, num: number) => (
+        <div key={getIssueKey(issue) + num} className={styles.message}>
+          <div className={styles.header}>{typeConfig.name}:</div> {renderIssue(issue)}
+        </div>
+      ));
+
+      return (
+        <div key={getIssueKey(details.issues[0]) + '_detail'}>
+          {languageHeader}
+          <div className={styles.details} onClick={() => this.handleIssueClicked(details)}>
+            {locationHeader}
+            <div className={styles.issues_code}>{issues}</div>
+          </div>
+        </div>
+      );
+    });
+
     const classes = cx({
       [styles.visible]: this.state.visible,
       [styles.hidden]: this.props.popped && this.props.popped !== PopTabType.ISSUES_TAB
     });
 
-    let lastLanguage: Asset = null;
     return (
       <div className={classes}>
         <div className={styles.mask} />
         <PopTab
-          header={`${i18n.t('issues.label', 'Flow Issues')} (${this.props.issues.length})`}
+          header={`${i18n.t('issues.label', 'Flow Issues')} (${issueCount})`}
           label={i18n.t('issues.header', 'Flow Issues')}
           color="tomato"
           icon="fe-warning"
@@ -194,46 +247,7 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
           onShow={this.handleTabClicked}
           onHide={this.handleTabClicked}
         >
-          <div className={styles.issues_wrapper}>
-            {this.state.issueDetails.map((details: IssueDetail) => {
-              let languageHeader: JSX.Element = null;
-
-              if (details.language && details.language !== lastLanguage) {
-                languageHeader = <div className={styles.language}>{details.language.name}</div>;
-              }
-
-              lastLanguage = details.language;
-
-              let typeConfig: Type = null;
-
-              if (!details.renderObjects.renderNode) {
-                return null;
-              }
-
-              if (details.renderObjects.renderAction) {
-                typeConfig = details.renderObjects.renderAction.config;
-              } else {
-                typeConfig = getTypeConfig(getType(details.renderObjects.renderNode));
-              }
-
-              const locationHeader: JSX.Element = null;
-              const issues = details.issues.map((issue: FlowIssue, num: number) => (
-                <div key={getIssueKey(issue) + num} className={styles.message}>
-                  <div className={styles.header}>{typeConfig.name}:</div> {renderIssue(issue)}
-                </div>
-              ));
-
-              return (
-                <div key={getIssueKey(details.issues[0]) + '_detail'}>
-                  {languageHeader}
-                  <div className={styles.details} onClick={() => this.handleIssueClicked(details)}>
-                    {locationHeader}
-                    <div className={styles.issues_code}>{issues}</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <div className={styles.issues_wrapper}>{issues}</div>
         </PopTab>
       </div>
     );

@@ -1,5 +1,5 @@
 import { Exit, FlowNode } from 'flowTypes';
-import { GRID_SIZE } from 'utils';
+import { GRID_SIZE, timeStart, timeEnd } from 'utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -28,6 +28,26 @@ export interface PendingConnections {
 }
 
 export const REPAINT_DURATION = 600;
+
+const connectorOverlays = [
+  [
+    'Label',
+    {
+      label: '',
+      location: 12,
+      id: 'activity'
+    }
+  ],
+  [
+    'Label',
+    {
+      label: '',
+      location: 20,
+      id: 'recent_messages'
+    }
+  ]
+];
+
 export const TARGET_DEFAULTS = {
   anchor: ['Continuous', { shape: 'Rectangle', faces: ['top', 'left', 'right'] }],
   endpoint: [
@@ -92,6 +112,8 @@ export default class Plumber {
 
   private animateInterval: any = null;
 
+  private onLoadFunction: () => void = null;
+
   constructor() {
     this.jsPlumb = importDefaults({
       DragOptions: { cursor: 'pointer', zIndex: 1000 },
@@ -125,8 +147,6 @@ export default class Plumber {
     this.removeFromDragSelection = this.removeFromDragSelection.bind(this);
     this.cancelDurationRepaint = this.cancelDurationRepaint.bind(this);
     this.remove = this.remove.bind(this);
-    this.repaintForDuration = this.repaintForDuration.bind(this);
-    this.repaintFor = this.repaintFor.bind(this);
     this.handlePendingConnections = this.handlePendingConnections.bind(this);
     this.checkForPendingConnections = this.checkForPendingConnections.bind(this);
     this.connect = this.connect.bind(this);
@@ -205,122 +225,90 @@ export default class Plumber {
     }
   }
 
-  public repaintForDuration(duration: number = REPAINT_DURATION): void {
-    this.cancelDurationRepaint();
-    const pause = 10;
-    const newDuration = duration / pause;
-
-    let cycles = 0;
-    this.animateInterval = window.setInterval(() => {
-      // TODO: optimize this to paint as little as possible
-      // this.revalidate(uuid);
-      this.jsPlumb.repaintEverything();
-
-      if (cycles++ > newDuration) {
-        window.clearInterval(this.animateInterval);
-      }
-    }, pause);
-  }
-
-  public repaintFor(millis: number): void {
-    window.setInterval(() => {
-      this.jsPlumb.repaintEverything();
-    }, 1);
-  }
-
   private handlePendingConnections(): void {
     const targets: { [id: string]: boolean } = {};
 
-    this.jsPlumb.batch(() => {
-      const batch = Object.keys(this.pendingConnections).length;
-      if (batch > 1) {
-        console.log('batching ' + batch + ' connections');
-      }
+    const batch = Object.keys(this.pendingConnections).length;
+    if (batch > 1) {
+      timeStart('Batched ' + batch + ' connections');
+    }
 
-      for (const key in this.pendingConnections) {
-        if (this.pendingConnections.hasOwnProperty(key)) {
-          const connection = this.pendingConnections[key];
-          const { source, target, className, slot, totalSlots } = connection;
+    // this.jsPlumb.batch(() => {
+    for (const key in this.pendingConnections) {
+      if (this.pendingConnections.hasOwnProperty(key)) {
+        const connection = this.pendingConnections[key];
+        const { source, target, className, slot, totalSlots } = connection;
 
-          const anchors = target
-            ? [
-                'Bottom',
-                getAnchor(document.getElementById(source), document.getElementById(target))
-              ]
-            : [];
+        const anchors = target
+          ? ['Bottom', getAnchor(document.getElementById(source), document.getElementById(target))]
+          : [];
 
-          if (source != null) {
-            // any existing connections for our source need to be deleted
-            this.jsPlumb.select({ source }).delete({ fireEvent: false });
+        if (source != null) {
+          // any existing connections for our source need to be deleted
+          this.jsPlumb.select({ source }).delete({ fireEvent: false });
 
-            const start = totalSlots < 5 ? 0.75 : 0.35;
-            let midpoint = start + slot * 0.15;
-            const exitMiddle = totalSlots / 2;
-            if (slot > exitMiddle) {
-              midpoint = start - 0.05 + (totalSlots - slot) * 0.15;
-            }
-
-            // add reasonable boundaries for midpoints
-            midpoint = Math.max(Math.min(0.9, midpoint), 0.1);
-
-            const connector: any = [...defaultConnector];
-            connector[1].midpoint = midpoint;
-
-            // now make our new connection
-            if (target != null) {
-              // don't allow manual detachments if our connection is styled
-
-              const plumbConnect = this.jsPlumb.connect({
-                source,
-                target,
-                anchors,
-                fireEvent: false,
-                cssClass: className,
-                detachable: !className,
-                overlays: [
-                  [
-                    'Label',
-                    {
-                      label: '',
-                      location: 12,
-                      id: 'activity'
-                    }
-                  ],
-                  [
-                    'Label',
-                    {
-                      label: '',
-                      location: 20,
-                      id: 'recent_messages'
-                    }
-                  ]
-                ],
-                connector
-              });
-
-              const activityElement = plumbConnect.getOverlays()['activity'].getElement();
-              const recentsElement = plumbConnect.getOverlays()['recent_messages'].getElement();
-              activityElement.classList.add('jtk-activity');
-              recentsElement.classList.add('jtk-recents');
-
-              connection.onConnected(activityElement.id, recentsElement.id);
-            }
+          const start = totalSlots < 5 ? 0.75 : 0.35;
+          let midpoint = start + slot * 0.15;
+          const exitMiddle = totalSlots / 2;
+          if (slot > exitMiddle) {
+            midpoint = start - 0.05 + (totalSlots - slot) * 0.15;
           }
 
+          // add reasonable boundaries for midpoints
+          midpoint = Math.max(Math.min(0.9, midpoint), 0.1);
+
+          const connector: any = [...defaultConnector];
+          connector[1].midpoint = midpoint;
+
+          // now make our new connection
           if (target != null) {
-            targets[target] = true;
+            // don't allow manual detachments if our connection is styled
+            const plumbConnect = this.jsPlumb.connect({
+              source,
+              target,
+              anchors,
+              fireEvent: false,
+              cssClass: className,
+              detachable: !className,
+              overlays: connectorOverlays,
+              connector
+            });
+
+            const activityElement = plumbConnect.getOverlays()['activity'].getElement();
+            const recentsElement = plumbConnect.getOverlays()['recent_messages'].getElement();
+            activityElement.classList.add('jtk-activity');
+            recentsElement.classList.add('jtk-recents');
+
+            connection.onConnected(activityElement.id, recentsElement.id);
           }
-
-          delete this.pendingConnections[key];
         }
-      }
-    });
 
-    // revalidate the targets that we updated
-    for (const target in targets) {
-      if (targets.hasOwnProperty('target')) {
-        this.recalculate(target);
+        if (target != null) {
+          targets[target] = true;
+        }
+
+        delete this.pendingConnections[key];
       }
+    }
+    // });
+
+    if (batch > 1) {
+      timeEnd('Batched ' + batch + ' connections');
+    }
+
+    // fire our callback for who is embedding us
+    if (this.onLoadFunction) {
+      this.onLoadFunction();
+      this.onLoadFunction = null;
+    }
+  }
+
+  public triggerLoaded(onLoad: () => void): void {
+    if (onLoad) {
+      if (Object.keys(this.pendingConnections).length === 0) {
+        onLoad();
+      }
+      this.onLoadFunction = onLoad;
     }
   }
 
@@ -377,23 +365,28 @@ export default class Plumber {
   }
 
   public recalculateUUIDs(uuids: string[]): void {
-    this.jsPlumb.batch(() => {
-      uuids.forEach((uuid: string) => {
+    uuids.forEach((uuid: string) => {
+      /* 
+        TODO: Unsure if this is needed any longer, and it is not particularly cheap
+              This appears to be resetting it's anchor to itself, presumably to work
+              around a jsPlumb bug, but was uncommented.
+
         const connections = this.jsPlumb
-          .getConnections({ target: uuid })
-          .concat(this.jsPlumb.getConnections({ source: uuid }));
+        .getConnections({ target: uuid })
+        .concat(this.jsPlumb.getConnections({ source: uuid }));
+        
         for (const c of connections) {
           c.endpoints[1].setAnchor(getAnchor(c.endpoints[0].element, c.endpoints[1].element));
         }
-        this.jsPlumb.revalidate(uuid);
-      });
+        */
+      this.jsPlumb.revalidate(uuid);
     });
   }
 
   public recalculate(uuid: string): void {
     window.setTimeout(() => {
       this.jsPlumb.revalidate(uuid);
-    }, 0);
+    }, 100);
   }
 
   public reset(): void {
