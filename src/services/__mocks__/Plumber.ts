@@ -17,7 +17,8 @@ const Plumber = jest.fn().mockImplementation(() => {
     repaint: jest.fn(),
     remove: jest.fn(),
     recalculate: jest.fn(),
-    reset: jest.fn()
+    reset: jest.fn(),
+    triggerLoaded: jest.fn()
   };
 });
 

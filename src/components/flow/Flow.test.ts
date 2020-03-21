@@ -29,7 +29,7 @@ const {
   flowContext: { definition }
 } = composeDuxState();
 
-const { renderNodeMap: initialNodes } = getFlowComponents(definition, {});
+const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
   editorState: {
@@ -180,9 +180,6 @@ describe(Flow.name, () => {
       expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeStartDetach', expect.any(Function));
       expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeDetach', expect.any(Function));
       expect(instance.Plumber.bind).toHaveBeenCalledWith('beforeDrop', expect.any(Function));
-      expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), REPAINT_TIMEOUT);
-      expect(instance.Plumber.repaint).toHaveBeenCalledTimes(1);
-
       componentDidMountSpy.mockRestore();
     });
 

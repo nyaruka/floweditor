@@ -13,7 +13,8 @@ import ActionTypes, {
   UpdateContactFieldsAction,
   UpdateDefinitionAction,
   UpdateNodesAction,
-  UpdateMetadataAction
+  UpdateMetadataAction,
+  UpdateIssuesAction
 } from 'store/actionTypes';
 import Constants from 'store/constants';
 import { Type } from 'config/interfaces';
@@ -32,6 +33,10 @@ const filterIssues = (metadata: FlowMetadata) => {
 // tslint:disable:no-shadowed-variable
 export interface RenderNodeMap {
   [uuid: string]: RenderNode;
+}
+
+export interface FlowIssueMap {
+  [uuid: string]: FlowIssue[];
 }
 
 export interface RenderNode {
@@ -147,6 +152,7 @@ export interface FlowContext {
   contactFields: ContactFields;
   definition: FlowDefinition;
   nodes: { [uuid: string]: RenderNode };
+  issues: FlowIssueMap;
   assetStore: AssetStore;
 }
 
@@ -163,6 +169,7 @@ export const initialState: FlowContext = {
   },
   contactFields: {},
   nodes: {},
+  issues: {},
   assetStore: {}
 };
 
@@ -178,6 +185,13 @@ export const updateNodes = (nodes: RenderNodeMap): UpdateNodesAction => ({
   type: Constants.UPDATE_NODES,
   payload: {
     nodes
+  }
+});
+
+export const updateIssues = (issues: FlowIssueMap): UpdateIssuesAction => ({
+  type: Constants.UPDATE_ISSUES,
+  payload: {
+    issues
   }
 });
 
@@ -234,6 +248,15 @@ export const nodes = (state: {} = initialState.nodes, action: ActionTypes) => {
   }
 };
 
+export const issues = (state: {} = initialState.issues, action: ActionTypes) => {
+  switch (action.type) {
+    case Constants.UPDATE_ISSUES:
+      return action.payload.issues;
+    default:
+      return state;
+  }
+};
+
 export const metadata = (state: FlowMetadata = initialState.metadata, action: ActionTypes) => {
   switch (action.type) {
     case Constants.UPDATE_METADATA:
@@ -277,6 +300,7 @@ export const contactFields = (
 export default combineReducers({
   definition,
   nodes,
+  issues,
   metadata,
   assetStore,
   baseLanguage,

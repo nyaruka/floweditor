@@ -5,9 +5,10 @@ import { createUUID } from 'utils';
 import { FlowIssueType, FlowIssue, DependencyType } from 'flowTypes';
 import { RenderNode, RenderNodeMap } from 'store/flowContext';
 import { Types } from 'config/interfaces';
+import { createFlowIssueMap } from 'store/helpers';
 
 const issuesProps: IssuesTabProps = {
-  issues: [],
+  issues: {},
   nodes: {},
   languages: {},
   popped: null,
@@ -81,7 +82,11 @@ describe(IssuesTab.name, () => {
     ];
 
     const { baseElement, getByText, getAllByText } = render(
-      <IssuesTab {...issuesProps} issues={issues} nodes={createNodes(issues)} />
+      <IssuesTab
+        {...issuesProps}
+        issues={createFlowIssueMap({}, issues)}
+        nodes={createNodes(issues)}
+      />
     );
 
     expect(getAllByText('Send Message:').length).toBe(3);

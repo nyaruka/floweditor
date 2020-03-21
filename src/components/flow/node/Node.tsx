@@ -15,7 +15,7 @@ import TitleBar from 'components/titlebar/TitleBar';
 import { fakePropType } from 'config/ConfigProvider';
 import { Types } from 'config/interfaces';
 import { getType, getTypeConfig } from 'config/typeConfigs';
-import { AnyAction, Exit, FlowDefinition, FlowNode, FlowIssue } from 'flowTypes';
+import { AnyAction, Exit, FlowNode, FlowIssue } from 'flowTypes';
 import * as React from 'react';
 import FlipMove from 'react-flip-move';
 import { connect } from 'react-redux';
@@ -75,7 +75,6 @@ export interface NodeStoreProps {
   debug: DebugState;
   renderNode: RenderNode;
   issues: FlowIssue[];
-  definition: FlowDefinition;
   onAddToNode: OnAddToNode;
   onOpenNodeEditor: OnOpenNodeEditor;
   removeNode: RemoveNode;
@@ -88,10 +87,11 @@ export type NodeProps = NodePassedProps & NodeStoreProps;
 
 const cx: any = classNames.bind({ ...shared, ...styles });
 
+const EMPTY: any[] = [];
 /**
  * A single node in the rendered flow
  */
-export class NodeComp extends React.Component<NodeProps> {
+export class NodeComp extends React.PureComponent<NodeProps> {
   public ele: HTMLDivElement;
   private firstAction: any;
   private clicking: boolean;
@@ -151,7 +151,9 @@ export class NodeComp extends React.Component<NodeProps> {
     }
   }
 
-  public componentDidUpdate(prevProps: NodeProps): void {
+  public componentDidUpdate(prevProps: any): void {
+    // traceUpdate(this, prevProps);
+
     // when our exits change, we need to recalculate the endpoints
     if (!this.props.ghost) {
       try {
@@ -445,8 +447,7 @@ const mapStateToProps = (
   {
     flowContext: {
       nodes,
-      definition,
-      metadata,
+      issues,
       assetStore: {
         results: { items: results },
         languages: { items: languages }
@@ -484,12 +485,12 @@ const mapStateToProps = (
 
   const activeCount = activity.nodes[props.nodeUUID] || 0;
 
-  const issues = metadata
-    ? (metadata.issues || []).filter(issue => issue.node_uuid === props.nodeUUID)
-    : [];
+  // only set our scroll flags if they affect us
+  const scrollNode = scrollToNode && scrollToNode === props.nodeUUID ? scrollToNode : null;
+  const scrollAction = scrollToAction && scrollNode ? scrollToAction : null;
 
   return {
-    issues,
+    issues: (issues || {})[props.nodeUUID] || EMPTY,
     results,
     language,
     languages,
@@ -497,11 +498,10 @@ const mapStateToProps = (
     containerOffset,
     translating,
     debug,
-    definition,
     renderNode,
     simulating,
-    scrollToNode,
-    scrollToAction
+    scrollToNode: scrollNode,
+    scrollToAction: scrollAction
   };
 };
 

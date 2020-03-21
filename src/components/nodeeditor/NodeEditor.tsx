@@ -38,7 +38,6 @@ export type UpdateLocalizations = (language: string, changes: LocalizationUpdate
 // tslint:disable:ban-types
 export interface NodeEditorPassedProps {
   plumberConnectExit: Function;
-  plumberRepaintForDuration: Function;
   helpArticles: { [key: string]: string };
 }
 

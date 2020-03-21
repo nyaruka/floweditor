@@ -11,13 +11,13 @@ import { RevisionExplorer } from 'components/revisions/RevisionExplorer';
 import { IssuesTab, IssueDetail } from 'components/issues/IssuesTab';
 import ConfigProvider from 'config';
 import { fakePropType } from 'config/ConfigProvider';
-import { FlowDefinition, FlowEditorConfig, FlowMetadata, AnyAction } from 'flowTypes';
+import { FlowDefinition, FlowEditorConfig, AnyAction } from 'flowTypes';
 import * as React from 'react';
 import { connect, Provider as ReduxProvider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import createStore from 'store/createStore';
 import { ModalMessage } from 'store/editor';
-import { Asset, Assets, AssetStore, RenderNodeMap } from 'store/flowContext';
+import { Asset, Assets, AssetStore, RenderNodeMap, FlowIssueMap } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
 import AppState from 'store/state';
 import {
@@ -53,7 +53,7 @@ export interface FlowEditorStoreProps {
   translating: boolean;
   fetchingFlow: boolean;
   definition: FlowDefinition;
-  metadata: FlowMetadata;
+  issues: FlowIssueMap;
   fetchFlow: FetchFlow;
   loadFlowDefinition: LoadFlowDefinition;
   createNewRevision: CreateNewRevision;
@@ -106,8 +106,8 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
   }
 
   public componentDidMount(): void {
-    const { endpoints, flow, onLoad, forceSaveOnLoad } = this.context.config;
-    this.props.fetchFlow(endpoints, flow, onLoad, forceSaveOnLoad);
+    const { endpoints, flow, forceSaveOnLoad } = this.context.config;
+    this.props.fetchFlow(endpoints, flow, forceSaveOnLoad);
   }
 
   private handleDownloadClicked(): void {
@@ -218,6 +218,10 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
   }
 
+  public componentDidUpdate(prevProps: FlowEditorStoreProps): void {
+    // traceUpdate(this, prevProps);
+  }
+
   public render(): JSX.Element {
     return (
       <PageVisibility onChange={this.handleVisibilityChanged}>
@@ -247,9 +251,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
               popped={this.props.popped}
             />
 
-            {renderIf(this.props.metadata.issues.length > 0)(
+            {renderIf(Object.keys(this.props.issues).length > 0)(
               <IssuesTab
-                issues={this.props.metadata.issues}
+                issues={this.props.issues}
                 onIssueClicked={this.handleScrollToIssue}
                 onIssueOpened={this.handleOpenIssue}
                 languages={this.props.languages ? this.props.languages.items : {}}
@@ -267,7 +271,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 }
 
 const mapStateToProps = ({
-  flowContext: { definition, metadata, nodes, assetStore, baseLanguage },
+  flowContext: { definition, issues, nodes, assetStore, baseLanguage },
   editorState: {
     translating,
     language,
@@ -293,7 +297,7 @@ const mapStateToProps = ({
     language,
     fetchingFlow,
     definition,
-    metadata,
+    issues,
     nodes,
     languages,
     scrollToAction,

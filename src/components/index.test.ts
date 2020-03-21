@@ -25,7 +25,8 @@ const baseProps: FlowEditorStoreProps = {
   handleLanguageChange: jest.fn(),
   scrollToAction: null,
   scrollToNode: null,
-  metadata: { issues: [], dependencies: [], waiting_exit_uuids: [], parent_refs: [], results: [] }
+  popped: null,
+  issues: {}
 };
 
 const { setup, spyOn } = composeComponentTestUtils(FlowEditor, baseProps);

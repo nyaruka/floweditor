@@ -62,7 +62,6 @@ exports[`Flow render should render NodeEditor 1`] = `
 Object {
   "helpArticles": Object {},
   "plumberConnectExit": [MockFunction],
-  "plumberRepaintForDuration": [MockFunction],
 }
 `;
 
