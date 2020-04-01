@@ -67,6 +67,9 @@ exports[`Root render should apply translating style if passed a truthy translati
       <div
         id="portal-root"
       />
+      <div
+        id="canvas-portal"
+      />
     </div>
   </div>
 </PageVisibility>
@@ -109,6 +112,9 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
       <div
         id="portal-root"
       />
+      <div
+        id="canvas-portal"
+      />
     </div>
   </div>
 </PageVisibility>
@@ -149,6 +155,9 @@ exports[`Root render should render self, children with required props 1`] = `
       />
       <div
         id="portal-root"
+      />
+      <div
+        id="canvas-portal"
       />
     </div>
   </div>

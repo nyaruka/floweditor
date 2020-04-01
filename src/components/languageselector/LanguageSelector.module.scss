@@ -1,11 +1,11 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 :global {
   .language-selector {
     z-index: $z_editor_menu;
     position: absolute;
     right: 30px;
-    top: 0px;
+    top: 23px;
     user-select: none;
   }
 }

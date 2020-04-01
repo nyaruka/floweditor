@@ -263,6 +263,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
               />
             )}
             <div id="portal-root" />
+            <div id="canvas-portal" />
           </div>
         </div>
       </PageVisibility>

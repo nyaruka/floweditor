@@ -1,44 +1,87 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 $background_offset: ($grid_size / 2) + ($node_padding) + px;
 
 .canvas_container {
-  position: relative;
-  padding: 20px;
-  padding-right: 0;
+  overflow-x: scroll;
+  width: 100%;
+}
+
+.canvas_background {
+  padding-top: 60px;
+  padding-left: 20px;
+  margin-right: -20px;
+
   background-color: #f9f9f9;
-  background-position: $background_offset $background_offset;
-  $color_1: rgba(61, 177, 255, 0.15);
+  background-position: 13px 13px;
   background-image: linear-gradient(
       0deg,
       transparent 24%,
-      $color_1 25%,
-      $color_1 26%,
+      rgba(61, 177, 255, 0.15) 25%,
+      rgba(61, 177, 255, 0.15) 26%,
       transparent 27%,
       transparent 74%,
-      $color_1 75%,
-      $color_1 76%,
+      rgba(61, 177, 255, 0.15) 75%,
+      rgba(61, 177, 255, 0.15) 76%,
       transparent 77%,
       transparent
     ),
     linear-gradient(
       90deg,
       transparent 24%,
-      $color_1 25%,
-      $color_1 26%,
+      rgba(61, 177, 255, 0.15) 25%,
+      rgba(61, 177, 255, 0.15) 26%,
       transparent 27%,
       transparent 74%,
-      $color_1 75%,
-      $color_1 76%,
+      rgba(61, 177, 255, 0.15) 75%,
+      rgba(61, 177, 255, 0.15) 76%,
       transparent 77%,
       transparent
     );
-  background-size: ($grid_size * 2) + px ($grid_size * 2) + px;
+  background-size: 40px 40px;
 }
-
 .canvas {
   position: relative;
   width: 100%;
+
+  // margin-top: -40px;
+}
+
+.canvas:after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  bottom: 0;
+  width: 400%;
+  left: 100%;
+
+  background-color: #f9f9f9;
+  background-position: 13px 13px;
+  background-image: linear-gradient(
+      0deg,
+      transparent 24%,
+      rgba(61, 177, 255, 0.15) 25%,
+      rgba(61, 177, 255, 0.15) 26%,
+      transparent 27%,
+      transparent 74%,
+      rgba(61, 177, 255, 0.15) 75%,
+      rgba(61, 177, 255, 0.15) 76%,
+      transparent 77%,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      transparent 24%,
+      rgba(61, 177, 255, 0.15) 25%,
+      rgba(61, 177, 255, 0.15) 26%,
+      transparent 27%,
+      transparent 74%,
+      rgba(61, 177, 255, 0.15) 75%,
+      rgba(61, 177, 255, 0.15) 76%,
+      transparent 77%,
+      transparent
+    );
+  background-size: 40px 40px;
 }
 
 .drag_selection {
