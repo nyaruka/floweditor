@@ -20,7 +20,6 @@ const baseProps: NodeProps = {
 
   results: {},
   activeCount: 0,
-  containerOffset: { top: 0, left: 0 },
   translating: false,
   simulating: false,
   debug: null,

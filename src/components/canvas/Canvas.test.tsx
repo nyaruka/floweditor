@@ -14,7 +14,11 @@ const baseProps: CanvasProps = {
   onUpdatePositions: jest.fn(),
   mergeEditorState: jest.fn(),
   onRemoveNodes: jest.fn(),
-  draggables: []
+  onDoubleClick: jest.fn(),
+  onLoaded: jest.fn(),
+  draggables: [],
+  newDragElement: <div></div>,
+  mutable: true
 };
 
 describe(Canvas.name, () => {
@@ -25,9 +29,10 @@ describe(Canvas.name, () => {
 
   it('initializes the height to the lowest draggable', () => {
     const lowest: CanvasDraggableProps = {
-      ele,
+      elementCreator: jest.fn(),
       uuid: createUUID(),
-      position: { top: 1200, left: 100, bottom: 1290, right: 300 }
+      position: { top: 1200, left: 100, bottom: 1290, right: 300 },
+      idx: 0
     };
     const { baseElement, getByTestId } = render(<Canvas {...baseProps} draggables={[lowest]} />);
     expect(getByTestId('canvas').style.height).toBe(1290 + CANVAS_PADDING + 'px');
@@ -37,9 +42,10 @@ describe(Canvas.name, () => {
   it('adjusts the height when updating dimensions', () => {
     const uuid = createUUID();
     const lowest: CanvasDraggableProps = {
-      ele,
+      elementCreator: jest.fn(),
       uuid,
-      position: { top: 1200, left: 100, right: 200, bottom: 1400 }
+      position: { top: 1200, left: 100, right: 200, bottom: 1400 },
+      idx: 0
     };
 
     const { baseElement, getByTestId } = render(<Canvas {...baseProps} draggables={[lowest]} />);
@@ -51,15 +57,17 @@ describe(Canvas.name, () => {
     jest.useFakeTimers();
 
     const first: CanvasDraggableProps = {
-      ele,
+      elementCreator: jest.fn(),
       uuid: createUUID(),
-      position: { top: 100, bottom: 200, left: 100, right: 200 }
+      position: { top: 100, bottom: 200, left: 100, right: 200 },
+      idx: 0
     };
 
     const second: CanvasDraggableProps = {
-      ele,
+      elementCreator: jest.fn(),
       uuid: createUUID(),
-      position: { top: 150, left: 100, bottom: 250, right: 200 }
+      position: { top: 150, left: 100, bottom: 250, right: 200 },
+      idx: 0
     };
 
     const onDragging = jest.fn();

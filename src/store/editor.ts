@@ -46,7 +46,6 @@ export interface EditorState {
   translating: boolean;
   fetchingFlow: boolean;
   ghostNode: RenderNode | null;
-  containerOffset: { left: number; top: number };
   dragActive: boolean;
   dragStartTime: number;
   dragDownPosition: FlowPosition | null;
@@ -104,7 +103,6 @@ export const EMPTY_DRAG_STATE: any = {
 export const initialState: EditorState = {
   completionSchema: { types: [], root: [] },
   functions: [],
-  containerOffset: { top: 0, left: 0 },
   currentRevision: null,
   simulating: false,
   translating: false,

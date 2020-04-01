@@ -32,9 +32,11 @@ const {
 const { renderNodeMap: initialNodes } = getFlowComponents(definition);
 
 const baseProps: FlowStoreProps = {
-  editorState: {
-    ghostNode: null
-  },
+  ghostNode: null,
+  debug: null,
+  translating: false,
+  popped: null,
+  dragActive: false,
   mergeEditorState: jest.fn(),
   definition,
   nodeEditorSettings: null,
@@ -148,16 +150,6 @@ describe(Flow.name, () => {
 
       expect(wrapper.find('Connect(Simulator)').props()).toMatchSnapshot();
     });
-
-    it('should render dragNode', () => {
-      const { wrapper, instance, props } = setup(true, {
-        mergeEditorState: set(jest.fn()),
-        editorState: { ghostNode: set(ghostNodeFromWait) }
-      });
-      const ghost = getSpecWrapper(wrapper, ghostNodeSpecId);
-      expect(ghost.key()).toBe(props.editorState.ghostNode.node.uuid);
-      expect(ghost).toMatchSnapshot();
-    });
   });
 
   describe('instance methods', () => {
@@ -245,17 +237,14 @@ describe(Flow.name, () => {
 
         expect(instance.Plumber.recalculate).not.toHaveBeenCalled();
         expect(instance.Plumber.connect).not.toHaveBeenCalled();
-        expect(props.mergeEditorState).toHaveBeenCalled();
         expect(props.onOpenNodeEditor).not.toHaveBeenCalled();
       });
 
       it('should do NodeEditor work if the user is not dragging back', () => {
         // tslint:disable-next-line:no-shadowed-variable
         const { instance, props } = setup(true, {
-          editorState: {
-            onOpenNodeEditor: setMock(),
-            ghostNode: set(ghostNodeFromWait)
-          }
+          onOpenNodeEditor: setMock(),
+          ghostNode: set(ghostNodeFromWait)
         });
 
         instance.onConnectorDrop({
@@ -266,9 +255,7 @@ describe(Flow.name, () => {
         jest.runAllTimers();
 
         expect(instance.Plumber.recalculate).toHaveBeenCalledTimes(1);
-        expect(instance.Plumber.recalculate).toHaveBeenCalledWith(
-          props.editorState.ghostNode.node.uuid
-        );
+        expect(instance.Plumber.recalculate).toHaveBeenCalledWith(props.ghostNode.node.uuid);
         expect(instance.Plumber.connect).toHaveBeenCalledTimes(1);
         expect(instance.Plumber.connect).toMatchCallSnapshot();
 
@@ -281,9 +268,7 @@ describe(Flow.name, () => {
       it('should return reversse of translating prop', () => {
         const { wrapper, instance, props } = setup();
 
-        expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(
-          !props.editorState.translating
-        );
+        expect(instance.beforeConnectionDrag(mockConnectionEvent)).toBe(!props.translating);
       });
     });
   });

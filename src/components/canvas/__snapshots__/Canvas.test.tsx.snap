@@ -5,21 +5,23 @@ exports[`Canvas adjusts the height when updating dimensions 1`] = `
   <div>
     <div
       class="canvas_container"
+      id="canvas-container"
     >
       <div
-        class="canvas"
-        data-testid="canvas"
-        id="477ac8b4-25e2-483a-8686-2d1332c4da1c"
-        style="height: 1700px;"
+        class="canvas_background"
       >
         <div
-          class="draggable"
-          data-testid="draggable_132de855-4042-4dc1-a18f-cc2e6a8f790a"
-          style="left: 100px; top: 1200px;"
+          class="canvas"
+          data-testid="canvas"
+          id="canvas"
+          style="height: 1700px;"
         >
-          <div>
-            I am a draggable element
-          </div>
+          <div />
+          <div
+            class="draggable"
+            data-testid="draggable_132de855-4042-4dc1-a18f-cc2e6a8f790a"
+            style="left: 100px; top: 1200px;"
+          />
         </div>
       </div>
     </div>
@@ -32,21 +34,23 @@ exports[`Canvas initializes the height to the lowest draggable 1`] = `
   <div>
     <div
       class="canvas_container"
+      id="canvas-container"
     >
       <div
-        class="canvas"
-        data-testid="canvas"
-        id="477ac8b4-25e2-483a-8686-2d1332c4da1c"
-        style="height: 1590px;"
+        class="canvas_background"
       >
         <div
-          class="draggable"
-          data-testid="draggable_1e47a1e1-3c67-4df5-adf1-da542c789adb"
-          style="left: 100px; top: 1200px;"
+          class="canvas"
+          data-testid="canvas"
+          id="canvas"
+          style="height: 1590px;"
         >
-          <div>
-            I am a draggable element
-          </div>
+          <div />
+          <div
+            class="draggable"
+            data-testid="draggable_1e47a1e1-3c67-4df5-adf1-da542c789adb"
+            style="left: 100px; top: 1200px;"
+          />
         </div>
       </div>
     </div>
@@ -67,13 +71,20 @@ exports[`Canvas render default 1`] = `
   <div>
     <div
       class="canvas_container"
+      id="canvas-container"
     >
       <div
-        class="canvas"
-        data-testid="canvas"
-        id="477ac8b4-25e2-483a-8686-2d1332c4da1c"
-        style="height: 0px;"
-      />
+        class="canvas_background"
+      >
+        <div
+          class="canvas"
+          data-testid="canvas"
+          id="canvas"
+          style="height: 0px;"
+        >
+          <div />
+        </div>
+      </div>
     </div>
   </div>
 </body>
