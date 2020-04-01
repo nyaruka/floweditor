@@ -1,5 +1,5 @@
 import { Exit, FlowNode } from 'flowTypes';
-import { GRID_SIZE, timeStart, timeEnd } from 'utils';
+import { GRID_SIZE, timeStart, timeEnd, debounce } from 'utils';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -133,8 +133,7 @@ export default class Plumber {
             cssClass: 'jtk-arrow'
           }
         ]
-      ],
-      Container: 'editor-container'
+      ]
     });
 
     this.debug = this.debug.bind(this);
@@ -153,12 +152,13 @@ export default class Plumber {
     this.bind = this.bind.bind(this);
     this.repaint = this.repaint.bind(this);
     this.recalculate = this.recalculate.bind(this);
-    this.recalculateUUIDs = this.recalculateUUIDs.bind(this);
     this.reset = this.reset.bind(this);
     this.updateClass = this.updateClass.bind(this);
+    this.rerouteAnchors = this.rerouteAnchors.bind(this);
+  }
 
-    // if our browser resizes, make sure to repaint accordingly
-    window.onresize = () => this.jsPlumb.repaintEverything();
+  public setContainer(containerId: string) {
+    this.jsPlumb.setContainer(containerId);
   }
 
   public debug(): any {
@@ -233,64 +233,66 @@ export default class Plumber {
       timeStart('Batched ' + batch + ' connections');
     }
 
-    // this.jsPlumb.batch(() => {
-    for (const key in this.pendingConnections) {
-      if (this.pendingConnections.hasOwnProperty(key)) {
-        const connection = this.pendingConnections[key];
-        const { source, target, className, slot, totalSlots } = connection;
+    this.jsPlumb.batch(() => {
+      for (const key in this.pendingConnections) {
+        if (this.pendingConnections.hasOwnProperty(key)) {
+          const connection = this.pendingConnections[key];
+          const { source, target, className, slot, totalSlots } = connection;
 
-        const anchors = target
-          ? ['Bottom', getAnchor(document.getElementById(source), document.getElementById(target))]
-          : [];
+          const anchors = target
+            ? [
+                'Bottom',
+                getAnchor(document.getElementById(source), document.getElementById(target))
+              ]
+            : [];
 
-        if (source != null) {
-          // any existing connections for our source need to be deleted
-          this.jsPlumb.select({ source }).delete({ fireEvent: false });
+          if (source != null) {
+            // any existing connections for our source need to be deleted
+            this.jsPlumb.select({ source }).delete({ fireEvent: false });
 
-          const start = totalSlots < 5 ? 0.75 : 0.35;
-          let midpoint = start + slot * 0.15;
-          const exitMiddle = totalSlots / 2;
-          if (slot > exitMiddle) {
-            midpoint = start - 0.05 + (totalSlots - slot) * 0.15;
+            const start = totalSlots < 5 ? 0.75 : 0.35;
+            let midpoint = start + slot * 0.15;
+            const exitMiddle = totalSlots / 2;
+            if (slot > exitMiddle) {
+              midpoint = start - 0.05 + (totalSlots - slot) * 0.15;
+            }
+
+            // add reasonable boundaries for midpoints
+            midpoint = Math.max(Math.min(0.9, midpoint), 0.1);
+
+            const connector: any = [...defaultConnector];
+            connector[1].midpoint = midpoint;
+
+            // now make our new connection
+            if (target != null) {
+              const plumbConnect = this.jsPlumb.connect({
+                source,
+                target,
+                anchors,
+                fireEvent: false,
+                cssClass: className,
+                detachable: !className,
+                overlays: connectorOverlays,
+                connector
+              });
+
+              const activityElement = plumbConnect.getOverlays()['activity'].getElement();
+              const recentsElement = plumbConnect.getOverlays()['recent_messages'].getElement();
+              activityElement.classList.add('jtk-activity');
+              recentsElement.classList.add('jtk-recents');
+
+              connection.onConnected(activityElement.id, recentsElement.id);
+            }
           }
 
-          // add reasonable boundaries for midpoints
-          midpoint = Math.max(Math.min(0.9, midpoint), 0.1);
-
-          const connector: any = [...defaultConnector];
-          connector[1].midpoint = midpoint;
-
-          // now make our new connection
           if (target != null) {
-            // don't allow manual detachments if our connection is styled
-            const plumbConnect = this.jsPlumb.connect({
-              source,
-              target,
-              anchors,
-              fireEvent: false,
-              cssClass: className,
-              detachable: !className,
-              overlays: connectorOverlays,
-              connector
-            });
-
-            const activityElement = plumbConnect.getOverlays()['activity'].getElement();
-            const recentsElement = plumbConnect.getOverlays()['recent_messages'].getElement();
-            activityElement.classList.add('jtk-activity');
-            recentsElement.classList.add('jtk-recents');
-
-            connection.onConnected(activityElement.id, recentsElement.id);
+            targets[target] = true;
           }
-        }
 
-        if (target != null) {
-          targets[target] = true;
+          delete this.pendingConnections[key];
         }
-
-        delete this.pendingConnections[key];
       }
-    }
-    // });
+    }, false);
 
     if (batch > 1) {
       timeEnd('Batched ' + batch + ' connections');
@@ -364,22 +366,30 @@ export default class Plumber {
     }
   }
 
-  public recalculateUUIDs(uuids: string[]): void {
-    uuids.forEach((uuid: string) => {
-      /* 
-        TODO: Unsure if this is needed any longer, and it is not particularly cheap
-              This appears to be resetting it's anchor to itself, presumably to work
-              around a jsPlumb bug, but was uncommented.
-
-        const connections = this.jsPlumb
+  /**
+   *
+   * Reroutes the connections for actively moving nodes. We try to direct
+   * connections as much as possible.
+   * @param elements the targets and sources that ar moving around
+   */
+  public rerouteAnchors(elements: Element[]): void {
+    elements.forEach((ele: Element) => {
+      const uuid = ele.id;
+      const connections = this.jsPlumb
         .getConnections({ target: uuid })
         .concat(this.jsPlumb.getConnections({ source: uuid }));
-        
-        for (const c of connections) {
-          c.endpoints[1].setAnchor(getAnchor(c.endpoints[0].element, c.endpoints[1].element));
-        }
-        */
-      this.jsPlumb.revalidate(uuid);
+      for (const c of connections) {
+        c.endpoints[1].setAnchor(getAnchor(c.endpoints[0].element, c.endpoints[1].element));
+      }
+    });
+  }
+
+  public revalidate(elements: Element[]): void {
+    this.jsPlumb.revalidate(elements);
+
+    // reroute our anchors but only after we stop moving for a bit
+    debounce(this.rerouteAnchors, 200, () => {
+      this.rerouteAnchors(elements);
     });
   }
 
@@ -390,7 +400,10 @@ export default class Plumber {
   }
 
   public reset(): void {
-    // console.log("resetting plumbing");
     this.jsPlumb.reset();
+  }
+
+  public getPlumb(): any {
+    return this.jsPlumb;
   }
 }

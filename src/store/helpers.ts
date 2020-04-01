@@ -680,10 +680,6 @@ export const fetchFlowActivity = (
   getState: GetState,
   uuid: string
 ): void => {
-  if (true) {
-    return;
-  }
-
   const {
     editorState: { simulating, activityInterval, visible }
   } = getState();

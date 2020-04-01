@@ -69,7 +69,6 @@ export interface NodeStoreProps {
   language: Asset;
   languages: AssetMap;
   activeCount: number;
-  containerOffset: { top: number; left: number };
   translating: boolean;
   simulating: boolean;
   debug: DebugState;
@@ -123,10 +122,12 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private getGhostListener(): any {
     return (e: MouseEvent) => {
+      const canvasBounds = this.ele.parentElement.parentElement.getBoundingClientRect();
+
       // move our ghost node into position
       const width = this.ele.getBoundingClientRect().width;
-      const left = e.pageX - width / 2 - 15;
-      const top = e.pageY + this.ele.scrollTop - (this.props.containerOffset.top + 20);
+      const left = e.pageX - width / 2 - 15 - canvasBounds.left;
+      const top = e.pageY - canvasBounds.top - window.scrollY;
       const style = this.ele.style;
       style.left = left + 'px';
       style.top = top + 'px';
@@ -458,7 +459,6 @@ const mapStateToProps = (
       debug,
       ghostNode,
       simulating,
-      containerOffset,
       activity,
       language,
       scrollToAction,
@@ -495,7 +495,6 @@ const mapStateToProps = (
     language,
     languages,
     activeCount,
-    containerOffset,
     translating,
     debug,
     renderNode,

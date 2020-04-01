@@ -453,3 +453,14 @@ export const traceUpdate = (component: any, prevProps: any, prevState?: any) => 
     });
   }
 };
+
+export const debounce = (fn: any, quiet: number, closure: any = null) => {
+  if (fn.timeout) {
+    window.clearTimeout(fn.timeout);
+  }
+  fn.timeout = window.setTimeout(closure || fn, quiet);
+};
+
+export const onNextRender = (fn: any) => {
+  window.setTimeout(fn, 0);
+};
