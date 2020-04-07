@@ -184,7 +184,10 @@ export default class MsgLocalizationForm extends React.Component<
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
     const tabs: Tab[] = [];
 
-    if (this.state.templating && typeConfig.localizeableKeys!.indexOf('templating') > -1) {
+    if (
+      this.state.templating &&
+      typeConfig.localizeableKeys!.indexOf('templating.variables') > -1
+    ) {
       const hasLocalizedValue = !!this.state.templateVariables.find(
         (entry: StringEntry) => entry.value.length > 0
       );

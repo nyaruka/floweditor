@@ -33,10 +33,13 @@ import {
   onOpenNodeEditor,
   OnOpenNodeEditor,
   handleLanguageChange,
-  HandleLanguageChange
+  HandleLanguageChange,
+  UpdateTranslationFilters,
+  updateTranslationFilters
 } from 'store/thunks';
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf } from 'utils';
 import { PopTabType } from 'config/interfaces';
+import { TranslatorTab } from './translator/TranslatorTab';
 
 const { default: PageVisibility } = require('react-page-visibility');
 
@@ -66,6 +69,7 @@ export interface FlowEditorStoreProps {
   scrollToNode: string;
   scrollToAction: string;
   popped: string;
+  updateTranslationFilters: UpdateTranslationFilters;
 }
 
 const hotStore = createStore();
@@ -243,6 +247,27 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
               <ConnectedFlow />
             )}
 
+            {renderIf(this.props.definition && this.props.translating && !this.props.fetchingFlow)(
+              <TranslatorTab
+                language={this.props.language}
+                languages={this.props.languages ? this.props.languages.items : {}}
+                localization={
+                  this.props.definition && this.props.language
+                    ? this.props.definition.localization[this.props.language.id]
+                    : {}
+                }
+                onTranslationClicked={null}
+                onTranslationOpened={null}
+                onTranslationFilterChanged={this.props.updateTranslationFilters}
+                translationFilters={
+                  this.props.definition ? this.props.definition._ui.translation_filters : null
+                }
+                nodes={this.props.nodes}
+                onToggled={this.handleTabPopped}
+                popped={this.props.popped}
+              />
+            )}
+
             <RevisionExplorer
               loadFlowDefinition={this.props.loadFlowDefinition}
               createNewRevision={this.props.createNewRevision}
@@ -314,7 +339,8 @@ const mapDispatchToProps = (dispatch: DispatchWithState) =>
       createNewRevision,
       mergeEditorState,
       onOpenNodeEditor,
-      handleLanguageChange
+      handleLanguageChange,
+      updateTranslationFilters
     },
     dispatch
   );

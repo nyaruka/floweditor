@@ -23,7 +23,7 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
 
   constructor(props: PopTabProps) {
     super(props);
-    this.state = { width: 400 };
+    this.state = { width: 258 };
 
     bindCallbacks(this, {
       include: [/^handle/]
