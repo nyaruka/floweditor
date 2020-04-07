@@ -353,6 +353,7 @@
     "added_to_group": "Added to ",
     "airtime_transferred": "Transferred [[amount]] [[currency]] to [[recipient]]",
     "contact_field_changed": "Set contact \"[[field]]\" to \"[[value]]\"",
+    "contact_field_cleared": "Cleared contact \"[[field]]\"",
     "contact_language_changed": "Set preferred language to \"[[language]]\"",
     "contact_name_changed": "Set contact name to \"[[name]]\"",
     "flow_entered": "Entered flow \"[[flow]]\"",

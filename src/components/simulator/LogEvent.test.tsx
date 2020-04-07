@@ -42,6 +42,14 @@ describe(LogEvent.name, () => {
       ...commonEventProps
     });
   });
+  it('should render contact_field_changed event with null value', () => {
+    testEventRender({
+      type: 'contact_field_changed',
+      field: { key: 'age', name: 'Age' },
+      value: null,
+      ...commonEventProps
+    });
+  });
   it('should render contact_groups_changed event', () => {
     testEventRender({
       type: 'contact_groups_changed',
