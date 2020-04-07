@@ -11,7 +11,7 @@ exports[`IssuesTab renders 1`] = `
       />
       <div
         class="pop_wrapper "
-        style="right: -400px; top: 416px;"
+        style="right: -258px; top: 416px;"
       >
         <div
           class="tab_wrapper"
@@ -72,7 +72,7 @@ exports[`IssuesTab renders missing dependencies 1`] = `
       />
       <div
         class="pop_wrapper "
-        style="right: -400px; top: 416px;"
+        style="right: -258px; top: 416px;"
       >
         <div
           class="tab_wrapper"

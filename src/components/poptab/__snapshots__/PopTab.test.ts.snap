@@ -5,7 +5,7 @@ exports[`PopTab render should render base component 1`] = `
   className="pop_wrapper visible"
   style={
     Object {
-      "right": -400,
+      "right": -258,
       "top": "50px",
     }
   }
@@ -41,7 +41,7 @@ exports[`PopTab render should render base component 1`] = `
     style={
       Object {
         "borderColor": "red",
-        "right": 415,
+        "right": 273,
         "top": -100,
       }
     }

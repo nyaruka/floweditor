@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TranslatorTab renders 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="mask"
+      />
+      <div
+        class="pop_wrapper "
+        style="right: -258px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-earth"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="translations_wrapper"
+          />
+          <div
+            class="options"
+          >
+            <div
+              class="header"
+            >
+              <div
+                class="progress_bar"
+              >
+                <div
+                  class="filled"
+                  style="width: 0%;"
+                />
+              </div>
+              <div
+                class="toggle"
+              >
+                <span
+                  class="fe-arrow-up"
+                />
+              </div>
+            </div>
+            <div
+              class="filters"
+            >
+              <div
+                class="checkboxes"
+              >
+                <div>
+                  <label
+                    class="label"
+                  >
+                    <span
+                      class="fe-check-square checkbox"
+                      data-spec="checkbox"
+                    />
+                    <div
+                      class="description_solo"
+                      data-spec="description"
+                    >
+                      Categories
+                    </div>
+                  </label>
+                </div>
+                <div>
+                  <label
+                    class="label"
+                  >
+                    <span
+                      class="fe-check-square checkbox"
+                      data-spec="checkbox"
+                    />
+                    <div
+                      class="description_solo"
+                      data-spec="description"
+                    >
+                      Rule Arguments
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div
+                class="pct_complete"
+              >
+                0
+                %
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
