@@ -13,6 +13,8 @@ import Select from 'react-select';
 import { FormState, StringEntry, SelectOptionEntry } from 'store/nodeEditor';
 import { getSelectClass, hasErrorType } from 'utils';
 import { small } from 'utils/reactselect';
+import { Trans } from 'react-i18next';
+import i18n from 'config/i18n';
 
 import styles from './CaseElement.module.scss';
 import { initializeForm, validateCase } from './helpers';
@@ -328,7 +330,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           return (
             <>
               <TextInputElement
-                name="arguments"
+                name={i18n.t('arguments', 'arguments')}
                 onChange={this.handleMinChanged}
                 entry={this.state.min}
               />
@@ -336,7 +338,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 and
               </span>
               <TextInputElement
-                name="arguments"
+                name={i18n.t('arguments', 'arguments')}
                 onChange={this.handleMaxChanged}
                 entry={this.state.max}
               />
@@ -475,7 +477,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             {this.renderArguments()}
           </div>
           <div className={styles.categorize_as} data-draggable={true}>
-            categorize as
+            <Trans i18nKey="categorize_as">categorize as</Trans>
           </div>
           <div className={styles.category}>
             <TextInputElement

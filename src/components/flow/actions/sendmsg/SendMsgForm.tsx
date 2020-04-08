@@ -46,12 +46,14 @@ import { Trans } from 'react-i18next';
 const MAX_ATTACHMENTS = 3;
 
 const TYPE_OPTIONS: SelectOption[] = [
-  { value: 'image', label: 'Image URL' },
-  { value: 'audio', label: 'Audio URL' },
-  { value: 'video', label: 'Video URL' }
+  { value: 'image', label: i18n.t('forms.send_msg.image_url', 'Image URL') },
+  { value: 'audio', label: i18n.t('forms.send_msg.audio_url', 'Audio URL') },
+  { value: 'video', label: i18n.t('forms.send_msg.video_url', 'Video URL') }
 ];
 
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', label: 'Upload Attachment' }]);
+const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
+  { value: 'upload', label: i18n.t('forms.send_msg.upload_attachment', 'Upload Attachment') }
+]);
 
 const getAttachmentTypeOption = (type: string): SelectOption => {
   return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
@@ -196,7 +198,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       >
         <div className={styles.type_choice}>
           <SelectElement
-            name="Type"
+            name={i18n.t('forms.type_choice', 'Type')}
             styles={small as any}
             entry={{
               value: { label: attachment.type }
@@ -217,7 +219,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             <div className={styles.remove_upload}>
               <Pill
                 icon="fe-x"
-                text=" Remove"
+                text={i18n.t('forms.button.remove', ' Remove')}
                 large={true}
                 onClick={() => {
                   this.handleAttachmentRemoved(index);
@@ -262,8 +264,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         <div className={styles.type_choice}>
           <SelectElement
             styles={small as any}
-            name="Type Options"
-            placeholder="Add Attachment"
+            name={i18n.t('forms.send_msg.type_options', 'Type Options')}
+            placeholder={i18n.t('forms.send_msg.add_attachment', 'Add Attachment')}
             entry={{
               value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
             }}
@@ -309,7 +311,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             <div className={styles.remove}>
               <Pill
                 icon="fe-x"
-                text=" Remove"
+                text={i18n.t('forms.button.remove', ' Remove')}
                 large={true}
                 onClick={() => {
                   this.handleAttachmentRemoved(index);
@@ -390,7 +392,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private handleTemplateVariableChanged(updatedText: string, num: number): void {
-    const entry = validate(`Variable ${num + 1}`, updatedText, [Required]);
+    const entry = validate(
+      `${i18n.t('forms.validate.variable', 'Variable')} ${num + 1}`,
+      updatedText,
+      [Required]
+    );
     const templateVariables = mutate(this.state.templateVariables, {
       $merge: { [num]: entry }
     }) as StringEntry[];
@@ -440,8 +446,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           )}
         </p>
         <AssetSelector
-          name="Template"
-          noOptionsMessage="No templates found"
+          name={i18n.t('forms.send_msg.template', 'Template')}
+          noOptionsMessage={i18n.t('forms.send_msg.no_template', 'No templates found')}
           assets={this.props.assetStore.templates}
           entry={this.state.template}
           onChange={this.handleTemplateChanged}
@@ -456,9 +462,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
               return (
                 <div className={styles.variable} key={'tr_arg_' + num}>
                   <TextInputElement
-                    name={`Variable ${num + 1}`}
+                    name={`${i18n.t('forms.send_msg.variable', 'Variable')} ${num + 1}`}
                     showLabel={false}
-                    placeholder={`Variable ${num + 1}`}
+                    placeholder={`${i18n.t('forms.send_msg.variable', 'Variable')} ${num + 1}`}
                     onChange={(updatedText: string) => {
                       this.handleTemplateVariableChanged(updatedText, num);
                     }}
@@ -512,7 +518,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     const typeConfig = this.props.typeConfig;
 
     const quickReplies: Tab = {
-      name: 'Quick Replies',
+      name: i18n.t('quick_replies', 'Quick Replies'),
       body: (
         <>
           <p>
@@ -523,7 +529,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           </p>
 
           <MultiChoiceInput
-            name="Quick Reply"
+            name={i18n.t('quick_reply', 'Quick Reply')}
             helpText={
               <Trans i18nKey="forms.send_msg.add_quick_reply">
                 Add a new Quick Reply and press enter.
@@ -542,17 +548,17 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     };
 
     const attachments: Tab = {
-      name: 'Attachments',
+      name: i18n.t('attachments', 'Attachments'),
       body: this.renderAttachments(),
       checked: this.state.attachments.length > 0
     };
 
     const advanced: Tab = {
-      name: 'Advanced',
+      name: i18n.t('advanced', 'Advanced'),
       body: (
         <CheckboxElement
-          name="All Destinations"
-          title="All Destinations"
+          name={i18n.t('forms.send_message.all_destinations.name', 'All Destinations')}
+          title={i18n.t('forms.send_message.all_destinations.title.', 'All Destinations')}
           labelClassName={styles.checkbox}
           checked={this.state.sendAll}
           description={i18n.t(
@@ -595,7 +601,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <TextInputElement
-          name="Message"
+          name={i18n.t('message', 'Message')}
           showLabel={false}
           count={Count.SMS}
           onChange={this.handleMessageUpdate}

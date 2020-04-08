@@ -12,6 +12,7 @@ import mutate from 'immutability-helper';
 import * as React from 'react';
 import { FormEntry, FormState, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
+import i18n from 'config/i18n';
 
 import styles from './AirtimeRouterForm.module.scss';
 import { nodeToState, stateToNode } from './helpers';
@@ -62,7 +63,11 @@ export default class AirtimeRouterForm extends React.PureComponent<
       if (!valid) {
         this.setState({
           valid: false,
-          validationFailures: [{ message: 'At least one amount to transfer is required' }]
+          validationFailures: [
+            {
+              message: i18n.t('validation.failures', 'At least one amount to transfer is required')
+            }
+          ]
         });
       }
     }
@@ -74,7 +79,11 @@ export default class AirtimeRouterForm extends React.PureComponent<
   }
 
   private handleUpdateResultName(result: string): void {
-    const resultName = validate('Result Name', result, [Required, Alphanumeric, StartIsNonNumeric]);
+    const resultName = validate(i18n.t('result_name', 'Result Name'), result, [
+      Required,
+      Alphanumeric,
+      StartIsNonNumeric
+    ]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)

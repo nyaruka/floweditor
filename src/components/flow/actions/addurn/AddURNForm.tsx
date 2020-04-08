@@ -80,7 +80,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
         </p>
         <div className={styles.scheme_selection}>
           <SelectElement
-            name="URN Type"
+            name={i18n.t('forms.add_urn.type', 'URN Type')}
             entry={this.state.scheme}
             onChange={this.handleSchemeChanged}
             options={getSchemeOptions()}
@@ -89,7 +89,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
         <div className={styles.path}>
           <TextInputElement
             name="URN"
-            placeholder="Enter the URN value"
+            placeholder={i18n.t('forms.add_urn.placeholder', 'Enter the URN value')}
             entry={this.state.path}
             onChange={this.handlePathChanged}
             autocomplete={true}

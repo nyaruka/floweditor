@@ -2,6 +2,7 @@ import * as headerUtils from 'http-headers-validation';
 import { Asset } from 'store/flowContext';
 import { FormEntry, ValidationFailure } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
+import i18n from 'config/i18n';
 
 export type FormInput =
   | string
@@ -140,16 +141,25 @@ export const Empty: ValidatorFunc = (name: string, input: FormInput) => {
 
 export const Required: ValidatorFunc = (name: string, input: FormInput) => {
   if (!input) {
-    return { value: input, failures: [{ message: `${name} is required` }] };
+    return {
+      value: input,
+      failures: [{ message: `${name} ${i18n.t('is_required', 'is required')}` }]
+    };
   }
 
   if (typeof input === 'string') {
     if ((input as string).trim().length === 0) {
-      return { value: input, failures: [{ message: `${name} is required` }] };
+      return {
+        value: input,
+        failures: [{ message: `${name} ${i18n.t('is_required', 'is required')}` }]
+      };
     }
   } else if (Array.isArray(input)) {
     if (input.length === 0) {
-      return { value: input, failures: [{ message: `${name} are required` }] };
+      return {
+        value: input,
+        failures: [{ message: `${name} ${i18n.t('are_required', 'are required')}` }]
+      };
     }
   }
   return { failures: [], value: input };

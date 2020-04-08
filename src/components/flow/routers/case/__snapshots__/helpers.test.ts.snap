@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`helpers prefix should prefix "Tem a frase" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "Tem quadra" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "Tem um email" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "começa com" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "corresponde a regex" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "está no grupo" operator appropriately 1`] = `""`;
+
 exports[`helpers prefix should prefix "has a date after" operator appropriately 1`] = `"After "`;
 
 exports[`helpers prefix should prefix "has a date before" operator appropriately 1`] = `"Before "`;
@@ -54,7 +66,51 @@ exports[`helpers prefix should prefix "is not empty" operator appropriately 1`] 
 
 exports[`helpers prefix should prefix "matches regex" operator appropriately 1`] = `""`;
 
+exports[`helpers prefix should prefix "não está vazio" operator appropriately 1`] = `""`;
+
 exports[`helpers prefix should prefix "starts with" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem a categoria" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem algum texto" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem apenas a frase" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem distrito" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem estado" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem qualquer das palavras" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem todas as palavras" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem um erro" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem um número abaixo" operator appropriately 1`] = `"< "`;
+
+exports[`helpers prefix should prefix "tem um número acima" operator appropriately 1`] = `">"`;
+
+exports[`helpers prefix should prefix "tem um número de telefone" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem um número entre" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem um número igual a " operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem um número igual ou abaixo" operator appropriately 1`] = `"<= "`;
+
+exports[`helpers prefix should prefix "tem um número igual ou acima" operator appropriately 1`] = `">= "`;
+
+exports[`helpers prefix should prefix "tem um número" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem um tempo" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem uma data antes" operator appropriately 1`] = `"Before "`;
+
+exports[`helpers prefix should prefix "tem uma data depois " operator appropriately 1`] = `"After "`;
+
+exports[`helpers prefix should prefix "tem uma data igual a" operator appropriately 1`] = `""`;
+
+exports[`helpers prefix should prefix "tem uma data" operator appropriately 1`] = `""`;
 
 exports[`helpers validateCase cross validates min - max 1`] = `
 Object {
