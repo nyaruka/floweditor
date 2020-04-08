@@ -1,4 +1,5 @@
 {
+  "Timeout": "Tempo esgotado",
   "actions": {
     "add_contact_groups": {
       "description": "Adicione contato a um grupo",
@@ -40,7 +41,7 @@
       "placeholder": "Manda uma mensagem para o contato"
     },
     "send_broadcast": {
-      "description": "Send somebody else message",
+      "description": "Enviar para outra pessoa",
       "name": "Enviar transmissão",
       "placeholder": "Envie uma mensagem para o contato"
     },
@@ -123,14 +124,28 @@
     }
   },
   "add": "Adicione",
+  "advanced": "Avançado",
+  "are_required": "é requerido",
+  "arguments": "argumentos",
   "asset_selector": {
     "placeholder": "Selecione [[nome]] existente ou adicione um novo",
     "placeholder_plural": "Selecione [[nome]] existente ou adicione um novo"
   },
+  "assets": {
+    "classifier": "Chamar [[nome]] classificador"
+  },
+  "attachments": "Anexos",
   "body": "Corpo",
   "buttons": {
     "cancel": "Cancelar",
+    "create_message": "Criar Mensagem",
     "ok": "Ok"
+  },
+  "categorize_as": "categorizar como",
+  "context_explorer": {
+    "copied_expression": "Copiado <1>[[expression]]</1> para área de transferência",
+    "hide_empty": "Mostrando chaves com valores",
+    "show_empty": "Mostrando todas as chaves"
   },
   "create_group": "Criar Grupo",
   "create_label": "Criar Label",
@@ -146,6 +161,7 @@
     "group_not_found": "Entre o nome de um grupo existente",
     "http_header_missing_name": "Cabeçalhos HTTP devem ter um nome"
   },
+  "for": "por",
   "forms": {
     "add_groups": {
       "summary": "Selecione os grupos para adicionar um contato"
@@ -154,7 +170,12 @@
       "summary": "Selecione as labels a serem aplicados à mensagem recebida."
     },
     "add_urn": {
-      "summary": "Adicione um novo URN para alcançar o contato, como um número de telefone."
+      "placeholder": "Digite o valor URN",
+      "summary": "Adicione um novo URN para alcançar o contato, como um número de telefone.",
+      "type": "Tipo de URN"
+    },
+    "button": {
+      "remove": "Remover"
     },
     "call_webhook": {
       "body_summary": "Modifique o corpo da solicitação [[método]] que será enviada ao seu webhook.",
@@ -189,13 +210,40 @@
       "subject_name": "Assunto",
       "subject_placeholder": "Assunto"
     },
+    "send_message": {
+      "all_destinations": {
+        "name": "Todos os Destinos",
+        "title": {
+          "": "Todos os Destinos"
+        }
+      },
+      "facebook": {
+        "topic_placeholder": "Selecione um tópico para usar no Facebook"
+      },
+      "quick_reply": {
+        "choice": "Resposta Rápida",
+        "name": "Resposta Rápida"
+      }
+    },
     "send_msg": {
+      "add_attachment": "Adicionar Anexo",
+      "facebook": {
+        "warning": "O envio de mensagens em massa por um canal do Facebook exige que um tópico seja especificado se o usuário não tiver enviado uma mensagem nas últimas 24 horas. Definir um tópico para usar no Facebook é especialmente importante para a primeira mensagem no seu fluxo."
+      },
+      "image_url": "URL da imagem",
       "add_quick_reply": "Adicione uma Resposta Rápida e clique em enter",
       "all_destinations": "Envie uma mensagem para todos os destinos conhecidos deste contato. Se você não tiver certeza do que isso significa, deixe-o desmarcado.",
+      "audio_url": "URL do áudio",
       "localized_quick_replies": "Adicione uma nova [[idioma]] Resposta Rápida e aperte enter. ",
-      "quick_replies": "As Respostas rápidas são transformadas em botões para os canais suportados. Por exemplo, ao fazer uma pergunta, você pode adicionar uma Resposta rápida para \"Sim\" e outra para \"Não\".",
+      "no_template": "Nenhum template encontrado",
+      "quick_replies": "As Respostas rápidas são transformadas em botões para os canais suportados. Por exemplo, ao fazer uma pergunta, você pode adicionar uma resposta rápida para \"Sim\" e outra para \"Não\".",
       "summary": "Adicione um anexo a cada mensagem. O anexo pode ser um arquivo que você carrega ou uma URL dinâmica usando expressões e variáveis ​​do seu Flow.",
       "summary_plural": "Adicione um anexo a cada mensagem. O anexo pode ser um arquivo que você carrega ou uma URL dinâmica usando expressões e variáveis ​​do seu Flow.",
+      "template": "Template",
+      "type_options": "Tipos de Opções",
+      "upload_attachment": "Enviar Anexo",
+      "variable": "Variável",
+      "video_url": "URL do vídeo",
       "whatsapp_warning": "O envio de mensagens por um canal do WhatsApp exige que um template seja usado se você não recebeu uma mensagem de um contato nas últimas 24 horas. A configuração de template para uso no WhatsApp é especialmente importante para a primeira mensagem no seu fluxo."
     },
     "set_run_result": {
@@ -209,7 +257,9 @@
     },
     "type_label": "Quando um contato chegar a esse ponto do fluxo..."
   },
+  "get_instructions": "Continuar quando não houver resposta",
   "groups": "Grupos",
+  "is_required": "é obrigatório",
   "message": "Mensagem",
   "operator": {
     "has_pattern": "corresponde a regex"
@@ -253,6 +303,8 @@
     "has_ward": "Tem quadra",
     "has_ward_category": "Tem Quadra"
   },
+  "quick_replies": "Respostas Rápidas",
+  "quick_reply": "Resposta Rápida",
   "removal_confirmation": "Remover?",
   "revisions": {
     "header": "Revisões",
@@ -272,6 +324,27 @@
     "viber": { "path": "Identificador do Viber" },
     "wechat": { "path": "Identificador do Wechat" },
     "whatsapp": { "path": "Número de Whatsapp" }
+  },
+  "select": {
+    "time": {
+      "10_minute": "10 minutos",
+      "12_hours": "12 horas",
+      "15_minute": "15 minutos",
+      "18_hours": "18 horas",
+      "1_day": "1 dia",
+      "1_hours": "1 hora",
+      "1_minute": "1 minuto",
+      "1_week": "1 semana",
+      "2_day": "2 dias",
+      "2_hours": "2 horas",
+      "2_minute": "2 minutos",
+      "3_day": "3 dias",
+      "3_hours": "3 horas",
+      "3_minute": "3 minutos",
+      "4_minute": "4 minutos",
+      "5_minute": "5 minutos",
+      "6_hours": "6 horas"
+    }
   },
   "simulator": {
     "added_to_group": "Adicionado a ",
@@ -295,5 +368,9 @@
     "body": "...",
     "title": "Nova Nota"
   },
-  "translation": "Tradução"
+  "timeout": "tempo esgotado",
+  "translation": "Tradução",
+  "validation": {
+    "failures": "É necessário pelo menos um valor para transferir"
+  }
 }

@@ -1,4 +1,5 @@
 {
+  "Timeout": "Timeout",
   "actions": {
     "add_contact_groups": {
       "description": "Add the contact to a group",
@@ -127,6 +128,9 @@
     }
   },
   "add": "Add",
+  "advanced": "Advanced",
+  "are_required": "are required",
+  "arguments": "arguments",
   "asset_selector": {
     "placeholder": "Select existing [[name]] or enter a new one",
     "placeholder_plural": "Select existing [[name]] or enter a new one"
@@ -134,11 +138,14 @@
   "assets": {
     "classifier": "Call [[name]] classifier"
   },
+  "attachments": "Attachments",
   "body": "Body",
   "buttons": {
     "cancel": "Cancel",
+    "create_message": "Create Message",
     "ok": "Ok"
   },
+  "categorize_as": "categorize as",
   "context_explorer": {
     "copied_expression": "Copied <1>[[expression]]</1> to clipboard",
     "hide_empty": "Showing keys with values",
@@ -159,6 +166,7 @@
     "http_header_missing_name": "HTTP headers must have a name",
     "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."
   },
+  "for": "for",
   "forms": {
     "add_groups": {
       "summary": "Select the groups to add the contact to."
@@ -167,7 +175,12 @@
       "summary": "Select the labels to apply to the incoming message."
     },
     "add_urn": {
-      "summary": "Add a new URN to reach the contact such as a phone number."
+      "placeholder": "Enter the URN value",
+      "summary": "Add a new URN to reach the contact such as a phone number.",
+      "type": "URN Type"
+    },
+    "button": {
+      "remove": " Remove"
     },
     "call_webhook": {
       "body_summary": "Modify the body of the [[method]] request that will be sent to your webhook.",
@@ -209,20 +222,35 @@
       "subject_placeholder": "Subject"
     },
     "send_message": {
+      "all_destinations": {
+        "name": "All Destinations",
+        "title": {
+          "": "All Destinations"
+        }
+      },
       "facebook": {
         "topic_placeholder": "Select a topic to use over Facebook"
       }
     },
     "send_msg": {
+      "add_attachment": "Add Attachment",
       "add_quick_reply": "Add a new Quick Reply and press enter.",
       "all_destinations": "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked.",
+      "audio_url": "Audio URL",
       "facebook": {
         "warning": "Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow."
       },
+      "image_url": "Image URL",
       "localized_quick_replies": "Add a new [[language]] Quick Reply and press enter.",
+      "no_template": "No templates found",
       "quick_replies": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
       "summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
       "summary_plural": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
+      "template": "Template",
+      "type_options": "Type Options",
+      "upload_attachment": "Upload Attachment",
+      "variable": "Variable",
+      "video_url": "Video URL",
       "whatsapp_warning": "Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."
     },
     "set_run_result": {
@@ -235,9 +263,15 @@
       "label": "Select the groups you'd like to split by below"
     },
     "split_by_scheme": "Channel types",
-    "type_label": "When a contact arrives at this point in your flow..."
+    "type_choice": "Type",
+    "type_label": "When a contact arrives at this point in your flow...",
+    "validate": {
+      "variable": "Variable"
+    }
   },
+  "get_instructions": "Continue when there is no response",
   "groups": "Groups",
+  "is_required": "is required",
   "issue": {
     "legacy_extra": "Invalid regular expression found: [[regex]]"
   },
@@ -289,7 +323,10 @@
     "has_ward": "has ward",
     "has_ward_category": "Has Ward"
   },
+  "quick_replies": "Quick Replies",
+  "quick_reply": "Quick Reply",
   "removal_confirmation": "Remove?",
+  "result_name": "Result Name",
   "revisions": {
     "header": "Revisions",
     "label": "Revision History"
@@ -349,6 +386,27 @@
       "path": "WhatsApp Number"
     }
   },
+  "select": {
+    "time": {
+      "10_minute": "10 minutes",
+      "12_hours": "12 hours",
+      "15_minute": "15 minutes",
+      "18_hours": "18 hours",
+      "1_day": "1 day",
+      "1_hours": "1 hours",
+      "1_minute": "1 minute",
+      "1_week": "1 week",
+      "2_day": "2 days",
+      "2_hours": "2 hours",
+      "2_minute": "2 minutes",
+      "3_day": "3 days",
+      "3_hours": "3 hours",
+      "3_minute": "3 minutes",
+      "4_minute": "4 minutes",
+      "5_minute": "5 minutes",
+      "6_hours": "6 hours"
+    }
+  },
   "simulator": {
     "added_to_group": "Added to ",
     "airtime_transferred": "Transferred [[amount]] [[currency]] to [[recipient]]",
@@ -373,5 +431,9 @@
     "body": "...",
     "title": "New Note"
   },
-  "translation": "Translation"
+  "timeout": "timeout",
+  "translation": "Translation",
+  "validation": {
+    "failures": "At least one amount to transfer is required"
+  }
 }

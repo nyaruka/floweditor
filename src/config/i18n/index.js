@@ -10,11 +10,13 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import defaults from './defaults.json';
 import en from './en/resource.json';
 import es from './es/resource.json';
+import pt from './pt/resource.json';
 
 const resources = {
   defaults: { translation: defaults },
   en: { translation: en },
-  es: { translation: es }
+  es: { translation: es },
+  pt: { translation: pt }
 };
 
 i18n
