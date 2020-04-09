@@ -89,12 +89,8 @@ export const getFriendlyAttribute = (attribute: string) => {
     return i18next.t('translation.attributes.categories', 'Categories');
   }
 
-  if (attribute === 'name') {
-    return i18next.t('translation.attributes.name', 'Name');
-  }
-
-  if (attribute === 'arguments') {
-    return i18next.t('translation.attributes.argument', 'Argument');
+  if (attribute === 'cases') {
+    return i18next.t('translation.attributes.cases', 'Rules');
   }
 
   if (attribute === 'text') {
@@ -103,10 +99,6 @@ export const getFriendlyAttribute = (attribute: string) => {
 
   if (attribute === 'quick_replies') {
     return i18next.t('translation.attributes.quick_relpies', 'Quick Replies');
-  }
-
-  if (attribute === 'cases') {
-    return i18next.t('translation.attributes.cases', 'Rules');
   }
 
   if (attribute === 'templating.variables') {
