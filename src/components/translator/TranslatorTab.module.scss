@@ -76,6 +76,9 @@
         .filled {
           background: lighten($blue, 3%);
         }
+        &.hundredpct {
+          background: lighten($lime, 3%);
+        }
         border: solid 1px rgba(100, 100, 100, 0.7);
       }
       .toggle {
@@ -107,7 +110,11 @@
         height: 14px;
         background: $blue;
         box-shadow: 1px 0px 8px 4px #727272;
-        transition: width 500ms ease-in-out;
+        transition: width 500ms ease-in-out, background 500ms ease-in-out;
+
+        &.hundredpct {
+          background: $lime;
+        }
       }
     }
   }
@@ -203,6 +210,10 @@
 
     .text {
       width: 200px;
+    }
+
+    .to_text {
+      font-size: 12px;
     }
 
     .from_text {

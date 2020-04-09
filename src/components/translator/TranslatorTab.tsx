@@ -52,8 +52,8 @@ export interface TranslatorTabProps {
 
   nodes: RenderNodeMap;
   onToggled: (visible: boolean, tab: PopTabType) => void;
-  onTranslationClicked: (translation: Translation) => void;
-  onTranslationOpened: (translation: Translation) => void;
+  onTranslationClicked: (bundle: TranslationBundle) => void;
+  onTranslationOpened: (bundle: TranslationBundle) => void;
   onTranslationFilterChanged: UpdateTranslationFilters;
   popped: string;
 }
@@ -224,6 +224,17 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     );
   }
 
+  private renderComplete(from: string, to: string) {
+    if (from) {
+      return (
+        <div className={styles.item}>
+          <div className={styles.text + ' ' + styles.to_text}>{to}</div>
+          <div className={styles.text + ' ' + styles.from_text}>{from}</div>
+        </div>
+      );
+    }
+  }
+
   private renderMissing(from: string, summary: string) {
     if (from) {
       return (
@@ -236,16 +247,12 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     return null;
   }
 
-  private renderTranslationType(
-    bundle: TranslationBundle,
-    state: TranslationState,
-    type: TranslationType
-  ): JSX.Element {
-    const merged = getMergedByType(bundle, state, type);
-    if (merged) {
-      return this.renderMissing(merged, type);
-    }
-    return null;
+  private handleTranslationClicked(bundle: TranslationBundle) {
+    this.props.onTranslationClicked(bundle);
+
+    window.setTimeout(() => {
+      this.props.onTranslationOpened(bundle);
+    }, 750);
   }
 
   public render(): JSX.Element {
@@ -257,6 +264,11 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     const optionsClasses = cx({
       [styles.options]: true,
       [styles.options_visible]: this.state.optionsVisible
+    });
+
+    const filledClasses = cx({
+      [styles.filled]: true,
+      [styles.hundredpct]: this.state.pctComplete === 100
     });
 
     return (
@@ -275,7 +287,12 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           <div className={styles.translations_wrapper}>
             {this.state.translationBundles.map((bundle: TranslationBundle) => {
               return (
-                <div className={styles.translate_block}>
+                <div
+                  className={styles.translate_block}
+                  onClick={() => {
+                    this.handleTranslationClicked(bundle);
+                  }}
+                >
                   {bundle.translated !== bundle.translations.length ? (
                     <div className={styles.needs_translation}>
                       <div className={styles.type_name}>{bundle.typeConfig.name}</div>
@@ -305,16 +322,26 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                         <span className="fe-check"></span>
                       </div>
                       <div>
-                        {bundle.translations.map(translation => (
-                          <>
-                            <div className={styles.text + ' ' + styles.to_text}>
-                              {translation.to}
-                            </div>
-                            <div className={styles.text + ' ' + styles.from_text}>
-                              {translation.from}
-                            </div>
-                          </>
-                        ))}
+                        {this.renderComplete(
+                          getMergedByType(
+                            bundle,
+                            TranslationState.COMPLETE,
+                            TranslationType.CATEGORY
+                          ),
+                          getFriendlyAttribute('categories')
+                        )}
+                        {this.renderComplete(
+                          getMergedByType(bundle, TranslationState.COMPLETE, TranslationType.CASE),
+                          getFriendlyAttribute('cases')
+                        )}
+                        {bundle.translations
+                          .filter(
+                            translation =>
+                              translation.to && translation.type === TranslationType.PROPERTY
+                          )
+                          .map(translation =>
+                            this.renderComplete(translation.from, translation.to)
+                          )}
                       </div>
                     </div>
                   )}
@@ -327,7 +354,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
               <div className={styles.progress_bar}>
                 <div
                   style={{ width: `${this.state.pctComplete}%` }}
-                  className={styles.filled}
+                  className={filledClasses}
                 ></div>
               </div>
               <div className={styles.toggle}>
