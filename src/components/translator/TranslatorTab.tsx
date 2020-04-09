@@ -7,22 +7,40 @@ import { PopTab } from 'components/poptab/PopTab';
 import { AssetMap, Asset, RenderNodeMap } from 'store/flowContext';
 import { PopTabType, Type } from 'config/interfaces';
 import { traceUpdate } from 'utils';
-import { Action } from 'flowTypes';
+import { Action, Category, Case } from 'flowTypes';
 import { getTypeConfig } from 'config';
-import { needsTranslating, findTranslations, getFriendlyAttribute } from './helpers';
-import { getType } from 'config/typeConfigs';
+import {
+  findTranslations,
+  getMergedByType,
+  TranslationState,
+  getFriendlyAttribute
+} from './helpers';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import { UpdateTranslationFilters } from 'store/thunks';
+import { getSwitchRouter } from 'components/flow/routers/helpers';
+import { getType } from 'config/typeConfigs';
 
 const cx: any = classNames.bind(styles);
 
-export interface Translation {
+export enum TranslationType {
+  PROPERTY = 'property',
+  CATEGORY = 'category',
+  CASE = 'case'
+}
+
+export interface TranslationBundle {
+  node_uuid: string;
+  action_uuid?: string;
+  translations: Translation[];
+  translated: number;
   typeConfig: Type;
+}
+
+export interface Translation {
+  type: TranslationType;
   attribute: string;
   from: string;
   to: string;
-  node_uuid: string;
-  action_uuid?: string;
 }
 
 export interface TranslatorTabProps {
@@ -43,7 +61,7 @@ export interface TranslatorTabProps {
 export interface TranslatorTabState {
   visible: boolean;
   selectedTranslation: Translation;
-  translations: Translation[];
+  translationBundles: TranslationBundle[];
   optionsVisible: boolean;
   pctComplete: number;
   translationFilters: { categories: boolean; rules: boolean };
@@ -56,7 +74,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     this.state = {
       visible: false,
       selectedTranslation: null,
-      translations: [],
+      translationBundles: [],
       optionsVisible: false,
       pctComplete: 0,
       translationFilters: props.translationFilters || { categories: true, rules: true }
@@ -78,7 +96,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     if (
       prevProps.translationFilters !== this.props.translationFilters ||
       prevProps.localization !== this.props.localization ||
-      (!prevState.visible && this.state.translations.length === 0) ||
+      (!prevState.visible && this.state.translationBundles.length === 0) ||
       prevState.translationFilters !== this.state.translationFilters
     ) {
       this.handleUpdateTranslations();
@@ -86,71 +104,100 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   }
 
   private handleUpdateTranslations(): void {
-    let translations: Translation[] = [];
+    const translationBundles: TranslationBundle[] = [];
     Object.keys(this.props.nodes).forEach((node_uuid: string) => {
       const renderNode = this.props.nodes[node_uuid];
 
       // check for router level translations
-      if (renderNode.node.router) {
-        translations.push(
-          ...findTranslations(
-            getTypeConfig(getType(renderNode)),
-            renderNode.node.router,
-            this.props.localization,
-            node_uuid
-          )
-        );
-      }
+      if (
+        renderNode.node.router &&
+        (this.state.translationFilters.categories || this.state.translationFilters.rules)
+      ) {
+        const typeConfig = getTypeConfig(getType(renderNode));
 
-      // find attributes from each action
-      renderNode.node.actions.forEach((action: Action) => {
-        translations.push(
-          ...findTranslations(
-            getTypeConfig(action.type),
-            action,
-            this.props.localization,
+        let translations: Translation[] = [];
+        if (this.state.translationFilters.categories) {
+          const localizeableKeys = ['name'];
+          renderNode.node.router.categories.forEach((category: Category) => {
+            translations.push(
+              ...findTranslations(
+                TranslationType.CATEGORY,
+                localizeableKeys,
+                category,
+                this.props.localization
+              )
+            );
+          });
+        }
+
+        if (this.state.translationFilters.rules) {
+          const localizeableKeys = ['arguments'];
+          const switchRouter = getSwitchRouter(renderNode.node);
+          if (switchRouter) {
+            switchRouter.cases.forEach((kase: Case) => {
+              translations.push(
+                ...findTranslations(
+                  TranslationType.CASE,
+                  localizeableKeys,
+                  kase,
+                  this.props.localization
+                )
+              );
+            });
+          }
+        }
+
+        if (translations.length > 0) {
+          translationBundles.push({
+            typeConfig,
             node_uuid,
-            action.uuid
-          )
-        );
-      });
+            translations,
+            translated: translations.filter((translation: Translation) => !!translation.to).length
+          });
+        }
+      } else {
+        // find attributes from each action
+        renderNode.node.actions.forEach((action: Action) => {
+          const typeConfig = getTypeConfig(action.type);
+          const translations = findTranslations(
+            TranslationType.PROPERTY,
+            typeConfig.localizeableKeys || [],
+            action,
+            this.props.localization
+          );
+
+          if (translations.length > 0) {
+            translationBundles.push({
+              typeConfig,
+              node_uuid,
+              action_uuid: action.uuid,
+              translations,
+              translated: translations.filter((translation: Translation) => !!translation.to).length
+            });
+          }
+        });
+      }
     });
 
-    translations = translations.filter((translation: Translation) => {
-      if (!this.state.translationFilters.categories && translation.attribute === 'categories') {
-        return false;
-      }
-      if (!this.state.translationFilters.rules && translation.attribute === 'cases') {
-        return false;
-      }
+    const counts = { total: 0, complete: 0 };
+    translationBundles.reduce((counts, bundle) => {
+      counts.total += bundle.translations.length;
+      counts.complete += bundle.translated;
+      return counts;
+    }, counts);
 
-      return true;
-    });
-
-    const complete = translations.filter(
-      (translation: Translation) => !needsTranslating(translation)
-    ).length;
-
-    const pctComplete = Math.round((complete / translations.length) * 100);
+    const pctComplete = Math.round((counts.complete / counts.total) * 100);
 
     this.setState({
       pctComplete,
-      translations: translations.sort((a: Translation, b: Translation) => {
-        if (!a.to) {
-          return -1;
-        }
-
-        if (!b.to) {
-          return 1;
-        }
-
-        return 0;
+      translationBundles: translationBundles.sort((a: TranslationBundle, b: TranslationBundle) => {
+        return b.translations.length - b.translated - (a.translations.length - a.translated);
       })
     });
   }
 
   public handleTabClicked(): void {
-    this.props.onToggled(!this.state.visible, PopTabType.ISSUES_TAB);
+    this.props.onToggled(!this.state.visible, PopTabType.TRANSLATOR_TAB);
     this.setState((prevState: TranslatorTabState) => {
       return { visible: !prevState.visible };
     });
@@ -177,10 +224,34 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     );
   }
 
+  private renderMissing(from: string, summary: string) {
+    if (from) {
+      return (
+        <div className={styles.item}>
+          <div className={styles.text + ' ' + styles.from_text}>{from}</div>
+          <div className={styles.text + ' ' + styles.attribute}>{summary}</div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  private renderTranslationType(
+    bundle: TranslationBundle,
+    state: TranslationState,
+    type: TranslationType
+  ): JSX.Element {
+    const merged = getMergedByType(bundle, state, type);
+    if (merged) {
+      return this.renderMissing(merged, type);
+    }
+    return null;
+  }
+
   public render(): JSX.Element {
     const classes = cx({
       [styles.visible]: this.state.visible,
-      [styles.hidden]: this.props.popped && this.props.popped !== PopTabType.ISSUES_TAB
+      [styles.hidden]: this.props.popped && this.props.popped !== PopTabType.TRANSLATOR_TAB
     });
 
     const optionsClasses = cx({
@@ -202,20 +273,31 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           onHide={this.handleTabClicked}
         >
           <div className={styles.translations_wrapper}>
-            {this.state.translations.map((translation: Translation) => {
+            {this.state.translationBundles.map((bundle: TranslationBundle) => {
               return (
-                <div
-                  key={
-                    'loc-' + translation.node_uuid + translation.action_uuid + translation.attribute
-                  }
-                  className={styles.translate_block}
-                >
-                  {needsTranslating(translation) ? (
+                <div className={styles.translate_block}>
+                  {bundle.translated !== bundle.translations.length ? (
                     <div className={styles.needs_translation}>
-                      <div className={styles.text + ' ' + styles.from_text}>{translation.from}</div>
-                      <div className={styles.text + ' ' + styles.attribute}>
-                        {translation.typeConfig.name} {getFriendlyAttribute(translation.attribute)}
-                      </div>
+                      <div className={styles.type_name}>{bundle.typeConfig.name}</div>
+                      {this.renderMissing(
+                        getMergedByType(bundle, TranslationState.MISSING, TranslationType.CATEGORY),
+                        getFriendlyAttribute('categories')
+                      )}
+                      {this.renderMissing(
+                        getMergedByType(bundle, TranslationState.MISSING, TranslationType.CASE),
+                        getFriendlyAttribute('cases')
+                      )}
+                      {bundle.translations
+                        .filter(
+                          translation =>
+                            !translation.to && translation.type === TranslationType.PROPERTY
+                        )
+                        .map(translation =>
+                          this.renderMissing(
+                            translation.from,
+                            getFriendlyAttribute(translation.attribute)
+                          )
+                        )}
                     </div>
                   ) : (
                     <div className={styles.translated}>
@@ -223,10 +305,16 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                         <span className="fe-check"></span>
                       </div>
                       <div>
-                        <div className={styles.text + ' ' + styles.to_text}>{translation.to}</div>
-                        <div className={styles.text + ' ' + styles.from_text}>
-                          {translation.from}
-                        </div>
+                        {bundle.translations.map(translation => (
+                          <>
+                            <div className={styles.text + ' ' + styles.to_text}>
+                              {translation.to}
+                            </div>
+                            <div className={styles.text + ' ' + styles.from_text}>
+                              {translation.from}
+                            </div>
+                          </>
+                        ))}
                       </div>
                     </div>
                   )}

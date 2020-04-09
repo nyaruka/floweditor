@@ -1,70 +1,86 @@
-import { Translation } from './TranslatorTab';
-import { Type } from 'config/interfaces';
 import { desnake } from 'utils';
 import i18next from 'i18next';
+import { Translation, TranslationType, TranslationBundle } from './TranslatorTab';
 
-export const needsTranslating = (translation: Translation) => {
-  return !translation.to;
+export enum TranslationState {
+  COMPLETE = 'complete',
+  MISSING = 'missing'
+}
+
+export const getMergedByType = (
+  bundle: TranslationBundle,
+  state: TranslationState,
+  type: TranslationType
+) => {
+  return bundle.translations
+    .filter(translation => {
+      switch (state) {
+        case TranslationState.COMPLETE:
+          return !!translation.to && translation.type === type;
+        case TranslationState.MISSING:
+          return !translation.to && translation.type === type;
+      }
+      return true;
+    })
+    .map(translation => (translation as any)[state === TranslationState.MISSING ? 'from' : 'to'])
+    .join(', ');
 };
 
 export const findTranslations = (
-  typeConfig: Type,
+  type: TranslationType,
+  localizeableKeys: string[],
   localizable: any,
-  localization: { [uuid: string]: any },
-  node_uuid: string,
-  action_uuid?: string
+  localization: { [uuid: string]: any }
 ): Translation[] => {
   const translations: Translation[] = [];
-  if ((typeConfig.localizeableKeys || []).length > 0) {
-    typeConfig.localizeableKeys.forEach((attribute: string) => {
-      let keys = attribute.split('.');
-      let from = localizable as any;
-      let to: any = [];
 
-      while (keys.length > 0 && from) {
-        if (keys.length > 0 && from['uuid']) {
-          to = (localization || {})[from['uuid']];
-        }
+  localizeableKeys.forEach((attribute: string) => {
+    let keys = attribute.split('.');
+    let from = localizable as any;
+    let to: any = [];
 
-        const path = keys.shift();
-        if (to) {
-          to = to[path];
-        }
-        from = from[path];
+    while (keys.length > 0 && from) {
+      if (keys.length > 0 && from['uuid']) {
+        to = (localization || {})[from['uuid']];
+      }
+
+      const path = keys.shift();
+      if (to) {
+        to = to[path];
+      }
+      from = from[path];
+    }
+
+    if (from) {
+      if (to) {
+        to = to.join(', ');
+      }
+
+      if (Array.isArray(from)) {
+        from = from
+          .map((obj: any) => {
+            if (obj['name']) {
+              return obj['name'];
+            }
+            if (obj['arguments']) {
+              return obj['arguments'].join(' ');
+            }
+            return obj;
+          })
+          .join(', ');
       }
 
       if (from) {
-        if (to) {
-          to = to.join(', ');
-        }
-
-        if (Array.isArray(from)) {
-          from = from
-            .map((obj: any) => {
-              if (obj['name']) {
-                return obj['name'];
-              }
-              if (obj['arguments']) {
-                return obj['arguments'].join(' ');
-              }
-              return obj;
-            })
-            .join(', ');
-        }
-
-        if (from) {
-          translations.push({
-            typeConfig,
-            attribute,
-            from,
-            to,
-            node_uuid,
-            action_uuid
-          });
-        }
+        translations.push({
+          type,
+          attribute,
+          from,
+          to
+        });
       }
-    });
-  }
+    }
+  });
+
   return translations;
 };
 
@@ -73,8 +89,16 @@ export const getFriendlyAttribute = (attribute: string) => {
     return i18next.t('translation.attributes.categories', 'Categories');
   }
 
+  if (attribute === 'name') {
+    return i18next.t('translation.attributes.name', 'Name');
+  }
+
+  if (attribute === 'arguments') {
+    return i18next.t('translation.attributes.argument', 'Argument');
+  }
+
   if (attribute === 'text') {
-    return i18next.t('translation.attributes.text', 'Text');
+    return i18next.t('translation.attributes.text', 'Message');
   }
 
   if (attribute === 'quick_replies') {

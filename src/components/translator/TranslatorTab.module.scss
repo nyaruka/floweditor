@@ -54,7 +54,7 @@
 
   &.options_visible {
     .filters {
-      height: 40px;
+      height: 35px;
       padding: 6px;
       opacity: 1;
       padding-bottom: 0px;
@@ -131,6 +131,9 @@
     }
     .checkboxes {
       flex-grow: 1;
+      > div:last-child {
+        margin-top: 4px;
+      }
     }
   }
 }
@@ -138,6 +141,10 @@
 .translate_block {
   // padding: 8px 0px;
   margin-bottom: 0px;
+
+  .item {
+    margin: 4px 0px;
+  }
 
   .text {
     font-size: inherit;
@@ -160,6 +167,10 @@
     background: $translation_bg;
     border-radius: $curvature;
 
+    .type_name {
+      font-size: 12px;
+    }
+
     &:hover {
       box-shadow: 0px 0px 6px 1px rgb(243, 243, 243);
       background: darken($translation_bg, 3%);
@@ -167,6 +178,7 @@
     }
 
     .from_text {
+      font-size: 12px;
       color: $translation_missing;
     }
 
