@@ -123,3 +123,7 @@ export const getFriendlyAttribute = (attribute: string) => {
 
   return desnake(attribute);
 };
+
+export const getBundleKey = (bundle: TranslationBundle) => {
+  return bundle.node_uuid + bundle.action_uuid;
+};

@@ -6,14 +6,14 @@ import i18n from 'config/i18n';
 import { PopTab } from 'components/poptab/PopTab';
 import { AssetMap, Asset, RenderNodeMap } from 'store/flowContext';
 import { PopTabType, Type } from 'config/interfaces';
-import { traceUpdate } from 'utils';
 import { Action, Category, Case } from 'flowTypes';
 import { getTypeConfig } from 'config';
 import {
   findTranslations,
   getMergedByType,
   TranslationState,
-  getFriendlyAttribute
+  getFriendlyAttribute,
+  getBundleKey
 } from './helpers';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import { UpdateTranslationFilters } from 'store/thunks';
@@ -92,11 +92,12 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   }
 
   public componentDidUpdate(prevProps: TranslatorTabProps, prevState: TranslatorTabState): void {
-    traceUpdate(this, prevProps, prevState);
+    // traceUpdate(this, prevProps, prevState);
     if (
       prevProps.translationFilters !== this.props.translationFilters ||
       prevProps.localization !== this.props.localization ||
-      (!prevState.visible && this.state.translationBundles.length === 0) ||
+      prevProps.language !== this.props.language ||
+      !prevState.visible ||
       prevState.translationFilters !== this.state.translationFilters
     ) {
       this.handleUpdateTranslations();
@@ -188,12 +189,21 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
 
     const pctComplete = Math.round((counts.complete / counts.total) * 100);
 
-    this.setState({
-      pctComplete,
-      translationBundles: translationBundles.sort((a: TranslationBundle, b: TranslationBundle) => {
+    const bundles = translationBundles
+      .filter((bundle: TranslationBundle) => bundle.translated < bundle.translations.length)
+      .sort((a: TranslationBundle, b: TranslationBundle) => {
         return b.translations.length - b.translated - (a.translations.length - a.translated);
-      })
-    });
+      });
+
+    if (
+      pctComplete !== this.state.pctComplete ||
+      bundles.length !== this.state.translationBundles.length
+    ) {
+      this.setState({
+        pctComplete,
+        translationBundles: bundles
+      });
+    }
   }
 
   public handleTabClicked(): void {
@@ -224,21 +234,10 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     );
   }
 
-  private renderComplete(from: string, to: string) {
+  private renderMissing(key: string, from: string, summary: string) {
     if (from) {
       return (
-        <div className={styles.item}>
-          <div className={styles.text + ' ' + styles.to_text}>{to}</div>
-          <div className={styles.text + ' ' + styles.from_text}>{from}</div>
-        </div>
-      );
-    }
-  }
-
-  private renderMissing(from: string, summary: string) {
-    if (from) {
-      return (
-        <div className={styles.item}>
+        <div key={this.props.language.id + key} className={styles.item}>
           <div className={styles.text + ' ' + styles.from_text}>{from}</div>
           <div className={styles.text + ' ' + styles.attribute}>{summary}</div>
         </div>
@@ -271,9 +270,13 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       [styles.hundredpct]: this.state.pctComplete === 100
     });
 
+    const wrapperClasses = cx({
+      [styles.translations_wrapper]: true,
+      [styles.complete]: this.state.translationBundles.length === 0
+    });
+
     return (
       <div className={classes}>
-        <div className={styles.mask} />
         <PopTab
           header={`${this.props.language.name} ${i18n.t('translation.label', 'Translations')}`}
           label={i18n.t('translation.header', 'Flow Translation')}
@@ -284,71 +287,48 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           onShow={this.handleTabClicked}
           onHide={this.handleTabClicked}
         >
-          <div className={styles.translations_wrapper}>
+          <div key={'translation_wrapper'} className={wrapperClasses}>
             {this.state.translationBundles.map((bundle: TranslationBundle) => {
               return (
                 <div
+                  key={this.props.language.id + getBundleKey(bundle)}
                   className={styles.translate_block}
                   onClick={() => {
                     this.handleTranslationClicked(bundle);
                   }}
                 >
-                  {bundle.translated !== bundle.translations.length ? (
-                    <div className={styles.needs_translation}>
-                      <div className={styles.type_name}>{bundle.typeConfig.name}</div>
-                      {this.renderMissing(
-                        getMergedByType(bundle, TranslationState.MISSING, TranslationType.CATEGORY),
-                        getFriendlyAttribute('categories')
-                      )}
-                      {this.renderMissing(
-                        getMergedByType(bundle, TranslationState.MISSING, TranslationType.CASE),
-                        getFriendlyAttribute('cases')
-                      )}
-                      {bundle.translations
-                        .filter(
-                          translation =>
-                            !translation.to && translation.type === TranslationType.PROPERTY
+                  <div className={styles.needs_translation}>
+                    <div className={styles.type_name}>{bundle.typeConfig.name}</div>
+                    {this.renderMissing(
+                      getBundleKey(bundle) + 'categories',
+                      getMergedByType(bundle, TranslationState.MISSING, TranslationType.CATEGORY),
+                      getFriendlyAttribute('categories')
+                    )}
+
+                    {this.renderMissing(
+                      getBundleKey(bundle) + 'rules',
+
+                      getMergedByType(bundle, TranslationState.MISSING, TranslationType.CASE),
+                      getFriendlyAttribute('cases')
+                    )}
+                    {bundle.translations
+                      .filter(
+                        translation =>
+                          !translation.to && translation.type === TranslationType.PROPERTY
+                      )
+                      .map(translation =>
+                        this.renderMissing(
+                          getBundleKey(bundle) + translation.from,
+                          translation.from,
+                          getFriendlyAttribute(translation.attribute)
                         )
-                        .map(translation =>
-                          this.renderMissing(
-                            translation.from,
-                            getFriendlyAttribute(translation.attribute)
-                          )
-                        )}
-                    </div>
-                  ) : (
-                    <div className={styles.translated}>
-                      <div className={styles.check}>
-                        <span className="fe-check"></span>
-                      </div>
-                      <div>
-                        {this.renderComplete(
-                          getMergedByType(
-                            bundle,
-                            TranslationState.COMPLETE,
-                            TranslationType.CATEGORY
-                          ),
-                          getFriendlyAttribute('categories')
-                        )}
-                        {this.renderComplete(
-                          getMergedByType(bundle, TranslationState.COMPLETE, TranslationType.CASE),
-                          getFriendlyAttribute('cases')
-                        )}
-                        {bundle.translations
-                          .filter(
-                            translation =>
-                              translation.to && translation.type === TranslationType.PROPERTY
-                          )
-                          .map(translation =>
-                            this.renderComplete(translation.from, translation.to)
-                          )}
-                      </div>
-                    </div>
-                  )}
+                      )}
+                  </div>
                 </div>
               );
             })}
           </div>
+
           <div className={optionsClasses} onClick={this.toggleOptions}>
             <div className={styles.header}>
               <div className={styles.progress_bar}>

@@ -25,6 +25,14 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding-top: 8px;
+  border-radius: 4px;
+  transition: all 500ms ease-in-out;
+  opacity: 1;
+  &.complete {
+    opacity: 0;
+    padding: 0px;
+    height: 0px;
+  }
 }
 
 .language {
@@ -32,19 +40,6 @@
   color: #fff;
   font-weight: 400;
   background: $red;
-}
-
-.mask {
-  position: fixed;
-  left: 0;
-  top: 0;
-  background: rgba(0, 0, 0, 0.5);
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  display: none;
-  z-index: -1;
-  transition: opacity 0.6s;
 }
 
 .options {
@@ -172,7 +167,7 @@
 
     padding: 8px;
     background: $translation_bg;
-    border-radius: $curvature;
+    border-radius: 6px;
 
     .type_name {
       font-size: 12px;
@@ -219,13 +214,5 @@
     .from_text {
       font-size: 10px;
     }
-  }
-}
-
-.visible {
-  .mask {
-    opacity: 1;
-    // display: block;
-    z-index: $z_pop_tabs + 1;
   }
 }

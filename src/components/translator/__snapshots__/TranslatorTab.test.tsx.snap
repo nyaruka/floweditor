@@ -7,9 +7,6 @@ exports[`TranslatorTab renders 1`] = `
       class=""
     >
       <div
-        class="mask"
-      />
-      <div
         class="pop_wrapper "
         style="right: -258px; top: 243px;"
       >
@@ -52,74 +49,79 @@ exports[`TranslatorTab renders 1`] = `
             </div>
           </div>
           <div
-            class="translations_wrapper"
-          />
-          <div
-            class="options"
+            class="body"
+            style="background: rgb(119, 119, 119);"
           >
             <div
-              class="header"
+              class="translations_wrapper complete"
+            />
+            <div
+              class="options"
             >
               <div
-                class="progress_bar"
+                class="header"
               >
                 <div
-                  class="filled"
-                  style="width: 0%;"
-                />
-              </div>
-              <div
-                class="toggle"
-              >
-                <span
-                  class="fe-arrow-up"
-                />
-              </div>
-            </div>
-            <div
-              class="filters"
-            >
-              <div
-                class="checkboxes"
-              >
-                <div>
-                  <label
-                    class="label"
-                  >
-                    <span
-                      class="fe-check-square checkbox"
-                      data-spec="checkbox"
-                    />
-                    <div
-                      class="description_solo"
-                      data-spec="description"
-                    >
-                      Categories
-                    </div>
-                  </label>
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled"
+                    style="width: 0%;"
+                  />
                 </div>
-                <div>
-                  <label
-                    class="label"
-                  >
-                    <span
-                      class="fe-check-square checkbox"
-                      data-spec="checkbox"
-                    />
-                    <div
-                      class="description_solo"
-                      data-spec="description"
-                    >
-                      Rule Arguments
-                    </div>
-                  </label>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
                 </div>
               </div>
               <div
-                class="pct_complete"
+                class="filters"
               >
-                0
-                %
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  0
+                  %
+                </div>
               </div>
             </div>
           </div>

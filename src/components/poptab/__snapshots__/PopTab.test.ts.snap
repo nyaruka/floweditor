@@ -64,6 +64,14 @@ exports[`PopTab render should render base component 1`] = `
         Revisions
       </div>
     </div>
+    <div
+      className="body"
+      style={
+        Object {
+          "background": "red",
+        }
+      }
+    />
   </div>
 </div>
 `;
