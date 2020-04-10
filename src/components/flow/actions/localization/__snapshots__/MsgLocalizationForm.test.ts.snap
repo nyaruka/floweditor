@@ -22,7 +22,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
           <MultiChoiceInput
             helpText={
               <Trans
-                i18nKey="forms.send_msg.localized_quick_replies"
+                i18nKey="forms.localized_quick_replies"
                 values={
                   Object {
                     "language": "Spanish",
@@ -98,7 +98,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
           <MultiChoiceInput
             helpText={
               <Trans
-                i18nKey="forms.send_msg.localized_quick_replies"
+                i18nKey="forms.localized_quick_replies"
                 values={
                   Object {
                     "language": "Spanish",

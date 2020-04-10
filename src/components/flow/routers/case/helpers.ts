@@ -15,6 +15,7 @@ import { titleCase } from 'utils';
 import { CaseElementProps, CaseElementState } from './CaseElement';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { Asset } from 'store/flowContext';
+import i18n from 'config/i18n';
 
 export const initializeForm = (props: CaseElementProps): CaseElementState => {
   const arg1 =
@@ -160,21 +161,39 @@ export const validateCase = (keys: {
 
     if (keys.operatorConfig.type === Operators.has_number_between) {
       updates.min = validate(
-        'Minimum value',
+        i18n.t('forms.minimum_value', 'Minimum value'),
         keys.min || '',
-        validators.concat([Numeric, LessThan(parseFloat(keys.max), 'the maximum')])
+        validators.concat([
+          Numeric,
+          LessThan(parseFloat(keys.max), i18n.t('forms.the_maximum', 'the maximum'))
+        ])
       );
 
       updates.max = validate(
-        'Maximum value',
+        i18n.t('forms.maximum_value', 'Maximum value'),
         keys.max || '',
-        validators.concat([Numeric, MoreThan(parseFloat(keys.min), 'the minimum')])
+        validators.concat([
+          Numeric,
+          MoreThan(parseFloat(keys.min), i18n.t('forms.the_minimum', 'the minimum'))
+        ])
       );
     } else if (keys.operatorConfig.type === Operators.has_district) {
-      updates.argument = validate('State', keys.argument || '', validators.concat([]));
+      updates.argument = validate(
+        i18n.t('forms.state', 'State'),
+        keys.argument || '',
+        validators.concat([])
+      );
     } else if (keys.operatorConfig.type === Operators.has_ward) {
-      updates.state = validate('State', keys.state || '', validators.concat([]));
-      updates.district = validate('District', keys.district || '', validators.concat([]));
+      updates.state = validate(
+        i18n.t('forms.state', 'State'),
+        keys.state || '',
+        validators.concat([])
+      );
+      updates.district = validate(
+        i18n.t('forms.district', 'District'),
+        keys.district || '',
+        validators.concat([])
+      );
     } else if (
       keys.operatorConfig.type === Operators.has_top_intent ||
       keys.operatorConfig.type === Operators.has_intent
@@ -183,9 +202,9 @@ export const validateCase = (keys: {
       if (keys.confidence) {
         intentValidators.push(Required);
       }
-      updates.intent = validate('Intent', keys.intent, intentValidators);
+      updates.intent = validate(i18n.t('forms.intent', 'Intent'), keys.intent, intentValidators);
       updates.confidence = validate(
-        'Confidence',
+        i18n.t('forms.confidence', 'Confidence'),
         keys.confidence || '',
         validators.concat(keys.intent ? [Numeric, Required] : [Numeric])
       );
@@ -196,7 +215,7 @@ export const validateCase = (keys: {
 
   updates.categoryNameEdited = !!keys.exitEdited;
   updates.categoryName = validate(
-    'Category',
+    i18n.t('forms.category', 'Category'),
     updates.categoryNameEdited ? keys.exitName : getCategoryName(updates),
     updates.argument.value ||
       (updates.min.value && updates.max.value) ||
@@ -247,10 +266,14 @@ export const getCategoryName = (state: Partial<CaseElementState>): string => {
   if (isRelativeDate(state.operatorConfig.type)) {
     const count = parseInt(state.argument.value, 10);
     if (!isNaN(count)) {
-      const today = state.operatorConfig.type === Operators.has_date_eq ? 'Today' : 'today';
+      const today =
+        state.operatorConfig.type === Operators.has_date_eq
+          ? i18n.t('forms.today_proper', 'Today')
+          : i18n.t('forms.today', 'today');
       const op = count < 0 ? ' - ' : ' + ';
-      const days = Math.abs(count) === 1 ? ' day' : ' days';
-      return prefix(state.operatorConfig.type) + today + op + Math.abs(count) + days;
+      const inDays =
+        ' ' + (Math.abs(count) === 1 ? i18n.t('forms.day', 'day') : i18n.t('forms.days', 'days'));
+      return prefix(state.operatorConfig.type) + today + op + Math.abs(count) + inDays;
     }
   }
 

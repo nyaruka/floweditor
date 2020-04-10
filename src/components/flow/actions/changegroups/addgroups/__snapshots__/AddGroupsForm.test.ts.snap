@@ -34,7 +34,7 @@ exports[`AddGroupsForm render should render self, children with base props 1`] =
     data-spec="label"
   >
     <Trans
-      i18nKey="forms.add_groups.summary"
+      i18nKey="forms.add_groups_summary"
     >
       Select the groups to add the contact to.
     </Trans>

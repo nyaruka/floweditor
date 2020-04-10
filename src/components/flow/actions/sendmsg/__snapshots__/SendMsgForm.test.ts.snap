@@ -29,7 +29,7 @@ exports[`SendMsgForm render should render 1`] = `
               }
             }
             formClearable={true}
-            name="Template"
+            name="template"
             noOptionsMessage="No templates found"
             onChange={[Function]}
             searchable={true}
@@ -53,7 +53,7 @@ exports[`SendMsgForm render should render 1`] = `
             }
             helpText={
               <Trans
-                i18nKey="forms.send_msg.add_quick_reply"
+                i18nKey="forms.add_quick_reply"
               >
                 Add a new Quick Reply and press enter.
               </Trans>
@@ -76,7 +76,7 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "body": <React.Fragment>
           <p>
-            Add up to 3 attachments to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+            Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
           </p>
           <div
             className="url_attachment"
@@ -143,7 +143,7 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "body": <CheckboxElement
           checked={false}
-          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+          description="All Destinations"
           labelClassName="checkbox"
           name="All Destinations"
           onChange={[Function]}

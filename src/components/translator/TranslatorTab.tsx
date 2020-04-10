@@ -345,7 +345,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
               <div className={styles.checkboxes}>
                 <div>
                   <CheckboxElement
-                    name="categories"
+                    name={i18n.t('forms.categories', 'categories')}
                     checked={this.state.translationFilters.categories}
                     description={'Categories'}
                     checkboxClassName={styles.checkbox}
@@ -354,7 +354,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                 </div>
                 <div>
                   <CheckboxElement
-                    name="rules"
+                    name={i18n.t('forms.rules', 'rules')}
                     checked={this.state.translationFilters.rules}
                     description={'Rule Arguments'}
                     checkboxClassName={styles.checkbox}

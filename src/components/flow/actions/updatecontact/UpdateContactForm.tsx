@@ -65,11 +65,15 @@ export default class UpdateContactForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('channel')) {
-      updates.channel = validate('Channel', keys.channel, [shouldRequireIf(submitting)]);
+      updates.channel = validate(i18n.t('forms.channel', 'Channel'), keys.channel, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     if (keys.hasOwnProperty('language')) {
-      updates.language = validate('Language', keys.language, [shouldRequireIf(submitting)]);
+      updates.language = validate(i18n.t('forms.language', 'Language'), keys.language, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     if (keys.hasOwnProperty('field')) {
@@ -184,7 +188,7 @@ export default class UpdateContactForm extends React.Component<
       return (
         <AssetSelector
           key="select_channel"
-          name="Channel"
+          name={i18n.t('forms.channel', 'Channel')}
           placeholder="Select the channel to use for this contact"
           assets={this.props.assetStore.channels}
           entry={this.state.channel}
@@ -199,7 +203,7 @@ export default class UpdateContactForm extends React.Component<
       return (
         <AssetSelector
           key="select_language"
-          name="Language"
+          name={i18n.t('forms.language', 'Language')}
           placeholder="Select the language to use for this contact"
           assets={this.props.assetStore.languages}
           entry={this.state.language}
@@ -212,7 +216,7 @@ export default class UpdateContactForm extends React.Component<
     } else if (this.state.type === Types.set_contact_name) {
       return (
         <TextInputElement
-          name="Name"
+          name={i18n.t('forms.name', 'Name')}
           placeholder="Enter a new name for the contact"
           onChange={this.handleNameUpdate}
           entry={this.state.name}
@@ -223,7 +227,7 @@ export default class UpdateContactForm extends React.Component<
     } else {
       return (
         <TextInputElement
-          name="Field Value"
+          name={i18n.t('forms.field_value', 'Field Value')}
           placeholder={`Enter a new value for ${this.state.field.value.name}`}
           onChange={this.handleFieldValueUpdate}
           entry={this.state.fieldValue}
@@ -247,7 +251,7 @@ export default class UpdateContactForm extends React.Component<
 
         <p>Select what to update</p>
         <AssetSelector
-          name="Contact Field"
+          name={i18n.t('forms.contact_field', 'Contact Field')}
           assets={this.props.assetStore.fields}
           additionalOptions={getContactProperties(this.context.config.flowType)}
           entry={this.state.field}

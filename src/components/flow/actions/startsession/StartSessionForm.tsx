@@ -84,19 +84,23 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
     }
 
     if (keys.hasOwnProperty('contactQuery')) {
-      updates.contactQuery = validate('Contact query', keys.contactQuery, [
-        shouldRequireIf(submitting && this.state.startType.value === START_TYPE_QUERY)
-      ]);
+      updates.contactQuery = validate(
+        i18n.t('forms.contact_query', 'Contact Query'),
+        keys.contactQuery,
+        [shouldRequireIf(submitting && this.state.startType.value === START_TYPE_QUERY)]
+      );
     }
 
     if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate('Recipients', keys.recipients, [
+      updates.recipients = validate(i18n.t('forms.recipients', 'Recipients'), keys.recipients, [
         shouldRequireIf(submitting && this.state.startType.value === START_TYPE_ASSETS)
       ]);
     }
 
     if (keys.hasOwnProperty('flow')) {
-      updates.flow = validate('Flow', keys.flow, [shouldRequireIf(submitting)]);
+      updates.flow = validate(i18n.t('forms.flow', 'Flow'), keys.flow, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -141,7 +145,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
           <SelectElement
-            name="Start Type"
+            name={i18n.t('forms.start_type', 'Start Type')}
             styles={large as any}
             entry={this.state.startType}
             onChange={this.handleStartTypeChanged}
@@ -153,7 +157,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
           {renderIf(this.state.startType.value === START_TYPE_ASSETS)(
             <div data-testid="recipients">
               <AssetSelector
-                name="Recipients"
+                name={i18n.t('forms.recipients', 'Recipients')}
                 placeholder="Choose who should be started in the flow"
                 assets={this.props.assetStore.recipients}
                 completion={{
@@ -172,7 +176,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
           {renderIf(this.state.startType.value === START_TYPE_QUERY)(
             <div data-testid="contact_query">
               <TextInputElement
-                name="Contact Query"
+                name={i18n.t('forms.contact_query', 'Contact Query')}
                 placeholder={'household_id = @fields.household_id'}
                 onChange={this.handleContactQueryChanged}
                 entry={this.state.contactQuery}
@@ -184,7 +188,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
           )}
 
           <AssetSelector
-            name="Flow"
+            name={i18n.t('forms.flow', 'Flow')}
             placeholder="Choose which flow to start"
             assets={this.props.assetStore.flows}
             entry={this.state.flow}

@@ -52,6 +52,7 @@ import Debug from 'utils/debug';
 import styles from './Flow.module.scss';
 import { Trans } from 'react-i18next';
 import { PopTabType } from 'config/interfaces';
+import i18n from 'config/i18n';
 
 declare global {
   interface Window {
@@ -367,7 +368,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
         </Trans>
 
         <Button
-          name="Create Message"
+          name={i18n.t('buttons.create_message', 'Create Message')}
           onClick={() => {
             const emptyNode = createEmptyNode(null, null, 1, this.context.config.flowType);
             this.props.onOpenNodeEditor({

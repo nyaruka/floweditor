@@ -18,6 +18,7 @@ import styles from './CaseElement.module.scss';
 import { initializeForm, validateCase } from './helpers';
 import { Asset } from 'store/flowContext';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+import i18n from 'config/i18n';
 
 export interface CaseElementProps {
   kase: Case;
@@ -328,7 +329,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           return (
             <>
               <TextInputElement
-                name="arguments"
+                name={i18n.t('forms.arguments', 'arguments')}
                 onChange={this.handleMinChanged}
                 entry={this.state.min}
               />
@@ -336,7 +337,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 and
               </span>
               <TextInputElement
-                name="arguments"
+                name={i18n.t('forms.arguments', 'arguments')}
                 onChange={this.handleMaxChanged}
                 entry={this.state.max}
               />
@@ -363,7 +364,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               <div style={{ width: '114px' }}>
                 <SelectElement
                   styles={small as any}
-                  name="Intent"
+                  name={i18n.t('forms.intent', 'Intent')}
                   entry={this.state.intent}
                   onChange={this.handleIntentChanged}
                   options={intents}
@@ -377,7 +378,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               </span>
               <div style={{ width: '34px' }}>
                 <TextInputElement
-                  name="confidence"
+                  name={i18n.t('forms.confidence', 'confidence')}
                   onChange={this.handleConfidenceChanged}
                   entry={this.state.confidence}
                   placeholder=".9"
@@ -389,7 +390,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           return (
             <>
               <TextInputElement
-                name="State"
+                name={i18n.t('forms.state', 'State')}
                 placeholder="State"
                 onChange={this.handleStateChanged}
                 entry={this.state.state}
@@ -398,8 +399,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 and
               </span>
               <TextInputElement
-                name="District"
-                placeholder="District"
+                name={i18n.t('forms.district', 'District')}
+                placeholder={i18n.t('forms.district', 'District')}
                 onChange={this.handleDistrictChanged}
                 entry={this.state.district}
               />
@@ -414,7 +415,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             </span>
             <TextInputElement
               __className={styles.relative_date}
-              name="arguments"
+              name={i18n.t('forms.arguments', 'arguments')}
               onChange={this.handleArgumentChanged}
               entry={this.state.argument}
               autocomplete={false}
@@ -425,7 +426,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       } else {
         return (
           <TextInputElement
-            name="arguments"
+            name={i18n.t('forms.arguments', 'arguments')}
             onChange={this.handleArgumentChanged}
             entry={this.state.argument}
             placeholder={this.state.operatorConfig.type === Operators.has_district ? 'State' : ''}
@@ -462,7 +463,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               getOptionLabel={(option: Operator) => option.verboseName}
               getOptionValue={(option: Operator) => option.type}
               isSearchable={false}
-              name="operator"
+              name={i18n.t('forms.operator', 'operator')}
               onChange={this.handleOperatorChanged as any}
               value={this.state.operatorConfig}
             />
@@ -479,7 +480,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           </div>
           <div className={styles.category}>
             <TextInputElement
-              name="exitName"
+              name={i18n.t('forms.exit_name', 'Exit Name')}
               onChange={this.handleExitChanged}
               entry={this.state.categoryName}
               maxLength={36}

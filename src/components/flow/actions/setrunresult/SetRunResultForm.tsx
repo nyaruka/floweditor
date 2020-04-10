@@ -59,7 +59,7 @@ export default class SetRunResultForm extends React.PureComponent<
     const updates: Partial<SetRunResultFormState> = {};
 
     if (keys.hasOwnProperty('name')) {
-      updates.name = validate('Name', keys.name, [
+      updates.name = validate(i18n.t('forms.name', 'Name'), keys.name, [
         shouldRequireIf(submitting),
         Alphanumeric,
         StartIsNonNumeric
@@ -67,11 +67,11 @@ export default class SetRunResultForm extends React.PureComponent<
     }
 
     if (keys.hasOwnProperty('value')) {
-      updates.value = validate('Value', keys.value, []);
+      updates.value = validate(i18n.t('forms.value', 'Value'), keys.value, []);
     }
 
     if (keys.hasOwnProperty('category')) {
-      updates.category = validate('Category', keys.category, []);
+      updates.category = validate(i18n.t('forms.category', 'Category'), keys.category, []);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -121,11 +121,11 @@ export default class SetRunResultForm extends React.PureComponent<
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.form}>
           <AssetSelector
-            name="Result"
+            name={i18n.t('forms.result', 'Result')}
             assets={this.props.assetStore.results}
             entry={this.state.name}
             searchable={true}
-            createPrefix={i18n.t('forms.set_run_result.create_prefix', 'New: ')}
+            createPrefix={i18n.t('forms.create_prefix', 'New: ')}
             onChange={this.handleNameUpdate}
             createAssetFromInput={this.handleCreateAssetFromInput}
             formClearable={true}
@@ -142,7 +142,7 @@ export default class SetRunResultForm extends React.PureComponent<
 
           <TextInputElement
             __className={styles.value}
-            name="Value"
+            name={i18n.t('forms.value', 'Value')}
             showLabel={true}
             onChange={this.handleValueUpdate}
             entry={this.state.value}
@@ -151,7 +151,7 @@ export default class SetRunResultForm extends React.PureComponent<
           />
           <TextInputElement
             __className={styles.category}
-            name="Category"
+            name={i18n.t('forms.category', 'Category')}
             placeholder="Optional"
             showLabel={true}
             onChange={this.handleCategoryUpdate}

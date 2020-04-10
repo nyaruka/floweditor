@@ -22,7 +22,7 @@ exports[`TimeoutControl handles initial values 1`] = `
       isClearable={false}
       isSearchable={false}
       menuPlacement="auto"
-      name="timeout"
+      name="Timeout"
       onChange={[Function]}
       options={
         Array [

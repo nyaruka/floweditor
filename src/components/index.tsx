@@ -40,6 +40,7 @@ import {
 import { ACTIVITY_INTERVAL, downloadJSON, renderIf, onNextRender } from 'utils';
 import { PopTabType } from 'config/interfaces';
 import { TranslatorTab, TranslationBundle } from './translator/TranslatorTab';
+import i18n from 'config/i18n';
 
 const { default: PageVisibility } = require('react-page-visibility');
 
@@ -169,7 +170,11 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     return !this.props.fetchingFlow && this.context.config.showDownload ? (
       <div className={styles.footer}>
         <div className={styles.download_button}>
-          <Button name="Download" onClick={this.handleDownloadClicked} type={ButtonTypes.primary} />
+          <Button
+            name={i18n.t('buttons.download', 'Download')}
+            onClick={this.handleDownloadClicked}
+            type={ButtonTypes.primary}
+          />
         </div>
       </div>
     ) : null;
