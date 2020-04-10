@@ -254,9 +254,11 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
           {this.getFooter()}
           {this.getAlertModal()}
           <div className={styles.editor} data-spec={editorSpecId}>
-            {renderIf(this.props.languages && Object.keys(this.props.languages.items).length > 0)(
-              <ConnectedLanguageSelector />
-            )}
+            {renderIf(
+              Object.keys(this.props.nodes).length > 0 &&
+                this.props.languages &&
+                Object.keys(this.props.languages.items).length > 0
+            )(<ConnectedLanguageSelector />)}
 
             {this.getSavingIndicator()}
 

@@ -187,7 +187,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       return counts;
     }, counts);
 
-    const pctComplete = Math.round((counts.complete / counts.total) * 100);
+    const pctComplete = counts.total > 0 ? Math.round((counts.complete / counts.total) * 100) : 0;
 
     const bundles = translationBundles
       .filter((bundle: TranslationBundle) => bundle.translated < bundle.translations.length)
