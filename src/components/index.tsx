@@ -255,7 +255,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
           {this.getAlertModal()}
           <div className={styles.editor} data-spec={editorSpecId}>
             {renderIf(
-              Object.keys(this.props.nodes).length > 0 &&
+              Object.keys(this.props.nodes || {}).length > 0 &&
                 this.props.languages &&
                 Object.keys(this.props.languages.items).length > 0
             )(<ConnectedLanguageSelector />)}

@@ -42,7 +42,7 @@ describe('Root', () => {
 
       expect(editorContainer.hasClass('translating')).toBeFalsy();
       expect(editor.hasClass('editor')).toBeTruthy();
-      expect(wrapper.find('Connect(LanguageSelector)').exists()).toBeTruthy();
+      expect(wrapper.find('Connect(LanguageSelector)').exists()).toBeFalsy();
       expect(wrapper).toMatchSnapshot();
     });
 
