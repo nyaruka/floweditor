@@ -38,7 +38,13 @@ export default class CheckboxElement extends React.Component<CheckboxElementProp
     this.handleChange = this.handleChange.bind(this);
   }
 
-  private handleChange(): void {
+  private handleChange(event: React.MouseEvent): void {
+    // this null check only for testing, remove after switching to RTL
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     this.setState({ checked: !this.state.checked }, () => {
       if (this.props.onChange) {
         this.props.onChange(this.state.checked);

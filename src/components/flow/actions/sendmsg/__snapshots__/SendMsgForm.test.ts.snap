@@ -167,7 +167,7 @@ exports[`SendMsgForm render should render 1`] = `
         "localizeableKeys": Array [
           "text",
           "quick_replies",
-          "templating",
+          "templating.variables",
         ],
         "massageForDisplay": [Function],
         "name": "Send Message",

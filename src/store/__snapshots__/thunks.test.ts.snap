@@ -263,7 +263,7 @@ Array [
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
-          "exits",
+          "categories",
           "cases",
         ],
         "name": "Wait for Response",

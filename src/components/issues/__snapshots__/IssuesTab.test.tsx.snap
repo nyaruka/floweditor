@@ -11,7 +11,7 @@ exports[`IssuesTab renders 1`] = `
       />
       <div
         class="pop_wrapper "
-        style="right: -400px; top: 416px;"
+        style="right: -258px; top: 416px;"
       >
         <div
           class="tab_wrapper"
@@ -52,8 +52,13 @@ exports[`IssuesTab renders 1`] = `
             </div>
           </div>
           <div
-            class="issues_wrapper"
-          />
+            class="body"
+            style="background: tomato;"
+          >
+            <div
+              class="issues_wrapper"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -72,7 +77,7 @@ exports[`IssuesTab renders missing dependencies 1`] = `
       />
       <div
         class="pop_wrapper "
-        style="right: -400px; top: 416px;"
+        style="right: -258px; top: 416px;"
       >
         <div
           class="tab_wrapper"
@@ -113,85 +118,90 @@ exports[`IssuesTab renders missing dependencies 1`] = `
             </div>
           </div>
           <div
-            class="issues_wrapper"
+            class="body"
+            style="background: tomato;"
           >
-            <div>
-              <div
-                class="details"
-              >
+            <div
+              class="issues_wrapper"
+            >
+              <div>
                 <div
-                  class="issues_code"
+                  class="details"
                 >
                   <div
-                    class="message"
+                    class="issues_code"
                   >
                     <div
-                      class="header"
+                      class="message"
                     >
-                      Send Message
-                      :
+                      <div
+                        class="header"
+                      >
+                        Send Message
+                        :
+                      </div>
+                       
+                      Cannot find a group for 
+                      <span
+                        class="emphasize"
+                      >
+                        My Missing Group
+                      </span>
                     </div>
-                     
-                    Cannot find a group for 
-                    <span
-                      class="emphasize"
-                    >
-                      My Missing Group
-                    </span>
                   </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <div
-                class="details"
-              >
+              <div>
                 <div
-                  class="issues_code"
+                  class="details"
                 >
                   <div
-                    class="message"
+                    class="issues_code"
                   >
                     <div
-                      class="header"
+                      class="message"
                     >
-                      Send Message
-                      :
+                      <div
+                        class="header"
+                      >
+                        Send Message
+                        :
+                      </div>
+                       
+                      Cannot find a field for 
+                      <span
+                        class="emphasize"
+                      >
+                        My Missing Field
+                      </span>
                     </div>
-                     
-                    Cannot find a field for 
-                    <span
-                      class="emphasize"
-                    >
-                      My Missing Field
-                    </span>
                   </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <div
-                class="details"
-              >
+              <div>
                 <div
-                  class="issues_code"
+                  class="details"
                 >
                   <div
-                    class="message"
+                    class="issues_code"
                   >
                     <div
-                      class="header"
+                      class="message"
                     >
-                      Send Message
-                      :
+                      <div
+                        class="header"
+                      >
+                        Send Message
+                        :
+                      </div>
+                       
+                      Cannot find a flow for 
+                      <span
+                        class="emphasize"
+                      >
+                        My Missing Flow
+                      </span>
                     </div>
-                     
-                    Cannot find a flow for 
-                    <span
-                      class="emphasize"
-                    >
-                      My Missing Flow
-                    </span>
                   </div>
                 </div>
               </div>

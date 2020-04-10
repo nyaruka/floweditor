@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render, getByText } from 'test/utils';
+import { render, getByText, mock } from 'test/utils';
 import { IssuesTab, IssuesTabProps } from './IssuesTab';
 import { createUUID } from 'utils';
 import { FlowIssueType, FlowIssue, DependencyType } from 'flowTypes';

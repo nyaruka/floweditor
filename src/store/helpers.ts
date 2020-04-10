@@ -240,7 +240,8 @@ export const getCurrentDefinition = (
     result._ui = {
       nodes: uiNodes,
       stickies: definition._ui.stickies,
-      languages: definition._ui.languages
+      languages: definition._ui.languages,
+      translation_filters: definition._ui.translation_filters
     } as UIMetaData;
   }
 

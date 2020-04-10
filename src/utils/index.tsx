@@ -464,3 +464,13 @@ export const debounce = (fn: any, quiet: number, closure: any = null) => {
 export const onNextRender = (fn: any) => {
   window.setTimeout(fn, 0);
 };
+
+export const desnake = (text: string): string => {
+  if (!text) {
+    return text;
+  }
+  return text
+    .split('_')
+    .join(' ')
+    .toLowerCase();
+};

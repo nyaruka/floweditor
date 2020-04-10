@@ -82,6 +82,11 @@ export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
 export type HandleTypeConfigChange = (typeConfig: Type) => Thunk<void>;
 
+export type UpdateTranslationFilters = (translationFilters: {
+  categories: boolean;
+  rules: boolean;
+}) => Thunk<void>;
+
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
 
 export type OnUpdateCanvasPositions = (positions: CanvasPositions) => Thunk<RenderNodeMap>;
@@ -1075,4 +1080,17 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
   dispatch(handleTypeConfigChange(typeConfig));
   dispatch(updateNodeEditorSettings(settings));
   dispatch(mergeEditorState(EMPTY_DRAG_STATE));
+};
+
+export const updateTranslationFilters = (translationFilters: {
+  categories: boolean;
+  rules: boolean;
+}) => (dispatch: DispatchWithState, getState: GetState): void => {
+  const {
+    flowContext: { definition }
+  } = getState();
+
+  definition._ui.translation_filters = translationFilters;
+  dispatch(updateDefinition(definition));
+  markDirty();
 };
