@@ -281,7 +281,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           header={`${this.props.language.name} ${i18n.t('translation.label', 'Translations')}`}
           label={i18n.t('translation.header', 'Flow Translation')}
           color="#777"
-          icon="fe-earth"
+          icon="fe-language"
           top="243px"
           visible={this.state.visible}
           onShow={this.handleTabClicked}
