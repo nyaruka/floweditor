@@ -22,20 +22,17 @@ import i18n from 'config/i18n';
 import { renderIssues } from '../../helpers';
 
 export const LABEL = i18n.t(
-  'forms.remove_groups.summary',
+  'forms.remove_groups_summary',
   'Select the groups to remove the contact from.'
 );
 export const NOT_FOUND = i18n.t('errors.group_not_found', 'Enter the name of an existing group');
 export const PLACEHOLDER = i18n.t(
-  'forms.remove_groups.placeholder',
+  'forms.remove_groups_placeholder',
   'Enter the name of an existing group'
 );
-export const REMOVE_FROM_ALL = i18n.t(
-  'forms.remove_groups.remove_from_all_label',
-  'Remove from all'
-);
+export const REMOVE_FROM_ALL = i18n.t('forms.remove_from_all_label', 'Remove from all');
 export const REMOVE_FROM_ALL_DESC = i18n.t(
-  'forms.remove_groups.remove_from_all_summary',
+  'forms.remove_from_all_summary',
   "Remove the active contact from all groups they're a member of."
 );
 
@@ -84,7 +81,7 @@ export default class RemoveGroupsForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('groups')) {
-      updates.groups = validate('Groups', keys.groups!, groupValidators);
+      updates.groups = validate(i18n.t('forms.groups', 'Groups'), keys.groups!, groupValidators);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -120,7 +117,7 @@ export default class RemoveGroupsForm extends React.Component<
           <div>
             <p data-spec={labelSpecId}>{LABEL}</p>
             <AssetSelector
-              name={i18n.t('groups', 'Groups')}
+              name={i18n.t('forms.groups', 'Groups')}
               assets={this.props.assetStore.groups}
               entry={this.state.groups}
               shouldExclude={excludeDynamicGroups}

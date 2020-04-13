@@ -12,7 +12,7 @@ Object {
 exports[`Flow instance methods onConnectorDrop should do NodeEditor work if the user is not dragging back 1`] = `
 Array [
   "46e8d603-8e5d-4435-97dd-1333291aafca:8653ac06-00ba-4890-a79f-d30f3a55193b",
-  "dbb8e943-0501-4405-aeaa-627414f976e1",
+  "52036e99-4be0-4505-add4-159e8d1d7572",
   [Function],
 ]
 `;
@@ -23,7 +23,7 @@ Array [
     "originalAction": Object {
       "text": "",
       "type": "send_msg",
-      "uuid": "4993f221-2381-47f9-97c3-878dc5ef258c",
+      "uuid": "7966434b-6d38-4d8b-b01c-13d3d9aa593c",
     },
     "originalNode": Object {
       "ghost": true,
@@ -35,16 +35,16 @@ Array [
           Object {
             "text": "",
             "type": "send_msg",
-            "uuid": "4993f221-2381-47f9-97c3-878dc5ef258c",
+            "uuid": "7966434b-6d38-4d8b-b01c-13d3d9aa593c",
           },
         ],
         "exits": Array [
           Object {
             "destination_uuid": null,
-            "uuid": "712ff538-daa1-4ab2-8ce3-762bc0bf7f12",
+            "uuid": "431dadb3-0257-432f-ace3-52157bba69ed",
           },
         ],
-        "uuid": "dbb8e943-0501-4405-aeaa-627414f976e1",
+        "uuid": "52036e99-4be0-4505-add4-159e8d1d7572",
       },
       "ui": Object {
         "position": Object {
@@ -62,58 +62,13 @@ exports[`Flow render should render NodeEditor 1`] = `
 Object {
   "helpArticles": Object {},
   "plumberConnectExit": [MockFunction],
-  "plumberRepaintForDuration": [MockFunction],
 }
 `;
 
 exports[`Flow render should render Simulator 1`] = `
 Object {
-  "mergeEditorState": [MockFunction] {
-    "calls": Array [
-      Array [
-        Object {
-          "containerOffset": Object {
-            "left": 0,
-            "top": 0,
-          },
-        },
-      ],
-    ],
-    "results": Array [
-      Object {
-        "type": "return",
-        "value": undefined,
-      },
-    ],
-  },
+  "mergeEditorState": [MockFunction],
   "onToggled": [Function],
-  "popped": undefined,
+  "popped": null,
 }
-`;
-
-exports[`Flow render should render dragNode 1`] = `
-<div
-  data-spec="ghost-node"
-  key="09294c2a-031e-4e74-9b1c-aec239b2a145"
-  style={
-    Object {
-      "display": "block",
-      "position": "absolute",
-      "visibility": "hidden",
-    }
-  }
->
-  <Connect(NodeComp)
-    ghost={true}
-    nodeUUID="09294c2a-031e-4e74-9b1c-aec239b2a145"
-    onlyNode={false}
-    plumberConnectExit={[MockFunction]}
-    plumberMakeSource={[MockFunction]}
-    plumberMakeTarget={[MockFunction]}
-    plumberRecalculate={[MockFunction]}
-    plumberRemove={[MockFunction]}
-    selected={false}
-    startingNode={false}
-  />
-</div>
 `;

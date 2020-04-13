@@ -495,7 +495,7 @@ exports[`ResultRouterForm should render 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="36"
-                        name="exitName"
+                        name="Exit Name"
                         type="text"
                         value=""
                       />
@@ -1131,7 +1131,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                         data-spec="input"
                         data-testid="input"
                         maxlength="36"
-                        name="exitName"
+                        name="Exit Name"
                         type="text"
                         value=""
                       />

@@ -1,11 +1,11 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
 
 .empty_flow {
-  margin: 13px;
+  margin: 30px;
   width: 400px;
 
   h1 {
-    font-family: "Helvetica Neue", "RobotoThin", sans-serif;
+    font-family: 'Helvetica Neue', 'RobotoThin', sans-serif;
     letter-spacing: 1px;
     padding: 0;
     text-transform: none;

@@ -77,6 +77,8 @@ export default class KeyLocalizationForm extends React.Component<
 
     let base: JSX.Element;
 
+    const translation = i18n.t('forms.translation', 'Translation');
+
     typeConfig.localizeableKeys.forEach((key: string) => {
       const name = key[0].toUpperCase() + key.slice(1);
 
@@ -92,7 +94,7 @@ export default class KeyLocalizationForm extends React.Component<
             showLabel={false}
             onChange={this.handleKeyUpdate}
             entry={this.state.keyValues[key]}
-            placeholder={`${this.props.language.name} Translation`}
+            placeholder={`${this.props.language.name} ${translation}`}
             autocomplete={true}
             focus={true}
             textarea={true}
@@ -103,8 +105,9 @@ export default class KeyLocalizationForm extends React.Component<
       if (!base) {
         base = form;
       } else {
+        const translation = i18n.t('forms.translation', 'Translation');
         tabs.push({
-          name: name + ' ' + i18n.t('translation', 'Translation'),
+          name: name + ' ' + translation,
           body: form,
           checked: !!this.state.keyValues[key].value
         });

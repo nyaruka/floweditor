@@ -51,7 +51,7 @@ export default class GroupsRouterForm extends React.Component<
     const updates: Partial<GroupsRouterFormState> = {};
 
     if (keys.hasOwnProperty('groups')) {
-      updates.groups = validate('Groups', keys.groups, [Required]);
+      updates.groups = validate(i18n.t('forms.groups', 'Groups'), keys.groups, [Required]);
     }
 
     if (keys.hasOwnProperty('resultName')) {
@@ -88,7 +88,7 @@ export default class GroupsRouterForm extends React.Component<
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p>{GROUP_LABEL}</p>
         <AssetSelector
-          name="Groups"
+          name={i18n.t('forms.groups', 'Groups')}
           assets={this.props.assetStore.groups}
           entry={this.state.groups}
           searchable={true}

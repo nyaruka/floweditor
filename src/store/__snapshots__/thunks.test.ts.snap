@@ -263,7 +263,7 @@ Array [
         "form": [Function],
         "localization": [Function],
         "localizeableKeys": Array [
-          "exits",
+          "categories",
           "cases",
         ],
         "name": "Wait for Response",
@@ -373,10 +373,6 @@ Array [
           "root": Array [],
           "types": Array [],
         },
-        "containerOffset": Object {
-          "left": 0,
-          "top": 0,
-        },
         "currentRevision": null,
         "debug": null,
         "dragActive": false,
@@ -420,10 +416,6 @@ Array [
         "completionSchema": Object {
           "root": Array [],
           "types": Array [],
-        },
-        "containerOffset": Object {
-          "left": 0,
-          "top": 0,
         },
         "currentRevision": null,
         "debug": null,
@@ -1154,10 +1146,6 @@ Array [
         "completionSchema": Object {
           "root": Array [],
           "types": Array [],
-        },
-        "containerOffset": Object {
-          "left": 0,
-          "top": 0,
         },
         "currentRevision": null,
         "debug": null,

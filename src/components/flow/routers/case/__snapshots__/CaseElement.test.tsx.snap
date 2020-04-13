@@ -165,7 +165,7 @@ exports[`CaseElement operator changes should handle updates 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
-                name="exitName"
+                name="Exit Name"
                 type="text"
                 value="Has Phone"
               />
@@ -448,7 +448,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
-                name="exitName"
+                name="Exit Name"
                 type="text"
                 value=""
               />
@@ -650,7 +650,7 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
-                name="exitName"
+                name="Exit Name"
                 type="text"
                 value="My Exit Name"
               />
@@ -852,7 +852,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
-                name="exitName"
+                name="Exit Name"
                 type="text"
                 value="Has Number"
               />
@@ -1093,7 +1093,7 @@ exports[`CaseElement render should render empty case 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
-                name="exitName"
+                name="Exit Name"
                 type="text"
                 value=""
               />
@@ -1334,7 +1334,7 @@ exports[`CaseElement update handles argument change 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
-                name="exitName"
+                name="Exit Name"
                 type="text"
                 value="Purple"
               />
@@ -1617,7 +1617,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
                 data-spec="input"
                 data-testid="input"
                 maxlength="36"
-                name="exitName"
+                name="Exit Name"
                 type="text"
                 value="1 - 100"
               />

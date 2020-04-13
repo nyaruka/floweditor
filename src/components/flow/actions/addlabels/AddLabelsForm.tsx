@@ -49,7 +49,7 @@ export default class AddLabelsForm extends React.PureComponent<
 
   public handleLabelsChanged(selected: Asset[], submitting: boolean = false): boolean {
     const updates: Partial<AddLabelsFormState> = {
-      labels: validate('Labels', selected, [shouldRequireIf(submitting)])
+      labels: validate(i18n.t('forms.labels', 'Labels'), selected, [shouldRequireIf(submitting)])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -84,13 +84,13 @@ export default class AddLabelsForm extends React.PureComponent<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <p data-spec={controlLabelSpecId}>
-          <Trans i18nKey="forms.add_labels.summary">
+          <Trans i18nKey="forms.add_labels_summary">
             Select the labels to apply to the incoming message.
           </Trans>
         </p>
 
         <AssetSelector
-          name="Labels"
+          name={i18n.t('forms.labels', 'Labels')}
           placeholder={i18n.t(
             'enter_to_create_label',
             'Enter the name of an existing label or create a new one'

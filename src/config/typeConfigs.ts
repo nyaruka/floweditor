@@ -208,7 +208,7 @@ export const typeConfigList: Type[] = [
     description: i18n.t('actions.send_msg.description', 'Send the contact a message'),
     form: SendMsgForm,
     localization: MsgLocalizationForm,
-    localizeableKeys: ['text', 'quick_replies', 'templating'],
+    localizeableKeys: ['text', 'quick_replies', 'templating.variables'],
     component: SendMsgComp,
     massageForDisplay: (action: SendMsg) => {
       // quick replies are optional in the definition, make sure we have
@@ -222,7 +222,7 @@ export const typeConfigList: Type[] = [
     description: i18n.t('actions.wait_for_response.description', 'Wait for the contact to respond'),
     form: ResponseRouterForm,
     localization: RouterLocalizationForm,
-    localizeableKeys: ['exits', 'cases'],
+    localizeableKeys: ['categories', 'cases'],
     aliases: [RouterTypes.switch],
     visibility: TEXT_TYPES
   },
@@ -451,7 +451,6 @@ export const typeConfigList: Type[] = [
     localizeableKeys: ['exits'],
     form: SchemeRouterForm
   }
-
   // {type: 'random', name: 'Random Split', description: 'Split them up randomly', form: RandomRouterForm}
 ];
 

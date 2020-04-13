@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'floweditor';
-  src: url('fonts/floweditor.ttf?cgb5n8') format('truetype'),
-    url('fonts/floweditor.woff?cgb5n8') format('woff'),
-    url('fonts/floweditor.svg?cgb5n8#floweditor') format('svg');
+  src: url('fonts/floweditor.ttf?pebc0l') format('truetype'),
+    url('fonts/floweditor.woff?pebc0l') format('woff'),
+    url('fonts/floweditor.svg?pebc0l#floweditor') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fe-language:before {
+  content: '\e90a';
+}
 .fe-notification:before {
   content: '\e908';
 }

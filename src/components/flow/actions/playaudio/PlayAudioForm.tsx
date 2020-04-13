@@ -27,7 +27,7 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
 
   public handleAudioUpdate(text: string): boolean {
     const updates: Partial<PlayAudioFormState> = {};
-    updates.audio = validate('Recording', text, [Required]);
+    updates.audio = validate(i18n.t('forms.recording', 'Recording'), text, [Required]);
 
     const updated = mergeForm(this.state, updates);
     this.setState(updated);
@@ -62,16 +62,16 @@ export default class PlayAudioForm extends React.Component<ActionFormProps, Play
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <p>{i18n.t('forms.play_audio.recording_label', 'Previous Recording')}</p>
+        <p>{i18n.t('forms.recording_label', 'Previous Recording')}</p>
         <TextInputElement
-          name={i18n.t('message', 'Message')}
+          name={i18n.t('forms.message', 'Message')}
           showLabel={false}
           onChange={this.handleAudioUpdate}
           entry={this.state.audio}
           autocomplete={true}
           focus={true}
           helpText={
-            <Trans i18nKey="forms.play_audio.help_text">
+            <Trans i18nKey="forms.play_audio_help_text">
               Enter a variable that contains a recording the contact has previously recorded. For
               example, @results.voicemail or @fields.short_bio.
             </Trans>

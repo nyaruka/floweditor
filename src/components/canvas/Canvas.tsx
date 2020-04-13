@@ -8,7 +8,7 @@ import React from 'react';
 import { CanvasPositions, DragSelection } from 'store/editor';
 import { addPosition } from 'store/helpers';
 import { MergeEditorState } from 'store/thunks';
-import { COLLISION_FUDGE, snapPositionToGrid } from 'utils';
+import { COLLISION_FUDGE, snapPositionToGrid, throttle, snapToGrid } from 'utils';
 
 import styles from './Canvas.module.scss';
 
@@ -19,11 +19,14 @@ export interface CanvasProps {
   uuid: string;
   dragActive: boolean;
   draggingNew: boolean;
+  newDragElement: JSX.Element;
   draggables: CanvasDraggableProps[];
   mutable: boolean;
+  onLoaded: () => void;
   onDragging: (draggedUUIDs: string[]) => void;
   onUpdatePositions: (positions: CanvasPositions) => void;
   onRemoveNodes: (nodeUUIDs: string[]) => void;
+  onDoubleClick: (position: FlowPosition) => void;
   mergeEditorState: MergeEditorState;
 }
 
@@ -40,7 +43,6 @@ interface CanvasState {
 
 export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   private ele!: HTMLDivElement;
-  private parentOffset!: FlowPosition;
   private isScrolling: any;
 
   private reflowTimeout: any;
@@ -51,6 +53,9 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
 
   // did we just select something
   private justSelected = false;
+
+  private onDragThrottled: (uuids: string[]) => void = throttle(this.props.onDragging, 300);
+  private onMouseThrottled: (event: any) => void = throttle(this.handleMouseMove.bind(this), 10);
 
   constructor(props: CanvasProps) {
     super(props);
@@ -77,7 +82,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     };
 
     bindCallbacks(this, {
-      include: [/^handle/, /^render/]
+      include: [/^handle/, /^render/, /^mark/, /^do/, /^ensure/]
     });
   }
 
@@ -87,15 +92,11 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   }
 
   public componentDidMount(): void {
-    let offset = { left: 0, top: 0 };
     /* istanbul ignore next */
-    if (this.ele) {
-      offset = this.ele.getBoundingClientRect();
-    }
-    this.parentOffset = { left: offset.left, top: offset.top + window.scrollY };
-
     window.addEventListener('resize', this.handleWindowResize);
     document.addEventListener('keydown', this.handleKeyDown);
+
+    this.props.onLoaded();
   }
 
   private handleKeyDown(event: any): void {
@@ -112,9 +113,11 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     document.removeEventListener('keydown', this.handleKeyDown);
   }
 
-  public componentDidUpdate(prevProps: CanvasProps): void {
+  public componentDidUpdate(prevProps: CanvasProps, prevState: CanvasState): void {
+    // traceUpdate(this, prevProps, prevState);
+
     let updated = false;
-    let updatedPositions = this.state.positions;
+    let updatedPositions = { ...this.state.positions };
 
     // are we being given something new
     this.props.draggables.forEach((draggable: CanvasDraggableProps) => {
@@ -149,6 +152,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
       const top = Math.min(drag.startY, drag.currentY);
       const width = Math.max(drag.startX, drag.currentX) - left;
       const height = Math.max(drag.startY, drag.currentY) - top;
+
       if (this.state.dragSelection && this.state.dragSelection.startX) {
         return <div className={styles.drag_selection} style={{ left, top, width, height }} />;
       }
@@ -162,7 +166,7 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     if (event.nativeEvent.which === 3) {
       return false;
     }
-    return (event.target as any).id === this.state.uuid;
+    return (event.target as any).id === 'canvas';
   }
 
   private handleMouseDown(event: React.MouseEvent<HTMLDivElement>): void {
@@ -175,15 +179,15 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
       return;
     }
 
+    const offset = this.ele.getBoundingClientRect();
+
     this.justSelected = false;
     if (this.isClickOnCanvas(event)) {
+      const startX = event.pageX - offset.left;
+      const startY = event.pageY - offset.top - window.scrollY;
+
       this.setState({
-        dragSelection: {
-          startX: event.pageX - this.parentOffset.left,
-          startY: event.pageY - this.parentOffset.top,
-          currentX: event.pageX - this.parentOffset.left,
-          currentY: event.pageY - this.parentOffset.top
-        }
+        dragSelection: { startX, startY, currentX: startX, currentY: startY }
       });
     }
   }
@@ -197,6 +201,9 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
       this.lastX = event.pageX;
       this.lastY = event.pageY;
       this.updateStateWithScroll(event.clientY, event.pageY);
+      if (this.state.dragUUID) {
+        this.updatePositions(event.pageX, event.pageY, event.clientY, false);
+      }
       return;
     }
 
@@ -216,12 +223,14 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
           bottom
         });
 
+        const offset = this.ele.getBoundingClientRect();
+
         this.setState({
           dragSelection: {
             startX: drag.startX,
             startY: drag.startY,
-            currentX: event.pageX - this.parentOffset.left,
-            currentY: event.pageY - this.parentOffset.top
+            currentX: event.pageX - offset.left,
+            currentY: event.pageY - offset.top - window.scrollY
           }
         });
 
@@ -300,21 +309,21 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   }
 
   public handleUpdateDimensions(uuid: string, dimensions: Dimensions): void {
-    let pos = this.state.positions[uuid];
-    if (!pos) {
-      pos = this.props.draggables.find((item: CanvasDraggableProps) => item.uuid === uuid)!
-        .position;
-    }
+    if (dimensions.width && dimensions.height) {
+      let pos = this.state.positions[uuid];
+      if (!pos) {
+        pos = this.props.draggables.find((item: CanvasDraggableProps) => item.uuid === uuid)!
+          .position;
+      }
 
-    const newPosition = {
-      left: pos.left,
-      top: pos.top,
-      right: pos.left + dimensions.width,
-      bottom: pos.top + dimensions.height
-    };
+      const newPosition = {
+        left: pos.left,
+        top: pos.top,
+        right: pos.left + dimensions.width,
+        bottom: pos.top + dimensions.height
+      };
 
-    if (newPosition.bottom !== pos.bottom || newPosition.right !== pos.right) {
-      if (newPosition.right !== pos.right || newPosition.bottom !== pos.bottom) {
+      if (newPosition.bottom !== pos.bottom || newPosition.right !== pos.right) {
         this.setState((prevState: CanvasState) => {
           const newPositions = mutate(prevState.positions, {
             $merge: {
@@ -326,15 +335,30 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             positions: newPositions,
             height: Math.max(newPosition.bottom + CANVAS_PADDING, prevState.height)
           };
-        });
-
-        this.markReflow();
+        }, this.markReflow);
       }
     }
   }
 
+  public ensureCanvasHeight() {
+    let height = this.state.height;
+    Object.keys(this.state.positions).forEach(uuid => {
+      const bottom = this.state.positions[uuid].bottom + CANVAS_PADDING;
+      if (bottom > height) {
+        height = bottom;
+      }
+    });
+
+    if (height > this.state.height) {
+      this.setState({ height });
+    }
+  }
+
   public doReflow(): void {
-    const { positions, changed } = reflow(this.state.positions, COLLISION_FUDGE);
+    const reflowPositions = { ...this.state.positions };
+    delete reflowPositions[this.state.dragUUID];
+    const { positions, changed } = reflow(reflowPositions, COLLISION_FUDGE);
+
     if (changed) {
       this.setState({ positions });
 
@@ -376,7 +400,6 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     otherState: Partial<CanvasState> = {}
   ): void {
     const viewportHeight = document.documentElement.clientHeight;
-
     this.setState(
       (prevState: CanvasState) => {
         return {
@@ -415,19 +438,21 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
         ? this.state.selected[dragUUID]
         : this.state.positions[dragUUID];
 
+      const offset = this.ele.getBoundingClientRect();
+
       if (this.state.dragDownPosition) {
-        const xd =
-          pageX - this.parentOffset.left - this.state.dragDownPosition.left - startPosition.left;
+        const xd = pageX - offset.left - this.state.dragDownPosition.left - startPosition.left;
 
         const yd =
-          pageY - this.parentOffset.top - this.state.dragDownPosition.top - startPosition.top;
+          pageY - offset.top - this.state.dragDownPosition.top - startPosition.top - window.scrollY;
 
         let lowestNode: number | undefined = 0;
         if (this.props.dragActive) {
           const delta = { left: xd, top: yd };
           const prevState = this.state;
           const uuids = Object.keys(prevState.selected);
-          let newPositions = prevState.positions;
+          let newPositions: { [uuid: string]: FlowPosition } = {};
+
           uuids.forEach((uuid: string) => {
             let newPosition = addPosition(prevState.selected[uuid], delta);
             if (snap) {
@@ -437,16 +462,22 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
             if (newPosition && newPosition.bottom! > lowestNode!) {
               lowestNode = newPosition.bottom;
             }
-
-            newPositions = mutate(newPositions, {
-              $merge: { [uuid]: newPosition }
-            });
+            newPositions[uuid] = newPosition;
           });
 
-          this.props.onDragging(uuids);
+          newPositions = mutate(prevState.positions, {
+            $merge: newPositions
+          });
+
           this.updateStateWithScroll(clientY, lowestNode, {
             positions: newPositions
           });
+
+          if (uuids.length <= 5) {
+            this.props.onDragging(uuids);
+          } else {
+            this.onDragThrottled(uuids);
+          }
         } else {
           if (Math.abs(xd) + Math.abs(yd) > DRAG_THRESHOLD) {
             let selected = this.state.selected;
@@ -466,11 +497,13 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
   }
 
   private handleDragStart(uuid: string, position: FlowPosition): void {
+    const offset = this.ele.getBoundingClientRect();
+
     this.setState({
       dragUUID: uuid,
       dragDownPosition: {
-        left: position.left - this.parentOffset.left,
-        top: position.top - this.parentOffset.top
+        left: position.left - offset.left,
+        top: position.top - offset.top - window.scrollY
       }
     });
   }
@@ -502,41 +535,61 @@ export class Canvas extends React.PureComponent<CanvasProps, CanvasState> {
     });
   }
 
+  private handleAnimated(uuid: string): void {
+    this.props.onDragging([uuid]);
+  }
+
+  private handleDoubleClick(event: React.MouseEvent<HTMLDivElement>): void {
+    if (this.isClickOnCanvas(event)) {
+      const offset = this.ele.getBoundingClientRect();
+      this.props.onDoubleClick(
+        snapToGrid(event.pageX - offset.left, event.pageY - offset.top - window.scrollY)
+      );
+    }
+  }
+
   public render(): JSX.Element {
     return (
-      <div className={styles.canvas_container}>
-        <div
-          data-testid="canvas"
-          style={{ height: this.state.height }}
-          id={this.state.uuid}
-          ref={(ele: HTMLDivElement) => {
-            this.ele = ele;
-          }}
-          className={styles.canvas}
-          onMouseDown={this.handleMouseDown}
-          onMouseMove={this.handleMouseMove}
-          onMouseUp={this.handleMouseUpCapture}
-        >
-          {this.props.draggables.map((draggable: CanvasDraggableProps) => {
-            const pos = this.state.positions[draggable.uuid] || draggable.position;
-            return (
-              <CanvasDraggable
-                onAnimated={(uuid: string) => {
-                  this.props.onDragging([uuid]);
-                }}
-                key={'draggable_' + draggable.uuid}
-                uuid={draggable.uuid}
-                updateDimensions={this.handleUpdateDimensions}
-                position={pos}
-                selected={!!this.state.selected[draggable.uuid]}
-                ele={draggable.ele}
-                onDragStart={this.handleDragStart}
-                onDragStop={this.handleDragStop}
-              />
-            );
-          })}
-          {this.props.children}
-          {this.renderSelectionBox()}
+      <div
+        id="canvas-container"
+        className={styles.canvas_container}
+        onMouseDown={this.handleMouseDown}
+        onMouseMove={this.onMouseThrottled}
+        onMouseUp={this.handleMouseUpCapture}
+        onDoubleClick={this.handleDoubleClick}
+      >
+        <div className={styles.canvas_background}>
+          <div
+            data-testid="canvas"
+            style={{ height: this.state.height }}
+            id="canvas"
+            ref={(ele: HTMLDivElement) => {
+              this.ele = ele;
+            }}
+            className={styles.canvas}
+          >
+            {this.props.newDragElement}
+            {this.props.draggables.map((draggable: CanvasDraggableProps, idx: number) => {
+              const pos = this.state.positions[draggable.uuid] || draggable.position;
+              return (
+                <CanvasDraggable
+                  onAnimated={this.handleAnimated}
+                  key={'draggable_' + draggable.uuid}
+                  uuid={draggable.uuid}
+                  updateDimensions={this.handleUpdateDimensions}
+                  position={pos}
+                  idx={draggable.idx}
+                  selected={!!this.state.selected[draggable.uuid]}
+                  elementCreator={draggable.elementCreator}
+                  onDragStart={this.handleDragStart}
+                  onDragStop={this.handleDragStop}
+                  dragOnAdd={draggable.dragOnAdd}
+                  config={draggable.config}
+                />
+              );
+            })}
+            {this.renderSelectionBox()}
+          </div>
         </div>
       </div>
     );

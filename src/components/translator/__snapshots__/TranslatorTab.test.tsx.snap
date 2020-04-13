@@ -1,0 +1,1003 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TranslatorTab finds email translations 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="pop_wrapper "
+        style="right: 0px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-language"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="body"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="translations_wrapper"
+            >
+              <div
+                class="translate_block"
+              >
+                <div
+                  class="needs_translation"
+                >
+                  <div
+                    class="type_name"
+                  >
+                    Send Email
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      Urgent!
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Subject
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      I need this yesterday
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Body
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="options"
+            >
+              <div
+                class="header"
+              >
+                <div
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled"
+                    style="width: 0%;"
+                  />
+                </div>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
+                </div>
+              </div>
+              <div
+                class="filters"
+              >
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  0
+                  %
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`TranslatorTab finds message translations 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="pop_wrapper "
+        style="right: 0px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-language"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="body"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="translations_wrapper"
+            >
+              <div
+                class="translate_block"
+              >
+                <div
+                  class="needs_translation"
+                >
+                  <div
+                    class="type_name"
+                  >
+                    Send Message
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      Hello World!
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Message
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      yes, no
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Quick Replies
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      var1, var2
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Template Variables
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="options"
+            >
+              <div
+                class="header"
+              >
+                <div
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled"
+                    style="width: 0%;"
+                  />
+                </div>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
+                </div>
+              </div>
+              <div
+                class="filters"
+              >
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  0
+                  %
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`TranslatorTab finds split translations 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="pop_wrapper "
+        style="right: 0px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-language"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="body"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="translations_wrapper"
+            >
+              <div
+                class="translate_block"
+              >
+                <div
+                  class="needs_translation"
+                >
+                  <div
+                    class="type_name"
+                  >
+                    Wait for Response
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      Red, Green, Blue, Other
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Categories
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      red, green, blue
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Rules
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="options"
+            >
+              <div
+                class="header"
+              >
+                <div
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled"
+                    style="width: 0%;"
+                  />
+                </div>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
+                </div>
+              </div>
+              <div
+                class="filters"
+              >
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  0
+                  %
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`TranslatorTab handles partial category translation 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="pop_wrapper "
+        style="right: 0px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-language"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="body"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="translations_wrapper"
+            >
+              <div
+                class="translate_block"
+              >
+                <div
+                  class="needs_translation"
+                >
+                  <div
+                    class="type_name"
+                  >
+                    Wait for Response
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      Blue, Other
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Categories
+                    </div>
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      red, green, blue
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Rules
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="options"
+            >
+              <div
+                class="header"
+              >
+                <div
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled"
+                    style="width: 29%;"
+                  />
+                </div>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
+                </div>
+              </div>
+              <div
+                class="filters"
+              >
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  29
+                  %
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`TranslatorTab hides completed translations 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="pop_wrapper "
+        style="right: 0px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-language"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="body"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="translations_wrapper"
+            >
+              <div
+                class="translate_block"
+              >
+                <div
+                  class="needs_translation"
+                >
+                  <div
+                    class="type_name"
+                  >
+                    Send Message
+                  </div>
+                  <div
+                    class="item"
+                  >
+                    <div
+                      class="text from_text"
+                    >
+                      yes, no
+                    </div>
+                    <div
+                      class="text attribute"
+                    >
+                      Quick Replies
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="options"
+            >
+              <div
+                class="header"
+              >
+                <div
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled"
+                    style="width: 50%;"
+                  />
+                </div>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
+                </div>
+              </div>
+              <div
+                class="filters"
+              >
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  50
+                  %
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`TranslatorTab renders 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="pop_wrapper "
+        style="right: -258px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-language"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="body"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="translations_wrapper complete"
+            />
+            <div
+              class="options"
+            >
+              <div
+                class="header"
+              >
+                <div
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled"
+                    style="width: 0%;"
+                  />
+                </div>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
+                </div>
+              </div>
+              <div
+                class="filters"
+              >
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  0
+                  %
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

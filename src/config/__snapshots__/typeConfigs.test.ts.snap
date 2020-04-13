@@ -75,7 +75,7 @@ Array [
     "localizeableKeys": Array [
       "text",
       "quick_replies",
-      "templating",
+      "templating.variables",
     ],
     "massageForDisplay": [Function],
     "name": "Send Message",
@@ -89,7 +89,7 @@ Array [
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
-      "exits",
+      "categories",
       "cases",
     ],
     "name": "Wait for Response",
@@ -564,7 +564,7 @@ Object {
     "localizeableKeys": Array [
       "text",
       "quick_replies",
-      "templating",
+      "templating.variables",
     ],
     "massageForDisplay": [Function],
     "name": "Send Message",
@@ -817,7 +817,7 @@ Object {
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
-      "exits",
+      "categories",
       "cases",
     ],
     "name": "Wait for Response",
@@ -921,7 +921,7 @@ Object {
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
-      "exits",
+      "categories",
       "cases",
     ],
     "name": "Wait for Response",

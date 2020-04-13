@@ -39,7 +39,10 @@ export default class MenuRouterForm extends React.Component<RouterFormProps, Men
   };
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
+    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
+      Alphanumeric,
+      StartIsNonNumeric
+    ]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)

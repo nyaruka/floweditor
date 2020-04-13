@@ -341,12 +341,21 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
       case 'contact_urns_changed':
         return renderInfo('Added a URN for the contact');
       case 'contact_field_changed':
-        return renderInfo(
-          i18n.t('simulator.contact_field_changed', 'Set contact "[[field]]" to "[[value]]"', {
-            field: this.props.field.name,
-            value: this.getValue(this.props.value)
-          })
-        );
+        const value = this.getValue(this.props.value);
+        if (value !== '') {
+          return renderInfo(
+            i18n.t('simulator.contact_field_changed', 'Set contact "[[field]]" to "[[value]]"', {
+              field: this.props.field.name,
+              value: this.getValue(this.props.value)
+            })
+          );
+        } else {
+          return renderInfo(
+            i18n.t('simulator.contact_field_cleared', 'Cleared contact "[[field]]"', {
+              field: this.props.field.name
+            })
+          );
+        }
       case 'run_result_changed':
         return renderInfo(
           i18n.t('simulator.run_result_changed', 'Set result "[[field]]" to "[[value]]"', {
@@ -449,7 +458,12 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
   /**
    * Helper for value fields which can be an object (contact_field_changed) or string (run_result_changed)
    */
-  private getValue(value: string | { text: string }): string {
-    return typeof value === 'string' ? value : value.text;
+  private getValue(value: string | { text: string } | null): string {
+    if (!value) {
+      return '';
+    } else if (typeof value === 'string') {
+      return value;
+    }
+    return value.text;
   }
 }

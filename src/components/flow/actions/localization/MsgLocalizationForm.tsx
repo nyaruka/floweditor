@@ -64,11 +64,15 @@ export default class MsgLocalizationForm extends React.Component<
     const updates: Partial<MsgLocalizationFormState> = {};
 
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate('Message', keys.text!, []);
+      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text!, []);
     }
 
     if (keys.hasOwnProperty('quickReplies')) {
-      updates.quickReplies = validate('Quick Replies', keys.quickReplies!, [MaxOfTenItems]);
+      updates.quickReplies = validate(
+        i18n.t('forms.quick_replies', 'Quick Replies'),
+        keys.quickReplies!,
+        [MaxOfTenItems]
+      );
     }
 
     if (keys.hasOwnProperty('audio')) {
@@ -184,10 +188,15 @@ export default class MsgLocalizationForm extends React.Component<
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
     const tabs: Tab[] = [];
 
-    if (this.state.templating && typeConfig.localizeableKeys!.indexOf('templating') > -1) {
+    if (
+      this.state.templating &&
+      typeConfig.localizeableKeys!.indexOf('templating.variables') > -1
+    ) {
       const hasLocalizedValue = !!this.state.templateVariables.find(
         (entry: StringEntry) => entry.value.length > 0
       );
+
+      const variable = i18n.t('forms.variable', 'Variable');
 
       tabs.push({
         name: 'WhatsApp',
@@ -195,7 +204,7 @@ export default class MsgLocalizationForm extends React.Component<
           <>
             <p>
               {i18n.t(
-                'forms.send_msg.whatsapp_warning',
+                'forms.whatsapp_warning',
                 'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
               )}
             </p>
@@ -206,9 +215,9 @@ export default class MsgLocalizationForm extends React.Component<
                   return (
                     <div className={styles.variable} key={'tr_arg_' + num}>
                       <TextInputElement
-                        name={`Variable ${num + 1}`}
+                        name={`${i18n.t('forms.variable', 'Variable')} ${num + 1}`}
                         showLabel={false}
-                        placeholder={`${this.props.language.name} Variable ${num + 1}`}
+                        placeholder={`${this.props.language.name} ${variable} ${num + 1}`}
                         onChange={(updatedText: string) => {
                           this.handleTemplateVariableChanged(updatedText, num);
                         }}
@@ -232,10 +241,10 @@ export default class MsgLocalizationForm extends React.Component<
         body: (
           <>
             <MultiChoiceInput
-              name="Quick Reply"
+              name={i18n.t('forms.quick_reply', 'Quick Reply')}
               helpText={
                 <Trans
-                  i18nKey="forms.send_msg.localized_quick_replies"
+                  i18nKey="forms.localized_quick_replies"
                   values={{ language: this.props.language.name }}
                 >
                   Add a new [[language]] Quick Reply and press enter.
@@ -265,6 +274,8 @@ export default class MsgLocalizationForm extends React.Component<
       );
     }
 
+    const translation = i18n.t('forms.translation', 'Translation');
+
     return (
       <Dialog
         title={typeConfig.name}
@@ -279,11 +290,11 @@ export default class MsgLocalizationForm extends React.Component<
         </div>
 
         <TextInputElement
-          name="Message"
+          name={i18n.t('forms.message', 'Message')}
           showLabel={false}
           onChange={this.handleMessageUpdate}
           entry={this.state.message}
-          placeholder={`${this.props.language.name} Translation`}
+          placeholder={`${this.props.language.name} ${translation}`}
           autocomplete={true}
           focus={true}
           textarea={true}

@@ -90,7 +90,7 @@ Object {
   "min": Object {
     "validationFailures": Array [
       Object {
-        "message": "Minimum value must be a less than the maximum",
+        "message": "Minimum value must be less than the maximum",
       },
     ],
     "value": "50",

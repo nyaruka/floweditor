@@ -23,7 +23,8 @@ import {
   UIMetaData,
   Wait,
   WaitTypes,
-  SendMsg
+  SendMsg,
+  FlowIssue
 } from 'flowTypes';
 import Localization, { LocalizedObject } from 'services/Localization';
 import { Activity, EditorState, Warnings } from 'store/editor';
@@ -33,7 +34,7 @@ import {
   AssetType,
   RenderNode,
   RenderNodeMap,
-  AssetStore
+  FlowIssueMap
 } from 'store/flowContext';
 import { addResult } from 'store/mutators';
 import { DispatchWithState, GetState, mergeEditorState } from 'store/thunks';
@@ -239,7 +240,8 @@ export const getCurrentDefinition = (
     result._ui = {
       nodes: uiNodes,
       stickies: definition._ui.stickies,
-      languages: definition._ui.languages
+      languages: definition._ui.languages,
+      translation_filters: definition._ui.translation_filters
     } as UIMetaData;
   }
 
@@ -509,10 +511,7 @@ export const assetMapToList = (assets: AssetMap): any[] => {
 /**
  * Processes an initial FlowDefinition for details necessary for the editor
  */
-export const getFlowComponents = (
-  definition: FlowDefinition,
-  assetStore: AssetStore
-): FlowComponents => {
+export const getFlowComponents = (definition: FlowDefinition): FlowComponents => {
   const renderNodeMap: RenderNodeMap = {};
   const warnings: Warnings = {};
   const { nodes, _ui } = definition;
@@ -531,11 +530,12 @@ export const getFlowComponents = (
     }
 
     const ui = _ui.nodes[node.uuid];
-    const renderNode = {
+    const renderNode: RenderNode = {
       node,
       ui,
       inboundConnections: {}
     };
+
     renderNodeMap[node.uuid] = renderNode;
 
     const resultName = getResultName(node);
@@ -653,6 +653,26 @@ export const mergeAssetMaps = (assets: AssetMap, toAdd: AssetMap): void => {
   Object.keys(toAdd).forEach((key: string) => {
     assets[key] = assets[key] || toAdd[key];
   });
+};
+
+export const createFlowIssueMap = (
+  previousIssues: FlowIssueMap,
+  issues: FlowIssue[]
+): FlowIssueMap => {
+  const issueMap: FlowIssueMap = issues.reduce((issueMap: FlowIssueMap, issue: FlowIssue) => {
+    const nodeIssues: FlowIssue[] = issueMap[issue.node_uuid] || [];
+    nodeIssues.push(issue);
+    issueMap[issue.node_uuid] = nodeIssues;
+    return issueMap;
+  }, {});
+
+  for (const [nodeUUID, nodeIssues] of Object.entries(issueMap)) {
+    // would be nice not to use stringify as a deepequals here
+    if (JSON.stringify(previousIssues[nodeUUID]) === JSON.stringify(nodeIssues)) {
+      issueMap[nodeUUID] = previousIssues[nodeUUID];
+    }
+  }
+  return issueMap;
 };
 
 export const fetchFlowActivity = (

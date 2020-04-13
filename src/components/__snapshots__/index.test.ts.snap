@@ -27,7 +27,6 @@ Array [
   },
   "a4f64f1b-85bc-477e-b706-de313a022979",
   undefined,
-  undefined,
 ]
 `;
 
@@ -57,15 +56,18 @@ exports[`Root render should apply translating style if passed a truthy translati
       className="editor"
       data-spec="editor"
     >
-      <Connect(LanguageSelector) />
       <RevisionExplorer
         assetStore={null}
         createNewRevision={[MockFunction]}
         loadFlowDefinition={[MockFunction]}
         onToggled={[Function]}
+        popped={null}
       />
       <div
         id="portal-root"
+      />
+      <div
+        id="canvas-portal"
       />
     </div>
   </div>
@@ -97,16 +99,19 @@ exports[`Root render should render flow if passed a definition, language 1`] = `
       className="editor"
       data-spec="editor"
     >
-      <Connect(LanguageSelector) />
       <Connect(Flow) />
       <RevisionExplorer
         assetStore={null}
         createNewRevision={[MockFunction]}
         loadFlowDefinition={[MockFunction]}
         onToggled={[Function]}
+        popped={null}
       />
       <div
         id="portal-root"
+      />
+      <div
+        id="canvas-portal"
       />
     </div>
   </div>
@@ -138,15 +143,18 @@ exports[`Root render should render self, children with required props 1`] = `
       className="editor"
       data-spec="editor"
     >
-      <Connect(LanguageSelector) />
       <RevisionExplorer
         assetStore={null}
         createNewRevision={[MockFunction]}
         loadFlowDefinition={[MockFunction]}
         onToggled={[Function]}
+        popped={null}
       />
       <div
         id="portal-root"
+      />
+      <div
+        id="canvas-portal"
       />
     </div>
   </div>

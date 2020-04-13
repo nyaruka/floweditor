@@ -41,7 +41,8 @@ import {
   updateContactFields,
   updateDefinition,
   updateNodes,
-  updateMetadata
+  updateMetadata,
+  updateIssues
 } from 'store/flowContext';
 import {
   createEmptyNode,
@@ -52,7 +53,8 @@ import {
   getLocalizations,
   getNode,
   guessNodeType,
-  mergeAssetMaps
+  mergeAssetMaps,
+  createFlowIssueMap
 } from 'store/helpers';
 import * as mutators from 'store/mutators';
 import {
@@ -80,6 +82,11 @@ export type OnAddToNode = (node: FlowNode) => Thunk<void>;
 
 export type HandleTypeConfigChange = (typeConfig: Type) => Thunk<void>;
 
+export type UpdateTranslationFilters = (translationFilters: {
+  categories: boolean;
+  rules: boolean;
+}) => Thunk<void>;
+
 export type OnOpenNodeEditor = (settings: NodeEditorSettings) => Thunk<void>;
 
 export type OnUpdateCanvasPositions = (positions: CanvasPositions) => Thunk<RenderNodeMap>;
@@ -95,15 +102,10 @@ export type UpdateDimensions = (uuid: string, dimensions: Dimensions) => Thunk<v
 export type FetchFlow = (
   endpoints: Endpoints,
   uuid: string,
-  onLoad: () => void,
   forceSave: boolean
 ) => Thunk<Promise<void>>;
 
-export type LoadFlowDefinition = (
-  details: FlowDetails,
-  assetStore: AssetStore,
-  onLoad?: () => void
-) => Thunk<void>;
+export type LoadFlowDefinition = (details: FlowDetails, assetStore: AssetStore) => Thunk<void>;
 
 export type CreateNewRevision = () => Thunk<void>;
 
@@ -206,7 +208,7 @@ export const createDirty = (
   }
 
   const {
-    flowContext: { definition, nodes, assetStore },
+    flowContext: { definition, nodes, assetStore, issues },
     editorState: { currentRevision }
   } = getState();
 
@@ -233,6 +235,11 @@ export const createDirty = (
 
         if (result.metadata) {
           dispatch(updateMetadata(result.metadata));
+          if (result.metadata.issues) {
+            dispatch(updateIssues(createFlowIssueMap(issues, result.metadata.issues)));
+          } else {
+            dispatch(updateIssues({}));
+          }
         }
 
         const updatedAssets = mutators.addRevision(assetStore, revision);
@@ -284,16 +291,16 @@ export const createNewRevision = () => (dispatch: DispatchWithState, getState: G
   markDirty(0);
 };
 
-export const loadFlowDefinition = (
-  details: FlowDetails,
-  assetStore: AssetStore,
-  onLoad: () => void
-) => (dispatch: DispatchWithState, getState: GetState): void => {
+export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore) => (
+  dispatch: DispatchWithState,
+  getState: GetState
+): void => {
   // first see if we need our asset store initialized
 
   const definition = details.definition;
 
   const {
+    flowContext: { issues },
     editorState: { fetchingFlow }
   } = getState();
 
@@ -320,7 +327,7 @@ export const loadFlowDefinition = (
   }
 
   // add assets we found in our flow to our asset store
-  const components = getFlowComponents(definition, assetStore);
+  const components = getFlowComponents(definition);
   mergeAssetMaps(assetStore.fields.items, components.fields);
   mergeAssetMaps(assetStore.groups.items, components.groups);
   mergeAssetMaps(assetStore.labels.items, components.labels);
@@ -338,6 +345,12 @@ export const loadFlowDefinition = (
     mergeAssetMaps(assetStore.languages.items, { base: DEFAULT_LANGUAGE });
   }
 
+  if (details.metadata && details.metadata.issues) {
+    dispatch(updateIssues(createFlowIssueMap(issues, details.metadata.issues)));
+  } else {
+    dispatch(updateIssues({}));
+  }
+
   dispatch(updateBaseLanguage(language));
   dispatch(updateMetadata(details.metadata));
 
@@ -348,11 +361,6 @@ export const loadFlowDefinition = (
   // finally update our assets, and mark us as fetched
   dispatch(updateAssets(assetStore));
   dispatch(mergeEditorState({ language, fetchingFlow: false }));
-
-  // fire our callback for who is embedding us
-  if (onLoad) {
-    onLoad();
-  }
 };
 
 /**
@@ -360,12 +368,10 @@ export const loadFlowDefinition = (
  * @param endpoints where our assets live
  * @param uuid the uuid for the flow to fetch
  */
-export const fetchFlow = (
-  endpoints: Endpoints,
-  uuid: string,
-  onLoad: () => void,
-  forceSave = false
-) => async (dispatch: DispatchWithState, getState: GetState) => {
+export const fetchFlow = (endpoints: Endpoints, uuid: string, forceSave = false) => async (
+  dispatch: DispatchWithState,
+  getState: GetState
+) => {
   // mark us as underway
   dispatch(mergeEditorState({ fetchingFlow: true }));
 
@@ -393,7 +399,7 @@ export const fetchFlow = (
         ? response
         : { definition: response as FlowDefinition, metadata: { issues: [] } };
 
-      dispatch(loadFlowDefinition(details, assetStore, onLoad));
+      dispatch(loadFlowDefinition(details, assetStore));
       dispatch(
         mergeEditorState({
           currentRevision: details.definition.revision,
@@ -1074,4 +1080,17 @@ export const onOpenNodeEditor = (settings: NodeEditorSettings) => (
   dispatch(handleTypeConfigChange(typeConfig));
   dispatch(updateNodeEditorSettings(settings));
   dispatch(mergeEditorState(EMPTY_DRAG_STATE));
+};
+
+export const updateTranslationFilters = (translationFilters: {
+  categories: boolean;
+  rules: boolean;
+}) => (dispatch: DispatchWithState, getState: GetState): void => {
+  const {
+    flowContext: { definition }
+  } = getState();
+
+  definition._ui.translation_filters = translationFilters;
+  dispatch(updateDefinition(definition));
+  markDirty();
 };

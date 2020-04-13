@@ -364,16 +364,16 @@ $reset_color: #666;
 
 .simulator_tab.tab_hidden,
 .simulator_tab:hover.tab_hidden {
-  right: -120px;
+  right: -130px;
   transition: right 100ms;
 }
 
 .simulator_tab {
   background-color: #2db379;
-  width: 113px;
+  width: 130px;
   height: 50px;
   position: fixed;
-  right: -75px;
+  right: -92px;
   top: 300px;
   cursor: pointer;
   z-index: $z_simulator;
