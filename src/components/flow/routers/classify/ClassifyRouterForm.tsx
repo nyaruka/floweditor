@@ -65,11 +65,15 @@ export default class ClassifyRouterForm extends React.Component<
     const updates: Partial<ClassifyRouterFormState> = {};
 
     if (keys.hasOwnProperty('resultName')) {
-      updates.resultName = validate('Result Name', keys.resultName, [shouldRequireIf(submitting)]);
+      updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     if (keys.hasOwnProperty('classifier')) {
-      updates.classifier = validate('Classifier', keys.classifier, [shouldRequireIf(submitting)]);
+      updates.classifier = validate(i18n.t('forms.classifier', 'Classifier'), keys.classifier, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -85,7 +89,11 @@ export default class ClassifyRouterForm extends React.Component<
   }
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate('Result Name', value, [Required, Alphanumeric, StartIsNonNumeric]);
+    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
+      Required,
+      Alphanumeric,
+      StartIsNonNumeric
+    ]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -119,7 +127,9 @@ export default class ClassifyRouterForm extends React.Component<
   }
 
   private handleOperandUpdated(value: string): void {
-    this.setState({ operand: validate('Operand', value, [Required]) });
+    this.setState({
+      operand: validate(i18n.t('forms.operand', 'Operand'), value, [Required])
+    });
   }
 
   private getButtons(): ButtonSet {
@@ -148,7 +158,7 @@ export default class ClassifyRouterForm extends React.Component<
               response from the contact use <code>{DEFAULT_OPERAND}</code>.
             </p>
             <TextInputElement
-              name="Operand"
+              name={i18n.t('forms.operand', 'Operand')}
               showLabel={false}
               autocomplete={true}
               onChange={this.handleOperandUpdated}
@@ -186,7 +196,7 @@ export default class ClassifyRouterForm extends React.Component<
         </p>
         <AssetSelector
           key="select_classifier"
-          name="Classifier"
+          name={i18n.t('forms.classifier', 'Classifier')}
           placeholder="Select the classifier to use"
           assets={this.props.assetStore.classifiers}
           onChange={this.handleClassifierUpdated}

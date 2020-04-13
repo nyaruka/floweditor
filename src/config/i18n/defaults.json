@@ -137,6 +137,8 @@
   "body": "Body",
   "buttons": {
     "cancel": "Cancel",
+    "create_message": "Create Message",
+    "download": "Download",
     "ok": "Ok"
   },
   "context_explorer": {
@@ -160,93 +162,142 @@
     "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."
   },
   "forms": {
-    "add_groups": {
-      "summary": "Select the groups to add the contact to."
-    },
-    "add_labels": {
-      "summary": "Select the labels to apply to the incoming message."
-    },
-    "add_urn": {
-      "summary": "Add a new URN to reach the contact such as a phone number."
-    },
-    "call_webhook": {
-      "body_summary": "Modify the body of the [[method]] request that will be sent to your webhook.",
-      "example": "This response would add <1>@webhook.product</1> and <4>@webhook[\"stock level\"]</4> for use in the flow.",
-      "header": "Header",
-      "header_name": "Header Name",
-      "header_summary": "Add any additional headers below that you would like to send along with your request.",
-      "header_value": "Value",
-      "help": "If your server responds with JSON, each property will be added to the Flow.",
-      "url_placeholder": "Enter a URL"
-    },
-    "enter_flow": {
-      "parameters": {
-        "summary": "<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.",
-        "tab": "Parameters"
-      }
-    },
+    "add_groups_summary": "Select the groups to add the contact to.",
+    "add_labels_summary": "Select the labels to apply to the incoming message.",
+    "add_quick_reply": "Add a new Quick Reply and press enter.",
+    "add_urn_summary": "Add a new URN to reach the contact such as a phone number.",
+    "all_destinations": "All Destinations",
+    "are_required": "are required",
+    "arguments": "arguments",
+    "audio_url": "Audio URL",
+    "body": "Body",
+    "buckets": "Buckets",
+    "categories": "categories",
+    "category": "Category",
+    "channel": "Channel",
+    "channel_type": "Channel Type",
+    "classifier": "Classifier",
+    "confidence": "confidence",
+    "contact_field": "Contact Field",
+    "contact_query": "Contact Query",
+    "create_prefix": "New: ",
+    "currency": "Currency",
+    "day": "day",
+    "days": "days",
+    "delimit": "Delimit",
+    "delimit_result": "Delimit Result",
+    "delimit_result_description": "Evaluate your rules against a delimited part of your result",
+    "delimiter": "Delimiter",
+    "district": "District",
+    "email_recipient_name": "Recipient",
+    "email_recipient_placeholder": "To",
+    "email_recipient_prompt": "Enter email address",
+    "enter_a_url": "Enter a URL",
+    "enter_flow_parameters_summary": "<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.",
+    "enter_flow_parameters_tab": "Parameters",
+    "exit_name": "Exit Name",
     "expression_label": "If the expression...",
+    "field_number": "Field Number",
+    "field_value": "Field Value",
+    "flow": "Flow",
+    "flow_result": "Flow Result",
+    "groups": "Groups",
+    "header_name": "Header name",
+    "image_url": "Image URL",
+    "intent": "Intent",
+    "is_not_a_valid_regex": "is not a valid regex",
+    "is_not_finished": "is not finished",
+    "is_required": "is required",
+    "labels": "Labels",
+    "language": "Language",
+    "localize_rules": "Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.",
+    "localized_quick_replies": "Add a new [[language]] Quick Reply and press enter.",
+    "maximum_value": "Maximum value",
+    "message": "Message",
     "message_label": "If the message response...",
-    "play_audio": {
-      "help_text": "Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.",
-      "recording_label": "Previous Recording"
-    },
-    "remove_groups": {
-      "placeholder": "Enter the name of an existing group",
-      "remove_from_all_label": "Remove from all",
-      "remove_from_all_summary": "Remove the active contact from all groups they're a member of.",
-      "summary": "Select the groups to remove the contact from."
-    },
+    "method": "Method",
+    "minimum_value": "Minimum value",
+    "must_be_less_than": "must be less than",
+    "name": "Name",
+    "operand": "Operand",
+    "operator": "operator",
+    "play_audio_help_text": "Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.",
+    "quick_replies": "Quick Replies",
+    "quick_replies_summary": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
+    "quick_reply": "Quick Reply",
+    "recipients": "Recipients",
+    "recording": "Recording",
+    "recording_label": "Previous Recording",
+    "remove_from_all_label": "Remove from all",
+    "remove_from_all_summary": "Remove the active contact from all groups they're a member of.",
+    "remove_groups_placeholder": "Enter the name of an existing group",
+    "remove_groups_summary": "Select the groups to remove the contact from.",
+    "resthook": "Resthook",
+    "resthook_to_call": "Select the resthook to call",
+    "result": "Result",
+    "result_name": "Result Name",
     "result_name_help": "By naming the result, you can reference it later using [[resultFormat]]",
+    "result_to_split_on": "Result to split on",
+    "rules": "rules",
     "save_as_title": "Save as..",
     "save_result_name": "Result Name",
-    "send_email": {
-      "message_name": "Message",
-      "recipient_name": "Recipient",
-      "recipient_placeholder": "To",
-      "recipient_prompt": "Enter email address",
-      "subject_name": "Subject",
-      "subject_placeholder": "Subject"
-    },
-    "send_message": {
-      "facebook": {
-        "topic_placeholder": "Select a topic to use over Facebook"
-      }
-    },
-    "send_msg": {
-      "add_quick_reply": "Add a new Quick Reply and press enter.",
-      "all_destinations": "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked.",
-      "facebook": {
-        "warning": "Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow."
-      },
-      "localized_quick_replies": "Add a new [[language]] Quick Reply and press enter.",
-      "quick_replies": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
-      "summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
-      "summary_plural": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
-      "whatsapp_warning": "Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."
-    },
-    "set_run_result": {
-      "create_prefix": "New: "
-    },
-    "split": {
-      "localize_rules": "Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used."
-    },
-    "split_by_group": {
-      "label": "Select the groups you'd like to split by below"
-    },
+    "select_result": "Select Result",
+    "send_msg_facebook_topic_placeholder": "Select a topic to use over Facebook",
+    "send_msg_facebook_warning": "Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.",
+    "send_msg_summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
+    "send_msg_summary_plural": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
+    "split_by_groups": "Select the groups you'd like to split by below",
     "split_by_scheme": "Channel types",
-    "type_label": "When a contact arrives at this point in your flow..."
-  },
-  "groups": "Groups",
-  "issue": {
-    "legacy_extra": "Invalid regular expression found: [[regex]]"
+    "start_type": "Start Type",
+    "state": "State",
+    "subject": "Subject",
+    "template": "template",
+    "the_maximum": "the maximum",
+    "the_minimum": "the minimum",
+    "timeout": "Timeout",
+    "timeout_1 day": "1 day",
+    "timeout_1 hours": "1 hours",
+    "timeout_1 minute": "1 minute",
+    "timeout_1 week": "1 week",
+    "timeout_10 minutes": "10 minutes",
+    "timeout_12 hours": "12 hours",
+    "timeout_15 minutes": "15 minutes",
+    "timeout_18 hours": "18 hours",
+    "timeout_2 days": "2 days",
+    "timeout_2 hours": "2 hours",
+    "timeout_2 minutes": "2 minutes",
+    "timeout_3 days": "3 days",
+    "timeout_3 hours": "3 hours",
+    "timeout_3 minutes": "3 minutes",
+    "timeout_4 minutes": "4 minutes",
+    "timeout_5 minutes": "5 minutes",
+    "timeout_6 hours": "6 hours",
+    "today": "today",
+    "today_proper": "Today",
+    "translation": "Translation",
+    "type": "Type",
+    "type_label": "When a contact arrives at this point in your flow...",
+    "type_options": "Type Options",
+    "url": "URL",
+    "urn": "URN",
+    "urn_type": "URN Type",
+    "value": "Value",
+    "variable": "Variable",
+    "video_url": "Video URL",
+    "webhook_body_summary": "Modify the body of the [[method]] request that will be sent to your webhook.",
+    "webhook_example": "This response would add <1>@webhook.product</1> and <4>@webhook[\"stock level\"]</4> for use in the flow.",
+    "webhook_header": "Header",
+    "webhook_header_name": "Header Name",
+    "webhook_header_summary": "Add any additional headers below that you would like to send along with your request.",
+    "webhook_help": "If your server responds with JSON, each property will be added to the Flow.",
+    "whatsapp_warning": "Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."
   },
   "issues": {
     "header": "Flow Issues",
     "label": "Flow Issues",
+    "legacy_extra": "Invalid regular expression found: [[regex]]",
     "missing_dependency": "Cannot find a [[type]] for <1>[[name]]</1>"
   },
-  "message": "Message",
   "operator": {
     "has_pattern": "matches regex"
   },
@@ -373,5 +424,8 @@
     "body": "...",
     "title": "New Note"
   },
-  "translation": "Translation"
+  "translation": {
+    "header": "Flow Translation",
+    "label": "Translations"
+  }
 }

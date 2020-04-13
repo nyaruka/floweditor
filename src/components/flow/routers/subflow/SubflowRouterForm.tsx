@@ -53,7 +53,7 @@ export default class SubflowRouterForm extends React.PureComponent<
     const flow = flows[0];
 
     const updates: Partial<SubflowRouterFormState> = {
-      flow: validate('Flow', flow, [shouldRequireIf(submitting)])
+      flow: validate(i18n.t('forms.flow', 'Flow'), flow, [shouldRequireIf(submitting)])
     };
 
     const params: { [key: string]: StringEntry } = {};
@@ -122,12 +122,12 @@ export default class SubflowRouterForm extends React.PureComponent<
 
     if (flow && flow.content && flow.content.parent_refs.length > 0) {
       tabs.push({
-        name: i18n.t('forms.enter_flow.parameters.tab', 'Parameters'),
+        name: i18n.t('forms.enter_flow_parameters_tab', 'Parameters'),
         body: (
           <div>
             <p className={styles.info}>
               <Trans
-                i18nKey="forms.enter_flow.parameters.summary"
+                i18nKey="forms.enter_flow_parameters_summary"
                 values={{
                   flow: this.state.flow.value.name,
                   url: this.context.config.endpoints.editor + '/' + this.state.flow.value.id
@@ -184,7 +184,7 @@ export default class SubflowRouterForm extends React.PureComponent<
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
-          name="Flow"
+          name={i18n.t('forms.flow', 'Flow')}
           placeholder="Select the flow to start"
           assets={this.props.assetStore.flows}
           entry={this.state.flow}

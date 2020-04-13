@@ -38,8 +38,8 @@ export const HEADER_NAME_ERROR = i18n.t(
   'errors.http_header_missing_name',
   'HTTP headers must have a name'
 );
-export const NAME_PLACEHOLDER = i18n.t('forms.call_webhook.header_name', 'Header Name');
-export const VALUE_PLACEHOLDER = i18n.t('forms.call_webhook.header_value', 'Value');
+export const NAME_PLACEHOLDER = i18n.t('forms.webhook_header_name', 'Header Name');
+export const VALUE_PLACEHOLDER = i18n.t('forms.value', 'Value');
 
 export default class HeaderElement extends React.Component<HeaderElementProps, HeaderElementState> {
   constructor(props: HeaderElementProps) {
@@ -68,7 +68,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
   }
 
   private handleChangeName(value: string): void {
-    const name = validate('Header name', value, [HeaderName]);
+    const name = validate(i18n.t('forms.header_name', 'Header name'), value, [HeaderName]);
     this.setState({ name: { value: name.value } }, () =>
       this.props.onChange(
         this.getHeader(),
@@ -79,7 +79,9 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
 
   private handleChangeValue(value: string): void {
     this.setState({ value: { value } }, () => {
-      const name = validate('Header name', this.state.name.value, [HeaderName]);
+      const name = validate(i18n.t('forms.header_name', 'Header name'), this.state.name.value, [
+        HeaderName
+      ]);
       this.props.onChange(
         this.getHeader(),
         getAllErrors(this.state.value).concat(getAllErrors(name))
@@ -102,7 +104,7 @@ export default class HeaderElement extends React.Component<HeaderElementProps, H
   public render(): JSX.Element {
     const removeIco: JSX.Element = this.getRemoveIco();
     return (
-      <FormElement name={i18n.t('forms.call_webhook.header', 'Header')} entry={this.props.entry}>
+      <FormElement name={i18n.t('forms.webhook_header', 'Header')} entry={this.props.entry}>
         <div className={styles.header} data-spec={headerContainerSpecId}>
           <div className={styles.header_name} data-spec={nameContainerSpecId}>
             <TextInputElement

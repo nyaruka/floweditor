@@ -124,6 +124,7 @@ export default class RouterLocalizationForm extends React.Component<
       if (kase.arguments && kase.arguments.length > 0) {
         argument = kase.arguments[0];
       }
+      const translation = i18n.t('forms.translation', 'Translation');
 
       return (
         <div
@@ -141,7 +142,7 @@ export default class RouterLocalizationForm extends React.Component<
             <TextInputElement
               data-spec="localize-case"
               name={kase.uuid}
-              placeholder={`${this.props.language.name} Translation`}
+              placeholder={`${this.props.language.name} ${translation}`}
               showLabel={false}
               onChange={(arg: string) => this.handleUpdateCaseArgument(kase, arg)}
               entry={{ value: argument }}

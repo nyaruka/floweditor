@@ -53,7 +53,10 @@ export default class RandomRouterForm extends React.Component<
   };
 
   private handleUpdateResultName(value: string): void {
-    const resultName = validate('Result Name', value, [Alphanumeric, StartIsNonNumeric]);
+    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
+      Alphanumeric,
+      StartIsNonNumeric
+    ]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -133,7 +136,7 @@ export default class RandomRouterForm extends React.Component<
         <div className={styles.bucket_select}>
           <SelectElement
             styles={small as any}
-            name="Buckets"
+            name={i18n.t('forms.buckets', 'Buckets')}
             entry={this.state.bucketChoice}
             onChange={this.handleBucketsChanged}
             options={OPTIONS}

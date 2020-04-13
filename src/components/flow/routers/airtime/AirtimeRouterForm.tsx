@@ -15,6 +15,7 @@ import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/valid
 
 import styles from './AirtimeRouterForm.module.scss';
 import { nodeToState, stateToNode } from './helpers';
+import i18n from 'config/i18n';
 
 export interface AirtimeTransferEntry extends FormEntry {
   value: AirtimeTransfer;
@@ -74,7 +75,11 @@ export default class AirtimeRouterForm extends React.PureComponent<
   }
 
   private handleUpdateResultName(result: string): void {
-    const resultName = validate('Result Name', result, [Required, Alphanumeric, StartIsNonNumeric]);
+    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), result, [
+      Required,
+      Alphanumeric,
+      StartIsNonNumeric
+    ]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)

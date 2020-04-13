@@ -9,6 +9,7 @@ import { ValidationFailure } from 'store/nodeEditor';
 import { small } from 'utils/reactselect';
 
 import styles from './CurrencyElement.module.scss';
+import i18n from 'config/i18n';
 
 export interface AirtimeTransfer {
   amount: string;
@@ -74,7 +75,7 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
         <div className={styles.amount}>
           <TextInputElement
             placeholder={placeholder}
-            name="value"
+            name={i18n.t('forms.value', 'value')}
             onChange={this.handleAmountChanged}
             entry={{ value: amount }}
           />
@@ -102,18 +103,22 @@ export default class CurrencyElement extends React.Component<CurrencyElementProp
     };
 
     return (
-      <FormElement name="Currency" entry={this.props.transfer} __className={styles.form_element}>
+      <FormElement
+        name={i18n.t('forms.currency', 'Currency')}
+        entry={this.props.transfer}
+        __className={styles.form_element}
+      >
         <div className={styles.transfer}>
           <div className={styles.currency}>
             <AssetSelector
               styles={small as any}
-              name="Currency"
+              name={i18n.t('forms.currency', 'Currency')}
               shouldExclude={shouldExclude}
               assets={this.props.currencies}
               entry={{ value: currency }}
               searchable={true}
               onChange={this.handleCurrencyChanged}
-              placeholder={'Select a currency'}
+              placeholder={i18n.t('forms.currency', 'Select a Currency')}
             />
           </div>
           {amountInput} {removeIco}

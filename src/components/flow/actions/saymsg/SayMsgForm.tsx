@@ -35,7 +35,9 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
     const updates: Partial<SayMsgFormState> = {};
 
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate('Message', keys.text!, [shouldRequireIf(submitting)]);
+      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text!, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -80,7 +82,7 @@ export default class SayMsgForm extends React.Component<ActionFormProps, SayMsgF
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <TextInputElement
-          name="Message"
+          name={i18n.t('forms.message', 'Message')}
           showLabel={false}
           onChange={this.handleMessageUpdate}
           entry={this.state.message}

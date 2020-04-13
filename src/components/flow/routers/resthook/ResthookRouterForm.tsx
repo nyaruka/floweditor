@@ -18,6 +18,7 @@ import {
 
 import { nodeToState, stateToNode } from './helpers';
 import styles from './ResthookRouterForm.module.scss';
+import i18n from 'config/i18n';
 
 // TODO: Remove use of Function
 export interface ResthookRouterFormState extends FormState {
@@ -40,7 +41,11 @@ export default class ResthookRouterForm extends React.PureComponent<
   }
 
   private handleUpdateResultName(result: string): void {
-    const resultName = validate('Result Name', result, [Required, Alphanumeric, StartIsNonNumeric]);
+    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), result, [
+      Required,
+      Alphanumeric,
+      StartIsNonNumeric
+    ]);
     this.setState({
       resultName,
       valid: this.state.valid && !hasErrors(resultName)
@@ -49,7 +54,9 @@ export default class ResthookRouterForm extends React.PureComponent<
 
   public handleResthookChanged(selected: Asset[], submitting = false): boolean {
     const updates: Partial<ResthookRouterFormState> = {
-      resthook: validate('Resthook', selected[0], [shouldRequireIf(submitting)])
+      resthook: validate(i18n.t('forms.resthook', 'Resthook'), selected[0], [
+        shouldRequireIf(submitting)
+      ])
     };
 
     const updated = mergeForm(this.state, updates);
@@ -80,8 +87,8 @@ export default class ResthookRouterForm extends React.PureComponent<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
-          name="Resthook"
-          placeholder="Select the resthook to call"
+          name={i18n.t('forms.resthook', 'Resthook')}
+          placeholder={i18n.t('forms.resthook_to_call', 'Select the resthook to call')}
           assets={this.props.assetStore.resthooks}
           entry={this.state.resthook}
           searchable={true}

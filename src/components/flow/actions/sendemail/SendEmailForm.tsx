@@ -51,15 +51,21 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
     const updates: Partial<SendEmailFormState> = {};
 
     if (keys.hasOwnProperty('recipients')) {
-      updates.recipients = validate('Recipients', keys.recipients!, [shouldRequireIf(submitting)]);
+      updates.recipients = validate(i18n.t('forms.recipients', 'Recipients'), keys.recipients!, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     if (keys.hasOwnProperty('subject')) {
-      updates.subject = validate('Subject', keys.subject!, [shouldRequireIf(submitting)]);
+      updates.subject = validate(i18n.t('forms.subject', 'Subject'), keys.subject!, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     if (keys.hasOwnProperty('body')) {
-      updates.body = validate('Body', keys.body!, [shouldRequireIf(submitting)]);
+      updates.body = validate(i18n.t('forms.body', 'Body'), keys.body!, [
+        shouldRequireIf(submitting)
+      ]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -107,9 +113,9 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div className={styles.ele}>
           <TaggingElement
-            name={i18n.t('forms.send_email.recipient_name', 'Recipient')}
-            placeholder={i18n.t('forms.send_email.recipient_placeholder', 'To')}
-            prompt={i18n.t('forms.send_email.recipient_prompt', 'Enter email address')}
+            name={i18n.t('forms.email_recipient_name', 'Recipient')}
+            placeholder={i18n.t('forms.email_recipient_placeholder', 'To')}
+            prompt={i18n.t('forms.email_recipient_prompt', 'Enter email address')}
             onCheckValid={this.handleCheckValid}
             entry={this.state.recipients}
             onChange={this.handleRecipientsChanged}
@@ -117,15 +123,15 @@ export default class SendEmailForm extends React.Component<ActionFormProps, Send
           />
           <TextInputElement
             __className={styles.subject}
-            name={i18n.t('forms.send_email.subject_name', 'Subject')}
-            placeholder={i18n.t('forms.send_email.subject_placeholder', 'Subject')}
+            name={i18n.t('forms.subject', 'Subject')}
+            placeholder={i18n.t('forms.subject', 'Subject')}
             onChange={this.handleSubjectChanged}
             entry={this.state.subject}
             autocomplete={true}
           />
           <TextInputElement
             __className={styles.message}
-            name={i18n.t('forms.send_email.message_name', 'Message')}
+            name={i18n.t('forms.message', 'Message')}
             showLabel={false}
             onChange={this.handleBodyChanged}
             entry={this.state.body}

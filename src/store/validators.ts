@@ -2,6 +2,7 @@ import * as headerUtils from 'http-headers-validation';
 import { Asset } from 'store/flowContext';
 import { FormEntry, ValidationFailure } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
+import i18n from 'config/i18n';
 
 export type FormInput =
   | string
@@ -116,22 +117,24 @@ export const validate = (
 };
 
 export const Empty: ValidatorFunc = (name: string, input: FormInput) => {
+  const isNotFinished = i18n.t('forms.is_not_finished', 'is not finished');
+
   if (input) {
-    return { value: input, failures: [{ message: `${name} is not finished` }] };
+    return { value: input, failures: [{ message: `${name} ${isNotFinished}` }] };
   }
 
   if (typeof input === 'string') {
     if ((input as string).trim().length !== 0) {
       return {
         value: input,
-        failures: [{ message: `${name} is not finished` }]
+        failures: [{ message: `${name} ${isNotFinished}` }]
       };
     }
   } else if (Array.isArray(input)) {
     if (input.length !== 0) {
       return {
         value: input,
-        failures: [{ message: `${name} is not finished` }]
+        failures: [{ message: `${name} ${isNotFinished}` }]
       };
     }
   }
@@ -139,17 +142,22 @@ export const Empty: ValidatorFunc = (name: string, input: FormInput) => {
 };
 
 export const Required: ValidatorFunc = (name: string, input: FormInput) => {
+  const isRequired = i18n.t('forms.is_required', 'is required');
+
   if (!input) {
-    return { value: input, failures: [{ message: `${name} is required` }] };
+    return { value: input, failures: [{ message: `${name} ${isRequired}` }] };
   }
 
   if (typeof input === 'string') {
     if ((input as string).trim().length === 0) {
-      return { value: input, failures: [{ message: `${name} is required` }] };
+      return { value: input, failures: [{ message: `${name} ${isRequired}` }] };
     }
   } else if (Array.isArray(input)) {
     if (input.length === 0) {
-      return { value: input, failures: [{ message: `${name} are required` }] };
+      return {
+        value: input,
+        failures: [{ message: `${name} ${i18n.t('forms.are_required', 'are required')}` }]
+      };
     }
   }
   return { failures: [], value: input };
@@ -169,7 +177,11 @@ export const Regex: ValidatorFunc = (name: string, input: FormInput) => {
     } catch (e) {
       return {
         value: input,
-        failures: [{ message: `${name} is not a valid regex` }]
+        failures: [
+          {
+            message: `${name} ${i18n.t('forms.is_not_a_valid_regex', 'is not a valid regex')}`
+          }
+        ]
       };
     }
   }
@@ -185,7 +197,14 @@ export const LessThan = (amount: number, checkName: string): ValidatorFunc => (
     if (parseFloat(input as string) >= amount) {
       return {
         value: input,
-        failures: [{ message: `${name} must be a less than ${checkName}` }]
+        failures: [
+          {
+            message: `${name} ${i18n.t(
+              'forms.must_be_less_than',
+              'must be less than'
+            )} ${checkName}`
+          }
+        ]
       };
     }
 

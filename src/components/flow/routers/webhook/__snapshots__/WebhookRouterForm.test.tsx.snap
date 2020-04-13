@@ -23,7 +23,7 @@ exports[`WebhookRouterForm should render 1`] = `
             className="info"
           >
             <Trans
-              i18nKey="forms.call_webhook.header_summary"
+              i18nKey="forms.webhook_header_summary"
             >
               Add any additional headers below that you would like to send along with your request.
             </Trans>
@@ -74,7 +74,7 @@ exports[`WebhookRouterForm should render 1`] = `
           </h4>
           <p>
             <Trans
-              i18nKey="forms.call_webhook.body_summary"
+              i18nKey="forms.webhook_body_summary"
               values={
                 Object {
                   "method": "GET",
@@ -94,7 +94,7 @@ exports[`WebhookRouterForm should render 1`] = `
             }
             helpText={
               <Trans
-                i18nKey="forms.call_webhook.body_summary"
+                i18nKey="forms.webhook_body_summary"
                 values={
                   Object {
                     "method": "GET",
@@ -160,7 +160,7 @@ exports[`WebhookRouterForm should render 1`] = `
             },
           }
         }
-        name="MethodMap"
+        name="Method"
         onChange={[Function]}
         options={
           Array [
@@ -214,7 +214,7 @@ exports[`WebhookRouterForm should render 1`] = `
   >
     <p>
       <Trans
-        i18nKey="forms.call_webhook.help"
+        i18nKey="forms.webhook_help"
       >
         If your server responds with JSON, each property will be added to the Flow.
       </Trans>
@@ -226,7 +226,7 @@ exports[`WebhookRouterForm should render 1`] = `
     </pre>
     <p>
       <Trans
-        i18nKey="forms.call_webhook.example"
+        i18nKey="forms.webhook_example"
       >
         This response would add 
         <span

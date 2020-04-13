@@ -91,7 +91,7 @@ export default class SchemeRouterForm extends React.Component<
           )}
         </p>
         <SelectElement
-          name="Channel Type"
+          name={i18n.t('forms.channel_type', 'Channel Type')}
           entry={this.state.schemes}
           onChange={this.handleSchemesChanged}
           options={getChannelTypeOptions()}
