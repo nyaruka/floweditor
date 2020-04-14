@@ -45,11 +45,15 @@ export const stateToNode = (
   }
 
   const currentCases = schemesToCases(state.schemes.value, orginalCases);
+
+  console.log(currentCases);
   const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
     currentCases,
     false,
     settings.originalNode.node
   );
+
+  console.log(cases, categories);
 
   const router: SwitchRouter = {
     type: RouterTypes.switch,
@@ -93,6 +97,7 @@ export const schemesToCases = (
   schemes: SelectOption[] = [],
   originalCases: Case[]
 ): CaseProps[] => {
+  console.log(schemes);
   return schemes.map(({ value, label }: SelectOption) => {
     // try to use the same case uuids for consistency
     const originalCase = originalCases.find((kase: Case) => kase.arguments[0] === value);

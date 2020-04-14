@@ -312,6 +312,7 @@ export default class WebhookRouterForm extends React.Component<
         <div style={{ display: 'flex' }}>
           <div className={styles.method}>
             <SelectElement
+              key="method_select"
               styles={large as any}
               name={i18n.t('forms.method', 'Method')}
               entry={this.state.method}

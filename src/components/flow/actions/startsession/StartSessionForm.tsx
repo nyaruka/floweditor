@@ -145,6 +145,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <div>
           <SelectElement
+            key="start_type_select"
             name={i18n.t('forms.start_type', 'Start Type')}
             styles={large as any}
             entry={this.state.startType}

@@ -3,6 +3,7 @@ import * as React from 'react';
 import Select, { StylesConfig } from 'react-select';
 import { hasErrors } from 'components/flow/actions/helpers';
 import { large, getErroredSelect } from 'utils/reactselect';
+import TembaSelect from 'temba/TembaSelect';
 
 interface SelectElementProps extends FormElementProps {
   onChange?(value: any, action?: any): void;
@@ -33,7 +34,17 @@ export default class SelectElement extends React.Component<SelectElementProps> {
   public render(): JSX.Element {
     return (
       <FormElement name={this.props.name} entry={this.props.entry}>
-        <Select
+        <TembaSelect
+          key={this.props.name + '_select'}
+          name={this.props.name}
+          placeholder={this.props.placeholder}
+          onChange={this.props.onChange}
+          value={this.props.entry.value}
+          options={this.props.options}
+          searchable={false}
+          multi={this.props.multi}
+        ></TembaSelect>
+        {/*<Select
           isDisabled={this.props.onChange === undefined}
           placeholder={this.props.placeholder}
           styles={this.getStyle()}
@@ -45,8 +56,8 @@ export default class SelectElement extends React.Component<SelectElementProps> {
           isSearchable={false}
           isClearable={this.props.clearable}
           options={this.props.options}
-          isMulti={this.props.multi}
-        />
+          
+        />*/}
       </FormElement>
     );
   }

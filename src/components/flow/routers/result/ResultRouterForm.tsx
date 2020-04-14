@@ -133,6 +133,7 @@ export default class ResultRouterForm extends React.Component<
         <div className={styles.lead_in}>If the</div>
         <div className={styles.field_number}>
           <SelectElement
+            key="field_number_select"
             styles={small as any}
             name={i18n.t('forms.field_number', 'Field Number')}
             entry={{ value: getFieldOption(this.state.fieldNumber) }}
@@ -155,6 +156,7 @@ export default class ResultRouterForm extends React.Component<
         <div className={styles.lead_in_sub}>delimited by</div>
         <div className={styles.delimiter}>
           <SelectElement
+            key="delimiter_select"
             styles={small as any}
             name={i18n.t('forms.delimiter', 'Delimiter')}
             entry={{ value: getDelimiterOption(this.state.delimiter) }}

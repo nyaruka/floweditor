@@ -80,6 +80,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
         </p>
         <div className={styles.scheme_selection}>
           <SelectElement
+            key={'urn_type_select'}
             name={i18n.t('forms.urn_type', 'URN Type')}
             entry={this.state.scheme}
             onChange={this.handleSchemeChanged}

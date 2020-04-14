@@ -135,6 +135,7 @@ export default class RandomRouterForm extends React.Component<
         <div className={styles.lead_in}>Split them randomly into one of</div>
         <div className={styles.bucket_select}>
           <SelectElement
+            key="buckets_select"
             styles={small as any}
             name={i18n.t('forms.buckets', 'Buckets')}
             entry={this.state.bucketChoice}

@@ -363,6 +363,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             <>
               <div style={{ width: '114px' }}>
                 <SelectElement
+                  key="intent_select"
                   styles={small as any}
                   name={i18n.t('forms.intent', 'Intent')}
                   entry={this.state.intent}

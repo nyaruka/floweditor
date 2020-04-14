@@ -202,6 +202,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       >
         <div className={styles.type_choice}>
           <SelectElement
+            key={'attachment_type_' + index}
             name={i18n.t('forms.type', 'Type')}
             styles={small as any}
             entry={{
@@ -267,6 +268,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       >
         <div className={styles.type_choice}>
           <SelectElement
+            key={'attachment_type_' + index}
             styles={small as any}
             name={i18n.t('forms.type_options', 'Type Options')}
             placeholder="Add Attachment"
@@ -417,6 +419,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           )}
         </p>
         <SelectElement
+          key={'fb_method_select'}
           styles={large as any}
           name={i18n.t('forms.method', 'Method')}
           entry={this.state.topic}

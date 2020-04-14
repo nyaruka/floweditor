@@ -51,12 +51,14 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
         <p>{i18n.t('forms.type_label', 'When a contact arrives at this point in your flow...')}</p>
         <div>
           <TembaSelect
+            key="type_select"
             name="type"
             onChange={this.handleChangeType}
             nameKey="description"
             valueKey="type"
             value={this.state.config}
             options={this.getTypeConfigs()}
+            searchable={true}
           ></TembaSelect>
         </div>
       </div>
