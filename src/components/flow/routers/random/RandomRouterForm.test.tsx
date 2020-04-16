@@ -2,7 +2,7 @@ import { RouterFormProps } from 'components/flow/props';
 import { getTypeConfig } from 'config';
 import { Types } from 'config/interfaces';
 import * as React from 'react';
-import { fireEvent, render, fireTembaSelect } from 'test/utils';
+import { fireEvent, render, fireTembaSelect, getByDisplayValue, getByTitle } from 'test/utils';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import {
   createRandomNode,
@@ -59,15 +59,20 @@ describe(RandomRouterForm.name, () => {
       issues: []
     };
 
-    const { baseElement, getAllByTestId, getByText } = render(<RandomRouterForm {...props} />);
+    const {
+      baseElement,
+      getAllByTestId,
+      getByText,
+      getByDisplayValue,
+      getByTitle,
+      getByTestId
+    } = render(<RandomRouterForm {...props} />);
 
     // we start off with five input boxes for our buckets
     expect(getAllByTestId('input').length).toEqual(5);
 
-    // the select box is our bucket, choose 3 buckets
-    fireEvent.change(getAllByTestId('select')[0], {
-      target: { value: 3 }
-    });
+    // choose 3 buckets
+    fireTembaSelect(getByTestId('temba_select_buckets'), '3');
 
     // now we should only have three input buckets
     expect(getAllByTestId('input').length).toEqual(3);

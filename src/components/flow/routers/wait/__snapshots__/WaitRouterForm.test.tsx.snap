@@ -73,6 +73,7 @@ exports[`WaitRouterForm should render a normal wait 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -244,6 +245,7 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option

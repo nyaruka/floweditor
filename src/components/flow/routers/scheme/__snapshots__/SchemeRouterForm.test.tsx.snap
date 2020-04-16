@@ -33,6 +33,7 @@ exports[`SchemeRouterForm should render 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -128,71 +129,64 @@ exports[`SchemeRouterForm should render 1`] = `
           </div>
         </div>
         <p>
-          Channel types
+          The contact's URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.
         </p>
         <div
           class="ele"
         >
-          <select
-            data-testid="select"
-            multiple=""
+          <temba-select
+            data-testid="temba_select_channel_type"
+            multi="true"
+            placeholder="Select the channels to split by"
           >
-            <option
+            <temba-option
+              name="SMS"
+              selected="true"
               value="tel"
-            >
-              SMS
-            </option>
-            <option
+            />
+            <temba-option
+              name="WhatsApp"
+              selected="true"
               value="whatsapp"
-            >
-              WhatsApp
-            </option>
-            <option
+            />
+            <temba-option
+              name="Facebook"
+              selected="true"
               value="facebook"
-            >
-              Facebook
-            </option>
-            <option
+            />
+            <temba-option
+              name="Twitter"
               value="twitterid"
-            >
-              Twitter
-            </option>
-            <option
+            />
+            <temba-option
+              name="Telegram"
               value="telegram"
-            >
-              Telegram
-            </option>
-            <option
+            />
+            <temba-option
+              name="Viber"
               value="viber"
-            >
-              Viber
-            </option>
-            <option
+            />
+            <temba-option
+              name="Line"
               value="line"
-            >
-              Line
-            </option>
-            <option
+            />
+            <temba-option
+              name="Wechat"
               value="wechat"
-            >
-              Wechat
-            </option>
-            <option
+            />
+            <temba-option
+              name="Firebase"
               value="fcm"
-            >
-              Firebase
-            </option>
-            <option
+            />
+            <temba-option
+              name="Jiochat"
               value="jiochat"
-            >
-              Jiochat
-            </option>
-            <option
+            />
+            <temba-option
+              name="External"
               value="ext"
-            >
-              External
-            </option>
-          </select>
+            />
+          </temba-select>
         </div>
         <div
           class="optional_text_input"

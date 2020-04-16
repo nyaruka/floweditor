@@ -33,6 +33,7 @@ exports[`UpdateContactForm should render channel 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -335,6 +336,7 @@ exports[`UpdateContactForm should render field 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -606,6 +608,7 @@ exports[`UpdateContactForm should render language 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -908,6 +911,7 @@ exports[`UpdateContactForm should render name 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option

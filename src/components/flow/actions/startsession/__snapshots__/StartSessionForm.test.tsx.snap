@@ -33,6 +33,7 @@ exports[`StartSessionForm render should render 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -131,25 +132,23 @@ exports[`StartSessionForm render should render 1`] = `
           <div
             class="ele"
           >
-            <select
-              data-testid="select"
+            <temba-select
+              data-testid="temba_select_start_type"
             >
-              <option
+              <temba-option
+                name="Select recipients manually"
+                selected="true"
                 value="assets"
-              >
-                Select recipients manually
-              </option>
-              <option
+              />
+              <temba-option
+                name="Select recipients from a query"
                 value="contact_query"
-              >
-                Select recipients from a query
-              </option>
-              <option
+              />
+              <temba-option
+                name="Create a new contact"
                 value="create_contact"
-              >
-                Create a new contact
-              </option>
-            </select>
+              />
+            </temba-select>
           </div>
         </div>
         <p />
@@ -484,6 +483,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
           },
         }
       }
+      key="start_type_select"
       name="Start Type"
       onChange={[Function]}
       options={
@@ -630,6 +630,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -728,25 +729,23 @@ exports[`StartSessionForm render should render contact query 1`] = `
           <div
             class="ele"
           >
-            <select
-              data-testid="select"
+            <temba-select
+              data-testid="temba_select_start_type"
             >
-              <option
+              <temba-option
+                name="Select recipients manually"
                 value="assets"
-              >
-                Select recipients manually
-              </option>
-              <option
+              />
+              <temba-option
+                name="Select recipients from a query"
+                selected="true"
                 value="contact_query"
-              >
-                Select recipients from a query
-              </option>
-              <option
+              />
+              <temba-option
+                name="Create a new contact"
                 value="create_contact"
-              >
-                Create a new contact
-              </option>
-            </select>
+              />
+            </temba-select>
           </div>
         </div>
         <p />
@@ -945,6 +944,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -1043,25 +1043,23 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
           <div
             class="ele"
           >
-            <select
-              data-testid="select"
+            <temba-select
+              data-testid="temba_select_start_type"
             >
-              <option
+              <temba-option
+                name="Select recipients manually"
                 value="assets"
-              >
-                Select recipients manually
-              </option>
-              <option
+              />
+              <temba-option
+                name="Select recipients from a query"
                 value="contact_query"
-              >
-                Select recipients from a query
-              </option>
-              <option
+              />
+              <temba-option
+                name="Create a new contact"
+                selected="true"
                 value="create_contact"
-              >
-                Create a new contact
-              </option>
-            </select>
+              />
+            </temba-select>
           </div>
         </div>
         <p />
@@ -1214,6 +1212,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
           },
         }
       }
+      key="start_type_select"
       name="Start Type"
       onChange={[Function]}
       options={
@@ -1382,6 +1381,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -1480,25 +1480,23 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
           <div
             class="ele"
           >
-            <select
-              data-testid="select"
+            <temba-select
+              data-testid="temba_select_start_type"
             >
-              <option
+              <temba-option
+                name="Select recipients manually"
                 value="assets"
-              >
-                Select recipients manually
-              </option>
-              <option
+              />
+              <temba-option
+                name="Select recipients from a query"
+                selected="true"
                 value="contact_query"
-              >
-                Select recipients from a query
-              </option>
-              <option
+              />
+              <temba-option
+                name="Create a new contact"
                 value="create_contact"
-              >
-                Create a new contact
-              </option>
-            </select>
+              />
+            </temba-select>
           </div>
         </div>
         <p />

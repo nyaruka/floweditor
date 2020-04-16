@@ -1,7 +1,7 @@
 import { ActionFormProps } from 'components/flow/props';
 import React from 'react';
 import { AssetType } from 'store/flowContext';
-import { fireEvent, render, fireChangeText } from 'test/utils';
+import { fireEvent, render, fireChangeText, fireTembaSelect } from 'test/utils';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import {
   createStartSessionAction,
@@ -11,6 +11,7 @@ import {
 import * as utils from 'utils';
 
 import { StartSessionForm, START_TYPE_CREATE, START_TYPE_QUERY } from './StartSessionForm';
+import { dump } from 'utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -30,13 +31,9 @@ describe(StartSessionForm.name, () => {
 
     it('should render create new contacts', () => {
       const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, queryByTestId, getAllByTestId } = render(
-        <StartSessionForm {...props} />
-      );
+      const { baseElement, queryByTestId, getByTestId } = render(<StartSessionForm {...props} />);
 
-      fireEvent.change(getAllByTestId('select')[0], {
-        target: START_TYPE_CREATE
-      });
+      fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_CREATE.value);
 
       expect(queryByTestId('recipients')).toBeNull();
       expect(baseElement).toMatchSnapshot();
@@ -48,9 +45,7 @@ describe(StartSessionForm.name, () => {
         <StartSessionForm {...props} />
       );
 
-      fireEvent.change(getAllByTestId('select')[0], {
-        target: START_TYPE_QUERY
-      });
+      fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
 
       fireChangeText(getByTestId('input'), 'my_field > 6');
       expect(baseElement).toMatchSnapshot();
@@ -62,11 +57,9 @@ describe(StartSessionForm.name, () => {
 
     it('should warn about invalid fields in contact queries', () => {
       const props = getActionFormProps(createStartSessionAction());
-      const { baseElement, getAllByTestId, getByTestId } = render(<StartSessionForm {...props} />);
+      const { baseElement, getByTestId } = render(<StartSessionForm {...props} />);
 
-      fireEvent.change(getAllByTestId('select')[0], {
-        target: START_TYPE_QUERY
-      });
+      fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
 
       const input = getByTestId('input');
       fireChangeText(input, '@fields.arst = 34');

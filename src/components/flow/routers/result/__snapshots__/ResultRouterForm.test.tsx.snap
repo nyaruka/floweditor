@@ -129,6 +129,7 @@ exports[`ResultRouterForm should render 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -616,6 +617,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -724,110 +726,91 @@ exports[`ResultRouterForm should show delimit options 1`] = `
             <div
               class="ele"
             >
-              <select
-                data-testid="select"
+              <temba-select
+                data-testid="temba_select_field_number"
               >
-                <option
+                <temba-option
+                  name="first"
                   value="0"
-                >
-                  first
-                </option>
-                <option
+                />
+                <temba-option
+                  name="second"
+                  selected="true"
                   value="1"
-                >
-                  second
-                </option>
-                <option
+                />
+                <temba-option
+                  name="third"
                   value="2"
-                >
-                  third
-                </option>
-                <option
+                />
+                <temba-option
+                  name="fourth"
                   value="3"
-                >
-                  fourth
-                </option>
-                <option
+                />
+                <temba-option
+                  name="fifth"
                   value="4"
-                >
-                  fifth
-                </option>
-                <option
+                />
+                <temba-option
+                  name="sixth"
                   value="5"
-                >
-                  sixth
-                </option>
-                <option
+                />
+                <temba-option
+                  name="seventh"
                   value="6"
-                >
-                  seventh
-                </option>
-                <option
+                />
+                <temba-option
+                  name="eighth"
                   value="7"
-                >
-                  eighth
-                </option>
-                <option
+                />
+                <temba-option
+                  name="ninth"
                   value="8"
-                >
-                  ninth
-                </option>
-                <option
+                />
+                <temba-option
+                  name="tenth"
                   value="9"
-                >
-                  tenth
-                </option>
-                <option
+                />
+                <temba-option
+                  name="11th"
                   value="10"
-                >
-                  11th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="12th"
                   value="11"
-                >
-                  12th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="13th"
                   value="12"
-                >
-                  13th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="14th"
                   value="13"
-                >
-                  14th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="15th"
                   value="14"
-                >
-                  15th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="16th"
                   value="15"
-                >
-                  16th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="17th"
                   value="16"
-                >
-                  17th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="18th"
                   value="17"
-                >
-                  18th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="19th"
                   value="18"
-                >
-                  19th
-                </option>
-                <option
+                />
+                <temba-option
+                  name="20th"
                   value="19"
-                >
-                  20th
-                </option>
-              </select>
+                />
+              </temba-select>
             </div>
           </div>
           <div
@@ -902,25 +885,23 @@ exports[`ResultRouterForm should show delimit options 1`] = `
             <div
               class="ele"
             >
-              <select
-                data-testid="select"
+              <temba-select
+                data-testid="temba_select_delimiter"
               >
-                <option
+                <temba-option
+                  name="spaces"
+                  selected="true"
                   value=" "
-                >
-                  spaces
-                </option>
-                <option
+                />
+                <temba-option
+                  name="periods"
                   value="."
-                >
-                  periods
-                </option>
-                <option
+                />
+                <temba-option
+                  name="plusses"
                   value="+"
-                >
-                  plusses
-                </option>
-              </select>
+                />
+              </temba-select>
             </div>
           </div>
         </div>

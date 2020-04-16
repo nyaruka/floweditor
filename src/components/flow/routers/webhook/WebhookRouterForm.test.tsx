@@ -8,7 +8,7 @@ import { composeComponentTestUtils, mock } from 'testUtils';
 import { createWebhookRouterNode, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 import * as React from 'react';
-import { render, fireEvent, fireChangeText } from 'test/utils';
+import { render, fireEvent, fireChangeText, fireTembaSelect } from 'test/utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -44,10 +44,7 @@ describe(WebhookRouterForm.name, () => {
       fireChangeText(resultName, 'My Webhook Result');
 
       // make it a post
-      const selects = getAllByTestId('select');
-      fireEvent.change(selects[0], {
-        target: { value: 'POST' }
-      });
+      fireTembaSelect(getByTestId('temba_select_method'), 'POST');
 
       // set a post body
       fireEvent.click(getByText('POST Body'));

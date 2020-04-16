@@ -1,8 +1,5 @@
 import FormElement, { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
-import Select, { StylesConfig } from 'react-select';
-import { hasErrors } from 'components/flow/actions/helpers';
-import { large, getErroredSelect } from 'utils/reactselect';
 import TembaSelect from 'temba/TembaSelect';
 
 interface SelectElementProps extends FormElementProps {
@@ -11,9 +8,10 @@ interface SelectElementProps extends FormElementProps {
   onMenuClose?: () => void;
   options: any;
   placeholder?: string;
-  styles?: StylesConfig;
   clearable?: boolean;
   multi?: boolean;
+
+  styles?: any;
 }
 
 export interface SelectOption {
@@ -22,14 +20,14 @@ export interface SelectOption {
 }
 
 export default class SelectElement extends React.Component<SelectElementProps> {
-  private getStyle(): any {
+  /* private getStyle(): any {
     let style = this.props.styles || large;
     if (hasErrors(this.props.entry)) {
       const erroredControl = getErroredSelect(style.control({}, {}));
       style = { ...style, ...erroredControl };
     }
     return style;
-  }
+  }*/
 
   public render(): JSX.Element {
     return (

@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
-import { bool } from 'utils';
+import { bool, snakify } from 'utils';
 
 export interface TembaSelectProps {
   name: string;
@@ -57,18 +57,22 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
   }
 
   public componentDidMount(): void {
-    this.selectbox.addEventListener('temba-selection', (event: any) => {
+    this.selectbox.addEventListener('change', (event: any) => {
+      const values = event.target.values || [event.target.value];
+      const resolved = values.map((op: any) => {
+        return this.props.options.find((option: any) => this.getValue(option) === op.value);
+      });
+
+      resolved.forEach((option: any) => {
+        if (!option) {
+          throw new Error('No option found for selection');
+        }
+      });
+
       if (this.props.multi) {
-        const resolved = (this.selectbox as any).values.map((op: any) => {
-          return this.props.options.find((option: any) => this.getValue(option) === op.value);
-        });
         this.props.onChange(resolved);
       } else {
-        const eventOption = event.detail.selected;
-        const resolved = this.props.options.find(
-          (option: any) => this.getValue(option) === eventOption.value
-        );
-        this.props.onChange(resolved);
+        this.props.onChange(resolved[0]);
       }
     });
   }
@@ -76,6 +80,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
   public render(): JSX.Element {
     return (
       <temba-select
+        data-testid={`temba_select_${snakify(this.props.name)}`}
         ref={(ele: any) => {
           this.selectbox = ele;
         }}
@@ -91,7 +96,6 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
 
           return (
             <temba-option
-              placeholder={this.props.placeholder}
               key={this.props.name + '_' + optionValue}
               name={optionName}
               value={optionValue}

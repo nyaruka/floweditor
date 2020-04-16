@@ -33,6 +33,7 @@ exports[`AddURNForm renders 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -138,75 +139,63 @@ exports[`AddURNForm renders 1`] = `
           <div
             class="ele"
           >
-            <select
-              data-testid="select"
+            <temba-select
+              data-testid="temba_select_urn_type"
             >
-              <option
+              <temba-option
+                name="Phone Number"
+                selected="true"
                 value="tel"
-              >
-                Phone Number
-              </option>
-              <option
+              />
+              <temba-option
+                name="WhatsApp Number"
                 value="whatsapp"
-              >
-                WhatsApp Number
-              </option>
-              <option
+              />
+              <temba-option
+                name="Facebook"
                 value="facebook"
-              >
-                Facebook
-              </option>
-              <option
+              />
+              <temba-option
+                name="Twitter ID"
                 value="twitterid"
-              >
-                Twitter ID
-              </option>
-              <option
+              />
+              <temba-option
+                name="Telegram ID"
                 value="telegram"
-              >
-                Telegram ID
-              </option>
-              <option
+              />
+              <temba-option
+                name="Viber ID"
                 value="viber"
-              >
-                Viber ID
-              </option>
-              <option
+              />
+              <temba-option
+                name="Line ID"
                 value="line"
-              >
-                Line ID
-              </option>
-              <option
+              />
+              <temba-option
+                name="Wechat ID"
                 value="wechat"
-              >
-                Wechat ID
-              </option>
-              <option
+              />
+              <temba-option
+                name="Firebase ID"
                 value="fcm"
-              >
-                Firebase ID
-              </option>
-              <option
+              />
+              <temba-option
+                name="Jiochat ID"
                 value="jiochat"
-              >
-                Jiochat ID
-              </option>
-              <option
+              />
+              <temba-option
+                name="Email Address"
                 value="mailto"
-              >
-                Email Address
-              </option>
-              <option
+              />
+              <temba-option
+                name="Twitter Handle"
                 value="twitter"
-              >
-                Twitter Handle
-              </option>
-              <option
+              />
+              <temba-option
+                name="External ID"
                 value="ext"
-              >
-                External ID
-              </option>
-            </select>
+              />
+            </temba-select>
           </div>
         </div>
         <div

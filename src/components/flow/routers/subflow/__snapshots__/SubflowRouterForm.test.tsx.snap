@@ -126,6 +126,7 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -352,6 +353,7 @@ exports[`SubflowRouterForm should render 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option

@@ -50,6 +50,7 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
           },
         }
       }
+      key="buckets_select"
       name="Buckets"
       onChange={[Function]}
       options={
@@ -261,6 +262,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -366,55 +368,47 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
           <div
             class="ele"
           >
-            <select
-              data-testid="select"
+            <temba-select
+              data-testid="temba_select_buckets"
             >
-              <option
+              <temba-option
+                name="2 buckets"
                 value="2"
-              >
-                2 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="3 buckets"
                 value="3"
-              >
-                3 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="4 buckets"
                 value="4"
-              >
-                4 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="5 buckets"
+                selected="true"
                 value="5"
-              >
-                5 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="6 buckets"
                 value="6"
-              >
-                6 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="7 buckets"
                 value="7"
-              >
-                7 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="8 buckets"
                 value="8"
-              >
-                8 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="9 buckets"
                 value="9"
-              >
-                9 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="10 buckets"
                 value="10"
-              >
-                10 buckets
-              </option>
-            </select>
+              />
+            </temba-select>
           </div>
         </div>
         <div
@@ -679,6 +673,7 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -784,55 +779,47 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
           <div
             class="ele"
           >
-            <select
-              data-testid="select"
+            <temba-select
+              data-testid="temba_select_buckets"
             >
-              <option
+              <temba-option
+                name="2 buckets"
                 value="2"
-              >
-                2 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="3 buckets"
+                selected="true"
                 value="3"
-              >
-                3 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="4 buckets"
                 value="4"
-              >
-                4 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="5 buckets"
                 value="5"
-              >
-                5 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="6 buckets"
                 value="6"
-              >
-                6 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="7 buckets"
                 value="7"
-              >
-                7 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="8 buckets"
                 value="8"
-              >
-                8 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="9 buckets"
                 value="9"
-              >
-                9 buckets
-              </option>
-              <option
+              />
+              <temba-option
+                name="10 buckets"
                 value="10"
-              >
-                10 buckets
-              </option>
-            </select>
+              />
+            </temba-select>
           </div>
         </div>
         <div
@@ -1091,6 +1078,7 @@ exports[`RandomRouterForm should render 1`] = `
           },
         }
       }
+      key="buckets_select"
       name="Buckets"
       onChange={[Function]}
       options={

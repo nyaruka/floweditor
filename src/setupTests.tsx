@@ -1,5 +1,5 @@
 import '@testing-library/react/cleanup-after-each';
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 
 import { Console } from 'console';
 import { configure } from 'enzyme';
@@ -8,8 +8,6 @@ import React from 'react';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
 
-// import { Exit } from 'flowTypes';
-// import { RenderNode } from 'store/flowContext';
 mock(utils, 'createUUID', utils.seededUUIDs());
 
 // Declare custom matcher types

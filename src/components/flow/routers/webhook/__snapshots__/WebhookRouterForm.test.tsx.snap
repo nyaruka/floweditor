@@ -160,6 +160,7 @@ exports[`WebhookRouterForm should render 1`] = `
             },
           }
         }
+        key="method_select"
         name="Method"
         onChange={[Function]}
         options={
@@ -415,6 +416,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
           </p>
           <div>
             <temba-select
+              data-testid="temba_select_type"
               searchable="true"
             >
               <temba-option
@@ -518,30 +520,27 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
             <div
               class="ele"
             >
-              <select
-                data-testid="select"
+              <temba-select
+                data-testid="temba_select_method"
               >
-                <option
+                <temba-option
+                  name="GET"
+                  selected="true"
                   value="GET"
-                >
-                  GET
-                </option>
-                <option
+                />
+                <temba-option
+                  name="POST"
                   value="POST"
-                >
-                  POST
-                </option>
-                <option
+                />
+                <temba-option
+                  name="PUT"
                   value="PUT"
-                >
-                  PUT
-                </option>
-                <option
+                />
+                <temba-option
+                  name="DELETE"
                   value="DELETE"
-                >
-                  DELETE
-                </option>
-              </select>
+                />
+              </temba-select>
             </div>
           </div>
           <div

@@ -60,17 +60,11 @@ export const fireChangeText = (ele: any, value: string): void => {
   fireEvent.change(ele, { currentTarget: { value }, target: { value } });
 };
 
-export const fireTembaSelect = (ele: HTMLElement, option: any) => {
-  fireEvent(
-    ele,
-    new CustomEvent('temba-selection', {
-      detail: {
-        selected: option
-      },
-      bubbles: true,
-      composed: true
-    })
-  );
+export const fireTembaSelect = (ele: HTMLElement, value: any) => {
+  (ele as any).values = Array.isArray(value) ? value : [{ value }];
+  var evt = document.createEvent('HTMLEvents');
+  evt.initEvent('change', false, true);
+  ele.dispatchEvent(evt);
 };
 
 export const mock = <T extends {}, K extends keyof T>(object: T, property: K, value: T[K]) => {

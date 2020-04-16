@@ -173,7 +173,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
   }
 
   /* istanbul ignore next */
-  private handleUUIDClicked(event: React.MouseEvent<HTMLDivElement>): void {
+  private handleUUIDClicked(event: React.MouseEvent<HTMLElement>): void {
     const selection = window.getSelection();
     const range = document.createRange();
     range.selectNodeContents(event.currentTarget);
