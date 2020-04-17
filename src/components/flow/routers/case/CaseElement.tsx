@@ -19,6 +19,7 @@ import { initializeForm, validateCase } from './helpers';
 import { Asset } from 'store/flowContext';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import i18n from 'config/i18n';
+import { TembaSelectStyle } from 'temba/TembaSelect';
 
 export interface CaseElementProps {
   kase: Case;
@@ -364,7 +365,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               <div style={{ width: '114px' }}>
                 <SelectElement
                   key="intent_select"
-                  styles={small as any}
+                  style={TembaSelectStyle.small}
                   name={i18n.t('forms.intent', 'Intent')}
                   entry={this.state.intent}
                   onChange={this.handleIntentChanged}

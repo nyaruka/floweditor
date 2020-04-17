@@ -29,7 +29,6 @@ import {
 import { createUUID } from 'utils';
 
 import styles from './WebhookRouterForm.module.scss';
-import { large } from 'utils/reactselect';
 import { Trans } from 'react-i18next';
 import i18n from 'config/i18n';
 
@@ -313,7 +312,6 @@ export default class WebhookRouterForm extends React.Component<
           <div className={styles.method}>
             <SelectElement
               key="method_select"
-              styles={large as any}
               name={i18n.t('forms.method', 'Method')}
               entry={this.state.method}
               onChange={this.handleMethodUpdate}

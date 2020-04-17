@@ -1,12 +1,21 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { bool, snakify } from 'utils';
+import styles from './TembaSelect.module.scss';
+
+export enum TembaSelectStyle {
+  small = 'small',
+  normal = 'normal'
+}
 
 export interface TembaSelectProps {
   name: string;
   options: any[];
   value: any;
   onChange: (option: any) => void;
+
+  error?: boolean;
+  style?: TembaSelectStyle;
 
   placeholder?: string;
   searchable?: boolean;
@@ -79,31 +88,39 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
 
   public render(): JSX.Element {
     return (
-      <temba-select
-        data-testid={`temba_select_${snakify(this.props.name)}`}
-        ref={(ele: any) => {
-          this.selectbox = ele;
-        }}
-        placeholder={this.props.placeholder}
-        searchable={bool(this.props.searchable)}
-        multi={bool(this.props.multi)}
+      <div
+        className={
+          styles[this.props.style || TembaSelectStyle.normal] +
+          ' ' +
+          (this.props.error ? styles.error : '')
+        }
       >
-        {this.props.options.map((option: any) => {
-          const selected = this.isMatch(this.props.value, option) ? { selected: true } : {};
+        <temba-select
+          data-testid={`temba_select_${snakify(this.props.name)}`}
+          ref={(ele: any) => {
+            this.selectbox = ele;
+          }}
+          placeholder={this.props.placeholder}
+          searchable={bool(this.props.searchable)}
+          multi={bool(this.props.multi)}
+        >
+          {this.props.options.map((option: any) => {
+            const selected = this.isMatch(this.props.value, option) ? { selected: true } : {};
 
-          const optionValue = this.getValue(option);
-          const optionName = this.getName(option);
+            const optionValue = this.getValue(option);
+            const optionName = this.getName(option);
 
-          return (
-            <temba-option
-              key={this.props.name + '_' + optionValue}
-              name={optionName}
-              value={optionValue}
-              {...selected}
-            ></temba-option>
-          );
-        })}
-      </temba-select>
+            return (
+              <temba-option
+                key={this.props.name + '_' + optionValue}
+                name={optionName}
+                value={optionValue}
+                {...selected}
+              ></temba-option>
+            );
+          })}
+        </temba-select>
+      </div>
     );
   }
 }

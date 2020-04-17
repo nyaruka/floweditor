@@ -18,7 +18,6 @@ import { renderIf } from 'utils';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import { initializeForm, stateToAction } from './helpers';
 import TextInputElement from 'components/form/textinput/TextInputElement';
-import { large } from 'utils/reactselect';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 
@@ -147,7 +146,6 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
           <SelectElement
             key="start_type_select"
             name={i18n.t('forms.start_type', 'Start Type')}
-            styles={large as any}
             entry={this.state.startType}
             onChange={this.handleStartTypeChanged}
             options={START_TYPE_OPTIONS}
