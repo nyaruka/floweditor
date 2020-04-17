@@ -122,7 +122,12 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private getGhostListener(): any {
     return (e: MouseEvent) => {
-      const canvasBounds = this.ele.parentElement.parentElement.getBoundingClientRect();
+      let canvas = this.ele.parentElement;
+      if (this.ele.parentElement.parentElement) {
+        canvas = this.ele.parentElement.parentElement;
+      }
+
+      const canvasBounds = canvas.getBoundingClientRect();
 
       // move our ghost node into position
       const width = this.ele.getBoundingClientRect().width;
