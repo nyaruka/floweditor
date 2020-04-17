@@ -93,17 +93,7 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
           },
         ]
       }
-      styles={
-        Object {
-          "control": [Function],
-          "indicatorsContainer": [Function],
-          "input": [Function],
-          "menuList": [Function],
-          "option": [Function],
-          "singleValue": [Function],
-          "valueContainer": [Function],
-        }
-      }
+      style="small"
     />
   </div>
   <div
@@ -261,100 +251,104 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
             When a contact arrives at this point in your flow...
           </p>
           <div>
-            <temba-select
-              data-testid="temba_select_type"
-              searchable="true"
+            <div
+              class="normal "
             >
-              <temba-option
-                name="Send the contact a message"
-                value="send_msg"
-              />
-              <temba-option
-                name="Wait for the contact to respond"
-                value="wait_for_response"
-              />
-              <temba-option
-                name="Send somebody else a message"
-                value="send_broadcast"
-              />
-              <temba-option
-                name="Label the incoming message"
-                value="add_input_labels"
-              />
-              <temba-option
-                name="Add a URN for the contact"
-                value="add_contact_urn"
-              />
-              <temba-option
-                name="Add the contact to a group"
-                value="add_contact_groups"
-              />
-              <temba-option
-                name="Remove the contact from a group"
-                value="remove_contact_groups"
-              />
-              <temba-option
-                name="Update the contact"
-                value="set_contact_field"
-              />
-              <temba-option
-                name="Send an email"
-                value="send_email"
-              />
-              <temba-option
-                name="Save a result for this flow"
-                value="set_run_result"
-              />
-              <temba-option
-                name="Call a webhook"
-                value="call_webhook"
-              />
-              <temba-option
-                name="Call Zapier"
-                value="call_resthook"
-              />
-              <temba-option
-                name="Enter another flow"
-                value="enter_flow"
-              />
-              <temba-option
-                name="Start somebody else in a flow"
-                value="start_session"
-              />
-              <temba-option
-                name="Send the contact airtime"
-                value="transfer_airtime"
-              />
-              <temba-option
-                name="Split by intent"
-                value="split_by_intent"
-              />
-              <temba-option
-                name="Split by a custom expression"
-                value="split_by_expression"
-              />
-              <temba-option
-                name="Split by a contact field"
-                value="split_by_contact_field"
-              />
-              <temba-option
-                name="Split by a result in the flow"
-                value="split_by_run_result"
-              />
-              <temba-option
-                name="Split by random chance"
-                selected="true"
-                value="split_by_random"
-              />
-              <temba-option
-                name="Split by group membership"
-                value="split_by_groups"
-              />
-              <temba-option
-                name="Split by URN type"
-                value="split_by_scheme"
-              />
-            </temba-select>
+              <temba-select
+                data-testid="temba_select_type"
+                searchable="true"
+              >
+                <temba-option
+                  name="Send the contact a message"
+                  value="send_msg"
+                />
+                <temba-option
+                  name="Wait for the contact to respond"
+                  value="wait_for_response"
+                />
+                <temba-option
+                  name="Send somebody else a message"
+                  value="send_broadcast"
+                />
+                <temba-option
+                  name="Label the incoming message"
+                  value="add_input_labels"
+                />
+                <temba-option
+                  name="Add a URN for the contact"
+                  value="add_contact_urn"
+                />
+                <temba-option
+                  name="Add the contact to a group"
+                  value="add_contact_groups"
+                />
+                <temba-option
+                  name="Remove the contact from a group"
+                  value="remove_contact_groups"
+                />
+                <temba-option
+                  name="Update the contact"
+                  value="set_contact_field"
+                />
+                <temba-option
+                  name="Send an email"
+                  value="send_email"
+                />
+                <temba-option
+                  name="Save a result for this flow"
+                  value="set_run_result"
+                />
+                <temba-option
+                  name="Call a webhook"
+                  value="call_webhook"
+                />
+                <temba-option
+                  name="Call Zapier"
+                  value="call_resthook"
+                />
+                <temba-option
+                  name="Enter another flow"
+                  value="enter_flow"
+                />
+                <temba-option
+                  name="Start somebody else in a flow"
+                  value="start_session"
+                />
+                <temba-option
+                  name="Send the contact airtime"
+                  value="transfer_airtime"
+                />
+                <temba-option
+                  name="Split by intent"
+                  value="split_by_intent"
+                />
+                <temba-option
+                  name="Split by a custom expression"
+                  value="split_by_expression"
+                />
+                <temba-option
+                  name="Split by a contact field"
+                  value="split_by_contact_field"
+                />
+                <temba-option
+                  name="Split by a result in the flow"
+                  value="split_by_run_result"
+                />
+                <temba-option
+                  name="Split by random chance"
+                  selected="true"
+                  value="split_by_random"
+                />
+                <temba-option
+                  name="Split by group membership"
+                  value="split_by_groups"
+                />
+                <temba-option
+                  name="Split by URN type"
+                  value="split_by_scheme"
+                />
+              </temba-select>
+            </div>
           </div>
         </div>
         <div
@@ -368,47 +362,51 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
           <div
             class="ele"
           >
-            <temba-select
-              data-testid="temba_select_buckets"
+            <div
+              class="small "
             >
-              <temba-option
-                name="2 buckets"
-                value="2"
-              />
-              <temba-option
-                name="3 buckets"
-                value="3"
-              />
-              <temba-option
-                name="4 buckets"
-                value="4"
-              />
-              <temba-option
-                name="5 buckets"
-                selected="true"
-                value="5"
-              />
-              <temba-option
-                name="6 buckets"
-                value="6"
-              />
-              <temba-option
-                name="7 buckets"
-                value="7"
-              />
-              <temba-option
-                name="8 buckets"
-                value="8"
-              />
-              <temba-option
-                name="9 buckets"
-                value="9"
-              />
-              <temba-option
-                name="10 buckets"
-                value="10"
-              />
-            </temba-select>
+              <temba-select
+                data-testid="temba_select_buckets"
+              >
+                <temba-option
+                  name="2 buckets"
+                  value="2"
+                />
+                <temba-option
+                  name="3 buckets"
+                  value="3"
+                />
+                <temba-option
+                  name="4 buckets"
+                  value="4"
+                />
+                <temba-option
+                  name="5 buckets"
+                  selected="true"
+                  value="5"
+                />
+                <temba-option
+                  name="6 buckets"
+                  value="6"
+                />
+                <temba-option
+                  name="7 buckets"
+                  value="7"
+                />
+                <temba-option
+                  name="8 buckets"
+                  value="8"
+                />
+                <temba-option
+                  name="9 buckets"
+                  value="9"
+                />
+                <temba-option
+                  name="10 buckets"
+                  value="10"
+                />
+              </temba-select>
+            </div>
           </div>
         </div>
         <div
@@ -672,100 +670,104 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
             When a contact arrives at this point in your flow...
           </p>
           <div>
-            <temba-select
-              data-testid="temba_select_type"
-              searchable="true"
+            <div
+              class="normal "
             >
-              <temba-option
-                name="Send the contact a message"
-                value="send_msg"
-              />
-              <temba-option
-                name="Wait for the contact to respond"
-                value="wait_for_response"
-              />
-              <temba-option
-                name="Send somebody else a message"
-                value="send_broadcast"
-              />
-              <temba-option
-                name="Label the incoming message"
-                value="add_input_labels"
-              />
-              <temba-option
-                name="Add a URN for the contact"
-                value="add_contact_urn"
-              />
-              <temba-option
-                name="Add the contact to a group"
-                value="add_contact_groups"
-              />
-              <temba-option
-                name="Remove the contact from a group"
-                value="remove_contact_groups"
-              />
-              <temba-option
-                name="Update the contact"
-                value="set_contact_field"
-              />
-              <temba-option
-                name="Send an email"
-                value="send_email"
-              />
-              <temba-option
-                name="Save a result for this flow"
-                value="set_run_result"
-              />
-              <temba-option
-                name="Call a webhook"
-                value="call_webhook"
-              />
-              <temba-option
-                name="Call Zapier"
-                value="call_resthook"
-              />
-              <temba-option
-                name="Enter another flow"
-                value="enter_flow"
-              />
-              <temba-option
-                name="Start somebody else in a flow"
-                value="start_session"
-              />
-              <temba-option
-                name="Send the contact airtime"
-                value="transfer_airtime"
-              />
-              <temba-option
-                name="Split by intent"
-                value="split_by_intent"
-              />
-              <temba-option
-                name="Split by a custom expression"
-                value="split_by_expression"
-              />
-              <temba-option
-                name="Split by a contact field"
-                value="split_by_contact_field"
-              />
-              <temba-option
-                name="Split by a result in the flow"
-                value="split_by_run_result"
-              />
-              <temba-option
-                name="Split by random chance"
-                selected="true"
-                value="split_by_random"
-              />
-              <temba-option
-                name="Split by group membership"
-                value="split_by_groups"
-              />
-              <temba-option
-                name="Split by URN type"
-                value="split_by_scheme"
-              />
-            </temba-select>
+              <temba-select
+                data-testid="temba_select_type"
+                searchable="true"
+              >
+                <temba-option
+                  name="Send the contact a message"
+                  value="send_msg"
+                />
+                <temba-option
+                  name="Wait for the contact to respond"
+                  value="wait_for_response"
+                />
+                <temba-option
+                  name="Send somebody else a message"
+                  value="send_broadcast"
+                />
+                <temba-option
+                  name="Label the incoming message"
+                  value="add_input_labels"
+                />
+                <temba-option
+                  name="Add a URN for the contact"
+                  value="add_contact_urn"
+                />
+                <temba-option
+                  name="Add the contact to a group"
+                  value="add_contact_groups"
+                />
+                <temba-option
+                  name="Remove the contact from a group"
+                  value="remove_contact_groups"
+                />
+                <temba-option
+                  name="Update the contact"
+                  value="set_contact_field"
+                />
+                <temba-option
+                  name="Send an email"
+                  value="send_email"
+                />
+                <temba-option
+                  name="Save a result for this flow"
+                  value="set_run_result"
+                />
+                <temba-option
+                  name="Call a webhook"
+                  value="call_webhook"
+                />
+                <temba-option
+                  name="Call Zapier"
+                  value="call_resthook"
+                />
+                <temba-option
+                  name="Enter another flow"
+                  value="enter_flow"
+                />
+                <temba-option
+                  name="Start somebody else in a flow"
+                  value="start_session"
+                />
+                <temba-option
+                  name="Send the contact airtime"
+                  value="transfer_airtime"
+                />
+                <temba-option
+                  name="Split by intent"
+                  value="split_by_intent"
+                />
+                <temba-option
+                  name="Split by a custom expression"
+                  value="split_by_expression"
+                />
+                <temba-option
+                  name="Split by a contact field"
+                  value="split_by_contact_field"
+                />
+                <temba-option
+                  name="Split by a result in the flow"
+                  value="split_by_run_result"
+                />
+                <temba-option
+                  name="Split by random chance"
+                  selected="true"
+                  value="split_by_random"
+                />
+                <temba-option
+                  name="Split by group membership"
+                  value="split_by_groups"
+                />
+                <temba-option
+                  name="Split by URN type"
+                  value="split_by_scheme"
+                />
+              </temba-select>
+            </div>
           </div>
         </div>
         <div
@@ -779,47 +781,51 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
           <div
             class="ele"
           >
-            <temba-select
-              data-testid="temba_select_buckets"
+            <div
+              class="small "
             >
-              <temba-option
-                name="2 buckets"
-                value="2"
-              />
-              <temba-option
-                name="3 buckets"
-                selected="true"
-                value="3"
-              />
-              <temba-option
-                name="4 buckets"
-                value="4"
-              />
-              <temba-option
-                name="5 buckets"
-                value="5"
-              />
-              <temba-option
-                name="6 buckets"
-                value="6"
-              />
-              <temba-option
-                name="7 buckets"
-                value="7"
-              />
-              <temba-option
-                name="8 buckets"
-                value="8"
-              />
-              <temba-option
-                name="9 buckets"
-                value="9"
-              />
-              <temba-option
-                name="10 buckets"
-                value="10"
-              />
-            </temba-select>
+              <temba-select
+                data-testid="temba_select_buckets"
+              >
+                <temba-option
+                  name="2 buckets"
+                  value="2"
+                />
+                <temba-option
+                  name="3 buckets"
+                  selected="true"
+                  value="3"
+                />
+                <temba-option
+                  name="4 buckets"
+                  value="4"
+                />
+                <temba-option
+                  name="5 buckets"
+                  value="5"
+                />
+                <temba-option
+                  name="6 buckets"
+                  value="6"
+                />
+                <temba-option
+                  name="7 buckets"
+                  value="7"
+                />
+                <temba-option
+                  name="8 buckets"
+                  value="8"
+                />
+                <temba-option
+                  name="9 buckets"
+                  value="9"
+                />
+                <temba-option
+                  name="10 buckets"
+                  value="10"
+                />
+              </temba-select>
+            </div>
           </div>
         </div>
         <div
@@ -1121,17 +1127,7 @@ exports[`RandomRouterForm should render 1`] = `
           },
         ]
       }
-      styles={
-        Object {
-          "control": [Function],
-          "indicatorsContainer": [Function],
-          "input": [Function],
-          "menuList": [Function],
-          "option": [Function],
-          "singleValue": [Function],
-          "valueContainer": [Function],
-        }
-      }
+      style="small"
     />
   </div>
   <div

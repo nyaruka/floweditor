@@ -113,17 +113,7 @@ exports[`SendMsgForm render should render 1`] = `
                   ]
                 }
                 placeholder="Add Attachment"
-                styles={
-                  Object {
-                    "control": [Function],
-                    "indicatorsContainer": [Function],
-                    "input": [Function],
-                    "menuList": [Function],
-                    "option": [Function],
-                    "singleValue": [Function],
-                    "valueContainer": [Function],
-                  }
-                }
+                style="small"
               />
             </div>
           </div>

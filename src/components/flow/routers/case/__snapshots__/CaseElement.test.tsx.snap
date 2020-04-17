@@ -15,132 +15,113 @@ exports[`CaseElement operator changes should handle updates 1`] = `
           data-draggable="true"
         />
         <div
-          class="choice select-medium"
+          class="choice"
         >
-          <select
-            data-testid="select"
+          <div
+            class="small "
           >
-            <option
-              value="has_any_word"
+            <temba-select
+              data-testid="temba_select_operator"
             >
-              has any of the words
-            </option>
-            <option
-              value="has_all_words"
-            >
-              has all of the words
-            </option>
-            <option
-              value="has_phrase"
-            >
-              has the phrase
-            </option>
-            <option
-              value="has_only_phrase"
-            >
-              has only the phrase
-            </option>
-            <option
-              value="has_beginning"
-            >
-              starts with
-            </option>
-            <option
-              value="has_text"
-            >
-              has some text
-            </option>
-            <option
-              value="has_number"
-            >
-              has a number
-            </option>
-            <option
-              value="has_number_between"
-            >
-              has a number between
-            </option>
-            <option
-              value="has_number_lt"
-            >
-              has a number below
-            </option>
-            <option
-              value="has_number_lte"
-            >
-              has a number at or below
-            </option>
-            <option
-              value="has_number_eq"
-            >
-              has a number equal to
-            </option>
-            <option
-              value="has_number_gte"
-            >
-              has a number at or above
-            </option>
-            <option
-              value="has_number_gt"
-            >
-              has a number above
-            </option>
-            <option
-              value="has_date"
-            >
-              has a date
-            </option>
-            <option
-              value="has_date_lt"
-            >
-              has a date before
-            </option>
-            <option
-              value="has_date_eq"
-            >
-              has a date equal to
-            </option>
-            <option
-              value="has_date_gt"
-            >
-              has a date after
-            </option>
-            <option
-              value="has_time"
-            >
-              has a time
-            </option>
-            <option
-              value="has_phone"
-            >
-              has a phone number
-            </option>
-            <option
-              value="has_email"
-            >
-              has an email
-            </option>
-            <option
-              value="has_state"
-            >
-              has state
-            </option>
-            <option
-              value="has_district"
-            >
-              has district
-            </option>
-            <option
-              value="has_ward"
-            >
-              has ward
-            </option>
-            <option
-              value="has_pattern"
-            >
-              matches regex
-            </option>
-          </select>
+              <temba-option
+                name="has any of the words"
+                value="has_any_word"
+              />
+              <temba-option
+                name="has all of the words"
+                value="has_all_words"
+              />
+              <temba-option
+                name="has the phrase"
+                value="has_phrase"
+              />
+              <temba-option
+                name="has only the phrase"
+                value="has_only_phrase"
+              />
+              <temba-option
+                name="starts with"
+                value="has_beginning"
+              />
+              <temba-option
+                name="has some text"
+                value="has_text"
+              />
+              <temba-option
+                name="has a number"
+                value="has_number"
+              />
+              <temba-option
+                name="has a number between"
+                value="has_number_between"
+              />
+              <temba-option
+                name="has a number below"
+                value="has_number_lt"
+              />
+              <temba-option
+                name="has a number at or below"
+                value="has_number_lte"
+              />
+              <temba-option
+                name="has a number equal to"
+                value="has_number_eq"
+              />
+              <temba-option
+                name="has a number at or above"
+                value="has_number_gte"
+              />
+              <temba-option
+                name="has a number above"
+                value="has_number_gt"
+              />
+              <temba-option
+                name="has a date"
+                value="has_date"
+              />
+              <temba-option
+                name="has a date before"
+                value="has_date_lt"
+              />
+              <temba-option
+                name="has a date equal to"
+                value="has_date_eq"
+              />
+              <temba-option
+                name="has a date after"
+                value="has_date_gt"
+              />
+              <temba-option
+                name="has a time"
+                value="has_time"
+              />
+              <temba-option
+                name="has a phone number"
+                selected="true"
+                value="has_phone"
+              />
+              <temba-option
+                name="has an email"
+                value="has_email"
+              />
+              <temba-option
+                name="has state"
+                value="has_state"
+              />
+              <temba-option
+                name="has district"
+                value="has_district"
+              />
+              <temba-option
+                name="has ward"
+                value="has_ward"
+              />
+              <temba-option
+                name="matches regex"
+                value="has_pattern"
+              />
+            </temba-select>
+          </div>
         </div>
         <div
           class="single_operand"
@@ -217,132 +198,113 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
           data-draggable="true"
         />
         <div
-          class="choice select-medium"
+          class="choice"
         >
-          <select
-            data-testid="select"
+          <div
+            class="small "
           >
-            <option
-              value="has_any_word"
+            <temba-select
+              data-testid="temba_select_operator"
             >
-              has any of the words
-            </option>
-            <option
-              value="has_all_words"
-            >
-              has all of the words
-            </option>
-            <option
-              value="has_phrase"
-            >
-              has the phrase
-            </option>
-            <option
-              value="has_only_phrase"
-            >
-              has only the phrase
-            </option>
-            <option
-              value="has_beginning"
-            >
-              starts with
-            </option>
-            <option
-              value="has_text"
-            >
-              has some text
-            </option>
-            <option
-              value="has_number"
-            >
-              has a number
-            </option>
-            <option
-              value="has_number_between"
-            >
-              has a number between
-            </option>
-            <option
-              value="has_number_lt"
-            >
-              has a number below
-            </option>
-            <option
-              value="has_number_lte"
-            >
-              has a number at or below
-            </option>
-            <option
-              value="has_number_eq"
-            >
-              has a number equal to
-            </option>
-            <option
-              value="has_number_gte"
-            >
-              has a number at or above
-            </option>
-            <option
-              value="has_number_gt"
-            >
-              has a number above
-            </option>
-            <option
-              value="has_date"
-            >
-              has a date
-            </option>
-            <option
-              value="has_date_lt"
-            >
-              has a date before
-            </option>
-            <option
-              value="has_date_eq"
-            >
-              has a date equal to
-            </option>
-            <option
-              value="has_date_gt"
-            >
-              has a date after
-            </option>
-            <option
-              value="has_time"
-            >
-              has a time
-            </option>
-            <option
-              value="has_phone"
-            >
-              has a phone number
-            </option>
-            <option
-              value="has_email"
-            >
-              has an email
-            </option>
-            <option
-              value="has_state"
-            >
-              has state
-            </option>
-            <option
-              value="has_district"
-            >
-              has district
-            </option>
-            <option
-              value="has_ward"
-            >
-              has ward
-            </option>
-            <option
-              value="has_pattern"
-            >
-              matches regex
-            </option>
-          </select>
+              <temba-option
+                name="has any of the words"
+                value="has_any_word"
+              />
+              <temba-option
+                name="has all of the words"
+                value="has_all_words"
+              />
+              <temba-option
+                name="has the phrase"
+                value="has_phrase"
+              />
+              <temba-option
+                name="has only the phrase"
+                value="has_only_phrase"
+              />
+              <temba-option
+                name="starts with"
+                value="has_beginning"
+              />
+              <temba-option
+                name="has some text"
+                value="has_text"
+              />
+              <temba-option
+                name="has a number"
+                value="has_number"
+              />
+              <temba-option
+                name="has a number between"
+                selected="true"
+                value="has_number_between"
+              />
+              <temba-option
+                name="has a number below"
+                value="has_number_lt"
+              />
+              <temba-option
+                name="has a number at or below"
+                value="has_number_lte"
+              />
+              <temba-option
+                name="has a number equal to"
+                value="has_number_eq"
+              />
+              <temba-option
+                name="has a number at or above"
+                value="has_number_gte"
+              />
+              <temba-option
+                name="has a number above"
+                value="has_number_gt"
+              />
+              <temba-option
+                name="has a date"
+                value="has_date"
+              />
+              <temba-option
+                name="has a date before"
+                value="has_date_lt"
+              />
+              <temba-option
+                name="has a date equal to"
+                value="has_date_eq"
+              />
+              <temba-option
+                name="has a date after"
+                value="has_date_gt"
+              />
+              <temba-option
+                name="has a time"
+                value="has_time"
+              />
+              <temba-option
+                name="has a phone number"
+                value="has_phone"
+              />
+              <temba-option
+                name="has an email"
+                value="has_email"
+              />
+              <temba-option
+                name="has state"
+                value="has_state"
+              />
+              <temba-option
+                name="has district"
+                value="has_district"
+              />
+              <temba-option
+                name="has ward"
+                value="has_ward"
+              />
+              <temba-option
+                name="matches regex"
+                value="has_pattern"
+              />
+            </temba-select>
+          </div>
         </div>
         <div
           class="multi_operand"
@@ -500,132 +462,113 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
           data-draggable="true"
         />
         <div
-          class="choice select-medium"
+          class="choice"
         >
-          <select
-            data-testid="select"
+          <div
+            class="small "
           >
-            <option
-              value="has_any_word"
+            <temba-select
+              data-testid="temba_select_operator"
             >
-              has any of the words
-            </option>
-            <option
-              value="has_all_words"
-            >
-              has all of the words
-            </option>
-            <option
-              value="has_phrase"
-            >
-              has the phrase
-            </option>
-            <option
-              value="has_only_phrase"
-            >
-              has only the phrase
-            </option>
-            <option
-              value="has_beginning"
-            >
-              starts with
-            </option>
-            <option
-              value="has_text"
-            >
-              has some text
-            </option>
-            <option
-              value="has_number"
-            >
-              has a number
-            </option>
-            <option
-              value="has_number_between"
-            >
-              has a number between
-            </option>
-            <option
-              value="has_number_lt"
-            >
-              has a number below
-            </option>
-            <option
-              value="has_number_lte"
-            >
-              has a number at or below
-            </option>
-            <option
-              value="has_number_eq"
-            >
-              has a number equal to
-            </option>
-            <option
-              value="has_number_gte"
-            >
-              has a number at or above
-            </option>
-            <option
-              value="has_number_gt"
-            >
-              has a number above
-            </option>
-            <option
-              value="has_date"
-            >
-              has a date
-            </option>
-            <option
-              value="has_date_lt"
-            >
-              has a date before
-            </option>
-            <option
-              value="has_date_eq"
-            >
-              has a date equal to
-            </option>
-            <option
-              value="has_date_gt"
-            >
-              has a date after
-            </option>
-            <option
-              value="has_time"
-            >
-              has a time
-            </option>
-            <option
-              value="has_phone"
-            >
-              has a phone number
-            </option>
-            <option
-              value="has_email"
-            >
-              has an email
-            </option>
-            <option
-              value="has_state"
-            >
-              has state
-            </option>
-            <option
-              value="has_district"
-            >
-              has district
-            </option>
-            <option
-              value="has_ward"
-            >
-              has ward
-            </option>
-            <option
-              value="has_pattern"
-            >
-              matches regex
-            </option>
-          </select>
+              <temba-option
+                name="has any of the words"
+                value="has_any_word"
+              />
+              <temba-option
+                name="has all of the words"
+                value="has_all_words"
+              />
+              <temba-option
+                name="has the phrase"
+                value="has_phrase"
+              />
+              <temba-option
+                name="has only the phrase"
+                value="has_only_phrase"
+              />
+              <temba-option
+                name="starts with"
+                value="has_beginning"
+              />
+              <temba-option
+                name="has some text"
+                value="has_text"
+              />
+              <temba-option
+                name="has a number"
+                selected="true"
+                value="has_number"
+              />
+              <temba-option
+                name="has a number between"
+                value="has_number_between"
+              />
+              <temba-option
+                name="has a number below"
+                value="has_number_lt"
+              />
+              <temba-option
+                name="has a number at or below"
+                value="has_number_lte"
+              />
+              <temba-option
+                name="has a number equal to"
+                value="has_number_eq"
+              />
+              <temba-option
+                name="has a number at or above"
+                value="has_number_gte"
+              />
+              <temba-option
+                name="has a number above"
+                value="has_number_gt"
+              />
+              <temba-option
+                name="has a date"
+                value="has_date"
+              />
+              <temba-option
+                name="has a date before"
+                value="has_date_lt"
+              />
+              <temba-option
+                name="has a date equal to"
+                value="has_date_eq"
+              />
+              <temba-option
+                name="has a date after"
+                value="has_date_gt"
+              />
+              <temba-option
+                name="has a time"
+                value="has_time"
+              />
+              <temba-option
+                name="has a phone number"
+                value="has_phone"
+              />
+              <temba-option
+                name="has an email"
+                value="has_email"
+              />
+              <temba-option
+                name="has state"
+                value="has_state"
+              />
+              <temba-option
+                name="has district"
+                value="has_district"
+              />
+              <temba-option
+                name="has ward"
+                value="has_ward"
+              />
+              <temba-option
+                name="matches regex"
+                value="has_pattern"
+              />
+            </temba-select>
+          </div>
         </div>
         <div
           class="single_operand"
@@ -702,132 +645,113 @@ exports[`CaseElement render renders no argument rules 1`] = `
           data-draggable="true"
         />
         <div
-          class="choice select-medium"
+          class="choice"
         >
-          <select
-            data-testid="select"
+          <div
+            class="small "
           >
-            <option
-              value="has_any_word"
+            <temba-select
+              data-testid="temba_select_operator"
             >
-              has any of the words
-            </option>
-            <option
-              value="has_all_words"
-            >
-              has all of the words
-            </option>
-            <option
-              value="has_phrase"
-            >
-              has the phrase
-            </option>
-            <option
-              value="has_only_phrase"
-            >
-              has only the phrase
-            </option>
-            <option
-              value="has_beginning"
-            >
-              starts with
-            </option>
-            <option
-              value="has_text"
-            >
-              has some text
-            </option>
-            <option
-              value="has_number"
-            >
-              has a number
-            </option>
-            <option
-              value="has_number_between"
-            >
-              has a number between
-            </option>
-            <option
-              value="has_number_lt"
-            >
-              has a number below
-            </option>
-            <option
-              value="has_number_lte"
-            >
-              has a number at or below
-            </option>
-            <option
-              value="has_number_eq"
-            >
-              has a number equal to
-            </option>
-            <option
-              value="has_number_gte"
-            >
-              has a number at or above
-            </option>
-            <option
-              value="has_number_gt"
-            >
-              has a number above
-            </option>
-            <option
-              value="has_date"
-            >
-              has a date
-            </option>
-            <option
-              value="has_date_lt"
-            >
-              has a date before
-            </option>
-            <option
-              value="has_date_eq"
-            >
-              has a date equal to
-            </option>
-            <option
-              value="has_date_gt"
-            >
-              has a date after
-            </option>
-            <option
-              value="has_time"
-            >
-              has a time
-            </option>
-            <option
-              value="has_phone"
-            >
-              has a phone number
-            </option>
-            <option
-              value="has_email"
-            >
-              has an email
-            </option>
-            <option
-              value="has_state"
-            >
-              has state
-            </option>
-            <option
-              value="has_district"
-            >
-              has district
-            </option>
-            <option
-              value="has_ward"
-            >
-              has ward
-            </option>
-            <option
-              value="has_pattern"
-            >
-              matches regex
-            </option>
-          </select>
+              <temba-option
+                name="has any of the words"
+                value="has_any_word"
+              />
+              <temba-option
+                name="has all of the words"
+                value="has_all_words"
+              />
+              <temba-option
+                name="has the phrase"
+                value="has_phrase"
+              />
+              <temba-option
+                name="has only the phrase"
+                value="has_only_phrase"
+              />
+              <temba-option
+                name="starts with"
+                value="has_beginning"
+              />
+              <temba-option
+                name="has some text"
+                value="has_text"
+              />
+              <temba-option
+                name="has a number"
+                selected="true"
+                value="has_number"
+              />
+              <temba-option
+                name="has a number between"
+                value="has_number_between"
+              />
+              <temba-option
+                name="has a number below"
+                value="has_number_lt"
+              />
+              <temba-option
+                name="has a number at or below"
+                value="has_number_lte"
+              />
+              <temba-option
+                name="has a number equal to"
+                value="has_number_eq"
+              />
+              <temba-option
+                name="has a number at or above"
+                value="has_number_gte"
+              />
+              <temba-option
+                name="has a number above"
+                value="has_number_gt"
+              />
+              <temba-option
+                name="has a date"
+                value="has_date"
+              />
+              <temba-option
+                name="has a date before"
+                value="has_date_lt"
+              />
+              <temba-option
+                name="has a date equal to"
+                value="has_date_eq"
+              />
+              <temba-option
+                name="has a date after"
+                value="has_date_gt"
+              />
+              <temba-option
+                name="has a time"
+                value="has_time"
+              />
+              <temba-option
+                name="has a phone number"
+                value="has_phone"
+              />
+              <temba-option
+                name="has an email"
+                value="has_email"
+              />
+              <temba-option
+                name="has state"
+                value="has_state"
+              />
+              <temba-option
+                name="has district"
+                value="has_district"
+              />
+              <temba-option
+                name="has ward"
+                value="has_ward"
+              />
+              <temba-option
+                name="matches regex"
+                value="has_pattern"
+              />
+            </temba-select>
+          </div>
         </div>
         <div
           class="single_operand"
@@ -904,132 +828,113 @@ exports[`CaseElement render should render empty case 1`] = `
           data-draggable="true"
         />
         <div
-          class="choice select-medium"
+          class="choice"
         >
-          <select
-            data-testid="select"
+          <div
+            class="small "
           >
-            <option
-              value="has_any_word"
+            <temba-select
+              data-testid="temba_select_operator"
             >
-              has any of the words
-            </option>
-            <option
-              value="has_all_words"
-            >
-              has all of the words
-            </option>
-            <option
-              value="has_phrase"
-            >
-              has the phrase
-            </option>
-            <option
-              value="has_only_phrase"
-            >
-              has only the phrase
-            </option>
-            <option
-              value="has_beginning"
-            >
-              starts with
-            </option>
-            <option
-              value="has_text"
-            >
-              has some text
-            </option>
-            <option
-              value="has_number"
-            >
-              has a number
-            </option>
-            <option
-              value="has_number_between"
-            >
-              has a number between
-            </option>
-            <option
-              value="has_number_lt"
-            >
-              has a number below
-            </option>
-            <option
-              value="has_number_lte"
-            >
-              has a number at or below
-            </option>
-            <option
-              value="has_number_eq"
-            >
-              has a number equal to
-            </option>
-            <option
-              value="has_number_gte"
-            >
-              has a number at or above
-            </option>
-            <option
-              value="has_number_gt"
-            >
-              has a number above
-            </option>
-            <option
-              value="has_date"
-            >
-              has a date
-            </option>
-            <option
-              value="has_date_lt"
-            >
-              has a date before
-            </option>
-            <option
-              value="has_date_eq"
-            >
-              has a date equal to
-            </option>
-            <option
-              value="has_date_gt"
-            >
-              has a date after
-            </option>
-            <option
-              value="has_time"
-            >
-              has a time
-            </option>
-            <option
-              value="has_phone"
-            >
-              has a phone number
-            </option>
-            <option
-              value="has_email"
-            >
-              has an email
-            </option>
-            <option
-              value="has_state"
-            >
-              has state
-            </option>
-            <option
-              value="has_district"
-            >
-              has district
-            </option>
-            <option
-              value="has_ward"
-            >
-              has ward
-            </option>
-            <option
-              value="has_pattern"
-            >
-              matches regex
-            </option>
-          </select>
+              <temba-option
+                name="has any of the words"
+                selected="true"
+                value="has_any_word"
+              />
+              <temba-option
+                name="has all of the words"
+                value="has_all_words"
+              />
+              <temba-option
+                name="has the phrase"
+                value="has_phrase"
+              />
+              <temba-option
+                name="has only the phrase"
+                value="has_only_phrase"
+              />
+              <temba-option
+                name="starts with"
+                value="has_beginning"
+              />
+              <temba-option
+                name="has some text"
+                value="has_text"
+              />
+              <temba-option
+                name="has a number"
+                value="has_number"
+              />
+              <temba-option
+                name="has a number between"
+                value="has_number_between"
+              />
+              <temba-option
+                name="has a number below"
+                value="has_number_lt"
+              />
+              <temba-option
+                name="has a number at or below"
+                value="has_number_lte"
+              />
+              <temba-option
+                name="has a number equal to"
+                value="has_number_eq"
+              />
+              <temba-option
+                name="has a number at or above"
+                value="has_number_gte"
+              />
+              <temba-option
+                name="has a number above"
+                value="has_number_gt"
+              />
+              <temba-option
+                name="has a date"
+                value="has_date"
+              />
+              <temba-option
+                name="has a date before"
+                value="has_date_lt"
+              />
+              <temba-option
+                name="has a date equal to"
+                value="has_date_eq"
+              />
+              <temba-option
+                name="has a date after"
+                value="has_date_gt"
+              />
+              <temba-option
+                name="has a time"
+                value="has_time"
+              />
+              <temba-option
+                name="has a phone number"
+                value="has_phone"
+              />
+              <temba-option
+                name="has an email"
+                value="has_email"
+              />
+              <temba-option
+                name="has state"
+                value="has_state"
+              />
+              <temba-option
+                name="has district"
+                value="has_district"
+              />
+              <temba-option
+                name="has ward"
+                value="has_ward"
+              />
+              <temba-option
+                name="matches regex"
+                value="has_pattern"
+              />
+            </temba-select>
+          </div>
         </div>
         <div
           class="single_operand"
@@ -1145,132 +1050,113 @@ exports[`CaseElement update handles argument change 1`] = `
           data-draggable="true"
         />
         <div
-          class="choice select-medium"
+          class="choice"
         >
-          <select
-            data-testid="select"
+          <div
+            class="small "
           >
-            <option
-              value="has_any_word"
+            <temba-select
+              data-testid="temba_select_operator"
             >
-              has any of the words
-            </option>
-            <option
-              value="has_all_words"
-            >
-              has all of the words
-            </option>
-            <option
-              value="has_phrase"
-            >
-              has the phrase
-            </option>
-            <option
-              value="has_only_phrase"
-            >
-              has only the phrase
-            </option>
-            <option
-              value="has_beginning"
-            >
-              starts with
-            </option>
-            <option
-              value="has_text"
-            >
-              has some text
-            </option>
-            <option
-              value="has_number"
-            >
-              has a number
-            </option>
-            <option
-              value="has_number_between"
-            >
-              has a number between
-            </option>
-            <option
-              value="has_number_lt"
-            >
-              has a number below
-            </option>
-            <option
-              value="has_number_lte"
-            >
-              has a number at or below
-            </option>
-            <option
-              value="has_number_eq"
-            >
-              has a number equal to
-            </option>
-            <option
-              value="has_number_gte"
-            >
-              has a number at or above
-            </option>
-            <option
-              value="has_number_gt"
-            >
-              has a number above
-            </option>
-            <option
-              value="has_date"
-            >
-              has a date
-            </option>
-            <option
-              value="has_date_lt"
-            >
-              has a date before
-            </option>
-            <option
-              value="has_date_eq"
-            >
-              has a date equal to
-            </option>
-            <option
-              value="has_date_gt"
-            >
-              has a date after
-            </option>
-            <option
-              value="has_time"
-            >
-              has a time
-            </option>
-            <option
-              value="has_phone"
-            >
-              has a phone number
-            </option>
-            <option
-              value="has_email"
-            >
-              has an email
-            </option>
-            <option
-              value="has_state"
-            >
-              has state
-            </option>
-            <option
-              value="has_district"
-            >
-              has district
-            </option>
-            <option
-              value="has_ward"
-            >
-              has ward
-            </option>
-            <option
-              value="has_pattern"
-            >
-              matches regex
-            </option>
-          </select>
+              <temba-option
+                name="has any of the words"
+                selected="true"
+                value="has_any_word"
+              />
+              <temba-option
+                name="has all of the words"
+                value="has_all_words"
+              />
+              <temba-option
+                name="has the phrase"
+                value="has_phrase"
+              />
+              <temba-option
+                name="has only the phrase"
+                value="has_only_phrase"
+              />
+              <temba-option
+                name="starts with"
+                value="has_beginning"
+              />
+              <temba-option
+                name="has some text"
+                value="has_text"
+              />
+              <temba-option
+                name="has a number"
+                value="has_number"
+              />
+              <temba-option
+                name="has a number between"
+                value="has_number_between"
+              />
+              <temba-option
+                name="has a number below"
+                value="has_number_lt"
+              />
+              <temba-option
+                name="has a number at or below"
+                value="has_number_lte"
+              />
+              <temba-option
+                name="has a number equal to"
+                value="has_number_eq"
+              />
+              <temba-option
+                name="has a number at or above"
+                value="has_number_gte"
+              />
+              <temba-option
+                name="has a number above"
+                value="has_number_gt"
+              />
+              <temba-option
+                name="has a date"
+                value="has_date"
+              />
+              <temba-option
+                name="has a date before"
+                value="has_date_lt"
+              />
+              <temba-option
+                name="has a date equal to"
+                value="has_date_eq"
+              />
+              <temba-option
+                name="has a date after"
+                value="has_date_gt"
+              />
+              <temba-option
+                name="has a time"
+                value="has_time"
+              />
+              <temba-option
+                name="has a phone number"
+                value="has_phone"
+              />
+              <temba-option
+                name="has an email"
+                value="has_email"
+              />
+              <temba-option
+                name="has state"
+                value="has_state"
+              />
+              <temba-option
+                name="has district"
+                value="has_district"
+              />
+              <temba-option
+                name="has ward"
+                value="has_ward"
+              />
+              <temba-option
+                name="matches regex"
+                value="has_pattern"
+              />
+            </temba-select>
+          </div>
         </div>
         <div
           class="single_operand"
@@ -1386,132 +1272,113 @@ exports[`CaseElement update handles multiple argument change 1`] = `
           data-draggable="true"
         />
         <div
-          class="choice select-medium"
+          class="choice"
         >
-          <select
-            data-testid="select"
+          <div
+            class="small "
           >
-            <option
-              value="has_any_word"
+            <temba-select
+              data-testid="temba_select_operator"
             >
-              has any of the words
-            </option>
-            <option
-              value="has_all_words"
-            >
-              has all of the words
-            </option>
-            <option
-              value="has_phrase"
-            >
-              has the phrase
-            </option>
-            <option
-              value="has_only_phrase"
-            >
-              has only the phrase
-            </option>
-            <option
-              value="has_beginning"
-            >
-              starts with
-            </option>
-            <option
-              value="has_text"
-            >
-              has some text
-            </option>
-            <option
-              value="has_number"
-            >
-              has a number
-            </option>
-            <option
-              value="has_number_between"
-            >
-              has a number between
-            </option>
-            <option
-              value="has_number_lt"
-            >
-              has a number below
-            </option>
-            <option
-              value="has_number_lte"
-            >
-              has a number at or below
-            </option>
-            <option
-              value="has_number_eq"
-            >
-              has a number equal to
-            </option>
-            <option
-              value="has_number_gte"
-            >
-              has a number at or above
-            </option>
-            <option
-              value="has_number_gt"
-            >
-              has a number above
-            </option>
-            <option
-              value="has_date"
-            >
-              has a date
-            </option>
-            <option
-              value="has_date_lt"
-            >
-              has a date before
-            </option>
-            <option
-              value="has_date_eq"
-            >
-              has a date equal to
-            </option>
-            <option
-              value="has_date_gt"
-            >
-              has a date after
-            </option>
-            <option
-              value="has_time"
-            >
-              has a time
-            </option>
-            <option
-              value="has_phone"
-            >
-              has a phone number
-            </option>
-            <option
-              value="has_email"
-            >
-              has an email
-            </option>
-            <option
-              value="has_state"
-            >
-              has state
-            </option>
-            <option
-              value="has_district"
-            >
-              has district
-            </option>
-            <option
-              value="has_ward"
-            >
-              has ward
-            </option>
-            <option
-              value="has_pattern"
-            >
-              matches regex
-            </option>
-          </select>
+              <temba-option
+                name="has any of the words"
+                value="has_any_word"
+              />
+              <temba-option
+                name="has all of the words"
+                value="has_all_words"
+              />
+              <temba-option
+                name="has the phrase"
+                value="has_phrase"
+              />
+              <temba-option
+                name="has only the phrase"
+                value="has_only_phrase"
+              />
+              <temba-option
+                name="starts with"
+                value="has_beginning"
+              />
+              <temba-option
+                name="has some text"
+                value="has_text"
+              />
+              <temba-option
+                name="has a number"
+                value="has_number"
+              />
+              <temba-option
+                name="has a number between"
+                selected="true"
+                value="has_number_between"
+              />
+              <temba-option
+                name="has a number below"
+                value="has_number_lt"
+              />
+              <temba-option
+                name="has a number at or below"
+                value="has_number_lte"
+              />
+              <temba-option
+                name="has a number equal to"
+                value="has_number_eq"
+              />
+              <temba-option
+                name="has a number at or above"
+                value="has_number_gte"
+              />
+              <temba-option
+                name="has a number above"
+                value="has_number_gt"
+              />
+              <temba-option
+                name="has a date"
+                value="has_date"
+              />
+              <temba-option
+                name="has a date before"
+                value="has_date_lt"
+              />
+              <temba-option
+                name="has a date equal to"
+                value="has_date_eq"
+              />
+              <temba-option
+                name="has a date after"
+                value="has_date_gt"
+              />
+              <temba-option
+                name="has a time"
+                value="has_time"
+              />
+              <temba-option
+                name="has a phone number"
+                value="has_phone"
+              />
+              <temba-option
+                name="has an email"
+                value="has_email"
+              />
+              <temba-option
+                name="has state"
+                value="has_state"
+              />
+              <temba-option
+                name="has district"
+                value="has_district"
+              />
+              <temba-option
+                name="has ward"
+                value="has_ward"
+              />
+              <temba-option
+                name="matches regex"
+                value="has_pattern"
+              />
+            </temba-select>
+          </div>
         </div>
         <div
           class="multi_operand"

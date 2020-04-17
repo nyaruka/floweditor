@@ -128,100 +128,104 @@ exports[`ResultRouterForm should render 1`] = `
             When a contact arrives at this point in your flow...
           </p>
           <div>
-            <temba-select
-              data-testid="temba_select_type"
-              searchable="true"
+            <div
+              class="normal "
             >
-              <temba-option
-                name="Send the contact a message"
-                value="send_msg"
-              />
-              <temba-option
-                name="Wait for the contact to respond"
-                value="wait_for_response"
-              />
-              <temba-option
-                name="Send somebody else a message"
-                value="send_broadcast"
-              />
-              <temba-option
-                name="Label the incoming message"
-                value="add_input_labels"
-              />
-              <temba-option
-                name="Add a URN for the contact"
-                value="add_contact_urn"
-              />
-              <temba-option
-                name="Add the contact to a group"
-                value="add_contact_groups"
-              />
-              <temba-option
-                name="Remove the contact from a group"
-                value="remove_contact_groups"
-              />
-              <temba-option
-                name="Update the contact"
-                value="set_contact_field"
-              />
-              <temba-option
-                name="Send an email"
-                value="send_email"
-              />
-              <temba-option
-                name="Save a result for this flow"
-                value="set_run_result"
-              />
-              <temba-option
-                name="Call a webhook"
-                value="call_webhook"
-              />
-              <temba-option
-                name="Call Zapier"
-                value="call_resthook"
-              />
-              <temba-option
-                name="Enter another flow"
-                value="enter_flow"
-              />
-              <temba-option
-                name="Start somebody else in a flow"
-                value="start_session"
-              />
-              <temba-option
-                name="Send the contact airtime"
-                value="transfer_airtime"
-              />
-              <temba-option
-                name="Split by intent"
-                value="split_by_intent"
-              />
-              <temba-option
-                name="Split by a custom expression"
-                value="split_by_expression"
-              />
-              <temba-option
-                name="Split by a contact field"
-                value="split_by_contact_field"
-              />
-              <temba-option
-                name="Split by a result in the flow"
-                selected="true"
-                value="split_by_run_result"
-              />
-              <temba-option
-                name="Split by random chance"
-                value="split_by_random"
-              />
-              <temba-option
-                name="Split by group membership"
-                value="split_by_groups"
-              />
-              <temba-option
-                name="Split by URN type"
-                value="split_by_scheme"
-              />
-            </temba-select>
+              <temba-select
+                data-testid="temba_select_type"
+                searchable="true"
+              >
+                <temba-option
+                  name="Send the contact a message"
+                  value="send_msg"
+                />
+                <temba-option
+                  name="Wait for the contact to respond"
+                  value="wait_for_response"
+                />
+                <temba-option
+                  name="Send somebody else a message"
+                  value="send_broadcast"
+                />
+                <temba-option
+                  name="Label the incoming message"
+                  value="add_input_labels"
+                />
+                <temba-option
+                  name="Add a URN for the contact"
+                  value="add_contact_urn"
+                />
+                <temba-option
+                  name="Add the contact to a group"
+                  value="add_contact_groups"
+                />
+                <temba-option
+                  name="Remove the contact from a group"
+                  value="remove_contact_groups"
+                />
+                <temba-option
+                  name="Update the contact"
+                  value="set_contact_field"
+                />
+                <temba-option
+                  name="Send an email"
+                  value="send_email"
+                />
+                <temba-option
+                  name="Save a result for this flow"
+                  value="set_run_result"
+                />
+                <temba-option
+                  name="Call a webhook"
+                  value="call_webhook"
+                />
+                <temba-option
+                  name="Call Zapier"
+                  value="call_resthook"
+                />
+                <temba-option
+                  name="Enter another flow"
+                  value="enter_flow"
+                />
+                <temba-option
+                  name="Start somebody else in a flow"
+                  value="start_session"
+                />
+                <temba-option
+                  name="Send the contact airtime"
+                  value="transfer_airtime"
+                />
+                <temba-option
+                  name="Split by intent"
+                  value="split_by_intent"
+                />
+                <temba-option
+                  name="Split by a custom expression"
+                  value="split_by_expression"
+                />
+                <temba-option
+                  name="Split by a contact field"
+                  value="split_by_contact_field"
+                />
+                <temba-option
+                  name="Split by a result in the flow"
+                  selected="true"
+                  value="split_by_run_result"
+                />
+                <temba-option
+                  name="Split by random chance"
+                  value="split_by_random"
+                />
+                <temba-option
+                  name="Split by group membership"
+                  value="split_by_groups"
+                />
+                <temba-option
+                  name="Split by URN type"
+                  value="split_by_scheme"
+                />
+              </temba-select>
+            </div>
           </div>
         </div>
         <div
@@ -307,132 +311,113 @@ exports[`ResultRouterForm should render 1`] = `
                   data-draggable="true"
                 />
                 <div
-                  class="choice select-medium"
+                  class="choice"
                 >
-                  <select
-                    data-testid="select"
+                  <div
+                    class="small "
                   >
-                    <option
-                      value="has_any_word"
+                    <temba-select
+                      data-testid="temba_select_operator"
                     >
-                      has any of the words
-                    </option>
-                    <option
-                      value="has_all_words"
-                    >
-                      has all of the words
-                    </option>
-                    <option
-                      value="has_phrase"
-                    >
-                      has the phrase
-                    </option>
-                    <option
-                      value="has_only_phrase"
-                    >
-                      has only the phrase
-                    </option>
-                    <option
-                      value="has_beginning"
-                    >
-                      starts with
-                    </option>
-                    <option
-                      value="has_text"
-                    >
-                      has some text
-                    </option>
-                    <option
-                      value="has_number"
-                    >
-                      has a number
-                    </option>
-                    <option
-                      value="has_number_between"
-                    >
-                      has a number between
-                    </option>
-                    <option
-                      value="has_number_lt"
-                    >
-                      has a number below
-                    </option>
-                    <option
-                      value="has_number_lte"
-                    >
-                      has a number at or below
-                    </option>
-                    <option
-                      value="has_number_eq"
-                    >
-                      has a number equal to
-                    </option>
-                    <option
-                      value="has_number_gte"
-                    >
-                      has a number at or above
-                    </option>
-                    <option
-                      value="has_number_gt"
-                    >
-                      has a number above
-                    </option>
-                    <option
-                      value="has_date"
-                    >
-                      has a date
-                    </option>
-                    <option
-                      value="has_date_lt"
-                    >
-                      has a date before
-                    </option>
-                    <option
-                      value="has_date_eq"
-                    >
-                      has a date equal to
-                    </option>
-                    <option
-                      value="has_date_gt"
-                    >
-                      has a date after
-                    </option>
-                    <option
-                      value="has_time"
-                    >
-                      has a time
-                    </option>
-                    <option
-                      value="has_phone"
-                    >
-                      has a phone number
-                    </option>
-                    <option
-                      value="has_email"
-                    >
-                      has an email
-                    </option>
-                    <option
-                      value="has_state"
-                    >
-                      has state
-                    </option>
-                    <option
-                      value="has_district"
-                    >
-                      has district
-                    </option>
-                    <option
-                      value="has_ward"
-                    >
-                      has ward
-                    </option>
-                    <option
-                      value="has_pattern"
-                    >
-                      matches regex
-                    </option>
-                  </select>
+                      <temba-option
+                        name="has any of the words"
+                        selected="true"
+                        value="has_any_word"
+                      />
+                      <temba-option
+                        name="has all of the words"
+                        value="has_all_words"
+                      />
+                      <temba-option
+                        name="has the phrase"
+                        value="has_phrase"
+                      />
+                      <temba-option
+                        name="has only the phrase"
+                        value="has_only_phrase"
+                      />
+                      <temba-option
+                        name="starts with"
+                        value="has_beginning"
+                      />
+                      <temba-option
+                        name="has some text"
+                        value="has_text"
+                      />
+                      <temba-option
+                        name="has a number"
+                        value="has_number"
+                      />
+                      <temba-option
+                        name="has a number between"
+                        value="has_number_between"
+                      />
+                      <temba-option
+                        name="has a number below"
+                        value="has_number_lt"
+                      />
+                      <temba-option
+                        name="has a number at or below"
+                        value="has_number_lte"
+                      />
+                      <temba-option
+                        name="has a number equal to"
+                        value="has_number_eq"
+                      />
+                      <temba-option
+                        name="has a number at or above"
+                        value="has_number_gte"
+                      />
+                      <temba-option
+                        name="has a number above"
+                        value="has_number_gt"
+                      />
+                      <temba-option
+                        name="has a date"
+                        value="has_date"
+                      />
+                      <temba-option
+                        name="has a date before"
+                        value="has_date_lt"
+                      />
+                      <temba-option
+                        name="has a date equal to"
+                        value="has_date_eq"
+                      />
+                      <temba-option
+                        name="has a date after"
+                        value="has_date_gt"
+                      />
+                      <temba-option
+                        name="has a time"
+                        value="has_time"
+                      />
+                      <temba-option
+                        name="has a phone number"
+                        value="has_phone"
+                      />
+                      <temba-option
+                        name="has an email"
+                        value="has_email"
+                      />
+                      <temba-option
+                        name="has state"
+                        value="has_state"
+                      />
+                      <temba-option
+                        name="has district"
+                        value="has_district"
+                      />
+                      <temba-option
+                        name="has ward"
+                        value="has_ward"
+                      />
+                      <temba-option
+                        name="matches regex"
+                        value="has_pattern"
+                      />
+                    </temba-select>
+                  </div>
                 </div>
                 <div
                   class="single_operand"
@@ -616,100 +601,104 @@ exports[`ResultRouterForm should show delimit options 1`] = `
             When a contact arrives at this point in your flow...
           </p>
           <div>
-            <temba-select
-              data-testid="temba_select_type"
-              searchable="true"
+            <div
+              class="normal "
             >
-              <temba-option
-                name="Send the contact a message"
-                value="send_msg"
-              />
-              <temba-option
-                name="Wait for the contact to respond"
-                value="wait_for_response"
-              />
-              <temba-option
-                name="Send somebody else a message"
-                value="send_broadcast"
-              />
-              <temba-option
-                name="Label the incoming message"
-                value="add_input_labels"
-              />
-              <temba-option
-                name="Add a URN for the contact"
-                value="add_contact_urn"
-              />
-              <temba-option
-                name="Add the contact to a group"
-                value="add_contact_groups"
-              />
-              <temba-option
-                name="Remove the contact from a group"
-                value="remove_contact_groups"
-              />
-              <temba-option
-                name="Update the contact"
-                value="set_contact_field"
-              />
-              <temba-option
-                name="Send an email"
-                value="send_email"
-              />
-              <temba-option
-                name="Save a result for this flow"
-                value="set_run_result"
-              />
-              <temba-option
-                name="Call a webhook"
-                value="call_webhook"
-              />
-              <temba-option
-                name="Call Zapier"
-                value="call_resthook"
-              />
-              <temba-option
-                name="Enter another flow"
-                value="enter_flow"
-              />
-              <temba-option
-                name="Start somebody else in a flow"
-                value="start_session"
-              />
-              <temba-option
-                name="Send the contact airtime"
-                value="transfer_airtime"
-              />
-              <temba-option
-                name="Split by intent"
-                value="split_by_intent"
-              />
-              <temba-option
-                name="Split by a custom expression"
-                value="split_by_expression"
-              />
-              <temba-option
-                name="Split by a contact field"
-                value="split_by_contact_field"
-              />
-              <temba-option
-                name="Split by a result in the flow"
-                selected="true"
-                value="split_by_run_result"
-              />
-              <temba-option
-                name="Split by random chance"
-                value="split_by_random"
-              />
-              <temba-option
-                name="Split by group membership"
-                value="split_by_groups"
-              />
-              <temba-option
-                name="Split by URN type"
-                value="split_by_scheme"
-              />
-            </temba-select>
+              <temba-select
+                data-testid="temba_select_type"
+                searchable="true"
+              >
+                <temba-option
+                  name="Send the contact a message"
+                  value="send_msg"
+                />
+                <temba-option
+                  name="Wait for the contact to respond"
+                  value="wait_for_response"
+                />
+                <temba-option
+                  name="Send somebody else a message"
+                  value="send_broadcast"
+                />
+                <temba-option
+                  name="Label the incoming message"
+                  value="add_input_labels"
+                />
+                <temba-option
+                  name="Add a URN for the contact"
+                  value="add_contact_urn"
+                />
+                <temba-option
+                  name="Add the contact to a group"
+                  value="add_contact_groups"
+                />
+                <temba-option
+                  name="Remove the contact from a group"
+                  value="remove_contact_groups"
+                />
+                <temba-option
+                  name="Update the contact"
+                  value="set_contact_field"
+                />
+                <temba-option
+                  name="Send an email"
+                  value="send_email"
+                />
+                <temba-option
+                  name="Save a result for this flow"
+                  value="set_run_result"
+                />
+                <temba-option
+                  name="Call a webhook"
+                  value="call_webhook"
+                />
+                <temba-option
+                  name="Call Zapier"
+                  value="call_resthook"
+                />
+                <temba-option
+                  name="Enter another flow"
+                  value="enter_flow"
+                />
+                <temba-option
+                  name="Start somebody else in a flow"
+                  value="start_session"
+                />
+                <temba-option
+                  name="Send the contact airtime"
+                  value="transfer_airtime"
+                />
+                <temba-option
+                  name="Split by intent"
+                  value="split_by_intent"
+                />
+                <temba-option
+                  name="Split by a custom expression"
+                  value="split_by_expression"
+                />
+                <temba-option
+                  name="Split by a contact field"
+                  value="split_by_contact_field"
+                />
+                <temba-option
+                  name="Split by a result in the flow"
+                  selected="true"
+                  value="split_by_run_result"
+                />
+                <temba-option
+                  name="Split by random chance"
+                  value="split_by_random"
+                />
+                <temba-option
+                  name="Split by group membership"
+                  value="split_by_groups"
+                />
+                <temba-option
+                  name="Split by URN type"
+                  value="split_by_scheme"
+                />
+              </temba-select>
+            </div>
           </div>
         </div>
         <div
@@ -726,91 +715,95 @@ exports[`ResultRouterForm should show delimit options 1`] = `
             <div
               class="ele"
             >
-              <temba-select
-                data-testid="temba_select_field_number"
+              <div
+                class="small "
               >
-                <temba-option
-                  name="first"
-                  value="0"
-                />
-                <temba-option
-                  name="second"
-                  selected="true"
-                  value="1"
-                />
-                <temba-option
-                  name="third"
-                  value="2"
-                />
-                <temba-option
-                  name="fourth"
-                  value="3"
-                />
-                <temba-option
-                  name="fifth"
-                  value="4"
-                />
-                <temba-option
-                  name="sixth"
-                  value="5"
-                />
-                <temba-option
-                  name="seventh"
-                  value="6"
-                />
-                <temba-option
-                  name="eighth"
-                  value="7"
-                />
-                <temba-option
-                  name="ninth"
-                  value="8"
-                />
-                <temba-option
-                  name="tenth"
-                  value="9"
-                />
-                <temba-option
-                  name="11th"
-                  value="10"
-                />
-                <temba-option
-                  name="12th"
-                  value="11"
-                />
-                <temba-option
-                  name="13th"
-                  value="12"
-                />
-                <temba-option
-                  name="14th"
-                  value="13"
-                />
-                <temba-option
-                  name="15th"
-                  value="14"
-                />
-                <temba-option
-                  name="16th"
-                  value="15"
-                />
-                <temba-option
-                  name="17th"
-                  value="16"
-                />
-                <temba-option
-                  name="18th"
-                  value="17"
-                />
-                <temba-option
-                  name="19th"
-                  value="18"
-                />
-                <temba-option
-                  name="20th"
-                  value="19"
-                />
-              </temba-select>
+                <temba-select
+                  data-testid="temba_select_field_number"
+                >
+                  <temba-option
+                    name="first"
+                    value="0"
+                  />
+                  <temba-option
+                    name="second"
+                    selected="true"
+                    value="1"
+                  />
+                  <temba-option
+                    name="third"
+                    value="2"
+                  />
+                  <temba-option
+                    name="fourth"
+                    value="3"
+                  />
+                  <temba-option
+                    name="fifth"
+                    value="4"
+                  />
+                  <temba-option
+                    name="sixth"
+                    value="5"
+                  />
+                  <temba-option
+                    name="seventh"
+                    value="6"
+                  />
+                  <temba-option
+                    name="eighth"
+                    value="7"
+                  />
+                  <temba-option
+                    name="ninth"
+                    value="8"
+                  />
+                  <temba-option
+                    name="tenth"
+                    value="9"
+                  />
+                  <temba-option
+                    name="11th"
+                    value="10"
+                  />
+                  <temba-option
+                    name="12th"
+                    value="11"
+                  />
+                  <temba-option
+                    name="13th"
+                    value="12"
+                  />
+                  <temba-option
+                    name="14th"
+                    value="13"
+                  />
+                  <temba-option
+                    name="15th"
+                    value="14"
+                  />
+                  <temba-option
+                    name="16th"
+                    value="15"
+                  />
+                  <temba-option
+                    name="17th"
+                    value="16"
+                  />
+                  <temba-option
+                    name="18th"
+                    value="17"
+                  />
+                  <temba-option
+                    name="19th"
+                    value="18"
+                  />
+                  <temba-option
+                    name="20th"
+                    value="19"
+                  />
+                </temba-select>
+              </div>
             </div>
           </div>
           <div
@@ -885,23 +878,27 @@ exports[`ResultRouterForm should show delimit options 1`] = `
             <div
               class="ele"
             >
-              <temba-select
-                data-testid="temba_select_delimiter"
+              <div
+                class="small "
               >
-                <temba-option
-                  name="spaces"
-                  selected="true"
-                  value=" "
-                />
-                <temba-option
-                  name="periods"
-                  value="."
-                />
-                <temba-option
-                  name="plusses"
-                  value="+"
-                />
-              </temba-select>
+                <temba-select
+                  data-testid="temba_select_delimiter"
+                >
+                  <temba-option
+                    name="spaces"
+                    selected="true"
+                    value=" "
+                  />
+                  <temba-option
+                    name="periods"
+                    value="."
+                  />
+                  <temba-option
+                    name="plusses"
+                    value="+"
+                  />
+                </temba-select>
+              </div>
             </div>
           </div>
         </div>
@@ -923,132 +920,113 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                   data-draggable="true"
                 />
                 <div
-                  class="choice select-medium"
+                  class="choice"
                 >
-                  <select
-                    data-testid="select"
+                  <div
+                    class="small "
                   >
-                    <option
-                      value="has_any_word"
+                    <temba-select
+                      data-testid="temba_select_operator"
                     >
-                      has any of the words
-                    </option>
-                    <option
-                      value="has_all_words"
-                    >
-                      has all of the words
-                    </option>
-                    <option
-                      value="has_phrase"
-                    >
-                      has the phrase
-                    </option>
-                    <option
-                      value="has_only_phrase"
-                    >
-                      has only the phrase
-                    </option>
-                    <option
-                      value="has_beginning"
-                    >
-                      starts with
-                    </option>
-                    <option
-                      value="has_text"
-                    >
-                      has some text
-                    </option>
-                    <option
-                      value="has_number"
-                    >
-                      has a number
-                    </option>
-                    <option
-                      value="has_number_between"
-                    >
-                      has a number between
-                    </option>
-                    <option
-                      value="has_number_lt"
-                    >
-                      has a number below
-                    </option>
-                    <option
-                      value="has_number_lte"
-                    >
-                      has a number at or below
-                    </option>
-                    <option
-                      value="has_number_eq"
-                    >
-                      has a number equal to
-                    </option>
-                    <option
-                      value="has_number_gte"
-                    >
-                      has a number at or above
-                    </option>
-                    <option
-                      value="has_number_gt"
-                    >
-                      has a number above
-                    </option>
-                    <option
-                      value="has_date"
-                    >
-                      has a date
-                    </option>
-                    <option
-                      value="has_date_lt"
-                    >
-                      has a date before
-                    </option>
-                    <option
-                      value="has_date_eq"
-                    >
-                      has a date equal to
-                    </option>
-                    <option
-                      value="has_date_gt"
-                    >
-                      has a date after
-                    </option>
-                    <option
-                      value="has_time"
-                    >
-                      has a time
-                    </option>
-                    <option
-                      value="has_phone"
-                    >
-                      has a phone number
-                    </option>
-                    <option
-                      value="has_email"
-                    >
-                      has an email
-                    </option>
-                    <option
-                      value="has_state"
-                    >
-                      has state
-                    </option>
-                    <option
-                      value="has_district"
-                    >
-                      has district
-                    </option>
-                    <option
-                      value="has_ward"
-                    >
-                      has ward
-                    </option>
-                    <option
-                      value="has_pattern"
-                    >
-                      matches regex
-                    </option>
-                  </select>
+                      <temba-option
+                        name="has any of the words"
+                        selected="true"
+                        value="has_any_word"
+                      />
+                      <temba-option
+                        name="has all of the words"
+                        value="has_all_words"
+                      />
+                      <temba-option
+                        name="has the phrase"
+                        value="has_phrase"
+                      />
+                      <temba-option
+                        name="has only the phrase"
+                        value="has_only_phrase"
+                      />
+                      <temba-option
+                        name="starts with"
+                        value="has_beginning"
+                      />
+                      <temba-option
+                        name="has some text"
+                        value="has_text"
+                      />
+                      <temba-option
+                        name="has a number"
+                        value="has_number"
+                      />
+                      <temba-option
+                        name="has a number between"
+                        value="has_number_between"
+                      />
+                      <temba-option
+                        name="has a number below"
+                        value="has_number_lt"
+                      />
+                      <temba-option
+                        name="has a number at or below"
+                        value="has_number_lte"
+                      />
+                      <temba-option
+                        name="has a number equal to"
+                        value="has_number_eq"
+                      />
+                      <temba-option
+                        name="has a number at or above"
+                        value="has_number_gte"
+                      />
+                      <temba-option
+                        name="has a number above"
+                        value="has_number_gt"
+                      />
+                      <temba-option
+                        name="has a date"
+                        value="has_date"
+                      />
+                      <temba-option
+                        name="has a date before"
+                        value="has_date_lt"
+                      />
+                      <temba-option
+                        name="has a date equal to"
+                        value="has_date_eq"
+                      />
+                      <temba-option
+                        name="has a date after"
+                        value="has_date_gt"
+                      />
+                      <temba-option
+                        name="has a time"
+                        value="has_time"
+                      />
+                      <temba-option
+                        name="has a phone number"
+                        value="has_phone"
+                      />
+                      <temba-option
+                        name="has an email"
+                        value="has_email"
+                      />
+                      <temba-option
+                        name="has state"
+                        value="has_state"
+                      />
+                      <temba-option
+                        name="has district"
+                        value="has_district"
+                      />
+                      <temba-option
+                        name="has ward"
+                        value="has_ward"
+                      />
+                      <temba-option
+                        name="matches regex"
+                        value="has_pattern"
+                      />
+                    </temba-select>
+                  </div>
                 </div>
                 <div
                   class="single_operand"
