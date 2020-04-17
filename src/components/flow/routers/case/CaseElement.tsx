@@ -459,7 +459,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               options={this.getOperators()}
               nameKey={'verboseName'}
               valueKey={'type'}
-              onChange={this.handleOperatorChanged as any}
+              onChange={this.handleOperatorChanged}
               value={this.state.operatorConfig}
             ></TembaSelect>
           </div>

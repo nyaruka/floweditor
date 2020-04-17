@@ -9,7 +9,10 @@
 }
 
 .normal {
-  --temba-select-selected-padding: 9px;
+  temba-select {
+    --temba-select-selected-padding: 9px;
+    --temba-select-selected-font-size: 13px;
+  }
 }
 
 .error {
