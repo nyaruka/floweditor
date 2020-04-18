@@ -122,23 +122,25 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private getGhostListener(): any {
     return (e: MouseEvent) => {
-      let canvas = this.ele.parentElement;
-      if (this.ele.parentElement.parentElement) {
-        canvas = this.ele.parentElement.parentElement;
+      if (this.ele) {
+        let canvas = this.ele.parentElement;
+        if (this.ele.parentElement.parentElement) {
+          canvas = this.ele.parentElement.parentElement;
+        }
+
+        const canvasBounds = canvas.getBoundingClientRect();
+
+        // move our ghost node into position
+        const width = this.ele.getBoundingClientRect().width;
+        const left = e.pageX - width / 2 - 15 - canvasBounds.left;
+        const top = e.pageY - canvasBounds.top - window.scrollY;
+        const style = this.ele.style;
+        style.left = left + 'px';
+        style.top = top + 'px';
+
+        // Hide ourselves if there's a drop target
+        style.visibility = document.querySelector('.plumb-drop-hover') ? 'hidden' : 'visible';
       }
-
-      const canvasBounds = canvas.getBoundingClientRect();
-
-      // move our ghost node into position
-      const width = this.ele.getBoundingClientRect().width;
-      const left = e.pageX - width / 2 - 15 - canvasBounds.left;
-      const top = e.pageY - canvasBounds.top - window.scrollY;
-      const style = this.ele.style;
-      style.left = left + 'px';
-      style.top = top + 'px';
-
-      // Hide ourselves if there's a drop target
-      style.visibility = document.querySelector('.plumb-drop-hover') ? 'hidden' : 'visible';
     };
   }
 
