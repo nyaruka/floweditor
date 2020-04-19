@@ -178,7 +178,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
   public render(): JSX.Element {
     return (
       <>
-        {/*<this.sortableList
+        <this.sortableList
           items={this.state.currentCases}
           onSortEnd={this.handleSortEnd}
           shouldCancelStart={(e: React.MouseEvent<HTMLDivElement>) => {
@@ -187,7 +187,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
             }
             return !e.target.dataset.draggable;
           }}
-        />*/}
+        />
       </>
     );
   }
