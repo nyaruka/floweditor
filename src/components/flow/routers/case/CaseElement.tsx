@@ -453,15 +453,15 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         >
           <span className={`fe-chevrons-expand ${styles.dnd_icon}`} data-draggable={true} />
           <div className={styles.choice}>
-            {/*<TembaSelect
+            <TembaSelect
               name={i18n.t('forms.operator', 'operator')}
               style={TembaSelectStyle.small}
               options={this.getOperators()}
-              nameKey={'verboseName'}
-              valueKey={'type'}
+              nameKey="verboseName"
+              valueKey="type"
               onChange={this.handleOperatorChanged}
               value={this.state.operatorConfig}
-            ></TembaSelect>*/}
+            ></TembaSelect>
           </div>
           <div
             className={
