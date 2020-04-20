@@ -1,0 +1,25 @@
+@import 'variables.module.scss';
+
+.small {
+  temba-select {
+    --temba-select-selected-padding: 7px;
+    --temba-select-selected-line-height: 13px;
+    --temba-select-selected-font-size: 12px;
+  }
+}
+
+.normal {
+  temba-select {
+    --temba-select-selected-padding: 9px;
+    --temba-select-selected-font-size: 13px;
+  }
+}
+
+.error {
+  temba-select {
+    --color-widget-border: tomato;
+    --color-focus: tomato;
+    --widget-box-shadow-focused: inset 0 1px 1px rgba(var(--error-rgb), 0.075),
+      0 0 8px rgba(var(--error-rgb), 0.6);
+  }
+}

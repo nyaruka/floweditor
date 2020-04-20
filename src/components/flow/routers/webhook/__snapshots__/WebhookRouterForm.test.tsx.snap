@@ -160,6 +160,7 @@ exports[`WebhookRouterForm should render 1`] = `
             },
           }
         }
+        key="method_select"
         name="Method"
         onChange={[Function]}
         options={
@@ -181,15 +182,6 @@ exports[`WebhookRouterForm should render 1`] = `
               "value": "DELETE",
             },
           ]
-        }
-        styles={
-          Object {
-            "control": [Function],
-            "input": [Function],
-            "multiValue": [Function],
-            "placeholder": [Function],
-            "singleValue": [Function],
-          }
         }
       />
     </div>
@@ -414,120 +406,104 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
             When a contact arrives at this point in your flow...
           </p>
           <div>
-            <select
-              data-testid="select"
+            <div
+              class="normal "
             >
-              <option
-                value="send_msg"
+              <temba-select
+                data-testid="temba_select_type"
+                searchable="true"
               >
-                Send the contact a message
-              </option>
-              <option
-                value="wait_for_response"
-              >
-                Wait for the contact to respond
-              </option>
-              <option
-                value="send_broadcast"
-              >
-                Send somebody else a message
-              </option>
-              <option
-                value="add_input_labels"
-              >
-                Label the incoming message
-              </option>
-              <option
-                value="add_contact_urn"
-              >
-                Add a URN for the contact
-              </option>
-              <option
-                value="add_contact_groups"
-              >
-                Add the contact to a group
-              </option>
-              <option
-                value="remove_contact_groups"
-              >
-                Remove the contact from a group
-              </option>
-              <option
-                value="set_contact_field"
-              >
-                Update the contact
-              </option>
-              <option
-                value="send_email"
-              >
-                Send an email
-              </option>
-              <option
-                value="set_run_result"
-              >
-                Save a result for this flow
-              </option>
-              <option
-                value="call_webhook"
-              >
-                Call a webhook
-              </option>
-              <option
-                value="call_resthook"
-              >
-                Call Zapier
-              </option>
-              <option
-                value="enter_flow"
-              >
-                Enter another flow
-              </option>
-              <option
-                value="start_session"
-              >
-                Start somebody else in a flow
-              </option>
-              <option
-                value="transfer_airtime"
-              >
-                Send the contact airtime
-              </option>
-              <option
-                value="split_by_intent"
-              >
-                Split by intent
-              </option>
-              <option
-                value="split_by_expression"
-              >
-                Split by a custom expression
-              </option>
-              <option
-                value="split_by_contact_field"
-              >
-                Split by a contact field
-              </option>
-              <option
-                value="split_by_run_result"
-              >
-                Split by a result in the flow
-              </option>
-              <option
-                value="split_by_random"
-              >
-                Split by random chance
-              </option>
-              <option
-                value="split_by_groups"
-              >
-                Split by group membership
-              </option>
-              <option
-                value="split_by_scheme"
-              >
-                Split by URN type
-              </option>
-            </select>
+                <temba-option
+                  name="Send the contact a message"
+                  value="send_msg"
+                />
+                <temba-option
+                  name="Wait for the contact to respond"
+                  value="wait_for_response"
+                />
+                <temba-option
+                  name="Send somebody else a message"
+                  value="send_broadcast"
+                />
+                <temba-option
+                  name="Label the incoming message"
+                  value="add_input_labels"
+                />
+                <temba-option
+                  name="Add a URN for the contact"
+                  value="add_contact_urn"
+                />
+                <temba-option
+                  name="Add the contact to a group"
+                  value="add_contact_groups"
+                />
+                <temba-option
+                  name="Remove the contact from a group"
+                  value="remove_contact_groups"
+                />
+                <temba-option
+                  name="Update the contact"
+                  value="set_contact_field"
+                />
+                <temba-option
+                  name="Send an email"
+                  value="send_email"
+                />
+                <temba-option
+                  name="Save a result for this flow"
+                  value="set_run_result"
+                />
+                <temba-option
+                  name="Call a webhook"
+                  selected="true"
+                  value="call_webhook"
+                />
+                <temba-option
+                  name="Call Zapier"
+                  value="call_resthook"
+                />
+                <temba-option
+                  name="Enter another flow"
+                  value="enter_flow"
+                />
+                <temba-option
+                  name="Start somebody else in a flow"
+                  value="start_session"
+                />
+                <temba-option
+                  name="Send the contact airtime"
+                  value="transfer_airtime"
+                />
+                <temba-option
+                  name="Split by intent"
+                  value="split_by_intent"
+                />
+                <temba-option
+                  name="Split by a custom expression"
+                  value="split_by_expression"
+                />
+                <temba-option
+                  name="Split by a contact field"
+                  value="split_by_contact_field"
+                />
+                <temba-option
+                  name="Split by a result in the flow"
+                  value="split_by_run_result"
+                />
+                <temba-option
+                  name="Split by random chance"
+                  value="split_by_random"
+                />
+                <temba-option
+                  name="Split by group membership"
+                  value="split_by_groups"
+                />
+                <temba-option
+                  name="Split by URN type"
+                  value="split_by_scheme"
+                />
+              </temba-select>
+            </div>
           </div>
         </div>
         <div
@@ -539,30 +515,31 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
             <div
               class="ele"
             >
-              <select
-                data-testid="select"
+              <div
+                class="normal "
               >
-                <option
-                  value="GET"
+                <temba-select
+                  data-testid="temba_select_method"
                 >
-                  GET
-                </option>
-                <option
-                  value="POST"
-                >
-                  POST
-                </option>
-                <option
-                  value="PUT"
-                >
-                  PUT
-                </option>
-                <option
-                  value="DELETE"
-                >
-                  DELETE
-                </option>
-              </select>
+                  <temba-option
+                    name="GET"
+                    selected="true"
+                    value="GET"
+                  />
+                  <temba-option
+                    name="POST"
+                    value="POST"
+                  />
+                  <temba-option
+                    name="PUT"
+                    value="PUT"
+                  />
+                  <temba-option
+                    name="DELETE"
+                    value="DELETE"
+                  />
+                </temba-select>
+              </div>
             </div>
           </div>
           <div

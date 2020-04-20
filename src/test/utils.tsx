@@ -60,6 +60,13 @@ export const fireChangeText = (ele: any, value: string): void => {
   fireEvent.change(ele, { currentTarget: { value }, target: { value } });
 };
 
+export const fireTembaSelect = (ele: HTMLElement, value: any) => {
+  (ele as any).values = Array.isArray(value) ? value : [{ value }];
+  var evt = document.createEvent('HTMLEvents');
+  evt.initEvent('change', false, true);
+  ele.dispatchEvent(evt);
+};
+
 export const mock = <T extends {}, K extends keyof T>(object: T, property: K, value: T[K]) => {
   Object.defineProperty(object, property, { get: () => value });
 };

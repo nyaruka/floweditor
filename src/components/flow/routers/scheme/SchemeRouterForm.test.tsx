@@ -1,12 +1,9 @@
-import { render, mock, fireEvent, getUpdatedNode } from 'test/utils';
+import { render, mock, fireEvent, getUpdatedNode, fireTembaSelect } from 'test/utils';
 import * as React from 'react';
 import * as utils from 'utils';
 import SchemeRouterForm from './SchemeRouterForm';
 import { createSchemeRouter, getRouterFormProps } from 'testUtils/assetCreators';
 import { SCHEMES } from 'config/typeConfigs';
-import { getSchemeOptions } from 'components/flow/actions/addurn/helpers';
-import { getChannelTypeOptions } from './helpers';
-import { SelectOption } from 'components/form/select/SelectElement';
 import { getSwitchRouter } from '../helpers';
 import { Operators } from 'config/interfaces';
 
@@ -28,14 +25,9 @@ describe(SchemeRouterForm.name, () => {
   });
 
   it('should select schemes', () => {
-    const { getAllByTestId, getByText } = render(<SchemeRouterForm {...routerProps} />);
+    const { getByTestId, getByText } = render(<SchemeRouterForm {...routerProps} />);
 
-    // change to split on one scheme
-    const target = getChannelTypeOptions().find(
-      (option: SelectOption) => (option.value = 'whatsapp')
-    );
-
-    fireEvent.change(getAllByTestId('select')[1], { target });
+    fireTembaSelect(getByTestId('temba_select_channel_type'), 'whatsapp');
     fireEvent.click(getByText('Ok'));
 
     const router = getSwitchRouter(getUpdatedNode(routerProps).node);

@@ -2,7 +2,7 @@ import ResultRouterForm from 'components/flow/routers/result/ResultRouterForm';
 import { Types } from 'config/interfaces';
 import * as React from 'react';
 import { AssetType, RenderNode } from 'store/flowContext';
-import { fireEvent, render, getCallParams } from 'test/utils';
+import { fireEvent, render, getCallParams, fireTembaSelect, getByDisplayValue } from 'test/utils';
 import { mock } from 'testUtils';
 import { createMatchRouter, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
@@ -85,16 +85,10 @@ describe(ResultRouterForm.name, () => {
     props.assetStore.results.items = { [testResult.id]: testResult };
     props.nodeSettings.originalNode.ui.type = Types.split_by_run_result_delimited;
 
-    const { getByText, getAllByTestId } = render(<ResultRouterForm {...props} />);
+    const { getByText, getByTestId } = render(<ResultRouterForm {...props} />);
 
-    const selects = getAllByTestId('select');
-    fireEvent.change(selects[1], {
-      target: { value: 0 }
-    });
-
-    fireEvent.change(selects[2], {
-      target: { value: '+' }
-    });
+    fireTembaSelect(getByTestId('temba_select_field_number'), '0');
+    fireTembaSelect(getByTestId('temba_select_delimiter'), '+');
 
     fireEvent.click(getByText('Ok'));
 

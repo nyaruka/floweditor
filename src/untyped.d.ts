@@ -9,6 +9,7 @@ declare namespace JSX {
     'temba-textinput': any;
     'temba-completion': any;
     'temba-select': any;
+    'temba-option': any;
     'temba-checkbox': any;
   }
 }

@@ -122,18 +122,25 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   private getGhostListener(): any {
     return (e: MouseEvent) => {
-      const canvasBounds = this.ele.parentElement.parentElement.getBoundingClientRect();
+      if (this.ele) {
+        let canvas = this.ele.parentElement;
+        if (this.ele.parentElement.parentElement) {
+          canvas = this.ele.parentElement.parentElement;
+        }
 
-      // move our ghost node into position
-      const width = this.ele.getBoundingClientRect().width;
-      const left = e.pageX - width / 2 - 15 - canvasBounds.left;
-      const top = e.pageY - canvasBounds.top - window.scrollY;
-      const style = this.ele.style;
-      style.left = left + 'px';
-      style.top = top + 'px';
+        const canvasBounds = canvas.getBoundingClientRect();
 
-      // Hide ourselves if there's a drop target
-      style.visibility = document.querySelector('.plumb-drop-hover') ? 'hidden' : 'visible';
+        // move our ghost node into position
+        const width = this.ele.getBoundingClientRect().width;
+        const left = e.pageX - width / 2 - 15 - canvasBounds.left;
+        const top = e.pageY - canvasBounds.top - window.scrollY;
+        const style = this.ele.style;
+        style.left = left + 'px';
+        style.top = top + 'px';
+
+        // Hide ourselves if there's a drop target
+        style.visibility = document.querySelector('.plumb-drop-hover') ? 'hidden' : 'visible';
+      }
     };
   }
 
@@ -173,7 +180,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
   }
 
   /* istanbul ignore next */
-  private handleUUIDClicked(event: React.MouseEvent<HTMLDivElement>): void {
+  private handleUUIDClicked(event: React.MouseEvent<HTMLElement>): void {
     const selection = window.getSelection();
     const range = document.createRange();
     range.selectNodeContents(event.currentTarget);

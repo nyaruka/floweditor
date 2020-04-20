@@ -34,7 +34,6 @@ import {
 } from 'store/nodeEditor';
 import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
 import { createUUID, range } from 'utils';
-import { small, large } from 'utils/reactselect';
 
 import styles from './SendMsgForm.module.scss';
 import { hasFeature } from 'config/typeConfigs';
@@ -42,6 +41,7 @@ import { FeatureFilter } from 'config/interfaces';
 
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
+import { TembaSelectStyle } from 'temba/TembaSelect';
 
 const MAX_ATTACHMENTS = 3;
 
@@ -202,8 +202,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       >
         <div className={styles.type_choice}>
           <SelectElement
+            key={'attachment_type_' + index}
             name={i18n.t('forms.type', 'Type')}
-            styles={small as any}
+            style={TembaSelectStyle.small}
             entry={{
               value: { label: attachment.type }
             }}
@@ -267,7 +268,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       >
         <div className={styles.type_choice}>
           <SelectElement
-            styles={small as any}
+            key={'attachment_type_' + index}
+            style={TembaSelectStyle.small}
             name={i18n.t('forms.type_options', 'Type Options')}
             placeholder="Add Attachment"
             entry={{
@@ -417,7 +419,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           )}
         </p>
         <SelectElement
-          styles={large as any}
+          key={'fb_method_select'}
           name={i18n.t('forms.method', 'Method')}
           entry={this.state.topic}
           onChange={this.handleTopicUpdate}

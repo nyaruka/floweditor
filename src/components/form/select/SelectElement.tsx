@@ -1,18 +1,20 @@
 import FormElement, { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
-import Select, { StylesConfig } from 'react-select';
+import TembaSelect, { TembaSelectStyle } from 'temba/TembaSelect';
 import { hasErrors } from 'components/flow/actions/helpers';
-import { large, getErroredSelect } from 'utils/reactselect';
 
 interface SelectElementProps extends FormElementProps {
   onChange?(value: any, action?: any): void;
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
   options: any;
+
+  style?: TembaSelectStyle;
   placeholder?: string;
-  styles?: StylesConfig;
   clearable?: boolean;
+
   multi?: boolean;
+  styles?: any;
 }
 
 export interface SelectOption {
@@ -21,19 +23,22 @@ export interface SelectOption {
 }
 
 export default class SelectElement extends React.Component<SelectElementProps> {
-  private getStyle(): any {
-    let style = this.props.styles || large;
-    if (hasErrors(this.props.entry)) {
-      const erroredControl = getErroredSelect(style.control({}, {}));
-      style = { ...style, ...erroredControl };
-    }
-    return style;
-  }
-
   public render(): JSX.Element {
     return (
       <FormElement name={this.props.name} entry={this.props.entry}>
-        <Select
+        <TembaSelect
+          key={this.props.name + '_select'}
+          name={this.props.name}
+          placeholder={this.props.placeholder}
+          onChange={this.props.onChange}
+          value={this.props.entry.value}
+          options={this.props.options}
+          searchable={false}
+          error={hasErrors(this.props.entry)}
+          style={this.props.style}
+          multi={this.props.multi}
+        ></TembaSelect>
+        {/*<Select
           isDisabled={this.props.onChange === undefined}
           placeholder={this.props.placeholder}
           styles={this.getStyle()}
@@ -45,8 +50,8 @@ export default class SelectElement extends React.Component<SelectElementProps> {
           isSearchable={false}
           isClearable={this.props.clearable}
           options={this.props.options}
-          isMulti={this.props.multi}
-        />
+          
+        />*/}
       </FormElement>
     );
   }

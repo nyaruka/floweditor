@@ -9,16 +9,15 @@ import { Operator, Operators } from 'config/interfaces';
 import { operatorConfigList } from 'config/operatorConfigs';
 import { Case } from 'flowTypes';
 import * as React from 'react';
-import Select from 'react-select';
 import { FormState, StringEntry, SelectOptionEntry } from 'store/nodeEditor';
-import { getSelectClass, hasErrorType } from 'utils';
-import { small } from 'utils/reactselect';
+import { hasErrorType } from 'utils';
 
 import styles from './CaseElement.module.scss';
 import { initializeForm, validateCase } from './helpers';
 import { Asset } from 'store/flowContext';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import i18n from 'config/i18n';
+import TembaSelect, { TembaSelectStyle } from 'temba/TembaSelect';
 
 export interface CaseElementProps {
   kase: Case;
@@ -363,7 +362,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             <>
               <div style={{ width: '114px' }}>
                 <SelectElement
-                  styles={small as any}
+                  key="intent_select"
+                  style={TembaSelectStyle.small}
                   name={i18n.t('forms.intent', 'Intent')}
                   entry={this.state.intent}
                   onChange={this.handleIntentChanged}
@@ -452,21 +452,16 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           data-draggable={true}
         >
           <span className={`fe-chevrons-expand ${styles.dnd_icon}`} data-draggable={true} />
-          <div className={styles.choice + ' select-medium'}>
-            <Select
-              className={getSelectClass(0)}
-              styles={small as any}
-              data-spec="operator-list"
-              isClearable={false}
-              menuPlacement="auto"
-              options={this.getOperators()}
-              getOptionLabel={(option: Operator) => option.verboseName}
-              getOptionValue={(option: Operator) => option.type}
-              isSearchable={false}
+          <div className={styles.choice}>
+            <TembaSelect
               name={i18n.t('forms.operator', 'operator')}
-              onChange={this.handleOperatorChanged as any}
+              style={TembaSelectStyle.small}
+              options={this.getOperators()}
+              nameKey="verboseName"
+              valueKey="type"
+              onChange={this.handleOperatorChanged}
               value={this.state.operatorConfig}
-            />
+            ></TembaSelect>
           </div>
           <div
             className={

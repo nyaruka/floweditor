@@ -24,6 +24,7 @@ import {
 } from './helpers';
 import styles from './ResultRouterForm.module.scss';
 import i18n from 'config/i18n';
+import { TembaSelectStyle } from 'temba/TembaSelect';
 
 export interface ResultRouterFormState extends FormState {
   result: AssetEntry;
@@ -133,7 +134,8 @@ export default class ResultRouterForm extends React.Component<
         <div className={styles.lead_in}>If the</div>
         <div className={styles.field_number}>
           <SelectElement
-            styles={small as any}
+            key="field_number_select"
+            style={TembaSelectStyle.small}
             name={i18n.t('forms.field_number', 'Field Number')}
             entry={{ value: getFieldOption(this.state.fieldNumber) }}
             onChange={this.handleFieldNumberChanged}
@@ -155,7 +157,8 @@ export default class ResultRouterForm extends React.Component<
         <div className={styles.lead_in_sub}>delimited by</div>
         <div className={styles.delimiter}>
           <SelectElement
-            styles={small as any}
+            key="delimiter_select"
+            style={TembaSelectStyle.small}
             name={i18n.t('forms.delimiter', 'Delimiter')}
             entry={{ value: getDelimiterOption(this.state.delimiter) }}
             onChange={this.handleDelimiterChanged}

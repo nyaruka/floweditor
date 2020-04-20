@@ -474,3 +474,7 @@ export const desnake = (text: string): string => {
     .join(' ')
     .toLowerCase();
 };
+
+export const bool = (prop: boolean) => {
+  return prop ? 'true' : null;
+};

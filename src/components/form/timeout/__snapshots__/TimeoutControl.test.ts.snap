@@ -18,99 +18,86 @@ exports[`TimeoutControl handles initial values 1`] = `
   <div
     className="drop_down"
   >
-    <Component
-      isClearable={false}
-      isSearchable={false}
-      menuPlacement="auto"
+    <TembaSelect
       name="Timeout"
       onChange={[Function]}
       options={
         Array [
           Object {
             "label": "1 minute",
-            "value": 60,
+            "value": "60",
           },
           Object {
             "label": "2 minutes",
-            "value": 120,
+            "value": "120",
           },
           Object {
             "label": "3 minutes",
-            "value": 180,
+            "value": "180",
           },
           Object {
             "label": "4 minutes",
-            "value": 240,
+            "value": "240",
           },
           Object {
             "label": "5 minutes",
-            "value": 300,
+            "value": "300",
           },
           Object {
             "label": "10 minutes",
-            "value": 600,
+            "value": "600",
           },
           Object {
             "label": "15 minutes",
-            "value": 900,
+            "value": "900",
           },
           Object {
-            "label": "1 hours",
-            "value": 3600,
+            "label": "1 hour",
+            "value": "3600",
           },
           Object {
             "label": "2 hours",
-            "value": 7200,
+            "value": "7200",
           },
           Object {
             "label": "3 hours",
-            "value": 10800,
+            "value": "10800",
           },
           Object {
             "label": "6 hours",
-            "value": 21600,
+            "value": "21600",
           },
           Object {
             "label": "12 hours",
-            "value": 43200,
+            "value": "43200",
           },
           Object {
             "label": "18 hours",
-            "value": 64800,
+            "value": "64800",
           },
           Object {
             "label": "1 day",
-            "value": 86400,
+            "value": "86400",
           },
           Object {
             "label": "2 days",
-            "value": 172800,
+            "value": "172800",
           },
           Object {
             "label": "3 days",
-            "value": 259200,
+            "value": "259200",
           },
           Object {
             "label": "1 week",
-            "value": 604800,
+            "value": "604800",
           },
         ]
       }
-      styles={
-        Object {
-          "control": [Function],
-          "indicatorsContainer": [Function],
-          "input": [Function],
-          "menuList": [Function],
-          "option": [Function],
-          "singleValue": [Function],
-          "valueContainer": [Function],
-        }
-      }
+      style="small"
       value={
         Object {
           "label": "1 minute",
-          "value": 60,
+          "value": "60",
         }
       }
     />

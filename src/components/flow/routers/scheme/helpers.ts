@@ -45,6 +45,7 @@ export const stateToNode = (
   }
 
   const currentCases = schemesToCases(state.schemes.value, orginalCases);
+
   const { cases, exits, defaultCategory: defaultExit, caseConfig, categories } = resolveRoutes(
     currentCases,
     false,
