@@ -46,6 +46,7 @@ export const getOrderedDraggables = (positions: CanvasPositions): DraggablePosit
   Object.keys(positions).forEach((uuid: string) => {
     sorted.push({ ...positions[uuid], uuid });
   });
+
   return sorted.sort((a: DraggablePosition, b: DraggablePosition) => {
     let diff = a.top - b.top;
     if (diff === 0) {

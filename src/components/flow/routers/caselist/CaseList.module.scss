@@ -1,12 +1,23 @@
 @import 'variables.module.scss';
 
-.case_list {
-  margin: 4px -15px;
-  position: relative;
-  overflow-y: scroll;
-  max-height: 250px;
-  padding-bottom: 10px;
-  padding-top: 6px;
+.case_list_container {
+  overflow: hidden;
+  border-radius: $curvature;
+  margin-top: 8px;
+
+  &.scrolling {
+    margin-top: 12px;
+    background: rgb(250, 250, 250);
+  }
+
+  .case_list {
+    margin: 4px 0px;
+    position: relative;
+    overflow-y: auto;
+    max-height: 250px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
 }
 
 .kase {
