@@ -10,7 +10,7 @@ exports[`CaseList render should render empty list 1`] = `
         class="case_list"
       >
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -244,7 +244,7 @@ exports[`CaseList render should render list of cases 1`] = `
         class="case_list"
       >
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -463,7 +463,7 @@ exports[`CaseList render should render list of cases 1`] = `
           </div>
         </div>
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -682,7 +682,7 @@ exports[`CaseList render should render list of cases 1`] = `
           </div>
         </div>
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -916,7 +916,7 @@ exports[`CaseList updates should remove cases 1`] = `
         class="case_list"
       >
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -1135,7 +1135,7 @@ exports[`CaseList updates should remove cases 1`] = `
           </div>
         </div>
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -1369,7 +1369,7 @@ exports[`CaseList updates should update cases 1`] = `
         class="case_list"
       >
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -1588,7 +1588,7 @@ exports[`CaseList updates should update cases 1`] = `
           </div>
         </div>
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"
@@ -1807,7 +1807,7 @@ exports[`CaseList updates should update cases 1`] = `
           </div>
         </div>
         <div
-          class="kase"
+          class="kase case_list_case"
         >
           <div
             class="ele group"

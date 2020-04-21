@@ -300,7 +300,7 @@ exports[`ResultRouterForm should render 1`] = `
             class="case_list"
           >
             <div
-              class="kase"
+              class="kase case_list_case"
             >
               <div
                 class="ele group"
@@ -913,7 +913,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
             class="case_list"
           >
             <div
-              class="kase"
+              class="kase case_list_case"
             >
               <div
                 class="ele group"

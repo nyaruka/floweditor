@@ -41,7 +41,7 @@ export interface CaseListState extends FormState {
 const SortableItem = SortableElement(({ value: row }: any) => {
   const caseProps = row.item;
   return (
-    <div className={styles.kase}>
+    <div className={styles.kase + ' case_list_case'}>
       <CaseElement
         key={caseProps.uuid}
         {...caseProps}
