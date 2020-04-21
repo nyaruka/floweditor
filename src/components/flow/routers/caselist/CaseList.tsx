@@ -184,7 +184,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
         className={
           styles.case_list_container +
           ' ' +
-          (this.state.currentCases.length > 6 ? styles.scrolling : '')
+          (this.state.currentCases.length > 5 ? styles.scrolling : '')
         }
       >
         <this.sortableList
