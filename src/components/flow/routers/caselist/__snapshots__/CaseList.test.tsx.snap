@@ -4,224 +4,228 @@ exports[`CaseList render should render empty list 1`] = `
 <body>
   <div>
     <div
-      class="case_list"
+      class="case_list_container "
     >
       <div
-        class="kase"
+        class="case_list"
       >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value=""
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value=""
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-477ac8b4-25e2-483a-8686-2d1332c4da1c"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-477ac8b4-25e2-483a-8686-2d1332c4da1c"
-            />
           </div>
         </div>
       </div>
@@ -234,662 +238,666 @@ exports[`CaseList render should render list of cases 1`] = `
 <body>
   <div>
     <div
-      class="case_list"
+      class="case_list_container "
     >
       <div
-        class="kase"
+        class="case_list"
       >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value="Red, r"
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value="Red, r"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value="Red"
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value="Red"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
-            />
           </div>
         </div>
-      </div>
-      <div
-        class="kase"
-      >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value="Green, g"
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value="Green, g"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value="Green"
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value="Green"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
-            />
           </div>
         </div>
-      </div>
-      <div
-        class="kase"
-      >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value=""
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value=""
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
-            />
           </div>
         </div>
       </div>
@@ -902,443 +910,447 @@ exports[`CaseList updates should remove cases 1`] = `
 <body>
   <div>
     <div
-      class="case_list"
+      class="case_list_container "
     >
       <div
-        class="kase"
+        class="case_list"
       >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value="Green, g"
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value="Green, g"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value="Green"
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value="Green"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
-            />
           </div>
         </div>
-      </div>
-      <div
-        class="kase"
-      >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value=""
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value=""
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
-            />
           </div>
         </div>
       </div>
@@ -1351,662 +1363,666 @@ exports[`CaseList updates should update cases 1`] = `
 <body>
   <div>
     <div
-      class="case_list"
+      class="case_list_container "
     >
       <div
-        class="kase"
+        class="case_list"
       >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value="Purple, p"
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value="Purple, p"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value="Red"
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value="Red"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-b1f332f3-bdd3-4891-aec5-1843a712dbf1"
-            />
           </div>
         </div>
-      </div>
-      <div
-        class="kase"
-      >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value="Green, g"
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value="Green, g"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value="Green"
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value="Green"
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-061fc171-8b79-4636-b892-bd0ea5aa9b42"
-            />
           </div>
         </div>
-      </div>
-      <div
-        class="kase"
-      >
         <div
-          class="ele group"
+          class="kase case_list_case"
         >
           <div
-            class="kase has_any_word"
-            data-draggable="true"
+            class="ele group"
           >
-            <span
-              class="fe-chevrons-expand dnd_icon"
+            <div
+              class="kase has_any_word"
               data-draggable="true"
-            />
-            <div
-              class="choice"
             >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
               <div
-                class="small "
-              >
-                <temba-select
-                  data-testid="temba_select_operator"
-                >
-                  <temba-option
-                    name="has any of the words"
-                    selected="true"
-                    value="has_any_word"
-                  />
-                  <temba-option
-                    name="has all of the words"
-                    value="has_all_words"
-                  />
-                  <temba-option
-                    name="has the phrase"
-                    value="has_phrase"
-                  />
-                  <temba-option
-                    name="has only the phrase"
-                    value="has_only_phrase"
-                  />
-                  <temba-option
-                    name="starts with"
-                    value="has_beginning"
-                  />
-                  <temba-option
-                    name="has some text"
-                    value="has_text"
-                  />
-                  <temba-option
-                    name="has a number"
-                    value="has_number"
-                  />
-                  <temba-option
-                    name="has a number between"
-                    value="has_number_between"
-                  />
-                  <temba-option
-                    name="has a number below"
-                    value="has_number_lt"
-                  />
-                  <temba-option
-                    name="has a number at or below"
-                    value="has_number_lte"
-                  />
-                  <temba-option
-                    name="has a number equal to"
-                    value="has_number_eq"
-                  />
-                  <temba-option
-                    name="has a number at or above"
-                    value="has_number_gte"
-                  />
-                  <temba-option
-                    name="has a number above"
-                    value="has_number_gt"
-                  />
-                  <temba-option
-                    name="has a date"
-                    value="has_date"
-                  />
-                  <temba-option
-                    name="has a date before"
-                    value="has_date_lt"
-                  />
-                  <temba-option
-                    name="has a date equal to"
-                    value="has_date_eq"
-                  />
-                  <temba-option
-                    name="has a date after"
-                    value="has_date_gt"
-                  />
-                  <temba-option
-                    name="has a time"
-                    value="has_time"
-                  />
-                  <temba-option
-                    name="has a phone number"
-                    value="has_phone"
-                  />
-                  <temba-option
-                    name="has an email"
-                    value="has_email"
-                  />
-                  <temba-option
-                    name="has state"
-                    value="has_state"
-                  />
-                  <temba-option
-                    name="has district"
-                    value="has_district"
-                  />
-                  <temba-option
-                    name="has ward"
-                    value="has_ward"
-                  />
-                  <temba-option
-                    name="matches regex"
-                    value="has_pattern"
-                  />
-                </temba-select>
-              </div>
-            </div>
-            <div
-              class="single_operand"
-            >
-              <div
-                class="ele"
+                class="choice"
               >
                 <div
-                  class="wrapper"
+                  class="small "
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="-1"
-                    name="arguments"
-                    placeholder=""
-                    type="text"
-                    value=""
-                  />
-                  <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                  <temba-select
+                    data-testid="temba_select_operator"
                   >
+                    <temba-option
+                      name="has any of the words"
+                      selected="true"
+                      value="has_any_word"
+                    />
+                    <temba-option
+                      name="has all of the words"
+                      value="has_all_words"
+                    />
+                    <temba-option
+                      name="has the phrase"
+                      value="has_phrase"
+                    />
+                    <temba-option
+                      name="has only the phrase"
+                      value="has_only_phrase"
+                    />
+                    <temba-option
+                      name="starts with"
+                      value="has_beginning"
+                    />
+                    <temba-option
+                      name="has some text"
+                      value="has_text"
+                    />
+                    <temba-option
+                      name="has a number"
+                      value="has_number"
+                    />
+                    <temba-option
+                      name="has a number between"
+                      value="has_number_between"
+                    />
+                    <temba-option
+                      name="has a number below"
+                      value="has_number_lt"
+                    />
+                    <temba-option
+                      name="has a number at or below"
+                      value="has_number_lte"
+                    />
+                    <temba-option
+                      name="has a number equal to"
+                      value="has_number_eq"
+                    />
+                    <temba-option
+                      name="has a number at or above"
+                      value="has_number_gte"
+                    />
+                    <temba-option
+                      name="has a number above"
+                      value="has_number_gt"
+                    />
+                    <temba-option
+                      name="has a date"
+                      value="has_date"
+                    />
+                    <temba-option
+                      name="has a date before"
+                      value="has_date_lt"
+                    />
+                    <temba-option
+                      name="has a date equal to"
+                      value="has_date_eq"
+                    />
+                    <temba-option
+                      name="has a date after"
+                      value="has_date_gt"
+                    />
+                    <temba-option
+                      name="has a time"
+                      value="has_time"
+                    />
+                    <temba-option
+                      name="has a phone number"
+                      value="has_phone"
+                    />
+                    <temba-option
+                      name="has an email"
+                      value="has_email"
+                    />
+                    <temba-option
+                      name="has state"
+                      value="has_state"
+                    />
+                    <temba-option
+                      name="has district"
+                      value="has_district"
+                    />
+                    <temba-option
+                      name="has ward"
+                      value="has_ward"
+                    />
+                    <temba-option
+                      name="matches regex"
+                      value="has_pattern"
+                    />
+                  </temba-select>
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper"
+                  >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="-1"
+                      name="arguments"
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              class="categorize_as"
-              data-draggable="true"
-            >
-              categorize as
-            </div>
-            <div
-              class="category"
-            >
               <div
-                class="ele"
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
               >
                 <div
-                  class="wrapper"
+                  class="ele"
                 >
-                  <input
-                    class="textinput"
-                    data-spec="input"
-                    data-testid="input"
-                    maxlength="36"
-                    name="Exit Name"
-                    type="text"
-                    value=""
-                  />
                   <div
-                    class="completion_container hidden"
-                    data-spec="completion-options"
-                    style="top: 0px; left: 0px;"
+                    class="wrapper"
                   >
+                    <input
+                      class="textinput"
+                      data-spec="input"
+                      data-testid="input"
+                      maxlength="36"
+                      name="Exit Name"
+                      type="text"
+                      value=""
+                    />
                     <div
-                      class="options_wrapper"
+                      class="completion_container hidden"
+                      data-spec="completion-options"
+                      style="top: 0px; left: 0px;"
                     >
-                      <ul
-                        class="option_list"
-                        data-spec="completion-list"
-                      />
                       <div
-                        class="help"
-                        data-spec="completion-help"
+                        class="options_wrapper"
                       >
-                        Tab to complete, enter to select
+                        <ul
+                          class="option_list"
+                          data-spec="completion-list"
+                        />
+                        <div
+                          class="help"
+                          data-spec="completion-help"
+                        >
+                          Tab to complete, enter to select
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
+              />
             </div>
-            <span
-              class="fe-x remove_icon"
-              data-testid="remove-case-1e47a1e1-3c67-4df5-adf1-da542c789adb"
-            />
           </div>
         </div>
       </div>

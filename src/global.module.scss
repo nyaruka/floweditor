@@ -22,7 +22,8 @@
 
     .ReactModal__Content {
       overflow: visible !important;
-      top: 50px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
       background: none !important;
     }
 
@@ -30,6 +31,10 @@
       height: 100vh !important;
       overflow-y: hidden !important;
       margin: 0 0 5px !important;
+    }
+
+    .ReactModal__Content.ReactModal__Content--after-open {
+      margin-top: 0px !important;
     }
 
     .ReactModal__Overlay {

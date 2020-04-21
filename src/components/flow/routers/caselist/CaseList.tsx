@@ -5,8 +5,8 @@ import { createEmptyCase } from 'components/flow/routers/caselist/helpers';
 import { fakePropType } from 'config/ConfigProvider';
 import { Case } from 'flowTypes';
 import * as React from 'react';
-import { SortableContainer, SortableElement, SortEnd } from 'react-sortable-hoc';
 import { FormState, mergeForm } from 'store/nodeEditor';
+import { SortableElement, SortEnd, SortableContainer } from 'react-sortable-hoc';
 
 import styles from './CaseList.module.scss';
 import { Operator } from 'config/interfaces';
@@ -38,32 +38,35 @@ export interface CaseListState extends FormState {
   currentCases: CaseProps[];
 }
 
+const SortableItem = SortableElement(({ value: row }: any) => {
+  const caseProps = row.item;
+  return (
+    <div className={styles.kase + ' case_list_case'}>
+      <CaseElement
+        key={caseProps.uuid}
+        {...caseProps}
+        onRemove={row.list.handleRemoveCase}
+        onChange={row.list.handleUpdateCase}
+        operators={row.list.props.operators}
+        classifier={row.list.props.classifier}
+      />
+    </div>
+  );
+});
+
 /**
  * CaseList is a component made up of case elements that lets
  * the user configure rules and drag and drop to set their order.
  */
 export default class CaseList extends React.Component<CaseListProps, CaseListState> {
-  private sortableItem = SortableElement(({ value: caseProps }: any) => (
-    <div className={styles.kase}>
-      <CaseElement
-        key={caseProps.uuid}
-        {...caseProps}
-        onRemove={this.handleRemoveCase}
-        onChange={this.handleUpdateCase}
-        operators={this.props.operators}
-        classifier={this.props.classifier}
-      />
-    </div>
-  ));
-
   private sortableList = SortableContainer(({ items }: any) => {
     return (
       <div className={styles.case_list}>
         {items.map((value: any, index: any) => (
-          <this.sortableItem
+          <SortableItem
             key={`item-${index}`}
             index={index}
-            value={value}
+            value={{ item: value, list: this }}
             disabled={index === this.state.currentCases.length - 1}
             shouldCancelStart={(e: any) => {
               console.log(e);
@@ -177,7 +180,13 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
 
   public render(): JSX.Element {
     return (
-      <>
+      <div
+        className={
+          styles.case_list_container +
+          ' ' +
+          (this.state.currentCases.length > 5 ? styles.scrolling : '')
+        }
+      >
         <this.sortableList
           items={this.state.currentCases}
           onSortEnd={this.handleSortEnd}
@@ -188,7 +197,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
             return !e.target.dataset.draggable;
           }}
         />
-      </>
+      </div>
     );
   }
 }

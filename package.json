@@ -27,6 +27,7 @@
     "postversion": "git push --tags && git push origin master",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "scan": "./node_modules/i18next-scanner/bin/cli.js",
+    "dev": "yarn build && cp -Rf build/* ../rapidpro/node_modules/@nyaruka/flow-editor/build/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom-fourteen",
@@ -42,7 +43,8 @@
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      "last 2 edge versions"
     ]
   },
   "jest": {
@@ -68,7 +70,7 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "7.0.0",
-    "@nyaruka/temba-components": "0.1.4",
+    "@nyaruka/temba-components": "0.1.5",
     "@testing-library/jest-dom": "4.0.0",
     "@testing-library/react": "8.0.1",
     "@types/common-tags": "^1.8.0",

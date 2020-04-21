@@ -72,14 +72,12 @@ input:focus {
     line-height: 13px;
     position: relative;
     top: 7px;
-    width: 79px;
+    width: 95px;
+    text-align: center;
     margin: 0px $spacing - 2;
   }
   .category {
     position: relative;
-    input {
-      width: 155px;
-    }
   }
   &:hover {
     .remove_icon {

@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
 // bring in our temba-components if they aren't already registered
-if (customElements && !customElements.get('temba-textinput')) {
+if (typeof customElements !== 'undefined' && !customElements.get('temba-textinput')) {
   import('@nyaruka/temba-components').then(() => {
     console.log('Loading temba components');
   });
