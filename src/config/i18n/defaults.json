@@ -246,8 +246,10 @@
     "send_msg_facebook_warning": "Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.",
     "send_msg_summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
     "send_msg_summary_plural": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
+    "split_by_channel_placeholder": "Select the channels to split by",
     "split_by_groups": "Select the groups you'd like to split by below",
     "split_by_scheme": "Channel types",
+    "split_by_scheme_summary": "The contact's URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.",
     "start_type": "Start Type",
     "state": "State",
     "subject": "Subject",
@@ -256,7 +258,7 @@
     "the_minimum": "the minimum",
     "timeout": "Timeout",
     "timeout_1 day": "1 day",
-    "timeout_1 hours": "1 hours",
+    "timeout_1 hour": "1 hour",
     "timeout_1 minute": "1 minute",
     "timeout_1 week": "1 week",
     "timeout_10 minutes": "10 minutes",
@@ -360,6 +362,12 @@
     "firebase": {
       "name": "Firebase",
       "path": "Firebase ID"
+    },
+    "freschat": {
+      "name": "Freshchat"
+    },
+    "freshchat": {
+      "path": "Freshchat ID"
     },
     "jiochat": {
       "path": "Jiochat ID"
