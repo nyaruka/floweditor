@@ -190,6 +190,10 @@ exports[`SchemeRouterForm should render 1`] = `
                 value="jiochat"
               />
               <temba-option
+                name="Freshchat"
+                value="freshchat"
+              />
+              <temba-option
                 name="External"
                 value="ext"
               />

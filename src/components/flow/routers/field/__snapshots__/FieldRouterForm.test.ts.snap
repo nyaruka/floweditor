@@ -110,6 +110,11 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "scheme",
             },
             Object {
+              "id": "freshchat",
+              "name": "Freshchat ID",
+              "type": "scheme",
+            },
+            Object {
               "id": "mailto",
               "name": "Email Address",
               "type": "scheme",
@@ -313,6 +318,11 @@ exports[`FieldRouterForm should render 1`] = `
             Object {
               "id": "jiochat",
               "name": "Jiochat ID",
+              "type": "scheme",
+            },
+            Object {
+              "id": "freshchat",
+              "name": "Freshchat ID",
               "type": "scheme",
             },
             Object {

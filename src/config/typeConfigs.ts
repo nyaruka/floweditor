@@ -136,6 +136,11 @@ export const SCHEMES: Scheme[] = [
     path: i18n.t('schemes.jiochat.path', 'Jiochat ID')
   },
   {
+    scheme: 'freshchat',
+    name: i18n.t('schemes.freschat.name', 'Freshchat'),
+    path: i18n.t('schemes.freshchat.path', 'Freshchat ID')
+  },
+  {
     scheme: 'mailto',
     name: i18n.t('schemes.email.name', 'Email'),
     path: i18n.t('schemes.email.path', 'Email Address'),
