@@ -24,7 +24,8 @@ import {
   Wait,
   WaitTypes,
   SendMsg,
-  FlowIssue
+  FlowIssue,
+  FlowIssueType
 } from 'flowTypes';
 import Localization, { LocalizedObject } from 'services/Localization';
 import { Activity, EditorState, Warnings } from 'store/editor';
@@ -659,12 +660,14 @@ export const createFlowIssueMap = (
   previousIssues: FlowIssueMap,
   issues: FlowIssue[]
 ): FlowIssueMap => {
-  const issueMap: FlowIssueMap = issues.reduce((issueMap: FlowIssueMap, issue: FlowIssue) => {
-    const nodeIssues: FlowIssue[] = issueMap[issue.node_uuid] || [];
-    nodeIssues.push(issue);
-    issueMap[issue.node_uuid] = nodeIssues;
-    return issueMap;
-  }, {});
+  const issueMap: FlowIssueMap = (issues || [])
+    .filter((issue: FlowIssue) => issue.type !== FlowIssueType.LEGACY_EXTRA)
+    .reduce((issueMap: FlowIssueMap, issue: FlowIssue) => {
+      const nodeIssues: FlowIssue[] = issueMap[issue.node_uuid] || [];
+      nodeIssues.push(issue);
+      issueMap[issue.node_uuid] = nodeIssues;
+      return issueMap;
+    }, {});
 
   for (const [nodeUUID, nodeIssues] of Object.entries(issueMap)) {
     // would be nice not to use stringify as a deepequals here
