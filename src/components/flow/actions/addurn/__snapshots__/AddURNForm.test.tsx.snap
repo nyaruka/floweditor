@@ -191,6 +191,10 @@ exports[`AddURNForm renders 1`] = `
                   value="jiochat"
                 />
                 <temba-option
+                  name="Freshchat ID"
+                  value="freshchat"
+                />
+                <temba-option
                   name="Email Address"
                   value="mailto"
                 />
