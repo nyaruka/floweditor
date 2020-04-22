@@ -235,11 +235,7 @@ export const createDirty = (
 
         if (result.metadata) {
           dispatch(updateMetadata(result.metadata));
-          if (result.metadata.issues) {
-            dispatch(updateIssues(createFlowIssueMap(issues, result.metadata.issues)));
-          } else {
-            dispatch(updateIssues({}));
-          }
+          dispatch(updateIssues(createFlowIssueMap(issues, result.metadata.issues)));
         }
 
         const updatedAssets = mutators.addRevision(assetStore, revision);
