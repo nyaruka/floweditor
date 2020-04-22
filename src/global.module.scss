@@ -22,9 +22,12 @@
 
     .ReactModal__Content {
       overflow: visible !important;
-      top: 50% !important;
-      transform: translateY(-50%) !important;
+      top: 0px !important;
       background: none !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100vh !important;
     }
 
     &.ReactModal__Body--open {
