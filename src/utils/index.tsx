@@ -17,7 +17,7 @@ import variables from 'variables.module.scss';
 export const V4_UUID = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
 const LABEL_CHARS = /^[a-zA-Z0-9-][a-zA-Z0-9- ]*$/;
 const MAX_LABEL_LENGTH = 36;
-const SNAKED_CHARS = /\s+(?=\S)/g;
+const SNAKED_CHARS = /\s|-+(?=\S)/g;
 
 export const MAX_REFLOW_ATTEMPTS = 100;
 export const ACTIVITY_INTERVAL = 5000;

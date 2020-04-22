@@ -90,8 +90,12 @@ describe('utils', () => {
   });
 
   describe('snakify', () => {
-    it('should replace spaces with underscores', () => {
+    it('replaces spaces with underscores', () => {
       expect(snakify('my result name')).toBe('my_result_name');
+    });
+
+    it('replaces dashes with underscores', () => {
+      expect(snakify('my-result-name')).toBe('my_result_name');
     });
   });
 
