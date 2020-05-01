@@ -175,4 +175,21 @@ describe(LogEvent.name, () => {
       ...commonEventProps
     });
   });
+  it('should render service_called event', () => {
+    testEventRender({
+      type: 'service_called',
+      service: 'classifier',
+      classifier: { uuid: 'a67d9cc0-15bb-4a92-b387-554e28726472', name: 'Booking (Wit)' },
+      http_logs: [
+        {
+          url: 'https://api.wit.ai/message?v=20170307&q=Hi+everybody',
+          request:
+            'GET /message?v=20170307&q=Hi+everybody HTTP/1.1\r\nHost: api.wit.ai\r\nUser-Agent: Go-http-client/1.1\r\nAuthorization: Bearer 123456789\r\nAccept-Encoding: gzip\r\n\r\n',
+          response:
+            'HTTP/1.0 200 OK\r\nContent-Length: 127\r\n\r\n{"_text":"Hi everyone","entities":{"intent":[{"confidence":0.84709152161066,"value":"greeting"}]},"msg_id":"1M7fAcDWag76OmgDI"}'
+        }
+      ],
+      ...commonEventProps
+    });
+  });
 });

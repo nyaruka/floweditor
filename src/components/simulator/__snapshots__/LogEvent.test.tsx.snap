@@ -340,3 +340,31 @@ exports[`LogEvent should render run_result_changed event 1`] = `
   </div>
 </body>
 `;
+
+exports[`LogEvent should render service_called event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div>
+        <div
+          class="has_detail"
+        >
+          <div
+            class="info webhook"
+          >
+            <span>
+              Called 
+              https://api.wit.ai/message?v=20170307&q=Hi+everybody
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="ReactModalPortal"
+  />
+</body>
+`;
