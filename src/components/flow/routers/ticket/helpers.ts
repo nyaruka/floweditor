@@ -13,14 +13,14 @@ export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState
   let body = { value: '' };
   let resultName = { value: 'Result' };
 
-  if (getType(settings.originalNode) === Types.open_ticket) {
+  if (getType(settings.originalNode) === Types.split_by_ticket) {
     const action = getOriginalAction(settings) as OpenTicket;
-
-    subject = { value: action.subject };
-    body = { value: action.body };
 
     const { uuid: id, name } = action.ticketer;
     ticketer = { value: { id, name, type: AssetType.Ticketer } };
+    subject = { value: action.subject };
+    body = { value: action.body };
+    resultName = { value: action.result_name };
   }
 
   const state: TicketRouterFormState = {

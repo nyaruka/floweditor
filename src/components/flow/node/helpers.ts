@@ -50,6 +50,7 @@ export const getResultName = (node: FlowNode) => {
     if (
       action.type === Types.call_webhook ||
       action.type === Types.call_resthook ||
+      action.type === Types.open_ticket ||
       action.type === Types.transfer_airtime
     ) {
       const resultAction = action as CallWebhook | CallResthook | TransferAirtime;

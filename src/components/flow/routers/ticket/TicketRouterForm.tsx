@@ -96,7 +96,7 @@ export default class TicketRouterForm extends React.Component<
     this.handleUpdate({ ticketer: selected[0] });
   }
 
-  private handleSubjectUpdate(subject: string): boolean {
+  public handleSubjectUpdate(subject: string): boolean {
     return this.handleUpdate({ subject });
   }
 
@@ -132,7 +132,7 @@ export default class TicketRouterForm extends React.Component<
     }
   }
 
-  private getButtons(): ButtonSet {
+  public getButtons(): ButtonSet {
     return {
       primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
       secondary: {

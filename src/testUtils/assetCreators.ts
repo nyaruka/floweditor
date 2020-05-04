@@ -23,6 +23,7 @@ import {
   FlowNode,
   Group,
   Label,
+  OpenTicket,
   PlayAudio,
   RemoveFromGroups,
   Router,
@@ -135,6 +136,22 @@ export const createTransferAirtimeAction = ({
   amounts: {
     USD: 1.5
   },
+  result_name: 'Result'
+});
+
+export const createOpenTicketAction = ({
+  uuid = utils.createUUID()
+}: {
+  uuid?: string;
+} = {}): OpenTicket => ({
+  uuid,
+  type: Types.open_ticket,
+  ticketer: {
+    name: 'Email (bob@acme.com)',
+    uuid: '1165a73a-2ee0-4891-895e-768645194862'
+  },
+  subject: 'Need help',
+  body: 'Where are my cookies?',
   result_name: 'Result'
 });
 
@@ -339,7 +356,7 @@ export const createSetRunResultAction = ({
 });
 
 export const createWebhookNode = (
-  action: CallWebhook | CallResthook | TransferAirtime,
+  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime,
   useCategoryTest: boolean
 ) => {
   const { categories, exits } = createCategories([
@@ -742,6 +759,14 @@ export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime
   return {
     node: createWebhookNode(transferAirtimeAction, true),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_airtime },
+    inboundConnections: {}
+  };
+};
+
+export const createOpenTicketNode = (openTicketAction: OpenTicket): RenderNode => {
+  return {
+    node: createWebhookNode(openTicketAction, true),
+    ui: { position: { left: 0, top: 0 }, type: Types.split_by_ticket },
     inboundConnections: {}
   };
 };
