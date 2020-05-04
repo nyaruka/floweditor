@@ -68,6 +68,8 @@ export interface EventProps {
   http_logs?: WebRequestLog[];
   extra?: any;
   urns?: string[];
+  service?: string;
+  classifier?: { uuid: string; name: string };
 }
 
 interface FlowEvent {
@@ -386,6 +388,11 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         );
       case 'classifier_called':
         return this.renderWebhook(Types.call_classifier);
+      case 'service_called':
+        if (this.props.service === 'classifier') {
+          return this.renderWebhook(Types.call_classifier);
+        }
+        break;
       case 'webhook_called':
         return this.renderWebhook(Types.call_webhook);
       case 'flow_entered':
