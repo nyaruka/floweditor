@@ -7,7 +7,7 @@ exports[`TranslatorTab finds email translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper "
+        class="pop_wrapper pop_wrapper "
         style="right: 0px; top: 243px;"
       >
         <div
@@ -181,7 +181,7 @@ exports[`TranslatorTab finds message translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper "
+        class="pop_wrapper pop_wrapper "
         style="right: 0px; top: 243px;"
       >
         <div
@@ -369,7 +369,7 @@ exports[`TranslatorTab finds split translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper "
+        class="pop_wrapper pop_wrapper "
         style="right: 0px; top: 243px;"
       >
         <div
@@ -543,7 +543,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper "
+        class="pop_wrapper pop_wrapper "
         style="right: 0px; top: 243px;"
       >
         <div
@@ -717,7 +717,7 @@ exports[`TranslatorTab hides completed translations 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper "
+        class="pop_wrapper pop_wrapper "
         style="right: 0px; top: 243px;"
       >
         <div
@@ -877,7 +877,7 @@ exports[`TranslatorTab renders 1`] = `
       class=""
     >
       <div
-        class="pop_wrapper "
+        class="pop_wrapper pop_wrapper "
         style="right: -258px; top: 243px;"
       >
         <div
