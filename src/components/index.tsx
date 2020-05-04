@@ -158,7 +158,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
     }
 
     return (
-      <div className={styles.saving}>
+      <div id="saving_animation" className={styles.saving}>
         <Fixy>
           <Loading units={5} color="#3498db" size={7} />
         </Fixy>
