@@ -73,6 +73,7 @@ export enum AssetType {
   Revision = 'revision',
   Scheme = 'scheme',
   Template = 'template',
+  Ticketer = 'ticketer',
   URN = 'urn'
 }
 

@@ -97,6 +97,10 @@ exports[`StartSessionForm render should render 1`] = `
                   value="start_session"
                 />
                 <temba-option
+                  name="Open a ticket with a human agent"
+                  value="open_ticket"
+                />
+                <temba-option
                   name="Send the contact airtime"
                   value="transfer_airtime"
                 />
@@ -693,6 +697,10 @@ exports[`StartSessionForm render should render contact query 1`] = `
                   value="start_session"
                 />
                 <temba-option
+                  name="Open a ticket with a human agent"
+                  value="open_ticket"
+                />
+                <temba-option
                   name="Send the contact airtime"
                   value="transfer_airtime"
                 />
@@ -1013,6 +1021,10 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                   name="Start somebody else in a flow"
                   selected="true"
                   value="start_session"
+                />
+                <temba-option
+                  name="Open a ticket with a human agent"
+                  value="open_ticket"
                 />
                 <temba-option
                   name="Send the contact airtime"
@@ -1449,6 +1461,10 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                   name="Start somebody else in a flow"
                   selected="true"
                   value="start_session"
+                />
+                <temba-option
+                  name="Open a ticket with a human agent"
+                  value="open_ticket"
                 />
                 <temba-option
                   name="Send the contact airtime"

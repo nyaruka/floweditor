@@ -19,6 +19,7 @@ export enum Types {
   call_classifier = 'call_classifier',
   call_resthook = 'call_resthook',
   call_webhook = 'call_webhook',
+  open_ticket = 'open_ticket',
   send_msg = 'send_msg',
   send_email = 'send_email',
   send_broadcast = 'send_broadcast',
@@ -34,6 +35,7 @@ export enum Types {
   split_by_intent = 'split_by_intent',
   split_by_random = 'split_by_random',
   split_by_resthook = 'split_by_resthook',
+  split_by_ticket = 'split_by_ticket',
   split_by_scheme = 'split_by_scheme',
   split_by_subflow = 'split_by_subflow',
   split_by_webhook = 'split_by_webhook',
@@ -89,6 +91,7 @@ export enum FeatureFilter {
   HAS_WHATSAPP = 'whatsapp',
   HAS_AIRTIME = 'airtime',
   HAS_CLASSIFIER = 'classifier',
+  HAS_TICKETER = 'ticketer',
   HAS_FACEBOOK = 'facebook'
 }
 

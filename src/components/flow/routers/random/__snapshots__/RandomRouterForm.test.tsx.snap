@@ -315,6 +315,10 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
                   value="start_session"
                 />
                 <temba-option
+                  name="Open a ticket with a human agent"
+                  value="open_ticket"
+                />
+                <temba-option
                   name="Send the contact airtime"
                   value="transfer_airtime"
                 />
@@ -732,6 +736,10 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
                 <temba-option
                   name="Start somebody else in a flow"
                   value="start_session"
+                />
+                <temba-option
+                  name="Open a ticket with a human agent"
+                  value="open_ticket"
                 />
                 <temba-option
                   name="Send the contact airtime"

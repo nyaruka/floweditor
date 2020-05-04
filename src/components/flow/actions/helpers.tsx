@@ -183,6 +183,13 @@ export const renderAsset = (asset: Asset, endpoints: Endpoints) => {
         </>
       );
       break;
+    case AssetType.Ticketer:
+      assetBody = (
+        <Trans i18nKey="assets.ticketer" values={{ name: asset.name }}>
+          Using [[name]] service
+        </Trans>
+      );
+      break;
   }
 
   if (!assetBody) {
