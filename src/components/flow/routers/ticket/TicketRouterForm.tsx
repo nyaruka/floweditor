@@ -96,15 +96,15 @@ export default class TicketRouterForm extends React.Component<
     this.handleUpdate({ ticketer: selected[0] });
   }
 
-  public handleSubjectUpdate(subject: string): boolean {
-    return this.handleUpdate({ subject });
+  private handleSubjectUpdate(subject: string, name: string, submitting = false): boolean {
+    return this.handleUpdate({ subject }, submitting);
   }
 
   private handleBodyUpdate(body: string): boolean {
     return this.handleUpdate({ body });
   }
 
-  private handleUpdateResultName(value: string): void {
+  private handleResultNameUpdate(value: string): void {
     const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
       Required,
       Alphanumeric,
@@ -117,11 +117,13 @@ export default class TicketRouterForm extends React.Component<
   }
 
   private handleSave(): void {
-    // validate our result name in case they haven't interacted
+    // validate all fields in case they haven't interacted
     const valid = this.handleUpdate(
       {
-        resultName: this.state.resultName.value,
-        ticketer: this.state.ticketer.value
+        ticketer: this.state.ticketer.value,
+        subject: this.state.subject.value,
+        body: this.state.body.value,
+        resultName: this.state.resultName.value
       },
       true
     );
@@ -132,7 +134,7 @@ export default class TicketRouterForm extends React.Component<
     }
   }
 
-  public getButtons(): ButtonSet {
+  private getButtons(): ButtonSet {
     return {
       primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
       secondary: {
@@ -188,7 +190,7 @@ export default class TicketRouterForm extends React.Component<
           />
         </div>
 
-        {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
+        {createResultNameInput(this.state.resultName, this.handleResultNameUpdate)}
         {renderIssues(this.props)}
       </Dialog>
     );

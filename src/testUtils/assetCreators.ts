@@ -139,22 +139,6 @@ export const createTransferAirtimeAction = ({
   result_name: 'Result'
 });
 
-export const createOpenTicketAction = ({
-  uuid = utils.createUUID()
-}: {
-  uuid?: string;
-} = {}): OpenTicket => ({
-  uuid,
-  type: Types.open_ticket,
-  ticketer: {
-    name: 'Email (bob@acme.com)',
-    uuid: '1165a73a-2ee0-4891-895e-768645194862'
-  },
-  subject: 'Need help',
-  body: 'Where are my cookies?',
-  result_name: 'Result'
-});
-
 export const createCallResthookAction = ({
   uuid = utils.createUUID(),
   resthook = 'my-resthook',
@@ -402,6 +386,21 @@ export const createWebhookRouterNode = (): FlowNode => {
     result_name: 'Response'
   };
   return createWebhookNode(action, false);
+};
+
+export const createOpenTicketNode = (subject: string, body: string): FlowNode => {
+  const action: OpenTicket = {
+    uuid: utils.createUUID(),
+    type: Types.open_ticket,
+    ticketer: {
+      name: 'Email (bob@acme.com)',
+      uuid: '1165a73a-2ee0-4891-895e-768645194862'
+    },
+    subject: subject,
+    body: body,
+    result_name: 'Result'
+  };
+  return createWebhookNode(action, true);
 };
 
 export const getLocalizationFormProps = (
@@ -759,14 +758,6 @@ export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime
   return {
     node: createWebhookNode(transferAirtimeAction, true),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_airtime },
-    inboundConnections: {}
-  };
-};
-
-export const createOpenTicketNode = (openTicketAction: OpenTicket): RenderNode => {
-  return {
-    node: createWebhookNode(openTicketAction, true),
-    ui: { position: { left: 0, top: 0 }, type: Types.split_by_ticket },
     inboundConnections: {}
   };
 };

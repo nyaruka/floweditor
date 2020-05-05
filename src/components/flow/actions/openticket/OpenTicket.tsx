@@ -5,17 +5,13 @@ import { AssetType } from 'store/flowContext';
 import { fakePropType } from 'config/ConfigProvider';
 
 const OpenTicketComp: React.SFC<OpenTicket> = ({ ticketer }, context: any): JSX.Element => {
-  return (
-    <>
-      {renderAsset(
-        {
-          id: ticketer.uuid,
-          name: ticketer.name,
-          type: AssetType.Ticketer
-        },
-        context.config.endpoints
-      )}
-    </>
+  return renderAsset(
+    {
+      id: ticketer.uuid,
+      name: ticketer.name,
+      type: AssetType.Ticketer
+    },
+    context.config.endpoints
   );
 };
 
