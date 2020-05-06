@@ -44,6 +44,7 @@
   &.send_email,
   &.send_broadcast,
   &.transfer_airtime,
+  &.open_ticket,
   &.missing,
   &.enter_flow {
     width: $node_min_width - $action_padding * 2;

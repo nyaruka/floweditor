@@ -59,6 +59,8 @@ import CallClassifierComp from 'components/flow/actions/callclassifier/CallClass
 import ClassifyRouterForm from 'components/flow/routers/classify/ClassifyRouterForm';
 import i18n from 'config/i18n';
 import SchemeRouterForm from 'components/flow/routers/scheme/SchemeRouterForm';
+import TicketRouterForm from 'components/flow/routers/ticket/TicketRouterForm';
+import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -349,6 +351,18 @@ export const typeConfigList: Type[] = [
     form: StartSessionForm,
     component: StartSessionComp,
     visibility: ONLINE
+  },
+  {
+    type: Types.open_ticket,
+    name: i18n.t('actions.open_ticket.name', 'Open Ticket'),
+    description: i18n.t('actions.open_ticket.description', 'Open a ticket with a human agent'),
+    form: TicketRouterForm,
+    localization: RouterLocalizationForm,
+    localizeableKeys: ['exits'],
+    component: OpenTicketComp,
+    aliases: [Types.split_by_ticket],
+    visibility: ONLINE,
+    filter: FeatureFilter.HAS_TICKETER
   },
   {
     type: Types.transfer_airtime,

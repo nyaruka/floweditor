@@ -1,0 +1,12 @@
+{
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "uuid": "1165a73a-2ee0-4891-895e-768645194862",
+      "name": "Email (bob@acme.com)",
+      "type": "mailgun",
+      "created_on": "2019-10-15T20:07:58.529130Z"
+    }
+  ]
+}

@@ -320,6 +320,11 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         type: AssetType.Template,
         items: {}
       },
+      ticketers: {
+        endpoint: getURL(endpoints.ticketers),
+        type: AssetType.Ticketer,
+        items: {}
+      },
       currencies: {
         type: AssetType.Currency,
         id: 'id',
