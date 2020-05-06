@@ -70,6 +70,7 @@ export interface EventProps {
   urns?: string[];
   service?: string;
   classifier?: { uuid: string; name: string };
+  ticketer?: { uuid: string; name: string };
 }
 
 interface FlowEvent {
@@ -386,8 +387,6 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             resthook: this.props.resthook
           })
         );
-      case 'classifier_called':
-        return this.renderWebhook(Types.call_classifier);
       case 'service_called':
         if (this.props.service === 'classifier') {
           return this.renderWebhook(Types.call_classifier);
@@ -419,6 +418,12 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
         return this.renderLabelsAdded();
       case 'environment_refreshed':
         return null;
+      case 'ticket_opened':
+        return renderInfo(
+          i18n.t('simulator.ticket_opened', 'Ticket opened with subject "[[subject]]"', {
+            subject: this.props.subject
+          })
+        );
       case 'airtime_transferred':
         const event = this.props as AirtimeTransferEvent;
         return (

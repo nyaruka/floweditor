@@ -428,7 +428,8 @@
       "summary": "Sent email to [[recipients]] with subject \"[[subject]]\"",
       "title": "Email Details"
     },
-    "session_triggered": "Started somebody else in \"[[flow]]\""
+    "session_triggered": "Started somebody else in \"[[flow]]\"",
+    "ticket_opened": "Ticket opened with subject \"[[subject]]\""
   },
   "sticky": {
     "body": "...",

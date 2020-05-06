@@ -192,4 +192,14 @@ describe(LogEvent.name, () => {
       ...commonEventProps
     });
   });
+  it('should render ticket_opened event', () => {
+    testEventRender({
+      type: 'ticket_opened',
+      ticketer: { uuid: '15892014-144c-4721-a611-c80b38481055', name: 'Email Support' },
+      subject: 'Need help',
+      body: 'Where are my cookies?',
+      result_name: 'Ticket',
+      ...commonEventProps
+    });
+  });
 });

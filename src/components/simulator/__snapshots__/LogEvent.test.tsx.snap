@@ -368,3 +368,21 @@ exports[`LogEvent should render service_called event 1`] = `
   />
 </body>
 `;
+
+exports[`LogEvent should render ticket_opened event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Ticket opened with subject "Need help"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
