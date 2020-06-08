@@ -181,6 +181,14 @@ exports[`WebhookRouterForm should render 1`] = `
               "label": "DELETE",
               "value": "DELETE",
             },
+            Object {
+              "label": "HEAD",
+              "value": "HEAD",
+            },
+            Object {
+              "label": "PATCH",
+              "value": "PATCH",
+            },
           ]
         }
       />
@@ -541,6 +549,14 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
                   <temba-option
                     name="DELETE"
                     value="DELETE"
+                  />
+                  <temba-option
+                    name="HEAD"
+                    value="HEAD"
+                  />
+                  <temba-option
+                    name="PATCH"
+                    value="PATCH"
                   />
                 </temba-select>
               </div>
