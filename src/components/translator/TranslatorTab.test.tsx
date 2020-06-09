@@ -172,11 +172,11 @@ describe(TranslatorTab.name, () => {
     rerender(<TranslatorTab {...translatorProps} {...updates} />);
     expect(queryByText('Hello World!')).toBeNull();
     getByText('50%');
-    expect(queryByText('Use as default language')).toBeNull();
+    expect(queryByText('Use as default language')).toHaveAttribute('disabled');
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('shows change button when fully translated', () => {
+  it('enables change button when fully translated', () => {
     const { baseElement, getByText, rerender, queryByText } = render(
       <TranslatorTab {...translatorProps} />
     );
@@ -188,7 +188,7 @@ describe(TranslatorTab.name, () => {
 
     rerender(<TranslatorTab {...translatorProps} {...updates} />);
     getByText('100%');
-    getByText('Use as default language');
+    expect(queryByText('Use as default language')).not.toHaveAttribute('disabled');
     expect(baseElement).toMatchSnapshot();
   });
 });

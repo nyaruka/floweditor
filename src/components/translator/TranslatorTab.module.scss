@@ -147,6 +147,11 @@
         color: $light_gray_2;
         border: solid 1px $light_gray_2;
         width: 100%;
+
+        &:disabled, &[disabled] {
+          cursor: default;
+          opacity: 0.4;
+        }
       }
     }
   }
