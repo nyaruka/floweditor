@@ -12,7 +12,9 @@ export enum Methods {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
-  DELETE = 'DELETE'
+  DELETE = 'DELETE',
+  HEAD = 'HEAD',
+  PATCH = 'PATCH'
 }
 
 export interface MethodOption {
@@ -33,7 +35,9 @@ export const METHOD_OPTIONS: MethodOption[] = [
   GET_METHOD,
   { value: Methods.POST, label: Methods.POST },
   { value: Methods.PUT, label: Methods.PUT },
-  { value: Methods.DELETE, label: Methods.DELETE }
+  { value: Methods.DELETE, label: Methods.DELETE },
+  { value: Methods.HEAD, label: Methods.HEAD },
+  { value: Methods.PATCH, label: Methods.PATCH }
 ];
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => {
