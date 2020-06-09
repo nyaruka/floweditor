@@ -214,6 +214,7 @@
     "language": "Language",
     "localize_rules": "Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.",
     "localized_quick_replies": "Add a new [[language]] Quick Reply and press enter.",
+    "use_as_default_language": "Use as default language",
     "maximum_value": "Maximum value",
     "message": "Message",
     "message_label": "If the message response...",

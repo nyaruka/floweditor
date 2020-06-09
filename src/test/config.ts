@@ -32,7 +32,8 @@ export const config: FlowEditorConfig = {
     activity: '',
     simulateStart: '',
     simulateResume: ''
-  }
+  },
+  onChangeLanguage: (code: string, name: string) => {}
 };
 
 export default config;

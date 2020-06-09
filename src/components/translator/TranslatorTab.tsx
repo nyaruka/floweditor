@@ -377,7 +377,7 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
               {showChangeButton && (
                 <div className={styles.changeLanguage}>
                   <button onClick={this.handleChangeLanguageClick}>
-                    {i18n.t('forms.make_default', 'Make Default')}
+                    {i18n.t('forms.use_as_default_language', 'Use as default language')}
                   </button>
                 </div>
               )}

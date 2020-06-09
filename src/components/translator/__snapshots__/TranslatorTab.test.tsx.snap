@@ -1001,3 +1001,142 @@ exports[`TranslatorTab renders 1`] = `
   </div>
 </body>
 `;
+
+exports[`TranslatorTab shows change button when fully translated 1`] = `
+<body>
+  <div>
+    <div
+      class=""
+    >
+      <div
+        class="pop_wrapper pop_wrapper "
+        style="right: 0px; top: 243px;"
+      >
+        <div
+          class="tab_wrapper"
+        >
+          <div
+            class="tab"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="icon"
+            >
+              <span
+                class="fe-language"
+              />
+            </div>
+            <div
+              class="label"
+            >
+              Flow Translation
+            </div>
+          </div>
+        </div>
+        <div
+          class="popped"
+          style="border-color: #777; right: 0px; top: -100px;"
+        >
+          <div
+            class="header"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="close fe-x"
+            />
+            <div
+              class="header_label"
+            >
+              Spanish Translations
+            </div>
+          </div>
+          <div
+            class="body"
+            style="background: rgb(119, 119, 119);"
+          >
+            <div
+              class="translations_wrapper complete"
+            />
+            <div
+              class="options"
+            >
+              <div
+                class="header"
+              >
+                <div
+                  class="progress_bar"
+                >
+                  <div
+                    class="filled hundredpct"
+                    style="width: 100%;"
+                  />
+                </div>
+                <div
+                  class="toggle"
+                >
+                  <span
+                    class="fe-arrow-up"
+                  />
+                </div>
+              </div>
+              <div
+                class="filters"
+              >
+                <div
+                  class="checkboxes"
+                >
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Categories
+                      </div>
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      class="label"
+                    >
+                      <span
+                        class="fe-check-square checkbox"
+                        data-spec="checkbox"
+                      />
+                      <div
+                        class="description_solo"
+                        data-spec="description"
+                      >
+                        Rule Arguments
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="pct_complete"
+                >
+                  100
+                  %
+                </div>
+                <div
+                  class="changeLanguage"
+                >
+                  <button>
+                    Use as default language
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
