@@ -19,6 +19,7 @@ import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import { UpdateTranslationFilters } from 'store/thunks';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import { getType } from 'config/typeConfigs';
+import { fakePropType } from 'config/ConfigProvider';
 
 const cx: any = classNames.bind(styles);
 
@@ -68,7 +69,11 @@ export interface TranslatorTabState {
 }
 
 export class TranslatorTab extends React.Component<TranslatorTabProps, TranslatorTabState> {
-  constructor(props: TranslatorTabProps) {
+  public static contextTypes = {
+    config: fakePropType
+  };
+
+  constructor(props: TranslatorTabProps, context: any) {
     super(props);
 
     this.state = {
@@ -254,6 +259,10 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     }, 750);
   }
 
+  private handleChangeLanguageClick(): void {
+    this.context.config.onChangeLanguage(this.props.language.id, this.props.language.name);
+  }
+
   public render(): JSX.Element {
     const classes = cx({
       [styles.visible]: this.state.visible,
@@ -274,6 +283,8 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       [styles.translations_wrapper]: true,
       [styles.complete]: this.state.translationBundles.length === 0
     });
+
+    const showChangeButton = this.context.config.onChangeLanguage && this.state.pctComplete === 100;
 
     return (
       <div className={classes}>
@@ -363,6 +374,13 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                 </div>
               </div>
               <div className={styles.pct_complete}>{this.state.pctComplete}%</div>
+              {showChangeButton && (
+                <div className={styles.changeLanguage}>
+                  <button onClick={this.handleChangeLanguageClick}>
+                    {i18n.t('forms.make_default', 'Make Default')}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </PopTab>
