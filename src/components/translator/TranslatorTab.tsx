@@ -284,7 +284,8 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       [styles.complete]: this.state.translationBundles.length === 0
     });
 
-    const showChangeButton = this.context.config.onChangeLanguage && this.state.pctComplete === 100;
+    // only show change button if container set up to handle it
+    const showChangeButton = this.context.config.onChangeLanguage;
 
     return (
       <div className={classes}>
@@ -375,9 +376,11 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
               </div>
               <div className={styles.pct_complete}>{this.state.pctComplete}%</div>
               <div className={styles.changeLanguage}>
-                <button onClick={this.handleChangeLanguageClick} disabled={!showChangeButton}>
-                  {i18n.t('forms.use_as_default_language', 'Use as default language')}
-                </button>
+                {showChangeButton && (
+                  <button onClick={this.handleChangeLanguageClick}>
+                    {i18n.t('forms.use_as_default_language', 'Use as default language')}
+                  </button>
+                )}
               </div>
             </div>
           </div>

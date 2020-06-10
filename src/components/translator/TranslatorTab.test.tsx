@@ -39,7 +39,7 @@ const createMessageNode = (
   message: string,
   quick_replies: string[] = [],
   variables: string[] = [],
-  translation?: object
+  translation?: string
 ): { nodes: RenderNodeMap; localization: { [uuid: string]: any } } => {
   const nodes: RenderNodeMap = {};
   const localization: { [uuid: string]: any } = {};
@@ -63,7 +63,7 @@ const createMessageNode = (
   nodes[renderNode.node.uuid] = renderNode;
 
   if (localization && translation) {
-    localization[renderNode.node.actions[0].uuid] = translation;
+    localization[renderNode.node.actions[0].uuid] = { text: [translation] };
   }
 
   return { nodes, localization };
@@ -167,28 +167,11 @@ describe(TranslatorTab.name, () => {
       <TranslatorTab {...translatorProps} />
     );
 
-    const updates = createMessageNode('Hello World!', ['yes', 'no'], [], { text: ['Hola Mundo!'] });
+    const updates = createMessageNode('Hello World!', ['yes', 'no'], [], 'Hola Mundo!');
 
     rerender(<TranslatorTab {...translatorProps} {...updates} />);
     expect(queryByText('Hello World!')).toBeNull();
     getByText('50%');
-    expect(queryByText('Use as default language')).toHaveAttribute('disabled');
-    expect(baseElement).toMatchSnapshot();
-  });
-
-  it('enables change button when fully translated', () => {
-    const { baseElement, getByText, rerender, queryByText } = render(
-      <TranslatorTab {...translatorProps} />
-    );
-
-    const updates = createMessageNode('Hello World!', ['yes', 'no'], [], {
-      text: ['Hola Mundo!'],
-      quick_replies: ['si', 'no']
-    });
-
-    rerender(<TranslatorTab {...translatorProps} {...updates} />);
-    getByText('100%');
-    expect(queryByText('Use as default language')).not.toHaveAttribute('disabled');
     expect(baseElement).toMatchSnapshot();
   });
 });
