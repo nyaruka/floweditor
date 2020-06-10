@@ -264,6 +264,9 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
   }
 
   public render(): JSX.Element {
+    // only show change button if container set up to handle it
+    const showChangeButton = this.state.optionsVisible && this.context.config.onChangeLanguage;
+
     const classes = cx({
       [styles.visible]: this.state.visible,
       [styles.hidden]: this.props.popped && this.props.popped !== PopTabType.TRANSLATOR_TAB
@@ -271,7 +274,8 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
 
     const optionsClasses = cx({
       [styles.options]: true,
-      [styles.options_visible]: this.state.optionsVisible
+      [styles.options_visible]: this.state.optionsVisible,
+      [styles.change_visible]: showChangeButton
     });
 
     const filledClasses = cx({
@@ -283,9 +287,6 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
       [styles.translations_wrapper]: true,
       [styles.complete]: this.state.translationBundles.length === 0
     });
-
-    // only show change button if container set up to handle it
-    const showChangeButton = this.context.config.onChangeLanguage;
 
     return (
       <div className={classes}>

@@ -166,11 +166,7 @@ exports[`TranslatorTab finds email translations 1`] = `
                 </div>
                 <div
                   class="changeLanguage"
-                >
-                  <button>
-                    Use as default language
-                  </button>
-                </div>
+                />
               </div>
             </div>
           </div>
@@ -361,11 +357,7 @@ exports[`TranslatorTab finds message translations 1`] = `
                 </div>
                 <div
                   class="changeLanguage"
-                >
-                  <button>
-                    Use as default language
-                  </button>
-                </div>
+                />
               </div>
             </div>
           </div>
@@ -542,11 +534,7 @@ exports[`TranslatorTab finds split translations 1`] = `
                 </div>
                 <div
                   class="changeLanguage"
-                >
-                  <button>
-                    Use as default language
-                  </button>
-                </div>
+                />
               </div>
             </div>
           </div>
@@ -723,11 +711,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
                 </div>
                 <div
                   class="changeLanguage"
-                >
-                  <button>
-                    Use as default language
-                  </button>
-                </div>
+                />
               </div>
             </div>
           </div>
@@ -890,11 +874,7 @@ exports[`TranslatorTab hides completed translations 1`] = `
                 </div>
                 <div
                   class="changeLanguage"
-                >
-                  <button>
-                    Use as default language
-                  </button>
-                </div>
+                />
               </div>
             </div>
           </div>
@@ -1029,11 +1009,7 @@ exports[`TranslatorTab renders 1`] = `
                 </div>
                 <div
                   class="changeLanguage"
-                >
-                  <button>
-                    Use as default language
-                  </button>
-                </div>
+                />
               </div>
             </div>
           </div>
