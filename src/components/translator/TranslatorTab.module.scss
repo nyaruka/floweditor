@@ -66,8 +66,10 @@
   }
 
   &.change_visible {
-    .filters {
-      height: 65px;
+    .changeLanguage {
+      height: 20px;
+      padding: 6px;
+      opacity: 1;
     }
   }
 
@@ -144,16 +146,17 @@
         margin-top: 4px;
       }
     }
-    .changeLanguage {
-      width: 100%;
+  }
 
-      button {
-        margin-top: 4px;
-        background: #777;
-        color: $light_gray_2;
-        border: solid 1px $light_gray_2;
-        width: 100%;
-      }
+  .changeLanguage {
+    height: 0px;
+    opacity: 0;
+
+    button {
+      background: #777;
+      color: $light_gray_2;
+      border: solid 1px $light_gray_2;
+      width: 100%;
     }
   }
 }

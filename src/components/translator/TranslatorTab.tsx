@@ -259,8 +259,10 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     }, 750);
   }
 
-  private handleChangeLanguageClick(): void {
+  private handleChangeLanguageClick(e: any): void {
     this.context.config.onChangeLanguage(this.props.language.id, this.props.language.name);
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   public render(): JSX.Element {
@@ -376,13 +378,13 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                 </div>
               </div>
               <div className={styles.pct_complete}>{this.state.pctComplete}%</div>
-              <div className={styles.changeLanguage}>
-                {showChangeButton && (
-                  <button onClick={this.handleChangeLanguageClick}>
-                    {i18n.t('forms.use_as_default_language', 'Use as default language')}
-                  </button>
-                )}
-              </div>
+            </div>
+            <div className={styles.changeLanguage}>
+              {showChangeButton && (
+                <button onClick={this.handleChangeLanguageClick}>
+                  {i18n.t('forms.use_as_default_language', 'Use as default language')}
+                </button>
+              )}
             </div>
           </div>
         </PopTab>

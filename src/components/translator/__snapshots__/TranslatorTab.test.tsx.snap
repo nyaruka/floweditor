@@ -164,10 +164,10 @@ exports[`TranslatorTab finds email translations 1`] = `
                   0
                   %
                 </div>
-                <div
-                  class="changeLanguage"
-                />
               </div>
+              <div
+                class="changeLanguage"
+              />
             </div>
           </div>
         </div>
@@ -355,10 +355,10 @@ exports[`TranslatorTab finds message translations 1`] = `
                   0
                   %
                 </div>
-                <div
-                  class="changeLanguage"
-                />
               </div>
+              <div
+                class="changeLanguage"
+              />
             </div>
           </div>
         </div>
@@ -532,10 +532,10 @@ exports[`TranslatorTab finds split translations 1`] = `
                   0
                   %
                 </div>
-                <div
-                  class="changeLanguage"
-                />
               </div>
+              <div
+                class="changeLanguage"
+              />
             </div>
           </div>
         </div>
@@ -709,10 +709,10 @@ exports[`TranslatorTab handles partial category translation 1`] = `
                   29
                   %
                 </div>
-                <div
-                  class="changeLanguage"
-                />
               </div>
+              <div
+                class="changeLanguage"
+              />
             </div>
           </div>
         </div>
@@ -872,10 +872,10 @@ exports[`TranslatorTab hides completed translations 1`] = `
                   50
                   %
                 </div>
-                <div
-                  class="changeLanguage"
-                />
               </div>
+              <div
+                class="changeLanguage"
+              />
             </div>
           </div>
         </div>
@@ -1007,10 +1007,10 @@ exports[`TranslatorTab renders 1`] = `
                   0
                   %
                 </div>
-                <div
-                  class="changeLanguage"
-                />
               </div>
+              <div
+                class="changeLanguage"
+              />
             </div>
           </div>
         </div>
