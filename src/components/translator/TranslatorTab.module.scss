@@ -65,6 +65,14 @@
     }
   }
 
+  &.change_visible {
+    .changeLanguage {
+      height: 20px;
+      padding: 6px;
+      opacity: 1;
+    }
+  }
+
   &:hover {
     .header {
       .progress_bar {
@@ -121,6 +129,7 @@
     opacity: 0;
     font-size: 12px;
     display: flex;
+    flex-flow: wrap;
 
     .pct_complete {
       font-size: 18px;
@@ -136,6 +145,18 @@
       > div:last-child {
         margin-top: 4px;
       }
+    }
+  }
+
+  .changeLanguage {
+    height: 0px;
+    opacity: 0;
+
+    button {
+      background: #777;
+      color: $light_gray_2;
+      border: solid 1px $light_gray_2;
+      width: 100%;
     }
   }
 }

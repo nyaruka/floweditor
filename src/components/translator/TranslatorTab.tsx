@@ -19,6 +19,7 @@ import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import { UpdateTranslationFilters } from 'store/thunks';
 import { getSwitchRouter } from 'components/flow/routers/helpers';
 import { getType } from 'config/typeConfigs';
+import { fakePropType } from 'config/ConfigProvider';
 
 const cx: any = classNames.bind(styles);
 
@@ -68,7 +69,11 @@ export interface TranslatorTabState {
 }
 
 export class TranslatorTab extends React.Component<TranslatorTabProps, TranslatorTabState> {
-  constructor(props: TranslatorTabProps) {
+  public static contextTypes = {
+    config: fakePropType
+  };
+
+  constructor(props: TranslatorTabProps, context: any) {
     super(props);
 
     this.state = {
@@ -254,7 +259,16 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
     }, 750);
   }
 
+  private handleChangeLanguageClick(e: any): void {
+    this.context.config.onChangeLanguage(this.props.language.id, this.props.language.name);
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
   public render(): JSX.Element {
+    // only show change button if container set up to handle it
+    const showChangeButton = this.state.optionsVisible && this.context.config.onChangeLanguage;
+
     const classes = cx({
       [styles.visible]: this.state.visible,
       [styles.hidden]: this.props.popped && this.props.popped !== PopTabType.TRANSLATOR_TAB
@@ -262,7 +276,8 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
 
     const optionsClasses = cx({
       [styles.options]: true,
-      [styles.options_visible]: this.state.optionsVisible
+      [styles.options_visible]: this.state.optionsVisible,
+      [styles.change_visible]: showChangeButton
     });
 
     const filledClasses = cx({
@@ -363,6 +378,13 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
                 </div>
               </div>
               <div className={styles.pct_complete}>{this.state.pctComplete}%</div>
+            </div>
+            <div className={styles.changeLanguage}>
+              {showChangeButton && (
+                <button onClick={this.handleChangeLanguageClick}>
+                  {i18n.t('forms.use_as_default_language', 'Use as default language')}
+                </button>
+              )}
             </div>
           </div>
         </PopTab>
