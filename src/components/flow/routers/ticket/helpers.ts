@@ -9,8 +9,8 @@ import { TicketRouterFormState } from 'components/flow/routers/ticket/TicketRout
 
 export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState => {
   let ticketer: AssetEntry = { value: null };
-  let subject = { value: '' };
-  let body = { value: '' };
+  let subject = { value: '@flow.name' };
+  let body = { value: '@results' };
   let resultName = { value: 'Result' };
 
   if (getType(settings.originalNode) === Types.split_by_ticket) {
