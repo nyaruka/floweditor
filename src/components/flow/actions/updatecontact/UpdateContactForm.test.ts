@@ -3,7 +3,8 @@ import {
   ActionFormProps,
   CHANNEL_PROPERTY,
   LANGUAGE_PROPERTY,
-  NAME_PROPERTY
+  NAME_PROPERTY,
+  STATUS_PROPERTY
 } from 'components/flow/props';
 import { AssetType } from 'store/flowContext';
 import { composeComponentTestUtils, mock } from 'testUtils';
@@ -73,6 +74,14 @@ describe(UpdateContactForm.name, () => {
     it('should update language', () => {
       form.instance.handlePropertyChange([LANGUAGE_PROPERTY]);
       form.instance.handleLanguageUpdate('eng');
+      form.instance.handleSave();
+      expect(form.instance.state).toMatchSnapshot();
+      expect(form.props.updateAction).toMatchCallSnapshot();
+    });
+
+    it('should update status', () => {
+      form.instance.handlePropertyChange([STATUS_PROPERTY]);
+      form.instance.handleStatusUpdate({ label: 'Blocked', value: 'blocked' });
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
       expect(form.props.updateAction).toMatchCallSnapshot();
@@ -161,5 +170,18 @@ describe(UpdateContactForm.name, () => {
       expect(instance.state).toMatchSnapshot();
       expect(props.updateAction).toMatchCallSnapshot();
     });
+  });
+
+  it('to status', () => {
+    const { instance, props } = setup(true, {
+      $merge: { updateAction: jest.fn() },
+      nodeSettings: { $merge: { originalAction: null } }
+    });
+
+    instance.handlePropertyChange([STATUS_PROPERTY]);
+    instance.handleLanguageUpdate({ label: 'Blocked', value: 'blocked' });
+    instance.handleSave();
+    expect(instance.state).toMatchSnapshot();
+    expect(props.updateAction).toMatchCallSnapshot();
   });
 });

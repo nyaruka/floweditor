@@ -25,6 +25,7 @@ exports[`UpdateContactForm render should render an empty form with different act
           "set_contact_name",
           "set_contact_language",
           "set_contact_channel",
+          "set_contact_status",
         ],
         "component": [Function],
         "description": "Update the contact",
@@ -54,6 +55,11 @@ exports[`UpdateContactForm render should render an empty form with different act
         Object {
           "id": "channel",
           "name": "Channel",
+          "type": "property",
+        },
+        Object {
+          "id": "status",
+          "name": "Status",
           "type": "property",
         },
       ]
@@ -125,6 +131,7 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
           "set_contact_name",
           "set_contact_language",
           "set_contact_channel",
+          "set_contact_status",
         ],
         "component": [Function],
         "description": "Update the contact",
@@ -154,6 +161,11 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
         Object {
           "id": "channel",
           "name": "Channel",
+          "type": "property",
+        },
+        Object {
+          "id": "status",
+          "name": "Status",
           "type": "property",
         },
       ]
@@ -226,6 +238,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
+  },
   "type": "set_contact_channel",
   "valid": true,
 }
@@ -239,7 +257,7 @@ Array [
       "uuid": "channel_id",
     },
     "type": "set_contact_channel",
-    "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+    "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
   },
   [Function],
 ]
@@ -250,7 +268,7 @@ Array [
   Object {
     "name": "Rowan Seymour",
     "type": "set_contact_name",
-    "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+    "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
   },
   [Function],
 ]
@@ -278,6 +296,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
+  },
   "type": "set_contact_field",
   "valid": true,
 }
@@ -291,7 +315,7 @@ Array [
       "name": "Birthday",
     },
     "type": "set_contact_field",
-    "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+    "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
     "value": "12/25/00",
   },
   [Function],
@@ -320,6 +344,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
+  },
   "type": "set_contact_language",
   "valid": true,
 }
@@ -330,7 +360,51 @@ Array [
   Object {
     "language": undefined,
     "type": "set_contact_language",
-    "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+    "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+  },
+  [Function],
+]
+`;
+
+exports[`UpdateContactForm to status 1`] = `
+Object {
+  "channel": Object {
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "status",
+      "name": "Status",
+      "type": "property",
+    },
+  },
+  "fieldValue": Object {
+    "value": "",
+  },
+  "language": Object {
+    "validationFailures": Array [],
+    "value": undefined,
+  },
+  "name": Object {
+    "value": "",
+  },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
+  },
+  "type": "set_contact_status",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm to status 2`] = `
+Array [
+  Object {
+    "status": "active",
+    "type": "set_contact_status",
+    "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
   },
   [Function],
 ]
@@ -361,6 +435,12 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
   },
   "type": "set_contact_channel",
   "valid": true,
@@ -400,6 +480,12 @@ Object {
   "name": Object {
     "value": "",
   },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
+  },
   "type": "set_contact_field",
   "valid": true,
 }
@@ -437,6 +523,12 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
   },
   "type": "set_contact_language",
   "valid": true,
@@ -476,12 +568,62 @@ Object {
   "name": Object {
     "value": "Rowan Seymour",
   },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
+  },
   "type": "set_contact_name",
   "valid": true,
 }
 `;
 
 exports[`UpdateContactForm updates should update name 2`] = `
+Array [
+  Object {
+    "name": "Rowan Seymour",
+    "type": "set_contact_name",
+    "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+  },
+  [Function],
+]
+`;
+
+exports[`UpdateContactForm updates should update status 1`] = `
+Object {
+  "channel": Object {
+    "value": null,
+  },
+  "field": Object {
+    "value": Object {
+      "id": "status",
+      "name": "Status",
+      "type": "property",
+    },
+  },
+  "fieldValue": Object {
+    "validationFailures": Array [],
+    "value": "",
+  },
+  "language": Object {
+    "value": null,
+  },
+  "name": Object {
+    "value": "",
+  },
+  "status": Object {
+    "value": Object {
+      "label": "Blocked",
+      "value": "blocked",
+    },
+  },
+  "type": "set_contact_status",
+  "valid": true,
+}
+`;
+
+exports[`UpdateContactForm updates should update status 2`] = `
 Array [
   Object {
     "name": "Rowan Seymour",
@@ -517,6 +659,12 @@ Object {
   },
   "name": Object {
     "value": "",
+  },
+  "status": Object {
+    "value": Object {
+      "label": "Active",
+      "value": "active",
+    },
   },
   "type": "set_contact_channel",
   "valid": false,

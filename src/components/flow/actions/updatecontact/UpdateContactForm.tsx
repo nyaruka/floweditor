@@ -12,7 +12,7 @@ import TextInputElement from 'components/form/textinput/TextInputElement';
 import { getContactProperties } from 'components/helpers';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
-import { Types } from 'config/interfaces';
+import { Types, ContactStatus } from 'config/interfaces';
 import { ContactProperties } from 'flowTypes';
 import * as React from 'react';
 import { Asset, AssetType, updateAssets } from 'store/flowContext';
@@ -24,6 +24,16 @@ import { shouldRequireIf, validate } from 'store/validators';
 import styles from './UpdateContactForm.module.scss';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
+import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
+
+export const CONTACT_STATUS_ACTIVE = { label: 'Active', value: ContactStatus.ACTIVE };
+export const CONTACT_STATUS_BLOCKED = { label: 'Blocked', value: ContactStatus.BLOCKED };
+export const CONTACT_STATUS_STOPPED = { label: 'Stopped', value: ContactStatus.STOPPED };
+export const CONTACT_STATUS_OPTIONS = [
+  CONTACT_STATUS_ACTIVE,
+  CONTACT_STATUS_BLOCKED,
+  CONTACT_STATUS_STOPPED
+];
 
 export default class UpdateContactForm extends React.Component<
   ActionFormProps,
@@ -49,6 +59,7 @@ export default class UpdateContactForm extends React.Component<
       name?: string;
       channel?: Asset;
       language?: Asset;
+      status?: SelectOption;
       field?: Asset;
       fieldValue?: string;
     },
@@ -74,6 +85,10 @@ export default class UpdateContactForm extends React.Component<
       updates.language = validate(i18n.t('forms.language', 'Language'), keys.language, [
         shouldRequireIf(submitting)
       ]);
+    }
+
+    if (keys.hasOwnProperty('status')) {
+      updates.status = { value: keys.status };
     }
 
     if (keys.hasOwnProperty('field')) {
@@ -104,6 +119,11 @@ export default class UpdateContactForm extends React.Component<
             field: selection,
             type: Types.set_contact_language
           });
+        case ContactProperties.Status:
+          return this.handleUpdate({
+            field: selection,
+            type: Types.set_contact_status
+          });
         case ContactProperties.Channel:
           return this.handleUpdate({
             field: selection,
@@ -124,6 +144,10 @@ export default class UpdateContactForm extends React.Component<
 
   private handleLanguageUpdate(selection: Asset[], submitting = false): boolean {
     return this.handleUpdate({ language: selection[0] }, submitting);
+  }
+
+  private handleStatusUpdate(status: SelectOption): boolean {
+    return this.handleUpdate({ status, fieldValue: '' });
   }
 
   private handleFieldValueUpdate(fieldValue: string): boolean {
@@ -211,6 +235,16 @@ export default class UpdateContactForm extends React.Component<
           valueClearable={true}
           onChange={this.handleLanguageUpdate}
           shouldExclude={(asset: Asset) => asset.id === 'base'}
+        />
+      );
+    } else if (this.state.type === Types.set_contact_status) {
+      return (
+        <SelectElement
+          key="contact_status_select"
+          name={i18n.t('forms.status', 'Status')}
+          entry={this.state.status}
+          onChange={this.handleStatusUpdate}
+          options={CONTACT_STATUS_OPTIONS}
         />
       );
     } else if (this.state.type === Types.set_contact_name) {
