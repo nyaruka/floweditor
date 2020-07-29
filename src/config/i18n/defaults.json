@@ -422,6 +422,7 @@
     "contact_field_changed": "Set contact \"[[field]]\" to \"[[value]]\"",
     "contact_field_cleared": "Cleared contact \"[[field]]\"",
     "contact_language_changed": "Set preferred language to \"[[language]]\"",
+    "contact_status_changed": "Set status to \"[[status]]\"",
     "contact_name_changed": "Set contact name to \"[[name]]\"",
     "flow_entered": "Entered flow \"[[flow]]\"",
     "httplog_dialog": "HTTP Request Details",

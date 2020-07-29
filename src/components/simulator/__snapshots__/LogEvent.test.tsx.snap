@@ -110,6 +110,24 @@ exports[`LogEvent should render contact_name_changed event 1`] = `
 </body>
 `;
 
+exports[`LogEvent should render contact_status_changed event 1`] = `
+<body>
+  <div>
+    <div
+      class="evt"
+    >
+      <div
+        class="info"
+      >
+        <span>
+          Set status to "blocked"
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`LogEvent should render contact_urns_changed event 1`] = `
 <body>
   <div>
