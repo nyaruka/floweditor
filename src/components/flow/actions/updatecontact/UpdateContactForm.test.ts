@@ -1,4 +1,6 @@
-import UpdateContactForm from 'components/flow/actions/updatecontact/UpdateContactForm';
+import UpdateContactForm, {
+  CONTACT_STATUS_BLOCKED
+} from 'components/flow/actions/updatecontact/UpdateContactForm';
 import {
   ActionFormProps,
   CHANNEL_PROPERTY,
@@ -81,7 +83,7 @@ describe(UpdateContactForm.name, () => {
 
     it('should update status', () => {
       form.instance.handlePropertyChange([STATUS_PROPERTY]);
-      form.instance.handleStatusUpdate({ label: 'Blocked', value: 'blocked' });
+      form.instance.handleStatusUpdate(CONTACT_STATUS_BLOCKED);
       form.instance.handleSave();
       expect(form.instance.state).toMatchSnapshot();
       expect(form.props.updateAction).toMatchCallSnapshot();

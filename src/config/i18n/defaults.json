@@ -141,6 +141,11 @@
     "download": "Download",
     "ok": "Ok"
   },
+  "contact_statuses": {
+    "active": "Active",
+    "blocked": "Blocked (we want to ignore the contact)",
+    "stopped": "Stopped (the contact wants to opt-out)"
+  },
   "context_explorer": {
     "copied_expression": "Copied <1>[[expression]]</1> to clipboard",
     "hide_empty": "Showing keys with values",

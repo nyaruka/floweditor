@@ -26,9 +26,18 @@ import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 
-export const CONTACT_STATUS_ACTIVE = { label: 'Active', value: ContactStatus.ACTIVE };
-export const CONTACT_STATUS_BLOCKED = { label: 'Blocked', value: ContactStatus.BLOCKED };
-export const CONTACT_STATUS_STOPPED = { label: 'Stopped', value: ContactStatus.STOPPED };
+export const CONTACT_STATUS_ACTIVE = {
+  label: i18n.t('contact_statuses.active', 'Active'),
+  value: ContactStatus.ACTIVE
+};
+export const CONTACT_STATUS_BLOCKED = {
+  label: i18n.t('contact_statuses.blocked', 'Blocked'),
+  value: ContactStatus.BLOCKED
+};
+export const CONTACT_STATUS_STOPPED = {
+  label: i18n.t('contact_statuses.stopped', 'Stopped'),
+  value: ContactStatus.STOPPED
+};
 export const CONTACT_STATUS_OPTIONS = [
   CONTACT_STATUS_ACTIVE,
   CONTACT_STATUS_BLOCKED,
