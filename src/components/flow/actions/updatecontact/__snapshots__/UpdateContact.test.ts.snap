@@ -79,3 +79,19 @@ exports[`UpdateContactComp render should render set name 1`] = `
   .
 </div>
 `;
+
+exports[`UpdateContactComp render should render set status 1`] = `
+<div
+  className="node_asset"
+>
+  Set 
+  status
+   to 
+  <span
+    className="emphasize"
+  >
+    blocked
+  </span>
+  .
+</div>
+`;

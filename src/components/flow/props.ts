@@ -70,3 +70,9 @@ export const LANGUAGE_PROPERTY: Asset = {
   id: ContactProperties.Language,
   type: AssetType.ContactProperty
 };
+
+export const STATUS_PROPERTY: Asset = {
+  name: titleCase(ContactProperties.Status),
+  id: ContactProperties.Status,
+  type: AssetType.ContactProperty
+};

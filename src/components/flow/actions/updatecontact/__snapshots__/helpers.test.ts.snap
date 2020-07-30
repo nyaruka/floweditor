@@ -18,6 +18,11 @@ Array [
     "type": "property",
   },
   Object {
+    "id": "status",
+    "name": "Status",
+    "type": "property",
+  },
+  Object {
     "id": "expected_delivery_date",
     "name": "Expected Delivery Date",
     "type": "field",
