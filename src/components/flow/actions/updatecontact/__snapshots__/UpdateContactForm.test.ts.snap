@@ -614,7 +614,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Blocked (we want to ignore the contact)",
+      "label": "Blocked - remove from groups, ignore forever",
       "value": "blocked",
     },
   },
