@@ -5,7 +5,8 @@ import {
   createSetContactChannelAction,
   createSetContactFieldAction,
   createSetContactLanguageAction,
-  createSetContactNameAction
+  createSetContactNameAction,
+  createSetContactStatusAction
 } from 'testUtils/assetCreators';
 
 describe(UpdateContactComp.name, () => {
@@ -33,6 +34,13 @@ describe(UpdateContactComp.name, () => {
     it('should render set language', () => {
       const { wrapper } = setup(true, {
         $set: createSetContactLanguageAction()
+      });
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should render set status', () => {
+      const { wrapper } = setup(true, {
+        $set: createSetContactStatusAction()
       });
       expect(wrapper).toMatchSnapshot();
     });

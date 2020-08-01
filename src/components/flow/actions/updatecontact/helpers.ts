@@ -1,6 +1,11 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
-import { CHANNEL_PROPERTY, LANGUAGE_PROPERTY, NAME_PROPERTY } from 'components/flow/props';
-import { Types } from 'config/interfaces';
+import {
+  CHANNEL_PROPERTY,
+  LANGUAGE_PROPERTY,
+  NAME_PROPERTY,
+  STATUS_PROPERTY
+} from 'components/flow/props';
+import { Types, ContactStatus } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import {
   Channel,
@@ -10,16 +15,28 @@ import {
   SetContactChannel,
   SetContactField,
   SetContactLanguage,
-  SetContactName
+  SetContactName,
+  SetContactStatus
 } from 'flowTypes';
 import { Asset, AssetMap, AssetStore, AssetType, REMOVE_VALUE_ASSET } from 'store/flowContext';
-import { AssetEntry, FormState, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+import {
+  AssetEntry,
+  FormState,
+  NodeEditorSettings,
+  StringEntry,
+  SelectOptionEntry
+} from 'store/nodeEditor';
+import {
+  CONTACT_STATUS_OPTIONS,
+  CONTACT_STATUS_ACTIVE
+} from 'components/flow/actions/updatecontact/UpdateContactForm';
 
 export interface UpdateContactFormState extends FormState {
   type: Types;
   name: StringEntry;
   channel: AssetEntry;
   language: AssetEntry;
+  status: SelectOptionEntry;
   field: AssetEntry;
   fieldValue: StringEntry;
 }
@@ -34,6 +51,7 @@ export const initializeForm = (
     name: { value: '' },
     channel: { value: null },
     language: { value: null },
+    status: { value: CONTACT_STATUS_ACTIVE },
     field: { value: NAME_PROPERTY },
     fieldValue: { value: '' }
   };
@@ -66,6 +84,14 @@ export const initializeForm = (
               iso: languageAction.language,
               name: getLanguageForCode(languageAction.language, assetStore.languages.items)
             })
+          };
+          return state;
+        case Types.set_contact_status:
+          const statusAction = settings.originalAction as SetContactStatus;
+          state.field = { value: STATUS_PROPERTY };
+          state.valid = true;
+          state.status = {
+            value: CONTACT_STATUS_OPTIONS.find(o => o.value === statusAction.status)
           };
           return state;
         case Types.set_contact_name:
@@ -106,6 +132,12 @@ export const stateToAction = (
       uuid: getActionUUID(settings, Types.set_contact_language),
       type: state.type,
       language: assetToLanguage(state.language.value)
+    };
+  } else if (state.type === Types.set_contact_status) {
+    return {
+      uuid: getActionUUID(settings, Types.set_contact_status),
+      type: state.type,
+      status: state.status.value.value as ContactStatus
     };
   } else if (state.type === Types.set_contact_name) {
     return {

@@ -6,7 +6,7 @@ import { DefaultExitNames } from 'components/flow/routers/constants';
 import { ResolvedRoutes, resolveRoutes } from 'components/flow/routers/helpers';
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { DEFAULT_OPERAND, GROUPS_OPERAND, SCHEMES_OPERAND } from 'components/nodeeditor/constants';
-import { Operators, Types } from 'config/interfaces';
+import { Operators, Types, ContactStatus } from 'config/interfaces';
 import { getTypeConfig, Scheme } from 'config/typeConfigs';
 import {
   AnyAction,
@@ -34,6 +34,7 @@ import {
   SetContactChannel,
   SetContactField,
   SetContactLanguage,
+  SetContactStatus,
   SetContactProperty,
   SetRunResult,
   StartFlow,
@@ -304,6 +305,18 @@ export const createSetContactLanguageAction = ({
   uuid,
   language,
   type: Types.set_contact_language
+});
+
+export const createSetContactStatusAction = ({
+  uuid = utils.createUUID(),
+  status = ContactStatus.BLOCKED
+}: {
+  uuid?: string;
+  status?: ContactStatus;
+} = {}): SetContactStatus => ({
+  uuid,
+  status,
+  type: Types.set_contact_status
 });
 
 export const createSetContactChannelAction = ({

@@ -412,6 +412,12 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
             language: this.props.language
           })
         );
+      case 'contact_status_changed':
+        return renderInfo(
+          i18n.t('simulator.contact_status_changed', 'Set status to "[[status]]"', {
+            status: this.props.status
+          })
+        );
       case 'info':
         return renderInfo(this.props.text);
       case 'input_labels_added':
