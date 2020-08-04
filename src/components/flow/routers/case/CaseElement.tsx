@@ -376,7 +376,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               <span className={styles.divider} data-draggable={true}>
                 above
               </span>
-              <div style={{ width: '34px' }}>
+              <div style={{ width: '34px', marginTop: '4px' }}>
                 <TextInputElement
                   name={i18n.t('forms.confidence', 'confidence')}
                   onChange={this.handleConfidenceChanged}
