@@ -4,7 +4,8 @@ import {
   SetContactAttribute,
   SetContactChannel,
   SetContactLanguage,
-  SetContactName
+  SetContactName,
+  SetContactStatus
 } from 'flowTypes';
 import * as React from 'react';
 import { emphasize } from 'utils';
@@ -47,6 +48,10 @@ const UpdateContactComp: React.SFC<SetContactAttribute> = (
       getLanguageForCode(setLanguageAction.language, (action as any).languages),
       false
     );
+  }
+
+  if (action.type === Types.set_contact_status) {
+    return renderSetText('status', (action as SetContactStatus).status, false);
   }
 
   if (action.type === Types.set_contact_name) {
