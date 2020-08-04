@@ -2,7 +2,6 @@ import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import { bool, snakify } from 'utils';
 import styles from './TembaSelect.module.scss';
-import { SelectOption } from 'components/form/select/SelectElement';
 
 export enum TembaSelectStyle {
   small = 'small',

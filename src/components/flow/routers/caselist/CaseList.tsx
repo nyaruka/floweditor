@@ -11,7 +11,6 @@ import { SortableElement, SortEnd, SortableContainer } from 'react-sortable-hoc'
 import styles from './CaseList.module.scss';
 import { Operator } from 'config/interfaces';
 import { Asset } from 'store/flowContext';
-import { traceUpdate } from 'utils';
 
 export enum DragCursor {
   move = 'move',
