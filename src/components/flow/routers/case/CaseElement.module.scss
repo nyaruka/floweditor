@@ -47,7 +47,6 @@ input:focus {
     align-items: center;
     position: relative;
     margin-left: $spacing;
-    margin-top: 4px;
 
     width: 170px;
     input {
@@ -60,7 +59,6 @@ input:focus {
     align-items: center;
     margin-left: $spacing;
     width: 170px;
-    margin-top: 4px;
 
     input[name='intent'] {
       width: 105px;
@@ -80,7 +78,6 @@ input:focus {
     margin: 0px $spacing - 2;
   }
   .category {
-    margin-top: 4px;
     position: relative;
   }
   &:hover {
@@ -94,7 +91,8 @@ input:focus {
   }
   input {
     padding: 6px 7px;
-    height: 28px !important;
+    height: 29px !important;
+    margin-bottom: -4px;
     font-size: 13px !important;
     border: 1px solid #ccc;
   }
