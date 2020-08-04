@@ -24,6 +24,10 @@
       "description": "Enter another flow",
       "name": "Enter a Flow"
     },
+    "open_ticket": {
+      "description": "Open a ticket with a human agent",
+      "name": "Open Ticket"
+    },
     "play_audio": {
       "description": "Play a contact recording",
       "name": "Play Recording"
@@ -132,7 +136,8 @@
     "placeholder_plural": "Select existing [[name]] or enter a new one"
   },
   "assets": {
-    "classifier": "Call [[name]] classifier"
+    "classifier": "Call [[name]] classifier",
+    "ticketer": "Using [[name]] service"
   },
   "body": "Body",
   "buttons": {
@@ -143,8 +148,8 @@
   },
   "contact_statuses": {
     "active": "Active",
-    "blocked": "Blocked - remove from groups, ignore forever",
-    "stopped": "Stopped - remove from groups, ignore until they message again"
+    "blocked": "Blocked",
+    "stopped": "Stopped"
   },
   "context_explorer": {
     "copied_expression": "Copied <1>[[expression]]</1> to clipboard",
@@ -219,7 +224,6 @@
     "language": "Language",
     "localize_rules": "Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.",
     "localized_quick_replies": "Add a new [[language]] Quick Reply and press enter.",
-    "use_as_default_language": "Use as default language",
     "maximum_value": "Maximum value",
     "message": "Message",
     "message_label": "If the message response...",
@@ -260,10 +264,12 @@
     "split_by_scheme_summary": "The contact's URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.",
     "start_type": "Start Type",
     "state": "State",
+    "status": "Status",
     "subject": "Subject",
     "template": "template",
     "the_maximum": "the maximum",
     "the_minimum": "the minimum",
+    "ticketer": "Ticketer",
     "timeout": "Timeout",
     "timeout_1 day": "1 day",
     "timeout_1 hour": "1 hour",
@@ -291,6 +297,7 @@
     "url": "URL",
     "urn": "URN",
     "urn_type": "URN Type",
+    "use_as_default_language": "Use as default language",
     "value": "Value",
     "variable": "Variable",
     "video_url": "Video URL",
@@ -422,8 +429,8 @@
     "contact_field_changed": "Set contact \"[[field]]\" to \"[[value]]\"",
     "contact_field_cleared": "Cleared contact \"[[field]]\"",
     "contact_language_changed": "Set preferred language to \"[[language]]\"",
-    "contact_status_changed": "Set status to \"[[status]]\"",
     "contact_name_changed": "Set contact name to \"[[name]]\"",
+    "contact_status_changed": "Set status to \"[[status]]\"",
     "flow_entered": "Entered flow \"[[flow]]\"",
     "httplog_dialog": "HTTP Request Details",
     "input_labels_added": "Message labeled with ",
