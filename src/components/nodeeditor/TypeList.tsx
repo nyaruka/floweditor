@@ -59,7 +59,7 @@ export default class TypeList extends React.PureComponent<TypeListProps, TypeLis
             value={this.state.config}
             options={this.getTypeConfigs()}
             searchable={true}
-          ></TembaSelect>
+          />
         </div>
       </div>
     );

@@ -11,6 +11,7 @@ import { SortableElement, SortEnd, SortableContainer } from 'react-sortable-hoc'
 import styles from './CaseList.module.scss';
 import { Operator } from 'config/interfaces';
 import { Asset } from 'store/flowContext';
+import { traceUpdate } from 'utils';
 
 export enum DragCursor {
   move = 'move',
@@ -105,6 +106,10 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
   public static contextTypes = {
     config: fakePropType
   };
+
+  public componentDidUpdate(prevProps: CaseListProps): void {
+    // traceUpdate(this, prevProps);
+  }
 
   private handleUpdate(keys: { caseProps?: CaseProps; removeCase?: any }) {
     const updates: Partial<CaseListState> = {};
