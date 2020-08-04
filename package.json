@@ -70,7 +70,7 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "7.0.0",
-    "@nyaruka/temba-components": "0.3.0",
+    "@nyaruka/temba-components": "0.3.1",
     "@testing-library/jest-dom": "4.0.0",
     "@testing-library/react": "8.0.1",
     "@types/common-tags": "^1.8.0",

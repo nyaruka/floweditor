@@ -1356,10 +1356,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@nyaruka/temba-components@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.3.0.tgz#871c77bdfe7e3e4ef8cdd70f352a50a004616c43"
-  integrity sha512-Ub1+iwwlEpSG7QF5ppumPSAaegVVFrh1uNcQ9yXA37UFBwMn7JN8WyNxU58dbKmVFHKr1KAHcPUsIyLgpqctww==
+"@nyaruka/temba-components@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.3.1.tgz#18d10cb4e988adfb95bc45f833feeaa72655341a"
+  integrity sha512-nFJoDTzMsdT2qCfbZL1q69CWWg2FRA0lzGq45r8SZG1wzMixMn3oE6rERS8VJj3UrsCyE6J+JP1l7RtiiIMGtg==
   dependencies:
     autosize "4.0.2"
     axios "0.18.1"
