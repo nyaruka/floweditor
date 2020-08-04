@@ -107,10 +107,6 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
     config: fakePropType
   };
 
-  public componentDidUpdate(prevProps: CaseListProps): void {
-    // traceUpdate(this, prevProps);
-  }
-
   private handleUpdate(keys: { caseProps?: CaseProps; removeCase?: any }) {
     const updates: Partial<CaseListState> = {};
 

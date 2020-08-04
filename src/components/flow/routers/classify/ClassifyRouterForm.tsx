@@ -49,7 +49,7 @@ export default class ClassifyRouterForm extends React.Component<
     if (this.state.classifier.value) {
       fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.id).then(
         (classifier: Asset) => {
-          this.handleUpdate({ classifier: { ...classifier } });
+          this.handleUpdate({ classifier: classifier });
         }
       );
     }
