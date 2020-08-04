@@ -31,11 +31,14 @@ export const CONTACT_STATUS_ACTIVE = {
   value: ContactStatus.ACTIVE
 };
 export const CONTACT_STATUS_BLOCKED = {
-  label: i18n.t('contact_statuses.blocked', 'Blocked'),
+  label: i18n.t('contact_statuses.blocked', 'Blocked - remove from groups, ignore forever'),
   value: ContactStatus.BLOCKED
 };
 export const CONTACT_STATUS_STOPPED = {
-  label: i18n.t('contact_statuses.stopped', 'Stopped'),
+  label: i18n.t(
+    'contact_statuses.stopped',
+    'Stopped - remove from groups, ignore until they message again'
+  ),
   value: ContactStatus.STOPPED
 };
 export const CONTACT_STATUS_OPTIONS = [

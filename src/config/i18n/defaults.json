@@ -148,8 +148,8 @@
   },
   "contact_statuses": {
     "active": "Active",
-    "blocked": "Blocked",
-    "stopped": "Stopped"
+    "blocked": "Blocked - remove from groups, ignore forever",
+    "stopped": "Stopped - remove from groups, ignore until they message again"
   },
   "context_explorer": {
     "copied_expression": "Copied <1>[[expression]]</1> to clipboard",
