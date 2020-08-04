@@ -18,7 +18,6 @@ input:focus {
   vertical-align: sub;
   font-size: 13px;
   line-height: 13px;
-  padding-top: 7px;
 }
 
 .kase.has_intent,
@@ -34,6 +33,7 @@ input:focus {
 
 .kase {
   display: inline-flex;
+  align-items: center;
   user-select: none;
   margin-bottom: 5px;
   .form_group {
@@ -44,6 +44,7 @@ input:focus {
   }
   .single_operand {
     display: inline-flex;
+    align-items: center;
     position: relative;
     margin-left: $spacing;
 
@@ -55,6 +56,7 @@ input:focus {
 
   .multi_operand {
     display: inline-flex;
+    align-items: center;
     margin-left: $spacing;
     width: 170px;
 
@@ -71,7 +73,6 @@ input:focus {
     font-size: 13px;
     line-height: 13px;
     position: relative;
-    top: 7px;
     width: 95px;
     text-align: center;
     margin: 0px $spacing - 2;
@@ -90,7 +91,8 @@ input:focus {
   }
   input {
     padding: 6px 7px;
-    height: 28px !important;
+    height: 29px !important;
+    margin-bottom: -4px;
     font-size: 13px !important;
     border: 1px solid #ccc;
   }

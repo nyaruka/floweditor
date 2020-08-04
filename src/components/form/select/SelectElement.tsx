@@ -38,20 +38,6 @@ export default class SelectElement extends React.Component<SelectElementProps> {
           style={this.props.style}
           multi={this.props.multi}
         ></TembaSelect>
-        {/*<Select
-          isDisabled={this.props.onChange === undefined}
-          placeholder={this.props.placeholder}
-          styles={this.getStyle()}
-          name={this.props.name}
-          value={this.props.entry.value}
-          onChange={this.props.onChange}
-          onMenuOpen={this.props.onMenuOpen}
-          onMenuClose={this.props.onMenuClose}
-          isSearchable={false}
-          isClearable={this.props.clearable}
-          options={this.props.options}
-          
-        />*/}
       </FormElement>
     );
   }

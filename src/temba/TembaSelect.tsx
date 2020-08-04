@@ -86,7 +86,21 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
     });
   }
 
+  public getOption(item: any): any {
+    const value = this.getValue(item);
+    const name = this.getName(item);
+    return { name, value };
+  }
+
   public render(): JSX.Element {
+    const options = JSON.stringify(
+      this.props.options.map((option: any) => {
+        return this.getOption(option);
+      })
+    );
+
+    const values = this.props.value ? JSON.stringify([this.getOption(this.props.value)]) : '[]';
+
     return (
       <div
         className={
@@ -96,30 +110,17 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
         }
       >
         <temba-select
+          name={this.props.name}
           data-testid={`temba_select_${snakify(this.props.name)}`}
           ref={(ele: any) => {
             this.selectbox = ele;
           }}
+          options={options}
+          values={values}
           placeholder={this.props.placeholder}
           searchable={bool(this.props.searchable)}
           multi={bool(this.props.multi)}
-        >
-          {this.props.options.map((option: any) => {
-            const selected = this.isMatch(this.props.value, option) ? { selected: true } : {};
-
-            const optionValue = this.getValue(option);
-            const optionName = this.getName(option);
-
-            return (
-              <temba-option
-                key={this.props.name + '_' + optionValue}
-                name={optionName}
-                value={optionValue}
-                {...selected}
-              ></temba-option>
-            );
-          })}
-        </temba-select>
+        />
       </div>
     );
   }
