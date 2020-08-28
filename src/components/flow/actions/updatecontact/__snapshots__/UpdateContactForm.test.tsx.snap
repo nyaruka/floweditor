@@ -55,7 +55,7 @@ exports[`UpdateContactForm should render channel 1`] = `
             class="react-select selection css-2b097c-container"
           >
             <div
-              class=" css-1h1mxjq-control"
+              class=" css-bd2v80-control"
             >
               <div
                 class=" css-1hwfws3"
@@ -66,7 +66,7 @@ exports[`UpdateContactForm should render channel 1`] = `
                   Channel
                 </div>
                 <div
-                  class="css-1al1kbh-Input"
+                  class="css-ugbsr4-Input"
                 >
                   <div
                     class=""
@@ -127,7 +127,7 @@ exports[`UpdateContactForm should render channel 1`] = `
               class="react-select selection css-2b097c-container"
             >
               <div
-                class=" css-1h1mxjq-control"
+                class=" css-bd2v80-control"
               >
                 <div
                   class=" css-1hwfws3"
@@ -138,7 +138,7 @@ exports[`UpdateContactForm should render channel 1`] = `
                     Twilio Channel
                   </div>
                   <div
-                    class="css-1al1kbh-Input"
+                    class="css-ugbsr4-Input"
                   >
                     <div
                       class=""
@@ -275,7 +275,7 @@ exports[`UpdateContactForm should render field 1`] = `
             class="react-select selection css-2b097c-container"
           >
             <div
-              class=" css-1h1mxjq-control"
+              class=" css-bd2v80-control"
             >
               <div
                 class=" css-1hwfws3"
@@ -286,7 +286,7 @@ exports[`UpdateContactForm should render field 1`] = `
                   Age
                 </div>
                 <div
-                  class="css-1al1kbh-Input"
+                  class="css-ugbsr4-Input"
                 >
                   <div
                     class=""
@@ -464,7 +464,7 @@ exports[`UpdateContactForm should render language 1`] = `
             class="react-select selection css-2b097c-container"
           >
             <div
-              class=" css-1h1mxjq-control"
+              class=" css-bd2v80-control"
             >
               <div
                 class=" css-1hwfws3"
@@ -475,7 +475,7 @@ exports[`UpdateContactForm should render language 1`] = `
                   Language
                 </div>
                 <div
-                  class="css-1al1kbh-Input"
+                  class="css-ugbsr4-Input"
                 >
                   <div
                     class=""
@@ -536,7 +536,7 @@ exports[`UpdateContactForm should render language 1`] = `
               class="react-select selection css-2b097c-container"
             >
               <div
-                class=" css-1h1mxjq-control"
+                class=" css-bd2v80-control"
               >
                 <div
                   class=" css-1hwfws3"
@@ -547,7 +547,7 @@ exports[`UpdateContactForm should render language 1`] = `
                     eng
                   </div>
                   <div
-                    class="css-1al1kbh-Input"
+                    class="css-ugbsr4-Input"
                   >
                     <div
                       class=""
@@ -684,7 +684,7 @@ exports[`UpdateContactForm should render name 1`] = `
             class="react-select selection css-2b097c-container"
           >
             <div
-              class=" css-1h1mxjq-control"
+              class=" css-bd2v80-control"
             >
               <div
                 class=" css-1hwfws3"
@@ -695,7 +695,7 @@ exports[`UpdateContactForm should render name 1`] = `
                   Name
                 </div>
                 <div
-                  class="css-1al1kbh-Input"
+                  class="css-ugbsr4-Input"
                 >
                   <div
                     class=""

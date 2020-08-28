@@ -144,6 +144,7 @@ exports[`WebhookRouterForm should render 1`] = `
   <div
     style={
       Object {
+        "alignItems": "flex-end",
         "display": "flex",
       }
     }
@@ -428,7 +429,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
           </div>
         </div>
         <div
-          style="display: flex;"
+          style="display: flex; align-items: flex-end;"
         >
           <div
             class="method"

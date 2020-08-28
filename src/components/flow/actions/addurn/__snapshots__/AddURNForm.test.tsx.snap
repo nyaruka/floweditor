@@ -51,59 +51,63 @@ exports[`AddURNForm renders 1`] = `
           Add a new URN to reach the contact such as a phone number.
         </p>
         <div
-          class="scheme_selection"
+          style="display: flex; align-items: flex-end;"
         >
           <div
-            class="ele"
+            class="scheme_selection"
           >
             <div
-              class="normal "
+              class="ele"
             >
-              <temba-select
-                data-testid="temba_select_urn_type"
-                name="URN Type"
-                options="[{\\"name\\":\\"Phone Number\\",\\"value\\":\\"tel\\"},{\\"name\\":\\"WhatsApp Number\\",\\"value\\":\\"whatsapp\\"},{\\"name\\":\\"Facebook\\",\\"value\\":\\"facebook\\"},{\\"name\\":\\"Twitter ID\\",\\"value\\":\\"twitterid\\"},{\\"name\\":\\"Telegram ID\\",\\"value\\":\\"telegram\\"},{\\"name\\":\\"Viber ID\\",\\"value\\":\\"viber\\"},{\\"name\\":\\"Line ID\\",\\"value\\":\\"line\\"},{\\"name\\":\\"Wechat ID\\",\\"value\\":\\"wechat\\"},{\\"name\\":\\"Firebase ID\\",\\"value\\":\\"fcm\\"},{\\"name\\":\\"Jiochat ID\\",\\"value\\":\\"jiochat\\"},{\\"name\\":\\"Freshchat ID\\",\\"value\\":\\"freshchat\\"},{\\"name\\":\\"Email Address\\",\\"value\\":\\"mailto\\"},{\\"name\\":\\"Twitter Handle\\",\\"value\\":\\"twitter\\"},{\\"name\\":\\"External ID\\",\\"value\\":\\"ext\\"}]"
-                values="[{\\"name\\":\\"Phone Number\\",\\"value\\":\\"tel\\"}]"
-              />
+              <div
+                class="normal "
+              >
+                <temba-select
+                  data-testid="temba_select_urn_type"
+                  name="URN Type"
+                  options="[{\\"name\\":\\"Phone Number\\",\\"value\\":\\"tel\\"},{\\"name\\":\\"WhatsApp Number\\",\\"value\\":\\"whatsapp\\"},{\\"name\\":\\"Facebook\\",\\"value\\":\\"facebook\\"},{\\"name\\":\\"Twitter ID\\",\\"value\\":\\"twitterid\\"},{\\"name\\":\\"Telegram ID\\",\\"value\\":\\"telegram\\"},{\\"name\\":\\"Viber ID\\",\\"value\\":\\"viber\\"},{\\"name\\":\\"Line ID\\",\\"value\\":\\"line\\"},{\\"name\\":\\"Wechat ID\\",\\"value\\":\\"wechat\\"},{\\"name\\":\\"Firebase ID\\",\\"value\\":\\"fcm\\"},{\\"name\\":\\"Jiochat ID\\",\\"value\\":\\"jiochat\\"},{\\"name\\":\\"Freshchat ID\\",\\"value\\":\\"freshchat\\"},{\\"name\\":\\"Email Address\\",\\"value\\":\\"mailto\\"},{\\"name\\":\\"Twitter Handle\\",\\"value\\":\\"twitter\\"},{\\"name\\":\\"External ID\\",\\"value\\":\\"ext\\"}]"
+                  values="[{\\"name\\":\\"Phone Number\\",\\"value\\":\\"tel\\"}]"
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          class="path"
-        >
           <div
-            class="ele"
+            class="path"
           >
             <div
-              class="wrapper"
+              class="ele"
             >
-              <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
-                name="URN"
-                placeholder="Enter the URN value"
-                type="text"
-                value="+12065551212"
-              />
               <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
+                class="wrapper"
               >
+                <input
+                  class="textinput"
+                  data-spec="input"
+                  data-testid="input"
+                  maxlength="-1"
+                  name="URN"
+                  placeholder="Enter the URN value"
+                  type="text"
+                  value="+12065551212"
+                />
                 <div
-                  class="options_wrapper"
+                  class="completion_container hidden"
+                  data-spec="completion-options"
+                  style="top: 0px; left: 0px;"
                 >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
                   <div
-                    class="help"
-                    data-spec="completion-help"
+                    class="options_wrapper"
                   >
-                    Tab to complete, enter to select
+                    <ul
+                      class="option_list"
+                      data-spec="completion-list"
+                    />
+                    <div
+                      class="help"
+                      data-spec="completion-help"
+                    >
+                      Tab to complete, enter to select
+                    </div>
                   </div>
                 </div>
               </div>

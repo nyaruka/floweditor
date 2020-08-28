@@ -145,7 +145,7 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
             class="react-select selection css-2b097c-container"
           >
             <div
-              class=" css-1h1mxjq-control"
+              class=" css-bd2v80-control"
             >
               <div
                 class=" css-1hwfws3"
@@ -156,7 +156,7 @@ exports[`SubflowRouterForm should init parameter tab 1`] = `
                   My Subflow Flow
                 </div>
                 <div
-                  class="css-1al1kbh-Input"
+                  class="css-ugbsr4-Input"
                 >
                   <div
                     class=""
@@ -289,7 +289,7 @@ exports[`SubflowRouterForm should render 1`] = `
             class="react-select selection css-2b097c-container"
           >
             <div
-              class=" css-1h1mxjq-control"
+              class=" css-bd2v80-control"
             >
               <div
                 class=" css-1hwfws3"
@@ -300,7 +300,7 @@ exports[`SubflowRouterForm should render 1`] = `
                   Colors
                 </div>
                 <div
-                  class="css-1al1kbh-Input"
+                  class="css-ugbsr4-Input"
                 >
                   <div
                     class=""
