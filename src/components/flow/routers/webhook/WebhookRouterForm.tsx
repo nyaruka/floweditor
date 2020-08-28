@@ -308,7 +308,7 @@ export default class WebhookRouterForm extends React.Component<
         tabs={tabs}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <div className={styles.method}>
             <SelectElement
               key="method_select"
