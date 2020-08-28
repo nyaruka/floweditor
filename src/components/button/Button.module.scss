@@ -4,7 +4,7 @@
   display: inline-block;
   vertical-align: top;
 
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13px;
 
   cursor: pointer;
@@ -38,6 +38,7 @@
 
   &.primary {
     color: #fff;
+
     &.active {
       background: darken($button_dark, 2%) !important;
     }

@@ -48,6 +48,7 @@
     background: $blue_selected;
     color: $text_color;
     font-weight: 500;
+
     &.first_option {
       border-top-color: transparent !important;
     }
@@ -168,27 +169,31 @@
 
 input.textinput {
   outline: none !important;
-  box-shadow: inset 1px 1px 2px 0 hsla(0, 0%, 0%, 0.08);
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 20px 0px, rgba(0, 0, 0, 0.02) 0px 1px 2px 0px;
   padding: 10px 10px !important;
   height: 38px !important;
   vertical-align: top;
   margin-bottom: 0px;
+  transition: all 200ms ease-in-out;
 
   &:focus {
     outline: none;
-    border: 1px solid $light_gray;
-    box-shadow: inset 1px 1px 2px 0 hsla(0, 0%, 0%, 0.08);
+    border: 1px solid rgb(164, 202, 254) !important;
+    box-shadow: var(--widget-box-shadow-focused) !important;
   }
 
   &::-webkit-input-placeholder {
     color: $placeholder_color;
   }
+
   &::-moz-placeholder {
     color: $placeholder_color;
   }
+
   &:-ms-input-placeholder {
     color: $placeholder_color;
   }
+
   &:-moz-placeholder {
     color: $placeholder_color;
   }
@@ -202,12 +207,12 @@ textarea.textinput {
   width: 100%;
 
   outline: none;
-  border: 1px solid $light_gray;
-  box-shadow: inset 1px 1px 2px 0 hsla(0, 0%, 0%, 0.08);
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 20px 0px, rgba(0, 0, 0, 0.02) 0px 1px 2px 0px;
 
   &:focus {
     outline: none;
-    border: 1px solid $light_gray;
-    box-shadow: inset 1px 1px 2px 0 hsla(0, 0%, 0%, 0.08);
+    outline: none;
+    border: 1px solid rgb(164, 202, 254) !important;
+    box-shadow: var(--widget-box-shadow-focused) !important;
   }
 }

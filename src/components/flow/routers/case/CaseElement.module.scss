@@ -36,12 +36,15 @@ input:focus {
   align-items: center;
   user-select: none;
   margin-bottom: 5px;
+
   .form_group {
     margin: 0;
   }
+
   .choice {
     width: 185px;
   }
+
   .single_operand {
     display: inline-flex;
     align-items: center;
@@ -49,6 +52,7 @@ input:focus {
     margin-left: $spacing;
 
     width: 170px;
+
     input {
       width: 170px;
     }
@@ -69,6 +73,7 @@ input:focus {
       padding: 10px 6px !important;
     }
   }
+
   .categorize_as {
     font-size: 13px;
     line-height: 13px;
@@ -77,9 +82,11 @@ input:focus {
     text-align: center;
     margin: 0px $spacing - 2;
   }
+
   .category {
     position: relative;
   }
+
   &:hover {
     .remove_icon {
       opacity: 1;
@@ -89,17 +96,18 @@ input:focus {
       opacity: 1;
     }
   }
+
   input {
     padding: 6px 7px;
     height: 29px !important;
     margin-bottom: -4px;
     font-size: 13px !important;
-    border: 1px solid #ccc;
   }
 
   .relative_date {
     display: inline-block;
     width: 50px;
+
     input {
       width: 50px;
     }
