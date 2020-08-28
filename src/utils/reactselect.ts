@@ -17,17 +17,23 @@ export const large = {
       caretColor: '#999',
       marginBottom: '0px',
       boxShadow: 'none',
-      border: 'none'
+      border: 'none',
+      fontSize: '13px'
     };
   },
   control: (styles: StylesConfig, state: any) => {
     return {
       ...styles,
-      borderColor: '#ccc',
+      borderColor: '#e6e6e6',
       boxShadow: 'none',
+      fontSize: '13px',
       transition: 'all 0.3s ease-in-out',
       '&:hover': {
-        borderColor: '#ccc'
+        borderColor: '#e6e6e6'
+      },
+      '&:focus-within': {
+        boxShadow: 'var(--widget-box-shadow-focused) !important',
+        border: '1px solid #a4cafe !important'
       }
     };
   }
@@ -37,13 +43,13 @@ export const messageStyle = {
   control: (styles: StylesConfig, state: any) => {
     return {
       ...styles,
-      borderColor: '#ccc',
+      borderColor: '#e6e6e6',
       boxShadow: 'none',
       borderBottom: 'none',
       borderBottomRightRadius: '0px',
       borderBottomLeftRadius: '0px',
       '&:hover': {
-        borderColor: '#ccc'
+        borderColor: '#e6e6e6'
       }
     };
   }
@@ -66,16 +72,20 @@ export const getErroredSelect = (baseControl: any): any => {
 export const small = {
   control: (styles: StylesConfig) => ({
     ...styles,
-    borderColor: '#ccc',
+    borderColor: '#e6e6e6',
     boxShadow: 'none',
     '&:hover': {
-      borderColor: '#ccc'
+      borderColor: '#e6e6e6'
     },
     maxHeight: '28px',
     minHeight: '28px',
     fontSize: '12px',
     lineHeight: '12px',
-    marginBottom: '-10px'
+    marginBottom: '-10px',
+    '&:focus-within': {
+      boxShadow: 'var(--widget-box-shadow-focused) !important',
+      border: '1px solid #a4cafe !important'
+    }
   }),
   menuList: (styles: StylesConfig) => ({
     ...styles,
@@ -117,11 +127,15 @@ export const tagging = {
   control: (styles: StylesConfig, state: any) => {
     return {
       ...styles,
-      borderColor: '#ccc',
+      borderColor: '#e6e6e6',
       boxShadow: 'none',
       transition: 'all 0.3s ease-in-out',
       '&:hover': {
-        borderColor: '#ccc'
+        borderColor: '#e6e6e6'
+      },
+      '&:focus-within': {
+        boxShadow: 'var(--widget-box-shadow-focused) !important',
+        border: '1px solid #a4cafe !important'
       }
     };
   },
