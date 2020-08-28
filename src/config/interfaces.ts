@@ -8,7 +8,8 @@ export enum FlowTypes {
 export enum ContactStatus {
   ACTIVE = 'active',
   BLOCKED = 'blocked',
-  STOPPED = 'stopped'
+  STOPPED = 'stopped',
+  ARCHIVED = 'archived'
 }
 
 export enum Types {
