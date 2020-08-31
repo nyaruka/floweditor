@@ -48,7 +48,8 @@ export const CONTACT_STATUS_ARCHIVED = {
 export const CONTACT_STATUS_OPTIONS = [
   CONTACT_STATUS_ACTIVE,
   CONTACT_STATUS_BLOCKED,
-  CONTACT_STATUS_STOPPED
+  CONTACT_STATUS_STOPPED,
+  CONTACT_STATUS_ARCHIVED
 ];
 
 export default class UpdateContactForm extends React.Component<
