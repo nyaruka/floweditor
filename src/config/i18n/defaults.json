@@ -149,7 +149,8 @@
   "contact_statuses": {
     "active": "Active",
     "blocked": "Blocked - remove from groups, ignore forever",
-    "stopped": "Stopped - remove from groups, ignore until they message again"
+    "stopped": "Stopped - remove from groups, ignore until they message again",
+    "archived": "Archived - remove from groups, ignore forever"
   },
   "context_explorer": {
     "copied_expression": "Copied <1>[[expression]]</1> to clipboard",

@@ -41,6 +41,10 @@ export const CONTACT_STATUS_STOPPED = {
   ),
   value: ContactStatus.STOPPED
 };
+export const CONTACT_STATUS_ARCHIVED = {
+  label: i18n.t('contact_statuses.archived', 'Archived - remove from groups, ignore forever'),
+  value: ContactStatus.ARCHIVED
+};
 export const CONTACT_STATUS_OPTIONS = [
   CONTACT_STATUS_ACTIVE,
   CONTACT_STATUS_BLOCKED,
