@@ -69,6 +69,8 @@ export interface FlowEditorConfig {
   filters?: string[];
 
   excludeTypes?: string[];
+
+  excludeOperators?: string[];
 }
 
 export interface LocalizationMap {
