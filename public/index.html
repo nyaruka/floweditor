@@ -126,6 +126,25 @@
     localStorage: true,
     mutable: true,
     filters: ['facebook', 'whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
+    excludeTypes: [
+      'send_broadcast', 
+      'add_contact_urn', 
+      'remove_contact_groups',
+      'send_email',
+      'set_run_result',
+      'call_resthook',
+      'start_session',
+      'open_ticket',
+      'split_by_expression',
+      'transfer_airtime',
+      'split_by_intent',
+      'split_by_contact_field',
+      'split_by_run_result',
+      'split_by_random',
+      'split_by_groups',
+      'split_by_scheme'
+    ],
+
     help: {
       legacy_extra: 'help.html',
       missing_dependency: 'help.html',

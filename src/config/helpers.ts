@@ -10,7 +10,7 @@ export const filterOperators = (operators: Operator[], config: FlowEditorConfig)
 };
 
 export const filterTypeConfigs = (typeConfigs: Type[], config: FlowEditorConfig): Type[] => {
-  return filterVisibility(typeConfigs, config);
+  return filterVisibility(filterTypes(typeConfigs, config), config);
 };
 
 const filterVisibility = (items: FlowTypeVisibility[], config: FlowEditorConfig): any[] => {
@@ -28,4 +28,11 @@ const filterVisibility = (items: FlowTypeVisibility[], config: FlowEditorConfig)
 
     return item.visibility.findIndex((ft: FlowTypes) => ft === config.flowType) > -1;
   });
+};
+
+const filterTypes = (items: Type[], config: FlowEditorConfig): any[] => {
+  if (!config.excludeTypes) {
+    return items;
+  }
+  return items.filter((item: Type) => !config.excludeTypes.includes(item.type));
 };
