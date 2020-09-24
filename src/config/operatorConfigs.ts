@@ -182,6 +182,14 @@ export const operatorConfigList: Operator[] = [
     type: Operators.has_pattern,
     verboseName: i18n.t('operator.has_pattern', 'matches regex'),
     operands: 1
+  },
+
+  {
+    type: Operators.has_media,
+    verboseName: i18n.t('operators.has_media', 'has media'),
+    operands: 0,
+    categoryName: 'Has Media',
+    visibility: TEXT_TYPES
   }
 ];
 
