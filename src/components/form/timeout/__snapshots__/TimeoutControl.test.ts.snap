@@ -24,71 +24,71 @@ exports[`TimeoutControl handles initial values 1`] = `
       options={
         Array [
           Object {
-            "label": "1 minute",
+            "name": "1 minute",
             "value": "60",
           },
           Object {
-            "label": "2 minutes",
+            "name": "2 minutes",
             "value": "120",
           },
           Object {
-            "label": "3 minutes",
+            "name": "3 minutes",
             "value": "180",
           },
           Object {
-            "label": "4 minutes",
+            "name": "4 minutes",
             "value": "240",
           },
           Object {
-            "label": "5 minutes",
+            "name": "5 minutes",
             "value": "300",
           },
           Object {
-            "label": "10 minutes",
+            "name": "10 minutes",
             "value": "600",
           },
           Object {
-            "label": "15 minutes",
+            "name": "15 minutes",
             "value": "900",
           },
           Object {
-            "label": "1 hour",
+            "name": "1 hour",
             "value": "3600",
           },
           Object {
-            "label": "2 hours",
+            "name": "2 hours",
             "value": "7200",
           },
           Object {
-            "label": "3 hours",
+            "name": "3 hours",
             "value": "10800",
           },
           Object {
-            "label": "6 hours",
+            "name": "6 hours",
             "value": "21600",
           },
           Object {
-            "label": "12 hours",
+            "name": "12 hours",
             "value": "43200",
           },
           Object {
-            "label": "18 hours",
+            "name": "18 hours",
             "value": "64800",
           },
           Object {
-            "label": "1 day",
+            "name": "1 day",
             "value": "86400",
           },
           Object {
-            "label": "2 days",
+            "name": "2 days",
             "value": "172800",
           },
           Object {
-            "label": "3 days",
+            "name": "3 days",
             "value": "259200",
           },
           Object {
-            "label": "1 week",
+            "name": "1 week",
             "value": "604800",
           },
         ]
@@ -96,7 +96,7 @@ exports[`TimeoutControl handles initial values 1`] = `
       style="small"
       value={
         Object {
-          "label": "1 minute",
+          "name": "1 minute",
           "value": "60",
         }
       }

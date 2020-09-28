@@ -9,7 +9,7 @@ import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { createUUID, range } from 'utils';
 
 export const BUCKET_OPTIONS: SelectOption[] = range(2, 11).map((count: number) => {
-  return { value: count + '', label: count + ' buckets' };
+  return { value: count + '', name: count + ' buckets' };
 });
 
 export const getOption = (value: number): SelectOption => {
@@ -17,7 +17,7 @@ export const getOption = (value: number): SelectOption => {
     (bucketOption: SelectOption) => bucketOption.value === value + ''
   );
   if (!option) {
-    option = { label: `${value} Buckets`, value: value + '' };
+    option = { name: `${value} Buckets`, value: value + '' };
   }
   return option;
 };

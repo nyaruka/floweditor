@@ -119,7 +119,7 @@ export const postNewAsset = (assets: Assets, payload: any): Promise<Asset> => {
     axios
       .post(assets.endpoint, payload, { headers })
       .then((response: AxiosResponse) => {
-        resolve(resultToAsset(response.data, assets.type, assets.id));
+        resolve(response.data);
       })
       .catch(error => reject(error));
   });

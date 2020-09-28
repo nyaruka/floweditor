@@ -95,19 +95,19 @@ exports[`SendMsgForm render should render 1`] = `
                 options={
                   Array [
                     Object {
-                      "label": "Image URL",
+                      "name": "Image URL",
                       "value": "image",
                     },
                     Object {
-                      "label": "Audio URL",
+                      "name": "Audio URL",
                       "value": "audio",
                     },
                     Object {
-                      "label": "Video URL",
+                      "name": "Video URL",
                       "value": "video",
                     },
                     Object {
-                      "label": "Upload Attachment",
+                      "name": "Upload Attachment",
                       "value": "upload",
                     },
                   ]

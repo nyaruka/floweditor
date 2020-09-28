@@ -7,7 +7,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { fetchAsset } from 'external';
@@ -18,7 +18,7 @@ import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
-  flow: AssetEntry;
+  flow: FormEntry;
   params: { [name: string]: StringEntry };
 }
 
@@ -42,14 +42,19 @@ export default class SubflowRouterForm extends React.PureComponent<
 
   public componentDidMount() {
     // we need to resolve our flow for it's parent refs
+    // todo: just fetch this is a plan flow result without the asset translation
     if (this.state.flow.value) {
-      fetchAsset(this.props.assetStore.flows, this.state.flow.value.id).then((flow: Asset) => {
-        this.handleFlowChanged([flow]);
+      fetchAsset(this.props.assetStore.flows, this.state.flow.value.uuid).then((flow: Asset) => {
+        if (flow) {
+          this.handleFlowChanged([
+            { name: flow.name, uuid: flow.id, parent_refs: flow.content.parent_refs }
+          ]);
+        }
       });
     }
   }
 
-  public handleFlowChanged(flows: Asset[], submitting = false): boolean {
+  public handleFlowChanged(flows: any[], submitting = false): boolean {
     const flow = flows[0];
 
     const updates: Partial<SubflowRouterFormState> = {
@@ -58,8 +63,8 @@ export default class SubflowRouterForm extends React.PureComponent<
 
     const params: { [key: string]: StringEntry } = {};
     // ensure our parameters are initialized
-    if (flow && flow.content && flow.content.parent_refs) {
-      for (const key of flow.content.parent_refs) {
+    if (flow && flow.parent_refs) {
+      for (const key of flow.parent_refs) {
         if (this.state.params[key]) {
           params[key] = { ...this.state.params[key] };
         } else {
@@ -120,7 +125,7 @@ export default class SubflowRouterForm extends React.PureComponent<
       hasErrors(this.state.params[key])
     );
 
-    if (flow && flow.content && flow.content.parent_refs.length > 0) {
+    if (flow && flow.parent_refs && flow.parent_refs.length > 0) {
       tabs.push({
         name: i18n.t('forms.enter_flow_parameters_tab', 'Parameters'),
         body: (
@@ -145,7 +150,7 @@ export default class SubflowRouterForm extends React.PureComponent<
             </p>
             <table className={styles.params}>
               <tbody>
-                {flow.content.parent_refs.map((name: string) => {
+                {flow.parent_refs.map((name: string) => {
                   return (
                     <tr key={'param_' + name} className={styles.param}>
                       <td className={styles.param_name}>{name}</td>

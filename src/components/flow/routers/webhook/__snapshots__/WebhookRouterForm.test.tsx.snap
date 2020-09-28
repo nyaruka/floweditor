@@ -156,7 +156,7 @@ exports[`WebhookRouterForm should render 1`] = `
         entry={
           Object {
             "value": Object {
-              "label": "GET",
+              "name": "GET",
               "value": "GET",
             },
           }
@@ -167,27 +167,27 @@ exports[`WebhookRouterForm should render 1`] = `
         options={
           Array [
             Object {
-              "label": "GET",
+              "name": "GET",
               "value": "GET",
             },
             Object {
-              "label": "POST",
+              "name": "POST",
               "value": "POST",
             },
             Object {
-              "label": "PUT",
+              "name": "PUT",
               "value": "PUT",
             },
             Object {
-              "label": "DELETE",
+              "name": "DELETE",
               "value": "DELETE",
             },
             Object {
-              "label": "HEAD",
+              "name": "HEAD",
               "value": "HEAD",
             },
             Object {
-              "label": "PATCH",
+              "name": "PATCH",
               "value": "PATCH",
             },
           ]
@@ -420,10 +420,12 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
                 name="type"
-                options="[{\\"name\\":\\"Send the contact a message\\",\\"value\\":\\"send_msg\\"},{\\"name\\":\\"Wait for the contact to respond\\",\\"value\\":\\"wait_for_response\\"},{\\"name\\":\\"Send somebody else a message\\",\\"value\\":\\"send_broadcast\\"},{\\"name\\":\\"Label the incoming message\\",\\"value\\":\\"add_input_labels\\"},{\\"name\\":\\"Add a URN for the contact\\",\\"value\\":\\"add_contact_urn\\"},{\\"name\\":\\"Add the contact to a group\\",\\"value\\":\\"add_contact_groups\\"},{\\"name\\":\\"Remove the contact from a group\\",\\"value\\":\\"remove_contact_groups\\"},{\\"name\\":\\"Update the contact\\",\\"value\\":\\"set_contact_field\\"},{\\"name\\":\\"Send an email\\",\\"value\\":\\"send_email\\"},{\\"name\\":\\"Save a result for this flow\\",\\"value\\":\\"set_run_result\\"},{\\"name\\":\\"Call a webhook\\",\\"value\\":\\"call_webhook\\"},{\\"name\\":\\"Call Zapier\\",\\"value\\":\\"call_resthook\\"},{\\"name\\":\\"Enter another flow\\",\\"value\\":\\"enter_flow\\"},{\\"name\\":\\"Start somebody else in a flow\\",\\"value\\":\\"start_session\\"},{\\"name\\":\\"Open a ticket with a human agent\\",\\"value\\":\\"open_ticket\\"},{\\"name\\":\\"Send the contact airtime\\",\\"value\\":\\"transfer_airtime\\"},{\\"name\\":\\"Split by intent\\",\\"value\\":\\"split_by_intent\\"},{\\"name\\":\\"Split by a custom expression\\",\\"value\\":\\"split_by_expression\\"},{\\"name\\":\\"Split by a contact field\\",\\"value\\":\\"split_by_contact_field\\"},{\\"name\\":\\"Split by a result in the flow\\",\\"value\\":\\"split_by_run_result\\"},{\\"name\\":\\"Split by random chance\\",\\"value\\":\\"split_by_random\\"},{\\"name\\":\\"Split by group membership\\",\\"value\\":\\"split_by_groups\\"},{\\"name\\":\\"Split by URN type\\",\\"value\\":\\"split_by_scheme\\"}]"
+                namekey="description"
                 searchable="true"
-                values="[{\\"name\\":\\"Call a webhook\\",\\"value\\":\\"call_webhook\\"}]"
+                valuekey="type"
+                values="[{\\"type\\":\\"call_webhook\\",\\"name\\":\\"Call Webhook\\",\\"description\\":\\"Call a webhook\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_webhook\\"],\\"visibility\\":[\\"message\\",\\"voice\\"]}]"
               />
             </div>
           </div>
@@ -442,9 +444,11 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
               >
                 <temba-select
                   data-testid="temba_select_method"
+                  errors="[]"
                   name="Method"
-                  options="[{\\"name\\":\\"GET\\",\\"value\\":\\"GET\\"},{\\"name\\":\\"POST\\",\\"value\\":\\"POST\\"},{\\"name\\":\\"PUT\\",\\"value\\":\\"PUT\\"},{\\"name\\":\\"DELETE\\",\\"value\\":\\"DELETE\\"},{\\"name\\":\\"HEAD\\",\\"value\\":\\"HEAD\\"},{\\"name\\":\\"PATCH\\",\\"value\\":\\"PATCH\\"}]"
-                  values="[{\\"name\\":\\"GET\\",\\"value\\":\\"GET\\"}]"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\"GET\\",\\"name\\":\\"GET\\"}]"
                 />
               </div>
             </div>

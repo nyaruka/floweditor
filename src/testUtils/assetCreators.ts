@@ -1,4 +1,3 @@
-import { languageToAsset } from 'components/flow/actions/updatecontact/helpers';
 import { determineTypeConfig } from 'components/flow/helpers';
 import { ActionFormProps, LocalizationFormProps, RouterFormProps } from 'components/flow/props';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
@@ -59,14 +58,6 @@ import * as utils from 'utils';
 const { results: groupsResults } = require('test/assets/groups.json');
 const languagesResults = require('test/assets/languages.json');
 mock(utils, 'createUUID', utils.seededUUIDs());
-/**
- * Create a select control option
- */
-export const createSelectOption = ({ label }: { label: string }) => ({
-  label: utils.capitalize(label.trim()),
-  labelKey: 'name',
-  valueKey: 'id'
-});
 
 export const createSayMsgAction = ({
   uuid = utils.createUUID(),
@@ -862,20 +853,17 @@ export const Spanish = { name: 'Spanish', id: 'spa', type: AssetType.Language };
 
 export const SubscribersGroup = {
   name: 'Subscriber',
-  id: '68223118-109f-442a-aed3-7bb3e1eab687',
-  type: AssetType.Group
+  uuid: '68223118-109f-442a-aed3-7bb3e1eab687'
 };
 
 export const ColorFlowAsset = {
   name: 'Favorite Color',
   uuid: '9a93ede6-078f-44c9-ad0a-133793be5d56',
-  content: {
-    parent_refs: ['colors']
-  }
+  parent_refs: ['colors']
 };
 
 export const ResthookAsset = {
-  id: 'new-resthook',
+  resthook: 'new-resthook',
   name: 'new-resthook',
   type: AssetType.Resthook
 };
@@ -887,6 +875,6 @@ export const FeedbackLabel = {
 };
 
 export const languages: Assets = {
-  items: assetListToMap(languagesResults.results.map((language: any) => languageToAsset(language))),
+  items: assetListToMap(languagesResults.results.map((language: any) => language)),
   type: AssetType.Language
 };

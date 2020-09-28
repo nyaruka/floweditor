@@ -3,21 +3,23 @@
 
   .transfer {
     margin-top: 10px;
+    display: flex;
+    align-items: center;
 
     .currency {
-      display: inline-block;
       width: 200px;
     }
 
     .amount {
-      display: inline-block;
-      width: 200px;
+      flex-grow: 1;
       margin-left: 10px;
+      margin-top: 5px;
       vertical-align: top;
       input {
         font-size: 12px !important;
         height: 28px !important;
         vertical-align: super;
+        background: #fff;
       }
     }
 

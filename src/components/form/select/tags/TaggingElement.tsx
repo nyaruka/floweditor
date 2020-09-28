@@ -21,7 +21,7 @@ export const tagsToOptions = (tags: StringArrayEntry): TagList => {
 };
 
 export const optionsToTags = (tags: TagList): string[] =>
-  tags.map(tag => {
+  (tags || []).map(tag => {
     return tag.label;
   });
 

@@ -98,3 +98,8 @@ jest.mock(
     );
   }
 );
+
+// In Node v7 unhandled promise rejections will terminate the process
+process.on('unhandledRejection', reason => {
+  throw reason;
+});

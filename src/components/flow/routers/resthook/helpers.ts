@@ -1,14 +1,14 @@
 import { createWebhookBasedNode } from 'components/flow/routers/helpers';
 import { Types } from 'config/interfaces';
 import { CallResthook } from 'flowTypes';
-import { AssetType, RenderNode } from 'store/flowContext';
-import { AssetEntry, NodeEditorSettings } from 'store/nodeEditor';
+import { RenderNode } from 'store/flowContext';
+import { FormEntry, NodeEditorSettings } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 
 import { ResthookRouterFormState } from './ResthookRouterForm';
 
 export const nodeToState = (settings: NodeEditorSettings): ResthookRouterFormState => {
-  let resthookAsset: AssetEntry = { value: null };
+  let resthookAsset: FormEntry = { value: null };
   let resultName = { value: 'Result' };
   let valid = false;
 
@@ -16,7 +16,7 @@ export const nodeToState = (settings: NodeEditorSettings): ResthookRouterFormSta
   if (originalAction && originalAction.type === Types.call_resthook) {
     const resthook = originalAction.resthook;
     resthookAsset = {
-      value: { id: resthook, name: resthook, type: AssetType.Resthook }
+      value: { resthook }
     };
     resultName = { value: originalAction.result_name };
     valid = true;
@@ -41,7 +41,7 @@ export const stateToNode = (
 
   const newAction: CallResthook = {
     uuid,
-    resthook: state.resthook.value.id,
+    resthook: state.resthook.value.resthook,
     type: Types.call_resthook,
     result_name: state.resultName.value
   };

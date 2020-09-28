@@ -30,6 +30,8 @@ export default class AirtimeRouterForm extends React.PureComponent<
   RouterFormProps,
   AirtimeRouterFormState
 > {
+  options: any[] = [];
+
   constructor(props: RouterFormProps) {
     super(props);
 
@@ -37,6 +39,13 @@ export default class AirtimeRouterForm extends React.PureComponent<
 
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
+    });
+  }
+
+  public componentDidMount(): void {
+    const items = this.props.assetStore.currencies ? this.props.assetStore.currencies.items : {};
+    this.options = Object.keys(items).map((key: string) => {
+      return { id: items[key].id };
     });
   }
 
@@ -124,7 +133,7 @@ export default class AirtimeRouterForm extends React.PureComponent<
       <CurrencyElement
         key={'currency_' + index}
         exclude={this.state.amounts}
-        currencies={this.props.assetStore.currencies}
+        currencies={this.options}
         transfer={entry}
         index={index}
         onChange={this.handleTransferChanged}

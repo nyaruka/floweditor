@@ -1,6 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import {
+  getName,
   initializeForm,
   sortFieldsAndProperties,
   stateToAction,
@@ -26,26 +27,26 @@ import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 
-export const CONTACT_STATUS_ACTIVE = {
-  label: i18n.t('contact_statuses.active', 'Active'),
+export const CONTACT_STATUS_ACTIVE: SelectOption = {
+  name: i18n.t('contact_statuses.active', 'Active'),
   value: ContactStatus.ACTIVE
 };
-export const CONTACT_STATUS_BLOCKED = {
-  label: i18n.t('contact_statuses.blocked', 'Blocked - remove from groups, ignore forever'),
+export const CONTACT_STATUS_BLOCKED: SelectOption = {
+  name: i18n.t('contact_statuses.blocked', 'Blocked - remove from groups, ignore forever'),
   value: ContactStatus.BLOCKED
 };
-export const CONTACT_STATUS_STOPPED = {
-  label: i18n.t(
+export const CONTACT_STATUS_STOPPED: SelectOption = {
+  name: i18n.t(
     'contact_statuses.stopped',
     'Stopped - remove from groups, ignore until they message again'
   ),
   value: ContactStatus.STOPPED
 };
-export const CONTACT_STATUS_ARCHIVED = {
-  label: i18n.t('contact_statuses.archived', 'Archived - remove from groups, ignore forever'),
+export const CONTACT_STATUS_ARCHIVED: SelectOption = {
+  name: i18n.t('contact_statuses.archived', 'Archived - remove from groups, ignore forever'),
   value: ContactStatus.ARCHIVED
 };
-export const CONTACT_STATUS_OPTIONS = [
+export const CONTACT_STATUS_OPTIONS: SelectOption[] = [
   CONTACT_STATUS_ACTIVE,
   CONTACT_STATUS_BLOCKED,
   CONTACT_STATUS_STOPPED,
@@ -121,45 +122,47 @@ export default class UpdateContactForm extends React.Component<
     return updated.valid;
   }
 
-  private handlePropertyChange(selected: Asset[]): boolean {
+  private handlePropertyChange(selected: any[]): boolean {
     const selection = selected[0];
-    if (selection.type === AssetType.ContactProperty) {
-      switch (selection.id) {
-        case ContactProperties.Name:
-          return this.handleUpdate({
-            field: selection,
-            type: Types.set_contact_name,
-            name: ''
-          });
-        case ContactProperties.Language:
-          return this.handleUpdate({
-            field: selection,
-            type: Types.set_contact_language
-          });
-        case ContactProperties.Status:
-          return this.handleUpdate({
-            field: selection,
-            type: Types.set_contact_status
-          });
-        case ContactProperties.Channel:
-          return this.handleUpdate({
-            field: selection,
-            type: Types.set_contact_channel
-          });
+    if (selection) {
+      if (selection.type === AssetType.ContactProperty) {
+        switch (selection.id) {
+          case ContactProperties.Name:
+            return this.handleUpdate({
+              field: selection,
+              type: Types.set_contact_name,
+              name: ''
+            });
+          case ContactProperties.Language:
+            return this.handleUpdate({
+              field: selection,
+              type: Types.set_contact_language
+            });
+          case ContactProperties.Status:
+            return this.handleUpdate({
+              field: selection,
+              type: Types.set_contact_status
+            });
+          case ContactProperties.Channel:
+            return this.handleUpdate({
+              field: selection,
+              type: Types.set_contact_channel
+            });
+        }
       }
+      return this.handleUpdate({
+        type: Types.set_contact_field,
+        field: selection,
+        fieldValue: ''
+      });
     }
-    return this.handleUpdate({
-      type: Types.set_contact_field,
-      field: selection,
-      fieldValue: ''
-    });
   }
 
   private handleChannelUpdate(selection: Asset[], submitting = false): boolean {
     return this.handleUpdate({ channel: selection[0] }, submitting);
   }
 
-  private handleLanguageUpdate(selection: Asset[], submitting = false): boolean {
+  private handleLanguageUpdate(selection: any[], submitting = false): boolean {
     return this.handleUpdate({ language: selection[0] }, submitting);
   }
 
@@ -248,10 +251,11 @@ export default class UpdateContactForm extends React.Component<
           placeholder="Select the language to use for this contact"
           assets={this.props.assetStore.languages}
           entry={this.state.language}
-          searchable={true}
           valueClearable={true}
           onChange={this.handleLanguageUpdate}
-          shouldExclude={(asset: Asset) => asset.id === 'base'}
+          shouldExclude={(language: any) => {
+            return language.iso === 'base';
+          }}
         />
       );
     } else if (this.state.type === Types.set_contact_status) {
@@ -279,7 +283,7 @@ export default class UpdateContactForm extends React.Component<
       return (
         <TextInputElement
           name={i18n.t('forms.field_value', 'Field Value')}
-          placeholder={`Enter a new value for ${this.state.field.value.name}`}
+          placeholder={`Enter a new value for ${this.state.field.value.label}`}
           onChange={this.handleFieldValueUpdate}
           entry={this.state.fieldValue}
           autocomplete={true}
@@ -309,6 +313,7 @@ export default class UpdateContactForm extends React.Component<
           searchable={true}
           sortFunction={sortFieldsAndProperties}
           onChange={this.handlePropertyChange}
+          getName={getName}
           // Fields can be created on the fly
           createPrefix="Create Contact Field: "
           createAssetFromInput={this.handleCreateAssetFromInput}

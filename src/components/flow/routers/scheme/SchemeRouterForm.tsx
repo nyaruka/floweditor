@@ -101,6 +101,7 @@ export default class SchemeRouterForm extends React.Component<
           onChange={this.handleSchemesChanged}
           options={getChannelTypeOptions()}
           multi={true}
+          hideError={true}
         />
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         {renderIssues(this.props)}

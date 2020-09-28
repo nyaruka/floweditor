@@ -54,7 +54,7 @@ describe(GroupsRouterForm.name, () => {
       it('should extract groups from the exits of a groupsRouter node', () => {
         extractGroups(groupsRouterNode.node).forEach((group, idx) => {
           expect(group.name).toBe(groupsRouterNode.node.router.categories[idx].name);
-          expect(group.id).toBe(
+          expect(group.uuid).toBe(
             (groupsRouterNode.node.router as SwitchRouter).cases[idx].arguments[0]
           );
           expect(group).toMatchSnapshot();

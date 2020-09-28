@@ -37,10 +37,12 @@ exports[`TicketRouterForm render should render 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
                 name="type"
-                options="[{\\"name\\":\\"Send the contact a message\\",\\"value\\":\\"send_msg\\"},{\\"name\\":\\"Wait for the contact to respond\\",\\"value\\":\\"wait_for_response\\"},{\\"name\\":\\"Send somebody else a message\\",\\"value\\":\\"send_broadcast\\"},{\\"name\\":\\"Label the incoming message\\",\\"value\\":\\"add_input_labels\\"},{\\"name\\":\\"Add a URN for the contact\\",\\"value\\":\\"add_contact_urn\\"},{\\"name\\":\\"Add the contact to a group\\",\\"value\\":\\"add_contact_groups\\"},{\\"name\\":\\"Remove the contact from a group\\",\\"value\\":\\"remove_contact_groups\\"},{\\"name\\":\\"Update the contact\\",\\"value\\":\\"set_contact_field\\"},{\\"name\\":\\"Send an email\\",\\"value\\":\\"send_email\\"},{\\"name\\":\\"Save a result for this flow\\",\\"value\\":\\"set_run_result\\"},{\\"name\\":\\"Call a webhook\\",\\"value\\":\\"call_webhook\\"},{\\"name\\":\\"Call Zapier\\",\\"value\\":\\"call_resthook\\"},{\\"name\\":\\"Enter another flow\\",\\"value\\":\\"enter_flow\\"},{\\"name\\":\\"Start somebody else in a flow\\",\\"value\\":\\"start_session\\"},{\\"name\\":\\"Open a ticket with a human agent\\",\\"value\\":\\"open_ticket\\"},{\\"name\\":\\"Send the contact airtime\\",\\"value\\":\\"transfer_airtime\\"},{\\"name\\":\\"Split by intent\\",\\"value\\":\\"split_by_intent\\"},{\\"name\\":\\"Split by a custom expression\\",\\"value\\":\\"split_by_expression\\"},{\\"name\\":\\"Split by a contact field\\",\\"value\\":\\"split_by_contact_field\\"},{\\"name\\":\\"Split by a result in the flow\\",\\"value\\":\\"split_by_run_result\\"},{\\"name\\":\\"Split by random chance\\",\\"value\\":\\"split_by_random\\"},{\\"name\\":\\"Split by group membership\\",\\"value\\":\\"split_by_groups\\"},{\\"name\\":\\"Split by URN type\\",\\"value\\":\\"split_by_scheme\\"}]"
+                namekey="description"
                 searchable="true"
-                values="[{\\"name\\":\\"Open a ticket with a human agent\\",\\"value\\":\\"open_ticket\\"}]"
+                valuekey="type"
+                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"message\\",\\"voice\\"],\\"filter\\":\\"ticketer\\"}]"
               />
             </div>
           </div>
@@ -54,69 +56,18 @@ exports[`TicketRouterForm render should render 1`] = `
           class="ele"
         >
           <div
-            class="react-select selection css-2b097c-container"
+            class="normal "
           >
-            <div
-              class=" css-bd2v80-control"
-            >
-              <div
-                class=" css-1hwfws3"
-              >
-                <div
-                  class=" css-1sdgdfu-singleValue"
-                >
-                  Email (bob@acme.com)
-                </div>
-                <div
-                  class="css-ugbsr4-Input"
-                >
-                  <div
-                    class=""
-                    style="display: inline-block;"
-                  >
-                    <input
-                      aria-autocomplete="list"
-                      autocapitalize="none"
-                      autocomplete="off"
-                      autocorrect="off"
-                      id="react-select-2-input"
-                      spellcheck="false"
-                      style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                      tabindex="0"
-                      type="text"
-                      value=""
-                    />
-                    <div
-                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                class=" css-1hb7zxy-IndicatorsContainer"
-              >
-                <span
-                  class=" css-1okebmr-indicatorSeparator"
-                />
-                <div
-                  aria-hidden="true"
-                  class=" css-tlfecz-indicatorContainer"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="css-6q0nyr-Svg"
-                    focusable="false"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    width="20"
-                  >
-                    <path
-                      d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <temba-select
+              cachekey="0"
+              data-testid="temba_select_ticketer"
+              errors="[]"
+              name="Ticketer"
+              namekey="name"
+              placeholder="Select the ticketing service to use"
+              valuekey="uuid"
+              values="[{\\"name\\":\\"Email (bob@acme.com)\\",\\"uuid\\":\\"1165a73a-2ee0-4891-895e-768645194862\\"}]"
+            />
           </div>
         </div>
         <div
@@ -322,10 +273,12 @@ exports[`TicketRouterForm updates should save changes 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
                 name="type"
-                options="[{\\"name\\":\\"Send the contact a message\\",\\"value\\":\\"send_msg\\"},{\\"name\\":\\"Wait for the contact to respond\\",\\"value\\":\\"wait_for_response\\"},{\\"name\\":\\"Send somebody else a message\\",\\"value\\":\\"send_broadcast\\"},{\\"name\\":\\"Label the incoming message\\",\\"value\\":\\"add_input_labels\\"},{\\"name\\":\\"Add a URN for the contact\\",\\"value\\":\\"add_contact_urn\\"},{\\"name\\":\\"Add the contact to a group\\",\\"value\\":\\"add_contact_groups\\"},{\\"name\\":\\"Remove the contact from a group\\",\\"value\\":\\"remove_contact_groups\\"},{\\"name\\":\\"Update the contact\\",\\"value\\":\\"set_contact_field\\"},{\\"name\\":\\"Send an email\\",\\"value\\":\\"send_email\\"},{\\"name\\":\\"Save a result for this flow\\",\\"value\\":\\"set_run_result\\"},{\\"name\\":\\"Call a webhook\\",\\"value\\":\\"call_webhook\\"},{\\"name\\":\\"Call Zapier\\",\\"value\\":\\"call_resthook\\"},{\\"name\\":\\"Enter another flow\\",\\"value\\":\\"enter_flow\\"},{\\"name\\":\\"Start somebody else in a flow\\",\\"value\\":\\"start_session\\"},{\\"name\\":\\"Open a ticket with a human agent\\",\\"value\\":\\"open_ticket\\"},{\\"name\\":\\"Send the contact airtime\\",\\"value\\":\\"transfer_airtime\\"},{\\"name\\":\\"Split by intent\\",\\"value\\":\\"split_by_intent\\"},{\\"name\\":\\"Split by a custom expression\\",\\"value\\":\\"split_by_expression\\"},{\\"name\\":\\"Split by a contact field\\",\\"value\\":\\"split_by_contact_field\\"},{\\"name\\":\\"Split by a result in the flow\\",\\"value\\":\\"split_by_run_result\\"},{\\"name\\":\\"Split by random chance\\",\\"value\\":\\"split_by_random\\"},{\\"name\\":\\"Split by group membership\\",\\"value\\":\\"split_by_groups\\"},{\\"name\\":\\"Split by URN type\\",\\"value\\":\\"split_by_scheme\\"}]"
+                namekey="description"
                 searchable="true"
-                values="[{\\"name\\":\\"Open a ticket with a human agent\\",\\"value\\":\\"open_ticket\\"}]"
+                valuekey="type"
+                values="[{\\"type\\":\\"open_ticket\\",\\"name\\":\\"Open Ticket\\",\\"description\\":\\"Open a ticket with a human agent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_ticket\\"],\\"visibility\\":[\\"message\\",\\"voice\\"],\\"filter\\":\\"ticketer\\"}]"
               />
             </div>
           </div>
@@ -339,69 +292,18 @@ exports[`TicketRouterForm updates should save changes 1`] = `
           class="ele"
         >
           <div
-            class="react-select selection css-2b097c-container"
+            class="normal "
           >
-            <div
-              class=" css-bd2v80-control"
-            >
-              <div
-                class=" css-1hwfws3"
-              >
-                <div
-                  class=" css-1sdgdfu-singleValue"
-                >
-                  Email (bob@acme.com)
-                </div>
-                <div
-                  class="css-ugbsr4-Input"
-                >
-                  <div
-                    class=""
-                    style="display: inline-block;"
-                  >
-                    <input
-                      aria-autocomplete="list"
-                      autocapitalize="none"
-                      autocomplete="off"
-                      autocorrect="off"
-                      id="react-select-3-input"
-                      spellcheck="false"
-                      style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                      tabindex="0"
-                      type="text"
-                      value=""
-                    />
-                    <div
-                      style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div
-                class=" css-1hb7zxy-IndicatorsContainer"
-              >
-                <span
-                  class=" css-1okebmr-indicatorSeparator"
-                />
-                <div
-                  aria-hidden="true"
-                  class=" css-tlfecz-indicatorContainer"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="css-6q0nyr-Svg"
-                    focusable="false"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    width="20"
-                  >
-                    <path
-                      d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <temba-select
+              cachekey="0"
+              data-testid="temba_select_ticketer"
+              errors="[]"
+              name="Ticketer"
+              namekey="name"
+              placeholder="Select the ticketing service to use"
+              valuekey="uuid"
+              values="[{\\"name\\":\\"Email (bob@acme.com)\\",\\"uuid\\":\\"1165a73a-2ee0-4891-895e-768645194862\\"}]"
+            />
           </div>
         </div>
         <div

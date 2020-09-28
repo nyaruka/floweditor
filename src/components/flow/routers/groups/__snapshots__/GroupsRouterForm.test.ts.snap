@@ -2,49 +2,43 @@
 
 exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 1`] = `
 Object {
-  "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
   "name": "Customers",
-  "type": "group",
+  "uuid": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
 }
 `;
 
 exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 2`] = `
 Object {
-  "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
   "name": "Unsatisfied Customers",
-  "type": "group",
+  "uuid": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
 }
 `;
 
 exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 3`] = `
 Object {
-  "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
   "name": "Early Adopters",
-  "type": "group",
+  "uuid": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
 }
 `;
 
 exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 4`] = `
 Object {
-  "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
   "name": "Testers",
-  "type": "group",
+  "uuid": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
 }
 `;
 
 exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 5`] = `
 Object {
-  "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
   "name": "Subscribers",
-  "type": "group",
+  "uuid": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
 }
 `;
 
 exports[`GroupsRouterForm helpers extractGroups should extract groups from the exits of a groupsRouter node 6`] = `
 Object {
-  "id": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
   "name": "Champions",
-  "type": "group",
+  "uuid": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
 }
 `;
 
@@ -89,34 +83,28 @@ exports[`GroupsRouterForm render should render 1`] = `
       Object {
         "value": Array [
           Object {
-            "id": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
             "name": "Customers",
-            "type": "group",
+            "uuid": "23ff7152-b588-43e4-90de-fda77aeaf7c0",
           },
           Object {
-            "id": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
             "name": "Unsatisfied Customers",
-            "type": "group",
+            "uuid": "2429d573-80d7-47f8-879f-f2ba442a1bfd",
           },
           Object {
-            "id": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
             "name": "Early Adopters",
-            "type": "group",
+            "uuid": "cdbf9e01-aaa7-4381-8259-ee042447bcac",
           },
           Object {
-            "id": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
             "name": "Testers",
-            "type": "group",
+            "uuid": "afaba971-8943-4dd8-860b-3561ed4f1fe1",
           },
           Object {
-            "id": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
             "name": "Subscribers",
-            "type": "group",
+            "uuid": "33b28bac-b588-43e4-90de-fda77aeaf7c0",
           },
           Object {
-            "id": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
             "name": "Champions",
-            "type": "group",
+            "uuid": "e0cccbcf-49be-4eef-88a7-ce2150a6d902",
           },
         ],
       }
@@ -158,9 +146,8 @@ Object {
     "validationFailures": Array [],
     "value": Array [
       Object {
-        "id": "68223118-109f-442a-aed3-7bb3e1eab687",
         "name": "Subscriber",
-        "type": "group",
+        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
       },
     ],
   },

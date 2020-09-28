@@ -7,7 +7,6 @@ import {
   Case,
   Category,
   Exit,
-  Flow,
   RouterTypes,
   StartFlow,
   StartFlowExitNames,
@@ -16,7 +15,7 @@ import {
   AnyAction,
   Action
 } from 'flowTypes';
-import { Asset, AssetType, RenderNode } from 'store/flowContext';
+import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 
@@ -41,7 +40,7 @@ export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormStat
       }
     });
 
-    return { flow: { value: flowToAsset(action.flow) }, params, valid: true };
+    return { flow: { value: action.flow }, params, valid: true };
   }
 
   return {
@@ -62,7 +61,7 @@ export const stateToNode = (
   const startFlowAction: StartFlow = {
     uuid: action.uuid || createUUID(),
     type: Types.enter_flow,
-    flow: assetToFlow(state.flow.value)
+    flow: { uuid: state.flow.value.uuid, name: state.flow.value.name }
   };
 
   // If we're already a subflow, lean on those exits and cases
@@ -151,14 +150,3 @@ export const stateToNode = (
 
   return newRenderNode;
 };
-
-const flowToAsset = (field: Flow = { uuid: '', name: '' }): Asset => ({
-  id: field.uuid,
-  name: field.name,
-  type: AssetType.Flow
-});
-
-const assetToFlow = (asset: Asset): Flow => ({
-  uuid: asset.id,
-  name: asset.name
-});

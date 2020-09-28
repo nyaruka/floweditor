@@ -232,8 +232,9 @@ export interface Wait {
 }
 
 export interface Group {
-  uuid: string;
-  name: string;
+  uuid?: string;
+  name?: string;
+  name_match?: string;
 }
 
 export interface Contact {
