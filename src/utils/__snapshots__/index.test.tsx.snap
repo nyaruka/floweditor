@@ -14,45 +14,9 @@ exports[`utils emphasize should apply emphasis style 1`] = `
 
 exports[`utils getLocalizations should return a localized object 1`] = `
 LocalizedObject {
-  "iso": "eng",
+  "iso": undefined,
   "language": Object {
-    "iso": "eng",
-    "name": "English",
-  },
-  "localized": false,
-  "localizedKeys": Object {},
-  "localizedObject": Object {
-    "text": "Hi there, what is your name?",
-    "type": "send_msg",
-    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
-  },
-  "name": undefined,
-}
-`;
-
-exports[`utils getLocalizations should return a localized object 2`] = `
-LocalizedObject {
-  "iso": "spa",
-  "language": Object {
-    "iso": "spa",
-    "name": "Spanish",
-  },
-  "localized": false,
-  "localizedKeys": Object {},
-  "localizedObject": Object {
-    "text": "Hi there, what is your name?",
-    "type": "send_msg",
-    "uuid": "360a28a1-6741-4f16-9421-f6f313cf753e",
-  },
-  "name": undefined,
-}
-`;
-
-exports[`utils getLocalizations should return a localized object 3`] = `
-LocalizedObject {
-  "iso": "fra",
-  "language": Object {
-    "iso": "fra",
+    "iso": undefined,
     "name": "French",
   },
   "localized": false,

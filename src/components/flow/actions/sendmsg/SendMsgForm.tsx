@@ -46,12 +46,12 @@ import { TembaSelectStyle } from 'temba/TembaSelect';
 const MAX_ATTACHMENTS = 3;
 
 const TYPE_OPTIONS: SelectOption[] = [
-  { value: 'image', label: i18n.t('forms.image_url', 'Image URL') },
-  { value: 'audio', label: i18n.t('forms.audio_url', 'Audio URL') },
-  { value: 'video', label: i18n.t('forms.video_url', 'Video URL') }
+  { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
+  { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
+  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') }
 ];
 
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', label: 'Upload Attachment' }]);
+const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', name: 'Upload Attachment' }]);
 
 const getAttachmentTypeOption = (type: string): SelectOption => {
   return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
@@ -206,7 +206,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             name={i18n.t('forms.type', 'Type')}
             style={TembaSelectStyle.small}
             entry={{
-              value: { label: attachment.type }
+              value: { name: attachment.type }
             }}
             options={TYPE_OPTIONS}
           />
@@ -405,8 +405,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     this.setState({ templateVariables });
   }
 
-  private handleShouldExcludeTemplate(asset: Asset): boolean {
-    return !hasUseableTranslation(asset.content as Template);
+  private handleShouldExcludeTemplate(template: any): boolean {
+    return !hasUseableTranslation(template as Template);
   }
 
   private renderTopicConfig(): JSX.Element {

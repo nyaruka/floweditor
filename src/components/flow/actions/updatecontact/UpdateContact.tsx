@@ -38,7 +38,11 @@ const UpdateContactComp: React.SFC<SetContactAttribute> = (
 
   if (action.type === Types.set_contact_channel) {
     const setContactAction = action as SetContactChannel;
-    return renderSetText('channel', setContactAction.channel.name, false);
+    return renderSetText(
+      'channel',
+      setContactAction.channel ? setContactAction.channel.name : null,
+      false
+    );
   }
 
   if (action.type === Types.set_contact_language) {

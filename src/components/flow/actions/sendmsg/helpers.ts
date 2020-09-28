@@ -9,10 +9,10 @@ import { SelectOption } from 'components/form/select/SelectElement';
 import { createUUID } from 'utils';
 
 export const TOPIC_OPTIONS: SelectOption[] = [
-  { value: 'event', label: 'Event' },
-  { value: 'account', label: 'Account' },
-  { value: 'purchase', label: 'Purchase' },
-  { value: 'agent', label: 'Agent' }
+  { value: 'event', name: 'Event' },
+  { value: 'account', name: 'Account' },
+  { value: 'purchase', name: 'Purchase' },
+  { value: 'agent', name: 'Agent' }
 ];
 
 export const initializeForm = (

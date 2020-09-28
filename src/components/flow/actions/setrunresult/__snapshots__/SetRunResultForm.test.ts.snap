@@ -34,6 +34,7 @@ exports[`SetRunResultForm render should render 1`] = `
     className="form"
   >
     <AssetSelector
+      additionalOptions={Array []}
       assets={
         Object {
           "items": Object {},
@@ -65,9 +66,11 @@ exports[`SetRunResultForm render should render 1`] = `
         </Trans>
       }
       name="Result"
+      nameKey="name"
       onChange={[Function]}
       searchable={true}
       showLabel={true}
+      valueKey="value"
     />
     <Connect(TextInputElement)
       __className="value"

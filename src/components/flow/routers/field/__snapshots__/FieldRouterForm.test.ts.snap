@@ -151,21 +151,13 @@ exports[`FieldRouterForm initializes 1`] = `
             },
           }
         }
+        getName={[Function]}
         name="Contact Field"
         onChange={[Function]}
         searchable={true}
         sortFunction={[Function]}
-        styles={
-          Object {
-            "control": [Function],
-            "indicatorsContainer": [Function],
-            "input": [Function],
-            "menuList": [Function],
-            "option": [Function],
-            "singleValue": [Function],
-            "valueContainer": [Function],
-          }
-        }
+        style="small"
+        valueKey="id"
       />
     </div>
   </div>
@@ -367,21 +359,13 @@ exports[`FieldRouterForm should render 1`] = `
             },
           }
         }
+        getName={[Function]}
         name="Contact Field"
         onChange={[Function]}
         searchable={true}
         sortFunction={[Function]}
-        styles={
-          Object {
-            "control": [Function],
-            "indicatorsContainer": [Function],
-            "input": [Function],
-            "menuList": [Function],
-            "option": [Function],
-            "singleValue": [Function],
-            "valueContainer": [Function],
-          }
-        }
+        style="small"
+        valueKey="id"
       />
     </div>
   </div>

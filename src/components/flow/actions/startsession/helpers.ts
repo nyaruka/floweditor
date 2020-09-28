@@ -12,7 +12,7 @@ import {
 } from 'components/flow/actions/startsession/StartSessionForm';
 import { Types } from 'config/interfaces';
 import { StartSession } from 'flowTypes';
-import { Asset, AssetType } from 'store/flowContext';
+import { AssetType } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 
 export const initializeForm = (settings: NodeEditorSettings): StartSessionFormState => {
@@ -24,11 +24,7 @@ export const initializeForm = (settings: NodeEditorSettings): StartSessionFormSt
         value: getRecipients(action)
       },
       flow: {
-        value: {
-          id: action.flow.uuid,
-          name: action.flow.name,
-          type: AssetType.Flow
-        }
+        value: action.flow
       },
       startType: {
         value: action.create_contact
@@ -57,14 +53,14 @@ export const stateToAction = (
   settings: NodeEditorSettings,
   state: StartSessionFormState
 ): StartSession => {
-  const flow: Asset = state.flow.value;
+  const flow = state.flow.value;
 
   const action: StartSession = {
     legacy_vars: getExpressions(state.recipients.value),
     contacts: getRecipientsByAsset(state.recipients.value, AssetType.Contact),
     groups: getRecipientsByAsset(state.recipients.value, AssetType.Group),
     create_contact: state.startType.value === START_TYPE_CREATE,
-    flow: { name: flow.name, uuid: flow.id },
+    flow: { name: flow.name, uuid: flow.uuid },
     type: Types.start_session,
     uuid: getActionUUID(settings, Types.start_session)
   };

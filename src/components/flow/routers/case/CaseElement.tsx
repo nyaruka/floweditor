@@ -350,8 +350,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
 
           if (this.props.classifier && this.props.classifier.content) {
             intents = this.props.classifier.content.intents.map((intent: string) => {
-              const option = {
-                label: intent,
+              const option: SelectOption = {
+                name: intent,
                 value: intent
               };
               return option;
@@ -365,12 +365,13 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                   key="intent_select"
                   style={TembaSelectStyle.small}
                   name={i18n.t('forms.intent', 'Intent')}
+                  placeholder={i18n.t('forms.select_intent', 'Select intent')}
                   entry={this.state.intent}
                   onChange={this.handleIntentChanged}
                   options={intents}
                   onMenuOpen={this.handleIntentMenuOpened}
                   onMenuClose={this.handleIntentMenuClosed}
-                  placeholder=""
+                  hideError={true}
                 ></SelectElement>
               </div>
               <span className={styles.divider} data-draggable={true}>

@@ -1,7 +1,7 @@
 import FormElement, { FormElementProps } from 'components/form/FormElement';
 import * as React from 'react';
 import TembaSelect, { TembaSelectStyle } from 'temba/TembaSelect';
-import { hasErrors } from 'components/flow/actions/helpers';
+import { getAllErrorMessages } from 'components/flow/actions/helpers';
 
 interface SelectElementProps extends FormElementProps {
   onChange?(value: any, action?: any): void;
@@ -15,10 +15,13 @@ interface SelectElementProps extends FormElementProps {
 
   multi?: boolean;
   styles?: any;
+
+  nameKey?: string;
+  valueKey?: string;
 }
 
 export interface SelectOption {
-  label: string;
+  name: string;
   value: string;
 }
 
@@ -29,12 +32,15 @@ export default class SelectElement extends React.Component<SelectElementProps> {
         <TembaSelect
           key={this.props.name + '_select'}
           name={this.props.name}
+          nameKey={this.props.nameKey}
+          valueKey={this.props.valueKey}
           placeholder={this.props.placeholder}
           onChange={this.props.onChange}
           value={this.props.entry.value}
           options={this.props.options}
           searchable={false}
-          error={hasErrors(this.props.entry)}
+          errors={getAllErrorMessages(this.props.entry)}
+          hideError={this.props.hideError}
           style={this.props.style}
           multi={this.props.multi}
         ></TembaSelect>

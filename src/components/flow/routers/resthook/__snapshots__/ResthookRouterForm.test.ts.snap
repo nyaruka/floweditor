@@ -46,16 +46,16 @@ exports[`ResthookRouterForm render should render 1`] = `
     entry={
       Object {
         "value": Object {
-          "id": "my-resthook",
-          "name": "my-resthook",
-          "type": "resthook",
+          "resthook": "my-resthook",
         },
       }
     }
     name="Resthook"
+    nameKey="resthook"
     onChange={[Function]}
     placeholder="Select the resthook to call"
     searchable={true}
+    valueKey="resthook"
   />
   <div
     className="result_name"
@@ -214,8 +214,8 @@ Object {
   "resthook": Object {
     "validationFailures": Array [],
     "value": Object {
-      "id": "new-resthook",
       "name": "new-resthook",
+      "resthook": "new-resthook",
       "type": "resthook",
     },
   },

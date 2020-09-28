@@ -1,18 +1,17 @@
-@import "variables.module.scss";
+@import 'variables.module.scss';
+
+.options {
+  display: flex;
+  align-items: center;
+}
 
 .lead_in {
-  margin-bottom: 5px;
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 6px;
 }
 
 .bucket_select {
   width: 154px;
-  display: inline-block;
   margin-left: 10px;
-  margin-bottom: -10px;
-  vertical-align: top;
+  margin-top: -5px;
 }
 
 $bucketSpacing: 6px;

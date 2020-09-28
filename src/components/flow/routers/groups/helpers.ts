@@ -5,7 +5,7 @@ import { GROUPS_OPERAND } from 'components/nodeeditor/constants';
 import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { Category, FlowNode, RouterTypes, SwitchRouter } from 'flowTypes';
-import { Asset, AssetType, RenderNode } from 'store/flowContext';
+import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 
@@ -57,30 +57,30 @@ export const stateToNode = (
   );
 };
 
-export const extractGroups = (node: FlowNode): Asset[] => {
-  let groups: Asset[] = [];
+export const extractGroups = (node: FlowNode): any[] => {
+  let groups: any[] = [];
   const router = getSwitchRouter(node);
   if (router) {
     groups = (router as SwitchRouter).cases.map(kase => {
       const category = router.categories.find((cat: Category) => cat.uuid === kase.category_uuid);
       return {
         name: category.name,
-        id: kase.arguments[0],
-        type: AssetType.Group
+        uuid: kase.arguments[0]
       };
     });
   }
   return groups;
 };
-export const groupsToCases = (groups: Asset[] = []): CaseProps[] =>
-  groups.map(({ name, id }: Asset) => ({
-    uuid: id,
+export const groupsToCases = (groups: any[] = []): CaseProps[] => {
+  return groups.map(({ name, uuid }: any) => ({
+    uuid,
     kase: {
       uuid: createUUID(),
       type: Operators.has_group,
-      arguments: [id, name],
+      arguments: [uuid, name],
       category_uuid: ''
     },
     categoryName: name,
     valid: true
   }));
+};

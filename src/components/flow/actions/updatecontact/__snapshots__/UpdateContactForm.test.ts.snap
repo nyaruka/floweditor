@@ -81,6 +81,7 @@ exports[`UpdateContactForm render should render an empty form with different act
         },
       }
     }
+    getName={[Function]}
     name="Contact Field"
     onAssetCreated={[Function]}
     onChange={[Function]}
@@ -187,6 +188,7 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
         },
       }
     }
+    getName={[Function]}
     name="Contact Field"
     onAssetCreated={[Function]}
     onChange={[Function]}
@@ -240,7 +242,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -253,8 +255,9 @@ exports[`UpdateContactForm should allow switching from router to channel 2`] = `
 Array [
   Object {
     "channel": Object {
+      "id": "channel_id",
       "name": "Channel Name",
-      "uuid": "channel_id",
+      "type": "channel",
     },
     "type": "set_contact_channel",
     "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
@@ -298,7 +301,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -311,8 +314,8 @@ exports[`UpdateContactForm should allow switching from router to field value 2`]
 Array [
   Object {
     "field": Object {
-      "key": "birthday",
-      "name": "Birthday",
+      "key": undefined,
+      "name": undefined,
     },
     "type": "set_contact_field",
     "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
@@ -346,7 +349,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -390,7 +393,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -438,7 +441,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -482,7 +485,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -526,7 +529,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -570,7 +573,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },
@@ -614,7 +617,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Blocked - remove from groups, ignore forever",
+      "name": "Blocked - remove from groups, ignore forever",
       "value": "blocked",
     },
   },
@@ -662,7 +665,7 @@ Object {
   },
   "status": Object {
     "value": Object {
-      "label": "Active",
+      "name": "Active",
       "value": "active",
     },
   },

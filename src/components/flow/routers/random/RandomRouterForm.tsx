@@ -132,16 +132,18 @@ export default class RandomRouterForm extends React.Component<
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <div className={styles.lead_in}>Split them randomly into one of</div>
-        <div className={styles.bucket_select}>
-          <SelectElement
-            key="buckets_select"
-            style={TembaSelectStyle.small}
-            name={i18n.t('forms.buckets', 'Buckets')}
-            entry={this.state.bucketChoice}
-            onChange={this.handleBucketsChanged}
-            options={OPTIONS}
-          />
+        <div className={styles.options}>
+          <div className={styles.lead_in}>Split them randomly into one of</div>
+          <div className={styles.bucket_select}>
+            <SelectElement
+              key="buckets_select"
+              style={TembaSelectStyle.small}
+              name={i18n.t('forms.buckets', 'Buckets')}
+              entry={this.state.bucketChoice}
+              onChange={this.handleBucketsChanged}
+              options={OPTIONS}
+            />
+          </div>
         </div>
         <div className={styles.bucket_list}>{this.renderBucketNames()}</div>
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}

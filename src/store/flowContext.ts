@@ -65,6 +65,7 @@ export enum AssetType {
   Flow = 'flow',
   Global = 'global',
   Group = 'group',
+  GroupNameMatch = 'group_match',
   Label = 'label',
   Language = 'language',
   Remove = 'remove',

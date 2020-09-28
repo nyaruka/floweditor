@@ -19,7 +19,7 @@ export enum Methods {
 
 export interface MethodOption {
   value: string;
-  label: string;
+  name: string;
 }
 
 interface HeaderMap {
@@ -28,16 +28,16 @@ interface HeaderMap {
 
 export const GET_METHOD: MethodOption = {
   value: Methods.GET,
-  label: Methods.GET
+  name: Methods.GET
 };
 
 export const METHOD_OPTIONS: MethodOption[] = [
   GET_METHOD,
-  { value: Methods.POST, label: Methods.POST },
-  { value: Methods.PUT, label: Methods.PUT },
-  { value: Methods.DELETE, label: Methods.DELETE },
-  { value: Methods.HEAD, label: Methods.HEAD },
-  { value: Methods.PATCH, label: Methods.PATCH }
+  { value: Methods.POST, name: Methods.POST },
+  { value: Methods.PUT, name: Methods.PUT },
+  { value: Methods.DELETE, name: Methods.DELETE },
+  { value: Methods.HEAD, name: Methods.HEAD },
+  { value: Methods.PATCH, name: Methods.PATCH }
 ];
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => {
@@ -79,7 +79,7 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormStat
 
     state.resultName = { value: action.result_name };
     state.url = { value: action.url };
-    state.method = { value: { label: action.method, value: action.method } };
+    state.method = { value: { name: action.method, value: action.method } };
     state.body = { value: action.body };
     state.valid = true;
   } else {

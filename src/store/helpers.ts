@@ -558,11 +558,13 @@ export const getFlowComponents = (definition: FlowDefinition): FlowComponents =>
 
         /* istanbul ignore else */
         if (category) {
-          groups[groupUUID] = {
-            name: category.name,
-            id: groupUUID,
-            type: AssetType.Group
-          };
+          if (groupUUID) {
+            groups[groupUUID] = {
+              name: category.name,
+              id: groupUUID,
+              type: AssetType.Group
+            };
+          }
         }
       }
     }
@@ -572,11 +574,13 @@ export const getFlowComponents = (definition: FlowDefinition): FlowComponents =>
         const groupsToChange = (action as ChangeGroups).groups;
         if (groupsToChange) {
           for (const group of groupsToChange) {
-            groups[group.uuid] = {
-              name: group.name,
-              id: group.uuid,
-              type: AssetType.Group
-            };
+            if (group.uuid) {
+              groups[group.uuid] = {
+                name: group.name,
+                id: group.uuid,
+                type: AssetType.Group
+              };
+            }
           }
         }
       } else if (action.type === Types.set_contact_field) {

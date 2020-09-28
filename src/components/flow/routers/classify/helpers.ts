@@ -9,8 +9,8 @@ import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { Types, Operators, HIDDEN } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { CallClassifier, SwitchRouter, Case, Exit, Category, RouterTypes } from 'flowTypes';
-import { RenderNode, AssetType } from 'store/flowContext';
-import { NodeEditorSettings, StringEntry, AssetEntry } from 'store/nodeEditor';
+import { RenderNode } from 'store/flowContext';
+import { NodeEditorSettings, StringEntry, FormEntry } from 'store/nodeEditor';
 import { createUUID, scalarArrayEquals, snakify } from 'utils';
 import { ClassifyRouterFormState } from 'components/flow/routers/classify/ClassifyRouterForm';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
@@ -32,7 +32,7 @@ export const nodeToState = (settings: NodeEditorSettings): ClassifyRouterFormSta
   let initialCases: CaseProps[] = [];
 
   let operand = DEFAULT_OPERAND;
-  let classifier: AssetEntry = { value: null };
+  let classifier: FormEntry = { value: null };
 
   let hiddenCases: CaseProps[] = [];
 
@@ -52,8 +52,7 @@ export const nodeToState = (settings: NodeEditorSettings): ClassifyRouterFormSta
     }
 
     const action = getOriginalAction(settings) as CallClassifier;
-    const { uuid: id, name } = action.classifier;
-    classifier = { value: { id, name, type: AssetType.Classifier } };
+    classifier = { value: action.classifier };
     operand = action.input;
   }
 
@@ -152,7 +151,7 @@ export const stateToNode = (
     result_name: actionResultName,
     input: state.operand.value,
     classifier: {
-      uuid: state.classifier.value.id,
+      uuid: state.classifier.value.uuid,
       name: state.classifier.value.name
     }
   };

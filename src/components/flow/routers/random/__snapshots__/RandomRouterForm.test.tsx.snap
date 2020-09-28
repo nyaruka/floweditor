@@ -34,67 +34,71 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="lead_in"
+    className="options"
   >
-    Split them randomly into one of
-  </div>
-  <div
-    className="bucket_select"
-  >
-    <SelectElement
-      entry={
-        Object {
-          "value": Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
+    <div
+      className="lead_in"
+    >
+      Split them randomly into one of
+    </div>
+    <div
+      className="bucket_select"
+    >
+      <SelectElement
+        entry={
+          Object {
+            "value": Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+          }
         }
-      }
-      key="buckets_select"
-      name="Buckets"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
-          Object {
-            "label": "3 buckets",
-            "value": "3",
-          },
-          Object {
-            "label": "4 buckets",
-            "value": "4",
-          },
-          Object {
-            "label": "5 buckets",
-            "value": "5",
-          },
-          Object {
-            "label": "6 buckets",
-            "value": "6",
-          },
-          Object {
-            "label": "7 buckets",
-            "value": "7",
-          },
-          Object {
-            "label": "8 buckets",
-            "value": "8",
-          },
-          Object {
-            "label": "9 buckets",
-            "value": "9",
-          },
-          Object {
-            "label": "10 buckets",
-            "value": "10",
-          },
-        ]
-      }
-      style="small"
-    />
+        key="buckets_select"
+        name="Buckets"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+            Object {
+              "name": "3 buckets",
+              "value": "3",
+            },
+            Object {
+              "name": "4 buckets",
+              "value": "4",
+            },
+            Object {
+              "name": "5 buckets",
+              "value": "5",
+            },
+            Object {
+              "name": "6 buckets",
+              "value": "6",
+            },
+            Object {
+              "name": "7 buckets",
+              "value": "7",
+            },
+            Object {
+              "name": "8 buckets",
+              "value": "8",
+            },
+            Object {
+              "name": "9 buckets",
+              "value": "9",
+            },
+            Object {
+              "name": "10 buckets",
+              "value": "10",
+            },
+          ]
+        }
+        style="small"
+      />
+    </div>
   </div>
   <div
     className="bucket_list"
@@ -256,34 +260,42 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
                 name="type"
-                options="[{\\"name\\":\\"Send the contact a message\\",\\"value\\":\\"send_msg\\"},{\\"name\\":\\"Wait for the contact to respond\\",\\"value\\":\\"wait_for_response\\"},{\\"name\\":\\"Send somebody else a message\\",\\"value\\":\\"send_broadcast\\"},{\\"name\\":\\"Label the incoming message\\",\\"value\\":\\"add_input_labels\\"},{\\"name\\":\\"Add a URN for the contact\\",\\"value\\":\\"add_contact_urn\\"},{\\"name\\":\\"Add the contact to a group\\",\\"value\\":\\"add_contact_groups\\"},{\\"name\\":\\"Remove the contact from a group\\",\\"value\\":\\"remove_contact_groups\\"},{\\"name\\":\\"Update the contact\\",\\"value\\":\\"set_contact_field\\"},{\\"name\\":\\"Send an email\\",\\"value\\":\\"send_email\\"},{\\"name\\":\\"Save a result for this flow\\",\\"value\\":\\"set_run_result\\"},{\\"name\\":\\"Call a webhook\\",\\"value\\":\\"call_webhook\\"},{\\"name\\":\\"Call Zapier\\",\\"value\\":\\"call_resthook\\"},{\\"name\\":\\"Enter another flow\\",\\"value\\":\\"enter_flow\\"},{\\"name\\":\\"Start somebody else in a flow\\",\\"value\\":\\"start_session\\"},{\\"name\\":\\"Open a ticket with a human agent\\",\\"value\\":\\"open_ticket\\"},{\\"name\\":\\"Send the contact airtime\\",\\"value\\":\\"transfer_airtime\\"},{\\"name\\":\\"Split by intent\\",\\"value\\":\\"split_by_intent\\"},{\\"name\\":\\"Split by a custom expression\\",\\"value\\":\\"split_by_expression\\"},{\\"name\\":\\"Split by a contact field\\",\\"value\\":\\"split_by_contact_field\\"},{\\"name\\":\\"Split by a result in the flow\\",\\"value\\":\\"split_by_run_result\\"},{\\"name\\":\\"Split by random chance\\",\\"value\\":\\"split_by_random\\"},{\\"name\\":\\"Split by group membership\\",\\"value\\":\\"split_by_groups\\"},{\\"name\\":\\"Split by URN type\\",\\"value\\":\\"split_by_scheme\\"}]"
+                namekey="description"
                 searchable="true"
-                values="[{\\"name\\":\\"Split by random chance\\",\\"value\\":\\"split_by_random\\"}]"
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_random\\",\\"name\\":\\"Split Randomly\\",\\"description\\":\\"Split by random chance\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
         </div>
         <div
-          class="lead_in"
-        >
-          Split them randomly into one of
-        </div>
-        <div
-          class="bucket_select"
+          class="options"
         >
           <div
-            class="ele"
+            class="lead_in"
+          >
+            Split them randomly into one of
+          </div>
+          <div
+            class="bucket_select"
           >
             <div
-              class="small "
+              class="ele"
             >
-              <temba-select
-                data-testid="temba_select_buckets"
-                name="Buckets"
-                options="[{\\"name\\":\\"2 buckets\\",\\"value\\":\\"2\\"},{\\"name\\":\\"3 buckets\\",\\"value\\":\\"3\\"},{\\"name\\":\\"4 buckets\\",\\"value\\":\\"4\\"},{\\"name\\":\\"5 buckets\\",\\"value\\":\\"5\\"},{\\"name\\":\\"6 buckets\\",\\"value\\":\\"6\\"},{\\"name\\":\\"7 buckets\\",\\"value\\":\\"7\\"},{\\"name\\":\\"8 buckets\\",\\"value\\":\\"8\\"},{\\"name\\":\\"9 buckets\\",\\"value\\":\\"9\\"},{\\"name\\":\\"10 buckets\\",\\"value\\":\\"10\\"}]"
-                values="[{\\"name\\":\\"5 buckets\\",\\"value\\":\\"5\\"}]"
-              />
+              <div
+                class="small "
+              >
+                <temba-select
+                  data-testid="temba_select_buckets"
+                  errors="[]"
+                  name="Buckets"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\"5\\",\\"name\\":\\"5 buckets\\"}]"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -553,34 +565,42 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
                 name="type"
-                options="[{\\"name\\":\\"Send the contact a message\\",\\"value\\":\\"send_msg\\"},{\\"name\\":\\"Wait for the contact to respond\\",\\"value\\":\\"wait_for_response\\"},{\\"name\\":\\"Send somebody else a message\\",\\"value\\":\\"send_broadcast\\"},{\\"name\\":\\"Label the incoming message\\",\\"value\\":\\"add_input_labels\\"},{\\"name\\":\\"Add a URN for the contact\\",\\"value\\":\\"add_contact_urn\\"},{\\"name\\":\\"Add the contact to a group\\",\\"value\\":\\"add_contact_groups\\"},{\\"name\\":\\"Remove the contact from a group\\",\\"value\\":\\"remove_contact_groups\\"},{\\"name\\":\\"Update the contact\\",\\"value\\":\\"set_contact_field\\"},{\\"name\\":\\"Send an email\\",\\"value\\":\\"send_email\\"},{\\"name\\":\\"Save a result for this flow\\",\\"value\\":\\"set_run_result\\"},{\\"name\\":\\"Call a webhook\\",\\"value\\":\\"call_webhook\\"},{\\"name\\":\\"Call Zapier\\",\\"value\\":\\"call_resthook\\"},{\\"name\\":\\"Enter another flow\\",\\"value\\":\\"enter_flow\\"},{\\"name\\":\\"Start somebody else in a flow\\",\\"value\\":\\"start_session\\"},{\\"name\\":\\"Open a ticket with a human agent\\",\\"value\\":\\"open_ticket\\"},{\\"name\\":\\"Send the contact airtime\\",\\"value\\":\\"transfer_airtime\\"},{\\"name\\":\\"Split by intent\\",\\"value\\":\\"split_by_intent\\"},{\\"name\\":\\"Split by a custom expression\\",\\"value\\":\\"split_by_expression\\"},{\\"name\\":\\"Split by a contact field\\",\\"value\\":\\"split_by_contact_field\\"},{\\"name\\":\\"Split by a result in the flow\\",\\"value\\":\\"split_by_run_result\\"},{\\"name\\":\\"Split by random chance\\",\\"value\\":\\"split_by_random\\"},{\\"name\\":\\"Split by group membership\\",\\"value\\":\\"split_by_groups\\"},{\\"name\\":\\"Split by URN type\\",\\"value\\":\\"split_by_scheme\\"}]"
+                namekey="description"
                 searchable="true"
-                values="[{\\"name\\":\\"Split by random chance\\",\\"value\\":\\"split_by_random\\"}]"
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_random\\",\\"name\\":\\"Split Randomly\\",\\"description\\":\\"Split by random chance\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
               />
             </div>
           </div>
         </div>
         <div
-          class="lead_in"
-        >
-          Split them randomly into one of
-        </div>
-        <div
-          class="bucket_select"
+          class="options"
         >
           <div
-            class="ele"
+            class="lead_in"
+          >
+            Split them randomly into one of
+          </div>
+          <div
+            class="bucket_select"
           >
             <div
-              class="small "
+              class="ele"
             >
-              <temba-select
-                data-testid="temba_select_buckets"
-                name="Buckets"
-                options="[{\\"name\\":\\"2 buckets\\",\\"value\\":\\"2\\"},{\\"name\\":\\"3 buckets\\",\\"value\\":\\"3\\"},{\\"name\\":\\"4 buckets\\",\\"value\\":\\"4\\"},{\\"name\\":\\"5 buckets\\",\\"value\\":\\"5\\"},{\\"name\\":\\"6 buckets\\",\\"value\\":\\"6\\"},{\\"name\\":\\"7 buckets\\",\\"value\\":\\"7\\"},{\\"name\\":\\"8 buckets\\",\\"value\\":\\"8\\"},{\\"name\\":\\"9 buckets\\",\\"value\\":\\"9\\"},{\\"name\\":\\"10 buckets\\",\\"value\\":\\"10\\"}]"
-                values="[{\\"name\\":\\"3 buckets\\",\\"value\\":\\"3\\"}]"
-              />
+              <div
+                class="small "
+              >
+                <temba-select
+                  data-testid="temba_select_buckets"
+                  errors="[]"
+                  name="Buckets"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\"3\\",\\"name\\":\\"3 buckets\\"}]"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -824,67 +844,71 @@ exports[`RandomRouterForm should render 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="lead_in"
+    className="options"
   >
-    Split them randomly into one of
-  </div>
-  <div
-    className="bucket_select"
-  >
-    <SelectElement
-      entry={
-        Object {
-          "value": Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
+    <div
+      className="lead_in"
+    >
+      Split them randomly into one of
+    </div>
+    <div
+      className="bucket_select"
+    >
+      <SelectElement
+        entry={
+          Object {
+            "value": Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+          }
         }
-      }
-      key="buckets_select"
-      name="Buckets"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
-          Object {
-            "label": "3 buckets",
-            "value": "3",
-          },
-          Object {
-            "label": "4 buckets",
-            "value": "4",
-          },
-          Object {
-            "label": "5 buckets",
-            "value": "5",
-          },
-          Object {
-            "label": "6 buckets",
-            "value": "6",
-          },
-          Object {
-            "label": "7 buckets",
-            "value": "7",
-          },
-          Object {
-            "label": "8 buckets",
-            "value": "8",
-          },
-          Object {
-            "label": "9 buckets",
-            "value": "9",
-          },
-          Object {
-            "label": "10 buckets",
-            "value": "10",
-          },
-        ]
-      }
-      style="small"
-    />
+        key="buckets_select"
+        name="Buckets"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+            Object {
+              "name": "3 buckets",
+              "value": "3",
+            },
+            Object {
+              "name": "4 buckets",
+              "value": "4",
+            },
+            Object {
+              "name": "5 buckets",
+              "value": "5",
+            },
+            Object {
+              "name": "6 buckets",
+              "value": "6",
+            },
+            Object {
+              "name": "7 buckets",
+              "value": "7",
+            },
+            Object {
+              "name": "8 buckets",
+              "value": "8",
+            },
+            Object {
+              "name": "9 buckets",
+              "value": "9",
+            },
+            Object {
+              "name": "10 buckets",
+              "value": "10",
+            },
+          ]
+        }
+        style="small"
+      />
+    </div>
   </div>
   <div
     className="bucket_list"
