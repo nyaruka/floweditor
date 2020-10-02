@@ -54,11 +54,11 @@ export const nodeToState = (
     if (assetStore.fields) {
       if (operand.id in assetStore.fields.items) {
         const name = assetStore.fields.items[operand.id].name;
-        field = { id: operand.id, type: operand.type, name };
+        field = { key: operand.id, label: name, type: operand.type };
       }
     }
 
-    // couldn't find the asset, checkour routable fields
+    // couldn't find the asset, check our routable fields
     if (!field) {
       field = getRoutableFields().find((asset: Asset) => asset.id === operand.id);
     }
@@ -93,13 +93,26 @@ export const stateToNode = (
   }
 
   let operand = DEFAULT_OPERAND;
+
   const asset = state.field.value;
+
+  let operandConfig = {
+    id: asset.id,
+    type: asset.type,
+    name: asset.name
+  };
+
   if (asset.type === AssetType.Scheme) {
     operand = `@(default(urn_parts(urns.${asset.id}).path, ""))`;
-  } else if (asset.type === AssetType.Field) {
-    operand = `@fields.${asset.id}`;
-  } else {
+  } else if (asset.type === AssetType.ContactProperty) {
     operand = `@contact.${asset.id}`;
+  } else if (asset.key) {
+    operand = `@fields.${asset.key}`;
+    operandConfig = {
+      id: asset.key,
+      name: asset.label,
+      type: AssetType.Field
+    };
   }
 
   const router: SwitchRouter = {
@@ -118,11 +131,7 @@ export const stateToNode = (
     Types.split_by_contact_field,
     [],
     {
-      operand: {
-        id: asset.id,
-        type: asset.type,
-        name: asset.name
-      },
+      operand: operandConfig,
       cases: caseConfig
     }
   );

@@ -10,7 +10,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import { AssetEntry, FormState, StringEntry } from 'store/nodeEditor';
+import { FormEntry, FormState, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
 
 import styles from './FieldRouterForm.module.scss';
@@ -28,7 +28,7 @@ export enum InputToFocus {
 }
 
 export interface FieldRouterFormState extends FormState {
-  field: AssetEntry;
+  field: FormEntry;
   cases: CaseProps[];
   resultName: StringEntry;
 }
