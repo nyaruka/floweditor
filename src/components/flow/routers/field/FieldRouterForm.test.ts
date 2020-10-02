@@ -2,9 +2,11 @@ import { RouterFormProps } from 'components/flow/props';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { Operators, Types } from 'config/interfaces';
 import { AssetType } from 'store/flowContext';
+import { getUpdatedNode } from 'test/utils';
 import { composeComponentTestUtils, mock } from 'testUtils';
 import { createMatchRouter, getRouterFormProps } from 'testUtils/assetCreators';
 import * as utils from 'utils';
+import { getSwitchRouter } from '../helpers';
 
 import FieldRouterForm from './FieldRouterForm';
 
@@ -82,14 +84,37 @@ describe(FieldRouterForm.name, () => {
         $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
       });
 
-      instance.handleFieldChanged({
-        id: 'viber',
-        name: 'Viber',
-        type: AssetType.URN
-      });
+      instance.handleFieldChanged([
+        {
+          id: 'viber',
+          name: 'Viber',
+          type: AssetType.URN
+        }
+      ]);
       instance.getButtons().secondary.onClick();
       expect(props.onClose).toHaveBeenCalled();
       expect(props.updateRouter).not.toHaveBeenCalled();
+    });
+
+    it('should build expression from a selected field', () => {
+      const { instance, props } = setup(true, {
+        $merge: { updateRouter: jest.fn(), onClose: jest.fn() }
+      });
+
+      instance.handleFieldChanged([
+        {
+          key: 'my_field',
+          label: 'My Field'
+        }
+      ]);
+
+      instance.handleSave();
+
+      const node = getUpdatedNode(instance.props);
+      expect(getSwitchRouter(node.node).operand).toEqual('@fields.my_field');
+
+      expect(props.updateRouter).toHaveBeenCalled();
+      expect(props.updateRouter).toMatchCallSnapshot();
     });
   });
 });
