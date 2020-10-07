@@ -48,7 +48,8 @@ const MAX_ATTACHMENTS = 3;
 const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
   { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
-  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') }
+  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
+  { value: 'application/pdf', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
 const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', name: 'Upload Attachment' }]);

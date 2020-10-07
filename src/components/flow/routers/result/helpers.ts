@@ -84,8 +84,7 @@ export const nodeToState = (
     const config = settings.originalNode.ui.config;
     if (config && config.operand) {
       if (config.operand.id in assetStore.results.items) {
-        const resultAsset = assetStore.results.items[config.operand.id];
-        result = { name: resultAsset.name, value: resultAsset.id };
+        result = assetStore.results.items[config.operand.id];
       } else {
         result = null;
       }
@@ -127,12 +126,12 @@ export const stateToNode = (
   let nodeType = Types.split_by_run_result;
 
   const result = state.result.value;
-  let operand = `@results.${result.value}`;
+  let operand = `@results.${result.id}`;
 
   const config: any = {
     operand: {
       name: result.name,
-      id: result.value,
+      id: result.id,
       type: 'result'
     },
     cases: caseConfig

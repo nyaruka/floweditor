@@ -133,6 +133,34 @@ const renderAttachment = (attachment: string): JSX.Element => {
       );
     } else if (type.startsWith('image')) {
       return <img src={url} alt="Attachment" />;
+    } else if (type.startsWith('application/pdf')) {
+      return (
+        <div
+          onClick={() => {
+            window.open(url);
+          }}
+          style={{
+            cursor: 'pointer',
+            textDecoration: 'none',
+            padding: '10px 12px',
+            background: '#e6e6e6',
+            color: '#666'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div
+              className="fe-document-file-pdf"
+              style={{
+                textDecoration: 'none',
+                fontSize: '20px'
+              }}
+            />
+            <div style={{ marginLeft: '5px', lineHeight: '16px' }}>
+              {i18n.t('document', 'Document')}
+            </div>
+          </div>
+        </div>
+      );
     } else if (type.startsWith('geo')) {
       return <img src={MAP_THUMB} alt="Attachment" />;
     } else if (type.startsWith('video')) {

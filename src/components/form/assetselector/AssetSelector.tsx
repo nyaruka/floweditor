@@ -70,6 +70,8 @@ interface AssetSelectorState {
 export default class AssetSelector extends React.Component<AssetSelectorProps, AssetSelectorState> {
   private lastCreation: number = 0;
 
+  private options: any[] = [];
+
   constructor(props: AssetSelectorProps) {
     super(props);
     bindCallbacks(this, {
@@ -81,6 +83,18 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     // or it should be a list of local assets from an empty search
     if (props.assets && !props.assets.endpoint) {
       defaultOptions = searchAssetMap('', props.assets.items);
+    }
+
+    this.options = this.props.additionalOptions || [];
+    if (this.props.valueClearable) {
+      this.options.push(REMOVE_VALUE_ASSET);
+    }
+
+    // if we don't have an endpoint, populate our options with items
+    if (!this.props.assets.endpoint) {
+      this.options = this.options.concat(
+        Object.keys(this.props.assets.items).map((id: string) => this.props.assets.items[id])
+      );
     }
 
     this.state = {
@@ -171,12 +185,13 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
   }
 
-  public render(): JSX.Element {
-    const additionalOptions = this.props.additionalOptions || [];
-    if (this.props.valueClearable) {
-      additionalOptions.push(REMOVE_VALUE_ASSET);
+  public getName(option: any) {
+    if (this.props.getName) {
+      return this.props.getName(option);
     }
+  }
 
+  public render(): JSX.Element {
     const fallbackPlaceholder = i18n.t(
       'asset_selector.placeholder',
       'Select existing [[name]] or enter a new one',
@@ -210,7 +225,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           errors={this.state.message ? [this.state.message] : []}
           searchable={this.props.searchable}
           cacheKey={this.lastCreation + ''}
-          options={additionalOptions}
+          options={this.options}
           sortFunction={this.props.sortFunction || sortByName}
         />
       </FormElement>
