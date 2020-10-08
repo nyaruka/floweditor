@@ -196,8 +196,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private renderUpload(index: number, attachment: Attachment): JSX.Element {
-    let attachments: any = this.state.attachments;
-
     return (
       <div
         className={styles.url_attachment}
