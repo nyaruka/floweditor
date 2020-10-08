@@ -16,6 +16,7 @@ export interface TembaSelectProps {
   onChange: (option: any) => void;
   onFocus?: () => void;
   shouldExclude?: (option: any) => boolean;
+  disabled?: boolean;
 
   createPrefix?: string;
   expressions?: boolean;
@@ -154,10 +155,12 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
         });
       }
 
-      if (this.props.multi) {
-        this.props.onChange(resolved);
-      } else {
-        this.props.onChange(resolved[0]);
+      if (this.props.onChange) {
+        if (this.props.multi) {
+          this.props.onChange(resolved);
+        } else {
+          this.props.onChange(resolved[0]);
+        }
       }
     });
   }
@@ -202,6 +205,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           placeholder={this.props.placeholder}
           searchable={bool(this.props.searchable)}
           multi={bool(this.props.multi)}
+          disabled={this.props.disabled}
         />
       </div>
     );

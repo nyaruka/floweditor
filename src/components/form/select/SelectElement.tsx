@@ -18,6 +18,8 @@ interface SelectElementProps extends FormElementProps {
 
   nameKey?: string;
   valueKey?: string;
+
+  disabled?: boolean;
 }
 
 export interface SelectOption {
@@ -43,6 +45,7 @@ export default class SelectElement extends React.Component<SelectElementProps> {
           hideError={this.props.hideError}
           style={this.props.style}
           multi={this.props.multi}
+          disabled={this.props.disabled}
         ></TembaSelect>
       </FormElement>
     );

@@ -49,7 +49,7 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
   { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
   { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
-  { value: 'application/pdf', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
+  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
 const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', name: 'Upload Attachment' }]);
@@ -196,6 +196,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private renderUpload(index: number, attachment: Attachment): JSX.Element {
+    let attachments: any = this.state.attachments;
+
     return (
       <div
         className={styles.url_attachment}
@@ -210,6 +212,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
               value: { name: attachment.type }
             }}
             options={TYPE_OPTIONS}
+            disabled={true}
           />
         </div>
         <div className={styles.url}>

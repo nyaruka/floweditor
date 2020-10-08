@@ -133,7 +133,7 @@ const renderAttachment = (attachment: string): JSX.Element => {
       );
     } else if (type.startsWith('image')) {
       return <img src={url} alt="Attachment" />;
-    } else if (type.startsWith('application/pdf')) {
+    } else if (type.startsWith('application')) {
       return (
         <div
           onClick={() => {
