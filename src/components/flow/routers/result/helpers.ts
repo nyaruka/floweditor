@@ -9,7 +9,7 @@ import { SelectOption } from 'components/form/select/SelectElement';
 import { Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
-import { AssetStore, RenderNode } from 'store/flowContext';
+import { AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 import { ResultRouterFormState } from './ResultRouterForm';
@@ -132,7 +132,7 @@ export const stateToNode = (
     operand: {
       name: result.name,
       id: result.id,
-      type: 'result'
+      type: AssetType.Result
     },
     cases: caseConfig
   };
@@ -140,7 +140,7 @@ export const stateToNode = (
   if (state.shouldDelimit) {
     config.index = state.fieldNumber;
     config.delimiter = state.delimiter;
-    operand = `@(field(results.${result.value}, ${state.fieldNumber}, "${state.delimiter}"))`;
+    operand = `@(field(results.${result.id}, ${state.fieldNumber}, "${state.delimiter}"))`;
     nodeType = Types.split_by_run_result_delimited;
   }
 
