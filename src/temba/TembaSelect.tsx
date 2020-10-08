@@ -53,15 +53,23 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
   }
 
   public getName(option: any): string {
-    if (this.props.nameKey in option) {
-      return option[this.props.nameKey];
+    let name = '';
+    if (this.props.getName) {
+      name = this.props.getName(option);
     }
 
-    if ('label' in option) {
-      return option['label'];
+    if (!name && this.props.nameKey in option) {
+      name = option[this.props.nameKey];
     }
 
-    return option['name'];
+    if (!name && 'label' in option) {
+      name = option['label'];
+    }
+
+    if (!name) {
+      name = option['name'];
+    }
+    return name;
   }
 
   public getValue(option: any): string {
@@ -86,10 +94,8 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
       (this.selectbox as any).createArbitraryOption = (input: string, options: any[]) => {
         if (input.indexOf('@') === -1) {
           var existing = options.find(function(option: any) {
-            return !!(
-              select.props.getName(option) ||
-              option[select.props.nameKey].toLowerCase().trim() === input.toLowerCase().trim()
-            );
+            const name = select.getName(option);
+            return !!(name.toLowerCase().trim() === input.toLowerCase().trim());
           });
           if (!existing) {
             return {
@@ -118,9 +124,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
       selectbox.shouldExclude = this.props.shouldExclude;
     }
 
-    if (this.props.getName) {
-      selectbox.getName = this.props.getName;
-    }
+    selectbox.getName = select.getName.bind(select);
 
     this.selectbox.addEventListener('change', (event: any) => {
       const values = event.target.values || [event.target.value];

@@ -107,6 +107,10 @@ exports[`SendMsgForm render should render 1`] = `
                       "value": "video",
                     },
                     Object {
+                      "name": "PDF Document URL",
+                      "value": "application/pdf",
+                    },
+                    Object {
                       "name": "Upload Attachment",
                       "value": "upload",
                     },
