@@ -20,7 +20,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import Pill from 'components/pill/Pill';
 import { fakePropType } from 'config/ConfigProvider';
 import { fetchAsset, getCookie } from 'external';
-import { Template, TemplateOptions, TemplateTranslation } from 'flowTypes';
+import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';

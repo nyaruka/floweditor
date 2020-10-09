@@ -3,8 +3,8 @@ import { getActionUUID } from 'components/flow/actions/helpers';
 import { Attachment, SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
 import { MsgTemplating, SendMsg } from 'flowTypes';
-import { AssetStore, AssetType } from 'store/flowContext';
-import { AssetEntry, FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+import { AssetStore } from 'store/flowContext';
+import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { createUUID } from 'utils';
 
