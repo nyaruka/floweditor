@@ -20,17 +20,17 @@ import TypeList from 'components/nodeeditor/TypeList';
 import Pill from 'components/pill/Pill';
 import { fakePropType } from 'config/ConfigProvider';
 import { fetchAsset, getCookie } from 'external';
-import { Template, TemplateOptions, TemplateTranslation } from 'flowTypes';
+import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import {
-  AssetEntry,
   FormState,
   mergeForm,
   StringArrayEntry,
   StringEntry,
-  SelectOptionEntry
+  SelectOptionEntry,
+  FormEntry
 } from 'store/nodeEditor';
 import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
 import { createUUID, range } from 'utils';
@@ -70,7 +70,7 @@ export interface SendMsgFormState extends FormState {
   quickReplyEntry: StringEntry;
   sendAll: boolean;
   attachments: Attachment[];
-  template: AssetEntry;
+  template: FormEntry;
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
   templateTranslation?: TemplateTranslation;
@@ -88,10 +88,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     // intialize our templates if we have them
     if (this.state.template.value !== null) {
-      fetchAsset(this.props.assetStore.templates, this.state.template.value.id).then(
+      fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
         (asset: Asset) => {
           if (asset !== null) {
-            this.handleTemplateChanged([asset]);
+            this.handleTemplateChanged([{ ...this.state.template.value, ...asset.content }]);
           }
         }
       );
@@ -368,7 +368,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
-  private handleTemplateChanged(selected: Asset[]): void {
+  private handleTemplateChanged(selected: any[]): void {
     const template = selected ? selected[0] : null;
 
     if (!template) {
@@ -378,8 +378,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         templateVariables: []
       });
     } else {
-      const templateOptions = template.content as TemplateOptions;
-      const templateTranslation = templateOptions.translations[0];
+      const templateTranslation = template.translations[0];
 
       const templateVariables =
         this.state.templateVariables.length === 0 ||
