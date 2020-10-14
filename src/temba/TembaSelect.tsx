@@ -38,6 +38,8 @@ export interface TembaSelectProps {
   sortFunction?(a: any, b: any): number;
 
   hideError?: boolean;
+
+  clearable?: boolean;
 }
 
 interface TembaSelectState {}
@@ -206,6 +208,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           searchable={bool(this.props.searchable)}
           multi={bool(this.props.multi)}
           disabled={this.props.disabled}
+          clearable={this.props.clearable}
         />
       </div>
     );
