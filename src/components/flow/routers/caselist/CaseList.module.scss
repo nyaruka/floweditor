@@ -22,4 +22,15 @@
 
 .kase {
   z-index: 2000;
+
+  &:last-child {
+    span {
+      opacity: 0 !important;
+      cursor: default;
+    }
+    .dnd_icon {
+      opacity: 0;
+    }  
+  }
+
 }
