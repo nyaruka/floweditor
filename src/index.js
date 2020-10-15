@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import * as serviceWorker from './serviceWorker';
+import { setHTTPTimeout } from 'external';
 
 // bring in our temba-components if they aren't already registered
 if (typeof customElements !== 'undefined' && !customElements.get('temba-textinput')) {
@@ -15,6 +16,10 @@ if (typeof customElements !== 'undefined' && !customElements.get('temba-textinpu
 }
 
 window.showFlowEditor = (ele, config) => {
+  if (config.httpTimeout) {
+    setHTTPTimeout(config.httpTimeout);
+  }
+
   ReactDOM.render(<FlowEditor config={config} />, ele);
 };
 

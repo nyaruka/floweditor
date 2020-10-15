@@ -244,7 +244,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     // if we have a csrf in our cookie, pass it along as a header
     const csrf = getCookie('csrftoken');
-    const headers = csrf ? { 'X-CSRFToken': csrf } : {};
+    const headers: any = csrf ? { 'X-CSRFToken': csrf } : {};
+
+    // mark us as ajax
+    headers['X-Requested-With'] = 'XMLHttpRequest';
 
     const data = new FormData();
     data.append('file', files[0]);
