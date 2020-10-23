@@ -42,10 +42,6 @@ configure(config);
   setTimeout(callback, 0);
 };
 
-jest.mock('get-input-selection', () => ({
-  default: jest.fn()
-}));
-
 // no support for lit-elements in RTL, mock in vanilla inputs
 mock(TextInput, 'createTextInput', (props: TextInputProps, handleChange, optional) => {
   return (
