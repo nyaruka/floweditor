@@ -15,7 +15,7 @@ import { hasUseableTranslation } from 'components/form/assetselector/helpers';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
-import TextInputElement, { Count } from 'components/form/textinput/TextInputElement';
+import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import Pill from 'components/pill/Pill';
 import { fakePropType } from 'config/ConfigProvider';
@@ -133,6 +133,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     this.setState(updated);
     return updated.valid;
+  }
+
+  public handleMessageInput(event: React.KeyboardEvent) {
+    return this.handleUpdate({ text: (event.target as any).value }, false);
   }
 
   public handleMessageUpdate(message: string, name: string, submitting = false): boolean {
@@ -309,6 +313,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
               <TextInputElement
                 placeholder="URL"
                 name={i18n.t('forms.url', 'URL')}
+                style={TextInputStyle.small}
                 onChange={(value: string) => {
                   attachments = mutate(attachments, {
                     [index]: { $set: { type: attachment.type, url: value } }
@@ -486,40 +491,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
-  private handleAddQuickReply(newQuickReply: string): boolean {
-    const newReplies = [...this.state.quickReplies.value];
-    if (newReplies.length >= 10) {
-      return false;
-    }
-
-    // we don't allow two quick replies with the same name
-    const isNew = !newReplies.find(
-      (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
-    );
-
-    if (isNew) {
-      newReplies.push(newQuickReply);
-      this.setState({
-        quickReplies: { value: newReplies }
-      });
-      return true;
-    }
-
-    return false;
-  }
-
-  private handleRemoveQuickReply(toRemove: string): void {
-    this.setState({
-      quickReplies: {
-        value: this.state.quickReplies.value.filter((reply: string) => reply !== toRemove)
-      }
-    });
-  }
-
-  private handleQuickReplyEntry(quickReplyEntry: StringEntry): void {
-    this.setState({ quickReplyEntry });
-  }
-
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
@@ -541,9 +512,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             }
             items={this.state.quickReplies}
             entry={this.state.quickReplyEntry}
-            onRemoved={this.handleRemoveQuickReply}
-            onItemAdded={this.handleAddQuickReply}
-            onEntryChanged={this.handleQuickReplyEntry}
+            onChange={this.handleQuickRepliesUpdate}
           />
         </>
       ),
@@ -607,13 +576,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         <TextInputElement
           name={i18n.t('forms.message', 'Message')}
           showLabel={false}
-          count={Count.SMS}
+          counter=".sms-counter"
           onChange={this.handleMessageUpdate}
           entry={this.state.message}
           autocomplete={true}
           focus={true}
           textarea={true}
         />
+        <temba-charcount class="sms-counter"></temba-charcount>
         {renderIssues(this.props)}
       </Dialog>
     );

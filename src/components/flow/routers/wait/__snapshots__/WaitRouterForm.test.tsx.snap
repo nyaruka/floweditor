@@ -78,6 +78,7 @@ exports[`WaitRouterForm should render a normal wait 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -96,6 +97,7 @@ exports[`WaitRouterForm should render a normal wait 1`] = `
             <span
               class="toggle_link"
               data-spec="toggle-link"
+              data-testid="toggle-link"
             >
               Save as..
             </span>
@@ -169,6 +171,7 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -193,37 +196,13 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
                 Result Name
               </div>
               <div
-                class="wrapper"
+                class="wrapper normal"
               >
                 <input
-                  class="textinput"
-                  data-spec="input"
-                  data-testid="input"
-                  maxlength="64"
+                  data-testid="Result Name"
                   name="Result Name"
-                  type="text"
                   value="Previous Name"
                 />
-                <div
-                  class="completion_container hidden"
-                  data-spec="completion-options"
-                  style="top: 0px; left: 0px;"
-                >
-                  <div
-                    class="options_wrapper"
-                  >
-                    <ul
-                      class="option_list"
-                      data-spec="completion-list"
-                    />
-                    <div
-                      class="help"
-                      data-spec="completion-help"
-                    >
-                      Tab to complete, enter to select
-                    </div>
-                  </div>
-                </div>
               </div>
               <div
                 class="help_text"

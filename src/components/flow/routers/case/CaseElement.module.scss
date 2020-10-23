@@ -18,6 +18,7 @@ input:focus {
   vertical-align: sub;
   font-size: 13px;
   line-height: 13px;
+  margin-top: 4px;
 }
 
 .kase.has_intent,
@@ -62,7 +63,7 @@ input:focus {
     display: inline-flex;
     align-items: center;
     margin-left: $spacing;
-    width: 170px;
+    width: 184px;
 
     input[name='intent'] {
       width: 105px;
@@ -81,6 +82,7 @@ input:focus {
     width: 95px;
     text-align: center;
     margin: 0px $spacing - 2;
+    margin-top: 4px;
   }
 
   .category {

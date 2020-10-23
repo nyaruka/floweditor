@@ -212,7 +212,8 @@ export const hasErrors = (entry: FormEntry): boolean => {
 };
 
 export const getAllErrorMessages = (entry: FormEntry): string[] => {
-  return getAllErrors(entry).map((failure: ValidationFailure) => failure.message);
+  const errors = getAllErrors(entry).map((failure: ValidationFailure) => failure.message);
+  return errors;
 };
 
 export const getExpressions = (assets: any[]): any[] => {

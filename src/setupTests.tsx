@@ -7,6 +7,8 @@ import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
+import * as TextInput from 'components/form/textinput/helpers';
+import { TextInputProps } from 'components/form/textinput/TextInputElement';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -40,9 +42,18 @@ configure(config);
   setTimeout(callback, 0);
 };
 
-jest.mock('get-input-selection', () => ({
-  default: jest.fn()
-}));
+// no support for lit-elements in RTL, mock in vanilla inputs
+mock(TextInput, 'createTextInput', (props: TextInputProps, handleChange, optional) => {
+  return (
+    <input
+      data-testid={props.name}
+      name={props.name}
+      placeholder={props.placeholder}
+      value={props.entry.value}
+      onChange={handleChange}
+    ></input>
+  );
+});
 
 // we mock react-select to look like a normal select widget, this makes
 // testing much easier since we can use the standard event model

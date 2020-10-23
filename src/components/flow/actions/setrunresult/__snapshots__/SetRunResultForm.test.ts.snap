@@ -72,7 +72,7 @@ exports[`SetRunResultForm render should render 1`] = `
       showLabel={true}
       valueKey="value"
     />
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="value"
       autocomplete={true}
       entry={
@@ -85,7 +85,7 @@ exports[`SetRunResultForm render should render 1`] = `
       onChange={[Function]}
       showLabel={true}
     />
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="category"
       autocomplete={false}
       entry={

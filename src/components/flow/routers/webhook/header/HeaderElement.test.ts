@@ -44,7 +44,7 @@ describe(HeaderElement.name, () => {
   describe('render', () => {
     it('should render self, children with base props', () => {
       const { wrapper, props, instance } = setup();
-      const inputs = wrapper.find('Connect(TextInputElement)');
+      const inputs = wrapper.find('TextInputElement');
       expect(getSpecWrapper(wrapper, headerContainerSpecId).hasClass('header')).toBeTruthy();
 
       expect(getSpecWrapper(wrapper, nameContainerSpecId).hasClass('header_name')).toBeTruthy();
@@ -97,7 +97,7 @@ describe(HeaderElement.name, () => {
 
         expect(
           wrapper
-            .find('Connect(TextInputElement)')
+            .find('TextInputElement')
             .at(0)
             .prop('entry')
         ).toEqual({ value: headers[0].value.name });
@@ -124,7 +124,7 @@ describe(HeaderElement.name, () => {
 
         expect(
           wrapper
-            .find('Connect(TextInputElement)')
+            .find('TextInputElement')
             .at(1)
             .prop('entry')
         ).toEqual({ value: headers[0].value });

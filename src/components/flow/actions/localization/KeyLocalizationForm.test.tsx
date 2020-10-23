@@ -16,11 +16,11 @@ describe(KeyLocalizationForm.name, () => {
     const { getByTestId, getByText } = render(<KeyLocalizationForm {...props} />);
 
     // modify the subject
-    fireEvent.change(getByTestId('input'), { target: { value: 'translated subject' } });
+    fireEvent.change(getByTestId('Subject'), { target: { value: 'translated subject' } });
 
     // modify the body
     fireEvent.click(getByText('Body Translation'));
-    fireEvent.change(getByTestId('input'), { target: { value: 'translated body' } });
+    fireEvent.change(getByTestId('Body'), { target: { value: 'translated body' } });
 
     // save our translations
     fireEvent.click(getByText('Ok'));
@@ -38,7 +38,7 @@ describe(KeyLocalizationForm.name, () => {
     expect(baseElement).toMatchSnapshot();
 
     // clear the translation
-    fireEvent.change(getByTestId('input'), { target: { value: '' } });
+    fireEvent.change(getByTestId('Subject'), { target: { value: '' } });
 
     // save our translations, which should remove the key
     fireEvent.click(getByText('Ok'));

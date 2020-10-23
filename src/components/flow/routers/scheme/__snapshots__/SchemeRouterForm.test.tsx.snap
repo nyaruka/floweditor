@@ -38,6 +38,7 @@ exports[`SchemeRouterForm should render 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -59,6 +60,7 @@ exports[`SchemeRouterForm should render 1`] = `
             <temba-select
               data-testid="temba_select_channel_type"
               errors="[]"
+              expressions=""
               hideerrors="true"
               multi="true"
               name="Channel Type"
@@ -75,6 +77,7 @@ exports[`SchemeRouterForm should render 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>

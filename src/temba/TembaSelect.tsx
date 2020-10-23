@@ -27,6 +27,7 @@ export interface TembaSelectProps {
   placeholder?: string;
   searchable?: boolean;
   multi?: boolean;
+  tags?: boolean;
 
   cacheKey?: string;
 
@@ -133,13 +134,8 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
       const values = event.target.values || [event.target.value];
 
       let resolved = values;
-      /* if (this.props.assets) {
-        resolved = values.map((op: any) => {
-          return resultToAsset(op, this.props.assets.type, this.props.assets.id);
-        });
-      } else {*/
 
-      if (!this.props.assets) {
+      if (!this.props.assets && !this.props.tags) {
         resolved = values.map((op: any) => {
           const result = (this.props.options || []).find(
             (option: any) => this.getValue(option) === this.getValue(op)
@@ -199,7 +195,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           valueKey={this.props.valueKey || 'value'}
           name={this.props.name}
           cacheKey={this.props.cacheKey}
-          expressions={this.props.expressions}
+          expressions={this.props.expressions ? 'session' : ''}
           endpoint={this.props.assets ? this.props.assets.endpoint : null}
           values={values}
           errors={JSON.stringify(this.props.errors ? this.props.errors : [])}
@@ -209,6 +205,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           multi={bool(this.props.multi)}
           disabled={this.props.disabled}
           clearable={this.props.clearable}
+          tags={this.props.tags}
         />
       </div>
     );

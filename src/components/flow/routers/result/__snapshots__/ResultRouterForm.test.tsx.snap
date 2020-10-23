@@ -134,6 +134,7 @@ exports[`ResultRouterForm should render 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -164,6 +165,7 @@ exports[`ResultRouterForm should render 1`] = `
                   cachekey="0"
                   data-testid="temba_select_flow_result"
                   errors="[]"
+                  expressions=""
                   name="Flow Result"
                   namekey="name"
                   placeholder="Select Result"
@@ -176,6 +178,7 @@ exports[`ResultRouterForm should render 1`] = `
         </div>
         <div
           class="case_list_container "
+          tabindex="0"
         >
           <div
             class="case_list"
@@ -203,6 +206,7 @@ exports[`ResultRouterForm should render 1`] = `
                       <temba-select
                         data-testid="temba_select_operator"
                         errors="[]"
+                        expressions=""
                         name="operator"
                         namekey="verboseName"
                         valuekey="type"
@@ -217,38 +221,14 @@ exports[`ResultRouterForm should render 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="-1"
+                          data-testid="arguments"
                           name="arguments"
                           placeholder=""
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -265,37 +245,13 @@ exports[`ResultRouterForm should render 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="36"
+                          data-testid="Exit Name"
                           name="Exit Name"
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -314,6 +270,7 @@ exports[`ResultRouterForm should render 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>
@@ -399,6 +356,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -428,6 +386,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                 <temba-select
                   data-testid="temba_select_field_number"
                   errors="[]"
+                  expressions=""
                   name="Field Number"
                   namekey="name"
                   valuekey="value"
@@ -454,6 +413,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                   cachekey="0"
                   data-testid="temba_select_flow_result"
                   errors="[]"
+                  expressions=""
                   name="Flow Result"
                   namekey="name"
                   placeholder="Select Result"
@@ -480,6 +440,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                 <temba-select
                   data-testid="temba_select_delimiter"
                   errors="[]"
+                  expressions=""
                   name="Delimiter"
                   namekey="name"
                   valuekey="value"
@@ -491,6 +452,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
         </div>
         <div
           class="case_list_container "
+          tabindex="0"
         >
           <div
             class="case_list"
@@ -518,6 +480,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                       <temba-select
                         data-testid="temba_select_operator"
                         errors="[]"
+                        expressions=""
                         name="operator"
                         namekey="verboseName"
                         valuekey="type"
@@ -532,38 +495,14 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="-1"
+                          data-testid="arguments"
                           name="arguments"
                           placeholder=""
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -580,37 +519,13 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="36"
+                          data-testid="Exit Name"
                           name="Exit Name"
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -629,6 +544,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>

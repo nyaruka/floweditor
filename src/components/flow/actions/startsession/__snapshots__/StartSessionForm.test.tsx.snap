@@ -38,6 +38,7 @@ exports[`StartSessionForm render should render 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -57,6 +58,7 @@ exports[`StartSessionForm render should render 1`] = `
               <temba-select
                 data-testid="temba_select_start_type"
                 errors="[]"
+                expressions=""
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
@@ -80,6 +82,7 @@ exports[`StartSessionForm render should render 1`] = `
                   cachekey="0"
                   data-testid="temba_select_recipients"
                   errors="[]"
+                  expressions=""
                   multi="true"
                   name="Recipients"
                   namekey="name"
@@ -102,6 +105,7 @@ exports[`StartSessionForm render should render 1`] = `
                 cachekey="0"
                 data-testid="temba_select_flow"
                 errors="[]"
+                expressions=""
                 name="Flow"
                 namekey="name"
                 placeholder="Choose which flow to start"
@@ -316,6 +320,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -335,6 +340,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
               <temba-select
                 data-testid="temba_select_start_type"
                 errors="[]"
+                expressions=""
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
@@ -352,38 +358,14 @@ exports[`StartSessionForm render should render contact query 1`] = `
               class="ele"
             >
               <div
-                class="wrapper"
+                class="wrapper normal"
               >
                 <input
-                  class="textinput"
-                  data-spec="input"
-                  data-testid="input"
-                  maxlength="-1"
+                  data-testid="Contact Query"
                   name="Contact Query"
                   placeholder="household_id = @fields.household_id"
-                  type="text"
                   value="my_field > 6"
                 />
-                <div
-                  class="completion_container hidden"
-                  data-spec="completion-options"
-                  style="top: 0px; left: 0px;"
-                >
-                  <div
-                    class="options_wrapper"
-                  >
-                    <ul
-                      class="option_list"
-                      data-spec="completion-list"
-                    />
-                    <div
-                      class="help"
-                      data-spec="completion-help"
-                    >
-                      Tab to complete, enter to select
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <p />
@@ -398,6 +380,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 cachekey="0"
                 data-testid="temba_select_flow"
                 errors="[]"
+                expressions=""
                 name="Flow"
                 namekey="name"
                 placeholder="Choose which flow to start"
@@ -494,6 +477,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -513,6 +497,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
               <temba-select
                 data-testid="temba_select_start_type"
                 errors="[]"
+                expressions=""
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
@@ -533,6 +518,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                 cachekey="0"
                 data-testid="temba_select_flow"
                 errors="[]"
+                expressions=""
                 name="Flow"
                 namekey="name"
                 placeholder="Choose which flow to start"
@@ -747,6 +733,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -766,6 +753,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
               <temba-select
                 data-testid="temba_select_start_type"
                 errors="[]"
+                expressions=""
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
@@ -783,38 +771,14 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
               class="ele"
             >
               <div
-                class="wrapper"
+                class="wrapper normal"
               >
                 <input
-                  class="textinput"
-                  data-spec="input"
-                  data-testid="input"
-                  maxlength="-1"
+                  data-testid="Contact Query"
                   name="Contact Query"
                   placeholder="household_id = @fields.household_id"
-                  type="text"
                   value="@fields.arst = 34"
                 />
-                <div
-                  class="completion_container hidden"
-                  data-spec="completion-options"
-                  style="top: 0px; left: 0px;"
-                >
-                  <div
-                    class="options_wrapper"
-                  >
-                    <ul
-                      class="option_list"
-                      data-spec="completion-list"
-                    />
-                    <div
-                      class="help"
-                      data-spec="completion-help"
-                    >
-                      Tab to complete, enter to select
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <p />
@@ -829,6 +793,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 cachekey="0"
                 data-testid="temba_select_flow"
                 errors="[]"
+                expressions=""
                 name="Flow"
                 namekey="name"
                 placeholder="Choose which flow to start"

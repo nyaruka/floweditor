@@ -38,6 +38,7 @@ exports[`UpdateContactForm should render channel 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -60,6 +61,7 @@ exports[`UpdateContactForm should render channel 1`] = `
               cachekey="0"
               data-testid="temba_select_contact_field"
               errors="[]"
+              expressions=""
               name="Contact Field"
               namekey="name"
               placeholder="Select existing contact field or enter a new one"
@@ -82,6 +84,7 @@ exports[`UpdateContactForm should render channel 1`] = `
                 cachekey="0"
                 data-testid="temba_select_channel"
                 errors="[]"
+                expressions=""
                 name="Channel"
                 namekey="name"
                 placeholder="Select the channel to use for this contact"
@@ -160,6 +163,7 @@ exports[`UpdateContactForm should render field 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -182,6 +186,7 @@ exports[`UpdateContactForm should render field 1`] = `
               cachekey="0"
               data-testid="temba_select_contact_field"
               errors="[]"
+              expressions=""
               name="Contact Field"
               namekey="name"
               placeholder="Select existing contact field or enter a new one"
@@ -198,38 +203,14 @@ exports[`UpdateContactForm should render field 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="Field Value"
                 name="Field Value"
                 placeholder="Enter a new value for Age"
-                type="text"
                 value="25"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -301,6 +282,7 @@ exports[`UpdateContactForm should render language 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -323,6 +305,7 @@ exports[`UpdateContactForm should render language 1`] = `
               cachekey="0"
               data-testid="temba_select_contact_field"
               errors="[]"
+              expressions=""
               name="Contact Field"
               namekey="name"
               placeholder="Select existing contact field or enter a new one"
@@ -345,6 +328,7 @@ exports[`UpdateContactForm should render language 1`] = `
                 cachekey="0"
                 data-testid="temba_select_language"
                 errors="[]"
+                expressions=""
                 name="Language"
                 namekey="name"
                 placeholder="Select the language to use for this contact"
@@ -422,6 +406,7 @@ exports[`UpdateContactForm should render name 1`] = `
               <temba-select
                 data-testid="temba_select_type"
                 errors="[]"
+                expressions=""
                 name="type"
                 namekey="description"
                 searchable="true"
@@ -444,6 +429,7 @@ exports[`UpdateContactForm should render name 1`] = `
               cachekey="0"
               data-testid="temba_select_contact_field"
               errors="[]"
+              expressions=""
               name="Contact Field"
               namekey="name"
               placeholder="Select existing contact field or enter a new one"
@@ -460,38 +446,14 @@ exports[`UpdateContactForm should render name 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="Name"
                 name="Name"
                 placeholder="Enter a new name for the contact"
-                type="text"
                 value="Jane Goodall"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

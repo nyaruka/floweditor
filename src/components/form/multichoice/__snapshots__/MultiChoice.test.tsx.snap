@@ -2,72 +2,31 @@
 
 exports[`MultiChoiceInput should render 1`] = `
 <Fragment>
-  <div
-    className="chosen"
-  >
-    <div
-      className="item"
-      key="item_one"
-    >
-      <Pill
-        icon="fe-x"
-        large={true}
-        onClick={[Function]}
-        text=" one"
-      />
-    </div>
-    <div
-      className="item"
-      key="item_two"
-    >
-      <Pill
-        icon="fe-x"
-        large={true}
-        onClick={[Function]}
-        text=" two"
-      />
-    </div>
-    <div
-      className="item"
-      key="item_three"
-    >
-      <Pill
-        icon="fe-x"
-        large={true}
-        onClick={[Function]}
-        text=" three"
-      />
-    </div>
-  </div>
   <p />
-  <Connect(TextInputElement)
-    autocomplete={true}
-    entry={
-      Object {
-        "value": "",
-      }
-    }
-    focus={true}
+  <TembaSelect
+    expressions={true}
+    multi={true}
     name="Multi Choice"
-    onBlur={[Function]}
     onChange={[Function]}
-    onEnter={[Function]}
     placeholder="Multi Choice"
-    showLabel={false}
+    searchable={true}
+    tags={true}
+    value={
+      Array [
+        Object {
+          "name": "one",
+          "value": "one",
+        },
+        Object {
+          "name": "two",
+          "value": "two",
+        },
+        Object {
+          "name": "three",
+          "value": "three",
+        },
+      ]
+    }
   />
 </Fragment>
-`;
-
-exports[`MultiChoiceInput should update 1`] = `
-Object {
-  "currentInput": Object {
-    "value": "a new item",
-  },
-}
-`;
-
-exports[`MultiChoiceInput should update 2`] = `
-Array [
-  "a new item",
-]
 `;

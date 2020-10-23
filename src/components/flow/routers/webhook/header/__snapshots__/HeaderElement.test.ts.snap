@@ -42,7 +42,7 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
       className="header_name"
       data-spec="name-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         entry={
           Object {
             "value": "Content-Type",
@@ -57,7 +57,7 @@ exports[`HeaderElement instance methods handleChangeName should update state, ca
       className="header_value"
       data-spec="value-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         autocomplete={true}
         entry={
           Object {
@@ -117,7 +117,7 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
       className="header_name"
       data-spec="name-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         entry={
           Object {
             "value": "Content-Type",
@@ -132,7 +132,7 @@ exports[`HeaderElement instance methods handleChangeValue should update state, c
       className="header_value"
       data-spec="value-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         autocomplete={true}
         entry={
           Object {
@@ -197,7 +197,7 @@ exports[`HeaderElement render should render remove icon 1`] = `
       className="header_name"
       data-spec="name-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         entry={
           Object {
             "value": "Content-Type",
@@ -212,7 +212,7 @@ exports[`HeaderElement render should render remove icon 1`] = `
       className="header_value"
       data-spec="value-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         autocomplete={true}
         entry={
           Object {
@@ -270,7 +270,7 @@ exports[`HeaderElement render should render self, children with base props 2`] =
       className="header_name"
       data-spec="name-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         entry={
           Object {
             "value": "Content-Type",
@@ -285,7 +285,7 @@ exports[`HeaderElement render should render self, children with base props 2`] =
       className="header_value"
       data-spec="value-container"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         autocomplete={true}
         entry={
           Object {
