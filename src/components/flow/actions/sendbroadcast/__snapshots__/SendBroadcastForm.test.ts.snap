@@ -66,7 +66,7 @@ exports[`SendBroadcastForm render should render an empty form with no action 2`]
     searchable={true}
   />
   <p />
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     count="SMS"
     entry={
@@ -166,7 +166,7 @@ exports[`SendBroadcastForm render should render self, children with base props 1
     searchable={true}
   />
   <p />
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     count="SMS"
     entry={

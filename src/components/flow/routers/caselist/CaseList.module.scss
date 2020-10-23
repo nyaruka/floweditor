@@ -4,6 +4,9 @@
   overflow: hidden;
   border-radius: $curvature;
   margin-top: 8px;
+  &:focus {
+    outline: none;
+  }
 
   &.scrolling {
     margin-top: 12px;

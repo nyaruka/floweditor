@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { isRelativeDate } from 'components/flow/routers/helpers';
 import FormElement from 'components/form/FormElement';
-import TextInputElement from 'components/form/textinput/TextInputElement';
+import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import { fakePropType } from 'config/ConfigProvider';
 import { filterOperators } from 'config/helpers';
 import { Operator, Operators } from 'config/interfaces';
@@ -329,6 +329,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             <>
               <TextInputElement
                 name={i18n.t('forms.arguments', 'arguments')}
+                style={TextInputStyle.small}
                 onChange={this.handleMinChanged}
                 entry={this.state.min}
               />
@@ -337,6 +338,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               </span>
               <TextInputElement
                 name={i18n.t('forms.arguments', 'arguments')}
+                style={TextInputStyle.small}
                 onChange={this.handleMaxChanged}
                 entry={this.state.max}
               />
@@ -374,14 +376,15 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                   hideError={true}
                 ></SelectElement>
               </div>
-              <span className={styles.divider} data-draggable={true}>
+              <div className={styles.divider} data-draggable={true}>
                 above
-              </span>
+              </div>
               <div style={{ width: '34px' }}>
                 <TextInputElement
                   name={i18n.t('forms.confidence', 'confidence')}
                   onChange={this.handleConfidenceChanged}
                   entry={this.state.confidence}
+                  style={TextInputStyle.small}
                   placeholder=".9"
                 />
               </div>
@@ -394,6 +397,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 name={i18n.t('forms.state', 'State')}
                 placeholder="State"
                 onChange={this.handleStateChanged}
+                style={TextInputStyle.small}
                 entry={this.state.state}
               />
               <span className={styles.divider} data-draggable={true}>
@@ -403,6 +407,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 name={i18n.t('forms.district', 'District')}
                 placeholder={i18n.t('forms.district', 'District')}
                 onChange={this.handleDistrictChanged}
+                style={TextInputStyle.small}
                 entry={this.state.district}
               />
             </>
@@ -419,6 +424,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
               name={i18n.t('forms.arguments', 'arguments')}
               onChange={this.handleArgumentChanged}
               entry={this.state.argument}
+              style={TextInputStyle.small}
               autocomplete={false}
             />
             <span className={styles.divider}>days</span>
@@ -430,6 +436,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             name={i18n.t('forms.arguments', 'arguments')}
             onChange={this.handleArgumentChanged}
             entry={this.state.argument}
+            style={TextInputStyle.small}
             placeholder={this.state.operatorConfig.type === Operators.has_district ? 'State' : ''}
             autocomplete={true}
           />
@@ -477,6 +484,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
           <div className={styles.category}>
             <TextInputElement
               name={i18n.t('forms.exit_name', 'Exit Name')}
+              style={TextInputStyle.small}
               onChange={this.handleExitChanged}
               entry={this.state.categoryName}
               maxLength={36}

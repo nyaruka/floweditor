@@ -67,6 +67,7 @@ import AppState from 'store/state';
 import { createUUID, hasString, NODE_SPACING, timeEnd, timeStart, ACTIVITY_INTERVAL } from 'utils';
 import { AxiosError } from 'axios';
 import i18n from 'config/i18n';
+import { TembaStore } from 'temba-components';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -357,6 +358,13 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
   // finally update our assets, and mark us as fetched
   dispatch(updateAssets(assetStore));
   dispatch(mergeEditorState({ language, fetchingFlow: false }));
+
+  const store: TembaStore = document.querySelector('temba-store');
+  console.log(store);
+  if (store) {
+    store.setKeyedAssets('results', Object.keys(assetStore.results.items));
+    console.log(store.getKeyedAssets());
+  }
 };
 
 /**
@@ -430,6 +438,14 @@ export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
   const updated = mutate(assetStore, {
     [assetType]: { items: { $merge: { [asset.id]: asset } } }
   });
+
+  // update our temba store if we have one
+  const store: TembaStore = document.querySelector('temba-store');
+  console.log('Store', store);
+  if (store) {
+    console.log(assetType, Object.keys(updated[assetType]));
+    store.setKeyedAssets(assetType, Object.keys(updated[assetType]));
+  }
 
   dispatch(updateAssets(updated));
 };

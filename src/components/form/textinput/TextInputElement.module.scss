@@ -1,5 +1,13 @@
 @import 'variables.module.scss';
 
+.small {
+  --temba-textinput-padding: 6px 8px !important;
+  --temba-textinput-font-size: 12px !important;
+}
+
+.normal {
+}
+
 .option_list {
   overflow-y: auto;
   list-style-type: none;

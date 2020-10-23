@@ -24,13 +24,14 @@ describe(TicketRouterForm.name, () => {
 
   describe('updates', () => {
     it('should save changes', () => {
-      const { baseElement, getByText, getAllByTestId, getByTestId } = render(
+      const { baseElement, getByText, getAllByTestId, getByTestId, getByLabelText } = render(
         <TicketRouterForm {...ticketForm} />
       );
       expect(baseElement).toMatchSnapshot();
 
       const okButton = getByText('Ok');
-      const [subject, resultName] = getAllByTestId('input');
+      const subject = getByTestId('Subject');
+      const resultName = getByTestId('Result Name');
 
       // our ticketer, subject, body and result name are required
       fireChangeText(subject, '');

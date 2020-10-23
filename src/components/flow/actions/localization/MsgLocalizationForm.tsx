@@ -166,12 +166,8 @@ export default class MsgLocalizationForm extends React.Component<
     return false;
   }
 
-  private handleRemoveQuickReply(toRemove: string): void {
-    this.setState({
-      quickReplies: {
-        value: this.state.quickReplies.value.filter((reply: string) => reply !== toRemove)
-      }
-    });
+  private handleQuickReplyChanged(quickReplies: string[]): void {
+    this.handleUpdate({ quickReplies });
   }
 
   private handleTemplateVariableChanged(updatedText: string, num: number): void {
@@ -251,8 +247,7 @@ export default class MsgLocalizationForm extends React.Component<
                 </Trans>
               }
               items={this.state.quickReplies}
-              onRemoved={this.handleRemoveQuickReply}
-              onItemAdded={this.handleAddQuickReply}
+              onChange={this.handleQuickReplyChanged}
             />
           </>
         ),

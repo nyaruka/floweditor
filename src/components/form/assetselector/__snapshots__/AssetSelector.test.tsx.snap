@@ -13,6 +13,7 @@ exports[`AssetSelector renders 1`] = `
           cachekey="0"
           data-testid="temba_select_recipients"
           errors="[]"
+          expressions=""
           name="Recipients"
           namekey="name"
           placeholder="Select existing recipients or enter a new one"

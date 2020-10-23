@@ -91,7 +91,7 @@ exports[`UpdateContactForm render should render an empty form with different act
   <div
     className="value"
   >
-    <Connect(TextInputElement)
+    <TextInputElement
       autocomplete={true}
       entry={
         Object {
@@ -198,7 +198,7 @@ exports[`UpdateContactForm render should render an empty form with no action 1`]
   <div
     className="value"
   >
-    <Connect(TextInputElement)
+    <TextInputElement
       autocomplete={true}
       entry={
         Object {

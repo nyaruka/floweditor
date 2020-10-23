@@ -65,38 +65,14 @@ exports[`KeyLocalizationForm removes translations 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
-              <textarea
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+              <input
+                data-testid="Subject"
                 name="Subject"
                 placeholder="Spanish Translation"
-              >
-                hola
-              </textarea>
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
+                value="hola"
+              />
             </div>
           </div>
         </div>
@@ -192,36 +168,14 @@ exports[`KeyLocalizationForm renders send email 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
-              <textarea
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+              <input
+                data-testid="Subject"
                 name="Subject"
                 placeholder="English Translation"
+                value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

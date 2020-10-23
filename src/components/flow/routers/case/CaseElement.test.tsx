@@ -93,7 +93,7 @@ describe(CaseElement.name, () => {
       const { baseElement, getAllByTestId } = render(
         <CaseElement {...caseProps} onRemove={onRemove} />
       );
-      const args = getAllByTestId('input');
+      const args = getAllByTestId('arguments');
       fireEvent.change(args[0], { target: { value: 'Purple, p' } });
       expect(baseElement).toMatchSnapshot();
     });
@@ -106,7 +106,7 @@ describe(CaseElement.name, () => {
 
       selectOperator(getByTestId, Operators.has_number_between);
 
-      const args = getAllByTestId('input');
+      const args = getAllByTestId('arguments');
       fireEvent.change(args[0], { target: { value: '1' } });
       fireEvent.change(args[1], { target: { value: '100' } });
       expect(baseElement).toMatchSnapshot();

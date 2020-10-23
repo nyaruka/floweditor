@@ -23,6 +23,7 @@ exports[`CaseElement operator changes should handle updates 1`] = `
             <temba-select
               data-testid="temba_select_operator"
               errors="[]"
+              expressions=""
               name="operator"
               namekey="verboseName"
               valuekey="type"
@@ -46,37 +47,13 @@ exports[`CaseElement operator changes should handle updates 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="Has Phone"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -113,6 +90,7 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             <temba-select
               data-testid="temba_select_operator"
               errors="[]"
+              expressions=""
               name="operator"
               namekey="verboseName"
               valuekey="type"
@@ -127,37 +105,13 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <span
@@ -170,37 +124,13 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -217,37 +147,13 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -284,6 +190,7 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
             <temba-select
               data-testid="temba_select_operator"
               errors="[]"
+              expressions=""
               name="operator"
               namekey="verboseName"
               valuekey="type"
@@ -307,37 +214,13 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="My Exit Name"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -374,6 +257,7 @@ exports[`CaseElement render renders no argument rules 1`] = `
             <temba-select
               data-testid="temba_select_operator"
               errors="[]"
+              expressions=""
               name="operator"
               namekey="verboseName"
               valuekey="type"
@@ -397,37 +281,13 @@ exports[`CaseElement render renders no argument rules 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="Has Number"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -464,6 +324,7 @@ exports[`CaseElement render should render empty case 1`] = `
             <temba-select
               data-testid="temba_select_operator"
               errors="[]"
+              expressions=""
               name="operator"
               namekey="verboseName"
               valuekey="type"
@@ -478,38 +339,14 @@ exports[`CaseElement render should render empty case 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
                 placeholder=""
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -526,37 +363,13 @@ exports[`CaseElement render should render empty case 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -593,6 +406,7 @@ exports[`CaseElement update handles argument change 1`] = `
             <temba-select
               data-testid="temba_select_operator"
               errors="[]"
+              expressions=""
               name="operator"
               namekey="verboseName"
               valuekey="type"
@@ -607,38 +421,14 @@ exports[`CaseElement update handles argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
                 placeholder=""
-                type="text"
                 value="Purple, p"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -655,37 +445,13 @@ exports[`CaseElement update handles argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="Purple"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -722,6 +488,7 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             <temba-select
               data-testid="temba_select_operator"
               errors="[]"
+              expressions=""
               name="operator"
               namekey="verboseName"
               valuekey="type"
@@ -736,37 +503,13 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value="1"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <span
@@ -779,37 +522,13 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value="100"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -826,37 +545,13 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="1 - 100"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

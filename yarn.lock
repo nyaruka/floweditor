@@ -1356,10 +1356,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@nyaruka/temba-components@0.7.2":
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.7.2.tgz#fabee393e429fe22e49e89c06e2c785b2e9dd3fa"
-  integrity sha512-pE+X/SMAt0KelusEs19qcv36TqadfryYVcqDIUa3NvHJpklheuHKLMBi41ji7jg5pL2e/q9Oe56+Run5wiMENQ==
+"@nyaruka/temba-components@0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.8.2.tgz#dde61715b5dff8d65c046bcb1268f9524615a8a7"
+  integrity sha512-k3SrFqOdVzPXxhs2ejz6PFIKMzuWZdzCIC01v8/NkffFsLm8dl9NkL5iJNKQ3+nZX7FeC5DgubQTQObwBdx08Q==
   dependencies:
     autosize "4.0.2"
     axios "^0.20.0"
@@ -1374,6 +1374,7 @@
     marked "0.7.0"
     node-forge "0.10.0"
     serialize-javascript "^3.0.0"
+    split-sms "^0.1.7"
     textarea-caret "3.1.0"
 
 "@samverschueren/stream-to-observable@^0.3.0":
@@ -12311,7 +12312,7 @@ spdy@^4.0.1:
     select-hose "^2.0.0"
     spdy-transport "^3.0.0"
 
-split-sms@0.1.7:
+split-sms@0.1.7, split-sms@^0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/split-sms/-/split-sms-0.1.7.tgz#be627246933678dc1e44240689d7902f462f53b6"
   integrity sha1-vmJyRpM2eNweRCQGideQL0YvU7Y=
