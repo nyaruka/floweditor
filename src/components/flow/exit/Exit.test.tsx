@@ -69,8 +69,7 @@ describe(ExitComp.name, () => {
   it('shows recent messages on mouse over', () => {
     const { baseElement, getByText, queryAllByText } = render(
       <>
-        <div id="activityId"></div>
-        <div id="recentMessagesId"></div>
+        <div id="activity_recent_messages"></div>
 
         <ExitComp
           {...exitProps}

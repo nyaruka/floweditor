@@ -111,6 +111,7 @@
 
   margin: 0 auto;
   cursor: pointer;
+
   .count {
     font-size: 10px;
     position: relative;
@@ -129,7 +130,6 @@
 }
 
 .recent_messages {
-  position: absolute;
   width: 200px;
   margin-top: 12px;
   margin-left: -100px;

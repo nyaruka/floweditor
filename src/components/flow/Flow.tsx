@@ -425,6 +425,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
           onUpdatePositions={this.props.onUpdateCanvasPositions}
           onLoaded={this.handleCanvasLoaded}
         ></Canvas>
+        <div id="activity_recent_messages"></div>
       </div>
     );
   }

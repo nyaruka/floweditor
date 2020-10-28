@@ -1356,10 +1356,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@nyaruka/temba-components@0.8.2":
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.8.2.tgz#dde61715b5dff8d65c046bcb1268f9524615a8a7"
-  integrity sha512-k3SrFqOdVzPXxhs2ejz6PFIKMzuWZdzCIC01v8/NkffFsLm8dl9NkL5iJNKQ3+nZX7FeC5DgubQTQObwBdx08Q==
+"@nyaruka/temba-components@0.8.3":
+  version "0.8.3"
+  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.8.3.tgz#e294c07b4541e101a184291244507bde26bca4ee"
+  integrity sha512-OLIlgmU9W8Ukm3rWAQTVXQXE862udSQxXzbHdb+w3SnYz2OpdPl/lc8JxwTAIQqpfQOv9AqsVau7vxxUpoiz3w==
   dependencies:
     autosize "4.0.2"
     axios "^0.20.0"
@@ -3388,12 +3388,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001038, caniuse-lite@^1.0.30001039:
-  version "1.0.30001150"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001150.tgz"
-  integrity sha512-kiNKvihW0m36UhAFnl7bOAv0i1K1f6wpfVtTF5O5O82XzgtBnb05V0XeV3oZ968vfg2sRNChsHw8ASH2hDfoYQ==
-
-caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001043:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001038, caniuse-lite@^1.0.30001039, caniuse-lite@^1.0.30001043:
   version "1.0.30001150"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001150.tgz"
   integrity sha512-kiNKvihW0m36UhAFnl7bOAv0i1K1f6wpfVtTF5O5O82XzgtBnb05V0XeV3oZ968vfg2sRNChsHw8ASH2hDfoYQ==

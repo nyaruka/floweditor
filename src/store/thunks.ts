@@ -360,10 +360,8 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
   dispatch(mergeEditorState({ language, fetchingFlow: false }));
 
   const store: TembaStore = document.querySelector('temba-store');
-  console.log(store);
   if (store) {
     store.setKeyedAssets('results', Object.keys(assetStore.results.items));
-    console.log(store.getKeyedAssets());
   }
 };
 
@@ -441,9 +439,7 @@ export const addAsset: AddAsset = (assetType: string, asset: Asset) => (
 
   // update our temba store if we have one
   const store: TembaStore = document.querySelector('temba-store');
-  console.log('Store', store);
   if (store) {
-    console.log(assetType, Object.keys(updated[assetType]));
     store.setKeyedAssets(assetType, Object.keys(updated[assetType]));
   }
 
