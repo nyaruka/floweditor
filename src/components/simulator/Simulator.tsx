@@ -145,6 +145,7 @@ interface Session {
   contact: Contact;
   input?: any;
   wait?: Wait;
+  status?: string;
 }
 
 /**
@@ -206,6 +207,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
   private updateActivity(recentMessages: { [key: string]: RecentMessage[] } = {}): void {
     if (this.state.session) {
+      // if we are resetting, clear our recent messages
+
       let lastExit: string = null;
       const paths: { [key: string]: number } = {};
       const active: { [nodeUUID: string]: number } = {};
@@ -222,17 +225,32 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               pathCount = 0;
             }
             paths[key] = ++pathCount;
+            if (!(key in recentMessages)) {
+              recentMessages[key] = [];
+            }
           }
           lastExit = step.exit_uuid;
           finalStep = step;
         }
 
-        if (run.status === 'waiting' && finalStep) {
+        if (finalStep) {
           let count = active[finalStep.node_uuid];
           if (!count) {
             count = 0;
           }
-          active[finalStep.node_uuid] = ++count;
+
+          if (lastExit) {
+            const lastKey = lastExit + ':' + null;
+            paths[lastKey] = 1;
+
+            if (!(lastKey in recentMessages)) {
+              recentMessages[lastKey] = [];
+            }
+          }
+
+          if (this.state.session.status === 'waiting') {
+            active[finalStep.node_uuid] = ++count;
+          }
           activeFlow = run.flow_uuid;
         }
       }
@@ -255,7 +273,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       };
 
       this.props.mergeEditorState({ activity });
-
       if (activeFlow && activeFlow !== this.currentFlow) {
         this.currentFlow = activeFlow;
       }
@@ -289,21 +306,20 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             const path = session.runs[i].path;
 
             // start at the penultimate node since we have nowhere to render recent messages for the last node
-            for (let j = path.length - 2; j >= 0; j--) {
+            for (let j = path.length - 1; j >= 0; j--) {
               if (path[j].uuid === event.step_uuid) {
                 fromUUID = path[j].exit_uuid;
-                toUUID = path[j + 1].node_uuid;
+                toUUID = path.length > j + 1 ? path[j + 1].node_uuid : null;
                 break;
               }
             }
 
-            if (fromUUID && toUUID) {
+            if (fromUUID) {
               const key = `${fromUUID}:${toUUID}`;
               const msg: RecentMessage = {
                 sent: event.created_on,
                 text: event.msg.text
               };
-
               if (key in recentMessages) {
                 recentMessages[key].unshift(msg);
               } else {

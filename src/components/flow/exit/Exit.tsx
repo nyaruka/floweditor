@@ -236,25 +236,20 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
   private getSegmentCount(): JSX.Element {
     // Only exits with a destination have activity
-    if (this.props.exit.destination_uuid && this.state.activityId) {
-      const key = `${this.props.exit.uuid}-label`;
-      return (
-        <Portal id={this.state.activityId}>
-          <div style={{ position: 'relative' }}>
-            <Counter
-              key={key}
-              count={this.props.segmentCount}
-              containerStyle={styles.activity}
-              countStyle={styles.count}
-              keepVisible={false}
-              onMouseEnter={this.handleShowRecentMessages}
-              onMouseLeave={this.handleHideRecentMessages}
-            />
-          </div>
-        </Portal>
-      );
-    }
-    return null;
+    const key = `${this.props.exit.uuid}-label`;
+    return (
+      <div style={{ position: 'absolute', bottom: '-25px' }}>
+        <Counter
+          key={key}
+          count={this.props.segmentCount}
+          containerStyle={styles.activity}
+          countStyle={styles.count}
+          keepVisible={false}
+          onMouseEnter={this.handleShowRecentMessages}
+          onMouseLeave={this.handleHideRecentMessages}
+        />
+      </div>
+    );
   }
 
   public getName(): { name: string; localized?: boolean } {
@@ -303,9 +298,21 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         recentStyles.push(styles.no_recents);
       }
 
+      const canvas = document.getElementById('canvas-container');
+      let left = 0;
+      let top = 0;
+
+      if (canvas) {
+        const canvasBounds = canvas.getBoundingClientRect();
+        const canvasOffset = canvasBounds.top + window.scrollY;
+        const rect = this.ele.getBoundingClientRect();
+        left = rect.left + window.scrollX + 5;
+        top = rect.top + window.scrollY - canvasOffset + 30;
+      }
+
       return (
-        <Portal id={this.state.recentMessagesId}>
-          <div className={recentStyles.join(' ')}>
+        <Portal id="activity_recent_messages">
+          <div className={recentStyles.join(' ')} style={{ position: 'absolute', left, top }}>
             <div className={styles.title}>{title}</div>
             {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
               <div key={'recent_' + idx} className={styles.message}>
@@ -396,8 +403,8 @@ const mapStateToProps = (
   if (key in (activity.recentMessages || {})) {
     recentMessages = activity.recentMessages[key];
   }
-
   const segmentCount = activity.segments[getExitActivityKey(props.exit)] || 0;
+
   return {
     dragging: dragActive,
     segmentCount,

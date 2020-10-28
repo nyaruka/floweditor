@@ -176,19 +176,23 @@ const renderAttachment = (attachment: string): JSX.Element => {
 
 const renderMessage = (text: string, attachments: string[], direction: Direction): JSX.Element => {
   const attaches = attachments || [];
+
   return (
     <div className={getStyleForDirection(direction)}>
       {attaches.map((attachment: string) => (
         <div key={text + attachment}>{renderAttachment(attachment)}</div>
       ))}
       {text
-        ? text.split('\n').map((item, key) => {
-            return (
-              <div key={createUUID()} className={styles.msg_text}>
-                {item}
-              </div>
-            );
-          })
+        ? text
+            .trim()
+            .split('\n')
+            .map((item, key) => {
+              return (
+                <div key={createUUID()} className={styles.msg_text}>
+                  {item}
+                </div>
+              );
+            })
         : null}
     </div>
   );
