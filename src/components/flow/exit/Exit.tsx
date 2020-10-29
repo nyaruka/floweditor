@@ -31,11 +31,7 @@ export interface ExitPassedProps {
   showDragHelper: boolean;
   plumberMakeSource: (id: string) => void;
   plumberRemove: (id: string) => void;
-  plumberConnectExit: (
-    node: FlowNode,
-    exit: Exit,
-    onConnection: (activityId: string, recentMessagesId: string) => void
-  ) => void;
+  plumberConnectExit: (node: FlowNode, exit: Exit) => void;
   plumberUpdateClass: (
     node: FlowNode,
     exit: Exit,
@@ -61,8 +57,6 @@ export interface ExitState {
   recentMessages: RecentMessage[];
   fetchingRecentMessages: boolean;
   showDragHelper: boolean;
-  activityId: string;
-  recentMessagesId: string;
 }
 
 const cx: any = classNames.bind(styles);
@@ -79,9 +73,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       confirmDelete: false,
       recentMessages: null,
       fetchingRecentMessages: false,
-      showDragHelper: props.showDragHelper,
-      activityId: null,
-      recentMessagesId: null
+      showDragHelper: props.showDragHelper
     };
 
     bindCallbacks(this, {
@@ -195,13 +187,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private connect(): void {
-    this.props.plumberConnectExit(
-      this.props.node,
-      this.props.exit,
-      (activityId: string, recentMessagesId: string) => {
-        this.setState({ activityId, recentMessagesId });
-      }
-    );
+    this.props.plumberConnectExit(this.props.node, this.props.exit);
   }
 
   private handleShowRecentMessages(): void {
@@ -236,20 +222,22 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
   private getSegmentCount(): JSX.Element {
     // Only exits with a destination have activity
-    const key = `${this.props.exit.uuid}-label`;
-    return (
-      <div style={{ position: 'absolute', bottom: '-25px' }}>
-        <Counter
-          key={key}
-          count={this.props.segmentCount}
-          containerStyle={styles.activity}
-          countStyle={styles.count}
-          keepVisible={false}
-          onMouseEnter={this.handleShowRecentMessages}
-          onMouseLeave={this.handleHideRecentMessages}
-        />
-      </div>
-    );
+    if (this.props.segmentCount > 0) {
+      const key = `${this.props.exit.uuid}-label`;
+      return (
+        <div style={{ position: 'absolute', bottom: '-25px' }}>
+          <Counter
+            key={key}
+            count={this.props.segmentCount}
+            containerStyle={styles.activity}
+            countStyle={styles.count}
+            keepVisible={false}
+            onMouseEnter={this.handleShowRecentMessages}
+            onMouseLeave={this.handleHideRecentMessages}
+          />
+        </div>
+      );
+    }
   }
 
   public getName(): { name: string; localized?: boolean } {

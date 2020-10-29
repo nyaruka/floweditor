@@ -23,30 +23,10 @@ export interface PendingConnections {
     className: string;
     slot: number;
     totalSlots: number;
-    onConnected: (activityId: string, recentMessagesId: string) => void;
   };
 }
 
 export const REPAINT_DURATION = 600;
-
-const connectorOverlays = [
-  [
-    'Label',
-    {
-      label: '',
-      location: 12,
-      id: 'activity'
-    }
-  ],
-  [
-    'Label',
-    {
-      label: '',
-      location: 20,
-      id: 'recent_messages'
-    }
-  ]
-];
 
 export const TARGET_DEFAULTS = {
   anchor: ['Continuous', { shape: 'Rectangle', faces: ['top', 'left', 'right'] }],
@@ -177,16 +157,10 @@ export default class Plumber {
     this.jsPlumb.makeTarget(uuid, TARGET_DEFAULTS);
   }
 
-  public connectExit(
-    node: FlowNode,
-    exit: Exit,
-    onConnection: (activityId: string, recentMessagesId: string) => void,
-    className: string = null
-  ): void {
+  public connectExit(node: FlowNode, exit: Exit, className: string = null): void {
     this.connect(
       `${node.uuid}:${exit.uuid}`,
       exit.destination_uuid,
-      onConnection,
       className,
       node.exits.findIndex((e: Exit) => e.uuid === exit.uuid),
       node.exits.length
@@ -272,16 +246,8 @@ export default class Plumber {
                 fireEvent: false,
                 cssClass: className,
                 detachable: !className,
-                overlays: connectorOverlays,
                 connector
               });
-
-              const activityElement = plumbConnect.getOverlays()['activity'].getElement();
-              const recentsElement = plumbConnect.getOverlays()['recent_messages'].getElement();
-              activityElement.classList.add('jtk-activity');
-              recentsElement.classList.add('jtk-recents');
-
-              connection.onConnected(activityElement.id, recentsElement.id);
             }
           }
 
@@ -327,7 +293,6 @@ export default class Plumber {
   public connect(
     source: string,
     target: string,
-    onConnected: (activityId: string, recentMessagesId: string) => void,
     className: string = null,
     slot: number = 0,
     totalSlots: number = 0
@@ -337,8 +302,7 @@ export default class Plumber {
       target,
       className,
       slot,
-      totalSlots,
-      onConnected
+      totalSlots
     };
     this.checkForPendingConnections();
   }

@@ -43,21 +43,6 @@ exports[`NodeComp renders 1`] = `
                 id="b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
               />
               <div
-                style="position: absolute; bottom: -25px;"
-              >
-                <div
-                  class="counter activity  "
-                  data-spec="counter-outter"
-                >
-                  <div
-                    class="count"
-                    data-spec="counter-inner"
-                  >
-                    0
-                  </div>
-                </div>
-              </div>
-              <div
                 class="drag_helper "
               >
                 <div
@@ -194,21 +179,6 @@ exports[`NodeComp renders a named random split 1`] = `
                 id="2dc85899-0577-4f1b-a620-f12094e34b5e:061fc171-8b79-4636-b892-bd0ea5aa9b42"
               />
               <div
-                style="position: absolute; bottom: -25px;"
-              >
-                <div
-                  class="counter activity  "
-                  data-spec="counter-outter"
-                >
-                  <div
-                    class="count"
-                    data-spec="counter-inner"
-                  >
-                    0
-                  </div>
-                </div>
-              </div>
-              <div
                 class="drag_helper "
               >
                 <div
@@ -246,21 +216,6 @@ exports[`NodeComp renders a named random split 1`] = `
                 class="endpoint"
                 id="2dc85899-0577-4f1b-a620-f12094e34b5e:1dce2b34-9aab-4e20-81c4-3f0408dcb671"
               />
-              <div
-                style="position: absolute; bottom: -25px;"
-              >
-                <div
-                  class="counter activity  "
-                  data-spec="counter-outter"
-                >
-                  <div
-                    class="count"
-                    data-spec="counter-inner"
-                  >
-                    0
-                  </div>
-                </div>
-              </div>
             </div>
             <div
               class="exit plumb-exit"
@@ -274,21 +229,6 @@ exports[`NodeComp renders a named random split 1`] = `
                 class="endpoint"
                 id="2dc85899-0577-4f1b-a620-f12094e34b5e:763e4844-3e1b-407a-a1b5-5fdfcd308b41"
               />
-              <div
-                style="position: absolute; bottom: -25px;"
-              >
-                <div
-                  class="counter activity  "
-                  data-spec="counter-outter"
-                >
-                  <div
-                    class="count"
-                    data-spec="counter-inner"
-                  >
-                    0
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

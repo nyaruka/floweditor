@@ -42,12 +42,6 @@ Object {
     "childNodes": NodeList [
       <div>
         <div
-          id="activityId"
-        />
-        <div
-          id="recentMessagesId"
-        />
-        <div
           class="exit plumb-exit"
         >
           <div
