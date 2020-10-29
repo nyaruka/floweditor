@@ -239,7 +239,7 @@ export default class Plumber {
 
             // now make our new connection
             if (target != null) {
-              const plumbConnect = this.jsPlumb.connect({
+              this.jsPlumb.connect({
                 source,
                 target,
                 anchors,
