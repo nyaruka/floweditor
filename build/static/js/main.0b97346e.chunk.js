@@ -11942,7 +11942,7 @@
             a
           );
         })(k.Component),
-        lo = a(44),
+        lo = a(45),
         co = a.n(lo),
         uo =
           (qt.t('errors.http_header_missing_name', 'HTTP headers must have a name'),
@@ -19995,7 +19995,7 @@
         })(k.Component),
         rd = a(188),
         od = a.n(rd),
-        ld = a(45),
+        ld = a(43),
         cd = a.n(ld),
         ud = Ot.a.bind(cd.a),
         dd = (function(e) {
@@ -20122,6 +20122,13 @@
                                     'div',
                                     { className: cd.a.button + ' ' + cd.a.current },
                                     'current'
+                                  )
+                                ),
+                                K('done' == a.status)(
+                                  E.a.createElement(
+                                    'div',
+                                    { className: cd.a.button + ' ' + cd.a.publish },
+                                    ' published '
                                   )
                                 ),
                                 K(n && !a.current)(
@@ -21361,7 +21368,28 @@
         empty: 'CaseElement_empty__35kBB'
       };
     },
-    44: function(e, t, a) {
+    43: function(e, t, a) {
+      e.exports = {
+        grid_size: '20',
+        node_spacing: '13',
+        node_padding: '3',
+        'background-size': '13',
+        hidden: 'RevisionExplorer_hidden__N5tXK',
+        mask: 'RevisionExplorer_mask__14GgE',
+        visible: 'RevisionExplorer_visible__365U6',
+        explorer_wrapper: 'RevisionExplorer_explorer_wrapper__3FIUU',
+        explorer: 'RevisionExplorer_explorer__1yYSY',
+        revisions: 'RevisionExplorer_revisions__1nYCu',
+        revision: 'RevisionExplorer_revision__3f_kl',
+        selected: 'RevisionExplorer_selected__2zSg4',
+        button: 'RevisionExplorer_button__2srjQ',
+        current: 'RevisionExplorer_current__Zlqcr',
+        publish: 'RevisionExplorer_publish__O5LsS',
+        created_on: 'RevisionExplorer_created_on__qKoNX',
+        email: 'RevisionExplorer_email__Z9xlH'
+      };
+    },
+    45: function(e, t, a) {
       e.exports = {
         grid_size: '20',
         node_spacing: '13',
@@ -21381,26 +21409,6 @@
         header_value: 'WebhookRouterForm_header_value__1Fxrk',
         body_form: 'WebhookRouterForm_body_form__3BHas',
         req_body: 'WebhookRouterForm_req_body__1rKz_'
-      };
-    },
-    45: function(e, t, a) {
-      e.exports = {
-        grid_size: '20',
-        node_spacing: '13',
-        node_padding: '3',
-        'background-size': '13',
-        hidden: 'RevisionExplorer_hidden__N5tXK',
-        mask: 'RevisionExplorer_mask__14GgE',
-        visible: 'RevisionExplorer_visible__365U6',
-        explorer_wrapper: 'RevisionExplorer_explorer_wrapper__3FIUU',
-        explorer: 'RevisionExplorer_explorer__1yYSY',
-        revisions: 'RevisionExplorer_revisions__1nYCu',
-        revision: 'RevisionExplorer_revision__3f_kl',
-        selected: 'RevisionExplorer_selected__2zSg4',
-        button: 'RevisionExplorer_button__2srjQ',
-        current: 'RevisionExplorer_current__Zlqcr',
-        created_on: 'RevisionExplorer_created_on__qKoNX',
-        email: 'RevisionExplorer_email__Z9xlH'
       };
     },
     46: function(e, t, a) {
@@ -21740,4 +21748,4 @@
   },
   [[193, 1, 2]]
 ]);
-//# sourceMappingURL=main.99cdf71b.chunk.js.map
+//# sourceMappingURL=main.0b97346e.chunk.js.map
