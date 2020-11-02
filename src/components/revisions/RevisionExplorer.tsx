@@ -31,6 +31,7 @@ export interface Revision {
   created_on: string;
   user: User;
   current: boolean;
+  status: string;
 }
 
 export interface RevisionExplorerProps {
@@ -169,6 +170,11 @@ export class RevisionExplorer extends React.Component<
                       {renderIf(revision.current)(
                         <div className={styles.button + ' ' + styles.current}>current</div>
                       )}
+
+                      {renderIf(revision.status == 'done')(
+                        <div className={styles.button + ' ' + styles.publish}> published </div>
+                      )}
+
                       {renderIf(isSelected && !revision.current)(
                         <div onClick={this.onRevertClicked(asset)} className={styles.button}>
                           revert
