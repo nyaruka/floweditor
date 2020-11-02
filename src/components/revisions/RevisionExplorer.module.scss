@@ -74,6 +74,7 @@ $revision_color: $purple;
           }
 
           &.current {
+            font-size: 6px;
             background: $light_gray;
             color: #999;
           }
