@@ -37,7 +37,7 @@ exports[`SayMsgForm render should render 1`] = `
     }
     onChange={[MockFunction]}
   />
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     entry={
       Object {

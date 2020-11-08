@@ -10,9 +10,8 @@ import SelectElement, { SelectOption } from 'components/form/select/SelectElemen
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, shouldRequireIf, StartIsNonNumeric, validate } from 'store/validators';
-import { small } from 'utils/reactselect';
 
 import {
   DELIMITER_OPTIONS,
@@ -27,7 +26,7 @@ import i18n from 'config/i18n';
 import { TembaSelectStyle } from 'temba/TembaSelect';
 
 export interface ResultRouterFormState extends FormState {
-  result: AssetEntry;
+  result: FormEntry;
   cases: CaseProps[];
   resultName: StringEntry;
   shouldDelimit: boolean;
@@ -42,6 +41,8 @@ export default class ResultRouterForm extends React.Component<
   RouterFormProps,
   ResultRouterFormState
 > {
+  options: SelectOption[] = [];
+
   constructor(props: RouterFormProps) {
     super(props);
 
@@ -49,6 +50,13 @@ export default class ResultRouterForm extends React.Component<
 
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
+    });
+  }
+
+  public componentDidMount(): void {
+    const items = this.props.assetStore.results.items;
+    this.options = Object.keys(items).map((key: string) => {
+      return { name: items[key].name, value: key };
     });
   }
 
@@ -116,12 +124,13 @@ export default class ResultRouterForm extends React.Component<
         <div className={styles.result_select}>
           <AssetSelector
             entry={this.state.result}
-            styles={small as any}
+            style={TembaSelectStyle.small}
             name={i18n.t('forms.flow_result', 'Flow Result')}
             placeholder="Select Result"
             searchable={false}
             assets={this.props.assetStore.results}
             onChange={this.handleResultChanged}
+            additionalOptions={this.options}
           />
         </div>
       </div>
@@ -146,12 +155,13 @@ export default class ResultRouterForm extends React.Component<
         <div className={styles.result_select_delimited}>
           <AssetSelector
             entry={this.state.result}
-            styles={small as any}
+            style={TembaSelectStyle.small}
             name={i18n.t('forms.flow_result', 'Flow Result')}
             placeholder={i18n.t('forms.select_result', 'Select Result')}
             searchable={false}
             assets={this.props.assetStore.results}
             onChange={this.handleResultChanged}
+            additionalOptions={this.options}
           />
         </div>
         <div className={styles.lead_in_sub}>delimited by</div>

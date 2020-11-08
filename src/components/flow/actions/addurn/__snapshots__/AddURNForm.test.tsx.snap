@@ -37,102 +37,14 @@ exports[`AddURNForm renders 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  selected="true"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"add_contact_urn\\",\\"name\\":\\"Add URN\\",\\"description\\":\\"Add a URN for the contact\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -142,116 +54,44 @@ exports[`AddURNForm renders 1`] = `
           Add a new URN to reach the contact such as a phone number.
         </p>
         <div
-          class="scheme_selection"
+          style="display: flex; align-items: flex-end;"
         >
           <div
-            class="ele"
+            class="scheme_selection"
           >
             <div
-              class="normal "
+              class="ele"
             >
-              <temba-select
-                data-testid="temba_select_urn_type"
+              <div
+                class="normal "
               >
-                <temba-option
-                  name="Phone Number"
-                  selected="true"
-                  value="tel"
+                <temba-select
+                  data-testid="temba_select_urn_type"
+                  errors="[]"
+                  expressions=""
+                  name="URN Type"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\"tel\\",\\"name\\":\\"Phone Number\\"}]"
                 />
-                <temba-option
-                  name="WhatsApp Number"
-                  value="whatsapp"
-                />
-                <temba-option
-                  name="Facebook"
-                  value="facebook"
-                />
-                <temba-option
-                  name="Twitter ID"
-                  value="twitterid"
-                />
-                <temba-option
-                  name="Telegram ID"
-                  value="telegram"
-                />
-                <temba-option
-                  name="Viber ID"
-                  value="viber"
-                />
-                <temba-option
-                  name="Line ID"
-                  value="line"
-                />
-                <temba-option
-                  name="Wechat ID"
-                  value="wechat"
-                />
-                <temba-option
-                  name="Firebase ID"
-                  value="fcm"
-                />
-                <temba-option
-                  name="Jiochat ID"
-                  value="jiochat"
-                />
-                <temba-option
-                  name="Freshchat ID"
-                  value="freshchat"
-                />
-                <temba-option
-                  name="Email Address"
-                  value="mailto"
-                />
-                <temba-option
-                  name="Twitter Handle"
-                  value="twitter"
-                />
-                <temba-option
-                  name="External ID"
-                  value="ext"
-                />
-              </temba-select>
+              </div>
             </div>
           </div>
-        </div>
-        <div
-          class="path"
-        >
           <div
-            class="ele"
+            class="path"
           >
             <div
-              class="wrapper"
+              class="ele"
             >
-              <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
-                name="URN"
-                placeholder="Enter the URN value"
-                type="text"
-                value="+12065551212"
-              />
               <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
+                class="wrapper normal"
               >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
+                <input
+                  data-testid="URN"
+                  name="URN"
+                  placeholder="Enter the URN value"
+                  value="+12065551212"
+                />
               </div>
             </div>
           </div>

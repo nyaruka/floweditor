@@ -60,6 +60,11 @@ exports[`FieldRouterForm initializes 1`] = `
               "type": "property",
             },
             Object {
+              "id": "status",
+              "name": "Status",
+              "type": "property",
+            },
+            Object {
               "id": "tel",
               "name": "Phone Number",
               "type": "scheme",
@@ -146,21 +151,13 @@ exports[`FieldRouterForm initializes 1`] = `
             },
           }
         }
+        getName={[Function]}
         name="Contact Field"
         onChange={[Function]}
         searchable={true}
         sortFunction={[Function]}
-        styles={
-          Object {
-            "control": [Function],
-            "indicatorsContainer": [Function],
-            "input": [Function],
-            "menuList": [Function],
-            "option": [Function],
-            "singleValue": [Function],
-            "valueContainer": [Function],
-          }
-        }
+        style="small"
+        valueKey="id"
       />
     </div>
   </div>
@@ -271,6 +268,11 @@ exports[`FieldRouterForm should render 1`] = `
               "type": "property",
             },
             Object {
+              "id": "status",
+              "name": "Status",
+              "type": "property",
+            },
+            Object {
               "id": "tel",
               "name": "Phone Number",
               "type": "scheme",
@@ -357,21 +359,13 @@ exports[`FieldRouterForm should render 1`] = `
             },
           }
         }
+        getName={[Function]}
         name="Contact Field"
         onChange={[Function]}
         searchable={true}
         sortFunction={[Function]}
-        styles={
-          Object {
-            "control": [Function],
-            "indicatorsContainer": [Function],
-            "input": [Function],
-            "menuList": [Function],
-            "option": [Function],
-            "singleValue": [Function],
-            "valueContainer": [Function],
-          }
-        }
+        style="small"
+        valueKey="id"
       />
     </div>
   </div>
@@ -420,6 +414,66 @@ exports[`FieldRouterForm should render 1`] = `
     }
   />
 </Dialog>
+`;
+
+exports[`FieldRouterForm updates should build expression from a selected field 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+        },
+        Object {
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "red",
+            ],
+            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "type": "has_any_word",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+            "name": "Red",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+          Object {
+            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "name": "Other",
+            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+          },
+        ],
+        "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        "operand": "@fields.my_field",
+        "result_name": "Color",
+        "type": "switch",
+      },
+      "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+    },
+    "ui": Object {
+      "config": Object {
+        "cases": Object {},
+        "operand": Object {
+          "id": "my_field",
+          "name": "My Field",
+          "type": "field",
+        },
+      },
+      "position": null,
+      "type": "split_by_contact_field",
+    },
+  },
+]
 `;
 
 exports[`FieldRouterForm updates should save changes 1`] = `

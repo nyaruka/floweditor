@@ -4,6 +4,9 @@
   overflow: hidden;
   border-radius: $curvature;
   margin-top: 8px;
+  &:focus {
+    outline: none;
+  }
 
   &.scrolling {
     margin-top: 12px;
@@ -22,4 +25,15 @@
 
 .kase {
   z-index: 2000;
+
+  &:last-child {
+    span {
+      opacity: 0 !important;
+      cursor: default;
+    }
+    .dnd_icon {
+      opacity: 0;
+    }  
+  }
+
 }

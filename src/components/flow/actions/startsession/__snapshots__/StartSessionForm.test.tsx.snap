@@ -37,102 +37,14 @@ exports[`StartSessionForm render should render 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  selected="true"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"message\\",\\"voice\\"]}]"
+              />
             </div>
           </div>
         </div>
@@ -145,21 +57,13 @@ exports[`StartSessionForm render should render 1`] = `
             >
               <temba-select
                 data-testid="temba_select_start_type"
-              >
-                <temba-option
-                  name="Select recipients manually"
-                  selected="true"
-                  value="assets"
-                />
-                <temba-option
-                  name="Select recipients from a query"
-                  value="contact_query"
-                />
-                <temba-option
-                  name="Create a new contact"
-                  value="create_contact"
-                />
-              </temba-select>
+                errors="[]"
+                expressions=""
+                name="Start Type"
+                namekey="name"
+                valuekey="value"
+                values="[{\\"name\\":\\"Select recipients manually\\",\\"value\\":\\"assets\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -172,156 +76,21 @@ exports[`StartSessionForm render should render 1`] = `
               class="ele"
             >
               <div
-                class="react-select selection css-2b097c-container"
+                class="normal "
               >
-                <div
-                  class=" css-1h1mxjq-control"
-                >
-                  <div
-                    class=" css-1hwfws3"
-                  >
-                    <div
-                      class="css-bgswfd-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Cat Fanciers
-                      </div>
-                      <div
-                        class="css-xb97g8"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-6q0nyr-Svg"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-bgswfd-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Norbert Kwizera
-                      </div>
-                      <div
-                        class="css-xb97g8"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-6q0nyr-Svg"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-bgswfd-multiValue"
-                    >
-                      <div
-                        class="css-12jo7m5"
-                      >
-                        Rowan Seymour
-                      </div>
-                      <div
-                        class="css-xb97g8"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="css-6q0nyr-Svg"
-                          focusable="false"
-                          height="14"
-                          viewBox="0 0 20 20"
-                          width="14"
-                        >
-                          <path
-                            d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                    <div
-                      class="css-1al1kbh-Input"
-                    >
-                      <div
-                        class=""
-                        style="display: inline-block;"
-                      >
-                        <input
-                          aria-autocomplete="list"
-                          autocapitalize="none"
-                          autocomplete="off"
-                          autocorrect="off"
-                          id="react-select-2-input"
-                          spellcheck="false"
-                          style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                          tabindex="0"
-                          type="text"
-                          value=""
-                        />
-                        <div
-                          style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class=" css-1hb7zxy-IndicatorsContainer"
-                  >
-                    <div
-                      aria-hidden="true"
-                      class=" css-tlfecz-indicatorContainer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="css-6q0nyr-Svg"
-                        focusable="false"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        width="20"
-                      >
-                        <path
-                          d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z"
-                        />
-                      </svg>
-                    </div>
-                    <span
-                      class=" css-1okebmr-indicatorSeparator"
-                    />
-                    <div
-                      aria-hidden="true"
-                      class=" css-tlfecz-indicatorContainer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="css-6q0nyr-Svg"
-                        focusable="false"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        width="20"
-                      >
-                        <path
-                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+                <temba-select
+                  cachekey="0"
+                  data-testid="temba_select_recipients"
+                  errors="[]"
+                  expressions=""
+                  multi="true"
+                  name="Recipients"
+                  namekey="name"
+                  placeholder="Choose who should be started in the flow"
+                  searchable="true"
+                  valuekey="uuid"
+                  values="[{\\"id\\":\\"2dc85899-0577-4f1b-a620-f12094e34b5e\\",\\"name\\":\\"Cat Fanciers\\",\\"type\\":\\"group\\"},{\\"id\\":\\"42ebf1d0-a43e-4ba6-9577-c863b20c88c4\\",\\"name\\":\\"Norbert Kwizera\\",\\"type\\":\\"contact\\",\\"missing\\":false},{\\"id\\":\\"70ac6ea6-803a-4c33-81c7-dc26803c313f\\",\\"name\\":\\"Rowan Seymour\\",\\"type\\":\\"contact\\",\\"missing\\":false}]"
+                />
               </div>
             </div>
             <p />
@@ -330,69 +99,20 @@ exports[`StartSessionForm render should render 1`] = `
             class="ele"
           >
             <div
-              class="react-select selection css-2b097c-container"
+              class="normal "
             >
-              <div
-                class=" css-1h1mxjq-control"
-              >
-                <div
-                  class=" css-1hwfws3"
-                >
-                  <div
-                    class=" css-1sdgdfu-singleValue"
-                  >
-                    Flow to Start
-                  </div>
-                  <div
-                    class="css-1al1kbh-Input"
-                  >
-                    <div
-                      class=""
-                      style="display: inline-block;"
-                    >
-                      <input
-                        aria-autocomplete="list"
-                        autocapitalize="none"
-                        autocomplete="off"
-                        autocorrect="off"
-                        id="react-select-3-input"
-                        spellcheck="false"
-                        style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                        tabindex="0"
-                        type="text"
-                        value=""
-                      />
-                      <div
-                        style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class=" css-1hb7zxy-IndicatorsContainer"
-                >
-                  <span
-                    class=" css-1okebmr-indicatorSeparator"
-                  />
-                  <div
-                    aria-hidden="true"
-                    class=" css-tlfecz-indicatorContainer"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="css-6q0nyr-Svg"
-                      focusable="false"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      width="20"
-                    >
-                      <path
-                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <temba-select
+                cachekey="0"
+                data-testid="temba_select_flow"
+                errors="[]"
+                expressions=""
+                name="Flow"
+                namekey="name"
+                placeholder="Choose which flow to start"
+                searchable="true"
+                valuekey="uuid"
+                values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -439,7 +159,7 @@ Object {
   },
   "startType": Object {
     "value": Object {
-      "label": "Select recipients manually",
+      "name": "Select recipients manually",
       "value": "assets",
     },
   },
@@ -490,7 +210,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       entry={
         Object {
           "value": Object {
-            "label": "Select recipients manually",
+            "name": "Select recipients manually",
             "value": "assets",
           },
         }
@@ -501,15 +221,15 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       options={
         Array [
           Object {
-            "label": "Select recipients manually",
+            "name": "Select recipients manually",
             "value": "assets",
           },
           Object {
-            "label": "Select recipients from a query",
+            "name": "Select recipients from a query",
             "value": "contact_query",
           },
           Object {
-            "label": "Create a new contact",
+            "name": "Create a new contact",
             "value": "create_contact",
           },
         ]
@@ -526,44 +246,6 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
           Object {
             "items": Object {},
             "type": "contact",
-          }
-        }
-        completion={
-          Object {
-            "assetStore": Object {
-              "channels": Object {
-                "items": Object {},
-                "type": "channel",
-              },
-              "fields": Object {
-                "items": Object {},
-                "type": "field",
-              },
-              "flows": Object {
-                "items": Object {},
-                "type": "flow",
-              },
-              "labels": Object {
-                "items": Object {},
-                "type": "label",
-              },
-              "languages": Object {
-                "items": Object {},
-                "type": "language",
-              },
-              "recipients": Object {
-                "items": Object {},
-                "type": "contact",
-              },
-              "results": Object {
-                "items": Object {},
-                "type": "result",
-              },
-            },
-            "schema": Object {
-              "root": Array [],
-              "types": Array [],
-            },
           }
         }
         entry={
@@ -637,102 +319,14 @@ exports[`StartSessionForm render should render contact query 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  selected="true"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"message\\",\\"voice\\"]}]"
+              />
             </div>
           </div>
         </div>
@@ -745,21 +339,13 @@ exports[`StartSessionForm render should render contact query 1`] = `
             >
               <temba-select
                 data-testid="temba_select_start_type"
-              >
-                <temba-option
-                  name="Select recipients manually"
-                  value="assets"
-                />
-                <temba-option
-                  name="Select recipients from a query"
-                  selected="true"
-                  value="contact_query"
-                />
-                <temba-option
-                  name="Create a new contact"
-                  value="create_contact"
-                />
-              </temba-select>
+                errors="[]"
+                expressions=""
+                name="Start Type"
+                namekey="name"
+                valuekey="value"
+                values="[{\\"name\\":\\"Select recipients from a query\\",\\"value\\":\\"contact_query\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -772,38 +358,14 @@ exports[`StartSessionForm render should render contact query 1`] = `
               class="ele"
             >
               <div
-                class="wrapper"
+                class="wrapper normal"
               >
                 <input
-                  class="textinput"
-                  data-spec="input"
-                  data-testid="input"
-                  maxlength="-1"
+                  data-testid="Contact Query"
                   name="Contact Query"
                   placeholder="household_id = @fields.household_id"
-                  type="text"
                   value="my_field > 6"
                 />
-                <div
-                  class="completion_container hidden"
-                  data-spec="completion-options"
-                  style="top: 0px; left: 0px;"
-                >
-                  <div
-                    class="options_wrapper"
-                  >
-                    <ul
-                      class="option_list"
-                      data-spec="completion-list"
-                    />
-                    <div
-                      class="help"
-                      data-spec="completion-help"
-                    >
-                      Tab to complete, enter to select
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <p />
@@ -812,69 +374,20 @@ exports[`StartSessionForm render should render contact query 1`] = `
             class="ele"
           >
             <div
-              class="react-select selection css-2b097c-container"
+              class="normal "
             >
-              <div
-                class=" css-1h1mxjq-control"
-              >
-                <div
-                  class=" css-1hwfws3"
-                >
-                  <div
-                    class=" css-1sdgdfu-singleValue"
-                  >
-                    Flow to Start
-                  </div>
-                  <div
-                    class="css-1al1kbh-Input"
-                  >
-                    <div
-                      class=""
-                      style="display: inline-block;"
-                    >
-                      <input
-                        aria-autocomplete="list"
-                        autocapitalize="none"
-                        autocomplete="off"
-                        autocorrect="off"
-                        id="react-select-7-input"
-                        spellcheck="false"
-                        style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                        tabindex="0"
-                        type="text"
-                        value=""
-                      />
-                      <div
-                        style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class=" css-1hb7zxy-IndicatorsContainer"
-                >
-                  <span
-                    class=" css-1okebmr-indicatorSeparator"
-                  />
-                  <div
-                    aria-hidden="true"
-                    class=" css-tlfecz-indicatorContainer"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="css-6q0nyr-Svg"
-                      focusable="false"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      width="20"
-                    >
-                      <path
-                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <temba-select
+                cachekey="0"
+                data-testid="temba_select_flow"
+                errors="[]"
+                expressions=""
+                name="Flow"
+                namekey="name"
+                placeholder="Choose which flow to start"
+                searchable="true"
+                valuekey="uuid"
+                values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -963,102 +476,14 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  selected="true"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"message\\",\\"voice\\"]}]"
+              />
             </div>
           </div>
         </div>
@@ -1071,21 +496,13 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
             >
               <temba-select
                 data-testid="temba_select_start_type"
-              >
-                <temba-option
-                  name="Select recipients manually"
-                  value="assets"
-                />
-                <temba-option
-                  name="Select recipients from a query"
-                  value="contact_query"
-                />
-                <temba-option
-                  name="Create a new contact"
-                  selected="true"
-                  value="create_contact"
-                />
-              </temba-select>
+                errors="[]"
+                expressions=""
+                name="Start Type"
+                namekey="name"
+                valuekey="value"
+                values="[{\\"name\\":\\"Create a new contact\\",\\"value\\":\\"create_contact\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -1095,69 +512,20 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
             class="ele"
           >
             <div
-              class="react-select selection css-2b097c-container"
+              class="normal "
             >
-              <div
-                class=" css-1h1mxjq-control"
-              >
-                <div
-                  class=" css-1hwfws3"
-                >
-                  <div
-                    class=" css-1sdgdfu-singleValue"
-                  >
-                    Flow to Start
-                  </div>
-                  <div
-                    class="css-1al1kbh-Input"
-                  >
-                    <div
-                      class=""
-                      style="display: inline-block;"
-                    >
-                      <input
-                        aria-autocomplete="list"
-                        autocapitalize="none"
-                        autocomplete="off"
-                        autocorrect="off"
-                        id="react-select-5-input"
-                        spellcheck="false"
-                        style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                        tabindex="0"
-                        type="text"
-                        value=""
-                      />
-                      <div
-                        style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class=" css-1hb7zxy-IndicatorsContainer"
-                >
-                  <span
-                    class=" css-1okebmr-indicatorSeparator"
-                  />
-                  <div
-                    aria-hidden="true"
-                    class=" css-tlfecz-indicatorContainer"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="css-6q0nyr-Svg"
-                      focusable="false"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      width="20"
-                    >
-                      <path
-                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <temba-select
+                cachekey="0"
+                data-testid="temba_select_flow"
+                errors="[]"
+                expressions=""
+                name="Flow"
+                namekey="name"
+                placeholder="Choose which flow to start"
+                searchable="true"
+                valuekey="uuid"
+                values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -1234,7 +602,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
       entry={
         Object {
           "value": Object {
-            "label": "Select recipients manually",
+            "name": "Select recipients manually",
             "value": "assets",
           },
         }
@@ -1245,15 +613,15 @@ exports[`StartSessionForm render should render self, children with base props 1`
       options={
         Array [
           Object {
-            "label": "Select recipients manually",
+            "name": "Select recipients manually",
             "value": "assets",
           },
           Object {
-            "label": "Select recipients from a query",
+            "name": "Select recipients from a query",
             "value": "contact_query",
           },
           Object {
-            "label": "Create a new contact",
+            "name": "Create a new contact",
             "value": "create_contact",
           },
         ]
@@ -1270,44 +638,6 @@ exports[`StartSessionForm render should render self, children with base props 1`
           Object {
             "items": Object {},
             "type": "contact",
-          }
-        }
-        completion={
-          Object {
-            "assetStore": Object {
-              "channels": Object {
-                "items": Object {},
-                "type": "channel",
-              },
-              "fields": Object {
-                "items": Object {},
-                "type": "field",
-              },
-              "flows": Object {
-                "items": Object {},
-                "type": "flow",
-              },
-              "labels": Object {
-                "items": Object {},
-                "type": "label",
-              },
-              "languages": Object {
-                "items": Object {},
-                "type": "language",
-              },
-              "recipients": Object {
-                "items": Object {},
-                "type": "contact",
-              },
-              "results": Object {
-                "items": Object {},
-                "type": "result",
-              },
-            },
-            "schema": Object {
-              "root": Array [],
-              "types": Array [],
-            },
           }
         }
         entry={
@@ -1351,9 +681,8 @@ exports[`StartSessionForm render should render self, children with base props 1`
       entry={
         Object {
           "value": Object {
-            "id": "flow_uuid",
             "name": "Flow to Start",
-            "type": "flow",
+            "uuid": "flow_uuid",
           },
         }
       }
@@ -1403,102 +732,14 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  selected="true"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"message\\",\\"voice\\"]}]"
+              />
             </div>
           </div>
         </div>
@@ -1511,21 +752,13 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             >
               <temba-select
                 data-testid="temba_select_start_type"
-              >
-                <temba-option
-                  name="Select recipients manually"
-                  value="assets"
-                />
-                <temba-option
-                  name="Select recipients from a query"
-                  selected="true"
-                  value="contact_query"
-                />
-                <temba-option
-                  name="Create a new contact"
-                  value="create_contact"
-                />
-              </temba-select>
+                errors="[]"
+                expressions=""
+                name="Start Type"
+                namekey="name"
+                valuekey="value"
+                values="[{\\"name\\":\\"Select recipients from a query\\",\\"value\\":\\"contact_query\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -1538,38 +771,14 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
               class="ele"
             >
               <div
-                class="wrapper"
+                class="wrapper normal"
               >
                 <input
-                  class="textinput"
-                  data-spec="input"
-                  data-testid="input"
-                  maxlength="-1"
+                  data-testid="Contact Query"
                   name="Contact Query"
                   placeholder="household_id = @fields.household_id"
-                  type="text"
                   value="@fields.arst = 34"
                 />
-                <div
-                  class="completion_container hidden"
-                  data-spec="completion-options"
-                  style="top: 0px; left: 0px;"
-                >
-                  <div
-                    class="options_wrapper"
-                  >
-                    <ul
-                      class="option_list"
-                      data-spec="completion-list"
-                    />
-                    <div
-                      class="help"
-                      data-spec="completion-help"
-                    >
-                      Tab to complete, enter to select
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <p />
@@ -1578,69 +787,20 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
             class="ele"
           >
             <div
-              class="react-select selection css-2b097c-container"
+              class="normal "
             >
-              <div
-                class=" css-1h1mxjq-control"
-              >
-                <div
-                  class=" css-1hwfws3"
-                >
-                  <div
-                    class=" css-1sdgdfu-singleValue"
-                  >
-                    Flow to Start
-                  </div>
-                  <div
-                    class="css-1al1kbh-Input"
-                  >
-                    <div
-                      class=""
-                      style="display: inline-block;"
-                    >
-                      <input
-                        aria-autocomplete="list"
-                        autocapitalize="none"
-                        autocomplete="off"
-                        autocorrect="off"
-                        id="react-select-9-input"
-                        spellcheck="false"
-                        style="box-sizing: content-box; width: 2px; border: 0px; font-size: inherit; opacity: 1; outline: 0; padding: 0px;"
-                        tabindex="0"
-                        type="text"
-                        value=""
-                      />
-                      <div
-                        style="position: absolute; top: 0px; left: 0px; visibility: hidden; height: 0px; overflow: scroll; white-space: pre; font-size: inherit; font-family: -webkit-small-control; letter-spacing: normal; text-transform: none;"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class=" css-1hb7zxy-IndicatorsContainer"
-                >
-                  <span
-                    class=" css-1okebmr-indicatorSeparator"
-                  />
-                  <div
-                    aria-hidden="true"
-                    class=" css-tlfecz-indicatorContainer"
-                  >
-                    <svg
-                      aria-hidden="true"
-                      class="css-6q0nyr-Svg"
-                      focusable="false"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      width="20"
-                    >
-                      <path
-                        d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <temba-select
+                cachekey="0"
+                data-testid="temba_select_flow"
+                errors="[]"
+                expressions=""
+                name="Flow"
+                namekey="name"
+                placeholder="Choose which flow to start"
+                searchable="true"
+                valuekey="uuid"
+                values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"
+              />
             </div>
           </div>
         </div>
@@ -1681,14 +841,9 @@ Array [
     "create_contact": false,
     "flow": Object {
       "name": "My Flow",
-      "uuid": "my_flow",
+      "uuid": undefined,
     },
-    "groups": Array [
-      Object {
-        "name": "Subscriber",
-        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
-      },
-    ],
+    "groups": Array [],
     "legacy_vars": Array [],
     "type": "start_session",
     "uuid": "c99dcf07-2ad6-4730-9e99-810a39f5a58d",
@@ -1713,15 +868,14 @@ Object {
     "validationFailures": Array [],
     "value": Array [
       Object {
-        "id": "68223118-109f-442a-aed3-7bb3e1eab687",
         "name": "Subscriber",
-        "type": "group",
+        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
       },
     ],
   },
   "startType": Object {
     "value": Object {
-      "label": "Select recipients manually",
+      "name": "Select recipients manually",
       "value": "assets",
     },
   },
@@ -1736,14 +890,9 @@ Array [
     "create_contact": false,
     "flow": Object {
       "name": "My Flow",
-      "uuid": "my_flow",
+      "uuid": undefined,
     },
-    "groups": Array [
-      Object {
-        "name": "Subscriber",
-        "uuid": "68223118-109f-442a-aed3-7bb3e1eab687",
-      },
-    ],
+    "groups": Array [],
     "legacy_vars": Array [],
     "type": "start_session",
     "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",

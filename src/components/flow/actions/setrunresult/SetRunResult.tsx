@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { SetRunResult } from 'flowTypes';
-import { emphasize } from 'utils';
+import { ellipsize, emphasize } from 'utils';
 
 export const getSavePlaceholder = (value: string, name: string): JSX.Element => (
   <div>
-    Save {emphasize(value)} as {emphasize(name)}
+    Save {emphasize(ellipsize(value, 100))} as {emphasize(name)}
   </div>
 );
 

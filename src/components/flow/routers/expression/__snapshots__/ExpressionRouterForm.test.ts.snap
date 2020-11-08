@@ -37,7 +37,7 @@ exports[`ExpressionRouterForm should render 1`] = `
   <p>
     If the expression...
   </p>
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     entry={
       Object {

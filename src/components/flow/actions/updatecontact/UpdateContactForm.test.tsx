@@ -43,13 +43,13 @@ describe(UpdateContactForm.name, () => {
     expect(baseElement).toMatchSnapshot();
   });
 
-  it('shouldnt allow expressions in language selection', () => {
-    const { getAllByDisplayValue } = render(
+  it('shouldnt allow searching or expressions in language selection', () => {
+    const { getByTestId } = render(
       <UpdateContactForm {...getActionFormProps(createSetContactLanguageAction())} />
     );
 
-    // we don't support expressions but this shouldn't blow up either
-    const input = getAllByDisplayValue('')[1];
-    fireEvent.change(input, { target: { value: '@' } });
+    // we don't support searching for languages
+    const select = getByTestId('temba_select_language');
+    expect(select.hasAttribute('searchable')).toBeFalsy();
   });
 });

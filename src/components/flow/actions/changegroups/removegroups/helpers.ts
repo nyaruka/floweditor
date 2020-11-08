@@ -1,8 +1,4 @@
-import {
-  ChangeGroupsFormState,
-  mapAssetsToGroups,
-  mapGroupsToAssets
-} from 'components/flow/actions/changegroups/helpers';
+import { ChangeGroupsFormState } from 'components/flow/actions/changegroups/helpers';
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { Types } from 'config/interfaces';
 import { RemoveFromGroups } from 'flowTypes';
@@ -14,7 +10,7 @@ export const initializeForm = (settings: NodeEditorSettings): ChangeGroupsFormSt
 
     const groups = action.groups || [];
     return {
-      groups: { value: mapGroupsToAssets(groups) },
+      groups: { value: groups },
       removeAll: groups.length === 0 || action.all_groups,
       valid: true
     };
@@ -33,7 +29,11 @@ export const stateToAction = (
 ): RemoveFromGroups => {
   return {
     type: Types.remove_contact_groups,
-    groups: state.removeAll ? [] : mapAssetsToGroups(state.groups.value),
+    groups: state.removeAll
+      ? []
+      : state.groups.value.map((group: any) => {
+          return { uuid: group.uuid, name: group.name };
+        }),
     all_groups: !!state.removeAll,
     uuid: getActionUUID(settings, Types.remove_contact_groups)
   };

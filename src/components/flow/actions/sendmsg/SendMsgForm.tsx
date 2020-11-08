@@ -15,22 +15,22 @@ import { hasUseableTranslation } from 'components/form/assetselector/helpers';
 import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
-import TextInputElement, { Count } from 'components/form/textinput/TextInputElement';
+import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import Pill from 'components/pill/Pill';
 import { fakePropType } from 'config/ConfigProvider';
 import { fetchAsset, getCookie } from 'external';
-import { Template, TemplateOptions, TemplateTranslation } from 'flowTypes';
+import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import {
-  AssetEntry,
   FormState,
   mergeForm,
   StringArrayEntry,
   StringEntry,
-  SelectOptionEntry
+  SelectOptionEntry,
+  FormEntry
 } from 'store/nodeEditor';
 import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
 import { createUUID, range } from 'utils';
@@ -46,12 +46,13 @@ import { TembaSelectStyle } from 'temba/TembaSelect';
 const MAX_ATTACHMENTS = 3;
 
 const TYPE_OPTIONS: SelectOption[] = [
-  { value: 'image', label: i18n.t('forms.image_url', 'Image URL') },
-  { value: 'audio', label: i18n.t('forms.audio_url', 'Audio URL') },
-  { value: 'video', label: i18n.t('forms.video_url', 'Video URL') }
+  { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
+  { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
+  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
+  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', label: 'Upload Attachment' }]);
+const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', name: 'Upload Attachment' }]);
 
 const getAttachmentTypeOption = (type: string): SelectOption => {
   return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
@@ -69,7 +70,7 @@ export interface SendMsgFormState extends FormState {
   quickReplyEntry: StringEntry;
   sendAll: boolean;
   attachments: Attachment[];
-  template: AssetEntry;
+  template: FormEntry;
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
   templateTranslation?: TemplateTranslation;
@@ -87,10 +88,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     // intialize our templates if we have them
     if (this.state.template.value !== null) {
-      fetchAsset(this.props.assetStore.templates, this.state.template.value.id).then(
+      fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
         (asset: Asset) => {
           if (asset !== null) {
-            this.handleTemplateChanged([asset]);
+            this.handleTemplateChanged([{ ...this.state.template.value, ...asset.content }]);
           }
         }
       );
@@ -132,6 +133,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     this.setState(updated);
     return updated.valid;
+  }
+
+  public handleMessageInput(event: React.KeyboardEvent) {
+    return this.handleUpdate({ text: (event.target as any).value }, false);
   }
 
   public handleMessageUpdate(message: string, name: string, submitting = false): boolean {
@@ -206,9 +211,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             name={i18n.t('forms.type', 'Type')}
             style={TembaSelectStyle.small}
             entry={{
-              value: { label: attachment.type }
+              value: { name: attachment.type }
             }}
             options={TYPE_OPTIONS}
+            disabled={true}
           />
         </div>
         <div className={styles.url}>
@@ -242,7 +248,10 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     // if we have a csrf in our cookie, pass it along as a header
     const csrf = getCookie('csrftoken');
-    const headers = csrf ? { 'X-CSRFToken': csrf } : {};
+    const headers: any = csrf ? { 'X-CSRFToken': csrf } : {};
+
+    // mark us as ajax
+    headers['X-Requested-With'] = 'XMLHttpRequest';
 
     const data = new FormData();
     data.append('file', files[0]);
@@ -304,6 +313,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
               <TextInputElement
                 placeholder="URL"
                 name={i18n.t('forms.url', 'URL')}
+                style={TextInputStyle.small}
                 onChange={(value: string) => {
                   attachments = mutate(attachments, {
                     [index]: { $set: { type: attachment.type, url: value } }
@@ -366,7 +376,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
-  private handleTemplateChanged(selected: Asset[]): void {
+  private handleTemplateChanged(selected: any[]): void {
     const template = selected ? selected[0] : null;
 
     if (!template) {
@@ -376,8 +386,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         templateVariables: []
       });
     } else {
-      const templateOptions = template.content as TemplateOptions;
-      const templateTranslation = templateOptions.translations[0];
+      const templateTranslation = template.translations[0];
 
       const templateVariables =
         this.state.templateVariables.length === 0 ||
@@ -405,8 +414,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     this.setState({ templateVariables });
   }
 
-  private handleShouldExcludeTemplate(asset: Asset): boolean {
-    return !hasUseableTranslation(asset.content as Template);
+  private handleShouldExcludeTemplate(template: any): boolean {
+    return !hasUseableTranslation(template as Template);
   }
 
   private renderTopicConfig(): JSX.Element {
@@ -482,40 +491,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
-  private handleAddQuickReply(newQuickReply: string): boolean {
-    const newReplies = [...this.state.quickReplies.value];
-    if (newReplies.length >= 10) {
-      return false;
-    }
-
-    // we don't allow two quick replies with the same name
-    const isNew = !newReplies.find(
-      (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
-    );
-
-    if (isNew) {
-      newReplies.push(newQuickReply);
-      this.setState({
-        quickReplies: { value: newReplies }
-      });
-      return true;
-    }
-
-    return false;
-  }
-
-  private handleRemoveQuickReply(toRemove: string): void {
-    this.setState({
-      quickReplies: {
-        value: this.state.quickReplies.value.filter((reply: string) => reply !== toRemove)
-      }
-    });
-  }
-
-  private handleQuickReplyEntry(quickReplyEntry: StringEntry): void {
-    this.setState({ quickReplyEntry });
-  }
-
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
@@ -537,9 +512,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             }
             items={this.state.quickReplies}
             entry={this.state.quickReplyEntry}
-            onRemoved={this.handleRemoveQuickReply}
-            onItemAdded={this.handleAddQuickReply}
-            onEntryChanged={this.handleQuickReplyEntry}
+            onChange={this.handleQuickRepliesUpdate}
           />
         </>
       ),
@@ -603,13 +576,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         <TextInputElement
           name={i18n.t('forms.message', 'Message')}
           showLabel={false}
-          count={Count.SMS}
+          counter=".sms-counter"
           onChange={this.handleMessageUpdate}
           entry={this.state.message}
           autocomplete={true}
           focus={true}
           textarea={true}
         />
+        <temba-charcount class="sms-counter"></temba-charcount>
         {renderIssues(this.props)}
       </Dialog>
     );

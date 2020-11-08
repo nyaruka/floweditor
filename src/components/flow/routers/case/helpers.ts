@@ -31,7 +31,7 @@ export const initializeForm = (props: CaseElementProps): CaseElementState => {
     max: { value: arg2 },
     state: { value: arg1 },
     district: { value: arg2 },
-    intent: { value: arg1 ? { label: arg1, value: arg1 } : null },
+    intent: { value: arg1 ? { name: arg1, value: arg1 } : null },
     confidence: { value: arg2 },
     categoryName: { value: props.categoryName || '' },
     categoryNameEdited: !!props.categoryName,
@@ -251,7 +251,7 @@ export const getCategoryName = (state: Partial<CaseElementState>): string => {
     state.operatorConfig.type === Operators.has_top_intent
   ) {
     if (state.intent.value) {
-      return titleCase(state.intent.value.label.replace('_', ' '));
+      return titleCase(state.intent.value.name.replace('_', ' '));
     }
   }
 

@@ -48,9 +48,8 @@ exports[`SubflowRouterForm render should render 1`] = `
     entry={
       Object {
         "value": Object {
-          "id": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
           "name": "Colors",
-          "type": "flow",
+          "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
       }
     }
@@ -72,7 +71,7 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Color",
-            "uuid": undefined,
+            "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
           },
           "type": "enter_flow",
           "uuid": "d4a3a01c-1dee-4324-b107-4ac7a21d836f",
@@ -143,7 +142,7 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Color",
-            "uuid": undefined,
+            "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
           },
           "type": "enter_flow",
           "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
@@ -210,12 +209,10 @@ Object {
   "flow": Object {
     "validationFailures": Array [],
     "value": Object {
-      "content": Object {
-        "parent_refs": Array [
-          "colors",
-        ],
-      },
       "name": "Favorite Color",
+      "parent_refs": Array [
+        "colors",
+      ],
       "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
     },
   },
@@ -237,7 +234,7 @@ Array [
         Object {
           "flow": Object {
             "name": "Favorite Color",
-            "uuid": undefined,
+            "uuid": "9a93ede6-078f-44c9-ad0a-133793be5d56",
           },
           "type": "enter_flow",
           "uuid": "d4a3a01c-1dee-4324-b107-4ac7a21d836f",

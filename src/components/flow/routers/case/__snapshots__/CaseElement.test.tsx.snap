@@ -22,105 +22,13 @@ exports[`CaseElement operator changes should handle updates 1`] = `
           >
             <temba-select
               data-testid="temba_select_operator"
-            >
-              <temba-option
-                name="has any of the words"
-                value="has_any_word"
-              />
-              <temba-option
-                name="has all of the words"
-                value="has_all_words"
-              />
-              <temba-option
-                name="has the phrase"
-                value="has_phrase"
-              />
-              <temba-option
-                name="has only the phrase"
-                value="has_only_phrase"
-              />
-              <temba-option
-                name="starts with"
-                value="has_beginning"
-              />
-              <temba-option
-                name="has some text"
-                value="has_text"
-              />
-              <temba-option
-                name="has a number"
-                value="has_number"
-              />
-              <temba-option
-                name="has a number between"
-                value="has_number_between"
-              />
-              <temba-option
-                name="has a number below"
-                value="has_number_lt"
-              />
-              <temba-option
-                name="has a number at or below"
-                value="has_number_lte"
-              />
-              <temba-option
-                name="has a number equal to"
-                value="has_number_eq"
-              />
-              <temba-option
-                name="has a number at or above"
-                value="has_number_gte"
-              />
-              <temba-option
-                name="has a number above"
-                value="has_number_gt"
-              />
-              <temba-option
-                name="has a date"
-                value="has_date"
-              />
-              <temba-option
-                name="has a date before"
-                value="has_date_lt"
-              />
-              <temba-option
-                name="has a date equal to"
-                value="has_date_eq"
-              />
-              <temba-option
-                name="has a date after"
-                value="has_date_gt"
-              />
-              <temba-option
-                name="has a time"
-                value="has_time"
-              />
-              <temba-option
-                name="has a phone number"
-                selected="true"
-                value="has_phone"
-              />
-              <temba-option
-                name="has an email"
-                value="has_email"
-              />
-              <temba-option
-                name="has state"
-                value="has_state"
-              />
-              <temba-option
-                name="has district"
-                value="has_district"
-              />
-              <temba-option
-                name="has ward"
-                value="has_ward"
-              />
-              <temba-option
-                name="matches regex"
-                value="has_pattern"
-              />
-            </temba-select>
+              errors="[]"
+              expressions=""
+              name="operator"
+              namekey="verboseName"
+              valuekey="type"
+              values="[{\\"type\\":\\"has_phone\\",\\"verboseName\\":\\"has a phone number\\",\\"operands\\":0,\\"categoryName\\":\\"Has Phone\\"}]"
+            />
           </div>
         </div>
         <div
@@ -139,37 +47,13 @@ exports[`CaseElement operator changes should handle updates 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="Has Phone"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -205,105 +89,13 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
           >
             <temba-select
               data-testid="temba_select_operator"
-            >
-              <temba-option
-                name="has any of the words"
-                value="has_any_word"
-              />
-              <temba-option
-                name="has all of the words"
-                value="has_all_words"
-              />
-              <temba-option
-                name="has the phrase"
-                value="has_phrase"
-              />
-              <temba-option
-                name="has only the phrase"
-                value="has_only_phrase"
-              />
-              <temba-option
-                name="starts with"
-                value="has_beginning"
-              />
-              <temba-option
-                name="has some text"
-                value="has_text"
-              />
-              <temba-option
-                name="has a number"
-                value="has_number"
-              />
-              <temba-option
-                name="has a number between"
-                selected="true"
-                value="has_number_between"
-              />
-              <temba-option
-                name="has a number below"
-                value="has_number_lt"
-              />
-              <temba-option
-                name="has a number at or below"
-                value="has_number_lte"
-              />
-              <temba-option
-                name="has a number equal to"
-                value="has_number_eq"
-              />
-              <temba-option
-                name="has a number at or above"
-                value="has_number_gte"
-              />
-              <temba-option
-                name="has a number above"
-                value="has_number_gt"
-              />
-              <temba-option
-                name="has a date"
-                value="has_date"
-              />
-              <temba-option
-                name="has a date before"
-                value="has_date_lt"
-              />
-              <temba-option
-                name="has a date equal to"
-                value="has_date_eq"
-              />
-              <temba-option
-                name="has a date after"
-                value="has_date_gt"
-              />
-              <temba-option
-                name="has a time"
-                value="has_time"
-              />
-              <temba-option
-                name="has a phone number"
-                value="has_phone"
-              />
-              <temba-option
-                name="has an email"
-                value="has_email"
-              />
-              <temba-option
-                name="has state"
-                value="has_state"
-              />
-              <temba-option
-                name="has district"
-                value="has_district"
-              />
-              <temba-option
-                name="has ward"
-                value="has_ward"
-              />
-              <temba-option
-                name="matches regex"
-                value="has_pattern"
-              />
-            </temba-select>
+              errors="[]"
+              expressions=""
+              name="operator"
+              namekey="verboseName"
+              valuekey="type"
+              values="[{\\"type\\":\\"has_number_between\\",\\"verboseName\\":\\"has a number between\\",\\"operands\\":2}]"
+            />
           </div>
         </div>
         <div
@@ -313,37 +105,13 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <span
@@ -356,37 +124,13 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -403,37 +147,13 @@ exports[`CaseElement operator changes should should set arguments for numeric ra
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -469,105 +189,13 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
           >
             <temba-select
               data-testid="temba_select_operator"
-            >
-              <temba-option
-                name="has any of the words"
-                value="has_any_word"
-              />
-              <temba-option
-                name="has all of the words"
-                value="has_all_words"
-              />
-              <temba-option
-                name="has the phrase"
-                value="has_phrase"
-              />
-              <temba-option
-                name="has only the phrase"
-                value="has_only_phrase"
-              />
-              <temba-option
-                name="starts with"
-                value="has_beginning"
-              />
-              <temba-option
-                name="has some text"
-                value="has_text"
-              />
-              <temba-option
-                name="has a number"
-                selected="true"
-                value="has_number"
-              />
-              <temba-option
-                name="has a number between"
-                value="has_number_between"
-              />
-              <temba-option
-                name="has a number below"
-                value="has_number_lt"
-              />
-              <temba-option
-                name="has a number at or below"
-                value="has_number_lte"
-              />
-              <temba-option
-                name="has a number equal to"
-                value="has_number_eq"
-              />
-              <temba-option
-                name="has a number at or above"
-                value="has_number_gte"
-              />
-              <temba-option
-                name="has a number above"
-                value="has_number_gt"
-              />
-              <temba-option
-                name="has a date"
-                value="has_date"
-              />
-              <temba-option
-                name="has a date before"
-                value="has_date_lt"
-              />
-              <temba-option
-                name="has a date equal to"
-                value="has_date_eq"
-              />
-              <temba-option
-                name="has a date after"
-                value="has_date_gt"
-              />
-              <temba-option
-                name="has a time"
-                value="has_time"
-              />
-              <temba-option
-                name="has a phone number"
-                value="has_phone"
-              />
-              <temba-option
-                name="has an email"
-                value="has_email"
-              />
-              <temba-option
-                name="has state"
-                value="has_state"
-              />
-              <temba-option
-                name="has district"
-                value="has_district"
-              />
-              <temba-option
-                name="has ward"
-                value="has_ward"
-              />
-              <temba-option
-                name="matches regex"
-                value="has_pattern"
-              />
-            </temba-select>
+              errors="[]"
+              expressions=""
+              name="operator"
+              namekey="verboseName"
+              valuekey="type"
+              values="[{\\"type\\":\\"has_number\\",\\"verboseName\\":\\"has a number\\",\\"operands\\":0,\\"categoryName\\":\\"Has Number\\"}]"
+            />
           </div>
         </div>
         <div
@@ -586,37 +214,13 @@ exports[`CaseElement operator changes shouldnt update exit if it has been edited
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="My Exit Name"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -652,105 +256,13 @@ exports[`CaseElement render renders no argument rules 1`] = `
           >
             <temba-select
               data-testid="temba_select_operator"
-            >
-              <temba-option
-                name="has any of the words"
-                value="has_any_word"
-              />
-              <temba-option
-                name="has all of the words"
-                value="has_all_words"
-              />
-              <temba-option
-                name="has the phrase"
-                value="has_phrase"
-              />
-              <temba-option
-                name="has only the phrase"
-                value="has_only_phrase"
-              />
-              <temba-option
-                name="starts with"
-                value="has_beginning"
-              />
-              <temba-option
-                name="has some text"
-                value="has_text"
-              />
-              <temba-option
-                name="has a number"
-                selected="true"
-                value="has_number"
-              />
-              <temba-option
-                name="has a number between"
-                value="has_number_between"
-              />
-              <temba-option
-                name="has a number below"
-                value="has_number_lt"
-              />
-              <temba-option
-                name="has a number at or below"
-                value="has_number_lte"
-              />
-              <temba-option
-                name="has a number equal to"
-                value="has_number_eq"
-              />
-              <temba-option
-                name="has a number at or above"
-                value="has_number_gte"
-              />
-              <temba-option
-                name="has a number above"
-                value="has_number_gt"
-              />
-              <temba-option
-                name="has a date"
-                value="has_date"
-              />
-              <temba-option
-                name="has a date before"
-                value="has_date_lt"
-              />
-              <temba-option
-                name="has a date equal to"
-                value="has_date_eq"
-              />
-              <temba-option
-                name="has a date after"
-                value="has_date_gt"
-              />
-              <temba-option
-                name="has a time"
-                value="has_time"
-              />
-              <temba-option
-                name="has a phone number"
-                value="has_phone"
-              />
-              <temba-option
-                name="has an email"
-                value="has_email"
-              />
-              <temba-option
-                name="has state"
-                value="has_state"
-              />
-              <temba-option
-                name="has district"
-                value="has_district"
-              />
-              <temba-option
-                name="has ward"
-                value="has_ward"
-              />
-              <temba-option
-                name="matches regex"
-                value="has_pattern"
-              />
-            </temba-select>
+              errors="[]"
+              expressions=""
+              name="operator"
+              namekey="verboseName"
+              valuekey="type"
+              values="[{\\"type\\":\\"has_number\\",\\"verboseName\\":\\"has a number\\",\\"operands\\":0,\\"categoryName\\":\\"Has Number\\"}]"
+            />
           </div>
         </div>
         <div
@@ -769,37 +281,13 @@ exports[`CaseElement render renders no argument rules 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="Has Number"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -835,105 +323,13 @@ exports[`CaseElement render should render empty case 1`] = `
           >
             <temba-select
               data-testid="temba_select_operator"
-            >
-              <temba-option
-                name="has any of the words"
-                selected="true"
-                value="has_any_word"
-              />
-              <temba-option
-                name="has all of the words"
-                value="has_all_words"
-              />
-              <temba-option
-                name="has the phrase"
-                value="has_phrase"
-              />
-              <temba-option
-                name="has only the phrase"
-                value="has_only_phrase"
-              />
-              <temba-option
-                name="starts with"
-                value="has_beginning"
-              />
-              <temba-option
-                name="has some text"
-                value="has_text"
-              />
-              <temba-option
-                name="has a number"
-                value="has_number"
-              />
-              <temba-option
-                name="has a number between"
-                value="has_number_between"
-              />
-              <temba-option
-                name="has a number below"
-                value="has_number_lt"
-              />
-              <temba-option
-                name="has a number at or below"
-                value="has_number_lte"
-              />
-              <temba-option
-                name="has a number equal to"
-                value="has_number_eq"
-              />
-              <temba-option
-                name="has a number at or above"
-                value="has_number_gte"
-              />
-              <temba-option
-                name="has a number above"
-                value="has_number_gt"
-              />
-              <temba-option
-                name="has a date"
-                value="has_date"
-              />
-              <temba-option
-                name="has a date before"
-                value="has_date_lt"
-              />
-              <temba-option
-                name="has a date equal to"
-                value="has_date_eq"
-              />
-              <temba-option
-                name="has a date after"
-                value="has_date_gt"
-              />
-              <temba-option
-                name="has a time"
-                value="has_time"
-              />
-              <temba-option
-                name="has a phone number"
-                value="has_phone"
-              />
-              <temba-option
-                name="has an email"
-                value="has_email"
-              />
-              <temba-option
-                name="has state"
-                value="has_state"
-              />
-              <temba-option
-                name="has district"
-                value="has_district"
-              />
-              <temba-option
-                name="has ward"
-                value="has_ward"
-              />
-              <temba-option
-                name="matches regex"
-                value="has_pattern"
-              />
-            </temba-select>
+              errors="[]"
+              expressions=""
+              name="operator"
+              namekey="verboseName"
+              valuekey="type"
+              values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+            />
           </div>
         </div>
         <div
@@ -943,38 +339,14 @@ exports[`CaseElement render should render empty case 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
                 placeholder=""
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -991,37 +363,13 @@ exports[`CaseElement render should render empty case 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value=""
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1057,105 +405,13 @@ exports[`CaseElement update handles argument change 1`] = `
           >
             <temba-select
               data-testid="temba_select_operator"
-            >
-              <temba-option
-                name="has any of the words"
-                selected="true"
-                value="has_any_word"
-              />
-              <temba-option
-                name="has all of the words"
-                value="has_all_words"
-              />
-              <temba-option
-                name="has the phrase"
-                value="has_phrase"
-              />
-              <temba-option
-                name="has only the phrase"
-                value="has_only_phrase"
-              />
-              <temba-option
-                name="starts with"
-                value="has_beginning"
-              />
-              <temba-option
-                name="has some text"
-                value="has_text"
-              />
-              <temba-option
-                name="has a number"
-                value="has_number"
-              />
-              <temba-option
-                name="has a number between"
-                value="has_number_between"
-              />
-              <temba-option
-                name="has a number below"
-                value="has_number_lt"
-              />
-              <temba-option
-                name="has a number at or below"
-                value="has_number_lte"
-              />
-              <temba-option
-                name="has a number equal to"
-                value="has_number_eq"
-              />
-              <temba-option
-                name="has a number at or above"
-                value="has_number_gte"
-              />
-              <temba-option
-                name="has a number above"
-                value="has_number_gt"
-              />
-              <temba-option
-                name="has a date"
-                value="has_date"
-              />
-              <temba-option
-                name="has a date before"
-                value="has_date_lt"
-              />
-              <temba-option
-                name="has a date equal to"
-                value="has_date_eq"
-              />
-              <temba-option
-                name="has a date after"
-                value="has_date_gt"
-              />
-              <temba-option
-                name="has a time"
-                value="has_time"
-              />
-              <temba-option
-                name="has a phone number"
-                value="has_phone"
-              />
-              <temba-option
-                name="has an email"
-                value="has_email"
-              />
-              <temba-option
-                name="has state"
-                value="has_state"
-              />
-              <temba-option
-                name="has district"
-                value="has_district"
-              />
-              <temba-option
-                name="has ward"
-                value="has_ward"
-              />
-              <temba-option
-                name="matches regex"
-                value="has_pattern"
-              />
-            </temba-select>
+              errors="[]"
+              expressions=""
+              name="operator"
+              namekey="verboseName"
+              valuekey="type"
+              values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+            />
           </div>
         </div>
         <div
@@ -1165,38 +421,14 @@ exports[`CaseElement update handles argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
                 placeholder=""
-                type="text"
                 value="Purple, p"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1213,37 +445,13 @@ exports[`CaseElement update handles argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="Purple"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1279,105 +487,13 @@ exports[`CaseElement update handles multiple argument change 1`] = `
           >
             <temba-select
               data-testid="temba_select_operator"
-            >
-              <temba-option
-                name="has any of the words"
-                value="has_any_word"
-              />
-              <temba-option
-                name="has all of the words"
-                value="has_all_words"
-              />
-              <temba-option
-                name="has the phrase"
-                value="has_phrase"
-              />
-              <temba-option
-                name="has only the phrase"
-                value="has_only_phrase"
-              />
-              <temba-option
-                name="starts with"
-                value="has_beginning"
-              />
-              <temba-option
-                name="has some text"
-                value="has_text"
-              />
-              <temba-option
-                name="has a number"
-                value="has_number"
-              />
-              <temba-option
-                name="has a number between"
-                selected="true"
-                value="has_number_between"
-              />
-              <temba-option
-                name="has a number below"
-                value="has_number_lt"
-              />
-              <temba-option
-                name="has a number at or below"
-                value="has_number_lte"
-              />
-              <temba-option
-                name="has a number equal to"
-                value="has_number_eq"
-              />
-              <temba-option
-                name="has a number at or above"
-                value="has_number_gte"
-              />
-              <temba-option
-                name="has a number above"
-                value="has_number_gt"
-              />
-              <temba-option
-                name="has a date"
-                value="has_date"
-              />
-              <temba-option
-                name="has a date before"
-                value="has_date_lt"
-              />
-              <temba-option
-                name="has a date equal to"
-                value="has_date_eq"
-              />
-              <temba-option
-                name="has a date after"
-                value="has_date_gt"
-              />
-              <temba-option
-                name="has a time"
-                value="has_time"
-              />
-              <temba-option
-                name="has a phone number"
-                value="has_phone"
-              />
-              <temba-option
-                name="has an email"
-                value="has_email"
-              />
-              <temba-option
-                name="has state"
-                value="has_state"
-              />
-              <temba-option
-                name="has district"
-                value="has_district"
-              />
-              <temba-option
-                name="has ward"
-                value="has_ward"
-              />
-              <temba-option
-                name="matches regex"
-                value="has_pattern"
-              />
-            </temba-select>
+              errors="[]"
+              expressions=""
+              name="operator"
+              namekey="verboseName"
+              valuekey="type"
+              values="[{\\"type\\":\\"has_number_between\\",\\"verboseName\\":\\"has a number between\\",\\"operands\\":2}]"
+            />
           </div>
         </div>
         <div
@@ -1387,37 +503,13 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value="1"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <span
@@ -1430,37 +522,13 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="arguments"
                 name="arguments"
-                type="text"
                 value="100"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1477,37 +545,13 @@ exports[`CaseElement update handles multiple argument change 1`] = `
             class="ele"
           >
             <div
-              class="wrapper"
+              class="wrapper small"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="36"
+                data-testid="Exit Name"
                 name="Exit Name"
-                type="text"
                 value="1 - 100"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -2,7 +2,15 @@ import { RouterFormProps } from 'components/flow/props';
 import { Types } from 'config/interfaces';
 import { createSubflowNode, createStartFlowAction } from 'testUtils/assetCreators';
 import { getTypeConfig } from 'config';
-import { render, mock, fireEvent, wait, fireChangeText, getUpdatedNode } from 'test/utils';
+import {
+  render,
+  mock,
+  fireEvent,
+  wait,
+  fireChangeText,
+  getUpdatedNode,
+  getByTestId
+} from 'test/utils';
 import * as React from 'react';
 import * as utils from 'utils';
 import { RenderNode, AssetType } from 'store/flowContext';
@@ -56,13 +64,16 @@ describe(SubflowRouterForm.name, () => {
   });
 
   it('should create result actions for parameters', async () => {
-    const { getByText, queryAllByTestId } = render(<SubflowRouterForm {...subflowProps} />);
+    const { getByText, queryAllByTestId, getByTestId } = render(
+      <SubflowRouterForm {...subflowProps} />
+    );
     await wait();
 
     // open the parameter tab
     fireEvent.click(getByText('Parameters'));
 
-    const [max, min] = queryAllByTestId('input');
+    const min = getByTestId('min');
+    const max = getByTestId('max');
 
     // enter some values
     fireChangeText(min, '1');

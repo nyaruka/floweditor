@@ -78,23 +78,25 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
             Add a new URN to reach the contact such as a phone number.
           </Trans>
         </p>
-        <div className={styles.scheme_selection}>
-          <SelectElement
-            key={'urn_type_select'}
-            name={i18n.t('forms.urn_type', 'URN Type')}
-            entry={this.state.scheme}
-            onChange={this.handleSchemeChanged}
-            options={getSchemeOptions()}
-          />
-        </div>
-        <div className={styles.path}>
-          <TextInputElement
-            name={i18n.t('forms.urn', 'URN')}
-            placeholder="Enter the URN value"
-            entry={this.state.path}
-            onChange={this.handlePathChanged}
-            autocomplete={true}
-          />
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+          <div className={styles.scheme_selection}>
+            <SelectElement
+              key={'urn_type_select'}
+              name={i18n.t('forms.urn_type', 'URN Type')}
+              entry={this.state.scheme}
+              onChange={this.handleSchemeChanged}
+              options={getSchemeOptions()}
+            />
+          </div>
+          <div className={styles.path}>
+            <TextInputElement
+              name={i18n.t('forms.urn', 'URN')}
+              placeholder="Enter the URN value"
+              entry={this.state.path}
+              onChange={this.handlePathChanged}
+              autocomplete={true}
+            />
+          </div>
         </div>
         {renderIssues(this.props)}
       </Dialog>

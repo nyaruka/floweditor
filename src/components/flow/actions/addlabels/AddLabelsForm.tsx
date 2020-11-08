@@ -6,7 +6,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
-import { AssetArrayEntry, FormState, mergeForm } from 'store/nodeEditor';
+import { FormState, mergeForm } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 
 import { initializeForm, stateToAction } from './helpers';
@@ -15,7 +15,7 @@ import { Trans } from 'react-i18next';
 import { renderIssues } from '../helpers';
 
 export interface AddLabelsFormState extends FormState {
-  labels: AssetArrayEntry;
+  labels: any;
 }
 
 export const controlLabelSpecId = 'label';

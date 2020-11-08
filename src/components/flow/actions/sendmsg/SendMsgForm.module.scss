@@ -20,18 +20,18 @@
   align-items: center;
 
   .upload {
-    vertical-align: super;
+    
   }
 
   .remove_upload {
-    display: inline-block;
     margin-left: 8px;
+    margin-top: 4px;
+    display: inline-block;
   }
 
   .url {
     display: inline-block;
     margin-left: 8px;
-    margin-bottom: -15px;
     width: 329px;
     margin-right: 10px;
     input {
@@ -44,8 +44,7 @@
   }
 
   .remove {
-    vertical-align: super;
-    display: inline-block;
+    margin-top: 4px;
   }
 }
 
@@ -74,4 +73,8 @@
 
 .variable {
   margin-bottom: 6px;
+}
+
+temba-completion {
+  --textarea-height: 120px;
 }

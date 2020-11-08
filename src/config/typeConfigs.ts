@@ -276,7 +276,12 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.set_contact_field,
-    aliases: [Types.set_contact_name, Types.set_contact_language, Types.set_contact_channel],
+    aliases: [
+      Types.set_contact_name,
+      Types.set_contact_language,
+      Types.set_contact_channel,
+      Types.set_contact_status
+    ],
     name: i18n.t('actions.set_contact_field.name', 'Update Contact'),
     description: i18n.t('actions.set_contact_field.description', 'Update the contact'),
     form: UpdateContactForm,

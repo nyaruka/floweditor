@@ -37,102 +37,14 @@ exports[`SchemeRouterForm should render 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  selected="true"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_scheme\\",\\"name\\":\\"Split by URN Type\\",\\"description\\":\\"Split by URN type\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
+              />
             </div>
           </div>
         </div>
@@ -147,61 +59,16 @@ exports[`SchemeRouterForm should render 1`] = `
           >
             <temba-select
               data-testid="temba_select_channel_type"
+              errors="[]"
+              expressions=""
+              hideerrors="true"
               multi="true"
+              name="Channel Type"
+              namekey="name"
               placeholder="Select the channels to split by"
-            >
-              <temba-option
-                name="SMS"
-                selected="true"
-                value="tel"
-              />
-              <temba-option
-                name="WhatsApp"
-                selected="true"
-                value="whatsapp"
-              />
-              <temba-option
-                name="Facebook"
-                selected="true"
-                value="facebook"
-              />
-              <temba-option
-                name="Twitter"
-                value="twitterid"
-              />
-              <temba-option
-                name="Telegram"
-                value="telegram"
-              />
-              <temba-option
-                name="Viber"
-                value="viber"
-              />
-              <temba-option
-                name="Line"
-                value="line"
-              />
-              <temba-option
-                name="Wechat"
-                value="wechat"
-              />
-              <temba-option
-                name="Firebase"
-                value="fcm"
-              />
-              <temba-option
-                name="Jiochat"
-                value="jiochat"
-              />
-              <temba-option
-                name="Freshchat"
-                value="freshchat"
-              />
-              <temba-option
-                name="External"
-                value="ext"
-              />
-            </temba-select>
+              valuekey="value"
+              values="[{\\"value\\":\\"tel\\",\\"name\\":\\"SMS\\"},{\\"value\\":\\"whatsapp\\",\\"name\\":\\"WhatsApp\\"},{\\"value\\":\\"facebook\\",\\"name\\":\\"Facebook\\"}]"
+            />
           </div>
         </div>
         <div
@@ -210,6 +77,7 @@ exports[`SchemeRouterForm should render 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>

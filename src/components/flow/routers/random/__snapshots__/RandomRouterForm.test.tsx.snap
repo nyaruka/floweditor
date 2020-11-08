@@ -34,72 +34,76 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="lead_in"
+    className="options"
   >
-    Split them randomly into one of
-  </div>
-  <div
-    className="bucket_select"
-  >
-    <SelectElement
-      entry={
-        Object {
-          "value": Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
+    <div
+      className="lead_in"
+    >
+      Split them randomly into one of
+    </div>
+    <div
+      className="bucket_select"
+    >
+      <SelectElement
+        entry={
+          Object {
+            "value": Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+          }
         }
-      }
-      key="buckets_select"
-      name="Buckets"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
-          Object {
-            "label": "3 buckets",
-            "value": "3",
-          },
-          Object {
-            "label": "4 buckets",
-            "value": "4",
-          },
-          Object {
-            "label": "5 buckets",
-            "value": "5",
-          },
-          Object {
-            "label": "6 buckets",
-            "value": "6",
-          },
-          Object {
-            "label": "7 buckets",
-            "value": "7",
-          },
-          Object {
-            "label": "8 buckets",
-            "value": "8",
-          },
-          Object {
-            "label": "9 buckets",
-            "value": "9",
-          },
-          Object {
-            "label": "10 buckets",
-            "value": "10",
-          },
-        ]
-      }
-      style="small"
-    />
+        key="buckets_select"
+        name="Buckets"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+            Object {
+              "name": "3 buckets",
+              "value": "3",
+            },
+            Object {
+              "name": "4 buckets",
+              "value": "4",
+            },
+            Object {
+              "name": "5 buckets",
+              "value": "5",
+            },
+            Object {
+              "name": "6 buckets",
+              "value": "6",
+            },
+            Object {
+              "name": "7 buckets",
+              "value": "7",
+            },
+            Object {
+              "name": "8 buckets",
+              "value": "8",
+            },
+            Object {
+              "name": "9 buckets",
+              "value": "9",
+            },
+            Object {
+              "name": "10 buckets",
+              "value": "10",
+            },
+          ]
+        }
+        style="small"
+      />
+    </div>
   </div>
   <div
     className="bucket_list"
   >
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="bucket_name"
       entry={
         Object {
@@ -110,7 +114,7 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
       name="306dee46-46c7-4a8a-8a33-ab2b7e42b02e"
       onChange={[Function]}
     />
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="bucket_name"
       entry={
         Object {
@@ -256,160 +260,44 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  selected="true"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_random\\",\\"name\\":\\"Split Randomly\\",\\"description\\":\\"Split by random chance\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
+              />
             </div>
           </div>
         </div>
         <div
-          class="lead_in"
-        >
-          Split them randomly into one of
-        </div>
-        <div
-          class="bucket_select"
+          class="options"
         >
           <div
-            class="ele"
+            class="lead_in"
+          >
+            Split them randomly into one of
+          </div>
+          <div
+            class="bucket_select"
           >
             <div
-              class="small "
+              class="ele"
             >
-              <temba-select
-                data-testid="temba_select_buckets"
+              <div
+                class="small "
               >
-                <temba-option
-                  name="2 buckets"
-                  value="2"
+                <temba-select
+                  data-testid="temba_select_buckets"
+                  errors="[]"
+                  expressions=""
+                  name="Buckets"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\"5\\",\\"name\\":\\"5 buckets\\"}]"
                 />
-                <temba-option
-                  name="3 buckets"
-                  value="3"
-                />
-                <temba-option
-                  name="4 buckets"
-                  value="4"
-                />
-                <temba-option
-                  name="5 buckets"
-                  selected="true"
-                  value="5"
-                />
-                <temba-option
-                  name="6 buckets"
-                  value="6"
-                />
-                <temba-option
-                  name="7 buckets"
-                  value="7"
-                />
-                <temba-option
-                  name="8 buckets"
-                  value="8"
-                />
-                <temba-option
-                  name="9 buckets"
-                  value="9"
-                />
-                <temba-option
-                  name="10 buckets"
-                  value="10"
-                />
-              </temba-select>
+              </div>
             </div>
           </div>
         </div>
@@ -420,185 +308,65 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="e67ce051-f3e4-4c42-807b-e393df5fa382"
                 name="e67ce051-f3e4-4c42-807b-e393df5fa382"
-                type="text"
                 value="Bucket 1"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="e0bc3776-792f-49d2-b4be-48be2cf8159a"
                 name="e0bc3776-792f-49d2-b4be-48be2cf8159a"
-                type="text"
                 value="Bucket 2"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="6c22884b-0e35-4206-982e-18320691eda9"
                 name="6c22884b-0e35-4206-982e-18320691eda9"
-                type="text"
                 value="Bucket 3"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="a62e8284-49f8-4292-adbc-d5f6607f85c5"
                 name="a62e8284-49f8-4292-adbc-d5f6607f85c5"
-                type="text"
                 value="Bucket 4"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="0c8c9239-9b59-473a-a229-d8a9693be270"
                 name="0c8c9239-9b59-473a-a229-d8a9693be270"
-                type="text"
                 value="Bucket 5"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -608,6 +376,7 @@ exports[`RandomRouterForm should initialize existing random 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>
@@ -679,160 +448,44 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  selected="true"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_random\\",\\"name\\":\\"Split Randomly\\",\\"description\\":\\"Split by random chance\\",\\"localizeableKeys\\":[\\"exits\\"]}]"
+              />
             </div>
           </div>
         </div>
         <div
-          class="lead_in"
-        >
-          Split them randomly into one of
-        </div>
-        <div
-          class="bucket_select"
+          class="options"
         >
           <div
-            class="ele"
+            class="lead_in"
+          >
+            Split them randomly into one of
+          </div>
+          <div
+            class="bucket_select"
           >
             <div
-              class="small "
+              class="ele"
             >
-              <temba-select
-                data-testid="temba_select_buckets"
+              <div
+                class="small "
               >
-                <temba-option
-                  name="2 buckets"
-                  value="2"
+                <temba-select
+                  data-testid="temba_select_buckets"
+                  errors="[]"
+                  expressions=""
+                  name="Buckets"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\"3\\",\\"name\\":\\"3 buckets\\"}]"
                 />
-                <temba-option
-                  name="3 buckets"
-                  selected="true"
-                  value="3"
-                />
-                <temba-option
-                  name="4 buckets"
-                  value="4"
-                />
-                <temba-option
-                  name="5 buckets"
-                  value="5"
-                />
-                <temba-option
-                  name="6 buckets"
-                  value="6"
-                />
-                <temba-option
-                  name="7 buckets"
-                  value="7"
-                />
-                <temba-option
-                  name="8 buckets"
-                  value="8"
-                />
-                <temba-option
-                  name="9 buckets"
-                  value="9"
-                />
-                <temba-option
-                  name="10 buckets"
-                  value="10"
-                />
-              </temba-select>
+              </div>
             </div>
           </div>
         </div>
@@ -843,111 +496,39 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="e81b3f1a-0863-4418-8a72-9c9f8aa72b7c"
                 name="e81b3f1a-0863-4418-8a72-9c9f8aa72b7c"
-                type="text"
                 value="Bucket 1"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="1888ae1f-2518-4727-98e2-731674e1760e"
                 name="1888ae1f-2518-4727-98e2-731674e1760e"
-                type="text"
                 value="Bucket 2"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div
             class="ele bucket_name"
           >
             <div
-              class="wrapper"
+              class="wrapper normal"
             >
               <input
-                class="textinput"
-                data-spec="input"
-                data-testid="input"
-                maxlength="-1"
+                data-testid="dd57500e-a8e8-4a98-8b5b-a33637523a8d"
                 name="dd57500e-a8e8-4a98-8b5b-a33637523a8d"
-                type="text"
                 value="Bucket 3"
               />
-              <div
-                class="completion_container hidden"
-                data-spec="completion-options"
-                style="top: 0px; left: 0px;"
-              >
-                <div
-                  class="options_wrapper"
-                >
-                  <ul
-                    class="option_list"
-                    data-spec="completion-list"
-                  />
-                  <div
-                    class="help"
-                    data-spec="completion-help"
-                  >
-                    Tab to complete, enter to select
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -957,6 +538,7 @@ exports[`RandomRouterForm should remove exits when shrinking 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>
@@ -1076,72 +658,76 @@ exports[`RandomRouterForm should render 1`] = `
     onChange={[MockFunction]}
   />
   <div
-    className="lead_in"
+    className="options"
   >
-    Split them randomly into one of
-  </div>
-  <div
-    className="bucket_select"
-  >
-    <SelectElement
-      entry={
-        Object {
-          "value": Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
+    <div
+      className="lead_in"
+    >
+      Split them randomly into one of
+    </div>
+    <div
+      className="bucket_select"
+    >
+      <SelectElement
+        entry={
+          Object {
+            "value": Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+          }
         }
-      }
-      key="buckets_select"
-      name="Buckets"
-      onChange={[Function]}
-      options={
-        Array [
-          Object {
-            "label": "2 buckets",
-            "value": "2",
-          },
-          Object {
-            "label": "3 buckets",
-            "value": "3",
-          },
-          Object {
-            "label": "4 buckets",
-            "value": "4",
-          },
-          Object {
-            "label": "5 buckets",
-            "value": "5",
-          },
-          Object {
-            "label": "6 buckets",
-            "value": "6",
-          },
-          Object {
-            "label": "7 buckets",
-            "value": "7",
-          },
-          Object {
-            "label": "8 buckets",
-            "value": "8",
-          },
-          Object {
-            "label": "9 buckets",
-            "value": "9",
-          },
-          Object {
-            "label": "10 buckets",
-            "value": "10",
-          },
-        ]
-      }
-      style="small"
-    />
+        key="buckets_select"
+        name="Buckets"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "name": "2 buckets",
+              "value": "2",
+            },
+            Object {
+              "name": "3 buckets",
+              "value": "3",
+            },
+            Object {
+              "name": "4 buckets",
+              "value": "4",
+            },
+            Object {
+              "name": "5 buckets",
+              "value": "5",
+            },
+            Object {
+              "name": "6 buckets",
+              "value": "6",
+            },
+            Object {
+              "name": "7 buckets",
+              "value": "7",
+            },
+            Object {
+              "name": "8 buckets",
+              "value": "8",
+            },
+            Object {
+              "name": "9 buckets",
+              "value": "9",
+            },
+            Object {
+              "name": "10 buckets",
+              "value": "10",
+            },
+          ]
+        }
+        style="small"
+      />
+    </div>
   </div>
   <div
     className="bucket_list"
   >
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="bucket_name"
       entry={
         Object {
@@ -1152,7 +738,7 @@ exports[`RandomRouterForm should render 1`] = `
       name="1dce2b34-9aab-4e20-81c4-3f0408dcb671"
       onChange={[Function]}
     />
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="bucket_name"
       entry={
         Object {

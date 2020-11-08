@@ -246,6 +246,12 @@ export const dump = (thing: any) => console.log(JSON.stringify(thing, null, 4));
  * Apply emphasis style
  */
 export const emphasize = (text: string) => <span className="emphasize">{text}</span>;
+export const ellipsize = (text: string, max: number = 250) => {
+  if (text.length > max) {
+    return text.substr(0, max) + '...';
+  }
+  return text;
+};
 
 /**
  * Does property exist in our ContactProperties enum?

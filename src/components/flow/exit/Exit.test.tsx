@@ -22,13 +22,7 @@ const exitProps: ExitProps = {
   language: null,
   localization: null,
   segmentCount: 1000,
-  plumberConnectExit: (
-    node: FlowNode,
-    exit: Exit,
-    onConnection: (activityId: string, recentMessagesId: string) => void
-  ) => {
-    onConnection('activityId', 'recentMessagesId');
-  },
+  plumberConnectExit: (node: FlowNode, exit: Exit) => {},
   plumberRemove: jest.fn(),
   plumberMakeSource: jest.fn(),
   plumberUpdateClass: jest.fn(),
@@ -46,8 +40,6 @@ describe(ExitComp.name, () => {
   it('shows activity', () => {
     const { baseElement, getByText } = render(
       <>
-        <div id="activityId"></div>
-        <div id="recentMessagesId"></div>
         <ExitComp
           {...exitProps}
           recentMessages={[
@@ -69,8 +61,7 @@ describe(ExitComp.name, () => {
   it('shows recent messages on mouse over', () => {
     const { baseElement, getByText, queryAllByText } = render(
       <>
-        <div id="activityId"></div>
-        <div id="recentMessagesId"></div>
+        <div id="activity_recent_messages"></div>
 
         <ExitComp
           {...exitProps}

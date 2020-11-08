@@ -34,7 +34,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
     }
   }
 
-  public handleGroupsChanged(groups: Asset[], submitting: boolean = false): boolean {
+  public handleGroupsChanged(groups: any[], submitting: boolean = false): boolean {
     const updates: Partial<ChangeGroupsFormState> = {
       groups: validate(i18n.t('forms.groups', 'Groups'), groups, [shouldRequireIf(submitting)])
     };
@@ -84,6 +84,8 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
           onChange={this.handleGroupsChanged}
           searchable={true}
           shouldExclude={excludeDynamicGroups}
+          placeholder={i18n.t('select_groups', 'Select Groups')}
+          expressions={true}
           // Groups can be created on the fly
           createPrefix={i18n.t('create_group', 'Create Group') + ': '}
           createAssetFromInput={this.handleCreateAssetFromInput}

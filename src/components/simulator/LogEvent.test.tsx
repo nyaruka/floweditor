@@ -78,6 +78,13 @@ describe(LogEvent.name, () => {
       ...commonEventProps
     });
   });
+  it('should render contact_status_changed event', () => {
+    testEventRender({
+      type: 'contact_status_changed',
+      status: 'blocked',
+      ...commonEventProps
+    });
+  });
   it('should render contact_urns_changed event', () => {
     testEventRender({
       type: 'contact_urns_changed',

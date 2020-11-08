@@ -1,5 +1,5 @@
 import { Methods } from 'components/flow/routers/webhook/helpers';
-import { FlowTypes, Operators, Types } from 'config/interfaces';
+import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 
 // we don't concern ourselves with patch versions
 export const SPEC_VERSION = '13.1';
@@ -236,8 +236,9 @@ export interface Wait {
 }
 
 export interface Group {
-  uuid: string;
-  name: string;
+  uuid?: string;
+  name?: string;
+  name_match?: string;
 }
 
 export interface Contact {
@@ -293,7 +294,16 @@ export interface SetContactChannel extends Action {
   channel: Channel;
 }
 
-export type SetContactProperty = SetContactName | SetContactLanguage | SetContactChannel;
+export interface SetContactStatus extends Action {
+  type: Types.set_contact_status;
+  status: ContactStatus;
+}
+
+export type SetContactProperty =
+  | SetContactName
+  | SetContactLanguage
+  | SetContactChannel
+  | SetContactStatus;
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
@@ -493,6 +503,7 @@ export enum ContactProperties {
   Org = 'org',
   Name = 'name',
   Language = 'language',
+  Status = 'status',
   Timezone = 'timezone',
   Channel = 'channel',
   Email = 'email',

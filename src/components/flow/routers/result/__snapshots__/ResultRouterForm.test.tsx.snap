@@ -133,102 +133,14 @@ exports[`ResultRouterForm should render 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  selected="true"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_run_result\\",\\"aliases\\":[\\"split_by_run_result_delimited\\"],\\"name\\":\\"Split by Flow Result\\",\\"description\\":\\"Split by a result in the flow\\",\\"localizeableKeys\\":[\\"exits\\",\\"cases\\"]}]"
+              />
             </div>
           </div>
         </div>
@@ -247,58 +159,26 @@ exports[`ResultRouterForm should render 1`] = `
               class="ele"
             >
               <div
-                class="react-select selection css-2b097c-container"
+                class="small "
               >
-                <div
-                  class=" css-p773gl-control"
-                >
-                  <div
-                    class=" css-c2yhe2"
-                  >
-                    <div
-                      class=" css-1wa3eu0-placeholder"
-                    >
-                      Select Result
-                    </div>
-                    <input
-                      class="css-62g3xt-dummyInput"
-                      id="react-select-2-input"
-                      readonly=""
-                      tabindex="0"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    class=" css-1ywtfjx-IndicatorsContainer"
-                  >
-                    <span
-                      class=" css-1okebmr-indicatorSeparator"
-                    />
-                    <div
-                      aria-hidden="true"
-                      class=" css-tlfecz-indicatorContainer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="css-6q0nyr-Svg"
-                        focusable="false"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        width="20"
-                      >
-                        <path
-                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+                <temba-select
+                  cachekey="0"
+                  data-testid="temba_select_flow_result"
+                  errors="[]"
+                  expressions=""
+                  name="Flow Result"
+                  namekey="name"
+                  placeholder="Select Result"
+                  valuekey="uuid"
+                  values="[]"
+                />
               </div>
             </div>
           </div>
         </div>
         <div
           class="case_list_container "
+          tabindex="0"
         >
           <div
             class="case_list"
@@ -325,105 +205,13 @@ exports[`ResultRouterForm should render 1`] = `
                     >
                       <temba-select
                         data-testid="temba_select_operator"
-                      >
-                        <temba-option
-                          name="has any of the words"
-                          selected="true"
-                          value="has_any_word"
-                        />
-                        <temba-option
-                          name="has all of the words"
-                          value="has_all_words"
-                        />
-                        <temba-option
-                          name="has the phrase"
-                          value="has_phrase"
-                        />
-                        <temba-option
-                          name="has only the phrase"
-                          value="has_only_phrase"
-                        />
-                        <temba-option
-                          name="starts with"
-                          value="has_beginning"
-                        />
-                        <temba-option
-                          name="has some text"
-                          value="has_text"
-                        />
-                        <temba-option
-                          name="has a number"
-                          value="has_number"
-                        />
-                        <temba-option
-                          name="has a number between"
-                          value="has_number_between"
-                        />
-                        <temba-option
-                          name="has a number below"
-                          value="has_number_lt"
-                        />
-                        <temba-option
-                          name="has a number at or below"
-                          value="has_number_lte"
-                        />
-                        <temba-option
-                          name="has a number equal to"
-                          value="has_number_eq"
-                        />
-                        <temba-option
-                          name="has a number at or above"
-                          value="has_number_gte"
-                        />
-                        <temba-option
-                          name="has a number above"
-                          value="has_number_gt"
-                        />
-                        <temba-option
-                          name="has a date"
-                          value="has_date"
-                        />
-                        <temba-option
-                          name="has a date before"
-                          value="has_date_lt"
-                        />
-                        <temba-option
-                          name="has a date equal to"
-                          value="has_date_eq"
-                        />
-                        <temba-option
-                          name="has a date after"
-                          value="has_date_gt"
-                        />
-                        <temba-option
-                          name="has a time"
-                          value="has_time"
-                        />
-                        <temba-option
-                          name="has a phone number"
-                          value="has_phone"
-                        />
-                        <temba-option
-                          name="has an email"
-                          value="has_email"
-                        />
-                        <temba-option
-                          name="has state"
-                          value="has_state"
-                        />
-                        <temba-option
-                          name="has district"
-                          value="has_district"
-                        />
-                        <temba-option
-                          name="has ward"
-                          value="has_ward"
-                        />
-                        <temba-option
-                          name="matches regex"
-                          value="has_pattern"
-                        />
-                      </temba-select>
+                        errors="[]"
+                        expressions=""
+                        name="operator"
+                        namekey="verboseName"
+                        valuekey="type"
+                        values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                      />
                     </div>
                   </div>
                   <div
@@ -433,38 +221,14 @@ exports[`ResultRouterForm should render 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="-1"
+                          data-testid="arguments"
                           name="arguments"
                           placeholder=""
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -481,37 +245,13 @@ exports[`ResultRouterForm should render 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="36"
+                          data-testid="Exit Name"
                           name="Exit Name"
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -530,6 +270,7 @@ exports[`ResultRouterForm should render 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>
@@ -614,102 +355,14 @@ exports[`ResultRouterForm should show delimit options 1`] = `
             >
               <temba-select
                 data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
                 searchable="true"
-              >
-                <temba-option
-                  name="Send the contact a message"
-                  value="send_msg"
-                />
-                <temba-option
-                  name="Wait for the contact to respond"
-                  value="wait_for_response"
-                />
-                <temba-option
-                  name="Send somebody else a message"
-                  value="send_broadcast"
-                />
-                <temba-option
-                  name="Label the incoming message"
-                  value="add_input_labels"
-                />
-                <temba-option
-                  name="Add a URN for the contact"
-                  value="add_contact_urn"
-                />
-                <temba-option
-                  name="Add the contact to a group"
-                  value="add_contact_groups"
-                />
-                <temba-option
-                  name="Remove the contact from a group"
-                  value="remove_contact_groups"
-                />
-                <temba-option
-                  name="Update the contact"
-                  value="set_contact_field"
-                />
-                <temba-option
-                  name="Send an email"
-                  value="send_email"
-                />
-                <temba-option
-                  name="Save a result for this flow"
-                  value="set_run_result"
-                />
-                <temba-option
-                  name="Call a webhook"
-                  value="call_webhook"
-                />
-                <temba-option
-                  name="Call Zapier"
-                  value="call_resthook"
-                />
-                <temba-option
-                  name="Enter another flow"
-                  value="enter_flow"
-                />
-                <temba-option
-                  name="Start somebody else in a flow"
-                  value="start_session"
-                />
-                <temba-option
-                  name="Open a ticket with a human agent"
-                  value="open_ticket"
-                />
-                <temba-option
-                  name="Send the contact airtime"
-                  value="transfer_airtime"
-                />
-                <temba-option
-                  name="Split by intent"
-                  value="split_by_intent"
-                />
-                <temba-option
-                  name="Split by a custom expression"
-                  value="split_by_expression"
-                />
-                <temba-option
-                  name="Split by a contact field"
-                  value="split_by_contact_field"
-                />
-                <temba-option
-                  name="Split by a result in the flow"
-                  selected="true"
-                  value="split_by_run_result"
-                />
-                <temba-option
-                  name="Split by random chance"
-                  value="split_by_random"
-                />
-                <temba-option
-                  name="Split by group membership"
-                  value="split_by_groups"
-                />
-                <temba-option
-                  name="Split by URN type"
-                  value="split_by_scheme"
-                />
-              </temba-select>
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_run_result\\",\\"aliases\\":[\\"split_by_run_result_delimited\\"],\\"name\\":\\"Split by Flow Result\\",\\"description\\":\\"Split by a result in the flow\\",\\"localizeableKeys\\":[\\"exits\\",\\"cases\\"]}]"
+              />
             </div>
           </div>
         </div>
@@ -732,89 +385,13 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               >
                 <temba-select
                   data-testid="temba_select_field_number"
-                >
-                  <temba-option
-                    name="first"
-                    value="0"
-                  />
-                  <temba-option
-                    name="second"
-                    selected="true"
-                    value="1"
-                  />
-                  <temba-option
-                    name="third"
-                    value="2"
-                  />
-                  <temba-option
-                    name="fourth"
-                    value="3"
-                  />
-                  <temba-option
-                    name="fifth"
-                    value="4"
-                  />
-                  <temba-option
-                    name="sixth"
-                    value="5"
-                  />
-                  <temba-option
-                    name="seventh"
-                    value="6"
-                  />
-                  <temba-option
-                    name="eighth"
-                    value="7"
-                  />
-                  <temba-option
-                    name="ninth"
-                    value="8"
-                  />
-                  <temba-option
-                    name="tenth"
-                    value="9"
-                  />
-                  <temba-option
-                    name="11th"
-                    value="10"
-                  />
-                  <temba-option
-                    name="12th"
-                    value="11"
-                  />
-                  <temba-option
-                    name="13th"
-                    value="12"
-                  />
-                  <temba-option
-                    name="14th"
-                    value="13"
-                  />
-                  <temba-option
-                    name="15th"
-                    value="14"
-                  />
-                  <temba-option
-                    name="16th"
-                    value="15"
-                  />
-                  <temba-option
-                    name="17th"
-                    value="16"
-                  />
-                  <temba-option
-                    name="18th"
-                    value="17"
-                  />
-                  <temba-option
-                    name="19th"
-                    value="18"
-                  />
-                  <temba-option
-                    name="20th"
-                    value="19"
-                  />
-                </temba-select>
+                  errors="[]"
+                  expressions=""
+                  name="Field Number"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\"1\\",\\"name\\":\\"second\\"}]"
+                />
               </div>
             </div>
           </div>
@@ -830,52 +407,19 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               class="ele"
             >
               <div
-                class="react-select selection css-2b097c-container"
+                class="small "
               >
-                <div
-                  class=" css-p773gl-control"
-                >
-                  <div
-                    class=" css-c2yhe2"
-                  >
-                    <div
-                      class=" css-1wa3eu0-placeholder"
-                    >
-                      Select Result
-                    </div>
-                    <input
-                      class="css-62g3xt-dummyInput"
-                      id="react-select-4-input"
-                      readonly=""
-                      tabindex="0"
-                      value=""
-                    />
-                  </div>
-                  <div
-                    class=" css-1ywtfjx-IndicatorsContainer"
-                  >
-                    <span
-                      class=" css-1okebmr-indicatorSeparator"
-                    />
-                    <div
-                      aria-hidden="true"
-                      class=" css-tlfecz-indicatorContainer"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="css-6q0nyr-Svg"
-                        focusable="false"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        width="20"
-                      >
-                        <path
-                          d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+                <temba-select
+                  cachekey="0"
+                  data-testid="temba_select_flow_result"
+                  errors="[]"
+                  expressions=""
+                  name="Flow Result"
+                  namekey="name"
+                  placeholder="Select Result"
+                  valuekey="uuid"
+                  values="[]"
+                />
               </div>
             </div>
           </div>
@@ -895,27 +439,20 @@ exports[`ResultRouterForm should show delimit options 1`] = `
               >
                 <temba-select
                   data-testid="temba_select_delimiter"
-                >
-                  <temba-option
-                    name="spaces"
-                    selected="true"
-                    value=" "
-                  />
-                  <temba-option
-                    name="periods"
-                    value="."
-                  />
-                  <temba-option
-                    name="plusses"
-                    value="+"
-                  />
-                </temba-select>
+                  errors="[]"
+                  expressions=""
+                  name="Delimiter"
+                  namekey="name"
+                  valuekey="value"
+                  values="[{\\"value\\":\\" \\",\\"name\\":\\"spaces\\"}]"
+                />
               </div>
             </div>
           </div>
         </div>
         <div
           class="case_list_container "
+          tabindex="0"
         >
           <div
             class="case_list"
@@ -942,105 +479,13 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                     >
                       <temba-select
                         data-testid="temba_select_operator"
-                      >
-                        <temba-option
-                          name="has any of the words"
-                          selected="true"
-                          value="has_any_word"
-                        />
-                        <temba-option
-                          name="has all of the words"
-                          value="has_all_words"
-                        />
-                        <temba-option
-                          name="has the phrase"
-                          value="has_phrase"
-                        />
-                        <temba-option
-                          name="has only the phrase"
-                          value="has_only_phrase"
-                        />
-                        <temba-option
-                          name="starts with"
-                          value="has_beginning"
-                        />
-                        <temba-option
-                          name="has some text"
-                          value="has_text"
-                        />
-                        <temba-option
-                          name="has a number"
-                          value="has_number"
-                        />
-                        <temba-option
-                          name="has a number between"
-                          value="has_number_between"
-                        />
-                        <temba-option
-                          name="has a number below"
-                          value="has_number_lt"
-                        />
-                        <temba-option
-                          name="has a number at or below"
-                          value="has_number_lte"
-                        />
-                        <temba-option
-                          name="has a number equal to"
-                          value="has_number_eq"
-                        />
-                        <temba-option
-                          name="has a number at or above"
-                          value="has_number_gte"
-                        />
-                        <temba-option
-                          name="has a number above"
-                          value="has_number_gt"
-                        />
-                        <temba-option
-                          name="has a date"
-                          value="has_date"
-                        />
-                        <temba-option
-                          name="has a date before"
-                          value="has_date_lt"
-                        />
-                        <temba-option
-                          name="has a date equal to"
-                          value="has_date_eq"
-                        />
-                        <temba-option
-                          name="has a date after"
-                          value="has_date_gt"
-                        />
-                        <temba-option
-                          name="has a time"
-                          value="has_time"
-                        />
-                        <temba-option
-                          name="has a phone number"
-                          value="has_phone"
-                        />
-                        <temba-option
-                          name="has an email"
-                          value="has_email"
-                        />
-                        <temba-option
-                          name="has state"
-                          value="has_state"
-                        />
-                        <temba-option
-                          name="has district"
-                          value="has_district"
-                        />
-                        <temba-option
-                          name="has ward"
-                          value="has_ward"
-                        />
-                        <temba-option
-                          name="matches regex"
-                          value="has_pattern"
-                        />
-                      </temba-select>
+                        errors="[]"
+                        expressions=""
+                        name="operator"
+                        namekey="verboseName"
+                        valuekey="type"
+                        values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                      />
                     </div>
                   </div>
                   <div
@@ -1050,38 +495,14 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="-1"
+                          data-testid="arguments"
                           name="arguments"
                           placeholder=""
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -1098,37 +519,13 @@ exports[`ResultRouterForm should show delimit options 1`] = `
                       class="ele"
                     >
                       <div
-                        class="wrapper"
+                        class="wrapper small"
                       >
                         <input
-                          class="textinput"
-                          data-spec="input"
-                          data-testid="input"
-                          maxlength="36"
+                          data-testid="Exit Name"
                           name="Exit Name"
-                          type="text"
                           value=""
                         />
-                        <div
-                          class="completion_container hidden"
-                          data-spec="completion-options"
-                          style="top: 0px; left: 0px;"
-                        >
-                          <div
-                            class="options_wrapper"
-                          >
-                            <ul
-                              class="option_list"
-                              data-spec="completion-list"
-                            />
-                            <div
-                              class="help"
-                              data-spec="completion-help"
-                            >
-                              Tab to complete, enter to select
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -1147,6 +544,7 @@ exports[`ResultRouterForm should show delimit options 1`] = `
           <span
             class="toggle_link"
             data-spec="toggle-link"
+            data-testid="toggle-link"
           >
             Save as..
           </span>

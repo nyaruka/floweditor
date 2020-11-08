@@ -36,7 +36,7 @@ exports[`PlayAudioForm render should render 1`] = `
   <p>
     Previous Recording
   </p>
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     entry={
       Object {

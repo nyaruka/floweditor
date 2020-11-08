@@ -99,11 +99,12 @@ export default class SendBroadcastForm extends React.Component<
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
           name={i18n.t('forms.recipients', 'Recipients')}
+          placeholder={i18n.t('forms.select_contacts', 'Select Contacts')}
           assets={this.props.assetStore.recipients}
           entry={this.state.recipients}
-          completion={{ assetStore: this.props.assetStore, schema: this.props.completionSchema }}
           searchable={true}
           multi={true}
+          expressions={true}
           onChange={this.handleRecipientsChanged}
         />
         <p />

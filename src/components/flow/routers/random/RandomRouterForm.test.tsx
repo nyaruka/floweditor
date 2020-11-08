@@ -69,13 +69,13 @@ describe(RandomRouterForm.name, () => {
     } = render(<RandomRouterForm {...props} />);
 
     // we start off with five input boxes for our buckets
-    expect(getAllByTestId('input').length).toEqual(5);
+    expect(baseElement.querySelectorAll('input').length).toEqual(5);
 
     // choose 3 buckets
     fireTembaSelect(getByTestId('temba_select_buckets'), '3');
 
     // now we should only have three input buckets
-    expect(getAllByTestId('input').length).toEqual(3);
+    expect(baseElement.querySelectorAll('input').length).toEqual(3);
     expect(baseElement).toMatchSnapshot();
 
     // now lets save our form

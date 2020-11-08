@@ -1,7 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
-import { sortFieldsAndProperties } from 'components/flow/actions/updatecontact/helpers';
+import { getName, sortFieldsAndProperties } from 'components/flow/actions/updatecontact/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { createResultNameInput } from 'components/flow/routers/widgets';
@@ -9,14 +9,13 @@ import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
-import { Asset } from 'store/flowContext';
-import { AssetEntry, FormState, StringEntry } from 'store/nodeEditor';
+import { FormEntry, FormState, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
-import { small } from 'utils/reactselect';
 
 import styles from './FieldRouterForm.module.scss';
 import { getRoutableFields, nodeToState, stateToNode } from './helpers';
 import i18n from 'config/i18n';
+import { TembaSelectStyle } from 'temba/TembaSelect';
 
 // TODO: Remove use of Function
 // tslint:disable:ban-types
@@ -28,7 +27,7 @@ export enum InputToFocus {
 }
 
 export interface FieldRouterFormState extends FormState {
-  field: AssetEntry;
+  field: FormEntry;
   cases: CaseProps[];
   resultName: StringEntry;
 }
@@ -64,7 +63,7 @@ export default class FieldRouterForm extends React.Component<
     });
   }
 
-  private handleFieldChanged(selected: Asset[]): void {
+  private handleFieldChanged(selected: any[]): void {
     this.setState({ field: { value: selected[0] } });
   }
 
@@ -100,9 +99,11 @@ export default class FieldRouterForm extends React.Component<
           <div className={`${styles.field_select} select-small`}>
             <AssetSelector
               name={i18n.t('forms.contact_field', 'Contact Field')}
-              styles={small as any}
+              style={TembaSelectStyle.small}
               assets={this.props.assetStore.fields}
               additionalOptions={getRoutableFields(this.context.config.flowType)}
+              valueKey="id"
+              getName={getName}
               entry={this.state.field}
               searchable={true}
               sortFunction={sortFieldsAndProperties}

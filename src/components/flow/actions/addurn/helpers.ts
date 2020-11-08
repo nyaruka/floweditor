@@ -20,7 +20,7 @@ export const getSchemeSelectOption = (scheme: string): SelectOption =>
   schemeToSelectOption(getSchemeObject(scheme));
 
 export const schemeToSelectOption = (scheme: Scheme): SelectOption => {
-  return { value: scheme.scheme, label: scheme.path };
+  return { value: scheme.scheme, name: scheme.path };
 };
 
 export const initializeForm = (settings: NodeEditorSettings): AddURNFormState => {

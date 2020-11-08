@@ -1,26 +1,41 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
-import { CHANNEL_PROPERTY, LANGUAGE_PROPERTY, NAME_PROPERTY } from 'components/flow/props';
-import { Types } from 'config/interfaces';
+import {
+  CHANNEL_PROPERTY,
+  LANGUAGE_PROPERTY,
+  NAME_PROPERTY,
+  STATUS_PROPERTY
+} from 'components/flow/props';
+import { Types, ContactStatus } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import {
-  Channel,
   Field,
-  Language,
   SetContactAttribute,
   SetContactChannel,
   SetContactField,
   SetContactLanguage,
-  SetContactName
+  SetContactName,
+  SetContactStatus
 } from 'flowTypes';
 import { Asset, AssetMap, AssetStore, AssetType, REMOVE_VALUE_ASSET } from 'store/flowContext';
-import { AssetEntry, FormState, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+import {
+  FormState,
+  NodeEditorSettings,
+  StringEntry,
+  SelectOptionEntry,
+  FormEntry
+} from 'store/nodeEditor';
+import {
+  CONTACT_STATUS_OPTIONS,
+  CONTACT_STATUS_ACTIVE
+} from 'components/flow/actions/updatecontact/UpdateContactForm';
 
 export interface UpdateContactFormState extends FormState {
   type: Types;
   name: StringEntry;
-  channel: AssetEntry;
-  language: AssetEntry;
-  field: AssetEntry;
+  channel: FormEntry;
+  language: FormEntry;
+  status: SelectOptionEntry;
+  field: FormEntry;
   fieldValue: StringEntry;
 }
 
@@ -34,6 +49,7 @@ export const initializeForm = (
     name: { value: '' },
     channel: { value: null },
     language: { value: null },
+    status: { value: CONTACT_STATUS_ACTIVE },
     field: { value: NAME_PROPERTY },
     fieldValue: { value: '' }
   };
@@ -47,14 +63,16 @@ export const initializeForm = (
       switch (originalType) {
         case Types.set_contact_field:
           const fieldAction = settings.originalAction as SetContactField;
-          state.field = { value: fieldToAsset(fieldAction.field) };
+          state.field = { value: { key: fieldAction.field.key, label: fieldAction.field.name } };
           state.fieldValue = { value: fieldAction.value };
           state.valid = true;
           return state;
         case Types.set_contact_channel:
           const channelAction = settings.originalAction as SetContactChannel;
           state.field = { value: CHANNEL_PROPERTY };
-          state.channel = { value: channelToAsset(channelAction.channel) };
+          state.channel = {
+            value: channelAction.channel ? channelAction.channel : REMOVE_VALUE_ASSET
+          };
           state.valid = true;
           return state;
         case Types.set_contact_language:
@@ -62,10 +80,20 @@ export const initializeForm = (
           state.field = { value: LANGUAGE_PROPERTY };
           state.valid = true;
           state.language = {
-            value: languageToAsset({
-              iso: languageAction.language,
-              name: getLanguageForCode(languageAction.language, assetStore.languages.items)
-            })
+            value: languageAction.language
+              ? {
+                  iso: languageAction.language,
+                  name: getLanguageForCode(languageAction.language, assetStore.languages.items)
+                }
+              : REMOVE_VALUE_ASSET
+          };
+          return state;
+        case Types.set_contact_status:
+          const statusAction = settings.originalAction as SetContactStatus;
+          state.field = { value: STATUS_PROPERTY };
+          state.valid = true;
+          state.status = {
+            value: CONTACT_STATUS_OPTIONS.find(o => o.value === statusAction.status)
           };
           return state;
         case Types.set_contact_name:
@@ -88,24 +116,43 @@ export const stateToAction = (
   state: UpdateContactFormState
 ): SetContactAttribute => {
   /* istanbul ignore else */
+  const field = state.field.value;
   if (state.type === Types.set_contact_field) {
     return {
       uuid: getActionUUID(settings, Types.set_contact_field),
       type: state.type,
-      field: assetToField(state.field.value),
+      field: { name: field.label, key: field.key },
       value: state.fieldValue.value
     };
   } else if (state.type === Types.set_contact_channel) {
+    if (state.channel.value.type === REMOVE_VALUE_ASSET.type) {
+      return {
+        uuid: getActionUUID(settings, Types.set_contact_channel),
+        type: state.type
+      } as any;
+    }
     return {
       uuid: getActionUUID(settings, Types.set_contact_channel),
       type: state.type,
-      channel: assetToChannel(state.channel.value)
+      channel: state.channel.value
     };
   } else if (state.type === Types.set_contact_language) {
+    if (state.language.value.type === REMOVE_VALUE_ASSET.type) {
+      return {
+        uuid: getActionUUID(settings, Types.set_contact_language),
+        type: state.type
+      } as any;
+    }
     return {
       uuid: getActionUUID(settings, Types.set_contact_language),
       type: state.type,
-      language: assetToLanguage(state.language.value)
+      language: state.language.value.iso
+    };
+  } else if (state.type === Types.set_contact_status) {
+    return {
+      uuid: getActionUUID(settings, Types.set_contact_status),
+      type: state.type,
+      status: state.status.value.value as ContactStatus
     };
   } else if (state.type === Types.set_contact_name) {
     return {
@@ -116,35 +163,45 @@ export const stateToAction = (
   }
 };
 
-export const sortFieldsAndProperties = (a: Asset, b: Asset): number => {
+export const sortFieldsAndProperties = (a: any, b: any): number => {
+  const aType = a.type || '';
+  const bType = b.type || '';
+
+  const aName = a.name || a.label || '';
+  const bName = b.name || b.label || '';
+
   // Name always goes first
   /* istanbul ignore else */
-  if (a === NAME_PROPERTY && b !== NAME_PROPERTY) {
+  if (a.id === NAME_PROPERTY.id && b.id !== NAME_PROPERTY.id) {
     return -1;
-  } else if (b === NAME_PROPERTY && a !== NAME_PROPERTY) {
+  } else if (b.id === NAME_PROPERTY.id && a.id !== NAME_PROPERTY.id) {
     return 1;
   }
 
-  if (a.type === b.type) {
-    return a.name.localeCompare(b.name);
+  if (aType === bType) {
+    return aName.localeCompare(bName);
   }
 
-  if (a.type === AssetType.Scheme) {
+  if (aType === AssetType.Scheme) {
     return 1;
+  }
+
+  if (bType === AssetType.Scheme) {
+    return -1;
   }
 
   // go with alpha-sort for everthing else
-  else if (a.type !== b.type) {
-    if (a.type === AssetType.ContactProperty) {
+  else if (aType !== bType) {
+    if (aType === AssetType.ContactProperty) {
       return -1;
     }
 
-    if (b.type === AssetType.ContactProperty) {
+    if (bType === AssetType.ContactProperty) {
       return 1;
     }
   }
   // non-name non-fields go last
-  return a.name.localeCompare(b.name);
+  return aName.localeCompare(bName);
 };
 
 export const fieldToAsset = (field: Field = { key: '', name: '' }): Asset => ({
@@ -169,40 +226,14 @@ export const assetToChannel = (asset: Asset): any => {
   };
 };
 
-export const assetToLanguage = (asset: Asset): string => {
-  if (asset.id === REMOVE_VALUE_ASSET.id) {
-    return '';
-  }
-  return asset.id;
-};
-
-export const languageToAsset = ({ iso, name }: Language) => {
-  if (!iso || iso.length === 0) {
-    return REMOVE_VALUE_ASSET;
-  }
-
-  return {
-    id: iso,
-    name,
-    type: AssetType.Language
-  };
-};
-
-export const channelToAsset = ({ uuid, name }: Channel) => {
-  if (!uuid) {
-    return REMOVE_VALUE_ASSET;
-  }
-  return {
-    id: uuid,
-    name,
-    type: AssetType.Language
-  };
-};
-
 export const getLanguageForCode = (code: string, languages: AssetMap) => {
   let lang = code;
   if (languages && lang in languages) {
     lang = languages[lang].name;
   }
   return lang;
+};
+
+export const getName = (asset: any): string => {
+  return asset.label || asset.name;
 };

@@ -27,7 +27,7 @@ describe(WebhookRouterForm.name, () => {
 
   describe('updates', () => {
     it('should save changes', () => {
-      const { baseElement, getByText, getAllByTestId, getByTestId } = render(
+      const { baseElement, getByText, getByTestId, getAllByTestId } = render(
         <WebhookRouterForm {...webhookForm} />
       );
       expect(baseElement).toMatchSnapshot();
@@ -39,7 +39,9 @@ describe(WebhookRouterForm.name, () => {
       expect(webhookForm.updateRouter).not.toBeCalled();
 
       // set our url and name
-      const [url, resultName] = getAllByTestId('input');
+      const url = getByTestId('URL');
+      const resultName = getByTestId('Result Name');
+
       fireChangeText(url, 'http://app.rapidpro.io');
       fireChangeText(resultName, 'My Webhook Result');
 
@@ -48,12 +50,15 @@ describe(WebhookRouterForm.name, () => {
 
       // set a post body
       fireEvent.click(getByText('POST Body'));
-      const postBody = getByTestId('input');
+      const postBody = getByTestId('POST Body');
+
       fireChangeText(postBody, 'Updated post body');
 
       // add http header
       fireEvent.click(getByText('HTTP Headers'));
-      const [headerName, headerValue] = getAllByTestId('input');
+      const headerName = getAllByTestId('Header Name')[0];
+      const headerValue = getAllByTestId('Value')[0];
+
       fireEvent.change(headerName, 'Content-type');
       fireEvent.change(headerValue, 'application/json');
 
@@ -87,10 +92,12 @@ describe(WebhookRouterForm.name, () => {
 
     it('should validate urls', () => {
       webhookForm.updateRouter = jest.fn();
-      const { getByText, getAllByTestId } = render(<WebhookRouterForm {...webhookForm} />);
+      const { getByText, getByTestId } = render(<WebhookRouterForm {...webhookForm} />);
 
       // set our url and name
-      const [url, resultName] = getAllByTestId('input');
+      const url = getByTestId('URL');
+      const resultName = getByTestId('Result Name');
+
       fireChangeText(url, 'bad url');
       fireChangeText(resultName, 'My Webhook Result');
 

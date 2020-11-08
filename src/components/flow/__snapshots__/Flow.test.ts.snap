@@ -13,7 +13,6 @@ exports[`Flow instance methods onConnectorDrop should do NodeEditor work if the 
 Array [
   "46e8d603-8e5d-4435-97dd-1333291aafca:8653ac06-00ba-4890-a79f-d30f3a55193b",
   "52036e99-4be0-4505-add4-159e8d1d7572",
-  [Function],
 ]
 `;
 
