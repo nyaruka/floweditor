@@ -87,6 +87,7 @@ exports[`StartSessionForm render should render 1`] = `
                   name="Recipients"
                   namekey="name"
                   placeholder="Choose who should be started in the flow"
+                  queryparam="search"
                   searchable="true"
                   valuekey="uuid"
                   values="[{\\"id\\":\\"2dc85899-0577-4f1b-a620-f12094e34b5e\\",\\"name\\":\\"Cat Fanciers\\",\\"type\\":\\"group\\"},{\\"id\\":\\"42ebf1d0-a43e-4ba6-9577-c863b20c88c4\\",\\"name\\":\\"Norbert Kwizera\\",\\"type\\":\\"contact\\",\\"missing\\":false},{\\"id\\":\\"70ac6ea6-803a-4c33-81c7-dc26803c313f\\",\\"name\\":\\"Rowan Seymour\\",\\"type\\":\\"contact\\",\\"missing\\":false}]"
