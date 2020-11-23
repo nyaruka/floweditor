@@ -9,8 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import { setHTTPTimeout } from 'external';
 
 // bring in our temba-components if they aren't already registered
-var componentsExist = document.body.innerHTML.indexOf('temba-components') > -1;
-if (!componentsExist) {
+if (typeof customElements !== 'undefined' && !customElements.get('temba-textinput')) {
   import('@nyaruka/temba-components').then(() => {
     console.log('Loading temba components');
   });
