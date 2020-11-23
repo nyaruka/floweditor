@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import FormElement, { FormElementProps } from 'components/form/FormElement';
 import { postNewAsset, searchAssetMap } from 'external';
 import * as React from 'react';
-import { Asset, Assets, REMOVE_VALUE_ASSET } from 'store/flowContext';
+import { Asset, Assets, AssetType, REMOVE_VALUE_ASSET } from 'store/flowContext';
 import { AssetEntry } from 'store/nodeEditor';
 
 import styles from './AssetSelector.module.scss';
@@ -227,6 +227,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           cacheKey={this.lastCreation + ''}
           options={this.options}
           sortFunction={this.props.sortFunction || sortByName}
+          queryParam={this.props.assets.type === AssetType.Contact ? 'search' : null}
         />
       </FormElement>
     );
