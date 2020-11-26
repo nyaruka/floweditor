@@ -41,6 +41,8 @@ export interface TembaSelectProps {
   hideError?: boolean;
 
   clearable?: boolean;
+
+  queryParam?: string;
 }
 
 interface TembaSelectState {}
@@ -206,6 +208,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           disabled={this.props.disabled}
           clearable={this.props.clearable}
           tags={this.props.tags}
+          queryParam={this.props.queryParam}
         />
       </div>
     );

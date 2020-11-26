@@ -17,6 +17,7 @@ exports[`AssetSelector renders 1`] = `
           name="Recipients"
           namekey="name"
           placeholder="Select existing recipients or enter a new one"
+          queryparam="search"
           valuekey="uuid"
           values="[]"
         />
