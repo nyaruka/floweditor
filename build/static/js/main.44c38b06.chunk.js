@@ -20124,7 +20124,7 @@
                                     'current'
                                   )
                                 ),
-                                K('done' == a.status)(
+                                K('published' == a.status)(
                                   E.a.createElement(
                                     'div',
                                     { className: cd.a.button + ' ' + cd.a.publish },
@@ -21748,4 +21748,4 @@
   },
   [[193, 1, 2]]
 ]);
-//# sourceMappingURL=main.0b97346e.chunk.js.map
+//# sourceMappingURL=main.44c38b06.chunk.js.map
