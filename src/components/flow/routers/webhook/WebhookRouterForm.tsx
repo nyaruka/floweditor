@@ -264,7 +264,7 @@ export default class WebhookRouterForm extends React.Component<
     });
 
     const method = this.state.method.value.value;
-    const name = this.state.method.value.label + ' ' + i18n.t('body', 'Body');
+    const name = this.state.method.value.name + ' ' + i18n.t('body', 'Body');
     tabs.push({
       name,
       body: (
@@ -273,7 +273,7 @@ export default class WebhookRouterForm extends React.Component<
           <p>
             <Trans
               i18nKey="forms.webhook_body_summary"
-              values={{ method: this.state.method.value.label }}
+              values={{ method: this.state.method.value.name }}
             >
               Modify the body of the [[method]] request that will be sent to your webhook.
             </Trans>
@@ -287,7 +287,7 @@ export default class WebhookRouterForm extends React.Component<
             helpText={
               <Trans
                 i18nKey="forms.webhook_body_summary"
-                values={{ method: this.state.method.value.label }}
+                values={{ method: this.state.method.value.name }}
               >
                 Modify the body of the [[method]] request that will be sent to your webhook.
               </Trans>
@@ -308,7 +308,7 @@ export default class WebhookRouterForm extends React.Component<
         tabs={tabs}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end' }}>
           <div className={styles.method}>
             <SelectElement
               key="method_select"

@@ -64,9 +64,7 @@ exports[`SendMsgForm render should render 1`] = `
               }
             }
             name="Quick Reply"
-            onEntryChanged={[Function]}
-            onItemAdded={[Function]}
-            onRemoved={[Function]}
+            onChange={[Function]}
           />
         </React.Fragment>,
         "checked": false,
@@ -95,19 +93,23 @@ exports[`SendMsgForm render should render 1`] = `
                 options={
                   Array [
                     Object {
-                      "label": "Image URL",
+                      "name": "Image URL",
                       "value": "image",
                     },
                     Object {
-                      "label": "Audio URL",
+                      "name": "Audio URL",
                       "value": "audio",
                     },
                     Object {
-                      "label": "Video URL",
+                      "name": "Video URL",
                       "value": "video",
                     },
                     Object {
-                      "label": "Upload Attachment",
+                      "name": "PDF Document URL",
+                      "value": "application",
+                    },
+                    Object {
+                      "name": "Upload Attachment",
                       "value": "upload",
                     },
                   ]
@@ -166,9 +168,9 @@ exports[`SendMsgForm render should render 1`] = `
     }
     onChange={[MockFunction]}
   />
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
-    count="SMS"
+    counter=".sms-counter"
     entry={
       Object {
         "value": "Hey!",
@@ -179,6 +181,9 @@ exports[`SendMsgForm render should render 1`] = `
     onChange={[Function]}
     showLabel={false}
     textarea={true}
+  />
+  <temba-charcount
+    class="sms-counter"
   />
 </Dialog>
 `;

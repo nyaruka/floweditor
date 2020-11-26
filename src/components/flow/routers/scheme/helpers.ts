@@ -13,7 +13,7 @@ import { SCHEMES_OPERAND } from 'components/nodeeditor/constants';
 export const getChannelTypeOptions = (): SelectOption[] => {
   // get our scheme list as select options, ignore hidden schemes
   return SCHEMES.filter((scheme: Scheme) => !scheme.excludeFromSplit).map((scheme: Scheme) => {
-    return { value: scheme.scheme, label: scheme.name };
+    return { value: scheme.scheme, name: scheme.name };
   });
 };
 
@@ -94,7 +94,7 @@ export const schemesToCases = (
   schemes: SelectOption[] = [],
   originalCases: Case[]
 ): CaseProps[] => {
-  return schemes.map(({ value, label }: SelectOption) => {
+  return schemes.map(({ value, name }: SelectOption) => {
     // try to use the same case uuids for consistency
     const originalCase = originalCases.find((kase: Case) => kase.arguments[0] === value);
     const uuid = originalCase ? originalCase.uuid : createUUID();
@@ -106,7 +106,7 @@ export const schemesToCases = (
         arguments: [value],
         category_uuid: ''
       },
-      categoryName: label,
+      categoryName: name,
       valid: true
     };
   });

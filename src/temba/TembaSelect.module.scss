@@ -5,6 +5,7 @@
     --temba-select-selected-padding: 7px;
     --temba-select-selected-line-height: 13px;
     --temba-select-selected-font-size: 12px;
+    --search-input-height: 7px !important;
   }
 }
 
@@ -19,7 +20,6 @@
   temba-select {
     --color-widget-border: tomato;
     --color-focus: tomato;
-    --widget-box-shadow-focused: inset 0 1px 1px rgba(var(--error-rgb), 0.075),
-      0 0 8px rgba(var(--error-rgb), 0.6);
+    --widget-box-shadow-focused: 0 0 0 3px rgba(var(--error-rgb), 0.3);
   }
 }

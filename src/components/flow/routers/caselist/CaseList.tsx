@@ -186,6 +186,7 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
           ' ' +
           (this.state.currentCases.length > 5 ? styles.scrolling : '')
         }
+        tabIndex={0}
       >
         <this.sortableList
           items={this.state.currentCases}

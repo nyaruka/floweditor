@@ -21,6 +21,10 @@ axios.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.defaults.responseType = 'json';
 axios.defaults.timeout = 30000;
 
+export const setHTTPTimeout = (millis: number) => {
+  axios.defaults.timeout = millis;
+};
+
 /**
  * Gets the path activity and the count of active particpants at each node
  * @param {string} flowUUID - The UUID of the current flow
@@ -119,7 +123,7 @@ export const postNewAsset = (assets: Assets, payload: any): Promise<Asset> => {
     axios
       .post(assets.endpoint, payload, { headers })
       .then((response: AxiosResponse) => {
-        resolve(resultToAsset(response.data, assets.type, assets.id));
+        resolve(response.data);
       })
       .catch(error => reject(error));
   });

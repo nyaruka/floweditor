@@ -3,23 +3,23 @@ import { getActionUUID } from 'components/flow/actions/helpers';
 import { Attachment, SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
 import { MsgTemplating, SendMsg } from 'flowTypes';
-import { AssetStore, AssetType } from 'store/flowContext';
-import { AssetEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+import { AssetStore } from 'store/flowContext';
+import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { createUUID } from 'utils';
 
 export const TOPIC_OPTIONS: SelectOption[] = [
-  { value: 'event', label: 'Event' },
-  { value: 'account', label: 'Account' },
-  { value: 'purchase', label: 'Purchase' },
-  { value: 'agent', label: 'Agent' }
+  { value: 'event', name: 'Event' },
+  { value: 'account', name: 'Account' },
+  { value: 'purchase', name: 'Purchase' },
+  { value: 'agent', name: 'Agent' }
 ];
 
 export const initializeForm = (
   settings: NodeEditorSettings,
   assetStore: AssetStore
 ): SendMsgFormState => {
-  let template: AssetEntry = { value: null };
+  let template: FormEntry = { value: null };
   let templateVariables: StringEntry[] = [];
 
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
@@ -42,9 +42,8 @@ export const initializeForm = (
       const msgTemplate = action.templating.template;
       template = {
         value: {
-          id: msgTemplate.uuid,
-          name: msgTemplate.name,
-          type: AssetType.Template
+          uuid: msgTemplate.uuid,
+          name: msgTemplate.name
         }
       };
       templateVariables = action.templating.variables.map((value: string) => {
@@ -103,7 +102,7 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
     templating = {
       uuid: templatingUUID,
       template: {
-        uuid: state.template.value.id,
+        uuid: state.template.value.uuid,
         name: state.template.value.name
       },
       variables: state.templateVariables.map((variable: StringEntry) => variable.value)

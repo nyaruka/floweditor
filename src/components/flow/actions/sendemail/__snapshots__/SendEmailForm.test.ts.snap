@@ -57,7 +57,7 @@ exports[`SendEmailForm render should render 1`] = `
       placeholder="To"
       prompt="Enter email address"
     />
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="subject"
       autocomplete={true}
       entry={
@@ -69,7 +69,7 @@ exports[`SendEmailForm render should render 1`] = `
       onChange={[Function]}
       placeholder="Subject"
     />
-    <Connect(TextInputElement)
+    <TextInputElement
       __className="message"
       autocomplete={true}
       entry={

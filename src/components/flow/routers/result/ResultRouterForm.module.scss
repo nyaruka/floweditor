@@ -2,35 +2,29 @@
 
 .delimited {
   display: flex;
+  align-items: baseline;
 }
 
 .non_delimited {
   display: flex;
+  align-items: baseline;
 }
 
 .lead_in {
-  margin-top: 6px;
 }
 
 .lead_in_sub {
-  margin-bottom: 5px;
-  margin-top: 6px;
   margin-left: 8px;
 }
 
 .result_select {
   width: 254px;
-  display: inline-block;
   margin-left: 10px;
-  margin-bottom: -10px;
-  vertical-align: top;
 }
 
 .result_select_delimited {
   width: 166px;
   margin-left: 10px;
-  margin-bottom: -10px;
-  vertical-align: top;
 }
 
 .should_delimit {
@@ -39,16 +33,10 @@
 
 .field_number {
   width: 96px;
-  display: inline-block;
   margin-left: 10px;
-  margin-bottom: -10px;
-  vertical-align: top;
 }
 
 .delimiter {
   width: 158px;
-  display: inline-block;
   margin-left: 12px;
-  margin-bottom: -10px;
-  vertical-align: top;
 }

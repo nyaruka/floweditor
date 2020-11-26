@@ -51,6 +51,7 @@ export default class OptionalTextInput extends React.Component<
     if (this.state.editing) {
       ele = (
         <TextInputElement
+          data-testid="optional-field"
           data-spec="optional-field"
           name={this.props.name}
           showLabel={true}
@@ -63,6 +64,7 @@ export default class OptionalTextInput extends React.Component<
     } else {
       ele = (
         <span
+          data-testid="toggle-link"
           data-spec="toggle-link"
           className={styles.toggle_link}
           onClick={this.handleEditingChanged}

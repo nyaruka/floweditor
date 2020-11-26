@@ -52,14 +52,12 @@ exports[`AddLabelsForm render should render a base action 1`] = `
       Object {
         "value": Array [
           Object {
-            "id": "232b99d1-579f-4d7f-b750-4b034927e9f8",
             "name": "Help",
-            "type": "label",
+            "uuid": "232b99d1-579f-4d7f-b750-4b034927e9f8",
           },
           Object {
-            "id": "ab58dffa-98da-40ba-bebc-489ec6ff7170",
             "name": "Feedback",
-            "type": "label",
+            "uuid": "ab58dffa-98da-40ba-bebc-489ec6ff7170",
           },
         ],
       }
@@ -79,8 +77,9 @@ Array [
   Object {
     "labels": Array [
       Object {
+        "id": "feedback_label",
         "name": "Feedback",
-        "uuid": "feedback_label",
+        "type": "label",
       },
     ],
     "type": "add_input_labels",
@@ -110,8 +109,9 @@ Array [
   Object {
     "labels": Array [
       Object {
+        "id": "feedback_label",
         "name": "Feedback",
-        "uuid": "feedback_label",
+        "type": "label",
       },
     ],
     "type": "add_input_labels",

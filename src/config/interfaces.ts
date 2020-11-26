@@ -5,6 +5,13 @@ export enum FlowTypes {
   NONE = '-'
 }
 
+export enum ContactStatus {
+  ACTIVE = 'active',
+  BLOCKED = 'blocked',
+  STOPPED = 'stopped',
+  ARCHIVED = 'archived'
+}
+
 export enum Types {
   execute_actions = 'execute_actions',
   add_contact_urn = 'add_contact_urn',
@@ -15,6 +22,7 @@ export enum Types {
   set_contact_field = 'set_contact_field',
   set_contact_name = 'set_contact_name',
   set_contact_language = 'set_contact_language',
+  set_contact_status = 'set_contact_status',
   set_run_result = 'set_run_result',
   call_classifier = 'call_classifier',
   call_resthook = 'call_resthook',

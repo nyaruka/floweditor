@@ -6,8 +6,7 @@ import { createResultNameInput } from 'components/flow/routers/widgets';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import { Asset } from 'store/flowContext';
-import { AssetEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import {
   Alphanumeric,
   Required,
@@ -19,10 +18,11 @@ import {
 import { nodeToState, stateToNode } from './helpers';
 import styles from './ResthookRouterForm.module.scss';
 import i18n from 'config/i18n';
+import { SelectOption } from 'components/form/select/SelectElement';
 
 // TODO: Remove use of Function
 export interface ResthookRouterFormState extends FormState {
-  resthook: AssetEntry;
+  resthook: FormEntry;
   resultName: StringEntry;
 }
 
@@ -30,6 +30,7 @@ export default class ResthookRouterForm extends React.PureComponent<
   RouterFormProps,
   ResthookRouterFormState
 > {
+  options: SelectOption[] = [];
   constructor(props: RouterFormProps) {
     super(props);
 
@@ -37,6 +38,13 @@ export default class ResthookRouterForm extends React.PureComponent<
 
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
+    });
+  }
+
+  public componentDidMount(): void {
+    const items = this.props.assetStore.resthooks ? this.props.assetStore.resthooks.items : {};
+    this.options = Object.keys(items).map((key: string) => {
+      return { name: items[key].name, value: key };
     });
   }
 
@@ -52,7 +60,7 @@ export default class ResthookRouterForm extends React.PureComponent<
     });
   }
 
-  public handleResthookChanged(selected: Asset[], submitting = false): boolean {
+  public handleResthookChanged(selected: any[], submitting = false): boolean {
     const updates: Partial<ResthookRouterFormState> = {
       resthook: validate(i18n.t('forms.resthook', 'Resthook'), selected[0], [
         shouldRequireIf(submitting)
@@ -93,6 +101,8 @@ export default class ResthookRouterForm extends React.PureComponent<
           entry={this.state.resthook}
           searchable={true}
           onChange={this.handleResthookChanged}
+          nameKey="resthook"
+          valueKey="resthook"
         />
         <div className={styles.result_name}>
           {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}

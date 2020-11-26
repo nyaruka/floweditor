@@ -1,6 +1,7 @@
 @import 'variables.module.scss';
 
 .ele {
+  width: 100%;
   position: relative;
   &.border {
     border: 1px solid #e6e6e6;
@@ -22,7 +23,7 @@
       position: absolute;
       background: #fff;
       border: 1px solid $error_color;
-      box-shadow: 0 0 0 3px rgba(255, 196, 186, 0.5) !important;
+      box-shadow: var(--widget-box-shadow-focused-error) !important;
       border-radius: 5px;
       padding: 3px 3px;
       margin: 0;
@@ -63,6 +64,7 @@
   margin-left: 2px;
   margin-bottom: 5px;
   font-weight: 400;
+  color: #666;
 }
 
 .invalid {
@@ -76,7 +78,7 @@
 }
 
 .help_text {
-  color: #bbb;
+  color: #ccc;
   font-size: 11px;
   padding-top: 6px;
   padding-bottom: 10px;

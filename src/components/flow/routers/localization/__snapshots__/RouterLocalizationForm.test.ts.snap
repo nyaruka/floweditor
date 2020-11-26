@@ -43,7 +43,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
             <div
               className="translating_to"
             >
-              <ForwardRef(forwardConnectRef)
+              <TextInputElement
                 data-spec="localize-case"
                 entry={
                   Object {
@@ -76,7 +76,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
             <div
               className="translating_to"
             >
-              <ForwardRef(forwardConnectRef)
+              <TextInputElement
                 data-spec="localize-case"
                 entry={
                   Object {
@@ -115,7 +115,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
     <div
       className="translating_to"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         data-spec="localize-category"
         entry={
           Object {
@@ -142,7 +142,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
     <div
       className="translating_to"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         data-spec="localize-category"
         entry={
           Object {
@@ -169,7 +169,7 @@ exports[`RouterLocalizationForm initializes 1`] = `
     <div
       className="translating_to"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         data-spec="localize-category"
         entry={
           Object {
@@ -229,7 +229,7 @@ exports[`RouterLocalizationForm should render 1`] = `
             <div
               className="translating_to"
             >
-              <ForwardRef(forwardConnectRef)
+              <TextInputElement
                 data-spec="localize-case"
                 entry={
                   Object {
@@ -262,7 +262,7 @@ exports[`RouterLocalizationForm should render 1`] = `
             <div
               className="translating_to"
             >
-              <ForwardRef(forwardConnectRef)
+              <TextInputElement
                 data-spec="localize-case"
                 entry={
                   Object {
@@ -301,7 +301,7 @@ exports[`RouterLocalizationForm should render 1`] = `
     <div
       className="translating_to"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         data-spec="localize-category"
         entry={
           Object {
@@ -328,7 +328,7 @@ exports[`RouterLocalizationForm should render 1`] = `
     <div
       className="translating_to"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         data-spec="localize-category"
         entry={
           Object {
@@ -355,7 +355,7 @@ exports[`RouterLocalizationForm should render 1`] = `
     <div
       className="translating_to"
     >
-      <Connect(TextInputElement)
+      <TextInputElement
         data-spec="localize-category"
         entry={
           Object {

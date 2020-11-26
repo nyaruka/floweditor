@@ -6,7 +6,7 @@ import { nodeToState, stateToNode, createEmptyCase } from './helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
-import { FormState, mergeForm, StringEntry, AssetEntry } from 'store/nodeEditor';
+import { FormState, mergeForm, StringEntry, FormEntry } from 'store/nodeEditor';
 import {
   Alphanumeric,
   Required,
@@ -28,7 +28,7 @@ import i18n from 'config/i18n';
 export interface ClassifyRouterFormState extends FormState {
   hiddenCases: CaseProps[];
   resultName: StringEntry;
-  classifier: AssetEntry;
+  classifier: FormEntry;
   cases: CaseProps[];
   operand: StringEntry;
 }
@@ -49,7 +49,9 @@ export default class ClassifyRouterForm extends React.Component<
     if (this.state.classifier.value) {
       fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.id).then(
         (classifier: Asset) => {
-          this.handleUpdate({ classifier });
+          if (classifier) {
+            this.handleUpdate({ classifier: { name: classifier.name, uuid: classifier.id } });
+          }
         }
       );
     }
@@ -58,7 +60,7 @@ export default class ClassifyRouterForm extends React.Component<
   private handleUpdate(
     keys: {
       resultName?: string;
-      classifier?: Asset;
+      classifier?: any;
     },
     submitting = false
   ): boolean {

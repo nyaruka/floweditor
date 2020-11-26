@@ -21,7 +21,7 @@ const SendBroadcastComp: React.SFC<BroadcastMsg> = (
   if (action.text) {
     return (
       <div className={styles.node}>
-        <div className={styles.to}>
+        <div className={styles.to} key={action.uuid + '_broadcast_recipients'}>
           {renderAssetList(assets, MAX_TO_SHOW, context.config.endpoints)}
         </div>
         <div className={styles.message}>

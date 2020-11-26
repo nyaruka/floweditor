@@ -9,32 +9,32 @@ import { SelectOption } from 'components/form/select/SelectElement';
 import { Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { Router, RouterTypes, SwitchRouter } from 'flowTypes';
-import { AssetStore, RenderNode } from 'store/flowContext';
+import { AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 
 import { ResultRouterFormState } from './ResultRouterForm';
 
 export const FIELD_NUMBER_OPTIONS: SelectOption[] = [
-  { value: '0', label: 'first' },
-  { value: '1', label: 'second' },
-  { value: '2', label: 'third' },
-  { value: '3', label: 'fourth' },
-  { value: '4', label: 'fifth' },
-  { value: '5', label: 'sixth' },
-  { value: '6', label: 'seventh' },
-  { value: '7', label: 'eighth' },
-  { value: '8', label: 'ninth' },
-  { value: '9', label: 'tenth' },
-  { value: '10', label: '11th' },
-  { value: '11', label: '12th' },
-  { value: '12', label: '13th' },
-  { value: '13', label: '14th' },
-  { value: '14', label: '15th' },
-  { value: '15', label: '16th' },
-  { value: '16', label: '17th' },
-  { value: '17', label: '18th' },
-  { value: '18', label: '19th' },
-  { value: '19', label: '20th' }
+  { value: '0', name: 'first' },
+  { value: '1', name: 'second' },
+  { value: '2', name: 'third' },
+  { value: '3', name: 'fourth' },
+  { value: '4', name: 'fifth' },
+  { value: '5', name: 'sixth' },
+  { value: '6', name: 'seventh' },
+  { value: '7', name: 'eighth' },
+  { value: '8', name: 'ninth' },
+  { value: '9', name: 'tenth' },
+  { value: '10', name: '11th' },
+  { value: '11', name: '12th' },
+  { value: '12', name: '13th' },
+  { value: '13', name: '14th' },
+  { value: '14', name: '15th' },
+  { value: '15', name: '16th' },
+  { value: '16', name: '17th' },
+  { value: '17', name: '18th' },
+  { value: '18', name: '19th' },
+  { value: '19', name: '20th' }
 ];
 
 export const getFieldOption = (value: number): SelectOption => {
@@ -42,9 +42,9 @@ export const getFieldOption = (value: number): SelectOption => {
 };
 
 export const DELIMITER_OPTIONS: SelectOption[] = [
-  { value: ' ', label: 'spaces' },
-  { value: '.', label: 'periods' },
-  { value: '+', label: 'plusses' }
+  { value: ' ', name: 'spaces' },
+  { value: '.', name: 'periods' },
+  { value: '+', name: 'plusses' }
 ];
 
 export const getDelimiterOption = (value: string): SelectOption => {
@@ -83,10 +83,11 @@ export const nodeToState = (
 
     const config = settings.originalNode.ui.config;
     if (config && config.operand) {
-      result =
-        config.operand.id in assetStore.results.items
-          ? assetStore.results.items[config.operand.id]
-          : null;
+      if (config.operand.id in assetStore.results.items) {
+        result = assetStore.results.items[config.operand.id];
+      } else {
+        result = null;
+      }
     }
 
     if (type === Types.split_by_run_result_delimited) {
@@ -124,14 +125,14 @@ export const stateToNode = (
 
   let nodeType = Types.split_by_run_result;
 
-  const asset = state.result.value;
-  let operand = `@results.${asset.id}`;
+  const result = state.result.value;
+  let operand = `@results.${result.id}`;
 
   const config: any = {
     operand: {
-      id: asset.id,
-      type: asset.type,
-      name: asset.name
+      name: result.name,
+      id: result.id,
+      type: AssetType.Result
     },
     cases: caseConfig
   };
@@ -139,7 +140,7 @@ export const stateToNode = (
   if (state.shouldDelimit) {
     config.index = state.fieldNumber;
     config.delimiter = state.delimiter;
-    operand = `@(field(results.${asset.id}, ${state.fieldNumber}, "${state.delimiter}"))`;
+    operand = `@(field(results.${result.id}, ${state.fieldNumber}, "${state.delimiter}"))`;
     nodeType = Types.split_by_run_result_delimited;
   }
 

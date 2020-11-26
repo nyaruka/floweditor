@@ -31,6 +31,13 @@ export const getContentMarkup = (
   } else {
     return renderAssetList(
       groups.map(group => {
+        if (group.name_match) {
+          return {
+            id: group.name_match,
+            name: group.name_match,
+            type: AssetType.GroupNameMatch
+          };
+        }
         return {
           id: group.uuid,
           name: group.name,

@@ -19,7 +19,9 @@ const caseProps: CaseElementProps = {
   onChange: jest.fn()
 };
 
-// const { setup } = composeComponentTestUtils<CaseElementProps>(CaseElement, caseProps);
+const selectOperator = (getByTestId: any, operator: Operators) => {
+  fireTembaSelect(getByTestId('temba_select_operator'), [{ type: operator }]);
+};
 
 describe(CaseElement.name, () => {
   describe('render', () => {
@@ -45,16 +47,13 @@ describe(CaseElement.name, () => {
     it('should handle updates', () => {
       const { baseElement, getByTestId } = render(<CaseElement {...caseProps} />);
 
-      const operator = getByTestId('temba_select_operator');
-      fireTembaSelect(operator, Operators.has_phone);
-
+      selectOperator(getByTestId, Operators.has_phone);
       expect(baseElement).toMatchSnapshot();
     });
 
     it('should should set arguments for numeric range', () => {
       const { baseElement, getByTestId } = render(<CaseElement {...caseProps} />);
-      const operator = getByTestId('temba_select_operator');
-      fireTembaSelect(operator, Operators.has_number_between);
+      selectOperator(getByTestId, Operators.has_number_between);
       expect(baseElement).toMatchSnapshot();
     });
 
@@ -63,17 +62,15 @@ describe(CaseElement.name, () => {
         <CaseElement {...caseProps} />
       );
 
-      const operator = getByTestId('temba_select_operator');
-
       // make us a has phone so we can look up our category by value
-      fireTembaSelect(operator, Operators.has_phone);
+      selectOperator(getByTestId, Operators.has_phone);
 
       // update our category to a user supplied value
       const category = getByDisplayValue('Has Phone');
       fireEvent.change(category, { target: { value: 'My Exit Name' } });
 
       // now swithc our type to force a category change
-      fireTembaSelect(operator, Operators.has_number);
+      selectOperator(getByTestId, Operators.has_number);
 
       // we shouldn't have updated our category
       expect(queryByDisplayValue('My Exit Name')).not.toBeNull();
@@ -96,7 +93,7 @@ describe(CaseElement.name, () => {
       const { baseElement, getAllByTestId } = render(
         <CaseElement {...caseProps} onRemove={onRemove} />
       );
-      const args = getAllByTestId('input');
+      const args = getAllByTestId('arguments');
       fireEvent.change(args[0], { target: { value: 'Purple, p' } });
       expect(baseElement).toMatchSnapshot();
     });
@@ -107,9 +104,9 @@ describe(CaseElement.name, () => {
         <CaseElement {...caseProps} onRemove={onRemove} />
       );
 
-      fireTembaSelect(getByTestId('temba_select_operator'), Operators.has_number_between);
+      selectOperator(getByTestId, Operators.has_number_between);
 
-      const args = getAllByTestId('input');
+      const args = getAllByTestId('arguments');
       fireEvent.change(args[0], { target: { value: '1' } });
       fireEvent.change(args[1], { target: { value: '100' } });
       expect(baseElement).toMatchSnapshot();

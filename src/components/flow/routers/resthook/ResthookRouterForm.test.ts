@@ -1,8 +1,5 @@
 import { composeComponentTestUtils, mock, setMock } from 'testUtils';
 import {
-  ColorFlowAsset,
-  createStartFlowAction,
-  createSubflowNode,
   getRouterFormProps,
   createResthookNode,
   createCallResthookAction,
@@ -10,7 +7,6 @@ import {
 } from 'testUtils/assetCreators';
 import * as utils from 'utils';
 import ResthookRouterForm from 'components/flow/routers/resthook/ResthookRouterForm';
-import { AssetType } from 'store/flowContext';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 

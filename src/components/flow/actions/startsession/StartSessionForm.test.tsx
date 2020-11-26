@@ -11,7 +11,6 @@ import {
 import * as utils from 'utils';
 
 import { StartSessionForm, START_TYPE_CREATE, START_TYPE_QUERY } from './StartSessionForm';
-import { dump } from 'utils';
 
 mock(utils, 'createUUID', utils.seededUUIDs());
 
@@ -47,7 +46,7 @@ describe(StartSessionForm.name, () => {
 
       fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
 
-      fireChangeText(getByTestId('input'), 'my_field > 6');
+      fireChangeText(getByTestId('Contact Query'), 'my_field > 6');
       expect(baseElement).toMatchSnapshot();
 
       fireEvent.click(getByText('Ok'));
@@ -61,7 +60,7 @@ describe(StartSessionForm.name, () => {
 
       fireTembaSelect(getByTestId('temba_select_start_type'), START_TYPE_QUERY.value);
 
-      const input = getByTestId('input');
+      const input = getByTestId('Contact Query');
       fireChangeText(input, '@fields.arst = 34');
       fireEvent.blur(input);
       expect(baseElement).toMatchSnapshot();

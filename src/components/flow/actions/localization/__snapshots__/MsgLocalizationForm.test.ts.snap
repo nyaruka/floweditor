@@ -38,8 +38,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
               }
             }
             name="Quick Reply"
-            onItemAdded={[Function]}
-            onRemoved={[Function]}
+            onChange={[Function]}
           />
         </React.Fragment>,
         "checked": false,
@@ -59,7 +58,7 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
       Hey!
     </div>
   </div>
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     entry={
       Object {
@@ -114,8 +113,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
               }
             }
             name="Quick Reply"
-            onItemAdded={[Function]}
-            onRemoved={[Function]}
+            onChange={[Function]}
           />
         </React.Fragment>,
         "checked": false,
@@ -135,7 +133,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
       Hey!
     </div>
   </div>
-  <Connect(TextInputElement)
+  <TextInputElement
     autocomplete={true}
     entry={
       Object {

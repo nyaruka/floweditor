@@ -7,6 +7,7 @@ exports[`OptionalTextInput renders 1`] = `
   <span
     className="toggle_link"
     data-spec="toggle-link"
+    data-testid="toggle-link"
     onClick={[Function]}
   >
     Click me to show

@@ -31,11 +31,7 @@ export interface ExitPassedProps {
   showDragHelper: boolean;
   plumberMakeSource: (id: string) => void;
   plumberRemove: (id: string) => void;
-  plumberConnectExit: (
-    node: FlowNode,
-    exit: Exit,
-    onConnection: (activityId: string, recentMessagesId: string) => void
-  ) => void;
+  plumberConnectExit: (node: FlowNode, exit: Exit) => void;
   plumberUpdateClass: (
     node: FlowNode,
     exit: Exit,
@@ -61,8 +57,6 @@ export interface ExitState {
   recentMessages: RecentMessage[];
   fetchingRecentMessages: boolean;
   showDragHelper: boolean;
-  activityId: string;
-  recentMessagesId: string;
 }
 
 const cx: any = classNames.bind(styles);
@@ -79,9 +73,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       confirmDelete: false,
       recentMessages: null,
       fetchingRecentMessages: false,
-      showDragHelper: props.showDragHelper,
-      activityId: null,
-      recentMessagesId: null
+      showDragHelper: props.showDragHelper
     };
 
     bindCallbacks(this, {
@@ -195,13 +187,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private connect(): void {
-    this.props.plumberConnectExit(
-      this.props.node,
-      this.props.exit,
-      (activityId: string, recentMessagesId: string) => {
-        this.setState({ activityId, recentMessagesId });
-      }
-    );
+    this.props.plumberConnectExit(this.props.node, this.props.exit);
   }
 
   private handleShowRecentMessages(): void {
@@ -236,25 +222,22 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
   private getSegmentCount(): JSX.Element {
     // Only exits with a destination have activity
-    if (this.props.exit.destination_uuid && this.state.activityId) {
+    if (this.props.segmentCount > 0) {
       const key = `${this.props.exit.uuid}-label`;
       return (
-        <Portal id={this.state.activityId}>
-          <div style={{ position: 'relative' }}>
-            <Counter
-              key={key}
-              count={this.props.segmentCount}
-              containerStyle={styles.activity}
-              countStyle={styles.count}
-              keepVisible={false}
-              onMouseEnter={this.handleShowRecentMessages}
-              onMouseLeave={this.handleHideRecentMessages}
-            />
-          </div>
-        </Portal>
+        <div style={{ position: 'absolute', bottom: '-25px' }}>
+          <Counter
+            key={key}
+            count={this.props.segmentCount}
+            containerStyle={styles.activity}
+            countStyle={styles.count}
+            keepVisible={false}
+            onMouseEnter={this.handleShowRecentMessages}
+            onMouseLeave={this.handleHideRecentMessages}
+          />
+        </div>
       );
     }
-    return null;
   }
 
   public getName(): { name: string; localized?: boolean } {
@@ -303,9 +286,21 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         recentStyles.push(styles.no_recents);
       }
 
+      const canvas = document.getElementById('canvas-container');
+      let left = 0;
+      let top = 0;
+
+      if (canvas) {
+        const canvasBounds = canvas.getBoundingClientRect();
+        const canvasOffset = canvasBounds.top + window.scrollY;
+        const rect = this.ele.getBoundingClientRect();
+        left = rect.left + window.scrollX + 5;
+        top = rect.top + window.scrollY - canvasOffset + 30;
+      }
+
       return (
-        <Portal id={this.state.recentMessagesId}>
-          <div className={recentStyles.join(' ')}>
+        <Portal id="activity_recent_messages">
+          <div className={recentStyles.join(' ')} style={{ position: 'absolute', left, top }}>
             <div className={styles.title}>{title}</div>
             {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
               <div key={'recent_' + idx} className={styles.message}>
@@ -396,8 +391,8 @@ const mapStateToProps = (
   if (key in (activity.recentMessages || {})) {
     recentMessages = activity.recentMessages[key];
   }
-
   const segmentCount = activity.segments[getExitActivityKey(props.exit)] || 0;
+
   return {
     dragging: dragActive,
     segmentCount,
