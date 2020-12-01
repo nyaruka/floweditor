@@ -24,7 +24,7 @@
     "netlify": "yarn run build && yarn run lambda:build",
     "precommit": "lint-staged",
     "preversion": "yarn test --watchAll=false",
-    "postversion": "git push --tags && git push origin master",
+    "postversion": "git push --tags && git push origin main",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "scan": "./node_modules/i18next-scanner/bin/cli.js",
     "dev": "yarn build && cp -Rf build/* ../rapidpro/node_modules/@nyaruka/flow-editor/build/",
