@@ -16,7 +16,7 @@ import {
 } from 'store/validators';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import { Asset, AssetType } from 'store/flowContext';
+import { Asset } from 'store/flowContext';
 import { renderIf } from 'utils';
 import { intentOperatorList } from 'config/operatorConfigs';
 import TextInputElement from 'components/form/textinput/TextInputElement';

@@ -14,7 +14,6 @@ import { hasErrorType } from 'utils';
 
 import styles from './CaseElement.module.scss';
 import { initializeForm, validateCase } from './helpers';
-import { Asset } from 'store/flowContext';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import i18n from 'config/i18n';
 import TembaSelect, { TembaSelectStyle } from 'temba/TembaSelect';
