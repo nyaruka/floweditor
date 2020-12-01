@@ -16,7 +16,7 @@ import {
 } from 'store/validators';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import { Asset } from 'store/flowContext';
+import { Asset, AssetType } from 'store/flowContext';
 import { renderIf } from 'utils';
 import { intentOperatorList } from 'config/operatorConfigs';
 import TextInputElement from 'components/form/textinput/TextInputElement';
@@ -47,10 +47,13 @@ export default class ClassifyRouterForm extends React.Component<
 
     // we need to resolve our classifier for intent selection
     if (this.state.classifier.value) {
-      fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.id).then(
+      // TODO: don't use asset as intermediary now that AssetSelector deals in native options
+      fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.uuid).then(
         (classifier: Asset) => {
           if (classifier) {
-            this.handleUpdate({ classifier: { name: classifier.name, uuid: classifier.id } });
+            this.handleUpdate({
+              classifier: { ...this.state.classifier.value, ...classifier.content }
+            });
           }
         }
       );

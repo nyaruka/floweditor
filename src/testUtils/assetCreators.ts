@@ -46,7 +46,8 @@ import {
   Wait,
   WaitTypes,
   WebhookExitNames,
-  HintTypes
+  HintTypes,
+  CallClassifier
 } from 'flowTypes';
 import Localization from 'services/Localization';
 import { Asset, Assets, AssetType, RenderNode } from 'store/flowContext';
@@ -344,7 +345,7 @@ export const createSetRunResultAction = ({
 });
 
 export const createWebhookNode = (
-  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime,
+  action: CallWebhook | CallResthook | OpenTicket | TransferAirtime | CallClassifier,
   useCategoryTest: boolean
 ) => {
   const { categories, exits } = createCategories([
@@ -756,6 +757,22 @@ export const createSubflowNode = (
     }),
     ui: { position: { left: 0, top: 0 }, type: Types.split_by_subflow }
   });
+};
+
+export const createClassifyRouter = (): RenderNode => {
+  const action: CallClassifier = {
+    uuid: utils.createUUID(),
+    type: Types.call_classifier,
+    result_name: 'Result',
+    classifier: { uuid: 'purrington', name: 'Purrington' },
+    input: '@input'
+  };
+
+  return {
+    node: createWebhookNode(action, true),
+    ui: { position: { left: 0, top: 0 }, type: Types.split_by_intent },
+    inboundConnections: {}
+  };
 };
 
 export const createAirtimeTransferNode = (transferAirtimeAction: TransferAirtime): RenderNode => {
