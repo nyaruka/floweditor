@@ -14,7 +14,6 @@ import { hasErrorType } from 'utils';
 
 import styles from './CaseElement.module.scss';
 import { initializeForm, validateCase } from './helpers';
-import { Asset } from 'store/flowContext';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import i18n from 'config/i18n';
 import TembaSelect, { TembaSelectStyle } from 'temba/TembaSelect';
@@ -26,7 +25,7 @@ export interface CaseElementProps {
   onRemove?(uuid: string): void;
   onChange?(c: CaseProps): void;
   operators?: Operator[];
-  classifier?: Asset;
+  classifier?: any;
 }
 
 export interface CaseElementState extends FormState {
@@ -350,8 +349,8 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
         ) {
           let intents: SelectOption[] = [];
 
-          if (this.props.classifier && this.props.classifier.content) {
-            intents = this.props.classifier.content.intents.map((intent: string) => {
+          if (this.props.classifier && this.props.classifier.intents) {
+            intents = this.props.classifier.intents.map((intent: string) => {
               const option: SelectOption = {
                 name: intent,
                 value: intent
