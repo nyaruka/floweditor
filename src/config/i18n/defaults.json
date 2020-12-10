@@ -302,7 +302,7 @@
     "value": "Value",
     "variable": "Variable",
     "video_url": "Video URL",
-    "webhook_body_summary": "Modify the body of the [[method]] request that will be sent to your webhook.",
+    "webhook_body_summary": "Modify the body of the [[method]] request that will be sent to your webhook.(Please update only custom-key value pairs)",
     "webhook_example": "This response would add <1>@webhook.product</1> and <4>@webhook[\"stock level\"]</4> for use in the flow.",
     "webhook_header": "Header",
     "webhook_header_name": "Header Name",
