@@ -10,12 +10,12 @@ export const SCHEMES_OPERAND = '@(urn_parts(contact.urn).scheme)';
 // default body for non-GET webhook actions
 // export const DEFAULT_BODY: string = `@(json(object(
 //   "contact", object(
-//     "uuid", contact.uuid, 
-//     "name", contact.name, 
+//     "uuid", contact.uuid,
+//     "name", contact.name,
 //     "urn", contact.urn
 //   ),
 //   "flow", object(
-//     "uuid", run.flow.uuid, 
+//     "uuid", run.flow.uuid,
 //     "name", run.flow.name
 //   ),
 //   "results", foreach_value(results, extract_object, "value", "category")
@@ -24,6 +24,5 @@ export const SCHEMES_OPERAND = '@(urn_parts(contact.urn).scheme)';
 export const DEFAULT_BODY: string = `{
   contact: @contact,
   results: @results,
-  fields: @contact.fields,
   custom_key: custom_value
 }`;
