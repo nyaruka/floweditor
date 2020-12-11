@@ -1284,6 +1284,65 @@ textarea.TextInputElement_textinput__2eOxW:focus {
   width: 100%;
   background: hsla(0, 0%, 100%, 0.9);
 }
+.Action_url_attachment__5X1Iv {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+.Action_url_attachment__5X1Iv .Action_remove_upload__7muTz {
+  margin-left: 8px;
+  margin-top: 4px;
+  display: inline-block;
+}
+.Action_url_attachment__5X1Iv .Action_url__2NeuQ {
+  display: inline-block;
+  margin-left: 8px;
+  width: 329px;
+  margin-right: 10px;
+}
+.Action_url_attachment__5X1Iv .Action_url__2NeuQ input {
+  vertical-align: top;
+  height: 28px !important;
+  margin-top: -11px;
+  width: 100%;
+  font-size: 12px;
+}
+.Action_url_attachment__5X1Iv .Action_remove__13eCi {
+  margin-top: 4px;
+}
+.Action_type_choice__3N8iO {
+  display: inline-block;
+  width: 180px;
+}
+.Pill_pill__3FyMl {
+  font-size: 10px;
+  padding: 3px 8px;
+  line-height: 10px;
+  background: #f3f3f3;
+  display: inline-block;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #e6e6e6;
+}
+.Pill_pill__3FyMl.Pill_clickable__24gn3:hover {
+  background: #e6e6e6;
+}
+.Pill_pill__3FyMl .Pill_icon__QZrb0 {
+  font-size: 10px;
+  position: relative;
+  bottom: -1px;
+  margin-left: 5px;
+}
+.Pill_large__3mcHa {
+  font-size: 12px;
+  line-height: 12px;
+  padding: 4px 8px;
+}
+.Pill_large__3mcHa .Pill_icon__QZrb0 {
+  font-size: 10px;
+  position: relative;
+  bottom: 0;
+}
 .MediaPlayer_player__gYGWS {
   position: relative;
   line-height: 1em !important;
@@ -1354,35 +1413,6 @@ textarea.TextInputElement_textinput__2eOxW:focus {
 .SendEmailForm_ele__2CvL5 .SendEmailForm_message__1k6GE,
 .SendEmailForm_ele__2CvL5 .SendEmailForm_subject__U7jTR {
   margin-top: 8px;
-}
-.Pill_pill__3FyMl {
-  font-size: 10px;
-  padding: 3px 8px;
-  line-height: 10px;
-  background: #f3f3f3;
-  display: inline-block;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid #e6e6e6;
-}
-.Pill_pill__3FyMl.Pill_clickable__24gn3:hover {
-  background: #e6e6e6;
-}
-.Pill_pill__3FyMl .Pill_icon__QZrb0 {
-  font-size: 10px;
-  position: relative;
-  bottom: -1px;
-  margin-left: 5px;
-}
-.Pill_large__3mcHa {
-  font-size: 12px;
-  line-height: 12px;
-  padding: 4px 8px;
-}
-.Pill_large__3mcHa .Pill_icon__QZrb0 {
-  font-size: 10px;
-  position: relative;
-  bottom: 0;
 }
 .SendMsg_attachment__1JoQl,
 .SendMsg_quick_replies__2bre8 {
@@ -4064,4 +4094,4 @@ textarea:focus {
   .TranslatorTab_from_text__3_B24 {
   font-size: 10px;
 }
-/*# sourceMappingURL=main.f8f38b4d.chunk.css.map */
+/*# sourceMappingURL=main.6a72784e.chunk.css.map */
