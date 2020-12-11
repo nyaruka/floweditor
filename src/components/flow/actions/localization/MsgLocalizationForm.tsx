@@ -2,13 +2,16 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import styles from 'components/flow/actions/action/Action.module.scss';
 import { determineTypeConfig } from 'components/flow/helpers';
+import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import { LocalizationFormProps } from 'components/flow/props';
+import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
-import TextInputElement from 'components/form/textinput/TextInputElement';
+import Pill from 'components/pill/Pill';
 import UploadButton from 'components/uploadbutton/UploadButton';
 import { fakePropType } from 'config/ConfigProvider';
 import { SendMsg, MsgTemplating } from 'flowTypes';
 import * as React from 'react';
+import { TembaSelectStyle } from 'temba/TembaSelect';
 import mutate from 'immutability-helper';
 import { FormState, mergeForm, StringArrayEntry, StringEntry } from 'store/nodeEditor';
 import { MaxOfTenItems, validate } from 'store/validators';
@@ -16,8 +19,27 @@ import { MaxOfTenItems, validate } from 'store/validators';
 import { initializeLocalizedForm } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
-import { range } from 'utils';
+import { createUUID, range } from 'utils';
 import { renderIssues } from '../helpers';
+
+const MAX_ATTACHMENTS = 3;
+
+const TYPE_OPTIONS: SelectOption[] = [
+  { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
+  { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
+  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
+  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
+];
+
+const getAttachmentTypeOption = (type: string): SelectOption => {
+  return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
+};
+
+export interface Attachment {
+  type: string;
+  url: string;
+  uploaded?: boolean;
+}
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -25,6 +47,7 @@ export interface MsgLocalizationFormState extends FormState {
   audio: StringEntry;
   templateVariables: StringEntry[];
   templating: MsgTemplating;
+  attachments: Attachment[];
 }
 
 export default class MsgLocalizationForm extends React.Component<
@@ -33,6 +56,7 @@ export default class MsgLocalizationForm extends React.Component<
 > {
   constructor(props: LocalizationFormProps) {
     super(props);
+
     this.state = initializeLocalizedForm(this.props.nodeSettings);
     bindCallbacks(this, {
       include: [/^handle/, /^on/]
@@ -86,10 +110,11 @@ export default class MsgLocalizationForm extends React.Component<
   }
 
   private handleSave(): void {
-    const { message: text, quickReplies, audio, templateVariables } = this.state;
+    const { message: text, quickReplies, audio, templateVariables, attachments } = this.state;
 
     // make sure we are valid for saving, only quick replies can be invalid
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
+
     const valid =
       typeConfig.localizeableKeys!.indexOf('quick_replies') > -1
         ? this.handleQuickRepliesUpdate(this.state.quickReplies.value)
@@ -105,6 +130,9 @@ export default class MsgLocalizationForm extends React.Component<
         translations.quick_replies = quickReplies.value;
       }
 
+      if (attachments.length > 0) {
+        translations.attachments = attachments;
+      }
       if (audio.value) {
         translations.audio_url = audio.value;
       }
@@ -132,6 +160,14 @@ export default class MsgLocalizationForm extends React.Component<
       // notify our modal we are done
       this.props.onClose(false);
     }
+  }
+
+  public handleAttachmentRemoved(index: number): void {
+    // we found a match, merge us in
+    const updated: any = mutate(this.state.attachments, {
+      $splice: [[index, 1]]
+    });
+    this.setState({ attachments: updated });
   }
 
   private getButtons(): ButtonSet {
@@ -180,10 +216,105 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ templateVariables });
   }
 
+  private renderAttachment(index: number, attachment: Attachment): JSX.Element {
+    let attachments: any = this.state.attachments;
+    return (
+      <div
+        className={styles.url_attachment}
+        key={index > -1 ? 'url_attachment_' + index : createUUID()}
+      >
+        <div className={styles.type_choice}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            style={TembaSelectStyle.small}
+            name={i18n.t('forms.type_options', 'Type Options')}
+            placeholder="Add Attachment"
+            entry={{
+              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+            }}
+            onChange={(option: any) => {
+              if (index === -1) {
+                attachments = mutate(attachments, {
+                  $push: [{ type: option.value, url: '' }]
+                });
+              } else {
+                attachments = mutate(attachments, {
+                  [index]: {
+                    $set: { type: option.value, url: attachment.url }
+                  }
+                });
+              }
+              this.setState({ attachments });
+            }}
+            options={TYPE_OPTIONS}
+          />
+        </div>
+        {index > -1 ? (
+          <>
+            <div className={styles.url}>
+              <TextInputElement
+                placeholder="URL"
+                name={i18n.t('forms.url', 'URL')}
+                style={TextInputStyle.small}
+                onChange={(value: string) => {
+                  attachments = mutate(attachments, {
+                    [index]: { $set: { type: attachment.type, url: value } }
+                  });
+                  this.setState({ attachments });
+                }}
+                entry={{ value: attachment.url }}
+                autocomplete={true}
+              />
+            </div>
+            <div className={styles.remove}>
+              <Pill
+                icon="fe-x"
+                text=" Remove"
+                large={true}
+                onClick={() => {
+                  this.handleAttachmentRemoved(index);
+                }}
+              />
+            </div>
+          </>
+        ) : null}
+      </div>
+    );
+  }
+
+  private renderAttachments(): JSX.Element {
+    const attachments = this.state.attachments.map((attachment, index: number) =>
+      this.renderAttachment(index, attachment)
+    );
+
+    const emptyOption =
+      this.state.attachments.length < MAX_ATTACHMENTS
+        ? this.renderAttachment(-1, { url: '', type: '' })
+        : null;
+    return (
+      <>
+        <p>
+          <Trans i18nKey="forms.add_attachments" values={{ language: this.props.language.name }}>
+            Add an attachment for this message in [[language]] language
+          </Trans>
+        </p>
+        {attachments}
+        {emptyOption}
+      </>
+    );
+  }
+
   public render(): JSX.Element {
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
     const tabs: Tab[] = [];
 
+    if (typeConfig.localizeableKeys.indexOf('attachments') > -1) {
+      tabs.push({
+        name: 'Attachments',
+        body: this.renderAttachments(),
+        checked: this.state.attachments.length > 0
+      });
+    }
     if (
       this.state.templating &&
       typeConfig.localizeableKeys!.indexOf('templating.variables') > -1

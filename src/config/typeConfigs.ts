@@ -215,7 +215,7 @@ export const typeConfigList: Type[] = [
     description: i18n.t('actions.send_msg.description', 'Send the contact a message'),
     form: SendMsgForm,
     localization: MsgLocalizationForm,
-    localizeableKeys: ['text', 'quick_replies', 'templating.variables'],
+    localizeableKeys: ['text', 'quick_replies', 'templating.variables', 'attachments'],
     component: SendMsgComp,
     massageForDisplay: (action: SendMsg) => {
       // quick replies are optional in the definition, make sure we have

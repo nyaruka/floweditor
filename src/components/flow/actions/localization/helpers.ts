@@ -31,6 +31,7 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
     quickReplies: { value: [] },
     templateVariables: [],
     templating: null,
+    attachments: [],
     audio: { value: null },
     valid: true
   };
@@ -63,6 +64,10 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
           state.quickReplies.value =
             'quick_replies' in localized.localizedKeys ? action.quick_replies || [] : [];
           state.valid = true;
+        }
+
+        if (localizedObject.attachments) {
+          state.attachments = localizedObject.attachments;
         }
 
         if (localizedObject.variables) {
