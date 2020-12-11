@@ -11582,7 +11582,7 @@
         Io = function(e) {
           return e === So.GET
             ? ''
-            : '{\n  contact: @contact,\n  results: @results,\n  custom_key: custom_value\n}';
+            : '{\n  "contact": @contact,\n  "results": @results,\n  "custom_key": "custom_value"\n}';
         },
         Mo = (function(e) {
           Object(v.a)(a, e);
@@ -20701,4 +20701,4 @@
   ],
   [[160, 1, 2]]
 ]);
-//# sourceMappingURL=main.783f1a5d.chunk.js.map
+//# sourceMappingURL=main.abd177ae.chunk.js.map
