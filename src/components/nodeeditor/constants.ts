@@ -22,7 +22,7 @@ export const SCHEMES_OPERAND = '@(urn_parts(contact.urn).scheme)';
 // )))`;
 
 export const DEFAULT_BODY: string = `{
-  "contact": @contact,
-  "results": @results,
+  "contact": "@contact",
+  "results": "@results",
   "custom_key": "custom_value"
 }`;
