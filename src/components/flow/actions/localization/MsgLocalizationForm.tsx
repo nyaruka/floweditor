@@ -131,7 +131,9 @@ export default class MsgLocalizationForm extends React.Component<
       }
 
       if (attachments.length > 0) {
-        translations.attachments = attachments;
+        translations.attachments = attachments
+          .filter((attachment: Attachment) => attachment.url.trim().length > 0)
+          .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
       }
       if (audio.value) {
         translations.audio_url = audio.value;
