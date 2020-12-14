@@ -4668,9 +4668,18 @@
                               ('quick_replies' in e.localizedKeys && i.quick_replies) || []),
                             (t.valid = !0);
                         }
-                        if ((n.attachments && (t.attachments = n.attachments), n.variables)) {
-                          var s = n;
-                          (t.templateVariables = s.variables.map(function(t) {
+                        if (n.attachments) {
+                          var s = [];
+                          (n.attachments || []).forEach(function(e) {
+                            var t = e.indexOf(':'),
+                              a = { type: e.substring(0, t), url: e.substring(t + 1) };
+                            s.push(a);
+                          }),
+                            (t.attachments = s);
+                        }
+                        if (n.variables) {
+                          var o = n;
+                          (t.templateVariables = o.variables.map(function(t) {
                             return { value: 'variables' in e.localizedKeys ? t : '' };
                           })),
                             (t.valid = !0);
@@ -4743,7 +4752,14 @@
                     var o = {};
                     t.value && (o.text = t.value),
                       a.value && a.value.length > 0 && (o.quick_replies = a.value),
-                      s.length > 0 && (o.attachments = s),
+                      s.length > 0 &&
+                        (o.attachments = s
+                          .filter(function(e) {
+                            return e.url.trim().length > 0;
+                          })
+                          .map(function(e) {
+                            return ''.concat(e.type, ':').concat(e.url);
+                          })),
                       n.value && (o.audio_url = n.value);
                     var r = [
                       { uuid: this.props.nodeSettings.originalAction.uuid, translations: o }
@@ -20837,4 +20853,4 @@
   ],
   [[160, 1, 2]]
 ]);
-//# sourceMappingURL=main.9e278a1f.chunk.js.map
+//# sourceMappingURL=main.7c1dc143.chunk.js.map

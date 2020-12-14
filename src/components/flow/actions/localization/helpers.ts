@@ -67,7 +67,19 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
         }
 
         if (localizedObject.attachments) {
-          state.attachments = localizedObject.attachments;
+          const attachments: any = [];
+          (localizedObject.attachments || []).forEach((attachmentString: string): void => {
+            const splitPoint = attachmentString.indexOf(':');
+
+            const type = attachmentString.substring(0, splitPoint);
+            const attachment = {
+              type,
+              url: attachmentString.substring(splitPoint + 1)
+            };
+
+            attachments.push(attachment);
+          });
+          state.attachments = attachments;
         }
 
         if (localizedObject.variables) {
