@@ -401,7 +401,7 @@ export class Flow extends React.PureComponent<FlowStoreProps, {}> {
     const nodes = this.getNodes();
 
     const draggables = this.getStickies().concat(nodes);
-
+    console.log(this.props.nodes);
     return (
       <div>
         {nodes.length === 0 ? this.getEmptyFlow() : <>{this.getSimulator()}</>}

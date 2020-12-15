@@ -149,6 +149,7 @@ export interface FlowDefinition {
 export interface FlowNode {
   uuid: string;
   actions: Action[];
+  delay?: { time: string; description: string };
   exits: Exit[];
   router?: Router;
 }
@@ -348,6 +349,10 @@ export interface SendMsg extends Action {
   templating?: MsgTemplating;
 }
 
+export interface Delay extends Action {
+  delay: string;
+}
+
 export interface SayMsg extends Action {
   text: string;
   audio_url?: string;
@@ -494,7 +499,8 @@ export type AnyAction =
   | CallClassifier
   | CallWebhook
   | StartFlow
-  | StartSession;
+  | StartSession
+  | Delay;
 
 export enum ContactProperties {
   UUID = 'uuid',

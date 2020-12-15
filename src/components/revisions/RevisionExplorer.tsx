@@ -171,7 +171,7 @@ export class RevisionExplorer extends React.Component<
                         <div className={styles.button + ' ' + styles.current}>current</div>
                       )}
 
-                      {renderIf(revision.status == 'published')(
+                      {renderIf(revision.status === 'published')(
                         <div className={styles.button + ' ' + styles.publish}> published </div>
                       )}
 

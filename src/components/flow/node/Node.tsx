@@ -324,6 +324,14 @@ export class NodeComp extends React.PureComponent<NodeProps> {
         }
       }
 
+      const node = this.props.renderNode.node;
+      if (node.delay) {
+        summary = (
+          <div {...this.events} className={styles.save_result}>
+            <div className={styles.save_as}>{node.delay.description} </div>
+          </div>
+        );
+      }
       const resultName = getResultName(this.props.renderNode.node);
       if (resultName) {
         summary = (

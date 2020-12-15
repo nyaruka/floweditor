@@ -61,6 +61,7 @@ import i18n from 'config/i18n';
 import SchemeRouterForm from 'components/flow/routers/scheme/SchemeRouterForm';
 import TicketRouterForm from 'components/flow/routers/ticket/TicketRouterForm';
 import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
+import SequenceForm from 'components/flow/routers/sequence/SequenceForm';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -232,6 +233,14 @@ export const typeConfigList: Type[] = [
     localizeableKeys: ['categories', 'cases'],
     aliases: [RouterTypes.switch],
     visibility: TEXT_TYPES
+  },
+
+  {
+    type: Types.wait_for_time,
+    name: i18n.t('actions.wait_for_time.name', 'Wait for Time'),
+    description: i18n.t('actions.wait_for_time.description', 'Wait for time'),
+    form: SequenceForm,
+    localizeableKeys: ['categories', 'cases']
   },
 
   {
