@@ -25,7 +25,6 @@ export interface SequenceFormState extends FormState {
 export default class SequenceForm extends React.Component<ActionFormProps, SequenceFormState> {
   constructor(props: ActionFormProps) {
     super(props);
-    console.log(this.props);
 
     this.state = actionToState(this.props.nodeSettings);
 

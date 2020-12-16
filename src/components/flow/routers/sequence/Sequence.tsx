@@ -6,8 +6,6 @@ import i18n from 'config/i18n';
 import { Delay } from 'flowTypes';
 
 const Sequence: React.SFC<Delay> = (action: Delay): JSX.Element => {
-  console.log(action);
-
   const delayInSeconds = parseInt(action.delay ? action.delay : '0');
   const days = Math.floor(delayInSeconds / (3600 * 24)).toString();
   const hours = Math.floor((delayInSeconds % (3600 * 24)) / 3600).toString();
