@@ -1,7 +1,7 @@
 (this['webpackJsonp@nyaruka/flow-editor'] = this['webpackJsonp@nyaruka/flow-editor'] || []).push([
   [3],
   {
-    235: function(t, e) {
+    236: function(t, e) {
       function n(e) {
         return (
           (t.exports = n = Object.setPrototypeOf
@@ -14,7 +14,7 @@
       }
       t.exports = n;
     },
-    236: function(t, e) {
+    237: function(t, e) {
       function n(e, i) {
         return (
           (t.exports = n =
@@ -27,14 +27,14 @@
       }
       t.exports = n;
     },
-    237: function(t, e) {
+    238: function(t, e) {
       t.exports = function(t) {
         if (void 0 === t)
           throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
         return t;
       };
     },
-    238: function(t, e) {
+    239: function(t, e) {
       t.exports = function() {
         if ('undefined' === typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
@@ -46,7 +46,7 @@
         }
       };
     },
-    239: function(t, e) {
+    240: function(t, e) {
       t.exports = function(t, e) {
         return (
           e || (e = t.slice(0)),
@@ -54,8 +54,8 @@
         );
       };
     },
-    240: function(t, e, n) {
-      var i = n(241);
+    241: function(t, e, n) {
+      var i = n(242);
       function o(e, n, r) {
         return (
           'undefined' !== typeof Reflect && Reflect.get
@@ -72,41 +72,41 @@
       }
       t.exports = o;
     },
-    241: function(t, e, n) {
-      var i = n(235);
+    242: function(t, e, n) {
+      var i = n(236);
       t.exports = function(t, e) {
         for (; !Object.prototype.hasOwnProperty.call(t, e) && null !== (t = i(t)); );
         return t;
       };
     },
-    242: function(t, e, n) {
-      var i = n(243),
-        o = n(244),
-        r = n(108),
-        a = n(245);
+    243: function(t, e, n) {
+      var i = n(244),
+        o = n(245),
+        r = n(109),
+        a = n(246);
       t.exports = function(t) {
         return i(t) || o(t) || r(t) || a();
       };
     },
-    243: function(t, e, n) {
-      var i = n(157);
+    244: function(t, e, n) {
+      var i = n(158);
       t.exports = function(t) {
         if (Array.isArray(t)) return i(t);
       };
     },
-    244: function(t, e) {
+    245: function(t, e) {
       t.exports = function(t) {
         if ('undefined' !== typeof Symbol && Symbol.iterator in Object(t)) return Array.from(t);
       };
     },
-    245: function(t, e) {
+    246: function(t, e) {
       t.exports = function() {
         throw new TypeError(
           'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
         );
       };
     },
-    246: function(t, e) {
+    247: function(t, e) {
       function n(t, e, n, i, o, r, a) {
         try {
           var s = t[r](a),
@@ -133,12 +133,12 @@
         };
       };
     },
-    247: function(t, e) {
+    248: function(t, e) {
       t.exports = function(t, e) {
         if (!(t instanceof e)) throw new TypeError('Cannot call a class as a function');
       };
     },
-    248: function(t, e) {
+    249: function(t, e) {
       function n(t, e) {
         for (var n = 0; n < e.length; n++) {
           var i = e[n];
@@ -152,8 +152,8 @@
         return e && n(t.prototype, e), i && n(t, i), t;
       };
     },
-    249: function(t, e, n) {
-      var i = n(236);
+    250: function(t, e, n) {
+      var i = n(237);
       t.exports = function(t, e) {
         if ('function' !== typeof e && null !== e)
           throw new TypeError('Super expression must either be null or a function');
@@ -163,10 +163,10 @@
           e && i(t, e);
       };
     },
-    250: function(t, e, n) {
-      var i = n(235),
-        o = n(238),
-        r = n(251);
+    251: function(t, e, n) {
+      var i = n(236),
+        o = n(239),
+        r = n(252);
       t.exports = function(t) {
         return function() {
           var e,
@@ -179,14 +179,14 @@
         };
       };
     },
-    251: function(t, e, n) {
-      var i = n(252),
-        o = n(237);
+    252: function(t, e, n) {
+      var i = n(253),
+        o = n(238);
       t.exports = function(t, e) {
         return !e || ('object' !== i(e) && 'function' !== typeof e) ? o(t) : e;
       };
     },
-    252: function(t, e) {
+    253: function(t, e) {
       function n(e) {
         return (
           'function' === typeof Symbol && 'symbol' === typeof Symbol.iterator
@@ -206,11 +206,11 @@
       }
       t.exports = n;
     },
-    253: function(t, e, n) {
-      var i = n(235),
-        o = n(236),
-        r = n(254),
-        a = n(255);
+    254: function(t, e, n) {
+      var i = n(236),
+        o = n(237),
+        r = n(255),
+        a = n(256);
       function s(e) {
         var n = 'function' === typeof Map ? new Map() : void 0;
         return (
@@ -237,14 +237,14 @@
       }
       t.exports = s;
     },
-    254: function(t, e) {
+    255: function(t, e) {
       t.exports = function(t) {
         return -1 !== Function.toString.call(t).indexOf('[native code]');
       };
     },
-    255: function(t, e, n) {
-      var i = n(236),
-        o = n(238);
+    256: function(t, e, n) {
+      var i = n(237),
+        o = n(239);
       function r(e, n, a) {
         return (
           o()
@@ -260,21 +260,21 @@
       }
       t.exports = r;
     },
-    256: function(module, exports, __webpack_require__) {
+    257: function(module, exports, __webpack_require__) {
       (function(process, global) {
-        var _assertThisInitialized = __webpack_require__(237),
-          _taggedTemplateLiteral = __webpack_require__(239),
-          _get = __webpack_require__(240),
-          _getPrototypeOf = __webpack_require__(235),
-          _createForOfIteratorHelper = __webpack_require__(158),
-          _toConsumableArray = __webpack_require__(242),
-          _regeneratorRuntime = __webpack_require__(54),
-          _asyncToGenerator = __webpack_require__(246),
-          _classCallCheck = __webpack_require__(247),
-          _createClass = __webpack_require__(248),
-          _inherits = __webpack_require__(249),
-          _createSuper = __webpack_require__(250),
-          _wrapNativeSuper = __webpack_require__(253),
+        var _assertThisInitialized = __webpack_require__(238),
+          _taggedTemplateLiteral = __webpack_require__(240),
+          _get = __webpack_require__(241),
+          _getPrototypeOf = __webpack_require__(236),
+          _createForOfIteratorHelper = __webpack_require__(159),
+          _toConsumableArray = __webpack_require__(243),
+          _regeneratorRuntime = __webpack_require__(55),
+          _asyncToGenerator = __webpack_require__(247),
+          _classCallCheck = __webpack_require__(248),
+          _createClass = __webpack_require__(249),
+          _inherits = __webpack_require__(250),
+          _createSuper = __webpack_require__(251),
+          _wrapNativeSuper = __webpack_require__(254),
           e;
         function _templateObject113() {
           var t = _taggedTemplateLiteral([
@@ -20752,8 +20752,8 @@
             ]);
           }),
           (module.exports = e());
-      }.call(this, __webpack_require__(159), __webpack_require__(109)));
+      }.call(this, __webpack_require__(160), __webpack_require__(110)));
     }
   }
 ]);
-//# sourceMappingURL=3.a6c0e284.chunk.js.map
+//# sourceMappingURL=3.30227eeb.chunk.js.map
