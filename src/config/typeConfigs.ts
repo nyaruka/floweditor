@@ -43,15 +43,15 @@ import SubflowRouterForm from 'components/flow/routers/subflow/SubflowRouterForm
 import WaitRouterForm from 'components/flow/routers/wait/WaitRouterForm';
 import WebhookRouterForm from 'components/flow/routers/webhook/WebhookRouterForm';
 import {
+  FeatureFilter,
   FlowTypes,
+  Type,
+  Types,
   VISIBILITY_HIDDEN,
   VISIBILITY_ONLINE,
   VISIBILITY_SURVEYOR,
   VISIBILITY_MESSAGING,
-  Type,
-  Types,
-  VISIBILITY_VOICE,
-  FeatureFilter
+  VISIBILITY_VOICE
 } from 'config/interfaces';
 import { HintTypes, RouterTypes, FlowEditorConfig, SendMsg } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';

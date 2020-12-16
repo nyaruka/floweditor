@@ -1,9 +1,9 @@
 import {
   FlowTypes,
   FlowTypeVisibility,
-  VISIBILITY_ONLINE,
   Operator,
-  Type
+  Type,
+  VISIBILITY_ONLINE
 } from 'config/interfaces';
 import { FlowEditorConfig } from 'flowTypes';
 

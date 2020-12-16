@@ -1,10 +1,10 @@
 import {
-  VISIBILITY_HIDDEN,
   Operator,
   OperatorMap,
   Operators,
   VISIBILITY_MESSAGING,
-  VISIBILITY_ONLINE
+  VISIBILITY_ONLINE,
+  VISIBILITY_HIDDEN
 } from 'config/interfaces';
 import i18n from 'config/i18n';
 
