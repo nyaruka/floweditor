@@ -149,7 +149,6 @@ export interface FlowDefinition {
 export interface FlowNode {
   uuid: string;
   actions: Action[];
-  delay?: string;
   exits: Exit[];
   router?: Router;
 }
