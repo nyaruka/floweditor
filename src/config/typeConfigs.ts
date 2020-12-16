@@ -62,6 +62,7 @@ import SchemeRouterForm from 'components/flow/routers/scheme/SchemeRouterForm';
 import TicketRouterForm from 'components/flow/routers/ticket/TicketRouterForm';
 import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
 import SequenceForm from 'components/flow/routers/sequence/SequenceForm';
+import Sequence from 'components/flow/routers/sequence/Sequence';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -240,7 +241,7 @@ export const typeConfigList: Type[] = [
     name: i18n.t('actions.wait_for_time.name', 'Wait for Time'),
     description: i18n.t('actions.wait_for_time.description', 'Wait for time'),
     form: SequenceForm,
-    localizeableKeys: ['categories', 'cases']
+    component: Sequence
   },
 
   {

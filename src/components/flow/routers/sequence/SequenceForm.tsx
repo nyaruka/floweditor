@@ -5,7 +5,7 @@ import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { ActionFormProps, RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 
-import { nodeToState, stateToNode } from 'components/flow/routers/sequence/helpers';
+import { actionToState, stateToAction } from 'components/flow/routers/sequence/helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TimeoutControl from 'components/form/timeout/TimeoutControl';
 import TypeList from 'components/nodeeditor/TypeList';
@@ -25,8 +25,9 @@ export interface SequenceFormState extends FormState {
 export default class SequenceForm extends React.Component<ActionFormProps, SequenceFormState> {
   constructor(props: ActionFormProps) {
     super(props);
+    console.log(this.props);
 
-    this.state = nodeToState(this.props.nodeSettings);
+    this.state = actionToState(this.props.nodeSettings);
 
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
@@ -34,8 +35,10 @@ export default class SequenceForm extends React.Component<ActionFormProps, Seque
   }
 
   private handleSave(): void {
-    if (this.state.valid) {
-      this.props.updateAction(stateToNode(this.props.nodeSettings, this.state));
+    if (
+      !isNaN(parseInt(this.state.hours) + parseInt(this.state.minutes) + parseInt(this.state.days))
+    ) {
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
       this.props.onClose(false);
     }
   }
@@ -59,31 +62,43 @@ export default class SequenceForm extends React.Component<ActionFormProps, Seque
         <div>Wait for time</div>
 
         <div className={styles.delay_container}>
-          <span className={styles.title}>Days</span>
-          <TextInputElement
-            name={i18n.t('forms.state', 'State')}
-            placeholder="Enter days"
-            onChange={props => this.setState({ days: props })}
-            style={TextInputStyle.small}
-            entry={{ value: this.state.days }}
-          />
-          <span className={styles.title}>Hours</span>
-          <TextInputElement
-            name={i18n.t('forms.state', 'State')}
-            placeholder="Enter hours"
-            onChange={props => this.setState({ hours: props })}
-            style={TextInputStyle.small}
-            entry={{ value: this.state.hours }}
-          />
-          <span className={styles.title}>Minutes</span>
-          <TextInputElement
-            name={i18n.t('forms.state', 'State')}
-            placeholder="Enter minutes"
-            onChange={props => this.setState({ minutes: props })}
-            style={TextInputStyle.small}
-            entry={{ value: this.state.minutes }}
-          />
+          <div className={styles.input}>
+            <span className={styles.title}>Days</span>
+            <TextInputElement
+              name={i18n.t('forms.state', 'State')}
+              placeholder="Enter days"
+              onChange={props => this.setState({ days: props })}
+              style={TextInputStyle.small}
+              entry={{ value: this.state.days }}
+            />
+          </div>
+          <div className={styles.input}>
+            <span className={styles.title}>Hours</span>
+            <TextInputElement
+              name={i18n.t('forms.state', 'State')}
+              placeholder="Enter hours"
+              onChange={props => this.setState({ hours: props })}
+              showInvalid={isNaN(parseInt(this.state.hours))}
+              style={TextInputStyle.small}
+              entry={{ value: this.state.hours }}
+            />
+          </div>
+          <div className={styles.input}>
+            <span className={styles.title}>Minutes</span>
+            <TextInputElement
+              name={i18n.t('forms.state', 'State')}
+              placeholder="Enter minutes"
+              onChange={props => this.setState({ minutes: props })}
+              style={TextInputStyle.small}
+              entry={{ value: this.state.minutes }}
+            />
+          </div>
         </div>
+        {isNaN(
+          parseInt(this.state.hours) + parseInt(this.state.minutes) + parseInt(this.state.days)
+        ) ? (
+          <span className={styles.error}>Enter valid numbers</span>
+        ) : null}
       </Dialog>
     );
   }

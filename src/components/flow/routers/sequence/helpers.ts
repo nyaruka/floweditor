@@ -1,3 +1,4 @@
+import { getActionUUID } from 'components/flow/actions/helpers';
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import {
   createCaseProps,
@@ -9,50 +10,43 @@ import { ResponseRouterFormState } from 'components/flow/routers/response/Respon
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 import { Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
-import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes } from 'flowTypes';
+import { Router, RouterTypes, SwitchRouter, Wait, WaitTypes, Delay } from 'flowTypes';
+import { min } from 'moment';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SequenceFormState } from './SequenceForm';
 
-export const nodeToState = (settings: NodeEditorSettings): SequenceFormState => {
-  console.log(settings);
-  const delayNode: SequenceFormState = {
+export const actionToState = (settings: NodeEditorSettings): SequenceFormState => {
+  let delayNode: SequenceFormState = {
     valid: true,
     days: '0',
     hours: '0',
     minutes: '0'
   };
+  if (settings.originalAction && settings.originalAction.type === 'wait_for_time') {
+    const action = settings.originalAction as Delay;
 
-  if (delayNode.valid) {
-    const delayInSeconds = parseInt(
-      settings.originalNode.node.delay ? settings.originalNode.node.delay.time : '0'
-    );
-    delayNode.days = Math.floor(delayInSeconds / (3600 * 24)).toString();
-    delayNode.hours = Math.floor((delayInSeconds % (3600 * 24)) / 3600).toString();
-    delayNode.minutes = Math.floor((delayInSeconds % 3600) / 60).toString();
+    if (action.delay) {
+      const delayInSeconds = parseInt(action.delay);
+      delayNode.days = Math.floor(delayInSeconds / (3600 * 24)).toString();
+      delayNode.hours = Math.floor((delayInSeconds % (3600 * 24)) / 3600).toString();
+      delayNode.minutes = Math.floor((delayInSeconds % 3600) / 60).toString();
+    }
   }
 
   return delayNode;
 };
 
-export const stateToNode = (settings: NodeEditorSettings, state: SequenceFormState): RenderNode => {
+export const stateToAction = (settings: NodeEditorSettings, state: SequenceFormState): any => {
   const { days, hours, minutes } = state;
 
-  const delayInSeconds = parseInt(days) * 86400 + parseInt(hours) * 3600 + parseInt(minutes);
+  const delayInSeconds = parseInt(days) * 86400 + parseInt(hours) * 3600 + parseInt(minutes) * 60;
 
-  let waitForTime = `Waiting for ${days !== '0' ? days + ' days ' : ''}  ${
-    hours !== '0' ? hours + ' hours ' : ''
-  } ${minutes !== '0' ? minutes + ' minutes ' : ''}`;
-
-  if (delayInSeconds === 0) {
-    waitForTime = 'Not waiting';
-  }
-  settings.originalNode.node.delay = {
-    time: delayInSeconds.toString(),
-    description: waitForTime
+  const result = {
+    type: Types.wait_for_time,
+    uuid: getActionUUID(settings, Types.send_msg),
+    delay: delayInSeconds.toString()
   };
 
-  settings.originalNode.ui.type = Types.wait_for_time;
-
-  return settings.originalNode;
+  return result;
 };

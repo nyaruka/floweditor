@@ -47,6 +47,7 @@
   &.transfer_airtime,
   &.open_ticket,
   &.missing,
+  &.wait_for_time,
   &.enter_flow {
     width: $node_min_width - $action_padding * 2;
     padding: $action_padding;
