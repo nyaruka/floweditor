@@ -376,7 +376,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         "name": "Start Somebody Else",
         "type": "start_session",
         "visibility": Array [
-          "message",
+          "messaging",
           "voice",
         ],
       }
@@ -916,7 +916,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
         "name": "Start Somebody Else",
         "type": "start_session",
         "visibility": Array [
-          "message",
+          "messaging",
           "voice",
         ],
       }

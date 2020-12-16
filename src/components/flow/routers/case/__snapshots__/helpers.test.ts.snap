@@ -144,8 +144,8 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
     "visibility": Array [
-      "message",
-      "message_offline",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "state": Object {
@@ -240,8 +240,8 @@ Object {
     "type": "has_any_word",
     "verboseName": "has any of the words",
     "visibility": Array [
-      "message",
-      "message_offline",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "state": Object {
@@ -333,8 +333,8 @@ Object {
     "type": "has_text",
     "verboseName": "has some text",
     "visibility": Array [
-      "message",
-      "message_offline",
+      "messaging",
+      "messaging_offline",
     ],
   },
   "state": Object {

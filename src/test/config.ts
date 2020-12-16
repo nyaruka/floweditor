@@ -5,7 +5,7 @@ export const config: FlowEditorConfig = {
   flow: 'a4f64f1b-85bc-477e-b706-de313a022979',
   localStorage: true,
   showDownload: true,
-  flowType: FlowTypes.MESSAGE,
+  flowType: FlowTypes.MESSAGING,
   mutable: true,
   filters: ['whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
   help: {},

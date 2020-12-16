@@ -1,7 +1,7 @@
 export enum FlowTypes {
-  MESSAGE = 'message',
+  MESSAGING = 'messaging',
+  MESSAGING_OFFLINE = 'messaging_offline',
   VOICE = 'voice',
-  SURVEY = 'message_offline',
   NONE = '-'
 }
 
@@ -140,8 +140,8 @@ export interface OperatorMap {
   [propName: string]: Operator;
 }
 
-export const HIDDEN = [FlowTypes.NONE];
-export const VOICE = [FlowTypes.VOICE];
-export const SURVEY = [FlowTypes.SURVEY];
-export const TEXT_TYPES = [FlowTypes.MESSAGE, FlowTypes.SURVEY];
-export const ONLINE = [FlowTypes.MESSAGE, FlowTypes.VOICE];
+export const VISIBILITY_MESSAGING = [FlowTypes.MESSAGING, FlowTypes.MESSAGING_OFFLINE];
+export const VISIBILITY_VOICE = [FlowTypes.VOICE];
+export const VISIBILITY_ONLINE = [FlowTypes.MESSAGING, FlowTypes.VOICE];
+export const VISIBILITY_SURVEYOR = [FlowTypes.MESSAGING_OFFLINE];
+export const VISIBILITY_HIDDEN = [FlowTypes.NONE];

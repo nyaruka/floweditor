@@ -6,7 +6,7 @@ import {
   createRenderNode
 } from 'components/flow/routers/helpers';
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
-import { Types, Operators, HIDDEN } from 'config/interfaces';
+import { Types, Operators, VISIBILITY_HIDDEN } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { CallClassifier, SwitchRouter, Case, Exit, Category, RouterTypes } from 'flowTypes';
 import { RenderNode, AssetType } from 'store/flowContext';
@@ -43,11 +43,11 @@ export const nodeToState = (settings: NodeEditorSettings): ClassifyRouterFormSta
       initialCases = createCaseProps(router.cases, settings.originalNode);
 
       hiddenCases = initialCases.filter(
-        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility === HIDDEN
+        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility === VISIBILITY_HIDDEN
       );
 
       initialCases = initialCases.filter(
-        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility !== HIDDEN
+        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility !== VISIBILITY_HIDDEN
       );
     }
 
