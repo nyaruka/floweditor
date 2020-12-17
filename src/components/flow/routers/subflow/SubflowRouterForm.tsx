@@ -104,9 +104,9 @@ export default class SubflowRouterForm extends React.PureComponent<
     };
   }
 
-  private handleShouldExclude(asset: Asset): boolean {
+  private handleShouldExclude(flow: any): boolean {
     // only show flows that match our flow type
-    return getFlowType(asset) !== this.context.config.flowType;
+    return getFlowType(flow) !== this.context.config.flowType;
   }
 
   private handleParamChanged(text: string, name: string) {
