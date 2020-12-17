@@ -173,6 +173,17 @@ export const getAssets = async (url: string, type: AssetType, id: string): Promi
   return assets;
 };
 
+export const getFlowType = (flow: any) => {
+  switch (flow.type) {
+    case 'message':
+      return FlowTypes.MESSAGING;
+    case 'voice':
+      return FlowTypes.VOICE;
+    case 'survey':
+      return FlowTypes.MESSAGING_OFFLINE;
+  }
+};
+
 export const resultToAsset = (result: any, type: AssetType, id: string): Asset => {
   const idKey = id || 'uuid';
 
