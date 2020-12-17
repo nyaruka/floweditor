@@ -10,7 +10,7 @@ import { Asset } from 'store/flowContext';
 import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
 import i18n from 'config/i18n';
-import { fetchAsset } from 'external';
+import { fetchAsset, getFlowType } from 'external';
 import styles from './SubflowRouterForm.module.scss';
 import { Trans } from 'react-i18next';
 import TextInputElement from 'components/form/textinput/TextInputElement';
@@ -104,9 +104,9 @@ export default class SubflowRouterForm extends React.PureComponent<
     };
   }
 
-  private handleFilter(asset: Asset): boolean {
+  private handleShouldExclude(asset: Asset): boolean {
     // only show flows that match our flow type
-    return asset.content.type === this.context.config.flowType;
+    return getFlowType(asset) !== this.context.config.flowType;
   }
 
   private handleParamChanged(text: string, name: string) {
@@ -194,7 +194,7 @@ export default class SubflowRouterForm extends React.PureComponent<
           assets={this.props.assetStore.flows}
           entry={this.state.flow}
           searchable={true}
-          onFilter={this.handleFilter}
+          shouldExclude={this.handleShouldExclude}
           onChange={this.handleFlowChanged}
         />
         {renderIssues(this.props)}
