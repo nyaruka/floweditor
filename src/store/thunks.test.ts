@@ -197,7 +197,7 @@ describe('Flow Manipulation', () => {
             source: null,
             sourceId: 'node0:node0_exit0'
           },
-          FlowTypes.MESSAGE
+          FlowTypes.MESSAGING
         )
       );
       expect(store.getActions()).toMatchSnapshot();

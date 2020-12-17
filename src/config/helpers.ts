@@ -1,8 +1,14 @@
-import { FlowTypes, FlowTypeVisibility, ONLINE, Operator, Type } from 'config/interfaces';
+import {
+  FlowTypes,
+  FlowTypeVisibility,
+  Operator,
+  Type,
+  VISIBILITY_ONLINE
+} from 'config/interfaces';
 import { FlowEditorConfig } from 'flowTypes';
 
 export const isOnlineFlowType = (flowType: FlowTypes) => {
-  return !!ONLINE.find((type: FlowTypes) => type === flowType);
+  return !!VISIBILITY_ONLINE.find((type: FlowTypes) => type === flowType);
 };
 
 export const filterOperators = (operators: Operator[], config: FlowEditorConfig): Operator[] => {

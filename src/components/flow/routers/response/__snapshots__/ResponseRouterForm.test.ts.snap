@@ -40,8 +40,8 @@ exports[`ResponseRouterForm initializes case config 1`] = `
         "name": "Wait for Response",
         "type": "wait_for_response",
         "visibility": Array [
-          "message",
-          "message_offline",
+          "messaging",
+          "messaging_offline",
         ],
       }
     }
@@ -150,8 +150,8 @@ exports[`ResponseRouterForm should render 1`] = `
         "name": "Wait for Response",
         "type": "wait_for_response",
         "visibility": Array [
-          "message",
-          "message_offline",
+          "messaging",
+          "messaging_offline",
         ],
       }
     }

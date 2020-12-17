@@ -134,7 +134,7 @@ exports[`WebhookRouterForm should render 1`] = `
         "name": "Call Webhook",
         "type": "call_webhook",
         "visibility": Array [
-          "message",
+          "messaging",
           "voice",
         ],
       }

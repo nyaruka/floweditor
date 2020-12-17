@@ -181,13 +181,13 @@ export const resultToAsset = (result: any, type: AssetType, id: string): Asset =
   if (type === AssetType.Flow && result.type) {
     switch (result.type) {
       case 'message':
-        result.type = FlowTypes.MESSAGE;
+        result.type = FlowTypes.MESSAGING;
         break;
       case 'voice':
         result.type = FlowTypes.VOICE;
         break;
       case 'survey':
-        result.type = FlowTypes.SURVEY;
+        result.type = FlowTypes.MESSAGING_OFFLINE;
         break;
     }
   }
