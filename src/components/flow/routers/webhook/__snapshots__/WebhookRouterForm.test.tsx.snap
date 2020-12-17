@@ -426,7 +426,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"call_webhook\\",\\"name\\":\\"Call Webhook\\",\\"description\\":\\"Call a webhook\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_webhook\\"],\\"visibility\\":[\\"message\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"call_webhook\\",\\"name\\":\\"Call Webhook\\",\\"description\\":\\"Call a webhook\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_webhook\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
               />
             </div>
           </div>

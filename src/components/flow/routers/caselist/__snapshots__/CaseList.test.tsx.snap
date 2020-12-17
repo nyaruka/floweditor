@@ -37,7 +37,7 @@ exports[`CaseList render should render empty list 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -132,7 +132,7 @@ exports[`CaseList render should render list of cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -211,7 +211,7 @@ exports[`CaseList render should render list of cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -290,7 +290,7 @@ exports[`CaseList render should render list of cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -385,7 +385,7 @@ exports[`CaseList updates should remove cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -464,7 +464,7 @@ exports[`CaseList updates should remove cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -559,7 +559,7 @@ exports[`CaseList updates should update cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -638,7 +638,7 @@ exports[`CaseList updates should update cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
@@ -717,7 +717,7 @@ exports[`CaseList updates should update cases 1`] = `
                     name="operator"
                     namekey="verboseName"
                     valuekey="type"
-                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                    values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
                   />
                 </div>
               </div>
