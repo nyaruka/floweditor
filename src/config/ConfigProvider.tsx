@@ -28,6 +28,15 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
   constructor(props: ConfigProviderProps) {
     super(props);
 
+    const tembaStore: any = document.createElement('temba-store');
+
+    tembaStore.completionsEndpoint = props.config.endpoints.completion;
+    tembaStore.functionsEndpoint = props.config.endpoints.functions;
+    tembaStore.fieldsEndpoint = props.config.endpoints.fields;
+    tembaStore.globalsEndpoint = props.config.endpoints.globals;
+
+    document.body.appendChild(tembaStore);
+
     if (React.Children.count(props.children) > 1) {
       throw new Error(SINGLE_CHILD_ERROR);
     } else if (!React.isValidElement(props.children)) {
