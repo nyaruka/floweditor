@@ -2642,7 +2642,16 @@
         var t = Object(f.a)(a);
         function a(e) {
           var n;
-          if ((Object(m.a)(this, a), (n = t.call(this, e)), k.Children.count(e.children) > 1))
+          Object(m.a)(this, a), (n = t.call(this, e));
+          var i = document.createElement('temba-store');
+          if (
+            ((i.completionsEndpoint = e.config.endpoints.completion),
+            (i.functionsEndpoint = e.config.endpoints.functions),
+            (i.fieldsEndpoint = e.config.endpoints.fields),
+            (i.globalsEndpoint = e.config.endpoints.globals),
+            document.body.appendChild(i),
+            k.Children.count(e.children) > 1)
+          )
             throw new Error('ConfigProvider expects only one child component.');
           if (!k.isValidElement(e.children))
             throw new Error(
@@ -20853,4 +20862,4 @@
   ],
   [[160, 1, 2]]
 ]);
-//# sourceMappingURL=main.7c1dc143.chunk.js.map
+//# sourceMappingURL=main.de779d53.chunk.js.map
