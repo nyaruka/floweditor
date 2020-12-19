@@ -7087,7 +7087,7 @@
             : k.createElement('div', null, 'Clear ', ui(e, a), '.');
         },
         di = function(e) {
-          if (e.type === Ee.set_contact_field) return ci(e.field.name, e.value, !0);
+          if (e.type === Ee.set_contact_field) return ci(e.field.key, e.value, !0);
           if (e.type === Ee.set_contact_channel) {
             var t = e;
             return ci('channel', t.channel ? t.channel.name : null, !1);
@@ -13549,7 +13549,7 @@
           return t && a in t && (a = t[a].name), a;
         },
         br = function(e) {
-          return e.label || e.name;
+          return e.label || e.name || e.key;
         },
         kr = a(105),
         Er = a.n(kr),
@@ -21042,4 +21042,4 @@
   ],
   [[161, 1, 2]]
 ]);
-//# sourceMappingURL=main.c6125f79.chunk.js.map
+//# sourceMappingURL=main.273d9a04.chunk.js.map
