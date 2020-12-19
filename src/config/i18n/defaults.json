@@ -125,6 +125,11 @@
       "description": "Wait for the contact to respond",
       "name": "Wait for Response"
     },
+    "wait_for_time": {
+      "description": "Wait for time",
+      "name": "Wait for time"
+    },
+    
     "wait_for_video": {
       "description": "Wait for a video",
       "name": "Wait for Video"

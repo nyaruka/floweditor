@@ -1,0 +1,21 @@
+.title {
+  margin: 5px;
+  font-size: 9px;
+}
+
+.delay_container {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.input {
+  padding: 10px 20px;
+  display: block;
+}
+
+.error {
+  font-size: 12px;
+  margin-left: 20px;
+  color: red;
+}

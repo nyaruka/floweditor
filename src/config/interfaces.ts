@@ -48,6 +48,7 @@ export enum Types {
   split_by_subflow = 'split_by_subflow',
   split_by_webhook = 'split_by_webhook',
   wait_for_response = 'wait_for_response',
+  wait_for_time = 'wait_for_time',
   wait_for_menu = 'wait_for_menu',
   wait_for_digits = 'wait_for_digits',
   wait_for_audio = 'wait_for_audio',
