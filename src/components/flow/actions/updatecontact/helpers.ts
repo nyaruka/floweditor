@@ -235,5 +235,5 @@ export const getLanguageForCode = (code: string, languages: AssetMap) => {
 };
 
 export const getName = (asset: any): string => {
-  return asset.label || asset.name;
+  return asset.label || asset.name || asset.key;
 };

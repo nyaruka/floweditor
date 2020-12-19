@@ -33,7 +33,7 @@ const UpdateContactComp: React.SFC<SetContactAttribute> = (
   action: SetContactAttribute
 ): JSX.Element => {
   if (action.type === Types.set_contact_field) {
-    return renderSetText(action.field.name, action.value, true);
+    return renderSetText(action.field.key, action.value, true);
   }
 
   if (action.type === Types.set_contact_channel) {
