@@ -92,7 +92,8 @@ export enum Operators {
   has_intent = 'has_intent',
   has_top_intent = 'has_top_intent',
   has_category = 'has_category',
-  has_media = 'has_media'
+  has_media = 'has_media',
+  has_location = 'has_location'
 }
 
 export enum FeatureFilter {

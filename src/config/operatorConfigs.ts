@@ -190,6 +190,14 @@ export const operatorConfigList: Operator[] = [
     operands: 0,
     categoryName: 'Has Media',
     visibility: TEXT_TYPES
+  },
+
+  {
+    type: Operators.has_location,
+    verboseName: i18n.t('operators.has_location', 'has location'),
+    operands: 0,
+    categoryName: 'Has Location',
+    visibility: TEXT_TYPES
   }
 ];
 

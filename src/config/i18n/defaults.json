@@ -357,7 +357,8 @@
     "has_value_category": "Not Empty",
     "has_ward": "has ward",
     "has_ward_category": "Has Ward",
-    "has_media": "has media"
+    "has_media": "has media",
+    "has_location": "has location"
   },
   "removal_confirmation": "Remove?",
   "revisions": {
