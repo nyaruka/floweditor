@@ -31,6 +31,7 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
     quickReplies: { value: [] },
     templateVariables: [],
     templating: null,
+    attachments: [],
     audio: { value: null },
     valid: true
   };
@@ -63,6 +64,22 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
           state.quickReplies.value =
             'quick_replies' in localized.localizedKeys ? action.quick_replies || [] : [];
           state.valid = true;
+        }
+
+        if (localizedObject.attachments) {
+          const attachments: any = [];
+          (localizedObject.attachments || []).forEach((attachmentString: string): void => {
+            const splitPoint = attachmentString.indexOf(':');
+
+            const type = attachmentString.substring(0, splitPoint);
+            const attachment = {
+              type,
+              url: attachmentString.substring(splitPoint + 1)
+            };
+
+            attachments.push(attachment);
+          });
+          state.attachments = attachments;
         }
 
         if (localizedObject.variables) {

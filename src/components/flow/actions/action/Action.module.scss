@@ -47,6 +47,7 @@
   &.transfer_airtime,
   &.open_ticket,
   &.missing,
+  &.wait_for_time,
   &.enter_flow {
     width: $node_min_width - $action_padding * 2;
     padding: $action_padding;
@@ -126,4 +127,42 @@
   background: rgba(255, 255, 255, 0.9);
   $color_1: rgba(0, 0, 0, 0.12);
   $color_2: rgba(0, 0, 0, 0.1);
+}
+
+.url_attachment {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+
+  .upload {
+  }
+
+  .remove_upload {
+    margin-left: 8px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .url {
+    display: inline-block;
+    margin-left: 8px;
+    width: 329px;
+    margin-right: 10px;
+    input {
+      vertical-align: top;
+      height: 28px !important;
+      margin-top: -11px;
+      width: 100%;
+      font-size: 12px;
+    }
+  }
+
+  .remove {
+    margin-top: 4px;
+  }
+}
+
+.type_choice {
+  display: inline-block;
+  width: 180px;
 }
