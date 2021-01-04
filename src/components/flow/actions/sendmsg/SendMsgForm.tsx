@@ -544,7 +544,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       checked: this.state.sendAll
     };
 
-    const tabs = [quickReplies, attachments, advanced];
+    // const tabs = [quickReplies, attachments, advanced];
+    const tabs = [attachments];
 
     if (hasFeature(this.context.config, FeatureFilter.HAS_WHATSAPP)) {
       const templates: Tab = {
