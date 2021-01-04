@@ -364,29 +364,29 @@ export default class MsgLocalizationForm extends React.Component<
       });
     }
 
-    if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
-      tabs.push({
-        name: 'Quick Replies',
-        body: (
-          <>
-            <MultiChoiceInput
-              name={i18n.t('forms.quick_reply', 'Quick Reply')}
-              helpText={
-                <Trans
-                  i18nKey="forms.localized_quick_replies"
-                  values={{ language: this.props.language.name }}
-                >
-                  Add a new [[language]] Quick Reply and press enter.
-                </Trans>
-              }
-              items={this.state.quickReplies}
-              onChange={this.handleQuickReplyChanged}
-            />
-          </>
-        ),
-        checked: this.state.quickReplies.value.length > 0
-      });
-    }
+    // if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
+    //   tabs.push({
+    //     name: 'Quick Replies',
+    //     body: (
+    //       <>
+    //         <MultiChoiceInput
+    //           name={i18n.t('forms.quick_reply', 'Quick Reply')}
+    //           helpText={
+    //             <Trans
+    //               i18nKey="forms.localized_quick_replies"
+    //               values={{ language: this.props.language.name }}
+    //             >
+    //               Add a new [[language]] Quick Reply and press enter.
+    //             </Trans>
+    //           }
+    //           items={this.state.quickReplies}
+    //           onChange={this.handleQuickReplyChanged}
+    //         />
+    //       </>
+    //     ),
+    //     checked: this.state.quickReplies.value.length > 0
+    //   });
+    // }
 
     let audioButton: JSX.Element | null = null;
     if (typeConfig.localizeableKeys!.indexOf('audio_url') > 0) {
