@@ -43,7 +43,7 @@ import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { TembaSelectStyle } from 'temba/TembaSelect';
 
-const MAX_ATTACHMENTS = 3;
+const MAX_ATTACHMENTS = 1;
 
 const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
