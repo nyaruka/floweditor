@@ -4881,7 +4881,7 @@
                       return e.renderAttachment(a, t);
                     }),
                     a =
-                      this.state.attachments.length < 3
+                      this.state.attachments.length < 1
                         ? this.renderAttachment(-1, { url: '', type: '' })
                         : null;
                   return k.createElement(
@@ -6270,7 +6270,7 @@
                       return t.uploaded ? e.renderUpload(a, t) : e.renderAttachment(a, t);
                     }),
                     a =
-                      this.state.attachments.length < 3
+                      this.state.attachments.length < 1
                         ? this.renderAttachment(-1, { url: '', type: '' })
                         : null;
                   return k.createElement(
@@ -6282,7 +6282,7 @@
                       Ft.t(
                         'forms.send_msg_summary',
                         'Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.',
-                        { count: 3 }
+                        { count: 1 }
                       )
                     ),
                     t,
@@ -20952,4 +20952,4 @@
   ],
   [[161, 1, 2]]
 ]);
-//# sourceMappingURL=main.2311ea85.chunk.js.map
+//# sourceMappingURL=main.971262ab.chunk.js.map
