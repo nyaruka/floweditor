@@ -22,7 +22,7 @@ import { Trans } from 'react-i18next';
 import { createUUID, range } from 'utils';
 import { renderIssues } from '../helpers';
 
-const MAX_ATTACHMENTS = 3;
+const MAX_ATTACHMENTS = 1;
 
 const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
