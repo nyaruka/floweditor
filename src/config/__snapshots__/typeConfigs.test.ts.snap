@@ -116,6 +116,11 @@ Array [
     "form": [Function],
     "name": "Add Labels",
     "type": "add_input_labels",
+    "visibility": Array [
+      "messaging",
+      "messaging_offline",
+      "voice",
+    ],
   },
   Object {
     "component": [Function],
@@ -437,6 +442,11 @@ Object {
     "form": [Function],
     "name": "Add Labels",
     "type": "add_input_labels",
+    "visibility": Array [
+      "messaging",
+      "messaging_offline",
+      "voice",
+    ],
   },
   "call_classifier": Object {
     "aliases": Array [

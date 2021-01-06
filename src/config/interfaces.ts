@@ -149,5 +149,10 @@ export const VISIBILITY_MESSAGING = [
 export const VISIBILITY_MESSAGING_INTERACTIVE = [FlowTypes.MESSAGING, FlowTypes.MESSAGING_OFFLINE];
 export const VISIBILITY_VOICE = [FlowTypes.VOICE];
 export const VISIBILITY_ONLINE = [FlowTypes.MESSAGING, FlowTypes.VOICE];
+export const VISIBILITY_INTERACTIVE = [
+  FlowTypes.MESSAGING,
+  FlowTypes.MESSAGING_OFFLINE,
+  FlowTypes.VOICE
+];
 export const VISIBILITY_SURVEYOR = [FlowTypes.MESSAGING_OFFLINE];
 export const VISIBILITY_HIDDEN = [FlowTypes.NONE];

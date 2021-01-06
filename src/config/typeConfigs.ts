@@ -51,6 +51,7 @@ import {
   VISIBILITY_ONLINE,
   VISIBILITY_SURVEYOR,
   VISIBILITY_VOICE,
+  VISIBILITY_INTERACTIVE,
   VISIBILITY_MESSAGING_INTERACTIVE
 } from 'config/interfaces';
 import { HintTypes, RouterTypes, FlowEditorConfig, SendMsg } from 'flowTypes';
@@ -248,7 +249,8 @@ export const typeConfigList: Type[] = [
     name: i18n.t('actions.add_input.name', 'Add Labels'),
     description: i18n.t('actions.add_input.description', 'Label the incoming message'),
     form: AddLabelsForm,
-    component: AddLabelsComp
+    component: AddLabelsComp,
+    visibility: VISIBILITY_INTERACTIVE
   },
   {
     type: Types.add_contact_urn,
