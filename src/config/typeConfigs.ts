@@ -50,8 +50,9 @@ import {
   VISIBILITY_HIDDEN,
   VISIBILITY_ONLINE,
   VISIBILITY_SURVEYOR,
-  VISIBILITY_MESSAGING,
-  VISIBILITY_VOICE
+  VISIBILITY_VOICE,
+  VISIBILITY_INTERACTIVE,
+  VISIBILITY_MESSAGING_INTERACTIVE
 } from 'config/interfaces';
 import { HintTypes, RouterTypes, FlowEditorConfig, SendMsg } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
@@ -231,7 +232,7 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['categories', 'cases'],
     aliases: [RouterTypes.switch],
-    visibility: VISIBILITY_MESSAGING
+    visibility: VISIBILITY_MESSAGING_INTERACTIVE
   },
 
   {
@@ -248,7 +249,8 @@ export const typeConfigList: Type[] = [
     name: i18n.t('actions.add_input.name', 'Add Labels'),
     description: i18n.t('actions.add_input.description', 'Label the incoming message'),
     form: AddLabelsForm,
-    component: AddLabelsComp
+    component: AddLabelsComp,
+    visibility: VISIBILITY_INTERACTIVE
   },
   {
     type: Types.add_contact_urn,

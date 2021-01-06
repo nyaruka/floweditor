@@ -26,6 +26,11 @@ exports[`AddLabelsForm render should render a base action 1`] = `
         "form": [Function],
         "name": "Add Labels",
         "type": "add_input_labels",
+        "visibility": Array [
+          "messaging",
+          "messaging_offline",
+          "voice",
+        ],
       }
     }
     onChange={[MockFunction]}
