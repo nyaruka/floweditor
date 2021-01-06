@@ -145,6 +145,7 @@ Object {
     "verboseName": "has any of the words",
     "visibility": Array [
       "messaging",
+      "messaging_passive",
       "messaging_offline",
     ],
   },
@@ -241,6 +242,7 @@ Object {
     "verboseName": "has any of the words",
     "visibility": Array [
       "messaging",
+      "messaging_passive",
       "messaging_offline",
     ],
   },
@@ -334,6 +336,7 @@ Object {
     "verboseName": "has some text",
     "visibility": Array [
       "messaging",
+      "messaging_passive",
       "messaging_offline",
     ],
   },

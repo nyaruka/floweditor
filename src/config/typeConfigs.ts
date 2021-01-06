@@ -50,8 +50,8 @@ import {
   VISIBILITY_HIDDEN,
   VISIBILITY_ONLINE,
   VISIBILITY_SURVEYOR,
-  VISIBILITY_MESSAGING,
-  VISIBILITY_VOICE
+  VISIBILITY_VOICE,
+  VISIBILITY_MESSAGING_INTERACTIVE
 } from 'config/interfaces';
 import { HintTypes, RouterTypes, FlowEditorConfig, SendMsg } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
@@ -231,7 +231,7 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['categories', 'cases'],
     aliases: [RouterTypes.switch],
-    visibility: VISIBILITY_MESSAGING
+    visibility: VISIBILITY_MESSAGING_INTERACTIVE
   },
 
   {
