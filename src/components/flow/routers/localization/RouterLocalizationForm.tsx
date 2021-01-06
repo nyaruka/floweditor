@@ -118,38 +118,42 @@ export default class RouterLocalizationForm extends React.Component<
 
       const { verboseName } = getOperatorConfig(originalCase.type);
 
-      const [orginalArgument] = originalCase.arguments;
+      if (originalCase.arguments) {
+        const [orginalArgument] = originalCase.arguments;
 
-      let argument = '';
-      if (kase.arguments && kase.arguments.length > 0) {
-        argument = kase.arguments[0];
+        let argument = '';
+        if (kase.arguments && kase.arguments.length > 0) {
+          argument = kase.arguments[0];
+        }
+        const translation = i18n.t('forms.translation', 'Translation');
+
+        return (
+          <div
+            key={`translate_${kase.uuid}`}
+            data-spec="operator-field"
+            className={styles.translating_operator_container}
+          >
+            <div data-spec="verbose-name" className={styles.translating_operator}>
+              {verboseName}
+            </div>
+            <div data-spec="argument-to-translate" className={styles.translating_from}>
+              {orginalArgument}
+            </div>
+            <div className={styles.translating_to}>
+              <TextInputElement
+                data-spec="localize-case"
+                name={kase.uuid}
+                placeholder={`${this.props.language.name} ${translation}`}
+                showLabel={false}
+                onChange={(arg: string) => this.handleUpdateCaseArgument(kase, arg)}
+                entry={{ value: argument }}
+              />
+            </div>
+          </div>
+        );
+      } else {
+        return null;
       }
-      const translation = i18n.t('forms.translation', 'Translation');
-
-      return (
-        <div
-          key={`translate_${kase.uuid}`}
-          data-spec="operator-field"
-          className={styles.translating_operator_container}
-        >
-          <div data-spec="verbose-name" className={styles.translating_operator}>
-            {verboseName}
-          </div>
-          <div data-spec="argument-to-translate" className={styles.translating_from}>
-            {orginalArgument}
-          </div>
-          <div className={styles.translating_to}>
-            <TextInputElement
-              data-spec="localize-case"
-              name={kase.uuid}
-              placeholder={`${this.props.language.name} ${translation}`}
-              showLabel={false}
-              onChange={(arg: string) => this.handleUpdateCaseArgument(kase, arg)}
-              entry={{ value: argument }}
-            />
-          </div>
-        </div>
-      );
     });
   }
 
@@ -188,7 +192,12 @@ export default class RouterLocalizationForm extends React.Component<
 
     const tabs: Tab[] = [];
 
-    if (this.state.cases.length > 0) {
+    const hasCasesWithArguments = !!this.state.cases.find((kase: Case) => {
+      const orginalCase = getOriginalCase(this.props.nodeSettings, kase.uuid) as Case;
+      return orginalCase.arguments && orginalCase.arguments.length > 0;
+    });
+
+    if (hasCasesWithArguments) {
       tabs.push({
         name: 'Rule Translations',
         body: (
