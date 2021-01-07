@@ -328,7 +328,7 @@ exports[`CaseElement render should render empty case 1`] = `
               name="operator"
               namekey="verboseName"
               valuekey="type"
-              values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_passive\\",\\"messaging_offline\\"]}]"
+              values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"messaging_offline\\"]}]"
             />
           </div>
         </div>
@@ -410,7 +410,7 @@ exports[`CaseElement update handles argument change 1`] = `
               name="operator"
               namekey="verboseName"
               valuekey="type"
-              values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_passive\\",\\"messaging_offline\\"]}]"
+              values="[{\\"type\\":\\"has_any_word\\",\\"verboseName\\":\\"has any of the words\\",\\"operands\\":1,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"messaging_offline\\"]}]"
             />
           </div>
         </div>

@@ -1,6 +1,6 @@
 export enum FlowTypes {
   MESSAGING = 'messaging',
-  MESSAGING_PASSIVE = 'messaging_passive',
+  MESSAGING_BACKGROUND = 'messaging_background',
   MESSAGING_OFFLINE = 'messaging_offline',
   VOICE = 'voice',
   NONE = '-'
@@ -143,7 +143,7 @@ export interface OperatorMap {
 
 export const VISIBILITY_MESSAGING = [
   FlowTypes.MESSAGING,
-  FlowTypes.MESSAGING_PASSIVE,
+  FlowTypes.MESSAGING_BACKGROUND,
   FlowTypes.MESSAGING_OFFLINE
 ];
 export const VISIBILITY_MESSAGING_INTERACTIVE = [FlowTypes.MESSAGING, FlowTypes.MESSAGING_OFFLINE];

@@ -8,7 +8,7 @@ Array [
     "verboseName": "has any of the words",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -18,7 +18,7 @@ Array [
     "verboseName": "has all of the words",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -28,7 +28,7 @@ Array [
     "verboseName": "has the phrase",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -38,7 +38,7 @@ Array [
     "verboseName": "has only the phrase",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -54,7 +54,7 @@ Array [
     "verboseName": "has some text",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -101,7 +101,7 @@ Array [
     "verboseName": "has a date",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -111,7 +111,7 @@ Array [
     "verboseName": "has a date before",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -121,7 +121,7 @@ Array [
     "verboseName": "has a date equal to",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -131,7 +131,7 @@ Array [
     "verboseName": "has a date after",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -142,7 +142,7 @@ Array [
     "verboseName": "has a time",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -175,7 +175,7 @@ Array [
     "verboseName": "has an email",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -231,7 +231,7 @@ Object {
     "verboseName": "has all of the words",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -241,7 +241,7 @@ Object {
     "verboseName": "has any of the words",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -265,7 +265,7 @@ Object {
     "verboseName": "has a date",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -275,7 +275,7 @@ Object {
     "verboseName": "has a date equal to",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -285,7 +285,7 @@ Object {
     "verboseName": "has a date after",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -295,7 +295,7 @@ Object {
     "verboseName": "has a date before",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -312,7 +312,7 @@ Object {
     "verboseName": "has an email",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -384,7 +384,7 @@ Object {
     "verboseName": "has only the phrase",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -405,7 +405,7 @@ Object {
     "verboseName": "has the phrase",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -422,7 +422,7 @@ Object {
     "verboseName": "has some text",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
@@ -433,7 +433,7 @@ Object {
     "verboseName": "has a time",
     "visibility": Array [
       "messaging",
-      "messaging_passive",
+      "messaging_background",
       "messaging_offline",
     ],
   },
