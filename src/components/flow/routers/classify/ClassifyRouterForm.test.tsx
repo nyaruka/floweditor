@@ -48,14 +48,14 @@ describe(ClassifyRouterForm.name, () => {
   it('defaults to correct result name', () => {
     const props = getProps();
     props.nodeSettings.originalNode.node.router.result_name = 'Initial Result Name';
-    const { baseElement, getByTestId } = render(<ClassifyRouterForm {...props} />);
+    const { baseElement } = render(<ClassifyRouterForm {...props} />);
     expect(baseElement).toMatchSnapshot('initial result name');
   });
 
   it('updates the result name', () => {
     const { baseElement, getByTestId } = render(<ClassifyRouterForm {...getProps()} />);
     const result = getByTestId('Result Name');
-    fireChangeText(result, 'Updatd Result Name');
+    fireChangeText(result, 'Updated Result Name');
     expect(baseElement).toMatchSnapshot('updated result name');
   });
 });

@@ -775,13 +775,13 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
               <input
                 data-testid="Result Name"
                 name="Result Name"
-                value="Updatd Result Name"
+                value="Updated Result Name"
               />
             </div>
             <div
               class="help_text"
             >
-              By naming the result, you can reference it later using @results.updatd_result_name
+              By naming the result, you can reference it later using @results.updated_result_name
                
             </div>
           </div>
