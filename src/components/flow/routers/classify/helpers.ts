@@ -28,7 +28,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): CallClassifier 
 
 export const nodeToState = (settings: NodeEditorSettings): ClassifyRouterFormState => {
   // TODO: work out an incremental result name
-  const resultName: StringEntry = { value: 'Result' };
+  let resultName: StringEntry = { value: 'Result' };
   let initialCases: CaseProps[] = [];
 
   let operand = DEFAULT_OPERAND;
@@ -51,6 +51,7 @@ export const nodeToState = (settings: NodeEditorSettings): ClassifyRouterFormSta
       );
     }
 
+    resultName = { value: router.result_name || 'Result' };
     const action = getOriginalAction(settings) as CallClassifier;
     classifier = { value: action.classifier };
     operand = action.input;
