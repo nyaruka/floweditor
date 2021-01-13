@@ -6,6 +6,7 @@ import ConnectedFlow from 'components/flow/Flow';
 import styles from 'components/index.module.scss';
 import ConnectedLanguageSelector from 'components/languageselector/LanguageSelector';
 import Loading from 'components/loading/Loading';
+import { NotificationContainer } from 'react-notifications';
 import Modal from 'components/modal/Modal';
 import { RevisionExplorer } from 'components/revisions/RevisionExplorer';
 import { IssuesTab, IssueDetail } from 'components/issues/IssuesTab';
@@ -311,6 +312,7 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
                 popped={this.props.popped}
               />
             )}
+            <NotificationContainer />
             <div id="portal-root" />
             <div id="canvas-portal" />
           </div>

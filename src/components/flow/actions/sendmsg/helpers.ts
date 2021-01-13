@@ -62,7 +62,8 @@ export const initializeForm = (
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
-      valid: true
+      valid: true,
+      validAttachment: false
     };
   }
 
@@ -75,7 +76,8 @@ export const initializeForm = (
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
     sendAll: false,
-    valid: false
+    valid: false,
+    validAttachment: false
   };
 };
 

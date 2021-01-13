@@ -1,7 +1,7 @@
 declare module 'classnames/bind';
 declare module 'http-proxy-middleware';
 declare module 'http-headers-validation';
-
+declare module 'react-notifications';
 declare namespace JSX {
   interface IntrinsicElements {
     'temba-textinput': any;
