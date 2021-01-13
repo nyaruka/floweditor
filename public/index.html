@@ -118,105 +118,104 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
+  </body>
 
-<script>
-  var base = 'http://api.glific.test:4000/flow-editor/';
+  <script>
+    var base = 'http://localhost:4000/flow-editor/';
 
-  var uuid = '3fa22108-f464-41e5-81d9-d8a298854429';
-  var config = {
-    flow: uuid,
-    flowType: 'message',
-    localStorage: true,
-    mutable: true,
-    filters: ['facebook', 'whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
-    excludeTypes: [
-      'send_broadcast', 
-      'add_contact_urn', 
-      'remove_contact_groups',
-      'send_email',
-      'set_run_result',
-      'call_resthook',
-      'start_session',
-      'open_ticket',
-      'split_by_expression',
-      'transfer_airtime',
-      'split_by_intent',
-      'split_by_contact_field',
-      'split_by_run_result',
-      'split_by_random',
-      'split_by_groups',
-      'split_by_scheme'
-    ],
+    var uuid = '3fa22108-f464-41e5-81d9-d8a298854429';
+    var config = {
+      flow: uuid,
+      flowType: 'message',
+      localStorage: true,
+      mutable: true,
+      filters: ['facebook', 'whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
+      excludeTypes: [
+        'send_broadcast',
+        'add_contact_urn',
+        'remove_contact_groups',
+        'send_email',
+        'set_run_result',
+        'call_resthook',
+        'start_session',
+        'open_ticket',
+        'split_by_expression',
+        'transfer_airtime',
+        'split_by_intent',
+        'split_by_contact_field',
+        'split_by_run_result',
+        'split_by_random',
+        'split_by_groups',
+        'split_by_scheme'
+      ],
 
-    excludeOperators: [
-      'has_beginning',
-      'has_text',
-      'has_number_lt',
-      'has_number_lte',
-      'has_number_gte',
-      'has_number_gt',
-      'has_date',
-      'has_date_category',
-      'has_date_lt',
-      'has_number_lte',
-      'has_number_gte',
-      'has_number_gt',
-      'has_date',
-      'has_date_category',
-      'has_date_lt',
-      'has_date_eq',
-      'has_date_gt',
-      'has_time',
-      'has_group',
-      'has_category',
-      'has_phone',
-      'has_phone_category',
-      'has_email',
-      'has_email_category',
-      'has_state',
-      'has_state_category',
-      'has_district',
-      'has_ward',
-      'has_error',
-      'has_value',
-      'has_pattern'
-    ],
-    
-    help: {
-      legacy_extra: 'help.html',
-      missing_dependency: 'help.html',
-      invalid_regex: 'help.html'
-    },
-    endpoints: {
-      globals: base + 'globals',
-      groups: base + 'groups',
-      fields: base + 'fields',
-      labels: base + 'labels',
-      channels: base + 'channels',
-      classifiers: base + 'classifiers',
-      ticketers: base + 'ticketers',
-      resthooks: base + 'resthooks',
-      templates: base + 'templates',
-      flows: base + 'flows',
-      revisions: base + 'revisions/' + uuid,
-      recents: base + 'recents',
-      languages: base + 'languages',
-      environment: base + 'environment',
-      recipients: base + 'recipients',
-      functions: base + 'functions',
-      completion: base + 'completion',
-      attachments: base + 'attachments',
-      activity: base + 'activity',
+      excludeOperators: [
+        'has_beginning',
+        'has_text',
+        'has_number_lt',
+        'has_number_lte',
+        'has_number_gte',
+        'has_number_gt',
+        'has_date',
+        'has_date_category',
+        'has_date_lt',
+        'has_number_lte',
+        'has_number_gte',
+        'has_number_gt',
+        'has_date',
+        'has_date_category',
+        'has_date_lt',
+        'has_date_eq',
+        'has_date_gt',
+        'has_time',
+        'has_group',
+        'has_category',
+        'has_phone',
+        'has_phone_category',
+        'has_email',
+        'has_email_category',
+        'has_state',
+        'has_state_category',
+        'has_district',
+        'has_ward',
+        'has_error',
+        'has_value',
+        'has_pattern'
+      ],
 
-      editor: '/',
+      help: {
+        legacy_extra: 'help.html',
+        missing_dependency: 'help.html',
+        invalid_regex: 'help.html'
+      },
+      endpoints: {
+        globals: base + 'globals',
+        groups: base + 'groups',
+        fields: base + 'fields',
+        labels: base + 'labels',
+        channels: base + 'channels',
+        classifiers: base + 'classifiers',
+        ticketers: base + 'ticketers',
+        resthooks: base + 'resthooks',
+        templates: base + 'templates',
+        flows: base + 'flows',
+        revisions: base + 'revisions/' + uuid,
+        recents: base + 'recents',
+        languages: base + 'languages',
+        environment: base + 'environment',
+        recipients: base + 'recipients',
+        functions: base + 'functions',
+        completion: base + 'completion',
+        attachments: base + 'attachments',
+        activity: base + 'activity',
 
-      simulateStart: null,
-      simulateResume: null
-    }
-  };
+        editor: '/',
 
-  showFlowEditor(document.getElementById('floweditor'), config);
-</script>
+        simulateStart: null,
+        simulateResume: null
+      }
+    };
 
+    showFlowEditor(document.getElementById('floweditor'), config);
+  </script>
 </html>

@@ -14,7 +14,8 @@
   "private": false,
   "dependencies": {
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-notifications": "1.7.2"
   },
   "scripts": {
     "lambda:serve": "netlify-lambda serve lambda -p 6000",
