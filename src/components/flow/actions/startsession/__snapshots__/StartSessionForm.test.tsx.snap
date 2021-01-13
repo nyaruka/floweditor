@@ -43,7 +43,7 @@ exports[`StartSessionForm render should render 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
@@ -200,6 +200,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         "type": "start_session",
         "visibility": Array [
           "messaging",
+          "messaging_background",
           "voice",
         ],
       }
@@ -326,7 +327,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
@@ -483,7 +484,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
@@ -592,6 +593,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
         "type": "start_session",
         "visibility": Array [
           "messaging",
+          "messaging_background",
           "voice",
         ],
       }
@@ -739,7 +741,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>
