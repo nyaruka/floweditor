@@ -1356,13 +1356,13 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@nyaruka/temba-components@0.8.11":
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.8.11.tgz#36f8887f47494cb5cea491d6624f32c5c6f3fe73"
-  integrity sha512-4kz/0MDX0VLr+fU874sTekKBtFSeZ9XsbJdnheBAWbPtJPHJcZ8gdc7Zvc/8CAjpSDpdvyj4uRuwwceIdBXyvw==
+"@nyaruka/temba-components@0.8.12":
+  version "0.8.12"
+  resolved "https://registry.yarnpkg.com/@nyaruka/temba-components/-/temba-components-0.8.12.tgz#571b05c9f20fe12e39fddf4a32a8d090eecaabc9"
+  integrity sha512-9lwtcMb4QTQUu3rfj0kAXHGNSgdJeha1WPAyF72FW27Q9oaIP6ID2HoQAQhEReEy1ToBduSE8DpEBMT9aDO+ww==
   dependencies:
     autosize "4.0.2"
-    axios "^0.20.0"
+    axios "^0.21.1"
     buffer "4"
     es6-dynamic-template "2.0.0"
     fa-icons "^0.2.0"
@@ -2759,10 +2759,10 @@ axios@0.21.1:
   dependencies:
     follow-redirects "^1.10.0"
 
-axios@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
-  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
 
