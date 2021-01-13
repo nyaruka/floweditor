@@ -339,6 +339,7 @@ Object {
     "verboseName": "has intent",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -443,6 +444,7 @@ Object {
     "verboseName": "has top intent",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },

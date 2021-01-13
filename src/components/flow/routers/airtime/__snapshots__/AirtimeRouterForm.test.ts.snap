@@ -36,6 +36,7 @@ exports[`AirtimeRouterForm render should render 1`] = `
         "type": "transfer_airtime",
         "visibility": Array [
           "messaging",
+          "messaging_background",
           "voice",
         ],
       }

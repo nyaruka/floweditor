@@ -56,7 +56,7 @@ exports[`ClassifyRouterForm defaults to correct result name: initial result name
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
+                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
               />
             </div>
           </div>
@@ -127,7 +127,7 @@ exports[`ClassifyRouterForm defaults to correct result name: initial result name
                         name="operator"
                         namekey="verboseName"
                         valuekey="type"
-                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
+                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
                       />
                     </div>
                   </div>
@@ -328,7 +328,7 @@ exports[`ClassifyRouterForm should render: default render 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
+                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
               />
             </div>
           </div>
@@ -399,7 +399,7 @@ exports[`ClassifyRouterForm should render: default render 1`] = `
                         name="operator"
                         namekey="verboseName"
                         valuekey="type"
-                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
+                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
                       />
                     </div>
                   </div>
@@ -600,7 +600,7 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
+                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
               />
             </div>
           </div>
@@ -671,7 +671,7 @@ exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
                         name="operator"
                         namekey="verboseName"
                         valuekey="type"
-                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"voice\\"]}]"
+                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
                       />
                     </div>
                   </div>
