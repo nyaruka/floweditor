@@ -1475,7 +1475,7 @@ textarea.TextInputElement_textinput__2eOxW:focus {
   color: #f5a142;
   font-weight: 500;
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
 }
 .SendMsgForm_crossIcon__1KGsY {
   margin-right: 10px;
@@ -4131,4 +4131,4 @@ textarea:focus {
   .TranslatorTab_from_text__3_B24 {
   font-size: 10px;
 }
-/*# sourceMappingURL=main.ec0733ce.chunk.css.map */
+/*# sourceMappingURL=main.77b2c68b.chunk.css.map */
