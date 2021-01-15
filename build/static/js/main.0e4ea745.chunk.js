@@ -1891,7 +1891,8 @@
           (e.Scheme = 'scheme'),
           (e.Template = 'template'),
           (e.Ticketer = 'ticketer'),
-          (e.URN = 'urn');
+          (e.URN = 'urn'),
+          (e.ValidateMedia = 'validate');
       })(fe || (fe = {}));
       var be,
         ke,
@@ -2343,7 +2344,8 @@
                 },
                 templates: { endpoint: it(e.templates), type: fe.Template, items: {} },
                 ticketers: { endpoint: it(e.ticketers), type: fe.Ticketer, items: {} },
-                currencies: { type: fe.Currency, id: 'id', items: Be, prefetched: !0 }
+                currencies: { type: fe.Currency, id: 'id', items: Be, prefetched: !0 },
+                validateMedia: { items: {}, type: fe.ValidateMedia, endpoint: it(e.validateMedia) }
               },
               i = [];
             ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers'].forEach(function(
@@ -6003,7 +6005,7 @@
           { value: 'image', name: Ft.t('forms.image_url', 'Image URL') },
           { value: 'audio', name: Ft.t('forms.audio_url', 'Audio URL') },
           { value: 'video', name: Ft.t('forms.video_url', 'Video URL') },
-          { value: 'document', name: Ft.t('forms.pdf_url', 'PDF Document URL') }
+          { value: 'application', name: Ft.t('forms.pdf_url', 'PDF Document URL') }
         ],
         Wn = (function(e) {
           Object(v.a)(a, e);
@@ -6125,36 +6127,34 @@
               {
                 key: 'handleAxios',
                 value: function(e, t) {
-                  var a = this,
-                    n = 'api.'.concat(window.location.hostname);
-                  'localhost' === window.location.hostname && (n = 'localhost:4000'),
-                    ze.a
-                      .get(
-                        'http://'
-                          .concat(n, '/flow-editor/validate-media?url=')
-                          .concat(e.url, '&type=')
-                          .concat(e.type)
-                      )
-                      .then(function(e) {
-                        if (e.data.is_valid) {
-                          var n = !0,
-                            i = a.state.templateVariables;
-                          a.state.templateVariables.forEach(function(e, t) {
-                            var a = oa('Variable '.concat(t + 1), e.value, [ra]);
-                            (i = Jt()(i, Object(S.a)({}, t, { $merge: a }))), (n = n && !ht(a));
-                          }),
-                            (n = n && !ht(a.state.quickReplyEntry))
-                              ? (a.setState({ validAttachment: !1 }),
-                                a.props.updateAction(qn(a.props.nodeSettings, a.state)),
-                                a.props.onClose(!1))
-                              : a.setState({ templateVariables: i, valid: n });
-                        } else a.setState({ attachmentError: 'Not a valid '.concat(t, ' url') });
-                      })
-                      .catch(function(e) {
-                        a.setState({
-                          attachmentError: 'The attachment url is invalid!: '.concat(e.toString())
-                        });
+                  var a = this;
+                  ze.a
+                    .get(
+                      ''
+                        .concat(this.props.assetStore.validateMedia.endpoint, '?url=')
+                        .concat(e.url, '&type=')
+                        .concat(e.type)
+                    )
+                    .then(function(e) {
+                      if (e.data.is_valid) {
+                        var n = !0,
+                          i = a.state.templateVariables;
+                        a.state.templateVariables.forEach(function(e, t) {
+                          var a = oa('Variable '.concat(t + 1), e.value, [ra]);
+                          (i = Jt()(i, Object(S.a)({}, t, { $merge: a }))), (n = n && !ht(a));
+                        }),
+                          (n = n && !ht(a.state.quickReplyEntry))
+                            ? (a.setState({ validAttachment: !1 }),
+                              a.props.updateAction(qn(a.props.nodeSettings, a.state)),
+                              a.props.onClose(!1))
+                            : a.setState({ templateVariables: i, valid: n });
+                      } else a.setState({ attachmentError: 'Not a valid '.concat(t, ' url') });
+                    })
+                    .catch(function(e) {
+                      a.setState({
+                        attachmentError: 'The attachment url is invalid!: '.concat(e.toString())
                       });
+                    });
                 }
               },
               {
@@ -6163,7 +6163,7 @@
                   if (this.state.attachments.length > 0) {
                     var e = this.state.attachments[0].type,
                       t = { type: e, url: this.state.attachments[0].url };
-                    switch (e) {
+                    switch (('application' === e && (t.type = 'document'), e)) {
                       case 'image':
                         this.handleAxios(t, 'image');
                         break;
@@ -6173,7 +6173,7 @@
                       case 'audio':
                         this.handleAxios(t, 'audio');
                         break;
-                      case 'document':
+                      case 'application':
                         this.handleAxios(t, 'document');
                     }
                     this.setState({ validAttachment: !0, attachmentError: null });
@@ -21032,4 +21032,4 @@
   ],
   [[162, 1, 2]]
 ]);
-//# sourceMappingURL=main.1b16b803.chunk.js.map
+//# sourceMappingURL=main.0e4ea745.chunk.js.map
