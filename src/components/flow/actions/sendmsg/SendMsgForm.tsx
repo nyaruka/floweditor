@@ -52,7 +52,7 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
   { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
   { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
-  { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
+  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
 const getAttachmentTypeOption = (type: string): SelectOption => {
@@ -155,12 +155,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   public handleAxios(body: any, type: any) {
-    let windowUrl = `api.${window.location.hostname}`;
-    if (window.location.hostname === 'localhost') {
-      windowUrl = 'localhost:4000';
-    }
     axios
-      .get(`http://${windowUrl}/flow-editor/validate-media?url=${body.url}&type=${body.type}`)
+      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`)
       .then(response => {
         if (response.data.is_valid) {
           // make sure we validate untouched text fields and contact fields
@@ -201,10 +197,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       const type = this.state.attachments[0].type;
       const url = this.state.attachments[0].url;
 
-      const body = {
+      let body = {
         type,
         url
       };
+
+      if (type === 'application') {
+        body.type = 'document';
+      }
 
       switch (type) {
         case 'image':
@@ -218,7 +218,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         case 'audio':
           this.handleAxios(body, 'audio');
           break;
-        case 'document':
+        case 'application':
           this.handleAxios(body, 'document');
           break;
       }

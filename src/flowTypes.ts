@@ -43,6 +43,7 @@ export interface Endpoints {
   simulateStart: string;
   simulateResume: string;
   editor: string;
+  validateMedia: string;
 }
 
 export interface FlowEditorConfig {
