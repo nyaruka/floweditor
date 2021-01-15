@@ -76,7 +76,8 @@ export enum AssetType {
   Scheme = 'scheme',
   Template = 'template',
   Ticketer = 'ticketer',
-  URN = 'urn'
+  URN = 'urn',
+  ValidateMedia = 'validate'
 }
 
 export interface Reference {

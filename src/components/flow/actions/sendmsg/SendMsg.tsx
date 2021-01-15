@@ -47,6 +47,8 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
         <div className={styles.summary}>{replies}</div>
       </>
     );
+  } else if (action.attachments && action.attachments.length > 0) {
+    return <div className={`${styles.attachment} fe-paperclip`} />;
   }
   return <div className="placeholder">{PLACEHOLDER}</div>;
 };

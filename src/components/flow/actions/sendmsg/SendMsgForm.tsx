@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { react as bindCallbacks } from 'auto-bind';
 import axios from 'axios';
+import { ImCross } from 'react-icons/im';
+import Loading from 'components/loading/Loading';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
-import 'react-notifications/lib/notifications.css';
-import { NotificationManager } from 'react-notifications';
 import {
   initializeForm as stateToForm,
   stateToAction,
@@ -76,6 +76,7 @@ export interface SendMsgFormState extends FormState {
   templateVariables: StringEntry[];
   templateTranslation?: TemplateTranslation;
   validAttachment: any;
+  attachmentError: any;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -153,20 +154,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return this.handleUpdate({ sendAll });
   }
 
-  public handleAxios(url: any, type: any, errorMessage: any) {
-    NotificationManager.warning('URL validity', `Checking the validity of the url`, 1000);
+  public handleAxios(body: any, type: any) {
     axios
-      .get(url)
+      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`)
       .then(response => {
-        if (response.headers['content-type'].startsWith(type)) {
-          this.setState({ validAttachment: false });
-          NotificationManager.success(`The attachment url is valid`, 'Valid URL', 3000);
-          if (hasErrors(this.state.message)) {
-            return;
-          }
-
+        if (response.data.is_valid) {
           // make sure we validate untouched text fields and contact fields
-          let valid = this.handleMessageUpdate(this.state.message.value, null, true);
+          // let valid = this.handleMessageUpdate(this.state.message.value, null, true);
+          let valid = true;
 
           let templateVariables = this.state.templateVariables;
           // make sure we don't have untouched template variables
@@ -181,6 +176,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           valid = valid && !hasErrors(this.state.quickReplyEntry);
 
           if (valid) {
+            this.setState({ validAttachment: false });
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
             // notify our modal we are done
             this.props.onClose(false);
@@ -188,40 +184,45 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             this.setState({ templateVariables, valid });
           }
         } else {
-          NotificationManager.error(
-            errorMessage ? errorMessage : `Not a valid ${type} url`,
-            'Invalid URL',
-            3000
-          );
+          this.setState({ attachmentError: `Not a valid ${type} url` });
         }
       })
       .catch(error => {
-        NotificationManager.error(error.toString(), 'Invalid attachment URL', 5000);
+        this.setState({ attachmentError: `The attachment url is invalid!: ${error.toString()}` });
       });
   }
 
   private handleSave(): void {
     if (this.state.attachments.length > 0) {
       const type = this.state.attachments[0].type;
-      const url = 'https://cors-anywhere.herokuapp.com/' + this.state.attachments[0].url;
+      const url = this.state.attachments[0].url;
+
+      let body = {
+        type,
+        url
+      };
+
+      if (type === 'application') {
+        body.type = 'document';
+      }
 
       switch (type) {
         case 'image':
-          this.handleAxios(url, 'image', null);
+          this.handleAxios(body, 'image');
           break;
 
         case 'video':
-          this.handleAxios(url, 'video', null);
+          this.handleAxios(body, 'video');
           break;
 
         case 'audio':
-          this.handleAxios(url, 'audio', null);
+          this.handleAxios(body, 'audio');
           break;
         case 'application':
-          this.handleAxios(url, 'application', 'Not a valid pdf url');
+          this.handleAxios(body, 'document');
           break;
       }
-      this.setState({ validAttachment: true });
+      this.setState({ validAttachment: true, attachmentError: null });
     } else {
       // don't continue if our message already has errors
       if (hasErrors(this.state.message)) {
@@ -258,7 +259,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     const updated: any = mutate(this.state.attachments, {
       $splice: [[index, 1]]
     });
-    this.setState({ attachments: updated });
+    this.setState({ attachments: updated, attachmentError: null, validAttachment: false });
   }
 
   private getButtons(): ButtonSet {
@@ -343,72 +344,86 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   private renderAttachment(index: number, attachment: Attachment): JSX.Element {
     let attachments: any = this.state.attachments;
     return (
-      <div
-        className={styles.url_attachment}
-        key={index > -1 ? 'url_attachment_' + index : createUUID()}
-      >
-        <div className={styles.type_choice}>
-          <SelectElement
-            key={'attachment_type_' + index}
-            style={TembaSelectStyle.small}
-            name={i18n.t('forms.type_options', 'Type Options')}
-            placeholder="Add Attachment"
-            entry={{
-              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
-            }}
-            onChange={(option: any) => {
-              if (option.value === 'upload') {
-                window.setTimeout(() => {
-                  this.filePicker.click();
-                }, 200);
-              } else {
-                if (index === -1) {
-                  attachments = mutate(attachments, {
-                    $push: [{ type: option.value, url: '' }]
-                  });
+      <>
+        <div
+          className={styles.url_attachment}
+          key={index > -1 ? 'url_attachment_' + index : createUUID()}
+        >
+          <div className={styles.type_choice}>
+            <SelectElement
+              key={'attachment_type_' + index}
+              style={TembaSelectStyle.small}
+              name={i18n.t('forms.type_options', 'Type Options')}
+              placeholder="Add Attachment"
+              entry={{
+                value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+              }}
+              onChange={(option: any) => {
+                if (option.value === 'upload') {
+                  window.setTimeout(() => {
+                    this.filePicker.click();
+                  }, 200);
                 } else {
-                  attachments = mutate(attachments, {
-                    [index]: {
-                      $set: { type: option.value, url: attachment.url }
-                    }
-                  });
-                }
-                this.setState({ attachments });
-              }
-            }}
-            options={TYPE_OPTIONS}
-          />
-        </div>
-        {index > -1 ? (
-          <>
-            <div className={styles.url}>
-              <TextInputElement
-                placeholder="URL"
-                name={i18n.t('forms.url', 'URL')}
-                style={TextInputStyle.small}
-                onChange={(value: string) => {
-                  attachments = mutate(attachments, {
-                    [index]: { $set: { type: attachment.type, url: value } }
-                  });
+                  if (index === -1) {
+                    attachments = mutate(attachments, {
+                      $push: [{ type: option.value, url: '' }]
+                    });
+                  } else {
+                    attachments = mutate(attachments, {
+                      [index]: {
+                        $set: { type: option.value, url: attachment.url }
+                      }
+                    });
+                  }
                   this.setState({ attachments });
-                }}
-                entry={{ value: attachment.url }}
-                autocomplete={true}
-              />
-            </div>
-            <div className={styles.remove}>
-              <Pill
-                icon="fe-x"
-                text=" Remove"
-                large={true}
-                onClick={() => {
-                  this.handleAttachmentRemoved(index);
-                }}
-              />
-            </div>
-          </>
+                }
+              }}
+              options={TYPE_OPTIONS}
+            />
+          </div>
+          {index > -1 ? (
+            <>
+              <div className={styles.url}>
+                <TextInputElement
+                  placeholder="URL"
+                  name={i18n.t('forms.url', 'URL')}
+                  style={TextInputStyle.small}
+                  onChange={(value: string) => {
+                    attachments = mutate(attachments, {
+                      [index]: { $set: { type: attachment.type, url: value } }
+                    });
+                    this.setState({ attachments });
+                  }}
+                  entry={{ value: attachment.url }}
+                  autocomplete={true}
+                />
+              </div>
+              <div className={styles.remove}>
+                <Pill
+                  icon="fe-x"
+                  text=" Remove"
+                  large={true}
+                  onClick={() => {
+                    this.handleAttachmentRemoved(index);
+                  }}
+                />
+              </div>
+            </>
+          ) : null}
+        </div>
+        {this.state.validAttachment && !this.state.attachmentError ? (
+          <div className={styles.loading}>
+            Checking URL validity
+            <Loading size={10} units={6} color="#999999" />
+          </div>
         ) : null}
-      </div>
+        {this.state.attachmentError ? (
+          <div className={styles.error}>
+            <ImCross className={styles.crossIcon} />
+            {this.state.attachmentError}
+          </div>
+        ) : null}
+      </>
     );
   }
 

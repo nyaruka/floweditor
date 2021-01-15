@@ -29,6 +29,7 @@ export const config: FlowEditorConfig = {
     recents: '/assets/recents.json',
     templates: '/assets/templates.json',
     editor: '/flow/editor',
+    validateMedia: '',
     activity: '',
     simulateStart: '',
     simulateResume: ''
