@@ -166,7 +166,7 @@ describe(UpdateContactForm.name, () => {
 
       instance.handlePropertyChange([CHANNEL_PROPERTY]);
       instance.handleChannelUpdate([
-        { id: 'channel_id', name: 'Channel Name', type: AssetType.Channel }
+        { uuid: 'channel_uuid', name: 'Channel Name', type: AssetType.Channel }
       ]);
       instance.handleSave();
       expect(instance.state).toMatchSnapshot();
