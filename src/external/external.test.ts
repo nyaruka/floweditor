@@ -25,6 +25,9 @@ describe('External', () => {
     expect(resultToAsset({ type: 'message' }, AssetType.Flow, 'uuid').content.type).toEqual(
       'messaging'
     );
+    expect(resultToAsset({ type: 'background' }, AssetType.Flow, 'uuid').content.type).toEqual(
+      'messaging_background'
+    );
     expect(resultToAsset({ type: 'voice' }, AssetType.Flow, 'uuid').content.type).toEqual('voice');
   });
 });
