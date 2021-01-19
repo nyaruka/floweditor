@@ -179,6 +179,8 @@ export const getFlowType = (flow: any) => {
       return FlowTypes.MESSAGING;
     case 'voice':
       return FlowTypes.VOICE;
+    case 'background':
+      return FlowTypes.MESSAGING_BACKGROUND;
     case 'survey':
       return FlowTypes.MESSAGING_OFFLINE;
   }
@@ -196,6 +198,9 @@ export const resultToAsset = (result: any, type: AssetType, id: string): Asset =
         break;
       case 'voice':
         result.type = FlowTypes.VOICE;
+        break;
+      case 'background':
+        result.type = FlowTypes.MESSAGING_BACKGROUND;
         break;
       case 'survey':
         result.type = FlowTypes.MESSAGING_OFFLINE;
