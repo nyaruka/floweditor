@@ -247,7 +247,7 @@ export const typeConfigList: Type[] = [
   {
     type: Types.send_broadcast,
     name: i18n.t('actions.send_broadcast.name', 'Send Broadcast'),
-    description: i18n.t('actions.send_broadcast.description', 'Send somebody else a message'),
+    description: i18n.t('actions.send_broadcast.description', 'Send a staff member a message'),
     form: SendBroadcastForm,
     localization: KeyLocalizationForm,
     localizeableKeys: ['text'],

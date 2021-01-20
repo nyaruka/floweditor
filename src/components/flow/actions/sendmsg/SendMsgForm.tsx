@@ -535,6 +535,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private renderTemplateConfig(): JSX.Element {
+    console.log(this.state.templateTranslation);
     return (
       <>
         <p>
