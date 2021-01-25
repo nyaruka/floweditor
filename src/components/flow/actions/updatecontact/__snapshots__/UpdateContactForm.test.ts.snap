@@ -219,9 +219,9 @@ Object {
   "channel": Object {
     "validationFailures": Array [],
     "value": Object {
-      "id": "channel_id",
       "name": "Channel Name",
       "type": "channel",
+      "uuid": "channel_uuid",
     },
   },
   "field": Object {
@@ -255,9 +255,8 @@ exports[`UpdateContactForm should allow switching from router to channel 2`] = `
 Array [
   Object {
     "channel": Object {
-      "id": "channel_id",
       "name": "Channel Name",
-      "type": "channel",
+      "uuid": "channel_uuid",
     },
     "type": "set_contact_channel",
     "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",

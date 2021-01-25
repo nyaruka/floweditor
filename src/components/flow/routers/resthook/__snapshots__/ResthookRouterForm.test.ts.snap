@@ -36,6 +36,7 @@ exports[`ResthookRouterForm render should render 1`] = `
         "type": "call_resthook",
         "visibility": Array [
           "messaging",
+          "messaging_background",
           "voice",
         ],
       }

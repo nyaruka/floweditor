@@ -169,6 +169,7 @@ Array [
     "type": "send_email",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -204,6 +205,7 @@ Array [
     "type": "call_webhook",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -223,6 +225,7 @@ Array [
     "type": "call_resthook",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -252,6 +255,7 @@ Array [
     "type": "start_session",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -271,6 +275,7 @@ Array [
     "type": "open_ticket",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -290,6 +295,7 @@ Array [
     "type": "transfer_airtime",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -348,6 +354,7 @@ Array [
     "type": "split_by_intent",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -464,6 +471,7 @@ Object {
     "type": "split_by_intent",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -483,6 +491,7 @@ Object {
     "type": "call_resthook",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -501,6 +510,7 @@ Object {
     "type": "call_webhook",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -543,6 +553,7 @@ Object {
     "type": "open_ticket",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -602,6 +613,7 @@ Object {
     "type": "send_email",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -707,6 +719,7 @@ Object {
     "type": "transfer_airtime",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -758,6 +771,7 @@ Object {
     "type": "split_by_intent",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -787,6 +801,7 @@ Object {
     "type": "call_resthook",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -858,6 +873,7 @@ Object {
     "type": "open_ticket",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -876,6 +892,7 @@ Object {
     "type": "call_webhook",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -891,6 +908,7 @@ Object {
     "type": "start_session",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
@@ -928,6 +946,7 @@ Object {
     "type": "transfer_airtime",
     "visibility": Array [
       "messaging",
+      "messaging_background",
       "voice",
     ],
   },
