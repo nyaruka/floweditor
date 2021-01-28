@@ -36,6 +36,7 @@ export enum Types {
   start_session = 'start_session',
   transfer_airtime = 'transfer_airtime',
   split_by_airtime = 'split_by_airtime',
+  split_by_dial = 'split_by_dial',
   split_by_expression = 'split_by_expression',
   split_by_contact_field = 'split_by_contact_field',
   split_by_run_result = 'split_by_run_result',

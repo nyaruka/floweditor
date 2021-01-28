@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DialRouterForm should render 1`] = `
+<Dialog
+  buttons={
+    Object {
+      "primary": Object {
+        "name": "Ok",
+        "onClick": [Function],
+      },
+      "secondary": Object {
+        "name": "Cancel",
+        "onClick": [Function],
+      },
+    }
+  }
+  headerClass="split_by_dial"
+  title="Redirect Call"
+>
+  <TypeList
+    __className=""
+    initialType={
+      Object {
+        "description": "Redirect call to another number",
+        "form": [Function],
+        "name": "Redirect Call",
+        "type": "split_by_dial",
+        "visibility": Array [
+          "voice",
+        ],
+      }
+    }
+    onChange={[MockFunction]}
+  />
+  <p>
+    If the expression...
+  </p>
+  <TextInputElement
+    autocomplete={true}
+    entry={
+      Object {
+        "value": undefined,
+      }
+    }
+    name="Phone Number"
+    onChange={[Function]}
+    showLabel={false}
+  />
+  <OptionalTextInput
+    helpText={
+      <Trans
+        i18nKey="forms.result_name_help"
+        values={
+          Object {
+            "resultFormat": "@results",
+          }
+        }
+      >
+        By naming the result, you can reference it later using [[resultFormat]]
+      </Trans>
+    }
+    maxLength={64}
+    name="Result Name"
+    onChange={[Function]}
+    toggleText="Save as.."
+    value={
+      Object {
+        "value": "",
+      }
+    }
+  />
+</Dialog>
+`;
+
+exports[`DialRouterForm updates should save changes 1`] = `
+Object {
+  "phone": Object {
+    "validationFailures": Array [],
+    "value": "@fields.supervisor",
+  },
+  "resultName": Object {
+    "validationFailures": Array [],
+    "value": "Dial Result",
+  },
+  "valid": true,
+}
+`;
+
+exports[`DialRouterForm updates should save changes 2`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "destination_uuid": null,
+          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+        },
+        Object {
+          "destination_uuid": null,
+          "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "answered",
+            ],
+            "category_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+            "type": "has_only_text",
+            "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+          },
+          Object {
+            "arguments": Array [
+              "no_answer",
+            ],
+            "category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+            "type": "has_only_text",
+            "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+          },
+          Object {
+            "arguments": Array [
+              "busy",
+            ],
+            "category_uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+            "type": "has_only_text",
+            "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+            "name": "Answered",
+            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+          },
+          Object {
+            "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
+            "name": "No Answer",
+            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+          },
+          Object {
+            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+            "name": "Busy",
+            "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+          },
+          Object {
+            "exit_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
+            "name": "Failed",
+            "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+          },
+        ],
+        "default_category_uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+        "operand": "@(default(resume.dial.status, \\"\\"))",
+        "result_name": "Dial Result",
+        "type": "switch",
+        "wait": Object {
+          "phone": "@fields.supervisor",
+          "type": "dial",
+        },
+      },
+      "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "split_by_dial",
+    },
+  },
+]
+`;

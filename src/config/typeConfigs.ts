@@ -29,6 +29,7 @@ import TransferAirtimeComp from 'components/flow/actions/transferairtime/Transfe
 import UpdateContactComp from 'components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from 'components/flow/actions/updatecontact/UpdateContactForm';
 import AirtimeRouterForm from 'components/flow/routers/airtime/AirtimeRouterForm';
+import DialRouterForm from 'components/flow/routers/dial/DialRouterForm';
 import DigitsRouterForm from 'components/flow/routers/digits/DigitsRouterForm';
 import ExpressionRouterForm from 'components/flow/routers/expression/ExpressionRouterForm';
 import FieldRouterForm from 'components/flow/routers/field/FieldRouterForm';
@@ -427,6 +428,13 @@ export const typeConfigList: Type[] = [
     aliases: [Types.call_classifier],
     visibility: VISIBILITY_ONLINE,
     filter: FeatureFilter.HAS_CLASSIFIER
+  },
+  {
+    type: Types.split_by_dial,
+    name: i18n.t('actions.split_by_dial.name', 'Redirect Call'),
+    description: i18n.t('actions.split_by_dial.description', 'Redirect call to another number'),
+    form: DialRouterForm,
+    visibility: VISIBILITY_VOICE
   },
   {
     type: Types.split_by_expression,

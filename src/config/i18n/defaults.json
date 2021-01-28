@@ -69,6 +69,10 @@
       "description": "Split by a contact field",
       "name": "Split by Contact Field"
     },
+    "split_by_dial": {
+      "description": "Redirect call to another number",
+      "name": "Redirect Call"
+    },
     "split_by_expression": {
       "description": "Split by a custom expression",
       "name": "Split by Expression"
@@ -235,6 +239,7 @@
     "operand": "Operand",
     "operator": "operator",
     "play_audio_help_text": "Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.",
+    "phone_number": "Phone Number",
     "quick_replies": "Quick Replies",
     "quick_replies_summary": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
     "quick_reply": "Quick Reply",

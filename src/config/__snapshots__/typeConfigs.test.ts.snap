@@ -359,6 +359,15 @@ Array [
     ],
   },
   Object {
+    "description": "Redirect call to another number",
+    "form": [Function],
+    "name": "Redirect Call",
+    "type": "split_by_dial",
+    "visibility": Array [
+      "voice",
+    ],
+  },
+  Object {
     "description": "Split by a custom expression",
     "form": [Function],
     "localization": [Function],
@@ -733,6 +742,15 @@ Object {
     ],
     "name": "Split by Contact Field",
     "type": "split_by_contact_field",
+  },
+  "split_by_dial": Object {
+    "description": "Redirect call to another number",
+    "form": [Function],
+    "name": "Redirect Call",
+    "type": "split_by_dial",
+    "visibility": Array [
+      "voice",
+    ],
   },
   "split_by_expression": Object {
     "description": "Split by a custom expression",
