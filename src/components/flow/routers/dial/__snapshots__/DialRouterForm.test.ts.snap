@@ -14,17 +14,17 @@ exports[`DialRouterForm should render 1`] = `
       },
     }
   }
-  headerClass="split_by_dial"
-  title="Redirect Call"
+  headerClass="wait_for_dial"
+  title="Wait for Call"
 >
   <TypeList
     __className=""
     initialType={
       Object {
-        "description": "Redirect call to another number",
+        "description": "Wait for a call to another number",
         "form": [Function],
-        "name": "Redirect Call",
-        "type": "split_by_dial",
+        "name": "Wait for Call",
+        "type": "wait_for_dial",
         "visibility": Array [
           "voice",
         ],
@@ -33,7 +33,7 @@ exports[`DialRouterForm should render 1`] = `
     onChange={[MockFunction]}
   />
   <p>
-    If the expression...
+    Enter the phone number to dial
   </p>
   <TextInputElement
     autocomplete={true}
@@ -42,8 +42,9 @@ exports[`DialRouterForm should render 1`] = `
         "value": undefined,
       }
     }
-    name="Phone Number"
+    name="phone"
     onChange={[Function]}
+    placeholder="Phone Number"
     showLabel={false}
   />
   <OptionalTextInput
@@ -173,7 +174,7 @@ Array [
     "ui": Object {
       "config": Object {},
       "position": null,
-      "type": "split_by_dial",
+      "type": "wait_for_dial",
     },
   },
 ]

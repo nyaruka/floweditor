@@ -50,7 +50,8 @@
 .wait_for_location,
 .wait_for_menu,
 .wait_for_digits,
-.wait_for_response {
+.wait_for_response,
+.wait_for_dial {
   background: $dark_blue;
 }
 

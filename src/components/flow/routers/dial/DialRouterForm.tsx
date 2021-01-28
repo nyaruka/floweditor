@@ -28,8 +28,10 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
   }
 
   private handlePhoneUpdated(value: string): void {
+    const phone = validate(i18n.t('forms.phone_number', 'Phone Number'), value, [Required]);
     this.setState({
-      phone: validate(i18n.t('forms.phone_number', 'Phone Number'), value, [Required])
+      phone: phone,
+      valid: this.state.valid && !hasErrors(phone)
     });
   }
 
@@ -67,9 +69,10 @@ export default class DialRouterForm extends React.Component<RouterFormProps, Dia
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <p>If the expression...</p>
+        <p>Enter the phone number to dial</p>
         <TextInputElement
-          name={i18n.t('forms.phone_number', 'Phone Number')}
+          name="phone"
+          placeholder={i18n.t('forms.phone_number', 'Phone Number')}
           showLabel={false}
           autocomplete={true}
           onChange={this.handlePhoneUpdated}

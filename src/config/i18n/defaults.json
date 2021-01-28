@@ -69,10 +69,6 @@
       "description": "Split by a contact field",
       "name": "Split by Contact Field"
     },
-    "split_by_dial": {
-      "description": "Redirect call to another number",
-      "name": "Redirect Call"
-    },
     "split_by_expression": {
       "description": "Split by a custom expression",
       "name": "Split by Expression"
@@ -108,6 +104,10 @@
     "wait_for_audio": {
       "description": "Wait for an audio recording",
       "name": "Wait for Audio"
+    },
+    "wait_for_dial": {
+      "description": "Wait for a call to another number",
+      "name": "Wait for Call"
     },
     "wait_for_digits": {
       "description": "Wait for multiple digits",

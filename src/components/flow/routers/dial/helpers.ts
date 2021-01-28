@@ -12,8 +12,7 @@ import {
   RouterTypes,
   SwitchRouter,
   Wait,
-  WaitTypes,
-  WebhookExitNames
+  WaitTypes
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
@@ -23,7 +22,7 @@ export const nodeToState = (settings: NodeEditorSettings): DialRouterFormState =
   let phone = '';
   let resultName: StringEntry = { value: '' };
 
-  if (settings.originalNode && getType(settings.originalNode) === Types.split_by_dial) {
+  if (settings.originalNode && getType(settings.originalNode) === Types.wait_for_dial) {
     const router = settings.originalNode.node.router as SwitchRouter;
     if (router) {
       phone = router.wait.phone;
@@ -140,7 +139,7 @@ export const stateToNode = (
     settings.originalNode.node.uuid,
     router,
     exits,
-    Types.split_by_dial,
+    Types.wait_for_dial,
     []
   );
 

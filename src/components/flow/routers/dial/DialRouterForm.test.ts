@@ -11,7 +11,7 @@ mock(utils, 'createUUID', utils.seededUUIDs());
 const routerNode = createMatchRouter([]);
 routerNode.ui = {
   position: { left: 0, top: 0 },
-  type: Types.split_by_dial
+  type: Types.wait_for_dial
 };
 
 const { setup } = composeComponentTestUtils<RouterFormProps>(

@@ -212,6 +212,14 @@ export const typeConfigList: Type[] = [
   },
 
   {
+    type: Types.wait_for_dial,
+    name: i18n.t('actions.wait_for_dial.name', 'Wait for Call'),
+    description: i18n.t('actions.wait_for_dial.description', 'Wait for a call to another number'),
+    form: DialRouterForm,
+    visibility: VISIBILITY_VOICE
+  },
+
+  {
     type: Types.send_msg,
     name: i18n.t('actions.send_msg.name', 'Send Message'),
     description: i18n.t('actions.send_msg.description', 'Send the contact a message'),
@@ -428,13 +436,6 @@ export const typeConfigList: Type[] = [
     aliases: [Types.call_classifier],
     visibility: VISIBILITY_ONLINE,
     filter: FeatureFilter.HAS_CLASSIFIER
-  },
-  {
-    type: Types.split_by_dial,
-    name: i18n.t('actions.split_by_dial.name', 'Redirect Call'),
-    description: i18n.t('actions.split_by_dial.description', 'Redirect call to another number'),
-    form: DialRouterForm,
-    visibility: VISIBILITY_VOICE
   },
   {
     type: Types.split_by_expression,

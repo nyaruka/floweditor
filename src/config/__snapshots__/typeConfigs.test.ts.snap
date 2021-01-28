@@ -68,6 +68,15 @@ Array [
     ],
   },
   Object {
+    "description": "Wait for a call to another number",
+    "form": [Function],
+    "name": "Wait for Call",
+    "type": "wait_for_dial",
+    "visibility": Array [
+      "voice",
+    ],
+  },
+  Object {
     "component": [Function],
     "description": "Send the contact a message",
     "form": [Function],
@@ -355,15 +364,6 @@ Array [
     "visibility": Array [
       "messaging",
       "messaging_background",
-      "voice",
-    ],
-  },
-  Object {
-    "description": "Redirect call to another number",
-    "form": [Function],
-    "name": "Redirect Call",
-    "type": "split_by_dial",
-    "visibility": Array [
       "voice",
     ],
   },
@@ -743,15 +743,6 @@ Object {
     "name": "Split by Contact Field",
     "type": "split_by_contact_field",
   },
-  "split_by_dial": Object {
-    "description": "Redirect call to another number",
-    "form": [Function],
-    "name": "Redirect Call",
-    "type": "split_by_dial",
-    "visibility": Array [
-      "voice",
-    ],
-  },
   "split_by_expression": Object {
     "description": "Split by a custom expression",
     "form": [Function],
@@ -979,6 +970,15 @@ Object {
     "type": "wait_for_audio",
     "visibility": Array [
       "messaging_offline",
+      "voice",
+    ],
+  },
+  "wait_for_dial": Object {
+    "description": "Wait for a call to another number",
+    "form": [Function],
+    "name": "Wait for Call",
+    "type": "wait_for_dial",
+    "visibility": Array [
       "voice",
     ],
   },
