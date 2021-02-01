@@ -91,7 +91,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
 
     // if we don't have an endpoint, populate our options with items
-    if (!this.props.assets.endpoint) {
+    if (this.props.assets && !this.props.assets.endpoint) {
       this.options = this.options.concat(
         Object.keys(this.props.assets.items).map((id: string) => this.props.assets.items[id])
       );
@@ -227,7 +227,9 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           cacheKey={this.lastCreation + ''}
           options={this.options}
           sortFunction={this.props.sortFunction || sortByName}
-          queryParam={this.props.assets.type === AssetType.Contact ? 'search' : null}
+          queryParam={
+            this.props.assets && this.props.assets.type === AssetType.Contact ? 'search' : null
+          }
         />
       </FormElement>
     );
