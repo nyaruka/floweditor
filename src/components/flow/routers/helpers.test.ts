@@ -1,6 +1,6 @@
 import { getSwitchRouter, resolveRoutes, createCaseProps } from 'components/flow/routers/helpers';
 import { createCases, createMatchRouter, createRoutes } from 'testUtils/assetCreators';
-import { createUUID, dump } from 'utils';
+import { createUUID } from 'utils';
 import { Operators } from 'config/interfaces';
 
 describe('routers', () => {
