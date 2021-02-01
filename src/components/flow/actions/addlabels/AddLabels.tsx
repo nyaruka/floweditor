@@ -11,6 +11,13 @@ const AddLabelsComp: React.SFC<AddLabels> = ({ labels }, context: any): JSX.Elem
     <>
       {renderAssetList(
         labels.map(label => {
+          if (label.name_match) {
+            return {
+              id: label.name_match,
+              name: label.name_match,
+              type: AssetType.NameMatch
+            };
+          }
           return {
             id: label.uuid,
             name: label.name,
