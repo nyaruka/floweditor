@@ -30,7 +30,7 @@ export const stateToAction = (
   settings: NodeEditorSettings,
   formState: AddLabelsFormState
 ): AddLabels => {
-  return {
+  const result = {
     type: Types.add_input_labels,
     labels: formState.labels.value.map((label: any) => {
       if (label.expression) {
@@ -40,4 +40,5 @@ export const stateToAction = (
     }),
     uuid: getActionUUID(settings, Types.add_input_labels)
   };
+  return result;
 };
