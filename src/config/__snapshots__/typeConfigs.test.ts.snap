@@ -68,9 +68,9 @@ Array [
     ],
   },
   Object {
-    "description": "Wait for a call to another number",
+    "description": "Wait for forwarded call to someone else",
     "form": [Function],
-    "name": "Wait for Call",
+    "name": "Wait for Forwarded Call",
     "type": "wait_for_dial",
     "visibility": Array [
       "voice",
@@ -974,9 +974,9 @@ Object {
     ],
   },
   "wait_for_dial": Object {
-    "description": "Wait for a call to another number",
+    "description": "Wait for forwarded call to someone else",
     "form": [Function],
-    "name": "Wait for Call",
+    "name": "Wait for Forwarded Call",
     "type": "wait_for_dial",
     "visibility": Array [
       "voice",

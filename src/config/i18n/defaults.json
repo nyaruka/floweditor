@@ -106,8 +106,8 @@
       "name": "Wait for Audio"
     },
     "wait_for_dial": {
-      "description": "Wait for a call to another number",
-      "name": "Wait for Call"
+      "description": "Wait for forwarded call to someone else",
+      "name": "Wait for Forwarded Call"
     },
     "wait_for_digits": {
       "description": "Wait for multiple digits",

@@ -213,8 +213,11 @@ export const typeConfigList: Type[] = [
 
   {
     type: Types.wait_for_dial,
-    name: i18n.t('actions.wait_for_dial.name', 'Wait for Call'),
-    description: i18n.t('actions.wait_for_dial.description', 'Wait for a call to another number'),
+    name: i18n.t('actions.wait_for_dial.name', 'Wait for Forwarded Call'),
+    description: i18n.t(
+      'actions.wait_for_dial.description',
+      'Wait for forwarded call to someone else'
+    ),
     form: DialRouterForm,
     visibility: VISIBILITY_VOICE
   },

@@ -15,15 +15,15 @@ exports[`DialRouterForm should render 1`] = `
     }
   }
   headerClass="wait_for_dial"
-  title="Wait for Call"
+  title="Wait for Forwarded Call"
 >
   <TypeList
     __className=""
     initialType={
       Object {
-        "description": "Wait for a call to another number",
+        "description": "Wait for forwarded call to someone else",
         "form": [Function],
-        "name": "Wait for Call",
+        "name": "Wait for Forwarded Call",
         "type": "wait_for_dial",
         "visibility": Array [
           "voice",
