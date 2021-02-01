@@ -1,5 +1,6 @@
 import { DialRouterFormState } from 'components/flow/routers/dial/DialRouterForm';
 import { createRenderNode, getSwitchRouter } from 'components/flow/routers/helpers';
+import { DIAL_OPERAND } from 'components/nodeeditor/constants';
 import { Operators, Types } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import {
@@ -131,7 +132,7 @@ export const stateToNode = (
     default_category_uuid: categories[categories.length - 1].uuid,
     categories,
     cases,
-    operand: '@(default(resume.dial.status, ""))',
+    operand: DIAL_OPERAND,
     ...optionalRouter
   };
 
