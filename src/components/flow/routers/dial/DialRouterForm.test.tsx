@@ -1,5 +1,5 @@
 import DialRouterForm from 'components/flow/routers/dial/DialRouterForm';
-import { Operators, Types } from 'config/interfaces';
+import { Types } from 'config/interfaces';
 import { WaitTypes } from 'flowTypes';
 import * as React from 'react';
 import { fireEvent, render, getUpdatedNode, fireChangeText } from 'test/utils';
