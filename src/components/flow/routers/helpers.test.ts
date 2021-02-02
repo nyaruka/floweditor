@@ -2,6 +2,7 @@ import { getSwitchRouter, resolveRoutes, createCaseProps } from 'components/flow
 import { createCases, createMatchRouter, createRoutes } from 'testUtils/assetCreators';
 import { createUUID } from 'utils';
 import { Operators } from 'config/interfaces';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 
 describe('routers', () => {
   it('doesnt modify in memory cases', () => {
@@ -77,7 +78,13 @@ describe('routers', () => {
     });
 
     it('reuses timeout category', () => {
-      const renderNode = createMatchRouter(['Red', 'Green', 'Blue'], true);
+      const renderNode = createMatchRouter(
+        ['Red', 'Green', 'Blue'],
+        DEFAULT_OPERAND,
+        Operators.has_any_word,
+        '',
+        true
+      );
       const originalCategories = renderNode.node.router.categories;
       expect(originalCategories[originalCategories.length - 1].name).toBe('No Response');
 
