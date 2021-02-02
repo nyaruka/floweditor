@@ -67,6 +67,7 @@ exports[`AddLabelsForm render should render a base action 1`] = `
         ],
       }
     }
+    expressions={true}
     multi={true}
     name="Labels"
     onAssetCreated={[Function]}

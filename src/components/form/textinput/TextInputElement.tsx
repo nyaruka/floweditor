@@ -11,6 +11,7 @@ export enum Count {
 
 export enum TextInputStyle {
   small = 'small',
+  medium = 'medium',
   normal = 'normal'
 }
 

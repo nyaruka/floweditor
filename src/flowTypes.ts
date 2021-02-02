@@ -260,6 +260,7 @@ export interface Field {
 export interface Label {
   uuid: string;
   name: string;
+  name_match?: string;
 }
 
 export interface Flow {

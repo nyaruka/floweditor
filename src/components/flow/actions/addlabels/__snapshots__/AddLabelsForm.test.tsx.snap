@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddLabelsForm render allows expressions 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header start_session"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Start Somebody Else
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
+                searchable="true"
+                valuekey="type"
+                values="[{\\"type\\":\\"start_session\\",\\"name\\":\\"Start Somebody Else\\",\\"description\\":\\"Start somebody else in a flow\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+              />
+            </div>
+          </div>
+        </div>
+        <p
+          data-spec="label"
+        >
+          Select the labels to apply to the incoming message.
+        </p>
+        <div
+          class="ele"
+        >
+          <div
+            class="normal "
+          >
+            <temba-select
+              cachekey="0"
+              data-testid="temba_select_labels"
+              errors="[]"
+              expressions="session"
+              multi="true"
+              name="Labels"
+              namekey="name"
+              placeholder="Enter the name of an existing label or create a new one"
+              searchable="true"
+              valuekey="uuid"
+              values="[{\\"name\\":\\"@result.my_expression\\",\\"expression\\":true}]"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`AddLabelsForm render allows expressions 2`] = `
+Array [
+  Object {
+    "labels": Array [
+      Object {
+        "name_match": "@result.my_expression",
+      },
+    ],
+    "type": "add_input_labels",
+    "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+  },
+]
+`;
+
+exports[`AddLabelsForm render should render 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header add_input_labels"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Add Labels
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
+                searchable="true"
+                valuekey="type"
+                values="[{\\"type\\":\\"add_input_labels\\",\\"name\\":\\"Add Labels\\",\\"description\\":\\"Label the incoming message\\",\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\",\\"voice\\"]}]"
+              />
+            </div>
+          </div>
+        </div>
+        <p
+          data-spec="label"
+        >
+          Select the labels to apply to the incoming message.
+        </p>
+        <div
+          class="ele"
+        >
+          <div
+            class="normal "
+          >
+            <temba-select
+              cachekey="0"
+              data-testid="temba_select_labels"
+              errors="[]"
+              expressions="session"
+              multi="true"
+              name="Labels"
+              namekey="name"
+              placeholder="Enter the name of an existing label or create a new one"
+              searchable="true"
+              valuekey="uuid"
+              values="[{\\"name\\":\\"My Label\\",\\"uuid\\":\\"b1f332f3-bdd3-4891-aec5-1843a712dbf1\\"}]"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

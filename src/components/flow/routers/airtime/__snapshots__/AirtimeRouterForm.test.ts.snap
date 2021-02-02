@@ -45,7 +45,6 @@ exports[`AirtimeRouterForm render should render 1`] = `
   />
   <div>
     <CurrencyElement
-      currencies={Array []}
       exclude={
         Array [
           Object {
@@ -70,7 +69,6 @@ exports[`AirtimeRouterForm render should render 1`] = `
       }
     />
     <CurrencyElement
-      currencies={Array []}
       exclude={
         Array [
           Object {
