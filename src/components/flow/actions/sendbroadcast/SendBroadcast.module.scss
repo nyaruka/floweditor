@@ -29,6 +29,9 @@
     background: #fff;
     padding: $action_padding;
 
+    .icons {
+      display: flex;
+    }
     .line {
       display: block;
       margin-top: 3px;

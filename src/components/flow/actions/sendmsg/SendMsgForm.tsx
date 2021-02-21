@@ -535,7 +535,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   }
 
   private renderTemplateConfig(): JSX.Element {
-    console.log(this.state.templateTranslation);
     return (
       <>
         <p>
@@ -567,7 +566,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                     onChange={(updatedText: string) => {
                       this.handleTemplateVariableChanged(updatedText, num);
                     }}
-                    entry={this.state.templateVariables[num]}
+                    entry={
+                      this.state.templateVariables[num] === undefined
+                        ? { value: '' }
+                        : this.state.templateVariables[num]
+                    }
                     autocomplete={true}
                   />
                 </div>

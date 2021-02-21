@@ -171,7 +171,6 @@ export default class SendBroadcastForm extends React.Component<
               };
             })
           : this.state.templateVariables;
-
       this.setState({
         template: { value: template },
         templateTranslation,
@@ -189,7 +188,6 @@ export default class SendBroadcastForm extends React.Component<
   }
 
   private renderTemplateConfig(): JSX.Element {
-    console.log(this.state.templateTranslation);
     return (
       <>
         <p>
@@ -221,7 +219,11 @@ export default class SendBroadcastForm extends React.Component<
                     onChange={(updatedText: string): any => {
                       this.handleTemplateVariableChanged(updatedText, num);
                     }}
-                    entry={this.state.templateVariables[num]}
+                    entry={
+                      this.state.templateVariables[num] === undefined
+                        ? { value: '' }
+                        : this.state.templateVariables[num]
+                    }
                     autocomplete={true}
                   />
                 </div>
