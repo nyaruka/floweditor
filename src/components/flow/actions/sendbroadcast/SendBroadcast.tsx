@@ -41,6 +41,10 @@ const SendBroadcastComp: React.SFC<BroadcastMsg> = (
         </div>
       </div>
     );
+  } else if (action.attachments && action.attachments.length > 0) {
+    return <div className={`${styles.attachment} fe-paperclip`} />;
+  } else if (action.templating && action.templating.template) {
+    return <div className={`${styles.whatsapp} fe-whatsapp`} />;
   }
   return <div className="placeholder">{PLACEHOLDER}</div>;
 };

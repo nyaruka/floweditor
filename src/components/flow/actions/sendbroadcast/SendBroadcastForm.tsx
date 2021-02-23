@@ -29,6 +29,7 @@ import Pill from 'components/pill/Pill';
 import Loading from 'components/loading/Loading';
 import { ImCross } from 'react-icons/im';
 import { fetchAsset } from 'external';
+import axios from 'axios';
 export interface SendBroadcastFormState extends FormState {
   template: FormEntry;
   templateVariables: StringEntry[];
@@ -69,7 +70,6 @@ export default class SendBroadcastForm extends React.Component<
     bindCallbacks(this, {
       include: [/^on/, /^handle/]
     });
-
     if (this.state.template.value !== null) {
       fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
         (asset: Asset) => {
@@ -109,31 +109,97 @@ export default class SendBroadcastForm extends React.Component<
     return updated.valid;
   }
 
+  public handleAxios(body: any, type: any) {
+    axios
+      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`)
+      .then(response => {
+        if (response.data.is_valid) {
+          // make sure we validate untouched text fields and contact fields
+          let valid = true;
+
+          let templateVariables = this.state.templateVariables;
+          // make sure we don't have untouched template variables
+          this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
+            const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
+            templateVariables = mutate(templateVariables, {
+              [num]: { $merge: updated }
+            }) as StringEntry[];
+            valid = valid && !hasErrors(updated);
+          });
+
+          if (valid) {
+            this.setState({ validAttachment: false });
+            this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+            // notify our modal we are done
+            this.props.onClose(false);
+          } else {
+            this.setState({ templateVariables, valid });
+          }
+        } else {
+          this.setState({ attachmentError: `Not a valid ${type} url` });
+        }
+      })
+      .catch(error => {
+        this.setState({ attachmentError: `The attachment url is invalid!: ${error.toString()}` });
+      });
+  }
+
   private handleSave(): void {
-    // validate in case they never updated an empty field
-    let valid = this.handleUpdate(
-      {
-        text: this.state.message.value,
-        recipients: this.state.recipients.value!
-      },
-      true
-    );
+    if (this.state.attachments.length > 0) {
+      const type = this.state.attachments[0].type;
+      const url = this.state.attachments[0].url;
 
-    let templateVariables = this.state.templateVariables;
-    // make sure we don't have untouched template variables
-    this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
-      const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
-      templateVariables = mutate(templateVariables, {
-        [num]: { $merge: updated }
-      }) as StringEntry[];
-      valid = valid && !hasErrors(updated);
-    });
+      let body = {
+        type,
+        url
+      };
 
-    if (valid) {
-      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+      if (type === 'application') {
+        body.type = 'document';
+      }
+      switch (type) {
+        case 'image':
+          this.handleAxios(body, 'image');
+          break;
 
-      // notify our modal we are done
-      this.props.onClose(false);
+        case 'video':
+          this.handleAxios(body, 'video');
+          break;
+
+        case 'audio':
+          this.handleAxios(body, 'audio');
+          break;
+        case 'application':
+          this.handleAxios(body, 'document');
+          break;
+      }
+      this.setState({ validAttachment: true, attachmentError: null });
+    } else {
+      // validate in case they never updated an empty field
+      let valid = this.handleUpdate(
+        {
+          text: this.state.message.value,
+          recipients: this.state.recipients.value!
+        },
+        true
+      );
+      let templateVariables = this.state.templateVariables;
+      // make sure we don't have untouched template variables
+      this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
+        const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
+        templateVariables = mutate(templateVariables, {
+          [num]: { $merge: updated }
+        }) as StringEntry[];
+        valid = valid && !hasErrors(updated);
+      });
+      if (templateVariables.length > 0 && !this.state.message.value) {
+        valid = !valid;
+      }
+      if (valid) {
+        this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+        // notify our modal we are done
+        this.props.onClose(false);
+      }
     }
   }
 
@@ -150,6 +216,7 @@ export default class SendBroadcastForm extends React.Component<
       }
     };
   }
+
   private handleTemplateChanged(selected: any[]): void {
     const template = selected ? selected[0] : null;
 

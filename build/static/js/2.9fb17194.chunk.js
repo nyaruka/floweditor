@@ -1,4 +1,4 @@
-/*! For license information please see 2.ede293c2.chunk.js.LICENSE.txt */
+/*! For license information please see 2.9fb17194.chunk.js.LICENSE.txt */
 (this['webpackJsonp@nyaruka/flow-editor'] = this['webpackJsonp@nyaruka/flow-editor'] || []).push([
   [2],
   [
@@ -562,7 +562,7 @@
         n.d(t, 'b', function() {
           return E;
         });
-      var r = n(55),
+      var r = n(57),
         i = n.n(r),
         o = n(50),
         a = n.n(o),
@@ -1269,6 +1269,9 @@
       }
     },
     function(e, t, n) {
+      e.exports = n(185);
+    },
+    function(e, t, n) {
       'use strict';
       n.d(t, 'a', function() {
         return o;
@@ -1337,9 +1340,6 @@
           })()
         );
       }
-    },
-    function(e, t, n) {
-      e.exports = n(185);
     },
     ,
     ,
@@ -1500,7 +1500,7 @@
       };
       var p = d,
         h = n(12),
-        m = n(53),
+        m = n(54),
         g = n(109),
         v = n.n(g),
         y = n(51),
@@ -2161,11 +2161,11 @@
         i = n(19),
         o = n(17),
         a = n(18),
-        s = n(22),
-        u = n(24),
+        s = n(23),
+        u = n(25),
         l = n(1),
-        c = n(25),
-        f = n(57);
+        c = n(26),
+        f = n(59);
       var d = n(83);
       function p(e, t) {
         return (
@@ -4357,6 +4357,7 @@
       };
     },
     ,
+    ,
     function(e, t, n) {
       'use strict';
       function r(e, t) {
@@ -4372,6 +4373,7 @@
         return r;
       });
     },
+    ,
     ,
     function(e, t, n) {
       var r = n(174);
@@ -4417,8 +4419,6 @@
         );
       }
     },
-    ,
-    ,
     ,
     ,
     ,
@@ -11115,7 +11115,7 @@
     },
     function(e, t, n) {
       'use strict';
-      var r = n(53);
+      var r = n(54);
       function i(e, t) {
         if (null == e) return {};
         var n,
@@ -11131,13 +11131,13 @@
         return o;
       }
       var o = n(12),
-        a = n(57),
+        a = n(59),
         s = n(19),
         u = n(17),
         l = n(18),
-        c = n(22),
-        f = n(24),
-        d = n(25),
+        c = n(23),
+        f = n(25),
+        d = n(26),
         p = n(1),
         h = n(10),
         m = n(0),
@@ -36464,4 +36464,4 @@
     }
   ]
 ]);
-//# sourceMappingURL=2.ede293c2.chunk.js.map
+//# sourceMappingURL=2.9fb17194.chunk.js.map
