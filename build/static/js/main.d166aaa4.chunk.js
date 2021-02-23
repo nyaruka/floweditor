@@ -1028,7 +1028,7 @@
     ,
     function(e) {
       e.exports = JSON.parse(
-        '{"actions":{"add_contact_groups":{"description":"Add the contact to a group","name":"Add to Group"},"add_contact_urn":{"description":"Add a URN for the contact","name":"Add URN"},"add_input":{"description":"Label the incoming message","name":"Add Labels"},"call_resthook":{"description":"Call Zapier","name":"Call Zapier"},"call_webhook":{"description":"Call a webhook","name":"Call Webhook"},"enter_flow":{"description":"Enter another flow","name":"Enter a Flow"},"open_ticket":{"description":"Open a ticket with a human agent","name":"Open Ticket"},"play_audio":{"description":"Play a contact recording","name":"Play Recording"},"play_message":{"description":"Play a message","name":"Play Message"},"remove_contact_groups":{"description":"Remove the contact from a group","name":"Remove from Group"},"say_msg":{"placeholder":"Send a message to the contact"},"send_broadcast":{"description":"Send a staff member a message","name":"Send Broadcast","placeholder":"Send a staff member a message"},"send_email":{"description":"Send an email","name":"Send Email"},"send_msg":{"description":"Send the contact a message","name":"Send Message","placeholder":"Send a message to the contact"},"set_contact_field":{"description":"Update the contact","name":"Update Contact"},"set_run_result":{"description":"Save a result for this flow","name":"Save Flow Result"},"split_by_contact_field":{"description":"Split by a contact field","name":"Split by Contact Field"},"split_by_expression":{"description":"Split by a custom expression","name":"Split by Expression"},"split_by_groups":{"description":"Split by group membership","name":"Split by Group Membership"},"split_by_intent":{"description":"Split by intent","name":"Split by Intent"},"split_by_random":{"description":"Split by random chance","name":"Split Randomly"},"split_by_run_result":{"description":"Split by a result in the flow","name":"Split by Flow Result"},"split_by_scheme":{"description":"Split by URN type","name":"Split by URN Type"},"start_session":{"description":"Start somebody else in a flow","name":"Start Somebody Else"},"transfer_airtime":{"description":"Send the contact airtime","name":"Send Airtime"},"wait_for_audio":{"description":"Wait for an audio recording","name":"Wait for Audio"},"wait_for_digits":{"description":"Wait for multiple digits","name":"Wait for Digits"},"wait_for_image":{"description":"Wait for an image","name":"Wait for Image"},"wait_for_location":{"description":"Wait for location GPS coordinates","name":"Wait for Location"},"wait_for_menu":{"description":"Wait for menu selection","name":"Wait for Menu Selection"},"wait_for_response":{"description":"Wait for the contact to respond","name":"Wait for Response"},"wait_for_time":{"description":"Wait for time","name":"Wait for time"},"wait_for_video":{"description":"Wait for a video","name":"Wait for Video"}},"add":"Add","asset_selector":{"placeholder":"Select existing [[name]] or enter a new one","placeholder_plural":"Select existing [[name]] or enter a new one"},"assets":{"classifier":"Call [[name]] classifier","ticketer":"Using [[name]] service"},"body":"Body","buttons":{"cancel":"Cancel","create_message":"Create Message","download":"Download","ok":"Ok"},"contact_statuses":{"active":"Active","blocked":"Blocked - remove from groups, ignore forever","stopped":"Stopped - remove from groups, ignore until they message again","archived":"Archived - remove from groups, ignore forever"},"context_explorer":{"copied_expression":"Copied <1>[[expression]]</1> to clipboard","hide_empty":"Showing keys with values","show_empty":"Showing all keys"},"create_group":"Create Group","create_label":"Create Label","drag_helper":"To connect nodes, <1>drag</1> from the red circle.","email":{"subject":"Subject","to":"To"},"empty_flow_message":"<0>Let\'s get started</0><1>We recommend starting your flow by sending a message. This message will be sent to anybody right after they join the flow. This is your chance to send a single message or ask them a question.</1>","enter_to_create_group":"Enter a name to create a new group","enter_to_create_label":"Enter the name of an existing label or create a new one","errors":{"group_not_found":"Enter the name of an existing group","http_header_missing_name":"HTTP headers must have a name","network":"Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."},"forms":{"add_groups_summary":"Select the groups to add the contact to.","add_labels_summary":"Select the labels to apply to the incoming message.","add_quick_reply":"Add a new Quick Reply and press enter.","add_urn_summary":"Add a new URN to reach the contact such as a phone number.","all_destinations":"All Destinations","are_required":"are required","arguments":"arguments","audio_url":"Audio URL","body":"Body","buckets":"Buckets","categories":"categories","category":"Category","channel":"Channel","channel_type":"Channel Type","classifier":"Classifier","confidence":"confidence","contact_field":"Contact Field","contact_query":"Contact Query","create_prefix":"New: ","currency":"Currency","day":"day","days":"days","delimit":"Delimit","delimit_result":"Delimit Result","delimit_result_description":"Evaluate your rules against a delimited part of your result","delimiter":"Delimiter","district":"District","email_recipient_name":"Recipient","email_recipient_placeholder":"To","email_recipient_prompt":"Enter email address","enter_a_body":"Enter a body","enter_a_subject":"Enter a subject","enter_a_url":"Enter a URL","enter_flow_parameters_summary":"<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.","enter_flow_parameters_tab":"Parameters","exit_name":"Exit Name","expression_label":"If the expression...","field_number":"Field Number","field_value":"Field Value","flow":"Flow","flow_result":"Flow Result","groups":"Groups","header_name":"Header name","image_url":"Image URL","intent":"Intent","is_not_a_valid_regex":"is not a valid regex","is_not_finished":"is not finished","is_required":"is required","labels":"Labels","language":"Language","localize_rules":"Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.","localized_quick_replies":"Add a new [[language]] Quick Reply and press enter.","maximum_value":"Maximum value","message":"Message","message_label":"If the message response...","method":"Method","minimum_value":"Minimum value","must_be_less_than":"must be less than","name":"Name","operand":"Operand","operator":"operator","play_audio_help_text":"Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.","quick_replies":"Quick Replies","quick_replies_summary":"Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \\"Yes\\" and one for \\"No\\".","quick_reply":"Quick Reply","recipients":"Recipients","recording":"Recording","recording_label":"Previous Recording","remove_from_all_label":"Remove from all","remove_from_all_summary":"Remove the active contact from all groups they\'re a member of.","remove_groups_placeholder":"Enter the name of an existing group","remove_groups_summary":"Select the groups to remove the contact from.","resthook":"Resthook","resthook_to_call":"Select the resthook to call","result":"Result","result_name":"Result Name","result_name_help":"By naming the result, you can reference it later using [[resultFormat]]","result_to_split_on":"Result to split on","rules":"rules","save_as_title":"Save as..","save_result_name":"Result Name","select_result":"Select Result","send_msg_facebook_topic_placeholder":"Select a topic to use over Facebook","send_msg_facebook_warning":"Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.","send_msg_summary":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","send_msg_summary_plural":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","split_by_channel_placeholder":"Select the channels to split by","split_by_groups":"Select the groups you\'d like to split by below","split_by_scheme":"Channel types","split_by_scheme_summary":"The contact\'s URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.","start_type":"Start Type","state":"State","status":"Status","subject":"Subject","template":"template","the_maximum":"the maximum","the_minimum":"the minimum","ticketer":"Ticketer","timeout":"Timeout","timeout_1 day":"1 day","timeout_1 hour":"1 hour","timeout_1 minute":"1 minute","timeout_1 week":"1 week","timeout_10 minutes":"10 minutes","timeout_12 hours":"12 hours","timeout_15 minutes":"15 minutes","timeout_18 hours":"18 hours","timeout_2 days":"2 days","timeout_2 hours":"2 hours","timeout_2 minutes":"2 minutes","timeout_3 days":"3 days","timeout_3 hours":"3 hours","timeout_3 minutes":"3 minutes","timeout_4 minutes":"4 minutes","timeout_5 minutes":"5 minutes","timeout_6 hours":"6 hours","today":"today","today_proper":"Today","translation":"Translation","type":"Type","type_label":"When a contact arrives at this point in your flow...","type_options":"Type Options","url":"URL","urn":"URN","urn_type":"URN Type","use_as_default_language":"Use as default language","value":"Value","variable":"Variable","video_url":"Video URL","webhook_body_summary":"Modify the body of the [[method]] request that will be sent to your webhook.(Please update only custom-key value pairs)","webhook_example":"This response would add <1>@webhook.product</1> and <4>@webhook[\\"stock level\\"]</4> for use in the flow.","webhook_header":"Header","webhook_header_name":"Header Name","webhook_header_summary":"Add any additional headers below that you would like to send along with your request.","webhook_help":"If your server responds with JSON, each property will be added to the Flow.","whatsapp_warning":"Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."},"issues":{"header":"Flow Issues","label":"Flow Issues","legacy_extra":"Invalid regular expression found: [[regex]]","missing_dependency":"Cannot find a [[type]] for <1>[[name]]</1>"},"operator":{"has_pattern":"matches regex"},"operators":{"has_all_words":"has all of the words","has_any_word":"has any of the words","has_beginning":"starts with","has_category":"has the category","has_date":"has a date","has_date_category":"Has Date","has_date_eq":"has a date equal to","has_date_gt":"has a date after","has_date_lt":"has a date before","has_district":"has district","has_district_category":"Has District","has_email":"has an email","has_email_category":"Has Email","has_error":"has an error","has_error_category":"Has Error","has_group":"is in the group","has_intent":"has intent","has_number":"has a number","has_number_between":"has a number between","has_number_eq":"has a number equal to","has_number_gt":"has a number above","has_number_gte":"has a number at or above","has_number_lt":"has a number below","has_number_lte":"has a number at or below","has_only_phrase":"has only the phrase","has_phone":"has a phone number","has_phone_category":"Has Phone","has_phrase":"has the phrase","has_state":"has state","has_state_category":"Has State","has_text":"has some text","has_time":"has a time","has_top_intent":"has top intent","has_value":"is not empty","has_value_category":"Not Empty","has_ward":"has ward","has_ward_category":"Has Ward","has_media":"has media","has_location":"has location"},"removal_confirmation":"Remove?","revisions":{"header":"Revisions","label":"Revision History"},"schemes":{"email":{"name":"Email","path":"Email Address"},"external":{"name":"External","path":"External ID"},"facebook":{"path":"Facebook"},"firebase":{"name":"Firebase","path":"Firebase ID"},"freschat":{"name":"Freshchat"},"freshchat":{"path":"Freshchat ID"},"jiochat":{"path":"Jiochat ID"},"jiojach":{"name":"Jiochat"},"line":{"name":"Line","path":"Line ID"},"phone":{"name":"SMS","path":"Phone Number"},"telegram":{"name":"Telegram","path":"Telegram ID"},"twitter":{"name":"Twitter","path":"Twitter Handle"},"twitterid":{"name":"Twitter","path":"Twitter ID"},"viber":{"name":"Viber","path":"Viber ID"},"wechat":{"name":"Wechat","path":"Wechat ID"},"whatsapp":{"name":"WhatsApp","path":"WhatsApp Number"}},"simulator":{"added_to_group":"Added to ","airtime_transferred":"Transferred [[amount]] [[currency]] to [[recipient]]","contact_field_changed":"Set contact \\"[[field]]\\" to \\"[[value]]\\"","contact_field_cleared":"Cleared contact \\"[[field]]\\"","contact_language_changed":"Set preferred language to \\"[[language]]\\"","contact_name_changed":"Set contact name to \\"[[name]]\\"","contact_status_changed":"Set status to \\"[[status]]\\"","flow_entered":"Entered flow \\"[[flow]]\\"","httplog_dialog":"HTTP Request Details","input_labels_added":"Message labeled with ","msg_wait":"Waiting for reply","removed_from_group":"Removed from ","resthook_called":"Triggered flow event \\"[[resthook]]\\"","run_result_changed":"Set result \\"[[field]]\\" to \\"[[value]]\\"","sent_email":{"summary":"Sent email to [[recipients]] with subject \\"[[subject]]\\"","title":"Email Details"},"session_triggered":"Started somebody else in \\"[[flow]]\\"","ticket_opened":"Ticket opened with subject \\"[[subject]]\\""},"sticky":{"body":"...","title":"New Note"},"translation":{"header":"Flow Translation","label":"Translations"}}'
+        '{"actions":{"add_contact_groups":{"description":"Add the contact to a collection","name":"Add to Collection"},"add_contact_urn":{"description":"Add a URN for the contact","name":"Add URN"},"add_input":{"description":"Label the incoming message","name":"Add Labels"},"call_resthook":{"description":"Call Zapier","name":"Call Zapier"},"call_webhook":{"description":"Call a webhook","name":"Call Webhook"},"enter_flow":{"description":"Enter another flow","name":"Enter a Flow"},"open_ticket":{"description":"Open a ticket with a human agent","name":"Open Ticket"},"play_audio":{"description":"Play a contact recording","name":"Play Recording"},"play_message":{"description":"Play a message","name":"Play Message"},"remove_contact_groups":{"description":"Remove the contact from a group","name":"Remove from Group"},"say_msg":{"placeholder":"Send a message to the contact"},"send_broadcast":{"description":"Send a staff member a message","name":"Send Broadcast","placeholder":"Send a staff member a message"},"send_email":{"description":"Send an email","name":"Send Email"},"send_msg":{"description":"Send the contact a message","name":"Send Message","placeholder":"Send a message to the contact"},"set_contact_field":{"description":"Update the contact","name":"Update Contact"},"set_run_result":{"description":"Save a result for this flow","name":"Save Flow Result"},"split_by_contact_field":{"description":"Split by a contact field","name":"Split by Contact Field"},"split_by_expression":{"description":"Split by a custom expression","name":"Split by Expression"},"split_by_groups":{"description":"Split by group membership","name":"Split by Group Membership"},"split_by_intent":{"description":"Split by intent","name":"Split by Intent"},"split_by_random":{"description":"Split by random chance","name":"Split Randomly"},"split_by_run_result":{"description":"Split by a result in the flow","name":"Split by Flow Result"},"split_by_scheme":{"description":"Split by URN type","name":"Split by URN Type"},"start_session":{"description":"Start somebody else in a flow","name":"Start Somebody Else"},"transfer_airtime":{"description":"Send the contact airtime","name":"Send Airtime"},"wait_for_audio":{"description":"Wait for an audio recording","name":"Wait for Audio"},"wait_for_digits":{"description":"Wait for multiple digits","name":"Wait for Digits"},"wait_for_image":{"description":"Wait for an image","name":"Wait for Image"},"wait_for_location":{"description":"Wait for location GPS coordinates","name":"Wait for Location"},"wait_for_menu":{"description":"Wait for menu selection","name":"Wait for Menu Selection"},"wait_for_response":{"description":"Wait for the contact to respond","name":"Wait for Response"},"wait_for_time":{"description":"Wait for time","name":"Wait for time"},"wait_for_video":{"description":"Wait for a video","name":"Wait for Video"}},"add":"Add","asset_selector":{"placeholder":"Select existing [[name]] or enter a new one","placeholder_plural":"Select existing [[name]] or enter a new one"},"assets":{"classifier":"Call [[name]] classifier","ticketer":"Using [[name]] service"},"body":"Body","buttons":{"cancel":"Cancel","create_message":"Create Message","download":"Download","ok":"Ok"},"contact_statuses":{"active":"Active","blocked":"Blocked - remove from groups, ignore forever","stopped":"Stopped - remove from groups, ignore until they message again","archived":"Archived - remove from groups, ignore forever"},"context_explorer":{"copied_expression":"Copied <1>[[expression]]</1> to clipboard","hide_empty":"Showing keys with values","show_empty":"Showing all keys"},"create_group":"Create Group","create_label":"Create Label","drag_helper":"To connect nodes, <1>drag</1> from the red circle.","email":{"subject":"Subject","to":"To"},"empty_flow_message":"<0>Let\'s get started</0><1>We recommend starting your flow by sending a message. This message will be sent to anybody right after they join the flow. This is your chance to send a single message or ask them a question.</1>","enter_to_create_group":"Enter a name to create a new group","enter_to_create_label":"Enter the name of an existing label or create a new one","errors":{"group_not_found":"Enter the name of an existing group","http_header_missing_name":"HTTP headers must have a name","network":"Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."},"forms":{"add_groups_summary":"Select the collections to add the contact to.","add_labels_summary":"Select the labels to apply to the incoming message.","add_quick_reply":"Add a new Quick Reply and press enter.","add_urn_summary":"Add a new URN to reach the contact such as a phone number.","all_destinations":"All Destinations","are_required":"are required","arguments":"arguments","audio_url":"Audio URL","body":"Body","buckets":"Buckets","categories":"categories","category":"Category","channel":"Channel","channel_type":"Channel Type","classifier":"Classifier","confidence":"confidence","contact_field":"Contact Field","contact_query":"Contact Query","create_prefix":"New: ","currency":"Currency","day":"day","days":"days","delimit":"Delimit","delimit_result":"Delimit Result","delimit_result_description":"Evaluate your rules against a delimited part of your result","delimiter":"Delimiter","district":"District","email_recipient_name":"Recipient","email_recipient_placeholder":"To","email_recipient_prompt":"Enter email address","enter_a_body":"Enter a body","enter_a_subject":"Enter a subject","enter_a_url":"Enter a URL","enter_flow_parameters_summary":"<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.","enter_flow_parameters_tab":"Parameters","exit_name":"Exit Name","expression_label":"If the expression...","field_number":"Field Number","field_value":"Field Value","flow":"Flow","flow_result":"Flow Result","groups":"Groups","header_name":"Header name","image_url":"Image URL","intent":"Intent","is_not_a_valid_regex":"is not a valid regex","is_not_finished":"is not finished","is_required":"is required","labels":"Labels","language":"Language","localize_rules":"Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.","localized_quick_replies":"Add a new [[language]] Quick Reply and press enter.","maximum_value":"Maximum value","message":"Message","message_label":"If the message response...","method":"Method","minimum_value":"Minimum value","must_be_less_than":"must be less than","name":"Name","operand":"Operand","operator":"operator","play_audio_help_text":"Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.","quick_replies":"Quick Replies","quick_replies_summary":"Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \\"Yes\\" and one for \\"No\\".","quick_reply":"Quick Reply","recipients":"Recipients","recording":"Recording","recording_label":"Previous Recording","remove_from_all_label":"Remove from all","remove_from_all_summary":"Remove the active contact from all groups they\'re a member of.","remove_groups_placeholder":"Enter the name of an existing group","remove_groups_summary":"Select the collections to remove the contact from.","resthook":"Resthook","resthook_to_call":"Select the resthook to call","result":"Result","result_name":"Result Name","result_name_help":"By naming the result, you can reference it later using [[resultFormat]]","result_to_split_on":"Result to split on","rules":"rules","save_as_title":"Save as..","save_result_name":"Result Name","select_result":"Select Result","send_msg_facebook_topic_placeholder":"Select a topic to use over Facebook","send_msg_facebook_warning":"Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.","send_msg_summary":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","send_msg_summary_plural":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","split_by_channel_placeholder":"Select the channels to split by","split_by_groups":"Select the collections you\'d like to split by below","split_by_scheme":"Channel types","split_by_scheme_summary":"The contact\'s URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.","start_type":"Start Type","state":"State","status":"Status","subject":"Subject","template":"template","the_maximum":"the maximum","the_minimum":"the minimum","ticketer":"Ticketer","timeout":"Timeout","timeout_1 day":"1 day","timeout_1 hour":"1 hour","timeout_1 minute":"1 minute","timeout_1 week":"1 week","timeout_10 minutes":"10 minutes","timeout_12 hours":"12 hours","timeout_15 minutes":"15 minutes","timeout_18 hours":"18 hours","timeout_2 days":"2 days","timeout_2 hours":"2 hours","timeout_2 minutes":"2 minutes","timeout_3 days":"3 days","timeout_3 hours":"3 hours","timeout_3 minutes":"3 minutes","timeout_4 minutes":"4 minutes","timeout_5 minutes":"5 minutes","timeout_6 hours":"6 hours","today":"today","today_proper":"Today","translation":"Translation","type":"Type","type_label":"When a contact arrives at this point in your flow...","type_options":"Type Options","url":"URL","urn":"URN","urn_type":"URN Type","use_as_default_language":"Use as default language","value":"Value","variable":"Variable","video_url":"Video URL","webhook_body_summary":"Modify the body of the [[method]] request that will be sent to your webhook.(Please update only custom-key value pairs)","webhook_example":"This response would add <1>@webhook.product</1> and <4>@webhook[\\"stock level\\"]</4> for use in the flow.","webhook_header":"Header","webhook_header_name":"Header Name","webhook_header_summary":"Add any additional headers below that you would like to send along with your request.","webhook_help":"If your server responds with JSON, each property will be added to the Flow.","whatsapp_warning":"Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."},"issues":{"header":"Flow Issues","label":"Flow Issues","legacy_extra":"Invalid regular expression found: [[regex]]","missing_dependency":"Cannot find a [[type]] for <1>[[name]]</1>"},"operator":{"has_pattern":"matches regex"},"operators":{"has_all_words":"has all of the words","has_any_word":"has any of the words","has_beginning":"starts with","has_category":"has the category","has_date":"has a date","has_date_category":"Has Date","has_date_eq":"has a date equal to","has_date_gt":"has a date after","has_date_lt":"has a date before","has_district":"has district","has_district_category":"Has District","has_email":"has an email","has_email_category":"Has Email","has_error":"has an error","has_error_category":"Has Error","has_group":"is in the group","has_intent":"has intent","has_number":"has a number","has_number_between":"has a number between","has_number_eq":"has a number equal to","has_number_gt":"has a number above","has_number_gte":"has a number at or above","has_number_lt":"has a number below","has_number_lte":"has a number at or below","has_only_phrase":"has only the phrase","has_phone":"has a phone number","has_phone_category":"Has Phone","has_phrase":"has the phrase","has_state":"has state","has_state_category":"Has State","has_text":"has some text","has_time":"has a time","has_top_intent":"has top intent","has_value":"is not empty","has_value_category":"Not Empty","has_ward":"has ward","has_ward_category":"Has Ward","has_media":"has media","has_location":"has location"},"removal_confirmation":"Remove?","revisions":{"header":"Revisions","label":"Revision History"},"schemes":{"email":{"name":"Email","path":"Email Address"},"external":{"name":"External","path":"External ID"},"facebook":{"path":"Facebook"},"firebase":{"name":"Firebase","path":"Firebase ID"},"freschat":{"name":"Freshchat"},"freshchat":{"path":"Freshchat ID"},"jiochat":{"path":"Jiochat ID"},"jiojach":{"name":"Jiochat"},"line":{"name":"Line","path":"Line ID"},"phone":{"name":"SMS","path":"Phone Number"},"telegram":{"name":"Telegram","path":"Telegram ID"},"twitter":{"name":"Twitter","path":"Twitter Handle"},"twitterid":{"name":"Twitter","path":"Twitter ID"},"viber":{"name":"Viber","path":"Viber ID"},"wechat":{"name":"Wechat","path":"Wechat ID"},"whatsapp":{"name":"WhatsApp","path":"WhatsApp Number"}},"simulator":{"added_to_group":"Added to ","airtime_transferred":"Transferred [[amount]] [[currency]] to [[recipient]]","contact_field_changed":"Set contact \\"[[field]]\\" to \\"[[value]]\\"","contact_field_cleared":"Cleared contact \\"[[field]]\\"","contact_language_changed":"Set preferred language to \\"[[language]]\\"","contact_name_changed":"Set contact name to \\"[[name]]\\"","contact_status_changed":"Set status to \\"[[status]]\\"","flow_entered":"Entered flow \\"[[flow]]\\"","httplog_dialog":"HTTP Request Details","input_labels_added":"Message labeled with ","msg_wait":"Waiting for reply","removed_from_group":"Removed from ","resthook_called":"Triggered flow event \\"[[resthook]]\\"","run_result_changed":"Set result \\"[[field]]\\" to \\"[[value]]\\"","sent_email":{"summary":"Sent email to [[recipients]] with subject \\"[[subject]]\\"","title":"Email Details"},"session_triggered":"Started somebody else in \\"[[flow]]\\"","ticket_opened":"Ticket opened with subject \\"[[subject]]\\""},"sticky":{"body":"...","title":"New Note"},"translation":{"header":"Flow Translation","label":"Translations"}}'
       );
     },
     function(e) {
@@ -1219,8 +1219,8 @@
         h,
         m = a(2),
         _ = a(3),
-        g = a(6),
-        v = a(5),
+        v = a(6),
+        g = a(5),
         f = a(4),
         y = a(9),
         b = a(8),
@@ -1522,14 +1522,14 @@
       })(O || (O = {}));
       var re,
         le = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = { active: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -1593,7 +1593,7 @@
       })(re || (re = {}));
       var he,
         me = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -1602,7 +1602,7 @@
               ((n = t.call(this, e)).tabFocus = null),
               (n.primaryButton = null),
               (n.state = { activeTab: -1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^get/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^get/] }),
               n
             );
           }
@@ -1796,7 +1796,7 @@
           );
         })(k.Component),
         _e = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -1804,7 +1804,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).ele = void 0),
               (n.state = { top: 0, fixed: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -1856,8 +1856,8 @@
             a
           );
         })(k.PureComponent),
-        ge = a(27),
-        ve = a(16);
+        ve = a(27),
+        ge = a(16);
       !(function(e) {
         (e.UPDATE_EDITOR_STATE = 'UPDATE_EDITOR_STATE'),
           (e.UPDATE_NODE_EDITOR_SETTINGS = 'UPDATE_NODE_EDITOR_SETTINGS'),
@@ -1956,7 +1956,7 @@
             { type: ye.UPDATE_ASSET_MAP, payload: { assets: e } }
           );
         },
-        De = Object(ve.combineReducers)({
+        De = Object(ge.combineReducers)({
           definition: function() {
             var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : xe.definition,
               t = arguments.length > 1 ? arguments[1] : void 0;
@@ -2665,8 +2665,8 @@
               return { uuid: e.id, name: e.name };
             });
         },
-        gt = { name: z(l.Name), id: l.Name, type: fe.ContactProperty },
-        vt = { name: z(l.Channel), id: l.Channel, type: fe.ContactProperty },
+        vt = { name: z(l.Name), id: l.Name, type: fe.ContactProperty },
+        gt = { name: z(l.Channel), id: l.Channel, type: fe.ContactProperty },
         ft = { name: z(l.Language), id: l.Language, type: fe.ContactProperty },
         yt = { name: z(l.Status), id: l.Status, type: fe.ContactProperty },
         bt = function() {
@@ -2676,7 +2676,7 @@
         return null;
       };
       var kt = (function(e) {
-        Object(v.a)(a, e);
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
           var n;
@@ -2738,14 +2738,14 @@
         Ot = a.n(Nt),
         xt = St.a.bind(Ot.a),
         jt = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^get/, /^has/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^get/, /^has/] }),
               n
             );
           }
@@ -2855,14 +2855,14 @@
         (e.small = 'small'), (e.normal = 'normal');
       })(Ft || (Ft = {}));
       var Lt = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).selectbox = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -3014,14 +3014,14 @@
           });
         },
         Vt = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             Object(m.a)(this, a),
               ((n = t.call(this, e)).lastCreation = 0),
               (n.options = []),
-              Object(b.react)(Object(g.a)(n), { include: [/^is/, /^handle/, /^get/] });
+              Object(b.react)(Object(v.a)(n), { include: [/^is/, /^handle/, /^get/] });
             var i = [];
             return (
               e.assets &&
@@ -3240,7 +3240,7 @@
         Kt = a(140),
         Yt = a.n(Kt),
         Xt = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -3248,7 +3248,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).typeConfigs = void 0),
               (n.state = { config: n.props.initialType }),
-              (n.handleChangeType = n.handleChangeType.bind(Object(g.a)(n))),
+              (n.handleChangeType = n.handleChangeType.bind(Object(v.a)(n))),
               n
             );
           }
@@ -3359,11 +3359,11 @@
           try {
             for (p.s(); !(d = p.n()).done; )
               for (var h = d.value, m = 0, _ = Object.keys(h); m < _.length; m++) {
-                var g = _[m],
-                  v = h[g];
-                if (Array.isArray(v)) {
+                var v = _[m],
+                  g = h[v];
+                if (Array.isArray(g)) {
                   var f,
-                    y = Object(C.a)(v);
+                    y = Object(C.a)(g);
                   try {
                     var b = function() {
                       var e = f.value,
@@ -3371,7 +3371,7 @@
                       ((t && e.value.uuid) || e.uuid) &&
                         (n = $t()(
                           n,
-                          Object(S.a)({}, g, function(a) {
+                          Object(S.a)({}, v, function(a) {
                             return a.filter(function(a) {
                               return t ? a.value.uuid !== e.value.uuid : a.uuid !== e.uuid;
                             });
@@ -3428,7 +3428,7 @@
         aa = function(e) {
           return { type: ye.UPDATE_USER_ADDING_ACTION, payload: { userAddingAction: e } };
         },
-        na = Object(ve.combineReducers)({
+        na = Object(ge.combineReducers)({
           typeConfig: function() {
             var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : ea.typeConfig,
               t = arguments.length > 1 ? arguments[1] : void 0;
@@ -3546,11 +3546,11 @@
           }),
         ma = oa(/^(?!\d)/, "can't start with a number"),
         _a = oa(sa, 'is not a valid URL'),
-        ga = oa(/^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number'),
-        va = oa(/^[a-z\d\-_\s]+$/i, 'can only have letters and numbers'),
+        va = oa(/^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number'),
+        ga = oa(/^[a-z\d\-_\s]+$/i, 'can only have letters and numbers'),
         fa = oa(/^@.*$|^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number'),
         ya = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n, i;
@@ -3561,7 +3561,7 @@
                 i.originalAction.type === Ee.add_input_labels
                   ? { labels: { value: i.originalAction.labels }, valid: !0 }
                   : { labels: { value: [] }, valid: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -3687,7 +3687,7 @@
           return k.createElement(k.Fragment, null, Pt.t('add', 'Add'), ' ', i, ' ', H(a));
         },
         Na = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a() {
             return Object(m.a)(this, a), t.apply(this, arguments);
@@ -3738,7 +3738,7 @@
           (e.small = 'small'), (e.normal = 'normal');
         })(ka || (ka = {}));
       var ja = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -3747,7 +3747,7 @@
             return (
               (n = t.call(this, e)).props.entry && n.props.entry.value && (i = n.props.entry.value),
               (n.state = { value: i }),
-              Object(b.react)(Object(g.a)(n), {
+              Object(b.react)(Object(v.a)(n), {
                 include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
               }),
               n
@@ -3831,7 +3831,7 @@
         Ta = a(99),
         Aa = a.n(Ta),
         Ra = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -3846,7 +3846,7 @@
                 }
                 return { scheme: { value: Ca('tel') }, path: { value: '' }, valid: !1 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -3971,7 +3971,7 @@
           return !!e.query;
         },
         Pa = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n, i;
@@ -3989,7 +3989,7 @@
                       valid: !0
                     }
                   : { groups: { value: null }, valid: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -4018,7 +4018,7 @@
                 key: 'handleGroupsChanged',
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
-                    a = { groups: ra(Pt.t('forms.groups', 'Groups'), e, [ua(t)]) },
+                    a = { groups: ra(Pt.t('forms.collections', 'Collections'), e, [ua(t)]) },
                     n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -4069,24 +4069,24 @@
                       k.createElement(
                         Fe.a,
                         { i18nKey: 'forms.add_groups_summary' },
-                        'Select the groups to add the contact to.'
+                        'Select the collections to add the contact to.'
                       )
                     ),
                     k.createElement(Vt, {
-                      name: Pt.t('forms.groups', 'Groups'),
+                      name: Pt.t('forms.groups', 'Collections'),
                       multi: !0,
                       noOptionsMessage: Pt.t(
                         'enter_to_create_group',
-                        'Enter a name to create a new group'
+                        'Enter a name to create a new collection'
                       ),
                       assets: this.props.assetStore.groups,
                       entry: this.state.groups,
                       onChange: this.handleGroupsChanged,
                       searchable: !0,
                       shouldExclude: Fa,
-                      placeholder: Pt.t('select_groups', 'Select Groups'),
+                      placeholder: Pt.t('select_groups', 'Select Collection'),
                       expressions: !0,
-                      createPrefix: Pt.t('create_group', 'Create Group') + ': ',
+                      createPrefix: Pt.t('create_group', 'Create Collection') + ': ',
                       createAssetFromInput: this.handleCreateAssetFromInput,
                       onAssetCreated: this.handleGroupAdded
                     }),
@@ -4125,7 +4125,7 @@
                     a =
                       arguments.length > 2 && void 0 !== arguments[2]
                         ? arguments[2]
-                        : 'Remove from all groups';
+                        : 'Remove from all collections';
                   return k.createElement('div', { key: e, 'data-spec': t }, a);
                 })()
               ),
@@ -4143,14 +4143,14 @@
         Ba = a.n(za),
         Va = St.a.bind(Ba.a),
         qa = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = { checked: n.props.checked }),
-              (n.handleChange = n.handleChange.bind(Object(g.a)(n))),
+              (n.handleChange = n.handleChange.bind(Object(v.a)(n))),
               n
             );
           }
@@ -4212,17 +4212,20 @@
         })(k.Component),
         Ha = a(142),
         Ga = a.n(Ha),
-        Wa = Pt.t('forms.remove_groups_summary', 'Select the groups to remove the contact from.'),
+        Wa = Pt.t(
+          'forms.remove_groups_summary',
+          'Select the collections to remove the contact from.'
+        ),
         Ka =
           (Pt.t('errors.group_not_found', 'Enter the name of an existing group'),
-          Pt.t('forms.remove_groups_placeholder', 'Enter the name of an existing group'),
+          Pt.t('forms.remove_groups_placeholder', 'Enter the name of an existing collection'),
           Pt.t('forms.remove_from_all_label', 'Remove from all')),
         Ya = Pt.t(
           'forms.remove_from_all_summary',
-          "Remove the active contact from all groups they're a member of."
+          "Remove the active contact from all collection they're a member of."
         ),
         Xa = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4240,7 +4243,7 @@
                 }
                 return { groups: { value: null }, removeAll: !1, valid: !1 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -4277,7 +4280,7 @@
                   e.hasOwnProperty('removeAll') &&
                     ((a.removeAll = e.removeAll), e.removeAll && (n = [])),
                     e.hasOwnProperty('groups') &&
-                      (a.groups = ra(Pt.t('forms.groups', 'Groups'), e.groups, n));
+                      (a.groups = ra(Pt.t('forms.groups', 'Collections'), e.groups, n));
                   var i = Zt(this.state, a);
                   return this.setState(i), i.valid;
                 }
@@ -4328,8 +4331,8 @@
                         null,
                         k.createElement('p', { 'data-spec': 'label' }, Wa),
                         k.createElement(Vt, {
-                          name: Pt.t('forms.groups', 'Groups'),
-                          placeholder: Pt.t('select_groups', 'Select Groups'),
+                          name: Pt.t('forms.groups', 'Collections'),
+                          placeholder: Pt.t('select_groups', 'Select Collections'),
                           assets: this.props.assetStore.groups,
                           entry: this.state.groups,
                           shouldExclude: Fa,
@@ -4385,7 +4388,7 @@
           );
         },
         en = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4404,7 +4407,7 @@
                   { keyValues: t, valid: !0 }
                 );
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               n
             );
           }
@@ -4536,7 +4539,7 @@
           );
         },
         sn = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4544,7 +4547,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).filePicker = void 0),
               (n.state = {}),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -4622,7 +4625,7 @@
           { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
         ],
         rn = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4692,7 +4695,7 @@
                 }
                 return t;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               n
             );
           }
@@ -4802,7 +4805,7 @@
               {
                 key: 'handleAddQuickReply',
                 value: function(e) {
-                  var t = Object(ge.a)(this.state.quickReplies.value);
+                  var t = Object(ve.a)(this.state.quickReplies.value);
                   return (
                     !(t.length >= 10) &&
                     (!t.find(function(t) {
@@ -5056,7 +5059,7 @@
           return k.createElement('div', null, e.audio_url);
         },
         un = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n, i;
@@ -5066,7 +5069,7 @@
                 (i = n.props.nodeSettings).originalAction && i.originalAction.type === Ee.play_audio
                   ? { audio: { value: i.originalAction.audio_url }, valid: !0 }
                   : { audio: { value: '' }, valid: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -5149,7 +5152,7 @@
         dn = a(60),
         pn = a.n(dn),
         hn = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -5161,7 +5164,7 @@
               (n.radiusNormalized = n.radius - 2 * n.stroke),
               (n.circumference = 2 * n.radiusNormalized * Math.PI),
               (n.state = { durationSeconds: 0, currentSeconds: 0, playing: !1, progress: 0 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -5290,8 +5293,8 @@
         })(k.Component),
         mn = a(100),
         _n = a.n(mn),
-        gn = Pt.t('actions.say_msg.placeholder', 'Send a message to the contact'),
-        vn = function(e) {
+        vn = Pt.t('actions.say_msg.placeholder', 'Send a message to the contact'),
+        gn = function(e) {
           return e.text
             ? k.createElement(
                 k.Fragment,
@@ -5305,10 +5308,10 @@
                     )
                   : null
               )
-            : k.createElement('div', { className: 'placeholder' }, gn);
+            : k.createElement('div', { className: 'placeholder' }, vn);
         },
         fn = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -5321,7 +5324,7 @@
                 }
                 return { message: { value: '' }, audio: { value: '' }, valid: !1 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -5511,7 +5514,7 @@
           return t ? { r: parseInt(t[1], 16), g: parseInt(t[2], 16), b: parseInt(t[3], 16) } : null;
         },
         Tn = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -5564,7 +5567,7 @@
           { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
         ],
         Un = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -5614,7 +5617,7 @@
                 }
                 return (n.valid = !1), n;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               null !== n.state.template.value &&
                 Xe(n.props.assetStore.templates, n.state.template.value.uuid).then(function(e) {
                   null !== e &&
@@ -6090,14 +6093,14 @@
         },
         Pn = a(159),
         In = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -6175,7 +6178,7 @@
         Ln = a.n(Mn),
         zn = /\S+@\S+\.\S+/,
         Bn = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -6198,7 +6201,7 @@
                   valid: !0
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -6443,7 +6446,7 @@
           { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
         ],
         Jn = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -6503,7 +6506,7 @@
                   attachmentError: null
                 };
               })(n.props.nodeSettings, n.props.assetStore)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               null !== n.state.template.value &&
                 Xe(n.props.assetStore.templates, n.state.template.value.uuid).then(function(e) {
                   null !== e &&
@@ -7092,7 +7095,7 @@
         Zn = a(88),
         ei = a.n(Zn),
         ti = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -7116,7 +7119,7 @@
                   valid: !1
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               n
             );
           }
@@ -7155,7 +7158,7 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('name') &&
-                    (a.name = ra(Pt.t('forms.name', 'Name'), e.name, [ua(t), va, ma])),
+                    (a.name = ra(Pt.t('forms.name', 'Name'), e.name, [ua(t), ga, ma])),
                     e.hasOwnProperty('value') &&
                       (a.value = ra(Pt.t('forms.value', 'Value'), e.value, [])),
                     e.hasOwnProperty('category') &&
@@ -7318,7 +7321,7 @@
         di = { name: 'Select recipients from a query', value: 'contact_query' },
         pi = [ci, di, ui],
         hi = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -7343,7 +7346,7 @@
                   valid: !1
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -7520,7 +7523,7 @@
         })(k.Component),
         mi = a(101),
         _i = a.n(mi),
-        gi = function(e) {
+        vi = function(e) {
           var t = Object.keys(e.amounts).map(function(t) {
             return k.createElement(
               'div',
@@ -7531,7 +7534,7 @@
           });
           return k.createElement('div', null, t);
         },
-        vi = a(36),
+        gi = a(36),
         fi = function(e, t) {
           return t ? H(e) : e;
         },
@@ -7540,7 +7543,7 @@
           return t
             ? k.createElement(
                 'div',
-                { className: ''.concat(vi.node_asset) },
+                { className: ''.concat(gi.node_asset) },
                 'Set ',
                 fi(e, a),
                 ' to ',
@@ -7572,8 +7575,8 @@
             }
           }
         },
-        Ei = [gt, ft, vt, yt],
-        Ci = [gt, ft, yt],
+        Ei = [vt, ft, gt, yt],
+        Ci = [vt, ft, yt],
         wi = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null;
           return !e || qt(e) ? Ei : Ci;
@@ -7581,7 +7584,7 @@
         Si = Pt.t('forms.message_label', 'If the message response...'),
         Ni =
           (Pt.t('forms.expression_label', 'If the expression...'),
-          Pt.t('forms.split_by_groups', "Select the groups you'd like to split by below"));
+          Pt.t('forms.split_by_groups', "Select the collections you'd like to split by below"));
       Pt.t(
         'forms.localize_rules',
         'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.'
@@ -7867,7 +7870,7 @@
           var i = e,
             s = _l(e, t);
           n && _l(e, n);
-          var o = gl(s.node, a),
+          var o = vl(s.node, a),
             r = s.node.exits[o].destination_uuid;
           return (
             (i = zi(
@@ -7889,7 +7892,7 @@
             var s = i[n],
               o = t.inboundConnections[s],
               r = _l(e, o),
-              l = gl(r.node, s);
+              l = vl(r.node, s);
             a = zi(
               a,
               Object(S.a)({}, o, {
@@ -7947,10 +7950,10 @@
             if (d)
               try {
                 yl(s, p, d);
-              } catch (g) {
+              } catch (v) {
                 d = null;
               }
-            var m = gl(h.node, u);
+            var m = vl(h.node, u);
             (s = zi(
               s,
               Object(S.a)({}, p, {
@@ -8022,14 +8025,14 @@
         },
         is = [es, ts, as, ns],
         ss = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = Nr(n.props.nodeSettings, n.props.assetStore)),
-              Object(b.react)(Object(g.a)(n), { include: [/^get/, /^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^get/, /^on/, /^handle/] }),
               n
             );
           }
@@ -8265,14 +8268,14 @@
       var os = a(68),
         rs = a.n(os),
         ls = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -8381,14 +8384,14 @@
         cs = a(102),
         us = a.n(cs),
         ds = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               (n.state = { editing: n.props.value.value.trim().length > 0, valid: !0 }),
               n
             );
@@ -8468,8 +8471,8 @@
           });
           return k.createElement('div', { className: ms.a.errors }, t);
         },
-        gs = a(146),
-        vs = a.n(gs),
+        vs = a(146),
+        gs = a.n(vs),
         fs = function(e) {
           var t =
             e.originalAction ||
@@ -8477,7 +8480,7 @@
           if (t.type === Ee.transfer_airtime) return t;
         },
         ys = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -8500,7 +8503,7 @@
                   { valid: n, amounts: i, resultName: a }
                 );
               })(e.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -8565,7 +8568,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -8650,7 +8653,7 @@
                     t,
                     k.createElement(
                       'div',
-                      { className: vs.a.result_name },
+                      { className: gs.a.result_name },
                       ps(this.state.resultName, this.handleUpdateResultName)
                     ),
                     ot(this.props)
@@ -8904,14 +8907,14 @@
               case Ce.has_date_eq:
               case Ce.has_date_lt:
               case Ce.has_date_gt:
-                i.push(ga);
+                i.push(va);
             }
             if (e.operatorConfig.type === Ce.has_number_between)
               (s.min = ra(
                 Pt.t('forms.minimum_value', 'Minimum value'),
                 e.min || '',
                 i.concat([
-                  ga,
+                  va,
                   ((a = parseFloat(e.max)),
                   (n = Pt.t('forms.the_maximum', 'the maximum')),
                   function(e, t) {
@@ -8934,7 +8937,7 @@
                 (s.max = ra(
                   Pt.t('forms.maximum_value', 'Maximum value'),
                   e.max || '',
-                  i.concat([ga, ca(parseFloat(e.min), Pt.t('forms.the_minimum', 'the minimum'))])
+                  i.concat([va, ca(parseFloat(e.min), Pt.t('forms.the_minimum', 'the minimum'))])
                 ));
             else if (e.operatorConfig.type === Ce.has_district)
               s.argument = ra(Pt.t('forms.state', 'State'), e.argument || '', i.concat([]));
@@ -8980,7 +8983,7 @@
                 (s.confidence = ra(
                   Pt.t('forms.confidence', 'Confidence'),
                   e.confidence || '',
-                  i.concat(e.intent ? [ga, la] : [ga])
+                  i.concat(e.intent ? [va, la] : [va])
                 ));
             } else s.argument = ra('Value', e.argument || '', i);
           }
@@ -9043,14 +9046,14 @@
           return '';
         },
         As = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).operators = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^get/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^get/] }),
               (n.state = (function(e) {
                 var t = e.kase.arguments && e.kase.arguments.length >= 1 ? e.kase.arguments[0] : '',
                   a = e.kase.arguments && 2 === e.kase.arguments.length ? e.kase.arguments[1] : '';
@@ -9585,7 +9588,7 @@
           );
         }),
         Is = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -9599,7 +9602,7 @@
                     return k.createElement(Ps, {
                       key: 'item-'.concat(t),
                       index: t,
-                      value: { item: e, list: Object(g.a)(n) },
+                      value: { item: e, list: Object(v.a)(n) },
                       disabled: t === n.state.currentCases.length - 1,
                       shouldCancelStart: function(e) {
                         return console.log(e), !0;
@@ -9608,7 +9611,7 @@
                   })
                 );
               })),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] });
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] });
             var i = n.props.cases;
             return (
               n.hasEmptyCase(i) || i.push(n.createEmptyCase()),
@@ -9738,7 +9741,7 @@
         Ls = a(148),
         zs = a.n(Ls),
         Bs = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -9755,7 +9758,7 @@
                 }
                 return { cases: t, resultName: a, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -9764,7 +9767,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -9864,7 +9867,7 @@
       })(Ms || (Ms = {}));
       var Vs,
         qs = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -9883,7 +9886,7 @@
                 }
                 return { cases: t, resultName: a, operand: { value: n }, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -9892,7 +9895,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -10000,8 +10003,8 @@
         Ws = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null;
           return [].concat(
-            Object(ge.a)(wi(e)),
-            Object(ge.a)(
+            Object(ve.a)(wi(e)),
+            Object(ve.a)(
               yr.map(function(e) {
                 return { name: e.path, id: e.scheme, type: fe.Scheme };
               })
@@ -10012,7 +10015,7 @@
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
       })(Vs || (Vs = {}));
       var Ks = (function(e) {
-        Object(v.a)(a, e);
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
           var n;
@@ -10038,9 +10041,9 @@
                     return e.id === r.id;
                   }));
               }
-              return i || (i = gt), { cases: a, resultName: n, field: { value: i }, valid: !0 };
+              return i || (i = vt), { cases: a, resultName: n, field: { value: i }, valid: !0 };
             })(n.props.nodeSettings, n.props.assetStore)),
-            Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+            Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
             n
           );
         }
@@ -10049,7 +10052,7 @@
             {
               key: 'handleUpdateResultName',
               value: function(e) {
-                var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                 this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
               }
             },
@@ -10208,7 +10211,7 @@
           });
         },
         Js = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -10224,7 +10227,7 @@
                   t
                 );
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -10363,7 +10366,7 @@
         Zs = a(61),
         eo = a.n(Zs),
         to = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -10372,7 +10375,7 @@
               s = $s(e.nodeSettings, Ys.Case);
             return (
               (n.state = { categories: i, cases: s, valid: !0 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -10410,7 +10413,7 @@
                   });
                   e.push.apply(
                     e,
-                    Object(ge.a)(
+                    Object(ve.a)(
                       this.state.cases.map(function(e) {
                         return e.arguments
                           ? { uuid: e.uuid, translations: { arguments: e.arguments } }
@@ -10595,7 +10598,7 @@
         io = a.n(no),
         so = a(13),
         oo = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -10626,7 +10629,7 @@
                 }
                 return { resultName: t, menu: a, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -10635,7 +10638,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -10778,7 +10781,7 @@
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
       })(ro || (ro = {}));
       var mo = (function(e) {
-        Object(v.a)(a, e);
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
           var n;
@@ -10800,7 +10803,7 @@
                 valid: !0
               };
             })(n.props.nodeSettings)),
-            Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+            Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
             n
           );
         }
@@ -10809,7 +10812,7 @@
             {
               key: 'handleUpdateResultName',
               value: function(e) {
-                var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                 this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
               }
             },
@@ -10953,8 +10956,8 @@
       })(k.Component);
       mo.contextTypes = { assetService: bt };
       var _o,
-        go = a(79),
-        vo = a.n(go),
+        vo = a(79),
+        go = a.n(vo),
         fo = [
           { value: '60', name: Pt.t('forms.timeout_1 minute', '1 minute') },
           { value: '120', name: Pt.t('forms.timeout_2 minutes', '2 minutes') },
@@ -10976,14 +10979,14 @@
         ],
         yo = fo[4],
         bo = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -11040,22 +11043,22 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: vo.a.timeout_control_container },
+                    { className: go.a.timeout_control_container },
                     k.createElement(
                       'div',
-                      { className: vo.a.left_section },
+                      { className: go.a.left_section },
                       k.createElement(qa, {
                         name: Pt.t('forms.timeout', 'Timeout'),
                         checked: this.isChecked(),
                         description: this.getInstructions(),
-                        checkboxClassName: vo.a.checkbox,
+                        checkboxClassName: go.a.checkbox,
                         onChange: this.handleChecked
                       })
                     ),
                     W(this.isChecked())(
                       k.createElement(
                         'div',
-                        { className: vo.a.drop_down },
+                        { className: go.a.drop_down },
                         k.createElement(Lt, {
                           name: Pt.t('forms.timeout', 'Timeout'),
                           style: Ft.small,
@@ -11076,7 +11079,7 @@
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
       })(_o || (_o = {}));
       var ko = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11097,7 +11100,7 @@
                 }
                 return { cases: t, resultName: a, timeout: n, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11106,7 +11109,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -11226,7 +11229,7 @@
         Co = a(149),
         wo = a.n(Co),
         So = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11245,7 +11248,7 @@
                   (n = !0));
                 return { resthook: t, resultName: a, valid: n };
               })(e.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11265,7 +11268,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -11384,7 +11387,7 @@
         jo = a(44),
         To = a.n(jo),
         Ao = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11424,7 +11427,7 @@
                   valid: !0
                 };
               })(n.props.nodeSettings, n.props.assetStore)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11442,7 +11445,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -11669,7 +11672,7 @@
         Ro = a(70),
         Uo = a.n(Ro),
         Do = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11698,7 +11701,7 @@
                 }
                 return { flow: { value: null }, params: {}, valid: !1 };
               })(e.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11965,7 +11968,7 @@
         Po = a(150),
         Io = a.n(Po),
         Mo = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11979,7 +11982,7 @@
                 }
                 return { resultName: t, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11988,7 +11991,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -12092,7 +12095,7 @@
           Pt.t('forms.webhook_header_name', 'Header Name')),
         Vo = Pt.t('forms.value', 'Value'),
         qo = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12102,7 +12105,7 @@
               o = i.value || '';
             return (
               (n.state = { name: { value: s }, value: { value: o } }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -12237,7 +12240,7 @@
           };
         },
         Xo = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12277,7 +12280,7 @@
                   });
                 return t.headers.push({ value: { uuid: Z(), name: '', value: '' } }), t;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -12366,7 +12369,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -12651,7 +12654,7 @@
         er = function(e, t) {
           var a = Z(),
             n = Pi(
-              [].concat(Object(ge.a)(t.cases), Object(ge.a)(t.hiddenCases)),
+              [].concat(Object(ve.a)(t.cases), Object(ve.a)(t.hiddenCases)),
               !1,
               e.originalNode.node,
               'Failure'
@@ -12713,7 +12716,7 @@
         ar = a(151),
         nr = a.n(ar),
         ir = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12746,7 +12749,7 @@
                   valid: !0
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n.state.classifier.value &&
                 Xe(n.props.assetStore.classifiers, n.state.classifier.value.id).then(function(e) {
                   e && n.handleUpdate({ classifier: { name: e.name, uuid: e.id } });
@@ -12785,7 +12788,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -12979,7 +12982,7 @@
           });
         },
         lr = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12995,7 +12998,7 @@
                   t
                 );
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -13125,7 +13128,7 @@
         ur = a(106),
         dr = a.n(ur),
         pr = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -13145,7 +13148,7 @@
                 }
                 return { ticketer: t, subject: a, body: n, resultName: i, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -13192,7 +13195,7 @@
               {
                 key: 'handleResultNameUpdate',
                 value: function(e) {
-                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, va, ma]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -13312,9 +13315,9 @@
       hr.contextTypes = { config: bt };
       var mr = hr,
         _r = a(56),
-        gr = a.n(_r),
-        vr = (function(e) {
-          Object(v.a)(a, e);
+        vr = a.n(_r),
+        gr = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -13333,7 +13336,7 @@
                 }
                 return t;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -13394,11 +13397,11 @@
                     k.createElement('div', null, 'Wait for time'),
                     k.createElement(
                       'div',
-                      { className: gr.a.delay_container },
+                      { className: vr.a.delay_container },
                       k.createElement(
                         'div',
-                        { className: gr.a.input },
-                        k.createElement('span', { className: gr.a.title }, 'Days'),
+                        { className: vr.a.input },
+                        k.createElement('span', { className: vr.a.title }, 'Days'),
                         k.createElement(ja, {
                           name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter days',
@@ -13411,8 +13414,8 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: gr.a.input },
-                        k.createElement('span', { className: gr.a.title }, 'Hours'),
+                        { className: vr.a.input },
+                        k.createElement('span', { className: vr.a.title }, 'Hours'),
                         k.createElement(ja, {
                           name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter hours',
@@ -13426,8 +13429,8 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: gr.a.input },
-                        k.createElement('span', { className: gr.a.title }, 'Minutes'),
+                        { className: vr.a.input },
+                        k.createElement('span', { className: vr.a.title }, 'Minutes'),
                         k.createElement(ja, {
                           name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter minutes',
@@ -13444,7 +13447,7 @@
                         parseInt(this.state.minutes) +
                         parseInt(this.state.days)
                     )
-                      ? k.createElement('span', { className: gr.a.error }, 'Enter valid numbers')
+                      ? k.createElement('span', { className: vr.a.error }, 'Enter valid numbers')
                       : null
                   );
                 }
@@ -13562,7 +13565,7 @@
             form: fn,
             localization: rn,
             localizeableKeys: ['text', 'audio_url'],
-            component: vn,
+            component: gn,
             visibility: qe
           },
           {
@@ -13621,7 +13624,7 @@
             type: Ee.wait_for_time,
             name: Pt.t('actions.wait_for_time.name', 'Wait for Time'),
             description: Pt.t('actions.wait_for_time.description', 'Wait for time'),
-            form: vr,
+            form: gr,
             component: fr
           },
           {
@@ -13652,10 +13655,10 @@
           },
           {
             type: Ee.add_contact_groups,
-            name: Pt.t('actions.add_contact_groups.name', 'Add to Group'),
+            name: Pt.t('actions.add_contact_groups.name', 'Add to Collection'),
             description: Pt.t(
               'actions.add_contact_groups.description',
-              'Add the contact to a group'
+              'Add the contact to a collection'
             ),
             form: Pa,
             component: La
@@ -13773,7 +13776,7 @@
             form: ys,
             localization: to,
             localizeableKeys: ['exits'],
-            component: gi,
+            component: vi,
             aliases: [Ee.split_by_airtime],
             visibility: We,
             filter: we.HAS_AIRTIME
@@ -13933,7 +13936,7 @@
             channel: { value: null },
             language: { value: null },
             status: { value: es },
-            field: { value: gt },
+            field: { value: vt },
             fieldValue: { value: '' }
           };
           if (e.originalAction) {
@@ -13951,7 +13954,7 @@
                 case Ee.set_contact_channel:
                   var s = e.originalAction;
                   return (
-                    (a.field = { value: vt }),
+                    (a.field = { value: gt }),
                     (a.channel = { value: s.channel ? s.channel : Ne }),
                     (a.valid = !0),
                     a
@@ -14019,8 +14022,8 @@
             n = t.type || '',
             i = e.name || e.label || '',
             s = t.name || t.label || '';
-          if (e.id === gt.id && t.id !== gt.id) return -1;
-          if (t.id === gt.id && e.id !== gt.id) return 1;
+          if (e.id === vt.id && t.id !== vt.id) return -1;
+          if (t.id === vt.id && e.id !== vt.id) return 1;
           if (a === n) return i.localeCompare(s);
           if (a === fe.Scheme) return 1;
           if (n === fe.Scheme) return -1;
@@ -14382,7 +14385,7 @@
             }
             var u = (function(e, t, a) {
               var n = _l(e, t),
-                i = vl(n.node, a);
+                i = gl(n.node, a);
               return zi(e, Object(S.a)({}, t, { node: { actions: $([[i, 1]]) } }));
             })(s, e, t.uuid);
             return a(Te(u)), Pr(), u;
@@ -14393,7 +14396,7 @@
             var i = (function(e, t, a) {
               var n = _l(e, t),
                 i = n.node.actions,
-                s = vl(n.node, a);
+                s = gl(n.node, a);
               if (0 === s) throw new Error('Cannot move an action at the top upwards');
               var o = i[s],
                 r = i[s - 1];
@@ -14435,18 +14438,18 @@
               var _ = h.name;
               m = Vi(_, m, { nodeUUID: p.node.uuid, actionUUID: e.uuid });
             }
-            var g = c,
-              v = null;
+            var v = c,
+              g = null;
             if (!(null === p || !p.ghost)) {
               var f = {
                 node: { uuid: Z(), actions: [e], exits: [{ uuid: Z(), destination_uuid: null }] },
                 ui: { position: p.ui.position, type: Ee.execute_actions },
                 inboundConnections: p.inboundConnections
               };
-              (g = Wi(c, f)), (v = f.node.uuid);
+              (v = Wi(c, f)), (g = f.node.uuid);
             } else
-              (v = p.node.uuid),
-                (g = o
+              (g = p.node.uuid),
+                (v = o
                   ? (function(e, t, a) {
                       return _l(e, t), zi(e, Object(S.a)({}, t, { node: { actions: J([a]) } }));
                     })(c, p.node.uuid, e)
@@ -14454,19 +14457,19 @@
                   ? Ki(c, p.node.uuid, e)
                   : (function(e, t, a, n) {
                       var i = _l(e, t),
-                        s = n ? vl(i.node, n.uuid) : 0;
+                        s = n ? gl(i.node, n.uuid) : 0;
                       return zi(
                         e,
                         Object(S.a)({}, t, { node: { actions: Object(S.a)({}, s, Y(a)) } })
                       );
                     })(c, p.node.uuid, e, h));
-            (a(Te(g)), a(aa(!1)), e.type === Ee.set_run_result) &&
+            (a(Te(v)), a(aa(!1)), e.type === Ee.set_run_result) &&
               ((m = (function(e, t, a) {
                 if (e) {
                   var n = qi(e, t.results.items, a);
                   return zi(t, { results: { items: { $set: n } } });
                 }
-              })(e.name, m, { nodeUUID: v, actionUUID: e.uuid })),
+              })(e.name, m, { nodeUUID: g, actionUUID: e.uuid })),
               a(Ue(m)));
             if (e.type === Ee.set_contact_field) {
               var b = e.field;
@@ -14476,7 +14479,7 @@
                 })(Object(y.a)(Object(y.a)({}, u), {}, Object(S.a)({}, b.key, b.name)))
               );
             }
-            return Pr(0), t && t(a, n), g;
+            return Pr(0), t && t(a, n), v;
           };
         },
         ol = function(e) {
@@ -14577,14 +14580,14 @@
               e.inboundConnections = u.inboundConnections;
               var m = u.ui.position,
                 _ = m.left,
-                g = m.top;
-              (e.ui.position = { left: _, top: g }), (e.node = Bi(e.node));
+                v = m.top;
+              (e.ui.position = { left: _, top: v }), (e.node = Bi(e.node));
             }
             if (Li(e.node)) {
-              var v = l,
+              var g = l,
                 f = Li(u.node);
-              f && (v = Vi(f, v, { nodeUUID: u.node.uuid })),
-                (v = (function(e, t) {
+              f && (g = Vi(f, g, { nodeUUID: u.node.uuid })),
+                (g = (function(e, t) {
                   var a = e;
                   a || (a = { results: { items: {}, type: fe.Result } }),
                     a.results || (a.results = { items: {}, type: fe.Result });
@@ -14594,8 +14597,8 @@
                     return zi(e, { results: { items: { $set: i } } });
                   }
                   return e;
-                })(v, e.node)),
-                t(Ue(v));
+                })(g, e.node)),
+                t(Ue(g));
             }
             if (u && d && !u.ghost && !Ui(u.node)) {
               var b = u.node.actions.find(function(e) {
@@ -14614,8 +14617,8 @@
                       (o = Yi(o, s.node.uuid, !1)), (n.node = Bi(n.node));
                       var r,
                         l,
-                        c = vl(s.node, i.actionUUID),
-                        u = c > 0 ? Object(ge.a)(s.node.actions.slice(0, c)) : [],
+                        c = gl(s.node, i.actionUUID),
+                        u = c > 0 ? Object(ve.a)(s.node.actions.slice(0, c)) : [],
                         d = s.node.actions.slice(c + 1, s.node.actions.length),
                         p = s.ui.position,
                         h = p.left,
@@ -14705,7 +14708,7 @@
               )
                 return;
               var h = i[o.id];
-              (d = e.localizations).push.apply(d, Object(ge.a)(bl(u, p, o, h)));
+              (d = e.localizations).push.apply(d, Object(ve.a)(bl(u, p, o, h)));
             }
             !c && u.actions.length > 0 && (c = u.actions[u.actions.length - 1]);
             var m = $a(e);
@@ -14724,7 +14727,7 @@
           if (!a) throw new Error('Cannot find node ' + t);
           return a;
         },
-        gl = function(e, t) {
+        vl = function(e, t) {
           var a,
             n = Object(C.a)(e.exits.entries());
           try {
@@ -14740,7 +14743,7 @@
           }
           throw new Error('Cannot find exit ' + t);
         },
-        vl = function(e, t) {
+        gl = function(e, t) {
           var a,
             n = Object(C.a)(e.actions.entries());
           try {
@@ -14945,22 +14948,22 @@
               var m = Li(p);
               if ((m && (u = qi(m, u, { nodeUUID: p.uuid })), wr(h) === Ee.split_by_groups)) {
                 var _,
-                  g = Ui(p),
-                  v = Object(C.a)(g.cases);
+                  v = Ui(p),
+                  g = Object(C.a)(v.cases);
                 try {
                   var f = function() {
                     var e = _.value,
                       t = e.arguments[0],
-                      a = g.categories.find(function(t) {
+                      a = v.categories.find(function(t) {
                         return t.uuid === e.category_uuid;
                       });
                     a && t && (r[t] = { name: a.name, id: t, type: fe.Group });
                   };
-                  for (v.s(); !(_ = v.n()).done; ) f();
+                  for (g.s(); !(_ = g.n()).done; ) f();
                 } catch (B) {
-                  v.e(B);
+                  g.e(B);
                 } finally {
-                  v.f();
+                  g.f();
                 }
               }
               var y,
@@ -15112,14 +15115,14 @@
         Tl = a(108),
         Al = a.n(Tl),
         Rl = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).ele = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, 'ref'] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, 'ref'] }),
               (n.state = {}),
               n
             );
@@ -15299,7 +15302,7 @@
         Il = a(80),
         Ml = a.n(Il),
         Ll = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -15311,7 +15314,7 @@
               (n.lastY = void 0),
               (n.justSelected = !1),
               (n.onDragThrottled = ae(n.props.onDragging, 300)),
-              (n.onMouseThrottled = ae(n.handleMouseMove.bind(Object(g.a)(n)), 10));
+              (n.onMouseThrottled = ae(n.handleMouseMove.bind(Object(v.a)(n)), 10));
             var i = document.documentElement.clientHeight,
               s = {};
             return (
@@ -15329,7 +15332,7 @@
                 selected: {},
                 positions: s
               }),
-              Object(b.react)(Object(g.a)(n), {
+              Object(b.react)(Object(v.a)(n), {
                 include: [/^handle/, /^render/, /^mark/, /^do/, /^ensure/]
               }),
               n
@@ -15779,14 +15782,14 @@
         zl = a(90),
         Bl = a.n(zl),
         Vl = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).ele = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^get/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^get/] }),
               n
             );
           }
@@ -15885,7 +15888,7 @@
         ql = a(45),
         Hl = a.n(ql),
         Gl = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -15893,7 +15896,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).confirmationTimeout = void 0),
               (n.state = { confirmingRemoval: !1 }),
-              (n.handleConfirmRemoval = n.handleConfirmRemoval.bind(Object(g.a)(n))),
+              (n.handleConfirmRemoval = n.handleConfirmRemoval.bind(Object(v.a)(n))),
               n
             );
           }
@@ -16036,7 +16039,7 @@
         Yl = a.n(Kl),
         Xl = St.a.bind(Yl.a),
         Ql = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -16123,14 +16126,14 @@
         })(k.Component),
         Jl = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), Ja.a)),
         $l = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -16303,7 +16306,7 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               { onOpenNodeEditor: pl, removeAction: tl, moveActionUp: al },
               e
             );
@@ -16314,7 +16317,7 @@
         ec = a(62),
         tc = a.n(ec),
         ac = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -16372,7 +16375,7 @@
         rc = a(39),
         lc = a.n(rc),
         cc = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -16426,7 +16429,7 @@
         })(k.Component),
         uc = St.a.bind(oc.a),
         dc = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -16442,7 +16445,7 @@
                 fetchingRecentMessages: !1,
                 showDragHelper: e.showDragHelper
               }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^get/, /^handle/, /^connect/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^get/, /^handle/, /^connect/] }),
               n
             );
           }
@@ -16797,16 +16800,16 @@
             );
           },
           function(e) {
-            return Object(ve.bindActionCreators)({ disconnectExit: $r }, e);
+            return Object(ge.bindActionCreators)({ disconnectExit: $r }, e);
           }
         )(dc),
         hc = a(153),
         mc = a(35),
         _c = a.n(mc),
-        gc = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), _c.a)),
-        vc = [],
+        vc = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), _c.a)),
+        gc = [],
         fc = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
             var i;
@@ -16816,7 +16819,7 @@
               (i.firstAction = void 0),
               (i.clicking = void 0),
               (i.events = void 0),
-              Object(b.react)(Object(g.a)(i), { include: [/Ref$/, /^on/, /^get/, /^handle/] }),
+              Object(b.react)(Object(v.a)(i), { include: [/Ref$/, /^on/, /^get/, /^handle/] }),
               (i.events = n.config.mutable ? V(i.onClick, i.handleShouldCancelClick) : {}),
               i
             );
@@ -17116,7 +17119,7 @@
                         k.createElement('span', { className: 'fe-add' })
                       ));
                   var h = this.getExits(),
-                    m = gc(
+                    m = vc(
                       ((e = { 'plumb-drag': !0 }),
                       Object(S.a)(e, _c.a.ghost, this.props.ghost),
                       Object(S.a)(e, _c.a.flow_start, this.isStartNodeVisible()),
@@ -17125,7 +17128,7 @@
                       e)
                     ),
                     _ = this.renderDebug(),
-                    g = k.createElement(
+                    v = k.createElement(
                       'div',
                       { className: _c.a.node },
                       this.isStartNodeVisible()
@@ -17171,8 +17174,8 @@
                     !this.props.scrollToAction &&
                       this.props.scrollToNode &&
                       this.props.scrollToNode === this.props.nodeUUID
-                      ? k.createElement(Ql, { pulseAfterScroll: !0 }, g)
-                      : g
+                      ? k.createElement(Ql, { pulseAfterScroll: !0 }, v)
+                      : v
                   );
                 }
               }
@@ -17198,32 +17201,32 @@
               h = l.activity,
               m = l.language,
               _ = l.scrollToAction,
-              g = l.scrollToNode,
-              v = null;
+              v = l.scrollToNode,
+              g = null;
             if (
-              (d && d.node.uuid === t.nodeUUID ? (v = d) : t.nodeUUID in n && (v = n[t.nodeUUID]),
-              !v)
+              (d && d.node.uuid === t.nodeUUID ? (g = d) : t.nodeUUID in n && (g = n[t.nodeUUID]),
+              !g)
             )
               throw Error("Couldn't find node for " + t.nodeUUID);
             var f = h.nodes[t.nodeUUID] || 0,
-              y = g && g === t.nodeUUID ? g : null,
+              y = v && v === t.nodeUUID ? v : null,
               b = _ && y ? _ : null;
             return {
-              issues: (i || {})[t.nodeUUID] || vc,
+              issues: (i || {})[t.nodeUUID] || gc,
               results: o,
               language: m,
               languages: r,
               activeCount: f,
               translating: c,
               debug: u,
-              renderNode: v,
+              renderNode: g,
               simulating: p,
               scrollToNode: y,
               scrollToAction: b
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               { onAddToNode: ol, onOpenNodeEditor: pl, removeNode: el, mergeEditorState: Hr },
               e
             );
@@ -17234,7 +17237,7 @@
         kc = a(154),
         Ec = a.n(kc),
         Cc = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a() {
             return Object(m.a)(this, a), t.apply(this, arguments);
@@ -17277,14 +17280,14 @@
           );
         })(k.Component),
         wc = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^close/, /^update/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^close/, /^update/, /^handle/] }),
               n
             );
           }
@@ -17425,7 +17428,7 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               {
                 addAsset: Yr,
                 resetNodeEditingState: il,
@@ -17562,15 +17565,15 @@
           );
         },
         Ic = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = { detailsVisible: !1 }),
-              (n.showDetails = n.showDetails.bind(Object(g.a)(n))),
-              (n.getButtons = n.getButtons.bind(Object(g.a)(n))),
+              (n.showDetails = n.showDetails.bind(Object(v.a)(n))),
+              (n.getButtons = n.getButtons.bind(Object(v.a)(n))),
               n
             );
           }
@@ -17957,7 +17960,7 @@
         zc = St.a.bind(Lc.a),
         Bc = { 'parent.run': !0, 'child.run': !0, legacy_extra: !0 },
         Vc = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -17970,7 +17973,7 @@
                 showEmpty: !1,
                 message: null
               }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -18005,7 +18008,7 @@
                 value: function(e, t) {
                   var a,
                     n = this,
-                    i = '@' + [].concat(Object(ge.a)(t), [e]).join('.');
+                    i = '@' + [].concat(Object(ve.a)(t), [e]).join('.');
                   (a = i),
                     navigator.clipboard.writeText(a),
                     this.setState({ expression: i, messageVisible: !0, message: null }, function() {
@@ -18042,7 +18045,7 @@
                 value: function(e, t) {
                   for (
                     var a = Object(y.a)({}, this.state.opened),
-                      n = [].concat(Object(ge.a)(t), [e]),
+                      n = [].concat(Object(ve.a)(t), [e]),
                       i = a;
                     n.length > 0;
 
@@ -18066,7 +18069,7 @@
                     i,
                     s = this;
                   if (!e) return null;
-                  var o = [].concat(Object(ge.a)(a), [e]);
+                  var o = [].concat(Object(ve.a)(a), [e]);
                   if (Bc[o.join('.')]) return null;
                   var r = typeof t,
                     l = 'object' !== r ? t : '',
@@ -18230,7 +18233,7 @@
           (e.quickReplies = 'quickReplies');
       })(Rc || (Rc = {}));
       var Jc = (function(e) {
-        Object(v.a)(a, e);
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e, n) {
           var i;
@@ -18257,10 +18260,10 @@
               contextExplorerVisible: !1,
               sprinting: !1
             }),
-            (i.bottomRef = i.bottomRef.bind(Object(g.a)(i))),
-            (i.inputBoxRef = i.inputBoxRef.bind(Object(g.a)(i))),
+            (i.bottomRef = i.bottomRef.bind(Object(v.a)(i))),
+            (i.inputBoxRef = i.inputBoxRef.bind(Object(v.a)(i))),
             (i.currentFlow = i.props.definition.uuid),
-            Object(b.react)(Object(g.a)(i), { include: [/^on/, /^get/, /^handle/] }),
+            Object(b.react)(Object(v.a)(i), { include: [/^on/, /^get/, /^handle/] }),
             i
           );
         }
@@ -18325,12 +18328,12 @@
                   } finally {
                     o.f();
                   }
-                  var g = (this.state.session.input && this.props.activity.recentMessages) || {};
-                  for (var v in e) {
-                    var f = g[v] || [];
-                    (f = e[v].concat(f)), (g[v] = f);
+                  var v = (this.state.session.input && this.props.activity.recentMessages) || {};
+                  for (var g in e) {
+                    var f = v[g] || [];
+                    (f = e[g].concat(f)), (v[g] = f);
                   }
-                  var y = { segments: i, nodes: s, recentMessages: g };
+                  var y = { segments: i, nodes: s, recentMessages: v };
                   this.props.mergeEditorState({ activity: y }),
                     t && t !== this.currentFlow && (this.currentFlow = t);
                 }
@@ -18362,10 +18365,10 @@
                     }
                     s.push(l);
                   }
-                  var g = { events: $t()(this.state.events, { $push: s }) };
-                  null !== o && (g.quickReplies = o),
+                  var v = { events: $t()(this.state.events, { $push: s }) };
+                  null !== o && (v.quickReplies = o),
                     this.scrollToBottom(),
-                    this.setState(g, function() {
+                    this.setState(v, function() {
                       0 === e.length
                         ? n()
                         : window.setTimeout(function() {
@@ -19148,7 +19151,7 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)({}, e);
+            return Object(ge.bindActionCreators)({}, e);
           }
         )(Jc),
         Zc = a(110),
@@ -19165,7 +19168,7 @@
           gray: au.a.gray
         },
         ou = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -19177,7 +19180,7 @@
               (n.showConfirmation = void 0),
               (n.DEFUALT_TITLE = 'New Note'),
               (n.DEFUALT_BODY = '...'),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^get/, /^is/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^get/, /^is/, /^handle/] }),
               (n.state = {
                 title: n.props.sticky.title,
                 body: n.props.sticky.body,
@@ -19373,7 +19376,7 @@
             return { definition: e.flowContext.definition };
           },
           function(e) {
-            return Object(ve.bindActionCreators)({ updateSticky: ul }, e);
+            return Object(ge.bindActionCreators)({ updateSticky: ul }, e);
           },
           null,
           { forwardRef: !1 }
@@ -19729,14 +19732,14 @@
             e
           );
         })(),
-        gu = a(155),
-        vu = a.n(gu),
+        vu = a(155),
+        gu = a.n(vu),
         fu = 3,
         yu = function(e) {
           return e.suspendedElementId === e.targetId && null !== e.source;
         },
         bu = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
             var i;
@@ -19748,7 +19751,7 @@
               (i.nodeContainerUUID = Z()),
               (i.Plumber = new hu()),
               n.config.debug && (window.fe = new _u(e, i.props.debug)),
-              Object(b.react)(Object(g.a)(i), {
+              Object(b.react)(Object(v.a)(i), {
                 include: [/Ref$/, /^on/, /^is/, /^get/, /^handle/]
               }),
               i
@@ -19985,7 +19988,7 @@
                   var e = this;
                   return k.createElement(
                     'div',
-                    { key: 'create_node', className: vu.a.empty_flow },
+                    { key: 'create_node', className: gu.a.empty_flow },
                     k.createElement(
                       Fe.a,
                       { i18nKey: 'empty_flow_message' },
@@ -20017,7 +20020,7 @@
                     try {
                       var a = document.getElementById(e),
                         n = a.querySelectorAll('.jtk-connected');
-                      t.Plumber.revalidate([a].concat(Object(ge.a)(n)));
+                      t.Plumber.revalidate([a].concat(Object(ve.a)(n)));
                     } catch (i) {}
                   });
                 }
@@ -20089,7 +20092,7 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               {
                 mergeEditorState: Hr,
                 resetNodeEditingState: il,
@@ -20109,14 +20112,14 @@
         Su = a(81),
         Nu = a.n(Su),
         Ou = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
             var i;
             return (
               Object(m.a)(this, a),
               (i = t.call(this, e, n)),
-              Object(b.react)(Object(g.a)(i), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(i), { include: [/^handle/] }),
               i
             );
           }
@@ -20191,13 +20194,13 @@
             return { languages: t.languages, language: a };
           },
           function(e) {
-            return Object(ve.bindActionCreators)({ handleLanguageChange: Xr }, e);
+            return Object(ge.bindActionCreators)({ handleLanguageChange: Xr }, e);
           }
         )(Ou),
         ju = a(46),
         Tu = a.n(ju),
         Au = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -20205,7 +20208,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).poppedEle = void 0),
               (n.state = { width: 258 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -20306,7 +20309,7 @@
         Fu = a.n(Du),
         Pu = St.a.bind(Fu.a),
         Iu = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -20331,7 +20334,7 @@
                 };
               }),
               (n.state = { revisions: [], revision: null, definition: null, visible: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -20491,7 +20494,7 @@
           return { renderNode: a, renderAction: n };
         },
         qu = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -20502,7 +20505,7 @@
                 selectedIssue: null,
                 issueDetails: n.buildIssueDetails()
               }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^render/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^render/] }),
               n
             );
           }
@@ -20675,7 +20678,7 @@
         Hu = a(157),
         Gu = a(158),
         Wu = a.n(Gu),
-        Ku = Object(ve.combineReducers)({ flowContext: De, editorState: Fr, nodeEditor: na }),
+        Ku = Object(ge.combineReducers)({ flowContext: De, editorState: Fr, nodeEditor: na }),
         Yu = { flowContext: xe, editorState: Dr, nodeEditor: ea },
         Xu = [Wu.a],
         Qu = a(20),
@@ -20753,7 +20756,7 @@
         (e.PROPERTY = 'property'), (e.CATEGORY = 'category'), (e.CASE = 'case');
       })($u || ($u = {}));
       var id = (function(e) {
-        Object(v.a)(a, e);
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e, n) {
           var i;
@@ -20767,7 +20770,7 @@
               pctComplete: 0,
               translationFilters: e.translationFilters || { categories: !0, rules: !0 }
             }),
-            Object(b.react)(Object(g.a)(i), { include: [/^handle/, /^render/, /^toggle/] }),
+            Object(b.react)(Object(v.a)(i), { include: [/^handle/, /^render/, /^toggle/] }),
             i
           );
         }
@@ -20806,7 +20809,7 @@
                     if (e.state.translationFilters.categories) {
                       var o = ['name'];
                       n.node.router.categories.forEach(function(t) {
-                        s.push.apply(s, Object(ge.a)(ed($u.CATEGORY, o, t, e.props.localization)));
+                        s.push.apply(s, Object(ve.a)(ed($u.CATEGORY, o, t, e.props.localization)));
                       });
                     }
                     if (e.state.translationFilters.rules) {
@@ -20814,7 +20817,7 @@
                         l = Ui(n.node);
                       l &&
                         l.cases.forEach(function(t) {
-                          s.push.apply(s, Object(ge.a)(ed($u.CASE, r, t, e.props.localization)));
+                          s.push.apply(s, Object(ve.a)(ed($u.CASE, r, t, e.props.localization)));
                         });
                     }
                     s.length > 0 &&
@@ -21122,23 +21125,23 @@
       var sd = a(234).default,
         od = (function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Yu,
-            t = Object(ve.createStore)(
+            t = Object(ge.createStore)(
               Ku,
               e,
-              Object(Hu.composeWithDevTools)(ve.applyMiddleware.apply(void 0, Xu))
+              Object(Hu.composeWithDevTools)(ge.applyMiddleware.apply(void 0, Xu))
             );
           return t;
         })(),
         rd = { config: bt },
         ld = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -21428,7 +21431,7 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               {
                 fetchFlow: Kr,
                 loadFlowDefinition: Wr,
@@ -21476,4 +21479,4 @@
   ],
   [[163, 1, 2]]
 ]);
-//# sourceMappingURL=main.2e012bb8.chunk.js.map
+//# sourceMappingURL=main.d166aaa4.chunk.js.map

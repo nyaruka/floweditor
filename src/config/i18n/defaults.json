@@ -1,8 +1,8 @@
 {
   "actions": {
     "add_contact_groups": {
-      "description": "Add the contact to a group",
-      "name": "Add to Group"
+      "description": "Add the contact to a collection",
+      "name": "Add to Collection"
     },
     "add_contact_urn": {
       "description": "Add a URN for the contact",
@@ -178,7 +178,7 @@
     "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."
   },
   "forms": {
-    "add_groups_summary": "Select the groups to add the contact to.",
+    "add_groups_summary": "Select the collections to add the contact to.",
     "add_labels_summary": "Select the labels to apply to the incoming message.",
     "add_quick_reply": "Add a new Quick Reply and press enter.",
     "add_urn_summary": "Add a new URN to reach the contact such as a phone number.",
@@ -249,7 +249,7 @@
     "remove_from_all_label": "Remove from all",
     "remove_from_all_summary": "Remove the active contact from all groups they're a member of.",
     "remove_groups_placeholder": "Enter the name of an existing group",
-    "remove_groups_summary": "Select the groups to remove the contact from.",
+    "remove_groups_summary": "Select the collections to remove the contact from.",
     "resthook": "Resthook",
     "resthook_to_call": "Select the resthook to call",
     "result": "Result",
@@ -265,7 +265,7 @@
     "send_msg_summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
     "send_msg_summary_plural": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
     "split_by_channel_placeholder": "Select the channels to split by",
-    "split_by_groups": "Select the groups you'd like to split by below",
+    "split_by_groups": "Select the collections you'd like to split by below",
     "split_by_scheme": "Channel types",
     "split_by_scheme_summary": "The contact's URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.",
     "start_type": "Start Type",
