@@ -269,8 +269,11 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.add_contact_groups,
-    name: i18n.t('actions.add_contact_groups.name', 'Add to Group'),
-    description: i18n.t('actions.add_contact_groups.description', 'Add the contact to a group'),
+    name: i18n.t('actions.add_contact_groups.name', 'Add to Collection'),
+    description: i18n.t(
+      'actions.add_contact_groups.description',
+      'Add the contact to a collection'
+    ),
     form: AddGroupsForm,
     component: ChangeGroupsComp
   },

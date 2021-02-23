@@ -7,7 +7,7 @@ import { AssetType } from 'store/flowContext';
 
 export const removeAllSpecId = 'remove_from_all';
 export const contentSpecId = 'content';
-export const removeAllText = 'Remove from all groups';
+export const removeAllText = 'Remove from all collections';
 
 export const MAX_TO_SHOW = 5;
 export const getRemoveAllMarkup = (

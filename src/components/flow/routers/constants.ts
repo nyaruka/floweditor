@@ -4,7 +4,7 @@ export const WAIT_LABEL = i18n.t('forms.message_label', 'If the message response
 export const EXPRESSION_LABEL = i18n.t('forms.expression_label', 'If the expression...');
 export const GROUP_LABEL = i18n.t(
   'forms.split_by_groups',
-  "Select the groups you'd like to split by below"
+  "Select the collections you'd like to split by below"
 );
 
 export const OPERAND_LOCALIZATION_DESC = i18n.t(
