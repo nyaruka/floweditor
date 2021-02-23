@@ -1,3 +1,4 @@
+import { Attachment } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 
@@ -364,6 +365,8 @@ export interface PlayAudio extends Action {
 
 export interface BroadcastMsg extends RecipientsAction {
   text: string;
+  attachments?: string[];
+  templating?: MsgTemplating;
 }
 
 export interface AddLabels extends Action {
