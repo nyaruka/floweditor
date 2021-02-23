@@ -1389,6 +1389,15 @@ textarea.TextInputElement_textinput__2eOxW:focus {
 .SendBroadcast_recipients__1ZSQV {
   margin-bottom: 15px;
 }
+.SendBroadcast_attachment__2pm0s {
+  transform: rotate(30deg);
+}
+.SendBroadcast_attachment__2pm0s,
+.SendBroadcast_whatsapp__8p4Pd {
+  padding-left: 5px;
+  color: #666;
+  display: inline-block;
+}
 .SendBroadcast_node__26RLX .SendBroadcast_to__25_7K {
   padding: 3px 10px;
   background: #f3f3f3;
@@ -1409,10 +1418,81 @@ textarea.TextInputElement_textinput__2eOxW:focus {
   background: #fff;
   padding: 10px;
 }
+.SendBroadcast_node__26RLX .SendBroadcast_message__6ZIco .SendBroadcast_icons__19jbq {
+  display: flex;
+}
 .SendBroadcast_node__26RLX .SendBroadcast_message__6ZIco .SendBroadcast_line__3Dm3R {
   display: block;
   margin-top: 3px;
   min-height: 11px;
+}
+.SendBroadcastForm_template_text__16ol9 {
+  margin-top: 10px;
+  padding: 10px;
+  background: #f3f3f3;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+.SendBroadcastForm_variable__1nw9U {
+  margin-bottom: 6px;
+}
+.SendBroadcastForm_crossIcon__aTZFs {
+  margin-right: 10px;
+}
+.SendBroadcastForm_error__rKmrs {
+  display: flex;
+  margin-top: 10px;
+  color: red;
+  font-weight: 500;
+}
+.SendBroadcastForm_url_attachment__2Qk5r {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+.SendBroadcastForm_url_attachment__2Qk5r .SendBroadcastForm_remove_upload__Xke5j {
+  margin-left: 8px;
+  margin-top: 4px;
+  display: inline-block;
+}
+.SendBroadcastForm_url_attachment__2Qk5r .SendBroadcastForm_url__-uV5Y {
+  display: inline-block;
+  margin-left: 8px;
+  width: 329px;
+  margin-right: 10px;
+}
+.SendBroadcastForm_url_attachment__2Qk5r .SendBroadcastForm_url__-uV5Y input {
+  vertical-align: top;
+  height: 28px !important;
+  margin-top: -11px;
+  width: 100%;
+  font-size: 12px;
+}
+.SendBroadcastForm_url_attachment__2Qk5r .SendBroadcastForm_remove__1QkNj {
+  margin-top: 4px;
+}
+.SendBroadcastForm_type_choice__2fxfE {
+  display: inline-block;
+  width: 180px;
+}
+@keyframes Loading_pulse__apphI {
+  0% {
+    transform: scale(0.2);
+  }
+  20% {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.2);
+  }
+}
+.Loading_loading__3-t_e {
+  padding: 10px;
+}
+.Loading_loading__3-t_e > div {
+  border: 1px solid #f3f3f3;
+  display: inline-block;
+  animation: Loading_pulse__apphI 0.9s cubic-bezier(0.3, 0, 0.7, 1) infinite;
 }
 .SendEmailForm_ele__2CvL5 .SendEmailForm_message__1k6GE,
 .SendEmailForm_ele__2CvL5 .SendEmailForm_subject__U7jTR {
@@ -1440,25 +1520,6 @@ textarea.TextInputElement_textinput__2eOxW:focus {
   display: block;
   margin-top: 3px;
   min-height: 11px;
-}
-@keyframes Loading_pulse__apphI {
-  0% {
-    transform: scale(0.2);
-  }
-  20% {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(0.2);
-  }
-}
-.Loading_loading__3-t_e {
-  padding: 10px;
-}
-.Loading_loading__3-t_e > div {
-  border: 1px solid #f3f3f3;
-  display: inline-block;
-  animation: Loading_pulse__apphI 0.9s cubic-bezier(0.3, 0, 0.7, 1) infinite;
 }
 .SendMsgForm_checkbox__-JOyy {
   margin-top: 20px;
@@ -4131,4 +4192,4 @@ textarea:focus {
   .TranslatorTab_from_text__3_B24 {
   font-size: 10px;
 }
-/*# sourceMappingURL=main.77b2c68b.chunk.css.map */
+/*# sourceMappingURL=main.648ede79.chunk.css.map */

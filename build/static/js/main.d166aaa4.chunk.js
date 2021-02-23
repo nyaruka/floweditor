@@ -14,6 +14,7 @@
     ,
     ,
     ,
+    ,
     function(e, t, a) {
       e.exports = {
         grid_size: '20',
@@ -68,7 +69,6 @@
     ,
     ,
     ,
-    ,
     function(e, t, a) {
       e.exports = {
         grid_size: '20',
@@ -106,6 +106,7 @@
     },
     ,
     ,
+    ,
     function(e, t, a) {
       e.exports = {
         grid_size: '20',
@@ -138,7 +139,6 @@
         classification: 'LogEvent_classification__2arCX'
       };
     },
-    ,
     ,
     ,
     ,
@@ -561,7 +561,57 @@
     },
     ,
     ,
+    function(e, t, a) {
+      e.exports = {
+        grid_size: '20',
+        node_spacing: '13',
+        node_padding: '3',
+        'background-size': '13',
+        recipients: 'SendBroadcast_recipients__1ZSQV',
+        attachment: 'SendBroadcast_attachment__2pm0s',
+        whatsapp: 'SendBroadcast_whatsapp__8p4Pd',
+        node: 'SendBroadcast_node__26RLX',
+        to: 'SendBroadcast_to__25_7K',
+        name: 'SendBroadcast_name__RNJWu',
+        icon: 'SendBroadcast_icon__2YfpF',
+        more: 'SendBroadcast_more__11MJm',
+        message: 'SendBroadcast_message__6ZIco',
+        icons: 'SendBroadcast_icons__19jbq',
+        line: 'SendBroadcast_line__3Dm3R'
+      };
+    },
+    function(e, t, a) {
+      e.exports = {
+        grid_size: '20',
+        node_spacing: '13',
+        node_padding: '3',
+        'background-size': '13',
+        template_text: 'SendBroadcastForm_template_text__16ol9',
+        variable: 'SendBroadcastForm_variable__1nw9U',
+        crossIcon: 'SendBroadcastForm_crossIcon__aTZFs',
+        error: 'SendBroadcastForm_error__rKmrs',
+        url_attachment: 'SendBroadcastForm_url_attachment__2Qk5r',
+        remove_upload: 'SendBroadcastForm_remove_upload__Xke5j',
+        url: 'SendBroadcastForm_url__-uV5Y',
+        remove: 'SendBroadcastForm_remove__1QkNj',
+        type_choice: 'SendBroadcastForm_type_choice__2fxfE'
+      };
+    },
     ,
+    function(e, t, a) {
+      e.exports = {
+        grid_size: '20',
+        node_spacing: '13',
+        node_padding: '3',
+        'background-size': '13',
+        quick_replies: 'SendMsg_quick_replies__2bre8',
+        attachment: 'SendMsg_attachment__1JoQl',
+        summary: 'SendMsg_summary__2c05X',
+        whatsapp: 'SendMsg_whatsapp__2O95I',
+        facebook: 'SendMsg_facebook__30JZ8',
+        line: 'SendMsg_line__LMI4I'
+      };
+    },
     function(e, t, a) {
       e.exports = {
         title: 'SequenceForm_title__3dDd1',
@@ -581,20 +631,6 @@
         circles: 'MediaPlayer_circles__1pr_0',
         circle_background: 'MediaPlayer_circle_background__OMPcS',
         circle_foreground: 'MediaPlayer_circle_foreground__1L6K9'
-      };
-    },
-    function(e, t, a) {
-      e.exports = {
-        grid_size: '20',
-        node_spacing: '13',
-        node_padding: '3',
-        'background-size': '13',
-        quick_replies: 'SendMsg_quick_replies__2bre8',
-        attachment: 'SendMsg_attachment__1JoQl',
-        summary: 'SendMsg_summary__2c05X',
-        whatsapp: 'SendMsg_whatsapp__2O95I',
-        facebook: 'SendMsg_facebook__30JZ8',
-        line: 'SendMsg_line__LMI4I'
       };
     },
     function(e, t, a) {
@@ -721,22 +757,6 @@
         node_spacing: '13',
         node_padding: '3',
         'background-size': '13',
-        recipients: 'SendBroadcast_recipients__1ZSQV',
-        node: 'SendBroadcast_node__26RLX',
-        to: 'SendBroadcast_to__25_7K',
-        name: 'SendBroadcast_name__RNJWu',
-        icon: 'SendBroadcast_icon__2YfpF',
-        more: 'SendBroadcast_more__11MJm',
-        message: 'SendBroadcast_message__6ZIco',
-        line: 'SendBroadcast_line__3Dm3R'
-      };
-    },
-    function(e, t, a) {
-      e.exports = {
-        grid_size: '20',
-        node_spacing: '13',
-        node_padding: '3',
-        'background-size': '13',
         case_list_container: 'CaseList_case_list_container__3PSnP',
         scrolling: 'CaseList_scrolling__2HZTN',
         case_list: 'CaseList_case_list__8CbuZ',
@@ -790,6 +810,7 @@
         separator: 'LanguageSelector_separator__2oanc'
       };
     },
+    ,
     ,
     ,
     ,
@@ -1007,7 +1028,7 @@
     ,
     function(e) {
       e.exports = JSON.parse(
-        '{"actions":{"add_contact_groups":{"description":"Add the contact to a collection","name":"Add to Collection"},"add_contact_urn":{"description":"Add a URN for the contact","name":"Add URN"},"add_input":{"description":"Label the incoming message","name":"Add Labels"},"call_resthook":{"description":"Call Zapier","name":"Call Zapier"},"call_webhook":{"description":"Call a webhook","name":"Call Webhook"},"enter_flow":{"description":"Enter another flow","name":"Enter a Flow"},"open_ticket":{"description":"Open a ticket with a human agent","name":"Open Ticket"},"play_audio":{"description":"Play a contact recording","name":"Play Recording"},"play_message":{"description":"Play a message","name":"Play Message"},"remove_contact_groups":{"description":"Remove the contact from a group","name":"Remove from Group"},"say_msg":{"placeholder":"Send a message to the contact"},"send_broadcast":{"description":"Send somebody else a message","name":"Send Broadcast","placeholder":"Send a message to the contact"},"send_email":{"description":"Send an email","name":"Send Email"},"send_msg":{"description":"Send the contact a message","name":"Send Message","placeholder":"Send a message to the contact"},"set_contact_field":{"description":"Update the contact","name":"Update Contact"},"set_run_result":{"description":"Save a result for this flow","name":"Save Flow Result"},"split_by_contact_field":{"description":"Split by a contact field","name":"Split by Contact Field"},"split_by_expression":{"description":"Split by a custom expression","name":"Split by Expression"},"split_by_groups":{"description":"Split by group membership","name":"Split by Group Membership"},"split_by_intent":{"description":"Split by intent","name":"Split by Intent"},"split_by_random":{"description":"Split by random chance","name":"Split Randomly"},"split_by_run_result":{"description":"Split by a result in the flow","name":"Split by Flow Result"},"split_by_scheme":{"description":"Split by URN type","name":"Split by URN Type"},"start_session":{"description":"Start somebody else in a flow","name":"Start Somebody Else"},"transfer_airtime":{"description":"Send the contact airtime","name":"Send Airtime"},"wait_for_audio":{"description":"Wait for an audio recording","name":"Wait for Audio"},"wait_for_digits":{"description":"Wait for multiple digits","name":"Wait for Digits"},"wait_for_image":{"description":"Wait for an image","name":"Wait for Image"},"wait_for_location":{"description":"Wait for location GPS coordinates","name":"Wait for Location"},"wait_for_menu":{"description":"Wait for menu selection","name":"Wait for Menu Selection"},"wait_for_response":{"description":"Wait for the contact to respond","name":"Wait for Response"},"wait_for_time":{"description":"Wait for time","name":"Wait for time"},"wait_for_video":{"description":"Wait for a video","name":"Wait for Video"}},"add":"Add","asset_selector":{"placeholder":"Select existing [[name]] or enter a new one","placeholder_plural":"Select existing [[name]] or enter a new one"},"assets":{"classifier":"Call [[name]] classifier","ticketer":"Using [[name]] service"},"body":"Body","buttons":{"cancel":"Cancel","create_message":"Create Message","download":"Download","ok":"Ok"},"contact_statuses":{"active":"Active","blocked":"Blocked - remove from groups, ignore forever","stopped":"Stopped - remove from groups, ignore until they message again","archived":"Archived - remove from groups, ignore forever"},"context_explorer":{"copied_expression":"Copied <1>[[expression]]</1> to clipboard","hide_empty":"Showing keys with values","show_empty":"Showing all keys"},"create_group":"Create Group","create_label":"Create Label","drag_helper":"To connect nodes, <1>drag</1> from the red circle.","email":{"subject":"Subject","to":"To"},"empty_flow_message":"<0>Let\'s get started</0><1>We recommend starting your flow by sending a message. This message will be sent to anybody right after they join the flow. This is your chance to send a single message or ask them a question.</1>","enter_to_create_group":"Enter a name to create a new group","enter_to_create_label":"Enter the name of an existing label or create a new one","errors":{"group_not_found":"Enter the name of an existing group","http_header_missing_name":"HTTP headers must have a name","network":"Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."},"forms":{"add_groups_summary":"Select the collections to add the contact to.","add_labels_summary":"Select the labels to apply to the incoming message.","add_quick_reply":"Add a new Quick Reply and press enter.","add_urn_summary":"Add a new URN to reach the contact such as a phone number.","all_destinations":"All Destinations","are_required":"are required","arguments":"arguments","audio_url":"Audio URL","body":"Body","buckets":"Buckets","categories":"categories","category":"Category","channel":"Channel","channel_type":"Channel Type","classifier":"Classifier","confidence":"confidence","contact_field":"Contact Field","contact_query":"Contact Query","create_prefix":"New: ","currency":"Currency","day":"day","days":"days","delimit":"Delimit","delimit_result":"Delimit Result","delimit_result_description":"Evaluate your rules against a delimited part of your result","delimiter":"Delimiter","district":"District","email_recipient_name":"Recipient","email_recipient_placeholder":"To","email_recipient_prompt":"Enter email address","enter_a_body":"Enter a body","enter_a_subject":"Enter a subject","enter_a_url":"Enter a URL","enter_flow_parameters_summary":"<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.","enter_flow_parameters_tab":"Parameters","exit_name":"Exit Name","expression_label":"If the expression...","field_number":"Field Number","field_value":"Field Value","flow":"Flow","flow_result":"Flow Result","groups":"Groups","header_name":"Header name","image_url":"Image URL","intent":"Intent","is_not_a_valid_regex":"is not a valid regex","is_not_finished":"is not finished","is_required":"is required","labels":"Labels","language":"Language","localize_rules":"Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.","localized_quick_replies":"Add a new [[language]] Quick Reply and press enter.","maximum_value":"Maximum value","message":"Message","message_label":"If the message response...","method":"Method","minimum_value":"Minimum value","must_be_less_than":"must be less than","name":"Name","operand":"Operand","operator":"operator","play_audio_help_text":"Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.","quick_replies":"Quick Replies","quick_replies_summary":"Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \\"Yes\\" and one for \\"No\\".","quick_reply":"Quick Reply","recipients":"Recipients","recording":"Recording","recording_label":"Previous Recording","remove_from_all_label":"Remove from all","remove_from_all_summary":"Remove the active contact from all groups they\'re a member of.","remove_groups_placeholder":"Enter the name of an existing group","remove_groups_summary":"Select the collections to remove the contact from.","resthook":"Resthook","resthook_to_call":"Select the resthook to call","result":"Result","result_name":"Result Name","result_name_help":"By naming the result, you can reference it later using [[resultFormat]]","result_to_split_on":"Result to split on","rules":"rules","save_as_title":"Save as..","save_result_name":"Result Name","select_result":"Select Result","send_msg_facebook_topic_placeholder":"Select a topic to use over Facebook","send_msg_facebook_warning":"Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.","send_msg_summary":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","send_msg_summary_plural":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","split_by_channel_placeholder":"Select the channels to split by","split_by_groups":"Select the collections you\'d like to split by below","split_by_scheme":"Channel types","split_by_scheme_summary":"The contact\'s URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.","start_type":"Start Type","state":"State","status":"Status","subject":"Subject","template":"template","the_maximum":"the maximum","the_minimum":"the minimum","ticketer":"Ticketer","timeout":"Timeout","timeout_1 day":"1 day","timeout_1 hour":"1 hour","timeout_1 minute":"1 minute","timeout_1 week":"1 week","timeout_10 minutes":"10 minutes","timeout_12 hours":"12 hours","timeout_15 minutes":"15 minutes","timeout_18 hours":"18 hours","timeout_2 days":"2 days","timeout_2 hours":"2 hours","timeout_2 minutes":"2 minutes","timeout_3 days":"3 days","timeout_3 hours":"3 hours","timeout_3 minutes":"3 minutes","timeout_4 minutes":"4 minutes","timeout_5 minutes":"5 minutes","timeout_6 hours":"6 hours","today":"today","today_proper":"Today","translation":"Translation","type":"Type","type_label":"When a contact arrives at this point in your flow...","type_options":"Type Options","url":"URL","urn":"URN","urn_type":"URN Type","use_as_default_language":"Use as default language","value":"Value","variable":"Variable","video_url":"Video URL","webhook_body_summary":"Modify the body of the [[method]] request that will be sent to your webhook.(Please update only custom-key value pairs)","webhook_example":"This response would add <1>@webhook.product</1> and <4>@webhook[\\"stock level\\"]</4> for use in the flow.","webhook_header":"Header","webhook_header_name":"Header Name","webhook_header_summary":"Add any additional headers below that you would like to send along with your request.","webhook_help":"If your server responds with JSON, each property will be added to the Flow.","whatsapp_warning":"Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."},"issues":{"header":"Flow Issues","label":"Flow Issues","legacy_extra":"Invalid regular expression found: [[regex]]","missing_dependency":"Cannot find a [[type]] for <1>[[name]]</1>"},"operator":{"has_pattern":"matches regex"},"operators":{"has_all_words":"has all of the words","has_any_word":"has any of the words","has_beginning":"starts with","has_category":"has the category","has_date":"has a date","has_date_category":"Has Date","has_date_eq":"has a date equal to","has_date_gt":"has a date after","has_date_lt":"has a date before","has_district":"has district","has_district_category":"Has District","has_email":"has an email","has_email_category":"Has Email","has_error":"has an error","has_error_category":"Has Error","has_group":"is in the group","has_intent":"has intent","has_number":"has a number","has_number_between":"has a number between","has_number_eq":"has a number equal to","has_number_gt":"has a number above","has_number_gte":"has a number at or above","has_number_lt":"has a number below","has_number_lte":"has a number at or below","has_only_phrase":"has only the phrase","has_phone":"has a phone number","has_phone_category":"Has Phone","has_phrase":"has the phrase","has_state":"has state","has_state_category":"Has State","has_text":"has some text","has_time":"has a time","has_top_intent":"has top intent","has_value":"is not empty","has_value_category":"Not Empty","has_ward":"has ward","has_ward_category":"Has Ward","has_media":"has media","has_location":"has location"},"removal_confirmation":"Remove?","revisions":{"header":"Revisions","label":"Revision History"},"schemes":{"email":{"name":"Email","path":"Email Address"},"external":{"name":"External","path":"External ID"},"facebook":{"path":"Facebook"},"firebase":{"name":"Firebase","path":"Firebase ID"},"freschat":{"name":"Freshchat"},"freshchat":{"path":"Freshchat ID"},"jiochat":{"path":"Jiochat ID"},"jiojach":{"name":"Jiochat"},"line":{"name":"Line","path":"Line ID"},"phone":{"name":"SMS","path":"Phone Number"},"telegram":{"name":"Telegram","path":"Telegram ID"},"twitter":{"name":"Twitter","path":"Twitter Handle"},"twitterid":{"name":"Twitter","path":"Twitter ID"},"viber":{"name":"Viber","path":"Viber ID"},"wechat":{"name":"Wechat","path":"Wechat ID"},"whatsapp":{"name":"WhatsApp","path":"WhatsApp Number"}},"simulator":{"added_to_group":"Added to ","airtime_transferred":"Transferred [[amount]] [[currency]] to [[recipient]]","contact_field_changed":"Set contact \\"[[field]]\\" to \\"[[value]]\\"","contact_field_cleared":"Cleared contact \\"[[field]]\\"","contact_language_changed":"Set preferred language to \\"[[language]]\\"","contact_name_changed":"Set contact name to \\"[[name]]\\"","contact_status_changed":"Set status to \\"[[status]]\\"","flow_entered":"Entered flow \\"[[flow]]\\"","httplog_dialog":"HTTP Request Details","input_labels_added":"Message labeled with ","msg_wait":"Waiting for reply","removed_from_group":"Removed from ","resthook_called":"Triggered flow event \\"[[resthook]]\\"","run_result_changed":"Set result \\"[[field]]\\" to \\"[[value]]\\"","sent_email":{"summary":"Sent email to [[recipients]] with subject \\"[[subject]]\\"","title":"Email Details"},"session_triggered":"Started somebody else in \\"[[flow]]\\"","ticket_opened":"Ticket opened with subject \\"[[subject]]\\""},"sticky":{"body":"...","title":"New Note"},"translation":{"header":"Flow Translation","label":"Translations"}}'
+        '{"actions":{"add_contact_groups":{"description":"Add the contact to a collection","name":"Add to Collection"},"add_contact_urn":{"description":"Add a URN for the contact","name":"Add URN"},"add_input":{"description":"Label the incoming message","name":"Add Labels"},"call_resthook":{"description":"Call Zapier","name":"Call Zapier"},"call_webhook":{"description":"Call a webhook","name":"Call Webhook"},"enter_flow":{"description":"Enter another flow","name":"Enter a Flow"},"open_ticket":{"description":"Open a ticket with a human agent","name":"Open Ticket"},"play_audio":{"description":"Play a contact recording","name":"Play Recording"},"play_message":{"description":"Play a message","name":"Play Message"},"remove_contact_groups":{"description":"Remove the contact from a group","name":"Remove from Group"},"say_msg":{"placeholder":"Send a message to the contact"},"send_broadcast":{"description":"Send a staff member a message","name":"Send Broadcast","placeholder":"Send a staff member a message"},"send_email":{"description":"Send an email","name":"Send Email"},"send_msg":{"description":"Send the contact a message","name":"Send Message","placeholder":"Send a message to the contact"},"set_contact_field":{"description":"Update the contact","name":"Update Contact"},"set_run_result":{"description":"Save a result for this flow","name":"Save Flow Result"},"split_by_contact_field":{"description":"Split by a contact field","name":"Split by Contact Field"},"split_by_expression":{"description":"Split by a custom expression","name":"Split by Expression"},"split_by_groups":{"description":"Split by group membership","name":"Split by Group Membership"},"split_by_intent":{"description":"Split by intent","name":"Split by Intent"},"split_by_random":{"description":"Split by random chance","name":"Split Randomly"},"split_by_run_result":{"description":"Split by a result in the flow","name":"Split by Flow Result"},"split_by_scheme":{"description":"Split by URN type","name":"Split by URN Type"},"start_session":{"description":"Start somebody else in a flow","name":"Start Somebody Else"},"transfer_airtime":{"description":"Send the contact airtime","name":"Send Airtime"},"wait_for_audio":{"description":"Wait for an audio recording","name":"Wait for Audio"},"wait_for_digits":{"description":"Wait for multiple digits","name":"Wait for Digits"},"wait_for_image":{"description":"Wait for an image","name":"Wait for Image"},"wait_for_location":{"description":"Wait for location GPS coordinates","name":"Wait for Location"},"wait_for_menu":{"description":"Wait for menu selection","name":"Wait for Menu Selection"},"wait_for_response":{"description":"Wait for the contact to respond","name":"Wait for Response"},"wait_for_time":{"description":"Wait for time","name":"Wait for time"},"wait_for_video":{"description":"Wait for a video","name":"Wait for Video"}},"add":"Add","asset_selector":{"placeholder":"Select existing [[name]] or enter a new one","placeholder_plural":"Select existing [[name]] or enter a new one"},"assets":{"classifier":"Call [[name]] classifier","ticketer":"Using [[name]] service"},"body":"Body","buttons":{"cancel":"Cancel","create_message":"Create Message","download":"Download","ok":"Ok"},"contact_statuses":{"active":"Active","blocked":"Blocked - remove from groups, ignore forever","stopped":"Stopped - remove from groups, ignore until they message again","archived":"Archived - remove from groups, ignore forever"},"context_explorer":{"copied_expression":"Copied <1>[[expression]]</1> to clipboard","hide_empty":"Showing keys with values","show_empty":"Showing all keys"},"create_group":"Create Group","create_label":"Create Label","drag_helper":"To connect nodes, <1>drag</1> from the red circle.","email":{"subject":"Subject","to":"To"},"empty_flow_message":"<0>Let\'s get started</0><1>We recommend starting your flow by sending a message. This message will be sent to anybody right after they join the flow. This is your chance to send a single message or ask them a question.</1>","enter_to_create_group":"Enter a name to create a new group","enter_to_create_label":"Enter the name of an existing label or create a new one","errors":{"group_not_found":"Enter the name of an existing group","http_header_missing_name":"HTTP headers must have a name","network":"Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."},"forms":{"add_groups_summary":"Select the collections to add the contact to.","add_labels_summary":"Select the labels to apply to the incoming message.","add_quick_reply":"Add a new Quick Reply and press enter.","add_urn_summary":"Add a new URN to reach the contact such as a phone number.","all_destinations":"All Destinations","are_required":"are required","arguments":"arguments","audio_url":"Audio URL","body":"Body","buckets":"Buckets","categories":"categories","category":"Category","channel":"Channel","channel_type":"Channel Type","classifier":"Classifier","confidence":"confidence","contact_field":"Contact Field","contact_query":"Contact Query","create_prefix":"New: ","currency":"Currency","day":"day","days":"days","delimit":"Delimit","delimit_result":"Delimit Result","delimit_result_description":"Evaluate your rules against a delimited part of your result","delimiter":"Delimiter","district":"District","email_recipient_name":"Recipient","email_recipient_placeholder":"To","email_recipient_prompt":"Enter email address","enter_a_body":"Enter a body","enter_a_subject":"Enter a subject","enter_a_url":"Enter a URL","enter_flow_parameters_summary":"<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.","enter_flow_parameters_tab":"Parameters","exit_name":"Exit Name","expression_label":"If the expression...","field_number":"Field Number","field_value":"Field Value","flow":"Flow","flow_result":"Flow Result","groups":"Groups","header_name":"Header name","image_url":"Image URL","intent":"Intent","is_not_a_valid_regex":"is not a valid regex","is_not_finished":"is not finished","is_required":"is required","labels":"Labels","language":"Language","localize_rules":"Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.","localized_quick_replies":"Add a new [[language]] Quick Reply and press enter.","maximum_value":"Maximum value","message":"Message","message_label":"If the message response...","method":"Method","minimum_value":"Minimum value","must_be_less_than":"must be less than","name":"Name","operand":"Operand","operator":"operator","play_audio_help_text":"Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.","quick_replies":"Quick Replies","quick_replies_summary":"Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \\"Yes\\" and one for \\"No\\".","quick_reply":"Quick Reply","recipients":"Recipients","recording":"Recording","recording_label":"Previous Recording","remove_from_all_label":"Remove from all","remove_from_all_summary":"Remove the active contact from all groups they\'re a member of.","remove_groups_placeholder":"Enter the name of an existing group","remove_groups_summary":"Select the collections to remove the contact from.","resthook":"Resthook","resthook_to_call":"Select the resthook to call","result":"Result","result_name":"Result Name","result_name_help":"By naming the result, you can reference it later using [[resultFormat]]","result_to_split_on":"Result to split on","rules":"rules","save_as_title":"Save as..","save_result_name":"Result Name","select_result":"Select Result","send_msg_facebook_topic_placeholder":"Select a topic to use over Facebook","send_msg_facebook_warning":"Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.","send_msg_summary":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","send_msg_summary_plural":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","split_by_channel_placeholder":"Select the channels to split by","split_by_groups":"Select the collections you\'d like to split by below","split_by_scheme":"Channel types","split_by_scheme_summary":"The contact\'s URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.","start_type":"Start Type","state":"State","status":"Status","subject":"Subject","template":"template","the_maximum":"the maximum","the_minimum":"the minimum","ticketer":"Ticketer","timeout":"Timeout","timeout_1 day":"1 day","timeout_1 hour":"1 hour","timeout_1 minute":"1 minute","timeout_1 week":"1 week","timeout_10 minutes":"10 minutes","timeout_12 hours":"12 hours","timeout_15 minutes":"15 minutes","timeout_18 hours":"18 hours","timeout_2 days":"2 days","timeout_2 hours":"2 hours","timeout_2 minutes":"2 minutes","timeout_3 days":"3 days","timeout_3 hours":"3 hours","timeout_3 minutes":"3 minutes","timeout_4 minutes":"4 minutes","timeout_5 minutes":"5 minutes","timeout_6 hours":"6 hours","today":"today","today_proper":"Today","translation":"Translation","type":"Type","type_label":"When a contact arrives at this point in your flow...","type_options":"Type Options","url":"URL","urn":"URN","urn_type":"URN Type","use_as_default_language":"Use as default language","value":"Value","variable":"Variable","video_url":"Video URL","webhook_body_summary":"Modify the body of the [[method]] request that will be sent to your webhook.(Please update only custom-key value pairs)","webhook_example":"This response would add <1>@webhook.product</1> and <4>@webhook[\\"stock level\\"]</4> for use in the flow.","webhook_header":"Header","webhook_header_name":"Header Name","webhook_header_summary":"Add any additional headers below that you would like to send along with your request.","webhook_help":"If your server responds with JSON, each property will be added to the Flow.","whatsapp_warning":"Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."},"issues":{"header":"Flow Issues","label":"Flow Issues","legacy_extra":"Invalid regular expression found: [[regex]]","missing_dependency":"Cannot find a [[type]] for <1>[[name]]</1>"},"operator":{"has_pattern":"matches regex"},"operators":{"has_all_words":"has all of the words","has_any_word":"has any of the words","has_beginning":"starts with","has_category":"has the category","has_date":"has a date","has_date_category":"Has Date","has_date_eq":"has a date equal to","has_date_gt":"has a date after","has_date_lt":"has a date before","has_district":"has district","has_district_category":"Has District","has_email":"has an email","has_email_category":"Has Email","has_error":"has an error","has_error_category":"Has Error","has_group":"is in the group","has_intent":"has intent","has_number":"has a number","has_number_between":"has a number between","has_number_eq":"has a number equal to","has_number_gt":"has a number above","has_number_gte":"has a number at or above","has_number_lt":"has a number below","has_number_lte":"has a number at or below","has_only_phrase":"has only the phrase","has_phone":"has a phone number","has_phone_category":"Has Phone","has_phrase":"has the phrase","has_state":"has state","has_state_category":"Has State","has_text":"has some text","has_time":"has a time","has_top_intent":"has top intent","has_value":"is not empty","has_value_category":"Not Empty","has_ward":"has ward","has_ward_category":"Has Ward","has_media":"has media","has_location":"has location"},"removal_confirmation":"Remove?","revisions":{"header":"Revisions","label":"Revision History"},"schemes":{"email":{"name":"Email","path":"Email Address"},"external":{"name":"External","path":"External ID"},"facebook":{"path":"Facebook"},"firebase":{"name":"Firebase","path":"Firebase ID"},"freschat":{"name":"Freshchat"},"freshchat":{"path":"Freshchat ID"},"jiochat":{"path":"Jiochat ID"},"jiojach":{"name":"Jiochat"},"line":{"name":"Line","path":"Line ID"},"phone":{"name":"SMS","path":"Phone Number"},"telegram":{"name":"Telegram","path":"Telegram ID"},"twitter":{"name":"Twitter","path":"Twitter Handle"},"twitterid":{"name":"Twitter","path":"Twitter ID"},"viber":{"name":"Viber","path":"Viber ID"},"wechat":{"name":"Wechat","path":"Wechat ID"},"whatsapp":{"name":"WhatsApp","path":"WhatsApp Number"}},"simulator":{"added_to_group":"Added to ","airtime_transferred":"Transferred [[amount]] [[currency]] to [[recipient]]","contact_field_changed":"Set contact \\"[[field]]\\" to \\"[[value]]\\"","contact_field_cleared":"Cleared contact \\"[[field]]\\"","contact_language_changed":"Set preferred language to \\"[[language]]\\"","contact_name_changed":"Set contact name to \\"[[name]]\\"","contact_status_changed":"Set status to \\"[[status]]\\"","flow_entered":"Entered flow \\"[[flow]]\\"","httplog_dialog":"HTTP Request Details","input_labels_added":"Message labeled with ","msg_wait":"Waiting for reply","removed_from_group":"Removed from ","resthook_called":"Triggered flow event \\"[[resthook]]\\"","run_result_changed":"Set result \\"[[field]]\\" to \\"[[value]]\\"","sent_email":{"summary":"Sent email to [[recipients]] with subject \\"[[subject]]\\"","title":"Email Details"},"session_triggered":"Started somebody else in \\"[[flow]]\\"","ticket_opened":"Ticket opened with subject \\"[[subject]]\\""},"sticky":{"body":"...","title":"New Note"},"translation":{"header":"Flow Translation","label":"Translations"}}'
       );
     },
     function(e) {
@@ -1030,7 +1051,6 @@
     function(e, t, a) {
       e.exports = { checkbox: 'RemoveGroupsForm_checkbox__3W5g6' };
     },
-    ,
     function(e, t, a) {
       e.exports = {
         grid_size: '20',
@@ -1041,6 +1061,7 @@
         pulse: 'Loading_pulse__apphI'
       };
     },
+    ,
     function(e, t, a) {
       e.exports = { value: 'UpdateContactForm_value__19Fyz' };
     },
@@ -1097,9 +1118,8 @@
     ,
     ,
     ,
-    ,
     function(e, t, a) {
-      e.exports = a(236);
+      e.exports = a(237);
     },
     function(e, t, a) {
       e.exports = {
@@ -1185,7 +1205,7 @@
     function(e, t, a) {
       'use strict';
       a.r(t);
-      a(163), a(164);
+      a(164), a(165);
       var n,
         i,
         s,
@@ -1199,16 +1219,16 @@
         h,
         m = a(2),
         _ = a(3),
-        g = a(6),
-        v = a(5),
+        v = a(6),
+        g = a(5),
         f = a(4),
-        y = a(10),
-        b = a(7),
+        y = a(9),
+        b = a(8),
         k = a(0),
         E = a.n(k),
         C = a(11),
         w = a(21),
-        S = a(8),
+        S = a(7),
         N = '13.1';
       !(function(e) {
         (e.channel = 'channel'),
@@ -1358,13 +1378,13 @@
             e
           );
         })(),
-        T = a(93),
-        A = a(84),
+        T = a(95),
+        A = a(86),
         R = a.n(A),
         U = /\s|-+(?=\S)/g,
         D = parseInt(R.a.grid_size, 10) || 20,
-        P = parseInt(R.a.node_spacing, 10) || 10,
-        F = parseInt(R.a.node_padding, 10) || 10,
+        F = parseInt(R.a.node_spacing, 10) || 10,
+        P = parseInt(R.a.node_padding, 10) || 10,
         I = function(e, t) {
           var a = e % D,
             n = t % D;
@@ -1420,7 +1440,7 @@
           }
           return !1;
         },
-        q = function(e) {
+        V = function(e) {
           var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : null,
             a = arguments.length > 2 ? arguments[2] : void 0;
           return {
@@ -1432,7 +1452,7 @@
             }
           };
         },
-        V = function(e, t, a) {
+        q = function(e, t, a) {
           return j.translate(e, a, t[a.id]);
         },
         H = function(e) {
@@ -1462,10 +1482,10 @@
         J = function(e) {
           return { $push: e };
         },
-        Z = function(e) {
+        $ = function(e) {
           return { $splice: e };
         },
-        $ = function() {
+        Z = function() {
           return Object(T.v4)();
         },
         ee = function(e, t) {
@@ -1495,21 +1515,21 @@
         ie = function(e) {
           return e ? 'true' : null;
         },
-        se = a(72),
+        se = a(74),
         oe = a.n(se);
       !(function(e) {
         (e.primary = 'primary'), (e.secondary = 'secondary'), (e.tertiary = 'tertiary');
       })(O || (O = {}));
       var re,
         le = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = { active: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -1573,7 +1593,7 @@
       })(re || (re = {}));
       var he,
         me = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -1582,7 +1602,7 @@
               ((n = t.call(this, e)).tabFocus = null),
               (n.primaryButton = null),
               (n.state = { activeTab: -1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^get/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^get/] }),
               n
             );
           }
@@ -1776,7 +1796,7 @@
           );
         })(k.Component),
         _e = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -1784,7 +1804,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).ele = void 0),
               (n.state = { top: 0, fixed: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -1836,8 +1856,8 @@
             a
           );
         })(k.PureComponent),
-        ge = a(26),
-        ve = a(16);
+        ve = a(27),
+        ge = a(16);
       !(function(e) {
         (e.UPDATE_EDITOR_STATE = 'UPDATE_EDITOR_STATE'),
           (e.UPDATE_NODE_EDITOR_SETTINGS = 'UPDATE_NODE_EDITOR_SETTINGS'),
@@ -1936,7 +1956,7 @@
             { type: ye.UPDATE_ASSET_MAP, payload: { assets: e } }
           );
         },
-        De = Object(ve.combineReducers)({
+        De = Object(ge.combineReducers)({
           definition: function() {
             var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : xe.definition,
               t = arguments.length > 1 ? arguments[1] : void 0;
@@ -2010,11 +2030,11 @@
             }
           }
         }),
-        Pe = a(15),
-        Fe = a(55),
-        Ie = a.n(Fe),
-        Me = a(70),
-        Le = a(27),
+        Fe = a(15),
+        Pe = a(58),
+        Ie = a.n(Pe),
+        Me = a(72),
+        Le = a(22),
         ze = a.n(Le),
         Be = {
           ARS: { id: 'ARS', name: 'Argentine Peso', type: fe.Currency },
@@ -2174,8 +2194,8 @@
             (e.ISSUES_TAB = 'Issues Tab'),
             (e.TRANSLATOR_TAB = 'Translator Tab');
         })(Se || (Se = {}));
-      var qe = [be.NONE],
-        Ve = [be.VOICE],
+      var Ve = [be.NONE],
+        qe = [be.VOICE],
         He = [be.SURVEY],
         Ge = [be.MESSAGE, be.SURVEY],
         We = [be.MESSAGE, be.VOICE];
@@ -2237,7 +2257,7 @@
               .get(e)
               .then(function(e) {
                 var i = e.data.results.map(function(e, n) {
-                  var i = Ze(e, t, a);
+                  var i = $e(e, t, a);
                   return (i.order = n), i;
                 });
                 n({ assets: i, next: e.data.next });
@@ -2289,7 +2309,7 @@
             return e.apply(this, arguments);
           };
         })(),
-        Ze = function(e, t, a) {
+        $e = function(e, t, a) {
           var n = a || 'uuid',
             i = t;
           if (t === fe.Flow && e.type)
@@ -2307,7 +2327,7 @@
           var s = { name: e.name || e.text || e.label || e[n], id: e[n], type: i };
           return delete e[n], delete e.name, delete e.text, (s.content = e), s;
         },
-        $e = function(e, t, a) {
+        Ze = function(e, t, a) {
           if (a && a(t)) return !1;
           var n = e.toLowerCase();
           return (
@@ -2354,7 +2374,7 @@
               var t = n[e];
               i.push(
                 Je(t.endpoint, t.type, t.id || 'uuid').then(function(e) {
-                  (t.items = yl(e)), (t.prefetched = !0);
+                  (t.items = Sl(e)), (t.prefetched = !0);
                 })
               );
             }),
@@ -2491,7 +2511,7 @@
             a = k.createElement(k.Fragment, null, e.description);
           e.type === i.MISSING_DEPENDENCY &&
             (a = k.createElement(
-              Pe.a,
+              Fe.a,
               {
                 i18nKey: 'issues.missing_dependency',
                 values: { name: e.dependency.name || e.dependency.key, type: e.dependency.type }
@@ -2501,13 +2521,13 @@
             )),
             e.type === i.INVALID_REGEX &&
               (a = k.createElement(
-                Pe.a,
+                Fe.a,
                 { i18nKey: 'issues.legacy_extra', values: { regex: e.regex } },
                 'Invalid regular expression found: [[regex]]'
               )),
             e.type === i.LEGACY_EXTRA &&
               (a = k.createElement(
-                Pe.a,
+                Fe.a,
                 { i18nKey: 'issues.legacy_extra' },
                 'Expressions should not reference @legacy_extra'
               ));
@@ -2526,7 +2546,7 @@
             : a;
         },
         lt = function(e, t) {
-          return e.originalAction && e.originalAction.type === t ? e.originalAction.uuid : $();
+          return e.originalAction && e.originalAction.type === t ? e.originalAction.uuid : Z();
         },
         ct = function(e) {
           var t = (e.groups || []).map(function(e) {
@@ -2562,7 +2582,7 @@
           switch (e.type) {
             case fe.Classifier:
               a = k.createElement(
-                Pe.a,
+                Fe.a,
                 { i18nKey: 'assets.classifier', values: { name: e.name } },
                 'Call [[name]] classifier'
               );
@@ -2607,7 +2627,7 @@
               break;
             case fe.Ticketer:
               a = k.createElement(
-                Pe.a,
+                Fe.a,
                 { i18nKey: 'assets.ticketer', values: { name: e.name } },
                 'Using [[name]] service'
               );
@@ -2645,8 +2665,8 @@
               return { uuid: e.id, name: e.name };
             });
         },
-        gt = { name: z(l.Name), id: l.Name, type: fe.ContactProperty },
-        vt = { name: z(l.Channel), id: l.Channel, type: fe.ContactProperty },
+        vt = { name: z(l.Name), id: l.Name, type: fe.ContactProperty },
+        gt = { name: z(l.Channel), id: l.Channel, type: fe.ContactProperty },
         ft = { name: z(l.Language), id: l.Language, type: fe.ContactProperty },
         yt = { name: z(l.Status), id: l.Status, type: fe.ContactProperty },
         bt = function() {
@@ -2656,7 +2676,7 @@
         return null;
       };
       var kt = (function(e) {
-        Object(v.a)(a, e);
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
           var n;
@@ -2718,14 +2738,14 @@
         Ot = a.n(Nt),
         xt = St.a.bind(Ot.a),
         jt = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^get/, /^has/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^get/, /^has/] }),
               n
             );
           }
@@ -2809,40 +2829,40 @@
             a
           );
         })(k.PureComponent),
-        Tt = a(132),
+        Tt = a(134),
         At = a.n(Tt),
         Rt = a(47),
-        Ut = a(133),
+        Ut = a(135),
         Dt = {
-          defaults: { translation: a(134) },
-          en: { translation: a(135) },
-          es: { translation: a(136) },
-          pt: { translation: a(137) }
+          defaults: { translation: a(136) },
+          en: { translation: a(137) },
+          es: { translation: a(138) },
+          pt: { translation: a(139) }
         };
       Rt.a
         .use(Ut.a)
-        .use(Pe.b)
+        .use(Fe.b)
         .init({
           resources: Dt,
           fallbackLng: ['en', 'defaults'],
           interpolation: { prefix: '[[', suffix: ']]' }
         });
-      var Pt,
-        Ft = Rt.a,
-        It = a(95),
+      var Ft,
+        Pt = Rt.a,
+        It = a(97),
         Mt = a.n(It);
       !(function(e) {
         (e.small = 'small'), (e.normal = 'normal');
-      })(Pt || (Pt = {}));
+      })(Ft || (Ft = {}));
       var Lt = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).selectbox = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -2943,7 +2963,7 @@
                     'div',
                     {
                       className:
-                        Mt.a[this.props.style || Pt.normal] +
+                        Mt.a[this.props.style || Ft.normal] +
                         ' ' +
                         ((this.props.errors || []).length > 0 ? Mt.a.error : '')
                     },
@@ -2988,15 +3008,20 @@
             ? e.name.localeCompare(t.name)
             : 0;
         },
-        Bt = (function(e) {
-          Object(v.a)(a, e);
+        Bt = function(e) {
+          return !!e.translations.find(function(e) {
+            return 'pending' === e.status || 'approved' === e.status;
+          });
+        },
+        Vt = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             Object(m.a)(this, a),
               ((n = t.call(this, e)).lastCreation = 0),
               (n.options = []),
-              Object(b.react)(Object(g.a)(n), { include: [/^is/, /^handle/, /^get/] });
+              Object(b.react)(Object(v.a)(n), { include: [/^is/, /^handle/, /^get/] });
             var i = [];
             return (
               e.assets &&
@@ -3008,10 +3033,10 @@
                         return t[e];
                       })
                       .filter(function(e) {
-                        return $e(i, e, n);
+                        return Ze(i, e, n);
                       });
                   return (s = s.concat(a || []).filter(function(e) {
-                    return $e(i, e, n);
+                    return Ze(i, e, n);
                   }));
                 })('', e.assets.items)),
               (n.options = n.props.additionalOptions || []),
@@ -3113,7 +3138,7 @@
                 {
                   key: 'render',
                   value: function() {
-                    var e = Ft.t(
+                    var e = Pt.t(
                       'asset_selector.placeholder',
                       'Select existing [[name]] or enter a new one',
                       {
@@ -3182,7 +3207,7 @@
             return t === e;
           });
         },
-        Vt = function(e, t) {
+        Ht = function(e, t) {
           return e.filter(function(e) {
             return (
               !(
@@ -3198,24 +3223,24 @@
             );
           });
         },
-        Ht = function(e, t) {
+        Gt = function(e, t) {
           return t.excludeTypes
             ? e.filter(function(e) {
                 return !t.excludeTypes.includes(e.type);
               })
             : e;
         },
-        Gt = function(e, t) {
+        Wt = function(e, t) {
           return t.excludeOperators
             ? e.filter(function(e) {
                 return !t.excludeOperators.includes(e.type);
               })
             : e;
         },
-        Wt = a(138),
-        Kt = a.n(Wt),
-        Yt = (function(e) {
-          Object(v.a)(a, e);
+        Kt = a(140),
+        Yt = a.n(Kt),
+        Xt = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -3223,7 +3248,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).typeConfigs = void 0),
               (n.state = { config: n.props.initialType }),
-              (n.handleChangeType = n.handleChangeType.bind(Object(g.a)(n))),
+              (n.handleChangeType = n.handleChangeType.bind(Object(v.a)(n))),
               n
             );
           }
@@ -3244,7 +3269,7 @@
                   var e, t;
                   return (
                     void 0 === this.typeConfigs &&
-                      (this.typeConfigs = ((e = _r), (t = this.context.config), Vt(Ht(e, t), t))),
+                      (this.typeConfigs = ((e = kr), (t = this.context.config), Ht(Gt(e, t), t))),
                     this.typeConfigs
                   );
                 }
@@ -3254,11 +3279,11 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: ''.concat(this.props.__className, ' ').concat(Kt.a.type_list) },
+                    { className: ''.concat(this.props.__className, ' ').concat(Yt.a.type_list) },
                     k.createElement(
                       'p',
                       null,
-                      Ft.t(
+                      Pt.t(
                         'forms.type_label',
                         'When a contact arrives at this point in your flow...'
                       )
@@ -3284,10 +3309,10 @@
             a
           );
         })(k.PureComponent);
-      Yt.contextTypes = { config: bt };
-      var Xt,
-        Qt = a(14),
-        Jt = a.n(Qt),
+      Xt.contextTypes = { config: bt };
+      var Qt,
+        Jt = a(13),
+        $t = a.n(Jt),
         Zt = function(e, t) {
           for (
             var a = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : [],
@@ -3312,8 +3337,8 @@
                     });
                     n =
                       i > -1
-                        ? Jt()(n, Object(S.a)({}, o, { $merge: Object(S.a)({}, i, t) }))
-                        : Jt()(n, Object(S.a)({}, o, { $push: [t] }));
+                        ? $t()(n, Object(S.a)({}, o, { $merge: Object(S.a)({}, i, t) }))
+                        : $t()(n, Object(S.a)({}, o, { $push: [t] }));
                   }
                 };
                 for (c.s(); !(l = c.n()).done; ) u();
@@ -3334,19 +3359,19 @@
           try {
             for (p.s(); !(d = p.n()).done; )
               for (var h = d.value, m = 0, _ = Object.keys(h); m < _.length; m++) {
-                var g = _[m],
-                  v = h[g];
-                if (Array.isArray(v)) {
+                var v = _[m],
+                  g = h[v];
+                if (Array.isArray(g)) {
                   var f,
-                    y = Object(C.a)(v);
+                    y = Object(C.a)(g);
                   try {
                     var b = function() {
                       var e = f.value,
                         t = e.hasOwnProperty('value') && 'object' === typeof e.value;
                       ((t && e.value.uuid) || e.uuid) &&
-                        (n = Jt()(
+                        (n = $t()(
                           n,
-                          Object(S.a)({}, g, function(a) {
+                          Object(S.a)({}, v, function(a) {
                             return a.filter(function(a) {
                               return t ? a.value.uuid !== e.value.uuid : a.uuid !== e.uuid;
                             });
@@ -3369,7 +3394,7 @@
           var k = a.filter(function(e) {
             return 'string' === typeof e;
           });
-          n = Jt()(n, { $merge: t, $unset: k });
+          n = $t()(n, { $merge: t, $unset: k });
           for (var E = !0, w = 0, N = Object.keys(e); w < N.length; w++) {
             var O = N[w],
               x = n[O];
@@ -3394,18 +3419,18 @@
               break;
             }
           }
-          return Jt()(n, { $merge: { valid: E } });
+          return $t()(n, { $merge: { valid: E } });
         },
-        $t = { typeConfig: null, userAddingAction: !1, settings: null },
-        ea = function(e) {
+        ea = { typeConfig: null, userAddingAction: !1, settings: null },
+        ta = function(e) {
           return { type: ye.UPDATE_NODE_EDITOR_SETTINGS, payload: { settings: e } };
         },
-        ta = function(e) {
+        aa = function(e) {
           return { type: ye.UPDATE_USER_ADDING_ACTION, payload: { userAddingAction: e } };
         },
-        aa = Object(ve.combineReducers)({
+        na = Object(ge.combineReducers)({
           typeConfig: function() {
-            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : $t.typeConfig,
+            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : ea.typeConfig,
               t = arguments.length > 1 ? arguments[1] : void 0;
             switch (t.type) {
               case ye.UPDATE_TYPE_CONFIG:
@@ -3418,7 +3443,7 @@
             var e =
                 arguments.length > 0 && void 0 !== arguments[0]
                   ? arguments[0]
-                  : $t.userAddingAction,
+                  : ea.userAddingAction,
               t = arguments.length > 1 ? arguments[1] : void 0;
             switch (t.type) {
               case ye.UPDATE_USER_ADDING_ACTION:
@@ -3428,7 +3453,7 @@
             }
           },
           settings: function() {
-            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : $t.settings,
+            var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : ea.settings,
               t = arguments.length > 1 ? arguments[1] : void 0;
             switch (t.type) {
               case ye.UPDATE_NODE_EDITOR_SETTINGS:
@@ -3438,12 +3463,12 @@
             }
           }
         }),
-        na = a(139),
-        ia = new RegExp(
+        ia = a(141),
+        sa = new RegExp(
           '^(?:(?:https?|ftp)://)(?:\\S+(?:u:\\S*)?@)?(?:(?!(?:10|127)(?:\\.\\d{1,3}){3})(?!(?:169\\.254|192\\.168)(?:\\.\\d{1,3}){2})(?!172\\.(?:1[6-9]|2\\d|3[0-1])(?:\\.\\d{1,3}){2})(?:[1-9]\\d?|1\\d\\d|2[01]\\d|22[0-3])(?:\\.(?:1?\\d{1,2}|2[0-4]\\d|25[0-5])){2}(?:\\.(?:[1-9]\\d?|1\\d\\d|2[0-4]\\d|25[0-4]))|(?:(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)(?:\\.(?:[a-z\\u00a1-\\uffff0-9]-*)*[a-z\\u00a1-\\uffff0-9]+)*(?:\\.(?:[a-z\\u00a1-\\uffff]{2,}))\\.?)(?::\\d{2,5})?(?:[/?#]\\S*)?$',
           'i'
         ),
-        sa = function(e, t) {
+        oa = function(e, t) {
           return function(a, n) {
             var i = (function(e) {
               var t = e;
@@ -3456,7 +3481,7 @@
               : { failures: [], value: n };
           };
         },
-        oa = function(e, t, a) {
+        ra = function(e, t, a) {
           var n = [],
             i = t;
           return (
@@ -3467,8 +3492,8 @@
             { value: i, validationFailures: n }
           );
         },
-        ra = function(e, t) {
-          var a = Ft.t('forms.is_required', 'is required');
+        la = function(e, t) {
+          var a = Pt.t('forms.is_required', 'is required');
           if (!t) return { value: t, failures: [{ message: ''.concat(e, ' ').concat(a) }] };
           if ('string' === typeof t) {
             if (0 === t.trim().length)
@@ -3477,12 +3502,12 @@
             return {
               value: t,
               failures: [
-                { message: ''.concat(e, ' ').concat(Ft.t('forms.are_required', 'are required')) }
+                { message: ''.concat(e, ' ').concat(Pt.t('forms.are_required', 'are required')) }
               ]
             };
           return { failures: [], value: t };
         },
-        la = function(e, t) {
+        ca = function(e, t) {
           return function(a, n) {
             return 'string' === typeof n && parseFloat(n) <= e
               ? {
@@ -3492,40 +3517,40 @@
               : { failures: [], value: n };
           };
         },
-        ca = function(e) {
+        ua = function(e) {
           return function(t, a) {
-            return e ? ra(t, a) : { failures: [], value: a };
+            return e ? la(t, a) : { failures: [], value: a };
           };
         },
-        ua = function(e, t) {
+        da = function(e, t) {
           return function(a, n) {
             return t ? e(a, n) : { failures: [], value: n };
           };
         },
-        da = function(e, t) {
-          return 'string' === typeof t && t.trim().length > 0 && !na.validateHeaderName(t)
+        pa = function(e, t) {
+          return 'string' === typeof t && t.trim().length > 0 && !ia.validateHeaderName(t)
             ? { failures: [{ message: 'Invalid header name' }], value: t }
             : { failures: [], value: t };
         },
-        pa =
-          ((Xt = 10),
+        ha =
+          ((Qt = 10),
           function(e, t) {
-            return Array.isArray(t) && t.length > Xt
+            return Array.isArray(t) && t.length > Qt
               ? {
                   value: t,
                   failures: [
-                    { message: ''.concat(e, ' cannot have more than ').concat(Xt, ' entries') }
+                    { message: ''.concat(e, ' cannot have more than ').concat(Qt, ' entries') }
                   ]
                 }
               : { failures: [], value: t };
           }),
-        ha = sa(/^(?!\d)/, "can't start with a number"),
-        ma = sa(ia, 'is not a valid URL'),
-        _a = sa(/^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number'),
-        ga = sa(/^[a-z\d\-_\s]+$/i, 'can only have letters and numbers'),
-        va = sa(/^@.*$|^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number'),
-        fa = (function(e) {
-          Object(v.a)(a, e);
+        ma = oa(/^(?!\d)/, "can't start with a number"),
+        _a = oa(sa, 'is not a valid URL'),
+        va = oa(/^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number'),
+        ga = oa(/^[a-z\d\-_\s]+$/i, 'can only have letters and numbers'),
+        fa = oa(/^@.*$|^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number'),
+        ya = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n, i;
@@ -3536,7 +3561,7 @@
                 i.originalAction.type === Ee.add_input_labels
                   ? { labels: { value: i.originalAction.labels }, valid: !0 }
                   : { labels: { value: [] }, valid: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -3563,7 +3588,7 @@
                 key: 'handleLabelsChanged',
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
-                    a = { labels: oa(Ft.t('forms.labels', 'Labels'), e, [ca(t)]) },
+                    a = { labels: ra(Pt.t('forms.labels', 'Labels'), e, [ua(t)]) },
                     n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -3573,9 +3598,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -3603,7 +3628,7 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -3612,14 +3637,14 @@
                       'p',
                       { 'data-spec': 'label' },
                       k.createElement(
-                        Pe.a,
+                        Fe.a,
                         { i18nKey: 'forms.add_labels_summary' },
                         'Select the labels to apply to the incoming message.'
                       )
                     ),
-                    k.createElement(Bt, {
-                      name: Ft.t('forms.labels', 'Labels'),
-                      placeholder: Ft.t(
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.labels', 'Labels'),
+                      placeholder: Pt.t(
                         'enter_to_create_label',
                         'Enter the name of an existing label or create a new one'
                       ),
@@ -3628,7 +3653,7 @@
                       searchable: !0,
                       multi: !0,
                       onChange: this.handleLabelsChanged,
-                      createPrefix: Ft.t('create_label', 'Create Label') + ': ',
+                      createPrefix: Pt.t('create_label', 'Create Label') + ': ',
                       createAssetFromInput: this.handleCreateAssetFromInput,
                       onAssetCreated: this.handleLabelCreated
                     }),
@@ -3640,29 +3665,29 @@
             a
           );
         })(k.PureComponent);
-      fa.contextTypes = { assetService: bt };
-      var ya,
-        ba,
-        ka = function(e) {
-          return hr.find(function(t) {
+      ya.contextTypes = { assetService: bt };
+      var ba,
+        ka,
+        Ea = function(e) {
+          return yr.find(function(t) {
             return t.scheme === e;
           });
         },
-        Ea = function(e) {
-          return Ca(ka(e));
-        },
         Ca = function(e) {
-          return { value: e.scheme, name: e.path };
+          return wa(Ea(e));
         },
         wa = function(e) {
+          return { value: e.scheme, name: e.path };
+        },
+        Sa = function(e) {
           var t = e.scheme,
             a = e.path,
-            n = ka(t),
+            n = Ea(t),
             i = n ? n.path : t;
-          return k.createElement(k.Fragment, null, Ft.t('add', 'Add'), ' ', i, ' ', H(a));
+          return k.createElement(k.Fragment, null, Pt.t('add', 'Add'), ' ', i, ' ', H(a));
         },
-        Sa = (function(e) {
-          Object(v.a)(a, e);
+        Na = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a() {
             return Object(m.a)(this, a), t.apply(this, arguments);
@@ -3704,16 +3729,16 @@
             a
           );
         })(k.Component),
-        Na = a(96),
-        Oa = a.n(Na);
+        Oa = a(98),
+        xa = a.n(Oa);
       !(function(e) {
         e.SMS = 'SMS';
-      })(ya || (ya = {})),
+      })(ba || (ba = {})),
         (function(e) {
           (e.small = 'small'), (e.normal = 'normal');
-        })(ba || (ba = {}));
-      var xa = (function(e) {
-          Object(v.a)(a, e);
+        })(ka || (ka = {}));
+      var ja = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -3722,7 +3747,7 @@
             return (
               (n = t.call(this, e)).props.entry && n.props.entry.value && (i = n.props.entry.value),
               (n.state = { value: i }),
-              Object(b.react)(Object(g.a)(n), {
+              Object(b.react)(Object(v.a)(n), {
                 include: [/^on/, /Ref$/, 'setSelection', 'validate', /^has/, /^handle/]
               }),
               n
@@ -3742,7 +3767,7 @@
                 key: 'render',
                 value: function() {
                   var e =
-                      this.props.count && this.props.count === ya.SMS
+                      this.props.count && this.props.count === ba.SMS
                         ? k.createElement('temba-charcount', { text: this.props.entry.value })
                         : null,
                     t = {};
@@ -3760,7 +3785,7 @@
                       },
                       k.createElement(
                         'div',
-                        { className: Oa.a.wrapper + ' ' + Oa.a[this.props.style || ba.normal] },
+                        { className: xa.a.wrapper + ' ' + xa.a[this.props.style || ka.normal] },
                         (function(e, t, a) {
                           return e.autocomplete
                             ? k.createElement(
@@ -3803,10 +3828,10 @@
             a
           );
         })(k.Component),
-        ja = a(97),
-        Ta = a.n(ja),
-        Aa = (function(e) {
-          Object(v.a)(a, e);
+        Ta = a(99),
+        Aa = a.n(Ta),
+        Ra = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -3817,11 +3842,11 @@
                   var t = e.originalAction,
                     a = t.scheme,
                     n = t.path;
-                  return { scheme: { value: Ea(a) }, path: { value: n }, valid: !0 };
+                  return { scheme: { value: Ca(a) }, path: { value: n }, valid: !0 };
                 }
-                return { scheme: { value: Ea('tel') }, path: { value: '' }, valid: !1 };
+                return { scheme: { value: Ca('tel') }, path: { value: '' }, valid: !1 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -3857,7 +3882,7 @@
                 key: 'handlePathChanged',
                 value: function(e, t) {
                   var a = arguments.length > 2 && void 0 !== arguments[2] && arguments[2],
-                    n = { path: oa(Ft.t('forms.urn', 'URN'), e, [ca(a)]) },
+                    n = { path: ra(Pt.t('forms.urn', 'URN'), e, [ua(a)]) },
                     i = Zt(this.state, n);
                   return this.setState(i), i.valid;
                 }
@@ -3867,9 +3892,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -3884,7 +3909,7 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -3893,7 +3918,7 @@
                       'p',
                       { 'data-spec': 'label' },
                       k.createElement(
-                        Pe.a,
+                        Fe.a,
                         { i18nKey: 'forms.add_urn_summary' },
                         'Add a new URN to reach the contact such as a phone number.'
                       )
@@ -3903,22 +3928,22 @@
                       { style: { display: 'flex', alignItems: 'flex-end' } },
                       k.createElement(
                         'div',
-                        { className: Ta.a.scheme_selection },
-                        k.createElement(Sa, {
+                        { className: Aa.a.scheme_selection },
+                        k.createElement(Na, {
                           key: 'urn_type_select',
-                          name: Ft.t('forms.urn_type', 'URN Type'),
+                          name: Pt.t('forms.urn_type', 'URN Type'),
                           entry: this.state.scheme,
                           onChange: this.handleSchemeChanged,
-                          options: hr.map(function(e) {
-                            return Ca(e);
+                          options: yr.map(function(e) {
+                            return wa(e);
                           })
                         })
                       ),
                       k.createElement(
                         'div',
-                        { className: Ta.a.path },
-                        k.createElement(xa, {
-                          name: Ft.t('forms.urn', 'URN'),
+                        { className: Aa.a.path },
+                        k.createElement(ja, {
+                          name: Pt.t('forms.urn', 'URN'),
                           placeholder: 'Enter the URN value',
                           entry: this.state.path,
                           onChange: this.handlePathChanged,
@@ -3934,19 +3959,19 @@
             a
           );
         })(k.PureComponent),
-        Ra = function(e) {
+        Ua = function(e) {
           var t = e.resthook;
           return k.createElement('div', null, t);
         },
-        Ua = function(e) {
+        Da = function(e) {
           var t = e.url;
           return k.createElement('div', null, G(t, 150));
         },
-        Da = function(e) {
+        Fa = function(e) {
           return !!e.query;
         },
         Pa = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n, i;
@@ -3964,7 +3989,7 @@
                       valid: !0
                     }
                   : { groups: { value: null }, valid: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -3993,7 +4018,7 @@
                 key: 'handleGroupsChanged',
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
-                    a = { groups: oa(Ft.t('forms.collections', 'Collections'), e, [ca(t)]) },
+                    a = { groups: ra(Pt.t('forms.collections', 'Collections'), e, [ua(t)]) },
                     n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -4016,9 +4041,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -4033,7 +4058,7 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -4042,15 +4067,15 @@
                       'p',
                       { 'data-spec': 'label' },
                       k.createElement(
-                        Pe.a,
+                        Fe.a,
                         { i18nKey: 'forms.add_groups_summary' },
                         'Select the collections to add the contact to.'
                       )
                     ),
-                    k.createElement(Bt, {
-                      name: Ft.t('forms.groups', 'Collections'),
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.groups', 'Collections'),
                       multi: !0,
-                      noOptionsMessage: Ft.t(
+                      noOptionsMessage: Pt.t(
                         'enter_to_create_group',
                         'Enter a name to create a new collection'
                       ),
@@ -4058,10 +4083,10 @@
                       entry: this.state.groups,
                       onChange: this.handleGroupsChanged,
                       searchable: !0,
-                      shouldExclude: Da,
-                      placeholder: Ft.t('select_groups', 'Select Collection'),
+                      shouldExclude: Fa,
+                      placeholder: Pt.t('select_groups', 'Select Collection'),
                       expressions: !0,
-                      createPrefix: Ft.t('create_group', 'Create Collection') + ': ',
+                      createPrefix: Pt.t('create_group', 'Create Collection') + ': ',
                       createAssetFromInput: this.handleCreateAssetFromInput,
                       onAssetCreated: this.handleGroupAdded
                     }),
@@ -4073,7 +4098,7 @@
             a
           );
         })(k.Component),
-        Fa = function(e, t) {
+        Ia = function(e, t) {
           var a = e.type,
             n = e.groups,
             i = [];
@@ -4106,26 +4131,26 @@
               ),
               i);
         },
-        Ia = function(e, t) {
+        Ma = function(e, t) {
           return (function(e, t) {
             var a = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 'content';
-            return k.createElement('div', { 'data-spec': a }, Fa(e, t));
+            return k.createElement('div', { 'data-spec': a }, Ia(e, t));
           })(e, t.config.endpoints);
         };
-      Ia.contextTypes = { config: bt };
-      var Ma = Ia,
-        La = a(65),
-        za = a.n(La),
-        Ba = St.a.bind(za.a),
+      Ma.contextTypes = { config: bt };
+      var La = Ma,
+        za = a(67),
+        Ba = a.n(za),
+        Va = St.a.bind(Ba.a),
         qa = (function(e) {
-          Object(v.a)(a, e);
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = { checked: n.props.checked }),
-              (n.handleChange = n.handleChange.bind(Object(g.a)(n))),
+              (n.handleChange = n.handleChange.bind(Object(v.a)(n))),
               n
             );
           }
@@ -4154,17 +4179,17 @@
                   return k.createElement(
                     'label',
                     {
-                      className: Ba(za.a.label, this.props.labelClassName),
+                      className: Va(Ba.a.label, this.props.labelClassName),
                       onClick: this.handleChange
                     },
                     k.createElement('span', {
                       'data-spec': 'checkbox',
-                      className: Ba(e, this.props.checkboxClassName)
+                      className: Va(e, this.props.checkboxClassName)
                     }),
                     W(K(this.props.title))(
                       k.createElement(
                         'div',
-                        { 'data-spec': 'title', className: za.a.title },
+                        { 'data-spec': 'title', className: Ba.a.title },
                         this.props.title
                       )
                     ),
@@ -4173,7 +4198,7 @@
                         'div',
                         {
                           'data-spec': 'description',
-                          className: this.props.title ? za.a.description : za.a.description_solo
+                          className: this.props.title ? Ba.a.description : Ba.a.description_solo
                         },
                         this.props.description
                       )
@@ -4185,22 +4210,22 @@
             a
           );
         })(k.Component),
-        Va = a(140),
-        Ha = a.n(Va),
-        Ga = Ft.t(
+        Ha = a(142),
+        Ga = a.n(Ha),
+        Wa = Pt.t(
           'forms.remove_groups_summary',
           'Select the collections to remove the contact from.'
         ),
-        Wa =
-          (Ft.t('errors.group_not_found', 'Enter the name of an existing group'),
-          Ft.t('forms.remove_groups_placeholder', 'Enter the name of an existing collection'),
-          Ft.t('forms.remove_from_all_label', 'Remove from all')),
-        Ka = Ft.t(
+        Ka =
+          (Pt.t('errors.group_not_found', 'Enter the name of an existing group'),
+          Pt.t('forms.remove_groups_placeholder', 'Enter the name of an existing collection'),
+          Pt.t('forms.remove_from_all_label', 'Remove from all')),
+        Ya = Pt.t(
           'forms.remove_from_all_summary',
           "Remove the active contact from all collection they're a member of."
         ),
-        Ya = (function(e) {
-          Object(v.a)(a, e);
+        Xa = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4218,7 +4243,7 @@
                 }
                 return { groups: { value: null }, removeAll: !1, valid: !1 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -4251,11 +4276,11 @@
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {},
-                    n = this.state.removeAll ? [] : [ca(t)];
+                    n = this.state.removeAll ? [] : [ua(t)];
                   e.hasOwnProperty('removeAll') &&
                     ((a.removeAll = e.removeAll), e.removeAll && (n = [])),
                     e.hasOwnProperty('groups') &&
-                      (a.groups = oa(Ft.t('forms.groups', 'Collections'), e.groups, n));
+                      (a.groups = ra(Pt.t('forms.groups', 'Collections'), e.groups, n));
                   var i = Zt(this.state, a);
                   return this.setState(i), i.valid;
                 }
@@ -4278,9 +4303,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -4295,7 +4320,7 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -4304,13 +4329,13 @@
                       k.createElement(
                         'div',
                         null,
-                        k.createElement('p', { 'data-spec': 'label' }, Ga),
-                        k.createElement(Bt, {
-                          name: Ft.t('forms.groups', 'Collections'),
-                          placeholder: Ft.t('select_groups', 'Select Collections'),
+                        k.createElement('p', { 'data-spec': 'label' }, Wa),
+                        k.createElement(Vt, {
+                          name: Pt.t('forms.groups', 'Collections'),
+                          placeholder: Pt.t('select_groups', 'Select Collections'),
                           assets: this.props.assetStore.groups,
                           entry: this.state.groups,
-                          shouldExclude: Da,
+                          shouldExclude: Fa,
                           searchable: !0,
                           onChange: this.handleGroupsChanged,
                           multi: !0
@@ -4318,11 +4343,11 @@
                       )
                     ),
                     k.createElement(qa, {
-                      name: Wa,
-                      title: Wa,
-                      labelClassName: this.state.removeAll ? '' : Ha.a.checkbox,
+                      name: Ka,
+                      title: Ka,
+                      labelClassName: this.state.removeAll ? '' : Ga.a.checkbox,
                       checked: this.state.removeAll,
-                      description: Ka,
+                      description: Ya,
                       onChange: this.handleRemoveAllUpdate
                     }),
                     ot(this.props)
@@ -4333,21 +4358,21 @@
             a
           );
         })(k.Component);
-      Ya.contextTypes = { assetService: bt };
-      var Xa = a(29),
-        Qa = a.n(Xa),
-        Ja = function(e) {
+      Xa.contextTypes = { assetService: bt };
+      var Qa = a(29),
+        Ja = a.n(Qa),
+        $a = function(e) {
           var t = e.originalNode,
             a = t && t.node;
-          if (e.originalAction && e.originalAction.type) return vr(e.originalAction.type);
+          if (e.originalAction && e.originalAction.type) return Cr(e.originalAction.type);
           if (a && a.actions && a.actions.length > 0)
-            return vr(a.actions[a.actions.length - 1].type);
+            return Cr(a.actions[a.actions.length - 1].type);
           try {
-            var n = fr(t),
-              i = vr(n);
+            var n = wr(t),
+              i = Cr(n);
             if (i.type !== Ee.missing) return i;
           } catch (Error) {}
-          if (a && a.router) return vr(a.router.type);
+          if (a && a.router) return Cr(a.router.type);
           throw new Error("Couldn't determine type config for: ".concat(a.uuid));
         },
         Za = function(e, t, a) {
@@ -4362,8 +4387,8 @@
                 }))
           );
         },
-        $a = (function(e) {
-          Object(v.a)(a, e);
+        en = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4374,7 +4399,7 @@
                   a = e.localizations[0],
                   n = a.getObject();
                 return (
-                  ((e.originalAction && vr(e.originalAction.type).localizeableKeys) || []).forEach(
+                  ((e.originalAction && Cr(e.originalAction.type).localizeableKeys) || []).forEach(
                     function(e) {
                       t[e] = { value: e in a.localizedKeys ? n[e] : '' };
                     }
@@ -4382,7 +4407,7 @@
                   { keyValues: t, valid: !0 }
                 );
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               n
             );
           }
@@ -4415,9 +4440,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -4430,9 +4455,9 @@
                 value: function() {
                   var e,
                     t = this,
-                    a = Ja(this.props.nodeSettings),
+                    a = $a(this.props.nodeSettings),
                     n = [],
-                    i = Ft.t('forms.translation', 'Translation');
+                    i = Pt.t('forms.translation', 'Translation');
                   return (
                     a.localizeableKeys.forEach(function(a) {
                       var s = a[0].toUpperCase() + a.slice(1),
@@ -4444,11 +4469,11 @@
                             { 'data-spec': 'translation-container' },
                             k.createElement(
                               'div',
-                              { 'data-spec': 'text-to-translate', className: Qa.a.translate_from },
+                              { 'data-spec': 'text-to-translate', className: Ja.a.translate_from },
                               t.props.nodeSettings.originalAction[a]
                             )
                           ),
-                          k.createElement(xa, {
+                          k.createElement(ja, {
                             name: s,
                             showLabel: !1,
                             onChange: t.handleKeyUpdate,
@@ -4460,7 +4485,7 @@
                           })
                         );
                       if (e) {
-                        var r = Ft.t('forms.translation', 'Translation');
+                        var r = Pt.t('forms.translation', 'Translation');
                         n.push({
                           name: s + ' ' + r,
                           body: o,
@@ -4481,20 +4506,20 @@
             a
           );
         })(k.Component);
-      $a.contextTypes = { config: bt };
-      var en = a(74),
-        tn = a.n(en),
-        an = function(e) {
+      en.contextTypes = { config: bt };
+      var tn = a(76),
+        an = a.n(tn),
+        nn = function(e) {
           var t = e.text;
           e.text.startsWith('@')
             ? (t = '@(exp)')
             : e.maxLength &&
               t.length > e.maxLength &&
               (t = e.text.substring(0, e.maxLength) + '...');
-          var a = [tn.a.pill];
+          var a = [an.a.pill];
           return (
-            e.large && a.push(tn.a.large),
-            e.onClick && a.push(tn.a.clickable),
+            e.large && a.push(an.a.large),
+            e.onClick && a.push(an.a.clickable),
             k.createElement(
               'div',
               {
@@ -4507,14 +4532,14 @@
               e.icon
                 ? k.createElement('span', {
                     'data-advanced': e.advanced,
-                    className: tn.a.icon + ' ' + e.icon
+                    className: an.a.icon + ' ' + e.icon
                   })
                 : null
             )
           );
         },
-        nn = (function(e) {
-          Object(v.a)(a, e);
+        sn = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4522,7 +4547,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).filePicker = void 0),
               (n.state = {}),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -4593,14 +4618,14 @@
             a
           );
         })(k.Component),
-        sn = [
-          { value: 'image', name: Ft.t('forms.image_url', 'Image URL') },
-          { value: 'audio', name: Ft.t('forms.audio_url', 'Audio URL') },
-          { value: 'video', name: Ft.t('forms.video_url', 'Video URL') },
-          { value: 'application', name: Ft.t('forms.pdf_url', 'PDF Document URL') }
+        on = [
+          { value: 'image', name: Pt.t('forms.image_url', 'Image URL') },
+          { value: 'audio', name: Pt.t('forms.audio_url', 'Audio URL') },
+          { value: 'video', name: Pt.t('forms.video_url', 'Video URL') },
+          { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
         ],
-        on = (function(e) {
-          Object(v.a)(a, e);
+        rn = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -4670,7 +4695,7 @@
                 }
                 return t;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               n
             );
           }
@@ -4699,12 +4724,12 @@
                 value: function(e) {
                   var t = {};
                   e.hasOwnProperty('text') &&
-                    (t.message = oa(Ft.t('forms.message', 'Message'), e.text, [])),
+                    (t.message = ra(Pt.t('forms.message', 'Message'), e.text, [])),
                     e.hasOwnProperty('quickReplies') &&
-                      (t.quickReplies = oa(
-                        Ft.t('forms.quick_replies', 'Quick Replies'),
+                      (t.quickReplies = ra(
+                        Pt.t('forms.quick_replies', 'Quick Replies'),
                         e.quickReplies,
-                        [pa]
+                        [ha]
                       )),
                     e.hasOwnProperty('audio') && (t.audio = { value: e.audio });
                   var a = Zt(this.state, t);
@@ -4721,7 +4746,7 @@
                     i = e.templateVariables,
                     s = e.attachments;
                   if (
-                    !(Ja(this.props.nodeSettings).localizeableKeys.indexOf('quick_replies') > -1) ||
+                    !($a(this.props.nodeSettings).localizeableKeys.indexOf('quick_replies') > -1) ||
                     this.handleQuickRepliesUpdate(this.state.quickReplies.value)
                   ) {
                     var o = {};
@@ -4758,7 +4783,7 @@
               {
                 key: 'handleAttachmentRemoved',
                 value: function(e) {
-                  var t = Jt()(this.state.attachments, { $splice: [[e, 1]] });
+                  var t = $t()(this.state.attachments, { $splice: [[e, 1]] });
                   this.setState({ attachments: t });
                 }
               },
@@ -4767,9 +4792,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -4780,7 +4805,7 @@
               {
                 key: 'handleAddQuickReply',
                 value: function(e) {
-                  var t = Object(ge.a)(this.state.quickReplies.value);
+                  var t = Object(ve.a)(this.state.quickReplies.value);
                   return (
                     !(t.length >= 10) &&
                     (!t.find(function(t) {
@@ -4799,8 +4824,8 @@
               {
                 key: 'handleTemplateVariableChanged',
                 value: function(e, t) {
-                  var a = oa('Variable '.concat(t + 1), e, []),
-                    n = Jt()(this.state.templateVariables, { $merge: Object(S.a)({}, t, a) });
+                  var a = ra('Variable '.concat(t + 1), e, []),
+                    n = $t()(this.state.templateVariables, { $merge: Object(S.a)({}, t, a) });
                   this.setState({ templateVariables: n });
                 }
               },
@@ -4812,20 +4837,20 @@
                     i = this.state.attachments;
                   return k.createElement(
                     'div',
-                    { className: Qa.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : $() },
+                    { className: Ja.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
                     k.createElement(
                       'div',
-                      { className: Qa.a.type_choice },
-                      k.createElement(Sa, {
+                      { className: Ja.a.type_choice },
+                      k.createElement(Na, {
                         key: 'attachment_type_' + e,
-                        style: Pt.small,
-                        name: Ft.t('forms.type_options', 'Type Options'),
+                        style: Ft.small,
+                        name: Pt.t('forms.type_options', 'Type Options'),
                         placeholder: 'Add Attachment',
                         entry: {
                           value:
                             e > -1
                               ? ((a = t.type),
-                                sn.find(function(e) {
+                                on.find(function(e) {
                                   return e.value === a;
                                 }))
                               : null
@@ -4833,14 +4858,14 @@
                         onChange: function(a) {
                           (i =
                             -1 === e
-                              ? Jt()(i, { $push: [{ type: a.value, url: '' }] })
-                              : Jt()(
+                              ? $t()(i, { $push: [{ type: a.value, url: '' }] })
+                              : $t()(
                                   i,
                                   Object(S.a)({}, e, { $set: { type: a.value, url: t.url } })
                                 )),
                             n.setState({ attachments: i });
                         },
-                        options: sn
+                        options: on
                       })
                     ),
                     e > -1
@@ -4849,13 +4874,13 @@
                           null,
                           k.createElement(
                             'div',
-                            { className: Qa.a.url },
-                            k.createElement(xa, {
+                            { className: Ja.a.url },
+                            k.createElement(ja, {
                               placeholder: 'URL',
-                              name: Ft.t('forms.url', 'URL'),
-                              style: ba.small,
+                              name: Pt.t('forms.url', 'URL'),
+                              style: ka.small,
                               onChange: function(a) {
-                                (i = Jt()(
+                                (i = $t()(
                                   i,
                                   Object(S.a)({}, e, { $set: { type: t.type, url: a } })
                                 )),
@@ -4867,8 +4892,8 @@
                           ),
                           k.createElement(
                             'div',
-                            { className: Qa.a.remove },
-                            k.createElement(an, {
+                            { className: Ja.a.remove },
+                            k.createElement(nn, {
                               icon: 'fe-x',
                               text: ' Remove',
                               large: !0,
@@ -4900,7 +4925,7 @@
                       'p',
                       null,
                       k.createElement(
-                        Pe.a,
+                        Fe.a,
                         {
                           i18nKey: 'forms.add_attachments',
                           values: { language: this.props.language.name }
@@ -4917,7 +4942,7 @@
                 key: 'render',
                 value: function() {
                   var e = this,
-                    t = Ja(this.props.nodeSettings),
+                    t = $a(this.props.nodeSettings),
                     a = [];
                   if (
                     (t.localizeableKeys.indexOf('attachments') > -1 &&
@@ -4932,7 +4957,7 @@
                     var n = !!this.state.templateVariables.find(function(e) {
                         return e.value.length > 0;
                       }),
-                      i = Ft.t('forms.variable', 'Variable');
+                      i = Pt.t('forms.variable', 'Variable');
                     a.push({
                       name: 'WhatsApp',
                       body: k.createElement(
@@ -4941,7 +4966,7 @@
                         k.createElement(
                           'p',
                           null,
-                          Ft.t(
+                          Pt.t(
                             'forms.whatsapp_warning',
                             'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
                           )
@@ -4954,10 +4979,10 @@
                                 var a = e.state.templateVariables[t] || { value: '' };
                                 return k.createElement(
                                   'div',
-                                  { className: Qa.a.variable, key: 'tr_arg_' + t },
-                                  k.createElement(xa, {
+                                  { className: Ja.a.variable, key: 'tr_arg_' + t },
+                                  k.createElement(ja, {
                                     name: ''
-                                      .concat(Ft.t('forms.variable', 'Variable'), ' ')
+                                      .concat(Pt.t('forms.variable', 'Variable'), ' ')
                                       .concat(t + 1),
                                     showLabel: !1,
                                     placeholder: ''
@@ -4980,7 +5005,7 @@
                   }
                   var s = null;
                   t.localizeableKeys.indexOf('audio_url') > 0 &&
-                    (s = k.createElement(nn, {
+                    (s = k.createElement(sn, {
                       icon: 'fe-mic',
                       uploadText: 'Upload Recording',
                       removeText: 'Remove Recording',
@@ -4988,7 +5013,7 @@
                       endpoint: this.context.config.endpoints.attachments,
                       onUploadChanged: this.handleAudioChanged
                     }));
-                  var o = Ft.t('forms.translation', 'Translation');
+                  var o = Pt.t('forms.translation', 'Translation');
                   return k.createElement(
                     me,
                     { title: t.name, headerClass: t.type, buttons: this.getButtons(), tabs: a },
@@ -4997,12 +5022,12 @@
                       { 'data-spec': 'translation-container' },
                       k.createElement(
                         'div',
-                        { 'data-spec': 'text-to-translate', className: Qa.a.translate_from },
+                        { 'data-spec': 'text-to-translate', className: Ja.a.translate_from },
                         this.props.nodeSettings.originalAction.text
                       )
                     ),
-                    k.createElement(xa, {
-                      name: Ft.t('forms.message', 'Message'),
+                    k.createElement(ja, {
+                      name: Pt.t('forms.message', 'Message'),
                       showLabel: !1,
                       onChange: this.handleMessageUpdate,
                       entry: this.state.message,
@@ -5020,8 +5045,8 @@
             a
           );
         })(k.Component);
-      on.contextTypes = { config: bt };
-      var rn = function(e) {
+      rn.contextTypes = { config: bt };
+      var ln = function(e) {
           var t = e.type;
           return k.createElement(
             'div',
@@ -5030,11 +5055,11 @@
             t
           );
         },
-        ln = function(e) {
+        cn = function(e) {
           return k.createElement('div', null, e.audio_url);
         },
-        cn = (function(e) {
-          Object(v.a)(a, e);
+        un = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n, i;
@@ -5044,7 +5069,7 @@
                 (i = n.props.nodeSettings).originalAction && i.originalAction.type === Ee.play_audio
                   ? { audio: { value: i.originalAction.audio_url }, valid: !0 }
                   : { audio: { value: '' }, valid: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -5054,7 +5079,7 @@
                 key: 'handleAudioUpdate',
                 value: function(e) {
                   var t = {};
-                  t.audio = oa(Ft.t('forms.recording', 'Recording'), e, [ra]);
+                  t.audio = ra(Pt.t('forms.recording', 'Recording'), e, [la]);
                   var a = Zt(this.state, t);
                   return this.setState(a), a.valid;
                 }
@@ -5080,9 +5105,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -5097,21 +5122,21 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement('p', null, Ft.t('forms.recording_label', 'Previous Recording')),
-                    k.createElement(xa, {
-                      name: Ft.t('forms.message', 'Message'),
+                    k.createElement('p', null, Pt.t('forms.recording_label', 'Previous Recording')),
+                    k.createElement(ja, {
+                      name: Pt.t('forms.message', 'Message'),
                       showLabel: !1,
                       onChange: this.handleAudioUpdate,
                       entry: this.state.audio,
                       autocomplete: !0,
                       focus: !0,
                       helpText: k.createElement(
-                        Pe.a,
+                        Fe.a,
                         { i18nKey: 'forms.play_audio_help_text' },
                         'Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.'
                       )
@@ -5124,10 +5149,10 @@
             a
           );
         })(k.Component),
-        un = a(57),
-        dn = a.n(un),
-        pn = (function(e) {
-          Object(v.a)(a, e);
+        dn = a(60),
+        pn = a.n(dn),
+        hn = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -5139,7 +5164,7 @@
               (n.radiusNormalized = n.radius - 2 * n.stroke),
               (n.circumference = 2 * n.radiusNormalized * Math.PI),
               (n.state = { durationSeconds: 0, currentSeconds: 0, playing: !1, progress: 0 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -5209,7 +5234,7 @@
                   return k.createElement(
                     'div',
                     {
-                      className: dn.a.player + ' ' + (this.state.playing ? dn.a.playing : ''),
+                      className: pn.a.player + ' ' + (this.state.playing ? pn.a.playing : ''),
                       style: { height: 2 * this.radius, width: 2 * this.radius },
                       onMouseDown: this.handleTogglePlay
                     },
@@ -5220,12 +5245,12 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: dn.a.circles },
+                      { className: pn.a.circles },
                       k.createElement(
                         'svg',
                         { height: 2 * this.radius, width: 2 * this.radius },
                         k.createElement('circle', {
-                          className: dn.a.circle_background,
+                          className: pn.a.circle_background,
                           stroke: '#fff',
                           fill: '#fff',
                           strokeWidth: this.stroke,
@@ -5234,7 +5259,7 @@
                           cy: this.radius
                         }),
                         k.createElement('circle', {
-                          className: dn.a.circle_background,
+                          className: pn.a.circle_background,
                           stroke: '#ddd',
                           fill: 'transparent',
                           strokeWidth: this.stroke,
@@ -5243,7 +5268,7 @@
                           cy: this.radius
                         }),
                         k.createElement('circle', {
-                          className: dn.a.circle_foreground,
+                          className: pn.a.circle_foreground,
                           stroke: 'cornflowerblue',
                           fill: 'transparent',
                           strokeWidth: this.stroke,
@@ -5257,7 +5282,7 @@
                     ),
                     k.createElement('div', {
                       className:
-                        dn.a.button + ' ' + (this.state.playing ? 'fe-stop' : 'fe-play_arrow')
+                        pn.a.button + ' ' + (this.state.playing ? 'fe-stop' : 'fe-play_arrow')
                     })
                   );
                 }
@@ -5266,27 +5291,27 @@
             a
           );
         })(k.Component),
-        hn = a(98),
-        mn = a.n(hn),
-        _n = Ft.t('actions.say_msg.placeholder', 'Send a message to the contact'),
+        mn = a(100),
+        _n = a.n(mn),
+        vn = Pt.t('actions.say_msg.placeholder', 'Send a message to the contact'),
         gn = function(e) {
           return e.text
             ? k.createElement(
                 k.Fragment,
                 null,
-                k.createElement('div', { className: mn.a.text }, e.text),
+                k.createElement('div', { className: _n.a.text }, e.text),
                 e.audio_url
                   ? k.createElement(
                       'div',
-                      { className: mn.a.recording },
-                      k.createElement(pn, { url: e.audio_url })
+                      { className: _n.a.recording },
+                      k.createElement(hn, { url: e.audio_url })
                     )
                   : null
               )
-            : k.createElement('div', { className: 'placeholder' }, _n);
+            : k.createElement('div', { className: 'placeholder' }, vn);
         },
-        vn = (function(e) {
-          Object(v.a)(a, e);
+        fn = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -5299,7 +5324,7 @@
                 }
                 return { message: { value: '' }, audio: { value: '' }, valid: !1 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -5311,7 +5336,7 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('text') &&
-                    (a.message = oa(Ft.t('forms.message', 'Message'), e.text, [ca(t)]));
+                    (a.message = ra(Pt.t('forms.message', 'Message'), e.text, [ua(t)]));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -5345,9 +5370,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -5368,13 +5393,13 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement(xa, {
-                      name: Ft.t('forms.message', 'Message'),
+                    k.createElement(ja, {
+                      name: Pt.t('forms.message', 'Message'),
                       showLabel: !1,
                       onChange: this.handleMessageUpdate,
                       entry: this.state.message,
@@ -5382,7 +5407,7 @@
                       focus: !0,
                       textarea: !0
                     }),
-                    k.createElement(nn, {
+                    k.createElement(sn, {
                       icon: 'fe-mic',
                       uploadText: 'Upload Recording',
                       removeText: 'Remove Recording',
@@ -5398,53 +5423,208 @@
             a
           );
         })(k.Component);
-      vn.contextTypes = { config: bt };
-      var fn = a(75),
-        yn = a.n(fn),
-        bn = Ft.t('actions.send_broadcast.placeholder', 'Send a message to the contact'),
-        kn = function(e, t) {
+      fn.contextTypes = { config: bt };
+      var yn = a(52),
+        bn = a.n(yn),
+        kn = Pt.t('actions.send_broadcast.placeholder', 'Send a message to the contact'),
+        En = function(e, t) {
           var a = ct(e);
           return e.text
             ? k.createElement(
                 'div',
-                { className: yn.a.node },
+                { className: bn.a.node },
                 k.createElement(
                   'div',
-                  { className: yn.a.to, key: e.uuid + '_broadcast_recipients' },
+                  { className: bn.a.to, key: e.uuid + '_broadcast_recipients' },
                   ut(a, 5, t.config.endpoints)
                 ),
                 k.createElement(
                   'div',
-                  { className: yn.a.message },
+                  { className: bn.a.message },
                   e.text.split(/\r?\n/).map(function(t, a) {
-                    return k.createElement('div', { key: e.uuid + a, className: yn.a.line }, t);
-                  })
+                    return k.createElement('div', { key: e.uuid + a, className: bn.a.line }, t);
+                  }),
+                  k.createElement(
+                    'div',
+                    { className: bn.a.icons },
+                    e.attachments && e.attachments.length > 0
+                      ? k.createElement('div', {
+                          className: ''.concat(bn.a.attachment, ' fe-paperclip')
+                        })
+                      : null,
+                    e.templating && e.templating.template
+                      ? k.createElement('div', {
+                          className: ''.concat(bn.a.whatsapp, ' fe-whatsapp')
+                        })
+                      : null
+                  )
                 )
               )
-            : k.createElement('div', { className: 'placeholder' }, bn);
+            : e.attachments && e.attachments.length > 0
+            ? k.createElement('div', { className: ''.concat(bn.a.attachment, ' fe-paperclip') })
+            : e.templating && e.templating.template
+            ? k.createElement('div', { className: ''.concat(bn.a.whatsapp, ' fe-whatsapp') })
+            : k.createElement('div', { className: 'placeholder' }, kn);
         };
-      kn.contextTypes = { config: bt };
-      var En = kn,
-        Cn = (function(e) {
-          Object(v.a)(a, e);
+      En.contextTypes = { config: bt };
+      var Cn = En,
+        wn = function(e, t) {
+          var a = t.attachments
+              .filter(function(e) {
+                return e.url.trim().length > 0;
+              })
+              .map(function(e) {
+                return ''.concat(e.type, ':').concat(e.url);
+              }),
+            n = null;
+          if (t.template && t.template.value) {
+            var i = Z();
+            if (e.originalAction && e.originalAction.type === Ee.send_msg) {
+              var s = e.originalAction;
+              s.templating &&
+                s.templating.template &&
+                s.templating.template.uuid === t.template.value.id &&
+                (i = s.templating.uuid);
+            }
+            n = {
+              uuid: i,
+              template: { uuid: t.template.value.uuid, name: t.template.value.name },
+              variables: t.templateVariables.map(function(e) {
+                return e.value;
+              })
+            };
+          }
+          var o = {
+            attachments: a,
+            legacy_vars: mt(t.recipients.value),
+            contacts: _t(t.recipients.value, fe.Contact),
+            groups: _t(t.recipients.value, fe.Group),
+            text: t.message.value,
+            type: Ee.send_broadcast,
+            uuid: lt(e, Ee.send_broadcast)
+          };
+          return n && (o.templating = n), o;
+        },
+        Sn = a(53),
+        Nn = a.n(Sn),
+        On = a(143),
+        xn = a.n(On),
+        jn = function(e) {
+          var t = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
+          return t ? { r: parseInt(t[1], 16), g: parseInt(t[2], 16), b: parseInt(t[3], 16) } : null;
+        },
+        Tn = (function(e) {
+          Object(g.a)(a, e);
+          var t = Object(f.a)(a);
+          function a(e) {
+            var n;
+            return Object(m.a)(this, a), ((n = t.call(this, e)).state = { color: jn(e.color) }), n;
+          }
+          return (
+            Object(_.a)(a, [
+              {
+                key: 'render',
+                value: function() {
+                  var e = this;
+                  return k.createElement(
+                    'div',
+                    {
+                      className: xn.a.loading,
+                      style: {
+                        width: this.props.size * this.props.units * 2,
+                        height: this.props.size
+                      }
+                    },
+                    ee(0, this.props.units).map(function(t) {
+                      return k.createElement('div', {
+                        key: 'ball_'.concat(t),
+                        style: {
+                          borderRadius: e.props.square ? '0' : '50%',
+                          width: e.props.size,
+                          height: e.props.size,
+                          margin: e.props.size / 3,
+                          animationDelay: '-'.concat(1 - t * (1 / e.props.units), 's'),
+                          background: 'rgba('
+                            .concat(e.state.color.r, ',')
+                            .concat(e.state.color.g, ',')
+                            .concat(e.state.color.b, ', ')
+                            .concat(1 - t * (1 / e.props.units), ')')
+                        }
+                      });
+                    })
+                  );
+                }
+              }
+            ]),
+            a
+          );
+        })(k.Component),
+        An = a(85),
+        Rn = [
+          { value: 'image', name: Pt.t('forms.image_url', 'Image URL') },
+          { value: 'audio', name: Pt.t('forms.audio_url', 'Audio URL') },
+          { value: 'video', name: Pt.t('forms.video_url', 'Video URL') },
+          { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
+        ],
+        Un = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = (function(e) {
+                var t = { value: null },
+                  a = [],
+                  n = {
+                    template: t,
+                    templateVariables: a,
+                    message: { value: '' },
+                    recipients: { value: [] },
+                    valid: !0,
+                    attachments: [],
+                    validAttachment: !1,
+                    attachmentError: ''
+                  };
                 if (e.originalAction && e.originalAction.type === Ee.send_broadcast) {
-                  var t = e.originalAction;
-                  if (e.localizations && e.localizations.length > 0) {
-                    if (!e.localizations[0].isLocalized())
-                      return { message: { value: '' }, recipients: { value: [] }, valid: !0 };
-                    t = e.localizations[0].getObject();
+                  var i = e.originalAction,
+                    s = [];
+                  if (
+                    ((i.attachments || []).forEach(function(e) {
+                      var t = e.indexOf(':'),
+                        a = e.substring(0, t),
+                        n = { type: a, url: e.substring(t + 1), uploaded: a.indexOf('/') > -1 };
+                      s.push(n);
+                    }),
+                    (n.attachments = s),
+                    i.templating)
+                  ) {
+                    var o = i.templating.template;
+                    (t = { value: { uuid: o.uuid, name: o.name } }),
+                      (a = i.templating.variables.map(function(e) {
+                        return { value: e };
+                      }));
                   }
-                  return { message: { value: t.text }, recipients: { value: ct(t) }, valid: !0 };
+                  if (
+                    ((n.template = t),
+                    (n.templateVariables = a),
+                    e.localizations && e.localizations.length > 0)
+                  ) {
+                    if (!e.localizations[0].isLocalized()) return n;
+                    i = e.localizations[0].getObject();
+                  }
+                  return (n.message = { value: i.text }), (n.recipients = { value: ct(i) }), n;
                 }
-                return { message: { value: '' }, recipients: { value: [] }, valid: !1 };
+                return (n.valid = !1), n;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
+              null !== n.state.template.value &&
+                Xe(n.props.assetStore.templates, n.state.template.value.uuid).then(function(e) {
+                  null !== e &&
+                    n.handleTemplateChanged([
+                      Object(y.a)(Object(y.a)({}, n.state.template.value), e.content)
+                    ]);
+                }),
               n
             );
           }
@@ -5468,36 +5648,94 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('recipients') &&
-                    (a.recipients = oa(Ft.t('forms.recipients', 'Recipients'), e.recipients, [
-                      ca(t)
+                    (a.recipients = ra(Pt.t('forms.recipients', 'Recipients'), e.recipients, [
+                      ua(t)
                     ])),
                     e.hasOwnProperty('text') &&
-                      (a.message = oa(Ft.t('forms.message', 'Message'), e.text, [ca(t)]));
+                      (a.message = ra(Pt.t('forms.message', 'Message'), e.text, [ua(t)]));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
               },
               {
+                key: 'handleAxios',
+                value: function(e, t) {
+                  var a = this;
+                  ze.a
+                    .get(
+                      ''
+                        .concat(this.props.assetStore.validateMedia.endpoint, '?url=')
+                        .concat(e.url, '&type=')
+                        .concat(e.type)
+                    )
+                    .then(function(e) {
+                      if (e.data.is_valid) {
+                        var n = !0;
+                        a.state.recipients.value.length <= 0 && !a.state.message.value
+                          ? (n = a.handleUpdate({ recipients: a.state.recipients.value }, !0))
+                          : a.state.recipients.value.length > 0 &&
+                            !a.state.message.value &&
+                            (n = !0),
+                          n
+                            ? (a.props.updateAction(wn(a.props.nodeSettings, a.state)),
+                              a.props.onClose(!1))
+                            : a.setState({ valid: n });
+                      } else a.setState({ attachmentError: 'Not a valid '.concat(t, ' url') });
+                    })
+                    .catch(function(e) {
+                      a.setState({
+                        attachmentError: 'The attachment url is invalid!: '.concat(e.toString())
+                      });
+                    });
+                }
+              },
+              {
                 key: 'handleSave',
                 value: function() {
-                  var e, t;
-                  this.handleUpdate(
-                    { text: this.state.message.value, recipients: this.state.recipients.value },
-                    !0
-                  ) &&
-                    (this.props.updateAction(
-                      ((e = this.props.nodeSettings),
-                      (t = this.state),
-                      {
-                        legacy_vars: mt(t.recipients.value),
-                        contacts: _t(t.recipients.value, fe.Contact),
-                        groups: _t(t.recipients.value, fe.Group),
-                        text: t.message.value,
-                        type: Ee.send_broadcast,
-                        uuid: lt(e, Ee.send_broadcast)
-                      })
-                    ),
-                    this.props.onClose(!1));
+                  if (this.state.attachments.length > 0) {
+                    var e = this.state.attachments[0].type,
+                      t = { type: e, url: this.state.attachments[0].url };
+                    switch (('application' === e && (t.type = 'document'), e)) {
+                      case 'image':
+                        this.handleAxios(t, 'image');
+                        break;
+                      case 'video':
+                        this.handleAxios(t, 'video');
+                        break;
+                      case 'audio':
+                        this.handleAxios(t, 'audio');
+                        break;
+                      case 'application':
+                        this.handleAxios(t, 'document');
+                    }
+                    this.setState({ validAttachment: !0, attachmentError: null });
+                  } else {
+                    var a = this.handleUpdate(
+                        { text: this.state.message.value, recipients: this.state.recipients.value },
+                        !0
+                      ),
+                      n = this.state.templateVariables;
+                    this.state.templateVariables.forEach(function(e, t) {
+                      var i = ra('Variable '.concat(t + 1), e.value, [la]);
+                      (n = $t()(n, Object(S.a)({}, t, { $merge: i }))), (a = a && !ht(i));
+                    }),
+                      n.length > 0 &&
+                        (this.state.recipients.value.length <= 0 && !this.state.message.value
+                          ? (a = this.handleUpdate({ recipients: this.state.recipients.value }, !0))
+                          : this.state.recipients.value.length > 0 &&
+                            !this.state.message.value &&
+                            (a = !0)),
+                      a
+                        ? (this.props.updateAction(wn(this.props.nodeSettings, this.state)),
+                          this.props.onClose(!1))
+                        : this.setState({ templateVariables: n, valid: a });
+                  }
+                }
+              },
+              {
+                key: 'handleShouldExcludeTemplate',
+                value: function(e) {
+                  return !Bt(e);
                 }
               },
               {
@@ -5505,9 +5743,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -5516,20 +5754,268 @@
                 }
               },
               {
+                key: 'handleTemplateChanged',
+                value: function(e) {
+                  var t = e ? e[0] : null;
+                  if (t) {
+                    var a = t.translations[0],
+                      n =
+                        0 === this.state.templateVariables.length ||
+                        (this.state.template.value && this.state.template.value.id !== t.id)
+                          ? ee(0, a.variable_count).map(function() {
+                              return { value: '' };
+                            })
+                          : this.state.templateVariables;
+                    this.setState({
+                      template: { value: t },
+                      templateTranslation: a,
+                      templateVariables: n
+                    });
+                  } else
+                    this.setState({
+                      template: { value: null },
+                      templateTranslation: null,
+                      templateVariables: []
+                    });
+                }
+              },
+              {
+                key: 'handleTemplateVariableChanged',
+                value: function(e, t) {
+                  var a = ra('Variable '.concat(t + 1), e, [la]),
+                    n = $t()(this.state.templateVariables, { $merge: Object(S.a)({}, t, a) });
+                  this.setState({ templateVariables: n });
+                }
+              },
+              {
+                key: 'renderTemplateConfig',
+                value: function() {
+                  var e = this;
+                  return k.createElement(
+                    k.Fragment,
+                    null,
+                    k.createElement(
+                      'p',
+                      null,
+                      Pt.t(
+                        'forms.whatsapp_warning',
+                        'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
+                      )
+                    ),
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.template', 'template'),
+                      noOptionsMessage: 'No templates found',
+                      assets: this.props.assetStore.templates,
+                      entry: this.state.template,
+                      onChange: this.handleTemplateChanged,
+                      shouldExclude: this.handleShouldExcludeTemplate,
+                      searchable: !0,
+                      formClearable: !0
+                    }),
+                    this.state.templateTranslation
+                      ? k.createElement(
+                          k.Fragment,
+                          null,
+                          k.createElement(
+                            'div',
+                            { className: Nn.a.template_text },
+                            this.state.templateTranslation.content
+                          ),
+                          ee(0, this.state.templateTranslation.variable_count).map(function(t) {
+                            return k.createElement(
+                              'div',
+                              { className: Nn.a.variable, key: 'tr_arg_' + t },
+                              k.createElement(ja, {
+                                name: ''
+                                  .concat(Pt.t('forms.variable', 'Variable'), ' ')
+                                  .concat(t + 1),
+                                showLabel: !1,
+                                placeholder: ''
+                                  .concat(Pt.t('forms.variable', 'Variable'), ' ')
+                                  .concat(t + 1),
+                                onChange: function(a) {
+                                  e.handleTemplateVariableChanged(a, t);
+                                },
+                                entry:
+                                  void 0 === e.state.templateVariables[t]
+                                    ? { value: '' }
+                                    : e.state.templateVariables[t],
+                                autocomplete: !0
+                              })
+                            );
+                          })
+                        )
+                      : null
+                  );
+                }
+              },
+              {
+                key: 'handleAttachmentRemoved',
+                value: function(e) {
+                  var t = $t()(this.state.attachments, { $splice: [[e, 1]] });
+                  this.setState({ attachments: t, attachmentError: null, validAttachment: !1 });
+                }
+              },
+              {
+                key: 'renderAttachment',
+                value: function(e, t) {
+                  var a,
+                    n = this,
+                    i = this.state.attachments;
+                  return k.createElement(
+                    k.Fragment,
+                    null,
+                    k.createElement(
+                      'div',
+                      { className: Nn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
+                      k.createElement(
+                        'div',
+                        { className: Nn.a.type_choice },
+                        k.createElement(Na, {
+                          key: 'attachment_type_' + e,
+                          style: Ft.small,
+                          name: Pt.t('forms.type_options', 'Type Options'),
+                          placeholder: 'Add Attachment',
+                          entry: {
+                            value:
+                              e > -1
+                                ? ((a = t.type),
+                                  Rn.find(function(e) {
+                                    return e.value === a;
+                                  }))
+                                : null
+                          },
+                          onChange: function(a) {
+                            (i =
+                              -1 === e
+                                ? $t()(i, { $push: [{ type: a.value, url: '' }] })
+                                : $t()(
+                                    i,
+                                    Object(S.a)({}, e, { $set: { type: a.value, url: t.url } })
+                                  )),
+                              n.setState({ attachments: i });
+                          },
+                          options: Rn
+                        })
+                      ),
+                      e > -1
+                        ? k.createElement(
+                            k.Fragment,
+                            null,
+                            k.createElement(
+                              'div',
+                              { className: Nn.a.url },
+                              k.createElement(ja, {
+                                placeholder: 'URL',
+                                name: Pt.t('forms.url', 'URL'),
+                                style: ka.small,
+                                onChange: function(a) {
+                                  (i = $t()(
+                                    i,
+                                    Object(S.a)({}, e, { $set: { type: t.type, url: a } })
+                                  )),
+                                    n.setState({ attachments: i });
+                                },
+                                entry: { value: t.url },
+                                autocomplete: !0
+                              })
+                            ),
+                            k.createElement(
+                              'div',
+                              { className: Nn.a.remove },
+                              k.createElement(nn, {
+                                icon: 'fe-x',
+                                text: ' Remove',
+                                large: !0,
+                                onClick: function() {
+                                  n.handleAttachmentRemoved(e);
+                                }
+                              })
+                            )
+                          )
+                        : null
+                    ),
+                    this.state.validAttachment && !this.state.attachmentError
+                      ? k.createElement(
+                          'div',
+                          { className: Nn.a.loading },
+                          'Checking URL validity',
+                          k.createElement(Tn, { size: 10, units: 6, color: '#999999' })
+                        )
+                      : null,
+                    this.state.attachmentError
+                      ? k.createElement(
+                          'div',
+                          { className: Nn.a.error },
+                          k.createElement(An.a, { className: Nn.a.crossIcon }),
+                          this.state.attachmentError
+                        )
+                      : null
+                  );
+                }
+              },
+              {
+                key: 'renderAttachments',
+                value: function() {
+                  var e = this,
+                    t = this.state.attachments.map(function(t, a) {
+                      return e.renderAttachment(a, t);
+                    }),
+                    a =
+                      this.state.attachments.length < 1
+                        ? this.renderAttachment(-1, { url: '', type: '' })
+                        : null;
+                  return k.createElement(
+                    k.Fragment,
+                    null,
+                    k.createElement(
+                      'p',
+                      null,
+                      Pt.t(
+                        'forms.send_msg_summary',
+                        'Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.',
+                        { count: 1 }
+                      )
+                    ),
+                    t,
+                    a
+                  );
+                }
+              },
+              {
                 key: 'render',
                 value: function() {
-                  var e = this.props.typeConfig;
+                  var e = this.props.typeConfig,
+                    t = {
+                      name: 'WhatsApp',
+                      body: this.renderTemplateConfig(),
+                      checked: null != this.state.template.value,
+                      hasErrors: !!this.state.templateVariables.find(function(e) {
+                        return ht(e);
+                      })
+                    },
+                    a = {
+                      name: 'Attachments',
+                      body: this.renderAttachments(),
+                      checked: this.state.attachments.length > 0,
+                      hasErrors: this.state.validAttachment
+                    };
                   return k.createElement(
                     me,
-                    { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    {
+                      title: e.name,
+                      headerClass: e.type,
+                      buttons: this.getButtons(),
+                      tabs: [t, a]
+                    },
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement(Bt, {
-                      name: Ft.t('forms.recipients', 'Recipients'),
-                      placeholder: Ft.t('forms.select_contacts', 'Select Contacts'),
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.recipients', 'Recipients'),
+                      placeholder: Pt.t('forms.select_contacts', 'Select Contacts'),
                       assets: this.props.assetStore.recipients,
                       entry: this.state.recipients,
                       searchable: !0,
@@ -5538,10 +6024,10 @@
                       onChange: this.handleRecipientsChanged
                     }),
                     k.createElement('p', null),
-                    k.createElement(xa, {
-                      name: Ft.t('forms.message', 'Message'),
+                    k.createElement(ja, {
+                      name: Pt.t('forms.message', 'Message'),
                       showLabel: !1,
-                      count: ya.SMS,
+                      count: ba.SMS,
                       onChange: this.handleMessageUpdate,
                       entry: this.state.message,
                       autocomplete: !0,
@@ -5556,12 +6042,12 @@
             a
           );
         })(k.Component);
-      Cn.contextTypes = { endpoints: bt, assetService: bt };
-      var wn = function(e) {
+      Un.contextTypes = { endpoints: bt, assetService: bt };
+      var Dn = function(e) {
           var t = e.subject;
           return k.createElement('div', null, t);
         },
-        Sn = {
+        Fn = {
           control: function(e, t) {
             return Object(y.a)(
               Object(y.a)({}, e),
@@ -5605,16 +6091,16 @@
             );
           }
         },
-        Nn = a(157),
-        On = (function(e) {
-          Object(v.a)(a, e);
+        Pn = a(159),
+        In = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -5661,8 +6147,8 @@
                   return E.a.createElement(
                     jt,
                     { name: this.props.name, entry: this.props.entry },
-                    E.a.createElement(Nn.a, {
-                      styles: Sn,
+                    E.a.createElement(Pn.a, {
+                      styles: Fn,
                       className: t,
                       name: this.props.name,
                       placeholder: this.props.placeholder,
@@ -5688,11 +6174,11 @@
             a
           );
         })(E.a.Component),
-        xn = a(85),
-        jn = a.n(xn),
-        Tn = /\S+@\S+\.\S+/,
-        An = (function(e) {
-          Object(v.a)(a, e);
+        Mn = a(87),
+        Ln = a.n(Mn),
+        zn = /\S+@\S+\.\S+/,
+        Bn = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -5715,7 +6201,7 @@
                   valid: !0
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -5745,13 +6231,13 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('recipients') &&
-                    (a.recipients = oa(Ft.t('forms.recipients', 'Recipients'), e.recipients, [
-                      ca(t)
+                    (a.recipients = ra(Pt.t('forms.recipients', 'Recipients'), e.recipients, [
+                      ua(t)
                     ])),
                     e.hasOwnProperty('subject') &&
-                      (a.subject = oa(Ft.t('forms.subject', 'Subject'), e.subject, [ca(t)])),
+                      (a.subject = ra(Pt.t('forms.subject', 'Subject'), e.subject, [ua(t)])),
                     e.hasOwnProperty('body') &&
-                      (a.body = oa(Ft.t('forms.body', 'Body'), e.body, [ca(t)]));
+                      (a.body = ra(Pt.t('forms.body', 'Body'), e.body, [ua(t)]));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -5786,9 +6272,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -5799,7 +6285,7 @@
               {
                 key: 'handleCheckValid',
                 value: function(e) {
-                  return Tn.test(e) || e.startsWith('@');
+                  return zn.test(e) || e.startsWith('@');
                 }
               },
               {
@@ -5809,34 +6295,34 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     k.createElement(
                       'div',
-                      { className: jn.a.ele },
-                      k.createElement(On, {
-                        name: Ft.t('forms.email_recipient_name', 'Recipient'),
-                        placeholder: Ft.t('forms.email_recipient_placeholder', 'To'),
-                        prompt: Ft.t('forms.email_recipient_prompt', 'Enter email address'),
+                      { className: Ln.a.ele },
+                      k.createElement(In, {
+                        name: Pt.t('forms.email_recipient_name', 'Recipient'),
+                        placeholder: Pt.t('forms.email_recipient_placeholder', 'To'),
+                        prompt: Pt.t('forms.email_recipient_prompt', 'Enter email address'),
                         onCheckValid: this.handleCheckValid,
                         entry: this.state.recipients,
                         onChange: this.handleRecipientsChanged,
                         createPrompt: ''
                       }),
-                      k.createElement(xa, {
-                        __className: jn.a.subject,
-                        name: Ft.t('forms.subject', 'Subject'),
-                        placeholder: Ft.t('forms.subject', 'Subject'),
+                      k.createElement(ja, {
+                        __className: Ln.a.subject,
+                        name: Pt.t('forms.subject', 'Subject'),
+                        placeholder: Pt.t('forms.subject', 'Subject'),
                         onChange: this.handleSubjectChanged,
                         entry: this.state.subject,
                         autocomplete: !0
                       }),
-                      k.createElement(xa, {
-                        __className: jn.a.message,
-                        name: Ft.t('forms.message', 'Message'),
+                      k.createElement(ja, {
+                        __className: Ln.a.message,
+                        name: Pt.t('forms.message', 'Message'),
                         showLabel: !1,
                         onChange: this.handleBodyChanged,
                         entry: this.state.body,
@@ -5852,10 +6338,10 @@
             a
           );
         })(k.Component),
-        Rn = a(58),
-        Un = a.n(Rn),
-        Dn = Ft.t('actions.send_msg.placeholder', 'Send a message to the contact'),
-        Pn = function(e) {
+        Vn = a(55),
+        qn = a.n(Vn),
+        Hn = Pt.t('actions.send_msg.placeholder', 'Send a message to the contact'),
+        Gn = function(e) {
           if (e.text) {
             var t = null,
               a = e.quick_replies || [];
@@ -5863,9 +6349,9 @@
               a.length > 0 &&
                 (t = k.createElement(
                   'div',
-                  { className: Un.a.quick_replies },
+                  { className: qn.a.quick_replies },
                   a.map(function(t) {
-                    return k.createElement(an, {
+                    return k.createElement(nn, {
                       style: { marginLeft: 4, marginTop: 4 },
                       maxLength: 20,
                       advanced: !0,
@@ -5881,92 +6367,41 @@
                   'div',
                   null,
                   e.text.split(/\r?\n/).map(function(t, a) {
-                    return k.createElement('div', { key: e.uuid + a, className: Un.a.line }, t);
+                    return k.createElement('div', { key: e.uuid + a, className: qn.a.line }, t);
                   }),
                   e.attachments && e.attachments.length > 0
                     ? k.createElement('div', {
-                        className: ''.concat(Un.a.attachment, ' fe-paperclip')
+                        className: ''.concat(qn.a.attachment, ' fe-paperclip')
                       })
                     : null,
                   e.templating && e.templating.template
                     ? k.createElement('div', {
-                        className: ''.concat(Un.a.whatsapp, ' fe-whatsapp')
+                        className: ''.concat(qn.a.whatsapp, ' fe-whatsapp')
                       })
                     : null,
                   e.topic
                     ? k.createElement('div', {
-                        className: ''.concat(Un.a.facebook, ' fe-facebook')
+                        className: ''.concat(qn.a.facebook, ' fe-facebook')
                       })
                     : null
                 ),
-                k.createElement('div', { className: Un.a.summary }, t)
+                k.createElement('div', { className: qn.a.summary }, t)
               )
             );
           }
           return e.attachments && e.attachments.length > 0
-            ? k.createElement('div', { className: ''.concat(Un.a.attachment, ' fe-paperclip') })
-            : k.createElement('div', { className: 'placeholder' }, Dn);
+            ? k.createElement('div', { className: ''.concat(qn.a.attachment, ' fe-paperclip') })
+            : e.templating && e.templating.template
+            ? k.createElement('div', { className: ''.concat(qn.a.whatsapp, ' fe-whatsapp') })
+            : k.createElement('div', { className: 'placeholder' }, Hn);
         },
-        Fn = a(158),
-        In = a(142),
-        Mn = a.n(In),
-        Ln = function(e) {
-          var t = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
-          return t ? { r: parseInt(t[1], 16), g: parseInt(t[2], 16), b: parseInt(t[3], 16) } : null;
-        },
-        zn = (function(e) {
-          Object(v.a)(a, e);
-          var t = Object(f.a)(a);
-          function a(e) {
-            var n;
-            return Object(m.a)(this, a), ((n = t.call(this, e)).state = { color: Ln(e.color) }), n;
-          }
-          return (
-            Object(_.a)(a, [
-              {
-                key: 'render',
-                value: function() {
-                  var e = this;
-                  return k.createElement(
-                    'div',
-                    {
-                      className: Mn.a.loading,
-                      style: {
-                        width: this.props.size * this.props.units * 2,
-                        height: this.props.size
-                      }
-                    },
-                    ee(0, this.props.units).map(function(t) {
-                      return k.createElement('div', {
-                        key: 'ball_'.concat(t),
-                        style: {
-                          borderRadius: e.props.square ? '0' : '50%',
-                          width: e.props.size,
-                          height: e.props.size,
-                          margin: e.props.size / 3,
-                          animationDelay: '-'.concat(1 - t * (1 / e.props.units), 's'),
-                          background: 'rgba('
-                            .concat(e.state.color.r, ',')
-                            .concat(e.state.color.g, ',')
-                            .concat(e.state.color.b, ', ')
-                            .concat(1 - t * (1 / e.props.units), ')')
-                        }
-                      });
-                    })
-                  );
-                }
-              }
-            ]),
-            a
-          );
-        })(k.Component),
-        Bn = [
+        Wn = [
           { value: 'event', name: 'Event' },
           { value: 'account', name: 'Account' },
           { value: 'purchase', name: 'Purchase' },
           { value: 'agent', name: 'Agent' }
         ],
-        qn = function(e, t) {
+        Kn = function(e, t) {
           var a = t.attachments
               .filter(function(e) {
                 return e.url.trim().length > 0;
@@ -5976,7 +6411,7 @@
               }),
             n = null;
           if (t.template && t.template.value) {
-            var i = $();
+            var i = Z();
             if (e.originalAction && e.originalAction.type === Ee.send_msg) {
               var s = e.originalAction;
               s.templating &&
@@ -6002,16 +6437,16 @@
           };
           return n && (o.templating = n), t.topic.value && (o.topic = t.topic.value.value), o;
         },
-        Vn = (k.Component, a(40)),
-        Hn = a.n(Vn),
-        Gn = [
-          { value: 'image', name: Ft.t('forms.image_url', 'Image URL') },
-          { value: 'audio', name: Ft.t('forms.audio_url', 'Audio URL') },
-          { value: 'video', name: Ft.t('forms.video_url', 'Video URL') },
-          { value: 'application', name: Ft.t('forms.pdf_url', 'PDF Document URL') }
+        Yn = (k.Component, a(40)),
+        Xn = a.n(Yn),
+        Qn = [
+          { value: 'image', name: Pt.t('forms.image_url', 'Image URL') },
+          { value: 'audio', name: Pt.t('forms.audio_url', 'Audio URL') },
+          { value: 'video', name: Pt.t('forms.video_url', 'Video URL') },
+          { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
         ],
-        Wn = (function(e) {
-          Object(v.a)(a, e);
+        Jn = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -6041,7 +6476,7 @@
                   }
                   return {
                     topic: {
-                      value: Bn.find(function(e) {
+                      value: Wn.find(function(e) {
                         return e.value === i.topic;
                       })
                     },
@@ -6071,7 +6506,7 @@
                   attachmentError: null
                 };
               })(n.props.nodeSettings, n.props.assetStore)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               null !== n.state.template.value &&
                 Xe(n.props.assetStore.templates, n.state.template.value.uuid).then(function(e) {
                   null !== e &&
@@ -6090,13 +6525,13 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('text') &&
-                    (a.message = oa(Ft.t('forms.message', 'Message'), e.text, [ca(t)])),
+                    (a.message = ra(Pt.t('forms.message', 'Message'), e.text, [ua(t)])),
                     e.hasOwnProperty('sendAll') && (a.sendAll = e.sendAll),
                     e.hasOwnProperty('quickReplies') &&
-                      (a.quickReplies = oa(
-                        Ft.t('forms.quick_replies', 'Quick Replies'),
+                      (a.quickReplies = ra(
+                        Pt.t('forms.quick_replies', 'Quick Replies'),
                         e.quickReplies,
-                        [pa]
+                        [ha]
                       ));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
@@ -6143,12 +6578,12 @@
                         var n = !0,
                           i = a.state.templateVariables;
                         a.state.templateVariables.forEach(function(e, t) {
-                          var a = oa('Variable '.concat(t + 1), e.value, [ra]);
-                          (i = Jt()(i, Object(S.a)({}, t, { $merge: a }))), (n = n && !ht(a));
+                          var a = ra('Variable '.concat(t + 1), e.value, [la]);
+                          (i = $t()(i, Object(S.a)({}, t, { $merge: a }))), (n = n && !ht(a));
                         }),
                           (n = n && !ht(a.state.quickReplyEntry))
                             ? (a.setState({ validAttachment: !1 }),
-                              a.props.updateAction(qn(a.props.nodeSettings, a.state)),
+                              a.props.updateAction(Kn(a.props.nodeSettings, a.state)),
                               a.props.onClose(!1))
                             : a.setState({ templateVariables: i, valid: n });
                       } else a.setState({ attachmentError: 'Not a valid '.concat(t, ' url') });
@@ -6185,11 +6620,13 @@
                     var a = this.handleMessageUpdate(this.state.message.value, null, !0),
                       n = this.state.templateVariables;
                     this.state.templateVariables.forEach(function(e, t) {
-                      var i = oa('Variable '.concat(t + 1), e.value, [ra]);
-                      (n = Jt()(n, Object(S.a)({}, t, { $merge: i }))), (a = a && !ht(i));
+                      var i = ra('Variable '.concat(t + 1), e.value, [la]);
+                      (n = $t()(n, Object(S.a)({}, t, { $merge: i }))), (a = a && !ht(i));
                     }),
-                      (a = a && !ht(this.state.quickReplyEntry))
-                        ? (this.props.updateAction(qn(this.props.nodeSettings, this.state)),
+                      (a = a && !ht(this.state.quickReplyEntry)),
+                      n.length > 0 && !this.state.message.value && (a = !a),
+                      a
+                        ? (this.props.updateAction(Kn(this.props.nodeSettings, this.state)),
                           this.props.onClose(!1))
                         : this.setState({ templateVariables: n, valid: a });
                   }
@@ -6198,7 +6635,7 @@
               {
                 key: 'handleAttachmentRemoved',
                 value: function(e) {
-                  var t = Jt()(this.state.attachments, { $splice: [[e, 1]] });
+                  var t = $t()(this.state.attachments, { $splice: [[e, 1]] });
                   this.setState({ attachments: t, attachmentError: null, validAttachment: !1 });
                 }
               },
@@ -6207,9 +6644,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -6223,26 +6660,26 @@
                   var a = this;
                   return k.createElement(
                     'div',
-                    { className: Hn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : $() },
+                    { className: Xn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
                     k.createElement(
                       'div',
-                      { className: Hn.a.type_choice },
-                      k.createElement(Sa, {
+                      { className: Xn.a.type_choice },
+                      k.createElement(Na, {
                         key: 'attachment_type_' + e,
-                        name: Ft.t('forms.type', 'Type'),
-                        style: Pt.small,
+                        name: Pt.t('forms.type', 'Type'),
+                        style: Ft.small,
                         entry: { value: { name: t.type } },
-                        options: Gn,
+                        options: Qn,
                         disabled: !0
                       })
                     ),
                     k.createElement(
                       'div',
-                      { className: Hn.a.url },
+                      { className: Xn.a.url },
                       k.createElement(
                         'span',
-                        { className: Hn.a.upload },
-                        k.createElement(an, {
+                        { className: Xn.a.upload },
+                        k.createElement(nn, {
                           icon: 'fe-download',
                           text: 'Download',
                           large: !0,
@@ -6252,8 +6689,8 @@
                         }),
                         k.createElement(
                           'div',
-                          { className: Hn.a.remove_upload },
-                          k.createElement(an, {
+                          { className: Xn.a.remove_upload },
+                          k.createElement(nn, {
                             icon: 'fe-x',
                             text: 'Remove',
                             large: !0,
@@ -6280,7 +6717,7 @@
                     ze.a
                       .post(this.context.config.endpoints.attachments, s, { headers: i })
                       .then(function(e) {
-                        (a = Jt()(a, {
+                        (a = $t()(a, {
                           $push: [{ type: e.data.type, url: e.data.url, uploaded: !0 }]
                         })),
                           t.setState({ attachments: a });
@@ -6301,20 +6738,20 @@
                     null,
                     k.createElement(
                       'div',
-                      { className: Hn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : $() },
+                      { className: Xn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
                       k.createElement(
                         'div',
-                        { className: Hn.a.type_choice },
-                        k.createElement(Sa, {
+                        { className: Xn.a.type_choice },
+                        k.createElement(Na, {
                           key: 'attachment_type_' + e,
-                          style: Pt.small,
-                          name: Ft.t('forms.type_options', 'Type Options'),
+                          style: Ft.small,
+                          name: Pt.t('forms.type_options', 'Type Options'),
                           placeholder: 'Add Attachment',
                           entry: {
                             value:
                               e > -1
                                 ? ((a = t.type),
-                                  Gn.find(function(e) {
+                                  Qn.find(function(e) {
                                     return e.value === a;
                                   }))
                                 : null
@@ -6326,14 +6763,14 @@
                                 }, 200)
                               : ((i =
                                   -1 === e
-                                    ? Jt()(i, { $push: [{ type: a.value, url: '' }] })
-                                    : Jt()(
+                                    ? $t()(i, { $push: [{ type: a.value, url: '' }] })
+                                    : $t()(
                                         i,
                                         Object(S.a)({}, e, { $set: { type: a.value, url: t.url } })
                                       )),
                                 n.setState({ attachments: i }));
                           },
-                          options: Gn
+                          options: Qn
                         })
                       ),
                       e > -1
@@ -6342,13 +6779,13 @@
                             null,
                             k.createElement(
                               'div',
-                              { className: Hn.a.url },
-                              k.createElement(xa, {
+                              { className: Xn.a.url },
+                              k.createElement(ja, {
                                 placeholder: 'URL',
-                                name: Ft.t('forms.url', 'URL'),
-                                style: ba.small,
+                                name: Pt.t('forms.url', 'URL'),
+                                style: ka.small,
                                 onChange: function(a) {
-                                  (i = Jt()(
+                                  (i = $t()(
                                     i,
                                     Object(S.a)({}, e, { $set: { type: t.type, url: a } })
                                   )),
@@ -6360,8 +6797,8 @@
                             ),
                             k.createElement(
                               'div',
-                              { className: Hn.a.remove },
-                              k.createElement(an, {
+                              { className: Xn.a.remove },
+                              k.createElement(nn, {
                                 icon: 'fe-x',
                                 text: ' Remove',
                                 large: !0,
@@ -6376,16 +6813,16 @@
                     this.state.validAttachment && !this.state.attachmentError
                       ? k.createElement(
                           'div',
-                          { className: Hn.a.loading },
+                          { className: Xn.a.loading },
                           'Checking URL validity',
-                          k.createElement(zn, { size: 10, units: 6, color: '#999999' })
+                          k.createElement(Tn, { size: 10, units: 6, color: '#999999' })
                         )
                       : null,
                     this.state.attachmentError
                       ? k.createElement(
                           'div',
-                          { className: Hn.a.error },
-                          k.createElement(Fn.a, { className: Hn.a.crossIcon }),
+                          { className: Xn.a.error },
+                          k.createElement(An.a, { className: Xn.a.crossIcon }),
                           this.state.attachmentError
                         )
                       : null
@@ -6409,7 +6846,7 @@
                     k.createElement(
                       'p',
                       null,
-                      Ft.t(
+                      Pt.t(
                         'forms.send_msg_summary',
                         'Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.',
                         { count: 1 }
@@ -6459,19 +6896,15 @@
               {
                 key: 'handleTemplateVariableChanged',
                 value: function(e, t) {
-                  var a = oa('Variable '.concat(t + 1), e, [ra]),
-                    n = Jt()(this.state.templateVariables, { $merge: Object(S.a)({}, t, a) });
+                  var a = ra('Variable '.concat(t + 1), e, [la]),
+                    n = $t()(this.state.templateVariables, { $merge: Object(S.a)({}, t, a) });
                   this.setState({ templateVariables: n });
                 }
               },
               {
                 key: 'handleShouldExcludeTemplate',
                 value: function(e) {
-                  return !(function(e) {
-                    return !!e.translations.find(function(e) {
-                      return 'pending' === e.status || 'approved' === e.status;
-                    });
-                  })(e);
+                  return !Bt(e);
                 }
               },
               {
@@ -6483,18 +6916,18 @@
                     k.createElement(
                       'p',
                       null,
-                      Ft.t(
+                      Pt.t(
                         'forms.send_msg_facebook_warning',
                         'Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.'
                       )
                     ),
-                    k.createElement(Sa, {
+                    k.createElement(Na, {
                       key: 'fb_method_select',
-                      name: Ft.t('forms.method', 'Method'),
+                      name: Pt.t('forms.method', 'Method'),
                       entry: this.state.topic,
                       onChange: this.handleTopicUpdate,
-                      options: Bn,
-                      placeholder: Ft.t(
+                      options: Wn,
+                      placeholder: Pt.t(
                         'forms.send_msg_facebook_topic_placeholder',
                         'Select a topic to use over Facebook'
                       ),
@@ -6519,13 +6952,13 @@
                     k.createElement(
                       'p',
                       null,
-                      Ft.t(
+                      Pt.t(
                         'forms.whatsapp_warning',
                         'Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow.'
                       )
                     ),
-                    k.createElement(Bt, {
-                      name: Ft.t('forms.template', 'template'),
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.template', 'template'),
                       noOptionsMessage: 'No templates found',
                       assets: this.props.assetStore.templates,
                       entry: this.state.template,
@@ -6540,25 +6973,28 @@
                           null,
                           k.createElement(
                             'div',
-                            { className: Hn.a.template_text },
+                            { className: Xn.a.template_text },
                             this.state.templateTranslation.content
                           ),
                           ee(0, this.state.templateTranslation.variable_count).map(function(t) {
                             return k.createElement(
                               'div',
-                              { className: Hn.a.variable, key: 'tr_arg_' + t },
-                              k.createElement(xa, {
+                              { className: Xn.a.variable, key: 'tr_arg_' + t },
+                              k.createElement(ja, {
                                 name: ''
-                                  .concat(Ft.t('forms.variable', 'Variable'), ' ')
+                                  .concat(Pt.t('forms.variable', 'Variable'), ' ')
                                   .concat(t + 1),
                                 showLabel: !1,
                                 placeholder: ''
-                                  .concat(Ft.t('forms.variable', 'Variable'), ' ')
+                                  .concat(Pt.t('forms.variable', 'Variable'), ' ')
                                   .concat(t + 1),
                                 onChange: function(a) {
                                   e.handleTemplateVariableChanged(a, t);
                                 },
-                                entry: e.state.templateVariables[t],
+                                entry:
+                                  void 0 === e.state.templateVariables[t]
+                                    ? { value: '' }
+                                    : e.state.templateVariables[t],
                                 autocomplete: !0
                               })
                             );
@@ -6574,12 +7010,12 @@
                   var e = this.props.typeConfig,
                     t =
                       (k.Fragment,
-                      Ft.t(
+                      Pt.t(
                         'forms.quick_replies_summary',
                         'Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".'
                       ),
-                      Ft.t('forms.quick_reply', 'quick_reply'),
-                      Pe.a,
+                      Pt.t('forms.quick_reply', 'quick_reply'),
+                      Fe.a,
                       this.state.quickReplies,
                       this.state.quickReplyEntry,
                       this.handleQuickRepliesUpdate,
@@ -6592,17 +7028,17 @@
                         hasErrors: this.state.validAttachment
                       }),
                     a =
-                      (Ft.t('forms.all_destinations', 'All Destinations'),
-                      Hn.a.checkbox,
+                      (Pt.t('forms.all_destinations', 'All Destinations'),
+                      Xn.a.checkbox,
                       this.state.sendAll,
-                      Ft.t(
+                      Pt.t(
                         'forms.all_destinations',
                         "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
                       ),
                       this.handleSendAllUpdate,
                       this.state.sendAll,
                       [t]);
-                  if (yr(this.context.config, we.HAS_WHATSAPP)) {
+                  if (Sr(this.context.config, we.HAS_WHATSAPP)) {
                     var n = {
                       name: 'WhatsApp',
                       body: this.renderTemplateConfig(),
@@ -6613,27 +7049,19 @@
                     };
                     a.splice(0, 0, n);
                   }
-                  if (yr(this.context.config, we.HAS_FACEBOOK)) {
-                    var i = {
-                      name: 'Facebook',
-                      body: this.renderTopicConfig(),
-                      checked: null != this.state.topic.value
-                    };
-                    a.splice(0, 0, i);
-                  }
                   return k.createElement(
                     k.Fragment,
                     null,
                     k.createElement(
                       me,
                       { title: e.name, headerClass: e.type, buttons: this.getButtons(), tabs: a },
-                      k.createElement(Yt, {
+                      k.createElement(Xt, {
                         __className: '',
                         initialType: e,
                         onChange: this.props.onTypeChange
                       }),
-                      k.createElement(xa, {
-                        name: Ft.t('forms.message', 'Message'),
+                      k.createElement(ja, {
+                        name: Pt.t('forms.message', 'Message'),
                         showLabel: !1,
                         counter: '.sms-counter',
                         onChange: this.handleMessageUpdate,
@@ -6652,8 +7080,8 @@
             a
           );
         })(k.Component);
-      Wn.contextTypes = { config: bt };
-      var Kn = function(e) {
+      Jn.contextTypes = { config: bt };
+      var $n = function(e) {
           var t = e.value,
             a = e.name;
           return t
@@ -6664,10 +7092,10 @@
                 return k.createElement('div', null, 'Clear value for ', H(e));
               })(a);
         },
-        Yn = a(86),
-        Xn = a.n(Yn),
-        Qn = (function(e) {
-          Object(v.a)(a, e);
+        Zn = a(88),
+        ei = a.n(Zn),
+        ti = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -6691,7 +7119,7 @@
                   valid: !1
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^on/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^on/] }),
               n
             );
           }
@@ -6730,11 +7158,11 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('name') &&
-                    (a.name = oa(Ft.t('forms.name', 'Name'), e.name, [ca(t), ga, ha])),
+                    (a.name = ra(Pt.t('forms.name', 'Name'), e.name, [ua(t), ga, ma])),
                     e.hasOwnProperty('value') &&
-                      (a.value = oa(Ft.t('forms.value', 'Value'), e.value, [])),
+                      (a.value = ra(Pt.t('forms.value', 'Value'), e.value, [])),
                     e.hasOwnProperty('category') &&
-                      (a.category = oa(Ft.t('forms.category', 'Category'), e.category, []));
+                      (a.category = ra(Pt.t('forms.category', 'Category'), e.category, []));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -6763,9 +7191,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -6790,20 +7218,20 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     k.createElement(
                       'div',
-                      { className: Xn.a.form },
-                      k.createElement(Bt, {
-                        name: Ft.t('forms.result', 'Result'),
+                      { className: ei.a.form },
+                      k.createElement(Vt, {
+                        name: Pt.t('forms.result', 'Result'),
                         assets: this.props.assetStore.results,
                         entry: this.state.name,
                         searchable: !0,
-                        createPrefix: Ft.t('forms.create_prefix', 'New: '),
+                        createPrefix: Pt.t('forms.create_prefix', 'New: '),
                         onChange: this.handleNameUpdate,
                         createAssetFromInput: this.handleCreateAssetFromInput,
                         formClearable: !0,
@@ -6812,7 +7240,7 @@
                         nameKey: 'name',
                         additionalOptions: this.options,
                         helpText: k.createElement(
-                          Pe.a,
+                          Fe.a,
                           {
                             i18nKey: 'forms.result_name_help',
                             values: { resultFormat: '@results'.concat(t) }
@@ -6820,9 +7248,9 @@
                           'By naming the result, you can reference it later using [[resultFormat]]'
                         )
                       }),
-                      k.createElement(xa, {
-                        __className: Xn.a.value,
-                        name: Ft.t('forms.value', 'Value'),
+                      k.createElement(ja, {
+                        __className: ei.a.value,
+                        name: Pt.t('forms.value', 'Value'),
                         showLabel: !0,
                         onChange: this.handleValueUpdate,
                         entry: this.state.value,
@@ -6830,9 +7258,9 @@
                         helpText:
                           'The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))'
                       }),
-                      k.createElement(xa, {
-                        __className: Xn.a.category,
-                        name: Ft.t('forms.category', 'Category'),
+                      k.createElement(ja, {
+                        __className: ei.a.category,
+                        name: Pt.t('forms.category', 'Category'),
                         placeholder: 'Optional',
                         showLabel: !0,
                         onChange: this.handleCategoryUpdate,
@@ -6850,7 +7278,7 @@
             a
           );
         })(k.PureComponent),
-        Jn = function(e, t) {
+        ai = function(e, t) {
           var a = e.flow,
             n = a.name,
             i = a.uuid;
@@ -6860,18 +7288,18 @@
             ut([{ name: n, id: i, type: fe.Flow }], 3, t.config.endpoints)
           );
         };
-      Jn.contextTypes = { config: bt };
-      var Zn = Jn,
-        $n = a(87),
-        ei = a.n($n),
-        ti = function(e, t) {
+      ai.contextTypes = { config: bt };
+      var ni = ai,
+        ii = a(89),
+        si = a.n(ii),
+        oi = function(e, t) {
           var a = ct(e);
           return k.createElement(
             'div',
-            { className: ei.a.node },
+            { className: si.a.node },
             k.createElement(
               'div',
-              { className: ei.a.to },
+              { className: si.a.to },
               e.create_contact
                 ? 'Create a new contact'
                 : e.contact_query
@@ -6880,20 +7308,20 @@
             ),
             k.createElement(
               'div',
-              { className: ei.a.flow },
+              { className: si.a.flow },
               dt({ name: e.flow.name, id: e.flow.uuid, type: fe.Flow }, t.config.endpoints)
             )
           );
         };
-      ti.contextTypes = { config: bt };
-      var ai,
-        ni = ti,
-        ii = { name: 'Select recipients manually', value: 'assets' },
-        si = { name: 'Create a new contact', value: 'create_contact' },
-        oi = { name: 'Select recipients from a query', value: 'contact_query' },
-        ri = [ii, oi, si],
-        li = (function(e) {
-          Object(v.a)(a, e);
+      oi.contextTypes = { config: bt };
+      var ri,
+        li = oi,
+        ci = { name: 'Select recipients manually', value: 'assets' },
+        ui = { name: 'Create a new contact', value: 'create_contact' },
+        di = { name: 'Select recipients from a query', value: 'contact_query' },
+        pi = [ci, di, ui],
+        hi = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -6905,7 +7333,7 @@
                   return {
                     recipients: { value: ct(t) },
                     flow: { value: t.flow },
-                    startType: { value: t.create_contact ? si : t.contact_query ? oi : ii },
+                    startType: { value: t.create_contact ? ui : t.contact_query ? di : ci },
                     contactQuery: { value: t.contact_query || '' },
                     valid: !0
                   };
@@ -6913,12 +7341,12 @@
                 return {
                   recipients: { value: [] },
                   flow: { value: null },
-                  startType: { value: ii },
+                  startType: { value: ci },
                   contactQuery: { value: '' },
                   valid: !1
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -6956,20 +7384,20 @@
                     a = {};
                   e.hasOwnProperty('startType') &&
                     ((a.startType = { value: e.startType }),
-                    e.startType !== ii && (a.recipients = { value: [] }),
-                    e.startType !== oi && (a.contactQuery = { value: '' })),
+                    e.startType !== ci && (a.recipients = { value: [] }),
+                    e.startType !== di && (a.contactQuery = { value: '' })),
                     e.hasOwnProperty('contactQuery') &&
-                      (a.contactQuery = oa(
-                        Ft.t('forms.contact_query', 'Contact Query'),
+                      (a.contactQuery = ra(
+                        Pt.t('forms.contact_query', 'Contact Query'),
                         e.contactQuery,
-                        [ca(t && this.state.startType.value === oi)]
+                        [ua(t && this.state.startType.value === di)]
                       )),
                     e.hasOwnProperty('recipients') &&
-                      (a.recipients = oa(Ft.t('forms.recipients', 'Recipients'), e.recipients, [
-                        ca(t && this.state.startType.value === ii)
+                      (a.recipients = ra(Pt.t('forms.recipients', 'Recipients'), e.recipients, [
+                        ua(t && this.state.startType.value === ci)
                       ])),
                     e.hasOwnProperty('flow') &&
-                      (a.flow = oa(Ft.t('forms.flow', 'Flow'), e.flow, [ca(t)]));
+                      (a.flow = ra(Pt.t('forms.flow', 'Flow'), e.flow, [ua(t)]));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -6992,7 +7420,7 @@
                             legacy_vars: mt(t.recipients.value),
                             contacts: _t(t.recipients.value, fe.Contact),
                             groups: _t(t.recipients.value, fe.Group),
-                            create_contact: t.startType.value === si,
+                            create_contact: t.startType.value === ui,
                             flow: { name: a.name, uuid: a.uuid },
                             type: Ee.start_session,
                             uuid: lt(e, Ee.start_session)
@@ -7008,9 +7436,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -7025,7 +7453,7 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -7033,24 +7461,24 @@
                     k.createElement(
                       'div',
                       null,
-                      k.createElement(Sa, {
+                      k.createElement(Na, {
                         key: 'start_type_select',
-                        name: Ft.t('forms.start_type', 'Start Type'),
+                        name: Pt.t('forms.start_type', 'Start Type'),
                         entry: this.state.startType,
                         onChange: this.handleStartTypeChanged,
-                        options: ri
+                        options: pi
                       })
                     ),
                     k.createElement('p', null),
                     k.createElement(
                       'div',
                       null,
-                      W(this.state.startType.value === ii)(
+                      W(this.state.startType.value === ci)(
                         k.createElement(
                           'div',
                           { 'data-testid': 'recipients' },
-                          k.createElement(Bt, {
-                            name: Ft.t('forms.recipients', 'Recipients'),
+                          k.createElement(Vt, {
+                            name: Pt.t('forms.recipients', 'Recipients'),
                             placeholder: 'Choose who should be started in the flow',
                             assets: this.props.assetStore.recipients,
                             entry: this.state.recipients,
@@ -7061,12 +7489,12 @@
                           k.createElement('p', null)
                         )
                       ),
-                      W(this.state.startType.value === oi)(
+                      W(this.state.startType.value === di)(
                         k.createElement(
                           'div',
                           { 'data-testid': 'contact_query' },
-                          k.createElement(xa, {
-                            name: Ft.t('forms.contact_query', 'Contact Query'),
+                          k.createElement(ja, {
+                            name: Pt.t('forms.contact_query', 'Contact Query'),
                             placeholder: 'household_id = @fields.household_id',
                             onChange: this.handleContactQueryChanged,
                             entry: this.state.contactQuery,
@@ -7076,8 +7504,8 @@
                           k.createElement('p', null)
                         )
                       ),
-                      k.createElement(Bt, {
-                        name: Ft.t('forms.flow', 'Flow'),
+                      k.createElement(Vt, {
+                        name: Pt.t('forms.flow', 'Flow'),
                         placeholder: 'Choose which flow to start',
                         assets: this.props.assetStore.flows,
                         entry: this.state.flow,
@@ -7093,52 +7521,52 @@
             a
           );
         })(k.Component),
-        ci = a(99),
-        ui = a.n(ci),
-        di = function(e) {
+        mi = a(101),
+        _i = a.n(mi),
+        vi = function(e) {
           var t = Object.keys(e.amounts).map(function(t) {
             return k.createElement(
               'div',
               { key: 'transfer_' + t },
-              k.createElement('div', { className: ui.a.amount }, e.amounts[t]),
-              k.createElement('div', { className: ui.a.code }, t)
+              k.createElement('div', { className: _i.a.amount }, e.amounts[t]),
+              k.createElement('div', { className: _i.a.code }, t)
             );
           });
           return k.createElement('div', null, t);
         },
-        pi = a(36),
-        hi = function(e, t) {
+        gi = a(36),
+        fi = function(e, t) {
           return t ? H(e) : e;
         },
-        mi = function(e, t) {
+        yi = function(e, t) {
           var a = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
           return t
             ? k.createElement(
                 'div',
-                { className: ''.concat(pi.node_asset) },
+                { className: ''.concat(gi.node_asset) },
                 'Set ',
-                hi(e, a),
+                fi(e, a),
                 ' to ',
                 H(t),
                 '.'
               )
-            : k.createElement('div', null, 'Clear ', hi(e, a), '.');
+            : k.createElement('div', null, 'Clear ', fi(e, a), '.');
         },
-        _i = function(e) {
-          if (e.type === Ee.set_contact_field) return mi(e.field.key, e.value, !0);
+        bi = function(e) {
+          if (e.type === Ee.set_contact_field) return yi(e.field.key, e.value, !0);
           if (e.type === Ee.set_contact_channel) {
             var t = e;
-            return mi('channel', t.channel ? t.channel.name : null, !1);
+            return yi('channel', t.channel ? t.channel.name : null, !1);
           }
           return e.type === Ee.set_contact_language
-            ? mi('language', Cr(e.language, e.languages), !1)
+            ? yi('language', jr(e.language, e.languages), !1)
             : e.type === Ee.set_contact_status
-            ? mi('status', e.status, !1)
+            ? yi('status', e.status, !1)
             : e.type === Ee.set_contact_name
-            ? mi('name', e.name, !1)
+            ? yi('name', e.name, !1)
             : null;
         },
-        gi = function(e) {
+        ki = function(e) {
           if (e.ghost) {
             var t = Object.keys(e.inboundConnections);
             if (t.length > 0) {
@@ -7147,17 +7575,17 @@
             }
           }
         },
-        vi = [gt, ft, vt, yt],
-        fi = [gt, ft, yt],
-        yi = function() {
+        Ei = [vt, ft, gt, yt],
+        Ci = [vt, ft, yt],
+        wi = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null;
-          return !e || qt(e) ? vi : fi;
+          return !e || qt(e) ? Ei : Ci;
         },
-        bi = Ft.t('forms.message_label', 'If the message response...'),
-        ki =
-          (Ft.t('forms.expression_label', 'If the expression...'),
-          Ft.t('forms.split_by_groups', "Select the collections you'd like to split by below"));
-      Ft.t(
+        Si = Pt.t('forms.message_label', 'If the message response...'),
+        Ni =
+          (Pt.t('forms.expression_label', 'If the expression...'),
+          Pt.t('forms.split_by_groups', "Select the collections you'd like to split by below"));
+      Pt.t(
         'forms.localize_rules',
         'Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.'
       );
@@ -7166,8 +7594,8 @@
           (e.No_Response = 'No Response'),
           (e.Any_Value = 'Any Value'),
           (e.Other = 'Other');
-      })(ai || (ai = {}));
-      var Ei = function(e, t, a, n) {
+      })(ri || (ri = {}));
+      var Oi = function(e, t, a, n) {
           var i = arguments.length > 4 && void 0 !== arguments[4] ? arguments[4] : [],
             s = arguments.length > 5 && void 0 !== arguments[5] ? arguments[5] : {},
             o = {
@@ -7177,10 +7605,10 @@
             };
           return o;
         },
-        Ci = function(e) {
+        xi = function(e) {
           return !!(e.router && e.router.cases && e.router.cases.length);
         },
-        wi = function(e, t) {
+        ji = function(e, t) {
           var a = (function(e) {
             return e.node.router ? e.node.router.categories : [];
           })(t);
@@ -7188,22 +7616,22 @@
             var n = a.find(function(t) {
               return t.uuid === e.category_uuid;
             });
-            if (Si(e.type) && t.ui.config && t.ui.config.cases) {
+            if (Ti(e.type) && t.ui.config && t.ui.config.cases) {
               var i = t.ui.config.cases[e.uuid];
               i && i.arguments && (e.arguments = i.arguments);
             }
             return { uuid: e.uuid, kase: e, categoryName: n ? n.name : null, valid: !0 };
           });
         },
-        Si = function(e) {
+        Ti = function(e) {
           return !![Ce.has_date_eq, Ce.has_date_gt, Ce.has_date_lt].find(function(t) {
             return e === t;
           });
         },
-        Ni = function(e, t) {
+        Ai = function(e, t) {
           return e.name.toLowerCase().trim() === t.categoryName.trim().toLowerCase();
         },
-        Oi = function(e, t) {
+        Ri = function(e, t) {
           var a,
             n = [],
             i = [],
@@ -7216,21 +7644,21 @@
             var u = function() {
               var e = a.value;
               if (!e.categoryName || 0 === e.categoryName.trim().length) return 'continue';
-              Si(e.kase.type) &&
+              Ti(e.kase.type) &&
                 ((o[e.uuid] = { arguments: e.kase.arguments }),
                 (e.kase.arguments = [
                   '@(datetime_add(today(), '.concat(e.kase.arguments[0], ', "D"))')
                 ]));
               var r = n.find(function(t) {
-                return Ni(t, e);
+                return Ai(t, e);
               });
               if (!r) {
                 if (
                   !(r = l.find(function(t) {
-                    return Ni(t, e);
+                    return Ai(t, e);
                   }))
                 ) {
-                  var c = xi(t);
+                  var c = Ui(t);
                   if (c) {
                     var u = c.cases.find(function(t) {
                       return t.uuid === e.uuid;
@@ -7259,8 +7687,8 @@
                 }
               }
               if (!r) {
-                var h = { uuid: $() };
-                s.push(h), (r = { uuid: $(), name: e.categoryName, exit_uuid: h.uuid }), n.push(r);
+                var h = { uuid: Z() };
+                s.push(h), (r = { uuid: Z(), name: e.categoryName, exit_uuid: h.uuid }), n.push(r);
               }
               i.push(Object(y.a)(Object(y.a)({}, e.kase), {}, { category_uuid: r.uuid }));
             };
@@ -7272,11 +7700,11 @@
           }
           return { cases: i, categories: n, exits: s, caseConfig: o };
         },
-        xi = function(e) {
+        Ui = function(e) {
           return e && e.router && e.router.type === s.switch ? e.router : null;
         },
-        ji = function(e, t) {
-          var a = xi(t);
+        Di = function(e, t) {
+          var a = Ui(t);
           if (a) {
             var n = a.categories.find(function(e) {
                 return e.uuid === a.default_category_uuid;
@@ -7286,13 +7714,13 @@
               });
             return (n.name = e), { defaultCategory: n, defaultExit: i };
           }
-          var s = { uuid: $() };
-          return { defaultCategory: { uuid: $(), name: e, exit_uuid: s.uuid }, defaultExit: s };
+          var s = { uuid: Z() };
+          return { defaultCategory: { uuid: Z(), name: e, exit_uuid: s.uuid }, defaultExit: s };
         },
-        Ti = function(e) {
+        Fi = function(e) {
           var t = null,
             a = null,
-            n = xi(e);
+            n = Ui(e);
           if (n && n.wait && n.wait.timeout) {
             var i = n.wait.timeout.category_uuid;
             (t = n.categories.find(function(e) {
@@ -7304,34 +7732,34 @@
           }
           return (
             t ||
-              ((a = { uuid: $() }), (t = { uuid: $(), name: ai.No_Response, exit_uuid: a.uuid })),
+              ((a = { uuid: Z() }), (t = { uuid: Z(), name: ri.No_Response, exit_uuid: a.uuid })),
             { timeoutCategory: t, timeoutExit: a }
           );
         },
-        Ai = function(e, t, a) {
+        Pi = function(e, t, a) {
           var n = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : null,
-            i = Oi(e, a),
+            i = Ri(e, a),
             s = n;
-          s || (s = i.categories.length > 0 ? ai.Other : ai.All_Responses);
-          var o = ji(s, a),
+          s || (s = i.categories.length > 0 ? ri.Other : ri.All_Responses);
+          var o = Di(s, a),
             r = o.defaultCategory,
             l = o.defaultExit;
           i.categories.push(r), i.exits.push(l);
           var c = Object(y.a)(Object(y.a)({}, i), {}, { defaultCategory: r.uuid });
           if (t) {
-            var u = Ti(a),
+            var u = Fi(a),
               d = u.timeoutCategory,
               p = u.timeoutExit;
             i.categories.push(d), i.exits.push(p), (c.timeoutCategory = d.uuid);
           }
           return c;
         },
-        Ri = function(e, t, a) {
+        Ii = function(e, t, a) {
           var n = [],
             i = [],
             o = [];
           if (t && 1 === t.node.actions.length && t.node.actions[0].type === e.type) {
-            var r = xi(t.node);
+            var r = Ui(t.node);
             t.node.exits.forEach(function(e) {
               return n.push(e);
             }),
@@ -7342,14 +7770,14 @@
                 return o.push(e);
               });
           } else
-            n.push({ uuid: $(), destination_uuid: null }, { uuid: $(), destination_uuid: null }),
+            n.push({ uuid: Z(), destination_uuid: null }, { uuid: Z(), destination_uuid: null }),
               (o = [
-                { uuid: $(), name: p.Success, exit_uuid: n[0].uuid },
-                { uuid: $(), name: p.Failure, exit_uuid: n[1].uuid }
+                { uuid: Z(), name: p.Success, exit_uuid: n[0].uuid },
+                { uuid: Z(), name: p.Failure, exit_uuid: n[1].uuid }
               ]),
               (i = [
                 {
-                  uuid: $(),
+                  uuid: Z(),
                   type: a ? Ce.has_category : Ce.has_only_text,
                   arguments: [p.Success],
                   category_uuid: o[0].uuid
@@ -7371,11 +7799,11 @@
               : e.type === Ee.open_ticket
               ? (u = Ee.split_by_ticket)
               : e.type === Ee.transfer_airtime && (u = Ee.split_by_airtime),
-            Ei(t.node.uuid, c, n, u, [e])
+            Oi(t.node.uuid, c, n, u, [e])
           );
         },
-        Ui = function(e, t) {
-          var a = fr(e) === Ee.split_by_groups;
+        Mi = function(e, t) {
+          var a = wr(e) === Ee.split_by_groups;
           return e.node.router
             ? e.node.router.categories
                 .filter(function(e) {
@@ -7388,8 +7816,8 @@
                 })
             : [];
         },
-        Di = function(e) {
-          var t = xi(e);
+        Li = function(e) {
+          var t = Ui(e);
           if (t && t.result_name) return t.result_name;
           if (e.router && e.router.type === s.random) return e.router.result_name;
           if (1 === e.actions.length) {
@@ -7403,11 +7831,11 @@
               return a.result_name;
           }
         },
-        Pi = a(14),
-        Fi = function(e) {
-          return Pi(e, X({ uuid: $() }));
+        zi = a(13),
+        Bi = function(e) {
+          return zi(e, X({ uuid: Z() }));
         },
-        Ii = function(e, t, a) {
+        Vi = function(e, t, a) {
           if (e && t.results) {
             var n = (function(e, t, a) {
               var n = L(e);
@@ -7416,56 +7844,56 @@
                   return e.nodeUUID !== a.nodeUUID || e.actionUUID !== a.actionUUID;
                 });
                 return 0 === i.length
-                  ? Pi(t, { $unset: [n] })
-                  : Pi(t, Object(S.a)({}, n, { references: { $set: i } }));
+                  ? zi(t, { $unset: [n] })
+                  : zi(t, Object(S.a)({}, n, { references: { $set: i } }));
               }
               return t;
             })(e, t.results.items, a);
-            return Pi(t, { results: { items: { $set: n } } });
+            return zi(t, { results: { items: { $set: n } } });
           }
           return t;
         },
-        Mi = function(e, t, a) {
+        qi = function(e, t, a) {
           var n = L(e),
             i = n in t ? t[n] : { name: e, id: n, type: fe.Result, references: [] };
           return (
             i.references.find(function(e) {
               return e.nodeUUID === a.nodeUUID && e.actionUUID === a.actionUUID;
             }) || i.references.push(a),
-            Pi(t, { $merge: Object(S.a)({}, n, i) })
+            zi(t, { $merge: Object(S.a)({}, n, i) })
           );
         },
-        Li = function(e, t) {
-          return Pi(e, { revisions: { items: { $merge: Object(S.a)({}, t.id, t) } } });
+        Hi = function(e, t) {
+          return zi(e, { revisions: { items: { $merge: Object(S.a)({}, t.id, t) } } });
         },
-        zi = function(e, t, a, n) {
+        Gi = function(e, t, a, n) {
           var i = e,
-            s = cl(e, t);
-          n && cl(e, n);
-          var o = ul(s.node, a),
+            s = _l(e, t);
+          n && _l(e, n);
+          var o = vl(s.node, a),
             r = s.node.exits[o].destination_uuid;
           return (
-            (i = Pi(
+            (i = zi(
               i,
               Object(S.a)({}, t, {
                 node: { exits: Object(S.a)({}, o, { destination_uuid: Y(n) }) }
               })
             )),
-            n && (i = Pi(i, Object(S.a)({}, n, { inboundConnections: X(Object(S.a)({}, a, t)) }))),
-            null != r && (i = Pi(i, Object(S.a)({}, r, { inboundConnections: Q([[a]]) }))),
+            n && (i = zi(i, Object(S.a)({}, n, { inboundConnections: X(Object(S.a)({}, a, t)) }))),
+            null != r && (i = zi(i, Object(S.a)({}, r, { inboundConnections: Q([[a]]) }))),
             i
           );
         },
-        Bi = function(e, t) {
+        Wi = function(e, t) {
           var a = e;
-          a[t.node.uuid] && (a = Vi(e, t.node.uuid)),
-            (a = Pi(e, X(Object(S.a)({}, t.node.uuid, t))));
+          a[t.node.uuid] && (a = Yi(e, t.node.uuid)),
+            (a = zi(e, X(Object(S.a)({}, t.node.uuid, t))));
           for (var n = 0, i = Object.keys(t.inboundConnections); n < i.length; n++) {
             var s = i[n],
               o = t.inboundConnections[s],
-              r = cl(e, o),
-              l = ul(r.node, s);
-            a = Pi(
+              r = _l(e, o),
+              l = vl(r.node, s);
+            a = zi(
               a,
               Object(S.a)({}, o, {
                 node: { exits: Object(S.a)({}, l, X({ destination_uuid: t.node.uuid })) }
@@ -7474,7 +7902,7 @@
           }
           return a;
         },
-        qi = function(e, t, a) {
+        Ki = function(e, t, a) {
           var n = e[t],
             i = (function(e) {
               if (e.router.type === s.switch) {
@@ -7485,25 +7913,25 @@
               }
             })(n.node),
             o = i ? i.destination_uuid : null,
-            r = Vi(e, n.node.uuid, !1),
+            r = Yi(e, n.node.uuid, !1),
             l = {
-              node: { uuid: $(), actions: [a], exits: [{ uuid: $(), destination_uuid: o }] },
+              node: { uuid: Z(), actions: [a], exits: [{ uuid: Z(), destination_uuid: o }] },
               ui: { position: n.ui.position, type: Ee.execute_actions },
               inboundConnections: n.inboundConnections
             };
-          return (r = Bi(r, l));
+          return (r = Wi(r, l));
         },
-        Vi = function(e, t) {
+        Yi = function(e, t) {
           var a,
             n = !(arguments.length > 2 && void 0 !== arguments[2]) || arguments[2],
-            i = cl(e, t),
+            i = _l(e, t),
             s = e,
             o = Object(C.a)(i.node.exits);
           try {
             for (o.s(); !(a = o.n()).done; ) {
               var r = a.value;
               r.destination_uuid &&
-                (s = Pi(
+                (s = zi(
                   s,
                   Object(S.a)({}, r.destination_uuid, { inboundConnections: Q([r.uuid]) })
                 ));
@@ -7518,37 +7946,37 @@
               d = null;
             n && 1 === i.node.exits.length && (d = i.node.exits[0].destination_uuid);
             var p = i.inboundConnections[u],
-              h = cl(e, p);
+              h = _l(e, p);
             if (d)
               try {
-                hl(s, p, d);
-              } catch (g) {
+                yl(s, p, d);
+              } catch (v) {
                 d = null;
               }
-            var m = ul(h.node, u);
-            (s = Pi(
+            var m = vl(h.node, u);
+            (s = zi(
               s,
               Object(S.a)({}, p, {
                 node: { exits: Object(S.a)({}, m, { destination_uuid: Y(d) }) }
               })
             )),
               d &&
-                (cl(e, d),
-                (s = Pi(s, Object(S.a)({}, d, { inboundConnections: X(Object(S.a)({}, u, p)) }))));
+                (_l(e, d),
+                (s = zi(s, Object(S.a)({}, d, { inboundConnections: X(Object(S.a)({}, u, p)) }))));
           }
-          return Pi(s, Q([t]));
+          return zi(s, Q([t]));
         },
-        Hi = function(e, t, a) {
+        Xi = function(e, t, a) {
           var n = !(arguments.length > 3 && void 0 !== arguments[3]) || arguments[3],
             i = a.left,
             s = a.top,
             o = { left: i, top: s };
           return (
             n && (o = I(i, s)),
-            Pi(e, Object(S.a)({}, t, { ui: { position: Y({ left: o.left, top: o.top }) } }))
+            zi(e, Object(S.a)({}, t, { ui: { position: Y({ left: o.left, top: o.top }) } }))
           );
         },
-        Gi = function(e, t, a) {
+        Qi = function(e, t, a) {
           var n = !(arguments.length > 3 && void 0 !== arguments[3]) || arguments[3];
           e._ui.stickies || (e._ui.stickies = {});
           var i = e._ui.stickies[t].position,
@@ -7559,7 +7987,7 @@
             c = { left: r, top: l };
           return (
             n && (c = I(r, l)),
-            Pi(e, {
+            zi(e, {
               _ui: {
                 stickies: Object(S.a)({}, t, {
                   position: Y({ left: c.left, top: c.top, right: c.left + s, bottom: c.top + o })
@@ -7568,43 +7996,43 @@
             })
           );
         },
-        Wi = function(e, t, a) {
+        Ji = function(e, t, a) {
           return (
             e._ui.stickies || (e._ui.stickies = {}),
-            Pi(
+            zi(
               e,
               a ? { _ui: { stickies: X(Object(S.a)({}, t, a)) } } : { _ui: { stickies: Q([t]) } }
             )
           );
         },
-        Ki = a(143),
-        Yi = a.n(Ki),
-        Xi = { name: Ft.t('contact_statuses.active', 'Active'), value: ke.ACTIVE },
-        Qi = {
-          name: Ft.t('contact_statuses.blocked', 'Blocked - remove from groups, ignore forever'),
+        $i = a(145),
+        Zi = a.n($i),
+        es = { name: Pt.t('contact_statuses.active', 'Active'), value: ke.ACTIVE },
+        ts = {
+          name: Pt.t('contact_statuses.blocked', 'Blocked - remove from groups, ignore forever'),
           value: ke.BLOCKED
         },
-        Ji = {
-          name: Ft.t(
+        as = {
+          name: Pt.t(
             'contact_statuses.stopped',
             'Stopped - remove from groups, ignore until they message again'
           ),
           value: ke.STOPPED
         },
-        Zi = {
-          name: Ft.t('contact_statuses.archived', 'Archived - remove from groups, ignore forever'),
+        ns = {
+          name: Pt.t('contact_statuses.archived', 'Archived - remove from groups, ignore forever'),
           value: ke.ARCHIVED
         },
-        $i = [Xi, Qi, Ji, Zi],
-        es = (function(e) {
-          Object(v.a)(a, e);
+        is = [es, ts, as, ns],
+        ss = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
-              ((n = t.call(this, e)).state = br(n.props.nodeSettings, n.props.assetStore)),
-              Object(b.react)(Object(g.a)(n), { include: [/^get/, /^on/, /^handle/] }),
+              ((n = t.call(this, e)).state = Nr(n.props.nodeSettings, n.props.assetStore)),
+              Object(b.react)(Object(v.a)(n), { include: [/^get/, /^on/, /^handle/] }),
               n
             );
           }
@@ -7618,9 +8046,9 @@
                   e.hasOwnProperty('type') && (a.type = e.type),
                     e.hasOwnProperty('name') && (a.name = { value: e.name }),
                     e.hasOwnProperty('channel') &&
-                      (a.channel = oa(Ft.t('forms.channel', 'Channel'), e.channel, [ca(t)])),
+                      (a.channel = ra(Pt.t('forms.channel', 'Channel'), e.channel, [ua(t)])),
                     e.hasOwnProperty('language') &&
-                      (a.language = oa(Ft.t('forms.language', 'Language'), e.language, [ca(t)])),
+                      (a.language = ra(Pt.t('forms.language', 'Language'), e.language, [ua(t)])),
                     e.hasOwnProperty('status') && (a.status = { value: e.status }),
                     e.hasOwnProperty('field') && (a.field = { value: e.field }),
                     e.hasOwnProperty('fieldValue') &&
@@ -7697,8 +8125,8 @@
                     e(
                       Ue(
                         (function(e, t, a) {
-                          var n = yl(a);
-                          return Pi(t, Object(S.a)({}, e, { items: { $merge: n } }));
+                          var n = Sl(a);
+                          return zi(t, Object(S.a)({}, e, { items: { $merge: n } }));
                         })('fields', a, [this.state.field.value])
                       )
                     );
@@ -7720,7 +8148,7 @@
                       (e = this.handleChannelUpdate([this.state.channel.value], !0) && e),
                     e &&
                       (this.props.updateAction(
-                        kr(this.props.nodeSettings, this.state),
+                        Or(this.props.nodeSettings, this.state),
                         this.onUpdated
                       ),
                       this.props.onClose(!0));
@@ -7731,9 +8159,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -7745,9 +8173,9 @@
                 key: 'getValueWidget',
                 value: function() {
                   return this.state.type === Ee.set_contact_channel
-                    ? k.createElement(Bt, {
+                    ? k.createElement(Vt, {
                         key: 'select_channel',
-                        name: Ft.t('forms.channel', 'Channel'),
+                        name: Pt.t('forms.channel', 'Channel'),
                         placeholder: 'Select the channel to use for this contact',
                         assets: this.props.assetStore.channels,
                         entry: this.state.channel,
@@ -7756,9 +8184,9 @@
                         onChange: this.handleChannelUpdate
                       })
                     : this.state.type === Ee.set_contact_language
-                    ? k.createElement(Bt, {
+                    ? k.createElement(Vt, {
                         key: 'select_language',
-                        name: Ft.t('forms.language', 'Language'),
+                        name: Pt.t('forms.language', 'Language'),
                         placeholder: 'Select the language to use for this contact',
                         assets: this.props.assetStore.languages,
                         entry: this.state.language,
@@ -7769,24 +8197,24 @@
                         }
                       })
                     : this.state.type === Ee.set_contact_status
-                    ? k.createElement(Sa, {
+                    ? k.createElement(Na, {
                         key: 'contact_status_select',
-                        name: Ft.t('forms.status', 'Status'),
+                        name: Pt.t('forms.status', 'Status'),
                         entry: this.state.status,
                         onChange: this.handleStatusUpdate,
-                        options: $i
+                        options: is
                       })
                     : this.state.type === Ee.set_contact_name
-                    ? k.createElement(xa, {
-                        name: Ft.t('forms.name', 'Name'),
+                    ? k.createElement(ja, {
+                        name: Pt.t('forms.name', 'Name'),
                         placeholder: 'Enter a new name for the contact',
                         onChange: this.handleNameUpdate,
                         entry: this.state.name,
                         autocomplete: !0,
                         focus: !0
                       })
-                    : k.createElement(xa, {
-                        name: Ft.t('forms.field_value', 'Field Value'),
+                    : k.createElement(ja, {
+                        name: Pt.t('forms.field_value', 'Field Value'),
                         placeholder: 'Enter a new value for '.concat(this.state.field.value.label),
                         onChange: this.handleFieldValueUpdate,
                         entry: this.state.fieldValue,
@@ -7808,26 +8236,26 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     k.createElement('p', null, 'Select what to update'),
-                    k.createElement(Bt, {
-                      name: Ft.t('forms.contact_field', 'Contact Field'),
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.contact_field', 'Contact Field'),
                       assets: this.props.assetStore.fields,
-                      additionalOptions: yi(this.context.config.flowType),
+                      additionalOptions: wi(this.context.config.flowType),
                       entry: this.state.field,
                       searchable: !0,
-                      sortFunction: Er,
+                      sortFunction: xr,
                       onChange: this.handlePropertyChange,
-                      getName: wr,
+                      getName: Tr,
                       createPrefix: 'Create Contact Field: ',
                       createAssetFromInput: this.handleCreateAssetFromInput,
                       onAssetCreated: this.handleFieldAdded
                     }),
-                    k.createElement('div', { className: Yi.a.value }, this.getValueWidget()),
+                    k.createElement('div', { className: Zi.a.value }, this.getValueWidget()),
                     ot(this.props)
                   );
                 }
@@ -7836,18 +8264,18 @@
             a
           );
         })(k.Component);
-      es.contextTypes = { config: bt };
-      var ts = a(66),
-        as = a.n(ts),
-        ns = (function(e) {
-          Object(v.a)(a, e);
+      ss.contextTypes = { config: bt };
+      var os = a(68),
+        rs = a.n(os),
+        ls = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -7889,10 +8317,10 @@
                       this.props.index > -1
                         ? k.createElement(
                             'div',
-                            { className: as.a.amount },
-                            k.createElement(xa, {
+                            { className: rs.a.amount },
+                            k.createElement(ja, {
                               placeholder: t,
-                              name: Ft.t('forms.value', 'value'),
+                              name: Pt.t('forms.value', 'value'),
                               onChange: this.handleAmountChanged,
                               entry: { value: a }
                             })
@@ -7903,7 +8331,7 @@
                         ? k.createElement(
                             'div',
                             {
-                              className: as.a.remove,
+                              className: rs.a.remove,
                               onClick: function() {
                                 e.props.onRemove(e.props.index);
                               }
@@ -7914,19 +8342,19 @@
                   return k.createElement(
                     jt,
                     {
-                      name: Ft.t('forms.currency', 'Currency'),
+                      name: Pt.t('forms.currency', 'Currency'),
                       entry: this.props.transfer,
-                      __className: as.a.form_element
+                      __className: rs.a.form_element
                     },
                     k.createElement(
                       'div',
-                      { className: as.a.transfer },
+                      { className: rs.a.transfer },
                       k.createElement(
                         'div',
-                        { className: as.a.currency },
-                        k.createElement(Bt, {
-                          style: Pt.small,
-                          name: Ft.t('forms.currency', 'Currency'),
+                        { className: rs.a.currency },
+                        k.createElement(Vt, {
+                          style: Ft.small,
+                          name: Pt.t('forms.currency', 'Currency'),
                           shouldExclude: function(t) {
                             return (
                               e.props.exclude.filter(function(e) {
@@ -7939,7 +8367,7 @@
                           valueKey: 'id',
                           onChange: this.handleCurrencyChanged,
                           additionalOptions: this.props.currencies,
-                          placeholder: Ft.t('forms.currency', 'Select a Currency')
+                          placeholder: Pt.t('forms.currency', 'Select a Currency')
                         })
                       ),
                       s,
@@ -7953,17 +8381,17 @@
             a
           );
         })(k.Component),
-        is = a(100),
-        ss = a.n(is),
-        os = (function(e) {
-          Object(v.a)(a, e);
+        cs = a(102),
+        us = a.n(cs),
+        ds = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               (n.state = { editing: n.props.value.value.trim().length > 0, valid: !0 }),
               n
             );
@@ -7988,7 +8416,7 @@
                   var e;
                   return (
                     (e = this.state.editing
-                      ? k.createElement(xa, {
+                      ? k.createElement(ja, {
                           'data-testid': 'optional-field',
                           'data-spec': 'optional-field',
                           name: this.props.name,
@@ -8003,12 +8431,12 @@
                           {
                             'data-testid': 'toggle-link',
                             'data-spec': 'toggle-link',
-                            className: ss.a.toggle_link,
+                            className: us.a.toggle_link,
                             onClick: this.handleEditingChanged
                           },
                           this.props.toggleText
                         )),
-                    k.createElement('div', { className: ss.a.optional_text_input }, e)
+                    k.createElement('div', { className: us.a.optional_text_input }, e)
                   );
                 }
               }
@@ -8016,43 +8444,43 @@
             a
           );
         })(k.Component),
-        rs = function(e, t) {
+        ps = function(e, t) {
           var a = !ht(e) && e.value ? '.' + L(e.value) : '';
-          return k.createElement(os, {
-            name: Ft.t('forms.save_result_name', 'Result Name'),
+          return k.createElement(ds, {
+            name: Pt.t('forms.save_result_name', 'Result Name'),
             maxLength: 64,
             value: e,
             onChange: t,
-            toggleText: Ft.t('forms.save_as_title', 'Save as..'),
+            toggleText: Pt.t('forms.save_as_title', 'Save as..'),
             helpText: k.createElement(
-              Pe.a,
+              Fe.a,
               { i18nKey: 'forms.result_name_help', values: { resultFormat: '@results'.concat(a) } },
               'By naming the result, you can reference it later using [[resultFormat]]'
             )
           });
         },
-        ls = a(101),
-        cs = a.n(ls),
-        us = function(e) {
+        hs = a(103),
+        ms = a.n(hs),
+        _s = function(e) {
           var t = e.validationFailures.map(function(e, t) {
             return k.createElement(
               'div',
-              { key: 'validation_' + t, className: cs.a.error },
+              { key: 'validation_' + t, className: ms.a.error },
               e.message
             );
           });
-          return k.createElement('div', { className: cs.a.errors }, t);
+          return k.createElement('div', { className: ms.a.errors }, t);
         },
-        ds = a(144),
-        ps = a.n(ds),
-        hs = function(e) {
+        vs = a(146),
+        gs = a.n(vs),
+        fs = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.transfer_airtime) return t;
         },
-        ms = (function(e) {
-          Object(v.a)(a, e);
+        ys = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -8060,7 +8488,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).options = []),
               (n.state = (function(e) {
-                var t = hs(e),
+                var t = fs(e),
                   a = { value: 'Result' },
                   n = !1,
                   i = [];
@@ -8075,7 +8503,7 @@
                   { valid: n, amounts: i, resultName: a }
                 );
               })(e.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -8117,8 +8545,8 @@
                     t &&
                       (this.props.updateRouter(
                         (function(e, t) {
-                          var a = $(),
-                            n = hs(e);
+                          var a = Z(),
+                            n = fs(e);
                           n && (a = n.uuid);
                           var i = {};
                           t.amounts.forEach(function(e) {
@@ -8131,7 +8559,7 @@
                             amounts: i,
                             result_name: t.resultName.value
                           };
-                          return Ri(s, e.originalNode, !0);
+                          return Ii(s, e.originalNode, !0);
                         })(this.props.nodeSettings, this.state)
                       ),
                       this.props.onClose(!1));
@@ -8140,7 +8568,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ra, ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -8162,7 +8590,7 @@
               {
                 key: 'handleRemoved',
                 value: function(e) {
-                  var t = Jt()(this.state.amounts, { $splice: [[e, 1]] });
+                  var t = $t()(this.state.amounts, { $splice: [[e, 1]] });
                   this.setState({ amounts: t });
                 }
               },
@@ -8172,15 +8600,15 @@
                   var a = this.state.amounts;
                   (a =
                     e > -1
-                      ? Jt()(this.state.amounts, { $merge: Object(S.a)({}, e, t) })
-                      : Jt()(this.state.amounts, { $push: [t] })),
+                      ? $t()(this.state.amounts, { $merge: Object(S.a)({}, e, t) })
+                      : $t()(this.state.amounts, { $push: [t] })),
                     this.setState({ amounts: a, validationFailures: [] });
                 }
               },
               {
                 key: 'renderAmount',
                 value: function(e, t) {
-                  return k.createElement(ns, {
+                  return k.createElement(ls, {
                     key: 'currency_' + e,
                     exclude: this.state.amounts,
                     currencies: this.options,
@@ -8211,12 +8639,12 @@
                 value: function() {
                   var e = this.props.typeConfig,
                     t = this.state.validationFailures
-                      ? k.createElement(us, { validationFailures: this.state.validationFailures })
+                      ? k.createElement(_s, { validationFailures: this.state.validationFailures })
                       : null;
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -8225,8 +8653,8 @@
                     t,
                     k.createElement(
                       'div',
-                      { className: ps.a.result_name },
-                      rs(this.state.resultName, this.handleUpdateResultName)
+                      { className: gs.a.result_name },
+                      ps(this.state.resultName, this.handleUpdateResultName)
                     ),
                     ot(this.props)
                   );
@@ -8236,213 +8664,213 @@
             a
           );
         })(k.PureComponent),
-        _s = a(145),
-        gs = a.n(_s),
-        vs = [
+        bs = a(147),
+        ks = a.n(bs),
+        Es = [
           {
             type: Ce.has_top_intent,
-            verboseName: Ft.t('operators.has_top_intent', 'has top intent'),
+            verboseName: Pt.t('operators.has_top_intent', 'has top intent'),
             operands: 2,
             visibility: We
           },
           {
             type: Ce.has_intent,
-            verboseName: Ft.t('operators.has_intent', 'has intent'),
+            verboseName: Pt.t('operators.has_intent', 'has intent'),
             operands: 2,
             visibility: We
           }
         ],
-        fs = [
+        Cs = [
           {
             type: Ce.has_any_word,
-            verboseName: Ft.t('operators.has_any_word', 'has any of the words'),
+            verboseName: Pt.t('operators.has_any_word', 'has any of the words'),
             operands: 1,
             visibility: Ge
           },
           {
             type: Ce.has_all_words,
-            verboseName: Ft.t('operators.has_all_words', 'has all of the words'),
+            verboseName: Pt.t('operators.has_all_words', 'has all of the words'),
             operands: 1,
             visibility: Ge
           },
           {
             type: Ce.has_phrase,
-            verboseName: Ft.t('operators.has_phrase', 'has the phrase'),
+            verboseName: Pt.t('operators.has_phrase', 'has the phrase'),
             operands: 1,
             visibility: Ge
           },
           {
             type: Ce.has_only_phrase,
-            verboseName: Ft.t('operators.has_only_phrase', 'has only the phrase'),
+            verboseName: Pt.t('operators.has_only_phrase', 'has only the phrase'),
             operands: 1,
             visibility: Ge
           },
           {
             type: Ce.has_beginning,
-            verboseName: Ft.t('operators.has_beginning', 'starts with'),
+            verboseName: Pt.t('operators.has_beginning', 'starts with'),
             operands: 1
           },
           {
             type: Ce.has_text,
-            verboseName: Ft.t('operators.has_text', 'has some text'),
+            verboseName: Pt.t('operators.has_text', 'has some text'),
             operands: 0,
             categoryName: 'Has Text',
             visibility: Ge
           },
           {
             type: Ce.has_number,
-            verboseName: Ft.t('operators.has_number', 'has a number'),
+            verboseName: Pt.t('operators.has_number', 'has a number'),
             operands: 0,
             categoryName: 'Has Number'
           },
           {
             type: Ce.has_number_between,
-            verboseName: Ft.t('operators.has_number_between', 'has a number between'),
+            verboseName: Pt.t('operators.has_number_between', 'has a number between'),
             operands: 2
           },
           {
             type: Ce.has_number_lt,
-            verboseName: Ft.t('operators.has_number_lt', 'has a number below'),
+            verboseName: Pt.t('operators.has_number_lt', 'has a number below'),
             operands: 1
           },
           {
             type: Ce.has_number_lte,
-            verboseName: Ft.t('operators.has_number_lte', 'has a number at or below'),
+            verboseName: Pt.t('operators.has_number_lte', 'has a number at or below'),
             operands: 1
           },
           {
             type: Ce.has_number_eq,
-            verboseName: Ft.t('operators.has_number_eq', 'has a number equal to'),
+            verboseName: Pt.t('operators.has_number_eq', 'has a number equal to'),
             operands: 1
           },
           {
             type: Ce.has_number_gte,
-            verboseName: Ft.t('operators.has_number_gte', 'has a number at or above'),
+            verboseName: Pt.t('operators.has_number_gte', 'has a number at or above'),
             operands: 1
           },
           {
             type: Ce.has_number_gt,
-            verboseName: Ft.t('operators.has_number_gt', 'has a number above'),
+            verboseName: Pt.t('operators.has_number_gt', 'has a number above'),
             operands: 1
           },
           {
             type: Ce.has_date,
-            verboseName: Ft.t('operators.has_date', 'has a date'),
+            verboseName: Pt.t('operators.has_date', 'has a date'),
             operands: 0,
-            categoryName: Ft.t('operators.has_date_category', 'Has Date'),
+            categoryName: Pt.t('operators.has_date_category', 'Has Date'),
             visibility: Ge
           },
           {
             type: Ce.has_date_lt,
-            verboseName: Ft.t('operators.has_date_lt', 'has a date before'),
+            verboseName: Pt.t('operators.has_date_lt', 'has a date before'),
             operands: 1,
             visibility: Ge
           },
           {
             type: Ce.has_date_eq,
-            verboseName: Ft.t('operators.has_date_eq', 'has a date equal to'),
+            verboseName: Pt.t('operators.has_date_eq', 'has a date equal to'),
             operands: 1,
             visibility: Ge
           },
           {
             type: Ce.has_date_gt,
-            verboseName: Ft.t('operators.has_date_gt', 'has a date after'),
+            verboseName: Pt.t('operators.has_date_gt', 'has a date after'),
             operands: 1,
             visibility: Ge
           },
           {
             type: Ce.has_time,
-            verboseName: Ft.t('operators.has_time', 'has a time'),
+            verboseName: Pt.t('operators.has_time', 'has a time'),
             operands: 0,
             categoryName: 'Has Time',
             visibility: Ge
           },
           {
             type: Ce.has_group,
-            verboseName: Ft.t('operators.has_group', 'is in the group'),
+            verboseName: Pt.t('operators.has_group', 'is in the group'),
             operands: 1,
-            visibility: qe
+            visibility: Ve
           },
           {
             type: Ce.has_category,
-            verboseName: Ft.t('operators.has_category', 'has the category'),
+            verboseName: Pt.t('operators.has_category', 'has the category'),
             operands: 0,
-            visibility: qe
+            visibility: Ve
           },
           {
             type: Ce.has_phone,
-            verboseName: Ft.t('operators.has_phone', 'has a phone number'),
+            verboseName: Pt.t('operators.has_phone', 'has a phone number'),
             operands: 0,
-            categoryName: Ft.t('operators.has_phone_category', 'Has Phone')
+            categoryName: Pt.t('operators.has_phone_category', 'Has Phone')
           },
           {
             type: Ce.has_email,
-            verboseName: Ft.t('operators.has_email', 'has an email'),
+            verboseName: Pt.t('operators.has_email', 'has an email'),
             operands: 0,
-            categoryName: Ft.t('operators.has_email_category', 'Has Email'),
+            categoryName: Pt.t('operators.has_email_category', 'Has Email'),
             visibility: Ge
           },
           {
             type: Ce.has_state,
-            verboseName: Ft.t('operators.has_state', 'has state'),
+            verboseName: Pt.t('operators.has_state', 'has state'),
             operands: 0,
-            categoryName: Ft.t('operators.has_state_category', 'Has State')
+            categoryName: Pt.t('operators.has_state_category', 'Has State')
           },
           {
             type: Ce.has_district,
-            verboseName: Ft.t('operators.has_district', 'has district'),
+            verboseName: Pt.t('operators.has_district', 'has district'),
             operands: 1,
-            categoryName: Ft.t('operators.has_district_category', 'Has District')
+            categoryName: Pt.t('operators.has_district_category', 'Has District')
           },
           {
             type: Ce.has_ward,
-            verboseName: Ft.t('operators.has_ward', 'has ward'),
+            verboseName: Pt.t('operators.has_ward', 'has ward'),
             operands: 2,
-            categoryName: Ft.t('operators.has_ward_category', 'Has Ward')
+            categoryName: Pt.t('operators.has_ward_category', 'Has Ward')
           },
           {
             type: Ce.has_error,
-            verboseName: Ft.t('operators.has_error', 'has an error'),
+            verboseName: Pt.t('operators.has_error', 'has an error'),
             operands: 0,
-            categoryName: Ft.t('operators.has_error_category', 'Has Error'),
-            visibility: qe
+            categoryName: Pt.t('operators.has_error_category', 'Has Error'),
+            visibility: Ve
           },
           {
             type: Ce.has_value,
-            verboseName: Ft.t('operators.has_value', 'is not empty'),
+            verboseName: Pt.t('operators.has_value', 'is not empty'),
             operands: 0,
-            categoryName: Ft.t('operators.has_value_category', 'Not Empty'),
-            visibility: qe
+            categoryName: Pt.t('operators.has_value_category', 'Not Empty'),
+            visibility: Ve
           },
           {
             type: Ce.has_pattern,
-            verboseName: Ft.t('operator.has_pattern', 'matches regex'),
+            verboseName: Pt.t('operator.has_pattern', 'matches regex'),
             operands: 1
           },
           {
             type: Ce.has_media,
-            verboseName: Ft.t('operators.has_media', 'has media'),
+            verboseName: Pt.t('operators.has_media', 'has media'),
             operands: 0,
             categoryName: 'Has Media',
             visibility: Ge
           },
           {
             type: Ce.has_location,
-            verboseName: Ft.t('operators.has_location', 'has location'),
+            verboseName: Pt.t('operators.has_location', 'has location'),
             operands: 0,
             categoryName: 'Has Location',
             visibility: Ge
           }
         ],
-        ys = [].concat(fs, vs).reduce(function(e, t) {
+        ws = [].concat(Cs, Es).reduce(function(e, t) {
           return (e[t.type] = t), e;
         }, {}),
-        bs = function(e) {
-          return ys[e];
+        Ss = function(e) {
+          return ws[e];
         },
-        ks = a(37),
-        Es = a.n(ks),
-        Cs = function(e) {
+        Ns = a(37),
+        Os = a.n(Ns),
+        xs = function(e) {
           var t = '';
           return (
             e.indexOf('_lt') > -1
@@ -8452,11 +8880,11 @@
             t
           );
         },
-        ws = function(e) {
+        js = function(e) {
           var t,
             a,
             n,
-            i = e.exitEdited && e.exitName ? [ra] : [],
+            i = e.exitEdited && e.exitName ? [la] : [],
             s = {
               operatorConfig: e.operatorConfig,
               district: { value: '', validationFailures: [] },
@@ -8474,21 +8902,21 @@
               case Ce.has_number_gte:
               case Ce.has_number_lt:
               case Ce.has_number_lte:
-                i.push(va);
+                i.push(fa);
                 break;
               case Ce.has_date_eq:
               case Ce.has_date_lt:
               case Ce.has_date_gt:
-                i.push(_a);
+                i.push(va);
             }
             if (e.operatorConfig.type === Ce.has_number_between)
-              (s.min = oa(
-                Ft.t('forms.minimum_value', 'Minimum value'),
+              (s.min = ra(
+                Pt.t('forms.minimum_value', 'Minimum value'),
                 e.min || '',
                 i.concat([
-                  _a,
+                  va,
                   ((a = parseFloat(e.max)),
-                  (n = Ft.t('forms.the_maximum', 'the maximum')),
+                  (n = Pt.t('forms.the_maximum', 'the maximum')),
                   function(e, t) {
                     return 'string' === typeof t && parseFloat(t) >= a
                       ? {
@@ -8497,7 +8925,7 @@
                             {
                               message: ''
                                 .concat(e, ' ')
-                                .concat(Ft.t('forms.must_be_less_than', 'must be less than'), ' ')
+                                .concat(Pt.t('forms.must_be_less_than', 'must be less than'), ' ')
                                 .concat(n)
                             }
                           ]
@@ -8506,17 +8934,17 @@
                   })
                 ])
               )),
-                (s.max = oa(
-                  Ft.t('forms.maximum_value', 'Maximum value'),
+                (s.max = ra(
+                  Pt.t('forms.maximum_value', 'Maximum value'),
                   e.max || '',
-                  i.concat([_a, la(parseFloat(e.min), Ft.t('forms.the_minimum', 'the minimum'))])
+                  i.concat([va, ca(parseFloat(e.min), Pt.t('forms.the_minimum', 'the minimum'))])
                 ));
             else if (e.operatorConfig.type === Ce.has_district)
-              s.argument = oa(Ft.t('forms.state', 'State'), e.argument || '', i.concat([]));
+              s.argument = ra(Pt.t('forms.state', 'State'), e.argument || '', i.concat([]));
             else if (e.operatorConfig.type === Ce.has_ward)
-              (s.state = oa(Ft.t('forms.state', 'State'), e.state || '', i.concat([]))),
-                (s.district = oa(
-                  Ft.t('forms.district', 'District'),
+              (s.state = ra(Pt.t('forms.state', 'State'), e.state || '', i.concat([]))),
+                (s.district = ra(
+                  Pt.t('forms.district', 'District'),
                   e.district || '',
                   i.concat([])
                 ));
@@ -8550,24 +8978,24 @@
                   return { failures: [], value: a };
                 })
               ];
-              e.confidence && o.push(ra),
-                (s.intent = oa(Ft.t('forms.intent', 'Intent'), e.intent, o)),
-                (s.confidence = oa(
-                  Ft.t('forms.confidence', 'Confidence'),
+              e.confidence && o.push(la),
+                (s.intent = ra(Pt.t('forms.intent', 'Intent'), e.intent, o)),
+                (s.confidence = ra(
+                  Pt.t('forms.confidence', 'Confidence'),
                   e.confidence || '',
-                  i.concat(e.intent ? [_a, ra] : [_a])
+                  i.concat(e.intent ? [va, la] : [va])
                 ));
-            } else s.argument = oa('Value', e.argument || '', i);
+            } else s.argument = ra('Value', e.argument || '', i);
           }
           return (
             (s.categoryNameEdited = !!e.exitEdited),
-            (s.categoryName = oa(
-              Ft.t('forms.category', 'Category'),
-              s.categoryNameEdited ? e.exitName : Ss(s),
+            (s.categoryName = ra(
+              Pt.t('forms.category', 'Category'),
+              s.categoryNameEdited ? e.exitName : Ts(s),
               s.argument.value ||
                 (s.min.value && s.max.value) ||
                 (s.state.value && s.district.value)
-                ? [ra]
+                ? [la]
                 : []
             )),
             (s.valid =
@@ -8582,7 +9010,7 @@
             s
           );
         },
-        Ss = function(e) {
+        Ts = function(e) {
           if (e.categoryNameEdited) return e.categoryName.value;
           if (0 === e.operatorConfig.operands) return e.operatorConfig.categoryName;
           if (
@@ -8593,21 +9021,21 @@
             return z(e.intent.value.name.replace('_', ' '));
           if (e.operatorConfig.type === Ce.has_number_between && e.min.value && e.max.value)
             return ''.concat(e.min.value, ' - ').concat(e.max.value);
-          if (Si(e.operatorConfig.type)) {
+          if (Ti(e.operatorConfig.type)) {
             var t = parseInt(e.argument.value, 10);
             if (!isNaN(t)) {
               var a =
                   e.operatorConfig.type === Ce.has_date_eq
-                    ? Ft.t('forms.today_proper', 'Today')
-                    : Ft.t('forms.today', 'today'),
+                    ? Pt.t('forms.today_proper', 'Today')
+                    : Pt.t('forms.today', 'today'),
                 n = t < 0 ? ' - ' : ' + ',
                 i =
-                  ' ' + (1 === Math.abs(t) ? Ft.t('forms.day', 'day') : Ft.t('forms.days', 'days'));
-              return Cs(e.operatorConfig.type) + a + n + Math.abs(t) + i;
+                  ' ' + (1 === Math.abs(t) ? Pt.t('forms.day', 'day') : Pt.t('forms.days', 'days'));
+              return xs(e.operatorConfig.type) + a + n + Math.abs(t) + i;
             }
           }
           if (e.argument && e.argument.value) {
-            var s = Cs(e.operatorConfig.type),
+            var s = xs(e.operatorConfig.type),
               o = e.argument.value.match(/\w+/g);
             if (o && o.length > 0) {
               var r = Object(w.a)(o, 1)[0];
@@ -8617,21 +9045,21 @@
           }
           return '';
         },
-        Ns = (function(e) {
-          Object(v.a)(a, e);
+        As = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).operators = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^get/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^get/] }),
               (n.state = (function(e) {
                 var t = e.kase.arguments && e.kase.arguments.length >= 1 ? e.kase.arguments[0] : '',
                   a = e.kase.arguments && 2 === e.kase.arguments.length ? e.kase.arguments[1] : '';
                 return {
                   errors: [],
-                  operatorConfig: bs(e.kase.type),
+                  operatorConfig: Ss(e.kase.type),
                   argument: { value: t },
                   min: { value: t },
                   max: { value: a },
@@ -8652,7 +9080,7 @@
               {
                 key: 'componentDidMount',
                 value: function() {
-                  var e = ws({
+                  var e = js({
                     operatorConfig: this.state.operatorConfig,
                     argument: this.state.argument.value,
                     min: this.state.min.value,
@@ -8674,7 +9102,7 @@
                     this.props.classifier !== e.classifier &&
                     this.state.intent.value
                   ) {
-                    var t = ws({
+                    var t = js({
                       operatorConfig: this.state.operatorConfig,
                       argument: this.state.argument.value,
                       min: this.state.min.value,
@@ -8692,11 +9120,11 @@
               {
                 key: 'getOperators',
                 value: function() {
-                  var e = this.props.operators || fs;
+                  var e = this.props.operators || Cs;
                   return (
                     void 0 === this.operators &&
                       (this.operators = (function(e, t) {
-                        return console.log('operators', e), Vt(Gt(e, t), t);
+                        return console.log('operators', e), Ht(Wt(e, t), t);
                       })(e, this.context.config)),
                     this.operators
                   );
@@ -8723,7 +9151,7 @@
                 key: 'handleOperatorChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: e,
                       argument: this.state.argument.value,
                       min: this.state.min.value,
@@ -8743,7 +9171,7 @@
                 key: 'handleArgumentChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       argument: e,
                       exitName: this.state.categoryName.value,
@@ -8758,7 +9186,7 @@
                 key: 'handleDistrictChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       argument: this.state.argument.value,
                       state: this.state.state.value,
@@ -8775,7 +9203,7 @@
                 key: 'handleStateChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       argument: this.state.argument.value,
                       district: this.state.district.value,
@@ -8792,7 +9220,7 @@
                 key: 'handleIntentChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       intent: e,
                       confidence: this.state.confidence.value || '.9',
@@ -8809,7 +9237,7 @@
                 key: 'handleConfidenceChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       intent: this.state.intent.value,
                       confidence: e,
@@ -8826,7 +9254,7 @@
                 key: 'handleMinChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       min: e,
                       max: this.state.max.value,
@@ -8842,7 +9270,7 @@
                 key: 'handleMaxChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       min: this.state.min.value,
                       max: e,
@@ -8858,7 +9286,7 @@
                 key: 'handleExitChanged',
                 value: function(e) {
                   var t = this,
-                    a = ws({
+                    a = js({
                       operatorConfig: this.state.operatorConfig,
                       state: this.state.state.value,
                       district: this.state.district.value,
@@ -8934,20 +9362,20 @@
                         return k.createElement(
                           k.Fragment,
                           null,
-                          k.createElement(xa, {
-                            name: Ft.t('forms.arguments', 'arguments'),
-                            style: ba.small,
+                          k.createElement(ja, {
+                            name: Pt.t('forms.arguments', 'arguments'),
+                            style: ka.small,
                             onChange: this.handleMinChanged,
                             entry: this.state.min
                           }),
                           k.createElement(
                             'span',
-                            { className: Es.a.divider, 'data-draggable': !0 },
+                            { className: Os.a.divider, 'data-draggable': !0 },
                             'and'
                           ),
-                          k.createElement(xa, {
-                            name: Ft.t('forms.arguments', 'arguments'),
-                            style: ba.small,
+                          k.createElement(ja, {
+                            name: Pt.t('forms.arguments', 'arguments'),
+                            style: ka.small,
                             onChange: this.handleMaxChanged,
                             entry: this.state.max
                           })
@@ -8969,11 +9397,11 @@
                             k.createElement(
                               'div',
                               { style: { width: '114px' } },
-                              k.createElement(Sa, {
+                              k.createElement(Na, {
                                 key: 'intent_select',
-                                style: Pt.small,
-                                name: Ft.t('forms.intent', 'Intent'),
-                                placeholder: Ft.t('forms.select_intent', 'Select intent'),
+                                style: Ft.small,
+                                name: Pt.t('forms.intent', 'Intent'),
+                                placeholder: Pt.t('forms.select_intent', 'Select intent'),
                                 entry: this.state.intent,
                                 onChange: this.handleIntentChanged,
                                 options: e,
@@ -8984,17 +9412,17 @@
                             ),
                             k.createElement(
                               'div',
-                              { className: Es.a.divider, 'data-draggable': !0 },
+                              { className: Os.a.divider, 'data-draggable': !0 },
                               'above'
                             ),
                             k.createElement(
                               'div',
                               { style: { width: '34px' } },
-                              k.createElement(xa, {
-                                name: Ft.t('forms.confidence', 'confidence'),
+                              k.createElement(ja, {
+                                name: Pt.t('forms.confidence', 'confidence'),
                                 onChange: this.handleConfidenceChanged,
                                 entry: this.state.confidence,
-                                style: ba.small,
+                                style: ka.small,
                                 placeholder: '.9'
                               })
                             )
@@ -9004,52 +9432,52 @@
                       return k.createElement(
                         k.Fragment,
                         null,
-                        k.createElement(xa, {
-                          name: Ft.t('forms.state', 'State'),
+                        k.createElement(ja, {
+                          name: Pt.t('forms.state', 'State'),
                           placeholder: 'State',
                           onChange: this.handleStateChanged,
-                          style: ba.small,
+                          style: ka.small,
                           entry: this.state.state
                         }),
                         k.createElement(
                           'span',
-                          { className: Es.a.divider, 'data-draggable': !0 },
+                          { className: Os.a.divider, 'data-draggable': !0 },
                           'and'
                         ),
-                        k.createElement(xa, {
-                          name: Ft.t('forms.district', 'District'),
-                          placeholder: Ft.t('forms.district', 'District'),
+                        k.createElement(ja, {
+                          name: Pt.t('forms.district', 'District'),
+                          placeholder: Pt.t('forms.district', 'District'),
                           onChange: this.handleDistrictChanged,
-                          style: ba.small,
+                          style: ka.small,
                           entry: this.state.district
                         })
                       );
                     }
-                    return Si(this.state.operatorConfig.type)
+                    return Ti(this.state.operatorConfig.type)
                       ? k.createElement(
                           k.Fragment,
                           null,
                           k.createElement(
                             'span',
-                            { className: Es.a.divider, 'data-draggable': !0 },
+                            { className: Os.a.divider, 'data-draggable': !0 },
                             'today +',
                             ' '
                           ),
-                          k.createElement(xa, {
-                            __className: Es.a.relative_date,
-                            name: Ft.t('forms.arguments', 'arguments'),
+                          k.createElement(ja, {
+                            __className: Os.a.relative_date,
+                            name: Pt.t('forms.arguments', 'arguments'),
                             onChange: this.handleArgumentChanged,
                             entry: this.state.argument,
-                            style: ba.small,
+                            style: ka.small,
                             autocomplete: !1
                           }),
-                          k.createElement('span', { className: Es.a.divider }, 'days')
+                          k.createElement('span', { className: Os.a.divider }, 'days')
                         )
-                      : k.createElement(xa, {
-                          name: Ft.t('forms.arguments', 'arguments'),
+                      : k.createElement(ja, {
+                          name: Pt.t('forms.arguments', 'arguments'),
                           onChange: this.handleArgumentChanged,
                           entry: this.state.argument,
-                          style: ba.small,
+                          style: ka.small,
                           placeholder:
                             this.state.operatorConfig.type === Ce.has_district ? 'State' : '',
                           autocomplete: !0
@@ -9066,27 +9494,27 @@
                     {
                       'data-spec': 'case-form',
                       name: this.props.name,
-                      __className: Es.a.group,
+                      __className: Os.a.group,
                       kaseError: this.state.errors.length > 0
                     },
                     k.createElement(
                       'div',
                       {
                         className: ''
-                          .concat(Es.a.kase, ' ')
-                          .concat(Es.a[this.state.operatorConfig.type]),
+                          .concat(Os.a.kase, ' ')
+                          .concat(Os.a[this.state.operatorConfig.type]),
                         'data-draggable': !0
                       },
                       k.createElement('span', {
-                        className: 'fe-chevrons-expand '.concat(Es.a.dnd_icon),
+                        className: 'fe-chevrons-expand '.concat(Os.a.dnd_icon),
                         'data-draggable': !0
                       }),
                       k.createElement(
                         'div',
-                        { className: Es.a.choice },
+                        { className: Os.a.choice },
                         k.createElement(Lt, {
-                          name: Ft.t('forms.operator', 'operator'),
-                          style: Pt.small,
+                          name: Pt.t('forms.operator', 'operator'),
+                          style: Ft.small,
                           options: this.getOperators(),
                           nameKey: 'verboseName',
                           valueKey: 'type',
@@ -9099,22 +9527,22 @@
                         {
                           className:
                             this.state.operatorConfig.operands > 1
-                              ? Es.a.multi_operand
-                              : Es.a.single_operand
+                              ? Os.a.multi_operand
+                              : Os.a.single_operand
                         },
                         this.renderArguments()
                       ),
                       k.createElement(
                         'div',
-                        { className: Es.a.categorize_as, 'data-draggable': !0 },
+                        { className: Os.a.categorize_as, 'data-draggable': !0 },
                         'categorize as'
                       ),
                       k.createElement(
                         'div',
-                        { className: Es.a.category },
-                        k.createElement(xa, {
-                          name: Ft.t('forms.exit_name', 'Exit Name'),
-                          style: ba.small,
+                        { className: Os.a.category },
+                        k.createElement(ja, {
+                          name: Pt.t('forms.exit_name', 'Exit Name'),
+                          style: ka.small,
                           onChange: this.handleExitChanged,
                           entry: this.state.categoryName,
                           maxLength: 36,
@@ -9123,7 +9551,7 @@
                       ),
                       k.createElement('span', {
                         'data-testid': 'remove-case-' + this.props.kase.uuid,
-                        className: 'fe-x '.concat(Es.a.remove_icon),
+                        className: 'fe-x '.concat(Os.a.remove_icon),
                         onClick: this.handleRemoveClicked
                       })
                     )
@@ -9134,22 +9562,22 @@
             a
           );
         })(k.Component);
-      Ns.contextTypes = { config: bt };
-      var Os,
-        xs = a(102),
-        js = a(76),
-        Ts = a.n(js);
+      As.contextTypes = { config: bt };
+      var Rs,
+        Us = a(104),
+        Ds = a(77),
+        Fs = a.n(Ds);
       !(function(e) {
         (e.move = 'move'), (e.pointer = 'pointer');
-      })(Os || (Os = {}));
-      var As = Object(xs.SortableElement)(function(e) {
+      })(Rs || (Rs = {}));
+      var Ps = Object(Us.SortableElement)(function(e) {
           var t = e.value,
             a = t.item;
           return k.createElement(
             'div',
-            { className: Ts.a.kase + ' case_list_case' },
+            { className: Fs.a.kase + ' case_list_case' },
             k.createElement(
-              Ns,
+              As,
               Object.assign({ key: a.uuid }, a, {
                 onRemove: t.list.handleRemoveCase,
                 onChange: t.list.handleUpdateCase,
@@ -9159,22 +9587,22 @@
             )
           );
         }),
-        Rs = (function(e) {
-          Object(v.a)(a, e);
+        Is = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             Object(m.a)(this, a),
-              ((n = t.call(this, e)).sortableList = Object(xs.SortableContainer)(function(e) {
+              ((n = t.call(this, e)).sortableList = Object(Us.SortableContainer)(function(e) {
                 var t = e.items;
                 return k.createElement(
                   'div',
-                  { className: Ts.a.case_list },
+                  { className: Fs.a.case_list },
                   t.map(function(e, t) {
-                    return k.createElement(As, {
+                    return k.createElement(Ps, {
                       key: 'item-'.concat(t),
                       index: t,
-                      value: { item: e, list: Object(g.a)(n) },
+                      value: { item: e, list: Object(v.a)(n) },
                       disabled: t === n.state.currentCases.length - 1,
                       shouldCancelStart: function(e) {
                         return console.log(e), !0;
@@ -9183,7 +9611,7 @@
                   })
                 );
               })),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] });
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] });
             var i = n.props.cases;
             return (
               n.hasEmptyCase(i) || i.push(n.createEmptyCase()),
@@ -9199,7 +9627,7 @@
                   return this.props.createEmptyCase
                     ? this.props.createEmptyCase()
                     : (function() {
-                        var e = $();
+                        var e = Z();
                         return {
                           uuid: e,
                           kase: {
@@ -9273,7 +9701,7 @@
                     function(e) {
                       var i = e.currentCases;
                       return {
-                        currentCases: gs()(i, a, n === t.state.currentCases.length - 1 ? n - 1 : n)
+                        currentCases: ks()(i, a, n === t.state.currentCases.length - 1 ? n - 1 : n)
                       };
                     },
                     function() {
@@ -9289,9 +9717,9 @@
                     'div',
                     {
                       className:
-                        Ts.a.case_list_container +
+                        Fs.a.case_list_container +
                         ' ' +
-                        (this.state.currentCases.length > 5 ? Ts.a.scrolling : ''),
+                        (this.state.currentCases.length > 5 ? Fs.a.scrolling : ''),
                       tabIndex: 0
                     },
                     k.createElement(this.sortableList, {
@@ -9308,12 +9736,12 @@
             a
           );
         })(k.Component);
-      Rs.contextTypes = { config: bt };
-      var Us,
-        Ds = a(146),
-        Ps = a.n(Ds),
-        Fs = (function(e) {
-          Object(v.a)(a, e);
+      Is.contextTypes = { config: bt };
+      var Ms,
+        Ls = a(148),
+        zs = a.n(Ls),
+        Bs = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -9322,15 +9750,15 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = [],
                   a = { value: '' };
-                if (fr(e.originalNode) === Ee.wait_for_digits) {
+                if (wr(e.originalNode) === Ee.wait_for_digits) {
                   var n = e.originalNode.node.router;
                   n &&
-                    (Ci(e.originalNode.node) && (t = wi(n.cases, e.originalNode)),
+                    (xi(e.originalNode.node) && (t = ji(n.cases, e.originalNode)),
                     (a = { value: n.result_name || '' }));
                 }
                 return { cases: t, resultName: a, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -9339,7 +9767,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -9355,7 +9783,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Ai(t.cases, !1, e.originalNode.node),
+                        var a = Pi(t.cases, !1, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           l = a.categories,
@@ -9374,7 +9802,7 @@
                           },
                           d
                         );
-                        return Ei(e.originalNode.node.uuid, p, i, Ee.wait_for_response, [], {
+                        return Oi(e.originalNode.node.uuid, p, i, Ee.wait_for_response, [], {
                           cases: u
                         });
                       })(this.props.nodeSettings, this.state)
@@ -9387,9 +9815,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -9404,22 +9832,22 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     k.createElement(
                       'p',
-                      { className: Ps.a.lead_in },
+                      { className: zs.a.lead_in },
                       'If the keypad entry before the # symbol..'
                     ),
-                    k.createElement(Rs, {
+                    k.createElement(Is, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -9436,10 +9864,10 @@
         })(k.Component);
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(Us || (Us = {}));
-      var Is,
-        Ms = (function(e) {
-          Object(v.a)(a, e);
+      })(Ms || (Ms = {}));
+      var Vs,
+        qs = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -9449,16 +9877,16 @@
                 var t = [],
                   a = { value: '' },
                   n = '@input.text';
-                if (e.originalNode && fr(e.originalNode) === Ee.split_by_expression) {
+                if (e.originalNode && wr(e.originalNode) === Ee.split_by_expression) {
                   var i = e.originalNode.node.router;
                   i &&
-                    (Ci(e.originalNode.node) && (t = wi(i.cases, e.originalNode)),
+                    (xi(e.originalNode.node) && (t = ji(i.cases, e.originalNode)),
                     (a = { value: i.result_name || '' })),
                     (n = i.operand);
                 }
                 return { cases: t, resultName: a, operand: { value: n }, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -9467,14 +9895,14 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
               {
                 key: 'handleOperandUpdated',
                 value: function(e) {
-                  this.setState({ operand: oa(Ft.t('forms.operand', 'Operand'), e, [ra]) });
+                  this.setState({ operand: ra(Pt.t('forms.operand', 'Operand'), e, [la]) });
                 }
               },
               {
@@ -9489,7 +9917,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Ai(t.cases, !1, e.originalNode.node),
+                        var a = Pi(t.cases, !1, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           o = a.defaultCategory,
@@ -9507,7 +9935,7 @@
                           },
                           c
                         );
-                        return Ei(e.originalNode.node.uuid, u, i, Ee.split_by_expression, [], {
+                        return Oi(e.originalNode.node.uuid, u, i, Ee.split_by_expression, [], {
                           cases: r
                         });
                       })(this.props.nodeSettings, this.state)
@@ -9520,9 +9948,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -9537,25 +9965,25 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     k.createElement('p', null, 'If the expression...'),
-                    k.createElement(xa, {
-                      name: Ft.t('forms.operand', 'Operand'),
+                    k.createElement(ja, {
+                      name: Pt.t('forms.operand', 'Operand'),
                       showLabel: !1,
                       autocomplete: !0,
                       onChange: this.handleOperandUpdated,
                       entry: this.state.operand
                     }),
-                    k.createElement(Rs, {
+                    k.createElement(Is, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -9570,14 +9998,14 @@
             a
           );
         })(k.Component),
-        Ls = a(103),
-        zs = a.n(Ls),
-        Bs = function() {
+        Hs = a(105),
+        Gs = a.n(Hs),
+        Ws = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null;
           return [].concat(
-            Object(ge.a)(yi(e)),
-            Object(ge.a)(
-              hr.map(function(e) {
+            Object(ve.a)(wi(e)),
+            Object(ve.a)(
+              yr.map(function(e) {
                 return { name: e.path, id: e.scheme, type: fe.Scheme };
               })
             )
@@ -9585,9 +10013,9 @@
         };
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(Is || (Is = {}));
-      var qs = (function(e) {
-        Object(v.a)(a, e);
+      })(Vs || (Vs = {}));
+      var Ks = (function(e) {
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
           var n;
@@ -9597,11 +10025,11 @@
               var a = [],
                 n = { value: '' },
                 i = null,
-                s = fr(e.originalNode);
+                s = wr(e.originalNode);
               if (e.originalNode && s === Ee.split_by_contact_field) {
                 var o = e.originalNode.node.router;
                 o &&
-                  (Ci(e.originalNode.node) && (a = wi(o.cases, e.originalNode)),
+                  (xi(e.originalNode.node) && (a = ji(o.cases, e.originalNode)),
                   (n = { value: o.result_name || '' }));
                 var r = e.originalNode.ui.config.operand;
                 if (t.fields && r.id in t.fields.items) {
@@ -9609,13 +10037,13 @@
                   i = { key: r.id, label: l, type: r.type };
                 }
                 i ||
-                  (i = Bs().find(function(e) {
+                  (i = Ws().find(function(e) {
                     return e.id === r.id;
                   }));
               }
-              return i || (i = gt), { cases: a, resultName: n, field: { value: i }, valid: !0 };
+              return i || (i = vt), { cases: a, resultName: n, field: { value: i }, valid: !0 };
             })(n.props.nodeSettings, n.props.assetStore)),
-            Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+            Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
             n
           );
         }
@@ -9624,7 +10052,7 @@
             {
               key: 'handleUpdateResultName',
               value: function(e) {
-                var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                 this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
               }
             },
@@ -9646,7 +10074,7 @@
                 this.state.valid &&
                   (this.props.updateRouter(
                     (function(e, t) {
-                      var a = Ai(t.cases, !1, e.originalNode.node),
+                      var a = Pi(t.cases, !1, e.originalNode.node),
                         n = a.cases,
                         i = a.exits,
                         o = a.defaultCategory,
@@ -9674,7 +10102,7 @@
                         },
                         c
                       );
-                      return Ei(e.originalNode.node.uuid, h, i, Ee.split_by_contact_field, [], {
+                      return Oi(e.originalNode.node.uuid, h, i, Ee.split_by_contact_field, [], {
                         operand: p,
                         cases: r
                       });
@@ -9688,9 +10116,9 @@
               value: function() {
                 var e = this;
                 return {
-                  primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                  primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                   secondary: {
-                    name: Ft.t('buttons.cancel', 'Cancel'),
+                    name: Pt.t('buttons.cancel', 'Cancel'),
                     onClick: function() {
                       return e.props.onClose(!0);
                     }
@@ -9705,38 +10133,38 @@
                 return k.createElement(
                   me,
                   { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                  k.createElement(Yt, {
+                  k.createElement(Xt, {
                     __className: '',
                     initialType: e,
                     onChange: this.props.onTypeChange
                   }),
                   k.createElement(
                     'div',
-                    { className: zs.a.lead_in },
+                    { className: Gs.a.lead_in },
                     "If the contact's",
                     k.createElement(
                       'div',
-                      { className: ''.concat(zs.a.field_select, ' select-small') },
-                      k.createElement(Bt, {
-                        name: Ft.t('forms.contact_field', 'Contact Field'),
-                        style: Pt.small,
+                      { className: ''.concat(Gs.a.field_select, ' select-small') },
+                      k.createElement(Vt, {
+                        name: Pt.t('forms.contact_field', 'Contact Field'),
+                        style: Ft.small,
                         assets: this.props.assetStore.fields,
-                        additionalOptions: Bs(this.context.config.flowType),
+                        additionalOptions: Ws(this.context.config.flowType),
                         valueKey: 'id',
-                        getName: wr,
+                        getName: Tr,
                         entry: this.state.field,
                         searchable: !0,
-                        sortFunction: Er,
+                        sortFunction: xr,
                         onChange: this.handleFieldChanged
                       })
                     )
                   ),
-                  k.createElement(Rs, {
+                  k.createElement(Is, {
                     'data-spec': 'cases',
                     cases: this.state.cases,
                     onCasesUpdated: this.handleCasesUpdated
                   }),
-                  rs(this.state.resultName, this.handleUpdateResultName),
+                  ps(this.state.resultName, this.handleUpdateResultName),
                   ot(this.props)
                 );
               }
@@ -9751,11 +10179,11 @@
           a
         );
       })(k.Component);
-      qs.contextTypes = { assetService: bt, config: bt };
-      var Vs,
-        Hs = function(e) {
+      Ks.contextTypes = { assetService: bt, config: bt };
+      var Ys,
+        Xs = function(e) {
           var t = [],
-            a = xi(e);
+            a = Ui(e);
           return (
             a &&
               (t = a.cases.map(function(e) {
@@ -9769,21 +10197,21 @@
             t
           );
         },
-        Gs = function() {
+        Qs = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
           return e.map(function(e) {
             var t = e.name,
               a = e.uuid;
             return {
               uuid: a,
-              kase: { uuid: $(), type: Ce.has_group, arguments: [a, t], category_uuid: '' },
+              kase: { uuid: Z(), type: Ce.has_group, arguments: [a, t], category_uuid: '' },
               categoryName: t,
               valid: !0
             };
           });
         },
-        Ws = (function(e) {
-          Object(v.a)(a, e);
+        Js = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -9792,14 +10220,14 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = { groups: { value: [] }, resultName: { value: '' }, valid: !1 };
                 return (
-                  fr(e.originalNode) === Ee.split_by_groups &&
-                    ((t.groups.value = Hs(e.originalNode.node)),
+                  wr(e.originalNode) === Ee.split_by_groups &&
+                    ((t.groups.value = Xs(e.originalNode.node)),
                     (t.resultName = { value: e.originalNode.node.router.result_name || '' }),
                     (t.valid = !0)),
                   t
                 );
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -9822,7 +10250,7 @@
                 value: function(e) {
                   var t = {};
                   e.hasOwnProperty('groups') &&
-                    (t.groups = oa(Ft.t('forms.groups', 'Groups'), e.groups, [ra])),
+                    (t.groups = ra(Pt.t('forms.groups', 'Groups'), e.groups, [la])),
                     e.hasOwnProperty('resultName') && (t.resultName = { value: e.resultName });
                   var a = Zt(this.state, t);
                   return this.setState(a), a.valid;
@@ -9834,8 +10262,8 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Gs(t.groups.value),
-                          n = Ai(a, !1, e.originalNode.node),
+                        var a = Qs(t.groups.value),
+                          n = Pi(a, !1, e.originalNode.node),
                           i = n.cases,
                           o = n.exits,
                           r = n.defaultCategory,
@@ -9849,7 +10277,7 @@
                             operand: '@contact.groups',
                             result_name: t.resultName.value
                           };
-                        return Ei(e.originalNode.node.uuid, u, o, Ee.split_by_groups, [], {
+                        return Oi(e.originalNode.node.uuid, u, o, Ee.split_by_groups, [], {
                           cases: l
                         });
                       })(this.props.nodeSettings, this.state)
@@ -9862,9 +10290,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -9879,21 +10307,21 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement('p', null, ki),
-                    k.createElement(Bt, {
-                      name: Ft.t('forms.groups', 'Groups'),
+                    k.createElement('p', null, Ni),
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.groups', 'Groups'),
                       assets: this.props.assetStore.groups,
                       entry: this.state.groups,
                       searchable: !0,
                       onChange: this.handleGroupsChanged,
                       multi: !0
                     }),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -9902,16 +10330,16 @@
             a
           );
         })(k.Component);
-      (Ws.contextTypes = { endpoints: bt, assetService: bt }),
+      (Js.contextTypes = { endpoints: bt, assetService: bt }),
         (function(e) {
           (e[(e.Category = 0)] = 'Category'), (e[(e.Case = 1)] = 'Case');
-        })(Vs || (Vs = {}));
-      var Ks = function(e, t) {
+        })(Ys || (Ys = {}));
+      var $s = function(e, t) {
           var a = [],
             n = e.originalNode.node.router.categories;
-          t === Vs.Case &&
+          t === Ys.Case &&
             (n = (function(e) {
-              var t = fr(e);
+              var t = wr(e);
               return t === Ee.wait_for_response || t === Ee.split_by_expression;
             })(e.originalNode)
               ? e.originalNode.node.router.cases
@@ -9935,19 +10363,19 @@
           }
           return a;
         },
-        Ys = a(59),
-        Xs = a.n(Ys),
-        Qs = (function(e) {
-          Object(v.a)(a, e);
+        Zs = a(61),
+        eo = a.n(Zs),
+        to = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             Object(m.a)(this, a), (n = t.call(this, e));
-            var i = Ks(e.nodeSettings, Vs.Category),
-              s = Ks(e.nodeSettings, Vs.Case);
+            var i = $s(e.nodeSettings, Ys.Category),
+              s = $s(e.nodeSettings, Ys.Case);
             return (
               (n.state = { categories: i, cases: s, valid: !0 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -9985,7 +10413,7 @@
                   });
                   e.push.apply(
                     e,
-                    Object(ge.a)(
+                    Object(ve.a)(
                       this.state.cases.map(function(e) {
                         return e.arguments
                           ? { uuid: e.uuid, translations: { arguments: e.arguments } }
@@ -10002,9 +10430,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -10025,32 +10453,32 @@
                         a.originalNode.node.router.cases.find(function(e) {
                           return e.uuid === n;
                         })),
-                      s = bs(i.type).verboseName,
+                      s = Ss(i.type).verboseName,
                       o = Object(w.a)(i.arguments, 1)[0],
                       r = '';
                     t.arguments && t.arguments.length > 0 && (r = t.arguments[0]);
-                    var l = Ft.t('forms.translation', 'Translation');
+                    var l = Pt.t('forms.translation', 'Translation');
                     return k.createElement(
                       'div',
                       {
                         key: 'translate_'.concat(t.uuid),
                         'data-spec': 'operator-field',
-                        className: Xs.a.translating_operator_container
+                        className: eo.a.translating_operator_container
                       },
                       k.createElement(
                         'div',
-                        { 'data-spec': 'verbose-name', className: Xs.a.translating_operator },
+                        { 'data-spec': 'verbose-name', className: eo.a.translating_operator },
                         s
                       ),
                       k.createElement(
                         'div',
-                        { 'data-spec': 'argument-to-translate', className: Xs.a.translating_from },
+                        { 'data-spec': 'argument-to-translate', className: eo.a.translating_from },
                         o
                       ),
                       k.createElement(
                         'div',
-                        { className: Xs.a.translating_to },
-                        k.createElement(xa, {
+                        { className: eo.a.translating_to },
+                        k.createElement(ja, {
                           'data-spec': 'localize-case',
                           name: t.uuid,
                           placeholder: ''.concat(e.props.language.name, ' ').concat(l),
@@ -10083,16 +10511,16 @@
                       t.name || (t.name = ''),
                       k.createElement(
                         'div',
-                        { key: t.uuid, className: Xs.a.translating_category },
+                        { key: t.uuid, className: eo.a.translating_category },
                         k.createElement(
                           'div',
-                          { 'data-spec': 'category-name', className: Xs.a.translating_from },
+                          { 'data-spec': 'category-name', className: eo.a.translating_from },
                           i.name
                         ),
                         k.createElement(
                           'div',
-                          { className: Xs.a.translating_to },
-                          k.createElement(xa, {
+                          { className: eo.a.translating_to },
+                          k.createElement(ja, {
                             'data-spec': 'localize-category',
                             name: t.name,
                             placeholder: s,
@@ -10111,7 +10539,7 @@
               {
                 key: 'render',
                 value: function() {
-                  var e = Ja(this.props.nodeSettings),
+                  var e = $a(this.props.nodeSettings),
                     t = [];
                   return (
                     this.state.cases.length > 0 &&
@@ -10151,7 +10579,7 @@
             a
           );
         })(k.Component),
-        Js = function() {
+        ao = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [],
             t = arguments.length > 1 ? arguments[1] : void 0;
           return e
@@ -10159,18 +10587,18 @@
               var n = 9 === a ? 0 : a + 1,
                 i = t.find(function(e) {
                   return e.arguments[0] === '' + n;
-                }) || { uuid: $(), arguments: ['' + n], type: Ce.has_number_eq, category_uuid: '' };
+                }) || { uuid: Z(), arguments: ['' + n], type: Ce.has_number_eq, category_uuid: '' };
               return { uuid: i.uuid, kase: i, categoryName: e, valid: !0 };
             })
             .filter(function(e) {
               return e.categoryName.trim().length > 0;
             });
         },
-        Zs = a(77),
-        $s = a.n(Zs),
-        eo = a(14),
-        to = (function(e) {
-          Object(v.a)(a, e);
+        no = a(78),
+        io = a.n(no),
+        so = a(13),
+        oo = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -10178,7 +10606,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = (function(e) {
                 for (var t = { value: '' }, a = [], n = 0; n < 10; n++) a.push('');
-                if (fr(e.originalNode) === Ee.wait_for_menu) {
+                if (wr(e.originalNode) === Ee.wait_for_menu) {
                   var i,
                     s = e.originalNode.node.router,
                     o = Object(C.a)(s.cases);
@@ -10201,7 +10629,7 @@
                 }
                 return { resultName: t, menu: a, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -10210,7 +10638,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -10222,10 +10650,10 @@
                       var a = {};
                       t.resultName.value && (a.result_name = t.resultName.value);
                       var n = [];
-                      fr(e.originalNode) === Ee.wait_for_menu &&
+                      wr(e.originalNode) === Ee.wait_for_menu &&
                         (n = e.originalNode.node.router.cases);
-                      var i = Js(t.menu, n),
-                        l = Ai(i, !1, e.originalNode.node),
+                      var i = ao(t.menu, n),
+                        l = Pi(i, !1, e.originalNode.node),
                         c = l.cases,
                         u = l.exits,
                         d = l.defaultCategory,
@@ -10242,7 +10670,7 @@
                           },
                           a
                         );
-                      return Ei(e.originalNode.node.uuid, m, u, Ee.wait_for_response, [], {
+                      return Oi(e.originalNode.node.uuid, m, u, Ee.wait_for_response, [], {
                         cases: p
                       });
                     })(this.props.nodeSettings, this.state)
@@ -10255,9 +10683,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -10268,7 +10696,7 @@
               {
                 key: 'handleMenuChanged',
                 value: function(e, t) {
-                  var a = eo(this.state.menu, Object(S.a)({}, e, { $set: t }));
+                  var a = so(this.state.menu, Object(S.a)({}, e, { $set: t }));
                   this.setState({ menu: a });
                 }
               },
@@ -10278,12 +10706,12 @@
                   var t = this;
                   return k.createElement(
                     'div',
-                    { key: 'menuoption-' + e, className: $s.a.menu_option },
-                    k.createElement('div', { className: $s.a.digit }, 9 === e ? 0 : e + 1),
+                    { key: 'menuoption-' + e, className: io.a.menu_option },
+                    k.createElement('div', { className: io.a.digit }, 9 === e ? 0 : e + 1),
                     k.createElement(
                       'div',
-                      { className: $s.a.category },
-                      k.createElement(xa, {
+                      { className: io.a.category },
+                      k.createElement(ja, {
                         name: 'Menu ' + e,
                         entry: { value: this.state.menu[e] },
                         onChange: function(a) {
@@ -10308,13 +10736,13 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement('div', { className: $s.a.menu }, this.renderMenu()),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    k.createElement('div', { className: io.a.menu }, this.renderMenu()),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -10329,31 +10757,31 @@
             a
           );
         })(k.Component);
-      to.contextTypes = { assetService: bt };
-      var ao,
-        no = ee(2, 11).map(function(e) {
+      oo.contextTypes = { assetService: bt };
+      var ro,
+        lo = ee(2, 11).map(function(e) {
           return { value: e + '', name: e + ' buckets' };
         }),
-        io = function(e) {
-          var t = no.find(function(t) {
+        co = function(e) {
+          var t = lo.find(function(t) {
             return t.value === e + '';
           });
           return t || (t = { name: ''.concat(e, ' Buckets'), value: e + '' }), t;
         },
-        so = function(e, t) {
+        uo = function(e, t) {
           return e.concat(
             ee(e.length, t).map(function(e) {
-              return { uuid: $(), name: 'Bucket '.concat(e + 1), exit_uuid: null };
+              return { uuid: Z(), name: 'Bucket '.concat(e + 1), exit_uuid: null };
             })
           );
         },
-        oo = a(67),
-        ro = a.n(oo);
+        po = a(69),
+        ho = a.n(po);
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(ao || (ao = {}));
-      var lo = (function(e) {
-        Object(v.a)(a, e);
+      })(ro || (ro = {}));
+      var mo = (function(e) {
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
           var n;
@@ -10364,18 +10792,18 @@
                 a = 2,
                 n = [];
               e.originalNode &&
-                fr(e.originalNode) === Ee.split_by_random &&
+                wr(e.originalNode) === Ee.split_by_random &&
                 ((t = { value: e.originalNode.node.router.result_name || '' }),
                 (a = e.originalNode.node.exits.length),
                 (n = e.originalNode.node.router.categories));
               return {
-                categories: (n = so(n, a)),
+                categories: (n = uo(n, a)),
                 resultName: t,
-                bucketChoice: { value: io(a) },
+                bucketChoice: { value: co(a) },
                 valid: !0
               };
             })(n.props.nodeSettings)),
-            Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+            Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
             n
           );
         }
@@ -10384,7 +10812,7 @@
             {
               key: 'handleUpdateResultName',
               value: function(e) {
-                var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                 this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
               }
             },
@@ -10393,7 +10821,7 @@
               value: function(e) {
                 var t = parseInt(e.value, 10),
                   a = this.state.categories.concat([]);
-                (a = a.slice(0, t)), (a = so(a, t));
+                (a = a.slice(0, t)), (a = uo(a, t));
                 var n = { bucketChoice: { value: e } },
                   i = Zt(this.state, n);
                 return (
@@ -10409,18 +10837,18 @@
                     var a = {};
                     t.resultName.value && (a.result_name = t.resultName.value);
                     var n =
-                        fr(e.originalNode) === Ee.split_by_random ? e.originalNode.node.exits : [],
+                        wr(e.originalNode) === Ee.split_by_random ? e.originalNode.node.exits : [],
                       i = parseInt(t.bucketChoice.value.value, 10);
                     n.splice(i, n.length - i),
                       t.categories.forEach(function(e, t) {
                         if (t < n.length) e.exit_uuid = n[t].uuid;
                         else {
-                          var a = { uuid: $(), destination_uuid: null };
+                          var a = { uuid: Z(), destination_uuid: null };
                           (e.exit_uuid = a.uuid), n.push(a);
                         }
                       });
                     var o = Object(y.a)({ type: s.random, categories: t.categories }, a);
-                    return Ei(e.originalNode.node.uuid, o, n, Ee.split_by_random, [], null);
+                    return Oi(e.originalNode.node.uuid, o, n, Ee.split_by_random, [], null);
                   })(this.props.nodeSettings, this.state)
                 ),
                   this.props.onClose(!1);
@@ -10431,9 +10859,9 @@
               value: function() {
                 var e = this;
                 return {
-                  primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                  primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                   secondary: {
-                    name: Ft.t('buttons.cancel', 'Cancel'),
+                    name: Pt.t('buttons.cancel', 'Cancel'),
                     onClick: function() {
                       return e.props.onClose(!0);
                     }
@@ -10456,9 +10884,9 @@
               value: function() {
                 var e = this;
                 return this.state.categories.map(function(t) {
-                  return k.createElement(xa, {
+                  return k.createElement(ja, {
                     key: t.uuid,
-                    __className: ro.a.bucket_name,
+                    __className: ho.a.bucket_name,
                     name: t.uuid,
                     entry: { value: t.name },
                     onChange: function(a) {
@@ -10472,33 +10900,33 @@
               key: 'renderEdit',
               value: function() {
                 var e = this.props.typeConfig,
-                  t = no.concat([]);
+                  t = lo.concat([]);
                 return (
-                  -1 === no.indexOf(this.state.bucketChoice.value) &&
+                  -1 === lo.indexOf(this.state.bucketChoice.value) &&
                     t.push(this.state.bucketChoice.value),
                   k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     k.createElement(
                       'div',
-                      { className: ro.a.options },
+                      { className: ho.a.options },
                       k.createElement(
                         'div',
-                        { className: ro.a.lead_in },
+                        { className: ho.a.lead_in },
                         'Split them randomly into one of'
                       ),
                       k.createElement(
                         'div',
-                        { className: ro.a.bucket_select },
-                        k.createElement(Sa, {
+                        { className: ho.a.bucket_select },
+                        k.createElement(Na, {
                           key: 'buckets_select',
-                          style: Pt.small,
-                          name: Ft.t('forms.buckets', 'Buckets'),
+                          style: Ft.small,
+                          name: Pt.t('forms.buckets', 'Buckets'),
                           entry: this.state.bucketChoice,
                           onChange: this.handleBucketsChanged,
                           options: t
@@ -10507,10 +10935,10 @@
                     ),
                     k.createElement(
                       'div',
-                      { className: ro.a.bucket_list },
+                      { className: ho.a.bucket_list },
                       this.renderBucketNames()
                     ),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   )
                 );
@@ -10526,39 +10954,39 @@
           a
         );
       })(k.Component);
-      lo.contextTypes = { assetService: bt };
-      var co,
-        uo = a(78),
-        po = a.n(uo),
-        ho = [
-          { value: '60', name: Ft.t('forms.timeout_1 minute', '1 minute') },
-          { value: '120', name: Ft.t('forms.timeout_2 minutes', '2 minutes') },
-          { value: '180', name: Ft.t('forms.timeout_3 minutes', '3 minutes') },
-          { value: '240', name: Ft.t('forms.timeout_4 minutes', '4 minutes') },
-          { value: '300', name: Ft.t('forms.timeout_5 minutes', '5 minutes') },
-          { value: '600', name: Ft.t('forms.timeout_10 minutes', '10 minutes') },
-          { value: '900', name: Ft.t('forms.timeout_15 minutes', '15 minutes') },
-          { value: '3600', name: Ft.t('forms.timeout_1 hour', '1 hour') },
-          { value: '7200', name: Ft.t('forms.timeout_2 hours', '2 hours') },
-          { value: '10800', name: Ft.t('forms.timeout_3 hours', '3 hours') },
-          { value: '21600', name: Ft.t('forms.timeout_6 hours', '6 hours') },
-          { value: '43200', name: Ft.t('forms.timeout_12 hours', '12 hours') },
-          { value: '64800', name: Ft.t('forms.timeout_18 hours', '18 hours') },
-          { value: '86400', name: Ft.t('forms.timeout_1 day', '1 day') },
-          { value: '172800', name: Ft.t('forms.timeout_2 days', '2 days') },
-          { value: '259200', name: Ft.t('forms.timeout_3 days', '3 days') },
-          { value: '604800', name: Ft.t('forms.timeout_1 week', '1 week') }
+      mo.contextTypes = { assetService: bt };
+      var _o,
+        vo = a(79),
+        go = a.n(vo),
+        fo = [
+          { value: '60', name: Pt.t('forms.timeout_1 minute', '1 minute') },
+          { value: '120', name: Pt.t('forms.timeout_2 minutes', '2 minutes') },
+          { value: '180', name: Pt.t('forms.timeout_3 minutes', '3 minutes') },
+          { value: '240', name: Pt.t('forms.timeout_4 minutes', '4 minutes') },
+          { value: '300', name: Pt.t('forms.timeout_5 minutes', '5 minutes') },
+          { value: '600', name: Pt.t('forms.timeout_10 minutes', '10 minutes') },
+          { value: '900', name: Pt.t('forms.timeout_15 minutes', '15 minutes') },
+          { value: '3600', name: Pt.t('forms.timeout_1 hour', '1 hour') },
+          { value: '7200', name: Pt.t('forms.timeout_2 hours', '2 hours') },
+          { value: '10800', name: Pt.t('forms.timeout_3 hours', '3 hours') },
+          { value: '21600', name: Pt.t('forms.timeout_6 hours', '6 hours') },
+          { value: '43200', name: Pt.t('forms.timeout_12 hours', '12 hours') },
+          { value: '64800', name: Pt.t('forms.timeout_18 hours', '18 hours') },
+          { value: '86400', name: Pt.t('forms.timeout_1 day', '1 day') },
+          { value: '172800', name: Pt.t('forms.timeout_2 days', '2 days') },
+          { value: '259200', name: Pt.t('forms.timeout_3 days', '3 days') },
+          { value: '604800', name: Pt.t('forms.timeout_1 week', '1 week') }
         ],
-        mo = ho[4],
-        _o = (function(e) {
-          Object(v.a)(a, e);
+        yo = fo[4],
+        bo = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -10568,12 +10996,12 @@
                 key: 'getSelected',
                 value: function(e) {
                   var t,
-                    a = Object(C.a)(ho.entries());
+                    a = Object(C.a)(fo.entries());
                   try {
                     for (a.s(); !(t = a.n()).done; ) {
                       var n = Object(w.a)(t.value, 2),
                         i = n[0];
-                      if (n[1].value === '' + e) return ho[i];
+                      if (n[1].value === '' + e) return fo[i];
                     }
                   } catch (s) {
                     a.e(s);
@@ -10601,7 +11029,7 @@
                 value: function() {
                   this.props.timeout > 0
                     ? this.props.onChanged(0)
-                    : this.props.onChanged(parseInt(mo.value));
+                    : this.props.onChanged(parseInt(yo.value));
                 }
               },
               {
@@ -10615,27 +11043,27 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: po.a.timeout_control_container },
+                    { className: go.a.timeout_control_container },
                     k.createElement(
                       'div',
-                      { className: po.a.left_section },
+                      { className: go.a.left_section },
                       k.createElement(qa, {
-                        name: Ft.t('forms.timeout', 'Timeout'),
+                        name: Pt.t('forms.timeout', 'Timeout'),
                         checked: this.isChecked(),
                         description: this.getInstructions(),
-                        checkboxClassName: po.a.checkbox,
+                        checkboxClassName: go.a.checkbox,
                         onChange: this.handleChecked
                       })
                     ),
                     W(this.isChecked())(
                       k.createElement(
                         'div',
-                        { className: po.a.drop_down },
+                        { className: go.a.drop_down },
                         k.createElement(Lt, {
-                          name: Ft.t('forms.timeout', 'Timeout'),
-                          style: Pt.small,
+                          name: Pt.t('forms.timeout', 'Timeout'),
+                          style: Ft.small,
                           value: this.getSelected(this.props.timeout),
-                          options: ho,
+                          options: fo,
                           onChange: this.handleTimeoutChanged
                         })
                       )
@@ -10649,9 +11077,9 @@
         })(k.Component);
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(co || (co = {}));
-      var go = (function(e) {
-          Object(v.a)(a, e);
+      })(_o || (_o = {}));
+      var ko = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -10661,10 +11089,10 @@
                 var t = [],
                   a = { value: 'Result' },
                   n = 0;
-                if (e.originalNode && fr(e.originalNode) === Ee.wait_for_response) {
+                if (e.originalNode && wr(e.originalNode) === Ee.wait_for_response) {
                   var i = e.originalNode.node.router;
                   i &&
-                    (Ci(e.originalNode.node) && (t = wi(i.cases, e.originalNode)),
+                    (xi(e.originalNode.node) && (t = ji(i.cases, e.originalNode)),
                     (a = { value: i.result_name || '' })),
                     e.originalNode.node.router.wait &&
                       e.originalNode.node.router.wait.timeout &&
@@ -10672,7 +11100,7 @@
                 }
                 return { cases: t, resultName: a, timeout: n, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -10681,7 +11109,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -10706,7 +11134,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Ai(t.cases, t.timeout > 0, e.originalNode.node),
+                        var a = Pi(t.cases, t.timeout > 0, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           r = a.defaultCategory,
@@ -10728,7 +11156,7 @@
                           },
                           d
                         );
-                        return Ei(e.originalNode.node.uuid, h, i, Ee.wait_for_response, [], {
+                        return Oi(e.originalNode.node.uuid, h, i, Ee.wait_for_response, [], {
                           cases: c
                         });
                       })(this.props.nodeSettings, this.state)
@@ -10741,9 +11169,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -10761,23 +11189,23 @@
                       title: e.name,
                       headerClass: e.type,
                       buttons: this.getButtons(),
-                      gutter: k.createElement(_o, {
+                      gutter: k.createElement(bo, {
                         timeout: this.state.timeout,
                         onChanged: this.handleUpdateTimeout
                       })
                     },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement('div', null, bi),
-                    k.createElement(Rs, {
+                    k.createElement('div', null, Si),
+                    k.createElement(Is, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -10792,16 +11220,16 @@
             a
           );
         })(k.Component),
-        vo = function(e) {
+        Eo = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.call_resthook) return t;
         },
-        fo = a(147),
-        yo = a.n(fo),
-        bo = (function(e) {
-          Object(v.a)(a, e);
+        Co = a(149),
+        wo = a.n(Co),
+        So = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -10812,7 +11240,7 @@
                 var t = { value: null },
                   a = { value: 'Result' },
                   n = !1,
-                  i = vo(e);
+                  i = Eo(e);
                 i &&
                   i.type === Ee.call_resthook &&
                   ((t = { value: { resthook: i.resthook } }),
@@ -10820,7 +11248,7 @@
                   (n = !0));
                 return { resthook: t, resultName: a, valid: n };
               })(e.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -10840,7 +11268,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ra, ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -10848,7 +11276,7 @@
                 key: 'handleResthookChanged',
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
-                    a = { resthook: oa(Ft.t('forms.resthook', 'Resthook'), e[0], [ca(t)]) },
+                    a = { resthook: ra(Pt.t('forms.resthook', 'Resthook'), e[0], [ua(t)]) },
                     n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -10859,8 +11287,8 @@
                   this.handleResthookChanged([this.state.resthook.value], !0) &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = $(),
-                          n = vo(e);
+                        var a = Z(),
+                          n = Eo(e);
                         n && (a = n.uuid);
                         var i = {
                           uuid: a,
@@ -10868,7 +11296,7 @@
                           type: Ee.call_resthook,
                           result_name: t.resultName.value
                         };
-                        return Ri(i, e.originalNode, !1);
+                        return Ii(i, e.originalNode, !1);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -10896,14 +11324,14 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement(Bt, {
-                      name: Ft.t('forms.resthook', 'Resthook'),
-                      placeholder: Ft.t('forms.resthook_to_call', 'Select the resthook to call'),
+                    k.createElement(Vt, {
+                      name: Pt.t('forms.resthook', 'Resthook'),
+                      placeholder: Pt.t('forms.resthook_to_call', 'Select the resthook to call'),
                       assets: this.props.assetStore.resthooks,
                       entry: this.state.resthook,
                       searchable: !0,
@@ -10913,8 +11341,8 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: yo.a.result_name },
-                      rs(this.state.resultName, this.handleUpdateResultName)
+                      { className: wo.a.result_name },
+                      ps(this.state.resultName, this.handleUpdateResultName)
                     ),
                     ot(this.props)
                   );
@@ -10924,7 +11352,7 @@
             a
           );
         })(k.PureComponent),
-        ko = [
+        No = [
           { value: '0', name: 'first' },
           { value: '1', name: 'second' },
           { value: '2', name: 'third' },
@@ -10946,20 +11374,20 @@
           { value: '18', name: '19th' },
           { value: '19', name: '20th' }
         ],
-        Eo = [
+        Oo = [
           { value: ' ', name: 'spaces' },
           { value: '.', name: 'periods' },
           { value: '+', name: 'plusses' }
         ],
-        Co = function(e) {
-          return Eo.find(function(t) {
+        xo = function(e) {
+          return Oo.find(function(t) {
             return t.value === e;
           });
         },
-        wo = a(44),
-        So = a.n(wo),
-        No = (function(e) {
-          Object(v.a)(a, e);
+        jo = a(44),
+        To = a.n(jo),
+        Ao = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -10973,14 +11401,14 @@
                   s = 1,
                   o = ' ',
                   r = !1,
-                  l = fr(e.originalNode);
+                  l = wr(e.originalNode);
                 if (
                   (e.originalNode && l === Ee.split_by_run_result) ||
                   l === Ee.split_by_run_result_delimited
                 ) {
                   var c = e.originalNode.node.router;
                   c &&
-                    (Ci(e.originalNode.node) && (a = wi(c.cases, e.originalNode)),
+                    (xi(e.originalNode.node) && (a = ji(c.cases, e.originalNode)),
                     (n = { value: c.result_name || '' }));
                   var u = e.originalNode.ui.config;
                   u &&
@@ -10999,7 +11427,7 @@
                   valid: !0
                 };
               })(n.props.nodeSettings, n.props.assetStore)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11017,7 +11445,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -11026,8 +11454,8 @@
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {
-                      result: oa(Ft.t('forms.result_to_split_on', 'Result to split on'), e[0], [
-                        ca(t)
+                      result: ra(Pt.t('forms.result_to_split_on', 'Result to split on'), e[0], [
+                        ua(t)
                       ])
                     },
                     n = Zt(this.state, a);
@@ -11046,7 +11474,7 @@
                   this.handleResultChanged([this.state.result.value], !0) &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Ai(t.cases, !1, e.originalNode.node),
+                        var a = Pi(t.cases, !1, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           o = a.defaultCategory,
@@ -11076,7 +11504,7 @@
                           },
                           c
                         );
-                        return Ei(e.originalNode.node.uuid, m, i, u, [], h);
+                        return Oi(e.originalNode.node.uuid, m, i, u, [], h);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -11087,9 +11515,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -11120,15 +11548,15 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: So.a.non_delimited },
-                    k.createElement('div', { className: So.a.lead_in }, 'If the flow result'),
+                    { className: To.a.non_delimited },
+                    k.createElement('div', { className: To.a.lead_in }, 'If the flow result'),
                     k.createElement(
                       'div',
-                      { className: So.a.result_select },
-                      k.createElement(Bt, {
+                      { className: To.a.result_select },
+                      k.createElement(Vt, {
                         entry: this.state.result,
-                        style: Pt.small,
-                        name: Ft.t('forms.flow_result', 'Flow Result'),
+                        style: Ft.small,
+                        name: Pt.t('forms.flow_result', 'Flow Result'),
                         placeholder: 'Select Result',
                         searchable: !1,
                         assets: this.props.assetStore.results,
@@ -11144,52 +11572,52 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: So.a.delimited },
-                    k.createElement('div', { className: So.a.lead_in }, 'If the'),
+                    { className: To.a.delimited },
+                    k.createElement('div', { className: To.a.lead_in }, 'If the'),
                     k.createElement(
                       'div',
-                      { className: So.a.field_number },
-                      k.createElement(Sa, {
+                      { className: To.a.field_number },
+                      k.createElement(Na, {
                         key: 'field_number_select',
-                        style: Pt.small,
-                        name: Ft.t('forms.field_number', 'Field Number'),
+                        style: Ft.small,
+                        name: Pt.t('forms.field_number', 'Field Number'),
                         entry: {
                           value:
                             ((e = this.state.fieldNumber),
-                            ko.find(function(t) {
+                            No.find(function(t) {
                               return t.value === '' + e;
                             }))
                         },
                         onChange: this.handleFieldNumberChanged,
-                        options: ko
+                        options: No
                       })
                     ),
-                    k.createElement('div', { className: So.a.lead_in_sub }, 'field of'),
+                    k.createElement('div', { className: To.a.lead_in_sub }, 'field of'),
                     k.createElement(
                       'div',
-                      { className: So.a.result_select_delimited },
-                      k.createElement(Bt, {
+                      { className: To.a.result_select_delimited },
+                      k.createElement(Vt, {
                         entry: this.state.result,
-                        style: Pt.small,
-                        name: Ft.t('forms.flow_result', 'Flow Result'),
-                        placeholder: Ft.t('forms.select_result', 'Select Result'),
+                        style: Ft.small,
+                        name: Pt.t('forms.flow_result', 'Flow Result'),
+                        placeholder: Pt.t('forms.select_result', 'Select Result'),
                         searchable: !1,
                         assets: this.props.assetStore.results,
                         onChange: this.handleResultChanged,
                         additionalOptions: this.options
                       })
                     ),
-                    k.createElement('div', { className: So.a.lead_in_sub }, 'delimited by'),
+                    k.createElement('div', { className: To.a.lead_in_sub }, 'delimited by'),
                     k.createElement(
                       'div',
-                      { className: So.a.delimiter },
-                      k.createElement(Sa, {
+                      { className: To.a.delimiter },
+                      k.createElement(Na, {
                         key: 'delimiter_select',
-                        style: Pt.small,
-                        name: Ft.t('forms.delimiter', 'Delimiter'),
-                        entry: { value: Co(this.state.delimiter) },
+                        style: Ft.small,
+                        name: Pt.t('forms.delimiter', 'Delimiter'),
+                        entry: { value: xo(this.state.delimiter) },
                         onChange: this.handleDelimiterChanged,
-                        options: Eo
+                        options: Oo
                       })
                     )
                   );
@@ -11204,12 +11632,12 @@
                       name: 'Advanced',
                       body: k.createElement(
                         'div',
-                        { className: So.a.should_delimit },
+                        { className: To.a.should_delimit },
                         k.createElement(qa, {
-                          name: Ft.t('forms.delimit', 'Delimit'),
-                          title: Ft.t('forms.delimit_result', 'Delimit Result'),
+                          name: Pt.t('forms.delimit', 'Delimit'),
+                          title: Pt.t('forms.delimit_result', 'Delimit Result'),
                           checked: this.state.shouldDelimit,
-                          description: Ft.t(
+                          description: Pt.t(
                             'forms.delimit_result_description',
                             'Evaluate your rules against a delimited part of your result'
                           ),
@@ -11221,18 +11649,18 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons(), tabs: [t] },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     this.state.shouldDelimit ? this.renderFieldDelimited() : this.renderField(),
-                    k.createElement(Rs, {
+                    k.createElement(Is, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -11241,10 +11669,10 @@
             a
           );
         })(k.Component),
-        Oo = a(68),
-        xo = a.n(Oo),
-        jo = (function(e) {
-          Object(v.a)(a, e);
+        Ro = a(70),
+        Uo = a.n(Ro),
+        Do = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11253,7 +11681,7 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = {};
                 if (
-                  fr(e.originalNode) === Ee.split_by_subflow ||
+                  wr(e.originalNode) === Ee.split_by_subflow ||
                   (e.originalAction && e.originalAction.type === Ee.enter_flow)
                 ) {
                   var a = e.originalAction;
@@ -11273,7 +11701,7 @@
                 }
                 return { flow: { value: null }, params: {}, valid: !1 };
               })(e.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11297,7 +11725,7 @@
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = e[0],
-                    n = { flow: oa(Ft.t('forms.flow', 'Flow'), a, [ca(t)]) },
+                    n = { flow: ra(Pt.t('forms.flow', 'Flow'), a, [ua(t)]) },
                     i = {};
                   if (a && a.parent_refs) {
                     var s,
@@ -11341,32 +11769,32 @@
                                 e.originalAction ||
                                 (e.originalNode.node.actions.length > 0 &&
                                   e.originalNode.node.actions[0])
-                              ).uuid || $(),
+                              ).uuid || Z(),
                             type: Ee.enter_flow,
                             flow: { uuid: t.flow.value.uuid, name: t.flow.value.name }
                           };
-                        if (fr(e.originalNode) === Ee.split_by_subflow) {
+                        if (wr(e.originalNode) === Ee.split_by_subflow) {
                           a = e.originalNode.node.exits;
                           var r = e.originalNode.node.router;
                           (n = r.cases), (i = r.categories);
                         } else
                           (a = [
-                            { uuid: $(), destination_uuid: null },
-                            { uuid: $(), destination_uuid: null }
+                            { uuid: Z(), destination_uuid: null },
+                            { uuid: Z(), destination_uuid: null }
                           ]),
                             (i = [
-                              { uuid: $(), name: d.Complete, exit_uuid: a[0].uuid },
-                              { uuid: $(), name: d.Expired, exit_uuid: a[1].uuid }
+                              { uuid: Z(), name: d.Complete, exit_uuid: a[0].uuid },
+                              { uuid: Z(), name: d.Expired, exit_uuid: a[1].uuid }
                             ]),
                             (n = [
                               {
-                                uuid: $(),
+                                uuid: Z(),
                                 type: Ce.has_only_text,
                                 arguments: ['completed'],
                                 category_uuid: i[0].uuid
                               },
                               {
-                                uuid: $(),
+                                uuid: Z(),
                                 arguments: ['expired'],
                                 type: Ce.has_only_text,
                                 category_uuid: i[1].uuid
@@ -11376,7 +11804,7 @@
                         Object.keys(t.params).forEach(function(e) {
                           var a = (t.params[e] && t.params[e].value) || '';
                           if (a.trim().length > 0) {
-                            var n = { uuid: $(), name: e, value: a, type: Ee.set_run_result };
+                            var n = { uuid: Z(), name: e, value: a, type: Ee.set_run_result };
                             l.push(n);
                           }
                         }),
@@ -11388,7 +11816,7 @@
                           categories: i,
                           default_category_uuid: i[i.length - 1].uuid
                         };
-                        return Ei(e.originalNode.node.uuid, c, a, Ee.split_by_subflow, l);
+                        return Oi(e.originalNode.node.uuid, c, a, Ee.split_by_subflow, l);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -11399,9 +11827,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -11437,15 +11865,15 @@
                       n.parent_refs &&
                       n.parent_refs.length > 0 &&
                       a.push({
-                        name: Ft.t('forms.enter_flow_parameters_tab', 'Parameters'),
+                        name: Pt.t('forms.enter_flow_parameters_tab', 'Parameters'),
                         body: k.createElement(
                           'div',
                           null,
                           k.createElement(
                             'p',
-                            { className: xo.a.info },
+                            { className: Uo.a.info },
                             k.createElement(
-                              Pe.a,
+                              Fe.a,
                               {
                                 i18nKey: 'forms.enter_flow_parameters_summary',
                                 values: {
@@ -11476,19 +11904,19 @@
                           ),
                           k.createElement(
                             'table',
-                            { className: xo.a.params },
+                            { className: Uo.a.params },
                             k.createElement(
                               'tbody',
                               null,
                               n.parent_refs.map(function(t) {
                                 return k.createElement(
                                   'tr',
-                                  { key: 'param_' + t, className: xo.a.param },
-                                  k.createElement('td', { className: xo.a.param_name }, t),
+                                  { key: 'param_' + t, className: Uo.a.param },
+                                  k.createElement('td', { className: Uo.a.param_name }, t),
                                   k.createElement(
                                     'td',
-                                    { className: xo.a.param_input },
-                                    k.createElement(xa, {
+                                    { className: Uo.a.param_input },
+                                    k.createElement(ja, {
                                       name: t,
                                       showLabel: !1,
                                       placeholder: t,
@@ -11512,13 +11940,13 @@
                     k.createElement(
                       me,
                       { title: t.name, headerClass: t.type, buttons: this.getButtons(), tabs: a },
-                      k.createElement(Yt, {
+                      k.createElement(Xt, {
                         __className: '',
                         initialType: t,
                         onChange: this.props.onTypeChange
                       }),
-                      k.createElement(Bt, {
-                        name: Ft.t('forms.flow', 'Flow'),
+                      k.createElement(Vt, {
+                        name: Pt.t('forms.flow', 'Flow'),
                         placeholder: 'Select the flow to start',
                         assets: this.props.assetStore.flows,
                         entry: this.state.flow,
@@ -11535,12 +11963,12 @@
             a
           );
         })(k.PureComponent);
-      jo.contextTypes = { config: bt };
-      var To,
-        Ao = a(148),
-        Ro = a.n(Ao),
-        Uo = (function(e) {
-          Object(v.a)(a, e);
+      Do.contextTypes = { config: bt };
+      var Fo,
+        Po = a(150),
+        Io = a.n(Po),
+        Mo = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11554,7 +11982,7 @@
                 }
                 return { resultName: t, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11563,7 +11991,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -11573,7 +12001,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t, a) {
-                        var n = Ai([], !1, e.originalNode.node),
+                        var n = Pi([], !1, e.originalNode.node),
                           i = n.exits,
                           l = n.defaultCategory,
                           c = n.caseConfig,
@@ -11606,7 +12034,7 @@
                           },
                           d
                         );
-                        return Ei(e.originalNode.node.uuid, m, i, Ee.wait_for_response, [], {
+                        return Oi(e.originalNode.node.uuid, m, i, Ee.wait_for_response, [], {
                           cases: c
                         });
                       })(this.props.nodeSettings, this.state, this.props.typeConfig)
@@ -11619,9 +12047,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -11636,15 +12064,15 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
                     k.createElement(
                       'div',
-                      { className: Ro.a.result_name },
-                      rs(this.state.resultName, this.handleUpdateResultName)
+                      { className: Io.a.result_name },
+                      ps(this.state.resultName, this.handleUpdateResultName)
                     ),
                     ot(this.props)
                   );
@@ -11660,14 +12088,14 @@
             a
           );
         })(k.Component),
-        Do = a(41),
-        Po = a.n(Do),
-        Fo =
-          (Ft.t('errors.http_header_missing_name', 'HTTP headers must have a name'),
-          Ft.t('forms.webhook_header_name', 'Header Name')),
-        Io = Ft.t('forms.value', 'Value'),
-        Mo = (function(e) {
-          Object(v.a)(a, e);
+        Lo = a(41),
+        zo = a.n(Lo),
+        Bo =
+          (Pt.t('errors.http_header_missing_name', 'HTTP headers must have a name'),
+          Pt.t('forms.webhook_header_name', 'Header Name')),
+        Vo = Pt.t('forms.value', 'Value'),
+        qo = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11677,7 +12105,7 @@
               o = i.value || '';
             return (
               (n.state = { name: { value: s }, value: { value: o } }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -11697,7 +12125,7 @@
                 key: 'handleChangeName',
                 value: function(e) {
                   var t = this,
-                    a = oa(Ft.t('forms.header_name', 'Header name'), e, [da]);
+                    a = ra(Pt.t('forms.header_name', 'Header name'), e, [pa]);
                   this.setState({ name: { value: a.value } }, function() {
                     return t.props.onChange(t.getHeader(), pt(t.state.value).concat(pt(a)));
                   });
@@ -11708,7 +12136,7 @@
                 value: function(e) {
                   var t = this;
                   this.setState({ value: { value: e } }, function() {
-                    var e = oa(Ft.t('forms.header_name', 'Header name'), t.state.name.value, [da]);
+                    var e = ra(Pt.t('forms.header_name', 'Header name'), t.state.name.value, [pa]);
                     t.props.onChange(t.getHeader(), pt(t.state.value).concat(pt(e)));
                   });
                 }
@@ -11725,7 +12153,7 @@
                   return k.createElement(
                     'div',
                     {
-                      className: Po.a.remove_ico,
+                      className: zo.a.remove_ico,
                       onClick: this.handleRemove,
                       'data-spec': 'remove-icon'
                     },
@@ -11739,26 +12167,26 @@
                   var e = this.getRemoveIco();
                   return k.createElement(
                     jt,
-                    { name: Ft.t('forms.webhook_header', 'Header'), entry: this.props.entry },
+                    { name: Pt.t('forms.webhook_header', 'Header'), entry: this.props.entry },
                     k.createElement(
                       'div',
-                      { className: Po.a.header, 'data-spec': 'header-container' },
+                      { className: zo.a.header, 'data-spec': 'header-container' },
                       k.createElement(
                         'div',
-                        { className: Po.a.header_name, 'data-spec': 'name-container' },
-                        k.createElement(xa, {
-                          placeholder: Fo,
-                          name: Fo,
+                        { className: zo.a.header_name, 'data-spec': 'name-container' },
+                        k.createElement(ja, {
+                          placeholder: Bo,
+                          name: Bo,
                           onChange: this.handleChangeName,
                           entry: this.state.name
                         })
                       ),
                       k.createElement(
                         'div',
-                        { className: Po.a.header_value, 'data-spec': 'value-container' },
-                        k.createElement(xa, {
-                          placeholder: Io,
-                          name: Io,
+                        { className: zo.a.header_value, 'data-spec': 'value-container' },
+                        k.createElement(ja, {
+                          placeholder: Vo,
+                          name: Vo,
                           onChange: this.handleChangeValue,
                           entry: this.state.value,
                           autocomplete: !0
@@ -11780,29 +12208,39 @@
           (e.DELETE = 'DELETE'),
           (e.HEAD = 'HEAD'),
           (e.PATCH = 'PATCH');
-      })(To || (To = {}));
-      var Lo = { value: To.GET, name: To.GET },
-        zo = [
-          Lo,
-          { value: To.POST, name: To.POST },
-          { value: To.PUT, name: To.PUT },
-          { value: To.DELETE, name: To.DELETE },
-          { value: To.HEAD, name: To.HEAD },
-          { value: To.PATCH, name: To.PATCH }
+      })(Fo || (Fo = {}));
+      var Ho = { value: Fo.GET, name: Fo.GET },
+        Go = [
+          Ho,
+          { value: Fo.POST, name: Fo.POST },
+          { value: Fo.PUT, name: Fo.PUT },
+          { value: Fo.DELETE, name: Fo.DELETE },
+          { value: Fo.HEAD, name: Fo.HEAD },
+          { value: Fo.PATCH, name: Fo.PATCH }
         ],
-        Bo = function(e) {
+        Wo = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.call_webhook) return t;
         },
-        qo = function(e) {
-          return e === To.GET
+        Ko = function(e) {
+          return e === Fo.GET
             ? ''
             : '{\n  "contact": "@contact",\n  "results": "@results",\n  "custom_key": "custom_value"\n}';
         },
-        Vo = (function(e) {
-          Object(v.a)(a, e);
+        Yo = function() {
+          return function(e, t) {
+            try {
+              var a = JSON.parse(t);
+              if (a && 'object' === typeof a) return { failures: [], value: t };
+            } catch (n) {
+              return { failures: [{ message: 'Not a valid JSON' }], value: t };
+            }
+          };
+        },
+        Xo = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -11812,19 +12250,19 @@
                 var t = {
                   headers: [],
                   resultName: { value: 'Result' },
-                  method: { value: Lo },
+                  method: { value: Ho },
                   url: { value: '' },
-                  body: { value: qo(To.GET) },
+                  body: { value: Ko(Fo.GET) },
                   valid: !1
                 };
-                if (fr(e.originalNode) === Ee.split_by_webhook) {
+                if (wr(e.originalNode) === Ee.split_by_webhook) {
                   var a,
-                    n = Bo(e),
+                    n = Wo(e),
                     i = Object(C.a)(Object.keys(n.headers || []).sort());
                   try {
                     for (i.s(); !(a = i.n()).done; ) {
                       var s = a.value;
-                      t.headers.push({ value: { uuid: $(), value: n.headers[s], name: s } });
+                      t.headers.push({ value: { uuid: Z(), value: n.headers[s], name: s } });
                     }
                   } catch (o) {
                     i.e(o);
@@ -11838,11 +12276,11 @@
                     (t.valid = !0);
                 } else
                   t.headers.push({
-                    value: { uuid: $(), name: 'Accept', value: 'application/json' }
+                    value: { uuid: Z(), name: 'Accept', value: 'application/json' }
                   });
-                return t.headers.push({ value: { uuid: $(), name: '', value: '' } }), t;
+                return t.headers.push({ value: { uuid: Z(), name: '', value: '' } }), t;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -11864,9 +12302,9 @@
                       var l = this.state.headers.find(function(e) {
                         return 'content-type' === e.value.name.toLowerCase();
                       });
-                      if (((n.body = { value: qo(r) }), o === To.GET && r !== To.GET)) {
+                      if (((n.body = { value: Ko(r) }), o === Fo.GET && r !== Fo.GET)) {
                         if (!l) {
-                          var c = $(),
+                          var c = Z(),
                             u =
                               this.state.headers.length > 0
                                 ? this.state.headers[this.state.headers.length - 1]
@@ -11879,22 +12317,22 @@
                             });
                         }
                       } else
-                        o !== To.GET &&
-                          r === To.GET &&
+                        o !== Fo.GET &&
+                          r === Fo.GET &&
                           l &&
                           (s = [{ headers: [{ value: l.value }] }]);
                     }
                   }
                   e.hasOwnProperty('url') &&
-                    (n.url = oa(Ft.t('forms.url', 'URL'), e.url, [
-                      ca(a),
-                      ua(ma, -1 === e.url.indexOf('@'))
+                    (n.url = ra(Pt.t('forms.url', 'URL'), e.url, [
+                      ua(a),
+                      da(_a, -1 === e.url.indexOf('@'))
                     ])),
                     e.hasOwnProperty('resultName') &&
-                      (n.resultName = oa(Ft.t('forms.result_name', 'Result Name'), e.resultName, [
-                        ca(a)
+                      (n.resultName = ra(Pt.t('forms.result_name', 'Result Name'), e.resultName, [
+                        ua(a)
                       ])),
-                    e.hasOwnProperty('body') && (n.body = { value: e.body }),
+                    e.hasOwnProperty('body') && (n.body = ra('POST body', e.body, [Yo()])),
                     e.hasOwnProperty('header') &&
                       ((n.headers = [
                         { value: e.header, validationFailures: e.validationFailures }
@@ -11931,7 +12369,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ra, ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -11963,7 +12401,7 @@
               {
                 key: 'handleCreateHeader',
                 value: function() {
-                  return this.handleUpdate({ header: { uuid: $(), name: '', value: '' } });
+                  return this.handleUpdate({ header: { uuid: Z(), name: '', value: '' } });
                 }
               },
               {
@@ -11994,8 +12432,8 @@
                         } finally {
                           i.f();
                         }
-                        var o = $(),
-                          r = Bo(e);
+                        var o = Z(),
+                          r = Wo(e);
                         r && (o = r.uuid);
                         var l = {
                           uuid: o,
@@ -12006,7 +12444,7 @@
                           method: t.method.value.value,
                           result_name: t.resultName.value
                         };
-                        return Ri(l, e.originalNode, !1);
+                        return Ii(l, e.originalNode, !1);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -12017,9 +12455,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -12036,7 +12474,7 @@
                       return k.createElement(
                         'div',
                         { key: 'header_'.concat(t.value.uuid) },
-                        k.createElement(Mo, {
+                        k.createElement(qo, {
                           entry: t,
                           onRemove: e.handleHeaderRemoved,
                           onChange: e.handleHeaderUpdated,
@@ -12055,9 +12493,9 @@
                       null,
                       k.createElement(
                         'p',
-                        { className: Po.a.info },
+                        { className: zo.a.info },
                         k.createElement(
-                          Pe.a,
+                          Fe.a,
                           { i18nKey: 'forms.webhook_header_summary' },
                           'Add any additional headers below that you would like to send along with your request.'
                         )
@@ -12067,19 +12505,19 @@
                     checked: this.state.headers.length > 1
                   });
                   var i = this.state.method.value.value,
-                    s = this.state.method.value.name + ' ' + Ft.t('body', 'Body');
+                    s = this.state.method.value.name + ' ' + Pt.t('body', 'Body');
                   return (
                     n.push({
                       name: s,
                       body: k.createElement(
                         'div',
-                        { key: 'post_body', className: Po.a.body_form },
+                        { key: 'post_body', className: zo.a.body_form },
                         k.createElement('h4', null, s),
                         k.createElement(
                           'p',
                           null,
                           k.createElement(
-                            Pe.a,
+                            Fe.a,
                             {
                               i18nKey: 'forms.webhook_body_summary',
                               values: { method: this.state.method.value.name }
@@ -12087,14 +12525,14 @@
                             'Modify the body of the [[method]] request that will be sent to your webhook.'
                           )
                         ),
-                        k.createElement(xa, {
-                          __className: Po.a.req_body,
+                        k.createElement(ja, {
+                          __className: zo.a.req_body,
                           name: s,
                           showLabel: !1,
                           entry: this.state.body,
                           onChange: this.handleBodyUpdate,
                           helpText: k.createElement(
-                            Pe.a,
+                            Fe.a,
                             {
                               i18nKey: 'forms.webhook_body_summary',
                               values: { method: this.state.method.value.name }
@@ -12105,12 +12543,15 @@
                           textarea: !0
                         })
                       ),
-                      checked: this.state.body.value !== qo(i)
+                      checked: this.state.body.value !== Ko(i),
+                      hasErrors:
+                        !!this.state.body.validationFailures &&
+                        this.state.body.validationFailures.length > 0
                     }),
                     k.createElement(
                       me,
                       { title: t.name, headerClass: t.type, buttons: this.getButtons(), tabs: n },
-                      k.createElement(Yt, {
+                      k.createElement(Xt, {
                         __className: '',
                         initialType: t,
                         onChange: this.props.onTypeChange
@@ -12120,21 +12561,21 @@
                         { style: { display: 'flex', alignItems: 'flex-end' } },
                         k.createElement(
                           'div',
-                          { className: Po.a.method },
-                          k.createElement(Sa, {
+                          { className: zo.a.method },
+                          k.createElement(Na, {
                             key: 'method_select',
-                            name: Ft.t('forms.method', 'Method'),
+                            name: Pt.t('forms.method', 'Method'),
                             entry: this.state.method,
                             onChange: this.handleMethodUpdate,
-                            options: zo
+                            options: Go
                           })
                         ),
                         k.createElement(
                           'div',
-                          { className: Po.a.url },
-                          k.createElement(xa, {
-                            name: Ft.t('forms.url', 'URL'),
-                            placeholder: Ft.t('forms.enter_a_url', 'Enter a URL'),
+                          { className: zo.a.url },
+                          k.createElement(ja, {
+                            name: Pt.t('forms.url', 'URL'),
+                            placeholder: Pt.t('forms.enter_a_url', 'Enter a URL'),
                             entry: this.state.url,
                             onChange: this.handleUrlUpdate,
                             autocomplete: !0
@@ -12143,45 +12584,45 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: Po.a.instructions },
+                        { className: zo.a.instructions },
                         k.createElement(
                           'p',
                           null,
                           k.createElement(
-                            Pe.a,
+                            Fe.a,
                             { i18nKey: 'forms.webhook_help' },
                             'If your server responds with JSON, each property will be added to the Flow.'
                           )
                         ),
                         k.createElement(
                           'pre',
-                          { className: Po.a.code },
+                          { className: zo.a.code },
                           '{ "product": "Solar Charging Kit", "stock level": 32 }'
                         ),
                         k.createElement(
                           'p',
                           null,
                           k.createElement(
-                            Pe.a,
+                            Fe.a,
                             { i18nKey: 'forms.webhook_example' },
                             'This response would add ',
                             k.createElement(
                               'span',
-                              { className: Po.a.example },
+                              { className: zo.a.example },
                               '@webhook.product'
                             ),
                             ' and',
                             ' ',
                             k.createElement(
                               'span',
-                              { className: Po.a.example },
+                              { className: zo.a.example },
                               '@webhook["stock level"]'
                             ),
                             ' for use in the flow.'
                           )
                         )
                       ),
-                      rs(this.state.resultName, this.handleUpdateResultName),
+                      ps(this.state.resultName, this.handleUpdateResultName),
                       ot(this.props)
                     )
                   );
@@ -12197,23 +12638,23 @@
             a
           );
         })(k.Component),
-        Ho = function(e, t) {
+        Qo = function(e, t) {
           var a = e.classifier;
           return dt({ id: a.uuid, name: a.name, type: fe.Classifier }, t.config.endpoints);
         };
-      Ho.contextTypes = { config: bt };
-      var Go = Ho,
-        Wo = kt,
-        Ko = function(e) {
+      Qo.contextTypes = { config: bt };
+      var Jo = Qo,
+        $o = kt,
+        Zo = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.call_classifier) return t;
         },
-        Yo = function(e, t) {
-          var a = $(),
-            n = Ai(
-              [].concat(Object(ge.a)(t.cases), Object(ge.a)(t.hiddenCases)),
+        er = function(e, t) {
+          var a = Z(),
+            n = Pi(
+              [].concat(Object(ve.a)(t.cases), Object(ve.a)(t.hiddenCases)),
               !1,
               e.originalNode.node,
               'Failure'
@@ -12236,13 +12677,13 @@
                 i = Object(w.a)(n, 1)[0];
               e.cases.push(i);
             } else {
-              var s = { uuid: $() },
-                o = { uuid: $(), name: t.name, exit_uuid: s.uuid },
-                r = { uuid: $(), type: t.type, arguments: t.arguments, category_uuid: o.uuid };
+              var s = { uuid: Z() },
+                o = { uuid: Z(), name: t.name, exit_uuid: s.uuid },
+                r = { uuid: Z(), type: t.type, arguments: t.arguments, category_uuid: o.uuid };
               e.categories.push(o), e.cases.push(r), e.exits.splice(e.exits.length - 1, 0, s);
             }
           })(n, { type: Ce.has_category, arguments: ['Success', 'Skipped'], name: 'Other' });
-          var i = Ko(e);
+          var i = Zo(e);
           i && (a = i.uuid);
           var o = t.resultName.value,
             r = '_' + o + ' Classification',
@@ -12261,10 +12702,10 @@
               default_category_uuid: n.defaultCategory,
               result_name: o
             };
-          return Ei(e.originalNode.node.uuid, c, n.exits, Ee.split_by_intent, [l]);
+          return Oi(e.originalNode.node.uuid, c, n.exits, Ee.split_by_intent, [l]);
         },
-        Xo = function() {
-          var e = $();
+        tr = function() {
+          var e = Z();
           return {
             uuid: e,
             kase: { uuid: e, type: Ce.has_top_intent, arguments: ['', ''], category_uuid: null },
@@ -12272,10 +12713,10 @@
             valid: !0
           };
         },
-        Qo = a(149),
-        Jo = a.n(Qo),
-        Zo = (function(e) {
-          Object(v.a)(a, e);
+        ar = a(151),
+        nr = a.n(ar),
+        ir = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12287,16 +12728,16 @@
                   a = '@input.text',
                   n = { value: null },
                   i = [];
-                if (fr(e.originalNode) === Ee.split_by_intent) {
+                if (wr(e.originalNode) === Ee.split_by_intent) {
                   var s = e.originalNode.node.router;
-                  Ci(e.originalNode.node) &&
-                    ((i = (t = wi(s.cases, e.originalNode)).filter(function(e) {
-                      return bs(e.kase.type).visibility === qe;
+                  xi(e.originalNode.node) &&
+                    ((i = (t = ji(s.cases, e.originalNode)).filter(function(e) {
+                      return Ss(e.kase.type).visibility === Ve;
                     })),
                     (t = t.filter(function(e) {
-                      return bs(e.kase.type).visibility !== qe;
+                      return Ss(e.kase.type).visibility !== Ve;
                     })));
-                  var o = Ko(e);
+                  var o = Zo(e);
                   (n = { value: o.classifier }), (a = o.input);
                 }
                 return {
@@ -12308,7 +12749,7 @@
                   valid: !0
                 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n.state.classifier.value &&
                 Xe(n.props.assetStore.classifiers, n.state.classifier.value.id).then(function(e) {
                   e && n.handleUpdate({ classifier: { name: e.name, uuid: e.id } });
@@ -12324,12 +12765,12 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('resultName') &&
-                    (a.resultName = oa(Ft.t('forms.result_name', 'Result Name'), e.resultName, [
-                      ca(t)
+                    (a.resultName = ra(Pt.t('forms.result_name', 'Result Name'), e.resultName, [
+                      ua(t)
                     ])),
                     e.hasOwnProperty('classifier') &&
-                      (a.classifier = oa(Ft.t('forms.classifier', 'Classifier'), e.classifier, [
-                        ca(t)
+                      (a.classifier = ra(Pt.t('forms.classifier', 'Classifier'), e.classifier, [
+                        ua(t)
                       ]));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
@@ -12347,7 +12788,7 @@
               {
                 key: 'handleUpdateResultName',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ra, ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -12364,7 +12805,7 @@
                       },
                       !0
                     ) &&
-                      (this.props.updateRouter(Yo(this.props.nodeSettings, this.state)),
+                      (this.props.updateRouter(er(this.props.nodeSettings, this.state)),
                       this.props.onClose(!1)));
                 }
               },
@@ -12377,7 +12818,7 @@
               {
                 key: 'handleOperandUpdated',
                 value: function(e) {
-                  this.setState({ operand: oa(Ft.t('forms.operand', 'Operand'), e, [ra]) });
+                  this.setState({ operand: ra(Pt.t('forms.operand', 'Operand'), e, [la]) });
                 }
               },
               {
@@ -12385,9 +12826,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -12414,8 +12855,8 @@
                             k.createElement('code', null, '@input.text'),
                             '.'
                           ),
-                          k.createElement(xa, {
-                            name: Ft.t('forms.operand', 'Operand'),
+                          k.createElement(ja, {
+                            name: Pt.t('forms.operand', 'Operand'),
                             showLabel: !1,
                             autocomplete: !0,
                             onChange: this.handleOperandUpdated,
@@ -12435,7 +12876,7 @@
                         e.dialog = t;
                       }
                     },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: t,
                       onChange: this.props.onTypeChange
@@ -12447,7 +12888,7 @@
                       k.createElement(
                         'span',
                         {
-                          className: Jo.a.link,
+                          className: nr.a.link,
                           onClick: function() {
                             e.dialog.showTab(0);
                           }
@@ -12458,25 +12899,25 @@
                       ),
                       k.createElement('span', null, ' through the classifier...')
                     ),
-                    k.createElement(Bt, {
+                    k.createElement(Vt, {
                       key: 'select_classifier',
-                      name: Ft.t('forms.classifier', 'Classifier'),
+                      name: Pt.t('forms.classifier', 'Classifier'),
                       placeholder: 'Select the classifier to use',
                       assets: this.props.assetStore.classifiers,
                       onChange: this.handleClassifierUpdated,
                       entry: this.state.classifier
                     }),
                     W(!!this.state.classifier.value)(
-                      k.createElement(Rs, {
+                      k.createElement(Is, {
                         'data-spec': 'cases',
                         cases: this.state.cases,
                         onCasesUpdated: this.handleCasesUpdated,
-                        operators: vs,
-                        createEmptyCase: Xo,
+                        operators: Es,
+                        createEmptyCase: tr,
                         classifier: this.state.classifier.value
                       })
                     ),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -12491,8 +12932,8 @@
             a
           );
         })(k.Component),
-        $o = function() {
-          return hr
+        sr = function() {
+          return yr
             .filter(function(e) {
               return !e.excludeFromSplit;
             })
@@ -12500,10 +12941,10 @@
               return { value: e.scheme, name: e.name };
             });
         },
-        er = function(e) {
+        or = function(e) {
           var t = [],
-            a = xi(e),
-            n = $o();
+            a = Ui(e),
+            n = sr();
           return (
             a &&
               (t = a.cases
@@ -12522,7 +12963,7 @@
             t
           );
         },
-        tr = function() {
+        rr = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [],
             t = arguments.length > 1 ? arguments[1] : void 0;
           return e.map(function(e) {
@@ -12531,17 +12972,17 @@
               i = t.find(function(e) {
                 return e.arguments[0] === a;
               }),
-              s = i ? i.uuid : $();
+              s = i ? i.uuid : Z();
             return {
-              uuid: $(),
+              uuid: Z(),
               kase: { uuid: s, type: Ce.has_only_phrase, arguments: [a], category_uuid: '' },
               categoryName: n,
               valid: !0
             };
           });
         },
-        ar = (function(e) {
-          Object(v.a)(a, e);
+        lr = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12550,14 +12991,14 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = { schemes: { value: [] }, resultName: { value: '' }, valid: !1 };
                 return (
-                  fr(e.originalNode) === Ee.split_by_scheme &&
-                    ((t.schemes.value = er(e.originalNode.node)),
+                  wr(e.originalNode) === Ee.split_by_scheme &&
+                    ((t.schemes.value = or(e.originalNode.node)),
                     (t.resultName = { value: e.originalNode.node.router.result_name || '' }),
                     (t.valid = !0)),
                   t
                 );
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -12580,8 +13021,8 @@
                 value: function(e) {
                   var t = {};
                   e.hasOwnProperty('schemes') &&
-                    (t.schemes = oa(Ft.t('forms.split_by_scheme', 'Channel types'), e.schemes, [
-                      ra
+                    (t.schemes = ra(Pt.t('forms.split_by_scheme', 'Channel types'), e.schemes, [
+                      la
                     ])),
                     e.hasOwnProperty('resultName') && (t.resultName = { value: e.resultName });
                   var a = Zt(this.state, t);
@@ -12595,10 +13036,10 @@
                     (this.props.updateRouter(
                       (function(e, t) {
                         var a = [];
-                        fr(e.originalNode) === Ee.split_by_scheme &&
-                          (a = xi(e.originalNode.node).cases);
-                        var n = tr(t.schemes.value, a),
-                          i = Ai(n, !1, e.originalNode.node),
+                        wr(e.originalNode) === Ee.split_by_scheme &&
+                          (a = Ui(e.originalNode.node).cases);
+                        var n = rr(t.schemes.value, a),
+                          i = Pi(n, !1, e.originalNode.node),
                           o = i.cases,
                           r = i.exits,
                           l = i.defaultCategory,
@@ -12612,7 +13053,7 @@
                             operand: '@(urn_parts(contact.urn).scheme)',
                             result_name: t.resultName.value
                           };
-                        return Ei(e.originalNode.node.uuid, d, r, Ee.split_by_scheme, [], {
+                        return Oi(e.originalNode.node.uuid, d, r, Ee.split_by_scheme, [], {
                           cases: c
                         });
                       })(this.props.nodeSettings, this.state)
@@ -12625,9 +13066,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -12642,7 +13083,7 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -12650,25 +13091,25 @@
                     k.createElement(
                       'p',
                       null,
-                      Ft.t(
+                      Pt.t(
                         'forms.split_by_scheme_summary',
                         "The contact's URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below."
                       )
                     ),
-                    k.createElement(Sa, {
+                    k.createElement(Na, {
                       key: 'channel_type_select',
-                      name: Ft.t('forms.channel_type', 'Channel Type'),
-                      placeholder: Ft.t(
+                      name: Pt.t('forms.channel_type', 'Channel Type'),
+                      placeholder: Pt.t(
                         'forms.split_by_channel_placeholder',
                         'Select the channels to split by'
                       ),
                       entry: this.state.schemes,
                       onChange: this.handleSchemesChanged,
-                      options: $o(),
+                      options: sr(),
                       multi: !0,
                       hideError: !0
                     }),
-                    rs(this.state.resultName, this.handleUpdateResultName),
+                    ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -12677,17 +13118,17 @@
             a
           );
         })(k.Component);
-      ar.contextTypes = { endpoints: bt, assetService: bt };
-      var nr = function(e) {
+      lr.contextTypes = { endpoints: bt, assetService: bt };
+      var cr = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.open_ticket) return t;
         },
-        ir = a(104),
-        sr = a.n(ir),
-        or = (function(e) {
-          Object(v.a)(a, e);
+        ur = a(106),
+        dr = a.n(ur),
+        pr = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12698,8 +13139,8 @@
                   a = { value: '@run.flow.name' },
                   n = { value: '@results' },
                   i = { value: 'Result' };
-                if (fr(e.originalNode) === Ee.split_by_ticket) {
-                  var s = nr(e);
+                if (wr(e.originalNode) === Ee.split_by_ticket) {
+                  var s = cr(e);
                   (t = { value: s.ticketer }),
                     (a = { value: s.subject }),
                     (n = { value: s.body }),
@@ -12707,7 +13148,7 @@
                 }
                 return { ticketer: t, subject: a, body: n, resultName: i, valid: !0 };
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -12719,14 +13160,14 @@
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
                     a = {};
                   e.hasOwnProperty('ticketer') &&
-                    (a.ticketer = oa(Ft.t('forms.ticketer', 'Ticketer'), e.ticketer, [ca(t)])),
+                    (a.ticketer = ra(Pt.t('forms.ticketer', 'Ticketer'), e.ticketer, [ua(t)])),
                     e.hasOwnProperty('subject') &&
-                      (a.subject = oa(Ft.t('forms.subject', 'Subject'), e.subject, [ca(t)])),
+                      (a.subject = ra(Pt.t('forms.subject', 'Subject'), e.subject, [ua(t)])),
                     e.hasOwnProperty('body') &&
-                      (a.body = oa(Ft.t('forms.body', 'Body'), e.body, [ca(t)])),
+                      (a.body = ra(Pt.t('forms.body', 'Body'), e.body, [ua(t)])),
                     e.hasOwnProperty('resultName') &&
-                      (a.resultName = oa(Ft.t('forms.result_name', 'Result Name'), e.resultName, [
-                        ca(t)
+                      (a.resultName = ra(Pt.t('forms.result_name', 'Result Name'), e.resultName, [
+                        ua(t)
                       ]));
                   var n = Zt(this.state, a);
                   return this.setState(n), n.valid;
@@ -12754,7 +13195,7 @@
               {
                 key: 'handleResultNameUpdate',
                 value: function(e) {
-                  var t = oa(Ft.t('forms.result_name', 'Result Name'), e, [ra, ga, ha]);
+                  var t = ra(Pt.t('forms.result_name', 'Result Name'), e, [la, ga, ma]);
                   this.setState({ resultName: t, valid: this.state.valid && !ht(t) });
                 }
               },
@@ -12772,8 +13213,8 @@
                   ) &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = $(),
-                          n = nr(e);
+                        var a = Z(),
+                          n = cr(e);
                         n && (a = n.uuid);
                         var i = {
                           uuid: a,
@@ -12783,7 +13224,7 @@
                           body: t.body.value,
                           result_name: t.resultName.value
                         };
-                        return Ri(i, e.originalNode, !0);
+                        return Ii(i, e.originalNode, !0);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -12794,9 +13235,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -12811,7 +13252,7 @@
                   return k.createElement(
                     me,
                     { title: e.name, headerClass: e.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: e,
                       onChange: this.props.onTypeChange
@@ -12821,9 +13262,9 @@
                       null,
                       k.createElement('span', null, 'Open ticket via... ')
                     ),
-                    k.createElement(Bt, {
+                    k.createElement(Vt, {
                       key: 'select_ticketer',
-                      name: Ft.t('forms.ticketer', 'Ticketer'),
+                      name: Pt.t('forms.ticketer', 'Ticketer'),
                       placeholder: 'Select the ticketing service to use',
                       assets: this.props.assetStore.ticketers,
                       onChange: this.handleTicketerUpdate,
@@ -12831,10 +13272,10 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: sr.a.subject },
-                      k.createElement(xa, {
-                        name: Ft.t('forms.subject', 'Subject'),
-                        placeholder: Ft.t('forms.enter_a_subject', 'Enter a subject'),
+                      { className: dr.a.subject },
+                      k.createElement(ja, {
+                        name: Pt.t('forms.subject', 'Subject'),
+                        placeholder: Pt.t('forms.enter_a_subject', 'Enter a subject'),
                         entry: this.state.subject,
                         onChange: this.handleSubjectUpdate,
                         autocomplete: !0
@@ -12842,17 +13283,17 @@
                     ),
                     k.createElement(
                       'div',
-                      { className: sr.a.body },
-                      k.createElement(xa, {
-                        name: Ft.t('forms.body', 'Body'),
-                        placeholder: Ft.t('forms.enter_a_body', 'Enter a body'),
+                      { className: dr.a.body },
+                      k.createElement(ja, {
+                        name: Pt.t('forms.body', 'Body'),
+                        placeholder: Pt.t('forms.enter_a_body', 'Enter a body'),
                         entry: this.state.body,
                         onChange: this.handleBodyUpdate,
                         autocomplete: !0,
                         textarea: !0
                       })
                     ),
-                    rs(this.state.resultName, this.handleResultNameUpdate),
+                    ps(this.state.resultName, this.handleResultNameUpdate),
                     ot(this.props)
                   );
                 }
@@ -12867,16 +13308,16 @@
             a
           );
         })(k.Component),
-        rr = function(e, t) {
+        hr = function(e, t) {
           var a = e.ticketer;
           return dt({ id: a.uuid, name: a.name, type: fe.Ticketer }, t.config.endpoints);
         };
-      rr.contextTypes = { config: bt };
-      var lr = rr,
-        cr = a(53),
-        ur = a.n(cr),
-        dr = (function(e) {
-          Object(v.a)(a, e);
+      hr.contextTypes = { config: bt };
+      var mr = hr,
+        _r = a(56),
+        vr = a.n(_r),
+        gr = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -12895,7 +13336,7 @@
                 }
                 return t;
               })(n.props.nodeSettings)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -12930,9 +13371,9 @@
                 value: function() {
                   var e = this;
                   return {
-                    primary: { name: Ft.t('buttons.ok', 'Ok'), onClick: this.handleSave },
+                    primary: { name: Pt.t('buttons.ok', 'Ok'), onClick: this.handleSave },
                     secondary: {
-                      name: Ft.t('buttons.cancel', 'Cancel'),
+                      name: Pt.t('buttons.cancel', 'Cancel'),
                       onClick: function() {
                         return e.props.onClose(!0);
                       }
@@ -12948,7 +13389,7 @@
                   return k.createElement(
                     me,
                     { title: t.name, headerClass: t.type, buttons: this.getButtons() },
-                    k.createElement(Yt, {
+                    k.createElement(Xt, {
                       __className: '',
                       initialType: t,
                       onChange: this.props.onTypeChange
@@ -12956,47 +13397,47 @@
                     k.createElement('div', null, 'Wait for time'),
                     k.createElement(
                       'div',
-                      { className: ur.a.delay_container },
+                      { className: vr.a.delay_container },
                       k.createElement(
                         'div',
-                        { className: ur.a.input },
-                        k.createElement('span', { className: ur.a.title }, 'Days'),
-                        k.createElement(xa, {
-                          name: Ft.t('forms.state', 'State'),
+                        { className: vr.a.input },
+                        k.createElement('span', { className: vr.a.title }, 'Days'),
+                        k.createElement(ja, {
+                          name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter days',
                           onChange: function(t) {
                             return e.setState({ days: t });
                           },
-                          style: ba.small,
+                          style: ka.small,
                           entry: { value: this.state.days }
                         })
                       ),
                       k.createElement(
                         'div',
-                        { className: ur.a.input },
-                        k.createElement('span', { className: ur.a.title }, 'Hours'),
-                        k.createElement(xa, {
-                          name: Ft.t('forms.state', 'State'),
+                        { className: vr.a.input },
+                        k.createElement('span', { className: vr.a.title }, 'Hours'),
+                        k.createElement(ja, {
+                          name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter hours',
                           onChange: function(t) {
                             return e.setState({ hours: t });
                           },
                           showInvalid: isNaN(parseInt(this.state.hours)),
-                          style: ba.small,
+                          style: ka.small,
                           entry: { value: this.state.hours }
                         })
                       ),
                       k.createElement(
                         'div',
-                        { className: ur.a.input },
-                        k.createElement('span', { className: ur.a.title }, 'Minutes'),
-                        k.createElement(xa, {
-                          name: Ft.t('forms.state', 'State'),
+                        { className: vr.a.input },
+                        k.createElement('span', { className: vr.a.title }, 'Minutes'),
+                        k.createElement(ja, {
+                          name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter minutes',
                           onChange: function(t) {
                             return e.setState({ minutes: t });
                           },
-                          style: ba.small,
+                          style: ka.small,
                           entry: { value: this.state.minutes }
                         })
                       )
@@ -13006,7 +13447,7 @@
                         parseInt(this.state.minutes) +
                         parseInt(this.state.days)
                     )
-                      ? k.createElement('span', { className: ur.a.error }, 'Enter valid numbers')
+                      ? k.createElement('span', { className: vr.a.error }, 'Enter valid numbers')
                       : null
                   );
                 }
@@ -13021,7 +13462,7 @@
             a
           );
         })(k.Component),
-        pr = function(e) {
+        fr = function(e) {
           var t = parseInt(e.delay ? e.delay : '0'),
             a = Math.floor(t / 86400),
             n = a > 0 ? a + (a > 1 ? ' days ' : ' day ') : '',
@@ -13035,199 +13476,202 @@
               .concat(r);
           return 0 === t && (l = 'Not waiting'), k.createElement('div', null, l);
         },
-        hr = [
+        yr = [
           {
             scheme: 'tel',
-            name: Ft.t('schemes.phone.name', 'SMS'),
-            path: Ft.t('schemes.phone.path', 'Phone Number')
+            name: Pt.t('schemes.phone.name', 'SMS'),
+            path: Pt.t('schemes.phone.path', 'Phone Number')
           },
           {
             scheme: 'whatsapp',
-            name: Ft.t('schemes.whatsapp.name', 'WhatsApp'),
-            path: Ft.t('schemes.whatsapp.path', 'WhatsApp Number')
+            name: Pt.t('schemes.whatsapp.name', 'WhatsApp'),
+            path: Pt.t('schemes.whatsapp.path', 'WhatsApp Number')
           },
           {
             scheme: 'facebook',
-            name: Ft.t('schemes.facebook.path', 'Facebook'),
-            path: Ft.t('schemes.facebook.path', 'Facebook ID')
+            name: Pt.t('schemes.facebook.path', 'Facebook'),
+            path: Pt.t('schemes.facebook.path', 'Facebook ID')
           },
           {
             scheme: 'twitterid',
-            name: Ft.t('schemes.twitterid.name', 'Twitter'),
-            path: Ft.t('schemes.twitterid.path', 'Twitter ID')
+            name: Pt.t('schemes.twitterid.name', 'Twitter'),
+            path: Pt.t('schemes.twitterid.path', 'Twitter ID')
           },
           {
             scheme: 'telegram',
-            name: Ft.t('schemes.telegram.name', 'Telegram'),
-            path: Ft.t('schemes.telegram.path', 'Telegram ID')
+            name: Pt.t('schemes.telegram.name', 'Telegram'),
+            path: Pt.t('schemes.telegram.path', 'Telegram ID')
           },
           {
             scheme: 'viber',
-            name: Ft.t('schemes.viber.name', 'Viber'),
-            path: Ft.t('schemes.viber.path', 'Viber ID')
+            name: Pt.t('schemes.viber.name', 'Viber'),
+            path: Pt.t('schemes.viber.path', 'Viber ID')
           },
           {
             scheme: 'line',
-            name: Ft.t('schemes.line.name', 'Line'),
-            path: Ft.t('schemes.line.path', 'Line ID')
+            name: Pt.t('schemes.line.name', 'Line'),
+            path: Pt.t('schemes.line.path', 'Line ID')
           },
           {
             scheme: 'wechat',
-            name: Ft.t('schemes.wechat.name', 'Wechat'),
-            path: Ft.t('schemes.wechat.path', 'Wechat ID')
+            name: Pt.t('schemes.wechat.name', 'Wechat'),
+            path: Pt.t('schemes.wechat.path', 'Wechat ID')
           },
           {
             scheme: 'fcm',
-            name: Ft.t('schemes.firebase.name', 'Firebase'),
-            path: Ft.t('schemes.firebase.path', 'Firebase ID')
+            name: Pt.t('schemes.firebase.name', 'Firebase'),
+            path: Pt.t('schemes.firebase.path', 'Firebase ID')
           },
           {
             scheme: 'jiochat',
-            name: Ft.t('schemes.jiojach.name', 'Jiochat'),
-            path: Ft.t('schemes.jiochat.path', 'Jiochat ID')
+            name: Pt.t('schemes.jiojach.name', 'Jiochat'),
+            path: Pt.t('schemes.jiochat.path', 'Jiochat ID')
           },
           {
             scheme: 'freshchat',
-            name: Ft.t('schemes.freschat.name', 'Freshchat'),
-            path: Ft.t('schemes.freshchat.path', 'Freshchat ID')
+            name: Pt.t('schemes.freschat.name', 'Freshchat'),
+            path: Pt.t('schemes.freshchat.path', 'Freshchat ID')
           },
           {
             scheme: 'mailto',
-            name: Ft.t('schemes.email.name', 'Email'),
-            path: Ft.t('schemes.email.path', 'Email Address'),
+            name: Pt.t('schemes.email.name', 'Email'),
+            path: Pt.t('schemes.email.path', 'Email Address'),
             excludeFromSplit: !0
           },
           {
             scheme: 'twitter',
-            name: Ft.t('schemes.twitter.name', 'Twitter'),
-            path: Ft.t('schemes.twitter.path', 'Twitter Handle'),
+            name: Pt.t('schemes.twitter.name', 'Twitter'),
+            path: Pt.t('schemes.twitter.path', 'Twitter Handle'),
             excludeFromSplit: !0
           },
           {
             scheme: 'ext',
-            name: Ft.t('schemes.external.name', 'External'),
-            path: Ft.t('schemes.external.path', 'External ID')
+            name: Pt.t('schemes.external.name', 'External'),
+            path: Pt.t('schemes.external.path', 'External ID')
           }
         ],
-        mr = [
+        br = [
           {
             type: Ee.missing,
             name: 'Missing',
             description: ' ** Unsupported ** ',
-            component: rn,
-            visibility: qe
+            component: ln,
+            visibility: Ve
           },
           {
             type: Ee.say_msg,
-            name: Ft.t('actions.play_message.name', 'Play Message'),
-            description: Ft.t('actions.play_message.description', 'Play a message'),
-            form: vn,
-            localization: on,
+            name: Pt.t('actions.play_message.name', 'Play Message'),
+            description: Pt.t('actions.play_message.description', 'Play a message'),
+            form: fn,
+            localization: rn,
             localizeableKeys: ['text', 'audio_url'],
             component: gn,
-            visibility: Ve
+            visibility: qe
           },
           {
             type: Ee.wait_for_menu,
-            name: Ft.t('actions.wait_for_menu.name', 'Wait for Menu Selection'),
-            description: Ft.t('actions.wait_for_menu.description', 'Wait for menu selection'),
-            form: to,
-            localization: Qs,
+            name: Pt.t('actions.wait_for_menu.name', 'Wait for Menu Selection'),
+            description: Pt.t('actions.wait_for_menu.description', 'Wait for menu selection'),
+            form: oo,
+            localization: to,
             localizeableKeys: ['exits'],
-            visibility: Ve
+            visibility: qe
           },
           {
             type: Ee.wait_for_digits,
-            name: Ft.t('actions.wait_for_digits.name', 'Wait for Digits'),
-            description: Ft.t('actions.wait_for_digits.description', 'Wait for multiple digits'),
-            form: Fs,
-            localization: Qs,
+            name: Pt.t('actions.wait_for_digits.name', 'Wait for Digits'),
+            description: Pt.t('actions.wait_for_digits.description', 'Wait for multiple digits'),
+            form: Bs,
+            localization: to,
             localizeableKeys: ['exits', 'cases'],
-            visibility: Ve
+            visibility: qe
           },
           {
             type: Ee.wait_for_audio,
-            name: Ft.t('actions.wait_for_audio.name', 'Wait for Audio'),
-            description: Ft.t('actions.wait_for_audio.description', 'Wait for an audio recording'),
-            form: Uo,
-            localization: Qs,
+            name: Pt.t('actions.wait_for_audio.name', 'Wait for Audio'),
+            description: Pt.t('actions.wait_for_audio.description', 'Wait for an audio recording'),
+            form: Mo,
+            localization: to,
             localizeableKeys: ['exits'],
             visibility: [be.SURVEY, be.VOICE]
           },
           {
             type: Ee.send_msg,
-            name: Ft.t('actions.send_msg.name', 'Send Message'),
-            description: Ft.t('actions.send_msg.description', 'Send the contact a message'),
-            form: Wn,
-            localization: on,
+            name: Pt.t('actions.send_msg.name', 'Send Message'),
+            description: Pt.t('actions.send_msg.description', 'Send the contact a message'),
+            form: Jn,
+            localization: rn,
             localizeableKeys: ['text', 'quick_replies', 'templating.variables', 'attachments'],
-            component: Pn,
+            component: Gn,
             massageForDisplay: function(e) {
               e.quick_replies = e.quick_replies || [];
             }
           },
           {
             type: Ee.wait_for_response,
-            name: Ft.t('actions.wait_for_response.name', 'Wait for Response'),
-            description: Ft.t(
+            name: Pt.t('actions.wait_for_response.name', 'Wait for Response'),
+            description: Pt.t(
               'actions.wait_for_response.description',
               'Wait for the contact to respond'
             ),
-            form: go,
-            localization: Qs,
+            form: ko,
+            localization: to,
             localizeableKeys: ['categories', 'cases'],
             aliases: [s.switch],
             visibility: Ge
           },
           {
             type: Ee.wait_for_time,
-            name: Ft.t('actions.wait_for_time.name', 'Wait for Time'),
-            description: Ft.t('actions.wait_for_time.description', 'Wait for time'),
-            form: dr,
-            component: pr
+            name: Pt.t('actions.wait_for_time.name', 'Wait for Time'),
+            description: Pt.t('actions.wait_for_time.description', 'Wait for time'),
+            form: gr,
+            component: fr
           },
           {
             type: Ee.send_broadcast,
-            name: Ft.t('actions.send_broadcast.name', 'Send Broadcast'),
-            description: Ft.t('actions.send_broadcast.description', 'Send somebody else a message'),
-            form: Cn,
-            localization: $a,
+            name: Pt.t('actions.send_broadcast.name', 'Send Broadcast'),
+            description: Pt.t(
+              'actions.send_broadcast.description',
+              'Send a staff member a message'
+            ),
+            form: Un,
+            localization: en,
             localizeableKeys: ['text'],
-            component: En
+            component: Cn
           },
           {
             type: Ee.add_input_labels,
-            name: Ft.t('actions.add_input.name', 'Add Labels'),
-            description: Ft.t('actions.add_input.description', 'Label the incoming message'),
-            form: fa,
+            name: Pt.t('actions.add_input.name', 'Add Labels'),
+            description: Pt.t('actions.add_input.description', 'Label the incoming message'),
+            form: ya,
             component: Ct
           },
           {
             type: Ee.add_contact_urn,
-            name: Ft.t('actions.add_contact_urn.name', 'Add URN'),
-            description: Ft.t('actions.add_contact_urn.description', 'Add a URN for the contact'),
-            form: Aa,
-            component: wa
+            name: Pt.t('actions.add_contact_urn.name', 'Add URN'),
+            description: Pt.t('actions.add_contact_urn.description', 'Add a URN for the contact'),
+            form: Ra,
+            component: Sa
           },
           {
             type: Ee.add_contact_groups,
-            name: Ft.t('actions.add_contact_groups.name', 'Add to Collection'),
-            description: Ft.t(
+            name: Pt.t('actions.add_contact_groups.name', 'Add to Collection'),
+            description: Pt.t(
               'actions.add_contact_groups.description',
               'Add the contact to a collection'
             ),
             form: Pa,
-            component: Ma
+            component: La
           },
           {
             type: Ee.remove_contact_groups,
-            name: Ft.t('actions.remove_contact_groups.name', 'Remove from Group'),
-            description: Ft.t(
+            name: Pt.t('actions.remove_contact_groups.name', 'Remove from Group'),
+            description: Pt.t(
               'actions.remove_contact_groups.description',
               'Remove the contact from a group'
             ),
-            form: Ya,
-            component: Ma
+            form: Xa,
+            component: La
           },
           {
             type: Ee.set_contact_field,
@@ -13237,216 +13681,216 @@
               Ee.set_contact_channel,
               Ee.set_contact_status
             ],
-            name: Ft.t('actions.set_contact_field.name', 'Update Contact'),
-            description: Ft.t('actions.set_contact_field.description', 'Update the contact'),
-            form: es,
-            component: _i
+            name: Pt.t('actions.set_contact_field.name', 'Update Contact'),
+            description: Pt.t('actions.set_contact_field.description', 'Update the contact'),
+            form: ss,
+            component: bi
           },
           {
             type: Ee.send_email,
-            name: Ft.t('actions.send_email.name', 'Send Email'),
-            description: Ft.t('actions.send_email.description', 'Send an email'),
-            form: An,
-            localization: $a,
+            name: Pt.t('actions.send_email.name', 'Send Email'),
+            description: Pt.t('actions.send_email.description', 'Send an email'),
+            form: Bn,
+            localization: en,
             localizeableKeys: ['subject', 'body'],
-            component: wn,
+            component: Dn,
             visibility: We
           },
           {
             type: Ee.set_run_result,
-            name: Ft.t('actions.set_run_result.name', 'Save Flow Result'),
-            description: Ft.t('actions.set_run_result.description', 'Save a result for this flow'),
-            form: Qn,
-            component: Kn
+            name: Pt.t('actions.set_run_result.name', 'Save Flow Result'),
+            description: Pt.t('actions.set_run_result.description', 'Save a result for this flow'),
+            form: ti,
+            component: $n
           },
           {
             type: Ee.play_audio,
-            name: Ft.t('actions.play_audio.name', 'Play Recording'),
-            description: Ft.t('actions.play_audio.description', 'Play a contact recording'),
-            form: cn,
-            component: ln,
-            visibility: Ve
+            name: Pt.t('actions.play_audio.name', 'Play Recording'),
+            description: Pt.t('actions.play_audio.description', 'Play a contact recording'),
+            form: un,
+            component: cn,
+            visibility: qe
           },
           {
             type: Ee.call_webhook,
-            name: Ft.t('actions.call_webhook.name', 'Call Webhook'),
-            description: Ft.t('actions.call_webhook.description', 'Call a webhook'),
-            form: Vo,
-            localization: Qs,
+            name: Pt.t('actions.call_webhook.name', 'Call Webhook'),
+            description: Pt.t('actions.call_webhook.description', 'Call a webhook'),
+            form: Xo,
+            localization: to,
             localizeableKeys: ['exits'],
-            component: Ua,
+            component: Da,
             aliases: [Ee.split_by_webhook],
             visibility: We
           },
           {
             type: Ee.call_resthook,
-            name: Ft.t('actions.call_resthook.name', 'Call Zapier'),
-            description: Ft.t('actions.call_resthook.description', 'Call Zapier'),
-            form: bo,
-            localization: Qs,
+            name: Pt.t('actions.call_resthook.name', 'Call Zapier'),
+            description: Pt.t('actions.call_resthook.description', 'Call Zapier'),
+            form: So,
+            localization: to,
             localizeableKeys: ['exits'],
-            component: Ra,
+            component: Ua,
             aliases: [Ee.split_by_resthook],
             filter: we.HAS_RESTHOOK,
             visibility: We
           },
           {
             type: Ee.enter_flow,
-            name: Ft.t('actions.enter_flow.name', 'Enter a Flow'),
-            description: Ft.t('actions.enter_flow.description', 'Enter another flow'),
-            form: jo,
-            localization: Qs,
+            name: Pt.t('actions.enter_flow.name', 'Enter a Flow'),
+            description: Pt.t('actions.enter_flow.description', 'Enter another flow'),
+            form: Do,
+            localization: to,
             localizeableKeys: ['exits'],
-            component: Zn,
+            component: ni,
             aliases: [Ee.split_by_subflow]
           },
           {
             type: Ee.start_session,
-            name: Ft.t('actions.start_session.name', 'Start Somebody Else'),
-            description: Ft.t('actions.start_session.description', 'Start somebody else in a flow'),
-            localization: Qs,
+            name: Pt.t('actions.start_session.name', 'Start Somebody Else'),
+            description: Pt.t('actions.start_session.description', 'Start somebody else in a flow'),
+            localization: to,
             localizeableKeys: ['exits'],
-            form: li,
-            component: ni,
+            form: hi,
+            component: li,
             visibility: We
           },
           {
             type: Ee.open_ticket,
-            name: Ft.t('actions.open_ticket.name', 'Open Ticket'),
-            description: Ft.t(
+            name: Pt.t('actions.open_ticket.name', 'Open Ticket'),
+            description: Pt.t(
               'actions.open_ticket.description',
               'Open a ticket with a human agent'
             ),
-            form: or,
-            localization: Qs,
+            form: pr,
+            localization: to,
             localizeableKeys: ['exits'],
-            component: lr,
+            component: mr,
             aliases: [Ee.split_by_ticket],
             visibility: We,
             filter: we.HAS_TICKETER
           },
           {
             type: Ee.transfer_airtime,
-            name: Ft.t('actions.transfer_airtime.name', 'Send Airtime'),
-            description: Ft.t('actions.transfer_airtime.description', 'Send the contact airtime'),
-            form: ms,
-            localization: Qs,
+            name: Pt.t('actions.transfer_airtime.name', 'Send Airtime'),
+            description: Pt.t('actions.transfer_airtime.description', 'Send the contact airtime'),
+            form: ys,
+            localization: to,
             localizeableKeys: ['exits'],
-            component: di,
+            component: vi,
             aliases: [Ee.split_by_airtime],
             visibility: We,
             filter: we.HAS_AIRTIME
           },
           {
             type: Ee.wait_for_image,
-            name: Ft.t('actions.wait_for_image.name', 'Wait for Image'),
-            description: Ft.t('actions.wait_for_image.description', 'Wait for an image'),
-            form: Uo,
-            localization: Qs,
+            name: Pt.t('actions.wait_for_image.name', 'Wait for Image'),
+            description: Pt.t('actions.wait_for_image.description', 'Wait for an image'),
+            form: Mo,
+            localization: to,
             localizeableKeys: ['exits'],
             visibility: He
           },
           {
             type: Ee.wait_for_video,
-            name: Ft.t('actions.wait_for_video.name', 'Wait for Video'),
-            description: Ft.t('actions.wait_for_video.description', 'Wait for a video'),
-            form: Uo,
-            localization: Qs,
+            name: Pt.t('actions.wait_for_video.name', 'Wait for Video'),
+            description: Pt.t('actions.wait_for_video.description', 'Wait for a video'),
+            form: Mo,
+            localization: to,
             localizeableKeys: ['exits'],
             visibility: He
           },
           {
             type: Ee.wait_for_location,
-            name: Ft.t('actions.wait_for_location.name', 'Wait for Location'),
-            description: Ft.t(
+            name: Pt.t('actions.wait_for_location.name', 'Wait for Location'),
+            description: Pt.t(
               'actions.wait_for_location.description',
               'Wait for location GPS coordinates'
             ),
-            form: Uo,
-            localization: Qs,
+            form: Mo,
+            localization: to,
             localizeableKeys: ['exits'],
             visibility: He
           },
           {
             type: Ee.split_by_intent,
-            name: Ft.t('actions.split_by_intent.name', 'Split by Intent'),
-            description: Ft.t('actions.split_by_intent.description', 'Split by intent'),
-            form: Zo,
-            localization: Qs,
+            name: Pt.t('actions.split_by_intent.name', 'Split by Intent'),
+            description: Pt.t('actions.split_by_intent.description', 'Split by intent'),
+            form: ir,
+            localization: to,
             localizeableKeys: ['exits'],
-            component: Go,
+            component: Jo,
             aliases: [Ee.call_classifier],
             visibility: We,
             filter: we.HAS_CLASSIFIER
           },
           {
             type: Ee.split_by_expression,
-            name: Ft.t('actions.split_by_expression.name', 'Split by Expression'),
-            description: Ft.t(
+            name: Pt.t('actions.split_by_expression.name', 'Split by Expression'),
+            description: Pt.t(
               'actions.split_by_expression.description',
               'Split by a custom expression'
             ),
-            localization: Qs,
-            localizeableKeys: ['exits', 'cases'],
-            form: Ms
-          },
-          {
-            type: Ee.split_by_contact_field,
-            name: Ft.t('actions.split_by_contact_field.name', 'Split by Contact Field'),
-            description: Ft.t(
-              'actions.split_by_contact_field.description',
-              'Split by a contact field'
-            ),
-            localization: Qs,
+            localization: to,
             localizeableKeys: ['exits', 'cases'],
             form: qs
           },
           {
+            type: Ee.split_by_contact_field,
+            name: Pt.t('actions.split_by_contact_field.name', 'Split by Contact Field'),
+            description: Pt.t(
+              'actions.split_by_contact_field.description',
+              'Split by a contact field'
+            ),
+            localization: to,
+            localizeableKeys: ['exits', 'cases'],
+            form: Ks
+          },
+          {
             type: Ee.split_by_run_result,
             aliases: [Ee.split_by_run_result_delimited],
-            name: Ft.t('actions.split_by_run_result.name', 'Split by Flow Result'),
-            description: Ft.t(
+            name: Pt.t('actions.split_by_run_result.name', 'Split by Flow Result'),
+            description: Pt.t(
               'actions.split_by_run_result.description',
               'Split by a result in the flow'
             ),
-            localization: Qs,
+            localization: to,
             localizeableKeys: ['exits', 'cases'],
-            form: No
+            form: Ao
           },
           {
             type: Ee.split_by_random,
-            name: Ft.t('actions.split_by_random.name', 'Split Randomly'),
-            description: Ft.t('actions.split_by_random.description', 'Split by random chance'),
-            localization: Qs,
+            name: Pt.t('actions.split_by_random.name', 'Split Randomly'),
+            description: Pt.t('actions.split_by_random.description', 'Split by random chance'),
+            localization: to,
             localizeableKeys: ['exits'],
-            form: lo
+            form: mo
           },
           {
             type: Ee.split_by_groups,
-            name: Ft.t('actions.split_by_groups.name', 'Split by Group Membership'),
-            description: Ft.t('actions.split_by_groups.description', 'Split by group membership'),
-            localization: Qs,
+            name: Pt.t('actions.split_by_groups.name', 'Split by Group Membership'),
+            description: Pt.t('actions.split_by_groups.description', 'Split by group membership'),
+            localization: to,
             localizeableKeys: ['exits'],
-            form: Ws
+            form: Js
           },
           {
             type: Ee.split_by_scheme,
-            name: Ft.t('actions.split_by_scheme.name', 'Split by URN Type'),
-            description: Ft.t('actions.split_by_scheme.description', 'Split by URN type'),
-            localization: Qs,
+            name: Pt.t('actions.split_by_scheme.name', 'Split by URN Type'),
+            description: Pt.t('actions.split_by_scheme.description', 'Split by URN type'),
+            localization: to,
             localizeableKeys: ['exits'],
-            form: ar
+            form: lr
           }
         ],
-        _r = (function(e) {
+        kr = (function(e) {
           var t = {};
           return e.filter(function(e) {
             if ('missing' === e.type) return !1;
             var a = e.name;
             return !t[a] && (t[a] = !0);
           });
-        })(mr),
-        gr = mr.reduce(function(e, t) {
+        })(br),
+        Er = br.reduce(function(e, t) {
           return (
             (e[t.type] = t),
             t.aliases &&
@@ -13456,11 +13900,11 @@
             e
           );
         }, {}),
-        vr = function(e) {
-          var t = gr[e];
-          return t || (t = gr.missing), t;
+        Cr = function(e) {
+          var t = Er[e];
+          return t || (t = Er.missing), t;
         },
-        fr = function(e) {
+        wr = function(e) {
           var t = e.node.router && e.node.router.wait;
           if (t && t.hint)
             switch (t.hint.type) {
@@ -13479,25 +13923,25 @@
             ? e.ui.type
             : Ee.split_by_expression;
         },
-        yr = function(e, t) {
+        Sr = function(e, t) {
           return !!(e.filters || []).find(function(e) {
             return e === t;
           });
         },
-        br = function(e, t) {
+        Nr = function(e, t) {
           var a = {
             type: Ee.set_contact_name,
             valid: !1,
             name: { value: '' },
             channel: { value: null },
             language: { value: null },
-            status: { value: Xi },
-            field: { value: gt },
+            status: { value: es },
+            field: { value: vt },
             fieldValue: { value: '' }
           };
           if (e.originalAction) {
             var n = e.originalAction.type;
-            if (vr(n) === vr(Ee.set_contact_field))
+            if (Cr(n) === Cr(Ee.set_contact_field))
               switch (((a.type = n), n)) {
                 case Ee.set_contact_field:
                   var i = e.originalAction;
@@ -13510,7 +13954,7 @@
                 case Ee.set_contact_channel:
                   var s = e.originalAction;
                   return (
-                    (a.field = { value: vt }),
+                    (a.field = { value: gt }),
                     (a.channel = { value: s.channel ? s.channel : Ne }),
                     (a.valid = !0),
                     a
@@ -13522,7 +13966,7 @@
                     (a.valid = !0),
                     (a.language = {
                       value: o.language
-                        ? { iso: o.language, name: Cr(o.language, t.languages.items) }
+                        ? { iso: o.language, name: jr(o.language, t.languages.items) }
                         : Ne
                     }),
                     a
@@ -13533,7 +13977,7 @@
                     (a.field = { value: yt }),
                     (a.valid = !0),
                     (a.status = {
-                      value: $i.find(function(e) {
+                      value: is.find(function(e) {
                         return e.value === r.status;
                       })
                     }),
@@ -13546,7 +13990,7 @@
           }
           return a;
         },
-        kr = function(e, t) {
+        Or = function(e, t) {
           var a = t.field.value;
           return t.type === Ee.set_contact_field
             ? {
@@ -13573,13 +14017,13 @@
             ? { uuid: lt(e, Ee.set_contact_name), type: t.type, name: t.name.value }
             : void 0;
         },
-        Er = function(e, t) {
+        xr = function(e, t) {
           var a = e.type || '',
             n = t.type || '',
             i = e.name || e.label || '',
             s = t.name || t.label || '';
-          if (e.id === gt.id && t.id !== gt.id) return -1;
-          if (t.id === gt.id && e.id !== gt.id) return 1;
+          if (e.id === vt.id && t.id !== vt.id) return -1;
+          if (t.id === vt.id && e.id !== vt.id) return 1;
           if (a === n) return i.localeCompare(s);
           if (a === fe.Scheme) return 1;
           if (n === fe.Scheme) return -1;
@@ -13589,16 +14033,16 @@
           }
           return i.localeCompare(s);
         },
-        Cr = function(e, t) {
+        jr = function(e, t) {
           var a = e;
           return t && a in t && (a = t[a].name), a;
         },
-        wr = function(e) {
+        Tr = function(e) {
           return e.label || e.name || e.key;
         },
-        Sr = a(105),
-        Nr = a.n(Sr),
-        Or = {
+        Ar = a(107),
+        Rr = a.n(Ar),
+        Ur = {
           dragStartTime: 0,
           dragDownPosition: null,
           dragActive: !1,
@@ -13606,7 +14050,7 @@
           dragGroup: !1,
           dragSelection: null
         },
-        xr = {
+        Dr = {
           completionSchema: { types: [], root: [] },
           functions: [],
           currentRevision: null,
@@ -13631,8 +14075,8 @@
           scrollToNode: null,
           scrollToAction: null
         },
-        jr = function() {
-          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : xr,
+        Fr = function() {
+          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Dr,
             t = arguments.length > 1 ? arguments[1] : void 0;
           switch (t.type) {
             case ye.UPDATE_EDITOR_STATE:
@@ -13641,31 +14085,31 @@
               return e;
           }
         },
-        Tr = function() {},
-        Ar = null,
-        Rr = !1,
-        Ur = 0,
-        Dr = 0,
-        Pr = Ft.t(
+        Pr = function() {},
+        Ir = null,
+        Mr = !1,
+        Lr = 0,
+        zr = 0,
+        Br = Pt.t(
           'errors.network',
           'Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again.'
         ),
-        Fr = function(e) {
+        Vr = function(e) {
           window.setInterval(function() {
-            Dr < Ur &&
-              new Date().getTime() - Ur > 6e4 &&
+            zr < Lr &&
+              new Date().getTime() - Lr > 6e4 &&
               e(
-                Mr({
-                  modalMessage: { title: "Uh oh, we couldn't save your changes", body: Pr },
+                Hr({
+                  modalMessage: { title: "Uh oh, we couldn't save your changes", body: Br },
                   saving: !1
                 })
               );
           }, 5e3);
         },
-        Ir = function(e, t, a) {
+        qr = function(e, t, a) {
           return function() {
             var n = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1e3;
-            (Ur = new Date().getTime()), Ar && window.clearTimeout(Ar);
+            (Lr = new Date().getTime()), Ir && window.clearTimeout(Ir);
             var i = a(),
               s = i.flowContext,
               o = s.definition,
@@ -13673,33 +14117,33 @@
               l = s.assetStore,
               c = s.issues,
               u = i.editorState.currentRevision;
-            t(Mr({ saving: !0 }));
-            var d = _l(o, r, !0);
+            t(Hr({ saving: !0 }));
+            var d = kl(o, r, !0);
             (d.revision = u),
-              (Ar = Rr
+              (Ir = Mr
                 ? window.setTimeout(function() {
-                    Tr();
+                    Pr();
                   }, 1e3)
                 : window.setTimeout(function() {
-                    (Rr = !0),
+                    (Mr = !0),
                       Ke(e, d).then(
                         function(e) {
                           var a = e.revision;
                           (o.revision = a.revision),
                             t(je(o)),
-                            e.metadata && (t(Re(e.metadata)), t(Ae(El(c, e.metadata.issues))));
-                          var n = Li(l, a);
+                            e.metadata && (t(Re(e.metadata)), t(Ae(xl(c, e.metadata.issues))));
+                          var n = Hi(l, a);
                           t(Ue(n)),
                             t(
-                              Mr({ currentRevision: a.revision, saving: !1, activityInterval: 5e3 })
+                              Hr({ currentRevision: a.revision, saving: !1, activityInterval: 5e3 })
                             ),
-                            (Dr = new Date().getTime()),
-                            (Rr = !1);
+                            (zr = new Date().getTime()),
+                            (Mr = !1);
                         },
                         function(e) {
-                          var a = e.response ? e.response.data.description : Pr;
+                          var a = e.response ? e.response.data.description : Br;
                           t(
-                            Mr({
+                            Hr({
                               modalMessage: {
                                 title: "Uh oh, we couldn't save your changes",
                                 body: a
@@ -13707,16 +14151,16 @@
                               saving: !1
                             })
                           ),
-                            (Rr = !1);
+                            (Mr = !1);
                         }
                       );
                   }, n));
           };
         },
-        Mr = function(e) {
+        Hr = function(e) {
           return function(t, a) {
             var n = a().editorState,
-              i = Jt()(n, { $merge: e });
+              i = $t()(n, { $merge: e });
             return (
               t(
                 (function(e) {
@@ -13727,17 +14171,17 @@
             );
           };
         },
-        Lr = function() {
+        Gr = function() {
           return function(e, t) {
-            Tr(0);
+            Pr(0);
           };
         },
-        zr = function(e, t) {
+        Wr = function(e, t) {
           return function(a, n) {
             var i = e.definition,
               s = n(),
               o = s.flowContext.issues;
-            s.editorState.fetchingFlow || a(Mr({ fetchingFlow: !0 })),
+            s.editorState.fetchingFlow || a(Hr({ fetchingFlow: !0 })),
               (i.localization = i.localization || {}),
               (i._ui = i._ui || { nodes: {}, languages: [], stickies: {} });
             var r,
@@ -13747,7 +14191,7 @@
               for (c.s(); !(r = c.n()).done; ) {
                 var u = r.value;
                 i._ui.nodes[u.uuid] ||
-                  ((i._ui.nodes[u.uuid] = { position: { left: 0, top: l }, type: fl(u) }),
+                  ((i._ui.nodes[u.uuid] = { position: { left: 0, top: l }, type: wl(u) }),
                   (l += 150));
               }
             } catch (_) {
@@ -13757,31 +14201,31 @@
             }
             var d,
               p,
-              h = bl(i);
-            kl(t.fields.items, h.fields),
-              kl(t.groups.items, h.groups),
-              kl(t.labels.items, h.labels),
-              kl(t.results.items, h.results),
+              h = Nl(i);
+            Ol(t.fields.items, h.fields),
+              Ol(t.groups.items, h.groups),
+              Ol(t.labels.items, h.labels),
+              Ol(t.results.items, h.results),
               i.language && (d = t.languages.items[i.language]),
-              d || ((d = Oe), a(Mr({ language: Oe })), kl(t.languages.items, { base: Oe })),
-              e.metadata && e.metadata.issues ? a(Ae(El(o, e.metadata.issues))) : a(Ae({})),
+              d || ((d = Oe), a(Hr({ language: Oe })), Ol(t.languages.items, { base: Oe })),
+              e.metadata && e.metadata.issues ? a(Ae(xl(o, e.metadata.issues))) : a(Ae({})),
               a(((p = d), { type: ye.UPDATE_BASE_LANGUAGE, payload: { baseLanguage: p } })),
               a(Re(e.metadata)),
               a(
                 je(
                   (function(e) {
-                    return Pi(e, { nodes: [], _ui: { $merge: { nodes: {} } } });
+                    return zi(e, { nodes: [], _ui: { $merge: { nodes: {} } } });
                   })(i)
                 )
               ),
               a(Te(h.renderNodeMap)),
               a(Ue(t)),
-              a(Mr({ language: d, fetchingFlow: !1 }));
+              a(Hr({ language: d, fetchingFlow: !1 }));
             var m = document.querySelector('temba-store');
             m && m.setKeyedAssets('results', Object.keys(t.results.items));
           };
         },
-        Br = function(e, t) {
+        Kr = function(e, t) {
           var a = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
           return (function() {
             var n = Object(Me.a)(
@@ -13792,7 +14236,7 @@
                     switch ((n.prev = n.next)) {
                       case 0:
                         if (
-                          (i(Mr({ fetchingFlow: !0 })),
+                          (i(Hr({ fetchingFlow: !0 })),
                           (o = s()),
                           (r = o.flowContext.assetStore),
                           Object.keys(r).length)
@@ -13805,9 +14249,9 @@
                         r = n.sent;
                       case 6:
                         return (
-                          Cl(e.activity, i, s, t),
+                          jl(e.activity, i, s, t),
                           (window.triggerActivityUpdate = function() {
-                            Cl(e.activity, i, s, t);
+                            jl(e.activity, i, s, t);
                           }),
                           (n.next = 10),
                           at(e.completion)
@@ -13821,17 +14265,17 @@
                               var t = e.definition
                                 ? e
                                 : { definition: e, metadata: { issues: [] } };
-                              i(zr(t, r)),
+                              i(Wr(t, r)),
                                 i(
-                                  Mr({
+                                  Hr({
                                     currentRevision: t.definition.revision,
                                     completionSchema: l,
                                     functions: c
                                   })
                                 ),
-                                (Tr = Ir(r.revisions.endpoint, i, s)),
-                                a && Tr(0),
-                                Fr(i);
+                                (Pr = qr(r.revisions.endpoint, i, s)),
+                                a && Pr(0),
+                                Vr(i);
                             })
                             .catch(function(e) {
                               console.error(e);
@@ -13848,31 +14292,31 @@
             };
           })();
         },
-        qr = function(e, t) {
+        Yr = function(e, t) {
           return function(a, n) {
             var i = n().flowContext.assetStore,
-              s = Jt()(i, Object(S.a)({}, e, { items: { $merge: Object(S.a)({}, t.id, t) } })),
+              s = $t()(i, Object(S.a)({}, e, { items: { $merge: Object(S.a)({}, t.id, t) } })),
               o = document.querySelector('temba-store');
             o && o.setKeyedAssets(e, Object.keys(s[e])), a(Ue(s));
           };
         },
-        Vr = function(e) {
+        Xr = function(e) {
           return function(t, a) {
             var n = a(),
               i = n.flowContext.baseLanguage,
               s = n.editorState,
               o = s.translating,
               r = s.language;
-            Nr()(e, i) ? t(Mr({ translating: !1 })) : o || t(Mr({ translating: !0 })),
-              Nr()(e, r) || t(Mr({ language: e }));
+            Rr()(e, i) ? t(Hr({ translating: !1 })) : o || t(Hr({ translating: !0 })),
+              Rr()(e, r) || t(Hr({ language: e }));
           };
         },
-        Hr = function(e, t) {
+        Qr = function(e, t) {
           return function(a, n) {
             var i = (function(e, t, a) {
               var n = e;
               return (
-                n.localization[t] || (n = Pi(n, { localization: Object(S.a)({}, t, Y({})) })),
+                n.localization[t] || (n = zi(n, { localization: Object(S.a)({}, t, Y({})) })),
                 a.forEach(function(e) {
                   var a = e.translations,
                     i = e.uuid;
@@ -13882,86 +14326,86 @@
                         c = a[l];
                       Array.isArray(c) ? (s[l] = c) : (s[l] = [c]);
                     }
-                    n = Pi(n, { localization: Object(S.a)({}, t, Object(S.a)({}, i, Y(s))) });
-                  } else n = Pi(n, { localization: Object(S.a)({}, t, Q([i])) });
+                    n = zi(n, { localization: Object(S.a)({}, t, Object(S.a)({}, i, Y(s))) });
+                  } else n = zi(n, { localization: Object(S.a)({}, t, Q([i])) });
                 }),
                 n
               );
             })(n().flowContext.definition, e, t);
-            return a(je(i)), Tr(), i;
+            return a(je(i)), Pr(), i;
           };
         },
-        Gr = function(e, t, a) {
+        Jr = function(e, t, a) {
           return function(n, i) {
             var s = i().flowContext.nodes,
-              o = zi(s, e, t, a);
-            return n(Te(o)), Tr(), o;
+              o = Gi(s, e, t, a);
+            return n(Te(o)), Pr(), o;
           };
         },
-        Wr = function(e, t) {
+        $r = function(e, t) {
           return function(a, n) {
-            return a(Gr(e, t, null));
+            return a(Jr(e, t, null));
           };
         },
-        Kr = function(e, t) {
+        Zr = function(e, t) {
           return function(a, n) {
             var i = e.split(':'),
               s = Object(w.a)(i, 2),
               o = s[0],
               r = s[1];
-            return a(Gr(o, r, t));
+            return a(Jr(o, r, t));
           };
         },
-        Yr = function(e) {
+        el = function(e) {
           return function(t, a) {
             var n = a().flowContext,
               i = n.nodes,
               s = n.assetStore;
             if (e.router && e.router.result_name) {
-              var o = Ii(e.router.result_name, s, { nodeUUID: e.uuid });
+              var o = Vi(e.router.result_name, s, { nodeUUID: e.uuid });
               t(Ue(o));
             }
-            var r = Vi(i, e.uuid);
-            return t(Te(r)), Tr(), r;
+            var r = Yi(i, e.uuid);
+            return t(Te(r)), Pr(), r;
           };
         },
-        Xr = function(e, t) {
+        tl = function(e, t) {
           return function(a, n) {
             var i = n().flowContext,
               s = i.nodes,
               o = i.assetStore,
               r = s[e];
             if (t.type === Ee.set_run_result) {
-              var l = Ii(t.name, o, { nodeUUID: e, actionUUID: t.uuid });
+              var l = Vi(t.name, o, { nodeUUID: e, actionUUID: t.uuid });
               a(Ue(l));
             }
             if (1 === r.node.actions.length) {
-              var c = a(Yr(r.node));
-              return Tr(), c;
+              var c = a(el(r.node));
+              return Pr(), c;
             }
             var u = (function(e, t, a) {
-              var n = cl(e, t),
-                i = dl(n.node, a);
-              return Pi(e, Object(S.a)({}, t, { node: { actions: Z([[i, 1]]) } }));
+              var n = _l(e, t),
+                i = gl(n.node, a);
+              return zi(e, Object(S.a)({}, t, { node: { actions: $([[i, 1]]) } }));
             })(s, e, t.uuid);
-            return a(Te(u)), Tr(), u;
+            return a(Te(u)), Pr(), u;
           };
         },
-        Qr = function(e, t) {
+        al = function(e, t) {
           return function(a, n) {
             var i = (function(e, t, a) {
-              var n = cl(e, t),
+              var n = _l(e, t),
                 i = n.node.actions,
-                s = dl(n.node, a);
+                s = gl(n.node, a);
               if (0 === s) throw new Error('Cannot move an action at the top upwards');
               var o = i[s],
                 r = i[s - 1];
-              return Pi(e, Object(S.a)({}, t, { node: { actions: Z([[s - 1, 2, o, r]]) } }));
+              return zi(e, Object(S.a)({}, t, { node: { actions: $([[s - 1, 2, o, r]]) } }));
             })(n().flowContext.nodes, e, t.uuid);
-            return a(Te(i)), Tr(), i;
+            return a(Te(i)), Pr(), i;
           };
         },
-        Jr = function(e) {
+        nl = function(e) {
           return function(t) {
             t(
               (function(e) {
@@ -13970,12 +14414,12 @@
             );
           };
         },
-        Zr = function() {
+        il = function() {
           return function(e, t) {
-            e(Mr({ ghostNode: null })), e(ea(null));
+            e(Hr({ ghostNode: null })), e(ta(null));
           };
         },
-        $r = function(e, t) {
+        sl = function(e, t) {
           return function(a, n) {
             var i = n(),
               s = i.nodeEditor,
@@ -13992,40 +14436,40 @@
               m = d;
             if (h && h.type === Ee.set_run_result) {
               var _ = h.name;
-              m = Ii(_, m, { nodeUUID: p.node.uuid, actionUUID: e.uuid });
+              m = Vi(_, m, { nodeUUID: p.node.uuid, actionUUID: e.uuid });
             }
-            var g = c,
-              v = null;
+            var v = c,
+              g = null;
             if (!(null === p || !p.ghost)) {
               var f = {
-                node: { uuid: $(), actions: [e], exits: [{ uuid: $(), destination_uuid: null }] },
+                node: { uuid: Z(), actions: [e], exits: [{ uuid: Z(), destination_uuid: null }] },
                 ui: { position: p.ui.position, type: Ee.execute_actions },
                 inboundConnections: p.inboundConnections
               };
-              (g = Bi(c, f)), (v = f.node.uuid);
+              (v = Wi(c, f)), (g = f.node.uuid);
             } else
-              (v = p.node.uuid),
-                (g = o
+              (g = p.node.uuid),
+                (v = o
                   ? (function(e, t, a) {
-                      return cl(e, t), Pi(e, Object(S.a)({}, t, { node: { actions: J([a]) } }));
+                      return _l(e, t), zi(e, Object(S.a)({}, t, { node: { actions: J([a]) } }));
                     })(c, p.node.uuid, e)
                   : p.node.hasOwnProperty('router')
-                  ? qi(c, p.node.uuid, e)
+                  ? Ki(c, p.node.uuid, e)
                   : (function(e, t, a, n) {
-                      var i = cl(e, t),
-                        s = n ? dl(i.node, n.uuid) : 0;
-                      return Pi(
+                      var i = _l(e, t),
+                        s = n ? gl(i.node, n.uuid) : 0;
+                      return zi(
                         e,
                         Object(S.a)({}, t, { node: { actions: Object(S.a)({}, s, Y(a)) } })
                       );
                     })(c, p.node.uuid, e, h));
-            (a(Te(g)), a(ta(!1)), e.type === Ee.set_run_result) &&
+            (a(Te(v)), a(aa(!1)), e.type === Ee.set_run_result) &&
               ((m = (function(e, t, a) {
                 if (e) {
-                  var n = Mi(e, t.results.items, a);
-                  return Pi(t, { results: { items: { $set: n } } });
+                  var n = qi(e, t.results.items, a);
+                  return zi(t, { results: { items: { $set: n } } });
                 }
-              })(e.name, m, { nodeUUID: v, actionUUID: e.uuid })),
+              })(e.name, m, { nodeUUID: g, actionUUID: e.uuid })),
               a(Ue(m)));
             if (e.type === Ee.set_contact_field) {
               var b = e.field;
@@ -14035,21 +14479,21 @@
                 })(Object(y.a)(Object(y.a)({}, u), {}, Object(S.a)({}, b.key, b.name)))
               );
             }
-            return Tr(0), t && t(a, n), g;
+            return Pr(0), t && t(a, n), v;
           };
         },
-        el = function(e) {
+        ol = function(e) {
           return function(t, a) {
             var n = a().flowContext.nodes,
-              i = { uuid: $(), type: Ee.send_msg, text: '' };
-            t(ea({ originalNode: cl(n, e.uuid), originalAction: i, showAdvanced: !1 })),
-              Tr(),
-              t(ta(!0)),
-              t(Jr(vr(Ee.send_msg))),
-              t(Mr(Or));
+              i = { uuid: Z(), type: Ee.send_msg, text: '' };
+            t(ta({ originalNode: _l(n, e.uuid), originalAction: i, showAdvanced: !1 })),
+              Pr(),
+              t(aa(!0)),
+              t(nl(Cr(Ee.send_msg))),
+              t(Hr(Ur));
           };
         },
-        tl = function(e) {
+        rl = function(e) {
           return function(t, a) {
             var n = a().flowContext,
               i = n.nodes,
@@ -14061,17 +14505,17 @@
             return (
               e.forEach(function(e) {
                 e in o
-                  ? ((o = Vi(o, e, !0)), (l = !0))
-                  : e in r._ui.stickies && ((r = Wi(r, e, null)), (c = !0));
+                  ? ((o = Yi(o, e, !0)), (l = !0))
+                  : e in r._ui.stickies && ((r = Ji(r, e, null)), (c = !0));
               }),
               l && t(Te(o)),
               c && t(je(r)),
-              (c || l) && Tr(),
+              (c || l) && Pr(),
               i
             );
           };
         },
-        al = function(e) {
+        ll = function(e) {
           return function(t, a) {
             var n = a().flowContext,
               i = n.nodes,
@@ -14081,13 +14525,13 @@
               l = !1;
             for (var c in e)
               o[c]
-                ? ((o = Hi(o, c, e[c])), (r = !0))
-                : s._ui.stickies[c] && ((s = Gi(s, c, e[c])), (l = !0));
+                ? ((o = Xi(o, c, e[c])), (r = !0))
+                : s._ui.stickies[c] && ((s = Qi(s, c, e[c])), (l = !0));
             var u = !1;
-            return r && ((u = !0), t(Te(o))), l && ((u = !0), t(je(s))), u && Tr(), o;
+            return r && ((u = !0), t(Te(o))), l && ((u = !0), t(je(s))), u && Pr(), o;
           };
         },
-        nl = function(e, t) {
+        cl = function(e, t) {
           return function(a, n) {
             for (
               var i = n().flowContext,
@@ -14105,18 +14549,18 @@
 
             )
               h++, (m = 'result_'.concat(h));
-            var _ = vl(d, u, h, t);
-            (_.inboundConnections = Object(S.a)({}, u, c)), a(Mr({ ghostNode: _ }));
+            var _ = Cl(d, u, h, t);
+            (_.inboundConnections = Object(S.a)({}, u, c)), a(Hr({ ghostNode: _ }));
           };
         },
-        il = function(e, t) {
+        ul = function(e, t) {
           return function(a, n) {
             var i = n().flowContext.definition,
-              s = Wi(i, e, t);
-            a(je(s)), Tr();
+              s = Ji(i, e, t);
+            a(je(s)), Pr();
           };
         },
-        sl = function(e) {
+        dl = function(e) {
           return function(t, a) {
             var n,
               i,
@@ -14136,27 +14580,27 @@
               e.inboundConnections = u.inboundConnections;
               var m = u.ui.position,
                 _ = m.left,
-                g = m.top;
-              (e.ui.position = { left: _, top: g }), (e.node = Fi(e.node));
+                v = m.top;
+              (e.ui.position = { left: _, top: v }), (e.node = Bi(e.node));
             }
-            if (Di(e.node)) {
-              var v = l,
-                f = Di(u.node);
-              f && (v = Ii(f, v, { nodeUUID: u.node.uuid })),
-                (v = (function(e, t) {
+            if (Li(e.node)) {
+              var g = l,
+                f = Li(u.node);
+              f && (g = Vi(f, g, { nodeUUID: u.node.uuid })),
+                (g = (function(e, t) {
                   var a = e;
                   a || (a = { results: { items: {}, type: fe.Result } }),
                     a.results || (a.results = { items: {}, type: fe.Result });
-                  var n = Di(t);
+                  var n = Li(t);
                   if (n) {
-                    var i = Mi(n, e.results.items, { nodeUUID: t.uuid });
-                    return Pi(e, { results: { items: { $set: i } } });
+                    var i = qi(n, e.results.items, { nodeUUID: t.uuid });
+                    return zi(e, { results: { items: { $set: i } } });
                   }
                   return e;
-                })(v, e.node)),
-                t(Ue(v));
+                })(g, e.node)),
+                t(Ue(g));
             }
-            if (u && d && !u.ghost && !xi(u.node)) {
+            if (u && d && !u.ghost && !Ui(u.node)) {
               var b = u.node.actions.find(function(e) {
                 return e.uuid === d.uuid;
               });
@@ -14170,11 +14614,11 @@
                       var a = t().flowContext.nodes,
                         s = a[i.nodeUUID],
                         o = a;
-                      (o = Vi(o, s.node.uuid, !1)), (n.node = Fi(n.node));
+                      (o = Yi(o, s.node.uuid, !1)), (n.node = Bi(n.node));
                       var r,
                         l,
-                        c = dl(s.node, i.actionUUID),
-                        u = c > 0 ? Object(ge.a)(s.node.actions.slice(0, c)) : [],
+                        c = gl(s.node, i.actionUUID),
+                        u = c > 0 ? Object(ve.a)(s.node.actions.slice(0, c)) : [],
                         d = s.node.actions.slice(c + 1, s.node.actions.length),
                         p = s.ui.position,
                         h = p.left,
@@ -14183,50 +14627,50 @@
                         u.length > 0
                           ? ((r = {
                               node: {
-                                uuid: $(),
+                                uuid: Z(),
                                 actions: u,
-                                exits: [{ uuid: $(), destination_uuid: null }]
+                                exits: [{ uuid: Z(), destination_uuid: null }]
                               },
                               ui: { position: { left: h, top: m } },
                               inboundConnections: Object(y.a)({}, s.inboundConnections)
                             }),
-                            (o = Bi(o, r)),
-                            (m += P),
+                            (o = Wi(o, r)),
+                            (m += F),
                             (n.inboundConnections = Object(S.a)(
                               {},
                               r.node.exits[0].uuid,
                               r.node.uuid
                             )),
-                            (n.ui.position.top += P))
+                            (n.ui.position.top += F))
                           : (n.inboundConnections = Object(y.a)({}, s.inboundConnections)),
-                        (o = Bi(o, n)),
+                        (o = Wi(o, n)),
                         d.length > 0
                           ? ((l = {
                               node: {
-                                uuid: $(),
+                                uuid: Z(),
                                 actions: d,
                                 exits: [
-                                  { uuid: $(), destination_uuid: s.node.exits[0].destination_uuid }
+                                  { uuid: Z(), destination_uuid: s.node.exits[0].destination_uuid }
                                 ]
                               },
                               ui: { position: { left: h, top: m } },
                               inboundConnections: Object(S.a)({}, n.node.exits[0].uuid, n.node.uuid)
                             }),
-                            (o = Bi(o, l)))
-                          : (o = zi(
+                            (o = Wi(o, l)))
+                          : (o = Gi(
                               o,
                               n.node.uuid,
                               n.node.exits[0].uuid,
                               s.node.exits[0].destination_uuid
                             )),
                         e(Te(o)),
-                        Tr(),
+                        Pr(),
                         o
                       );
                     })
                   )
                 );
-              var k = xi(e.node);
+              var k = Ui(e.node);
               if (k) {
                 var E = k.categories.find(function(e) {
                   return e.uuid === k.default_category_uuid;
@@ -14236,14 +14680,14 @@
                 }).destination_uuid = u.node.exits[0].destination_uuid;
               }
               (e.inboundConnections = Object(S.a)({}, u.node.exits[0].uuid, u.node.uuid)),
-                (e.node = Fi(e.node)),
-                (e.ui.position.top += P),
-                (p = Bi(p, e));
-            } else p = Bi(p, e);
-            return t(Te(p)), Tr(0), p;
+                (e.node = Bi(e.node)),
+                (e.ui.position.top += F),
+                (p = Wi(p, e));
+            } else p = Wi(p, e);
+            return t(Te(p)), Pr(0), p;
           };
         },
-        ol = function(e) {
+        pl = function(e) {
           return function(t, a) {
             var n = a(),
               i = n.flowContext.definition.localization,
@@ -14264,26 +14708,26 @@
               )
                 return;
               var h = i[o.id];
-              (d = e.localizations).push.apply(d, Object(ge.a)(ml(u, p, o, h)));
+              (d = e.localizations).push.apply(d, Object(ve.a)(bl(u, p, o, h)));
             }
             !c && u.actions.length > 0 && (c = u.actions[u.actions.length - 1]);
-            var m = Ja(e);
-            t(Jr(m)), t(ea(e)), t(Mr(Or));
+            var m = $a(e);
+            t(nl(m)), t(ta(e)), t(Hr(Ur));
           };
         },
-        rl = function(e) {
+        hl = function(e) {
           return function(t, a) {
             var n = a().flowContext.definition;
-            (n._ui.translation_filters = e), t(je(n)), Tr();
+            (n._ui.translation_filters = e), t(je(n)), Pr();
           };
         },
-        ll = null,
-        cl = function(e, t) {
+        ml = null,
+        _l = function(e, t) {
           var a = e[t];
           if (!a) throw new Error('Cannot find node ' + t);
           return a;
         },
-        ul = function(e, t) {
+        vl = function(e, t) {
           var a,
             n = Object(C.a)(e.exits.entries());
           try {
@@ -14299,7 +14743,7 @@
           }
           throw new Error('Cannot find exit ' + t);
         },
-        dl = function(e, t) {
+        gl = function(e, t) {
           var a,
             n = Object(C.a)(e.actions.entries());
           try {
@@ -14315,8 +14759,8 @@
           }
           throw new Error('Cannot find action ' + t);
         },
-        pl = function(e) {
-          var t = fr(e);
+        fl = function(e) {
+          var t = wr(e);
           return (
             (function(e) {
               return !(!e.node.router || !e.node.router.wait);
@@ -14325,12 +14769,12 @@
             t === Ee.split_by_subflow
           );
         },
-        hl = function e(t, a, n) {
+        yl = function e(t, a, n) {
           var i = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : [],
             s = t[a],
             o = t[n];
           if (a === n) throw new Error("Flow loop detected, can't point to self");
-          if (!pl(o) && !pl(s))
+          if (!fl(o) && !fl(s))
             if (0 !== i.length) {
               if (n === i[0]) throw new Error('Flow loop detected, route through a wait first');
               i.push(n);
@@ -14362,7 +14806,7 @@
               }
             }
         },
-        ml = function(e, t, a, n) {
+        bl = function(e, t, a, n) {
           var i = [];
           e.router &&
             e.router.type === s.switch &&
@@ -14381,9 +14825,9 @@
             i
           );
         },
-        _l = function(e, t) {
+        kl = function(e, t) {
           var a = !(arguments.length > 2 && void 0 !== arguments[2]) || arguments[2],
-            n = gl(t),
+            n = El(t),
             i = [];
           n.forEach(function(e) {
             return i.push(e.node);
@@ -14404,7 +14848,7 @@
             c
           );
         },
-        gl = function(e) {
+        El = function(e) {
           var t = [];
           return (
             Object.keys(e).forEach(function(a) {
@@ -14416,17 +14860,17 @@
             })
           );
         },
-        vl = function(e, t, a, n) {
+        Cl = function(e, t, a, n) {
           var i,
             l,
-            c = { uuid: $(), actions: [], exits: [{ uuid: $(), destination_uuid: null }] },
+            c = { uuid: Z(), actions: [], exits: [{ uuid: Z(), destination_uuid: null }] },
             u = Ee.execute_actions;
           if (!e || ((l = e) && l.node.router)) {
             var d = n === be.VOICE ? Ee.say_msg : Ee.send_msg,
-              p = { uuid: $(), text: '', type: d };
+              p = { uuid: Z(), text: '', type: d };
             c.actions.push(p);
           } else {
-            var h = [{ uuid: $(), name: ai.All_Responses, exit_uuid: c.exits[0].uuid }],
+            var h = [{ uuid: Z(), name: ri.All_Responses, exit_uuid: c.exits[0].uuid }],
               m = { type: o.msg };
             (u = Ee.wait_for_response),
               n === be.VOICE && (m.hint = { type: r.digits, count: 1 }),
@@ -14450,7 +14894,7 @@
             }
           );
         },
-        fl = function(e) {
+        wl = function(e) {
           if (e.router) {
             if (1 === e.actions.length) {
               if (e.actions[0].type === Ee.call_webhook) return Ee.split_by_webhook;
@@ -14460,14 +14904,14 @@
             }
             if (e.router.wait) return Ee.wait_for_response;
             if (e.router.type === s.random) return Ee.split_by_random;
-            var t = xi(e);
+            var t = Ui(e);
             return t && '@contact.groups' === t.operand
               ? Ee.split_by_groups
               : Ee.split_by_expression;
           }
           return Ee.execute_actions;
         },
-        yl = function(e) {
+        Sl = function(e) {
           var t,
             a = {},
             n = Object(C.a)(e);
@@ -14483,7 +14927,7 @@
           }
           return a;
         },
-        bl = function(e) {
+        Nl = function(e) {
           var t,
             a,
             n = {},
@@ -14501,25 +14945,25 @@
               p.actions || (p.actions = []);
               var h = { node: p, ui: s.nodes[p.uuid], inboundConnections: {} };
               n[p.uuid] = h;
-              var m = Di(p);
-              if ((m && (u = Mi(m, u, { nodeUUID: p.uuid })), fr(h) === Ee.split_by_groups)) {
+              var m = Li(p);
+              if ((m && (u = qi(m, u, { nodeUUID: p.uuid })), wr(h) === Ee.split_by_groups)) {
                 var _,
-                  g = xi(p),
-                  v = Object(C.a)(g.cases);
+                  v = Ui(p),
+                  g = Object(C.a)(v.cases);
                 try {
                   var f = function() {
                     var e = _.value,
                       t = e.arguments[0],
-                      a = g.categories.find(function(t) {
+                      a = v.categories.find(function(t) {
                         return t.uuid === e.category_uuid;
                       });
                     a && t && (r[t] = { name: a.name, id: t, type: fe.Group });
                   };
-                  for (v.s(); !(_ = v.n()).done; ) f();
+                  for (g.s(); !(_ = g.n()).done; ) f();
                 } catch (B) {
-                  v.e(B);
+                  g.e(B);
                 } finally {
-                  v.f();
+                  g.f();
                 }
               }
               var y,
@@ -14585,10 +15029,10 @@
                 D = Object(C.a)(p.exits);
               try {
                 for (D.s(); !(U = D.n()).done; ) {
-                  var P = U.value;
-                  if (P.destination_uuid) {
-                    var F = o[P.destination_uuid];
-                    F || (F = {}), (F[P.uuid] = p.uuid), (o[P.destination_uuid] = F);
+                  var F = U.value;
+                  if (F.destination_uuid) {
+                    var P = o[F.destination_uuid];
+                    P || (P = {}), (P[F.uuid] = p.uuid), (o[F.destination_uuid] = P);
                   }
                 }
               } catch (B) {
@@ -14608,12 +15052,12 @@
           }
           return { renderNodeMap: n, groups: r, fields: l, labels: c, results: u, warnings: {} };
         },
-        kl = function(e, t) {
+        Ol = function(e, t) {
           Object.keys(t).forEach(function(a) {
             e[a] = e[a] || t[a];
           });
         },
-        El = function(e, t) {
+        xl = function(e, t) {
           for (
             var a = (t || [])
                 .filter(function(e) {
@@ -14635,7 +15079,7 @@
           }
           return a;
         },
-        Cl = function e(t, a, n, i) {
+        jl = function e(t, a, n, i) {
           var s = n().editorState,
             o = s.simulating,
             r = s.activityInterval;
@@ -14656,29 +15100,29 @@
                 if (s) {
                   var l = { liveActivity: s, activityInterval: Math.min(3e5, r + 200) };
                   o || (l.activity = s),
-                    a(Mr(l)),
-                    ll && window.clearTimeout(ll),
-                    (ll = window.setTimeout(function() {
+                    a(Hr(l)),
+                    ml && window.clearTimeout(ml),
+                    (ml = window.setTimeout(function() {
                       e(t, a, n, i);
                     }, r));
                 }
               })
-            : (ll && window.clearTimeout(ll),
-              (ll = window.setTimeout(function() {
+            : (ml && window.clearTimeout(ml),
+              (ml = window.setTimeout(function() {
                 e(t, a, n, i);
               }, 1e3)));
         },
-        wl = a(106),
-        Sl = a.n(wl),
-        Nl = (function(e) {
-          Object(v.a)(a, e);
+        Tl = a(108),
+        Al = a.n(Tl),
+        Rl = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).ele = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, 'ref'] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, 'ref'] }),
               (n.state = {}),
               n
             );
@@ -14769,8 +15213,8 @@
                 key: 'render',
                 value: function() {
                   var e = this,
-                    t = [Sl.a.draggable];
-                  this.props.selected && t.push(Sl.a.selected);
+                    t = [Al.a.draggable];
+                  this.props.selected && t.push(Al.a.selected);
                   return k.createElement(
                     'div',
                     {
@@ -14792,15 +15236,15 @@
             a
           );
         })(k.Component),
-        Ol = a(14),
-        xl = function(e, t, a) {
+        Ul = a(13),
+        Dl = function(e, t, a) {
           return (
             !(!e.bottom || !t.bottom) &&
             ((e.bottom += a),
             !(t.left > e.right || t.right < e.left || t.top > e.bottom || t.bottom < e.top))
           );
         },
-        jl = function(e, t, a) {
+        Fl = function(e, t, a) {
           for (
             var n = (function(e) {
                 var t = [];
@@ -14820,10 +15264,10 @@
                   for (
                     var s = function(e) {
                         var s = n[e];
-                        if (xl(i, s, a)) {
+                        if (Dl(i, s, a)) {
                           if (e + 1 < n.length) {
                             var o = n[e + 1];
-                            if (xl(s, o, a)) return { v: { v: [i, s, o] } };
+                            if (Dl(s, o, a)) return { v: { v: [i, s, o] } };
                           }
                           return t.find(function(e) {
                             return s.uuid === e;
@@ -14852,13 +15296,13 @@
           }
           return [];
         },
-        Tl = function(e, t) {
+        Pl = function(e, t) {
           return M({ top: t, left: e.left, bottom: t + (e.bottom - e.top), right: e.right });
         },
-        Al = a(79),
-        Rl = a.n(Al),
-        Ul = (function(e) {
-          Object(v.a)(a, e);
+        Il = a(80),
+        Ml = a.n(Il),
+        Ll = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -14870,7 +15314,7 @@
               (n.lastY = void 0),
               (n.justSelected = !1),
               (n.onDragThrottled = ae(n.props.onDragging, 300)),
-              (n.onMouseThrottled = ae(n.handleMouseMove.bind(Object(g.a)(n)), 10));
+              (n.onMouseThrottled = ae(n.handleMouseMove.bind(Object(v.a)(n)), 10));
             var i = document.documentElement.clientHeight,
               s = {};
             return (
@@ -14888,7 +15332,7 @@
                 selected: {},
                 positions: s
               }),
-              Object(b.react)(Object(g.a)(n), {
+              Object(b.react)(Object(v.a)(n), {
                 include: [/^handle/, /^render/, /^mark/, /^do/, /^ensure/]
               }),
               n
@@ -14935,12 +15379,12 @@
                     i = Object(y.a)({}, this.state.positions);
                   this.props.draggables.forEach(function(e) {
                     a.state.positions[e.uuid] ||
-                      ((i = Jt()(i, { $merge: Object(S.a)({}, e.uuid, e.position) })), (n = !0));
+                      ((i = $t()(i, { $merge: Object(S.a)({}, e.uuid, e.position) })), (n = !0));
                   }),
                     Object.keys(i).forEach(function(e) {
                       a.props.draggables.find(function(t) {
                         return t.uuid === e;
-                      }) || ((i = Jt()(i, { $unset: [[e]] })), (n = !0));
+                      }) || ((i = $t()(i, { $unset: [[e]] })), (n = !0));
                     }),
                     n && this.setState({ positions: i });
                 }
@@ -14956,7 +15400,7 @@
                       i = Math.max(e.startY, e.currentY) - a;
                     if (this.state.dragSelection && this.state.dragSelection.startX)
                       return E.a.createElement('div', {
-                        className: Rl.a.drag_selection,
+                        className: Ml.a.drag_selection,
                         style: { left: t, top: a, width: n, height: i }
                       });
                   }
@@ -15009,7 +15453,7 @@
                             for (var a = {}, n = 0, i = Object.keys(e); n < i.length; n++) {
                               var s = i[n],
                                 o = e[s];
-                              xl(t, o, 0) && (a[s] = o);
+                              Dl(t, o, 0) && (a[s] = o);
                             }
                             return a;
                           })(this.state.positions, { left: a, top: n, right: i, bottom: s }),
@@ -15093,7 +15537,7 @@
                     (n.bottom === a.bottom && n.right === a.right) ||
                       this.setState(function(t) {
                         return {
-                          positions: Jt()(t.positions, { $merge: Object(S.a)({}, e, n) }),
+                          positions: $t()(t.positions, { $merge: Object(S.a)({}, e, n) }),
                           height: Math.max(n.bottom + 300, t.height)
                         };
                       }, this.markReflow);
@@ -15118,7 +15562,7 @@
                   var e = Object(y.a)({}, this.state.positions);
                   delete e[this.state.dragUUID];
                   var t = (function(e, t) {
-                      for (var a = e, n = [], i = 0, s = jl(e, n, t); s.length > 0 && i < 100; ) {
+                      for (var a = e, n = [], i = 0, s = Fl(e, n, t); s.length > 0 && i < 100; ) {
                         if ((i++, s.length)) {
                           var o = s,
                             r = Object(w.a)(o, 3),
@@ -15126,17 +15570,17 @@
                             c = r[1],
                             u = r[2];
                           if (
-                            ((a = Ol(a, Object(S.a)({}, c.uuid, Y(Tl(c, l.bottom + P))))),
+                            ((a = Ul(a, Object(S.a)({}, c.uuid, Y(Pl(c, l.bottom + F))))),
                             n.push(c.uuid),
                             u)
                           ) {
-                            var d = l.bottom + P;
+                            var d = l.bottom + F;
                             (d += c.bottom - c.top),
-                              (a = Ol(a, Object(S.a)({}, u.uuid, Y(Tl(u, d))))),
+                              (a = Ul(a, Object(S.a)({}, u.uuid, Y(Pl(u, d))))),
                               n.push(u.uuid);
                           }
                         }
-                        s = jl(a, n, t);
+                        s = Fl(a, n, t);
                       }
                       return { positions: a, changed: n };
                     })(e, 5),
@@ -15221,10 +15665,10 @@
                           })(d.selected[e], u);
                           n && (t = M(t)), t && t.bottom > c && (c = t.bottom), (h[e] = t);
                         }),
-                          (h = Jt()(d.positions, { $merge: h })),
+                          (h = $t()(d.positions, { $merge: h })),
                           this.updateStateWithScroll(a, c, { positions: h }),
                           p.length <= 5 ? this.props.onDragging(p) : this.onDragThrottled(p);
-                      } else if (Math.abs(r) + Math.abs(l) > pu) {
+                      } else if (Math.abs(r) + Math.abs(l) > fu) {
                         var m = this.state.selected;
                         this.state.dragUUID in m ||
                           (m = Object(S.a)({}, i, this.state.positions[i])),
@@ -15287,7 +15731,7 @@
                     'div',
                     {
                       id: 'canvas-container',
-                      className: Rl.a.canvas_container,
+                      className: Ml.a.canvas_container,
                       onMouseDown: this.handleMouseDown,
                       onMouseMove: this.onMouseThrottled,
                       onMouseUp: this.handleMouseUpCapture,
@@ -15295,7 +15739,7 @@
                     },
                     E.a.createElement(
                       'div',
-                      { className: Rl.a.canvas_background },
+                      { className: Ml.a.canvas_background },
                       E.a.createElement(
                         'div',
                         {
@@ -15305,12 +15749,12 @@
                           ref: function(t) {
                             e.ele = t;
                           },
-                          className: Rl.a.canvas
+                          className: Ml.a.canvas
                         },
                         this.props.newDragElement,
                         this.props.draggables.map(function(t, a) {
                           var n = e.state.positions[t.uuid] || t.position;
-                          return E.a.createElement(Nl, {
+                          return E.a.createElement(Rl, {
                             onAnimated: e.handleAnimated,
                             key: 'draggable_' + t.uuid,
                             uuid: t.uuid,
@@ -15335,17 +15779,17 @@
             a
           );
         })(E.a.PureComponent),
-        Dl = a(88),
-        Pl = a.n(Dl),
-        Fl = (function(e) {
-          Object(v.a)(a, e);
+        zl = a(90),
+        Bl = a.n(zl),
+        Vl = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).ele = void 0),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^get/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^get/] }),
               n
             );
           }
@@ -15414,13 +15858,13 @@
                         e.ele = t;
                       },
                       className:
-                        Pl.a.counter +
+                        Bl.a.counter +
                         ' ' +
                         this.props.containerStyle +
                         ' ' +
-                        (this.props.onClick ? Pl.a.clickable : '') +
+                        (this.props.onClick ? Bl.a.clickable : '') +
                         ' ' +
-                        (this.props.count > 0 ? Pl.a.visible : ''),
+                        (this.props.count > 0 ? Bl.a.visible : ''),
                       onClick: this.handleClick,
                       'data-spec': 'counter-outter'
                     },
@@ -15441,10 +15885,10 @@
             a
           );
         })(k.Component),
-        Il = a(45),
-        Ml = a.n(Il),
-        Ll = (function(e) {
-          Object(v.a)(a, e);
+        ql = a(45),
+        Hl = a.n(ql),
+        Gl = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -15452,7 +15896,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).confirmationTimeout = void 0),
               (n.state = { confirmingRemoval: !1 }),
-              (n.handleConfirmRemoval = n.handleConfirmRemoval.bind(Object(g.a)(n))),
+              (n.handleConfirmRemoval = n.handleConfirmRemoval.bind(Object(v.a)(n))),
               n
             );
           }
@@ -15488,8 +15932,8 @@
                     ? k.createElement(
                         'div',
                         Object.assign(
-                          { className: Ml.a.up_button },
-                          q(
+                          { className: Hl.a.up_button },
+                          V(
                             this.props.onMoveUp,
                             this.props.shouldCancelClick,
                             this.handleMouseUpCapture
@@ -15498,14 +15942,14 @@
                         ),
                         k.createElement('span', { className: 'fe-arrow-up' })
                       )
-                    : k.createElement('div', { className: Ml.a.up_button, 'data-spec': 'move' });
+                    : k.createElement('div', { className: Hl.a.up_button, 'data-spec': 'move' });
                 }
               },
               {
                 key: 'getRemove',
                 value: function() {
                   var e = k.createElement('div', {
-                    className: Ml.a.remove_button,
+                    className: Hl.a.remove_button,
                     'data-testid': 'remove-icon'
                   });
                   return (
@@ -15514,8 +15958,8 @@
                       (e = k.createElement(
                         'div',
                         Object.assign(
-                          { className: Ml.a.remove_button },
-                          q(
+                          { className: Hl.a.remove_button },
+                          V(
                             this.handleConfirmRemoval,
                             this.props.shouldCancelClick,
                             this.handleMouseUpCapture
@@ -15537,18 +15981,18 @@
                       this.context.config.mutable &&
                       (e = k.createElement(
                         'div',
-                        { className: Ml.a.remove_confirm, 'data-spec': 'confirmation' },
-                        k.createElement('div', { className: Ml.a.up_button, 'data-spec': 'move' }),
+                        { className: Hl.a.remove_confirm, 'data-spec': 'confirmation' },
+                        k.createElement('div', { className: Hl.a.up_button, 'data-spec': 'move' }),
                         k.createElement(
                           'div',
-                          { className: Ml.a.titletext },
-                          Ft.t('removal_confirmation', 'Remove?')
+                          { className: Hl.a.titletext },
+                          Pt.t('removal_confirmation', 'Remove?')
                         ),
                         k.createElement(
                           'div',
                           Object.assign(
-                            { className: Ml.a.remove_button },
-                            q(
+                            { className: Hl.a.remove_button },
+                            V(
                               this.props.onRemoval,
                               this.props.shouldCancelClick,
                               this.handleMouseUpCapture
@@ -15570,15 +16014,15 @@
                     a = this.getRemove();
                   return k.createElement(
                     'div',
-                    { className: Ml.a.titlebar, 'data-spec': 'titlebar-container' },
+                    { className: Hl.a.titlebar, 'data-spec': 'titlebar-container' },
                     k.createElement(
                       'div',
                       {
-                        className: ''.concat(this.props.__className, ' ').concat(Ml.a.normal),
+                        className: ''.concat(this.props.__className, ' ').concat(Hl.a.normal),
                         'data-spec': 'titlebar'
                       },
                       t,
-                      k.createElement('div', { className: Ml.a.titletext }, this.props.title),
+                      k.createElement('div', { className: Hl.a.titletext }, this.props.title),
                       a
                     ),
                     e
@@ -15589,13 +16033,13 @@
             a
           );
         })(k.Component);
-      Ll.contextTypes = { config: bt };
-      var zl = a(31),
-        Bl = a(89),
-        ql = a.n(Bl),
-        Vl = St.a.bind(ql.a),
-        Hl = (function(e) {
-          Object(v.a)(a, e);
+      Gl.contextTypes = { config: bt };
+      var Wl = a(31),
+        Kl = a(91),
+        Yl = a.n(Kl),
+        Xl = St.a.bind(Yl.a),
+        Ql = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -15658,10 +16102,10 @@
                 value: function() {
                   var e,
                     t = this,
-                    a = Vl(
+                    a = Xl(
                       ((e = {}),
-                      Object(S.a)(e, ql.a.wrapper, !0),
-                      Object(S.a)(e, ql.a.pulse, this.state.pulse),
+                      Object(S.a)(e, Yl.a.wrapper, !0),
+                      Object(S.a)(e, Yl.a.pulse, this.state.pulse),
                       e)
                     );
                   return k.createElement(
@@ -15680,16 +16124,16 @@
             a
           );
         })(k.Component),
-        Gl = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), Qa.a)),
-        Wl = (function(e) {
-          Object(v.a)(a, e);
+        Jl = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), Ja.a)),
+        $l = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^handle/] }),
               n
             );
           }
@@ -15725,7 +16169,7 @@
                 key: 'getAction',
                 value: function() {
                   return this.props.translating
-                    ? V(this.props.action, this.props.localization, this.props.language).getObject()
+                    ? q(this.props.action, this.props.localization, this.props.language).getObject()
                     : this.props.action;
                 }
               },
@@ -15744,7 +16188,7 @@
                     this.props.action.type === Ee.send_email && t.push('subject'),
                     0 !== t.length)
                   ) {
-                    var n = V(this.props.action, this.props.localization, this.props.language);
+                    var n = q(this.props.action, this.props.localization, this.props.language);
                     if (n.isLocalized()) {
                       var i,
                         s = Object(C.a)(t);
@@ -15763,19 +16207,19 @@
                     } else a = !0;
                   }
                   var o = this.props.translating && 0 === t.length;
-                  return Gl(
+                  return Jl(
                     ((e = {}),
-                    Object(S.a)(e, Qa.a.action, !0),
+                    Object(S.a)(e, Ja.a.action, !0),
                     Object(S.a)(
                       e,
-                      Qa.a.has_router,
+                      Ja.a.has_router,
                       this.props.renderNode.node.hasOwnProperty('router') &&
                         null !== this.props.renderNode.node.router
                     ),
-                    Object(S.a)(e, Qa.a.translating, this.props.translating),
-                    Object(S.a)(e, Qa.a.not_localizable, o),
-                    Object(S.a)(e, Qa.a.missing_localization, a),
-                    Object(S.a)(e, Qa.a.localized, !o && !a),
+                    Object(S.a)(e, Ja.a.translating, this.props.translating),
+                    Object(S.a)(e, Ja.a.not_localizable, o),
+                    Object(S.a)(e, Ja.a.missing_localization, a),
+                    Object(S.a)(e, Ja.a.localized, !o && !a),
                     e)
                   );
                 }
@@ -15784,24 +16228,24 @@
                 key: 'render',
                 value: function() {
                   var e = this,
-                    t = vr(this.props.action.type).name,
+                    t = Cr(this.props.action.type).name,
                     a = this.getClasses(),
                     n = this.getAction(),
                     i = ue.a[this.props.action.type] || ue.a.missing,
-                    s = Qa.a[this.props.action.type] || Qa.a.missing,
+                    s = Ja.a[this.props.action.type] || Ja.a.missing,
                     o = !this.props.translating,
                     r = !this.props.first && !this.props.translating;
                   Za(this.props.issues, this.props.translating, this.props.language) &&
                     (i = ue.a.missing);
                   var l = this.context.config.mutable
-                      ? q(this.handleActionClicked, function() {
+                      ? V(this.handleActionClicked, function() {
                           return e.props.selected;
                         })
                       : {},
                     c = k.createElement(
                       k.Fragment,
                       null,
-                      k.createElement(Ll, {
+                      k.createElement(Gl, {
                         __className: i,
                         title: t,
                         onRemoval: this.handleRemoval,
@@ -15814,7 +16258,7 @@
                       }),
                       k.createElement(
                         'div',
-                        { className: Qa.a.body + ' ' + s, 'data-spec': 'action-body' },
+                        { className: Ja.a.body + ' ' + s, 'data-spec': 'action-body' },
                         this.props.render(n, this.context.config.endpoints)
                       )
                     );
@@ -15826,7 +16270,7 @@
                       'data-spec': 'action-container'
                     },
                     k.createElement('div', {
-                      className: Qa.a.overlay,
+                      className: Ja.a.overlay,
                       'data-spec': 'action-overlay'
                     }),
                     k.createElement(
@@ -15834,7 +16278,7 @@
                       Object.assign({}, l, { 'data-spec': 'interactive-div' }),
                       this.props.scrollToAction &&
                         this.props.scrollToAction === this.props.action.uuid
-                        ? k.createElement(Hl, { pulseAfterScroll: !0 }, c)
+                        ? k.createElement(Ql, { pulseAfterScroll: !0 }, c)
                         : c
                     )
                   );
@@ -15844,8 +16288,8 @@
             a
           );
         })(k.Component);
-      Wl.contextTypes = { config: bt };
-      var Kl = Object(zl.b)(
+      $l.contextTypes = { config: bt };
+      var Zl = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.assetStore,
@@ -15862,18 +16306,18 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
-              { onOpenNodeEditor: ol, removeAction: Xr, moveActionUp: Qr },
+            return Object(ge.bindActionCreators)(
+              { onOpenNodeEditor: pl, removeAction: tl, moveActionUp: al },
               e
             );
           },
           null,
           { forwardRef: !0 }
-        )(Wl),
-        Yl = a(60),
-        Xl = a.n(Yl),
-        Ql = (function(e) {
-          Object(v.a)(a, e);
+        )($l),
+        ec = a(62),
+        tc = a.n(ec),
+        ac = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -15896,22 +16340,22 @@
                   return k.createElement(
                     'div',
                     {
-                      className: Xl.a.drag_helper + ' ' + (this.state.visible ? Xl.a.visible : '')
+                      className: tc.a.drag_helper + ' ' + (this.state.visible ? tc.a.visible : '')
                     },
                     k.createElement(
                       'div',
-                      { className: Xl.a.arrow },
-                      k.createElement('div', { className: Xl.a.tail }),
-                      k.createElement('div', { className: Xl.a.head })
+                      { className: tc.a.arrow },
+                      k.createElement('div', { className: tc.a.tail }),
+                      k.createElement('div', { className: tc.a.head })
                     ),
                     k.createElement(
                       'div',
-                      { className: Xl.a.help_text },
+                      { className: tc.a.help_text },
                       k.createElement(
-                        Pe.a,
+                        Fe.a,
                         { i18nKey: 'drag_helper' },
                         'To connect nodes, ',
-                        k.createElement('span', { className: Xl.a.bold }, 'drag'),
+                        k.createElement('span', { className: tc.a.bold }, 'drag'),
                         ' from the red circle.'
                       )
                     )
@@ -15922,16 +16366,16 @@
             a
           );
         })(k.Component),
-        Jl = function(e) {
+        nc = function(e) {
           return e.uuid + ':' + e.destination_uuid;
         },
-        Zl = a(150),
-        $l = a(32),
-        ec = a.n($l),
-        tc = a(39),
-        ac = a.n(tc),
-        nc = (function(e) {
-          Object(v.a)(a, e);
+        ic = a(152),
+        sc = a(32),
+        oc = a.n(sc),
+        rc = a(39),
+        lc = a.n(rc),
+        cc = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -15976,16 +16420,16 @@
               {
                 key: 'render',
                 value: function() {
-                  return ac.a.createPortal(this.props.children, this.el);
+                  return lc.a.createPortal(this.props.children, this.el);
                 }
               }
             ]),
             a
           );
         })(k.Component),
-        ic = St.a.bind(ec.a),
-        sc = (function(e) {
-          Object(v.a)(a, e);
+        uc = St.a.bind(oc.a),
+        dc = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -16001,7 +16445,7 @@
                 fetchingRecentMessages: !1,
                 showDragHelper: e.showDragHelper
               }),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^get/, /^handle/, /^connect/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^get/, /^handle/, /^connect/] }),
               n
             );
           }
@@ -16161,11 +16605,11 @@
                     return k.createElement(
                       'div',
                       { style: { position: 'absolute', bottom: '-25px' } },
-                      k.createElement(Fl, {
+                      k.createElement(Vl, {
                         key: e,
                         count: this.props.segmentCount,
-                        containerStyle: ec.a.activity,
-                        countStyle: ec.a.count,
+                        containerStyle: oc.a.activity,
+                        countStyle: oc.a.count,
                         keepVisible: !1,
                         onMouseEnter: this.handleShowRecentMessages,
                         onMouseLeave: this.handleHideRecentMessages
@@ -16184,7 +16628,7 @@
                       n = !1;
                     return (
                       this.props.categories.forEach(function(i) {
-                        var s = V(i, e.props.localization, e.props.language);
+                        var s = q(i, e.props.localization, e.props.language);
                         n = n || 'name' in s.localizedKeys;
                         var o = s.getObject();
                         (t += a + o.name), (a = ', ');
@@ -16207,11 +16651,11 @@
                   if (this.state.fetchingRecentMessages || null !== this.state.recentMessages) {
                     var e = this.state.recentMessages || [],
                       t = 0 !== e.length,
-                      a = [ec.a.recent_messages],
+                      a = [oc.a.recent_messages],
                       n = 'Recent Messages';
                     t ||
                       this.state.fetchingRecentMessages ||
-                      ((n = 'No Recent Messages'), a.push(ec.a.no_recents));
+                      ((n = 'No Recent Messages'), a.push(oc.a.no_recents));
                     var i = document.getElementById('canvas-container'),
                       s = 0,
                       o = 0;
@@ -16221,7 +16665,7 @@
                       (s = l.left + window.scrollX + 5), (o = l.top + window.scrollY - r + 30);
                     }
                     return k.createElement(
-                      nc,
+                      cc,
                       { id: 'activity_recent_messages' },
                       k.createElement(
                         'div',
@@ -16229,24 +16673,24 @@
                           className: a.join(' '),
                           style: { position: 'absolute', left: s, top: o }
                         },
-                        k.createElement('div', { className: ec.a.title }, n),
+                        k.createElement('div', { className: oc.a.title }, n),
                         e.map(function(e, t) {
                           return k.createElement(
                             'div',
-                            { key: 'recent_' + t, className: ec.a.message },
-                            k.createElement('div', { className: ec.a.text }, e.text),
+                            { key: 'recent_' + t, className: oc.a.message },
+                            k.createElement('div', { className: oc.a.text }, e.text),
                             k.createElement(
                               'div',
-                              { className: ec.a.sent },
-                              Zl.utc(e.sent).fromNow()
+                              { className: oc.a.sent },
+                              ic.utc(e.sent).fromNow()
                             )
                           );
                         }),
                         null === this.state.recentMessages
                           ? k.createElement(
                               'div',
-                              { className: ec.a.loading },
-                              k.createElement(zn, { size: 10, units: 6, color: '#999999' })
+                              { className: oc.a.loading },
+                              k.createElement(Tn, { size: 10, units: 6, color: '#999999' })
                             )
                           : null
                       )
@@ -16263,9 +16707,9 @@
                     a = this.getName(),
                     n = a.name,
                     i = a.localized,
-                    s = n ? ec.a.name : '',
+                    s = n ? oc.a.name : '',
                     o = this.props.exit.destination_uuid ? ' jtk-connected' : '',
-                    r = ic(ec.a.endpoint, o),
+                    r = uc(oc.a.endpoint, o),
                     l =
                       this.state.confirmDelete &&
                       this.props.exit.hasOwnProperty('destination_uuid'),
@@ -16274,27 +16718,27 @@
                         ? k.createElement(
                             'div',
                             Object.assign(
-                              { className: ec.a.confirm_x + ' fe-x' },
-                              q(this.onDisconnect, function() {
+                              { className: oc.a.confirm_x + ' fe-x' },
+                              V(this.onDisconnect, function() {
                                 return t.props.dragging;
                               })
                             )
                           )
                         : null,
-                    u = ic(
+                    u = uc(
                       ((e = {}),
-                      Object(S.a)(e, ec.a.exit, !0),
+                      Object(S.a)(e, oc.a.exit, !0),
                       Object(S.a)(e, 'plumb-exit', !0),
-                      Object(S.a)(e, ec.a.translating, this.props.translating),
-                      Object(S.a)(e, ec.a.unnamed_exit, null == n),
-                      Object(S.a)(e, ec.a.missing_localization, n && this.props.translating && !i),
-                      Object(S.a)(e, ec.a.confirm_delete, l),
+                      Object(S.a)(e, oc.a.translating, this.props.translating),
+                      Object(S.a)(e, oc.a.unnamed_exit, null == n),
+                      Object(S.a)(e, oc.a.missing_localization, n && this.props.translating && !i),
+                      Object(S.a)(e, oc.a.confirm_delete, l),
                       e)
                     ),
                     d = this.getSegmentCount(),
                     p = this.getRecentMessages(),
                     h = this.context.config.mutable
-                      ? q(
+                      ? V(
                           this.handleClick,
                           function() {
                             return t.props.dragging;
@@ -16324,7 +16768,7 @@
                     ),
                     d,
                     p,
-                    W(this.state.showDragHelper)(k.createElement(Ql, null))
+                    W(this.state.showDragHelper)(k.createElement(ac, null))
                   );
                 }
               }
@@ -16332,8 +16776,8 @@
             a
           );
         })(k.PureComponent);
-      sc.contextTypes = { config: bt };
-      var oc = Object(zl.b)(
+      dc.contextTypes = { config: bt };
+      var pc = Object(Wl.b)(
           function(e, t) {
             var a = e.flowContext.definition.localization,
               n = e.editorState,
@@ -16342,12 +16786,12 @@
               o = n.dragActive,
               r = n.activity,
               l = null,
-              c = Jl(t.exit);
+              c = nc(t.exit);
             return (
               c in (r.recentMessages || {}) && (l = r.recentMessages[c]),
               {
                 dragging: o,
-                segmentCount: r.segments[Jl(t.exit)] || 0,
+                segmentCount: r.segments[nc(t.exit)] || 0,
                 translating: i,
                 language: s,
                 localization: a,
@@ -16356,16 +16800,16 @@
             );
           },
           function(e) {
-            return Object(ve.bindActionCreators)({ disconnectExit: Wr }, e);
+            return Object(ge.bindActionCreators)({ disconnectExit: $r }, e);
           }
-        )(sc),
-        rc = a(151),
-        lc = a(35),
-        cc = a.n(lc),
-        uc = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), cc.a)),
-        dc = [],
-        pc = (function(e) {
-          Object(v.a)(a, e);
+        )(dc),
+        hc = a(153),
+        mc = a(35),
+        _c = a.n(mc),
+        vc = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), _c.a)),
+        gc = [],
+        fc = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
             var i;
@@ -16375,8 +16819,8 @@
               (i.firstAction = void 0),
               (i.clicking = void 0),
               (i.events = void 0),
-              Object(b.react)(Object(g.a)(i), { include: [/Ref$/, /^on/, /^get/, /^handle/] }),
-              (i.events = n.config.mutable ? q(i.onClick, i.handleShouldCancelClick) : {}),
+              Object(b.react)(Object(v.a)(i), { include: [/Ref$/, /^on/, /^get/, /^handle/] }),
+              (i.events = n.config.mutable ? V(i.onClick, i.handleShouldCancelClick) : {}),
               i
             );
           }
@@ -16496,10 +16940,10 @@
                   var e = this;
                   return this.props.renderNode.node.exits
                     ? this.props.renderNode.node.exits.map(function(t, a) {
-                        return k.createElement(oc, {
+                        return k.createElement(pc, {
                           key: t.uuid,
                           node: e.props.renderNode.node,
-                          categories: Ui(e.props.renderNode, t),
+                          categories: Mi(e.props.renderNode, t),
                           exit: t,
                           showDragHelper: e.props.onlyNode && 0 === a,
                           plumberMakeSource: e.props.plumberMakeSource,
@@ -16532,7 +16976,7 @@
                       {
                         id: 'uuid-'.concat(this.props.renderNode.node.uuid),
                         onClick: this.handleUUIDClicked,
-                        className: cc.a.uuid
+                        className: _c.a.uuid
                       },
                       this.props.renderNode.node.uuid
                     );
@@ -16563,12 +17007,12 @@
                       })
                     };
                     ((t = this.props.renderNode),
-                    fr(t) === Ee.split_by_subflow
+                    wr(t) === Ee.split_by_subflow
                       ? t.node.actions.filter(function(e) {
                           return e.type !== Ee.set_run_result;
                         })
                       : t.node.actions).forEach(function(e, t) {
-                      var i = vr(e.type),
+                      var i = Cr(e.type),
                         o = (function(e, t, a) {
                           return a.filter(function(a) {
                             return a.node_uuid === e && a.action_uuid === t.uuid;
@@ -16579,7 +17023,7 @@
                         i.massageForDisplay && i.massageForDisplay(e),
                           n.push(
                             k.createElement(
-                              Kl,
+                              Zl,
                               Object.assign({}, s, {
                                 key: e.uuid,
                                 renderNode: a.props.renderNode,
@@ -16605,7 +17049,7 @@
                       (i =
                         n.length > 0
                           ? k.createElement(
-                              rc.a,
+                              hc.a,
                               {
                                 enterAnimation: 'fade',
                                 leaveAnimation: 'fade',
@@ -16619,21 +17063,21 @@
                   var o = null,
                     r = null,
                     l = null,
-                    c = fr(this.props.renderNode);
+                    c = wr(this.props.renderNode);
                   if (c !== Ee.execute_actions) {
-                    var u = vr(c),
+                    var u = Cr(c),
                       d = u.name;
-                    xi(this.props.renderNode.node) &&
+                    Ui(this.props.renderNode.node) &&
                       c === Ee.split_by_contact_field &&
                       this.props.renderNode.ui.config.operand.name &&
                       (d = 'Split by '.concat(this.props.renderNode.ui.config.operand.name));
-                    var p = Di(this.props.renderNode.node);
+                    var p = Li(this.props.renderNode.node);
                     p &&
                       (l = k.createElement(
                         'div',
-                        Object.assign({}, this.events, { className: cc.a.save_result }),
-                        k.createElement('div', { className: cc.a.save_as }, 'Save as '),
-                        k.createElement('div', { className: cc.a.result_name }, p)
+                        Object.assign({}, this.events, { className: _c.a.save_result }),
+                        k.createElement('div', { className: _c.a.save_as }, 'Save as '),
+                        k.createElement('div', { className: _c.a.result_name }, p)
                       )),
                       null !== d ||
                         (c !== Ee.split_by_run_result && c !== Ee.split_by_run_result_delimited) ||
@@ -16649,7 +17093,7 @@
                           k.createElement(
                             'div',
                             this.events,
-                            k.createElement(Ll, {
+                            k.createElement(Gl, {
                               __className:
                                 ue.a[
                                   Za(this.props.issues, this.props.translating, this.props.language)
@@ -16669,35 +17113,35 @@
                       (r = k.createElement(
                         'div',
                         Object.assign(
-                          { className: cc.a.add },
-                          q(this.handleAddToNode, this.handleShouldCancelClick)
+                          { className: _c.a.add },
+                          V(this.handleAddToNode, this.handleShouldCancelClick)
                         ),
                         k.createElement('span', { className: 'fe-add' })
                       ));
                   var h = this.getExits(),
-                    m = uc(
+                    m = vc(
                       ((e = { 'plumb-drag': !0 }),
-                      Object(S.a)(e, cc.a.ghost, this.props.ghost),
-                      Object(S.a)(e, cc.a.flow_start, this.isStartNodeVisible()),
-                      Object(S.a)(e, cc.a.selected, this.isSelected()),
-                      Object(S.a)(e, cc.a.immutable, !this.context.config.mutable),
+                      Object(S.a)(e, _c.a.ghost, this.props.ghost),
+                      Object(S.a)(e, _c.a.flow_start, this.isStartNodeVisible()),
+                      Object(S.a)(e, _c.a.selected, this.isSelected()),
+                      Object(S.a)(e, _c.a.immutable, !this.context.config.mutable),
                       e)
                     ),
                     _ = this.renderDebug(),
-                    g = k.createElement(
+                    v = k.createElement(
                       'div',
-                      { className: cc.a.node },
+                      { className: _c.a.node },
                       this.isStartNodeVisible()
                         ? k.createElement(
                             'div',
-                            { className: cc.a.flow_start_message },
+                            { className: _c.a.flow_start_message },
                             'Flow Start'
                           )
                         : null,
                       _,
-                      k.createElement(Fl, {
+                      k.createElement(Vl, {
                         count: this.props.activeCount,
-                        containerStyle: cc.a.active,
+                        containerStyle: _c.a.active,
                         countStyle: '',
                         keepVisible: this.props.simulating,
                         onClick: function() {
@@ -16708,13 +17152,13 @@
                             );
                         }
                       }),
-                      k.createElement('div', { className: cc.a.cropped }, o, i, l),
+                      k.createElement('div', { className: _c.a.cropped }, o, i, l),
                       k.createElement(
                         'div',
-                        { className: ''.concat(cc.a.exit_table) },
+                        { className: ''.concat(_c.a.exit_table) },
                         k.createElement(
                           'div',
-                          Object.assign({ className: cc.a.exits }, this.events),
+                          Object.assign({ className: _c.a.exits }, this.events),
                           h
                         ),
                         r
@@ -16724,14 +17168,14 @@
                     'div',
                     {
                       id: this.props.renderNode.node.uuid,
-                      className: ''.concat(cc.a.node_container, ' ').concat(m),
+                      className: ''.concat(_c.a.node_container, ' ').concat(m),
                       ref: this.eleRef
                     },
                     !this.props.scrollToAction &&
                       this.props.scrollToNode &&
                       this.props.scrollToNode === this.props.nodeUUID
-                      ? k.createElement(Hl, { pulseAfterScroll: !0 }, g)
-                      : g
+                      ? k.createElement(Ql, { pulseAfterScroll: !0 }, v)
+                      : v
                   );
                 }
               }
@@ -16739,9 +17183,9 @@
             a
           );
         })(k.PureComponent);
-      pc.contextTypes = { config: bt };
-      var hc,
-        mc = Object(zl.b)(
+      fc.contextTypes = { config: bt };
+      var yc,
+        bc = Object(Wl.b)(
           function(e, t) {
             var a = e.flowContext,
               n = a.nodes,
@@ -16757,43 +17201,43 @@
               h = l.activity,
               m = l.language,
               _ = l.scrollToAction,
-              g = l.scrollToNode,
-              v = null;
+              v = l.scrollToNode,
+              g = null;
             if (
-              (d && d.node.uuid === t.nodeUUID ? (v = d) : t.nodeUUID in n && (v = n[t.nodeUUID]),
-              !v)
+              (d && d.node.uuid === t.nodeUUID ? (g = d) : t.nodeUUID in n && (g = n[t.nodeUUID]),
+              !g)
             )
               throw Error("Couldn't find node for " + t.nodeUUID);
             var f = h.nodes[t.nodeUUID] || 0,
-              y = g && g === t.nodeUUID ? g : null,
+              y = v && v === t.nodeUUID ? v : null,
               b = _ && y ? _ : null;
             return {
-              issues: (i || {})[t.nodeUUID] || dc,
+              issues: (i || {})[t.nodeUUID] || gc,
               results: o,
               language: m,
               languages: r,
               activeCount: f,
               translating: c,
               debug: u,
-              renderNode: v,
+              renderNode: g,
               simulating: p,
               scrollToNode: y,
               scrollToAction: b
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
-              { onAddToNode: el, onOpenNodeEditor: ol, removeNode: Yr, mergeEditorState: Mr },
+            return Object(ge.bindActionCreators)(
+              { onAddToNode: ol, onOpenNodeEditor: pl, removeNode: el, mergeEditorState: Hr },
               e
             );
           },
           null,
           { forwardRef: !0 }
-        )(pc),
-        _c = a(152),
-        gc = a.n(_c),
-        vc = (function(e) {
-          Object(v.a)(a, e);
+        )(fc),
+        kc = a(154),
+        Ec = a.n(kc),
+        Cc = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a() {
             return Object(m.a)(this, a), t.apply(this, arguments);
@@ -16817,7 +17261,7 @@
                     }
                   };
                   return k.createElement(
-                    gc.a,
+                    Ec.a,
                     {
                       ariaHideApp: !1,
                       isOpen: this.props.show,
@@ -16835,15 +17279,15 @@
             a
           );
         })(k.Component),
-        fc = (function(e) {
-          Object(v.a)(a, e);
+        wc = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^close/, /^update/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^close/, /^update/, /^handle/] }),
               n
             );
           }
@@ -16859,7 +17303,7 @@
                 key: 'close',
                 value: function(e) {
                   if (e) {
-                    var t = gi(this.props.settings.originalNode);
+                    var t = ki(this.props.settings.originalNode);
                     if (t) {
                       var a,
                         n = this.props.nodes[t.nodeUUID],
@@ -16920,7 +17364,7 @@
                           })
                         };
                         return k.createElement(
-                          vc,
+                          Cc,
                           { width: '600px', show: !0 },
                           k.createElement(a, Object(y.a)({}, n))
                         );
@@ -16943,7 +17387,7 @@
                         onClose: this.close
                       };
                     return k.createElement(
-                      vc,
+                      Cc,
                       { width: '600px', show: !0 },
                       k.createElement(i, Object(y.a)({}, s))
                     );
@@ -16955,7 +17399,7 @@
             a
           );
         })(k.Component),
-        yc = Object(zl.b)(
+        Sc = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -16984,68 +17428,68 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               {
-                addAsset: qr,
-                resetNodeEditingState: Zr,
-                mergeEditorState: Mr,
-                handleTypeConfigChange: Jr,
-                onUpdateLocalizations: Hr,
-                onUpdateAction: $r,
-                onUpdateRouter: sl,
-                updateUserAddingAction: ta
+                addAsset: Yr,
+                resetNodeEditingState: il,
+                mergeEditorState: Hr,
+                handleTypeConfigChange: nl,
+                onUpdateLocalizations: Qr,
+                onUpdateAction: sl,
+                onUpdateRouter: dl,
+                updateUserAddingAction: aa
               },
               e
             );
           }
-        )(fc),
-        bc =
-          ($(),
+        )(wc),
+        Nc =
+          (Z(),
           function() {
             var e = new Date(),
               t = e.getMinutes(),
               a = '' + t;
             return t < 10 && (a = '0' + t), Math.abs(12 - e.getHours()) + ':' + a;
           }),
-        kc = function(e) {
+        Oc = function(e) {
           return !!['msg_created', 'msg_received', 'ivr_created'].find(function(t) {
             return t === e.type;
           });
         },
-        Ec = function(e) {
+        xc = function(e) {
           return !!['msg_created', 'ivr_created'].find(function(t) {
             return t === e.type;
           });
         },
-        Cc = a(23),
-        wc = a.n(Cc),
-        Sc = a(125);
+        jc = a(24),
+        Tc = a.n(jc),
+        Ac = a(127);
       !(function(e) {
         (e[(e.MT = 0)] = 'MT'), (e[(e.MO = 1)] = 'MO');
-      })(hc || (hc = {}));
-      var Nc,
-        Oc = function(e) {
-          return e === hc.MO ? wc.a.msg_received : wc.a.send_msg;
+      })(yc || (yc = {}));
+      var Rc,
+        Uc = function(e) {
+          return e === yc.MO ? Tc.a.msg_received : Tc.a.send_msg;
         },
-        xc = function(e) {
+        Dc = function(e) {
           return k.createElement(
             'div',
-            { className: wc.a.error },
+            { className: Tc.a.error },
             k.createElement('span', null, 'Error: ', e)
           );
         },
-        jc = function(e) {
+        Fc = function(e) {
           return k.createElement(
             'div',
-            { key: e, className: wc.a.info },
+            { key: e, className: Tc.a.info },
             k.createElement('span', { dangerouslySetInnerHTML: { __html: e } })
           );
         },
-        Tc = function(e, t, a) {
+        Pc = function(e, t, a) {
           var n = t || [];
           return k.createElement(
             'div',
-            { className: Oc(a) },
+            { className: Uc(a) },
             n.map(function(t) {
               return k.createElement(
                 'div',
@@ -17058,13 +17502,13 @@
                     if (a.startsWith('audio'))
                       return k.createElement(
                         'div',
-                        { className: wc.a.audio_attachment },
+                        { className: Tc.a.audio_attachment },
                         k.createElement(
                           'div',
-                          { className: wc.a.media_player },
-                          k.createElement(pn, { url: n })
+                          { className: Tc.a.media_player },
+                          k.createElement(hn, { url: n })
                         ),
-                        k.createElement('div', { className: wc.a.audio_text }, 'Audio Recording')
+                        k.createElement('div', { className: Tc.a.audio_text }, 'Audio Recording')
                       );
                     if (a.startsWith('image'))
                       return k.createElement('img', { src: n, alt: 'Attachment' });
@@ -17093,16 +17537,16 @@
                           k.createElement(
                             'div',
                             { style: { marginLeft: '5px', lineHeight: '16px' } },
-                            Ft.t('document', 'Document')
+                            Pt.t('document', 'Document')
                           )
                         )
                       );
                     if (a.startsWith('geo'))
-                      return k.createElement('img', { src: Sc, alt: 'Attachment' });
+                      return k.createElement('img', { src: Ac, alt: 'Attachment' });
                     if (a.startsWith('video'))
                       return k.createElement(
                         'div',
-                        { className: wc.a.video_attachment },
+                        { className: Tc.a.video_attachment },
                         k.createElement('video', { controls: !0, src: n })
                       );
                   }
@@ -17115,21 +17559,21 @@
                   .trim()
                   .split('\n')
                   .map(function(e, t) {
-                    return k.createElement('div', { key: $(), className: wc.a.msg_text }, e);
+                    return k.createElement('div', { key: Z(), className: Tc.a.msg_text }, e);
                   })
               : null
           );
         },
-        Ac = (function(e) {
-          Object(v.a)(a, e);
+        Ic = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = { detailsVisible: !1 }),
-              (n.showDetails = n.showDetails.bind(Object(g.a)(n))),
-              (n.getButtons = n.getButtons.bind(Object(g.a)(n))),
+              (n.showDetails = n.showDetails.bind(Object(v.a)(n))),
+              (n.getButtons = n.getButtons.bind(Object(v.a)(n))),
               n
             );
           }
@@ -17160,7 +17604,7 @@
                 value: function() {
                   var e = [];
                   if (this.props.groups_added) {
-                    var t = Ft.t('simulator.added_to_group', 'Added to ');
+                    var t = Pt.t('simulator.added_to_group', 'Added to ');
                     e.push(
                       t +
                         this.renderValueList(
@@ -17171,7 +17615,7 @@
                     );
                   }
                   if (this.props.groups_removed) {
-                    var a = Ft.t('simulator.removed_from_group', 'Removed from ');
+                    var a = Pt.t('simulator.removed_from_group', 'Removed from ');
                     e.push(
                       a +
                         this.renderValueList(
@@ -17181,14 +17625,14 @@
                         )
                     );
                   }
-                  return jc(e.join('. '));
+                  return Fc(e.join('. '));
                 }
               },
               {
                 key: 'renderLabelsAdded',
                 value: function() {
-                  var e = Ft.t('simulator.input_labels_added', 'Message labeled with ');
-                  return jc(
+                  var e = Pt.t('simulator.input_labels_added', 'Message labeled with ');
+                  return Fc(
                     e +
                       this.renderValueList(
                         this.props.labels.map(function(e) {
@@ -17205,9 +17649,9 @@
                   return this.renderClickable(
                     k.createElement(
                       'div',
-                      { className: wc.a.info + ' ' + wc.a.email },
+                      { className: Tc.a.info + ' ' + Tc.a.email },
                       k.createElement(
-                        Pe.a,
+                        Fe.a,
                         {
                           i18nKey: 'simulator.sent_email.summary',
                           values: {
@@ -17221,29 +17665,29 @@
                     k.createElement(
                       me,
                       {
-                        title: Ft.t('simulator.sent_email.title', 'Email Details'),
+                        title: Pt.t('simulator.sent_email.title', 'Email Details'),
                         headerClass: Ee.send_email,
                         buttons: this.getButtons(),
                         noPadding: !0
                       },
                       k.createElement(
                         'div',
-                        { className: wc.a.email_details },
+                        { className: Tc.a.email_details },
                         k.createElement(
                           'div',
-                          { className: wc.a.to },
-                          Ft.t('email.to', 'To'),
+                          { className: Tc.a.to },
+                          Pt.t('email.to', 'To'),
                           ': ',
                           this.renderValueList(e)
                         ),
                         k.createElement(
                           'div',
-                          { className: wc.a.subject },
-                          Ft.t('email.subject', 'Subject'),
+                          { className: Tc.a.subject },
+                          Pt.t('email.subject', 'Subject'),
                           ': ',
                           this.props.subject
                         ),
-                        k.createElement('div', { className: wc.a.body }, this.props.body)
+                        k.createElement('div', { className: Tc.a.body }, this.props.body)
                       )
                     )
                   );
@@ -17255,22 +17699,22 @@
                   return this.renderClickable(
                     k.createElement(
                       'div',
-                      { className: wc.a.info + ' ' + wc.a.webhook },
+                      { className: Tc.a.info + ' ' + Tc.a.webhook },
                       k.createElement('span', null, 'Called ', t.url)
                     ),
                     k.createElement(
                       me,
                       {
-                        title: Ft.t('simulator.httplog_dialog', 'HTTP Request Details'),
+                        title: Pt.t('simulator.httplog_dialog', 'HTTP Request Details'),
                         headerClass: e,
                         buttons: this.getButtons(),
                         noPadding: !0
                       },
                       k.createElement(
                         'div',
-                        { className: wc.a.webhook_details },
+                        { className: Tc.a.webhook_details },
                         k.createElement('div', { className: '' }, t.request),
-                        k.createElement('div', { className: wc.a.response }, t.response)
+                        k.createElement('div', { className: Tc.a.response }, t.response)
                       )
                     )
                   );
@@ -17301,13 +17745,13 @@
                     { key: this.props.step_uuid },
                     k.createElement(
                       'div',
-                      { className: wc.a.has_detail, onClick: this.showDetails },
+                      { className: Tc.a.has_detail, onClick: this.showDetails },
                       e
                     ),
                     k.createElement(
-                      vc,
+                      Cc,
                       { show: this.state.detailsVisible },
-                      k.createElement('div', { className: wc.a.event_viewer }, t)
+                      k.createElement('div', { className: Tc.a.event_viewer }, t)
                     )
                   );
                 }
@@ -17318,7 +17762,7 @@
                   var e = this;
                   return k.createElement(
                     'table',
-                    { className: wc.a.classification },
+                    { className: Tc.a.classification },
                     k.createElement(
                       'tbody',
                       null,
@@ -17355,24 +17799,24 @@
                     return this.renderClassification();
                   switch (this.props.type) {
                     case 'msg_received':
-                      return Tc(this.props.msg.text, this.props.msg.attachments, hc.MO);
+                      return Pc(this.props.msg.text, this.props.msg.attachments, yc.MO);
                     case 'msg_created':
                     case 'ivr_created':
-                      return Tc(this.props.msg.text, this.props.msg.attachments, hc.MT);
+                      return Pc(this.props.msg.text, this.props.msg.attachments, yc.MT);
                     case 'error':
                     case 'failure':
-                      return xc(this.props.text);
+                      return Dc(this.props.text);
                     case 'msg_wait':
-                      return jc(Ft.t('simulator.msg_wait', 'Waiting for reply'));
+                      return Fc(Pt.t('simulator.msg_wait', 'Waiting for reply'));
                     case 'contact_groups_changed':
                       return this.renderGroupsChanged();
                     case 'contact_urns_changed':
-                      return jc('Added a URN for the contact');
+                      return Fc('Added a URN for the contact');
                     case 'contact_field_changed':
                       var e = this.getValue(this.props.value);
-                      return jc(
+                      return Fc(
                         '' !== e
-                          ? Ft.t(
+                          ? Pt.t(
                               'simulator.contact_field_changed',
                               'Set contact "[[field]]" to "[[value]]"',
                               {
@@ -17380,21 +17824,21 @@
                                 value: this.getValue(this.props.value)
                               }
                             )
-                          : Ft.t('simulator.contact_field_cleared', 'Cleared contact "[[field]]"', {
+                          : Pt.t('simulator.contact_field_cleared', 'Cleared contact "[[field]]"', {
                               field: this.props.field.name
                             })
                       );
                     case 'run_result_changed':
-                      return jc(
-                        Ft.t(
+                      return Fc(
+                        Pt.t(
                           'simulator.run_result_changed',
                           'Set result "[[field]]" to "[[value]]"',
                           { field: this.props.name, value: this.getValue(this.props.value) }
                         )
                       );
                     case 'contact_name_changed':
-                      return jc(
-                        Ft.t('simulator.contact_name_changed', 'Set contact name to "[[name]]"', {
+                      return Fc(
+                        Pt.t('simulator.contact_name_changed', 'Set contact name to "[[name]]"', {
                           name: this.props.name
                         })
                       );
@@ -17402,14 +17846,14 @@
                     case 'email_sent':
                       return this.renderEmailSent();
                     case 'broadcast_created':
-                      return Tc(
+                      return Pc(
                         this.props.translations[this.props.base_language].text,
                         this.props.msg ? this.props.msg.attachments : [],
-                        hc.MT
+                        yc.MT
                       );
                     case 'resthook_called':
-                      return jc(
-                        Ft.t('simulator.resthook_called', 'Triggered flow event "[[resthook]]"', {
+                      return Fc(
+                        Pt.t('simulator.resthook_called', 'Triggered flow event "[[resthook]]"', {
                           resthook: this.props.resthook
                         })
                       );
@@ -17420,40 +17864,40 @@
                     case 'webhook_called':
                       return this.renderWebhook(Ee.call_webhook);
                     case 'flow_entered':
-                      return jc(
-                        Ft.t('simulator.flow_entered', 'Entered flow "[[flow]]"', {
+                      return Fc(
+                        Pt.t('simulator.flow_entered', 'Entered flow "[[flow]]"', {
                           flow: this.props.flow.name
                         })
                       );
                     case 'session_triggered':
-                      return jc(
-                        Ft.t('simulator.session_triggered', 'Started somebody else in "[[flow]]"', {
+                      return Fc(
+                        Pt.t('simulator.session_triggered', 'Started somebody else in "[[flow]]"', {
                           flow: this.props.flow.name
                         })
                       );
                     case 'contact_language_changed':
-                      return jc(
-                        Ft.t(
+                      return Fc(
+                        Pt.t(
                           'simulator.contact_language_changed',
                           'Set preferred language to "[[language]]"',
                           { language: this.props.language }
                         )
                       );
                     case 'contact_status_changed':
-                      return jc(
-                        Ft.t('simulator.contact_status_changed', 'Set status to "[[status]]"', {
+                      return Fc(
+                        Pt.t('simulator.contact_status_changed', 'Set status to "[[status]]"', {
                           status: this.props.status
                         })
                       );
                     case 'info':
-                      return jc(this.props.text);
+                      return Fc(this.props.text);
                     case 'input_labels_added':
                       return this.renderLabelsAdded();
                     case 'environment_refreshed':
                       return null;
                     case 'ticket_opened':
-                      return jc(
-                        Ft.t(
+                      return Fc(
+                        Pt.t(
                           'simulator.ticket_opened',
                           'Ticket opened with subject "[[subject]]"',
                           { subject: this.props.subject }
@@ -17465,8 +17909,8 @@
                         k.Fragment,
                         null,
                         this.renderWebhook(Ee.transfer_airtime),
-                        jc(
-                          Ft.t(
+                        Fc(
+                          Pt.t(
                             'simulator.airtime_transferred',
                             'Transferred [[amount]] [[currency]] to [[recipient]]',
                             {
@@ -17485,7 +17929,7 @@
               {
                 key: 'render',
                 value: function() {
-                  return k.createElement('div', { className: wc.a.evt }, this.renderLogEvent());
+                  return k.createElement('div', { className: Tc.a.evt }, this.renderLogEvent());
                 }
               },
               {
@@ -17511,12 +17955,12 @@
             a
           );
         })(k.Component),
-        Rc = a(33),
-        Uc = a.n(Rc),
-        Dc = St.a.bind(Uc.a),
-        Pc = { 'parent.run': !0, 'child.run': !0, legacy_extra: !0 },
-        Fc = (function(e) {
-          Object(v.a)(a, e);
+        Mc = a(33),
+        Lc = a.n(Mc),
+        zc = St.a.bind(Lc.a),
+        Bc = { 'parent.run': !0, 'child.run': !0, legacy_extra: !0 },
+        Vc = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -17529,7 +17973,7 @@
                 showEmpty: !1,
                 message: null
               }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -17564,7 +18008,7 @@
                 value: function(e, t) {
                   var a,
                     n = this,
-                    i = '@' + [].concat(Object(ge.a)(t), [e]).join('.');
+                    i = '@' + [].concat(Object(ve.a)(t), [e]).join('.');
                   (a = i),
                     navigator.clipboard.writeText(a),
                     this.setState({ expression: i, messageVisible: !0, message: null }, function() {
@@ -17579,8 +18023,8 @@
                 value: function() {
                   var e = this,
                     t = this.state.showEmpty
-                      ? Ft.t('context_explorer.hide_empty', 'Showing keys with values')
-                      : Ft.t('context_explorer.show_empty', 'Showing all keys');
+                      ? Pt.t('context_explorer.hide_empty', 'Showing keys with values')
+                      : Pt.t('context_explorer.show_empty', 'Showing all keys');
                   this.setState(
                     {
                       showEmpty: !this.state.showEmpty,
@@ -17601,7 +18045,7 @@
                 value: function(e, t) {
                   for (
                     var a = Object(y.a)({}, this.state.opened),
-                      n = [].concat(Object(ge.a)(t), [e]),
+                      n = [].concat(Object(ve.a)(t), [e]),
                       i = a;
                     n.length > 0;
 
@@ -17625,8 +18069,8 @@
                     i,
                     s = this;
                   if (!e) return null;
-                  var o = [].concat(Object(ge.a)(a), [e]);
-                  if (Pc[o.join('.')]) return null;
+                  var o = [].concat(Object(ve.a)(a), [e]);
+                  if (Bc[o.join('.')]) return null;
                   var r = typeof t,
                     l = 'object' !== r ? t : '',
                     c = t && 'object' === r && Object.keys(t).length > 0;
@@ -17634,17 +18078,17 @@
                     t.hasOwnProperty('__default__') &&
                     ((l = t.__default__), 1 === Object.keys(t).length && (c = !1));
                   var u = this.isOpen(o),
-                    d = Dc(
+                    d = zc(
                       ((n = {}),
-                      Object(S.a)(n, Uc.a.arrow_right, !0),
-                      Object(S.a)(n, Uc.a.has_children, c),
-                      Object(S.a)(n, Uc.a.open, u),
+                      Object(S.a)(n, Lc.a.arrow_right, !0),
+                      Object(S.a)(n, Lc.a.has_children, c),
+                      Object(S.a)(n, Lc.a.open, u),
                       n)
                     ),
-                    p = Dc(
+                    p = zc(
                       ((i = {}),
-                      Object(S.a)(i, Uc.a.key, !0),
-                      Object(S.a)(i, Uc.a.has_children, c),
+                      Object(S.a)(i, Lc.a.key, !0),
+                      Object(S.a)(i, Lc.a.has_children, c),
                       i)
                     ),
                     h = Array.isArray(t) ? '['.concat(t.length, ']') : null;
@@ -17654,7 +18098,7 @@
                     k.createElement(
                       'div',
                       {
-                        className: Uc.a.row,
+                        className: Lc.a.row,
                         style: { marginLeft: 10 * a.length + 'px' },
                         onClick: function(t) {
                           t.shiftKey ? s.handleCopyPath(e, a) : c && s.handlePathClick(e, a);
@@ -17665,15 +18109,15 @@
                         'div',
                         { className: p },
                         e,
-                        k.createElement('div', { className: Uc.a.key_summary }, h),
+                        k.createElement('div', { className: Lc.a.key_summary }, h),
                         k.createElement('div', {
-                          className: Uc.a.clipboard + ' fe-clipboard-empty',
+                          className: Lc.a.clipboard + ' fe-clipboard-empty',
                           onClick: function(t) {
                             t.stopPropagation(), s.handleCopyPath(e, a);
                           }
                         })
                       ),
-                      k.createElement('div', { className: Uc.a.str_value }, l)
+                      k.createElement('div', { className: Lc.a.str_value }, l)
                     ),
                     u ? this.renderProperties(t, o) : null
                   );
@@ -17725,36 +18169,36 @@
                       ? (n = this.state.message)
                       : this.state.expression &&
                         (n = k.createElement(
-                          Pe.a,
+                          Fe.a,
                           {
                             i18nKey: 'context_explorer.copied_expression',
                             values: { expression: this.state.expression }
                           },
                           'Copied ',
-                          k.createElement('span', { className: Uc.a.expression }, '[[expression]]'),
+                          k.createElement('span', { className: Lc.a.expression }, '[[expression]]'),
                           ' to clipboard'
                         )));
-                  var i = Dc(
+                  var i = zc(
                     ((e = {}),
-                    Object(S.a)(e, Uc.a.message, !0),
-                    Object(S.a)(e, Uc.a.visible, this.state.messageVisible),
+                    Object(S.a)(e, Lc.a.message, !0),
+                    Object(S.a)(e, Lc.a.visible, this.state.messageVisible),
                     e)
                   );
                   return k.createElement(
                     'div',
                     {
                       className:
-                        Uc.a.context_explorer + ' ' + (this.props.visible ? Uc.a.visible : '')
+                        Lc.a.context_explorer + ' ' + (this.props.visible ? Lc.a.visible : '')
                     },
                     k.createElement('div', { className: i }, n),
-                    k.createElement('div', { className: Uc.a.panel }, this.renderProperties(a)),
+                    k.createElement('div', { className: Lc.a.panel }, this.renderProperties(a)),
                     k.createElement(
                       'div',
-                      { className: Uc.a.footer },
+                      { className: Lc.a.footer },
                       k.createElement(
                         'div',
                         {
-                          className: Uc.a.empty_toggle,
+                          className: Lc.a.empty_toggle,
                           onClick: function() {
                             t.handleToggleHide();
                           }
@@ -17771,14 +18215,14 @@
             a
           );
         })(k.Component),
-        Ic = a(13),
-        Mc = a.n(Ic),
-        Lc = a(125),
-        zc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg',
-        Bc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg',
-        qc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg',
-        Vc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4',
-        Hc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
+        qc = a(14),
+        Hc = a.n(qc),
+        Gc = a(127),
+        Wc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg',
+        Kc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg',
+        Yc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg',
+        Xc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4',
+        Qc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
       !(function(e) {
         (e.audio = 'audio'),
           (e.images = 'images'),
@@ -17787,9 +18231,9 @@
           (e.digit = 'digit'),
           (e.digits = 'digits'),
           (e.quickReplies = 'quickReplies');
-      })(Nc || (Nc = {}));
-      var Gc = (function(e) {
-        Object(v.a)(a, e);
+      })(Rc || (Rc = {}));
+      var Jc = (function(e) {
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e, n) {
           var i;
@@ -17805,21 +18249,21 @@
               active: !1,
               visible: !1,
               events: [],
-              contact: { uuid: $(), urns: ['tel:+12065551212'], fields: {}, groups: [] },
+              contact: { uuid: Z(), urns: ['tel:+12065551212'], fields: {}, groups: [] },
               keypadEntry: '',
               drawerHeight: 0,
-              channel: $(),
-              time: bc(),
+              channel: Z(),
+              time: Nc(),
               waitingForHint: !1,
               drawerOpen: !1,
               attachmentOptionsVisible: !1,
               contextExplorerVisible: !1,
               sprinting: !1
             }),
-            (i.bottomRef = i.bottomRef.bind(Object(g.a)(i))),
-            (i.inputBoxRef = i.inputBoxRef.bind(Object(g.a)(i))),
+            (i.bottomRef = i.bottomRef.bind(Object(v.a)(i))),
+            (i.inputBoxRef = i.inputBoxRef.bind(Object(v.a)(i))),
             (i.currentFlow = i.props.definition.uuid),
-            Object(b.react)(Object(g.a)(i), { include: [/^on/, /^get/, /^handle/] }),
+            Object(b.react)(Object(v.a)(i), { include: [/^on/, /^get/, /^handle/] }),
             i
           );
         }
@@ -17884,12 +18328,12 @@
                   } finally {
                     o.f();
                   }
-                  var g = (this.state.session.input && this.props.activity.recentMessages) || {};
-                  for (var v in e) {
-                    var f = g[v] || [];
-                    (f = e[v].concat(f)), (g[v] = f);
+                  var v = (this.state.session.input && this.props.activity.recentMessages) || {};
+                  for (var g in e) {
+                    var f = v[g] || [];
+                    (f = e[g].concat(f)), (v[g] = f);
                   }
-                  var y = { segments: i, nodes: s, recentMessages: g };
+                  var y = { segments: i, nodes: s, recentMessages: v };
                   this.props.mergeEditorState({ activity: y }),
                     t && t !== this.currentFlow && (this.currentFlow = t);
                 }
@@ -17902,7 +18346,7 @@
                 if (e && e.length > 0) {
                   for (var s = [], o = null, r = !1; e.length > 0 && !r; ) {
                     var l = e.shift();
-                    if (kc(l)) {
+                    if (Oc(l)) {
                       r = !0;
                       for (var c = '', u = '', d = t.runs.length - 1; d >= 0; d--) {
                         for (var p = t.runs[d].path, h = p.length - 1; h >= 0; h--)
@@ -17917,14 +18361,14 @@
                           m in a ? a[m].unshift(_) : (a[m] = [_]);
                         }
                       }
-                      Ec(l) && l.msg.quick_replies && (o = l.msg.quick_replies);
+                      xc(l) && l.msg.quick_replies && (o = l.msg.quick_replies);
                     }
                     s.push(l);
                   }
-                  var g = { events: Jt()(this.state.events, { $push: s }) };
-                  null !== o && (g.quickReplies = o),
+                  var v = { events: $t()(this.state.events, { $push: s }) };
+                  null !== o && (v.quickReplies = o),
                     this.scrollToBottom(),
-                    this.setState(g, function() {
+                    this.setState(v, function() {
                       0 === e.length
                         ? n()
                         : window.setTimeout(function() {
@@ -17947,7 +18391,7 @@
                     e.events = [
                       {
                         msg: {
-                          uuid: $(),
+                          uuid: Z(),
                           urn: a.state.contact.urns[0],
                           text: t.text,
                           attachments: t.attachments
@@ -17978,7 +18422,7 @@
                     var o = a.state.events;
                     !i &&
                       n &&
-                      (o = Jt()(a.state.events, {
+                      (o = $t()(a.state.events, {
                         $push: [{ type: 'info', text: 'Exited flow', created_on: new Date() }]
                       }));
                     var l = e.session && e.session.wait && void 0 !== e.session.wait.hint,
@@ -17986,25 +18430,25 @@
                     if (l)
                       switch (e.session.wait.hint.type) {
                         case 'audio':
-                          c = Nc.audio;
+                          c = Rc.audio;
                           break;
                         case 'video':
-                          c = Nc.videos;
+                          c = Rc.videos;
                           break;
                         case 'image':
-                          c = Nc.images;
+                          c = Rc.images;
                           break;
                         case 'location':
-                          c = Nc.location;
+                          c = Rc.location;
                           break;
                         case 'digits':
-                          (c = Nc.digit), 1 !== e.session.wait.hint.count && (c = Nc.digits);
+                          (c = Rc.digit), 1 !== e.session.wait.hint.count && (c = Rc.digits);
                           break;
                         default:
                           console.log('Unknown hint', e.session.wait.hint.type);
                       }
                     var u = l;
-                    !c && a.hasQuickReplies() && ((c = Nc.quickReplies), (u = !0)),
+                    !c && a.hasQuickReplies() && ((c = Rc.quickReplies), (u = !0)),
                       a.setState(
                         {
                           active: i,
@@ -18030,7 +18474,7 @@
                 var e = this,
                   t = new Date().toISOString(),
                   a = {
-                    uuid: $(),
+                    uuid: Z(),
                     urns: ['tel:+12065551212'],
                     fields: {},
                     groups: [],
@@ -18042,7 +18486,7 @@
                     function() {
                       var n = {
                         contact: e.state.contact,
-                        flow: _l(e.props.definition, e.props.nodes, !1),
+                        flow: kl(e.props.definition, e.props.nodes, !1),
                         trigger: {
                           type: 'manual',
                           environment: {
@@ -18082,12 +18526,12 @@
                             var n = new Date().toISOString(),
                               i = {
                                 text: e,
-                                uuid: $(),
+                                uuid: Z(),
                                 urn: a.state.session.contact.urns[0],
                                 attachments: t ? [t] : []
                               },
                               s = {
-                                flow: _l(a.props.definition, a.props.nodes, !1),
+                                flow: kl(a.props.definition, a.props.nodes, !1),
                                 session: a.state.session,
                                 resume: {
                                   type: 'msg',
@@ -18106,7 +18550,7 @@
                               })
                               .catch(function(e) {
                                 e.response.status;
-                                var t = Jt()(a.state.events, {
+                                var t = $t()(a.state.events, {
                                   $push: [
                                     {
                                       type: 'error',
@@ -18205,36 +18649,36 @@
                 var e = this;
                 return E.a.createElement(
                   'div',
-                  { className: Mc.a.drawer_items },
+                  { className: Hc.a.drawer_items },
                   E.a.createElement(
                     'div',
                     {
-                      className: Mc.a.drawer_item,
+                      className: Hc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('image/jpeg:' + zc);
+                        e.sendAttachment('image/jpeg:' + Wc);
                       }
                     },
-                    E.a.createElement('img', { src: zc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Wc, alt: 'Attachment' })
                   ),
                   E.a.createElement(
                     'div',
                     {
-                      className: Mc.a.drawer_item,
+                      className: Hc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('image/jpeg:' + Bc);
+                        e.sendAttachment('image/jpeg:' + Kc);
                       }
                     },
-                    E.a.createElement('img', { src: Bc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Kc, alt: 'Attachment' })
                   ),
                   E.a.createElement(
                     'div',
                     {
-                      className: Mc.a.drawer_item,
+                      className: Hc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('image/jpeg:' + qc);
+                        e.sendAttachment('image/jpeg:' + Yc);
                       }
                     },
-                    E.a.createElement('img', { src: qc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Yc, alt: 'Attachment' })
                   )
                 );
               }
@@ -18246,12 +18690,12 @@
                 return E.a.createElement(
                   'div',
                   {
-                    className: Mc.a.map_thumb,
+                    className: Hc.a.map_thumb,
                     onClick: function() {
                       e.sendAttachment('geo:2.904194,-79.003418');
                     }
                   },
-                  E.a.createElement('img', { src: Lc, alt: 'Attachment' })
+                  E.a.createElement('img', { src: Gc, alt: 'Attachment' })
                 );
               }
             },
@@ -18262,15 +18706,15 @@
                 return E.a.createElement(
                   'div',
                   {
-                    className: Mc.a.audio_picker,
+                    className: Hc.a.audio_picker,
                     onClick: function() {
                       e.sendAttachment(
                         'audio/mp3:https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_audio_a.mp3'
                       );
                     }
                   },
-                  E.a.createElement('div', { className: Mc.a.audio_icon + ' fe-mic' }),
-                  E.a.createElement('div', { className: Mc.a.audio_message }, 'Upload Audio')
+                  E.a.createElement('div', { className: Hc.a.audio_icon + ' fe-mic' }),
+                  E.a.createElement('div', { className: Hc.a.audio_message }, 'Upload Audio')
                 );
               }
             },
@@ -18280,36 +18724,36 @@
                 var e = this;
                 return E.a.createElement(
                   'div',
-                  { className: Mc.a.drawer_items },
+                  { className: Hc.a.drawer_items },
                   E.a.createElement(
                     'div',
                     {
-                      className: Mc.a.drawer_item,
+                      className: Hc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('video/mp4:' + Vc);
+                        e.sendAttachment('video/mp4:' + Xc);
                       }
                     },
-                    E.a.createElement('img', { src: Hc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Qc, alt: 'Attachment' })
                   ),
                   E.a.createElement(
                     'div',
                     {
-                      className: Mc.a.drawer_item,
+                      className: Hc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('video/mp4:' + Vc);
+                        e.sendAttachment('video/mp4:' + Xc);
                       }
                     },
-                    E.a.createElement('img', { src: Hc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Qc, alt: 'Attachment' })
                   ),
                   E.a.createElement(
                     'div',
                     {
-                      className: Mc.a.drawer_item,
+                      className: Hc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('video/mp4:' + Vc);
+                        e.sendAttachment('video/mp4:' + Xc);
                       }
                     },
-                    E.a.createElement('img', { src: Hc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Qc, alt: 'Attachment' })
                   )
                 );
               }
@@ -18320,12 +18764,12 @@
                 var e = this;
                 return E.a.createElement(
                   'div',
-                  { className: Mc.a.quick_replies },
+                  { className: Hc.a.quick_replies },
                   this.state.quickReplies.map(function(t) {
                     return E.a.createElement(
                       'div',
                       {
-                        className: Mc.a.quick_reply,
+                        className: Hc.a.quick_reply,
                         onClick: function() {
                           e.resume(t);
                         },
@@ -18355,7 +18799,7 @@
                 var a = this;
                 return E.a.createElement(
                   'div',
-                  { className: Mc.a.row },
+                  { className: Hc.a.row },
                   e.map(function(e) {
                     return E.a.createElement(
                       'div',
@@ -18364,7 +18808,7 @@
                         onClick: function() {
                           a.handleKeyPress(e, t);
                         },
-                        className: Mc.a.key
+                        className: Hc.a.key
                       },
                       e
                     );
@@ -18377,17 +18821,17 @@
               value: function(e) {
                 return E.a.createElement(
                   'div',
-                  { className: Mc.a.keypad },
+                  { className: Hc.a.keypad },
                   e
                     ? E.a.createElement(
                         'div',
-                        { className: Mc.a.keypad_entry },
+                        { className: Hc.a.keypad_entry },
                         this.state.keypadEntry
                       )
                     : null,
                   E.a.createElement(
                     'div',
-                    { className: Mc.a.keys },
+                    { className: Hc.a.keys },
                     this.getKeyRow(['1', '2', '3'], e),
                     this.getKeyRow(['4', '5', '6'], e),
                     this.getKeyRow(['7', '8', '9'], e),
@@ -18400,19 +18844,19 @@
               key: 'getDrawerContents',
               value: function() {
                 switch (this.state.drawerType) {
-                  case Nc.location:
+                  case Rc.location:
                     return this.getLocationDrawer();
-                  case Nc.audio:
+                  case Rc.audio:
                     return this.getAudioDrawer();
-                  case Nc.images:
+                  case Rc.images:
                     return this.getImageDrawer();
-                  case Nc.videos:
+                  case Rc.videos:
                     return this.getVideoDrawer();
-                  case Nc.quickReplies:
+                  case Rc.quickReplies:
                     return this.getQuickRepliesDrawer();
-                  case Nc.digits:
-                  case Nc.digit:
-                    return this.getKeypadDrawer(this.state.drawerType === Nc.digits);
+                  case Rc.digits:
+                  case Rc.digit:
+                    return this.getKeypadDrawer(this.state.drawerType === Rc.digits);
                 }
                 return null;
               }
@@ -18439,11 +18883,11 @@
                       ref: this.handleDrawerRef,
                       style: e,
                       className:
-                        Mc.a.drawer +
+                        Hc.a.drawer +
                         ' ' +
-                        (this.state.drawerOpen ? Mc.a.drawer_visible : '') +
+                        (this.state.drawerOpen ? Hc.a.drawer_visible : '') +
                         ' ' +
-                        (this.state.attachmentOptionsVisible ? '' : Mc.a.forced)
+                        (this.state.attachmentOptionsVisible ? '' : Hc.a.forced)
                     },
                     this.getDrawerContents()
                   )
@@ -18463,7 +18907,7 @@
                 this.setState({ attachmentOptionsVisible: !1, drawerOpen: !1 }, function() {
                   e.hasQuickReplies() &&
                     window.setTimeout(function() {
-                      e.showAttachmentDrawer(Nc.quickReplies);
+                      e.showAttachmentDrawer(Rc.quickReplies);
                     }, 300);
                 });
               }
@@ -18487,18 +18931,18 @@
                   'div',
                   {
                     className:
-                      Mc.a.attachment_buttons +
+                      Hc.a.attachment_buttons +
                       ' ' +
-                      (this.state.attachmentOptionsVisible ? Mc.a.visible : '')
+                      (this.state.attachmentOptionsVisible ? Hc.a.visible : '')
                   },
                   E.a.createElement('div', {
                     className: 'fe-x',
                     onClick: this.handleHideAttachments
                   }),
-                  this.getAttachmentButton('fe-picture2', Nc.images),
-                  this.getAttachmentButton('fe-video', Nc.videos),
-                  this.getAttachmentButton('fe-mic', Nc.audio),
-                  this.getAttachmentButton('fe-map-marker', Nc.location)
+                  this.getAttachmentButton('fe-picture2', Rc.images),
+                  this.getAttachmentButton('fe-video', Rc.videos),
+                  this.getAttachmentButton('fe-mic', Rc.audio),
+                  this.getAttachmentButton('fe-map-marker', Rc.location)
                 );
               }
             },
@@ -18511,7 +18955,7 @@
             {
               key: 'getContextExplorer',
               value: function() {
-                return E.a.createElement(Fc, {
+                return E.a.createElement(Vc, {
                   visible: this.state.contextExplorerVisible,
                   onClose: this.handleContextExplorerClose,
                   contents: this.state.context
@@ -18552,7 +18996,7 @@
                     var i = e.value;
                     a.push(
                       E.a.createElement(
-                        Ac,
+                        Ic,
                         Object.assign({}, i, { key: i.type + '_' + String(i.created_on) })
                       )
                     );
@@ -18563,35 +19007,35 @@
                   n.f();
                 }
                 var s = this.props.popped && this.props.popped !== Se.SIMULATOR,
-                  o = s || !this.state.visible ? Mc.a.sim_hidden : '',
-                  r = s || this.state.visible ? Mc.a.tab_hidden : '',
+                  o = s || !this.state.visible ? Hc.a.sim_hidden : '',
+                  r = s || this.state.visible ? Hc.a.tab_hidden : '',
                   l = { height: 366 - (this.state.drawerOpen ? this.state.drawerHeight - 20 : 0) };
                 return (
                   this.state.drawerOpen && this.state.waitingForHint && (l.height += 25),
                   E.a.createElement(
                     'div',
-                    { id: 'sim_container', className: Mc.a.sim_container },
+                    { id: 'sim_container', className: Hc.a.sim_container },
                     E.a.createElement(
                       'div',
                       null,
                       E.a.createElement(
                         'div',
-                        { id: 'simulator', className: Mc.a.simulator + ' ' + o, key: 'sim' },
+                        { id: 'simulator', className: Hc.a.simulator + ' ' + o, key: 'sim' },
                         this.getContextExplorer(),
                         E.a.createElement(
                           'div',
-                          { className: Mc.a.screen },
+                          { className: Hc.a.screen },
                           E.a.createElement(
                             'div',
-                            { className: Mc.a.header },
+                            { className: Hc.a.header },
                             E.a.createElement('div', {
-                              className: Mc.a.close + ' fe-x',
+                              className: Hc.a.close + ' fe-x',
                               onClick: this.onToggle
                             })
                           ),
                           E.a.createElement(
                             'div',
-                            { className: Mc.a.messages, style: l },
+                            { className: Hc.a.messages, style: l },
                             a,
                             E.a.createElement('div', {
                               id: 'bottom',
@@ -18601,7 +19045,7 @@
                           ),
                           E.a.createElement(
                             'div',
-                            { className: Mc.a.controls },
+                            { className: Hc.a.controls },
                             E.a.createElement('input', {
                               ref: this.inputBoxRef,
                               type: 'text',
@@ -18613,7 +19057,7 @@
                             }),
                             E.a.createElement(
                               'div',
-                              { className: Mc.a.show_attachments_button },
+                              { className: Hc.a.show_attachments_button },
                               E.a.createElement('div', {
                                 className: 'fe-paperclip',
                                 onClick: function() {
@@ -18626,11 +19070,11 @@
                           this.getDrawer(),
                           E.a.createElement(
                             'div',
-                            { className: Mc.a.footer },
+                            { className: Hc.a.footer },
                             this.state.contextExplorerVisible
                               ? E.a.createElement(
                                   'div',
-                                  { className: Mc.a.show_context_button },
+                                  { className: Hc.a.show_context_button },
                                   E.a.createElement(
                                     'div',
                                     {
@@ -18644,7 +19088,7 @@
                                 )
                               : E.a.createElement(
                                   'div',
-                                  { className: Mc.a.show_context_button },
+                                  { className: Hc.a.show_context_button },
                                   E.a.createElement(
                                     'div',
                                     {
@@ -18658,9 +19102,9 @@
                                 ),
                             E.a.createElement('span', {
                               className:
-                                Mc.a.reset +
+                                Hc.a.reset +
                                 ' ' +
-                                (this.state.active ? Mc.a.active : Mc.a.inactive),
+                                (this.state.active ? Hc.a.active : Hc.a.inactive),
                               onClick: this.onReset
                             })
                           )
@@ -18669,13 +19113,13 @@
                     ),
                     E.a.createElement(
                       'div',
-                      { className: Mc.a.simulator_tab + ' ' + r, onClick: this.onToggle },
+                      { className: Hc.a.simulator_tab + ' ' + r, onClick: this.onToggle },
                       E.a.createElement('div', {
-                        className: Mc.a.simulator_tab_icon + ' fe-smartphone'
+                        className: Hc.a.simulator_tab_icon + ' fe-smartphone'
                       }),
                       E.a.createElement(
                         'div',
-                        { className: Mc.a.simulator_tab_text },
+                        { className: Hc.a.simulator_tab_text },
                         'Run in',
                         E.a.createElement('br', null),
                         'Simulator'
@@ -18689,8 +19133,8 @@
           a
         );
       })(E.a.Component);
-      Gc.contextTypes = { config: bt };
-      var Wc = Object(zl.b)(
+      Jc.contextTypes = { config: bt };
+      var $c = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -18707,24 +19151,24 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)({}, e);
+            return Object(ge.bindActionCreators)({}, e);
           }
-        )(Gc),
-        Kc = a(108),
-        Yc = a.n(Kc),
-        Xc = a(34),
-        Qc = a.n(Xc),
-        Jc = Ft.t('sticky.title', 'New Note'),
-        Zc = Ft.t('sticky.body', '...'),
-        $c = {
-          yellow: Qc.a.yellow,
-          blue: Qc.a.blue,
-          green: Qc.a.green,
-          purple: Qc.a.purple,
-          gray: Qc.a.gray
+        )(Jc),
+        Zc = a(110),
+        eu = a.n(Zc),
+        tu = a(34),
+        au = a.n(tu),
+        nu = Pt.t('sticky.title', 'New Note'),
+        iu = Pt.t('sticky.body', '...'),
+        su = {
+          yellow: au.a.yellow,
+          blue: au.a.blue,
+          green: au.a.green,
+          purple: au.a.purple,
+          gray: au.a.gray
         },
-        eu = (function(e) {
-          Object(v.a)(a, e);
+        ou = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -18736,7 +19180,7 @@
               (n.showConfirmation = void 0),
               (n.DEFUALT_TITLE = 'New Note'),
               (n.DEFUALT_BODY = '...'),
-              Object(b.react)(Object(g.a)(n), { include: [/^on/, /^get/, /^is/, /^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^on/, /^get/, /^is/, /^handle/] }),
               (n.state = {
                 title: n.props.sticky.title,
                 body: n.props.sticky.body,
@@ -18838,13 +19282,13 @@
               {
                 key: 'handleTitleFocused',
                 value: function(e) {
-                  this.handleSelectForValue(e.currentTarget, Jc);
+                  this.handleSelectForValue(e.currentTarget, nu);
                 }
               },
               {
                 key: 'handleBodyFocused',
                 value: function(e) {
-                  this.handleSelectForValue(e.currentTarget, Zc);
+                  this.handleSelectForValue(e.currentTarget, iu);
                 }
               },
               {
@@ -18853,17 +19297,17 @@
                   var e = this;
                   return k.createElement(
                     'div',
-                    { className: Qc.a.color_chooser_container },
+                    { className: au.a.color_chooser_container },
                     k.createElement(
                       'div',
-                      { className: Qc.a.color_chooser },
-                      Object.keys($c).map(function(t) {
+                      { className: au.a.color_chooser },
+                      Object.keys(su).map(function(t) {
                         return k.createElement('div', {
                           key: e.props.uuid + t,
                           onClick: function() {
                             e.handleChangeColor(t);
                           },
-                          className: Qc.a.color_option + ' ' + $c[t]
+                          className: au.a.color_option + ' ' + su[t]
                         });
                       })
                     )
@@ -18873,12 +19317,12 @@
               {
                 key: 'render',
                 value: function() {
-                  var e = [Qc.a.title_wrapper];
-                  this.state.showConfirmation && e.push(Qc.a.removal);
-                  var t = [Qc.a.sticky_container];
+                  var e = [au.a.title_wrapper];
+                  this.state.showConfirmation && e.push(au.a.removal);
+                  var t = [au.a.sticky_container];
                   this.props.sticky.color || (this.props.sticky.color = 'yellow');
-                  var a = [Qc.a.sticky];
-                  this.isSelected() && a.push(Qc.a.selected), t.push($c[this.props.sticky.color]);
+                  var a = [au.a.sticky];
+                  this.isSelected() && a.push(au.a.selected), t.push(su[this.props.sticky.color]);
                   var n = this.getColorChooser();
                   return k.createElement(
                     'div',
@@ -18897,12 +19341,12 @@
                         { className: e.join(' ') },
                         k.createElement(
                           'div',
-                          { className: Qc.a.remove_button, onClick: this.handleClickRemove },
+                          { className: au.a.remove_button, onClick: this.handleClickRemove },
                           k.createElement('span', { className: 'fe-x' })
                         ),
-                        k.createElement('div', { className: Qc.a.confirmation }, 'Remove?'),
-                        k.createElement(Yc.a, {
-                          className: Qc.a.title,
+                        k.createElement('div', { className: au.a.confirmation }, 'Remove?'),
+                        k.createElement(eu.a, {
+                          className: au.a.title,
                           value: this.state.title,
                           onChange: this.handleChangeTitle,
                           onFocusCapture: this.handleTitleFocused
@@ -18910,9 +19354,9 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: Qc.a.body_wrapper },
-                        k.createElement(Yc.a, {
-                          className: Qc.a.body,
+                        { className: au.a.body_wrapper },
+                        k.createElement(eu.a, {
+                          className: au.a.body,
                           value: this.state.body,
                           onChange: this.handleChangeBody,
                           onFocusCapture: this.handleBodyFocused
@@ -18927,18 +19371,18 @@
             a
           );
         })(k.Component),
-        tu = Object(zl.b)(
+        ru = Object(Wl.b)(
           function(e) {
             return { definition: e.flowContext.definition };
           },
           function(e) {
-            return Object(ve.bindActionCreators)({ updateSticky: il }, e);
+            return Object(ge.bindActionCreators)({ updateSticky: ul }, e);
           },
           null,
           { forwardRef: !1 }
-        )(eu),
-        au = a(232).jsPlumb.importDefaults,
-        nu = {
+        )(ou),
+        lu = a(233).jsPlumb.importDefaults,
+        cu = {
           anchor: ['Continuous', { shape: 'Rectangle', faces: ['top', 'left', 'right'] }],
           endpoint: [
             'Rectangle',
@@ -18954,14 +19398,14 @@
           deleteEndpointsOnEmpty: !0,
           isTarget: !1
         },
-        iu = {
+        uu = {
           anchor: 'BottomCenter',
           maxConnections: 1,
           dragAllowedWhenFull: !1,
           deleteEndpointsOnEmpty: !0,
           isSource: !0
         },
-        su = function(e, t) {
+        du = function(e, t) {
           return [
             'Continuous',
             {
@@ -18973,11 +19417,11 @@
             }
           ];
         },
-        ou = [
+        pu = [
           'Flowchart',
           { stub: 12, midpoint: 0.75, alwaysRespectStubs: !1, gap: [0, 5], cornerRadius: 3 }
         ],
-        ru = (function() {
+        hu = (function() {
           function e() {
             Object(m.a)(this, e),
               (this.jsPlumb = void 0),
@@ -18985,14 +19429,14 @@
               (this.pendingConnectionTimeout = void 0),
               (this.animateInterval = null),
               (this.onLoadFunction = null),
-              (this.jsPlumb = au({
+              (this.jsPlumb = lu({
                 DragOptions: { cursor: 'pointer', zIndex: 1e3 },
                 DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
                 Endpoint: 'Rectangle',
                 EndpointStyle: { strokeStyle: 'transparent' },
                 PaintStyle: { strokeWidth: 3.5 },
                 ConnectionsDetachable: !0,
-                Connector: ou,
+                Connector: pu,
                 ConnectionOverlays: [
                   ['PlainArrow', { location: 0.999, width: 12, length: 12, cssClass: 'jtk-arrow' }]
                 ]
@@ -19040,13 +19484,13 @@
               {
                 key: 'makeSource',
                 value: function(e) {
-                  return this.jsPlumb.makeSource(e, iu);
+                  return this.jsPlumb.makeSource(e, uu);
                 }
               },
               {
                 key: 'makeTarget',
                 value: function(e) {
-                  this.jsPlumb.makeTarget(e, nu);
+                  this.jsPlumb.makeTarget(e, cu);
                 }
               },
               {
@@ -19118,7 +19562,7 @@
                           r = n.slot,
                           l = n.totalSlots,
                           c = s
-                            ? ['Bottom', su(document.getElementById(i), document.getElementById(s))]
+                            ? ['Bottom', du(document.getElementById(i), document.getElementById(s))]
                             : [];
                         if (null != i) {
                           e.jsPlumb.select({ source: i }).delete({ fireEvent: !1 });
@@ -19126,7 +19570,7 @@
                             d = u + 0.15 * r;
                           r > l / 2 && (d = u - 0.05 + 0.15 * (l - r)),
                             (d = Math.max(Math.min(0.9, d), 0.1));
-                          var p = [].concat(ou);
+                          var p = [].concat(pu);
                           (p[1].midpoint = d),
                             null != s &&
                               e.jsPlumb.connect({
@@ -19216,7 +19660,7 @@
                       for (s.s(); !(a = s.n()).done; ) {
                         var o = a.value;
                         o.endpoints[1].setAnchor(
-                          su(o.endpoints[0].element, o.endpoints[1].element)
+                          du(o.endpoints[0].element, o.endpoints[1].element)
                         );
                       }
                     } catch (r) {
@@ -19266,8 +19710,8 @@
             e
           );
         })(),
-        lu = a(14),
-        cu = (function() {
+        mu = a(13),
+        _u = (function() {
           function e(t, a) {
             Object(m.a)(this, e),
               (this.props = void 0),
@@ -19280,7 +19724,7 @@
               {
                 key: 'showUUIDs',
                 value: function() {
-                  var e = lu(this.state, { $merge: { showUUIDs: !0 } });
+                  var e = mu(this.state, { $merge: { showUUIDs: !0 } });
                   return this.props.mergeEditorState({ debug: e }), e;
                 }
               }
@@ -19288,14 +19732,14 @@
             e
           );
         })(),
-        uu = a(153),
-        du = a.n(uu),
-        pu = 3,
-        hu = function(e) {
+        vu = a(155),
+        gu = a.n(vu),
+        fu = 3,
+        yu = function(e) {
           return e.suspendedElementId === e.targetId && null !== e.source;
         },
-        mu = (function(e) {
-          Object(v.a)(a, e);
+        bu = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
             var i;
@@ -19304,10 +19748,10 @@
               ((i = t.call(this, e, n)).Plumber = void 0),
               (i.nodeContainerUUID = void 0),
               (i.ghost = void 0),
-              (i.nodeContainerUUID = $()),
-              (i.Plumber = new ru()),
-              n.config.debug && (window.fe = new cu(e, i.props.debug)),
-              Object(b.react)(Object(g.a)(i), {
+              (i.nodeContainerUUID = Z()),
+              (i.Plumber = new hu()),
+              n.config.debug && (window.fe = new _u(e, i.props.debug)),
+              Object(b.react)(Object(v.a)(i), {
                 include: [/Ref$/, /^on/, /^is/, /^get/, /^handle/]
               }),
               i
@@ -19361,7 +19805,7 @@
                   this.props.resetNodeEditingState();
                   var t = e.sourceId.split(':')[0];
                   try {
-                    hl(this.props.nodes, t, e.targetId);
+                    yl(this.props.nodes, t, e.targetId);
                   } catch (a) {
                     return !1;
                   }
@@ -19372,9 +19816,9 @@
                 key: 'onConnectorDrop',
                 value: function(e) {
                   var t = this.props.ghostNode;
-                  if (K(t) && !hu(e)) {
+                  if (K(t) && !yu(e)) {
                     this.Plumber.recalculate(t.node.uuid);
-                    var a = gi(t);
+                    var a = ki(t);
                     this.Plumber.connect(a.nodeUUID + ':' + a.exitUUID, t.node.uuid);
                     var n = (this.ghost &&
                         I(this.ghost.ele.offsetLeft, this.ghost.ele.offsetTop)) || {
@@ -19389,7 +19833,7 @@
                       this.props.onOpenNodeEditor({ originalNode: t, originalAction: o });
                   }
                   return (
-                    hu(e) && this.props.mergeEditorState({ ghostNode: null }),
+                    yu(e) && this.props.mergeEditorState({ ghostNode: null }),
                     document.removeEventListener('mousemove', window.ghostListener),
                     !0
                   );
@@ -19409,7 +19853,7 @@
                 value: function(e) {
                   var t = this.props.definition._ui.stickies || {},
                     a = e.uuid;
-                  return k.createElement(tu, {
+                  return k.createElement(ru, {
                     key: a,
                     uuid: a,
                     sticky: t[a],
@@ -19421,7 +19865,7 @@
                 key: 'handleNodeCreation',
                 value: function(e) {
                   var t = 1 === Object.keys(this.props.nodes).length;
-                  return k.createElement(mc, {
+                  return k.createElement(bc, {
                     onlyNode: t,
                     startingNode: 0 === e.idx,
                     selected: e.selected,
@@ -19441,7 +19885,7 @@
                 key: 'getNodes',
                 value: function() {
                   var e = this;
-                  return gl(this.props.nodes).map(function(t, a) {
+                  return El(this.props.nodes).map(function(t, a) {
                     return {
                       uuid: t.node.uuid,
                       position: t.ui.position,
@@ -19478,7 +19922,7 @@
                           key: this.props.ghostNode.node.uuid,
                           style: { position: 'absolute', display: 'block', visibility: 'hidden' }
                         },
-                        k.createElement(mc, {
+                        k.createElement(bc, {
                           onlyNode: !1,
                           selected: !1,
                           startingNode: !1,
@@ -19503,7 +19947,7 @@
                   return W(
                     this.context.config.endpoints && this.context.config.endpoints.simulateStart
                   )(
-                    k.createElement(Wc, {
+                    k.createElement($c, {
                       key: 'simulator',
                       popped: this.props.popped,
                       mergeEditorState: this.props.mergeEditorState,
@@ -19518,7 +19962,7 @@
                 key: 'getNodeEditor',
                 value: function() {
                   return W(null !== this.props.nodeEditorSettings)(
-                    k.createElement(yc, {
+                    k.createElement(Sc, {
                       key: 'node-editor',
                       helpArticles: this.context.config.help,
                       plumberConnectExit: this.Plumber.connectExit
@@ -19531,10 +19975,10 @@
                 value: function(e) {
                   var t = e.left,
                     a = e.top;
-                  this.props.updateSticky($(), {
-                    position: I(t - 90 + F, a - 40),
-                    title: Jc,
-                    body: Zc
+                  this.props.updateSticky(Z(), {
+                    position: I(t - 90 + P, a - 40),
+                    title: nu,
+                    body: iu
                   });
                 }
               },
@@ -19544,9 +19988,9 @@
                   var e = this;
                   return k.createElement(
                     'div',
-                    { key: 'create_node', className: du.a.empty_flow },
+                    { key: 'create_node', className: gu.a.empty_flow },
                     k.createElement(
-                      Pe.a,
+                      Fe.a,
                       { i18nKey: 'empty_flow_message' },
                       k.createElement('h1', null, "Let's get started"),
                       k.createElement(
@@ -19556,9 +20000,9 @@
                       )
                     ),
                     k.createElement(le, {
-                      name: Ft.t('buttons.create_message', 'Create Message'),
+                      name: Pt.t('buttons.create_message', 'Create Message'),
                       onClick: function() {
-                        var t = vl(null, null, 1, e.context.config.flowType);
+                        var t = Cl(null, null, 1, e.context.config.flowType);
                         e.props.onOpenNodeEditor({
                           originalNode: t,
                           originalAction: t.node.actions[0]
@@ -19576,7 +20020,7 @@
                     try {
                       var a = document.getElementById(e),
                         n = a.querySelectorAll('.jtk-connected');
-                      t.Plumber.revalidate([a].concat(Object(ge.a)(n)));
+                      t.Plumber.revalidate([a].concat(Object(ve.a)(n)));
                     } catch (i) {}
                   });
                 }
@@ -19599,7 +20043,7 @@
                       ? this.getEmptyFlow()
                       : k.createElement(k.Fragment, null, this.getSimulator()),
                     this.getNodeEditor(),
-                    k.createElement(Ul, {
+                    k.createElement(Ll, {
                       mutable: this.context.config.mutable,
                       draggingNew: !!this.props.ghostNode && !this.props.nodeEditorSettings,
                       newDragElement: this.getDragNode(),
@@ -19621,9 +20065,9 @@
             a
           );
         })(k.PureComponent);
-      mu.contextTypes = { config: bt };
-      var _u,
-        gu = Object(zl.b)(
+      bu.contextTypes = { config: bt };
+      var ku,
+        Eu = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -19648,34 +20092,34 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               {
-                mergeEditorState: Mr,
-                resetNodeEditingState: Zr,
-                onConnectionDrag: nl,
-                onOpenNodeEditor: ol,
-                onUpdateCanvasPositions: al,
-                onRemoveNodes: tl,
-                updateConnection: Kr,
-                updateSticky: il
+                mergeEditorState: Hr,
+                resetNodeEditingState: il,
+                onConnectionDrag: cl,
+                onOpenNodeEditor: pl,
+                onUpdateCanvasPositions: ll,
+                onRemoveNodes: rl,
+                updateConnection: Zr,
+                updateSticky: ul
               },
               e
             );
           }
-        )(mu),
-        vu = a(61),
-        fu = a.n(vu),
-        yu = a(80),
-        bu = a.n(yu),
-        ku = (function(e) {
-          Object(v.a)(a, e);
+        )(bu),
+        Cu = a(63),
+        wu = a.n(Cu),
+        Su = a(81),
+        Nu = a.n(Su),
+        Ou = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
             var i;
             return (
               Object(m.a)(this, a),
               (i = t.call(this, e, n)),
-              Object(b.react)(Object(g.a)(i), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(i), { include: [/^handle/] }),
               i
             );
           }
@@ -19717,17 +20161,17 @@
                         t.map(function(t, a) {
                           return k.createElement(
                             'div',
-                            { key: 'lang_' + t.id, className: bu.a.language },
+                            { key: 'lang_' + t.id, className: Nu.a.language },
                             a > 0
-                              ? k.createElement('div', { className: bu.a.separator }, '|')
+                              ? k.createElement('div', { className: Nu.a.separator }, '|')
                               : null,
                             k.createElement(
                               'div',
                               {
                                 className:
-                                  bu.a.language_link +
+                                  Nu.a.language_link +
                                   ' ' +
-                                  (e.props.language.id === t.id ? bu.a.active : ''),
+                                  (e.props.language.id === t.id ? Nu.a.active : ''),
                                 onClick: function() {
                                   e.handleLanguageChanged(t);
                                 }
@@ -19743,20 +20187,20 @@
             a
           );
         })(k.Component),
-        Eu = Object(zl.b)(
+        xu = Object(Wl.b)(
           function(e) {
             var t = e.flowContext.assetStore,
               a = e.editorState.language;
             return { languages: t.languages, language: a };
           },
           function(e) {
-            return Object(ve.bindActionCreators)({ handleLanguageChange: Vr }, e);
+            return Object(ge.bindActionCreators)({ handleLanguageChange: Xr }, e);
           }
-        )(ku),
-        Cu = a(46),
-        wu = a.n(Cu),
-        Su = (function(e) {
-          Object(v.a)(a, e);
+        )(Ou),
+        ju = a(46),
+        Tu = a.n(ju),
+        Au = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -19764,7 +20208,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).poppedEle = void 0),
               (n.state = { width: 258 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -19803,34 +20247,34 @@
                     {
                       className:
                         'pop_wrapper ' +
-                        wu.a.pop_wrapper +
+                        Tu.a.pop_wrapper +
                         ' ' +
-                        (this.props.visible ? wu.a.visible : ''),
+                        (this.props.visible ? Tu.a.visible : ''),
                       style: { right: -this.state.width, top: this.props.top }
                     },
                     k.createElement(
                       'div',
-                      { className: wu.a.tab_wrapper },
+                      { className: Tu.a.tab_wrapper },
                       k.createElement(
                         'div',
                         {
-                          className: wu.a.tab,
+                          className: Tu.a.tab,
                           style: { background: this.props.color },
                           onClick: this.handleTabClick
                         },
                         k.createElement(
                           'div',
-                          { className: wu.a.icon },
+                          { className: Tu.a.icon },
                           k.createElement('span', { className: this.props.icon })
                         ),
-                        k.createElement('div', { className: wu.a.label }, this.props.label)
+                        k.createElement('div', { className: Tu.a.label }, this.props.label)
                       )
                     ),
                     k.createElement(
                       'div',
                       {
                         ref: this.handlePoppedRef,
-                        className: wu.a.popped,
+                        className: Tu.a.popped,
                         style: {
                           borderColor: this.props.color,
                           right: this.props.visible ? 15 + this.state.width : 0,
@@ -19839,16 +20283,16 @@
                       },
                       k.createElement(
                         'div',
-                        { className: wu.a.header, style: { background: this.props.color } },
+                        { className: Tu.a.header, style: { background: this.props.color } },
                         k.createElement('div', {
-                          className: wu.a.close + ' fe-x',
+                          className: Tu.a.close + ' fe-x',
                           onClick: this.handleClose
                         }),
-                        k.createElement('div', { className: wu.a.header_label }, this.props.header)
+                        k.createElement('div', { className: Tu.a.header_label }, this.props.header)
                       ),
                       k.createElement(
                         'div',
-                        { className: wu.a.body, style: { background: this.props.color } },
+                        { className: Tu.a.body, style: { background: this.props.color } },
                         this.props.children
                       )
                     )
@@ -19859,13 +20303,13 @@
             a
           );
         })(k.Component),
-        Nu = a(154),
-        Ou = a.n(Nu),
-        xu = a(38),
-        ju = a.n(xu),
-        Tu = St.a.bind(ju.a),
-        Au = (function(e) {
-          Object(v.a)(a, e);
+        Ru = a(156),
+        Uu = a.n(Ru),
+        Du = a(38),
+        Fu = a.n(Du),
+        Pu = St.a.bind(Fu.a),
+        Iu = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -19890,7 +20334,7 @@
                 };
               }),
               (n.state = { revisions: [], revision: null, definition: null, visible: !1 }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -19937,12 +20381,12 @@
                 value: function() {
                   var e,
                     t = this,
-                    a = Tu(
+                    a = Pu(
                       ((e = {}),
-                      Object(S.a)(e, ju.a.visible, this.state.visible),
+                      Object(S.a)(e, Fu.a.visible, this.state.visible),
                       Object(S.a)(
                         e,
-                        ju.a.hidden,
+                        Fu.a.hidden,
                         this.props.popped && this.props.popped !== Se.REVISION_HISTORY
                       ),
                       e)
@@ -19950,14 +20394,14 @@
                   return E.a.createElement(
                     'div',
                     { className: a },
-                    E.a.createElement('div', { className: ju.a.mask }),
+                    E.a.createElement('div', { className: Fu.a.mask }),
                     E.a.createElement(
-                      Su,
+                      Au,
                       {
-                        header: Ft.t('revisions.header', 'Revisions'),
+                        header: Pt.t('revisions.header', 'Revisions'),
                         color: '#8e5ea7',
                         icon: 'fe-time',
-                        label: Ft.t('revisions.label', 'Revision History'),
+                        label: Pt.t('revisions.label', 'Revision History'),
                         top: '360px',
                         visible: this.state.visible,
                         onShow: this.handleTabClicked,
@@ -19965,53 +20409,53 @@
                       },
                       E.a.createElement(
                         'div',
-                        { className: ju.a.explorer_wrapper },
+                        { className: Fu.a.explorer_wrapper },
                         E.a.createElement(
                           'div',
-                          { className: ju.a.explorer },
+                          { className: Fu.a.explorer },
                           E.a.createElement(
                             'div',
-                            { className: ju.a.revisions },
+                            { className: Fu.a.revisions },
                             this.state.revisions.map(function(e) {
                               var a = e.content,
                                 n = t.state.revision && e.id === t.state.revision.id,
-                                i = a.current || n ? ju.a.selected : '';
+                                i = a.current || n ? Fu.a.selected : '';
                               return E.a.createElement(
                                 'div',
                                 {
-                                  className: ju.a.revision + ' ' + i,
+                                  className: Fu.a.revision + ' ' + i,
                                   key: 'revision_' + e.id,
                                   onClick: t.onRevisionClicked(e)
                                 },
                                 W(a.current)(
                                   E.a.createElement(
                                     'div',
-                                    { className: ju.a.button + ' ' + ju.a.current },
+                                    { className: Fu.a.button + ' ' + Fu.a.current },
                                     'current'
                                   )
                                 ),
                                 W('published' === a.status)(
                                   E.a.createElement(
                                     'div',
-                                    { className: ju.a.button + ' ' + ju.a.publish },
+                                    { className: Fu.a.button + ' ' + Fu.a.publish },
                                     ' published '
                                   )
                                 ),
                                 W(n && !a.current)(
                                   E.a.createElement(
                                     'div',
-                                    { onClick: t.onRevertClicked(e), className: ju.a.button },
+                                    { onClick: t.onRevertClicked(e), className: Fu.a.button },
                                     'revert'
                                   )
                                 ),
                                 E.a.createElement(
                                   'div',
-                                  { className: ju.a.created_on },
-                                  Ou()(new Date(a.created_on), 'mmmm d, yyyy, h:MM TT', t.props.utc)
+                                  { className: Fu.a.created_on },
+                                  Uu()(new Date(a.created_on), 'mmmm d, yyyy, h:MM TT', t.props.utc)
                                 ),
                                 E.a.createElement(
                                   'div',
-                                  { className: ju.a.email },
+                                  { className: Fu.a.email },
                                   a.user.name || a.user.email
                                 )
                               );
@@ -20027,13 +20471,13 @@
             a
           );
         })(E.a.Component),
-        Ru = a(49),
-        Uu = a.n(Ru),
-        Du = St.a.bind(Uu.a),
-        Pu = function(e) {
+        Mu = a(49),
+        Lu = a.n(Mu),
+        zu = St.a.bind(Lu.a),
+        Bu = function(e) {
           return (e.action_uuid || e.node_uuid) + (e.language || '');
         },
-        Fu = function(e, t) {
+        Vu = function(e, t) {
           var a = t[e.node_uuid],
             n = null;
           if (e.action_uuid && a) {
@@ -20044,13 +20488,13 @@
               : null;
             if (i > -1) {
               var s = a.node.actions[i];
-              n = { action: s, config: vr(s.type), index: i };
+              n = { action: s, config: Cr(s.type), index: i };
             }
           }
           return { renderNode: a, renderAction: n };
         },
-        Iu = (function(e) {
-          Object(v.a)(a, e);
+        qu = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
@@ -20061,7 +20505,7 @@
                 selectedIssue: null,
                 issueDetails: n.buildIssueDetails()
               }),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/, /^render/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/, /^render/] }),
               n
             );
           }
@@ -20088,7 +20532,7 @@
                       try {
                         for (s.s(); !(n = s.n()).done; ) {
                           var o = n.value,
-                            r = Pu(o),
+                            r = Bu(o),
                             l = e[r];
                           if (l) l.issues.push(o);
                           else {
@@ -20096,7 +20540,7 @@
                             o.language &&
                               this.props.languages &&
                               (c = this.props.languages[o.language]);
-                            var u = Fu(o, this.props.nodes);
+                            var u = Vu(o, this.props.nodes);
                             !u.renderNode ||
                               (o.action_uuid && !u.renderAction) ||
                               (l = { issues: [o], renderObjects: u, language: c });
@@ -20161,7 +20605,7 @@
                         e.language !== n &&
                         (i = E.a.createElement(
                           'div',
-                          { className: Uu.a.language },
+                          { className: Lu.a.language },
                           e.language.name
                         )),
                         (n = e.language);
@@ -20169,39 +20613,39 @@
                       if (!e.renderObjects.renderNode) return null;
                       s = e.renderObjects.renderAction
                         ? e.renderObjects.renderAction.config
-                        : vr(fr(e.renderObjects.renderNode));
+                        : Cr(wr(e.renderObjects.renderNode));
                       var o = e.issues.map(function(e, t) {
                         return E.a.createElement(
                           'div',
-                          { key: Pu(e) + t, className: Uu.a.message },
-                          E.a.createElement('div', { className: Uu.a.header }, s.name, ':'),
+                          { key: Bu(e) + t, className: Lu.a.message },
+                          E.a.createElement('div', { className: Lu.a.header }, s.name, ':'),
                           ' ',
                           rt(e)
                         );
                       });
                       return E.a.createElement(
                         'div',
-                        { key: Pu(e.issues[0]) + '_detail' },
+                        { key: Bu(e.issues[0]) + '_detail' },
                         i,
                         E.a.createElement(
                           'div',
                           {
-                            className: Uu.a.details,
+                            className: Lu.a.details,
                             onClick: function() {
                               return t.handleIssueClicked(e);
                             }
                           },
                           null,
-                          E.a.createElement('div', { className: Uu.a.issues_code }, o)
+                          E.a.createElement('div', { className: Lu.a.issues_code }, o)
                         )
                       );
                     }),
-                    s = Du(
+                    s = zu(
                       ((e = {}),
-                      Object(S.a)(e, Uu.a.visible, this.state.visible),
+                      Object(S.a)(e, Lu.a.visible, this.state.visible),
                       Object(S.a)(
                         e,
-                        Uu.a.hidden,
+                        Lu.a.hidden,
                         this.props.popped && this.props.popped !== Se.ISSUES_TAB
                       ),
                       e)
@@ -20209,12 +20653,12 @@
                   return E.a.createElement(
                     'div',
                     { className: s },
-                    E.a.createElement('div', { className: Uu.a.mask }),
+                    E.a.createElement('div', { className: Lu.a.mask }),
                     E.a.createElement(
-                      Su,
+                      Au,
                       {
-                        header: ''.concat(Ft.t('issues.label', 'Flow Issues'), ' (').concat(a, ')'),
-                        label: Ft.t('issues.header', 'Flow Issues'),
+                        header: ''.concat(Pt.t('issues.label', 'Flow Issues'), ' (').concat(a, ')'),
+                        label: Pt.t('issues.header', 'Flow Issues'),
                         color: 'tomato',
                         icon: 'fe-warning',
                         top: '416px',
@@ -20222,7 +20666,7 @@
                         onShow: this.handleTabClicked,
                         onHide: this.handleTabClicked
                       },
-                      E.a.createElement('div', { className: Uu.a.issues_wrapper }, i)
+                      E.a.createElement('div', { className: Lu.a.issues_wrapper }, i)
                     )
                   );
                 }
@@ -20231,35 +20675,35 @@
             a
           );
         })(E.a.Component),
-        Mu = a(155),
-        Lu = a(156),
-        zu = a.n(Lu),
-        Bu = Object(ve.combineReducers)({ flowContext: De, editorState: jr, nodeEditor: aa }),
-        qu = { flowContext: xe, editorState: xr, nodeEditor: $t },
-        Vu = [zu.a],
-        Hu = a(20),
-        Gu = a.n(Hu);
+        Hu = a(157),
+        Gu = a(158),
+        Wu = a.n(Gu),
+        Ku = Object(ge.combineReducers)({ flowContext: De, editorState: Fr, nodeEditor: na }),
+        Yu = { flowContext: xe, editorState: Dr, nodeEditor: ea },
+        Xu = [Wu.a],
+        Qu = a(20),
+        Ju = a.n(Qu);
       !(function(e) {
         (e.COMPLETE = 'complete'), (e.MISSING = 'missing');
-      })(_u || (_u = {}));
-      var Wu,
-        Ku = function(e, t, a) {
+      })(ku || (ku = {}));
+      var $u,
+        Zu = function(e, t, a) {
           return e.translations
             .filter(function(e) {
               switch (t) {
-                case _u.COMPLETE:
+                case ku.COMPLETE:
                   return !!e.to && e.type === a;
-                case _u.MISSING:
+                case ku.MISSING:
                   return !e.to && e.type === a;
               }
               return !0;
             })
             .map(function(e) {
-              return e[t === _u.MISSING ? 'from' : 'to'];
+              return e[t === ku.MISSING ? 'from' : 'to'];
             })
             .join(', ');
         },
-        Yu = function(e, t, a, n) {
+        ed = function(e, t, a, n) {
           var i = [];
           return (
             t.forEach(function(t) {
@@ -20281,7 +20725,7 @@
             i
           );
         },
-        Xu = function(e) {
+        td = function(e) {
           return 'categories' === e
             ? Rt.a.t('translation.attributes.categories', 'Categories')
             : 'cases' === e
@@ -20304,15 +20748,15 @@
             : t;
           var t;
         },
-        Qu = function(e) {
+        ad = function(e) {
           return e.node_uuid + e.action_uuid;
         },
-        Ju = St.a.bind(Gu.a);
+        nd = St.a.bind(Ju.a);
       !(function(e) {
         (e.PROPERTY = 'property'), (e.CATEGORY = 'category'), (e.CASE = 'case');
-      })(Wu || (Wu = {}));
-      var Zu = (function(e) {
-        Object(v.a)(a, e);
+      })($u || ($u = {}));
+      var id = (function(e) {
+        Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e, n) {
           var i;
@@ -20326,7 +20770,7 @@
               pctComplete: 0,
               translationFilters: e.translationFilters || { categories: !0, rules: !0 }
             }),
-            Object(b.react)(Object(g.a)(i), { include: [/^handle/, /^render/, /^toggle/] }),
+            Object(b.react)(Object(v.a)(i), { include: [/^handle/, /^render/, /^toggle/] }),
             i
           );
         }
@@ -20360,20 +20804,20 @@
                     n.node.router &&
                     (e.state.translationFilters.categories || e.state.translationFilters.rules)
                   ) {
-                    var i = vr(fr(n)),
+                    var i = Cr(wr(n)),
                       s = [];
                     if (e.state.translationFilters.categories) {
                       var o = ['name'];
                       n.node.router.categories.forEach(function(t) {
-                        s.push.apply(s, Object(ge.a)(Yu(Wu.CATEGORY, o, t, e.props.localization)));
+                        s.push.apply(s, Object(ve.a)(ed($u.CATEGORY, o, t, e.props.localization)));
                       });
                     }
                     if (e.state.translationFilters.rules) {
                       var r = ['arguments'],
-                        l = xi(n.node);
+                        l = Ui(n.node);
                       l &&
                         l.cases.forEach(function(t) {
-                          s.push.apply(s, Object(ge.a)(Yu(Wu.CASE, r, t, e.props.localization)));
+                          s.push.apply(s, Object(ve.a)(ed($u.CASE, r, t, e.props.localization)));
                         });
                     }
                     s.length > 0 &&
@@ -20387,8 +20831,8 @@
                       });
                   } else
                     n.node.actions.forEach(function(n) {
-                      var i = vr(n.type),
-                        s = Yu(Wu.PROPERTY, i.localizeableKeys || [], n, e.props.localization);
+                      var i = Cr(n.type),
+                        s = ed($u.PROPERTY, i.localizeableKeys || [], n, e.props.localization);
                       s.length > 0 &&
                         t.push({
                           typeConfig: i,
@@ -20477,9 +20921,9 @@
                 return t
                   ? E.a.createElement(
                       'div',
-                      { key: this.props.language.id + e, className: Gu.a.item },
-                      E.a.createElement('div', { className: Gu.a.text + ' ' + Gu.a.from_text }, t),
-                      E.a.createElement('div', { className: Gu.a.text + ' ' + Gu.a.attribute }, a)
+                      { key: this.props.language.id + e, className: Ju.a.item },
+                      E.a.createElement('div', { className: Ju.a.text + ' ' + Ju.a.from_text }, t),
+                      E.a.createElement('div', { className: Ju.a.text + ' ' + Ju.a.attribute }, a)
                     )
                   : null;
               }
@@ -20514,45 +20958,45 @@
                   n,
                   i = this,
                   s = this.state.optionsVisible && this.context.config.onChangeLanguage,
-                  o = Ju(
+                  o = nd(
                     ((e = {}),
-                    Object(S.a)(e, Gu.a.visible, this.state.visible),
+                    Object(S.a)(e, Ju.a.visible, this.state.visible),
                     Object(S.a)(
                       e,
-                      Gu.a.hidden,
+                      Ju.a.hidden,
                       this.props.popped && this.props.popped !== Se.TRANSLATOR_TAB
                     ),
                     e)
                   ),
-                  r = Ju(
+                  r = nd(
                     ((t = {}),
-                    Object(S.a)(t, Gu.a.options, !0),
-                    Object(S.a)(t, Gu.a.options_visible, this.state.optionsVisible),
-                    Object(S.a)(t, Gu.a.change_visible, s),
+                    Object(S.a)(t, Ju.a.options, !0),
+                    Object(S.a)(t, Ju.a.options_visible, this.state.optionsVisible),
+                    Object(S.a)(t, Ju.a.change_visible, s),
                     t)
                   ),
-                  l = Ju(
+                  l = nd(
                     ((a = {}),
-                    Object(S.a)(a, Gu.a.filled, !0),
-                    Object(S.a)(a, Gu.a.hundredpct, 100 === this.state.pctComplete),
+                    Object(S.a)(a, Ju.a.filled, !0),
+                    Object(S.a)(a, Ju.a.hundredpct, 100 === this.state.pctComplete),
                     a)
                   ),
-                  c = Ju(
+                  c = nd(
                     ((n = {}),
-                    Object(S.a)(n, Gu.a.translations_wrapper, !0),
-                    Object(S.a)(n, Gu.a.complete, 0 === this.state.translationBundles.length),
+                    Object(S.a)(n, Ju.a.translations_wrapper, !0),
+                    Object(S.a)(n, Ju.a.complete, 0 === this.state.translationBundles.length),
                     n)
                   );
                 return E.a.createElement(
                   'div',
                   { className: o },
                   E.a.createElement(
-                    Su,
+                    Au,
                     {
                       header: ''
                         .concat(this.props.language.name, ' ')
-                        .concat(Ft.t('translation.label', 'Translations')),
-                      label: Ft.t('translation.header', 'Flow Translation'),
+                        .concat(Pt.t('translation.label', 'Translations')),
+                      label: Pt.t('translation.header', 'Flow Translation'),
                       color: '#777',
                       icon: 'fe-language',
                       top: '243px',
@@ -20567,36 +21011,36 @@
                         return E.a.createElement(
                           'div',
                           {
-                            key: i.props.language.id + Qu(e),
-                            className: Gu.a.translate_block,
+                            key: i.props.language.id + ad(e),
+                            className: Ju.a.translate_block,
                             onClick: function() {
                               i.handleTranslationClicked(e);
                             }
                           },
                           E.a.createElement(
                             'div',
-                            { className: Gu.a.needs_translation },
+                            { className: Ju.a.needs_translation },
                             E.a.createElement(
                               'div',
-                              { className: Gu.a.type_name },
+                              { className: Ju.a.type_name },
                               e.typeConfig.name
                             ),
                             i.renderMissing(
-                              Qu(e) + 'categories',
-                              Ku(e, _u.MISSING, Wu.CATEGORY),
-                              Xu('categories')
+                              ad(e) + 'categories',
+                              Zu(e, ku.MISSING, $u.CATEGORY),
+                              td('categories')
                             ),
                             i.renderMissing(
-                              Qu(e) + 'rules',
-                              Ku(e, _u.MISSING, Wu.CASE),
-                              Xu('cases')
+                              ad(e) + 'rules',
+                              Zu(e, ku.MISSING, $u.CASE),
+                              td('cases')
                             ),
                             e.translations
                               .filter(function(e) {
-                                return !e.to && e.type === Wu.PROPERTY;
+                                return !e.to && e.type === $u.PROPERTY;
                               })
                               .map(function(t) {
-                                return i.renderMissing(Qu(e) + t.from, t.from, Xu(t.attribute));
+                                return i.renderMissing(ad(e) + t.from, t.from, td(t.attribute));
                               })
                           )
                         );
@@ -20607,10 +21051,10 @@
                       { className: r, onClick: this.toggleOptions },
                       E.a.createElement(
                         'div',
-                        { className: Gu.a.header },
+                        { className: Ju.a.header },
                         E.a.createElement(
                           'div',
-                          { className: Gu.a.progress_bar },
+                          { className: Ju.a.progress_bar },
                           E.a.createElement('div', {
                             style: { width: ''.concat(this.state.pctComplete, '%') },
                             className: l
@@ -20618,24 +21062,24 @@
                         ),
                         E.a.createElement(
                           'div',
-                          { className: Gu.a.toggle },
+                          { className: Ju.a.toggle },
                           E.a.createElement('span', { className: 'fe-arrow-up' })
                         )
                       ),
                       E.a.createElement(
                         'div',
-                        { className: Gu.a.filters },
+                        { className: Ju.a.filters },
                         E.a.createElement(
                           'div',
-                          { className: Gu.a.checkboxes },
+                          { className: Ju.a.checkboxes },
                           E.a.createElement(
                             'div',
                             null,
                             E.a.createElement(qa, {
-                              name: Ft.t('forms.categories', 'categories'),
+                              name: Pt.t('forms.categories', 'categories'),
                               checked: this.state.translationFilters.categories,
                               description: 'Categories',
-                              checkboxClassName: Gu.a.checkbox,
+                              checkboxClassName: Ju.a.checkbox,
                               onChange: this.toggleCategories
                             })
                           ),
@@ -20643,29 +21087,29 @@
                             'div',
                             null,
                             E.a.createElement(qa, {
-                              name: Ft.t('forms.rules', 'rules'),
+                              name: Pt.t('forms.rules', 'rules'),
                               checked: this.state.translationFilters.rules,
                               description: 'Rule Arguments',
-                              checkboxClassName: Gu.a.checkbox,
+                              checkboxClassName: Ju.a.checkbox,
                               onChange: this.toggleRules
                             })
                           )
                         ),
                         E.a.createElement(
                           'div',
-                          { className: Gu.a.pct_complete },
+                          { className: Ju.a.pct_complete },
                           this.state.pctComplete,
                           '%'
                         )
                       ),
                       E.a.createElement(
                         'div',
-                        { className: Gu.a.changeLanguage },
+                        { className: Ju.a.changeLanguage },
                         s &&
                           E.a.createElement(
                             'button',
                             { onClick: this.handleChangeLanguageClick },
-                            Ft.t('forms.use_as_default_language', 'Use as default language')
+                            Pt.t('forms.use_as_default_language', 'Use as default language')
                           )
                       )
                     )
@@ -20677,27 +21121,27 @@
           a
         );
       })(E.a.Component);
-      Zu.contextTypes = { config: bt };
-      var $u = a(233).default,
-        ed = (function() {
-          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : qu,
-            t = Object(ve.createStore)(
-              Bu,
+      id.contextTypes = { config: bt };
+      var sd = a(234).default,
+        od = (function() {
+          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Yu,
+            t = Object(ge.createStore)(
+              Ku,
               e,
-              Object(Mu.composeWithDevTools)(ve.applyMiddleware.apply(void 0, Vu))
+              Object(Hu.composeWithDevTools)(ge.applyMiddleware.apply(void 0, Xu))
             );
           return t;
         })(),
-        td = { config: bt },
-        ad = (function(e) {
-          Object(v.a)(a, e);
+        rd = { config: bt },
+        ld = (function(e) {
+          Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
               (n = t.call(this, e)),
-              Object(b.react)(Object(g.a)(n), { include: [/^handle/] }),
+              Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
               n
             );
           }
@@ -20726,7 +21170,7 @@
                       document.body.appendChild(n),
                       n.click(),
                       n.remove();
-                  })(_l(this.props.definition, this.props.nodes), 'definition');
+                  })(kl(this.props.definition, this.props.nodes), 'definition');
                 }
               },
               {
@@ -20741,12 +21185,12 @@
                   var e = this;
                   return this.props.modalMessage
                     ? k.createElement(
-                        vc,
+                        Cc,
                         { width: '600px', show: !0 },
                         k.createElement(
                           me,
                           {
-                            className: fu.a.alert_modal,
+                            className: wu.a.alert_modal,
                             title: this.props.modalMessage.title,
                             headerClass: 'alert',
                             buttons: {
@@ -20760,7 +21204,7 @@
                           },
                           k.createElement(
                             'div',
-                            { className: fu.a.alert_body },
+                            { className: wu.a.alert_body },
                             this.props.modalMessage.body
                           )
                         )
@@ -20774,11 +21218,11 @@
                   return this.props.saving
                     ? k.createElement(
                         'div',
-                        { id: 'saving_animation', className: fu.a.saving },
+                        { id: 'saving_animation', className: wu.a.saving },
                         k.createElement(
                           _e,
                           null,
-                          k.createElement(zn, { units: 5, color: '#3498db', size: 7 })
+                          k.createElement(Tn, { units: 5, color: '#3498db', size: 7 })
                         )
                       )
                     : null;
@@ -20790,12 +21234,12 @@
                   return !this.props.fetchingFlow && this.context.config.showDownload
                     ? k.createElement(
                         'div',
-                        { className: fu.a.footer },
+                        { className: wu.a.footer },
                         k.createElement(
                           'div',
-                          { className: fu.a.download_button },
+                          { className: wu.a.download_button },
                           k.createElement(le, {
-                            name: Ft.t('buttons.download', 'Download'),
+                            name: Pt.t('buttons.download', 'Download'),
                             onClick: this.handleDownloadClicked,
                             type: O.primary
                           })
@@ -20875,35 +21319,35 @@
                 key: 'render',
                 value: function() {
                   return k.createElement(
-                    $u,
+                    sd,
                     { onChange: this.handleVisibilityChanged },
                     k.createElement(
                       'div',
                       {
                         id: 'editor-container',
-                        className: this.props.translating ? fu.a.translating : void 0,
+                        className: this.props.translating ? wu.a.translating : void 0,
                         'data-spec': 'editor-container'
                       },
                       this.getFooter(),
                       this.getAlertModal(),
                       k.createElement(
                         'div',
-                        { className: fu.a.editor, 'data-spec': 'editor' },
+                        { className: wu.a.editor, 'data-spec': 'editor' },
                         W(
                           Object.keys(this.props.nodes || {}).length > 0 &&
                             this.props.languages &&
                             Object.keys(this.props.languages.items).length > 0
-                        )(k.createElement(Eu, null)),
+                        )(k.createElement(xu, null)),
                         this.getSavingIndicator(),
                         W(this.props.definition && this.props.language && !this.props.fetchingFlow)(
-                          k.createElement(gu, null)
+                          k.createElement(Eu, null)
                         ),
                         W(
                           this.props.definition &&
                             this.props.translating &&
                             !this.props.fetchingFlow
                         )(
-                          k.createElement(Zu, {
+                          k.createElement(id, {
                             language: this.props.language,
                             languages: this.props.languages ? this.props.languages.items : {},
                             localization:
@@ -20921,7 +21365,7 @@
                             popped: this.props.popped
                           })
                         ),
-                        k.createElement(Au, {
+                        k.createElement(Iu, {
                           loadFlowDefinition: this.props.loadFlowDefinition,
                           createNewRevision: this.props.createNewRevision,
                           assetStore: this.props.assetStore,
@@ -20929,7 +21373,7 @@
                           popped: this.props.popped
                         }),
                         W(Object.keys(this.props.issues).length > 0)(
-                          k.createElement(Iu, {
+                          k.createElement(qu, {
                             issues: this.props.issues,
                             onIssueClicked: this.handleScrollToIssue,
                             onIssueOpened: this.handleOpenIssue,
@@ -20950,8 +21394,8 @@
             a
           );
         })(k.Component);
-      ad.contextTypes = td;
-      var nd = Object(zl.b)(
+      ld.contextTypes = rd;
+      var cd = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -20987,26 +21431,26 @@
             };
           },
           function(e) {
-            return Object(ve.bindActionCreators)(
+            return Object(ge.bindActionCreators)(
               {
-                fetchFlow: Br,
-                loadFlowDefinition: zr,
-                createNewRevision: Lr,
-                mergeEditorState: Mr,
-                onOpenNodeEditor: ol,
-                handleLanguageChange: Vr,
-                updateTranslationFilters: rl
+                fetchFlow: Kr,
+                loadFlowDefinition: Wr,
+                createNewRevision: Gr,
+                mergeEditorState: Hr,
+                onOpenNodeEditor: pl,
+                handleLanguageChange: Xr,
+                updateTranslationFilters: hl
               },
               e
             );
           }
-        )(ad),
-        id = function(e) {
+        )(ld),
+        ud = function(e) {
           var t = e.config;
           return k.createElement(
-            Wo,
+            $o,
             { config: Object(y.a)({}, t) },
-            k.createElement(zl.a, { store: ed }, k.createElement(nd, null))
+            k.createElement(Wl.a, { store: od }, k.createElement(cd, null))
           );
         };
       Boolean(
@@ -21018,14 +21462,14 @@
         customElements.get('temba-textinput') ||
         a
           .e(3)
-          .then(a.t.bind(null, 258, 7))
+          .then(a.t.bind(null, 259, 7))
           .then(function() {
             console.log('Loading temba components');
           }),
         (window.showFlowEditor = function(e, t) {
           var a;
           t.httpTimeout && ((a = t.httpTimeout), (ze.a.defaults.timeout = a)),
-            ac.a.render(E.a.createElement(id, { config: t }), e);
+            lc.a.render(E.a.createElement(ud, { config: t }), e);
         }),
         'serviceWorker' in navigator &&
           navigator.serviceWorker.ready.then(function(e) {
@@ -21033,6 +21477,6 @@
           });
     }
   ],
-  [[162, 1, 2]]
+  [[163, 1, 2]]
 ]);
-//# sourceMappingURL=main.11bb4381.chunk.js.map
+//# sourceMappingURL=main.d166aaa4.chunk.js.map

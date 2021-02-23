@@ -1,8 +1,8 @@
-/*! For license information please see 3.acb947e4.chunk.js.LICENSE.txt */
+/*! For license information please see 3.51b87068.chunk.js.LICENSE.txt */
 (this['webpackJsonp@nyaruka/flow-editor'] = this['webpackJsonp@nyaruka/flow-editor'] || []).push([
   [3],
   {
-    237: function(t, e) {
+    238: function(t, e) {
       function n(e) {
         return (
           (t.exports = n = Object.setPrototypeOf
@@ -15,7 +15,7 @@
       }
       t.exports = n;
     },
-    238: function(t, e) {
+    239: function(t, e) {
       function n(e, i) {
         return (
           (t.exports = n =
@@ -28,14 +28,14 @@
       }
       t.exports = n;
     },
-    239: function(t, e) {
+    240: function(t, e) {
       t.exports = function(t) {
         if (void 0 === t)
           throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
         return t;
       };
     },
-    240: function(t, e) {
+    241: function(t, e) {
       t.exports = function() {
         if ('undefined' === typeof Reflect || !Reflect.construct) return !1;
         if (Reflect.construct.sham) return !1;
@@ -47,7 +47,7 @@
         }
       };
     },
-    241: function(t, e) {
+    242: function(t, e) {
       t.exports = function(t, e) {
         return (
           e || (e = t.slice(0)),
@@ -55,8 +55,8 @@
         );
       };
     },
-    242: function(t, e, n) {
-      var i = n(243);
+    243: function(t, e, n) {
+      var i = n(244);
       function o(e, n, r) {
         return (
           'undefined' !== typeof Reflect && Reflect.get
@@ -73,41 +73,41 @@
       }
       t.exports = o;
     },
-    243: function(t, e, n) {
-      var i = n(237);
+    244: function(t, e, n) {
+      var i = n(238);
       t.exports = function(t, e) {
         for (; !Object.prototype.hasOwnProperty.call(t, e) && null !== (t = i(t)); );
         return t;
       };
     },
-    244: function(t, e, n) {
-      var i = n(245),
-        o = n(246),
-        r = n(109),
-        a = n(247);
+    245: function(t, e, n) {
+      var i = n(246),
+        o = n(247),
+        r = n(111),
+        a = n(248);
       t.exports = function(t) {
         return i(t) || o(t) || r(t) || a();
       };
     },
-    245: function(t, e, n) {
-      var i = n(159);
+    246: function(t, e, n) {
+      var i = n(160);
       t.exports = function(t) {
         if (Array.isArray(t)) return i(t);
       };
     },
-    246: function(t, e) {
+    247: function(t, e) {
       t.exports = function(t) {
         if ('undefined' !== typeof Symbol && Symbol.iterator in Object(t)) return Array.from(t);
       };
     },
-    247: function(t, e) {
+    248: function(t, e) {
       t.exports = function() {
         throw new TypeError(
           'Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'
         );
       };
     },
-    248: function(t, e) {
+    249: function(t, e) {
       function n(t, e, n, i, o, r, a) {
         try {
           var s = t[r](a),
@@ -134,12 +134,12 @@
         };
       };
     },
-    249: function(t, e) {
+    250: function(t, e) {
       t.exports = function(t, e) {
         if (!(t instanceof e)) throw new TypeError('Cannot call a class as a function');
       };
     },
-    250: function(t, e) {
+    251: function(t, e) {
       function n(t, e) {
         for (var n = 0; n < e.length; n++) {
           var i = e[n];
@@ -153,8 +153,8 @@
         return e && n(t.prototype, e), i && n(t, i), t;
       };
     },
-    251: function(t, e, n) {
-      var i = n(238);
+    252: function(t, e, n) {
+      var i = n(239);
       t.exports = function(t, e) {
         if ('function' !== typeof e && null !== e)
           throw new TypeError('Super expression must either be null or a function');
@@ -164,10 +164,10 @@
           e && i(t, e);
       };
     },
-    252: function(t, e, n) {
-      var i = n(237),
-        o = n(240),
-        r = n(253);
+    253: function(t, e, n) {
+      var i = n(238),
+        o = n(241),
+        r = n(254);
       t.exports = function(t) {
         return function() {
           var e,
@@ -180,14 +180,14 @@
         };
       };
     },
-    253: function(t, e, n) {
-      var i = n(254),
-        o = n(239);
+    254: function(t, e, n) {
+      var i = n(255),
+        o = n(240);
       t.exports = function(t, e) {
         return !e || ('object' !== i(e) && 'function' !== typeof e) ? o(t) : e;
       };
     },
-    254: function(t, e) {
+    255: function(t, e) {
       function n(e) {
         return (
           'function' === typeof Symbol && 'symbol' === typeof Symbol.iterator
@@ -207,11 +207,11 @@
       }
       t.exports = n;
     },
-    255: function(t, e, n) {
-      var i = n(237),
-        o = n(238),
-        r = n(256),
-        a = n(257);
+    256: function(t, e, n) {
+      var i = n(238),
+        o = n(239),
+        r = n(257),
+        a = n(258);
       function s(e) {
         var n = 'function' === typeof Map ? new Map() : void 0;
         return (
@@ -238,14 +238,14 @@
       }
       t.exports = s;
     },
-    256: function(t, e) {
+    257: function(t, e) {
       t.exports = function(t) {
         return -1 !== Function.toString.call(t).indexOf('[native code]');
       };
     },
-    257: function(t, e, n) {
-      var i = n(238),
-        o = n(240);
+    258: function(t, e, n) {
+      var i = n(239),
+        o = n(241);
       function r(e, n, a) {
         return (
           o()
@@ -261,21 +261,21 @@
       }
       t.exports = r;
     },
-    258: function(module, exports, __webpack_require__) {
+    259: function(module, exports, __webpack_require__) {
       (function(process, global) {
-        var _assertThisInitialized = __webpack_require__(239),
-          _taggedTemplateLiteral = __webpack_require__(241),
-          _get = __webpack_require__(242),
-          _getPrototypeOf = __webpack_require__(237),
-          _createForOfIteratorHelper = __webpack_require__(160),
-          _toConsumableArray = __webpack_require__(244),
-          _regeneratorRuntime = __webpack_require__(55),
-          _asyncToGenerator = __webpack_require__(248),
-          _classCallCheck = __webpack_require__(249),
-          _createClass = __webpack_require__(250),
-          _inherits = __webpack_require__(251),
-          _createSuper = __webpack_require__(252),
-          _wrapNativeSuper = __webpack_require__(255),
+        var _assertThisInitialized = __webpack_require__(240),
+          _taggedTemplateLiteral = __webpack_require__(242),
+          _get = __webpack_require__(243),
+          _getPrototypeOf = __webpack_require__(238),
+          _createForOfIteratorHelper = __webpack_require__(161),
+          _toConsumableArray = __webpack_require__(245),
+          _regeneratorRuntime = __webpack_require__(58),
+          _asyncToGenerator = __webpack_require__(249),
+          _classCallCheck = __webpack_require__(250),
+          _createClass = __webpack_require__(251),
+          _inherits = __webpack_require__(252),
+          _createSuper = __webpack_require__(253),
+          _wrapNativeSuper = __webpack_require__(256),
           e;
         function _templateObject113() {
           var t = _taggedTemplateLiteral([
@@ -20785,8 +20785,8 @@
             ]);
           }),
           (module.exports = e());
-      }.call(this, __webpack_require__(161), __webpack_require__(110)));
+      }.call(this, __webpack_require__(162), __webpack_require__(112)));
     }
   }
 ]);
-//# sourceMappingURL=3.acb947e4.chunk.js.map
+//# sourceMappingURL=3.51b87068.chunk.js.map

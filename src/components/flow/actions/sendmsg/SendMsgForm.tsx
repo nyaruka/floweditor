@@ -88,7 +88,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     bindCallbacks(this, {
       include: [/^handle/, /^on/]
     });
-
     // intialize our templates if we have them
     if (this.state.template.value !== null) {
       fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
@@ -231,7 +230,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
       // make sure we validate untouched text fields and contact fields
       let valid = this.handleMessageUpdate(this.state.message.value, null, true);
-
       let templateVariables = this.state.templateVariables;
       // make sure we don't have untouched template variables
       this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
@@ -244,6 +242,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
       valid = valid && !hasErrors(this.state.quickReplyEntry);
 
+      if (templateVariables.length > 0 && !this.state.message.value) {
+        valid = !valid;
+      }
       if (valid) {
         this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
         // notify our modal we are done
@@ -474,7 +475,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       });
     } else {
       const templateTranslation = template.translations[0];
-
       const templateVariables =
         this.state.templateVariables.length === 0 ||
         (this.state.template.value && this.state.template.value.id !== template.id)
@@ -566,7 +566,11 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
                     onChange={(updatedText: string) => {
                       this.handleTemplateVariableChanged(updatedText, num);
                     }}
-                    entry={this.state.templateVariables[num]}
+                    entry={
+                      this.state.templateVariables[num] === undefined
+                        ? { value: '' }
+                        : this.state.templateVariables[num]
+                    }
                     autocomplete={true}
                   />
                 </div>
@@ -645,14 +649,16 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       tabs.splice(0, 0, templates);
     }
 
-    if (hasFeature(this.context.config, FeatureFilter.HAS_FACEBOOK)) {
-      const templates: Tab = {
-        name: 'Facebook',
-        body: this.renderTopicConfig(),
-        checked: this.state.topic.value != null
-      };
-      tabs.splice(0, 0, templates);
-    }
+    // currently, we aren't support to facebook
+
+    // if (hasFeature(this.context.config, FeatureFilter.HAS_FACEBOOK)) {
+    //   const templates: Tab = {
+    //     name: 'Facebook',
+    //     body: this.renderTopicConfig(),
+    //     checked: this.state.topic.value != null
+    //   };
+    //   tabs.splice(0, 0, templates);
+    // }
 
     return (
       <>

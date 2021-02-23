@@ -9,7 +9,8 @@ import {
   Methods,
   nodeToState,
   stateToNode,
-  getDefaultBody
+  getDefaultBody,
+  isValidJson
 } from 'components/flow/routers/webhook/helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import SelectElement from 'components/form/select/SelectElement';
@@ -128,7 +129,7 @@ export default class WebhookRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('body')) {
-      updates.body = { value: keys.body };
+      updates.body = validate('POST body', keys.body, [isValidJson()]);
     }
 
     if (keys.hasOwnProperty('header')) {
@@ -297,7 +298,10 @@ export default class WebhookRouterForm extends React.Component<
           />
         </div>
       ),
-      checked: this.state.body.value !== getDefaultBody(method)
+      checked: this.state.body.value !== getDefaultBody(method),
+      hasErrors: this.state.body.validationFailures
+        ? this.state.body.validationFailures.length > 0
+        : false
     });
 
     return (

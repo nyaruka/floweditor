@@ -44,9 +44,9 @@
       "placeholder": "Send a message to the contact"
     },
     "send_broadcast": {
-      "description": "Send somebody else a message",
+      "description": "Send a staff member a message",
       "name": "Send Broadcast",
-      "placeholder": "Send a message to the contact"
+      "placeholder": "Send a staff member a message"
     },
     "send_email": {
       "description": "Send an email",
@@ -129,7 +129,7 @@
       "description": "Wait for time",
       "name": "Wait for time"
     },
-    
+
     "wait_for_video": {
       "description": "Wait for a video",
       "name": "Wait for Video"
