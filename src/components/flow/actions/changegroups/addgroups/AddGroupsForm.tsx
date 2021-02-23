@@ -36,7 +36,9 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
 
   public handleGroupsChanged(groups: any[], submitting: boolean = false): boolean {
     const updates: Partial<ChangeGroupsFormState> = {
-      groups: validate(i18n.t('forms.groups', 'Collections'), groups, [shouldRequireIf(submitting)])
+      groups: validate(i18n.t('forms.collections', 'Collections'), groups, [
+        shouldRequireIf(submitting)
+      ])
     };
 
     const updated = mergeForm(this.state, updates);

@@ -3993,7 +3993,7 @@
                 key: 'handleGroupsChanged',
                 value: function(e) {
                   var t = arguments.length > 1 && void 0 !== arguments[1] && arguments[1],
-                    a = { groups: oa(Ft.t('forms.groups', 'Collections'), e, [ca(t)]) },
+                    a = { groups: oa(Ft.t('forms.collections', 'Collections'), e, [ca(t)]) },
                     n = Zt(this.state, a);
                   return this.setState(n), n.valid;
                 }
@@ -21035,4 +21035,4 @@
   ],
   [[162, 1, 2]]
 ]);
-//# sourceMappingURL=main.f9a93693.chunk.js.map
+//# sourceMappingURL=main.11bb4381.chunk.js.map
