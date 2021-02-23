@@ -279,10 +279,10 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.remove_contact_groups,
-    name: i18n.t('actions.remove_contact_groups.name', 'Remove from Group'),
+    name: i18n.t('actions.remove_contact_groups.name', 'Remove from Collection'),
     description: i18n.t(
       'actions.remove_contact_groups.description',
-      'Remove the contact from a group'
+      'Remove the contact from a collection'
     ),
     form: RemoveGroupsForm,
     component: ChangeGroupsComp
@@ -474,8 +474,8 @@ export const typeConfigList: Type[] = [
   },
   {
     type: Types.split_by_groups,
-    name: i18n.t('actions.split_by_groups.name', 'Split by Group Membership'),
-    description: i18n.t('actions.split_by_groups.description', 'Split by group membership'),
+    name: i18n.t('actions.split_by_groups.name', 'Split by Collection Membership'),
+    description: i18n.t('actions.split_by_groups.description', 'Split by Collection Membership'),
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     form: GroupsRouterForm
