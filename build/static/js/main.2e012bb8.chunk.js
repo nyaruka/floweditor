@@ -5667,17 +5667,16 @@
                     )
                     .then(function(e) {
                       if (e.data.is_valid) {
-                        var n = !0,
-                          i = a.state.templateVariables;
-                        a.state.templateVariables.forEach(function(e, t) {
-                          var a = ra('Variable '.concat(t + 1), e.value, [la]);
-                          (i = $t()(i, Object(S.a)({}, t, { $merge: a }))), (n = n && !ht(a));
-                        }),
+                        var n = !0;
+                        a.state.recipients.value.length <= 0 && !a.state.message.value
+                          ? (n = a.handleUpdate({ recipients: a.state.recipients.value }, !0))
+                          : a.state.recipients.value.length > 0 &&
+                            !a.state.message.value &&
+                            (n = !0),
                           n
-                            ? (a.setState({ validAttachment: !1 }),
-                              a.props.updateAction(wn(a.props.nodeSettings, a.state)),
+                            ? (a.props.updateAction(wn(a.props.nodeSettings, a.state)),
                               a.props.onClose(!1))
-                            : a.setState({ templateVariables: i, valid: n });
+                            : a.setState({ valid: n });
                       } else a.setState({ attachmentError: 'Not a valid '.concat(t, ' url') });
                     })
                     .catch(function(e) {
@@ -5717,10 +5716,16 @@
                       var i = ra('Variable '.concat(t + 1), e.value, [la]);
                       (n = $t()(n, Object(S.a)({}, t, { $merge: i }))), (a = a && !ht(i));
                     }),
-                      n.length > 0 && !this.state.message.value && (a = !a),
-                      a &&
-                        (this.props.updateAction(wn(this.props.nodeSettings, this.state)),
-                        this.props.onClose(!1));
+                      n.length > 0 &&
+                        (this.state.recipients.value.length <= 0 && !this.state.message.value
+                          ? (a = this.handleUpdate({ recipients: this.state.recipients.value }, !0))
+                          : this.state.recipients.value.length > 0 &&
+                            !this.state.message.value &&
+                            (a = !0)),
+                      a
+                        ? (this.props.updateAction(wn(this.props.nodeSettings, this.state)),
+                          this.props.onClose(!1))
+                        : this.setState({ templateVariables: n, valid: a });
                   }
                 }
               },
@@ -21471,4 +21476,4 @@
   ],
   [[163, 1, 2]]
 ]);
-//# sourceMappingURL=main.222216d8.chunk.js.map
+//# sourceMappingURL=main.2e012bb8.chunk.js.map

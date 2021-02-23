@@ -116,24 +116,26 @@ export default class SendBroadcastForm extends React.Component<
         if (response.data.is_valid) {
           // make sure we validate untouched text fields and contact fields
           let valid = true;
-
-          let templateVariables = this.state.templateVariables;
-          // make sure we don't have untouched template variables
-          this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
-            const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
-            templateVariables = mutate(templateVariables, {
-              [num]: { $merge: updated }
-            }) as StringEntry[];
-            valid = valid && !hasErrors(updated);
-          });
+          // check if the recipient is added or not
+          // if not, throw required validation
+          if (this.state.recipients.value!.length <= 0 && !this.state.message.value) {
+            valid = this.handleUpdate(
+              {
+                recipients: this.state.recipients.value!
+              },
+              true
+            );
+          } else if (this.state.recipients.value!.length > 0 && !this.state.message.value) {
+            valid = true;
+          }
 
           if (valid) {
-            this.setState({ validAttachment: false });
+            // this.setState({ validAttachment: false });
             this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
             // notify our modal we are done
             this.props.onClose(false);
           } else {
-            this.setState({ templateVariables, valid });
+            this.setState({ valid });
           }
         } else {
           this.setState({ attachmentError: `Not a valid ${type} url` });
@@ -161,11 +163,9 @@ export default class SendBroadcastForm extends React.Component<
         case 'image':
           this.handleAxios(body, 'image');
           break;
-
         case 'video':
           this.handleAxios(body, 'video');
           break;
-
         case 'audio':
           this.handleAxios(body, 'audio');
           break;
@@ -192,13 +192,26 @@ export default class SendBroadcastForm extends React.Component<
         }) as StringEntry[];
         valid = valid && !hasErrors(updated);
       });
-      if (templateVariables.length > 0 && !this.state.message.value) {
-        valid = !valid;
+      // check if the template and recipient are added or not
+      // if not, throw required validation
+      if (templateVariables.length > 0) {
+        if (this.state.recipients.value!.length <= 0 && !this.state.message.value) {
+          valid = this.handleUpdate(
+            {
+              recipients: this.state.recipients.value!
+            },
+            true
+          );
+        } else if (this.state.recipients.value!.length > 0 && !this.state.message.value) {
+          valid = true;
+        }
       }
       if (valid) {
         this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
         // notify our modal we are done
         this.props.onClose(false);
+      } else {
+        this.setState({ templateVariables, valid });
       }
     }
   }
