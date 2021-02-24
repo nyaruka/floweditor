@@ -133,9 +133,9 @@ Array [
   },
   Object {
     "component": [Function],
-    "description": "Remove the contact from a group",
+    "description": "Remove the contact from a collection",
     "form": [Function],
-    "name": "Remove from Group",
+    "name": "Remove from Collection",
     "type": "remove_contact_groups",
   },
   Object {
@@ -393,13 +393,13 @@ Array [
     "type": "split_by_random",
   },
   Object {
-    "description": "Split by group membership",
+    "description": "Split by Collection Membership",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
       "exits",
     ],
-    "name": "Split by Group Membership",
+    "name": "Split by Collection Membership",
     "type": "split_by_groups",
   },
   Object {
@@ -548,9 +548,9 @@ Object {
   },
   "remove_contact_groups": Object {
     "component": [Function],
-    "description": "Remove the contact from a group",
+    "description": "Remove the contact from a collection",
     "form": [Function],
-    "name": "Remove from Group",
+    "name": "Remove from Collection",
     "type": "remove_contact_groups",
   },
   "say_msg": Object {
@@ -723,13 +723,13 @@ Object {
     "type": "split_by_expression",
   },
   "split_by_groups": Object {
-    "description": "Split by group membership",
+    "description": "Split by Collection Membership",
     "form": [Function],
     "localization": [Function],
     "localizeableKeys": Array [
       "exits",
     ],
-    "name": "Split by Group Membership",
+    "name": "Split by Collection Membership",
     "type": "split_by_groups",
   },
   "split_by_intent": Object {

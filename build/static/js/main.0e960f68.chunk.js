@@ -1028,7 +1028,7 @@
     ,
     function(e) {
       e.exports = JSON.parse(
-        '{"actions":{"add_contact_groups":{"description":"Add the contact to a collection","name":"Add to Collection"},"add_contact_urn":{"description":"Add a URN for the contact","name":"Add URN"},"add_input":{"description":"Label the incoming message","name":"Add Labels"},"call_resthook":{"description":"Call Zapier","name":"Call Zapier"},"call_webhook":{"description":"Call a webhook","name":"Call Webhook"},"enter_flow":{"description":"Enter another flow","name":"Enter a Flow"},"open_ticket":{"description":"Open a ticket with a human agent","name":"Open Ticket"},"play_audio":{"description":"Play a contact recording","name":"Play Recording"},"play_message":{"description":"Play a message","name":"Play Message"},"remove_contact_groups":{"description":"Remove the contact from a group","name":"Remove from Group"},"say_msg":{"placeholder":"Send a message to the contact"},"send_broadcast":{"description":"Send a staff member a message","name":"Send Broadcast","placeholder":"Send a staff member a message"},"send_email":{"description":"Send an email","name":"Send Email"},"send_msg":{"description":"Send the contact a message","name":"Send Message","placeholder":"Send a message to the contact"},"set_contact_field":{"description":"Update the contact","name":"Update Contact"},"set_run_result":{"description":"Save a result for this flow","name":"Save Flow Result"},"split_by_contact_field":{"description":"Split by a contact field","name":"Split by Contact Field"},"split_by_expression":{"description":"Split by a custom expression","name":"Split by Expression"},"split_by_groups":{"description":"Split by group membership","name":"Split by Group Membership"},"split_by_intent":{"description":"Split by intent","name":"Split by Intent"},"split_by_random":{"description":"Split by random chance","name":"Split Randomly"},"split_by_run_result":{"description":"Split by a result in the flow","name":"Split by Flow Result"},"split_by_scheme":{"description":"Split by URN type","name":"Split by URN Type"},"start_session":{"description":"Start somebody else in a flow","name":"Start Somebody Else"},"transfer_airtime":{"description":"Send the contact airtime","name":"Send Airtime"},"wait_for_audio":{"description":"Wait for an audio recording","name":"Wait for Audio"},"wait_for_digits":{"description":"Wait for multiple digits","name":"Wait for Digits"},"wait_for_image":{"description":"Wait for an image","name":"Wait for Image"},"wait_for_location":{"description":"Wait for location GPS coordinates","name":"Wait for Location"},"wait_for_menu":{"description":"Wait for menu selection","name":"Wait for Menu Selection"},"wait_for_response":{"description":"Wait for the contact to respond","name":"Wait for Response"},"wait_for_time":{"description":"Wait for time","name":"Wait for time"},"wait_for_video":{"description":"Wait for a video","name":"Wait for Video"}},"add":"Add","asset_selector":{"placeholder":"Select existing [[name]] or enter a new one","placeholder_plural":"Select existing [[name]] or enter a new one"},"assets":{"classifier":"Call [[name]] classifier","ticketer":"Using [[name]] service"},"body":"Body","buttons":{"cancel":"Cancel","create_message":"Create Message","download":"Download","ok":"Ok"},"contact_statuses":{"active":"Active","blocked":"Blocked - remove from groups, ignore forever","stopped":"Stopped - remove from groups, ignore until they message again","archived":"Archived - remove from groups, ignore forever"},"context_explorer":{"copied_expression":"Copied <1>[[expression]]</1> to clipboard","hide_empty":"Showing keys with values","show_empty":"Showing all keys"},"create_group":"Create Group","create_label":"Create Label","drag_helper":"To connect nodes, <1>drag</1> from the red circle.","email":{"subject":"Subject","to":"To"},"empty_flow_message":"<0>Let\'s get started</0><1>We recommend starting your flow by sending a message. This message will be sent to anybody right after they join the flow. This is your chance to send a single message or ask them a question.</1>","enter_to_create_group":"Enter a name to create a new group","enter_to_create_label":"Enter the name of an existing label or create a new one","errors":{"group_not_found":"Enter the name of an existing group","http_header_missing_name":"HTTP headers must have a name","network":"Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."},"forms":{"add_groups_summary":"Select the collections to add the contact to.","add_labels_summary":"Select the labels to apply to the incoming message.","add_quick_reply":"Add a new Quick Reply and press enter.","add_urn_summary":"Add a new URN to reach the contact such as a phone number.","all_destinations":"All Destinations","are_required":"are required","arguments":"arguments","audio_url":"Audio URL","body":"Body","buckets":"Buckets","categories":"categories","category":"Category","channel":"Channel","channel_type":"Channel Type","classifier":"Classifier","confidence":"confidence","contact_field":"Contact Field","contact_query":"Contact Query","create_prefix":"New: ","currency":"Currency","day":"day","days":"days","delimit":"Delimit","delimit_result":"Delimit Result","delimit_result_description":"Evaluate your rules against a delimited part of your result","delimiter":"Delimiter","district":"District","email_recipient_name":"Recipient","email_recipient_placeholder":"To","email_recipient_prompt":"Enter email address","enter_a_body":"Enter a body","enter_a_subject":"Enter a subject","enter_a_url":"Enter a URL","enter_flow_parameters_summary":"<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.","enter_flow_parameters_tab":"Parameters","exit_name":"Exit Name","expression_label":"If the expression...","field_number":"Field Number","field_value":"Field Value","flow":"Flow","flow_result":"Flow Result","groups":"Groups","header_name":"Header name","image_url":"Image URL","intent":"Intent","is_not_a_valid_regex":"is not a valid regex","is_not_finished":"is not finished","is_required":"is required","labels":"Labels","language":"Language","localize_rules":"Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.","localized_quick_replies":"Add a new [[language]] Quick Reply and press enter.","maximum_value":"Maximum value","message":"Message","message_label":"If the message response...","method":"Method","minimum_value":"Minimum value","must_be_less_than":"must be less than","name":"Name","operand":"Operand","operator":"operator","play_audio_help_text":"Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.","quick_replies":"Quick Replies","quick_replies_summary":"Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \\"Yes\\" and one for \\"No\\".","quick_reply":"Quick Reply","recipients":"Recipients","recording":"Recording","recording_label":"Previous Recording","remove_from_all_label":"Remove from all","remove_from_all_summary":"Remove the active contact from all groups they\'re a member of.","remove_groups_placeholder":"Enter the name of an existing group","remove_groups_summary":"Select the collections to remove the contact from.","resthook":"Resthook","resthook_to_call":"Select the resthook to call","result":"Result","result_name":"Result Name","result_name_help":"By naming the result, you can reference it later using [[resultFormat]]","result_to_split_on":"Result to split on","rules":"rules","save_as_title":"Save as..","save_result_name":"Result Name","select_result":"Select Result","send_msg_facebook_topic_placeholder":"Select a topic to use over Facebook","send_msg_facebook_warning":"Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.","send_msg_summary":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","send_msg_summary_plural":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","split_by_channel_placeholder":"Select the channels to split by","split_by_groups":"Select the collections you\'d like to split by below","split_by_scheme":"Channel types","split_by_scheme_summary":"The contact\'s URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.","start_type":"Start Type","state":"State","status":"Status","subject":"Subject","template":"template","the_maximum":"the maximum","the_minimum":"the minimum","ticketer":"Ticketer","timeout":"Timeout","timeout_1 day":"1 day","timeout_1 hour":"1 hour","timeout_1 minute":"1 minute","timeout_1 week":"1 week","timeout_10 minutes":"10 minutes","timeout_12 hours":"12 hours","timeout_15 minutes":"15 minutes","timeout_18 hours":"18 hours","timeout_2 days":"2 days","timeout_2 hours":"2 hours","timeout_2 minutes":"2 minutes","timeout_3 days":"3 days","timeout_3 hours":"3 hours","timeout_3 minutes":"3 minutes","timeout_4 minutes":"4 minutes","timeout_5 minutes":"5 minutes","timeout_6 hours":"6 hours","today":"today","today_proper":"Today","translation":"Translation","type":"Type","type_label":"When a contact arrives at this point in your flow...","type_options":"Type Options","url":"URL","urn":"URN","urn_type":"URN Type","use_as_default_language":"Use as default language","value":"Value","variable":"Variable","video_url":"Video URL","webhook_body_summary":"Modify the body of the [[method]] request that will be sent to your webhook.(Please update only custom-key value pairs)","webhook_example":"This response would add <1>@webhook.product</1> and <4>@webhook[\\"stock level\\"]</4> for use in the flow.","webhook_header":"Header","webhook_header_name":"Header Name","webhook_header_summary":"Add any additional headers below that you would like to send along with your request.","webhook_help":"If your server responds with JSON, each property will be added to the Flow.","whatsapp_warning":"Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."},"issues":{"header":"Flow Issues","label":"Flow Issues","legacy_extra":"Invalid regular expression found: [[regex]]","missing_dependency":"Cannot find a [[type]] for <1>[[name]]</1>"},"operator":{"has_pattern":"matches regex"},"operators":{"has_all_words":"has all of the words","has_any_word":"has any of the words","has_beginning":"starts with","has_category":"has the category","has_date":"has a date","has_date_category":"Has Date","has_date_eq":"has a date equal to","has_date_gt":"has a date after","has_date_lt":"has a date before","has_district":"has district","has_district_category":"Has District","has_email":"has an email","has_email_category":"Has Email","has_error":"has an error","has_error_category":"Has Error","has_group":"is in the group","has_intent":"has intent","has_number":"has a number","has_number_between":"has a number between","has_number_eq":"has a number equal to","has_number_gt":"has a number above","has_number_gte":"has a number at or above","has_number_lt":"has a number below","has_number_lte":"has a number at or below","has_only_phrase":"has only the phrase","has_phone":"has a phone number","has_phone_category":"Has Phone","has_phrase":"has the phrase","has_state":"has state","has_state_category":"Has State","has_text":"has some text","has_time":"has a time","has_top_intent":"has top intent","has_value":"is not empty","has_value_category":"Not Empty","has_ward":"has ward","has_ward_category":"Has Ward","has_media":"has media","has_location":"has location"},"removal_confirmation":"Remove?","revisions":{"header":"Revisions","label":"Revision History"},"schemes":{"email":{"name":"Email","path":"Email Address"},"external":{"name":"External","path":"External ID"},"facebook":{"path":"Facebook"},"firebase":{"name":"Firebase","path":"Firebase ID"},"freschat":{"name":"Freshchat"},"freshchat":{"path":"Freshchat ID"},"jiochat":{"path":"Jiochat ID"},"jiojach":{"name":"Jiochat"},"line":{"name":"Line","path":"Line ID"},"phone":{"name":"SMS","path":"Phone Number"},"telegram":{"name":"Telegram","path":"Telegram ID"},"twitter":{"name":"Twitter","path":"Twitter Handle"},"twitterid":{"name":"Twitter","path":"Twitter ID"},"viber":{"name":"Viber","path":"Viber ID"},"wechat":{"name":"Wechat","path":"Wechat ID"},"whatsapp":{"name":"WhatsApp","path":"WhatsApp Number"}},"simulator":{"added_to_group":"Added to ","airtime_transferred":"Transferred [[amount]] [[currency]] to [[recipient]]","contact_field_changed":"Set contact \\"[[field]]\\" to \\"[[value]]\\"","contact_field_cleared":"Cleared contact \\"[[field]]\\"","contact_language_changed":"Set preferred language to \\"[[language]]\\"","contact_name_changed":"Set contact name to \\"[[name]]\\"","contact_status_changed":"Set status to \\"[[status]]\\"","flow_entered":"Entered flow \\"[[flow]]\\"","httplog_dialog":"HTTP Request Details","input_labels_added":"Message labeled with ","msg_wait":"Waiting for reply","removed_from_group":"Removed from ","resthook_called":"Triggered flow event \\"[[resthook]]\\"","run_result_changed":"Set result \\"[[field]]\\" to \\"[[value]]\\"","sent_email":{"summary":"Sent email to [[recipients]] with subject \\"[[subject]]\\"","title":"Email Details"},"session_triggered":"Started somebody else in \\"[[flow]]\\"","ticket_opened":"Ticket opened with subject \\"[[subject]]\\""},"sticky":{"body":"...","title":"New Note"},"translation":{"header":"Flow Translation","label":"Translations"}}'
+        '{"actions":{"add_contact_groups":{"description":"Add the contact to a collection","name":"Add to Collection"},"add_contact_urn":{"description":"Add a URN for the contact","name":"Add URN"},"add_input":{"description":"Label the incoming message","name":"Add Labels"},"call_resthook":{"description":"Call Zapier","name":"Call Zapier"},"call_webhook":{"description":"Call a webhook","name":"Call Webhook"},"enter_flow":{"description":"Enter another flow","name":"Enter a Flow"},"open_ticket":{"description":"Open a ticket with a human agent","name":"Open Ticket"},"play_audio":{"description":"Play a contact recording","name":"Play Recording"},"play_message":{"description":"Play a message","name":"Play Message"},"remove_contact_groups":{"description":"Remove the contact from a collection","name":"Remove from Collection"},"say_msg":{"placeholder":"Send a message to the contact"},"send_broadcast":{"description":"Send a staff member a message","name":"Send Broadcast","placeholder":"Send a staff member a message"},"send_email":{"description":"Send an email","name":"Send Email"},"send_msg":{"description":"Send the contact a message","name":"Send Message","placeholder":"Send a message to the contact"},"set_contact_field":{"description":"Update the contact","name":"Update Contact"},"set_run_result":{"description":"Save a result for this flow","name":"Save Flow Result"},"split_by_contact_field":{"description":"Split by a contact field","name":"Split by Contact Field"},"split_by_expression":{"description":"Split by a custom expression","name":"Split by Expression"},"split_by_groups":{"description":"Split by Collection Membership","name":"Split by Collection Membership"},"split_by_intent":{"description":"Split by intent","name":"Split by Intent"},"split_by_random":{"description":"Split by random chance","name":"Split Randomly"},"split_by_run_result":{"description":"Split by a result in the flow","name":"Split by Flow Result"},"split_by_scheme":{"description":"Split by URN type","name":"Split by URN Type"},"start_session":{"description":"Start somebody else in a flow","name":"Start Somebody Else"},"transfer_airtime":{"description":"Send the contact airtime","name":"Send Airtime"},"wait_for_audio":{"description":"Wait for an audio recording","name":"Wait for Audio"},"wait_for_digits":{"description":"Wait for multiple digits","name":"Wait for Digits"},"wait_for_image":{"description":"Wait for an image","name":"Wait for Image"},"wait_for_location":{"description":"Wait for location GPS coordinates","name":"Wait for Location"},"wait_for_menu":{"description":"Wait for menu selection","name":"Wait for Menu Selection"},"wait_for_response":{"description":"Wait for the contact to respond","name":"Wait for Response"},"wait_for_time":{"description":"Wait for time","name":"Wait for time"},"wait_for_video":{"description":"Wait for a video","name":"Wait for Video"}},"add":"Add","asset_selector":{"placeholder":"Select existing [[name]] or enter a new one","placeholder_plural":"Select existing [[name]] or enter a new one"},"assets":{"classifier":"Call [[name]] classifier","ticketer":"Using [[name]] service"},"body":"Body","buttons":{"cancel":"Cancel","create_message":"Create Message","download":"Download","ok":"Ok"},"contact_statuses":{"active":"Active","blocked":"Blocked - remove from groups, ignore forever","stopped":"Stopped - remove from groups, ignore until they message again","archived":"Archived - remove from groups, ignore forever"},"context_explorer":{"copied_expression":"Copied <1>[[expression]]</1> to clipboard","hide_empty":"Showing keys with values","show_empty":"Showing all keys"},"create_group":"Create Group","create_label":"Create Label","drag_helper":"To connect nodes, <1>drag</1> from the red circle.","email":{"subject":"Subject","to":"To"},"empty_flow_message":"<0>Let\'s get started</0><1>We recommend starting your flow by sending a message. This message will be sent to anybody right after they join the flow. This is your chance to send a single message or ask them a question.</1>","enter_to_create_group":"Enter a name to create a new group","enter_to_create_label":"Enter the name of an existing label or create a new one","errors":{"group_not_found":"Enter the name of an existing group","http_header_missing_name":"HTTP headers must have a name","network":"Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."},"forms":{"add_groups_summary":"Select the collections to add the contact to.","add_labels_summary":"Select the labels to apply to the incoming message.","add_quick_reply":"Add a new Quick Reply and press enter.","add_urn_summary":"Add a new URN to reach the contact such as a phone number.","all_destinations":"All Destinations","are_required":"are required","arguments":"arguments","audio_url":"Audio URL","body":"Body","buckets":"Buckets","categories":"categories","category":"Category","channel":"Channel","channel_type":"Channel Type","classifier":"Classifier","confidence":"confidence","contact_field":"Contact Field","contact_query":"Contact Query","create_prefix":"New: ","currency":"Currency","day":"day","days":"days","delimit":"Delimit","delimit_result":"Delimit Result","delimit_result_description":"Evaluate your rules against a delimited part of your result","delimiter":"Delimiter","district":"District","email_recipient_name":"Recipient","email_recipient_placeholder":"To","email_recipient_prompt":"Enter email address","enter_a_body":"Enter a body","enter_a_subject":"Enter a subject","enter_a_url":"Enter a URL","enter_flow_parameters_summary":"<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.","enter_flow_parameters_tab":"Parameters","exit_name":"Exit Name","expression_label":"If the expression...","field_number":"Field Number","field_value":"Field Value","flow":"Flow","flow_result":"Flow Result","groups":"Groups","header_name":"Header name","image_url":"Image URL","intent":"Intent","is_not_a_valid_regex":"is not a valid regex","is_not_finished":"is not finished","is_required":"is required","labels":"Labels","language":"Language","localize_rules":"Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.","localized_quick_replies":"Add a new [[language]] Quick Reply and press enter.","maximum_value":"Maximum value","message":"Message","message_label":"If the message response...","method":"Method","minimum_value":"Minimum value","must_be_less_than":"must be less than","name":"Name","operand":"Operand","operator":"operator","play_audio_help_text":"Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.","quick_replies":"Quick Replies","quick_replies_summary":"Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \\"Yes\\" and one for \\"No\\".","quick_reply":"Quick Reply","recipients":"Recipients","recording":"Recording","recording_label":"Previous Recording","remove_from_all_label":"Remove from all","remove_from_all_summary":"Remove the active contact from all collections they\'re a member of.","remove_groups_placeholder":"Enter the name of an existing group","remove_groups_summary":"Select the collections to remove the contact from.","resthook":"Resthook","resthook_to_call":"Select the resthook to call","result":"Result","result_name":"Result Name","result_name_help":"By naming the result, you can reference it later using [[resultFormat]]","result_to_split_on":"Result to split on","rules":"rules","save_as_title":"Save as..","save_result_name":"Result Name","select_result":"Select Result","send_msg_facebook_topic_placeholder":"Select a topic to use over Facebook","send_msg_facebook_warning":"Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.","send_msg_summary":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","send_msg_summary_plural":"Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.","split_by_channel_placeholder":"Select the channels to split by","split_by_groups":"Select the collections you\'d like to split by below","split_by_scheme":"Channel types","split_by_scheme_summary":"The contact\'s URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.","start_type":"Start Type","state":"State","status":"Status","subject":"Subject","template":"template","the_maximum":"the maximum","the_minimum":"the minimum","ticketer":"Ticketer","timeout":"Timeout","timeout_1 day":"1 day","timeout_1 hour":"1 hour","timeout_1 minute":"1 minute","timeout_1 week":"1 week","timeout_10 minutes":"10 minutes","timeout_12 hours":"12 hours","timeout_15 minutes":"15 minutes","timeout_18 hours":"18 hours","timeout_2 days":"2 days","timeout_2 hours":"2 hours","timeout_2 minutes":"2 minutes","timeout_3 days":"3 days","timeout_3 hours":"3 hours","timeout_3 minutes":"3 minutes","timeout_4 minutes":"4 minutes","timeout_5 minutes":"5 minutes","timeout_6 hours":"6 hours","today":"today","today_proper":"Today","translation":"Translation","type":"Type","type_label":"When a contact arrives at this point in your flow...","type_options":"Type Options","url":"URL","urn":"URN","urn_type":"URN Type","use_as_default_language":"Use as default language","value":"Value","variable":"Variable","video_url":"Video URL","webhook_body_summary":"Modify the body of the [[method]] request that will be sent to your webhook.(Please update only custom-key value pairs)","webhook_example":"This response would add <1>@webhook.product</1> and <4>@webhook[\\"stock level\\"]</4> for use in the flow.","webhook_header":"Header","webhook_header_name":"Header Name","webhook_header_summary":"Add any additional headers below that you would like to send along with your request.","webhook_help":"If your server responds with JSON, each property will be added to the Flow.","whatsapp_warning":"Sending messages over a WhatsApp channel requires that a template be used if you have not received a message from a contact in the last 24 hours. Setting a template to use over WhatsApp is especially important for the first message in your flow."},"issues":{"header":"Flow Issues","label":"Flow Issues","legacy_extra":"Invalid regular expression found: [[regex]]","missing_dependency":"Cannot find a [[type]] for <1>[[name]]</1>"},"operator":{"has_pattern":"matches regex"},"operators":{"has_all_words":"has all of the words","has_any_word":"has any of the words","has_beginning":"starts with","has_category":"has the category","has_date":"has a date","has_date_category":"Has Date","has_date_eq":"has a date equal to","has_date_gt":"has a date after","has_date_lt":"has a date before","has_district":"has district","has_district_category":"Has District","has_email":"has an email","has_email_category":"Has Email","has_error":"has an error","has_error_category":"Has Error","has_group":"is in the group","has_intent":"has intent","has_number":"has a number","has_number_between":"has a number between","has_number_eq":"has a number equal to","has_number_gt":"has a number above","has_number_gte":"has a number at or above","has_number_lt":"has a number below","has_number_lte":"has a number at or below","has_only_phrase":"has only the phrase","has_phone":"has a phone number","has_phone_category":"Has Phone","has_phrase":"has the phrase","has_state":"has state","has_state_category":"Has State","has_text":"has some text","has_time":"has a time","has_top_intent":"has top intent","has_value":"is not empty","has_value_category":"Not Empty","has_ward":"has ward","has_ward_category":"Has Ward","has_media":"has media","has_location":"has location"},"removal_confirmation":"Remove?","revisions":{"header":"Revisions","label":"Revision History"},"schemes":{"email":{"name":"Email","path":"Email Address"},"external":{"name":"External","path":"External ID"},"facebook":{"path":"Facebook"},"firebase":{"name":"Firebase","path":"Firebase ID"},"freschat":{"name":"Freshchat"},"freshchat":{"path":"Freshchat ID"},"jiochat":{"path":"Jiochat ID"},"jiojach":{"name":"Jiochat"},"line":{"name":"Line","path":"Line ID"},"phone":{"name":"SMS","path":"Phone Number"},"telegram":{"name":"Telegram","path":"Telegram ID"},"twitter":{"name":"Twitter","path":"Twitter Handle"},"twitterid":{"name":"Twitter","path":"Twitter ID"},"viber":{"name":"Viber","path":"Viber ID"},"wechat":{"name":"Wechat","path":"Wechat ID"},"whatsapp":{"name":"WhatsApp","path":"WhatsApp Number"}},"simulator":{"added_to_group":"Added to ","airtime_transferred":"Transferred [[amount]] [[currency]] to [[recipient]]","contact_field_changed":"Set contact \\"[[field]]\\" to \\"[[value]]\\"","contact_field_cleared":"Cleared contact \\"[[field]]\\"","contact_language_changed":"Set preferred language to \\"[[language]]\\"","contact_name_changed":"Set contact name to \\"[[name]]\\"","contact_status_changed":"Set status to \\"[[status]]\\"","flow_entered":"Entered flow \\"[[flow]]\\"","httplog_dialog":"HTTP Request Details","input_labels_added":"Message labeled with ","msg_wait":"Waiting for reply","removed_from_group":"Removed from ","resthook_called":"Triggered flow event \\"[[resthook]]\\"","run_result_changed":"Set result \\"[[field]]\\" to \\"[[value]]\\"","sent_email":{"summary":"Sent email to [[recipients]] with subject \\"[[subject]]\\"","title":"Email Details"},"session_triggered":"Started somebody else in \\"[[flow]]\\"","ticket_opened":"Ticket opened with subject \\"[[subject]]\\""},"sticky":{"body":"...","title":"New Note"},"translation":{"header":"Flow Translation","label":"Translations"}}'
       );
     },
     function(e) {
@@ -1458,11 +1458,11 @@
         H = function(e) {
           return k.createElement('span', { className: 'emphasize' }, e);
         },
-        G = function(e) {
+        W = function(e) {
           var t = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 250;
           return e.length > t ? e.substr(0, t) + '...' : e;
         },
-        W = function(e) {
+        G = function(e) {
           return function(t, a) {
             return e ? t : a || null;
           };
@@ -1573,7 +1573,7 @@
                         .concat(s ? oe.a.disabled : '', ' ')
                         .concat(this.state.active ? oe.a.active : '')
                     },
-                    W(null != l)(
+                    G(null != l)(
                       k.createElement('span', { style: { paddingRight: 4 }, className: l })
                     ),
                     a
@@ -1751,7 +1751,7 @@
                         this.state.activeTab > -1
                           ? k.createElement('div', { className: pe.a.header_overlay })
                           : null,
-                        W(void 0 !== this.props.headerIcon)(
+                        G(void 0 !== this.props.headerIcon)(
                           k.createElement('span', {
                             className: ''
                               .concat(pe.a.header_icon, ' ')
@@ -1778,10 +1778,10 @@
                         k.createElement(
                           'div',
                           { className: pe.a.buttons },
-                          W(i.length > 0)(
+                          G(i.length > 0)(
                             k.createElement('div', { className: pe.a.left_buttons }, i)
                           ),
-                          W(null != this.props.gutter)(
+                          G(null != this.props.gutter)(
                             k.createElement('div', { className: pe.a.gutter }, this.props.gutter)
                           ),
                           k.createElement('div', { className: pe.a.right_buttons }, s)
@@ -2197,8 +2197,8 @@
       var Ve = [be.NONE],
         qe = [be.VOICE],
         He = [be.SURVEY],
-        Ge = [be.MESSAGE, be.SURVEY],
-        We = [be.MESSAGE, be.VOICE];
+        We = [be.MESSAGE, be.SURVEY],
+        Ge = [be.MESSAGE, be.VOICE];
       (ze.a.defaults.headers.post['Content-Type'] = 'application/javascript'),
         (ze.a.defaults.responseType = 'json'),
         (ze.a.defaults.timeout = 3e4);
@@ -2754,7 +2754,7 @@
               {
                 key: 'getName',
                 value: function() {
-                  return W(
+                  return G(
                     this.props.showLabel &&
                       void 0 !== this.props.name &&
                       null !== this.props.name &&
@@ -2765,7 +2765,7 @@
               {
                 key: 'getHelpText',
                 value: function() {
-                  return W(null != this.props.helpText)(
+                  return G(null != this.props.helpText)(
                     k.createElement('div', { className: Ot.a.help_text }, this.props.helpText, ' ')
                   );
                 }
@@ -3203,7 +3203,7 @@
           );
         })(k.Component),
         qt = function(e) {
-          return !!We.find(function(t) {
+          return !!Ge.find(function(t) {
             return t === e;
           });
         },
@@ -3223,14 +3223,14 @@
             );
           });
         },
-        Gt = function(e, t) {
+        Wt = function(e, t) {
           return t.excludeTypes
             ? e.filter(function(e) {
                 return !t.excludeTypes.includes(e.type);
               })
             : e;
         },
-        Wt = function(e, t) {
+        Gt = function(e, t) {
           return t.excludeOperators
             ? e.filter(function(e) {
                 return !t.excludeOperators.includes(e.type);
@@ -3269,7 +3269,7 @@
                   var e, t;
                   return (
                     void 0 === this.typeConfigs &&
-                      (this.typeConfigs = ((e = kr), (t = this.context.config), Ht(Gt(e, t), t))),
+                      (this.typeConfigs = ((e = kr), (t = this.context.config), Ht(Wt(e, t), t))),
                     this.typeConfigs
                   );
                 }
@@ -3965,7 +3965,7 @@
         },
         Da = function(e) {
           var t = e.url;
-          return k.createElement('div', null, G(t, 150));
+          return k.createElement('div', null, W(t, 150));
         },
         Fa = function(e) {
           return !!e.query;
@@ -4186,14 +4186,14 @@
                       'data-spec': 'checkbox',
                       className: Va(e, this.props.checkboxClassName)
                     }),
-                    W(K(this.props.title))(
+                    G(K(this.props.title))(
                       k.createElement(
                         'div',
                         { 'data-spec': 'title', className: Ba.a.title },
                         this.props.title
                       )
                     ),
-                    W(K(this.props.description))(
+                    G(K(this.props.description))(
                       k.createElement(
                         'div',
                         {
@@ -4211,8 +4211,8 @@
           );
         })(k.Component),
         Ha = a(142),
-        Ga = a.n(Ha),
-        Wa = Pt.t(
+        Wa = a.n(Ha),
+        Ga = Pt.t(
           'forms.remove_groups_summary',
           'Select the collections to remove the contact from.'
         ),
@@ -4280,7 +4280,7 @@
                   e.hasOwnProperty('removeAll') &&
                     ((a.removeAll = e.removeAll), e.removeAll && (n = [])),
                     e.hasOwnProperty('groups') &&
-                      (a.groups = ra(Pt.t('forms.groups', 'Collections'), e.groups, n));
+                      (a.groups = ra(Pt.t('forms.collections', 'Collections'), e.groups, n));
                   var i = Zt(this.state, a);
                   return this.setState(i), i.valid;
                 }
@@ -4325,11 +4325,11 @@
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    W(!this.state.removeAll)(
+                    G(!this.state.removeAll)(
                       k.createElement(
                         'div',
                         null,
-                        k.createElement('p', { 'data-spec': 'label' }, Wa),
+                        k.createElement('p', { 'data-spec': 'label' }, Ga),
                         k.createElement(Vt, {
                           name: Pt.t('forms.groups', 'Collections'),
                           placeholder: Pt.t('select_groups', 'Select Collections'),
@@ -4345,7 +4345,7 @@
                     k.createElement(qa, {
                       name: Ka,
                       title: Ka,
-                      labelClassName: this.state.removeAll ? '' : Ga.a.checkbox,
+                      labelClassName: this.state.removeAll ? '' : Wa.a.checkbox,
                       checked: this.state.removeAll,
                       description: Ya,
                       onChange: this.handleRemoveAllUpdate
@@ -6341,7 +6341,7 @@
         Vn = a(55),
         qn = a.n(Vn),
         Hn = Pt.t('actions.send_msg.placeholder', 'Send a message to the contact'),
-        Gn = function(e) {
+        Wn = function(e) {
           if (e.text) {
             var t = null,
               a = e.quick_replies || [];
@@ -6395,7 +6395,7 @@
             ? k.createElement('div', { className: ''.concat(qn.a.whatsapp, ' fe-whatsapp') })
             : k.createElement('div', { className: 'placeholder' }, Hn);
         },
-        Wn = [
+        Gn = [
           { value: 'event', name: 'Event' },
           { value: 'account', name: 'Account' },
           { value: 'purchase', name: 'Purchase' },
@@ -6476,7 +6476,7 @@
                   }
                   return {
                     topic: {
-                      value: Wn.find(function(e) {
+                      value: Gn.find(function(e) {
                         return e.value === i.topic;
                       })
                     },
@@ -6926,7 +6926,7 @@
                       name: Pt.t('forms.method', 'Method'),
                       entry: this.state.topic,
                       onChange: this.handleTopicUpdate,
-                      options: Wn,
+                      options: Gn,
                       placeholder: Pt.t(
                         'forms.send_msg_facebook_topic_placeholder',
                         'Select a topic to use over Facebook'
@@ -7086,7 +7086,7 @@
             a = e.name;
           return t
             ? (function(e, t) {
-                return k.createElement('div', null, 'Save ', H(G(e, 100)), ' as ', H(t));
+                return k.createElement('div', null, 'Save ', H(W(e, 100)), ' as ', H(t));
               })(t, a)
             : (function(e) {
                 return k.createElement('div', null, 'Clear value for ', H(e));
@@ -7473,7 +7473,7 @@
                     k.createElement(
                       'div',
                       null,
-                      W(this.state.startType.value === ci)(
+                      G(this.state.startType.value === ci)(
                         k.createElement(
                           'div',
                           { 'data-testid': 'recipients' },
@@ -7489,7 +7489,7 @@
                           k.createElement('p', null)
                         )
                       ),
-                      W(this.state.startType.value === di)(
+                      G(this.state.startType.value === di)(
                         k.createElement(
                           'div',
                           { 'data-testid': 'contact_query' },
@@ -7866,7 +7866,7 @@
         Hi = function(e, t) {
           return zi(e, { revisions: { items: { $merge: Object(S.a)({}, t.id, t) } } });
         },
-        Gi = function(e, t, a, n) {
+        Wi = function(e, t, a, n) {
           var i = e,
             s = _l(e, t);
           n && _l(e, n);
@@ -7884,7 +7884,7 @@
             i
           );
         },
-        Wi = function(e, t) {
+        Gi = function(e, t) {
           var a = e;
           a[t.node.uuid] && (a = Yi(e, t.node.uuid)),
             (a = zi(e, X(Object(S.a)({}, t.node.uuid, t))));
@@ -7919,7 +7919,7 @@
               ui: { position: n.ui.position, type: Ee.execute_actions },
               inboundConnections: n.inboundConnections
             };
-          return (r = Wi(r, l));
+          return (r = Gi(r, l));
         },
         Yi = function(e, t) {
           var a,
@@ -8671,13 +8671,13 @@
             type: Ce.has_top_intent,
             verboseName: Pt.t('operators.has_top_intent', 'has top intent'),
             operands: 2,
-            visibility: We
+            visibility: Ge
           },
           {
             type: Ce.has_intent,
             verboseName: Pt.t('operators.has_intent', 'has intent'),
             operands: 2,
-            visibility: We
+            visibility: Ge
           }
         ],
         Cs = [
@@ -8685,25 +8685,25 @@
             type: Ce.has_any_word,
             verboseName: Pt.t('operators.has_any_word', 'has any of the words'),
             operands: 1,
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_all_words,
             verboseName: Pt.t('operators.has_all_words', 'has all of the words'),
             operands: 1,
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_phrase,
             verboseName: Pt.t('operators.has_phrase', 'has the phrase'),
             operands: 1,
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_only_phrase,
             verboseName: Pt.t('operators.has_only_phrase', 'has only the phrase'),
             operands: 1,
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_beginning,
@@ -8715,7 +8715,7 @@
             verboseName: Pt.t('operators.has_text', 'has some text'),
             operands: 0,
             categoryName: 'Has Text',
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_number,
@@ -8758,32 +8758,32 @@
             verboseName: Pt.t('operators.has_date', 'has a date'),
             operands: 0,
             categoryName: Pt.t('operators.has_date_category', 'Has Date'),
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_date_lt,
             verboseName: Pt.t('operators.has_date_lt', 'has a date before'),
             operands: 1,
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_date_eq,
             verboseName: Pt.t('operators.has_date_eq', 'has a date equal to'),
             operands: 1,
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_date_gt,
             verboseName: Pt.t('operators.has_date_gt', 'has a date after'),
             operands: 1,
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_time,
             verboseName: Pt.t('operators.has_time', 'has a time'),
             operands: 0,
             categoryName: 'Has Time',
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_group,
@@ -8808,7 +8808,7 @@
             verboseName: Pt.t('operators.has_email', 'has an email'),
             operands: 0,
             categoryName: Pt.t('operators.has_email_category', 'Has Email'),
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_state,
@@ -8852,14 +8852,14 @@
             verboseName: Pt.t('operators.has_media', 'has media'),
             operands: 0,
             categoryName: 'Has Media',
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ce.has_location,
             verboseName: Pt.t('operators.has_location', 'has location'),
             operands: 0,
             categoryName: 'Has Location',
-            visibility: Ge
+            visibility: We
           }
         ],
         ws = [].concat(Cs, Es).reduce(function(e, t) {
@@ -9124,7 +9124,7 @@
                   return (
                     void 0 === this.operators &&
                       (this.operators = (function(e, t) {
-                        return console.log('operators', e), Ht(Wt(e, t), t);
+                        return console.log('operators', e), Ht(Gt(e, t), t);
                       })(e, this.context.config)),
                     this.operators
                   );
@@ -9999,8 +9999,8 @@
           );
         })(k.Component),
         Hs = a(105),
-        Gs = a.n(Hs),
-        Ws = function() {
+        Ws = a.n(Hs),
+        Gs = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null;
           return [].concat(
             Object(ve.a)(wi(e)),
@@ -10037,7 +10037,7 @@
                   i = { key: r.id, label: l, type: r.type };
                 }
                 i ||
-                  (i = Ws().find(function(e) {
+                  (i = Gs().find(function(e) {
                     return e.id === r.id;
                   }));
               }
@@ -10140,16 +10140,16 @@
                   }),
                   k.createElement(
                     'div',
-                    { className: Gs.a.lead_in },
+                    { className: Ws.a.lead_in },
                     "If the contact's",
                     k.createElement(
                       'div',
-                      { className: ''.concat(Gs.a.field_select, ' select-small') },
+                      { className: ''.concat(Ws.a.field_select, ' select-small') },
                       k.createElement(Vt, {
                         name: Pt.t('forms.contact_field', 'Contact Field'),
                         style: Ft.small,
                         assets: this.props.assetStore.fields,
-                        additionalOptions: Ws(this.context.config.flowType),
+                        additionalOptions: Gs(this.context.config.flowType),
                         valueKey: 'id',
                         getName: Tr,
                         entry: this.state.field,
@@ -10250,7 +10250,7 @@
                 value: function(e) {
                   var t = {};
                   e.hasOwnProperty('groups') &&
-                    (t.groups = ra(Pt.t('forms.groups', 'Groups'), e.groups, [la])),
+                    (t.groups = ra(Pt.t('forms.collections', 'Groups'), e.groups, [la])),
                     e.hasOwnProperty('resultName') && (t.resultName = { value: e.resultName });
                   var a = Zt(this.state, t);
                   return this.setState(a), a.valid;
@@ -10319,7 +10319,11 @@
                       entry: this.state.groups,
                       searchable: !0,
                       onChange: this.handleGroupsChanged,
-                      multi: !0
+                      multi: !0,
+                      placeholder: Pt.t(
+                        'select_groups',
+                        'Select existing collections or enter a new one'
+                      )
                     }),
                     ps(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
@@ -11055,7 +11059,7 @@
                         onChange: this.handleChecked
                       })
                     ),
-                    W(this.isChecked())(
+                    G(this.isChecked())(
                       k.createElement(
                         'div',
                         { className: go.a.drop_down },
@@ -12210,7 +12214,7 @@
           (e.PATCH = 'PATCH');
       })(Fo || (Fo = {}));
       var Ho = { value: Fo.GET, name: Fo.GET },
-        Go = [
+        Wo = [
           Ho,
           { value: Fo.POST, name: Fo.POST },
           { value: Fo.PUT, name: Fo.PUT },
@@ -12218,7 +12222,7 @@
           { value: Fo.HEAD, name: Fo.HEAD },
           { value: Fo.PATCH, name: Fo.PATCH }
         ],
-        Wo = function(e) {
+        Go = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
@@ -12257,7 +12261,7 @@
                 };
                 if (wr(e.originalNode) === Ee.split_by_webhook) {
                   var a,
-                    n = Wo(e),
+                    n = Go(e),
                     i = Object(C.a)(Object.keys(n.headers || []).sort());
                   try {
                     for (i.s(); !(a = i.n()).done; ) {
@@ -12433,7 +12437,7 @@
                           i.f();
                         }
                         var o = Z(),
-                          r = Wo(e);
+                          r = Go(e);
                         r && (o = r.uuid);
                         var l = {
                           uuid: o,
@@ -12567,7 +12571,7 @@
                             name: Pt.t('forms.method', 'Method'),
                             entry: this.state.method,
                             onChange: this.handleMethodUpdate,
-                            options: Go
+                            options: Wo
                           })
                         ),
                         k.createElement(
@@ -12907,7 +12911,7 @@
                       onChange: this.handleClassifierUpdated,
                       entry: this.state.classifier
                     }),
-                    W(!!this.state.classifier.value)(
+                    G(!!this.state.classifier.value)(
                       k.createElement(Is, {
                         'data-spec': 'cases',
                         cases: this.state.cases,
@@ -13602,7 +13606,7 @@
             form: Jn,
             localization: rn,
             localizeableKeys: ['text', 'quick_replies', 'templating.variables', 'attachments'],
-            component: Gn,
+            component: Wn,
             massageForDisplay: function(e) {
               e.quick_replies = e.quick_replies || [];
             }
@@ -13618,7 +13622,7 @@
             localization: to,
             localizeableKeys: ['categories', 'cases'],
             aliases: [s.switch],
-            visibility: Ge
+            visibility: We
           },
           {
             type: Ee.wait_for_time,
@@ -13665,10 +13669,10 @@
           },
           {
             type: Ee.remove_contact_groups,
-            name: Pt.t('actions.remove_contact_groups.name', 'Remove from Group'),
+            name: Pt.t('actions.remove_contact_groups.name', 'Remove from Collection'),
             description: Pt.t(
               'actions.remove_contact_groups.description',
-              'Remove the contact from a group'
+              'Remove the contact from a collection'
             ),
             form: Xa,
             component: La
@@ -13694,7 +13698,7 @@
             localization: en,
             localizeableKeys: ['subject', 'body'],
             component: Dn,
-            visibility: We
+            visibility: Ge
           },
           {
             type: Ee.set_run_result,
@@ -13720,7 +13724,7 @@
             localizeableKeys: ['exits'],
             component: Da,
             aliases: [Ee.split_by_webhook],
-            visibility: We
+            visibility: Ge
           },
           {
             type: Ee.call_resthook,
@@ -13732,7 +13736,7 @@
             component: Ua,
             aliases: [Ee.split_by_resthook],
             filter: we.HAS_RESTHOOK,
-            visibility: We
+            visibility: Ge
           },
           {
             type: Ee.enter_flow,
@@ -13752,7 +13756,7 @@
             localizeableKeys: ['exits'],
             form: hi,
             component: li,
-            visibility: We
+            visibility: Ge
           },
           {
             type: Ee.open_ticket,
@@ -13766,7 +13770,7 @@
             localizeableKeys: ['exits'],
             component: mr,
             aliases: [Ee.split_by_ticket],
-            visibility: We,
+            visibility: Ge,
             filter: we.HAS_TICKETER
           },
           {
@@ -13778,7 +13782,7 @@
             localizeableKeys: ['exits'],
             component: vi,
             aliases: [Ee.split_by_airtime],
-            visibility: We,
+            visibility: Ge,
             filter: we.HAS_AIRTIME
           },
           {
@@ -13820,7 +13824,7 @@
             localizeableKeys: ['exits'],
             component: Jo,
             aliases: [Ee.call_classifier],
-            visibility: We,
+            visibility: Ge,
             filter: we.HAS_CLASSIFIER
           },
           {
@@ -13867,8 +13871,11 @@
           },
           {
             type: Ee.split_by_groups,
-            name: Pt.t('actions.split_by_groups.name', 'Split by Group Membership'),
-            description: Pt.t('actions.split_by_groups.description', 'Split by group membership'),
+            name: Pt.t('actions.split_by_groups.name', 'Split by Collection Membership'),
+            description: Pt.t(
+              'actions.split_by_groups.description',
+              'Split by Collection Membership'
+            ),
             localization: to,
             localizeableKeys: ['exits'],
             form: Js
@@ -14171,12 +14178,12 @@
             );
           };
         },
-        Gr = function() {
+        Wr = function() {
           return function(e, t) {
             Pr(0);
           };
         },
-        Wr = function(e, t) {
+        Gr = function(e, t) {
           return function(a, n) {
             var i = e.definition,
               s = n(),
@@ -14265,7 +14272,7 @@
                               var t = e.definition
                                 ? e
                                 : { definition: e, metadata: { issues: [] } };
-                              i(Wr(t, r)),
+                              i(Gr(t, r)),
                                 i(
                                   Hr({
                                     currentRevision: t.definition.revision,
@@ -14338,7 +14345,7 @@
         Jr = function(e, t, a) {
           return function(n, i) {
             var s = i().flowContext.nodes,
-              o = Gi(s, e, t, a);
+              o = Wi(s, e, t, a);
             return n(Te(o)), Pr(), o;
           };
         },
@@ -14446,7 +14453,7 @@
                 ui: { position: p.ui.position, type: Ee.execute_actions },
                 inboundConnections: p.inboundConnections
               };
-              (v = Wi(c, f)), (g = f.node.uuid);
+              (v = Gi(c, f)), (g = f.node.uuid);
             } else
               (g = p.node.uuid),
                 (v = o
@@ -14634,7 +14641,7 @@
                               ui: { position: { left: h, top: m } },
                               inboundConnections: Object(y.a)({}, s.inboundConnections)
                             }),
-                            (o = Wi(o, r)),
+                            (o = Gi(o, r)),
                             (m += F),
                             (n.inboundConnections = Object(S.a)(
                               {},
@@ -14643,7 +14650,7 @@
                             )),
                             (n.ui.position.top += F))
                           : (n.inboundConnections = Object(y.a)({}, s.inboundConnections)),
-                        (o = Wi(o, n)),
+                        (o = Gi(o, n)),
                         d.length > 0
                           ? ((l = {
                               node: {
@@ -14656,8 +14663,8 @@
                               ui: { position: { left: h, top: m } },
                               inboundConnections: Object(S.a)({}, n.node.exits[0].uuid, n.node.uuid)
                             }),
-                            (o = Wi(o, l)))
-                          : (o = Gi(
+                            (o = Gi(o, l)))
+                          : (o = Wi(
                               o,
                               n.node.uuid,
                               n.node.exits[0].uuid,
@@ -14682,8 +14689,8 @@
               (e.inboundConnections = Object(S.a)({}, u.node.exits[0].uuid, u.node.uuid)),
                 (e.node = Bi(e.node)),
                 (e.ui.position.top += F),
-                (p = Wi(p, e));
-            } else p = Wi(p, e);
+                (p = Gi(p, e));
+            } else p = Gi(p, e);
             return t(Te(p)), Pr(0), p;
           };
         },
@@ -15887,7 +15894,7 @@
         })(k.Component),
         ql = a(45),
         Hl = a.n(ql),
-        Gl = (function(e) {
+        Wl = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -16033,8 +16040,8 @@
             a
           );
         })(k.Component);
-      Gl.contextTypes = { config: bt };
-      var Wl = a(31),
+      Wl.contextTypes = { config: bt };
+      var Gl = a(31),
         Kl = a(91),
         Yl = a.n(Kl),
         Xl = St.a.bind(Yl.a),
@@ -16245,7 +16252,7 @@
                     c = k.createElement(
                       k.Fragment,
                       null,
-                      k.createElement(Gl, {
+                      k.createElement(Wl, {
                         __className: i,
                         title: t,
                         onRemoval: this.handleRemoval,
@@ -16289,7 +16296,7 @@
           );
         })(k.Component);
       $l.contextTypes = { config: bt };
-      var Zl = Object(Wl.b)(
+      var Zl = Object(Gl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.assetStore,
@@ -16768,7 +16775,7 @@
                     ),
                     d,
                     p,
-                    W(this.state.showDragHelper)(k.createElement(ac, null))
+                    G(this.state.showDragHelper)(k.createElement(ac, null))
                   );
                 }
               }
@@ -16777,7 +16784,7 @@
           );
         })(k.PureComponent);
       dc.contextTypes = { config: bt };
-      var pc = Object(Wl.b)(
+      var pc = Object(Gl.b)(
           function(e, t) {
             var a = e.flowContext.definition.localization,
               n = e.editorState,
@@ -17093,7 +17100,7 @@
                           k.createElement(
                             'div',
                             this.events,
-                            k.createElement(Gl, {
+                            k.createElement(Wl, {
                               __className:
                                 ue.a[
                                   Za(this.props.issues, this.props.translating, this.props.language)
@@ -17185,7 +17192,7 @@
         })(k.PureComponent);
       fc.contextTypes = { config: bt };
       var yc,
-        bc = Object(Wl.b)(
+        bc = Object(Gl.b)(
           function(e, t) {
             var a = e.flowContext,
               n = a.nodes,
@@ -17399,7 +17406,7 @@
             a
           );
         })(k.Component),
-        Sc = Object(Wl.b)(
+        Sc = Object(Gl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -18217,8 +18224,8 @@
         })(k.Component),
         qc = a(14),
         Hc = a.n(qc),
-        Gc = a(127),
-        Wc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg',
+        Wc = a(127),
+        Gc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg',
         Kc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg',
         Yc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg',
         Xc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4',
@@ -18655,10 +18662,10 @@
                     {
                       className: Hc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('image/jpeg:' + Wc);
+                        e.sendAttachment('image/jpeg:' + Gc);
                       }
                     },
-                    E.a.createElement('img', { src: Wc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Gc, alt: 'Attachment' })
                   ),
                   E.a.createElement(
                     'div',
@@ -18695,7 +18702,7 @@
                       e.sendAttachment('geo:2.904194,-79.003418');
                     }
                   },
-                  E.a.createElement('img', { src: Gc, alt: 'Attachment' })
+                  E.a.createElement('img', { src: Wc, alt: 'Attachment' })
                 );
               }
             },
@@ -19134,7 +19141,7 @@
         );
       })(E.a.Component);
       Jc.contextTypes = { config: bt };
-      var $c = Object(Wl.b)(
+      var $c = Object(Gl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -19371,7 +19378,7 @@
             a
           );
         })(k.Component),
-        ru = Object(Wl.b)(
+        ru = Object(Gl.b)(
           function(e) {
             return { definition: e.flowContext.definition };
           },
@@ -19944,7 +19951,7 @@
                 key: 'getSimulator',
                 value: function() {
                   var e = this;
-                  return W(
+                  return G(
                     this.context.config.endpoints && this.context.config.endpoints.simulateStart
                   )(
                     k.createElement($c, {
@@ -19961,7 +19968,7 @@
               {
                 key: 'getNodeEditor',
                 value: function() {
-                  return W(null !== this.props.nodeEditorSettings)(
+                  return G(null !== this.props.nodeEditorSettings)(
                     k.createElement(Sc, {
                       key: 'node-editor',
                       helpArticles: this.context.config.help,
@@ -20067,7 +20074,7 @@
         })(k.PureComponent);
       bu.contextTypes = { config: bt };
       var ku,
-        Eu = Object(Wl.b)(
+        Eu = Object(Gl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -20187,7 +20194,7 @@
             a
           );
         })(k.Component),
-        xu = Object(Wl.b)(
+        xu = Object(Gl.b)(
           function(e) {
             var t = e.flowContext.assetStore,
               a = e.editorState.language;
@@ -20427,21 +20434,21 @@
                                   key: 'revision_' + e.id,
                                   onClick: t.onRevisionClicked(e)
                                 },
-                                W(a.current)(
+                                G(a.current)(
                                   E.a.createElement(
                                     'div',
                                     { className: Fu.a.button + ' ' + Fu.a.current },
                                     'current'
                                   )
                                 ),
-                                W('published' === a.status)(
+                                G('published' === a.status)(
                                   E.a.createElement(
                                     'div',
                                     { className: Fu.a.button + ' ' + Fu.a.publish },
                                     ' published '
                                   )
                                 ),
-                                W(n && !a.current)(
+                                G(n && !a.current)(
                                   E.a.createElement(
                                     'div',
                                     { onClick: t.onRevertClicked(e), className: Fu.a.button },
@@ -20676,11 +20683,11 @@
           );
         })(E.a.Component),
         Hu = a(157),
-        Gu = a(158),
-        Wu = a.n(Gu),
+        Wu = a(158),
+        Gu = a.n(Wu),
         Ku = Object(ge.combineReducers)({ flowContext: De, editorState: Fr, nodeEditor: na }),
         Yu = { flowContext: xe, editorState: Dr, nodeEditor: ea },
-        Xu = [Wu.a],
+        Xu = [Gu.a],
         Qu = a(20),
         Ju = a.n(Qu);
       !(function(e) {
@@ -21333,16 +21340,16 @@
                       k.createElement(
                         'div',
                         { className: wu.a.editor, 'data-spec': 'editor' },
-                        W(
+                        G(
                           Object.keys(this.props.nodes || {}).length > 0 &&
                             this.props.languages &&
                             Object.keys(this.props.languages.items).length > 0
                         )(k.createElement(xu, null)),
                         this.getSavingIndicator(),
-                        W(this.props.definition && this.props.language && !this.props.fetchingFlow)(
+                        G(this.props.definition && this.props.language && !this.props.fetchingFlow)(
                           k.createElement(Eu, null)
                         ),
-                        W(
+                        G(
                           this.props.definition &&
                             this.props.translating &&
                             !this.props.fetchingFlow
@@ -21372,7 +21379,7 @@
                           onToggled: this.handleTabPopped,
                           popped: this.props.popped
                         }),
-                        W(Object.keys(this.props.issues).length > 0)(
+                        G(Object.keys(this.props.issues).length > 0)(
                           k.createElement(qu, {
                             issues: this.props.issues,
                             onIssueClicked: this.handleScrollToIssue,
@@ -21395,7 +21402,7 @@
           );
         })(k.Component);
       ld.contextTypes = rd;
-      var cd = Object(Wl.b)(
+      var cd = Object(Gl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -21434,8 +21441,8 @@
             return Object(ge.bindActionCreators)(
               {
                 fetchFlow: Kr,
-                loadFlowDefinition: Wr,
-                createNewRevision: Gr,
+                loadFlowDefinition: Gr,
+                createNewRevision: Wr,
                 mergeEditorState: Hr,
                 onOpenNodeEditor: pl,
                 handleLanguageChange: Xr,
@@ -21450,7 +21457,7 @@
           return k.createElement(
             $o,
             { config: Object(y.a)({}, t) },
-            k.createElement(Wl.a, { store: od }, k.createElement(cd, null))
+            k.createElement(Gl.a, { store: od }, k.createElement(cd, null))
           );
         };
       Boolean(
@@ -21479,4 +21486,4 @@
   ],
   [[163, 1, 2]]
 ]);
-//# sourceMappingURL=main.d166aaa4.chunk.js.map
+//# sourceMappingURL=main.0e960f68.chunk.js.map

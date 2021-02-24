@@ -15,16 +15,16 @@ exports[`RemoveGroupsForm render should render 1`] = `
     }
   }
   headerClass="remove_contact_groups"
-  title="Remove from Group"
+  title="Remove from Collection"
 >
   <TypeList
     __className=""
     initialType={
       Object {
         "component": [Function],
-        "description": "Remove the contact from a group",
+        "description": "Remove the contact from a collection",
         "form": [Function],
-        "name": "Remove from Group",
+        "name": "Remove from Collection",
         "type": "remove_contact_groups",
       }
     }
@@ -77,7 +77,7 @@ exports[`RemoveGroupsForm render should render 1`] = `
   </div>
   <CheckboxElement
     checked={false}
-    description="Remove the active contact from all groups they're a member of."
+    description="Remove the active contact from all collections they're a member of."
     labelClassName="checkbox"
     name="Remove from all"
     onChange={[Function]}

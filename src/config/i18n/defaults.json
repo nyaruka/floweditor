@@ -37,8 +37,8 @@
       "name": "Play Message"
     },
     "remove_contact_groups": {
-      "description": "Remove the contact from a group",
-      "name": "Remove from Group"
+      "description": "Remove the contact from a collection",
+      "name": "Remove from Collection"
     },
     "say_msg": {
       "placeholder": "Send a message to the contact"
@@ -74,8 +74,8 @@
       "name": "Split by Expression"
     },
     "split_by_groups": {
-      "description": "Split by group membership",
-      "name": "Split by Group Membership"
+      "description": "Split by Collection Membership",
+      "name": "Split by Collection Membership"
     },
     "split_by_intent": {
       "description": "Split by intent",
@@ -247,7 +247,7 @@
     "recording": "Recording",
     "recording_label": "Previous Recording",
     "remove_from_all_label": "Remove from all",
-    "remove_from_all_summary": "Remove the active contact from all groups they're a member of.",
+    "remove_from_all_summary": "Remove the active contact from all collections they're a member of.",
     "remove_groups_placeholder": "Enter the name of an existing group",
     "remove_groups_summary": "Select the collections to remove the contact from.",
     "resthook": "Resthook",
