@@ -1,3 +1,4 @@
+/*! For license information please see 3.1f403ff4.chunk.js.LICENSE.txt */
 (this['webpackJsonp@nyaruka/flow-editor'] = this['webpackJsonp@nyaruka/flow-editor'] || []).push([
   [3],
   {
@@ -268,7 +269,7 @@
           _getPrototypeOf = __webpack_require__(238),
           _createForOfIteratorHelper = __webpack_require__(161),
           _toConsumableArray = __webpack_require__(245),
-          _regeneratorRuntime = __webpack_require__(58),
+          _regeneratorRuntime = __webpack_require__(57),
           _asyncToGenerator = __webpack_require__(249),
           _classCallCheck = __webpack_require__(250),
           _createClass = __webpack_require__(251),
@@ -298,9 +299,9 @@
         }
         function _templateObject111() {
           var t = _taggedTemplateLiteral([
-            '<div class="segments">&nbsp;/&nbsp;',
+            '<div class="segments"> &nbsp;/&nbsp;',
             '',
-            '<div></div></div>'
+            ' <div></div> </div>'
           ]);
           return (
             (_templateObject111 = function() {
@@ -314,7 +315,7 @@
             '<div class="counter',
             '"><div class="counts">',
             '',
-            '</div>',
+            '</div> ',
             '</div>'
           ]);
           return (
@@ -326,7 +327,7 @@
         }
         function _templateObject109() {
           var t = _taggedTemplateLiteral([
-            '<div class="fine-print"><div class="note">NOTE</div>Using variables may result in more messages when sending over SMS than this estimate.</div>'
+            ' <div class="fine-print"> <div class="note">NOTE</div> Using variables may result in more messages when sending over SMS than this estimate. </div> '
           ]);
           return (
             (_templateObject109 = function() {
@@ -337,11 +338,11 @@
         }
         function _templateObject108() {
           var t = _taggedTemplateLiteral([
-            '<div class="summary">This message is <b>',
+            ' <div class="summary"> This message is <b>',
             ' characters</b> ',
             ' ',
             ' ',
-            '</div>'
+            ' </div>'
           ]);
           return (
             (_templateObject108 = function() {
@@ -352,8 +353,8 @@
         }
         function _templateObject107() {
           var t = _taggedTemplateLiteral([
-            '<div class="extended-warning">Some characters require more space over SMS. To save on fees, consider replacing them.<div class="extended">',
-            '</div></div>'
+            ' <div class="extended-warning"> Some characters require more space over SMS. To save on fees, consider replacing them. <div class="extended">',
+            '</div> </div> '
           ]);
           return (
             (_templateObject107 = function() {
@@ -433,7 +434,7 @@
         }
         function _templateObject99() {
           var t = _taggedTemplateLiteral([
-            '<lit-flatpickr class="textinput" id="my-date-picker" altInput altFormat="F j, Y" dateFormat="Y-m-d H:i" enableTime: true><input class="textinput"></lit-flatpickr>'
+            ' <lit-flatpickr class="textinput" id="my-date-picker" altInput altFormat="F j, Y" dateFormat="Y-m-d H:i" enableTime: true> <input class="textinput"> </lit-flatpickr> '
           ]);
           return (
             (_templateObject99 = function() {
@@ -464,17 +465,17 @@
         }
         function _templateObject96() {
           var t = _taggedTemplateLiteral([
-            '<temba-field name="',
+            ' <temba-field name="',
             '" .helpText="',
             '" .errors="',
             '" .widgetOnly="',
             '" .helpAlways="',
             '" .disabled="',
             '" @click="',
-            '"><div class="checkbox-container ',
-            '">',
+            '"> <div class="checkbox-container ',
+            '"> ',
             ' ',
-            '</div></temba-field>'
+            ' </div> </temba-field> '
           ]);
           return (
             (_templateObject96 = function() {
@@ -485,7 +486,7 @@
         }
         function _templateObject95() {
           var t = _taggedTemplateLiteral([
-            '<fa-icon class="far fa-square" size="16px" path-prefix="/sitestatic"></fa-icon>'
+            ' <fa-icon class="far fa-square" size="16px" path-prefix="/sitestatic"> </fa-icon> '
           ]);
           return (
             (_templateObject95 = function() {
@@ -496,7 +497,7 @@
         }
         function _templateObject94() {
           var t = _taggedTemplateLiteral([
-            '<fa-icon class="far fa-check-square" size="16px" path-prefix="/sitestatic"></fa-icon>'
+            ' <fa-icon class="far fa-check-square" size="16px" path-prefix="/sitestatic"> </fa-icon> '
           ]);
           return (
             (_templateObject94 = function() {
@@ -517,7 +518,7 @@
           );
         }
         function _templateObject92() {
-          var t = _taggedTemplateLiteral(['<div class="loading-unit" style="', '"></div>']);
+          var t = _taggedTemplateLiteral([' <div class="loading-unit" style="', '"></div> ']);
           return (
             (_templateObject92 = function() {
               return t;
@@ -526,7 +527,7 @@
           );
         }
         function _templateObject91() {
-          var t = _taggedTemplateLiteral(['<div class="loading-container">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="loading-container"> ', ' </div> ']);
           return (
             (_templateObject91 = function() {
               return t;
@@ -546,7 +547,7 @@
           );
         }
         function _templateObject89() {
-          var t = _taggedTemplateLiteral(['<div class="summary">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="summary"> ', ' </div> ']);
           return (
             (_templateObject89 = function() {
               return t;
@@ -556,15 +557,15 @@
         }
         function _templateObject88() {
           var t = _taggedTemplateLiteral([
-            '<temba-textinput ?error="',
+            ' <temba-textinput ?error="',
             '" name="',
             '" .inputRoot="',
             '" @input="',
             '" placeholder="',
             '" value="',
-            '"><temba-loading units="4" style="',
-            '"></temba-loading></temba-textinput>',
-            ''
+            '"> <temba-loading units="4" style="',
+            '"></temba-loading> </temba-textinput> ',
+            ' '
           ]);
           return (
             (_templateObject88 = function() {
@@ -574,7 +575,7 @@
           );
         }
         function _templateObject87() {
-          var t = _taggedTemplateLiteral(['', ' more']);
+          var t = _taggedTemplateLiteral([' ', ' more ']);
           return (
             (_templateObject87 = function() {
               return t;
@@ -583,7 +584,7 @@
           );
         }
         function _templateObject86() {
-          var t = _taggedTemplateLiteral(['<td class="field">', '</td>']);
+          var t = _taggedTemplateLiteral([' <td class="field"> ', ' </td> ']);
           return (
             (_templateObject86 = function() {
               return t;
@@ -593,11 +594,11 @@
         }
         function _templateObject85() {
           var t = _taggedTemplateLiteral([
-            '<tr class="contact"><td class="urn">',
-            '</td><td class="name">',
-            '</td>',
-            '<td></td><td class="created-on">',
-            '</td></tr>'
+            ' <tr class="contact"> <td class="urn">',
+            '</td> <td class="name">',
+            '</td> ',
+            ' <td></td> <td class="created-on">',
+            '</td> </tr> '
           ]);
           return (
             (_templateObject85 = function() {
@@ -607,7 +608,7 @@
           );
         }
         function _templateObject84() {
-          var t = _taggedTemplateLiteral(['<td class="field-header">', '</td>']);
+          var t = _taggedTemplateLiteral([' <td class="field-header">', '</td> ']);
           return (
             (_templateObject84 = function() {
               return t;
@@ -617,12 +618,12 @@
         }
         function _templateObject83() {
           var t = _taggedTemplateLiteral([
-            '<table cellspacing="0" cellpadding="0"><tr class="header"><td colspan="2"></td>',
-            '<td></td><td class="field-header created-on">Created On</td></tr>',
-            '<tr class="table-footer"><td class="query-details" colspan="',
-            '">',
-            '</td><td class="more">',
-            '</td></tr></table>'
+            ' <table cellspacing="0" cellpadding="0"> <tr class="header"> <td colspan="2"></td> ',
+            ' <td></td> <td class="field-header created-on">Created On</td> </tr> ',
+            ' <tr class="table-footer"> <td class="query-details" colspan="',
+            '"> ',
+            ' </td> <td class="more"> ',
+            ' </td> </tr> </table> '
           ]);
           return (
             (_templateObject83 = function() {
@@ -633,8 +634,8 @@
         }
         function _templateObject82() {
           var t = _taggedTemplateLiteral([
-            '<div class="error"><temba-alert level="error">',
-            '</temba-alert></div>'
+            ' <div class="error"> <temba-alert level="error">',
+            '</temba-alert> </div> '
           ]);
           return (
             (_templateObject82 = function() {
@@ -656,8 +657,8 @@
         }
         function _templateObject80() {
           var t = _taggedTemplateLiteral([
-            '<div class="temba-alert temba-',
-            '"><slot></slot></div>'
+            ' <div class="temba-alert temba-',
+            '"><slot></slot></div> '
           ]);
           return (
             (_templateObject80 = function() {
@@ -678,7 +679,7 @@
           );
         }
         function _templateObject78() {
-          var t = _taggedTemplateLiteral(['<div class="current-fn">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="current-fn"> ', ' </div> ']);
           return (
             (_templateObject78 = function() {
               return t;
@@ -689,8 +690,8 @@
         function _templateObject77() {
           var t = _taggedTemplateLiteral([
             '<div class="right-side" @click="',
-            '"><fa-icon class="fa chevron-down ',
-            ' arrow-icon" size="14px" style="fill: var(--arrow-icon-color)" path-prefix="/sitestatic"></div>'
+            '"> <fa-icon class="fa chevron-down ',
+            ' arrow-icon" size="14px" style="fill: var(--arrow-icon-color)" path-prefix="/sitestatic"> </div>'
           ]);
           return (
             (_templateObject77 = function() {
@@ -701,8 +702,8 @@
         }
         function _templateObject76() {
           var t = _taggedTemplateLiteral([
-            '<div class="remove-item" @click="',
-            '"><fa-icon class="fas times" size="12px" style="margin-bottom:-2px; fill: var(--color-overlay-dark)" } path-prefix="/sitestatic"></div>'
+            ' <div class="remove-item" @click="',
+            '"> <fa-icon class="fas times" size="12px" style="margin-bottom:-2px; fill: var(--color-overlay-dark)" } path-prefix="/sitestatic"> </div> '
           ]);
           return (
             (_templateObject76 = function() {
@@ -712,7 +713,7 @@
           );
         }
         function _templateObject75() {
-          var t = _taggedTemplateLiteral(['<div class="selected-item ', '">', ' ', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="selected-item ', '"> ', ' ', ' </div> ']);
           return (
             (_templateObject75 = function() {
               return t;
@@ -722,20 +723,20 @@
         }
         function _templateObject74() {
           var t = _taggedTemplateLiteral([
-            '<temba-field name="',
+            ' <temba-field name="',
             '" .label="',
             '" .helpText="',
             '" .errors="',
             '" .widgetOnly="',
             '" .hideErrors="',
-            '"><div tabindex="0" class="select-container ',
+            '"> <div tabindex="0" class="select-container ',
             '" @click="',
-            '"><div class="left-side"><div class="selected">',
+            '"> <div class="left-side"> <div class="selected"> ',
             ' ',
             ' ',
-            '</div></div>',
+            ' </div> </div> ',
             ' ',
-            '<temba-options @temba-selection="',
+            ' <temba-options @temba-selection="',
             '" .cursorIndex="',
             '" .renderOptionDetail="',
             '" .renderOptionName="',
@@ -746,14 +747,14 @@
             '" .nameKey="',
             '" .getName="',
             '" ?visible="',
-            '"></temba-options><temba-options @temba-selection="',
+            '"></temba-options> <temba-options @temba-selection="',
             '" @temba-canceled="',
             '" .anchorTo="',
             '" .options="',
             '" .renderOption="',
             '" ?visible="',
-            '">',
-            '<div class="footer">Tab to complete, enter to select</div></temba-options></div></temba-field>'
+            '"> ',
+            ' <div class="footer">Tab to complete, enter to select</div> </temba-options> </div>  </temba-field> '
           ]);
           return (
             (_templateObject74 = function() {
@@ -764,13 +765,13 @@
         }
         function _templateObject73() {
           var t = _taggedTemplateLiteral([
-            '<div class="input-wrapper"><input class="searchbox" @input="',
+            ' <div class="input-wrapper"> <input class="searchbox" @input="',
             '" @keydown="',
             '" @click="',
             '" type="text" placeholder="',
             '" .value="',
-            '"><div id="anchor" style="',
-            '"></div></div>'
+            '"> <div id="anchor" style="',
+            '"></div> </div> '
           ]);
           return (
             (_templateObject73 = function() {
@@ -792,7 +793,7 @@
           );
         }
         function _templateObject71() {
-          var t = _taggedTemplateLiteral(['<div class="placeholder">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="placeholder">', '</div> ']);
           return (
             (_templateObject71 = function() {
               return t;
@@ -801,7 +802,7 @@
           );
         }
         function _templateObject70() {
-          var t = _taggedTemplateLiteral(['<div class="option-name">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="option-name">', '</div> ']);
           return (
             (_templateObject70 = function() {
               return t;
@@ -819,7 +820,7 @@
           );
         }
         function _templateObject68() {
-          var t = _taggedTemplateLiteral(['<div style="font-size: 85%">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div style="font-size: 85%">', '</div> ']);
           return (
             (_templateObject68 = function() {
               return t;
@@ -828,7 +829,7 @@
           );
         }
         function _templateObject67() {
-          var t = _taggedTemplateLiteral(['<div><div style="', '">', '</div>', '</div>']);
+          var t = _taggedTemplateLiteral([' <div> <div style="', '">', '</div> ', ' </div> ']);
           return (
             (_templateObject67 = function() {
               return t;
@@ -838,9 +839,9 @@
         }
         function _templateObject66() {
           var t = _taggedTemplateLiteral([
-            '<div style="display:inline-block; font-weight: 300; font-size: 85%">',
-            '</div><div class="detail">',
-            '</div>'
+            ' <div style="display:inline-block; font-weight: 300; font-size: 85%"> ',
+            ' </div> <div class="detail">',
+            '</div> '
           ]);
           return (
             (_templateObject66 = function() {
@@ -851,10 +852,10 @@
         }
         function _templateObject65() {
           var t = _taggedTemplateLiteral([
-            '<div style="',
-            '"><div style="display:inline-block;margin-right: 5px">\u0192</div><div style="display:inline-block">',
-            '</div>',
-            '</div>'
+            ' <div style="',
+            '"> <div style="display:inline-block;margin-right: 5px">\u0192</div> <div style="display:inline-block">',
+            '</div> ',
+            ' </div> '
           ]);
           return (
             (_templateObject65 = function() {
@@ -875,7 +876,7 @@
           );
         }
         function _templateObject63() {
-          var t = _taggedTemplateLiteral(['<div class="current-fn">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="current-fn"> ', ' </div> ']);
           return (
             (_templateObject63 = function() {
               return t;
@@ -885,13 +886,13 @@
         }
         function _templateObject62() {
           var t = _taggedTemplateLiteral([
-            '<temba-field name="',
+            ' <temba-field name="',
             '" .label="',
             '" .helpText="',
             '" .errors="',
             '" .widgetOnly="',
-            '"><div class="comp-container"><div id="anchor" style="',
-            '"></div><temba-textinput name="',
+            '"> <div class="comp-container"> <div id="anchor" style="',
+            '"></div> <temba-textinput name="',
             '" placeholder="',
             '" gsm="',
             '" counter="',
@@ -902,14 +903,14 @@
             '" .value="',
             '" ?textarea="',
             '" ?ignoreSubmit="',
-            '"></temba-textinput><temba-options @temba-selection="',
+            '"> </temba-textinput> <temba-options @temba-selection="',
             '" @temba-canceled="',
             '" .anchorTo="',
             '" .options="',
             '" .renderOption="',
             '" ?visible="',
-            '">',
-            '<div class="footer">Tab to complete, enter to select</div></temba-options></div></temba-field>'
+            '"> ',
+            ' <div class="footer">Tab to complete, enter to select</div> </temba-options> </div> </temba-field> '
           ]);
           return (
             (_templateObject62 = function() {
@@ -930,7 +931,12 @@
           );
         }
         function _templateObject60() {
-          var t = _taggedTemplateLiteral(['<div @mousemove="', '" class="option ', '">', '</div>']);
+          var t = _taggedTemplateLiteral([
+            ' <div @mousemove="',
+            '" class="option ',
+            '"> ',
+            ' </div> '
+          ]);
           return (
             (_templateObject60 = function() {
               return t;
@@ -940,12 +946,12 @@
         }
         function _templateObject59() {
           var t = _taggedTemplateLiteral([
-            '<div class="options-container ',
+            ' <div class="options-container ',
             '" style="',
-            '"><div class="',
+            '"> <div class="',
             '" style="',
-            '">',
-            '</div><slot></slot></div>'
+            '"> ',
+            ' </div> <slot></slot> </div> '
           ]);
           return (
             (_templateObject59 = function() {
@@ -955,7 +961,7 @@
           );
         }
         function _templateObject58() {
-          var t = _taggedTemplateLiteral(['', '']);
+          var t = _taggedTemplateLiteral([' ', ' ']);
           return (
             (_templateObject58 = function() {
               return t;
@@ -973,7 +979,7 @@
           );
         }
         function _templateObject56() {
-          var t = _taggedTemplateLiteral(['<div class="name">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="name">', '</div> ']);
           return (
             (_templateObject56 = function() {
               return t;
@@ -983,9 +989,9 @@
         }
         function _templateObject55() {
           var t = _taggedTemplateLiteral([
-            '<div class="name">',
-            '</div><div class="detail">',
-            '</div>'
+            ' <div class="name">',
+            '</div> <div class="detail">',
+            '</div> '
           ]);
           return (
             (_templateObject55 = function() {
@@ -1007,9 +1013,9 @@
         }
         function _templateObject53() {
           var t = _taggedTemplateLiteral([
-            '<div class="label ',
+            ' <div class="label ',
             '" style="',
-            '"><div class="mask"><slot></slot></div></div>'
+            '"> <div class="mask"> <slot></slot> </div> </div> '
           ]);
           return (
             (_templateObject53 = function() {
@@ -1031,17 +1037,17 @@
         }
         function _templateObject51() {
           var t = _taggedTemplateLiteral([
-            '<temba-field name="',
+            ' <temba-field name="',
             '" .label="',
             '" .helpText="',
             '" .errors="',
             '" .widgetOnly="',
             '" .hideLabel="',
-            '"><div class="input-container" style="',
+            '"> <div class="input-container" style="',
             '" @click="',
-            '">',
+            '"> ',
             ' ',
-            '<slot></slot></div></temba-field>'
+            ' <slot></slot> </div> </temba-field> '
           ]);
           return (
             (_templateObject51 = function() {
@@ -1052,17 +1058,17 @@
         }
         function _templateObject50() {
           var t = _taggedTemplateLiteral([
-            '<input class="textinput withdate ',
+            ' <input class="textinput withdate ',
             '" name="',
             '" type="text" @click="',
             '" @focus="',
             '" @keydown="',
             '" readonly="true" placeholder="',
             '" .value="',
-            '"><lit-flatpickr class="datepicker hidden" altInput altFormat="',
+            '"> <lit-flatpickr class="datepicker hidden" altInput altFormat="',
             '" dateFormat="',
             '" ?enableTime="',
-            '"></lit-flatpickr>'
+            '"></lit-flatpickr> '
           ]);
           return (
             (_templateObject50 = function() {
@@ -1073,13 +1079,13 @@
         }
         function _templateObject49() {
           var t = _taggedTemplateLiteral([
-            '<textarea class="textinput" name="',
+            ' <textarea class="textinput" name="',
             '" placeholder="',
             '" @change="',
             '" @input="',
             '" @blur="',
             '" .value="',
-            '"></textarea>'
+            '"></textarea> '
           ]);
           return (
             (_templateObject49 = function() {
@@ -1090,7 +1096,7 @@
         }
         function _templateObject48() {
           var t = _taggedTemplateLiteral([
-            '<input class="textinput" name="',
+            ' <input class="textinput" name="',
             '" type="',
             '" maxlength="',
             '" @change="',
@@ -1099,7 +1105,7 @@
             '" @keydown="',
             '" placeholder="',
             '" value="',
-            '">'
+            '"> '
           ]);
           return (
             (_templateObject48 = function() {
@@ -1152,7 +1158,7 @@
           );
         }
         function _templateObject43() {
-          var t = _taggedTemplateLiteral(['', '<slot></slot>']);
+          var t = _taggedTemplateLiteral([' ', ' <slot></slot> ']);
           return (
             (_templateObject43 = function() {
               return t;
@@ -1173,12 +1179,12 @@
         }
         function _templateObject41() {
           var t = _taggedTemplateLiteral([
-            '<temba-button @click="',
+            ' <temba-button @click="',
             '" .name="',
             '" ?destructive="',
             '" ?primary="',
             '" ?submitting="',
-            '">}</temba-button>'
+            '">}</temba-button> '
           ]);
           return (
             (_templateObject41 = function() {
@@ -1188,7 +1194,7 @@
           );
         }
         function _templateObject40() {
-          var t = _taggedTemplateLiteral(['<slot></slot>']);
+          var t = _taggedTemplateLiteral([' <slot></slot> ']);
           return (
             (_templateObject40 = function() {
               return t;
@@ -1198,18 +1204,18 @@
         }
         function _templateObject39() {
           var t = _taggedTemplateLiteral([
-            '<div id="dialog-mask" @click="',
+            ' <div id="dialog-mask" @click="',
             '" class="dialog-mask ',
             '" style="',
-            '"><div style="position: absolute; width: 100%;"><temba-loading id="page-loader" units="6" size="12" color="#ccc"></temba-loading></div><div class="flex"><div class="flex-grow"></div><div @keyup="',
+            '"> <div style="position: absolute; width: 100%;"> <temba-loading id="page-loader" units="6" size="12" color="#ccc"></temba-loading> </div> <div class="flex"> <div class="flex-grow"></div> <div @keyup="',
             '" style="',
-            '" class="dialog-container">',
-            '<div class="dialog-body" @keypress="',
-            '">',
-            '<temba-loading units="6" size="8"></temba-loading></div><div class="dialog-footer">',
-            '<temba-button @click="',
+            '" class="dialog-container"> ',
+            ' <div class="dialog-body" @keypress="',
+            '"> ',
+            ' <temba-loading units="6" size="8"></temba-loading> </div> <div class="dialog-footer"> ',
+            ' <temba-button @click="',
             '" name="',
-            '" secondary></temba-button></div></div><div class="flex-grow bottom-padding"></div><div class="bottom-padding"></div></div></div>'
+            '" secondary></temba-button> </div> </div> <div class="flex-grow bottom-padding"></div> <div class="bottom-padding"></div> </div> </div> '
           ]);
           return (
             (_templateObject39 = function() {
@@ -1220,8 +1226,8 @@
         }
         function _templateObject38() {
           var t = _taggedTemplateLiteral([
-            '<div class="dialog-header"><div class="header-text">',
-            '</div></div>'
+            ' <div class="dialog-header"> <div class="header-text">',
+            '</div> </div> '
           ]);
           return (
             (_templateObject38 = function() {
@@ -1243,7 +1249,7 @@
         }
         function _templateObject36() {
           var t = _taggedTemplateLiteral([
-            '<div class="submit-animation"><temba-loading units="3" size="8" color="#eee"></temba-loading></div>'
+            '<div class="submit-animation"> <temba-loading units="3" size="8" color="#eee"></temba-loading> </div>'
           ]);
           return (
             (_templateObject36 = function() {
@@ -1254,14 +1260,14 @@
         }
         function _templateObject35() {
           var t = _taggedTemplateLiteral([
-            '<div class="button-container ',
+            ' <div class="button-container ',
             '" tabindex="0" @mousedown="',
             '" @mouseup="',
             '" @mouseleave="',
             '" @keyup="',
             '" @click="',
-            '"><div class="button-mask"><div class="button-name">',
-            '</div></div></div>'
+            '"> <div class="button-mask"> <div class="button-name"> ',
+            ' </div> </div> </div> '
           ]);
           return (
             (_templateObject35 = function() {
@@ -1281,7 +1287,7 @@
         }
         function _templateObject33() {
           var t = _taggedTemplateLiteral([
-            '<temba-select name="',
+            ' <temba-select name="',
             '" endpoint="',
             '" placeholder="',
             '" queryParam="search" .errors="',
@@ -1290,7 +1296,7 @@
             '" .renderSelectedItem="',
             '" .createArbitraryOption="',
             '" .inputRoot="',
-            '" searchable searchOnFocus multi></temba-select>'
+            '" searchable searchOnFocus multi></temba-select> '
           ]);
           return (
             (_templateObject33 = function() {
@@ -1301,9 +1307,9 @@
         }
         function _templateObject32() {
           var t = _taggedTemplateLiteral([
-            '<fa-icon class="fas user" size="',
+            ' <fa-icon class="fas user" size="',
             'px" style="',
-            '" path-prefix="/sitestatic">'
+            '" path-prefix="/sitestatic"> '
           ]);
           return (
             (_templateObject32 = function() {
@@ -1314,8 +1320,8 @@
         }
         function _templateObject31() {
           var t = _taggedTemplateLiteral([
-            '<fa-icon class="fas user-friends" size="',
-            'px" style="margin-bottom: -2px;" path-prefix="/sitestatic">'
+            ' <fa-icon class="fas user-friends" size="',
+            'px" style="margin-bottom: -2px;" path-prefix="/sitestatic"> '
           ]);
           return (
             (_templateObject31 = function() {
@@ -1326,10 +1332,10 @@
         }
         function _templateObject30() {
           var t = _taggedTemplateLiteral([
-            '<div style="flex:1 1 auto; display: flex; align-items: stretch; color: var(--color-text-dark); font-size: 12px;"><div style="align-self: center; padding: 0px 7px; color: #bbb">',
-            '</div><div class="name" style="align-self: center; padding: 0px; font-size: 12px;">',
-            '</div><div style="background: rgba(100, 100, 100, 0.05); border-left: 1px solid rgba(100, 100, 100, 0.1); margin-left: 12px; display: flex; align-items: center">',
-            '</div></div>'
+            ' <div style="flex:1 1 auto; display: flex; align-items: stretch; color: var(--color-text-dark); font-size: 12px;"> <div style="align-self: center; padding: 0px 7px; color: #bbb"> ',
+            ' </div> <div class="name" style="align-self: center; padding: 0px; font-size: 12px;"> ',
+            ' </div> <div style="background: rgba(100, 100, 100, 0.05); border-left: 1px solid rgba(100, 100, 100, 0.1); margin-left: 12px; display: flex; align-items: center"> ',
+            ' </div> </div> '
           ]);
           return (
             (_templateObject30 = function() {
@@ -1339,7 +1345,7 @@
           );
         }
         function _templateObject29() {
-          var t = _taggedTemplateLiteral(['<div style="', '">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div style="', '">', '</div> ']);
           return (
             (_templateObject29 = function() {
               return t;
@@ -1348,7 +1354,7 @@
           );
         }
         function _templateObject28() {
-          var t = _taggedTemplateLiteral(['<div style="', '">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div style="', '">', '</div> ']);
           return (
             (_templateObject28 = function() {
               return t;
@@ -1358,10 +1364,10 @@
         }
         function _templateObject27() {
           var t = _taggedTemplateLiteral([
-            '<div style="display:flex;"><div style="margin-right: 8px">',
-            '</div><div style="flex: 1">',
-            '</div><div style="background: rgba(50, 50, 50, 0.15); margin-left: 5px; display: flex; align-items: center; border-radius: 4px">',
-            '</div></div>'
+            ' <div style="display:flex;"> <div style="margin-right: 8px"> ',
+            ' </div> <div style="flex: 1">',
+            '</div> <div style="background: rgba(50, 50, 50, 0.15); margin-left: 5px; display: flex; align-items: center; border-radius: 4px"> ',
+            ' </div> </div> '
           ]);
           return (
             (_templateObject27 = function() {
@@ -1371,7 +1377,7 @@
           );
         }
         function _templateObject26() {
-          var t = _taggedTemplateLiteral(['<svg .style="', '"><use href="', '"></use></svg>']);
+          var t = _taggedTemplateLiteral([' <svg .style="', '"> <use href="', '"> </use> </svg> ']);
           return (
             (_templateObject26 = function() {
               return t;
@@ -1402,7 +1408,7 @@
           );
         }
         function _templateObject23() {
-          var t = _taggedTemplateLiteral(['<div class="help-text ', '">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="help-text ', '"> ', ' </div> ']);
           return (
             (_templateObject23 = function() {
               return t;
@@ -1411,7 +1417,11 @@
           );
         }
         function _templateObject22() {
-          var t = _taggedTemplateLiteral(['<label class="control-label" for="', '">', '</label>']);
+          var t = _taggedTemplateLiteral([
+            ' <label class="control-label" for="',
+            '">',
+            '</label> '
+          ]);
           return (
             (_templateObject22 = function() {
               return t;
@@ -1421,11 +1431,11 @@
         }
         function _templateObject21() {
           var t = _taggedTemplateLiteral([
-            '<div class="field ',
-            '">',
-            '<div class="widget"><slot></slot></div>',
+            ' <div class="field ',
+            '"> ',
+            ' <div class="widget"> <slot></slot> </div> ',
             ' ',
-            '</div>'
+            ' </div> '
           ]);
           return (
             (_templateObject21 = function() {
@@ -1435,7 +1445,7 @@
           );
         }
         function _templateObject20() {
-          var t = _taggedTemplateLiteral(['<slot></slot>', '']);
+          var t = _taggedTemplateLiteral([' <slot></slot> ', ' ']);
           return (
             (_templateObject20 = function() {
               return t;
@@ -1444,7 +1454,7 @@
           );
         }
         function _templateObject19() {
-          var t = _taggedTemplateLiteral(['<div class="alert-error">', '</div>']);
+          var t = _taggedTemplateLiteral([' <div class="alert-error">', '</div> ']);
           return (
             (_templateObject19 = function() {
               return t;
@@ -1465,9 +1475,9 @@
         }
         function _templateObject17() {
           var t = _taggedTemplateLiteral([
-            '<span style="font-size: ',
-            'px;"><i class="fas fa-',
-            '"></i></span>'
+            ' <span style="font-size: ',
+            'px;"> <i class="fas fa-',
+            '"></i> </span> '
           ]);
           return (
             (_templateObject17 = function() {
@@ -1498,7 +1508,7 @@
         }
         function _templateObject14() {
           var t = _taggedTemplateLiteral([
-            '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"><div id="alias-map"></div>'
+            ' <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"> <div id="alias-map"></div> '
           ]);
           return (
             (_templateObject14 = function() {
@@ -1520,24 +1530,24 @@
         }
         function _templateObject12() {
           var t = _taggedTemplateLiteral([
-            '<div id="left-column"><div class="search"><temba-select placeholder="Search" endpoint="',
+            ' <div id="left-column"> <div class="search"> <temba-select placeholder="Search" endpoint="',
             'boundaries/',
             '/?" .renderOptionDetail="',
             '" .getOptions="',
             '" .isComplete="',
             '" @temba-selection="',
-            '" searchable></temba-select></div><div class="feature-tree">',
-            '</div></div><div id="right-column"><leaflet-map endpoint="',
+            '" searchable></temba-select> </div> <div class="feature-tree"> ',
+            ' </div> </div> <div id="right-column"> <leaflet-map endpoint="',
             '" .feature="',
             '" .osmId="',
             '" .hovered="',
             '" .onFeatureClicked="',
-            '"></leaflet-map></div><temba-dialog id="alias-dialog" header="Aliases for ',
+            '"> </leaflet-map> </div> <temba-dialog id="alias-dialog" header="Aliases for ',
             '" primaryButtonName="Save" @temba-button-clicked="',
-            '"><div class="selected"><temba-textinput .helpText="Enter other aliases for ',
+            '"> <div class="selected"> <temba-textinput .helpText="Enter other aliases for ',
             ', one per line" name="aliases" id="',
             '" .value="',
-            '" textarea></temba-textinput></div></temba-dialog>'
+            '" textarea></temba-textinput> </div> </temba-dialog> '
           ]);
           return (
             (_templateObject12 = function() {
@@ -1557,9 +1567,9 @@
         }
         function _templateObject10() {
           var t = _taggedTemplateLiteral([
-            '<div class="path">',
-            '</div><div class="aliases">',
-            '</div>'
+            ' <div class="path">',
+            '</div> <div class="aliases">',
+            '</div> '
           ]);
           return (
             (_templateObject10 = function() {
@@ -1570,9 +1580,9 @@
         }
         function _templateObject9() {
           var t = _taggedTemplateLiteral([
-            '<temba-label style="',
+            ' <temba-label style="',
             '" class="alias" dark>',
-            '</temba-label>'
+            '</temba-label> '
           ]);
           return (
             (_templateObject9 = function() {
@@ -1582,7 +1592,7 @@
           );
         }
         function _templateObject8() {
-          var t = _taggedTemplateLiteral(['', ' ', '']);
+          var t = _taggedTemplateLiteral([' ', ' ', ' ']);
           return (
             (_templateObject8 = function() {
               return t;
@@ -1592,8 +1602,8 @@
         }
         function _templateObject7() {
           var t = _taggedTemplateLiteral([
-            '<div class="edit clickable showonhover" @click="',
-            '"><fa-icon class="fas fa-pencil-alt" size="12px" path-prefix="/sitestatic"></div>'
+            ' <div class="edit clickable showonhover" @click="',
+            '"> <fa-icon class="fas fa-pencil-alt" size="12px" path-prefix="/sitestatic"> </div> '
           ]);
           return (
             (_templateObject7 = function() {
@@ -1604,9 +1614,9 @@
         }
         function _templateObject6() {
           var t = _taggedTemplateLiteral([
-            '<temba-label class="alias" @click="',
+            ' <temba-label class="alias" @click="',
             '" light clickable>',
-            '</temba-label>'
+            '</temba-label> '
           ]);
           return (
             (_templateObject6 = function() {
@@ -1617,15 +1627,15 @@
         }
         function _templateObject5() {
           var t = _taggedTemplateLiteral([
-            '<div class="feature"><div @mouseover="',
+            ' <div class="feature"> <div @mouseover="',
             '" @mouseout="',
             '" class="level-',
-            '"><div class="feature-name ',
+            '"> <div class="feature-name ',
             '" @click="',
-            '">',
-            '</div><div class="aliases">',
+            '"> ',
+            ' </div> <div class="aliases"> ',
             ' ',
-            '</div></div></div>'
+            ' </div> </div> </div> '
           ]);
           return (
             (_templateObject5 = function() {
@@ -1647,7 +1657,7 @@
         }
         function _templateObject3() {
           var t = _taggedTemplateLiteral([
-            '<temba-dialog header="',
+            ' <temba-dialog header="',
             '" .primaryButtonName="',
             '" .cancelButtonName="',
             '" ?open="',
@@ -1656,10 +1666,10 @@
             '" ?destructive="',
             '" @temba-button-clicked="',
             '" @temba-dialog-hidden="',
-            '"><div class="modax-body',
-            '">',
-            '</div><div class="scripts"></div></temba-dialog><div class="slot-wrapper" @click="',
-            '"><slot></slot></div>'
+            '"> <div class="modax-body',
+            '"> ',
+            ' </div> <div class="scripts"></div> </temba-dialog> <div class="slot-wrapper" @click="',
+            '"> <slot></slot> </div> '
           ]);
           return (
             (_templateObject3 = function() {
@@ -1669,7 +1679,7 @@
           );
         }
         function _templateObject2() {
-          var t = _taggedTemplateLiteral(['<temba-loading units="6" size="8"></temba-loading>']);
+          var t = _taggedTemplateLiteral([' <temba-loading units="6" size="8"></temba-loading> ']);
           return (
             (_templateObject2 = function() {
               return t;
@@ -1678,7 +1688,7 @@
           );
         }
         function _templateObject() {
-          var t = _taggedTemplateLiteral(['', '']);
+          var t = _taggedTemplateLiteral([' ', ' ']);
           return (
             (_templateObject = function() {
               return t;
@@ -1741,7 +1751,7 @@
                   return Object.prototype.hasOwnProperty.call(t, e);
                 }),
                 (n.p = ''),
-                n((n.s = 53))
+                n((n.s = 54))
               );
             })([
               function(t, e, n) {
@@ -2594,7 +2604,7 @@
                 var i = n(14),
                   o = n.n(i),
                   r = n(3),
-                  a = n(47),
+                  a = n(48),
                   s = function(t) {
                     var e = [];
                     Object.keys(t).forEach(function(n) {
@@ -11374,12 +11384,11 @@
                   return new Promise(function(e, n) {
                     var h = t.data,
                       d = t.headers;
-                    i.isFormData(h) && delete d['Content-Type'],
-                      (i.isBlob(h) || i.isFile(h)) && h.type && delete d['Content-Type'];
+                    i.isFormData(h) && delete d['Content-Type'];
                     var p = new XMLHttpRequest();
                     if (t.auth) {
                       var f = t.auth.username || '',
-                        m = unescape(encodeURIComponent(t.auth.password)) || '';
+                        m = t.auth.password ? unescape(encodeURIComponent(t.auth.password)) : '';
                       d.Authorization = 'Basic ' + btoa(f + ':' + m);
                     }
                     var g = s(t.baseURL, t.url);
@@ -11711,8 +11720,8 @@
               },
               function(t, e, n) {
                 var i = n(29),
-                  o = n(51),
-                  r = n(52),
+                  o = n(52),
+                  r = n(53),
                   a = (t.exports.UNICODE = 'Unicode'),
                   s = (t.exports.GSM = 'GSM');
                 t.exports.split = function(t, e) {
@@ -11761,6 +11770,7 @@
                     return Promise.all(t);
                   }),
                   (l.spread = n(46)),
+                  (l.isAxiosError = n(47)),
                   (t.exports = l),
                   (t.exports.default = l);
               },
@@ -11807,7 +11817,7 @@
                   }),
                   i.forEach(['delete', 'get', 'head', 'options'], function(t) {
                     l.prototype[t] = function(e, n) {
-                      return this.request(s(n || {}, { method: t, url: e }));
+                      return this.request(s(n || {}, { method: t, url: e, data: (n || {}).data }));
                     };
                   }),
                   i.forEach(['post', 'put', 'patch'], function(t) {
@@ -12119,6 +12129,12 @@
                   return function(e) {
                     return t.apply(null, e);
                   };
+                };
+              },
+              function(t, e, n) {
+                'use strict';
+                t.exports = function(t) {
+                  return 'object' == typeof t && !0 === t.isAxiosError;
                 };
               },
               function(t, e) {
@@ -17375,7 +17391,7 @@
                   R([Object(z.b)()], B.prototype, 'ready', void 0),
                   R([Object(z.b)({ attribute: !1 })], B.prototype, 'onButtonClicked', void 0),
                   (B = A = R([Object(z.a)('temba-dialog')], B)),
-                  n(48);
+                  n(49);
                 var N,
                   F = new WeakMap(),
                   Z = Object(c.d)(function(t) {
@@ -17536,7 +17552,7 @@
                   H([Object(i.e)({ type: Array })], q.prototype, 'values', void 0),
                   H([Object(i.e)({ type: String })], q.prototype, 'value', void 0),
                   H([Object(i.e)({ attribute: !1 })], q.prototype, 'inputRoot', void 0),
-                  n(49),
+                  n(50),
                   (function(t) {
                     (t.light = 'light'),
                       (t.dark = 'dark'),
@@ -18083,6 +18099,8 @@
                         (t.loading = !0),
                         (t.ignoreSubmit = !1),
                         (t.counterElement = null),
+                        (t.cursorStart = -1),
+                        (t.cursorEnd = -1),
                         t
                       );
                     }
@@ -18133,7 +18151,16 @@
                             value: function(t) {
                               _get(_getPrototypeOf(n.prototype), 'updated', this).call(this, t),
                                 t.has('value') &&
-                                  (this.setValues([this.value]), this.fireEvent('change'));
+                                  (this.setValues([this.value]),
+                                  this.fireEvent('change'),
+                                  this.cursorStart > -1 &&
+                                    this.cursorEnd > -1 &&
+                                    (this.inputElement.setSelectionRange(
+                                      this.cursorStart,
+                                      this.cursorEnd
+                                    ),
+                                    (this.cursorStart = -1),
+                                    (this.cursorEnd = -1)));
                             }
                           },
                           {
@@ -18145,7 +18172,12 @@
                           {
                             key: 'updateValue',
                             value: function(t) {
-                              (this.value = this.sanitizeGSM(t)),
+                              var e = this.inputElement.selectionStart,
+                                n = this.inputElement.selectionEnd,
+                                i = this.sanitizeGSM(t);
+                              i !== t && ((this.cursorStart = e), (this.cursorEnd = n)),
+                                (this.value = i),
+                                this.textarea && (this.inputElement.value = this.value),
                                 this.counterElement && (this.counterElement.text = t);
                             }
                           },
@@ -19033,6 +19065,7 @@
                     'run',
                     'child',
                     'parent',
+                    'node',
                     'webhook',
                     'trigger'
                   ])),
@@ -19052,7 +19085,7 @@
                   lt = n(17),
                   ct = n(20),
                   ut = n.n(ct),
-                  ht = n(50),
+                  ht = n(51),
                   dt = Object(c.d)(function(t) {
                     return function(e) {
                       e.setValue(Object(lt.a)(ht(t)));
@@ -20756,4 +20789,4 @@
     }
   }
 ]);
-//# sourceMappingURL=3.f606f891.chunk.js.map
+//# sourceMappingURL=3.1f403ff4.chunk.js.map

@@ -567,25 +567,6 @@
         node_spacing: '13',
         node_padding: '3',
         'background-size': '13',
-        recipients: 'SendBroadcast_recipients__1ZSQV',
-        attachment: 'SendBroadcast_attachment__2pm0s',
-        whatsapp: 'SendBroadcast_whatsapp__8p4Pd',
-        node: 'SendBroadcast_node__26RLX',
-        to: 'SendBroadcast_to__25_7K',
-        name: 'SendBroadcast_name__RNJWu',
-        icon: 'SendBroadcast_icon__2YfpF',
-        more: 'SendBroadcast_more__11MJm',
-        message: 'SendBroadcast_message__6ZIco',
-        icons: 'SendBroadcast_icons__19jbq',
-        line: 'SendBroadcast_line__3Dm3R'
-      };
-    },
-    function(e, t, a) {
-      e.exports = {
-        grid_size: '20',
-        node_spacing: '13',
-        node_padding: '3',
-        'background-size': '13',
         template_text: 'SendBroadcastForm_template_text__16ol9',
         variable: 'SendBroadcastForm_variable__1nw9U',
         crossIcon: 'SendBroadcastForm_crossIcon__aTZFs',
@@ -631,6 +612,25 @@
         circles: 'MediaPlayer_circles__1pr_0',
         circle_background: 'MediaPlayer_circle_background__OMPcS',
         circle_foreground: 'MediaPlayer_circle_foreground__1L6K9'
+      };
+    },
+    function(e, t, a) {
+      e.exports = {
+        grid_size: '20',
+        node_spacing: '13',
+        node_padding: '3',
+        'background-size': '13',
+        recipients: 'SendBroadcast_recipients__1ZSQV',
+        attachment: 'SendBroadcast_attachment__2pm0s',
+        whatsapp: 'SendBroadcast_whatsapp__8p4Pd',
+        node: 'SendBroadcast_node__26RLX',
+        to: 'SendBroadcast_to__25_7K',
+        name: 'SendBroadcast_name__RNJWu',
+        icon: 'SendBroadcast_icon__2YfpF',
+        more: 'SendBroadcast_more__11MJm',
+        message: 'SendBroadcast_message__6ZIco',
+        icons: 'SendBroadcast_icons__19jbq',
+        line: 'SendBroadcast_line__3Dm3R'
       };
     },
     function(e, t, a) {
@@ -2031,7 +2031,7 @@
           }
         }),
         Fe = a(15),
-        Pe = a(58),
+        Pe = a(57),
         Ie = a.n(Pe),
         Me = a(72),
         Le = a(22),
@@ -2374,7 +2374,7 @@
               var t = n[e];
               i.push(
                 Je(t.endpoint, t.type, t.id || 'uuid').then(function(e) {
-                  (t.items = Sl(e)), (t.prefetched = !0);
+                  (t.items = wl(e)), (t.prefetched = !0);
                 })
               );
             }),
@@ -3269,7 +3269,7 @@
                   var e, t;
                   return (
                     void 0 === this.typeConfigs &&
-                      (this.typeConfigs = ((e = kr), (t = this.context.config), Ht(Wt(e, t), t))),
+                      (this.typeConfigs = ((e = br), (t = this.context.config), Ht(Wt(e, t), t))),
                     this.typeConfigs
                   );
                 }
@@ -3669,7 +3669,7 @@
       var ba,
         ka,
         Ea = function(e) {
-          return yr.find(function(t) {
+          return fr.find(function(t) {
             return t.scheme === e;
           });
         },
@@ -3934,7 +3934,7 @@
                           name: Pt.t('forms.urn_type', 'URN Type'),
                           entry: this.state.scheme,
                           onChange: this.handleSchemeChanged,
-                          options: yr.map(function(e) {
+                          options: fr.map(function(e) {
                             return wa(e);
                           })
                         })
@@ -4086,7 +4086,6 @@
                       shouldExclude: Fa,
                       placeholder: Pt.t('select_groups', 'Select Collection'),
                       expressions: !0,
-                      createPrefix: Pt.t('create_group', 'Create Collection') + ': ',
                       createAssetFromInput: this.handleCreateAssetFromInput,
                       onAssetCreated: this.handleGroupAdded
                     }),
@@ -4364,15 +4363,15 @@
         $a = function(e) {
           var t = e.originalNode,
             a = t && t.node;
-          if (e.originalAction && e.originalAction.type) return Cr(e.originalAction.type);
+          if (e.originalAction && e.originalAction.type) return Er(e.originalAction.type);
           if (a && a.actions && a.actions.length > 0)
-            return Cr(a.actions[a.actions.length - 1].type);
+            return Er(a.actions[a.actions.length - 1].type);
           try {
-            var n = wr(t),
-              i = Cr(n);
+            var n = Cr(t),
+              i = Er(n);
             if (i.type !== Ee.missing) return i;
           } catch (Error) {}
-          if (a && a.router) return Cr(a.router.type);
+          if (a && a.router) return Er(a.router.type);
           throw new Error("Couldn't determine type config for: ".concat(a.uuid));
         },
         Za = function(e, t, a) {
@@ -4399,7 +4398,7 @@
                   a = e.localizations[0],
                   n = a.getObject();
                 return (
-                  ((e.originalAction && Cr(e.originalAction.type).localizeableKeys) || []).forEach(
+                  ((e.originalAction && Er(e.originalAction.type).localizeableKeys) || []).forEach(
                     function(e) {
                       t[e] = { value: e in a.localizedKeys ? n[e] : '' };
                     }
@@ -5149,7 +5148,7 @@
             a
           );
         })(k.Component),
-        dn = a(60),
+        dn = a(59),
         pn = a.n(dn),
         hn = (function(e) {
           Object(g.a)(a, e);
@@ -5424,51 +5423,47 @@
           );
         })(k.Component);
       fn.contextTypes = { config: bt };
-      var yn = a(52),
+      var yn = a(60),
         bn = a.n(yn),
-        kn = Pt.t('actions.send_broadcast.placeholder', 'Send a message to the contact'),
-        En = function(e, t) {
-          var a = ct(e);
-          return e.text
-            ? k.createElement(
+        kn =
+          (Pt.t('actions.send_broadcast.placeholder', 'Send a message to the contact'),
+          function(e, t) {
+            var a = ct(e);
+            return k.createElement(
+              'div',
+              { className: bn.a.node },
+              k.createElement(
                 'div',
-                { className: bn.a.node },
-                k.createElement(
-                  'div',
-                  { className: bn.a.to, key: e.uuid + '_broadcast_recipients' },
-                  ut(a, 5, t.config.endpoints)
-                ),
-                k.createElement(
-                  'div',
-                  { className: bn.a.message },
+                { className: bn.a.to, key: e.uuid + '_broadcast_recipients' },
+                ut(a, 5, t.config.endpoints)
+              ),
+              k.createElement(
+                'div',
+                { className: bn.a.message },
+                e.text &&
                   e.text.split(/\r?\n/).map(function(t, a) {
                     return k.createElement('div', { key: e.uuid + a, className: bn.a.line }, t);
                   }),
-                  k.createElement(
-                    'div',
-                    { className: bn.a.icons },
-                    e.attachments && e.attachments.length > 0
-                      ? k.createElement('div', {
-                          className: ''.concat(bn.a.attachment, ' fe-paperclip')
-                        })
-                      : null,
-                    e.templating && e.templating.template
-                      ? k.createElement('div', {
-                          className: ''.concat(bn.a.whatsapp, ' fe-whatsapp')
-                        })
-                      : null
-                  )
+                k.createElement(
+                  'div',
+                  { className: bn.a.icons },
+                  e.attachments && e.attachments.length > 0
+                    ? k.createElement('div', {
+                        className: ''.concat(bn.a.attachment, ' fe-paperclip')
+                      })
+                    : null,
+                  e.templating && e.templating.template
+                    ? k.createElement('div', {
+                        className: ''.concat(bn.a.whatsapp, ' fe-whatsapp')
+                      })
+                    : null
                 )
               )
-            : e.attachments && e.attachments.length > 0
-            ? k.createElement('div', { className: ''.concat(bn.a.attachment, ' fe-paperclip') })
-            : e.templating && e.templating.template
-            ? k.createElement('div', { className: ''.concat(bn.a.whatsapp, ' fe-whatsapp') })
-            : k.createElement('div', { className: 'placeholder' }, kn);
-        };
-      En.contextTypes = { config: bt };
-      var Cn = En,
-        wn = function(e, t) {
+            );
+          });
+      kn.contextTypes = { config: bt };
+      var En = kn,
+        Cn = function(e, t) {
           var a = t.attachments
               .filter(function(e) {
                 return e.url.trim().length > 0;
@@ -5505,20 +5500,20 @@
           };
           return n && (o.templating = n), o;
         },
-        Sn = a(53),
-        Nn = a.n(Sn),
-        On = a(143),
-        xn = a.n(On),
-        jn = function(e) {
+        wn = a(52),
+        Sn = a.n(wn),
+        Nn = a(143),
+        On = a.n(Nn),
+        xn = function(e) {
           var t = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(e);
           return t ? { r: parseInt(t[1], 16), g: parseInt(t[2], 16), b: parseInt(t[3], 16) } : null;
         },
-        Tn = (function(e) {
+        jn = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
-            return Object(m.a)(this, a), ((n = t.call(this, e)).state = { color: jn(e.color) }), n;
+            return Object(m.a)(this, a), ((n = t.call(this, e)).state = { color: xn(e.color) }), n;
           }
           return (
             Object(_.a)(a, [
@@ -5529,7 +5524,7 @@
                   return k.createElement(
                     'div',
                     {
-                      className: xn.a.loading,
+                      className: On.a.loading,
                       style: {
                         width: this.props.size * this.props.units * 2,
                         height: this.props.size
@@ -5559,14 +5554,14 @@
             a
           );
         })(k.Component),
-        An = a(85),
-        Rn = [
+        Tn = a(85),
+        An = [
           { value: 'image', name: Pt.t('forms.image_url', 'Image URL') },
           { value: 'audio', name: Pt.t('forms.audio_url', 'Audio URL') },
           { value: 'video', name: Pt.t('forms.video_url', 'Video URL') },
           { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
         ],
-        Un = (function(e) {
+        Rn = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -5670,17 +5665,17 @@
                     )
                     .then(function(e) {
                       if (e.data.is_valid) {
-                        var n = !0;
+                        var t = !0;
                         a.state.recipients.value.length <= 0 && !a.state.message.value
-                          ? (n = a.handleUpdate({ recipients: a.state.recipients.value }, !0))
+                          ? (t = a.handleUpdate({ recipients: a.state.recipients.value }, !0))
                           : a.state.recipients.value.length > 0 &&
                             !a.state.message.value &&
-                            (n = !0),
-                          n
-                            ? (a.props.updateAction(wn(a.props.nodeSettings, a.state)),
+                            (t = !0),
+                          t
+                            ? (a.props.updateAction(Cn(a.props.nodeSettings, a.state)),
                               a.props.onClose(!1))
-                            : a.setState({ valid: n });
-                      } else a.setState({ attachmentError: 'Not a valid '.concat(t, ' url') });
+                            : a.setState({ valid: t });
+                      } else a.setState({ attachmentError: e.data.message });
                     })
                     .catch(function(e) {
                       a.setState({
@@ -5726,7 +5721,7 @@
                             !this.state.message.value &&
                             (a = !0)),
                       a
-                        ? (this.props.updateAction(wn(this.props.nodeSettings, this.state)),
+                        ? (this.props.updateAction(Cn(this.props.nodeSettings, this.state)),
                           this.props.onClose(!1))
                         : this.setState({ templateVariables: n, valid: a });
                   }
@@ -5818,13 +5813,13 @@
                           null,
                           k.createElement(
                             'div',
-                            { className: Nn.a.template_text },
+                            { className: Sn.a.template_text },
                             this.state.templateTranslation.content
                           ),
                           ee(0, this.state.templateTranslation.variable_count).map(function(t) {
                             return k.createElement(
                               'div',
-                              { className: Nn.a.variable, key: 'tr_arg_' + t },
+                              { className: Sn.a.variable, key: 'tr_arg_' + t },
                               k.createElement(ja, {
                                 name: ''
                                   .concat(Pt.t('forms.variable', 'Variable'), ' ')
@@ -5867,10 +5862,10 @@
                     null,
                     k.createElement(
                       'div',
-                      { className: Nn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
+                      { className: Sn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
                       k.createElement(
                         'div',
-                        { className: Nn.a.type_choice },
+                        { className: Sn.a.type_choice },
                         k.createElement(Na, {
                           key: 'attachment_type_' + e,
                           style: Ft.small,
@@ -5880,7 +5875,7 @@
                             value:
                               e > -1
                                 ? ((a = t.type),
-                                  Rn.find(function(e) {
+                                  An.find(function(e) {
                                     return e.value === a;
                                   }))
                                 : null
@@ -5895,7 +5890,7 @@
                                   )),
                               n.setState({ attachments: i });
                           },
-                          options: Rn
+                          options: An
                         })
                       ),
                       e > -1
@@ -5904,7 +5899,7 @@
                             null,
                             k.createElement(
                               'div',
-                              { className: Nn.a.url },
+                              { className: Sn.a.url },
                               k.createElement(ja, {
                                 placeholder: 'URL',
                                 name: Pt.t('forms.url', 'URL'),
@@ -5922,7 +5917,7 @@
                             ),
                             k.createElement(
                               'div',
-                              { className: Nn.a.remove },
+                              { className: Sn.a.remove },
                               k.createElement(nn, {
                                 icon: 'fe-x',
                                 text: ' Remove',
@@ -5935,19 +5930,19 @@
                           )
                         : null
                     ),
-                    this.state.validAttachment && !this.state.attachmentError
+                    this.state.valid && this.state.validAttachment && !this.state.attachmentError
                       ? k.createElement(
                           'div',
-                          { className: Nn.a.loading },
+                          { className: Sn.a.loading },
                           'Checking URL validity',
-                          k.createElement(Tn, { size: 10, units: 6, color: '#999999' })
+                          k.createElement(jn, { size: 10, units: 6, color: '#999999' })
                         )
                       : null,
                     this.state.attachmentError
                       ? k.createElement(
                           'div',
-                          { className: Nn.a.error },
-                          k.createElement(An.a, { className: Nn.a.crossIcon }),
+                          { className: Sn.a.error },
+                          k.createElement(Tn.a, { className: Sn.a.crossIcon }),
                           this.state.attachmentError
                         )
                       : null
@@ -5983,6 +5978,12 @@
                 }
               },
               {
+                key: 'checkAttachmentErrors',
+                value: function() {
+                  return !!this.state.valid && this.state.validAttachment;
+                }
+              },
+              {
                 key: 'render',
                 value: function() {
                   var e = this.props.typeConfig,
@@ -5998,7 +5999,7 @@
                       name: 'Attachments',
                       body: this.renderAttachments(),
                       checked: this.state.attachments.length > 0,
-                      hasErrors: this.state.validAttachment
+                      hasErrors: this.checkAttachmentErrors()
                     };
                   return k.createElement(
                     me,
@@ -6042,12 +6043,12 @@
             a
           );
         })(k.Component);
-      Un.contextTypes = { endpoints: bt, assetService: bt };
-      var Dn = function(e) {
+      Rn.contextTypes = { endpoints: bt, assetService: bt };
+      var Un = function(e) {
           var t = e.subject;
           return k.createElement('div', null, t);
         },
-        Fn = {
+        Dn = {
           control: function(e, t) {
             return Object(y.a)(
               Object(y.a)({}, e),
@@ -6091,8 +6092,8 @@
             );
           }
         },
-        Pn = a(159),
-        In = (function(e) {
+        Fn = a(159),
+        Pn = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -6147,8 +6148,8 @@
                   return E.a.createElement(
                     jt,
                     { name: this.props.name, entry: this.props.entry },
-                    E.a.createElement(Pn.a, {
-                      styles: Fn,
+                    E.a.createElement(Fn.a, {
+                      styles: Dn,
                       className: t,
                       name: this.props.name,
                       placeholder: this.props.placeholder,
@@ -6174,10 +6175,10 @@
             a
           );
         })(E.a.Component),
-        Mn = a(87),
-        Ln = a.n(Mn),
-        zn = /\S+@\S+\.\S+/,
-        Bn = (function(e) {
+        In = a(87),
+        Mn = a.n(In),
+        Ln = /\S+@\S+\.\S+/,
+        zn = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -6285,7 +6286,7 @@
               {
                 key: 'handleCheckValid',
                 value: function(e) {
-                  return zn.test(e) || e.startsWith('@');
+                  return Ln.test(e) || e.startsWith('@');
                 }
               },
               {
@@ -6302,8 +6303,8 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: Ln.a.ele },
-                      k.createElement(In, {
+                      { className: Mn.a.ele },
+                      k.createElement(Pn, {
                         name: Pt.t('forms.email_recipient_name', 'Recipient'),
                         placeholder: Pt.t('forms.email_recipient_placeholder', 'To'),
                         prompt: Pt.t('forms.email_recipient_prompt', 'Enter email address'),
@@ -6313,7 +6314,7 @@
                         createPrompt: ''
                       }),
                       k.createElement(ja, {
-                        __className: Ln.a.subject,
+                        __className: Mn.a.subject,
                         name: Pt.t('forms.subject', 'Subject'),
                         placeholder: Pt.t('forms.subject', 'Subject'),
                         onChange: this.handleSubjectChanged,
@@ -6321,7 +6322,7 @@
                         autocomplete: !0
                       }),
                       k.createElement(ja, {
-                        __className: Ln.a.message,
+                        __className: Mn.a.message,
                         name: Pt.t('forms.message', 'Message'),
                         showLabel: !1,
                         onChange: this.handleBodyChanged,
@@ -6338,10 +6339,10 @@
             a
           );
         })(k.Component),
-        Vn = a(55),
-        qn = a.n(Vn),
-        Hn = Pt.t('actions.send_msg.placeholder', 'Send a message to the contact'),
-        Wn = function(e) {
+        Bn = a(54),
+        Vn = a.n(Bn),
+        qn = Pt.t('actions.send_msg.placeholder', 'Send a message to the contact'),
+        Hn = function(e) {
           if (e.text) {
             var t = null,
               a = e.quick_replies || [];
@@ -6349,7 +6350,7 @@
               a.length > 0 &&
                 (t = k.createElement(
                   'div',
-                  { className: qn.a.quick_replies },
+                  { className: Vn.a.quick_replies },
                   a.map(function(t) {
                     return k.createElement(nn, {
                       style: { marginLeft: 4, marginTop: 4 },
@@ -6367,41 +6368,41 @@
                   'div',
                   null,
                   e.text.split(/\r?\n/).map(function(t, a) {
-                    return k.createElement('div', { key: e.uuid + a, className: qn.a.line }, t);
+                    return k.createElement('div', { key: e.uuid + a, className: Vn.a.line }, t);
                   }),
                   e.attachments && e.attachments.length > 0
                     ? k.createElement('div', {
-                        className: ''.concat(qn.a.attachment, ' fe-paperclip')
+                        className: ''.concat(Vn.a.attachment, ' fe-paperclip')
                       })
                     : null,
                   e.templating && e.templating.template
                     ? k.createElement('div', {
-                        className: ''.concat(qn.a.whatsapp, ' fe-whatsapp')
+                        className: ''.concat(Vn.a.whatsapp, ' fe-whatsapp')
                       })
                     : null,
                   e.topic
                     ? k.createElement('div', {
-                        className: ''.concat(qn.a.facebook, ' fe-facebook')
+                        className: ''.concat(Vn.a.facebook, ' fe-facebook')
                       })
                     : null
                 ),
-                k.createElement('div', { className: qn.a.summary }, t)
+                k.createElement('div', { className: Vn.a.summary }, t)
               )
             );
           }
           return e.attachments && e.attachments.length > 0
-            ? k.createElement('div', { className: ''.concat(qn.a.attachment, ' fe-paperclip') })
+            ? k.createElement('div', { className: ''.concat(Vn.a.attachment, ' fe-paperclip') })
             : e.templating && e.templating.template
-            ? k.createElement('div', { className: ''.concat(qn.a.whatsapp, ' fe-whatsapp') })
-            : k.createElement('div', { className: 'placeholder' }, Hn);
+            ? k.createElement('div', { className: ''.concat(Vn.a.whatsapp, ' fe-whatsapp') })
+            : k.createElement('div', { className: 'placeholder' }, qn);
         },
-        Gn = [
+        Wn = [
           { value: 'event', name: 'Event' },
           { value: 'account', name: 'Account' },
           { value: 'purchase', name: 'Purchase' },
           { value: 'agent', name: 'Agent' }
         ],
-        Kn = function(e, t) {
+        Gn = function(e, t) {
           var a = t.attachments
               .filter(function(e) {
                 return e.url.trim().length > 0;
@@ -6437,15 +6438,15 @@
           };
           return n && (o.templating = n), t.topic.value && (o.topic = t.topic.value.value), o;
         },
-        Yn = (k.Component, a(40)),
-        Xn = a.n(Yn),
-        Qn = [
+        Kn = (k.Component, a(40)),
+        Yn = a.n(Kn),
+        Xn = [
           { value: 'image', name: Pt.t('forms.image_url', 'Image URL') },
           { value: 'audio', name: Pt.t('forms.audio_url', 'Audio URL') },
           { value: 'video', name: Pt.t('forms.video_url', 'Video URL') },
           { value: 'application', name: Pt.t('forms.pdf_url', 'PDF Document URL') }
         ],
-        Jn = (function(e) {
+        Qn = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -6476,7 +6477,7 @@
                   }
                   return {
                     topic: {
-                      value: Gn.find(function(e) {
+                      value: Wn.find(function(e) {
                         return e.value === i.topic;
                       })
                     },
@@ -6575,18 +6576,18 @@
                     )
                     .then(function(e) {
                       if (e.data.is_valid) {
-                        var n = !0,
-                          i = a.state.templateVariables;
-                        a.state.templateVariables.forEach(function(e, t) {
-                          var a = ra('Variable '.concat(t + 1), e.value, [la]);
-                          (i = $t()(i, Object(S.a)({}, t, { $merge: a }))), (n = n && !ht(a));
+                        var t = !0,
+                          n = a.state.templateVariables;
+                        a.state.templateVariables.forEach(function(e, a) {
+                          var i = ra('Variable '.concat(a + 1), e.value, [la]);
+                          (n = $t()(n, Object(S.a)({}, a, { $merge: i }))), (t = t && !ht(i));
                         }),
-                          (n = n && !ht(a.state.quickReplyEntry))
+                          (t = t && !ht(a.state.quickReplyEntry))
                             ? (a.setState({ validAttachment: !1 }),
-                              a.props.updateAction(Kn(a.props.nodeSettings, a.state)),
+                              a.props.updateAction(Gn(a.props.nodeSettings, a.state)),
                               a.props.onClose(!1))
-                            : a.setState({ templateVariables: i, valid: n });
-                      } else a.setState({ attachmentError: 'Not a valid '.concat(t, ' url') });
+                            : a.setState({ templateVariables: n, valid: t });
+                      } else a.setState({ attachmentError: e.data.message });
                     })
                     .catch(function(e) {
                       a.setState({
@@ -6626,7 +6627,7 @@
                       (a = a && !ht(this.state.quickReplyEntry)),
                       n.length > 0 && !this.state.message.value && (a = !a),
                       a
-                        ? (this.props.updateAction(Kn(this.props.nodeSettings, this.state)),
+                        ? (this.props.updateAction(Gn(this.props.nodeSettings, this.state)),
                           this.props.onClose(!1))
                         : this.setState({ templateVariables: n, valid: a });
                   }
@@ -6660,25 +6661,25 @@
                   var a = this;
                   return k.createElement(
                     'div',
-                    { className: Xn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
+                    { className: Yn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
                     k.createElement(
                       'div',
-                      { className: Xn.a.type_choice },
+                      { className: Yn.a.type_choice },
                       k.createElement(Na, {
                         key: 'attachment_type_' + e,
                         name: Pt.t('forms.type', 'Type'),
                         style: Ft.small,
                         entry: { value: { name: t.type } },
-                        options: Qn,
+                        options: Xn,
                         disabled: !0
                       })
                     ),
                     k.createElement(
                       'div',
-                      { className: Xn.a.url },
+                      { className: Yn.a.url },
                       k.createElement(
                         'span',
-                        { className: Xn.a.upload },
+                        { className: Yn.a.upload },
                         k.createElement(nn, {
                           icon: 'fe-download',
                           text: 'Download',
@@ -6689,7 +6690,7 @@
                         }),
                         k.createElement(
                           'div',
-                          { className: Xn.a.remove_upload },
+                          { className: Yn.a.remove_upload },
                           k.createElement(nn, {
                             icon: 'fe-x',
                             text: 'Remove',
@@ -6738,10 +6739,10 @@
                     null,
                     k.createElement(
                       'div',
-                      { className: Xn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
+                      { className: Yn.a.url_attachment, key: e > -1 ? 'url_attachment_' + e : Z() },
                       k.createElement(
                         'div',
-                        { className: Xn.a.type_choice },
+                        { className: Yn.a.type_choice },
                         k.createElement(Na, {
                           key: 'attachment_type_' + e,
                           style: Ft.small,
@@ -6751,7 +6752,7 @@
                             value:
                               e > -1
                                 ? ((a = t.type),
-                                  Qn.find(function(e) {
+                                  Xn.find(function(e) {
                                     return e.value === a;
                                   }))
                                 : null
@@ -6770,7 +6771,7 @@
                                       )),
                                 n.setState({ attachments: i }));
                           },
-                          options: Qn
+                          options: Xn
                         })
                       ),
                       e > -1
@@ -6779,7 +6780,7 @@
                             null,
                             k.createElement(
                               'div',
-                              { className: Xn.a.url },
+                              { className: Yn.a.url },
                               k.createElement(ja, {
                                 placeholder: 'URL',
                                 name: Pt.t('forms.url', 'URL'),
@@ -6797,7 +6798,7 @@
                             ),
                             k.createElement(
                               'div',
-                              { className: Xn.a.remove },
+                              { className: Yn.a.remove },
                               k.createElement(nn, {
                                 icon: 'fe-x',
                                 text: ' Remove',
@@ -6813,16 +6814,16 @@
                     this.state.validAttachment && !this.state.attachmentError
                       ? k.createElement(
                           'div',
-                          { className: Xn.a.loading },
+                          { className: Yn.a.loading },
                           'Checking URL validity',
-                          k.createElement(Tn, { size: 10, units: 6, color: '#999999' })
+                          k.createElement(jn, { size: 10, units: 6, color: '#999999' })
                         )
                       : null,
                     this.state.attachmentError
                       ? k.createElement(
                           'div',
-                          { className: Xn.a.error },
-                          k.createElement(An.a, { className: Xn.a.crossIcon }),
+                          { className: Yn.a.error },
+                          k.createElement(Tn.a, { className: Yn.a.crossIcon }),
                           this.state.attachmentError
                         )
                       : null
@@ -6926,7 +6927,7 @@
                       name: Pt.t('forms.method', 'Method'),
                       entry: this.state.topic,
                       onChange: this.handleTopicUpdate,
-                      options: Gn,
+                      options: Wn,
                       placeholder: Pt.t(
                         'forms.send_msg_facebook_topic_placeholder',
                         'Select a topic to use over Facebook'
@@ -6973,13 +6974,13 @@
                           null,
                           k.createElement(
                             'div',
-                            { className: Xn.a.template_text },
+                            { className: Yn.a.template_text },
                             this.state.templateTranslation.content
                           ),
                           ee(0, this.state.templateTranslation.variable_count).map(function(t) {
                             return k.createElement(
                               'div',
-                              { className: Xn.a.variable, key: 'tr_arg_' + t },
+                              { className: Yn.a.variable, key: 'tr_arg_' + t },
                               k.createElement(ja, {
                                 name: ''
                                   .concat(Pt.t('forms.variable', 'Variable'), ' ')
@@ -7029,7 +7030,7 @@
                       }),
                     a =
                       (Pt.t('forms.all_destinations', 'All Destinations'),
-                      Xn.a.checkbox,
+                      Yn.a.checkbox,
                       this.state.sendAll,
                       Pt.t(
                         'forms.all_destinations',
@@ -7038,7 +7039,7 @@
                       this.handleSendAllUpdate,
                       this.state.sendAll,
                       [t]);
-                  if (Sr(this.context.config, we.HAS_WHATSAPP)) {
+                  if (wr(this.context.config, we.HAS_WHATSAPP)) {
                     var n = {
                       name: 'WhatsApp',
                       body: this.renderTemplateConfig(),
@@ -7080,8 +7081,8 @@
             a
           );
         })(k.Component);
-      Jn.contextTypes = { config: bt };
-      var $n = function(e) {
+      Qn.contextTypes = { config: bt };
+      var Jn = function(e) {
           var t = e.value,
             a = e.name;
           return t
@@ -7092,9 +7093,9 @@
                 return k.createElement('div', null, 'Clear value for ', H(e));
               })(a);
         },
-        Zn = a(88),
-        ei = a.n(Zn),
-        ti = (function(e) {
+        $n = a(88),
+        Zn = a.n($n),
+        ei = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -7225,7 +7226,7 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: ei.a.form },
+                      { className: Zn.a.form },
                       k.createElement(Vt, {
                         name: Pt.t('forms.result', 'Result'),
                         assets: this.props.assetStore.results,
@@ -7249,7 +7250,7 @@
                         )
                       }),
                       k.createElement(ja, {
-                        __className: ei.a.value,
+                        __className: Zn.a.value,
                         name: Pt.t('forms.value', 'Value'),
                         showLabel: !0,
                         onChange: this.handleValueUpdate,
@@ -7259,7 +7260,7 @@
                           'The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))'
                       }),
                       k.createElement(ja, {
-                        __className: ei.a.category,
+                        __className: Zn.a.category,
                         name: Pt.t('forms.category', 'Category'),
                         placeholder: 'Optional',
                         showLabel: !0,
@@ -7278,7 +7279,7 @@
             a
           );
         })(k.PureComponent),
-        ai = function(e, t) {
+        ti = function(e, t) {
           var a = e.flow,
             n = a.name,
             i = a.uuid;
@@ -7288,18 +7289,18 @@
             ut([{ name: n, id: i, type: fe.Flow }], 3, t.config.endpoints)
           );
         };
-      ai.contextTypes = { config: bt };
-      var ni = ai,
-        ii = a(89),
-        si = a.n(ii),
-        oi = function(e, t) {
+      ti.contextTypes = { config: bt };
+      var ai = ti,
+        ni = a(89),
+        ii = a.n(ni),
+        si = function(e, t) {
           var a = ct(e);
           return k.createElement(
             'div',
-            { className: si.a.node },
+            { className: ii.a.node },
             k.createElement(
               'div',
-              { className: si.a.to },
+              { className: ii.a.to },
               e.create_contact
                 ? 'Create a new contact'
                 : e.contact_query
@@ -7308,19 +7309,19 @@
             ),
             k.createElement(
               'div',
-              { className: si.a.flow },
+              { className: ii.a.flow },
               dt({ name: e.flow.name, id: e.flow.uuid, type: fe.Flow }, t.config.endpoints)
             )
           );
         };
-      oi.contextTypes = { config: bt };
-      var ri,
-        li = oi,
-        ci = { name: 'Select recipients manually', value: 'assets' },
-        ui = { name: 'Create a new contact', value: 'create_contact' },
-        di = { name: 'Select recipients from a query', value: 'contact_query' },
-        pi = [ci, di, ui],
-        hi = (function(e) {
+      si.contextTypes = { config: bt };
+      var oi,
+        ri = si,
+        li = { name: 'Select recipients manually', value: 'assets' },
+        ci = { name: 'Create a new contact', value: 'create_contact' },
+        ui = { name: 'Select recipients from a query', value: 'contact_query' },
+        di = [li, ui, ci],
+        pi = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -7333,7 +7334,7 @@
                   return {
                     recipients: { value: ct(t) },
                     flow: { value: t.flow },
-                    startType: { value: t.create_contact ? ui : t.contact_query ? di : ci },
+                    startType: { value: t.create_contact ? ci : t.contact_query ? ui : li },
                     contactQuery: { value: t.contact_query || '' },
                     valid: !0
                   };
@@ -7341,7 +7342,7 @@
                 return {
                   recipients: { value: [] },
                   flow: { value: null },
-                  startType: { value: ci },
+                  startType: { value: li },
                   contactQuery: { value: '' },
                   valid: !1
                 };
@@ -7384,17 +7385,17 @@
                     a = {};
                   e.hasOwnProperty('startType') &&
                     ((a.startType = { value: e.startType }),
-                    e.startType !== ci && (a.recipients = { value: [] }),
-                    e.startType !== di && (a.contactQuery = { value: '' })),
+                    e.startType !== li && (a.recipients = { value: [] }),
+                    e.startType !== ui && (a.contactQuery = { value: '' })),
                     e.hasOwnProperty('contactQuery') &&
                       (a.contactQuery = ra(
                         Pt.t('forms.contact_query', 'Contact Query'),
                         e.contactQuery,
-                        [ua(t && this.state.startType.value === di)]
+                        [ua(t && this.state.startType.value === ui)]
                       )),
                     e.hasOwnProperty('recipients') &&
                       (a.recipients = ra(Pt.t('forms.recipients', 'Recipients'), e.recipients, [
-                        ua(t && this.state.startType.value === ci)
+                        ua(t && this.state.startType.value === li)
                       ])),
                     e.hasOwnProperty('flow') &&
                       (a.flow = ra(Pt.t('forms.flow', 'Flow'), e.flow, [ua(t)]));
@@ -7420,7 +7421,7 @@
                             legacy_vars: mt(t.recipients.value),
                             contacts: _t(t.recipients.value, fe.Contact),
                             groups: _t(t.recipients.value, fe.Group),
-                            create_contact: t.startType.value === ui,
+                            create_contact: t.startType.value === ci,
                             flow: { name: a.name, uuid: a.uuid },
                             type: Ee.start_session,
                             uuid: lt(e, Ee.start_session)
@@ -7466,14 +7467,14 @@
                         name: Pt.t('forms.start_type', 'Start Type'),
                         entry: this.state.startType,
                         onChange: this.handleStartTypeChanged,
-                        options: pi
+                        options: di
                       })
                     ),
                     k.createElement('p', null),
                     k.createElement(
                       'div',
                       null,
-                      G(this.state.startType.value === ci)(
+                      G(this.state.startType.value === li)(
                         k.createElement(
                           'div',
                           { 'data-testid': 'recipients' },
@@ -7489,7 +7490,7 @@
                           k.createElement('p', null)
                         )
                       ),
-                      G(this.state.startType.value === di)(
+                      G(this.state.startType.value === ui)(
                         k.createElement(
                           'div',
                           { 'data-testid': 'contact_query' },
@@ -7521,52 +7522,52 @@
             a
           );
         })(k.Component),
-        mi = a(101),
-        _i = a.n(mi),
-        vi = function(e) {
+        hi = a(101),
+        mi = a.n(hi),
+        _i = function(e) {
           var t = Object.keys(e.amounts).map(function(t) {
             return k.createElement(
               'div',
               { key: 'transfer_' + t },
-              k.createElement('div', { className: _i.a.amount }, e.amounts[t]),
-              k.createElement('div', { className: _i.a.code }, t)
+              k.createElement('div', { className: mi.a.amount }, e.amounts[t]),
+              k.createElement('div', { className: mi.a.code }, t)
             );
           });
           return k.createElement('div', null, t);
         },
-        gi = a(36),
-        fi = function(e, t) {
+        vi = a(36),
+        gi = function(e, t) {
           return t ? H(e) : e;
         },
-        yi = function(e, t) {
+        fi = function(e, t) {
           var a = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
           return t
             ? k.createElement(
                 'div',
-                { className: ''.concat(gi.node_asset) },
+                { className: ''.concat(vi.node_asset) },
                 'Set ',
-                fi(e, a),
+                gi(e, a),
                 ' to ',
                 H(t),
                 '.'
               )
-            : k.createElement('div', null, 'Clear ', fi(e, a), '.');
+            : k.createElement('div', null, 'Clear ', gi(e, a), '.');
         },
-        bi = function(e) {
-          if (e.type === Ee.set_contact_field) return yi(e.field.key, e.value, !0);
+        yi = function(e) {
+          if (e.type === Ee.set_contact_field) return fi(e.field.key, e.value, !0);
           if (e.type === Ee.set_contact_channel) {
             var t = e;
-            return yi('channel', t.channel ? t.channel.name : null, !1);
+            return fi('channel', t.channel ? t.channel.name : null, !1);
           }
           return e.type === Ee.set_contact_language
-            ? yi('language', jr(e.language, e.languages), !1)
+            ? fi('language', xr(e.language, e.languages), !1)
             : e.type === Ee.set_contact_status
-            ? yi('status', e.status, !1)
+            ? fi('status', e.status, !1)
             : e.type === Ee.set_contact_name
-            ? yi('name', e.name, !1)
+            ? fi('name', e.name, !1)
             : null;
         },
-        ki = function(e) {
+        bi = function(e) {
           if (e.ghost) {
             var t = Object.keys(e.inboundConnections);
             if (t.length > 0) {
@@ -7575,14 +7576,14 @@
             }
           }
         },
-        Ei = [vt, ft, gt, yt],
-        Ci = [vt, ft, yt],
-        wi = function() {
+        ki = [vt, ft, gt, yt],
+        Ei = [vt, ft, yt],
+        Ci = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null;
-          return !e || qt(e) ? Ei : Ci;
+          return !e || qt(e) ? ki : Ei;
         },
-        Si = Pt.t('forms.message_label', 'If the message response...'),
-        Ni =
+        wi = Pt.t('forms.message_label', 'If the message response...'),
+        Si =
           (Pt.t('forms.expression_label', 'If the expression...'),
           Pt.t('forms.split_by_groups', "Select the collections you'd like to split by below"));
       Pt.t(
@@ -7594,8 +7595,8 @@
           (e.No_Response = 'No Response'),
           (e.Any_Value = 'Any Value'),
           (e.Other = 'Other');
-      })(ri || (ri = {}));
-      var Oi = function(e, t, a, n) {
+      })(oi || (oi = {}));
+      var Ni = function(e, t, a, n) {
           var i = arguments.length > 4 && void 0 !== arguments[4] ? arguments[4] : [],
             s = arguments.length > 5 && void 0 !== arguments[5] ? arguments[5] : {},
             o = {
@@ -7605,10 +7606,10 @@
             };
           return o;
         },
-        xi = function(e) {
+        Oi = function(e) {
           return !!(e.router && e.router.cases && e.router.cases.length);
         },
-        ji = function(e, t) {
+        xi = function(e, t) {
           var a = (function(e) {
             return e.node.router ? e.node.router.categories : [];
           })(t);
@@ -7616,22 +7617,22 @@
             var n = a.find(function(t) {
               return t.uuid === e.category_uuid;
             });
-            if (Ti(e.type) && t.ui.config && t.ui.config.cases) {
+            if (ji(e.type) && t.ui.config && t.ui.config.cases) {
               var i = t.ui.config.cases[e.uuid];
               i && i.arguments && (e.arguments = i.arguments);
             }
             return { uuid: e.uuid, kase: e, categoryName: n ? n.name : null, valid: !0 };
           });
         },
-        Ti = function(e) {
+        ji = function(e) {
           return !![Ce.has_date_eq, Ce.has_date_gt, Ce.has_date_lt].find(function(t) {
             return e === t;
           });
         },
-        Ai = function(e, t) {
+        Ti = function(e, t) {
           return e.name.toLowerCase().trim() === t.categoryName.trim().toLowerCase();
         },
-        Ri = function(e, t) {
+        Ai = function(e, t) {
           var a,
             n = [],
             i = [],
@@ -7644,21 +7645,21 @@
             var u = function() {
               var e = a.value;
               if (!e.categoryName || 0 === e.categoryName.trim().length) return 'continue';
-              Ti(e.kase.type) &&
+              ji(e.kase.type) &&
                 ((o[e.uuid] = { arguments: e.kase.arguments }),
                 (e.kase.arguments = [
                   '@(datetime_add(today(), '.concat(e.kase.arguments[0], ', "D"))')
                 ]));
               var r = n.find(function(t) {
-                return Ai(t, e);
+                return Ti(t, e);
               });
               if (!r) {
                 if (
                   !(r = l.find(function(t) {
-                    return Ai(t, e);
+                    return Ti(t, e);
                   }))
                 ) {
-                  var c = Ui(t);
+                  var c = Ri(t);
                   if (c) {
                     var u = c.cases.find(function(t) {
                       return t.uuid === e.uuid;
@@ -7700,11 +7701,11 @@
           }
           return { cases: i, categories: n, exits: s, caseConfig: o };
         },
-        Ui = function(e) {
+        Ri = function(e) {
           return e && e.router && e.router.type === s.switch ? e.router : null;
         },
-        Di = function(e, t) {
-          var a = Ui(t);
+        Ui = function(e, t) {
+          var a = Ri(t);
           if (a) {
             var n = a.categories.find(function(e) {
                 return e.uuid === a.default_category_uuid;
@@ -7717,10 +7718,10 @@
           var s = { uuid: Z() };
           return { defaultCategory: { uuid: Z(), name: e, exit_uuid: s.uuid }, defaultExit: s };
         },
-        Fi = function(e) {
+        Di = function(e) {
           var t = null,
             a = null,
-            n = Ui(e);
+            n = Ri(e);
           if (n && n.wait && n.wait.timeout) {
             var i = n.wait.timeout.category_uuid;
             (t = n.categories.find(function(e) {
@@ -7732,34 +7733,34 @@
           }
           return (
             t ||
-              ((a = { uuid: Z() }), (t = { uuid: Z(), name: ri.No_Response, exit_uuid: a.uuid })),
+              ((a = { uuid: Z() }), (t = { uuid: Z(), name: oi.No_Response, exit_uuid: a.uuid })),
             { timeoutCategory: t, timeoutExit: a }
           );
         },
-        Pi = function(e, t, a) {
+        Fi = function(e, t, a) {
           var n = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : null,
-            i = Ri(e, a),
+            i = Ai(e, a),
             s = n;
-          s || (s = i.categories.length > 0 ? ri.Other : ri.All_Responses);
-          var o = Di(s, a),
+          s || (s = i.categories.length > 0 ? oi.Other : oi.All_Responses);
+          var o = Ui(s, a),
             r = o.defaultCategory,
             l = o.defaultExit;
           i.categories.push(r), i.exits.push(l);
           var c = Object(y.a)(Object(y.a)({}, i), {}, { defaultCategory: r.uuid });
           if (t) {
-            var u = Fi(a),
+            var u = Di(a),
               d = u.timeoutCategory,
               p = u.timeoutExit;
             i.categories.push(d), i.exits.push(p), (c.timeoutCategory = d.uuid);
           }
           return c;
         },
-        Ii = function(e, t, a) {
+        Pi = function(e, t, a) {
           var n = [],
             i = [],
             o = [];
           if (t && 1 === t.node.actions.length && t.node.actions[0].type === e.type) {
-            var r = Ui(t.node);
+            var r = Ri(t.node);
             t.node.exits.forEach(function(e) {
               return n.push(e);
             }),
@@ -7799,11 +7800,11 @@
               : e.type === Ee.open_ticket
               ? (u = Ee.split_by_ticket)
               : e.type === Ee.transfer_airtime && (u = Ee.split_by_airtime),
-            Oi(t.node.uuid, c, n, u, [e])
+            Ni(t.node.uuid, c, n, u, [e])
           );
         },
-        Mi = function(e, t) {
-          var a = wr(e) === Ee.split_by_groups;
+        Ii = function(e, t) {
+          var a = Cr(e) === Ee.split_by_groups;
           return e.node.router
             ? e.node.router.categories
                 .filter(function(e) {
@@ -7816,8 +7817,8 @@
                 })
             : [];
         },
-        Li = function(e) {
-          var t = Ui(e);
+        Mi = function(e) {
+          var t = Ri(e);
           if (t && t.result_name) return t.result_name;
           if (e.router && e.router.type === s.random) return e.router.result_name;
           if (1 === e.actions.length) {
@@ -7831,11 +7832,11 @@
               return a.result_name;
           }
         },
-        zi = a(13),
-        Bi = function(e) {
-          return zi(e, X({ uuid: Z() }));
+        Li = a(13),
+        zi = function(e) {
+          return Li(e, X({ uuid: Z() }));
         },
-        Vi = function(e, t, a) {
+        Bi = function(e, t, a) {
           if (e && t.results) {
             var n = (function(e, t, a) {
               var n = L(e);
@@ -7844,56 +7845,56 @@
                   return e.nodeUUID !== a.nodeUUID || e.actionUUID !== a.actionUUID;
                 });
                 return 0 === i.length
-                  ? zi(t, { $unset: [n] })
-                  : zi(t, Object(S.a)({}, n, { references: { $set: i } }));
+                  ? Li(t, { $unset: [n] })
+                  : Li(t, Object(S.a)({}, n, { references: { $set: i } }));
               }
               return t;
             })(e, t.results.items, a);
-            return zi(t, { results: { items: { $set: n } } });
+            return Li(t, { results: { items: { $set: n } } });
           }
           return t;
         },
-        qi = function(e, t, a) {
+        Vi = function(e, t, a) {
           var n = L(e),
             i = n in t ? t[n] : { name: e, id: n, type: fe.Result, references: [] };
           return (
             i.references.find(function(e) {
               return e.nodeUUID === a.nodeUUID && e.actionUUID === a.actionUUID;
             }) || i.references.push(a),
-            zi(t, { $merge: Object(S.a)({}, n, i) })
+            Li(t, { $merge: Object(S.a)({}, n, i) })
           );
         },
-        Hi = function(e, t) {
-          return zi(e, { revisions: { items: { $merge: Object(S.a)({}, t.id, t) } } });
+        qi = function(e, t) {
+          return Li(e, { revisions: { items: { $merge: Object(S.a)({}, t.id, t) } } });
         },
-        Wi = function(e, t, a, n) {
+        Hi = function(e, t, a, n) {
           var i = e,
-            s = _l(e, t);
-          n && _l(e, n);
-          var o = vl(s.node, a),
+            s = ml(e, t);
+          n && ml(e, n);
+          var o = _l(s.node, a),
             r = s.node.exits[o].destination_uuid;
           return (
-            (i = zi(
+            (i = Li(
               i,
               Object(S.a)({}, t, {
                 node: { exits: Object(S.a)({}, o, { destination_uuid: Y(n) }) }
               })
             )),
-            n && (i = zi(i, Object(S.a)({}, n, { inboundConnections: X(Object(S.a)({}, a, t)) }))),
-            null != r && (i = zi(i, Object(S.a)({}, r, { inboundConnections: Q([[a]]) }))),
+            n && (i = Li(i, Object(S.a)({}, n, { inboundConnections: X(Object(S.a)({}, a, t)) }))),
+            null != r && (i = Li(i, Object(S.a)({}, r, { inboundConnections: Q([[a]]) }))),
             i
           );
         },
-        Gi = function(e, t) {
+        Wi = function(e, t) {
           var a = e;
-          a[t.node.uuid] && (a = Yi(e, t.node.uuid)),
-            (a = zi(e, X(Object(S.a)({}, t.node.uuid, t))));
+          a[t.node.uuid] && (a = Ki(e, t.node.uuid)),
+            (a = Li(e, X(Object(S.a)({}, t.node.uuid, t))));
           for (var n = 0, i = Object.keys(t.inboundConnections); n < i.length; n++) {
             var s = i[n],
               o = t.inboundConnections[s],
-              r = _l(e, o),
-              l = vl(r.node, s);
-            a = zi(
+              r = ml(e, o),
+              l = _l(r.node, s);
+            a = Li(
               a,
               Object(S.a)({}, o, {
                 node: { exits: Object(S.a)({}, l, X({ destination_uuid: t.node.uuid })) }
@@ -7902,7 +7903,7 @@
           }
           return a;
         },
-        Ki = function(e, t, a) {
+        Gi = function(e, t, a) {
           var n = e[t],
             i = (function(e) {
               if (e.router.type === s.switch) {
@@ -7913,25 +7914,25 @@
               }
             })(n.node),
             o = i ? i.destination_uuid : null,
-            r = Yi(e, n.node.uuid, !1),
+            r = Ki(e, n.node.uuid, !1),
             l = {
               node: { uuid: Z(), actions: [a], exits: [{ uuid: Z(), destination_uuid: o }] },
               ui: { position: n.ui.position, type: Ee.execute_actions },
               inboundConnections: n.inboundConnections
             };
-          return (r = Gi(r, l));
+          return (r = Wi(r, l));
         },
-        Yi = function(e, t) {
+        Ki = function(e, t) {
           var a,
             n = !(arguments.length > 2 && void 0 !== arguments[2]) || arguments[2],
-            i = _l(e, t),
+            i = ml(e, t),
             s = e,
             o = Object(C.a)(i.node.exits);
           try {
             for (o.s(); !(a = o.n()).done; ) {
               var r = a.value;
               r.destination_uuid &&
-                (s = zi(
+                (s = Li(
                   s,
                   Object(S.a)({}, r.destination_uuid, { inboundConnections: Q([r.uuid]) })
                 ));
@@ -7946,37 +7947,37 @@
               d = null;
             n && 1 === i.node.exits.length && (d = i.node.exits[0].destination_uuid);
             var p = i.inboundConnections[u],
-              h = _l(e, p);
+              h = ml(e, p);
             if (d)
               try {
-                yl(s, p, d);
+                fl(s, p, d);
               } catch (v) {
                 d = null;
               }
-            var m = vl(h.node, u);
-            (s = zi(
+            var m = _l(h.node, u);
+            (s = Li(
               s,
               Object(S.a)({}, p, {
                 node: { exits: Object(S.a)({}, m, { destination_uuid: Y(d) }) }
               })
             )),
               d &&
-                (_l(e, d),
-                (s = zi(s, Object(S.a)({}, d, { inboundConnections: X(Object(S.a)({}, u, p)) }))));
+                (ml(e, d),
+                (s = Li(s, Object(S.a)({}, d, { inboundConnections: X(Object(S.a)({}, u, p)) }))));
           }
-          return zi(s, Q([t]));
+          return Li(s, Q([t]));
         },
-        Xi = function(e, t, a) {
+        Yi = function(e, t, a) {
           var n = !(arguments.length > 3 && void 0 !== arguments[3]) || arguments[3],
             i = a.left,
             s = a.top,
             o = { left: i, top: s };
           return (
             n && (o = I(i, s)),
-            zi(e, Object(S.a)({}, t, { ui: { position: Y({ left: o.left, top: o.top }) } }))
+            Li(e, Object(S.a)({}, t, { ui: { position: Y({ left: o.left, top: o.top }) } }))
           );
         },
-        Qi = function(e, t, a) {
+        Xi = function(e, t, a) {
           var n = !(arguments.length > 3 && void 0 !== arguments[3]) || arguments[3];
           e._ui.stickies || (e._ui.stickies = {});
           var i = e._ui.stickies[t].position,
@@ -7987,7 +7988,7 @@
             c = { left: r, top: l };
           return (
             n && (c = I(r, l)),
-            zi(e, {
+            Li(e, {
               _ui: {
                 stickies: Object(S.a)({}, t, {
                   position: Y({ left: c.left, top: c.top, right: c.left + s, bottom: c.top + o })
@@ -7996,42 +7997,42 @@
             })
           );
         },
-        Ji = function(e, t, a) {
+        Qi = function(e, t, a) {
           return (
             e._ui.stickies || (e._ui.stickies = {}),
-            zi(
+            Li(
               e,
               a ? { _ui: { stickies: X(Object(S.a)({}, t, a)) } } : { _ui: { stickies: Q([t]) } }
             )
           );
         },
-        $i = a(145),
-        Zi = a.n($i),
-        es = { name: Pt.t('contact_statuses.active', 'Active'), value: ke.ACTIVE },
-        ts = {
+        Ji = a(145),
+        $i = a.n(Ji),
+        Zi = { name: Pt.t('contact_statuses.active', 'Active'), value: ke.ACTIVE },
+        es = {
           name: Pt.t('contact_statuses.blocked', 'Blocked - remove from groups, ignore forever'),
           value: ke.BLOCKED
         },
-        as = {
+        ts = {
           name: Pt.t(
             'contact_statuses.stopped',
             'Stopped - remove from groups, ignore until they message again'
           ),
           value: ke.STOPPED
         },
-        ns = {
+        as = {
           name: Pt.t('contact_statuses.archived', 'Archived - remove from groups, ignore forever'),
           value: ke.ARCHIVED
         },
-        is = [es, ts, as, ns],
-        ss = (function(e) {
+        ns = [Zi, es, ts, as],
+        is = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             return (
               Object(m.a)(this, a),
-              ((n = t.call(this, e)).state = Nr(n.props.nodeSettings, n.props.assetStore)),
+              ((n = t.call(this, e)).state = Sr(n.props.nodeSettings, n.props.assetStore)),
               Object(b.react)(Object(v.a)(n), { include: [/^get/, /^on/, /^handle/] }),
               n
             );
@@ -8125,8 +8126,8 @@
                     e(
                       Ue(
                         (function(e, t, a) {
-                          var n = Sl(a);
-                          return zi(t, Object(S.a)({}, e, { items: { $merge: n } }));
+                          var n = wl(a);
+                          return Li(t, Object(S.a)({}, e, { items: { $merge: n } }));
                         })('fields', a, [this.state.field.value])
                       )
                     );
@@ -8148,7 +8149,7 @@
                       (e = this.handleChannelUpdate([this.state.channel.value], !0) && e),
                     e &&
                       (this.props.updateAction(
-                        Or(this.props.nodeSettings, this.state),
+                        Nr(this.props.nodeSettings, this.state),
                         this.onUpdated
                       ),
                       this.props.onClose(!0));
@@ -8202,7 +8203,7 @@
                         name: Pt.t('forms.status', 'Status'),
                         entry: this.state.status,
                         onChange: this.handleStatusUpdate,
-                        options: is
+                        options: ns
                       })
                     : this.state.type === Ee.set_contact_name
                     ? k.createElement(ja, {
@@ -8245,17 +8246,17 @@
                     k.createElement(Vt, {
                       name: Pt.t('forms.contact_field', 'Contact Field'),
                       assets: this.props.assetStore.fields,
-                      additionalOptions: wi(this.context.config.flowType),
+                      additionalOptions: Ci(this.context.config.flowType),
                       entry: this.state.field,
                       searchable: !0,
-                      sortFunction: xr,
+                      sortFunction: Or,
                       onChange: this.handlePropertyChange,
-                      getName: Tr,
+                      getName: jr,
                       createPrefix: 'Create Contact Field: ',
                       createAssetFromInput: this.handleCreateAssetFromInput,
                       onAssetCreated: this.handleFieldAdded
                     }),
-                    k.createElement('div', { className: Zi.a.value }, this.getValueWidget()),
+                    k.createElement('div', { className: $i.a.value }, this.getValueWidget()),
                     ot(this.props)
                   );
                 }
@@ -8264,10 +8265,10 @@
             a
           );
         })(k.Component);
-      ss.contextTypes = { config: bt };
-      var os = a(68),
-        rs = a.n(os),
-        ls = (function(e) {
+      is.contextTypes = { config: bt };
+      var ss = a(68),
+        os = a.n(ss),
+        rs = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -8317,7 +8318,7 @@
                       this.props.index > -1
                         ? k.createElement(
                             'div',
-                            { className: rs.a.amount },
+                            { className: os.a.amount },
                             k.createElement(ja, {
                               placeholder: t,
                               name: Pt.t('forms.value', 'value'),
@@ -8331,7 +8332,7 @@
                         ? k.createElement(
                             'div',
                             {
-                              className: rs.a.remove,
+                              className: os.a.remove,
                               onClick: function() {
                                 e.props.onRemove(e.props.index);
                               }
@@ -8344,14 +8345,14 @@
                     {
                       name: Pt.t('forms.currency', 'Currency'),
                       entry: this.props.transfer,
-                      __className: rs.a.form_element
+                      __className: os.a.form_element
                     },
                     k.createElement(
                       'div',
-                      { className: rs.a.transfer },
+                      { className: os.a.transfer },
                       k.createElement(
                         'div',
-                        { className: rs.a.currency },
+                        { className: os.a.currency },
                         k.createElement(Vt, {
                           style: Ft.small,
                           name: Pt.t('forms.currency', 'Currency'),
@@ -8381,9 +8382,9 @@
             a
           );
         })(k.Component),
-        cs = a(102),
-        us = a.n(cs),
-        ds = (function(e) {
+        ls = a(102),
+        cs = a.n(ls),
+        us = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -8431,12 +8432,12 @@
                           {
                             'data-testid': 'toggle-link',
                             'data-spec': 'toggle-link',
-                            className: us.a.toggle_link,
+                            className: cs.a.toggle_link,
                             onClick: this.handleEditingChanged
                           },
                           this.props.toggleText
                         )),
-                    k.createElement('div', { className: us.a.optional_text_input }, e)
+                    k.createElement('div', { className: cs.a.optional_text_input }, e)
                   );
                 }
               }
@@ -8444,9 +8445,9 @@
             a
           );
         })(k.Component),
-        ps = function(e, t) {
+        ds = function(e, t) {
           var a = !ht(e) && e.value ? '.' + L(e.value) : '';
-          return k.createElement(ds, {
+          return k.createElement(us, {
             name: Pt.t('forms.save_result_name', 'Result Name'),
             maxLength: 64,
             value: e,
@@ -8459,27 +8460,27 @@
             )
           });
         },
-        hs = a(103),
-        ms = a.n(hs),
-        _s = function(e) {
+        ps = a(103),
+        hs = a.n(ps),
+        ms = function(e) {
           var t = e.validationFailures.map(function(e, t) {
             return k.createElement(
               'div',
-              { key: 'validation_' + t, className: ms.a.error },
+              { key: 'validation_' + t, className: hs.a.error },
               e.message
             );
           });
-          return k.createElement('div', { className: ms.a.errors }, t);
+          return k.createElement('div', { className: hs.a.errors }, t);
         },
-        vs = a(146),
-        gs = a.n(vs),
-        fs = function(e) {
+        _s = a(146),
+        vs = a.n(_s),
+        gs = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.transfer_airtime) return t;
         },
-        ys = (function(e) {
+        fs = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -8488,7 +8489,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).options = []),
               (n.state = (function(e) {
-                var t = fs(e),
+                var t = gs(e),
                   a = { value: 'Result' },
                   n = !1,
                   i = [];
@@ -8546,7 +8547,7 @@
                       (this.props.updateRouter(
                         (function(e, t) {
                           var a = Z(),
-                            n = fs(e);
+                            n = gs(e);
                           n && (a = n.uuid);
                           var i = {};
                           t.amounts.forEach(function(e) {
@@ -8559,7 +8560,7 @@
                             amounts: i,
                             result_name: t.resultName.value
                           };
-                          return Ii(s, e.originalNode, !0);
+                          return Pi(s, e.originalNode, !0);
                         })(this.props.nodeSettings, this.state)
                       ),
                       this.props.onClose(!1));
@@ -8608,7 +8609,7 @@
               {
                 key: 'renderAmount',
                 value: function(e, t) {
-                  return k.createElement(ls, {
+                  return k.createElement(rs, {
                     key: 'currency_' + e,
                     exclude: this.state.amounts,
                     currencies: this.options,
@@ -8639,7 +8640,7 @@
                 value: function() {
                   var e = this.props.typeConfig,
                     t = this.state.validationFailures
-                      ? k.createElement(_s, { validationFailures: this.state.validationFailures })
+                      ? k.createElement(ms, { validationFailures: this.state.validationFailures })
                       : null;
                   return k.createElement(
                     me,
@@ -8653,8 +8654,8 @@
                     t,
                     k.createElement(
                       'div',
-                      { className: gs.a.result_name },
-                      ps(this.state.resultName, this.handleUpdateResultName)
+                      { className: vs.a.result_name },
+                      ds(this.state.resultName, this.handleUpdateResultName)
                     ),
                     ot(this.props)
                   );
@@ -8664,9 +8665,9 @@
             a
           );
         })(k.PureComponent),
-        bs = a(147),
-        ks = a.n(bs),
-        Es = [
+        ys = a(147),
+        bs = a.n(ys),
+        ks = [
           {
             type: Ce.has_top_intent,
             verboseName: Pt.t('operators.has_top_intent', 'has top intent'),
@@ -8680,7 +8681,7 @@
             visibility: Ge
           }
         ],
-        Cs = [
+        Es = [
           {
             type: Ce.has_any_word,
             verboseName: Pt.t('operators.has_any_word', 'has any of the words'),
@@ -8862,15 +8863,15 @@
             visibility: We
           }
         ],
-        ws = [].concat(Cs, Es).reduce(function(e, t) {
+        Cs = [].concat(Es, ks).reduce(function(e, t) {
           return (e[t.type] = t), e;
         }, {}),
-        Ss = function(e) {
-          return ws[e];
+        ws = function(e) {
+          return Cs[e];
         },
-        Ns = a(37),
-        Os = a.n(Ns),
-        xs = function(e) {
+        Ss = a(37),
+        Ns = a.n(Ss),
+        Os = function(e) {
           var t = '';
           return (
             e.indexOf('_lt') > -1
@@ -8880,7 +8881,7 @@
             t
           );
         },
-        js = function(e) {
+        xs = function(e) {
           var t,
             a,
             n,
@@ -8991,7 +8992,7 @@
             (s.categoryNameEdited = !!e.exitEdited),
             (s.categoryName = ra(
               Pt.t('forms.category', 'Category'),
-              s.categoryNameEdited ? e.exitName : Ts(s),
+              s.categoryNameEdited ? e.exitName : js(s),
               s.argument.value ||
                 (s.min.value && s.max.value) ||
                 (s.state.value && s.district.value)
@@ -9010,7 +9011,7 @@
             s
           );
         },
-        Ts = function(e) {
+        js = function(e) {
           if (e.categoryNameEdited) return e.categoryName.value;
           if (0 === e.operatorConfig.operands) return e.operatorConfig.categoryName;
           if (
@@ -9021,7 +9022,7 @@
             return z(e.intent.value.name.replace('_', ' '));
           if (e.operatorConfig.type === Ce.has_number_between && e.min.value && e.max.value)
             return ''.concat(e.min.value, ' - ').concat(e.max.value);
-          if (Ti(e.operatorConfig.type)) {
+          if (ji(e.operatorConfig.type)) {
             var t = parseInt(e.argument.value, 10);
             if (!isNaN(t)) {
               var a =
@@ -9031,11 +9032,11 @@
                 n = t < 0 ? ' - ' : ' + ',
                 i =
                   ' ' + (1 === Math.abs(t) ? Pt.t('forms.day', 'day') : Pt.t('forms.days', 'days'));
-              return xs(e.operatorConfig.type) + a + n + Math.abs(t) + i;
+              return Os(e.operatorConfig.type) + a + n + Math.abs(t) + i;
             }
           }
           if (e.argument && e.argument.value) {
-            var s = xs(e.operatorConfig.type),
+            var s = Os(e.operatorConfig.type),
               o = e.argument.value.match(/\w+/g);
             if (o && o.length > 0) {
               var r = Object(w.a)(o, 1)[0];
@@ -9045,7 +9046,7 @@
           }
           return '';
         },
-        As = (function(e) {
+        Ts = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -9059,7 +9060,7 @@
                   a = e.kase.arguments && 2 === e.kase.arguments.length ? e.kase.arguments[1] : '';
                 return {
                   errors: [],
-                  operatorConfig: Ss(e.kase.type),
+                  operatorConfig: ws(e.kase.type),
                   argument: { value: t },
                   min: { value: t },
                   max: { value: a },
@@ -9080,7 +9081,7 @@
               {
                 key: 'componentDidMount',
                 value: function() {
-                  var e = js({
+                  var e = xs({
                     operatorConfig: this.state.operatorConfig,
                     argument: this.state.argument.value,
                     min: this.state.min.value,
@@ -9102,7 +9103,7 @@
                     this.props.classifier !== e.classifier &&
                     this.state.intent.value
                   ) {
-                    var t = js({
+                    var t = xs({
                       operatorConfig: this.state.operatorConfig,
                       argument: this.state.argument.value,
                       min: this.state.min.value,
@@ -9120,7 +9121,7 @@
               {
                 key: 'getOperators',
                 value: function() {
-                  var e = this.props.operators || Cs;
+                  var e = this.props.operators || Es;
                   return (
                     void 0 === this.operators &&
                       (this.operators = (function(e, t) {
@@ -9151,7 +9152,7 @@
                 key: 'handleOperatorChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: e,
                       argument: this.state.argument.value,
                       min: this.state.min.value,
@@ -9171,7 +9172,7 @@
                 key: 'handleArgumentChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       argument: e,
                       exitName: this.state.categoryName.value,
@@ -9186,7 +9187,7 @@
                 key: 'handleDistrictChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       argument: this.state.argument.value,
                       state: this.state.state.value,
@@ -9203,7 +9204,7 @@
                 key: 'handleStateChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       argument: this.state.argument.value,
                       district: this.state.district.value,
@@ -9220,7 +9221,7 @@
                 key: 'handleIntentChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       intent: e,
                       confidence: this.state.confidence.value || '.9',
@@ -9237,7 +9238,7 @@
                 key: 'handleConfidenceChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       intent: this.state.intent.value,
                       confidence: e,
@@ -9254,7 +9255,7 @@
                 key: 'handleMinChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       min: e,
                       max: this.state.max.value,
@@ -9270,7 +9271,7 @@
                 key: 'handleMaxChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       min: this.state.min.value,
                       max: e,
@@ -9286,7 +9287,7 @@
                 key: 'handleExitChanged',
                 value: function(e) {
                   var t = this,
-                    a = js({
+                    a = xs({
                       operatorConfig: this.state.operatorConfig,
                       state: this.state.state.value,
                       district: this.state.district.value,
@@ -9370,7 +9371,7 @@
                           }),
                           k.createElement(
                             'span',
-                            { className: Os.a.divider, 'data-draggable': !0 },
+                            { className: Ns.a.divider, 'data-draggable': !0 },
                             'and'
                           ),
                           k.createElement(ja, {
@@ -9412,7 +9413,7 @@
                             ),
                             k.createElement(
                               'div',
-                              { className: Os.a.divider, 'data-draggable': !0 },
+                              { className: Ns.a.divider, 'data-draggable': !0 },
                               'above'
                             ),
                             k.createElement(
@@ -9441,7 +9442,7 @@
                         }),
                         k.createElement(
                           'span',
-                          { className: Os.a.divider, 'data-draggable': !0 },
+                          { className: Ns.a.divider, 'data-draggable': !0 },
                           'and'
                         ),
                         k.createElement(ja, {
@@ -9453,25 +9454,25 @@
                         })
                       );
                     }
-                    return Ti(this.state.operatorConfig.type)
+                    return ji(this.state.operatorConfig.type)
                       ? k.createElement(
                           k.Fragment,
                           null,
                           k.createElement(
                             'span',
-                            { className: Os.a.divider, 'data-draggable': !0 },
+                            { className: Ns.a.divider, 'data-draggable': !0 },
                             'today +',
                             ' '
                           ),
                           k.createElement(ja, {
-                            __className: Os.a.relative_date,
+                            __className: Ns.a.relative_date,
                             name: Pt.t('forms.arguments', 'arguments'),
                             onChange: this.handleArgumentChanged,
                             entry: this.state.argument,
                             style: ka.small,
                             autocomplete: !1
                           }),
-                          k.createElement('span', { className: Os.a.divider }, 'days')
+                          k.createElement('span', { className: Ns.a.divider }, 'days')
                         )
                       : k.createElement(ja, {
                           name: Pt.t('forms.arguments', 'arguments'),
@@ -9494,24 +9495,24 @@
                     {
                       'data-spec': 'case-form',
                       name: this.props.name,
-                      __className: Os.a.group,
+                      __className: Ns.a.group,
                       kaseError: this.state.errors.length > 0
                     },
                     k.createElement(
                       'div',
                       {
                         className: ''
-                          .concat(Os.a.kase, ' ')
-                          .concat(Os.a[this.state.operatorConfig.type]),
+                          .concat(Ns.a.kase, ' ')
+                          .concat(Ns.a[this.state.operatorConfig.type]),
                         'data-draggable': !0
                       },
                       k.createElement('span', {
-                        className: 'fe-chevrons-expand '.concat(Os.a.dnd_icon),
+                        className: 'fe-chevrons-expand '.concat(Ns.a.dnd_icon),
                         'data-draggable': !0
                       }),
                       k.createElement(
                         'div',
-                        { className: Os.a.choice },
+                        { className: Ns.a.choice },
                         k.createElement(Lt, {
                           name: Pt.t('forms.operator', 'operator'),
                           style: Ft.small,
@@ -9527,19 +9528,19 @@
                         {
                           className:
                             this.state.operatorConfig.operands > 1
-                              ? Os.a.multi_operand
-                              : Os.a.single_operand
+                              ? Ns.a.multi_operand
+                              : Ns.a.single_operand
                         },
                         this.renderArguments()
                       ),
                       k.createElement(
                         'div',
-                        { className: Os.a.categorize_as, 'data-draggable': !0 },
+                        { className: Ns.a.categorize_as, 'data-draggable': !0 },
                         'categorize as'
                       ),
                       k.createElement(
                         'div',
-                        { className: Os.a.category },
+                        { className: Ns.a.category },
                         k.createElement(ja, {
                           name: Pt.t('forms.exit_name', 'Exit Name'),
                           style: ka.small,
@@ -9551,7 +9552,7 @@
                       ),
                       k.createElement('span', {
                         'data-testid': 'remove-case-' + this.props.kase.uuid,
-                        className: 'fe-x '.concat(Os.a.remove_icon),
+                        className: 'fe-x '.concat(Ns.a.remove_icon),
                         onClick: this.handleRemoveClicked
                       })
                     )
@@ -9562,22 +9563,22 @@
             a
           );
         })(k.Component);
-      As.contextTypes = { config: bt };
-      var Rs,
-        Us = a(104),
-        Ds = a(77),
-        Fs = a.n(Ds);
+      Ts.contextTypes = { config: bt };
+      var As,
+        Rs = a(104),
+        Us = a(77),
+        Ds = a.n(Us);
       !(function(e) {
         (e.move = 'move'), (e.pointer = 'pointer');
-      })(Rs || (Rs = {}));
-      var Ps = Object(Us.SortableElement)(function(e) {
+      })(As || (As = {}));
+      var Fs = Object(Rs.SortableElement)(function(e) {
           var t = e.value,
             a = t.item;
           return k.createElement(
             'div',
-            { className: Fs.a.kase + ' case_list_case' },
+            { className: Ds.a.kase + ' case_list_case' },
             k.createElement(
-              As,
+              Ts,
               Object.assign({ key: a.uuid }, a, {
                 onRemove: t.list.handleRemoveCase,
                 onChange: t.list.handleUpdateCase,
@@ -9587,19 +9588,19 @@
             )
           );
         }),
-        Is = (function(e) {
+        Ps = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             Object(m.a)(this, a),
-              ((n = t.call(this, e)).sortableList = Object(Us.SortableContainer)(function(e) {
+              ((n = t.call(this, e)).sortableList = Object(Rs.SortableContainer)(function(e) {
                 var t = e.items;
                 return k.createElement(
                   'div',
-                  { className: Fs.a.case_list },
+                  { className: Ds.a.case_list },
                   t.map(function(e, t) {
-                    return k.createElement(Ps, {
+                    return k.createElement(Fs, {
                       key: 'item-'.concat(t),
                       index: t,
                       value: { item: e, list: Object(v.a)(n) },
@@ -9701,7 +9702,7 @@
                     function(e) {
                       var i = e.currentCases;
                       return {
-                        currentCases: ks()(i, a, n === t.state.currentCases.length - 1 ? n - 1 : n)
+                        currentCases: bs()(i, a, n === t.state.currentCases.length - 1 ? n - 1 : n)
                       };
                     },
                     function() {
@@ -9717,9 +9718,9 @@
                     'div',
                     {
                       className:
-                        Fs.a.case_list_container +
+                        Ds.a.case_list_container +
                         ' ' +
-                        (this.state.currentCases.length > 5 ? Fs.a.scrolling : ''),
+                        (this.state.currentCases.length > 5 ? Ds.a.scrolling : ''),
                       tabIndex: 0
                     },
                     k.createElement(this.sortableList, {
@@ -9736,11 +9737,11 @@
             a
           );
         })(k.Component);
-      Is.contextTypes = { config: bt };
-      var Ms,
-        Ls = a(148),
-        zs = a.n(Ls),
-        Bs = (function(e) {
+      Ps.contextTypes = { config: bt };
+      var Is,
+        Ms = a(148),
+        Ls = a.n(Ms),
+        zs = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -9750,10 +9751,10 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = [],
                   a = { value: '' };
-                if (wr(e.originalNode) === Ee.wait_for_digits) {
+                if (Cr(e.originalNode) === Ee.wait_for_digits) {
                   var n = e.originalNode.node.router;
                   n &&
-                    (xi(e.originalNode.node) && (t = ji(n.cases, e.originalNode)),
+                    (Oi(e.originalNode.node) && (t = xi(n.cases, e.originalNode)),
                     (a = { value: n.result_name || '' }));
                 }
                 return { cases: t, resultName: a, valid: !0 };
@@ -9783,7 +9784,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Pi(t.cases, !1, e.originalNode.node),
+                        var a = Fi(t.cases, !1, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           l = a.categories,
@@ -9802,7 +9803,7 @@
                           },
                           d
                         );
-                        return Oi(e.originalNode.node.uuid, p, i, Ee.wait_for_response, [], {
+                        return Ni(e.originalNode.node.uuid, p, i, Ee.wait_for_response, [], {
                           cases: u
                         });
                       })(this.props.nodeSettings, this.state)
@@ -9839,15 +9840,15 @@
                     }),
                     k.createElement(
                       'p',
-                      { className: zs.a.lead_in },
+                      { className: Ls.a.lead_in },
                       'If the keypad entry before the # symbol..'
                     ),
-                    k.createElement(Is, {
+                    k.createElement(Ps, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -9864,9 +9865,9 @@
         })(k.Component);
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(Ms || (Ms = {}));
-      var Vs,
-        qs = (function(e) {
+      })(Is || (Is = {}));
+      var Bs,
+        Vs = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -9877,10 +9878,10 @@
                 var t = [],
                   a = { value: '' },
                   n = '@input.text';
-                if (e.originalNode && wr(e.originalNode) === Ee.split_by_expression) {
+                if (e.originalNode && Cr(e.originalNode) === Ee.split_by_expression) {
                   var i = e.originalNode.node.router;
                   i &&
-                    (xi(e.originalNode.node) && (t = ji(i.cases, e.originalNode)),
+                    (Oi(e.originalNode.node) && (t = xi(i.cases, e.originalNode)),
                     (a = { value: i.result_name || '' })),
                     (n = i.operand);
                 }
@@ -9917,7 +9918,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Pi(t.cases, !1, e.originalNode.node),
+                        var a = Fi(t.cases, !1, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           o = a.defaultCategory,
@@ -9935,7 +9936,7 @@
                           },
                           c
                         );
-                        return Oi(e.originalNode.node.uuid, u, i, Ee.split_by_expression, [], {
+                        return Ni(e.originalNode.node.uuid, u, i, Ee.split_by_expression, [], {
                           cases: r
                         });
                       })(this.props.nodeSettings, this.state)
@@ -9978,12 +9979,12 @@
                       onChange: this.handleOperandUpdated,
                       entry: this.state.operand
                     }),
-                    k.createElement(Is, {
+                    k.createElement(Ps, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -9998,14 +9999,14 @@
             a
           );
         })(k.Component),
-        Hs = a(105),
-        Ws = a.n(Hs),
-        Gs = function() {
+        qs = a(105),
+        Hs = a.n(qs),
+        Ws = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null;
           return [].concat(
-            Object(ve.a)(wi(e)),
+            Object(ve.a)(Ci(e)),
             Object(ve.a)(
-              yr.map(function(e) {
+              fr.map(function(e) {
                 return { name: e.path, id: e.scheme, type: fe.Scheme };
               })
             )
@@ -10013,8 +10014,8 @@
         };
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(Vs || (Vs = {}));
-      var Ks = (function(e) {
+      })(Bs || (Bs = {}));
+      var Gs = (function(e) {
         Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
@@ -10025,11 +10026,11 @@
               var a = [],
                 n = { value: '' },
                 i = null,
-                s = wr(e.originalNode);
+                s = Cr(e.originalNode);
               if (e.originalNode && s === Ee.split_by_contact_field) {
                 var o = e.originalNode.node.router;
                 o &&
-                  (xi(e.originalNode.node) && (a = ji(o.cases, e.originalNode)),
+                  (Oi(e.originalNode.node) && (a = xi(o.cases, e.originalNode)),
                   (n = { value: o.result_name || '' }));
                 var r = e.originalNode.ui.config.operand;
                 if (t.fields && r.id in t.fields.items) {
@@ -10037,7 +10038,7 @@
                   i = { key: r.id, label: l, type: r.type };
                 }
                 i ||
-                  (i = Gs().find(function(e) {
+                  (i = Ws().find(function(e) {
                     return e.id === r.id;
                   }));
               }
@@ -10074,7 +10075,7 @@
                 this.state.valid &&
                   (this.props.updateRouter(
                     (function(e, t) {
-                      var a = Pi(t.cases, !1, e.originalNode.node),
+                      var a = Fi(t.cases, !1, e.originalNode.node),
                         n = a.cases,
                         i = a.exits,
                         o = a.defaultCategory,
@@ -10102,7 +10103,7 @@
                         },
                         c
                       );
-                      return Oi(e.originalNode.node.uuid, h, i, Ee.split_by_contact_field, [], {
+                      return Ni(e.originalNode.node.uuid, h, i, Ee.split_by_contact_field, [], {
                         operand: p,
                         cases: r
                       });
@@ -10140,31 +10141,31 @@
                   }),
                   k.createElement(
                     'div',
-                    { className: Ws.a.lead_in },
+                    { className: Hs.a.lead_in },
                     "If the contact's",
                     k.createElement(
                       'div',
-                      { className: ''.concat(Ws.a.field_select, ' select-small') },
+                      { className: ''.concat(Hs.a.field_select, ' select-small') },
                       k.createElement(Vt, {
                         name: Pt.t('forms.contact_field', 'Contact Field'),
                         style: Ft.small,
                         assets: this.props.assetStore.fields,
-                        additionalOptions: Gs(this.context.config.flowType),
+                        additionalOptions: Ws(this.context.config.flowType),
                         valueKey: 'id',
-                        getName: Tr,
+                        getName: jr,
                         entry: this.state.field,
                         searchable: !0,
-                        sortFunction: xr,
+                        sortFunction: Or,
                         onChange: this.handleFieldChanged
                       })
                     )
                   ),
-                  k.createElement(Is, {
+                  k.createElement(Ps, {
                     'data-spec': 'cases',
                     cases: this.state.cases,
                     onCasesUpdated: this.handleCasesUpdated
                   }),
-                  ps(this.state.resultName, this.handleUpdateResultName),
+                  ds(this.state.resultName, this.handleUpdateResultName),
                   ot(this.props)
                 );
               }
@@ -10179,11 +10180,11 @@
           a
         );
       })(k.Component);
-      Ks.contextTypes = { assetService: bt, config: bt };
-      var Ys,
-        Xs = function(e) {
+      Gs.contextTypes = { assetService: bt, config: bt };
+      var Ks,
+        Ys = function(e) {
           var t = [],
-            a = Ui(e);
+            a = Ri(e);
           return (
             a &&
               (t = a.cases.map(function(e) {
@@ -10197,7 +10198,7 @@
             t
           );
         },
-        Qs = function() {
+        Xs = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
           return e.map(function(e) {
             var t = e.name,
@@ -10210,7 +10211,7 @@
             };
           });
         },
-        Js = (function(e) {
+        Qs = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -10220,8 +10221,8 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = { groups: { value: [] }, resultName: { value: '' }, valid: !1 };
                 return (
-                  wr(e.originalNode) === Ee.split_by_groups &&
-                    ((t.groups.value = Xs(e.originalNode.node)),
+                  Cr(e.originalNode) === Ee.split_by_groups &&
+                    ((t.groups.value = Ys(e.originalNode.node)),
                     (t.resultName = { value: e.originalNode.node.router.result_name || '' }),
                     (t.valid = !0)),
                   t
@@ -10262,8 +10263,8 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Qs(t.groups.value),
-                          n = Pi(a, !1, e.originalNode.node),
+                        var a = Xs(t.groups.value),
+                          n = Fi(a, !1, e.originalNode.node),
                           i = n.cases,
                           o = n.exits,
                           r = n.defaultCategory,
@@ -10277,7 +10278,7 @@
                             operand: '@contact.groups',
                             result_name: t.resultName.value
                           };
-                        return Oi(e.originalNode.node.uuid, u, o, Ee.split_by_groups, [], {
+                        return Ni(e.originalNode.node.uuid, u, o, Ee.split_by_groups, [], {
                           cases: l
                         });
                       })(this.props.nodeSettings, this.state)
@@ -10312,7 +10313,7 @@
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement('p', null, Ni),
+                    k.createElement('p', null, Si),
                     k.createElement(Vt, {
                       name: Pt.t('forms.groups', 'Groups'),
                       assets: this.props.assetStore.groups,
@@ -10325,7 +10326,7 @@
                         'Select existing collections or enter a new one'
                       )
                     }),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -10334,16 +10335,16 @@
             a
           );
         })(k.Component);
-      (Js.contextTypes = { endpoints: bt, assetService: bt }),
+      (Qs.contextTypes = { endpoints: bt, assetService: bt }),
         (function(e) {
           (e[(e.Category = 0)] = 'Category'), (e[(e.Case = 1)] = 'Case');
-        })(Ys || (Ys = {}));
-      var $s = function(e, t) {
+        })(Ks || (Ks = {}));
+      var Js = function(e, t) {
           var a = [],
             n = e.originalNode.node.router.categories;
-          t === Ys.Case &&
+          t === Ks.Case &&
             (n = (function(e) {
-              var t = wr(e);
+              var t = Cr(e);
               return t === Ee.wait_for_response || t === Ee.split_by_expression;
             })(e.originalNode)
               ? e.originalNode.node.router.cases
@@ -10367,16 +10368,16 @@
           }
           return a;
         },
-        Zs = a(61),
-        eo = a.n(Zs),
-        to = (function(e) {
+        $s = a(61),
+        Zs = a.n($s),
+        eo = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
             var n;
             Object(m.a)(this, a), (n = t.call(this, e));
-            var i = $s(e.nodeSettings, Ys.Category),
-              s = $s(e.nodeSettings, Ys.Case);
+            var i = Js(e.nodeSettings, Ks.Category),
+              s = Js(e.nodeSettings, Ks.Case);
             return (
               (n.state = { categories: i, cases: s, valid: !0 }),
               Object(b.react)(Object(v.a)(n), { include: [/^handle/] }),
@@ -10457,7 +10458,7 @@
                         a.originalNode.node.router.cases.find(function(e) {
                           return e.uuid === n;
                         })),
-                      s = Ss(i.type).verboseName,
+                      s = ws(i.type).verboseName,
                       o = Object(w.a)(i.arguments, 1)[0],
                       r = '';
                     t.arguments && t.arguments.length > 0 && (r = t.arguments[0]);
@@ -10467,21 +10468,21 @@
                       {
                         key: 'translate_'.concat(t.uuid),
                         'data-spec': 'operator-field',
-                        className: eo.a.translating_operator_container
+                        className: Zs.a.translating_operator_container
                       },
                       k.createElement(
                         'div',
-                        { 'data-spec': 'verbose-name', className: eo.a.translating_operator },
+                        { 'data-spec': 'verbose-name', className: Zs.a.translating_operator },
                         s
                       ),
                       k.createElement(
                         'div',
-                        { 'data-spec': 'argument-to-translate', className: eo.a.translating_from },
+                        { 'data-spec': 'argument-to-translate', className: Zs.a.translating_from },
                         o
                       ),
                       k.createElement(
                         'div',
-                        { className: eo.a.translating_to },
+                        { className: Zs.a.translating_to },
                         k.createElement(ja, {
                           'data-spec': 'localize-case',
                           name: t.uuid,
@@ -10515,15 +10516,15 @@
                       t.name || (t.name = ''),
                       k.createElement(
                         'div',
-                        { key: t.uuid, className: eo.a.translating_category },
+                        { key: t.uuid, className: Zs.a.translating_category },
                         k.createElement(
                           'div',
-                          { 'data-spec': 'category-name', className: eo.a.translating_from },
+                          { 'data-spec': 'category-name', className: Zs.a.translating_from },
                           i.name
                         ),
                         k.createElement(
                           'div',
-                          { className: eo.a.translating_to },
+                          { className: Zs.a.translating_to },
                           k.createElement(ja, {
                             'data-spec': 'localize-category',
                             name: t.name,
@@ -10583,7 +10584,7 @@
             a
           );
         })(k.Component),
-        ao = function() {
+        to = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [],
             t = arguments.length > 1 ? arguments[1] : void 0;
           return e
@@ -10598,10 +10599,10 @@
               return e.categoryName.trim().length > 0;
             });
         },
-        no = a(78),
-        io = a.n(no),
-        so = a(13),
-        oo = (function(e) {
+        ao = a(78),
+        no = a.n(ao),
+        io = a(13),
+        so = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -10610,7 +10611,7 @@
               Object(m.a)(this, a),
               ((n = t.call(this, e)).state = (function(e) {
                 for (var t = { value: '' }, a = [], n = 0; n < 10; n++) a.push('');
-                if (wr(e.originalNode) === Ee.wait_for_menu) {
+                if (Cr(e.originalNode) === Ee.wait_for_menu) {
                   var i,
                     s = e.originalNode.node.router,
                     o = Object(C.a)(s.cases);
@@ -10654,10 +10655,10 @@
                       var a = {};
                       t.resultName.value && (a.result_name = t.resultName.value);
                       var n = [];
-                      wr(e.originalNode) === Ee.wait_for_menu &&
+                      Cr(e.originalNode) === Ee.wait_for_menu &&
                         (n = e.originalNode.node.router.cases);
-                      var i = ao(t.menu, n),
-                        l = Pi(i, !1, e.originalNode.node),
+                      var i = to(t.menu, n),
+                        l = Fi(i, !1, e.originalNode.node),
                         c = l.cases,
                         u = l.exits,
                         d = l.defaultCategory,
@@ -10674,7 +10675,7 @@
                           },
                           a
                         );
-                      return Oi(e.originalNode.node.uuid, m, u, Ee.wait_for_response, [], {
+                      return Ni(e.originalNode.node.uuid, m, u, Ee.wait_for_response, [], {
                         cases: p
                       });
                     })(this.props.nodeSettings, this.state)
@@ -10700,7 +10701,7 @@
               {
                 key: 'handleMenuChanged',
                 value: function(e, t) {
-                  var a = so(this.state.menu, Object(S.a)({}, e, { $set: t }));
+                  var a = io(this.state.menu, Object(S.a)({}, e, { $set: t }));
                   this.setState({ menu: a });
                 }
               },
@@ -10710,11 +10711,11 @@
                   var t = this;
                   return k.createElement(
                     'div',
-                    { key: 'menuoption-' + e, className: io.a.menu_option },
-                    k.createElement('div', { className: io.a.digit }, 9 === e ? 0 : e + 1),
+                    { key: 'menuoption-' + e, className: no.a.menu_option },
+                    k.createElement('div', { className: no.a.digit }, 9 === e ? 0 : e + 1),
                     k.createElement(
                       'div',
-                      { className: io.a.category },
+                      { className: no.a.category },
                       k.createElement(ja, {
                         name: 'Menu ' + e,
                         entry: { value: this.state.menu[e] },
@@ -10745,8 +10746,8 @@
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement('div', { className: io.a.menu }, this.renderMenu()),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    k.createElement('div', { className: no.a.menu }, this.renderMenu()),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -10761,30 +10762,30 @@
             a
           );
         })(k.Component);
-      oo.contextTypes = { assetService: bt };
-      var ro,
-        lo = ee(2, 11).map(function(e) {
+      so.contextTypes = { assetService: bt };
+      var oo,
+        ro = ee(2, 11).map(function(e) {
           return { value: e + '', name: e + ' buckets' };
         }),
-        co = function(e) {
-          var t = lo.find(function(t) {
+        lo = function(e) {
+          var t = ro.find(function(t) {
             return t.value === e + '';
           });
           return t || (t = { name: ''.concat(e, ' Buckets'), value: e + '' }), t;
         },
-        uo = function(e, t) {
+        co = function(e, t) {
           return e.concat(
             ee(e.length, t).map(function(e) {
               return { uuid: Z(), name: 'Bucket '.concat(e + 1), exit_uuid: null };
             })
           );
         },
-        po = a(69),
-        ho = a.n(po);
+        uo = a(69),
+        po = a.n(uo);
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(ro || (ro = {}));
-      var mo = (function(e) {
+      })(oo || (oo = {}));
+      var ho = (function(e) {
         Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e) {
@@ -10796,14 +10797,14 @@
                 a = 2,
                 n = [];
               e.originalNode &&
-                wr(e.originalNode) === Ee.split_by_random &&
+                Cr(e.originalNode) === Ee.split_by_random &&
                 ((t = { value: e.originalNode.node.router.result_name || '' }),
                 (a = e.originalNode.node.exits.length),
                 (n = e.originalNode.node.router.categories));
               return {
-                categories: (n = uo(n, a)),
+                categories: (n = co(n, a)),
                 resultName: t,
-                bucketChoice: { value: co(a) },
+                bucketChoice: { value: lo(a) },
                 valid: !0
               };
             })(n.props.nodeSettings)),
@@ -10825,7 +10826,7 @@
               value: function(e) {
                 var t = parseInt(e.value, 10),
                   a = this.state.categories.concat([]);
-                (a = a.slice(0, t)), (a = uo(a, t));
+                (a = a.slice(0, t)), (a = co(a, t));
                 var n = { bucketChoice: { value: e } },
                   i = Zt(this.state, n);
                 return (
@@ -10841,7 +10842,7 @@
                     var a = {};
                     t.resultName.value && (a.result_name = t.resultName.value);
                     var n =
-                        wr(e.originalNode) === Ee.split_by_random ? e.originalNode.node.exits : [],
+                        Cr(e.originalNode) === Ee.split_by_random ? e.originalNode.node.exits : [],
                       i = parseInt(t.bucketChoice.value.value, 10);
                     n.splice(i, n.length - i),
                       t.categories.forEach(function(e, t) {
@@ -10852,7 +10853,7 @@
                         }
                       });
                     var o = Object(y.a)({ type: s.random, categories: t.categories }, a);
-                    return Oi(e.originalNode.node.uuid, o, n, Ee.split_by_random, [], null);
+                    return Ni(e.originalNode.node.uuid, o, n, Ee.split_by_random, [], null);
                   })(this.props.nodeSettings, this.state)
                 ),
                   this.props.onClose(!1);
@@ -10890,7 +10891,7 @@
                 return this.state.categories.map(function(t) {
                   return k.createElement(ja, {
                     key: t.uuid,
-                    __className: ho.a.bucket_name,
+                    __className: po.a.bucket_name,
                     name: t.uuid,
                     entry: { value: t.name },
                     onChange: function(a) {
@@ -10904,9 +10905,9 @@
               key: 'renderEdit',
               value: function() {
                 var e = this.props.typeConfig,
-                  t = lo.concat([]);
+                  t = ro.concat([]);
                 return (
-                  -1 === lo.indexOf(this.state.bucketChoice.value) &&
+                  -1 === ro.indexOf(this.state.bucketChoice.value) &&
                     t.push(this.state.bucketChoice.value),
                   k.createElement(
                     me,
@@ -10918,15 +10919,15 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: ho.a.options },
+                      { className: po.a.options },
                       k.createElement(
                         'div',
-                        { className: ho.a.lead_in },
+                        { className: po.a.lead_in },
                         'Split them randomly into one of'
                       ),
                       k.createElement(
                         'div',
-                        { className: ho.a.bucket_select },
+                        { className: po.a.bucket_select },
                         k.createElement(Na, {
                           key: 'buckets_select',
                           style: Ft.small,
@@ -10939,10 +10940,10 @@
                     ),
                     k.createElement(
                       'div',
-                      { className: ho.a.bucket_list },
+                      { className: po.a.bucket_list },
                       this.renderBucketNames()
                     ),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   )
                 );
@@ -10958,11 +10959,11 @@
           a
         );
       })(k.Component);
-      mo.contextTypes = { assetService: bt };
-      var _o,
-        vo = a(79),
-        go = a.n(vo),
-        fo = [
+      ho.contextTypes = { assetService: bt };
+      var mo,
+        _o = a(79),
+        vo = a.n(_o),
+        go = [
           { value: '60', name: Pt.t('forms.timeout_1 minute', '1 minute') },
           { value: '120', name: Pt.t('forms.timeout_2 minutes', '2 minutes') },
           { value: '180', name: Pt.t('forms.timeout_3 minutes', '3 minutes') },
@@ -10981,8 +10982,8 @@
           { value: '259200', name: Pt.t('forms.timeout_3 days', '3 days') },
           { value: '604800', name: Pt.t('forms.timeout_1 week', '1 week') }
         ],
-        yo = fo[4],
-        bo = (function(e) {
+        fo = go[4],
+        yo = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -11000,12 +11001,12 @@
                 key: 'getSelected',
                 value: function(e) {
                   var t,
-                    a = Object(C.a)(fo.entries());
+                    a = Object(C.a)(go.entries());
                   try {
                     for (a.s(); !(t = a.n()).done; ) {
                       var n = Object(w.a)(t.value, 2),
                         i = n[0];
-                      if (n[1].value === '' + e) return fo[i];
+                      if (n[1].value === '' + e) return go[i];
                     }
                   } catch (s) {
                     a.e(s);
@@ -11033,7 +11034,7 @@
                 value: function() {
                   this.props.timeout > 0
                     ? this.props.onChanged(0)
-                    : this.props.onChanged(parseInt(yo.value));
+                    : this.props.onChanged(parseInt(fo.value));
                 }
               },
               {
@@ -11047,27 +11048,27 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: go.a.timeout_control_container },
+                    { className: vo.a.timeout_control_container },
                     k.createElement(
                       'div',
-                      { className: go.a.left_section },
+                      { className: vo.a.left_section },
                       k.createElement(qa, {
                         name: Pt.t('forms.timeout', 'Timeout'),
                         checked: this.isChecked(),
                         description: this.getInstructions(),
-                        checkboxClassName: go.a.checkbox,
+                        checkboxClassName: vo.a.checkbox,
                         onChange: this.handleChecked
                       })
                     ),
                     G(this.isChecked())(
                       k.createElement(
                         'div',
-                        { className: go.a.drop_down },
+                        { className: vo.a.drop_down },
                         k.createElement(Lt, {
                           name: Pt.t('forms.timeout', 'Timeout'),
                           style: Ft.small,
                           value: this.getSelected(this.props.timeout),
-                          options: fo,
+                          options: go,
                           onChange: this.handleTimeoutChanged
                         })
                       )
@@ -11081,8 +11082,8 @@
         })(k.Component);
       !(function(e) {
         (e.args = 'args'), (e.min = 'min'), (e.max = 'max'), (e.exit = 'exit');
-      })(_o || (_o = {}));
-      var ko = (function(e) {
+      })(mo || (mo = {}));
+      var bo = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -11093,10 +11094,10 @@
                 var t = [],
                   a = { value: 'Result' },
                   n = 0;
-                if (e.originalNode && wr(e.originalNode) === Ee.wait_for_response) {
+                if (e.originalNode && Cr(e.originalNode) === Ee.wait_for_response) {
                   var i = e.originalNode.node.router;
                   i &&
-                    (xi(e.originalNode.node) && (t = ji(i.cases, e.originalNode)),
+                    (Oi(e.originalNode.node) && (t = xi(i.cases, e.originalNode)),
                     (a = { value: i.result_name || '' })),
                     e.originalNode.node.router.wait &&
                       e.originalNode.node.router.wait.timeout &&
@@ -11138,7 +11139,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Pi(t.cases, t.timeout > 0, e.originalNode.node),
+                        var a = Fi(t.cases, t.timeout > 0, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           r = a.defaultCategory,
@@ -11160,7 +11161,7 @@
                           },
                           d
                         );
-                        return Oi(e.originalNode.node.uuid, h, i, Ee.wait_for_response, [], {
+                        return Ni(e.originalNode.node.uuid, h, i, Ee.wait_for_response, [], {
                           cases: c
                         });
                       })(this.props.nodeSettings, this.state)
@@ -11193,7 +11194,7 @@
                       title: e.name,
                       headerClass: e.type,
                       buttons: this.getButtons(),
-                      gutter: k.createElement(bo, {
+                      gutter: k.createElement(yo, {
                         timeout: this.state.timeout,
                         onChanged: this.handleUpdateTimeout
                       })
@@ -11203,13 +11204,13 @@
                       initialType: e,
                       onChange: this.props.onTypeChange
                     }),
-                    k.createElement('div', null, Si),
-                    k.createElement(Is, {
+                    k.createElement('div', null, wi),
+                    k.createElement(Ps, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -11224,15 +11225,15 @@
             a
           );
         })(k.Component),
-        Eo = function(e) {
+        ko = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.call_resthook) return t;
         },
-        Co = a(149),
-        wo = a.n(Co),
-        So = (function(e) {
+        Eo = a(149),
+        Co = a.n(Eo),
+        wo = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -11244,7 +11245,7 @@
                 var t = { value: null },
                   a = { value: 'Result' },
                   n = !1,
-                  i = Eo(e);
+                  i = ko(e);
                 i &&
                   i.type === Ee.call_resthook &&
                   ((t = { value: { resthook: i.resthook } }),
@@ -11292,7 +11293,7 @@
                     (this.props.updateRouter(
                       (function(e, t) {
                         var a = Z(),
-                          n = Eo(e);
+                          n = ko(e);
                         n && (a = n.uuid);
                         var i = {
                           uuid: a,
@@ -11300,7 +11301,7 @@
                           type: Ee.call_resthook,
                           result_name: t.resultName.value
                         };
-                        return Ii(i, e.originalNode, !1);
+                        return Pi(i, e.originalNode, !1);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -11345,8 +11346,8 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: wo.a.result_name },
-                      ps(this.state.resultName, this.handleUpdateResultName)
+                      { className: Co.a.result_name },
+                      ds(this.state.resultName, this.handleUpdateResultName)
                     ),
                     ot(this.props)
                   );
@@ -11356,7 +11357,7 @@
             a
           );
         })(k.PureComponent),
-        No = [
+        So = [
           { value: '0', name: 'first' },
           { value: '1', name: 'second' },
           { value: '2', name: 'third' },
@@ -11378,19 +11379,19 @@
           { value: '18', name: '19th' },
           { value: '19', name: '20th' }
         ],
-        Oo = [
+        No = [
           { value: ' ', name: 'spaces' },
           { value: '.', name: 'periods' },
           { value: '+', name: 'plusses' }
         ],
-        xo = function(e) {
-          return Oo.find(function(t) {
+        Oo = function(e) {
+          return No.find(function(t) {
             return t.value === e;
           });
         },
-        jo = a(44),
-        To = a.n(jo),
-        Ao = (function(e) {
+        xo = a(44),
+        jo = a.n(xo),
+        To = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -11405,14 +11406,14 @@
                   s = 1,
                   o = ' ',
                   r = !1,
-                  l = wr(e.originalNode);
+                  l = Cr(e.originalNode);
                 if (
                   (e.originalNode && l === Ee.split_by_run_result) ||
                   l === Ee.split_by_run_result_delimited
                 ) {
                   var c = e.originalNode.node.router;
                   c &&
-                    (xi(e.originalNode.node) && (a = ji(c.cases, e.originalNode)),
+                    (Oi(e.originalNode.node) && (a = xi(c.cases, e.originalNode)),
                     (n = { value: c.result_name || '' }));
                   var u = e.originalNode.ui.config;
                   u &&
@@ -11478,7 +11479,7 @@
                   this.handleResultChanged([this.state.result.value], !0) &&
                     (this.props.updateRouter(
                       (function(e, t) {
-                        var a = Pi(t.cases, !1, e.originalNode.node),
+                        var a = Fi(t.cases, !1, e.originalNode.node),
                           n = a.cases,
                           i = a.exits,
                           o = a.defaultCategory,
@@ -11508,7 +11509,7 @@
                           },
                           c
                         );
-                        return Oi(e.originalNode.node.uuid, m, i, u, [], h);
+                        return Ni(e.originalNode.node.uuid, m, i, u, [], h);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -11552,11 +11553,11 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: To.a.non_delimited },
-                    k.createElement('div', { className: To.a.lead_in }, 'If the flow result'),
+                    { className: jo.a.non_delimited },
+                    k.createElement('div', { className: jo.a.lead_in }, 'If the flow result'),
                     k.createElement(
                       'div',
-                      { className: To.a.result_select },
+                      { className: jo.a.result_select },
                       k.createElement(Vt, {
                         entry: this.state.result,
                         style: Ft.small,
@@ -11576,11 +11577,11 @@
                 value: function() {
                   return k.createElement(
                     'div',
-                    { className: To.a.delimited },
-                    k.createElement('div', { className: To.a.lead_in }, 'If the'),
+                    { className: jo.a.delimited },
+                    k.createElement('div', { className: jo.a.lead_in }, 'If the'),
                     k.createElement(
                       'div',
-                      { className: To.a.field_number },
+                      { className: jo.a.field_number },
                       k.createElement(Na, {
                         key: 'field_number_select',
                         style: Ft.small,
@@ -11588,18 +11589,18 @@
                         entry: {
                           value:
                             ((e = this.state.fieldNumber),
-                            No.find(function(t) {
+                            So.find(function(t) {
                               return t.value === '' + e;
                             }))
                         },
                         onChange: this.handleFieldNumberChanged,
-                        options: No
+                        options: So
                       })
                     ),
-                    k.createElement('div', { className: To.a.lead_in_sub }, 'field of'),
+                    k.createElement('div', { className: jo.a.lead_in_sub }, 'field of'),
                     k.createElement(
                       'div',
-                      { className: To.a.result_select_delimited },
+                      { className: jo.a.result_select_delimited },
                       k.createElement(Vt, {
                         entry: this.state.result,
                         style: Ft.small,
@@ -11611,17 +11612,17 @@
                         additionalOptions: this.options
                       })
                     ),
-                    k.createElement('div', { className: To.a.lead_in_sub }, 'delimited by'),
+                    k.createElement('div', { className: jo.a.lead_in_sub }, 'delimited by'),
                     k.createElement(
                       'div',
-                      { className: To.a.delimiter },
+                      { className: jo.a.delimiter },
                       k.createElement(Na, {
                         key: 'delimiter_select',
                         style: Ft.small,
                         name: Pt.t('forms.delimiter', 'Delimiter'),
-                        entry: { value: xo(this.state.delimiter) },
+                        entry: { value: Oo(this.state.delimiter) },
                         onChange: this.handleDelimiterChanged,
-                        options: Oo
+                        options: No
                       })
                     )
                   );
@@ -11636,7 +11637,7 @@
                       name: 'Advanced',
                       body: k.createElement(
                         'div',
-                        { className: To.a.should_delimit },
+                        { className: jo.a.should_delimit },
                         k.createElement(qa, {
                           name: Pt.t('forms.delimit', 'Delimit'),
                           title: Pt.t('forms.delimit_result', 'Delimit Result'),
@@ -11659,12 +11660,12 @@
                       onChange: this.props.onTypeChange
                     }),
                     this.state.shouldDelimit ? this.renderFieldDelimited() : this.renderField(),
-                    k.createElement(Is, {
+                    k.createElement(Ps, {
                       'data-spec': 'cases',
                       cases: this.state.cases,
                       onCasesUpdated: this.handleCasesUpdated
                     }),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -11673,9 +11674,9 @@
             a
           );
         })(k.Component),
-        Ro = a(70),
-        Uo = a.n(Ro),
-        Do = (function(e) {
+        Ao = a(70),
+        Ro = a.n(Ao),
+        Uo = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -11685,7 +11686,7 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = {};
                 if (
-                  wr(e.originalNode) === Ee.split_by_subflow ||
+                  Cr(e.originalNode) === Ee.split_by_subflow ||
                   (e.originalAction && e.originalAction.type === Ee.enter_flow)
                 ) {
                   var a = e.originalAction;
@@ -11777,7 +11778,7 @@
                             type: Ee.enter_flow,
                             flow: { uuid: t.flow.value.uuid, name: t.flow.value.name }
                           };
-                        if (wr(e.originalNode) === Ee.split_by_subflow) {
+                        if (Cr(e.originalNode) === Ee.split_by_subflow) {
                           a = e.originalNode.node.exits;
                           var r = e.originalNode.node.router;
                           (n = r.cases), (i = r.categories);
@@ -11820,7 +11821,7 @@
                           categories: i,
                           default_category_uuid: i[i.length - 1].uuid
                         };
-                        return Oi(e.originalNode.node.uuid, c, a, Ee.split_by_subflow, l);
+                        return Ni(e.originalNode.node.uuid, c, a, Ee.split_by_subflow, l);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -11875,7 +11876,7 @@
                           null,
                           k.createElement(
                             'p',
-                            { className: Uo.a.info },
+                            { className: Ro.a.info },
                             k.createElement(
                               Fe.a,
                               {
@@ -11908,18 +11909,18 @@
                           ),
                           k.createElement(
                             'table',
-                            { className: Uo.a.params },
+                            { className: Ro.a.params },
                             k.createElement(
                               'tbody',
                               null,
                               n.parent_refs.map(function(t) {
                                 return k.createElement(
                                   'tr',
-                                  { key: 'param_' + t, className: Uo.a.param },
-                                  k.createElement('td', { className: Uo.a.param_name }, t),
+                                  { key: 'param_' + t, className: Ro.a.param },
+                                  k.createElement('td', { className: Ro.a.param_name }, t),
                                   k.createElement(
                                     'td',
-                                    { className: Uo.a.param_input },
+                                    { className: Ro.a.param_input },
                                     k.createElement(ja, {
                                       name: t,
                                       showLabel: !1,
@@ -11967,11 +11968,11 @@
             a
           );
         })(k.PureComponent);
-      Do.contextTypes = { config: bt };
-      var Fo,
-        Po = a(150),
-        Io = a.n(Po),
-        Mo = (function(e) {
+      Uo.contextTypes = { config: bt };
+      var Do,
+        Fo = a(150),
+        Po = a.n(Fo),
+        Io = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -12005,7 +12006,7 @@
                   this.state.valid &&
                     (this.props.updateRouter(
                       (function(e, t, a) {
-                        var n = Pi([], !1, e.originalNode.node),
+                        var n = Fi([], !1, e.originalNode.node),
                           i = n.exits,
                           l = n.defaultCategory,
                           c = n.caseConfig,
@@ -12038,7 +12039,7 @@
                           },
                           d
                         );
-                        return Oi(e.originalNode.node.uuid, m, i, Ee.wait_for_response, [], {
+                        return Ni(e.originalNode.node.uuid, m, i, Ee.wait_for_response, [], {
                           cases: c
                         });
                       })(this.props.nodeSettings, this.state, this.props.typeConfig)
@@ -12075,8 +12076,8 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: Io.a.result_name },
-                      ps(this.state.resultName, this.handleUpdateResultName)
+                      { className: Po.a.result_name },
+                      ds(this.state.resultName, this.handleUpdateResultName)
                     ),
                     ot(this.props)
                   );
@@ -12092,13 +12093,13 @@
             a
           );
         })(k.Component),
-        Lo = a(41),
-        zo = a.n(Lo),
-        Bo =
+        Mo = a(41),
+        Lo = a.n(Mo),
+        zo =
           (Pt.t('errors.http_header_missing_name', 'HTTP headers must have a name'),
           Pt.t('forms.webhook_header_name', 'Header Name')),
-        Vo = Pt.t('forms.value', 'Value'),
-        qo = (function(e) {
+        Bo = Pt.t('forms.value', 'Value'),
+        Vo = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -12157,7 +12158,7 @@
                   return k.createElement(
                     'div',
                     {
-                      className: zo.a.remove_ico,
+                      className: Lo.a.remove_ico,
                       onClick: this.handleRemove,
                       'data-spec': 'remove-icon'
                     },
@@ -12174,23 +12175,23 @@
                     { name: Pt.t('forms.webhook_header', 'Header'), entry: this.props.entry },
                     k.createElement(
                       'div',
-                      { className: zo.a.header, 'data-spec': 'header-container' },
+                      { className: Lo.a.header, 'data-spec': 'header-container' },
                       k.createElement(
                         'div',
-                        { className: zo.a.header_name, 'data-spec': 'name-container' },
+                        { className: Lo.a.header_name, 'data-spec': 'name-container' },
                         k.createElement(ja, {
-                          placeholder: Bo,
-                          name: Bo,
+                          placeholder: zo,
+                          name: zo,
                           onChange: this.handleChangeName,
                           entry: this.state.name
                         })
                       ),
                       k.createElement(
                         'div',
-                        { className: zo.a.header_value, 'data-spec': 'value-container' },
+                        { className: Lo.a.header_value, 'data-spec': 'value-container' },
                         k.createElement(ja, {
-                          placeholder: Vo,
-                          name: Vo,
+                          placeholder: Bo,
+                          name: Bo,
                           onChange: this.handleChangeValue,
                           entry: this.state.value,
                           autocomplete: !0
@@ -12212,28 +12213,28 @@
           (e.DELETE = 'DELETE'),
           (e.HEAD = 'HEAD'),
           (e.PATCH = 'PATCH');
-      })(Fo || (Fo = {}));
-      var Ho = { value: Fo.GET, name: Fo.GET },
-        Wo = [
-          Ho,
-          { value: Fo.POST, name: Fo.POST },
-          { value: Fo.PUT, name: Fo.PUT },
-          { value: Fo.DELETE, name: Fo.DELETE },
-          { value: Fo.HEAD, name: Fo.HEAD },
-          { value: Fo.PATCH, name: Fo.PATCH }
+      })(Do || (Do = {}));
+      var qo = { value: Do.GET, name: Do.GET },
+        Ho = [
+          qo,
+          { value: Do.POST, name: Do.POST },
+          { value: Do.PUT, name: Do.PUT },
+          { value: Do.DELETE, name: Do.DELETE },
+          { value: Do.HEAD, name: Do.HEAD },
+          { value: Do.PATCH, name: Do.PATCH }
         ],
-        Go = function(e) {
+        Wo = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.call_webhook) return t;
         },
-        Ko = function(e) {
-          return e === Fo.GET
+        Go = function(e) {
+          return e === Do.GET
             ? ''
             : '{\n  "contact": "@contact",\n  "results": "@results",\n  "custom_key": "custom_value"\n}';
         },
-        Yo = function() {
+        Ko = function() {
           return function(e, t) {
             try {
               var a = JSON.parse(t);
@@ -12243,7 +12244,7 @@
             }
           };
         },
-        Xo = (function(e) {
+        Yo = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -12254,14 +12255,14 @@
                 var t = {
                   headers: [],
                   resultName: { value: 'Result' },
-                  method: { value: Ho },
+                  method: { value: qo },
                   url: { value: '' },
-                  body: { value: Ko(Fo.GET) },
+                  body: { value: Go(Do.GET) },
                   valid: !1
                 };
-                if (wr(e.originalNode) === Ee.split_by_webhook) {
+                if (Cr(e.originalNode) === Ee.split_by_webhook) {
                   var a,
-                    n = Go(e),
+                    n = Wo(e),
                     i = Object(C.a)(Object.keys(n.headers || []).sort());
                   try {
                     for (i.s(); !(a = i.n()).done; ) {
@@ -12306,7 +12307,7 @@
                       var l = this.state.headers.find(function(e) {
                         return 'content-type' === e.value.name.toLowerCase();
                       });
-                      if (((n.body = { value: Ko(r) }), o === Fo.GET && r !== Fo.GET)) {
+                      if (((n.body = { value: Go(r) }), o === Do.GET && r !== Do.GET)) {
                         if (!l) {
                           var c = Z(),
                             u =
@@ -12321,8 +12322,8 @@
                             });
                         }
                       } else
-                        o !== Fo.GET &&
-                          r === Fo.GET &&
+                        o !== Do.GET &&
+                          r === Do.GET &&
                           l &&
                           (s = [{ headers: [{ value: l.value }] }]);
                     }
@@ -12336,7 +12337,7 @@
                       (n.resultName = ra(Pt.t('forms.result_name', 'Result Name'), e.resultName, [
                         ua(a)
                       ])),
-                    e.hasOwnProperty('body') && (n.body = ra('POST body', e.body, [Yo()])),
+                    e.hasOwnProperty('body') && (n.body = ra('POST body', e.body, [Ko()])),
                     e.hasOwnProperty('header') &&
                       ((n.headers = [
                         { value: e.header, validationFailures: e.validationFailures }
@@ -12437,7 +12438,7 @@
                           i.f();
                         }
                         var o = Z(),
-                          r = Go(e);
+                          r = Wo(e);
                         r && (o = r.uuid);
                         var l = {
                           uuid: o,
@@ -12448,7 +12449,7 @@
                           method: t.method.value.value,
                           result_name: t.resultName.value
                         };
-                        return Ii(l, e.originalNode, !1);
+                        return Pi(l, e.originalNode, !1);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -12478,7 +12479,7 @@
                       return k.createElement(
                         'div',
                         { key: 'header_'.concat(t.value.uuid) },
-                        k.createElement(qo, {
+                        k.createElement(Vo, {
                           entry: t,
                           onRemove: e.handleHeaderRemoved,
                           onChange: e.handleHeaderUpdated,
@@ -12497,7 +12498,7 @@
                       null,
                       k.createElement(
                         'p',
-                        { className: zo.a.info },
+                        { className: Lo.a.info },
                         k.createElement(
                           Fe.a,
                           { i18nKey: 'forms.webhook_header_summary' },
@@ -12515,7 +12516,7 @@
                       name: s,
                       body: k.createElement(
                         'div',
-                        { key: 'post_body', className: zo.a.body_form },
+                        { key: 'post_body', className: Lo.a.body_form },
                         k.createElement('h4', null, s),
                         k.createElement(
                           'p',
@@ -12530,7 +12531,7 @@
                           )
                         ),
                         k.createElement(ja, {
-                          __className: zo.a.req_body,
+                          __className: Lo.a.req_body,
                           name: s,
                           showLabel: !1,
                           entry: this.state.body,
@@ -12547,7 +12548,7 @@
                           textarea: !0
                         })
                       ),
-                      checked: this.state.body.value !== Ko(i),
+                      checked: this.state.body.value !== Go(i),
                       hasErrors:
                         !!this.state.body.validationFailures &&
                         this.state.body.validationFailures.length > 0
@@ -12565,18 +12566,18 @@
                         { style: { display: 'flex', alignItems: 'flex-end' } },
                         k.createElement(
                           'div',
-                          { className: zo.a.method },
+                          { className: Lo.a.method },
                           k.createElement(Na, {
                             key: 'method_select',
                             name: Pt.t('forms.method', 'Method'),
                             entry: this.state.method,
                             onChange: this.handleMethodUpdate,
-                            options: Wo
+                            options: Ho
                           })
                         ),
                         k.createElement(
                           'div',
-                          { className: zo.a.url },
+                          { className: Lo.a.url },
                           k.createElement(ja, {
                             name: Pt.t('forms.url', 'URL'),
                             placeholder: Pt.t('forms.enter_a_url', 'Enter a URL'),
@@ -12588,7 +12589,7 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: zo.a.instructions },
+                        { className: Lo.a.instructions },
                         k.createElement(
                           'p',
                           null,
@@ -12600,7 +12601,7 @@
                         ),
                         k.createElement(
                           'pre',
-                          { className: zo.a.code },
+                          { className: Lo.a.code },
                           '{ "product": "Solar Charging Kit", "stock level": 32 }'
                         ),
                         k.createElement(
@@ -12612,21 +12613,21 @@
                             'This response would add ',
                             k.createElement(
                               'span',
-                              { className: zo.a.example },
+                              { className: Lo.a.example },
                               '@webhook.product'
                             ),
                             ' and',
                             ' ',
                             k.createElement(
                               'span',
-                              { className: zo.a.example },
+                              { className: Lo.a.example },
                               '@webhook["stock level"]'
                             ),
                             ' for use in the flow.'
                           )
                         )
                       ),
-                      ps(this.state.resultName, this.handleUpdateResultName),
+                      ds(this.state.resultName, this.handleUpdateResultName),
                       ot(this.props)
                     )
                   );
@@ -12642,22 +12643,22 @@
             a
           );
         })(k.Component),
-        Qo = function(e, t) {
+        Xo = function(e, t) {
           var a = e.classifier;
           return dt({ id: a.uuid, name: a.name, type: fe.Classifier }, t.config.endpoints);
         };
-      Qo.contextTypes = { config: bt };
-      var Jo = Qo,
-        $o = kt,
-        Zo = function(e) {
+      Xo.contextTypes = { config: bt };
+      var Qo = Xo,
+        Jo = kt,
+        $o = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.call_classifier) return t;
         },
-        er = function(e, t) {
+        Zo = function(e, t) {
           var a = Z(),
-            n = Pi(
+            n = Fi(
               [].concat(Object(ve.a)(t.cases), Object(ve.a)(t.hiddenCases)),
               !1,
               e.originalNode.node,
@@ -12687,7 +12688,7 @@
               e.categories.push(o), e.cases.push(r), e.exits.splice(e.exits.length - 1, 0, s);
             }
           })(n, { type: Ce.has_category, arguments: ['Success', 'Skipped'], name: 'Other' });
-          var i = Zo(e);
+          var i = $o(e);
           i && (a = i.uuid);
           var o = t.resultName.value,
             r = '_' + o + ' Classification',
@@ -12706,9 +12707,9 @@
               default_category_uuid: n.defaultCategory,
               result_name: o
             };
-          return Oi(e.originalNode.node.uuid, c, n.exits, Ee.split_by_intent, [l]);
+          return Ni(e.originalNode.node.uuid, c, n.exits, Ee.split_by_intent, [l]);
         },
-        tr = function() {
+        er = function() {
           var e = Z();
           return {
             uuid: e,
@@ -12717,9 +12718,9 @@
             valid: !0
           };
         },
-        ar = a(151),
-        nr = a.n(ar),
-        ir = (function(e) {
+        tr = a(151),
+        ar = a.n(tr),
+        nr = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -12732,16 +12733,16 @@
                   a = '@input.text',
                   n = { value: null },
                   i = [];
-                if (wr(e.originalNode) === Ee.split_by_intent) {
+                if (Cr(e.originalNode) === Ee.split_by_intent) {
                   var s = e.originalNode.node.router;
-                  xi(e.originalNode.node) &&
-                    ((i = (t = ji(s.cases, e.originalNode)).filter(function(e) {
-                      return Ss(e.kase.type).visibility === Ve;
+                  Oi(e.originalNode.node) &&
+                    ((i = (t = xi(s.cases, e.originalNode)).filter(function(e) {
+                      return ws(e.kase.type).visibility === Ve;
                     })),
                     (t = t.filter(function(e) {
-                      return Ss(e.kase.type).visibility !== Ve;
+                      return ws(e.kase.type).visibility !== Ve;
                     })));
-                  var o = Zo(e);
+                  var o = $o(e);
                   (n = { value: o.classifier }), (a = o.input);
                 }
                 return {
@@ -12809,7 +12810,7 @@
                       },
                       !0
                     ) &&
-                      (this.props.updateRouter(er(this.props.nodeSettings, this.state)),
+                      (this.props.updateRouter(Zo(this.props.nodeSettings, this.state)),
                       this.props.onClose(!1)));
                 }
               },
@@ -12892,7 +12893,7 @@
                       k.createElement(
                         'span',
                         {
-                          className: nr.a.link,
+                          className: ar.a.link,
                           onClick: function() {
                             e.dialog.showTab(0);
                           }
@@ -12912,16 +12913,16 @@
                       entry: this.state.classifier
                     }),
                     G(!!this.state.classifier.value)(
-                      k.createElement(Is, {
+                      k.createElement(Ps, {
                         'data-spec': 'cases',
                         cases: this.state.cases,
                         onCasesUpdated: this.handleCasesUpdated,
-                        operators: Es,
-                        createEmptyCase: tr,
+                        operators: ks,
+                        createEmptyCase: er,
                         classifier: this.state.classifier.value
                       })
                     ),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -12936,8 +12937,8 @@
             a
           );
         })(k.Component),
-        sr = function() {
-          return yr
+        ir = function() {
+          return fr
             .filter(function(e) {
               return !e.excludeFromSplit;
             })
@@ -12945,10 +12946,10 @@
               return { value: e.scheme, name: e.name };
             });
         },
-        or = function(e) {
+        sr = function(e) {
           var t = [],
-            a = Ui(e),
-            n = sr();
+            a = Ri(e),
+            n = ir();
           return (
             a &&
               (t = a.cases
@@ -12967,7 +12968,7 @@
             t
           );
         },
-        rr = function() {
+        or = function() {
           var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [],
             t = arguments.length > 1 ? arguments[1] : void 0;
           return e.map(function(e) {
@@ -12985,7 +12986,7 @@
             };
           });
         },
-        lr = (function(e) {
+        rr = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -12995,8 +12996,8 @@
               ((n = t.call(this, e)).state = (function(e) {
                 var t = { schemes: { value: [] }, resultName: { value: '' }, valid: !1 };
                 return (
-                  wr(e.originalNode) === Ee.split_by_scheme &&
-                    ((t.schemes.value = or(e.originalNode.node)),
+                  Cr(e.originalNode) === Ee.split_by_scheme &&
+                    ((t.schemes.value = sr(e.originalNode.node)),
                     (t.resultName = { value: e.originalNode.node.router.result_name || '' }),
                     (t.valid = !0)),
                   t
@@ -13040,10 +13041,10 @@
                     (this.props.updateRouter(
                       (function(e, t) {
                         var a = [];
-                        wr(e.originalNode) === Ee.split_by_scheme &&
-                          (a = Ui(e.originalNode.node).cases);
-                        var n = rr(t.schemes.value, a),
-                          i = Pi(n, !1, e.originalNode.node),
+                        Cr(e.originalNode) === Ee.split_by_scheme &&
+                          (a = Ri(e.originalNode.node).cases);
+                        var n = or(t.schemes.value, a),
+                          i = Fi(n, !1, e.originalNode.node),
                           o = i.cases,
                           r = i.exits,
                           l = i.defaultCategory,
@@ -13057,7 +13058,7 @@
                             operand: '@(urn_parts(contact.urn).scheme)',
                             result_name: t.resultName.value
                           };
-                        return Oi(e.originalNode.node.uuid, d, r, Ee.split_by_scheme, [], {
+                        return Ni(e.originalNode.node.uuid, d, r, Ee.split_by_scheme, [], {
                           cases: c
                         });
                       })(this.props.nodeSettings, this.state)
@@ -13109,11 +13110,11 @@
                       ),
                       entry: this.state.schemes,
                       onChange: this.handleSchemesChanged,
-                      options: sr(),
+                      options: ir(),
                       multi: !0,
                       hideError: !0
                     }),
-                    ps(this.state.resultName, this.handleUpdateResultName),
+                    ds(this.state.resultName, this.handleUpdateResultName),
                     ot(this.props)
                   );
                 }
@@ -13122,16 +13123,16 @@
             a
           );
         })(k.Component);
-      lr.contextTypes = { endpoints: bt, assetService: bt };
-      var cr = function(e) {
+      rr.contextTypes = { endpoints: bt, assetService: bt };
+      var lr = function(e) {
           var t =
             e.originalAction ||
             (e.originalNode.node.actions.length > 0 && e.originalNode.node.actions[0]);
           if (t.type === Ee.open_ticket) return t;
         },
-        ur = a(106),
-        dr = a.n(ur),
-        pr = (function(e) {
+        cr = a(106),
+        ur = a.n(cr),
+        dr = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -13143,8 +13144,8 @@
                   a = { value: '@run.flow.name' },
                   n = { value: '@results' },
                   i = { value: 'Result' };
-                if (wr(e.originalNode) === Ee.split_by_ticket) {
-                  var s = cr(e);
+                if (Cr(e.originalNode) === Ee.split_by_ticket) {
+                  var s = lr(e);
                   (t = { value: s.ticketer }),
                     (a = { value: s.subject }),
                     (n = { value: s.body }),
@@ -13218,7 +13219,7 @@
                     (this.props.updateRouter(
                       (function(e, t) {
                         var a = Z(),
-                          n = cr(e);
+                          n = lr(e);
                         n && (a = n.uuid);
                         var i = {
                           uuid: a,
@@ -13228,7 +13229,7 @@
                           body: t.body.value,
                           result_name: t.resultName.value
                         };
-                        return Ii(i, e.originalNode, !0);
+                        return Pi(i, e.originalNode, !0);
                       })(this.props.nodeSettings, this.state)
                     ),
                     this.props.onClose(!1));
@@ -13276,7 +13277,7 @@
                     }),
                     k.createElement(
                       'div',
-                      { className: dr.a.subject },
+                      { className: ur.a.subject },
                       k.createElement(ja, {
                         name: Pt.t('forms.subject', 'Subject'),
                         placeholder: Pt.t('forms.enter_a_subject', 'Enter a subject'),
@@ -13287,7 +13288,7 @@
                     ),
                     k.createElement(
                       'div',
-                      { className: dr.a.body },
+                      { className: ur.a.body },
                       k.createElement(ja, {
                         name: Pt.t('forms.body', 'Body'),
                         placeholder: Pt.t('forms.enter_a_body', 'Enter a body'),
@@ -13297,7 +13298,7 @@
                         textarea: !0
                       })
                     ),
-                    ps(this.state.resultName, this.handleResultNameUpdate),
+                    ds(this.state.resultName, this.handleResultNameUpdate),
                     ot(this.props)
                   );
                 }
@@ -13312,15 +13313,15 @@
             a
           );
         })(k.Component),
-        hr = function(e, t) {
+        pr = function(e, t) {
           var a = e.ticketer;
           return dt({ id: a.uuid, name: a.name, type: fe.Ticketer }, t.config.endpoints);
         };
-      hr.contextTypes = { config: bt };
-      var mr = hr,
-        _r = a(56),
-        vr = a.n(_r),
-        gr = (function(e) {
+      pr.contextTypes = { config: bt };
+      var hr = pr,
+        mr = a(55),
+        _r = a.n(mr),
+        vr = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -13401,11 +13402,11 @@
                     k.createElement('div', null, 'Wait for time'),
                     k.createElement(
                       'div',
-                      { className: vr.a.delay_container },
+                      { className: _r.a.delay_container },
                       k.createElement(
                         'div',
-                        { className: vr.a.input },
-                        k.createElement('span', { className: vr.a.title }, 'Days'),
+                        { className: _r.a.input },
+                        k.createElement('span', { className: _r.a.title }, 'Days'),
                         k.createElement(ja, {
                           name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter days',
@@ -13418,8 +13419,8 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: vr.a.input },
-                        k.createElement('span', { className: vr.a.title }, 'Hours'),
+                        { className: _r.a.input },
+                        k.createElement('span', { className: _r.a.title }, 'Hours'),
                         k.createElement(ja, {
                           name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter hours',
@@ -13433,8 +13434,8 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: vr.a.input },
-                        k.createElement('span', { className: vr.a.title }, 'Minutes'),
+                        { className: _r.a.input },
+                        k.createElement('span', { className: _r.a.title }, 'Minutes'),
                         k.createElement(ja, {
                           name: Pt.t('forms.state', 'State'),
                           placeholder: 'Enter minutes',
@@ -13451,7 +13452,7 @@
                         parseInt(this.state.minutes) +
                         parseInt(this.state.days)
                     )
-                      ? k.createElement('span', { className: vr.a.error }, 'Enter valid numbers')
+                      ? k.createElement('span', { className: _r.a.error }, 'Enter valid numbers')
                       : null
                   );
                 }
@@ -13466,7 +13467,7 @@
             a
           );
         })(k.Component),
-        fr = function(e) {
+        gr = function(e) {
           var t = parseInt(e.delay ? e.delay : '0'),
             a = Math.floor(t / 86400),
             n = a > 0 ? a + (a > 1 ? ' days ' : ' day ') : '',
@@ -13480,7 +13481,7 @@
               .concat(r);
           return 0 === t && (l = 'Not waiting'), k.createElement('div', null, l);
         },
-        yr = [
+        fr = [
           {
             scheme: 'tel',
             name: Pt.t('schemes.phone.name', 'SMS'),
@@ -13554,7 +13555,7 @@
             path: Pt.t('schemes.external.path', 'External ID')
           }
         ],
-        br = [
+        yr = [
           {
             type: Ee.missing,
             name: 'Missing',
@@ -13576,8 +13577,8 @@
             type: Ee.wait_for_menu,
             name: Pt.t('actions.wait_for_menu.name', 'Wait for Menu Selection'),
             description: Pt.t('actions.wait_for_menu.description', 'Wait for menu selection'),
-            form: oo,
-            localization: to,
+            form: so,
+            localization: eo,
             localizeableKeys: ['exits'],
             visibility: qe
           },
@@ -13585,8 +13586,8 @@
             type: Ee.wait_for_digits,
             name: Pt.t('actions.wait_for_digits.name', 'Wait for Digits'),
             description: Pt.t('actions.wait_for_digits.description', 'Wait for multiple digits'),
-            form: Bs,
-            localization: to,
+            form: zs,
+            localization: eo,
             localizeableKeys: ['exits', 'cases'],
             visibility: qe
           },
@@ -13594,8 +13595,8 @@
             type: Ee.wait_for_audio,
             name: Pt.t('actions.wait_for_audio.name', 'Wait for Audio'),
             description: Pt.t('actions.wait_for_audio.description', 'Wait for an audio recording'),
-            form: Mo,
-            localization: to,
+            form: Io,
+            localization: eo,
             localizeableKeys: ['exits'],
             visibility: [be.SURVEY, be.VOICE]
           },
@@ -13603,10 +13604,10 @@
             type: Ee.send_msg,
             name: Pt.t('actions.send_msg.name', 'Send Message'),
             description: Pt.t('actions.send_msg.description', 'Send the contact a message'),
-            form: Jn,
+            form: Qn,
             localization: rn,
             localizeableKeys: ['text', 'quick_replies', 'templating.variables', 'attachments'],
-            component: Wn,
+            component: Hn,
             massageForDisplay: function(e) {
               e.quick_replies = e.quick_replies || [];
             }
@@ -13618,8 +13619,8 @@
               'actions.wait_for_response.description',
               'Wait for the contact to respond'
             ),
-            form: ko,
-            localization: to,
+            form: bo,
+            localization: eo,
             localizeableKeys: ['categories', 'cases'],
             aliases: [s.switch],
             visibility: We
@@ -13628,8 +13629,8 @@
             type: Ee.wait_for_time,
             name: Pt.t('actions.wait_for_time.name', 'Wait for Time'),
             description: Pt.t('actions.wait_for_time.description', 'Wait for time'),
-            form: gr,
-            component: fr
+            form: vr,
+            component: gr
           },
           {
             type: Ee.send_broadcast,
@@ -13638,10 +13639,10 @@
               'actions.send_broadcast.description',
               'Send a staff member a message'
             ),
-            form: Un,
+            form: Rn,
             localization: en,
             localizeableKeys: ['text'],
-            component: Cn
+            component: En
           },
           {
             type: Ee.add_input_labels,
@@ -13687,25 +13688,25 @@
             ],
             name: Pt.t('actions.set_contact_field.name', 'Update Contact'),
             description: Pt.t('actions.set_contact_field.description', 'Update the contact'),
-            form: ss,
-            component: bi
+            form: is,
+            component: yi
           },
           {
             type: Ee.send_email,
             name: Pt.t('actions.send_email.name', 'Send Email'),
             description: Pt.t('actions.send_email.description', 'Send an email'),
-            form: Bn,
+            form: zn,
             localization: en,
             localizeableKeys: ['subject', 'body'],
-            component: Dn,
+            component: Un,
             visibility: Ge
           },
           {
             type: Ee.set_run_result,
             name: Pt.t('actions.set_run_result.name', 'Save Flow Result'),
             description: Pt.t('actions.set_run_result.description', 'Save a result for this flow'),
-            form: ti,
-            component: $n
+            form: ei,
+            component: Jn
           },
           {
             type: Ee.play_audio,
@@ -13719,8 +13720,8 @@
             type: Ee.call_webhook,
             name: Pt.t('actions.call_webhook.name', 'Call Webhook'),
             description: Pt.t('actions.call_webhook.description', 'Call a webhook'),
-            form: Xo,
-            localization: to,
+            form: Yo,
+            localization: eo,
             localizeableKeys: ['exits'],
             component: Da,
             aliases: [Ee.split_by_webhook],
@@ -13730,8 +13731,8 @@
             type: Ee.call_resthook,
             name: Pt.t('actions.call_resthook.name', 'Call Zapier'),
             description: Pt.t('actions.call_resthook.description', 'Call Zapier'),
-            form: So,
-            localization: to,
+            form: wo,
+            localization: eo,
             localizeableKeys: ['exits'],
             component: Ua,
             aliases: [Ee.split_by_resthook],
@@ -13742,20 +13743,20 @@
             type: Ee.enter_flow,
             name: Pt.t('actions.enter_flow.name', 'Enter a Flow'),
             description: Pt.t('actions.enter_flow.description', 'Enter another flow'),
-            form: Do,
-            localization: to,
+            form: Uo,
+            localization: eo,
             localizeableKeys: ['exits'],
-            component: ni,
+            component: ai,
             aliases: [Ee.split_by_subflow]
           },
           {
             type: Ee.start_session,
             name: Pt.t('actions.start_session.name', 'Start Somebody Else'),
             description: Pt.t('actions.start_session.description', 'Start somebody else in a flow'),
-            localization: to,
+            localization: eo,
             localizeableKeys: ['exits'],
-            form: hi,
-            component: li,
+            form: pi,
+            component: ri,
             visibility: Ge
           },
           {
@@ -13765,10 +13766,10 @@
               'actions.open_ticket.description',
               'Open a ticket with a human agent'
             ),
-            form: pr,
-            localization: to,
+            form: dr,
+            localization: eo,
             localizeableKeys: ['exits'],
-            component: mr,
+            component: hr,
             aliases: [Ee.split_by_ticket],
             visibility: Ge,
             filter: we.HAS_TICKETER
@@ -13777,10 +13778,10 @@
             type: Ee.transfer_airtime,
             name: Pt.t('actions.transfer_airtime.name', 'Send Airtime'),
             description: Pt.t('actions.transfer_airtime.description', 'Send the contact airtime'),
-            form: ys,
-            localization: to,
+            form: fs,
+            localization: eo,
             localizeableKeys: ['exits'],
-            component: vi,
+            component: _i,
             aliases: [Ee.split_by_airtime],
             visibility: Ge,
             filter: we.HAS_AIRTIME
@@ -13789,8 +13790,8 @@
             type: Ee.wait_for_image,
             name: Pt.t('actions.wait_for_image.name', 'Wait for Image'),
             description: Pt.t('actions.wait_for_image.description', 'Wait for an image'),
-            form: Mo,
-            localization: to,
+            form: Io,
+            localization: eo,
             localizeableKeys: ['exits'],
             visibility: He
           },
@@ -13798,8 +13799,8 @@
             type: Ee.wait_for_video,
             name: Pt.t('actions.wait_for_video.name', 'Wait for Video'),
             description: Pt.t('actions.wait_for_video.description', 'Wait for a video'),
-            form: Mo,
-            localization: to,
+            form: Io,
+            localization: eo,
             localizeableKeys: ['exits'],
             visibility: He
           },
@@ -13810,8 +13811,8 @@
               'actions.wait_for_location.description',
               'Wait for location GPS coordinates'
             ),
-            form: Mo,
-            localization: to,
+            form: Io,
+            localization: eo,
             localizeableKeys: ['exits'],
             visibility: He
           },
@@ -13819,10 +13820,10 @@
             type: Ee.split_by_intent,
             name: Pt.t('actions.split_by_intent.name', 'Split by Intent'),
             description: Pt.t('actions.split_by_intent.description', 'Split by intent'),
-            form: ir,
-            localization: to,
+            form: nr,
+            localization: eo,
             localizeableKeys: ['exits'],
-            component: Jo,
+            component: Qo,
             aliases: [Ee.call_classifier],
             visibility: Ge,
             filter: we.HAS_CLASSIFIER
@@ -13834,9 +13835,9 @@
               'actions.split_by_expression.description',
               'Split by a custom expression'
             ),
-            localization: to,
+            localization: eo,
             localizeableKeys: ['exits', 'cases'],
-            form: qs
+            form: Vs
           },
           {
             type: Ee.split_by_contact_field,
@@ -13845,9 +13846,9 @@
               'actions.split_by_contact_field.description',
               'Split by a contact field'
             ),
-            localization: to,
+            localization: eo,
             localizeableKeys: ['exits', 'cases'],
-            form: Ks
+            form: Gs
           },
           {
             type: Ee.split_by_run_result,
@@ -13857,17 +13858,17 @@
               'actions.split_by_run_result.description',
               'Split by a result in the flow'
             ),
-            localization: to,
+            localization: eo,
             localizeableKeys: ['exits', 'cases'],
-            form: Ao
+            form: To
           },
           {
             type: Ee.split_by_random,
             name: Pt.t('actions.split_by_random.name', 'Split Randomly'),
             description: Pt.t('actions.split_by_random.description', 'Split by random chance'),
-            localization: to,
+            localization: eo,
             localizeableKeys: ['exits'],
-            form: mo
+            form: ho
           },
           {
             type: Ee.split_by_groups,
@@ -13876,28 +13877,28 @@
               'actions.split_by_groups.description',
               'Split by Collection Membership'
             ),
-            localization: to,
+            localization: eo,
             localizeableKeys: ['exits'],
-            form: Js
+            form: Qs
           },
           {
             type: Ee.split_by_scheme,
             name: Pt.t('actions.split_by_scheme.name', 'Split by URN Type'),
             description: Pt.t('actions.split_by_scheme.description', 'Split by URN type'),
-            localization: to,
+            localization: eo,
             localizeableKeys: ['exits'],
-            form: lr
+            form: rr
           }
         ],
-        kr = (function(e) {
+        br = (function(e) {
           var t = {};
           return e.filter(function(e) {
             if ('missing' === e.type) return !1;
             var a = e.name;
             return !t[a] && (t[a] = !0);
           });
-        })(br),
-        Er = br.reduce(function(e, t) {
+        })(yr),
+        kr = yr.reduce(function(e, t) {
           return (
             (e[t.type] = t),
             t.aliases &&
@@ -13907,11 +13908,11 @@
             e
           );
         }, {}),
-        Cr = function(e) {
-          var t = Er[e];
-          return t || (t = Er.missing), t;
+        Er = function(e) {
+          var t = kr[e];
+          return t || (t = kr.missing), t;
         },
-        wr = function(e) {
+        Cr = function(e) {
           var t = e.node.router && e.node.router.wait;
           if (t && t.hint)
             switch (t.hint.type) {
@@ -13930,25 +13931,25 @@
             ? e.ui.type
             : Ee.split_by_expression;
         },
-        Sr = function(e, t) {
+        wr = function(e, t) {
           return !!(e.filters || []).find(function(e) {
             return e === t;
           });
         },
-        Nr = function(e, t) {
+        Sr = function(e, t) {
           var a = {
             type: Ee.set_contact_name,
             valid: !1,
             name: { value: '' },
             channel: { value: null },
             language: { value: null },
-            status: { value: es },
+            status: { value: Zi },
             field: { value: vt },
             fieldValue: { value: '' }
           };
           if (e.originalAction) {
             var n = e.originalAction.type;
-            if (Cr(n) === Cr(Ee.set_contact_field))
+            if (Er(n) === Er(Ee.set_contact_field))
               switch (((a.type = n), n)) {
                 case Ee.set_contact_field:
                   var i = e.originalAction;
@@ -13973,7 +13974,7 @@
                     (a.valid = !0),
                     (a.language = {
                       value: o.language
-                        ? { iso: o.language, name: jr(o.language, t.languages.items) }
+                        ? { iso: o.language, name: xr(o.language, t.languages.items) }
                         : Ne
                     }),
                     a
@@ -13984,7 +13985,7 @@
                     (a.field = { value: yt }),
                     (a.valid = !0),
                     (a.status = {
-                      value: is.find(function(e) {
+                      value: ns.find(function(e) {
                         return e.value === r.status;
                       })
                     }),
@@ -13997,7 +13998,7 @@
           }
           return a;
         },
-        Or = function(e, t) {
+        Nr = function(e, t) {
           var a = t.field.value;
           return t.type === Ee.set_contact_field
             ? {
@@ -14024,7 +14025,7 @@
             ? { uuid: lt(e, Ee.set_contact_name), type: t.type, name: t.name.value }
             : void 0;
         },
-        xr = function(e, t) {
+        Or = function(e, t) {
           var a = e.type || '',
             n = t.type || '',
             i = e.name || e.label || '',
@@ -14040,16 +14041,16 @@
           }
           return i.localeCompare(s);
         },
-        jr = function(e, t) {
+        xr = function(e, t) {
           var a = e;
           return t && a in t && (a = t[a].name), a;
         },
-        Tr = function(e) {
+        jr = function(e) {
           return e.label || e.name || e.key;
         },
-        Ar = a(107),
-        Rr = a.n(Ar),
-        Ur = {
+        Tr = a(107),
+        Ar = a.n(Tr),
+        Rr = {
           dragStartTime: 0,
           dragDownPosition: null,
           dragActive: !1,
@@ -14057,7 +14058,7 @@
           dragGroup: !1,
           dragSelection: null
         },
-        Dr = {
+        Ur = {
           completionSchema: { types: [], root: [] },
           functions: [],
           currentRevision: null,
@@ -14082,8 +14083,8 @@
           scrollToNode: null,
           scrollToAction: null
         },
-        Fr = function() {
-          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Dr,
+        Dr = function() {
+          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Ur,
             t = arguments.length > 1 ? arguments[1] : void 0;
           switch (t.type) {
             case ye.UPDATE_EDITOR_STATE:
@@ -14092,31 +14093,31 @@
               return e;
           }
         },
-        Pr = function() {},
-        Ir = null,
-        Mr = !1,
+        Fr = function() {},
+        Pr = null,
+        Ir = !1,
+        Mr = 0,
         Lr = 0,
-        zr = 0,
-        Br = Pt.t(
+        zr = Pt.t(
           'errors.network',
           'Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again.'
         ),
-        Vr = function(e) {
+        Br = function(e) {
           window.setInterval(function() {
-            zr < Lr &&
-              new Date().getTime() - Lr > 6e4 &&
+            Lr < Mr &&
+              new Date().getTime() - Mr > 6e4 &&
               e(
-                Hr({
-                  modalMessage: { title: "Uh oh, we couldn't save your changes", body: Br },
+                qr({
+                  modalMessage: { title: "Uh oh, we couldn't save your changes", body: zr },
                   saving: !1
                 })
               );
           }, 5e3);
         },
-        qr = function(e, t, a) {
+        Vr = function(e, t, a) {
           return function() {
             var n = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : 1e3;
-            (Lr = new Date().getTime()), Ir && window.clearTimeout(Ir);
+            (Mr = new Date().getTime()), Pr && window.clearTimeout(Pr);
             var i = a(),
               s = i.flowContext,
               o = s.definition,
@@ -14124,33 +14125,33 @@
               l = s.assetStore,
               c = s.issues,
               u = i.editorState.currentRevision;
-            t(Hr({ saving: !0 }));
-            var d = kl(o, r, !0);
+            t(qr({ saving: !0 }));
+            var d = bl(o, r, !0);
             (d.revision = u),
-              (Ir = Mr
+              (Pr = Ir
                 ? window.setTimeout(function() {
-                    Pr();
+                    Fr();
                   }, 1e3)
                 : window.setTimeout(function() {
-                    (Mr = !0),
+                    (Ir = !0),
                       Ke(e, d).then(
                         function(e) {
                           var a = e.revision;
                           (o.revision = a.revision),
                             t(je(o)),
-                            e.metadata && (t(Re(e.metadata)), t(Ae(xl(c, e.metadata.issues))));
-                          var n = Hi(l, a);
+                            e.metadata && (t(Re(e.metadata)), t(Ae(Ol(c, e.metadata.issues))));
+                          var n = qi(l, a);
                           t(Ue(n)),
                             t(
-                              Hr({ currentRevision: a.revision, saving: !1, activityInterval: 5e3 })
+                              qr({ currentRevision: a.revision, saving: !1, activityInterval: 5e3 })
                             ),
-                            (zr = new Date().getTime()),
-                            (Mr = !1);
+                            (Lr = new Date().getTime()),
+                            (Ir = !1);
                         },
                         function(e) {
-                          var a = e.response ? e.response.data.description : Br;
+                          var a = e.response ? e.response.data.description : zr;
                           t(
-                            Hr({
+                            qr({
                               modalMessage: {
                                 title: "Uh oh, we couldn't save your changes",
                                 body: a
@@ -14158,13 +14159,13 @@
                               saving: !1
                             })
                           ),
-                            (Mr = !1);
+                            (Ir = !1);
                         }
                       );
                   }, n));
           };
         },
-        Hr = function(e) {
+        qr = function(e) {
           return function(t, a) {
             var n = a().editorState,
               i = $t()(n, { $merge: e });
@@ -14178,17 +14179,17 @@
             );
           };
         },
-        Wr = function() {
+        Hr = function() {
           return function(e, t) {
-            Pr(0);
+            Fr(0);
           };
         },
-        Gr = function(e, t) {
+        Wr = function(e, t) {
           return function(a, n) {
             var i = e.definition,
               s = n(),
               o = s.flowContext.issues;
-            s.editorState.fetchingFlow || a(Hr({ fetchingFlow: !0 })),
+            s.editorState.fetchingFlow || a(qr({ fetchingFlow: !0 })),
               (i.localization = i.localization || {}),
               (i._ui = i._ui || { nodes: {}, languages: [], stickies: {} });
             var r,
@@ -14198,7 +14199,7 @@
               for (c.s(); !(r = c.n()).done; ) {
                 var u = r.value;
                 i._ui.nodes[u.uuid] ||
-                  ((i._ui.nodes[u.uuid] = { position: { left: 0, top: l }, type: wl(u) }),
+                  ((i._ui.nodes[u.uuid] = { position: { left: 0, top: l }, type: Cl(u) }),
                   (l += 150));
               }
             } catch (_) {
@@ -14208,31 +14209,31 @@
             }
             var d,
               p,
-              h = Nl(i);
-            Ol(t.fields.items, h.fields),
-              Ol(t.groups.items, h.groups),
-              Ol(t.labels.items, h.labels),
-              Ol(t.results.items, h.results),
+              h = Sl(i);
+            Nl(t.fields.items, h.fields),
+              Nl(t.groups.items, h.groups),
+              Nl(t.labels.items, h.labels),
+              Nl(t.results.items, h.results),
               i.language && (d = t.languages.items[i.language]),
-              d || ((d = Oe), a(Hr({ language: Oe })), Ol(t.languages.items, { base: Oe })),
-              e.metadata && e.metadata.issues ? a(Ae(xl(o, e.metadata.issues))) : a(Ae({})),
+              d || ((d = Oe), a(qr({ language: Oe })), Nl(t.languages.items, { base: Oe })),
+              e.metadata && e.metadata.issues ? a(Ae(Ol(o, e.metadata.issues))) : a(Ae({})),
               a(((p = d), { type: ye.UPDATE_BASE_LANGUAGE, payload: { baseLanguage: p } })),
               a(Re(e.metadata)),
               a(
                 je(
                   (function(e) {
-                    return zi(e, { nodes: [], _ui: { $merge: { nodes: {} } } });
+                    return Li(e, { nodes: [], _ui: { $merge: { nodes: {} } } });
                   })(i)
                 )
               ),
               a(Te(h.renderNodeMap)),
               a(Ue(t)),
-              a(Hr({ language: d, fetchingFlow: !1 }));
+              a(qr({ language: d, fetchingFlow: !1 }));
             var m = document.querySelector('temba-store');
             m && m.setKeyedAssets('results', Object.keys(t.results.items));
           };
         },
-        Kr = function(e, t) {
+        Gr = function(e, t) {
           var a = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
           return (function() {
             var n = Object(Me.a)(
@@ -14243,7 +14244,7 @@
                     switch ((n.prev = n.next)) {
                       case 0:
                         if (
-                          (i(Hr({ fetchingFlow: !0 })),
+                          (i(qr({ fetchingFlow: !0 })),
                           (o = s()),
                           (r = o.flowContext.assetStore),
                           Object.keys(r).length)
@@ -14256,9 +14257,9 @@
                         r = n.sent;
                       case 6:
                         return (
-                          jl(e.activity, i, s, t),
+                          xl(e.activity, i, s, t),
                           (window.triggerActivityUpdate = function() {
-                            jl(e.activity, i, s, t);
+                            xl(e.activity, i, s, t);
                           }),
                           (n.next = 10),
                           at(e.completion)
@@ -14272,17 +14273,17 @@
                               var t = e.definition
                                 ? e
                                 : { definition: e, metadata: { issues: [] } };
-                              i(Gr(t, r)),
+                              i(Wr(t, r)),
                                 i(
-                                  Hr({
+                                  qr({
                                     currentRevision: t.definition.revision,
                                     completionSchema: l,
                                     functions: c
                                   })
                                 ),
-                                (Pr = qr(r.revisions.endpoint, i, s)),
-                                a && Pr(0),
-                                Vr(i);
+                                (Fr = Vr(r.revisions.endpoint, i, s)),
+                                a && Fr(0),
+                                Br(i);
                             })
                             .catch(function(e) {
                               console.error(e);
@@ -14299,7 +14300,7 @@
             };
           })();
         },
-        Yr = function(e, t) {
+        Kr = function(e, t) {
           return function(a, n) {
             var i = n().flowContext.assetStore,
               s = $t()(i, Object(S.a)({}, e, { items: { $merge: Object(S.a)({}, t.id, t) } })),
@@ -14307,23 +14308,23 @@
             o && o.setKeyedAssets(e, Object.keys(s[e])), a(Ue(s));
           };
         },
-        Xr = function(e) {
+        Yr = function(e) {
           return function(t, a) {
             var n = a(),
               i = n.flowContext.baseLanguage,
               s = n.editorState,
               o = s.translating,
               r = s.language;
-            Rr()(e, i) ? t(Hr({ translating: !1 })) : o || t(Hr({ translating: !0 })),
-              Rr()(e, r) || t(Hr({ language: e }));
+            Ar()(e, i) ? t(qr({ translating: !1 })) : o || t(qr({ translating: !0 })),
+              Ar()(e, r) || t(qr({ language: e }));
           };
         },
-        Qr = function(e, t) {
+        Xr = function(e, t) {
           return function(a, n) {
             var i = (function(e, t, a) {
               var n = e;
               return (
-                n.localization[t] || (n = zi(n, { localization: Object(S.a)({}, t, Y({})) })),
+                n.localization[t] || (n = Li(n, { localization: Object(S.a)({}, t, Y({})) })),
                 a.forEach(function(e) {
                   var a = e.translations,
                     i = e.uuid;
@@ -14333,86 +14334,86 @@
                         c = a[l];
                       Array.isArray(c) ? (s[l] = c) : (s[l] = [c]);
                     }
-                    n = zi(n, { localization: Object(S.a)({}, t, Object(S.a)({}, i, Y(s))) });
-                  } else n = zi(n, { localization: Object(S.a)({}, t, Q([i])) });
+                    n = Li(n, { localization: Object(S.a)({}, t, Object(S.a)({}, i, Y(s))) });
+                  } else n = Li(n, { localization: Object(S.a)({}, t, Q([i])) });
                 }),
                 n
               );
             })(n().flowContext.definition, e, t);
-            return a(je(i)), Pr(), i;
+            return a(je(i)), Fr(), i;
           };
         },
-        Jr = function(e, t, a) {
+        Qr = function(e, t, a) {
           return function(n, i) {
             var s = i().flowContext.nodes,
-              o = Wi(s, e, t, a);
-            return n(Te(o)), Pr(), o;
+              o = Hi(s, e, t, a);
+            return n(Te(o)), Fr(), o;
+          };
+        },
+        Jr = function(e, t) {
+          return function(a, n) {
+            return a(Qr(e, t, null));
           };
         },
         $r = function(e, t) {
-          return function(a, n) {
-            return a(Jr(e, t, null));
-          };
-        },
-        Zr = function(e, t) {
           return function(a, n) {
             var i = e.split(':'),
               s = Object(w.a)(i, 2),
               o = s[0],
               r = s[1];
-            return a(Jr(o, r, t));
+            return a(Qr(o, r, t));
           };
         },
-        el = function(e) {
+        Zr = function(e) {
           return function(t, a) {
             var n = a().flowContext,
               i = n.nodes,
               s = n.assetStore;
             if (e.router && e.router.result_name) {
-              var o = Vi(e.router.result_name, s, { nodeUUID: e.uuid });
+              var o = Bi(e.router.result_name, s, { nodeUUID: e.uuid });
               t(Ue(o));
             }
-            var r = Yi(i, e.uuid);
-            return t(Te(r)), Pr(), r;
+            var r = Ki(i, e.uuid);
+            return t(Te(r)), Fr(), r;
           };
         },
-        tl = function(e, t) {
+        el = function(e, t) {
           return function(a, n) {
             var i = n().flowContext,
               s = i.nodes,
               o = i.assetStore,
               r = s[e];
             if (t.type === Ee.set_run_result) {
-              var l = Vi(t.name, o, { nodeUUID: e, actionUUID: t.uuid });
+              var l = Bi(t.name, o, { nodeUUID: e, actionUUID: t.uuid });
               a(Ue(l));
             }
             if (1 === r.node.actions.length) {
-              var c = a(el(r.node));
-              return Pr(), c;
+              var c = a(Zr(r.node));
+              return Fr(), c;
             }
             var u = (function(e, t, a) {
-              var n = _l(e, t),
-                i = gl(n.node, a);
-              return zi(e, Object(S.a)({}, t, { node: { actions: $([[i, 1]]) } }));
+              var n = ml(e, t),
+                i = vl(n.node, a);
+              return Li(e, Object(S.a)({}, t, { node: { actions: $([[i, 1]]) } }));
             })(s, e, t.uuid);
-            return a(Te(u)), Pr(), u;
+            return a(Te(u)), Fr(), u;
           };
         },
-        al = function(e, t) {
+        tl = function(e, t) {
           return function(a, n) {
             var i = (function(e, t, a) {
-              var n = _l(e, t),
+              var n = ml(e, t),
                 i = n.node.actions,
-                s = gl(n.node, a);
+                s = vl(n.node, a);
               if (0 === s) throw new Error('Cannot move an action at the top upwards');
               var o = i[s],
                 r = i[s - 1];
-              return zi(e, Object(S.a)({}, t, { node: { actions: $([[s - 1, 2, o, r]]) } }));
+              return Li(e, Object(S.a)({}, t, { node: { actions: $([[s - 1, 2, o, r]]) } }));
             })(n().flowContext.nodes, e, t.uuid);
-            return a(Te(i)), Pr(), i;
+            return a(Te(i)), Fr(), i;
           };
         },
-        nl = function(e) {
+        al = function(e) {
           return function(t) {
             t(
               (function(e) {
@@ -14421,12 +14422,12 @@
             );
           };
         },
-        il = function() {
+        nl = function() {
           return function(e, t) {
-            e(Hr({ ghostNode: null })), e(ta(null));
+            e(qr({ ghostNode: null })), e(ta(null));
           };
         },
-        sl = function(e, t) {
+        il = function(e, t) {
           return function(a, n) {
             var i = n(),
               s = i.nodeEditor,
@@ -14443,7 +14444,7 @@
               m = d;
             if (h && h.type === Ee.set_run_result) {
               var _ = h.name;
-              m = Vi(_, m, { nodeUUID: p.node.uuid, actionUUID: e.uuid });
+              m = Bi(_, m, { nodeUUID: p.node.uuid, actionUUID: e.uuid });
             }
             var v = c,
               g = null;
@@ -14453,19 +14454,19 @@
                 ui: { position: p.ui.position, type: Ee.execute_actions },
                 inboundConnections: p.inboundConnections
               };
-              (v = Gi(c, f)), (g = f.node.uuid);
+              (v = Wi(c, f)), (g = f.node.uuid);
             } else
               (g = p.node.uuid),
                 (v = o
                   ? (function(e, t, a) {
-                      return _l(e, t), zi(e, Object(S.a)({}, t, { node: { actions: J([a]) } }));
+                      return ml(e, t), Li(e, Object(S.a)({}, t, { node: { actions: J([a]) } }));
                     })(c, p.node.uuid, e)
                   : p.node.hasOwnProperty('router')
-                  ? Ki(c, p.node.uuid, e)
+                  ? Gi(c, p.node.uuid, e)
                   : (function(e, t, a, n) {
-                      var i = _l(e, t),
-                        s = n ? gl(i.node, n.uuid) : 0;
-                      return zi(
+                      var i = ml(e, t),
+                        s = n ? vl(i.node, n.uuid) : 0;
+                      return Li(
                         e,
                         Object(S.a)({}, t, { node: { actions: Object(S.a)({}, s, Y(a)) } })
                       );
@@ -14473,8 +14474,8 @@
             (a(Te(v)), a(aa(!1)), e.type === Ee.set_run_result) &&
               ((m = (function(e, t, a) {
                 if (e) {
-                  var n = qi(e, t.results.items, a);
-                  return zi(t, { results: { items: { $set: n } } });
+                  var n = Vi(e, t.results.items, a);
+                  return Li(t, { results: { items: { $set: n } } });
                 }
               })(e.name, m, { nodeUUID: g, actionUUID: e.uuid })),
               a(Ue(m)));
@@ -14486,21 +14487,21 @@
                 })(Object(y.a)(Object(y.a)({}, u), {}, Object(S.a)({}, b.key, b.name)))
               );
             }
-            return Pr(0), t && t(a, n), v;
+            return Fr(0), t && t(a, n), v;
           };
         },
-        ol = function(e) {
+        sl = function(e) {
           return function(t, a) {
             var n = a().flowContext.nodes,
               i = { uuid: Z(), type: Ee.send_msg, text: '' };
-            t(ta({ originalNode: _l(n, e.uuid), originalAction: i, showAdvanced: !1 })),
-              Pr(),
+            t(ta({ originalNode: ml(n, e.uuid), originalAction: i, showAdvanced: !1 })),
+              Fr(),
               t(aa(!0)),
-              t(nl(Cr(Ee.send_msg))),
-              t(Hr(Ur));
+              t(al(Er(Ee.send_msg))),
+              t(qr(Rr));
           };
         },
-        rl = function(e) {
+        ol = function(e) {
           return function(t, a) {
             var n = a().flowContext,
               i = n.nodes,
@@ -14512,17 +14513,17 @@
             return (
               e.forEach(function(e) {
                 e in o
-                  ? ((o = Yi(o, e, !0)), (l = !0))
-                  : e in r._ui.stickies && ((r = Ji(r, e, null)), (c = !0));
+                  ? ((o = Ki(o, e, !0)), (l = !0))
+                  : e in r._ui.stickies && ((r = Qi(r, e, null)), (c = !0));
               }),
               l && t(Te(o)),
               c && t(je(r)),
-              (c || l) && Pr(),
+              (c || l) && Fr(),
               i
             );
           };
         },
-        ll = function(e) {
+        rl = function(e) {
           return function(t, a) {
             var n = a().flowContext,
               i = n.nodes,
@@ -14532,13 +14533,13 @@
               l = !1;
             for (var c in e)
               o[c]
-                ? ((o = Xi(o, c, e[c])), (r = !0))
-                : s._ui.stickies[c] && ((s = Qi(s, c, e[c])), (l = !0));
+                ? ((o = Yi(o, c, e[c])), (r = !0))
+                : s._ui.stickies[c] && ((s = Xi(s, c, e[c])), (l = !0));
             var u = !1;
-            return r && ((u = !0), t(Te(o))), l && ((u = !0), t(je(s))), u && Pr(), o;
+            return r && ((u = !0), t(Te(o))), l && ((u = !0), t(je(s))), u && Fr(), o;
           };
         },
-        cl = function(e, t) {
+        ll = function(e, t) {
           return function(a, n) {
             for (
               var i = n().flowContext,
@@ -14556,18 +14557,18 @@
 
             )
               h++, (m = 'result_'.concat(h));
-            var _ = Cl(d, u, h, t);
-            (_.inboundConnections = Object(S.a)({}, u, c)), a(Hr({ ghostNode: _ }));
+            var _ = El(d, u, h, t);
+            (_.inboundConnections = Object(S.a)({}, u, c)), a(qr({ ghostNode: _ }));
           };
         },
-        ul = function(e, t) {
+        cl = function(e, t) {
           return function(a, n) {
             var i = n().flowContext.definition,
-              s = Ji(i, e, t);
-            a(je(s)), Pr();
+              s = Qi(i, e, t);
+            a(je(s)), Fr();
           };
         },
-        dl = function(e) {
+        ul = function(e) {
           return function(t, a) {
             var n,
               i,
@@ -14588,26 +14589,26 @@
               var m = u.ui.position,
                 _ = m.left,
                 v = m.top;
-              (e.ui.position = { left: _, top: v }), (e.node = Bi(e.node));
+              (e.ui.position = { left: _, top: v }), (e.node = zi(e.node));
             }
-            if (Li(e.node)) {
+            if (Mi(e.node)) {
               var g = l,
-                f = Li(u.node);
-              f && (g = Vi(f, g, { nodeUUID: u.node.uuid })),
+                f = Mi(u.node);
+              f && (g = Bi(f, g, { nodeUUID: u.node.uuid })),
                 (g = (function(e, t) {
                   var a = e;
                   a || (a = { results: { items: {}, type: fe.Result } }),
                     a.results || (a.results = { items: {}, type: fe.Result });
-                  var n = Li(t);
+                  var n = Mi(t);
                   if (n) {
-                    var i = qi(n, e.results.items, { nodeUUID: t.uuid });
-                    return zi(e, { results: { items: { $set: i } } });
+                    var i = Vi(n, e.results.items, { nodeUUID: t.uuid });
+                    return Li(e, { results: { items: { $set: i } } });
                   }
                   return e;
                 })(g, e.node)),
                 t(Ue(g));
             }
-            if (u && d && !u.ghost && !Ui(u.node)) {
+            if (u && d && !u.ghost && !Ri(u.node)) {
               var b = u.node.actions.find(function(e) {
                 return e.uuid === d.uuid;
               });
@@ -14621,10 +14622,10 @@
                       var a = t().flowContext.nodes,
                         s = a[i.nodeUUID],
                         o = a;
-                      (o = Yi(o, s.node.uuid, !1)), (n.node = Bi(n.node));
+                      (o = Ki(o, s.node.uuid, !1)), (n.node = zi(n.node));
                       var r,
                         l,
-                        c = gl(s.node, i.actionUUID),
+                        c = vl(s.node, i.actionUUID),
                         u = c > 0 ? Object(ve.a)(s.node.actions.slice(0, c)) : [],
                         d = s.node.actions.slice(c + 1, s.node.actions.length),
                         p = s.ui.position,
@@ -14641,7 +14642,7 @@
                               ui: { position: { left: h, top: m } },
                               inboundConnections: Object(y.a)({}, s.inboundConnections)
                             }),
-                            (o = Gi(o, r)),
+                            (o = Wi(o, r)),
                             (m += F),
                             (n.inboundConnections = Object(S.a)(
                               {},
@@ -14650,7 +14651,7 @@
                             )),
                             (n.ui.position.top += F))
                           : (n.inboundConnections = Object(y.a)({}, s.inboundConnections)),
-                        (o = Gi(o, n)),
+                        (o = Wi(o, n)),
                         d.length > 0
                           ? ((l = {
                               node: {
@@ -14663,21 +14664,21 @@
                               ui: { position: { left: h, top: m } },
                               inboundConnections: Object(S.a)({}, n.node.exits[0].uuid, n.node.uuid)
                             }),
-                            (o = Gi(o, l)))
-                          : (o = Wi(
+                            (o = Wi(o, l)))
+                          : (o = Hi(
                               o,
                               n.node.uuid,
                               n.node.exits[0].uuid,
                               s.node.exits[0].destination_uuid
                             )),
                         e(Te(o)),
-                        Pr(),
+                        Fr(),
                         o
                       );
                     })
                   )
                 );
-              var k = Ui(e.node);
+              var k = Ri(e.node);
               if (k) {
                 var E = k.categories.find(function(e) {
                   return e.uuid === k.default_category_uuid;
@@ -14687,14 +14688,14 @@
                 }).destination_uuid = u.node.exits[0].destination_uuid;
               }
               (e.inboundConnections = Object(S.a)({}, u.node.exits[0].uuid, u.node.uuid)),
-                (e.node = Bi(e.node)),
+                (e.node = zi(e.node)),
                 (e.ui.position.top += F),
-                (p = Gi(p, e));
-            } else p = Gi(p, e);
-            return t(Te(p)), Pr(0), p;
+                (p = Wi(p, e));
+            } else p = Wi(p, e);
+            return t(Te(p)), Fr(0), p;
           };
         },
-        pl = function(e) {
+        dl = function(e) {
           return function(t, a) {
             var n = a(),
               i = n.flowContext.definition.localization,
@@ -14715,26 +14716,26 @@
               )
                 return;
               var h = i[o.id];
-              (d = e.localizations).push.apply(d, Object(ve.a)(bl(u, p, o, h)));
+              (d = e.localizations).push.apply(d, Object(ve.a)(yl(u, p, o, h)));
             }
             !c && u.actions.length > 0 && (c = u.actions[u.actions.length - 1]);
             var m = $a(e);
-            t(nl(m)), t(ta(e)), t(Hr(Ur));
+            t(al(m)), t(ta(e)), t(qr(Rr));
           };
         },
-        hl = function(e) {
+        pl = function(e) {
           return function(t, a) {
             var n = a().flowContext.definition;
-            (n._ui.translation_filters = e), t(je(n)), Pr();
+            (n._ui.translation_filters = e), t(je(n)), Fr();
           };
         },
-        ml = null,
-        _l = function(e, t) {
+        hl = null,
+        ml = function(e, t) {
           var a = e[t];
           if (!a) throw new Error('Cannot find node ' + t);
           return a;
         },
-        vl = function(e, t) {
+        _l = function(e, t) {
           var a,
             n = Object(C.a)(e.exits.entries());
           try {
@@ -14750,7 +14751,7 @@
           }
           throw new Error('Cannot find exit ' + t);
         },
-        gl = function(e, t) {
+        vl = function(e, t) {
           var a,
             n = Object(C.a)(e.actions.entries());
           try {
@@ -14766,8 +14767,8 @@
           }
           throw new Error('Cannot find action ' + t);
         },
-        fl = function(e) {
-          var t = wr(e);
+        gl = function(e) {
+          var t = Cr(e);
           return (
             (function(e) {
               return !(!e.node.router || !e.node.router.wait);
@@ -14776,12 +14777,12 @@
             t === Ee.split_by_subflow
           );
         },
-        yl = function e(t, a, n) {
+        fl = function e(t, a, n) {
           var i = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : [],
             s = t[a],
             o = t[n];
           if (a === n) throw new Error("Flow loop detected, can't point to self");
-          if (!fl(o) && !fl(s))
+          if (!gl(o) && !gl(s))
             if (0 !== i.length) {
               if (n === i[0]) throw new Error('Flow loop detected, route through a wait first');
               i.push(n);
@@ -14813,7 +14814,7 @@
               }
             }
         },
-        bl = function(e, t, a, n) {
+        yl = function(e, t, a, n) {
           var i = [];
           e.router &&
             e.router.type === s.switch &&
@@ -14832,9 +14833,9 @@
             i
           );
         },
-        kl = function(e, t) {
+        bl = function(e, t) {
           var a = !(arguments.length > 2 && void 0 !== arguments[2]) || arguments[2],
-            n = El(t),
+            n = kl(t),
             i = [];
           n.forEach(function(e) {
             return i.push(e.node);
@@ -14855,7 +14856,7 @@
             c
           );
         },
-        El = function(e) {
+        kl = function(e) {
           var t = [];
           return (
             Object.keys(e).forEach(function(a) {
@@ -14867,7 +14868,7 @@
             })
           );
         },
-        Cl = function(e, t, a, n) {
+        El = function(e, t, a, n) {
           var i,
             l,
             c = { uuid: Z(), actions: [], exits: [{ uuid: Z(), destination_uuid: null }] },
@@ -14877,7 +14878,7 @@
               p = { uuid: Z(), text: '', type: d };
             c.actions.push(p);
           } else {
-            var h = [{ uuid: Z(), name: ri.All_Responses, exit_uuid: c.exits[0].uuid }],
+            var h = [{ uuid: Z(), name: oi.All_Responses, exit_uuid: c.exits[0].uuid }],
               m = { type: o.msg };
             (u = Ee.wait_for_response),
               n === be.VOICE && (m.hint = { type: r.digits, count: 1 }),
@@ -14901,7 +14902,7 @@
             }
           );
         },
-        wl = function(e) {
+        Cl = function(e) {
           if (e.router) {
             if (1 === e.actions.length) {
               if (e.actions[0].type === Ee.call_webhook) return Ee.split_by_webhook;
@@ -14911,14 +14912,14 @@
             }
             if (e.router.wait) return Ee.wait_for_response;
             if (e.router.type === s.random) return Ee.split_by_random;
-            var t = Ui(e);
+            var t = Ri(e);
             return t && '@contact.groups' === t.operand
               ? Ee.split_by_groups
               : Ee.split_by_expression;
           }
           return Ee.execute_actions;
         },
-        Sl = function(e) {
+        wl = function(e) {
           var t,
             a = {},
             n = Object(C.a)(e);
@@ -14934,7 +14935,7 @@
           }
           return a;
         },
-        Nl = function(e) {
+        Sl = function(e) {
           var t,
             a,
             n = {},
@@ -14952,10 +14953,10 @@
               p.actions || (p.actions = []);
               var h = { node: p, ui: s.nodes[p.uuid], inboundConnections: {} };
               n[p.uuid] = h;
-              var m = Li(p);
-              if ((m && (u = qi(m, u, { nodeUUID: p.uuid })), wr(h) === Ee.split_by_groups)) {
+              var m = Mi(p);
+              if ((m && (u = Vi(m, u, { nodeUUID: p.uuid })), Cr(h) === Ee.split_by_groups)) {
                 var _,
-                  v = Ui(p),
+                  v = Ri(p),
                   g = Object(C.a)(v.cases);
                 try {
                   var f = function() {
@@ -15059,12 +15060,12 @@
           }
           return { renderNodeMap: n, groups: r, fields: l, labels: c, results: u, warnings: {} };
         },
-        Ol = function(e, t) {
+        Nl = function(e, t) {
           Object.keys(t).forEach(function(a) {
             e[a] = e[a] || t[a];
           });
         },
-        xl = function(e, t) {
+        Ol = function(e, t) {
           for (
             var a = (t || [])
                 .filter(function(e) {
@@ -15086,7 +15087,7 @@
           }
           return a;
         },
-        jl = function e(t, a, n, i) {
+        xl = function e(t, a, n, i) {
           var s = n().editorState,
             o = s.simulating,
             r = s.activityInterval;
@@ -15107,21 +15108,21 @@
                 if (s) {
                   var l = { liveActivity: s, activityInterval: Math.min(3e5, r + 200) };
                   o || (l.activity = s),
-                    a(Hr(l)),
-                    ml && window.clearTimeout(ml),
-                    (ml = window.setTimeout(function() {
+                    a(qr(l)),
+                    hl && window.clearTimeout(hl),
+                    (hl = window.setTimeout(function() {
                       e(t, a, n, i);
                     }, r));
                 }
               })
-            : (ml && window.clearTimeout(ml),
-              (ml = window.setTimeout(function() {
+            : (hl && window.clearTimeout(hl),
+              (hl = window.setTimeout(function() {
                 e(t, a, n, i);
               }, 1e3)));
         },
-        Tl = a(108),
-        Al = a.n(Tl),
-        Rl = (function(e) {
+        jl = a(108),
+        Tl = a.n(jl),
+        Al = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -15220,8 +15221,8 @@
                 key: 'render',
                 value: function() {
                   var e = this,
-                    t = [Al.a.draggable];
-                  this.props.selected && t.push(Al.a.selected);
+                    t = [Tl.a.draggable];
+                  this.props.selected && t.push(Tl.a.selected);
                   return k.createElement(
                     'div',
                     {
@@ -15243,15 +15244,15 @@
             a
           );
         })(k.Component),
-        Ul = a(13),
-        Dl = function(e, t, a) {
+        Rl = a(13),
+        Ul = function(e, t, a) {
           return (
             !(!e.bottom || !t.bottom) &&
             ((e.bottom += a),
             !(t.left > e.right || t.right < e.left || t.top > e.bottom || t.bottom < e.top))
           );
         },
-        Fl = function(e, t, a) {
+        Dl = function(e, t, a) {
           for (
             var n = (function(e) {
                 var t = [];
@@ -15271,10 +15272,10 @@
                   for (
                     var s = function(e) {
                         var s = n[e];
-                        if (Dl(i, s, a)) {
+                        if (Ul(i, s, a)) {
                           if (e + 1 < n.length) {
                             var o = n[e + 1];
-                            if (Dl(s, o, a)) return { v: { v: [i, s, o] } };
+                            if (Ul(s, o, a)) return { v: { v: [i, s, o] } };
                           }
                           return t.find(function(e) {
                             return s.uuid === e;
@@ -15303,12 +15304,12 @@
           }
           return [];
         },
-        Pl = function(e, t) {
+        Fl = function(e, t) {
           return M({ top: t, left: e.left, bottom: t + (e.bottom - e.top), right: e.right });
         },
-        Il = a(80),
-        Ml = a.n(Il),
-        Ll = (function(e) {
+        Pl = a(80),
+        Il = a.n(Pl),
+        Ml = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -15407,7 +15408,7 @@
                       i = Math.max(e.startY, e.currentY) - a;
                     if (this.state.dragSelection && this.state.dragSelection.startX)
                       return E.a.createElement('div', {
-                        className: Ml.a.drag_selection,
+                        className: Il.a.drag_selection,
                         style: { left: t, top: a, width: n, height: i }
                       });
                   }
@@ -15460,7 +15461,7 @@
                             for (var a = {}, n = 0, i = Object.keys(e); n < i.length; n++) {
                               var s = i[n],
                                 o = e[s];
-                              Dl(t, o, 0) && (a[s] = o);
+                              Ul(t, o, 0) && (a[s] = o);
                             }
                             return a;
                           })(this.state.positions, { left: a, top: n, right: i, bottom: s }),
@@ -15569,7 +15570,7 @@
                   var e = Object(y.a)({}, this.state.positions);
                   delete e[this.state.dragUUID];
                   var t = (function(e, t) {
-                      for (var a = e, n = [], i = 0, s = Fl(e, n, t); s.length > 0 && i < 100; ) {
+                      for (var a = e, n = [], i = 0, s = Dl(e, n, t); s.length > 0 && i < 100; ) {
                         if ((i++, s.length)) {
                           var o = s,
                             r = Object(w.a)(o, 3),
@@ -15577,17 +15578,17 @@
                             c = r[1],
                             u = r[2];
                           if (
-                            ((a = Ul(a, Object(S.a)({}, c.uuid, Y(Pl(c, l.bottom + F))))),
+                            ((a = Rl(a, Object(S.a)({}, c.uuid, Y(Fl(c, l.bottom + F))))),
                             n.push(c.uuid),
                             u)
                           ) {
                             var d = l.bottom + F;
                             (d += c.bottom - c.top),
-                              (a = Ul(a, Object(S.a)({}, u.uuid, Y(Pl(u, d))))),
+                              (a = Rl(a, Object(S.a)({}, u.uuid, Y(Fl(u, d))))),
                               n.push(u.uuid);
                           }
                         }
-                        s = Fl(a, n, t);
+                        s = Dl(a, n, t);
                       }
                       return { positions: a, changed: n };
                     })(e, 5),
@@ -15675,7 +15676,7 @@
                           (h = $t()(d.positions, { $merge: h })),
                           this.updateStateWithScroll(a, c, { positions: h }),
                           p.length <= 5 ? this.props.onDragging(p) : this.onDragThrottled(p);
-                      } else if (Math.abs(r) + Math.abs(l) > fu) {
+                      } else if (Math.abs(r) + Math.abs(l) > gu) {
                         var m = this.state.selected;
                         this.state.dragUUID in m ||
                           (m = Object(S.a)({}, i, this.state.positions[i])),
@@ -15738,7 +15739,7 @@
                     'div',
                     {
                       id: 'canvas-container',
-                      className: Ml.a.canvas_container,
+                      className: Il.a.canvas_container,
                       onMouseDown: this.handleMouseDown,
                       onMouseMove: this.onMouseThrottled,
                       onMouseUp: this.handleMouseUpCapture,
@@ -15746,7 +15747,7 @@
                     },
                     E.a.createElement(
                       'div',
-                      { className: Ml.a.canvas_background },
+                      { className: Il.a.canvas_background },
                       E.a.createElement(
                         'div',
                         {
@@ -15756,12 +15757,12 @@
                           ref: function(t) {
                             e.ele = t;
                           },
-                          className: Ml.a.canvas
+                          className: Il.a.canvas
                         },
                         this.props.newDragElement,
                         this.props.draggables.map(function(t, a) {
                           var n = e.state.positions[t.uuid] || t.position;
-                          return E.a.createElement(Rl, {
+                          return E.a.createElement(Al, {
                             onAnimated: e.handleAnimated,
                             key: 'draggable_' + t.uuid,
                             uuid: t.uuid,
@@ -15786,9 +15787,9 @@
             a
           );
         })(E.a.PureComponent),
-        zl = a(90),
-        Bl = a.n(zl),
-        Vl = (function(e) {
+        Ll = a(90),
+        zl = a.n(Ll),
+        Bl = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -15865,13 +15866,13 @@
                         e.ele = t;
                       },
                       className:
-                        Bl.a.counter +
+                        zl.a.counter +
                         ' ' +
                         this.props.containerStyle +
                         ' ' +
-                        (this.props.onClick ? Bl.a.clickable : '') +
+                        (this.props.onClick ? zl.a.clickable : '') +
                         ' ' +
-                        (this.props.count > 0 ? Bl.a.visible : ''),
+                        (this.props.count > 0 ? zl.a.visible : ''),
                       onClick: this.handleClick,
                       'data-spec': 'counter-outter'
                     },
@@ -15892,9 +15893,9 @@
             a
           );
         })(k.Component),
-        ql = a(45),
-        Hl = a.n(ql),
-        Wl = (function(e) {
+        Vl = a(45),
+        ql = a.n(Vl),
+        Hl = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -15939,7 +15940,7 @@
                     ? k.createElement(
                         'div',
                         Object.assign(
-                          { className: Hl.a.up_button },
+                          { className: ql.a.up_button },
                           V(
                             this.props.onMoveUp,
                             this.props.shouldCancelClick,
@@ -15949,14 +15950,14 @@
                         ),
                         k.createElement('span', { className: 'fe-arrow-up' })
                       )
-                    : k.createElement('div', { className: Hl.a.up_button, 'data-spec': 'move' });
+                    : k.createElement('div', { className: ql.a.up_button, 'data-spec': 'move' });
                 }
               },
               {
                 key: 'getRemove',
                 value: function() {
                   var e = k.createElement('div', {
-                    className: Hl.a.remove_button,
+                    className: ql.a.remove_button,
                     'data-testid': 'remove-icon'
                   });
                   return (
@@ -15965,7 +15966,7 @@
                       (e = k.createElement(
                         'div',
                         Object.assign(
-                          { className: Hl.a.remove_button },
+                          { className: ql.a.remove_button },
                           V(
                             this.handleConfirmRemoval,
                             this.props.shouldCancelClick,
@@ -15988,17 +15989,17 @@
                       this.context.config.mutable &&
                       (e = k.createElement(
                         'div',
-                        { className: Hl.a.remove_confirm, 'data-spec': 'confirmation' },
-                        k.createElement('div', { className: Hl.a.up_button, 'data-spec': 'move' }),
+                        { className: ql.a.remove_confirm, 'data-spec': 'confirmation' },
+                        k.createElement('div', { className: ql.a.up_button, 'data-spec': 'move' }),
                         k.createElement(
                           'div',
-                          { className: Hl.a.titletext },
+                          { className: ql.a.titletext },
                           Pt.t('removal_confirmation', 'Remove?')
                         ),
                         k.createElement(
                           'div',
                           Object.assign(
-                            { className: Hl.a.remove_button },
+                            { className: ql.a.remove_button },
                             V(
                               this.props.onRemoval,
                               this.props.shouldCancelClick,
@@ -16021,15 +16022,15 @@
                     a = this.getRemove();
                   return k.createElement(
                     'div',
-                    { className: Hl.a.titlebar, 'data-spec': 'titlebar-container' },
+                    { className: ql.a.titlebar, 'data-spec': 'titlebar-container' },
                     k.createElement(
                       'div',
                       {
-                        className: ''.concat(this.props.__className, ' ').concat(Hl.a.normal),
+                        className: ''.concat(this.props.__className, ' ').concat(ql.a.normal),
                         'data-spec': 'titlebar'
                       },
                       t,
-                      k.createElement('div', { className: Hl.a.titletext }, this.props.title),
+                      k.createElement('div', { className: ql.a.titletext }, this.props.title),
                       a
                     ),
                     e
@@ -16040,12 +16041,12 @@
             a
           );
         })(k.Component);
-      Wl.contextTypes = { config: bt };
-      var Gl = a(31),
-        Kl = a(91),
-        Yl = a.n(Kl),
-        Xl = St.a.bind(Yl.a),
-        Ql = (function(e) {
+      Hl.contextTypes = { config: bt };
+      var Wl = a(31),
+        Gl = a(91),
+        Kl = a.n(Gl),
+        Yl = St.a.bind(Kl.a),
+        Xl = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -16109,10 +16110,10 @@
                 value: function() {
                   var e,
                     t = this,
-                    a = Xl(
+                    a = Yl(
                       ((e = {}),
-                      Object(S.a)(e, Yl.a.wrapper, !0),
-                      Object(S.a)(e, Yl.a.pulse, this.state.pulse),
+                      Object(S.a)(e, Kl.a.wrapper, !0),
+                      Object(S.a)(e, Kl.a.pulse, this.state.pulse),
                       e)
                     );
                   return k.createElement(
@@ -16131,8 +16132,8 @@
             a
           );
         })(k.Component),
-        Jl = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), Ja.a)),
-        $l = (function(e) {
+        Ql = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), Ja.a)),
+        Jl = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -16214,7 +16215,7 @@
                     } else a = !0;
                   }
                   var o = this.props.translating && 0 === t.length;
-                  return Jl(
+                  return Ql(
                     ((e = {}),
                     Object(S.a)(e, Ja.a.action, !0),
                     Object(S.a)(
@@ -16235,7 +16236,7 @@
                 key: 'render',
                 value: function() {
                   var e = this,
-                    t = Cr(this.props.action.type).name,
+                    t = Er(this.props.action.type).name,
                     a = this.getClasses(),
                     n = this.getAction(),
                     i = ue.a[this.props.action.type] || ue.a.missing,
@@ -16252,7 +16253,7 @@
                     c = k.createElement(
                       k.Fragment,
                       null,
-                      k.createElement(Wl, {
+                      k.createElement(Hl, {
                         __className: i,
                         title: t,
                         onRemoval: this.handleRemoval,
@@ -16285,7 +16286,7 @@
                       Object.assign({}, l, { 'data-spec': 'interactive-div' }),
                       this.props.scrollToAction &&
                         this.props.scrollToAction === this.props.action.uuid
-                        ? k.createElement(Ql, { pulseAfterScroll: !0 }, c)
+                        ? k.createElement(Xl, { pulseAfterScroll: !0 }, c)
                         : c
                     )
                   );
@@ -16295,8 +16296,8 @@
             a
           );
         })(k.Component);
-      $l.contextTypes = { config: bt };
-      var Zl = Object(Gl.b)(
+      Jl.contextTypes = { config: bt };
+      var $l = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.assetStore,
@@ -16314,16 +16315,16 @@
           },
           function(e) {
             return Object(ge.bindActionCreators)(
-              { onOpenNodeEditor: pl, removeAction: tl, moveActionUp: al },
+              { onOpenNodeEditor: dl, removeAction: el, moveActionUp: tl },
               e
             );
           },
           null,
           { forwardRef: !0 }
-        )($l),
-        ec = a(62),
-        tc = a.n(ec),
-        ac = (function(e) {
+        )(Jl),
+        Zl = a(62),
+        ec = a.n(Zl),
+        tc = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -16347,22 +16348,22 @@
                   return k.createElement(
                     'div',
                     {
-                      className: tc.a.drag_helper + ' ' + (this.state.visible ? tc.a.visible : '')
+                      className: ec.a.drag_helper + ' ' + (this.state.visible ? ec.a.visible : '')
                     },
                     k.createElement(
                       'div',
-                      { className: tc.a.arrow },
-                      k.createElement('div', { className: tc.a.tail }),
-                      k.createElement('div', { className: tc.a.head })
+                      { className: ec.a.arrow },
+                      k.createElement('div', { className: ec.a.tail }),
+                      k.createElement('div', { className: ec.a.head })
                     ),
                     k.createElement(
                       'div',
-                      { className: tc.a.help_text },
+                      { className: ec.a.help_text },
                       k.createElement(
                         Fe.a,
                         { i18nKey: 'drag_helper' },
                         'To connect nodes, ',
-                        k.createElement('span', { className: tc.a.bold }, 'drag'),
+                        k.createElement('span', { className: ec.a.bold }, 'drag'),
                         ' from the red circle.'
                       )
                     )
@@ -16373,15 +16374,15 @@
             a
           );
         })(k.Component),
-        nc = function(e) {
+        ac = function(e) {
           return e.uuid + ':' + e.destination_uuid;
         },
-        ic = a(152),
-        sc = a(32),
-        oc = a.n(sc),
-        rc = a(39),
-        lc = a.n(rc),
-        cc = (function(e) {
+        nc = a(152),
+        ic = a(32),
+        sc = a.n(ic),
+        oc = a(39),
+        rc = a.n(oc),
+        lc = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -16427,15 +16428,15 @@
               {
                 key: 'render',
                 value: function() {
-                  return lc.a.createPortal(this.props.children, this.el);
+                  return rc.a.createPortal(this.props.children, this.el);
                 }
               }
             ]),
             a
           );
         })(k.Component),
-        uc = St.a.bind(oc.a),
-        dc = (function(e) {
+        cc = St.a.bind(sc.a),
+        uc = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -16612,11 +16613,11 @@
                     return k.createElement(
                       'div',
                       { style: { position: 'absolute', bottom: '-25px' } },
-                      k.createElement(Vl, {
+                      k.createElement(Bl, {
                         key: e,
                         count: this.props.segmentCount,
-                        containerStyle: oc.a.activity,
-                        countStyle: oc.a.count,
+                        containerStyle: sc.a.activity,
+                        countStyle: sc.a.count,
                         keepVisible: !1,
                         onMouseEnter: this.handleShowRecentMessages,
                         onMouseLeave: this.handleHideRecentMessages
@@ -16658,11 +16659,11 @@
                   if (this.state.fetchingRecentMessages || null !== this.state.recentMessages) {
                     var e = this.state.recentMessages || [],
                       t = 0 !== e.length,
-                      a = [oc.a.recent_messages],
+                      a = [sc.a.recent_messages],
                       n = 'Recent Messages';
                     t ||
                       this.state.fetchingRecentMessages ||
-                      ((n = 'No Recent Messages'), a.push(oc.a.no_recents));
+                      ((n = 'No Recent Messages'), a.push(sc.a.no_recents));
                     var i = document.getElementById('canvas-container'),
                       s = 0,
                       o = 0;
@@ -16672,7 +16673,7 @@
                       (s = l.left + window.scrollX + 5), (o = l.top + window.scrollY - r + 30);
                     }
                     return k.createElement(
-                      cc,
+                      lc,
                       { id: 'activity_recent_messages' },
                       k.createElement(
                         'div',
@@ -16680,24 +16681,24 @@
                           className: a.join(' '),
                           style: { position: 'absolute', left: s, top: o }
                         },
-                        k.createElement('div', { className: oc.a.title }, n),
+                        k.createElement('div', { className: sc.a.title }, n),
                         e.map(function(e, t) {
                           return k.createElement(
                             'div',
-                            { key: 'recent_' + t, className: oc.a.message },
-                            k.createElement('div', { className: oc.a.text }, e.text),
+                            { key: 'recent_' + t, className: sc.a.message },
+                            k.createElement('div', { className: sc.a.text }, e.text),
                             k.createElement(
                               'div',
-                              { className: oc.a.sent },
-                              ic.utc(e.sent).fromNow()
+                              { className: sc.a.sent },
+                              nc.utc(e.sent).fromNow()
                             )
                           );
                         }),
                         null === this.state.recentMessages
                           ? k.createElement(
                               'div',
-                              { className: oc.a.loading },
-                              k.createElement(Tn, { size: 10, units: 6, color: '#999999' })
+                              { className: sc.a.loading },
+                              k.createElement(jn, { size: 10, units: 6, color: '#999999' })
                             )
                           : null
                       )
@@ -16714,9 +16715,9 @@
                     a = this.getName(),
                     n = a.name,
                     i = a.localized,
-                    s = n ? oc.a.name : '',
+                    s = n ? sc.a.name : '',
                     o = this.props.exit.destination_uuid ? ' jtk-connected' : '',
-                    r = uc(oc.a.endpoint, o),
+                    r = cc(sc.a.endpoint, o),
                     l =
                       this.state.confirmDelete &&
                       this.props.exit.hasOwnProperty('destination_uuid'),
@@ -16725,21 +16726,21 @@
                         ? k.createElement(
                             'div',
                             Object.assign(
-                              { className: oc.a.confirm_x + ' fe-x' },
+                              { className: sc.a.confirm_x + ' fe-x' },
                               V(this.onDisconnect, function() {
                                 return t.props.dragging;
                               })
                             )
                           )
                         : null,
-                    u = uc(
+                    u = cc(
                       ((e = {}),
-                      Object(S.a)(e, oc.a.exit, !0),
+                      Object(S.a)(e, sc.a.exit, !0),
                       Object(S.a)(e, 'plumb-exit', !0),
-                      Object(S.a)(e, oc.a.translating, this.props.translating),
-                      Object(S.a)(e, oc.a.unnamed_exit, null == n),
-                      Object(S.a)(e, oc.a.missing_localization, n && this.props.translating && !i),
-                      Object(S.a)(e, oc.a.confirm_delete, l),
+                      Object(S.a)(e, sc.a.translating, this.props.translating),
+                      Object(S.a)(e, sc.a.unnamed_exit, null == n),
+                      Object(S.a)(e, sc.a.missing_localization, n && this.props.translating && !i),
+                      Object(S.a)(e, sc.a.confirm_delete, l),
                       e)
                     ),
                     d = this.getSegmentCount(),
@@ -16775,7 +16776,7 @@
                     ),
                     d,
                     p,
-                    G(this.state.showDragHelper)(k.createElement(ac, null))
+                    G(this.state.showDragHelper)(k.createElement(tc, null))
                   );
                 }
               }
@@ -16783,8 +16784,8 @@
             a
           );
         })(k.PureComponent);
-      dc.contextTypes = { config: bt };
-      var pc = Object(Gl.b)(
+      uc.contextTypes = { config: bt };
+      var dc = Object(Wl.b)(
           function(e, t) {
             var a = e.flowContext.definition.localization,
               n = e.editorState,
@@ -16793,12 +16794,12 @@
               o = n.dragActive,
               r = n.activity,
               l = null,
-              c = nc(t.exit);
+              c = ac(t.exit);
             return (
               c in (r.recentMessages || {}) && (l = r.recentMessages[c]),
               {
                 dragging: o,
-                segmentCount: r.segments[nc(t.exit)] || 0,
+                segmentCount: r.segments[ac(t.exit)] || 0,
                 translating: i,
                 language: s,
                 localization: a,
@@ -16807,15 +16808,15 @@
             );
           },
           function(e) {
-            return Object(ge.bindActionCreators)({ disconnectExit: $r }, e);
+            return Object(ge.bindActionCreators)({ disconnectExit: Jr }, e);
           }
-        )(dc),
-        hc = a(153),
-        mc = a(35),
-        _c = a.n(mc),
-        vc = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), _c.a)),
-        gc = [],
-        fc = (function(e) {
+        )(uc),
+        pc = a(153),
+        hc = a(35),
+        mc = a.n(hc),
+        _c = St.a.bind(Object(y.a)(Object(y.a)({}, ue.a), mc.a)),
+        vc = [],
+        gc = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
@@ -16947,10 +16948,10 @@
                   var e = this;
                   return this.props.renderNode.node.exits
                     ? this.props.renderNode.node.exits.map(function(t, a) {
-                        return k.createElement(pc, {
+                        return k.createElement(dc, {
                           key: t.uuid,
                           node: e.props.renderNode.node,
-                          categories: Mi(e.props.renderNode, t),
+                          categories: Ii(e.props.renderNode, t),
                           exit: t,
                           showDragHelper: e.props.onlyNode && 0 === a,
                           plumberMakeSource: e.props.plumberMakeSource,
@@ -16983,7 +16984,7 @@
                       {
                         id: 'uuid-'.concat(this.props.renderNode.node.uuid),
                         onClick: this.handleUUIDClicked,
-                        className: _c.a.uuid
+                        className: mc.a.uuid
                       },
                       this.props.renderNode.node.uuid
                     );
@@ -17014,12 +17015,12 @@
                       })
                     };
                     ((t = this.props.renderNode),
-                    wr(t) === Ee.split_by_subflow
+                    Cr(t) === Ee.split_by_subflow
                       ? t.node.actions.filter(function(e) {
                           return e.type !== Ee.set_run_result;
                         })
                       : t.node.actions).forEach(function(e, t) {
-                      var i = Cr(e.type),
+                      var i = Er(e.type),
                         o = (function(e, t, a) {
                           return a.filter(function(a) {
                             return a.node_uuid === e && a.action_uuid === t.uuid;
@@ -17030,7 +17031,7 @@
                         i.massageForDisplay && i.massageForDisplay(e),
                           n.push(
                             k.createElement(
-                              Zl,
+                              $l,
                               Object.assign({}, s, {
                                 key: e.uuid,
                                 renderNode: a.props.renderNode,
@@ -17056,7 +17057,7 @@
                       (i =
                         n.length > 0
                           ? k.createElement(
-                              hc.a,
+                              pc.a,
                               {
                                 enterAnimation: 'fade',
                                 leaveAnimation: 'fade',
@@ -17070,21 +17071,21 @@
                   var o = null,
                     r = null,
                     l = null,
-                    c = wr(this.props.renderNode);
+                    c = Cr(this.props.renderNode);
                   if (c !== Ee.execute_actions) {
-                    var u = Cr(c),
+                    var u = Er(c),
                       d = u.name;
-                    Ui(this.props.renderNode.node) &&
+                    Ri(this.props.renderNode.node) &&
                       c === Ee.split_by_contact_field &&
                       this.props.renderNode.ui.config.operand.name &&
                       (d = 'Split by '.concat(this.props.renderNode.ui.config.operand.name));
-                    var p = Li(this.props.renderNode.node);
+                    var p = Mi(this.props.renderNode.node);
                     p &&
                       (l = k.createElement(
                         'div',
-                        Object.assign({}, this.events, { className: _c.a.save_result }),
-                        k.createElement('div', { className: _c.a.save_as }, 'Save as '),
-                        k.createElement('div', { className: _c.a.result_name }, p)
+                        Object.assign({}, this.events, { className: mc.a.save_result }),
+                        k.createElement('div', { className: mc.a.save_as }, 'Save as '),
+                        k.createElement('div', { className: mc.a.result_name }, p)
                       )),
                       null !== d ||
                         (c !== Ee.split_by_run_result && c !== Ee.split_by_run_result_delimited) ||
@@ -17100,7 +17101,7 @@
                           k.createElement(
                             'div',
                             this.events,
-                            k.createElement(Wl, {
+                            k.createElement(Hl, {
                               __className:
                                 ue.a[
                                   Za(this.props.issues, this.props.translating, this.props.language)
@@ -17120,35 +17121,35 @@
                       (r = k.createElement(
                         'div',
                         Object.assign(
-                          { className: _c.a.add },
+                          { className: mc.a.add },
                           V(this.handleAddToNode, this.handleShouldCancelClick)
                         ),
                         k.createElement('span', { className: 'fe-add' })
                       ));
                   var h = this.getExits(),
-                    m = vc(
+                    m = _c(
                       ((e = { 'plumb-drag': !0 }),
-                      Object(S.a)(e, _c.a.ghost, this.props.ghost),
-                      Object(S.a)(e, _c.a.flow_start, this.isStartNodeVisible()),
-                      Object(S.a)(e, _c.a.selected, this.isSelected()),
-                      Object(S.a)(e, _c.a.immutable, !this.context.config.mutable),
+                      Object(S.a)(e, mc.a.ghost, this.props.ghost),
+                      Object(S.a)(e, mc.a.flow_start, this.isStartNodeVisible()),
+                      Object(S.a)(e, mc.a.selected, this.isSelected()),
+                      Object(S.a)(e, mc.a.immutable, !this.context.config.mutable),
                       e)
                     ),
                     _ = this.renderDebug(),
                     v = k.createElement(
                       'div',
-                      { className: _c.a.node },
+                      { className: mc.a.node },
                       this.isStartNodeVisible()
                         ? k.createElement(
                             'div',
-                            { className: _c.a.flow_start_message },
+                            { className: mc.a.flow_start_message },
                             'Flow Start'
                           )
                         : null,
                       _,
-                      k.createElement(Vl, {
+                      k.createElement(Bl, {
                         count: this.props.activeCount,
-                        containerStyle: _c.a.active,
+                        containerStyle: mc.a.active,
                         countStyle: '',
                         keepVisible: this.props.simulating,
                         onClick: function() {
@@ -17159,13 +17160,13 @@
                             );
                         }
                       }),
-                      k.createElement('div', { className: _c.a.cropped }, o, i, l),
+                      k.createElement('div', { className: mc.a.cropped }, o, i, l),
                       k.createElement(
                         'div',
-                        { className: ''.concat(_c.a.exit_table) },
+                        { className: ''.concat(mc.a.exit_table) },
                         k.createElement(
                           'div',
-                          Object.assign({ className: _c.a.exits }, this.events),
+                          Object.assign({ className: mc.a.exits }, this.events),
                           h
                         ),
                         r
@@ -17175,13 +17176,13 @@
                     'div',
                     {
                       id: this.props.renderNode.node.uuid,
-                      className: ''.concat(_c.a.node_container, ' ').concat(m),
+                      className: ''.concat(mc.a.node_container, ' ').concat(m),
                       ref: this.eleRef
                     },
                     !this.props.scrollToAction &&
                       this.props.scrollToNode &&
                       this.props.scrollToNode === this.props.nodeUUID
-                      ? k.createElement(Ql, { pulseAfterScroll: !0 }, v)
+                      ? k.createElement(Xl, { pulseAfterScroll: !0 }, v)
                       : v
                   );
                 }
@@ -17190,9 +17191,9 @@
             a
           );
         })(k.PureComponent);
-      fc.contextTypes = { config: bt };
-      var yc,
-        bc = Object(Gl.b)(
+      gc.contextTypes = { config: bt };
+      var fc,
+        yc = Object(Wl.b)(
           function(e, t) {
             var a = e.flowContext,
               n = a.nodes,
@@ -17219,7 +17220,7 @@
               y = v && v === t.nodeUUID ? v : null,
               b = _ && y ? _ : null;
             return {
-              issues: (i || {})[t.nodeUUID] || gc,
+              issues: (i || {})[t.nodeUUID] || vc,
               results: o,
               language: m,
               languages: r,
@@ -17234,16 +17235,16 @@
           },
           function(e) {
             return Object(ge.bindActionCreators)(
-              { onAddToNode: ol, onOpenNodeEditor: pl, removeNode: el, mergeEditorState: Hr },
+              { onAddToNode: sl, onOpenNodeEditor: dl, removeNode: Zr, mergeEditorState: qr },
               e
             );
           },
           null,
           { forwardRef: !0 }
-        )(fc),
-        kc = a(154),
-        Ec = a.n(kc),
-        Cc = (function(e) {
+        )(gc),
+        bc = a(154),
+        kc = a.n(bc),
+        Ec = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a() {
@@ -17268,7 +17269,7 @@
                     }
                   };
                   return k.createElement(
-                    Ec.a,
+                    kc.a,
                     {
                       ariaHideApp: !1,
                       isOpen: this.props.show,
@@ -17286,7 +17287,7 @@
             a
           );
         })(k.Component),
-        wc = (function(e) {
+        Cc = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -17310,7 +17311,7 @@
                 key: 'close',
                 value: function(e) {
                   if (e) {
-                    var t = ki(this.props.settings.originalNode);
+                    var t = bi(this.props.settings.originalNode);
                     if (t) {
                       var a,
                         n = this.props.nodes[t.nodeUUID],
@@ -17371,7 +17372,7 @@
                           })
                         };
                         return k.createElement(
-                          Cc,
+                          Ec,
                           { width: '600px', show: !0 },
                           k.createElement(a, Object(y.a)({}, n))
                         );
@@ -17394,7 +17395,7 @@
                         onClose: this.close
                       };
                     return k.createElement(
-                      Cc,
+                      Ec,
                       { width: '600px', show: !0 },
                       k.createElement(i, Object(y.a)({}, s))
                     );
@@ -17406,7 +17407,7 @@
             a
           );
         })(k.Component),
-        Sc = Object(Gl.b)(
+        wc = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -17437,20 +17438,20 @@
           function(e) {
             return Object(ge.bindActionCreators)(
               {
-                addAsset: Yr,
-                resetNodeEditingState: il,
-                mergeEditorState: Hr,
-                handleTypeConfigChange: nl,
-                onUpdateLocalizations: Qr,
-                onUpdateAction: sl,
-                onUpdateRouter: dl,
+                addAsset: Kr,
+                resetNodeEditingState: nl,
+                mergeEditorState: qr,
+                handleTypeConfigChange: al,
+                onUpdateLocalizations: Xr,
+                onUpdateAction: il,
+                onUpdateRouter: ul,
                 updateUserAddingAction: aa
               },
               e
             );
           }
-        )(wc),
-        Nc =
+        )(Cc),
+        Sc =
           (Z(),
           function() {
             var e = new Date(),
@@ -17458,45 +17459,45 @@
               a = '' + t;
             return t < 10 && (a = '0' + t), Math.abs(12 - e.getHours()) + ':' + a;
           }),
-        Oc = function(e) {
+        Nc = function(e) {
           return !!['msg_created', 'msg_received', 'ivr_created'].find(function(t) {
             return t === e.type;
           });
         },
-        xc = function(e) {
+        Oc = function(e) {
           return !!['msg_created', 'ivr_created'].find(function(t) {
             return t === e.type;
           });
         },
-        jc = a(24),
-        Tc = a.n(jc),
-        Ac = a(127);
+        xc = a(24),
+        jc = a.n(xc),
+        Tc = a(127);
       !(function(e) {
         (e[(e.MT = 0)] = 'MT'), (e[(e.MO = 1)] = 'MO');
-      })(yc || (yc = {}));
-      var Rc,
+      })(fc || (fc = {}));
+      var Ac,
+        Rc = function(e) {
+          return e === fc.MO ? jc.a.msg_received : jc.a.send_msg;
+        },
         Uc = function(e) {
-          return e === yc.MO ? Tc.a.msg_received : Tc.a.send_msg;
+          return k.createElement(
+            'div',
+            { className: jc.a.error },
+            k.createElement('span', null, 'Error: ', e)
+          );
         },
         Dc = function(e) {
           return k.createElement(
             'div',
-            { className: Tc.a.error },
-            k.createElement('span', null, 'Error: ', e)
-          );
-        },
-        Fc = function(e) {
-          return k.createElement(
-            'div',
-            { key: e, className: Tc.a.info },
+            { key: e, className: jc.a.info },
             k.createElement('span', { dangerouslySetInnerHTML: { __html: e } })
           );
         },
-        Pc = function(e, t, a) {
+        Fc = function(e, t, a) {
           var n = t || [];
           return k.createElement(
             'div',
-            { className: Uc(a) },
+            { className: Rc(a) },
             n.map(function(t) {
               return k.createElement(
                 'div',
@@ -17509,13 +17510,13 @@
                     if (a.startsWith('audio'))
                       return k.createElement(
                         'div',
-                        { className: Tc.a.audio_attachment },
+                        { className: jc.a.audio_attachment },
                         k.createElement(
                           'div',
-                          { className: Tc.a.media_player },
+                          { className: jc.a.media_player },
                           k.createElement(hn, { url: n })
                         ),
-                        k.createElement('div', { className: Tc.a.audio_text }, 'Audio Recording')
+                        k.createElement('div', { className: jc.a.audio_text }, 'Audio Recording')
                       );
                     if (a.startsWith('image'))
                       return k.createElement('img', { src: n, alt: 'Attachment' });
@@ -17549,11 +17550,11 @@
                         )
                       );
                     if (a.startsWith('geo'))
-                      return k.createElement('img', { src: Ac, alt: 'Attachment' });
+                      return k.createElement('img', { src: Tc, alt: 'Attachment' });
                     if (a.startsWith('video'))
                       return k.createElement(
                         'div',
-                        { className: Tc.a.video_attachment },
+                        { className: jc.a.video_attachment },
                         k.createElement('video', { controls: !0, src: n })
                       );
                   }
@@ -17566,12 +17567,12 @@
                   .trim()
                   .split('\n')
                   .map(function(e, t) {
-                    return k.createElement('div', { key: Z(), className: Tc.a.msg_text }, e);
+                    return k.createElement('div', { key: Z(), className: jc.a.msg_text }, e);
                   })
               : null
           );
         },
-        Ic = (function(e) {
+        Pc = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -17632,14 +17633,14 @@
                         )
                     );
                   }
-                  return Fc(e.join('. '));
+                  return Dc(e.join('. '));
                 }
               },
               {
                 key: 'renderLabelsAdded',
                 value: function() {
                   var e = Pt.t('simulator.input_labels_added', 'Message labeled with ');
-                  return Fc(
+                  return Dc(
                     e +
                       this.renderValueList(
                         this.props.labels.map(function(e) {
@@ -17656,7 +17657,7 @@
                   return this.renderClickable(
                     k.createElement(
                       'div',
-                      { className: Tc.a.info + ' ' + Tc.a.email },
+                      { className: jc.a.info + ' ' + jc.a.email },
                       k.createElement(
                         Fe.a,
                         {
@@ -17679,22 +17680,22 @@
                       },
                       k.createElement(
                         'div',
-                        { className: Tc.a.email_details },
+                        { className: jc.a.email_details },
                         k.createElement(
                           'div',
-                          { className: Tc.a.to },
+                          { className: jc.a.to },
                           Pt.t('email.to', 'To'),
                           ': ',
                           this.renderValueList(e)
                         ),
                         k.createElement(
                           'div',
-                          { className: Tc.a.subject },
+                          { className: jc.a.subject },
                           Pt.t('email.subject', 'Subject'),
                           ': ',
                           this.props.subject
                         ),
-                        k.createElement('div', { className: Tc.a.body }, this.props.body)
+                        k.createElement('div', { className: jc.a.body }, this.props.body)
                       )
                     )
                   );
@@ -17706,7 +17707,7 @@
                   return this.renderClickable(
                     k.createElement(
                       'div',
-                      { className: Tc.a.info + ' ' + Tc.a.webhook },
+                      { className: jc.a.info + ' ' + jc.a.webhook },
                       k.createElement('span', null, 'Called ', t.url)
                     ),
                     k.createElement(
@@ -17719,9 +17720,9 @@
                       },
                       k.createElement(
                         'div',
-                        { className: Tc.a.webhook_details },
+                        { className: jc.a.webhook_details },
                         k.createElement('div', { className: '' }, t.request),
-                        k.createElement('div', { className: Tc.a.response }, t.response)
+                        k.createElement('div', { className: jc.a.response }, t.response)
                       )
                     )
                   );
@@ -17752,13 +17753,13 @@
                     { key: this.props.step_uuid },
                     k.createElement(
                       'div',
-                      { className: Tc.a.has_detail, onClick: this.showDetails },
+                      { className: jc.a.has_detail, onClick: this.showDetails },
                       e
                     ),
                     k.createElement(
-                      Cc,
+                      Ec,
                       { show: this.state.detailsVisible },
-                      k.createElement('div', { className: Tc.a.event_viewer }, t)
+                      k.createElement('div', { className: jc.a.event_viewer }, t)
                     )
                   );
                 }
@@ -17769,7 +17770,7 @@
                   var e = this;
                   return k.createElement(
                     'table',
-                    { className: Tc.a.classification },
+                    { className: jc.a.classification },
                     k.createElement(
                       'tbody',
                       null,
@@ -17806,22 +17807,22 @@
                     return this.renderClassification();
                   switch (this.props.type) {
                     case 'msg_received':
-                      return Pc(this.props.msg.text, this.props.msg.attachments, yc.MO);
+                      return Fc(this.props.msg.text, this.props.msg.attachments, fc.MO);
                     case 'msg_created':
                     case 'ivr_created':
-                      return Pc(this.props.msg.text, this.props.msg.attachments, yc.MT);
+                      return Fc(this.props.msg.text, this.props.msg.attachments, fc.MT);
                     case 'error':
                     case 'failure':
-                      return Dc(this.props.text);
+                      return Uc(this.props.text);
                     case 'msg_wait':
-                      return Fc(Pt.t('simulator.msg_wait', 'Waiting for reply'));
+                      return Dc(Pt.t('simulator.msg_wait', 'Waiting for reply'));
                     case 'contact_groups_changed':
                       return this.renderGroupsChanged();
                     case 'contact_urns_changed':
-                      return Fc('Added a URN for the contact');
+                      return Dc('Added a URN for the contact');
                     case 'contact_field_changed':
                       var e = this.getValue(this.props.value);
-                      return Fc(
+                      return Dc(
                         '' !== e
                           ? Pt.t(
                               'simulator.contact_field_changed',
@@ -17836,7 +17837,7 @@
                             })
                       );
                     case 'run_result_changed':
-                      return Fc(
+                      return Dc(
                         Pt.t(
                           'simulator.run_result_changed',
                           'Set result "[[field]]" to "[[value]]"',
@@ -17844,7 +17845,7 @@
                         )
                       );
                     case 'contact_name_changed':
-                      return Fc(
+                      return Dc(
                         Pt.t('simulator.contact_name_changed', 'Set contact name to "[[name]]"', {
                           name: this.props.name
                         })
@@ -17853,13 +17854,13 @@
                     case 'email_sent':
                       return this.renderEmailSent();
                     case 'broadcast_created':
-                      return Pc(
+                      return Fc(
                         this.props.translations[this.props.base_language].text,
                         this.props.msg ? this.props.msg.attachments : [],
-                        yc.MT
+                        fc.MT
                       );
                     case 'resthook_called':
-                      return Fc(
+                      return Dc(
                         Pt.t('simulator.resthook_called', 'Triggered flow event "[[resthook]]"', {
                           resthook: this.props.resthook
                         })
@@ -17871,19 +17872,19 @@
                     case 'webhook_called':
                       return this.renderWebhook(Ee.call_webhook);
                     case 'flow_entered':
-                      return Fc(
+                      return Dc(
                         Pt.t('simulator.flow_entered', 'Entered flow "[[flow]]"', {
                           flow: this.props.flow.name
                         })
                       );
                     case 'session_triggered':
-                      return Fc(
+                      return Dc(
                         Pt.t('simulator.session_triggered', 'Started somebody else in "[[flow]]"', {
                           flow: this.props.flow.name
                         })
                       );
                     case 'contact_language_changed':
-                      return Fc(
+                      return Dc(
                         Pt.t(
                           'simulator.contact_language_changed',
                           'Set preferred language to "[[language]]"',
@@ -17891,19 +17892,19 @@
                         )
                       );
                     case 'contact_status_changed':
-                      return Fc(
+                      return Dc(
                         Pt.t('simulator.contact_status_changed', 'Set status to "[[status]]"', {
                           status: this.props.status
                         })
                       );
                     case 'info':
-                      return Fc(this.props.text);
+                      return Dc(this.props.text);
                     case 'input_labels_added':
                       return this.renderLabelsAdded();
                     case 'environment_refreshed':
                       return null;
                     case 'ticket_opened':
-                      return Fc(
+                      return Dc(
                         Pt.t(
                           'simulator.ticket_opened',
                           'Ticket opened with subject "[[subject]]"',
@@ -17916,7 +17917,7 @@
                         k.Fragment,
                         null,
                         this.renderWebhook(Ee.transfer_airtime),
-                        Fc(
+                        Dc(
                           Pt.t(
                             'simulator.airtime_transferred',
                             'Transferred [[amount]] [[currency]] to [[recipient]]',
@@ -17936,7 +17937,7 @@
               {
                 key: 'render',
                 value: function() {
-                  return k.createElement('div', { className: Tc.a.evt }, this.renderLogEvent());
+                  return k.createElement('div', { className: jc.a.evt }, this.renderLogEvent());
                 }
               },
               {
@@ -17962,11 +17963,11 @@
             a
           );
         })(k.Component),
-        Mc = a(33),
-        Lc = a.n(Mc),
-        zc = St.a.bind(Lc.a),
-        Bc = { 'parent.run': !0, 'child.run': !0, legacy_extra: !0 },
-        Vc = (function(e) {
+        Ic = a(33),
+        Mc = a.n(Ic),
+        Lc = St.a.bind(Mc.a),
+        zc = { 'parent.run': !0, 'child.run': !0, legacy_extra: !0 },
+        Bc = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -18077,7 +18078,7 @@
                     s = this;
                   if (!e) return null;
                   var o = [].concat(Object(ve.a)(a), [e]);
-                  if (Bc[o.join('.')]) return null;
+                  if (zc[o.join('.')]) return null;
                   var r = typeof t,
                     l = 'object' !== r ? t : '',
                     c = t && 'object' === r && Object.keys(t).length > 0;
@@ -18085,17 +18086,17 @@
                     t.hasOwnProperty('__default__') &&
                     ((l = t.__default__), 1 === Object.keys(t).length && (c = !1));
                   var u = this.isOpen(o),
-                    d = zc(
+                    d = Lc(
                       ((n = {}),
-                      Object(S.a)(n, Lc.a.arrow_right, !0),
-                      Object(S.a)(n, Lc.a.has_children, c),
-                      Object(S.a)(n, Lc.a.open, u),
+                      Object(S.a)(n, Mc.a.arrow_right, !0),
+                      Object(S.a)(n, Mc.a.has_children, c),
+                      Object(S.a)(n, Mc.a.open, u),
                       n)
                     ),
-                    p = zc(
+                    p = Lc(
                       ((i = {}),
-                      Object(S.a)(i, Lc.a.key, !0),
-                      Object(S.a)(i, Lc.a.has_children, c),
+                      Object(S.a)(i, Mc.a.key, !0),
+                      Object(S.a)(i, Mc.a.has_children, c),
                       i)
                     ),
                     h = Array.isArray(t) ? '['.concat(t.length, ']') : null;
@@ -18105,7 +18106,7 @@
                     k.createElement(
                       'div',
                       {
-                        className: Lc.a.row,
+                        className: Mc.a.row,
                         style: { marginLeft: 10 * a.length + 'px' },
                         onClick: function(t) {
                           t.shiftKey ? s.handleCopyPath(e, a) : c && s.handlePathClick(e, a);
@@ -18116,15 +18117,15 @@
                         'div',
                         { className: p },
                         e,
-                        k.createElement('div', { className: Lc.a.key_summary }, h),
+                        k.createElement('div', { className: Mc.a.key_summary }, h),
                         k.createElement('div', {
-                          className: Lc.a.clipboard + ' fe-clipboard-empty',
+                          className: Mc.a.clipboard + ' fe-clipboard-empty',
                           onClick: function(t) {
                             t.stopPropagation(), s.handleCopyPath(e, a);
                           }
                         })
                       ),
-                      k.createElement('div', { className: Lc.a.str_value }, l)
+                      k.createElement('div', { className: Mc.a.str_value }, l)
                     ),
                     u ? this.renderProperties(t, o) : null
                   );
@@ -18182,30 +18183,30 @@
                             values: { expression: this.state.expression }
                           },
                           'Copied ',
-                          k.createElement('span', { className: Lc.a.expression }, '[[expression]]'),
+                          k.createElement('span', { className: Mc.a.expression }, '[[expression]]'),
                           ' to clipboard'
                         )));
-                  var i = zc(
+                  var i = Lc(
                     ((e = {}),
-                    Object(S.a)(e, Lc.a.message, !0),
-                    Object(S.a)(e, Lc.a.visible, this.state.messageVisible),
+                    Object(S.a)(e, Mc.a.message, !0),
+                    Object(S.a)(e, Mc.a.visible, this.state.messageVisible),
                     e)
                   );
                   return k.createElement(
                     'div',
                     {
                       className:
-                        Lc.a.context_explorer + ' ' + (this.props.visible ? Lc.a.visible : '')
+                        Mc.a.context_explorer + ' ' + (this.props.visible ? Mc.a.visible : '')
                     },
                     k.createElement('div', { className: i }, n),
-                    k.createElement('div', { className: Lc.a.panel }, this.renderProperties(a)),
+                    k.createElement('div', { className: Mc.a.panel }, this.renderProperties(a)),
                     k.createElement(
                       'div',
-                      { className: Lc.a.footer },
+                      { className: Mc.a.footer },
                       k.createElement(
                         'div',
                         {
-                          className: Lc.a.empty_toggle,
+                          className: Mc.a.empty_toggle,
                           onClick: function() {
                             t.handleToggleHide();
                           }
@@ -18222,14 +18223,14 @@
             a
           );
         })(k.Component),
-        qc = a(14),
-        Hc = a.n(qc),
-        Wc = a(127),
-        Gc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg',
-        Kc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg',
-        Yc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg',
-        Xc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4',
-        Qc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
+        Vc = a(14),
+        qc = a.n(Vc),
+        Hc = a(127),
+        Wc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_a.jpg',
+        Gc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_b.jpg',
+        Kc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_image_c.jpg',
+        Yc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a.mp4',
+        Xc = 'https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_video_a_thumb.jpg';
       !(function(e) {
         (e.audio = 'audio'),
           (e.images = 'images'),
@@ -18238,8 +18239,8 @@
           (e.digit = 'digit'),
           (e.digits = 'digits'),
           (e.quickReplies = 'quickReplies');
-      })(Rc || (Rc = {}));
-      var Jc = (function(e) {
+      })(Ac || (Ac = {}));
+      var Qc = (function(e) {
         Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e, n) {
@@ -18260,7 +18261,7 @@
               keypadEntry: '',
               drawerHeight: 0,
               channel: Z(),
-              time: Nc(),
+              time: Sc(),
               waitingForHint: !1,
               drawerOpen: !1,
               attachmentOptionsVisible: !1,
@@ -18353,7 +18354,7 @@
                 if (e && e.length > 0) {
                   for (var s = [], o = null, r = !1; e.length > 0 && !r; ) {
                     var l = e.shift();
-                    if (Oc(l)) {
+                    if (Nc(l)) {
                       r = !0;
                       for (var c = '', u = '', d = t.runs.length - 1; d >= 0; d--) {
                         for (var p = t.runs[d].path, h = p.length - 1; h >= 0; h--)
@@ -18368,7 +18369,7 @@
                           m in a ? a[m].unshift(_) : (a[m] = [_]);
                         }
                       }
-                      xc(l) && l.msg.quick_replies && (o = l.msg.quick_replies);
+                      Oc(l) && l.msg.quick_replies && (o = l.msg.quick_replies);
                     }
                     s.push(l);
                   }
@@ -18437,25 +18438,25 @@
                     if (l)
                       switch (e.session.wait.hint.type) {
                         case 'audio':
-                          c = Rc.audio;
+                          c = Ac.audio;
                           break;
                         case 'video':
-                          c = Rc.videos;
+                          c = Ac.videos;
                           break;
                         case 'image':
-                          c = Rc.images;
+                          c = Ac.images;
                           break;
                         case 'location':
-                          c = Rc.location;
+                          c = Ac.location;
                           break;
                         case 'digits':
-                          (c = Rc.digit), 1 !== e.session.wait.hint.count && (c = Rc.digits);
+                          (c = Ac.digit), 1 !== e.session.wait.hint.count && (c = Ac.digits);
                           break;
                         default:
                           console.log('Unknown hint', e.session.wait.hint.type);
                       }
                     var u = l;
-                    !c && a.hasQuickReplies() && ((c = Rc.quickReplies), (u = !0)),
+                    !c && a.hasQuickReplies() && ((c = Ac.quickReplies), (u = !0)),
                       a.setState(
                         {
                           active: i,
@@ -18493,7 +18494,7 @@
                     function() {
                       var n = {
                         contact: e.state.contact,
-                        flow: kl(e.props.definition, e.props.nodes, !1),
+                        flow: bl(e.props.definition, e.props.nodes, !1),
                         trigger: {
                           type: 'manual',
                           environment: {
@@ -18538,7 +18539,7 @@
                                 attachments: t ? [t] : []
                               },
                               s = {
-                                flow: kl(a.props.definition, a.props.nodes, !1),
+                                flow: bl(a.props.definition, a.props.nodes, !1),
                                 session: a.state.session,
                                 resume: {
                                   type: 'msg',
@@ -18656,11 +18657,21 @@
                 var e = this;
                 return E.a.createElement(
                   'div',
-                  { className: Hc.a.drawer_items },
+                  { className: qc.a.drawer_items },
                   E.a.createElement(
                     'div',
                     {
-                      className: Hc.a.drawer_item,
+                      className: qc.a.drawer_item,
+                      onClick: function() {
+                        e.sendAttachment('image/jpeg:' + Wc);
+                      }
+                    },
+                    E.a.createElement('img', { src: Wc, alt: 'Attachment' })
+                  ),
+                  E.a.createElement(
+                    'div',
+                    {
+                      className: qc.a.drawer_item,
                       onClick: function() {
                         e.sendAttachment('image/jpeg:' + Gc);
                       }
@@ -18670,22 +18681,12 @@
                   E.a.createElement(
                     'div',
                     {
-                      className: Hc.a.drawer_item,
+                      className: qc.a.drawer_item,
                       onClick: function() {
                         e.sendAttachment('image/jpeg:' + Kc);
                       }
                     },
                     E.a.createElement('img', { src: Kc, alt: 'Attachment' })
-                  ),
-                  E.a.createElement(
-                    'div',
-                    {
-                      className: Hc.a.drawer_item,
-                      onClick: function() {
-                        e.sendAttachment('image/jpeg:' + Yc);
-                      }
-                    },
-                    E.a.createElement('img', { src: Yc, alt: 'Attachment' })
                   )
                 );
               }
@@ -18697,12 +18698,12 @@
                 return E.a.createElement(
                   'div',
                   {
-                    className: Hc.a.map_thumb,
+                    className: qc.a.map_thumb,
                     onClick: function() {
                       e.sendAttachment('geo:2.904194,-79.003418');
                     }
                   },
-                  E.a.createElement('img', { src: Wc, alt: 'Attachment' })
+                  E.a.createElement('img', { src: Hc, alt: 'Attachment' })
                 );
               }
             },
@@ -18713,15 +18714,15 @@
                 return E.a.createElement(
                   'div',
                   {
-                    className: Hc.a.audio_picker,
+                    className: qc.a.audio_picker,
                     onClick: function() {
                       e.sendAttachment(
                         'audio/mp3:https://s3.amazonaws.com/floweditor-assets.temba.io/simulator/sim_audio_a.mp3'
                       );
                     }
                   },
-                  E.a.createElement('div', { className: Hc.a.audio_icon + ' fe-mic' }),
-                  E.a.createElement('div', { className: Hc.a.audio_message }, 'Upload Audio')
+                  E.a.createElement('div', { className: qc.a.audio_icon + ' fe-mic' }),
+                  E.a.createElement('div', { className: qc.a.audio_message }, 'Upload Audio')
                 );
               }
             },
@@ -18731,36 +18732,36 @@
                 var e = this;
                 return E.a.createElement(
                   'div',
-                  { className: Hc.a.drawer_items },
+                  { className: qc.a.drawer_items },
                   E.a.createElement(
                     'div',
                     {
-                      className: Hc.a.drawer_item,
+                      className: qc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('video/mp4:' + Xc);
+                        e.sendAttachment('video/mp4:' + Yc);
                       }
                     },
-                    E.a.createElement('img', { src: Qc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Xc, alt: 'Attachment' })
                   ),
                   E.a.createElement(
                     'div',
                     {
-                      className: Hc.a.drawer_item,
+                      className: qc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('video/mp4:' + Xc);
+                        e.sendAttachment('video/mp4:' + Yc);
                       }
                     },
-                    E.a.createElement('img', { src: Qc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Xc, alt: 'Attachment' })
                   ),
                   E.a.createElement(
                     'div',
                     {
-                      className: Hc.a.drawer_item,
+                      className: qc.a.drawer_item,
                       onClick: function() {
-                        e.sendAttachment('video/mp4:' + Xc);
+                        e.sendAttachment('video/mp4:' + Yc);
                       }
                     },
-                    E.a.createElement('img', { src: Qc, alt: 'Attachment' })
+                    E.a.createElement('img', { src: Xc, alt: 'Attachment' })
                   )
                 );
               }
@@ -18771,12 +18772,12 @@
                 var e = this;
                 return E.a.createElement(
                   'div',
-                  { className: Hc.a.quick_replies },
+                  { className: qc.a.quick_replies },
                   this.state.quickReplies.map(function(t) {
                     return E.a.createElement(
                       'div',
                       {
-                        className: Hc.a.quick_reply,
+                        className: qc.a.quick_reply,
                         onClick: function() {
                           e.resume(t);
                         },
@@ -18806,7 +18807,7 @@
                 var a = this;
                 return E.a.createElement(
                   'div',
-                  { className: Hc.a.row },
+                  { className: qc.a.row },
                   e.map(function(e) {
                     return E.a.createElement(
                       'div',
@@ -18815,7 +18816,7 @@
                         onClick: function() {
                           a.handleKeyPress(e, t);
                         },
-                        className: Hc.a.key
+                        className: qc.a.key
                       },
                       e
                     );
@@ -18828,17 +18829,17 @@
               value: function(e) {
                 return E.a.createElement(
                   'div',
-                  { className: Hc.a.keypad },
+                  { className: qc.a.keypad },
                   e
                     ? E.a.createElement(
                         'div',
-                        { className: Hc.a.keypad_entry },
+                        { className: qc.a.keypad_entry },
                         this.state.keypadEntry
                       )
                     : null,
                   E.a.createElement(
                     'div',
-                    { className: Hc.a.keys },
+                    { className: qc.a.keys },
                     this.getKeyRow(['1', '2', '3'], e),
                     this.getKeyRow(['4', '5', '6'], e),
                     this.getKeyRow(['7', '8', '9'], e),
@@ -18851,19 +18852,19 @@
               key: 'getDrawerContents',
               value: function() {
                 switch (this.state.drawerType) {
-                  case Rc.location:
+                  case Ac.location:
                     return this.getLocationDrawer();
-                  case Rc.audio:
+                  case Ac.audio:
                     return this.getAudioDrawer();
-                  case Rc.images:
+                  case Ac.images:
                     return this.getImageDrawer();
-                  case Rc.videos:
+                  case Ac.videos:
                     return this.getVideoDrawer();
-                  case Rc.quickReplies:
+                  case Ac.quickReplies:
                     return this.getQuickRepliesDrawer();
-                  case Rc.digits:
-                  case Rc.digit:
-                    return this.getKeypadDrawer(this.state.drawerType === Rc.digits);
+                  case Ac.digits:
+                  case Ac.digit:
+                    return this.getKeypadDrawer(this.state.drawerType === Ac.digits);
                 }
                 return null;
               }
@@ -18890,11 +18891,11 @@
                       ref: this.handleDrawerRef,
                       style: e,
                       className:
-                        Hc.a.drawer +
+                        qc.a.drawer +
                         ' ' +
-                        (this.state.drawerOpen ? Hc.a.drawer_visible : '') +
+                        (this.state.drawerOpen ? qc.a.drawer_visible : '') +
                         ' ' +
-                        (this.state.attachmentOptionsVisible ? '' : Hc.a.forced)
+                        (this.state.attachmentOptionsVisible ? '' : qc.a.forced)
                     },
                     this.getDrawerContents()
                   )
@@ -18914,7 +18915,7 @@
                 this.setState({ attachmentOptionsVisible: !1, drawerOpen: !1 }, function() {
                   e.hasQuickReplies() &&
                     window.setTimeout(function() {
-                      e.showAttachmentDrawer(Rc.quickReplies);
+                      e.showAttachmentDrawer(Ac.quickReplies);
                     }, 300);
                 });
               }
@@ -18938,18 +18939,18 @@
                   'div',
                   {
                     className:
-                      Hc.a.attachment_buttons +
+                      qc.a.attachment_buttons +
                       ' ' +
-                      (this.state.attachmentOptionsVisible ? Hc.a.visible : '')
+                      (this.state.attachmentOptionsVisible ? qc.a.visible : '')
                   },
                   E.a.createElement('div', {
                     className: 'fe-x',
                     onClick: this.handleHideAttachments
                   }),
-                  this.getAttachmentButton('fe-picture2', Rc.images),
-                  this.getAttachmentButton('fe-video', Rc.videos),
-                  this.getAttachmentButton('fe-mic', Rc.audio),
-                  this.getAttachmentButton('fe-map-marker', Rc.location)
+                  this.getAttachmentButton('fe-picture2', Ac.images),
+                  this.getAttachmentButton('fe-video', Ac.videos),
+                  this.getAttachmentButton('fe-mic', Ac.audio),
+                  this.getAttachmentButton('fe-map-marker', Ac.location)
                 );
               }
             },
@@ -18962,7 +18963,7 @@
             {
               key: 'getContextExplorer',
               value: function() {
-                return E.a.createElement(Vc, {
+                return E.a.createElement(Bc, {
                   visible: this.state.contextExplorerVisible,
                   onClose: this.handleContextExplorerClose,
                   contents: this.state.context
@@ -19003,7 +19004,7 @@
                     var i = e.value;
                     a.push(
                       E.a.createElement(
-                        Ic,
+                        Pc,
                         Object.assign({}, i, { key: i.type + '_' + String(i.created_on) })
                       )
                     );
@@ -19014,35 +19015,35 @@
                   n.f();
                 }
                 var s = this.props.popped && this.props.popped !== Se.SIMULATOR,
-                  o = s || !this.state.visible ? Hc.a.sim_hidden : '',
-                  r = s || this.state.visible ? Hc.a.tab_hidden : '',
+                  o = s || !this.state.visible ? qc.a.sim_hidden : '',
+                  r = s || this.state.visible ? qc.a.tab_hidden : '',
                   l = { height: 366 - (this.state.drawerOpen ? this.state.drawerHeight - 20 : 0) };
                 return (
                   this.state.drawerOpen && this.state.waitingForHint && (l.height += 25),
                   E.a.createElement(
                     'div',
-                    { id: 'sim_container', className: Hc.a.sim_container },
+                    { id: 'sim_container', className: qc.a.sim_container },
                     E.a.createElement(
                       'div',
                       null,
                       E.a.createElement(
                         'div',
-                        { id: 'simulator', className: Hc.a.simulator + ' ' + o, key: 'sim' },
+                        { id: 'simulator', className: qc.a.simulator + ' ' + o, key: 'sim' },
                         this.getContextExplorer(),
                         E.a.createElement(
                           'div',
-                          { className: Hc.a.screen },
+                          { className: qc.a.screen },
                           E.a.createElement(
                             'div',
-                            { className: Hc.a.header },
+                            { className: qc.a.header },
                             E.a.createElement('div', {
-                              className: Hc.a.close + ' fe-x',
+                              className: qc.a.close + ' fe-x',
                               onClick: this.onToggle
                             })
                           ),
                           E.a.createElement(
                             'div',
-                            { className: Hc.a.messages, style: l },
+                            { className: qc.a.messages, style: l },
                             a,
                             E.a.createElement('div', {
                               id: 'bottom',
@@ -19052,7 +19053,7 @@
                           ),
                           E.a.createElement(
                             'div',
-                            { className: Hc.a.controls },
+                            { className: qc.a.controls },
                             E.a.createElement('input', {
                               ref: this.inputBoxRef,
                               type: 'text',
@@ -19064,7 +19065,7 @@
                             }),
                             E.a.createElement(
                               'div',
-                              { className: Hc.a.show_attachments_button },
+                              { className: qc.a.show_attachments_button },
                               E.a.createElement('div', {
                                 className: 'fe-paperclip',
                                 onClick: function() {
@@ -19077,11 +19078,11 @@
                           this.getDrawer(),
                           E.a.createElement(
                             'div',
-                            { className: Hc.a.footer },
+                            { className: qc.a.footer },
                             this.state.contextExplorerVisible
                               ? E.a.createElement(
                                   'div',
-                                  { className: Hc.a.show_context_button },
+                                  { className: qc.a.show_context_button },
                                   E.a.createElement(
                                     'div',
                                     {
@@ -19095,7 +19096,7 @@
                                 )
                               : E.a.createElement(
                                   'div',
-                                  { className: Hc.a.show_context_button },
+                                  { className: qc.a.show_context_button },
                                   E.a.createElement(
                                     'div',
                                     {
@@ -19109,9 +19110,9 @@
                                 ),
                             E.a.createElement('span', {
                               className:
-                                Hc.a.reset +
+                                qc.a.reset +
                                 ' ' +
-                                (this.state.active ? Hc.a.active : Hc.a.inactive),
+                                (this.state.active ? qc.a.active : qc.a.inactive),
                               onClick: this.onReset
                             })
                           )
@@ -19120,13 +19121,13 @@
                     ),
                     E.a.createElement(
                       'div',
-                      { className: Hc.a.simulator_tab + ' ' + r, onClick: this.onToggle },
+                      { className: qc.a.simulator_tab + ' ' + r, onClick: this.onToggle },
                       E.a.createElement('div', {
-                        className: Hc.a.simulator_tab_icon + ' fe-smartphone'
+                        className: qc.a.simulator_tab_icon + ' fe-smartphone'
                       }),
                       E.a.createElement(
                         'div',
-                        { className: Hc.a.simulator_tab_text },
+                        { className: qc.a.simulator_tab_text },
                         'Run in',
                         E.a.createElement('br', null),
                         'Simulator'
@@ -19140,8 +19141,8 @@
           a
         );
       })(E.a.Component);
-      Jc.contextTypes = { config: bt };
-      var $c = Object(Gl.b)(
+      Qc.contextTypes = { config: bt };
+      var Jc = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -19160,21 +19161,21 @@
           function(e) {
             return Object(ge.bindActionCreators)({}, e);
           }
-        )(Jc),
-        Zc = a(110),
-        eu = a.n(Zc),
-        tu = a(34),
-        au = a.n(tu),
-        nu = Pt.t('sticky.title', 'New Note'),
-        iu = Pt.t('sticky.body', '...'),
-        su = {
-          yellow: au.a.yellow,
-          blue: au.a.blue,
-          green: au.a.green,
-          purple: au.a.purple,
-          gray: au.a.gray
+        )(Qc),
+        $c = a(110),
+        Zc = a.n($c),
+        eu = a(34),
+        tu = a.n(eu),
+        au = Pt.t('sticky.title', 'New Note'),
+        nu = Pt.t('sticky.body', '...'),
+        iu = {
+          yellow: tu.a.yellow,
+          blue: tu.a.blue,
+          green: tu.a.green,
+          purple: tu.a.purple,
+          gray: tu.a.gray
         },
-        ou = (function(e) {
+        su = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -19289,13 +19290,13 @@
               {
                 key: 'handleTitleFocused',
                 value: function(e) {
-                  this.handleSelectForValue(e.currentTarget, nu);
+                  this.handleSelectForValue(e.currentTarget, au);
                 }
               },
               {
                 key: 'handleBodyFocused',
                 value: function(e) {
-                  this.handleSelectForValue(e.currentTarget, iu);
+                  this.handleSelectForValue(e.currentTarget, nu);
                 }
               },
               {
@@ -19304,17 +19305,17 @@
                   var e = this;
                   return k.createElement(
                     'div',
-                    { className: au.a.color_chooser_container },
+                    { className: tu.a.color_chooser_container },
                     k.createElement(
                       'div',
-                      { className: au.a.color_chooser },
-                      Object.keys(su).map(function(t) {
+                      { className: tu.a.color_chooser },
+                      Object.keys(iu).map(function(t) {
                         return k.createElement('div', {
                           key: e.props.uuid + t,
                           onClick: function() {
                             e.handleChangeColor(t);
                           },
-                          className: au.a.color_option + ' ' + su[t]
+                          className: tu.a.color_option + ' ' + iu[t]
                         });
                       })
                     )
@@ -19324,12 +19325,12 @@
               {
                 key: 'render',
                 value: function() {
-                  var e = [au.a.title_wrapper];
-                  this.state.showConfirmation && e.push(au.a.removal);
-                  var t = [au.a.sticky_container];
+                  var e = [tu.a.title_wrapper];
+                  this.state.showConfirmation && e.push(tu.a.removal);
+                  var t = [tu.a.sticky_container];
                   this.props.sticky.color || (this.props.sticky.color = 'yellow');
-                  var a = [au.a.sticky];
-                  this.isSelected() && a.push(au.a.selected), t.push(su[this.props.sticky.color]);
+                  var a = [tu.a.sticky];
+                  this.isSelected() && a.push(tu.a.selected), t.push(iu[this.props.sticky.color]);
                   var n = this.getColorChooser();
                   return k.createElement(
                     'div',
@@ -19348,12 +19349,12 @@
                         { className: e.join(' ') },
                         k.createElement(
                           'div',
-                          { className: au.a.remove_button, onClick: this.handleClickRemove },
+                          { className: tu.a.remove_button, onClick: this.handleClickRemove },
                           k.createElement('span', { className: 'fe-x' })
                         ),
-                        k.createElement('div', { className: au.a.confirmation }, 'Remove?'),
-                        k.createElement(eu.a, {
-                          className: au.a.title,
+                        k.createElement('div', { className: tu.a.confirmation }, 'Remove?'),
+                        k.createElement(Zc.a, {
+                          className: tu.a.title,
                           value: this.state.title,
                           onChange: this.handleChangeTitle,
                           onFocusCapture: this.handleTitleFocused
@@ -19361,9 +19362,9 @@
                       ),
                       k.createElement(
                         'div',
-                        { className: au.a.body_wrapper },
-                        k.createElement(eu.a, {
-                          className: au.a.body,
+                        { className: tu.a.body_wrapper },
+                        k.createElement(Zc.a, {
+                          className: tu.a.body,
                           value: this.state.body,
                           onChange: this.handleChangeBody,
                           onFocusCapture: this.handleBodyFocused
@@ -19378,18 +19379,18 @@
             a
           );
         })(k.Component),
-        ru = Object(Gl.b)(
+        ou = Object(Wl.b)(
           function(e) {
             return { definition: e.flowContext.definition };
           },
           function(e) {
-            return Object(ge.bindActionCreators)({ updateSticky: ul }, e);
+            return Object(ge.bindActionCreators)({ updateSticky: cl }, e);
           },
           null,
           { forwardRef: !1 }
-        )(ou),
-        lu = a(233).jsPlumb.importDefaults,
-        cu = {
+        )(su),
+        ru = a(233).jsPlumb.importDefaults,
+        lu = {
           anchor: ['Continuous', { shape: 'Rectangle', faces: ['top', 'left', 'right'] }],
           endpoint: [
             'Rectangle',
@@ -19405,14 +19406,14 @@
           deleteEndpointsOnEmpty: !0,
           isTarget: !1
         },
-        uu = {
+        cu = {
           anchor: 'BottomCenter',
           maxConnections: 1,
           dragAllowedWhenFull: !1,
           deleteEndpointsOnEmpty: !0,
           isSource: !0
         },
-        du = function(e, t) {
+        uu = function(e, t) {
           return [
             'Continuous',
             {
@@ -19424,11 +19425,11 @@
             }
           ];
         },
-        pu = [
+        du = [
           'Flowchart',
           { stub: 12, midpoint: 0.75, alwaysRespectStubs: !1, gap: [0, 5], cornerRadius: 3 }
         ],
-        hu = (function() {
+        pu = (function() {
           function e() {
             Object(m.a)(this, e),
               (this.jsPlumb = void 0),
@@ -19436,14 +19437,14 @@
               (this.pendingConnectionTimeout = void 0),
               (this.animateInterval = null),
               (this.onLoadFunction = null),
-              (this.jsPlumb = lu({
+              (this.jsPlumb = ru({
                 DragOptions: { cursor: 'pointer', zIndex: 1e3 },
                 DropOptions: { tolerance: 'touch', hoverClass: 'plumb-hover' },
                 Endpoint: 'Rectangle',
                 EndpointStyle: { strokeStyle: 'transparent' },
                 PaintStyle: { strokeWidth: 3.5 },
                 ConnectionsDetachable: !0,
-                Connector: pu,
+                Connector: du,
                 ConnectionOverlays: [
                   ['PlainArrow', { location: 0.999, width: 12, length: 12, cssClass: 'jtk-arrow' }]
                 ]
@@ -19491,13 +19492,13 @@
               {
                 key: 'makeSource',
                 value: function(e) {
-                  return this.jsPlumb.makeSource(e, uu);
+                  return this.jsPlumb.makeSource(e, cu);
                 }
               },
               {
                 key: 'makeTarget',
                 value: function(e) {
-                  this.jsPlumb.makeTarget(e, cu);
+                  this.jsPlumb.makeTarget(e, lu);
                 }
               },
               {
@@ -19569,7 +19570,7 @@
                           r = n.slot,
                           l = n.totalSlots,
                           c = s
-                            ? ['Bottom', du(document.getElementById(i), document.getElementById(s))]
+                            ? ['Bottom', uu(document.getElementById(i), document.getElementById(s))]
                             : [];
                         if (null != i) {
                           e.jsPlumb.select({ source: i }).delete({ fireEvent: !1 });
@@ -19577,7 +19578,7 @@
                             d = u + 0.15 * r;
                           r > l / 2 && (d = u - 0.05 + 0.15 * (l - r)),
                             (d = Math.max(Math.min(0.9, d), 0.1));
-                          var p = [].concat(pu);
+                          var p = [].concat(du);
                           (p[1].midpoint = d),
                             null != s &&
                               e.jsPlumb.connect({
@@ -19667,7 +19668,7 @@
                       for (s.s(); !(a = s.n()).done; ) {
                         var o = a.value;
                         o.endpoints[1].setAnchor(
-                          du(o.endpoints[0].element, o.endpoints[1].element)
+                          uu(o.endpoints[0].element, o.endpoints[1].element)
                         );
                       }
                     } catch (r) {
@@ -19717,8 +19718,8 @@
             e
           );
         })(),
-        mu = a(13),
-        _u = (function() {
+        hu = a(13),
+        mu = (function() {
           function e(t, a) {
             Object(m.a)(this, e),
               (this.props = void 0),
@@ -19731,7 +19732,7 @@
               {
                 key: 'showUUIDs',
                 value: function() {
-                  var e = mu(this.state, { $merge: { showUUIDs: !0 } });
+                  var e = hu(this.state, { $merge: { showUUIDs: !0 } });
                   return this.props.mergeEditorState({ debug: e }), e;
                 }
               }
@@ -19739,13 +19740,13 @@
             e
           );
         })(),
-        vu = a(155),
-        gu = a.n(vu),
-        fu = 3,
-        yu = function(e) {
+        _u = a(155),
+        vu = a.n(_u),
+        gu = 3,
+        fu = function(e) {
           return e.suspendedElementId === e.targetId && null !== e.source;
         },
-        bu = (function(e) {
+        yu = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
@@ -19756,8 +19757,8 @@
               (i.nodeContainerUUID = void 0),
               (i.ghost = void 0),
               (i.nodeContainerUUID = Z()),
-              (i.Plumber = new hu()),
-              n.config.debug && (window.fe = new _u(e, i.props.debug)),
+              (i.Plumber = new pu()),
+              n.config.debug && (window.fe = new mu(e, i.props.debug)),
               Object(b.react)(Object(v.a)(i), {
                 include: [/Ref$/, /^on/, /^is/, /^get/, /^handle/]
               }),
@@ -19812,7 +19813,7 @@
                   this.props.resetNodeEditingState();
                   var t = e.sourceId.split(':')[0];
                   try {
-                    yl(this.props.nodes, t, e.targetId);
+                    fl(this.props.nodes, t, e.targetId);
                   } catch (a) {
                     return !1;
                   }
@@ -19823,9 +19824,9 @@
                 key: 'onConnectorDrop',
                 value: function(e) {
                   var t = this.props.ghostNode;
-                  if (K(t) && !yu(e)) {
+                  if (K(t) && !fu(e)) {
                     this.Plumber.recalculate(t.node.uuid);
-                    var a = ki(t);
+                    var a = bi(t);
                     this.Plumber.connect(a.nodeUUID + ':' + a.exitUUID, t.node.uuid);
                     var n = (this.ghost &&
                         I(this.ghost.ele.offsetLeft, this.ghost.ele.offsetTop)) || {
@@ -19840,7 +19841,7 @@
                       this.props.onOpenNodeEditor({ originalNode: t, originalAction: o });
                   }
                   return (
-                    yu(e) && this.props.mergeEditorState({ ghostNode: null }),
+                    fu(e) && this.props.mergeEditorState({ ghostNode: null }),
                     document.removeEventListener('mousemove', window.ghostListener),
                     !0
                   );
@@ -19860,7 +19861,7 @@
                 value: function(e) {
                   var t = this.props.definition._ui.stickies || {},
                     a = e.uuid;
-                  return k.createElement(ru, {
+                  return k.createElement(ou, {
                     key: a,
                     uuid: a,
                     sticky: t[a],
@@ -19872,7 +19873,7 @@
                 key: 'handleNodeCreation',
                 value: function(e) {
                   var t = 1 === Object.keys(this.props.nodes).length;
-                  return k.createElement(bc, {
+                  return k.createElement(yc, {
                     onlyNode: t,
                     startingNode: 0 === e.idx,
                     selected: e.selected,
@@ -19892,7 +19893,7 @@
                 key: 'getNodes',
                 value: function() {
                   var e = this;
-                  return El(this.props.nodes).map(function(t, a) {
+                  return kl(this.props.nodes).map(function(t, a) {
                     return {
                       uuid: t.node.uuid,
                       position: t.ui.position,
@@ -19929,7 +19930,7 @@
                           key: this.props.ghostNode.node.uuid,
                           style: { position: 'absolute', display: 'block', visibility: 'hidden' }
                         },
-                        k.createElement(bc, {
+                        k.createElement(yc, {
                           onlyNode: !1,
                           selected: !1,
                           startingNode: !1,
@@ -19954,7 +19955,7 @@
                   return G(
                     this.context.config.endpoints && this.context.config.endpoints.simulateStart
                   )(
-                    k.createElement($c, {
+                    k.createElement(Jc, {
                       key: 'simulator',
                       popped: this.props.popped,
                       mergeEditorState: this.props.mergeEditorState,
@@ -19969,7 +19970,7 @@
                 key: 'getNodeEditor',
                 value: function() {
                   return G(null !== this.props.nodeEditorSettings)(
-                    k.createElement(Sc, {
+                    k.createElement(wc, {
                       key: 'node-editor',
                       helpArticles: this.context.config.help,
                       plumberConnectExit: this.Plumber.connectExit
@@ -19984,8 +19985,8 @@
                     a = e.top;
                   this.props.updateSticky(Z(), {
                     position: I(t - 90 + P, a - 40),
-                    title: nu,
-                    body: iu
+                    title: au,
+                    body: nu
                   });
                 }
               },
@@ -19995,7 +19996,7 @@
                   var e = this;
                   return k.createElement(
                     'div',
-                    { key: 'create_node', className: gu.a.empty_flow },
+                    { key: 'create_node', className: vu.a.empty_flow },
                     k.createElement(
                       Fe.a,
                       { i18nKey: 'empty_flow_message' },
@@ -20009,7 +20010,7 @@
                     k.createElement(le, {
                       name: Pt.t('buttons.create_message', 'Create Message'),
                       onClick: function() {
-                        var t = Cl(null, null, 1, e.context.config.flowType);
+                        var t = El(null, null, 1, e.context.config.flowType);
                         e.props.onOpenNodeEditor({
                           originalNode: t,
                           originalAction: t.node.actions[0]
@@ -20050,7 +20051,7 @@
                       ? this.getEmptyFlow()
                       : k.createElement(k.Fragment, null, this.getSimulator()),
                     this.getNodeEditor(),
-                    k.createElement(Ll, {
+                    k.createElement(Ml, {
                       mutable: this.context.config.mutable,
                       draggingNew: !!this.props.ghostNode && !this.props.nodeEditorSettings,
                       newDragElement: this.getDragNode(),
@@ -20072,9 +20073,9 @@
             a
           );
         })(k.PureComponent);
-      bu.contextTypes = { config: bt };
-      var ku,
-        Eu = Object(Gl.b)(
+      yu.contextTypes = { config: bt };
+      var bu,
+        ku = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -20101,24 +20102,24 @@
           function(e) {
             return Object(ge.bindActionCreators)(
               {
-                mergeEditorState: Hr,
-                resetNodeEditingState: il,
-                onConnectionDrag: cl,
-                onOpenNodeEditor: pl,
-                onUpdateCanvasPositions: ll,
-                onRemoveNodes: rl,
-                updateConnection: Zr,
-                updateSticky: ul
+                mergeEditorState: qr,
+                resetNodeEditingState: nl,
+                onConnectionDrag: ll,
+                onOpenNodeEditor: dl,
+                onUpdateCanvasPositions: rl,
+                onRemoveNodes: ol,
+                updateConnection: $r,
+                updateSticky: cl
               },
               e
             );
           }
-        )(bu),
-        Cu = a(63),
-        wu = a.n(Cu),
-        Su = a(81),
-        Nu = a.n(Su),
-        Ou = (function(e) {
+        )(yu),
+        Eu = a(63),
+        Cu = a.n(Eu),
+        wu = a(81),
+        Su = a.n(wu),
+        Nu = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e, n) {
@@ -20168,17 +20169,17 @@
                         t.map(function(t, a) {
                           return k.createElement(
                             'div',
-                            { key: 'lang_' + t.id, className: Nu.a.language },
+                            { key: 'lang_' + t.id, className: Su.a.language },
                             a > 0
-                              ? k.createElement('div', { className: Nu.a.separator }, '|')
+                              ? k.createElement('div', { className: Su.a.separator }, '|')
                               : null,
                             k.createElement(
                               'div',
                               {
                                 className:
-                                  Nu.a.language_link +
+                                  Su.a.language_link +
                                   ' ' +
-                                  (e.props.language.id === t.id ? Nu.a.active : ''),
+                                  (e.props.language.id === t.id ? Su.a.active : ''),
                                 onClick: function() {
                                   e.handleLanguageChanged(t);
                                 }
@@ -20194,19 +20195,19 @@
             a
           );
         })(k.Component),
-        xu = Object(Gl.b)(
+        Ou = Object(Wl.b)(
           function(e) {
             var t = e.flowContext.assetStore,
               a = e.editorState.language;
             return { languages: t.languages, language: a };
           },
           function(e) {
-            return Object(ge.bindActionCreators)({ handleLanguageChange: Xr }, e);
+            return Object(ge.bindActionCreators)({ handleLanguageChange: Yr }, e);
           }
-        )(Ou),
-        ju = a(46),
-        Tu = a.n(ju),
-        Au = (function(e) {
+        )(Nu),
+        xu = a(46),
+        ju = a.n(xu),
+        Tu = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -20254,34 +20255,34 @@
                     {
                       className:
                         'pop_wrapper ' +
-                        Tu.a.pop_wrapper +
+                        ju.a.pop_wrapper +
                         ' ' +
-                        (this.props.visible ? Tu.a.visible : ''),
+                        (this.props.visible ? ju.a.visible : ''),
                       style: { right: -this.state.width, top: this.props.top }
                     },
                     k.createElement(
                       'div',
-                      { className: Tu.a.tab_wrapper },
+                      { className: ju.a.tab_wrapper },
                       k.createElement(
                         'div',
                         {
-                          className: Tu.a.tab,
+                          className: ju.a.tab,
                           style: { background: this.props.color },
                           onClick: this.handleTabClick
                         },
                         k.createElement(
                           'div',
-                          { className: Tu.a.icon },
+                          { className: ju.a.icon },
                           k.createElement('span', { className: this.props.icon })
                         ),
-                        k.createElement('div', { className: Tu.a.label }, this.props.label)
+                        k.createElement('div', { className: ju.a.label }, this.props.label)
                       )
                     ),
                     k.createElement(
                       'div',
                       {
                         ref: this.handlePoppedRef,
-                        className: Tu.a.popped,
+                        className: ju.a.popped,
                         style: {
                           borderColor: this.props.color,
                           right: this.props.visible ? 15 + this.state.width : 0,
@@ -20290,16 +20291,16 @@
                       },
                       k.createElement(
                         'div',
-                        { className: Tu.a.header, style: { background: this.props.color } },
+                        { className: ju.a.header, style: { background: this.props.color } },
                         k.createElement('div', {
-                          className: Tu.a.close + ' fe-x',
+                          className: ju.a.close + ' fe-x',
                           onClick: this.handleClose
                         }),
-                        k.createElement('div', { className: Tu.a.header_label }, this.props.header)
+                        k.createElement('div', { className: ju.a.header_label }, this.props.header)
                       ),
                       k.createElement(
                         'div',
-                        { className: Tu.a.body, style: { background: this.props.color } },
+                        { className: ju.a.body, style: { background: this.props.color } },
                         this.props.children
                       )
                     )
@@ -20310,12 +20311,12 @@
             a
           );
         })(k.Component),
-        Ru = a(156),
-        Uu = a.n(Ru),
-        Du = a(38),
-        Fu = a.n(Du),
-        Pu = St.a.bind(Fu.a),
-        Iu = (function(e) {
+        Au = a(156),
+        Ru = a.n(Au),
+        Uu = a(38),
+        Du = a.n(Uu),
+        Fu = St.a.bind(Du.a),
+        Pu = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -20388,12 +20389,12 @@
                 value: function() {
                   var e,
                     t = this,
-                    a = Pu(
+                    a = Fu(
                       ((e = {}),
-                      Object(S.a)(e, Fu.a.visible, this.state.visible),
+                      Object(S.a)(e, Du.a.visible, this.state.visible),
                       Object(S.a)(
                         e,
-                        Fu.a.hidden,
+                        Du.a.hidden,
                         this.props.popped && this.props.popped !== Se.REVISION_HISTORY
                       ),
                       e)
@@ -20401,9 +20402,9 @@
                   return E.a.createElement(
                     'div',
                     { className: a },
-                    E.a.createElement('div', { className: Fu.a.mask }),
+                    E.a.createElement('div', { className: Du.a.mask }),
                     E.a.createElement(
-                      Au,
+                      Tu,
                       {
                         header: Pt.t('revisions.header', 'Revisions'),
                         color: '#8e5ea7',
@@ -20416,53 +20417,53 @@
                       },
                       E.a.createElement(
                         'div',
-                        { className: Fu.a.explorer_wrapper },
+                        { className: Du.a.explorer_wrapper },
                         E.a.createElement(
                           'div',
-                          { className: Fu.a.explorer },
+                          { className: Du.a.explorer },
                           E.a.createElement(
                             'div',
-                            { className: Fu.a.revisions },
+                            { className: Du.a.revisions },
                             this.state.revisions.map(function(e) {
                               var a = e.content,
                                 n = t.state.revision && e.id === t.state.revision.id,
-                                i = a.current || n ? Fu.a.selected : '';
+                                i = a.current || n ? Du.a.selected : '';
                               return E.a.createElement(
                                 'div',
                                 {
-                                  className: Fu.a.revision + ' ' + i,
+                                  className: Du.a.revision + ' ' + i,
                                   key: 'revision_' + e.id,
                                   onClick: t.onRevisionClicked(e)
                                 },
                                 G(a.current)(
                                   E.a.createElement(
                                     'div',
-                                    { className: Fu.a.button + ' ' + Fu.a.current },
+                                    { className: Du.a.button + ' ' + Du.a.current },
                                     'current'
                                   )
                                 ),
                                 G('published' === a.status)(
                                   E.a.createElement(
                                     'div',
-                                    { className: Fu.a.button + ' ' + Fu.a.publish },
+                                    { className: Du.a.button + ' ' + Du.a.publish },
                                     ' published '
                                   )
                                 ),
                                 G(n && !a.current)(
                                   E.a.createElement(
                                     'div',
-                                    { onClick: t.onRevertClicked(e), className: Fu.a.button },
+                                    { onClick: t.onRevertClicked(e), className: Du.a.button },
                                     'revert'
                                   )
                                 ),
                                 E.a.createElement(
                                   'div',
-                                  { className: Fu.a.created_on },
-                                  Uu()(new Date(a.created_on), 'mmmm d, yyyy, h:MM TT', t.props.utc)
+                                  { className: Du.a.created_on },
+                                  Ru()(new Date(a.created_on), 'mmmm d, yyyy, h:MM TT', t.props.utc)
                                 ),
                                 E.a.createElement(
                                   'div',
-                                  { className: Fu.a.email },
+                                  { className: Du.a.email },
                                   a.user.name || a.user.email
                                 )
                               );
@@ -20478,13 +20479,13 @@
             a
           );
         })(E.a.Component),
-        Mu = a(49),
-        Lu = a.n(Mu),
-        zu = St.a.bind(Lu.a),
-        Bu = function(e) {
+        Iu = a(49),
+        Mu = a.n(Iu),
+        Lu = St.a.bind(Mu.a),
+        zu = function(e) {
           return (e.action_uuid || e.node_uuid) + (e.language || '');
         },
-        Vu = function(e, t) {
+        Bu = function(e, t) {
           var a = t[e.node_uuid],
             n = null;
           if (e.action_uuid && a) {
@@ -20495,12 +20496,12 @@
               : null;
             if (i > -1) {
               var s = a.node.actions[i];
-              n = { action: s, config: Cr(s.type), index: i };
+              n = { action: s, config: Er(s.type), index: i };
             }
           }
           return { renderNode: a, renderAction: n };
         },
-        qu = (function(e) {
+        Vu = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -20539,7 +20540,7 @@
                       try {
                         for (s.s(); !(n = s.n()).done; ) {
                           var o = n.value,
-                            r = Bu(o),
+                            r = zu(o),
                             l = e[r];
                           if (l) l.issues.push(o);
                           else {
@@ -20547,7 +20548,7 @@
                             o.language &&
                               this.props.languages &&
                               (c = this.props.languages[o.language]);
-                            var u = Vu(o, this.props.nodes);
+                            var u = Bu(o, this.props.nodes);
                             !u.renderNode ||
                               (o.action_uuid && !u.renderAction) ||
                               (l = { issues: [o], renderObjects: u, language: c });
@@ -20612,7 +20613,7 @@
                         e.language !== n &&
                         (i = E.a.createElement(
                           'div',
-                          { className: Lu.a.language },
+                          { className: Mu.a.language },
                           e.language.name
                         )),
                         (n = e.language);
@@ -20620,39 +20621,39 @@
                       if (!e.renderObjects.renderNode) return null;
                       s = e.renderObjects.renderAction
                         ? e.renderObjects.renderAction.config
-                        : Cr(wr(e.renderObjects.renderNode));
+                        : Er(Cr(e.renderObjects.renderNode));
                       var o = e.issues.map(function(e, t) {
                         return E.a.createElement(
                           'div',
-                          { key: Bu(e) + t, className: Lu.a.message },
-                          E.a.createElement('div', { className: Lu.a.header }, s.name, ':'),
+                          { key: zu(e) + t, className: Mu.a.message },
+                          E.a.createElement('div', { className: Mu.a.header }, s.name, ':'),
                           ' ',
                           rt(e)
                         );
                       });
                       return E.a.createElement(
                         'div',
-                        { key: Bu(e.issues[0]) + '_detail' },
+                        { key: zu(e.issues[0]) + '_detail' },
                         i,
                         E.a.createElement(
                           'div',
                           {
-                            className: Lu.a.details,
+                            className: Mu.a.details,
                             onClick: function() {
                               return t.handleIssueClicked(e);
                             }
                           },
                           null,
-                          E.a.createElement('div', { className: Lu.a.issues_code }, o)
+                          E.a.createElement('div', { className: Mu.a.issues_code }, o)
                         )
                       );
                     }),
-                    s = zu(
+                    s = Lu(
                       ((e = {}),
-                      Object(S.a)(e, Lu.a.visible, this.state.visible),
+                      Object(S.a)(e, Mu.a.visible, this.state.visible),
                       Object(S.a)(
                         e,
-                        Lu.a.hidden,
+                        Mu.a.hidden,
                         this.props.popped && this.props.popped !== Se.ISSUES_TAB
                       ),
                       e)
@@ -20660,9 +20661,9 @@
                   return E.a.createElement(
                     'div',
                     { className: s },
-                    E.a.createElement('div', { className: Lu.a.mask }),
+                    E.a.createElement('div', { className: Mu.a.mask }),
                     E.a.createElement(
-                      Au,
+                      Tu,
                       {
                         header: ''.concat(Pt.t('issues.label', 'Flow Issues'), ' (').concat(a, ')'),
                         label: Pt.t('issues.header', 'Flow Issues'),
@@ -20673,7 +20674,7 @@
                         onShow: this.handleTabClicked,
                         onHide: this.handleTabClicked
                       },
-                      E.a.createElement('div', { className: Lu.a.issues_wrapper }, i)
+                      E.a.createElement('div', { className: Mu.a.issues_wrapper }, i)
                     )
                   );
                 }
@@ -20682,35 +20683,35 @@
             a
           );
         })(E.a.Component),
-        Hu = a(157),
-        Wu = a(158),
-        Gu = a.n(Wu),
-        Ku = Object(ge.combineReducers)({ flowContext: De, editorState: Fr, nodeEditor: na }),
-        Yu = { flowContext: xe, editorState: Dr, nodeEditor: ea },
-        Xu = [Gu.a],
-        Qu = a(20),
-        Ju = a.n(Qu);
+        qu = a(157),
+        Hu = a(158),
+        Wu = a.n(Hu),
+        Gu = Object(ge.combineReducers)({ flowContext: De, editorState: Dr, nodeEditor: na }),
+        Ku = { flowContext: xe, editorState: Ur, nodeEditor: ea },
+        Yu = [Wu.a],
+        Xu = a(20),
+        Qu = a.n(Xu);
       !(function(e) {
         (e.COMPLETE = 'complete'), (e.MISSING = 'missing');
-      })(ku || (ku = {}));
-      var $u,
-        Zu = function(e, t, a) {
+      })(bu || (bu = {}));
+      var Ju,
+        $u = function(e, t, a) {
           return e.translations
             .filter(function(e) {
               switch (t) {
-                case ku.COMPLETE:
+                case bu.COMPLETE:
                   return !!e.to && e.type === a;
-                case ku.MISSING:
+                case bu.MISSING:
                   return !e.to && e.type === a;
               }
               return !0;
             })
             .map(function(e) {
-              return e[t === ku.MISSING ? 'from' : 'to'];
+              return e[t === bu.MISSING ? 'from' : 'to'];
             })
             .join(', ');
         },
-        ed = function(e, t, a, n) {
+        Zu = function(e, t, a, n) {
           var i = [];
           return (
             t.forEach(function(t) {
@@ -20732,7 +20733,7 @@
             i
           );
         },
-        td = function(e) {
+        ed = function(e) {
           return 'categories' === e
             ? Rt.a.t('translation.attributes.categories', 'Categories')
             : 'cases' === e
@@ -20755,14 +20756,14 @@
             : t;
           var t;
         },
-        ad = function(e) {
+        td = function(e) {
           return e.node_uuid + e.action_uuid;
         },
-        nd = St.a.bind(Ju.a);
+        ad = St.a.bind(Qu.a);
       !(function(e) {
         (e.PROPERTY = 'property'), (e.CATEGORY = 'category'), (e.CASE = 'case');
-      })($u || ($u = {}));
-      var id = (function(e) {
+      })(Ju || (Ju = {}));
+      var nd = (function(e) {
         Object(g.a)(a, e);
         var t = Object(f.a)(a);
         function a(e, n) {
@@ -20811,20 +20812,20 @@
                     n.node.router &&
                     (e.state.translationFilters.categories || e.state.translationFilters.rules)
                   ) {
-                    var i = Cr(wr(n)),
+                    var i = Er(Cr(n)),
                       s = [];
                     if (e.state.translationFilters.categories) {
                       var o = ['name'];
                       n.node.router.categories.forEach(function(t) {
-                        s.push.apply(s, Object(ve.a)(ed($u.CATEGORY, o, t, e.props.localization)));
+                        s.push.apply(s, Object(ve.a)(Zu(Ju.CATEGORY, o, t, e.props.localization)));
                       });
                     }
                     if (e.state.translationFilters.rules) {
                       var r = ['arguments'],
-                        l = Ui(n.node);
+                        l = Ri(n.node);
                       l &&
                         l.cases.forEach(function(t) {
-                          s.push.apply(s, Object(ve.a)(ed($u.CASE, r, t, e.props.localization)));
+                          s.push.apply(s, Object(ve.a)(Zu(Ju.CASE, r, t, e.props.localization)));
                         });
                     }
                     s.length > 0 &&
@@ -20838,8 +20839,8 @@
                       });
                   } else
                     n.node.actions.forEach(function(n) {
-                      var i = Cr(n.type),
-                        s = ed($u.PROPERTY, i.localizeableKeys || [], n, e.props.localization);
+                      var i = Er(n.type),
+                        s = Zu(Ju.PROPERTY, i.localizeableKeys || [], n, e.props.localization);
                       s.length > 0 &&
                         t.push({
                           typeConfig: i,
@@ -20928,9 +20929,9 @@
                 return t
                   ? E.a.createElement(
                       'div',
-                      { key: this.props.language.id + e, className: Ju.a.item },
-                      E.a.createElement('div', { className: Ju.a.text + ' ' + Ju.a.from_text }, t),
-                      E.a.createElement('div', { className: Ju.a.text + ' ' + Ju.a.attribute }, a)
+                      { key: this.props.language.id + e, className: Qu.a.item },
+                      E.a.createElement('div', { className: Qu.a.text + ' ' + Qu.a.from_text }, t),
+                      E.a.createElement('div', { className: Qu.a.text + ' ' + Qu.a.attribute }, a)
                     )
                   : null;
               }
@@ -20965,40 +20966,40 @@
                   n,
                   i = this,
                   s = this.state.optionsVisible && this.context.config.onChangeLanguage,
-                  o = nd(
+                  o = ad(
                     ((e = {}),
-                    Object(S.a)(e, Ju.a.visible, this.state.visible),
+                    Object(S.a)(e, Qu.a.visible, this.state.visible),
                     Object(S.a)(
                       e,
-                      Ju.a.hidden,
+                      Qu.a.hidden,
                       this.props.popped && this.props.popped !== Se.TRANSLATOR_TAB
                     ),
                     e)
                   ),
-                  r = nd(
+                  r = ad(
                     ((t = {}),
-                    Object(S.a)(t, Ju.a.options, !0),
-                    Object(S.a)(t, Ju.a.options_visible, this.state.optionsVisible),
-                    Object(S.a)(t, Ju.a.change_visible, s),
+                    Object(S.a)(t, Qu.a.options, !0),
+                    Object(S.a)(t, Qu.a.options_visible, this.state.optionsVisible),
+                    Object(S.a)(t, Qu.a.change_visible, s),
                     t)
                   ),
-                  l = nd(
+                  l = ad(
                     ((a = {}),
-                    Object(S.a)(a, Ju.a.filled, !0),
-                    Object(S.a)(a, Ju.a.hundredpct, 100 === this.state.pctComplete),
+                    Object(S.a)(a, Qu.a.filled, !0),
+                    Object(S.a)(a, Qu.a.hundredpct, 100 === this.state.pctComplete),
                     a)
                   ),
-                  c = nd(
+                  c = ad(
                     ((n = {}),
-                    Object(S.a)(n, Ju.a.translations_wrapper, !0),
-                    Object(S.a)(n, Ju.a.complete, 0 === this.state.translationBundles.length),
+                    Object(S.a)(n, Qu.a.translations_wrapper, !0),
+                    Object(S.a)(n, Qu.a.complete, 0 === this.state.translationBundles.length),
                     n)
                   );
                 return E.a.createElement(
                   'div',
                   { className: o },
                   E.a.createElement(
-                    Au,
+                    Tu,
                     {
                       header: ''
                         .concat(this.props.language.name, ' ')
@@ -21018,36 +21019,36 @@
                         return E.a.createElement(
                           'div',
                           {
-                            key: i.props.language.id + ad(e),
-                            className: Ju.a.translate_block,
+                            key: i.props.language.id + td(e),
+                            className: Qu.a.translate_block,
                             onClick: function() {
                               i.handleTranslationClicked(e);
                             }
                           },
                           E.a.createElement(
                             'div',
-                            { className: Ju.a.needs_translation },
+                            { className: Qu.a.needs_translation },
                             E.a.createElement(
                               'div',
-                              { className: Ju.a.type_name },
+                              { className: Qu.a.type_name },
                               e.typeConfig.name
                             ),
                             i.renderMissing(
-                              ad(e) + 'categories',
-                              Zu(e, ku.MISSING, $u.CATEGORY),
-                              td('categories')
+                              td(e) + 'categories',
+                              $u(e, bu.MISSING, Ju.CATEGORY),
+                              ed('categories')
                             ),
                             i.renderMissing(
-                              ad(e) + 'rules',
-                              Zu(e, ku.MISSING, $u.CASE),
-                              td('cases')
+                              td(e) + 'rules',
+                              $u(e, bu.MISSING, Ju.CASE),
+                              ed('cases')
                             ),
                             e.translations
                               .filter(function(e) {
-                                return !e.to && e.type === $u.PROPERTY;
+                                return !e.to && e.type === Ju.PROPERTY;
                               })
                               .map(function(t) {
-                                return i.renderMissing(ad(e) + t.from, t.from, td(t.attribute));
+                                return i.renderMissing(td(e) + t.from, t.from, ed(t.attribute));
                               })
                           )
                         );
@@ -21058,10 +21059,10 @@
                       { className: r, onClick: this.toggleOptions },
                       E.a.createElement(
                         'div',
-                        { className: Ju.a.header },
+                        { className: Qu.a.header },
                         E.a.createElement(
                           'div',
-                          { className: Ju.a.progress_bar },
+                          { className: Qu.a.progress_bar },
                           E.a.createElement('div', {
                             style: { width: ''.concat(this.state.pctComplete, '%') },
                             className: l
@@ -21069,16 +21070,16 @@
                         ),
                         E.a.createElement(
                           'div',
-                          { className: Ju.a.toggle },
+                          { className: Qu.a.toggle },
                           E.a.createElement('span', { className: 'fe-arrow-up' })
                         )
                       ),
                       E.a.createElement(
                         'div',
-                        { className: Ju.a.filters },
+                        { className: Qu.a.filters },
                         E.a.createElement(
                           'div',
-                          { className: Ju.a.checkboxes },
+                          { className: Qu.a.checkboxes },
                           E.a.createElement(
                             'div',
                             null,
@@ -21086,7 +21087,7 @@
                               name: Pt.t('forms.categories', 'categories'),
                               checked: this.state.translationFilters.categories,
                               description: 'Categories',
-                              checkboxClassName: Ju.a.checkbox,
+                              checkboxClassName: Qu.a.checkbox,
                               onChange: this.toggleCategories
                             })
                           ),
@@ -21097,21 +21098,21 @@
                               name: Pt.t('forms.rules', 'rules'),
                               checked: this.state.translationFilters.rules,
                               description: 'Rule Arguments',
-                              checkboxClassName: Ju.a.checkbox,
+                              checkboxClassName: Qu.a.checkbox,
                               onChange: this.toggleRules
                             })
                           )
                         ),
                         E.a.createElement(
                           'div',
-                          { className: Ju.a.pct_complete },
+                          { className: Qu.a.pct_complete },
                           this.state.pctComplete,
                           '%'
                         )
                       ),
                       E.a.createElement(
                         'div',
-                        { className: Ju.a.changeLanguage },
+                        { className: Qu.a.changeLanguage },
                         s &&
                           E.a.createElement(
                             'button',
@@ -21128,19 +21129,19 @@
           a
         );
       })(E.a.Component);
-      id.contextTypes = { config: bt };
-      var sd = a(234).default,
-        od = (function() {
-          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Yu,
+      nd.contextTypes = { config: bt };
+      var id = a(234).default,
+        sd = (function() {
+          var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : Ku,
             t = Object(ge.createStore)(
-              Ku,
+              Gu,
               e,
-              Object(Hu.composeWithDevTools)(ge.applyMiddleware.apply(void 0, Xu))
+              Object(qu.composeWithDevTools)(ge.applyMiddleware.apply(void 0, Yu))
             );
           return t;
         })(),
-        rd = { config: bt },
-        ld = (function(e) {
+        od = { config: bt },
+        rd = (function(e) {
           Object(g.a)(a, e);
           var t = Object(f.a)(a);
           function a(e) {
@@ -21177,7 +21178,7 @@
                       document.body.appendChild(n),
                       n.click(),
                       n.remove();
-                  })(kl(this.props.definition, this.props.nodes), 'definition');
+                  })(bl(this.props.definition, this.props.nodes), 'definition');
                 }
               },
               {
@@ -21192,12 +21193,12 @@
                   var e = this;
                   return this.props.modalMessage
                     ? k.createElement(
-                        Cc,
+                        Ec,
                         { width: '600px', show: !0 },
                         k.createElement(
                           me,
                           {
-                            className: wu.a.alert_modal,
+                            className: Cu.a.alert_modal,
                             title: this.props.modalMessage.title,
                             headerClass: 'alert',
                             buttons: {
@@ -21211,7 +21212,7 @@
                           },
                           k.createElement(
                             'div',
-                            { className: wu.a.alert_body },
+                            { className: Cu.a.alert_body },
                             this.props.modalMessage.body
                           )
                         )
@@ -21225,11 +21226,11 @@
                   return this.props.saving
                     ? k.createElement(
                         'div',
-                        { id: 'saving_animation', className: wu.a.saving },
+                        { id: 'saving_animation', className: Cu.a.saving },
                         k.createElement(
                           _e,
                           null,
-                          k.createElement(Tn, { units: 5, color: '#3498db', size: 7 })
+                          k.createElement(jn, { units: 5, color: '#3498db', size: 7 })
                         )
                       )
                     : null;
@@ -21241,10 +21242,10 @@
                   return !this.props.fetchingFlow && this.context.config.showDownload
                     ? k.createElement(
                         'div',
-                        { className: wu.a.footer },
+                        { className: Cu.a.footer },
                         k.createElement(
                           'div',
-                          { className: wu.a.download_button },
+                          { className: Cu.a.download_button },
                           k.createElement(le, {
                             name: Pt.t('buttons.download', 'Download'),
                             onClick: this.handleDownloadClicked,
@@ -21326,35 +21327,35 @@
                 key: 'render',
                 value: function() {
                   return k.createElement(
-                    sd,
+                    id,
                     { onChange: this.handleVisibilityChanged },
                     k.createElement(
                       'div',
                       {
                         id: 'editor-container',
-                        className: this.props.translating ? wu.a.translating : void 0,
+                        className: this.props.translating ? Cu.a.translating : void 0,
                         'data-spec': 'editor-container'
                       },
                       this.getFooter(),
                       this.getAlertModal(),
                       k.createElement(
                         'div',
-                        { className: wu.a.editor, 'data-spec': 'editor' },
+                        { className: Cu.a.editor, 'data-spec': 'editor' },
                         G(
                           Object.keys(this.props.nodes || {}).length > 0 &&
                             this.props.languages &&
                             Object.keys(this.props.languages.items).length > 0
-                        )(k.createElement(xu, null)),
+                        )(k.createElement(Ou, null)),
                         this.getSavingIndicator(),
                         G(this.props.definition && this.props.language && !this.props.fetchingFlow)(
-                          k.createElement(Eu, null)
+                          k.createElement(ku, null)
                         ),
                         G(
                           this.props.definition &&
                             this.props.translating &&
                             !this.props.fetchingFlow
                         )(
-                          k.createElement(id, {
+                          k.createElement(nd, {
                             language: this.props.language,
                             languages: this.props.languages ? this.props.languages.items : {},
                             localization:
@@ -21372,7 +21373,7 @@
                             popped: this.props.popped
                           })
                         ),
-                        k.createElement(Iu, {
+                        k.createElement(Pu, {
                           loadFlowDefinition: this.props.loadFlowDefinition,
                           createNewRevision: this.props.createNewRevision,
                           assetStore: this.props.assetStore,
@@ -21380,7 +21381,7 @@
                           popped: this.props.popped
                         }),
                         G(Object.keys(this.props.issues).length > 0)(
-                          k.createElement(qu, {
+                          k.createElement(Vu, {
                             issues: this.props.issues,
                             onIssueClicked: this.handleScrollToIssue,
                             onIssueOpened: this.handleOpenIssue,
@@ -21401,8 +21402,8 @@
             a
           );
         })(k.Component);
-      ld.contextTypes = rd;
-      var cd = Object(Gl.b)(
+      rd.contextTypes = od;
+      var ld = Object(Wl.b)(
           function(e) {
             var t = e.flowContext,
               a = t.definition,
@@ -21440,24 +21441,24 @@
           function(e) {
             return Object(ge.bindActionCreators)(
               {
-                fetchFlow: Kr,
-                loadFlowDefinition: Gr,
-                createNewRevision: Wr,
-                mergeEditorState: Hr,
-                onOpenNodeEditor: pl,
-                handleLanguageChange: Xr,
-                updateTranslationFilters: hl
+                fetchFlow: Gr,
+                loadFlowDefinition: Wr,
+                createNewRevision: Hr,
+                mergeEditorState: qr,
+                onOpenNodeEditor: dl,
+                handleLanguageChange: Yr,
+                updateTranslationFilters: pl
               },
               e
             );
           }
-        )(ld),
-        ud = function(e) {
+        )(rd),
+        cd = function(e) {
           var t = e.config;
           return k.createElement(
-            $o,
+            Jo,
             { config: Object(y.a)({}, t) },
-            k.createElement(Gl.a, { store: od }, k.createElement(cd, null))
+            k.createElement(Wl.a, { store: sd }, k.createElement(ld, null))
           );
         };
       Boolean(
@@ -21476,7 +21477,7 @@
         (window.showFlowEditor = function(e, t) {
           var a;
           t.httpTimeout && ((a = t.httpTimeout), (ze.a.defaults.timeout = a)),
-            lc.a.render(E.a.createElement(ud, { config: t }), e);
+            rc.a.render(E.a.createElement(cd, { config: t }), e);
         }),
         'serviceWorker' in navigator &&
           navigator.serviceWorker.ready.then(function(e) {
@@ -21486,4 +21487,4 @@
   ],
   [[163, 1, 2]]
 ]);
-//# sourceMappingURL=main.0e960f68.chunk.js.map
+//# sourceMappingURL=main.a2303420.chunk.js.map

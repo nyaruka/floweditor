@@ -138,7 +138,7 @@ export default class SendBroadcastForm extends React.Component<
             this.setState({ valid });
           }
         } else {
-          this.setState({ attachmentError: `Not a valid ${type} url` });
+          this.setState({ attachmentError: response.data.message });
         }
       })
       .catch(error => {
@@ -387,7 +387,7 @@ export default class SendBroadcastForm extends React.Component<
             </>
           ) : null}
         </div>
-        {this.state.validAttachment && !this.state.attachmentError ? (
+        {this.state.valid && this.state.validAttachment && !this.state.attachmentError ? (
           <div className={styles.loading}>
             Checking URL validity
             <Loading size={10} units={6} color="#999999" />
@@ -427,6 +427,14 @@ export default class SendBroadcastForm extends React.Component<
     );
   }
 
+  private checkAttachmentErrors(): boolean {
+    if (this.state.valid) {
+      return this.state.validAttachment;
+    } else {
+      return false;
+    }
+  }
+
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
@@ -441,7 +449,7 @@ export default class SendBroadcastForm extends React.Component<
       name: 'Attachments',
       body: this.renderAttachments(),
       checked: this.state.attachments.length > 0,
-      hasErrors: this.state.validAttachment
+      hasErrors: this.checkAttachmentErrors()
     };
     return (
       <Dialog
