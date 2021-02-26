@@ -68,6 +68,15 @@ Array [
     ],
   },
   Object {
+    "description": "Wait for forwarded call to someone else",
+    "form": [Function],
+    "name": "Wait for Forwarded Call",
+    "type": "wait_for_dial",
+    "visibility": Array [
+      "voice",
+    ],
+  },
+  Object {
     "component": [Function],
     "description": "Send the contact a message",
     "form": [Function],
@@ -961,6 +970,15 @@ Object {
     "type": "wait_for_audio",
     "visibility": Array [
       "messaging_offline",
+      "voice",
+    ],
+  },
+  "wait_for_dial": Object {
+    "description": "Wait for forwarded call to someone else",
+    "form": [Function],
+    "name": "Wait for Forwarded Call",
+    "type": "wait_for_dial",
+    "visibility": Array [
       "voice",
     ],
   },

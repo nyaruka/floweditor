@@ -105,6 +105,10 @@
       "description": "Wait for an audio recording",
       "name": "Wait for Audio"
     },
+    "wait_for_dial": {
+      "description": "Wait for forwarded call to someone else",
+      "name": "Wait for Forwarded Call"
+    },
     "wait_for_digits": {
       "description": "Wait for multiple digits",
       "name": "Wait for Digits"
@@ -235,6 +239,7 @@
     "operand": "Operand",
     "operator": "operator",
     "play_audio_help_text": "Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.",
+    "phone_number": "Phone Number",
     "quick_replies": "Quick Replies",
     "quick_replies_summary": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
     "quick_reply": "Quick Reply",

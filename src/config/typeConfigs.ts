@@ -29,6 +29,7 @@ import TransferAirtimeComp from 'components/flow/actions/transferairtime/Transfe
 import UpdateContactComp from 'components/flow/actions/updatecontact/UpdateContact';
 import UpdateContactForm from 'components/flow/actions/updatecontact/UpdateContactForm';
 import AirtimeRouterForm from 'components/flow/routers/airtime/AirtimeRouterForm';
+import DialRouterForm from 'components/flow/routers/dial/DialRouterForm';
 import DigitsRouterForm from 'components/flow/routers/digits/DigitsRouterForm';
 import ExpressionRouterForm from 'components/flow/routers/expression/ExpressionRouterForm';
 import FieldRouterForm from 'components/flow/routers/field/FieldRouterForm';
@@ -208,6 +209,17 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     visibility: [FlowTypes.MESSAGING_OFFLINE, FlowTypes.VOICE]
+  },
+
+  {
+    type: Types.wait_for_dial,
+    name: i18n.t('actions.wait_for_dial.name', 'Wait for Forwarded Call'),
+    description: i18n.t(
+      'actions.wait_for_dial.description',
+      'Wait for forwarded call to someone else'
+    ),
+    form: DialRouterForm,
+    visibility: VISIBILITY_VOICE
   },
 
   {
