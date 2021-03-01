@@ -205,7 +205,7 @@ export default class ResultRouterForm extends React.Component<
         title={typeConfig.name}
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
-        tabs={[advanced]}
+        // tabs={[advanced]}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 

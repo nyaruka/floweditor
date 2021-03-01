@@ -11627,28 +11627,20 @@
               {
                 key: 'render',
                 value: function() {
-                  var e = this.props.typeConfig,
-                    t = {
-                      name: 'Advanced',
-                      body: k.createElement(
-                        'div',
-                        { className: To.a.should_delimit },
-                        k.createElement(qa, {
-                          name: Pt.t('forms.delimit', 'Delimit'),
-                          title: Pt.t('forms.delimit_result', 'Delimit Result'),
-                          checked: this.state.shouldDelimit,
-                          description: Pt.t(
-                            'forms.delimit_result_description',
-                            'Evaluate your rules against a delimited part of your result'
-                          ),
-                          onChange: this.handleShouldDelimitChanged
-                        })
-                      ),
-                      checked: this.state.shouldDelimit
-                    };
+                  var e = this.props.typeConfig;
+                  To.a.should_delimit,
+                    Pt.t('forms.delimit', 'Delimit'),
+                    Pt.t('forms.delimit_result', 'Delimit Result'),
+                    this.state.shouldDelimit,
+                    Pt.t(
+                      'forms.delimit_result_description',
+                      'Evaluate your rules against a delimited part of your result'
+                    ),
+                    this.handleShouldDelimitChanged,
+                    this.state.shouldDelimit;
                   return k.createElement(
                     me,
-                    { title: e.name, headerClass: e.type, buttons: this.getButtons(), tabs: [t] },
+                    { title: e.name, headerClass: e.type, buttons: this.getButtons() },
                     k.createElement(Xt, {
                       __className: '',
                       initialType: e,
@@ -21479,4 +21471,4 @@
   ],
   [[163, 1, 2]]
 ]);
-//# sourceMappingURL=main.d166aaa4.chunk.js.map
+//# sourceMappingURL=main.137990c7.chunk.js.map
