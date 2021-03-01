@@ -51,7 +51,7 @@ export default class GroupsRouterForm extends React.Component<
     const updates: Partial<GroupsRouterFormState> = {};
 
     if (keys.hasOwnProperty('groups')) {
-      updates.groups = validate(i18n.t('forms.groups', 'Groups'), keys.groups, [Required]);
+      updates.groups = validate(i18n.t('forms.collections', 'Groups'), keys.groups, [Required]);
     }
 
     if (keys.hasOwnProperty('resultName')) {
@@ -82,7 +82,6 @@ export default class GroupsRouterForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
-
     return (
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
@@ -94,6 +93,7 @@ export default class GroupsRouterForm extends React.Component<
           searchable={true}
           onChange={this.handleGroupsChanged}
           multi={true}
+          placeholder={i18n.t('select_groups', 'Select existing collections or enter a new one')}
         />
         {createResultNameInput(this.state.resultName, this.handleUpdateResultName)}
         {renderIssues(this.props)}

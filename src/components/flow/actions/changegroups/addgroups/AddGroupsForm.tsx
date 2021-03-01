@@ -94,7 +94,7 @@ export default class AddGroupsForm extends React.Component<ActionFormProps, Chan
           placeholder={i18n.t('select_groups', 'Select Collection')}
           expressions={true}
           // Groups can be created on the fly
-          createPrefix={i18n.t('create_group', 'Create Collection') + ': '}
+          // createPrefix={i18n.t('create_group', 'Create Collection') + ': '}
           createAssetFromInput={this.handleCreateAssetFromInput}
           onAssetCreated={this.handleGroupAdded}
         />

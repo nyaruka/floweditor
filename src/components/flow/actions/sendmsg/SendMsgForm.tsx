@@ -183,7 +183,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             this.setState({ templateVariables, valid });
           }
         } else {
-          this.setState({ attachmentError: `Not a valid ${type} url` });
+          this.setState({ attachmentError: response.data.message });
         }
       })
       .catch(error => {

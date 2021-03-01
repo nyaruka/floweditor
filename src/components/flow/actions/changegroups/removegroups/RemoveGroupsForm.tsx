@@ -82,7 +82,7 @@ export default class RemoveGroupsForm extends React.Component<
 
     if (keys.hasOwnProperty('groups')) {
       updates.groups = validate(
-        i18n.t('forms.groups', 'Collections'),
+        i18n.t('forms.collections', 'Collections'),
         keys.groups!,
         groupValidators
       );
