@@ -1,7 +1,0 @@
-{
-  "forms": {
-    "send_msg": {
-      "summary_plural": "Add up to [[count]] attachments to each message. Each attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow."
-    }
-  }
-}
