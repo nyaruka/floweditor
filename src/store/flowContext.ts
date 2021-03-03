@@ -12,6 +12,7 @@ import ActionTypes, {
 import Constants from 'store/constants';
 import { Type } from 'config/interfaces';
 import { TembaStore } from 'temba-components';
+import i18n from 'config/i18n';
 
 // tslint:disable:no-shadowed-variable
 export interface RenderNodeMap {
@@ -97,7 +98,7 @@ export interface Asset {
 
 export const REMOVE_VALUE_ASSET = {
   id: AssetType.Remove,
-  name: 'Remove Value',
+  name: i18n.t('forms.remove_value', 'Remove Value'),
   type: AssetType.Remove
 };
 

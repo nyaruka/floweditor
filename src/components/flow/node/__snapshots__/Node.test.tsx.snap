@@ -151,7 +151,8 @@ exports[`NodeComp renders a named random split 1`] = `
             <div
               class="save_as"
             >
-              Save as 
+              Save as
+               
             </div>
             <div
               class="result_name"

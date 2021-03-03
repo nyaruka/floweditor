@@ -39,6 +39,7 @@ import { ClickHandler, createClickHandler } from 'utils';
 import styles from './Node.module.scss';
 import { hasIssues } from '../helpers';
 import MountScroll from 'components/mountscroll/MountScroll';
+import i18n from 'config/i18n';
 
 export interface NodePassedProps {
   nodeUUID: string;
@@ -328,7 +329,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
       if (resultName) {
         summary = (
           <div {...this.events} className={styles.save_result}>
-            <div className={styles.save_as}>Save as </div>
+            <div className={styles.save_as}>{i18n.t('forms.save_as', 'Save as')} </div>
             <div className={styles.result_name}>{resultName}</div>
           </div>
         );

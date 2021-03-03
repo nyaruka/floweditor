@@ -91,7 +91,7 @@ export default class AddURNForm extends React.PureComponent<ActionFormProps, Add
           <div className={styles.path}>
             <TextInputElement
               name={i18n.t('forms.urn', 'URN')}
-              placeholder="Enter the URN value"
+              placeholder={i18n.t('forms.enter_urn_value', 'Enter the URN value')}
               entry={this.state.path}
               onChange={this.handlePathChanged}
               autocomplete={true}

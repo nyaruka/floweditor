@@ -187,7 +187,7 @@ export const operatorConfigList: Operator[] = [
   },
   {
     type: Operators.has_pattern,
-    verboseName: i18n.t('operator.has_pattern', 'matches regex'),
+    verboseName: i18n.t('operators.has_pattern', 'matches regex'),
     operands: 1
   }
 ];

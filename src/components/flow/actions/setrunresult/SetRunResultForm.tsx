@@ -160,7 +160,10 @@ export default class SetRunResultForm extends React.PureComponent<
             onChange={this.handleValueUpdate}
             entry={this.state.value}
             autocomplete={true}
-            helpText="The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))"
+            helpText={i18n.t(
+              'forms.result_value_help',
+              'The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))'
+            )}
           />
           <TextInputElement
             __className={styles.category}
@@ -170,7 +173,10 @@ export default class SetRunResultForm extends React.PureComponent<
             onChange={this.handleCategoryUpdate}
             entry={this.state.category}
             autocomplete={false}
-            helpText="An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
+            helpText={i18n.t(
+              'forms.result_category_help',
+              "An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'"
+            )}
           />
         </div>
         {renderIssues(this.props)}

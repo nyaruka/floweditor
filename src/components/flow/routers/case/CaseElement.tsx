@@ -333,7 +333,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 entry={this.state.min}
               />
               <span className={styles.divider} data-draggable={true}>
-                and
+                {i18n.t('forms.and', 'and')}
               </span>
               <TextInputElement
                 name={i18n.t('forms.arguments', 'arguments')}
@@ -478,7 +478,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
             {this.renderArguments()}
           </div>
           <div className={styles.categorize_as} data-draggable={true}>
-            categorize as
+            {i18n.t('forms.categorize_as', 'categorize as')}
           </div>
           <div className={styles.category}>
             <TextInputElement

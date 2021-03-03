@@ -52,7 +52,9 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([{ value: 'upload', name: 'Upload Attachment' }]);
+const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
+  { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
+]);
 
 const getAttachmentTypeOption = (type: string): SelectOption => {
   return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
@@ -280,7 +282,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             key={'attachment_type_' + index}
             style={TembaSelectStyle.small}
             name={i18n.t('forms.type_options', 'Type Options')}
-            placeholder="Add Attachment"
+            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
             entry={{
               value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
             }}
@@ -521,21 +523,21 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     };
 
     const attachments: Tab = {
-      name: 'Attachments',
+      name: i18n.t('forms.attachments', 'Attachments'),
       body: this.renderAttachments(),
       checked: this.state.attachments.length > 0
     };
 
     const advanced: Tab = {
-      name: 'Advanced',
+      name: i18n.t('forms.advanced', 'Advanced'),
       body: (
         <CheckboxElement
           name={i18n.t('forms.all_destinations', 'All Destinations')}
-          title="All Destinations"
+          title={i18n.t('forms.all_destinations', 'All Destinations')}
           labelClassName={styles.checkbox}
           checked={this.state.sendAll}
           description={i18n.t(
-            'forms.all_destinations',
+            'forms.all_destinations_description',
             "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
           )}
           onChange={this.handleSendAllUpdate}
