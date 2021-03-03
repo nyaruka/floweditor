@@ -105,6 +105,10 @@
       "description": "Esperar una grabación de audio",
       "name": "Esperar por Audio."
     },
+    "wait_for_dial": {
+      "description": "Esperar por el reenvío de llamada a alguien más",
+      "name": "Esperar por llamada reenviada"
+    },
     "wait_for_digits": {
       "description": "Esperar por dígitos múltiples",
       "name": "Esperar por Dígitos"
@@ -235,6 +239,7 @@
     "operand": "Operando",
     "operator": "operador",
     "play_audio_help_text": "Ingrese una variable que contenga una grabación que el contacto haya grabado previamente. Por ejemplo, @results.voicemail o @fields.short_bio.",
+    "phone_number": "Número Telefónico",
     "quick_replies": "Respuestas Rápidas",
     "quick_replies_summary": "Las respuestas rápidas se convierten en botones para canales compatibles. Por ejemplo, al hacer una pregunta, puede agregar una respuesta rápida para \"Sí\" y una para \"No\".",
     "quick_reply": "Respuesta Rápida",
