@@ -86,7 +86,7 @@ exports[`StartSessionForm render should render 1`] = `
                   multi="true"
                   name="Recipients"
                   namekey="name"
-                  placeholder="Choose who should be started in the flow"
+                  placeholder="Select who should be started in the flow"
                   queryparam="search"
                   searchable="true"
                   valuekey="uuid"
@@ -109,7 +109,7 @@ exports[`StartSessionForm render should render 1`] = `
                 expressions=""
                 name="Flow"
                 namekey="name"
-                placeholder="Choose which flow to start"
+                placeholder="Select the flow to start"
                 searchable="true"
                 valuekey="uuid"
                 values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"
@@ -258,7 +258,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
         multi={true}
         name="Recipients"
         onChange={[Function]}
-        placeholder="Choose who should be started in the flow"
+        placeholder="Select who should be started in the flow"
         searchable={true}
       />
       <p />
@@ -277,7 +277,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
       }
       name="Flow"
       onChange={[Function]}
-      placeholder="Choose which flow to start"
+      placeholder="Select the flow to start"
       searchable={true}
     />
   </div>
@@ -385,7 +385,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 expressions=""
                 name="Flow"
                 namekey="name"
-                placeholder="Choose which flow to start"
+                placeholder="Select the flow to start"
                 searchable="true"
                 valuekey="uuid"
                 values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"
@@ -523,7 +523,7 @@ exports[`StartSessionForm render should render create new contacts 1`] = `
                 expressions=""
                 name="Flow"
                 namekey="name"
-                placeholder="Choose which flow to start"
+                placeholder="Select the flow to start"
                 searchable="true"
                 valuekey="uuid"
                 values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"
@@ -669,7 +669,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
         multi={true}
         name="Recipients"
         onChange={[Function]}
-        placeholder="Choose who should be started in the flow"
+        placeholder="Select who should be started in the flow"
         searchable={true}
       />
       <p />
@@ -691,7 +691,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
       }
       name="Flow"
       onChange={[Function]}
-      placeholder="Choose which flow to start"
+      placeholder="Select the flow to start"
       searchable={true}
     />
   </div>
@@ -799,7 +799,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 expressions=""
                 name="Flow"
                 namekey="name"
-                placeholder="Choose which flow to start"
+                placeholder="Select the flow to start"
                 searchable="true"
                 valuekey="uuid"
                 values="[{\\"uuid\\":\\"flow_uuid\\",\\"name\\":\\"Flow to Start\\"}]"

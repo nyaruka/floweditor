@@ -1,4 +1,5 @@
 import { getLanguageForCode } from 'components/flow/actions/updatecontact/helpers';
+import i18n from 'config/i18n';
 import { Types } from 'config/interfaces';
 import {
   SetContactAttribute,
@@ -25,7 +26,11 @@ export const renderSetText = (
       </div>
     );
   } else {
-    return <div>Clear {withEmph(name, emphasizeName)}.</div>;
+    return (
+      <div>
+        {i18n.t('forms.clear', 'Clear')} {withEmph(name, emphasizeName)}.
+      </div>
+    );
   }
 };
 

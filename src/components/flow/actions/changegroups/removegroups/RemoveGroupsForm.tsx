@@ -118,7 +118,7 @@ export default class RemoveGroupsForm extends React.Component<
             <p data-spec={labelSpecId}>{LABEL}</p>
             <AssetSelector
               name={i18n.t('forms.groups', 'Groups')}
-              placeholder={i18n.t('select_groups', 'Select Groups')}
+              placeholder={i18n.t('forms.select_groups', 'Select Groups')}
               assets={this.props.assetStore.groups}
               entry={this.state.groups}
               shouldExclude={excludeDynamicGroups}

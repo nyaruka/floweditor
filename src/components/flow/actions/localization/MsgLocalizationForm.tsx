@@ -233,7 +233,7 @@ export default class MsgLocalizationForm extends React.Component<
 
     if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
       tabs.push({
-        name: 'Quick Replies',
+        name: i18n.t('forms.quick_replies', 'Quick Replies'),
         body: (
           <>
             <MultiChoiceInput

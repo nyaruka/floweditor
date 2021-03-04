@@ -233,7 +233,7 @@ export default class UpdateContactForm extends React.Component<
         <AssetSelector
           key="select_channel"
           name={i18n.t('forms.channel', 'Channel')}
-          placeholder="Select the channel to use for this contact"
+          placeholder={i18n.t('forms.select_channel', 'Select the channel to use for this contact')}
           assets={this.props.assetStore.channels}
           entry={this.state.channel}
           searchable={true}
@@ -248,7 +248,10 @@ export default class UpdateContactForm extends React.Component<
         <AssetSelector
           key="select_language"
           name={i18n.t('forms.language', 'Language')}
-          placeholder="Select the language to use for this contact"
+          placeholder={i18n.t(
+            'forms.select_language',
+            'Select the language to use for this contact'
+          )}
           assets={this.props.assetStore.languages}
           entry={this.state.language}
           valueClearable={true}
@@ -272,7 +275,7 @@ export default class UpdateContactForm extends React.Component<
       return (
         <TextInputElement
           name={i18n.t('forms.name', 'Name')}
-          placeholder="Enter a new name for the contact"
+          placeholder={i18n.t('forms.enter_new_name', 'Enter a new name for the contact')}
           onChange={this.handleNameUpdate}
           entry={this.state.name}
           autocomplete={true}
@@ -283,7 +286,7 @@ export default class UpdateContactForm extends React.Component<
       return (
         <TextInputElement
           name={i18n.t('forms.field_value', 'Field Value')}
-          placeholder={`Enter a new value for ${this.state.field.value.label}`}
+          placeholder={i18n.t('forms.enter_field_value', { field: this.state.field.value.label })}
           onChange={this.handleFieldValueUpdate}
           entry={this.state.fieldValue}
           autocomplete={true}
@@ -304,7 +307,7 @@ export default class UpdateContactForm extends React.Component<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 
-        <p>Select what to update</p>
+        <p>{i18n.t('forms.select_what_to_update', 'Select what to update')}</p>
         <AssetSelector
           name={i18n.t('forms.contact_field', 'Contact Field')}
           assets={this.props.assetStore.fields}

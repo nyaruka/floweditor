@@ -190,7 +190,7 @@ export default class SubflowRouterForm extends React.PureComponent<
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
         <AssetSelector
           name={i18n.t('forms.flow', 'Flow')}
-          placeholder="Select the flow to start"
+          placeholder={i18n.t('forms.select_flow', 'Select the flow to start')}
           assets={this.props.assetStore.flows}
           entry={this.state.flow}
           searchable={true}
