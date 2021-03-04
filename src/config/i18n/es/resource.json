@@ -483,6 +483,15 @@
   },
   "translation": {
     "header": "Traducción de Flujo",
-    "label": "Traducciones"
+    "label": "Traducciones",
+    "attributes": {
+      "body": "Cuerpo",
+      "cases": "Reglas",
+      "categories": "Categorías",
+      "quick_replies": "Respuestas Rápidas",
+      "subject": "Asunto",
+      "templates": "Variables de Plantilla",
+      "text": "Mensaje"
+    }
   }
 }
