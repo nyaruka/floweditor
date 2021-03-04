@@ -176,6 +176,7 @@
     "http_header_missing_name": "Las cabeceras HTTP deben tener un nombre",
     "network": "Hmm, tuvimos un problema al intentar guardar los cambios. Podría ser simplemente que su conexión a Internet no esté funcionando bien en este momento. Espere un minuto y vuelva a intentarlo."
   },
+  "flow_start": "Inicio de Flujo",
   "forms": {
     "add_attachment": "Agregar Adjunto",
     "add_groups_summary": "Seleccione los grupos a los que se agregará el contacto.",
@@ -392,7 +393,9 @@
   "removal_confirmation": "Remover?",
   "revisions": {
     "header": "Revisiones",
-    "label": "Historial de Revisión"
+    "label": "Historial de Revisión",
+    "current": "actual",
+    "revert": "revertir"
   },
   "schemes": {
     "email": {
@@ -456,6 +459,7 @@
     }
   },
   "simulator": {
+    "label": "Ejecutar en Simulador",
     "added_to_group": "Añadir a",
     "airtime_transferred": "Transferido [[amount]] [[currency]] para [[recipient]] ",
     "contact_field_changed": "Establecer contacto \"[[field]]\" para \"[[value]]\"",
