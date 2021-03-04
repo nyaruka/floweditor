@@ -167,11 +167,13 @@ export class RevisionExplorer extends React.Component<
                       onClick={this.onRevisionClicked(asset)}
                     >
                       {renderIf(revision.current)(
-                        <div className={styles.button + ' ' + styles.current}>current</div>
+                        <div className={styles.button + ' ' + styles.current}>
+                          {i18n.t('revisions.current', 'current')}
+                        </div>
                       )}
                       {renderIf(isSelected && !revision.current)(
                         <div onClick={this.onRevertClicked(asset)} className={styles.button}>
-                          revert
+                          {i18n.t('revisions.revert', 'revert')}
                         </div>
                       )}
                       <div className={styles.created_on}>

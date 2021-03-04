@@ -398,7 +398,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
     const body = (
       <div className={styles.node}>
         {this.isStartNodeVisible() ? (
-          <div className={styles.flow_start_message}>Flow Start</div>
+          <div className={styles.flow_start_message}>{i18n.t('flow_start', 'Flow Start')}</div>
         ) : null}
 
         {uuid}

@@ -19,6 +19,7 @@ import AppState from 'store/state';
 import { DispatchWithState, MergeEditorState } from 'store/thunks';
 import { createUUID } from 'utils';
 import { PopTabType } from 'config/interfaces';
+import i18n from 'config/i18n';
 
 const MESSAGE_DELAY_MS = 200;
 
@@ -1061,9 +1062,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div className={styles.simulator_tab + ' ' + tabHidden} onClick={this.onToggle}>
           <div className={styles.simulator_tab_icon + ' fe-smartphone'} />
           <div className={styles.simulator_tab_text}>
-            Run in
-            <br />
-            Simulator
+            {i18n.t('simulator.label', 'Run in Simulator')}
           </div>
         </div>
       </div>

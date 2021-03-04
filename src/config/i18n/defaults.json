@@ -176,6 +176,7 @@
     "http_header_missing_name": "HTTP headers must have a name",
     "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."
   },
+  "flow_start": "Flow Start",
   "forms": {
     "add_attachment": "Add Attachment",
     "add_groups_summary": "Select the groups to add the contact to.",
@@ -392,7 +393,9 @@
   "removal_confirmation": "Remove?",
   "revisions": {
     "header": "Revisions",
-    "label": "Revision History"
+    "label": "Revision History",
+    "current": "current",
+    "revert": "revert"
   },
   "schemes": {
     "email": {
@@ -456,6 +459,7 @@
     }
   },
   "simulator": {
+    "label": "Run in Simulator",
     "added_to_group": "Added to ",
     "airtime_transferred": "Transferred [[amount]] [[currency]] to [[recipient]]",
     "contact_field_changed": "Set contact \"[[field]]\" to \"[[value]]\"",
