@@ -497,7 +497,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     const typeConfig = this.props.typeConfig;
 
     const quickReplies: Tab = {
-      name: 'Quick Replies',
+      name: i18n.t('forms.quick_replies', 'Quick Replies'),
       body: (
         <>
           <p>

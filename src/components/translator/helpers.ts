@@ -98,7 +98,7 @@ export const getFriendlyAttribute = (attribute: string) => {
   }
 
   if (attribute === 'quick_replies') {
-    return i18next.t('translation.attributes.quick_relpies', 'Quick Replies');
+    return i18next.t('translation.attributes.quick_replies', 'Quick Replies');
   }
 
   if (attribute === 'templating.variables') {
