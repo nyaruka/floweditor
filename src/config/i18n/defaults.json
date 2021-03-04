@@ -483,6 +483,15 @@
   },
   "translation": {
     "header": "Flow Translation",
-    "label": "Translations"
+    "label": "Translations",
+    "attributes": {
+      "body": "Body",
+      "cases": "Rules",
+      "categories": "Categories",
+      "quick_replies": "Quick Replies",
+      "subject": "Subject",
+      "templates": "Template Variables",
+      "text": "Message"
+    }
   }
 }
