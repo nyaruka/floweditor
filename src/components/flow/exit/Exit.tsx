@@ -19,6 +19,7 @@ import { createClickHandler, getLocalization, renderIf } from 'utils';
 import * as moment from 'moment';
 import styles from './Exit.module.scss';
 import { Portal } from 'components/Portal';
+import i18n from 'config/i18n';
 
 export interface RenderCategory extends Category {
   missing: boolean;
@@ -280,9 +281,9 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
       const recentStyles = [styles.recent_messages];
 
-      let title = 'Recent Messages';
+      let title = i18n.t('recent_messages.header', 'Recent Messages');
       if (!hasRecents && !this.state.fetchingRecentMessages) {
-        title = 'No Recent Messages';
+        title = i18n.t('recent_messages.header_empty', 'No Recent Messages');
         recentStyles.push(styles.no_recents);
       }
 

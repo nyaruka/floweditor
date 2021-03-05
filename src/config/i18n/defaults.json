@@ -390,6 +390,10 @@
     "has_ward": "has ward",
     "has_ward_category": "Has Ward"
   },
+  "recent_messages": {
+    "header": "Recent Messages",
+    "header_empty": "No Recent Messages"
+  },
   "removal_confirmation": "Remove?",
   "revisions": {
     "header": "Revisions",
@@ -460,7 +464,7 @@
   },
   "simulator": {
     "label": "Run in Simulator",
-    "added_to_group": "Added to ",
+    "added_to_group": "Added to",
     "airtime_transferred": "Transferred [[amount]] [[currency]] to [[recipient]]",
     "contact_field_changed": "Set contact \"[[field]]\" to \"[[value]]\"",
     "contact_field_cleared": "Cleared contact \"[[field]]\"",
@@ -468,10 +472,15 @@
     "contact_name_changed": "Set contact name to \"[[name]]\"",
     "contact_status_changed": "Set status to \"[[status]]\"",
     "flow_entered": "Entered flow \"[[flow]]\"",
+    "flow_exited": "Exited flow",
     "httplog_dialog": "HTTP Request Details",
-    "input_labels_added": "Message labeled with ",
+    "input_labels_added": "Message labeled with",
     "msg_wait": "Waiting for reply",
-    "removed_from_group": "Removed from ",
+    "prompt": {
+      "message": "Enter message",
+      "restart": "Press home to start again"
+    },
+    "removed_from_group": "Removed from",
     "resthook_called": "Triggered flow event \"[[resthook]]\"",
     "run_result_changed": "Set result \"[[field]]\" to \"[[value]]\"",
     "sent_email": {
