@@ -17,7 +17,7 @@
       "name": "Llamar Zapier"
     },
     "call_webhook": {
-      "description": "Llamar una webhook",
+      "description": "Llamar un Webhook",
       "name": "Llamar Webhook"
     },
     "enter_flow": {
@@ -58,7 +58,7 @@
       "placeholder": "Enviar un mensaje al contacto"
     },
     "set_contact_field": {
-      "description": "Actualiza el contacto",
+      "description": "Actualizar el contacto",
       "name": "Actualizar Contacto"
     },
     "set_run_result": {
@@ -353,7 +353,7 @@
   "operators": {
     "has_all_words": "tiene todas las palabras",
     "has_any_word": "tiene alguna de las palabras",
-    "has_beginning": "Empieza con",
+    "has_beginning": "empieza con",
     "has_category": "tiene la categoria",
     "has_date": "tiene una fecha",
     "has_date_category": "Tiene Fecha",
@@ -389,6 +389,10 @@
     "has_value_category": "No esta Vacio",
     "has_ward": "tiene pueblo",
     "has_ward_category": "Tiene Pueblo"
+  },
+  "recent_messages": {
+    "header": "Mensajes Recientes",
+    "header_empty": "No hay mensajes recientes"
   },
   "removal_confirmation": "Remover?",
   "revisions": {
@@ -460,7 +464,7 @@
   },
   "simulator": {
     "label": "Ejecutar en Simulador",
-    "added_to_group": "Añadir a",
+    "added_to_group": "Añadido a",
     "airtime_transferred": "Transferido [[amount]] [[currency]] para [[recipient]] ",
     "contact_field_changed": "Establecer contacto \"[[field]]\" para \"[[value]]\"",
     "contact_field_cleared": "Contacto eliminado \"[[field]]\"",
@@ -468,10 +472,15 @@
     "contact_name_changed": "Establecer nombre de contacto en \"[[name]]\"",
     "contact_status_changed": "Establecer estatus en \"[[status]]\"",
     "flow_entered": "Flujo introducido \"[[flow]]\"",
+    "flow_exited": "Salida de flujo",
     "httplog_dialog": "Detalles de solicitud HTTP",
     "input_labels_added": "Mensaje etiquetado con",
     "msg_wait": "Esperando por respuesta",
-    "removed_from_group": "Removido de ",
+    "prompt": {
+      "message": "Ingresar mensaje",
+      "restart": "Presione inicio para iniciar de nuevo"
+    },
+    "removed_from_group": "Removido de",
     "resthook_called": "Evento de flujo desencadenado \"[[resthook]]\"",
     "run_result_changed": "Establecer resultado \"[[field]]\" para \"[[value]]\"",
     "sent_email": {
