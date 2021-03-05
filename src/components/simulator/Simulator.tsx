@@ -405,7 +405,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             $push: [
               {
                 type: 'info',
-                text: 'Exited flow',
+                text: i18n.t('simulator.flow_exited', 'Exited flow'),
                 created_on: new Date()
               } as any
             ]
@@ -1004,7 +1004,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                   type="text"
                   onKeyUp={this.onKeyUp}
                   disabled={this.state.sprinting}
-                  placeholder={this.state.active ? 'Enter message' : 'Press home to start again'}
+                  placeholder={
+                    this.state.active
+                      ? i18n.t('simulator.prompt.message', 'Enter message')
+                      : i18n.t('simulator.prompt.restart', 'Press home to start again')
+                  }
                 />
                 <div className={styles.show_attachments_button}>
                   <div
