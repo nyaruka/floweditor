@@ -218,7 +218,7 @@ export const operatorConfigList: Operator[] = [
 
   {
     type: Operators.has_file,
-    verboseName: i18n.t('operators.has_video', 'has file'),
+    verboseName: i18n.t('operators.has_file', 'has file'),
     operands: 0,
     categoryName: 'Has File',
     visibility: TEXT_TYPES
