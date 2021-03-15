@@ -97,6 +97,7 @@ export enum Operators {
   has_audio = 'has_audio',
   has_image = 'has_image',
   has_video = 'has_video',
+  has_file = 'has_file',
   has_location = 'has_location'
 }
 
