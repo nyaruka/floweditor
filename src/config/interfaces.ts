@@ -94,6 +94,9 @@ export enum Operators {
   has_top_intent = 'has_top_intent',
   has_category = 'has_category',
   has_media = 'has_media',
+  has_audio = 'has_audio',
+  has_image = 'has_image',
+  has_video = 'has_video',
   has_location = 'has_location'
 }
 
