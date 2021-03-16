@@ -193,6 +193,38 @@ export const operatorConfigList: Operator[] = [
   },
 
   {
+    type: Operators.has_audio,
+    verboseName: i18n.t('operators.has_audio', 'has audio'),
+    operands: 0,
+    categoryName: 'Has Audio',
+    visibility: TEXT_TYPES
+  },
+
+  {
+    type: Operators.has_image,
+    verboseName: i18n.t('operators.has_image', 'has image'),
+    operands: 0,
+    categoryName: 'Has Image',
+    visibility: TEXT_TYPES
+  },
+
+  {
+    type: Operators.has_video,
+    verboseName: i18n.t('operators.has_video', 'has video'),
+    operands: 0,
+    categoryName: 'Has Video',
+    visibility: TEXT_TYPES
+  },
+
+  {
+    type: Operators.has_file,
+    verboseName: i18n.t('operators.has_file', 'has file'),
+    operands: 0,
+    categoryName: 'Has File',
+    visibility: TEXT_TYPES
+  },
+
+  {
     type: Operators.has_location,
     verboseName: i18n.t('operators.has_location', 'has location'),
     operands: 0,

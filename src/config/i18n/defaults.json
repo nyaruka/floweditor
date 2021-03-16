@@ -363,6 +363,10 @@
     "has_ward": "has ward",
     "has_ward_category": "Has Ward",
     "has_media": "has media",
+    "has_audio": "has audio",
+    "has_image": "has image",
+    "has_video": "has video",
+    "has_file": "has file",
     "has_location": "has location"
   },
   "removal_confirmation": "Remove?",
