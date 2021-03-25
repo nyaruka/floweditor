@@ -11,6 +11,7 @@ import { SortableElement, SortEnd, SortableContainer } from 'react-sortable-hoc'
 import styles from './CaseList.module.scss';
 import { Operator } from 'config/interfaces';
 import { Asset } from 'store/flowContext';
+import { operatorConfigList } from 'config';
 
 export enum DragCursor {
   move = 'move',
@@ -31,7 +32,6 @@ export interface CaseListProps {
   onCasesUpdated(cases: CaseProps[]): void;
   operators?: Operator[];
   classifier?: Asset;
-  createEmptyCase?: () => CaseProps;
 }
 
 export interface CaseListState extends FormState {
@@ -99,7 +99,8 @@ export default class CaseList extends React.Component<CaseListProps, CaseListSta
   }
 
   private createEmptyCase(): CaseProps {
-    return this.props.createEmptyCase ? this.props.createEmptyCase() : createEmptyCase();
+    const operators = this.props.operators || operatorConfigList;
+    return createEmptyCase(operators[0]);
   }
 
   public static contextTypes = {

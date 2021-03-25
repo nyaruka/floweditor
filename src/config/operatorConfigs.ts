@@ -27,26 +27,22 @@ export const operatorConfigList: Operator[] = [
   {
     type: Operators.has_any_word,
     verboseName: i18n.t('operators.has_any_word', 'has any of the words'),
-    operands: 1,
-    visibility: VISIBILITY_MESSAGING
+    operands: 1
   },
   {
     type: Operators.has_all_words,
     verboseName: i18n.t('operators.has_all_words', 'has all of the words'),
-    operands: 1,
-    visibility: VISIBILITY_MESSAGING
+    operands: 1
   },
   {
     type: Operators.has_phrase,
     verboseName: i18n.t('operators.has_phrase', 'has the phrase'),
-    operands: 1,
-    visibility: VISIBILITY_MESSAGING
+    operands: 1
   },
   {
     type: Operators.has_only_phrase,
     verboseName: i18n.t('operators.has_only_phrase', 'has only the phrase'),
-    operands: 1,
-    visibility: VISIBILITY_MESSAGING
+    operands: 1
   },
   {
     type: Operators.has_beginning,
@@ -57,8 +53,7 @@ export const operatorConfigList: Operator[] = [
     type: Operators.has_text,
     verboseName: i18n.t('operators.has_text', 'has some text'),
     operands: 0,
-    categoryName: 'Has Text',
-    visibility: VISIBILITY_MESSAGING
+    categoryName: 'Has Text'
   },
   {
     type: Operators.has_number,
@@ -100,33 +95,28 @@ export const operatorConfigList: Operator[] = [
     type: Operators.has_date,
     verboseName: i18n.t('operators.has_date', 'has a date'),
     operands: 0,
-    categoryName: i18n.t('operators.has_date_category', 'Has Date'),
-    visibility: VISIBILITY_MESSAGING
+    categoryName: i18n.t('operators.has_date_category', 'Has Date')
   },
   {
     type: Operators.has_date_lt,
     verboseName: i18n.t('operators.has_date_lt', 'has a date before'),
-    operands: 1,
-    visibility: VISIBILITY_MESSAGING
+    operands: 1
   },
   {
     type: Operators.has_date_eq,
     verboseName: i18n.t('operators.has_date_eq', 'has a date equal to'),
-    operands: 1,
-    visibility: VISIBILITY_MESSAGING
+    operands: 1
   },
   {
     type: Operators.has_date_gt,
     verboseName: i18n.t('operators.has_date_gt', 'has a date after'),
-    operands: 1,
-    visibility: VISIBILITY_MESSAGING
+    operands: 1
   },
   {
     type: Operators.has_time,
     verboseName: i18n.t('operators.has_time', 'has a time'),
     operands: 0,
-    categoryName: 'Has Time',
-    visibility: VISIBILITY_MESSAGING
+    categoryName: 'Has Time'
   },
   {
     type: Operators.has_group,
@@ -150,8 +140,7 @@ export const operatorConfigList: Operator[] = [
     type: Operators.has_email,
     verboseName: i18n.t('operators.has_email', 'has an email'),
     operands: 0,
-    categoryName: i18n.t('operators.has_email_category', 'Has Email'),
-    visibility: VISIBILITY_MESSAGING
+    categoryName: i18n.t('operators.has_email_category', 'Has Email')
   },
   {
     type: Operators.has_state,

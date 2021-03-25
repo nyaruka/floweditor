@@ -174,18 +174,3 @@ export const stateToNode = (
     [newAction]
   );
 };
-
-export const createEmptyCase = (): CaseProps => {
-  const uuid = createUUID();
-  return {
-    uuid,
-    kase: {
-      uuid,
-      type: Operators.has_top_intent,
-      arguments: ['', ''],
-      category_uuid: null
-    },
-    categoryName: '',
-    valid: true
-  };
-};
