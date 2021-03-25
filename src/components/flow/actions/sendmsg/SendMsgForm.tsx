@@ -390,7 +390,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
       const templateVariables =
         this.state.templateVariables.length === 0 ||
-        (this.state.template.value && this.state.template.value.id !== template.id)
+        (this.state.template.value && this.state.template.value.uuid !== template.uuid)
           ? range(0, templateTranslation.variable_count).map(() => {
               return {
                 value: ''
