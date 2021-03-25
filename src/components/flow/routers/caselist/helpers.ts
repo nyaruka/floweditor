@@ -1,5 +1,5 @@
 import { CaseProps } from 'components/flow/routers/caselist/CaseList';
-import { Operator, Operators } from 'config/interfaces';
+import { Operator } from 'config/interfaces';
 import { createUUID } from 'utils';
 
 export const createEmptyCase = (operator: Operator): CaseProps => {

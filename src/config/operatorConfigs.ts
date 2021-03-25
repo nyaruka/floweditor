@@ -2,7 +2,6 @@ import {
   Operator,
   OperatorMap,
   Operators,
-  VISIBILITY_MESSAGING,
   VISIBILITY_ONLINE,
   VISIBILITY_HIDDEN
 } from 'config/interfaces';
