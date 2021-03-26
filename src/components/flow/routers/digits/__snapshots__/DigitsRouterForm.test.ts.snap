@@ -46,6 +46,51 @@ exports[`DigitsRouterForm initializes 1`] = `
     cases={Array []}
     data-spec="cases"
     onCasesUpdated={[Function]}
+    operators={
+      Array [
+        Object {
+          "operands": 1,
+          "type": "has_beginning",
+          "verboseName": "starts with",
+        },
+        Object {
+          "categoryName": "Has Number",
+          "operands": 0,
+          "type": "has_number",
+          "verboseName": "has a number",
+        },
+        Object {
+          "operands": 2,
+          "type": "has_number_between",
+          "verboseName": "has a number between",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_lt",
+          "verboseName": "has a number below",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_lte",
+          "verboseName": "has a number at or below",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_eq",
+          "verboseName": "has a number equal to",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_gte",
+          "verboseName": "has a number at or above",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_gt",
+          "verboseName": "has a number above",
+        },
+      ]
+    }
   />
   <OptionalTextInput
     helpText={
@@ -119,6 +164,51 @@ exports[`DigitsRouterForm should render 1`] = `
     cases={Array []}
     data-spec="cases"
     onCasesUpdated={[Function]}
+    operators={
+      Array [
+        Object {
+          "operands": 1,
+          "type": "has_beginning",
+          "verboseName": "starts with",
+        },
+        Object {
+          "categoryName": "Has Number",
+          "operands": 0,
+          "type": "has_number",
+          "verboseName": "has a number",
+        },
+        Object {
+          "operands": 2,
+          "type": "has_number_between",
+          "verboseName": "has a number between",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_lt",
+          "verboseName": "has a number below",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_lte",
+          "verboseName": "has a number at or below",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_eq",
+          "verboseName": "has a number equal to",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_gte",
+          "verboseName": "has a number at or above",
+        },
+        Object {
+          "operands": 1,
+          "type": "has_number_gt",
+          "verboseName": "has a number above",
+        },
+      ]
+    }
   />
   <OptionalTextInput
     helpText={

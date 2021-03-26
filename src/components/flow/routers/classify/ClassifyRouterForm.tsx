@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
-import { nodeToState, stateToNode, createEmptyCase } from './helpers';
+import { nodeToState, stateToNode } from './helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
@@ -214,7 +214,6 @@ export default class ClassifyRouterForm extends React.Component<
             cases={this.state.cases}
             onCasesUpdated={this.handleCasesUpdated}
             operators={intentOperatorList}
-            createEmptyCase={createEmptyCase}
             classifier={this.state.classifier.value}
           />
         )}
