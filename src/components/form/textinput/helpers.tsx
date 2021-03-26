@@ -8,7 +8,7 @@ export const createTextInput = (props: TextInputProps, handleChange: any, option
       onInput={handleChange}
       onBlur={props.onBlur}
       value={props.entry.value}
-      placeholder={props.placeholder}
+      placeholder={props.placeholder || ''}
       maxLength={props.maxLength || -1}
       session
       {...optional}

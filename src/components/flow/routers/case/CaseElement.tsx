@@ -331,6 +331,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 style={TextInputStyle.small}
                 onChange={this.handleMinChanged}
                 entry={this.state.min}
+                autocomplete={true}
               />
               <span className={styles.divider} data-draggable={true}>
                 {i18n.t('forms.and', 'and')}
@@ -340,6 +341,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
                 style={TextInputStyle.small}
                 onChange={this.handleMaxChanged}
                 entry={this.state.max}
+                autocomplete={true}
               />
             </>
           );
