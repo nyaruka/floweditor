@@ -25,6 +25,7 @@ export interface MsgLocalizationFormState extends FormState {
   audio: StringEntry;
   templateVariables: StringEntry[];
   templating: MsgTemplating;
+  // attachments: StringEntry[];
 }
 
 export default class MsgLocalizationForm extends React.Component<
@@ -142,28 +143,6 @@ export default class MsgLocalizationForm extends React.Component<
         onClick: () => this.props.onClose(true)
       }
     };
-  }
-
-  private handleAddQuickReply(newQuickReply: string): boolean {
-    const newReplies = [...this.state.quickReplies.value];
-    if (newReplies.length >= 10) {
-      return false;
-    }
-
-    // we don't allow two quick replies with the same name
-    const isNew = !newReplies.find(
-      (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
-    );
-
-    if (isNew) {
-      newReplies.push(newQuickReply);
-      this.setState({
-        quickReplies: { value: newReplies }
-      });
-      return true;
-    }
-
-    return false;
   }
 
   private handleQuickReplyChanged(quickReplies: string[]): void {
