@@ -4,6 +4,7 @@ import { Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SendMsg, MsgTemplating, SayMsg } from 'flowTypes';
+import { Attachment } from '../sendmsg/attachments';
 
 export const initializeLocalizedKeyForm = (
   settings: NodeEditorSettings
@@ -32,7 +33,8 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
     templateVariables: [],
     templating: null,
     audio: { value: null },
-    valid: true
+    valid: true,
+    attachments: []
   };
 
   // check if our form should use a localized action
@@ -62,6 +64,25 @@ export const initializeLocalizedForm = (settings: NodeEditorSettings): MsgLocali
           state.audio.value = 'audio_url' in localized.localizedKeys ? action.audio_url : null;
           state.quickReplies.value =
             'quick_replies' in localized.localizedKeys ? action.quick_replies || [] : [];
+
+          const attachments: Attachment[] = [];
+
+          if ('attachments' in localized.localizedKeys) {
+            (action.attachments || []).forEach((attachmentString: string) => {
+              const splitPoint = attachmentString.indexOf(':');
+
+              const type = attachmentString.substring(0, splitPoint);
+              const attachment = {
+                type,
+                url: attachmentString.substring(splitPoint + 1),
+                uploaded: type.indexOf('/') > -1
+              };
+
+              attachments.push(attachment);
+            });
+          }
+
+          state.attachments = attachments;
           state.valid = true;
         }
 
