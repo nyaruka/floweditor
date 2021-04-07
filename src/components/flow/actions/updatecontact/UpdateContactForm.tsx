@@ -251,7 +251,6 @@ export default class UpdateContactForm extends React.Component<
           placeholder="Select the language to use for this contact"
           assets={this.props.assetStore.languages}
           entry={this.state.language}
-          valueClearable={true}
           onChange={this.handleLanguageUpdate}
           shouldExclude={(language: any) => {
             return language.iso === 'base';
