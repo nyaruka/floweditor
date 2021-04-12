@@ -1,13 +1,12 @@
 {
-  "name": "@nyaruka/flow-editor",
+  "name": "@glific/flow-editor",
   "license": "AGPL-3.0",
-  "repository": "git://github.com/nyaruka/floweditor.git",
-  "version": "1.11.8",
+  "repository": "git://github.com/glific/floweditor.git",
+  "version": "1.11.9-11",
   "description": "'Standalone flow editing tool designed for use within the RapidPro suite of messaging tools but can be adopted for use outside of that ecosystem.'",
   "browser": "umd/flow-editor.min.js",
   "unpkg": "umd/flow-editor.min.js",
-  "author": "Nyaruka <code@nyaruka.com>",
-  "homepage": "./",
+  "homepage": "https://glific.org",
   "files": [
     "build"
   ],
@@ -29,7 +28,7 @@
     "postversion": "git push --tags && git push origin master",
     "version": "yarn run build && auto-changelog -p && git add CHANGELOG.md",
     "scan": "./node_modules/i18next-scanner/bin/cli.js",
-    "dev": "yarn build && cp -Rf build/* ../rapidpro/node_modules/@nyaruka/flow-editor/build/",
+    "dev": "yarn build && cp -Rf build/* ../rapidpro/node_modules/@glific/flow-editor/build/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom-fourteen",
