@@ -20,11 +20,9 @@ jobs:
           yarn install
           yarn run build --if-present
         env:
-          CI: true
       - name: Publish
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
           npm publish
         env:
-          CI: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
