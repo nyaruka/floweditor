@@ -11,19 +11,20 @@ yarn
 Node.js >= 10.x
 ```
 
-### Installation
+### Installation (to use this in your project)
 
 The flow editor is a non-ejected project based on create-react-app. We use yarn to manage dependencies.
 
 ```
-% yarn install
+npm i @glific/flow-editor or yarn add @glific/flow-editor
 ```
 
-### Building
+### Building/Contribution
 
 Webpack is used to transpile TypeScript and SASS. After invoking a build, the compiled results will arrive in `/build`.
 
 ```
+% yarn install
 % yarn run build
 ```
 
