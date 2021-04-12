@@ -21,7 +21,7 @@ import i18n from 'config/i18n';
 
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { Template, TemplateTranslation } from 'flowTypes';
-import { createUUID, range } from 'utils';
+import { createUUID, getAuthToken, range } from 'utils';
 import styles from './SendBroadcastForm.module.scss';
 import { Attachment } from '../sendmsg/SendMsgForm';
 import { TembaSelectStyle } from 'temba/TembaSelect';
@@ -111,7 +111,9 @@ export default class SendBroadcastForm extends React.Component<
 
   public handleAxios(body: any, type: any) {
     axios
-      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`)
+      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`, {
+        headers: { Authorization: getAuthToken() }
+      })
       .then(response => {
         if (response.data.is_valid) {
           // make sure we validate untouched text fields and contact fields
