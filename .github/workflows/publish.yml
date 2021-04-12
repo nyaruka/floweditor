@@ -1,32 +1,30 @@
 name: Publish to NPM
 
 on:
-  push:
-    tags:
-    - '*'
+  pull_request:
+    branches:
+      - glific-master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        version: 12.x
-    - name: Build and Test
-      run: |
-        yarn install
-        yarn run build --if-present
-        yarn test
-      env:
-        CI: true
-    - name: Publish
-      run: |
-        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-        npm publish
-      env:
-        CI: true
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          version: 12.x
+      - name: Build and Test
+        run: |
+          yarn install
+          yarn run build --if-present
+        env:
+          CI: true
+      - name: Publish
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          npm publish
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
