@@ -16,7 +16,11 @@ Node.js >= 10.x
 The flow editor is a non-ejected project based on create-react-app. We use yarn to manage dependencies.
 
 ```
-npm i @glific/flow-editor or yarn add @glific/flow-editor
+npm i @glific/flow-editor 
+```
+
+```
+yarn add @glific/flow-editor
 ```
 
 ### Building/Contribution
