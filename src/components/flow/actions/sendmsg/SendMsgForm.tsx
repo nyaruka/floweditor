@@ -25,7 +25,7 @@ import { fetchAsset, getCookie } from 'external';
 import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
-import flowContext, { Asset } from 'store/flowContext';
+import { Asset } from 'store/flowContext';
 import {
   FormState,
   mergeForm,
@@ -44,7 +44,6 @@ import { FeatureFilter } from 'config/interfaces';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { TembaSelectStyle } from 'temba/TembaSelect';
-import Modal from 'components/modal/Modal';
 
 const MAX_ATTACHMENTS = 1;
 

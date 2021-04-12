@@ -21,7 +21,6 @@ import { getAuthToken } from 'utils';
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.defaults.responseType = 'json';
 axios.defaults.timeout = 30000;
-axios.defaults.headers.common.Authorization = getAuthToken();
 
 export const setHTTPTimeout = (millis: number) => {
   axios.defaults.timeout = millis;

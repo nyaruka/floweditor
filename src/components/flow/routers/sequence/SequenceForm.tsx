@@ -1,17 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
-import { ActionFormProps, RouterFormProps } from 'components/flow/props';
-import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
-
+import { ActionFormProps } from 'components/flow/props';
 import { actionToState, stateToAction } from 'components/flow/routers/sequence/helpers';
-import { createResultNameInput } from 'components/flow/routers/widgets';
-import TimeoutControl from 'components/form/timeout/TimeoutControl';
 import TypeList from 'components/nodeeditor/TypeList';
-import { FormState, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
-import { WAIT_LABEL } from 'components/flow/routers/constants';
+import { FormState } from 'store/nodeEditor';
 import i18n from 'config/i18n';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import styles from 'components/flow/routers/sequence/SequenceForm.module.scss';
