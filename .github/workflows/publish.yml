@@ -1,9 +1,9 @@
 name: Publish to NPM
 
 on:
-  pull_request:
-    branches:
-      - glific-master
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
