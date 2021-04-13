@@ -10,18 +10,9 @@ import { setHTTPTimeout } from 'external';
 import axios from 'axios';
 import { getAuthToken } from 'utils';
 
-axios.interceptors.request.use(
+const myInterceptor = axios.interceptors.request.use(
   function(config) {
-    if (
-      !config.url.includes('revisions') &&
-      !config.url.includes('activity') &&
-      !config.url.includes('completion') &&
-      !config.url.includes('functions') &&
-      !config.url.includes('validate-media')
-    ) {
-      config.headers.Authorization = getAuthToken();
-    }
-
+    config.headers.Authorization = getAuthToken();
     return config;
   },
   function(error) {
@@ -40,6 +31,7 @@ if (typeof customElements !== 'undefined' && !customElements.get('temba-textinpu
       origOpen.apply(this, arguments);
       this.setRequestHeader('Authorization', getAuthToken());
     };
+    axios.interceptors.request.eject(myInterceptor);
   });
 }
 
