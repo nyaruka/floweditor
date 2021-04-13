@@ -12,7 +12,12 @@ import { getAuthToken } from 'utils';
 
 axios.interceptors.request.use(
   function(config) {
-    if (!config.url.includes('revisions') && !config.url.includes('activity')) {
+    if (
+      !config.url.includes('revisions') &&
+      !config.url.includes('activity') &&
+      !config.url.includes('completion') &&
+      !config.url.includes('functions')
+    ) {
       config.headers.Authorization = getAuthToken();
     }
 
