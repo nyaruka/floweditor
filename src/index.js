@@ -16,7 +16,8 @@ axios.interceptors.request.use(
       !config.url.includes('revisions') &&
       !config.url.includes('activity') &&
       !config.url.includes('completion') &&
-      !config.url.includes('functions')
+      !config.url.includes('functions') &&
+      !config.url.includes('validate-media')
     ) {
       config.headers.Authorization = getAuthToken();
     }
