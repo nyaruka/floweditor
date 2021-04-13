@@ -15,16 +15,12 @@ import {
 import { assetListToMap } from 'store/helpers';
 import { CompletionSchema } from 'utils/completion';
 import { FlowTypes } from 'config/interfaces';
+import { getAuthToken } from 'utils';
 
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
 axios.defaults.responseType = 'json';
 axios.defaults.timeout = 30000;
-const authToken = localStorage.getItem('glific_session')
-  ? JSON.parse(localStorage.getItem('glific_session')).access_token
-  : '';
-
-axios.defaults.headers.common.Authorization = authToken;
 
 export const setHTTPTimeout = (millis: number) => {
   axios.defaults.timeout = millis;

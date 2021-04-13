@@ -1,8 +1,5 @@
-import Pill from 'components/pill/Pill';
 import * as React from 'react';
 
-import styles from './SendMsg.module.scss';
-import i18n from 'config/i18n';
 import { Delay } from 'flowTypes';
 
 const Sequence: React.SFC<Delay> = (action: Delay): JSX.Element => {
