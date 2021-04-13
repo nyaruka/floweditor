@@ -31,7 +31,6 @@ if (typeof customElements !== 'undefined' && !customElements.get('temba-textinpu
 
     const origOpen = XMLHttpRequest.prototype.open;
     XMLHttpRequest.prototype.open = function() {
-      console.log(this, arguments);
       origOpen.apply(this, arguments);
       this.setRequestHeader('Authorization', getAuthToken());
     };

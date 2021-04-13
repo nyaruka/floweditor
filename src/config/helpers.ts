@@ -6,7 +6,6 @@ export const isOnlineFlowType = (flowType: FlowTypes) => {
 };
 
 export const filterOperators = (operators: Operator[], config: FlowEditorConfig): Operator[] => {
-  console.log('operators', operators);
   return filterVisibility(excludeOperators(operators, config), config);
 };
 
