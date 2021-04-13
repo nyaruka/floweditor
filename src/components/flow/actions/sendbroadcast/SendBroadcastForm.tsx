@@ -111,9 +111,7 @@ export default class SendBroadcastForm extends React.Component<
 
   public handleAxios(body: any, type: any) {
     axios
-      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`, {
-        headers: { Authorization: getAuthToken() }
-      })
+      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`)
       .then(response => {
         if (response.data.is_valid) {
           // make sure we validate untouched text fields and contact fields
