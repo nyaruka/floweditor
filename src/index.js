@@ -10,7 +10,7 @@ import { setHTTPTimeout } from 'external';
 import axios from 'axios';
 import { getAuthToken } from 'utils';
 
-const myInterceptor = axios.interceptors.request.use(
+const axiosInterceptor = axios.interceptors.request.use(
   function(config) {
     config.headers.Authorization = getAuthToken();
     return config;
@@ -31,7 +31,7 @@ if (typeof customElements !== 'undefined' && !customElements.get('temba-textinpu
       origOpen.apply(this, arguments);
       this.setRequestHeader('Authorization', getAuthToken());
     };
-    axios.interceptors.request.eject(myInterceptor);
+    axios.interceptors.request.eject(axiosInterceptor);
   });
 }
 
