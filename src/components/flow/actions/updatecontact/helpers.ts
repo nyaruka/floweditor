@@ -134,7 +134,10 @@ export const stateToAction = (
     return {
       uuid: getActionUUID(settings, Types.set_contact_channel),
       type: state.type,
-      channel: state.channel.value
+      channel: {
+        uuid: state.channel.value.uuid,
+        name: state.channel.value.name
+      }
     };
   } else if (state.type === Types.set_contact_language) {
     if (state.language.value.type === REMOVE_VALUE_ASSET.type) {

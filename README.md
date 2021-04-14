@@ -16,7 +16,7 @@ Node.js >= 10.x
 The flow editor is a non-ejected project based on create-react-app. We use yarn to manage dependencies.
 
 ```
-npm i @glific/flow-editor 
+npm i @glific/flow-editor
 ```
 
 ```
@@ -34,7 +34,7 @@ Webpack is used to transpile TypeScript and SASS. After invoking a build, the co
 
 ### Development
 
-To run the flow editor in development mode, it requires an asset server. This is what is responsible for serving up flow definitions, groups, contact fields, etc. This project includes an in memory asset server for testing purposes. These are the same lambda functions used by our netlify preview site.
+To run the flow editor in development mode, it requires an asset server. This is what is responsible for serving up flow definitions, groups, contact fields, etc. This project includes an in memory asset server for testing purposes. These are the same lambda functions used by our Netlify preview site.
 
 First, compile and run the local version for a faux asset server.
 

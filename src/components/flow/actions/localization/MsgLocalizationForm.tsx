@@ -5,7 +5,6 @@ import { determineTypeConfig } from 'components/flow/helpers';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import { LocalizationFormProps } from 'components/flow/props';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
-import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
 import Pill from 'components/pill/Pill';
 import UploadButton from 'components/uploadbutton/UploadButton';
 import { fakePropType } from 'config/ConfigProvider';

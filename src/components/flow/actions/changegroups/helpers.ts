@@ -16,7 +16,7 @@ export const excludeDynamicGroups = (group: any): boolean => {
 export const mapGroupsToAssets = (groups: Group[]): Asset[] => {
   return groups.map(({ name, uuid, name_match }) => {
     if (name_match) {
-      return { name: name_match, id: name_match, type: AssetType.GroupNameMatch };
+      return { name: name_match, id: name_match, type: AssetType.NameMatch };
     }
     return { name, id: uuid, type: AssetType.Group };
   });

@@ -93,6 +93,15 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
     return false;
   }
 
+  public componentDidUpdate(prevProps: TembaSelectProps): void {
+    if (this.props.options !== prevProps.options) {
+      const selectbox = this.selectbox as any;
+      if (selectbox.setOptions) {
+        selectbox.setOptions(this.props.options);
+      }
+    }
+  }
+
   public componentDidMount(): void {
     const select = this;
     // add the option to create groups abitrarily

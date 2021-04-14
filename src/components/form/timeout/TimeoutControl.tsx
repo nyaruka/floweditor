@@ -59,7 +59,7 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
   }
 
   private getInstructions(): string {
-    const base = 'Continue when there is no response';
+    const base = i18n.t('forms.continue_when_no_response', 'Continue when there is no response');
     return this.isChecked() ? `${base} for` : ellipsize(base);
   }
 

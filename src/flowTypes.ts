@@ -1,4 +1,3 @@
-import { Attachment } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Methods } from 'components/flow/routers/webhook/helpers';
 import { FlowTypes, Operators, Types, ContactStatus } from 'config/interfaces';
 
@@ -210,7 +209,8 @@ export interface SwitchRouter extends Router {
 }
 
 export enum WaitTypes {
-  msg = 'msg'
+  msg = 'msg',
+  dial = 'dial'
 }
 
 export enum HintTypes {
@@ -235,6 +235,7 @@ export interface Wait {
   type: WaitTypes;
   timeout?: Timeout;
   hint?: Hint;
+  phone?: string;
 }
 
 export interface Group {
@@ -264,6 +265,7 @@ export interface Field {
 export interface Label {
   uuid: string;
   name: string;
+  name_match?: string;
 }
 
 export interface Flow {
@@ -557,4 +559,18 @@ export enum WebhookExitNames {
 export enum TransferAirtimeExitNames {
   Success = 'Success',
   Failure = 'Failed'
+}
+
+export enum DialCategoryNames {
+  Answered = 'Answered',
+  NoAnswer = 'No Answer',
+  Busy = 'Busy',
+  Failure = 'Failed'
+}
+
+export enum DialStatus {
+  answered = 'answered',
+  noAnswer = 'no_answer',
+  busy = 'busy',
+  failure = 'failed'
 }

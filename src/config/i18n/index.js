@@ -8,30 +8,29 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // See https://www.i18next.com/how-to/add-or-load-translations
 
 import defaults from './defaults.json';
-import en from './en/resource.json';
 import es from './es/resource.json';
-import pt from './pt-br/resource.json';
-
-const resources = {
-  defaults: { translation: defaults },
-  en: { translation: en },
-  es: { translation: es },
-  pt: { translation: pt }
-};
+import fr from './fr/resource.json';
+import ptBR from './pt-br/resource.json';
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources,
-
-    // do not load a fallback
-    fallbackLng: ['en', 'defaults'],
-
+    detection: {
+      order: ['querystring', 'htmlTag']
+    },
+    resources: {
+      defaults: { translation: defaults },
+      es: { translation: es },
+      fr: { translation: fr },
+      'pt-br': { translation: ptBR }
+    },
+    fallbackLng: ['defaults'],
     interpolation: {
       prefix: '[[',
       suffix: ']]'
-    }
+    },
+    lowerCaseLng: true
   });
 
 export default i18n;

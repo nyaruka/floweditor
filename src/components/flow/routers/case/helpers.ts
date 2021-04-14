@@ -160,22 +160,37 @@ export const validateCase = (keys: {
     }
 
     if (keys.operatorConfig.type === Operators.has_number_between) {
+      const max = keys.max || '';
+      const min = keys.min || '';
+
+      const maxExpression = max.indexOf('@') > -1;
+      const minExpression = min.indexOf('@') > -1;
+      const hasExpression = maxExpression || minExpression;
+
+      const numeric = [Numeric];
+
       updates.min = validate(
         i18n.t('forms.minimum_value', 'Minimum value'),
-        keys.min || '',
-        validators.concat([
-          Numeric,
-          LessThan(parseFloat(keys.max), i18n.t('forms.the_maximum', 'the maximum'))
-        ])
+        min,
+        validators
+          .concat(!minExpression ? numeric : [])
+          .concat(
+            !hasExpression
+              ? [LessThan(parseFloat(keys.max), i18n.t('forms.the_maximum', 'the maximum'))]
+              : []
+          )
       );
 
       updates.max = validate(
         i18n.t('forms.maximum_value', 'Maximum value'),
-        keys.max || '',
-        validators.concat([
-          Numeric,
-          MoreThan(parseFloat(keys.min), i18n.t('forms.the_minimum', 'the minimum'))
-        ])
+        max,
+        validators
+          .concat(!maxExpression ? numeric : [])
+          .concat(
+            !hasExpression
+              ? [MoreThan(parseFloat(keys.min), i18n.t('forms.the_minimum', 'the minimum'))]
+              : []
+          )
       );
     } else if (keys.operatorConfig.type === Operators.has_district) {
       updates.argument = validate(

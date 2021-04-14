@@ -162,7 +162,7 @@ describe('helpers', () => {
           nodes.node0,
           nodes.node0.node.exits[0].uuid,
           1,
-          FlowTypes.MESSAGE
+          FlowTypes.MESSAGING
         );
         expect(ghost.node.router.type).toBe(RouterTypes.switch);
       });
@@ -171,7 +171,7 @@ describe('helpers', () => {
           nodes.node1,
           nodes.node1.node.exits[0].uuid,
           1,
-          FlowTypes.MESSAGE
+          FlowTypes.MESSAGING
         );
         expect(ghost.node.router).toBeUndefined();
         expect(ghost.node.actions[0].type).toBe(Types.send_msg);

@@ -135,7 +135,7 @@ exports[`SendMsgForm render should render 1`] = `
       Object {
         "body": <CheckboxElement
           checked={false}
-          description="All Destinations"
+          description="Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
           labelClassName="checkbox"
           name="All Destinations"
           onChange={[Function]}

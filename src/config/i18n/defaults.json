@@ -105,6 +105,10 @@
       "description": "Wait for an audio recording",
       "name": "Wait for Audio"
     },
+    "wait_for_dial": {
+      "description": "Wait for forwarded call to someone else",
+      "name": "Wait for Forwarded Call"
+    },
     "wait_for_digits": {
       "description": "Wait for multiple digits",
       "name": "Wait for Digits"
@@ -177,25 +181,35 @@
     "http_header_missing_name": "HTTP headers must have a name",
     "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."
   },
+  "flow_start": "Flow Start",
   "forms": {
     "add_groups_summary": "Select the collections to add the contact to.",
+    "add_attachment": "Add Attachment",
     "add_labels_summary": "Select the labels to apply to the incoming message.",
     "add_quick_reply": "Add a new Quick Reply and press enter.",
     "add_urn_summary": "Add a new URN to reach the contact such as a phone number.",
+    "advanced": "Advanced",
     "all_destinations": "All Destinations",
+    "all_destinations_description": "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked.",
+    "and": "and",
     "are_required": "are required",
     "arguments": "arguments",
+    "attachments": "Attachments",
     "audio_url": "Audio URL",
     "body": "Body",
     "buckets": "Buckets",
     "categories": "categories",
+    "categorize_as": "categorize as",
     "category": "Category",
     "channel": "Channel",
     "channel_type": "Channel Type",
     "classifier": "Classifier",
+    "clear": "Clear",
     "confidence": "confidence",
     "contact_field": "Contact Field",
     "contact_query": "Contact Query",
+    "continue_when_no_response": "Continue when there is no response",
+    "create_group": "Create Group",
     "create_prefix": "New: ",
     "currency": "Currency",
     "day": "day",
@@ -211,8 +225,11 @@
     "enter_a_body": "Enter a body",
     "enter_a_subject": "Enter a subject",
     "enter_a_url": "Enter a URL",
+    "enter_field_value": "Enter a new value for [[field]]",
     "enter_flow_parameters_summary": "<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.",
     "enter_flow_parameters_tab": "Parameters",
+    "enter_new_name": "Enter a new name for the contact",
+    "enter_urn_value": "Enter the URN value",
     "exit_name": "Exit Name",
     "expression_label": "If the expression...",
     "field_number": "Field Number",
@@ -221,6 +238,7 @@
     "flow_result": "Flow Result",
     "groups": "Groups",
     "header_name": "Header name",
+    "http_headers": "HTTP Headers",
     "image_url": "Image URL",
     "intent": "Intent",
     "is_not_a_valid_regex": "is not a valid regex",
@@ -240,6 +258,7 @@
     "operand": "Operand",
     "operator": "operator",
     "play_audio_help_text": "Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.",
+    "phone_number": "Phone Number",
     "quick_replies": "Quick Replies",
     "quick_replies_summary": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
     "quick_reply": "Quick Reply",
@@ -250,16 +269,27 @@
     "remove_from_all_summary": "Remove the active contact from all collections they're a member of.",
     "remove_groups_placeholder": "Enter the name of an existing group",
     "remove_groups_summary": "Select the collections to remove the contact from.",
+    "remove_value": "Remove Value",
     "resthook": "Resthook",
     "resthook_to_call": "Select the resthook to call",
     "result": "Result",
     "result_name": "Result Name",
+    "result_category_help": "An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'",
     "result_name_help": "By naming the result, you can reference it later using [[resultFormat]]",
+    "result_value_help": "The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))",
     "result_to_split_on": "Result to split on",
     "rules": "rules",
+    "save_as": "Save as",
     "save_as_title": "Save as..",
     "save_result_name": "Result Name",
+    "select_channel": "Select the channel to use for this contact",
+    "select_contacts": "Select Contacts",
+    "select_flow": "Select the flow to start",
+    "select_groups": "Select Groups",
+    "select_language": "Select the language to use for this contact",
     "select_result": "Select Result",
+    "select_what_to_update": "Select what to update",
+    "select_who_to_start": "Select who should be started in the flow",
     "send_msg_facebook_topic_placeholder": "Select a topic to use over Facebook",
     "send_msg_facebook_warning": "Sending bulk messages over a Facebook channel requires that a topic be specified if the user has not sent a message in the last 24 hours. Setting a topic to use over Facebook is especially important for the first message in your flow.",
     "send_msg_summary": "Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.",
@@ -269,6 +299,9 @@
     "split_by_scheme": "Channel types",
     "split_by_scheme_summary": "The contact's URN is the address they used to reach you such as their phone number or a Facebook ID. Select which URN types to split by below.",
     "start_type": "Start Type",
+    "start_type_create": "Create a new contact",
+    "start_type_manual": "Select recipients manually",
+    "start_type_query": "Select recipients from a query",
     "state": "State",
     "status": "Status",
     "subject": "Subject",
@@ -300,6 +333,7 @@
     "type": "Type",
     "type_label": "When a contact arrives at this point in your flow...",
     "type_options": "Type Options",
+    "upload_attachment": "Upload Attachment",
     "url": "URL",
     "urn": "URN",
     "urn_type": "URN Type",
@@ -320,9 +354,6 @@
     "label": "Flow Issues",
     "legacy_extra": "Invalid regular expression found: [[regex]]",
     "missing_dependency": "Cannot find a [[type]] for <1>[[name]]</1>"
-  },
-  "operator": {
-    "has_pattern": "matches regex"
   },
   "operators": {
     "has_all_words": "has all of the words",
@@ -350,6 +381,7 @@
     "has_number_lt": "has a number below",
     "has_number_lte": "has a number at or below",
     "has_only_phrase": "has only the phrase",
+    "has_pattern": "matches regex",
     "has_phone": "has a phone number",
     "has_phone_category": "Has Phone",
     "has_phrase": "has the phrase",
@@ -369,10 +401,16 @@
     "has_file": "has file",
     "has_location": "has location"
   },
+  "recent_messages": {
+    "header": "Recent Messages",
+    "header_empty": "No Recent Messages"
+  },
   "removal_confirmation": "Remove?",
   "revisions": {
     "header": "Revisions",
-    "label": "Revision History"
+    "label": "Revision History",
+    "current": "current",
+    "revert": "revert"
   },
   "schemes": {
     "email": {
@@ -436,7 +474,8 @@
     }
   },
   "simulator": {
-    "added_to_group": "Added to ",
+    "label": "Run in Simulator",
+    "added_to_group": "Added to",
     "airtime_transferred": "Transferred [[amount]] [[currency]] to [[recipient]]",
     "contact_field_changed": "Set contact \"[[field]]\" to \"[[value]]\"",
     "contact_field_cleared": "Cleared contact \"[[field]]\"",
@@ -444,10 +483,15 @@
     "contact_name_changed": "Set contact name to \"[[name]]\"",
     "contact_status_changed": "Set status to \"[[status]]\"",
     "flow_entered": "Entered flow \"[[flow]]\"",
+    "flow_exited": "Exited flow",
     "httplog_dialog": "HTTP Request Details",
-    "input_labels_added": "Message labeled with ",
+    "input_labels_added": "Message labeled with",
     "msg_wait": "Waiting for reply",
-    "removed_from_group": "Removed from ",
+    "prompt": {
+      "message": "Enter message",
+      "restart": "Press home to start again"
+    },
+    "removed_from_group": "Removed from",
     "resthook_called": "Triggered flow event \"[[resthook]]\"",
     "run_result_changed": "Set result \"[[field]]\" to \"[[value]]\"",
     "sent_email": {
@@ -463,6 +507,15 @@
   },
   "translation": {
     "header": "Flow Translation",
-    "label": "Translations"
+    "label": "Translations",
+    "attributes": {
+      "body": "Body",
+      "cases": "Rules",
+      "categories": "Categories",
+      "quick_replies": "Quick Replies",
+      "subject": "Subject",
+      "templates": "Template Variables",
+      "text": "Message"
+    }
   }
 }

@@ -2,7 +2,8 @@
 
 exports[`UpdateContactComp render should render clearing the value 1`] = `
 <div>
-  Clear 
+  Clear
+   
   <span
     className="emphasize"
   >

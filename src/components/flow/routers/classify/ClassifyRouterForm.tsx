@@ -2,7 +2,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
-import { nodeToState, stateToNode, createEmptyCase } from './helpers';
+import { nodeToState, stateToNode } from './helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
@@ -47,10 +47,13 @@ export default class ClassifyRouterForm extends React.Component<
 
     // we need to resolve our classifier for intent selection
     if (this.state.classifier.value) {
-      fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.id).then(
+      // TODO: don't use asset as intermediary now that AssetSelector deals in native options
+      fetchAsset(this.props.assetStore.classifiers, this.state.classifier.value.uuid).then(
         (classifier: Asset) => {
           if (classifier) {
-            this.handleUpdate({ classifier: { name: classifier.name, uuid: classifier.id } });
+            this.handleUpdate({
+              classifier: { ...this.state.classifier.value, ...classifier.content }
+            });
           }
         }
       );
@@ -211,7 +214,6 @@ export default class ClassifyRouterForm extends React.Component<
             cases={this.state.cases}
             onCasesUpdated={this.handleCasesUpdated}
             operators={intentOperatorList}
-            createEmptyCase={createEmptyCase}
             classifier={this.state.classifier.value}
           />
         )}

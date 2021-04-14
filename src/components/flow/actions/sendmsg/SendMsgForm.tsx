@@ -14,8 +14,6 @@ import {
 import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import { hasUseableTranslation } from 'components/form/assetselector/helpers';
-import CheckboxElement from 'components/form/checkbox/CheckboxElement';
-import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
@@ -35,14 +33,13 @@ import {
   FormEntry
 } from 'store/nodeEditor';
 import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
-import { createUUID, getAuthToken, range } from 'utils';
+import { createUUID, range } from 'utils';
 
 import styles from './SendMsgForm.module.scss';
 import { hasFeature } from 'config/typeConfigs';
 import { FeatureFilter } from 'config/interfaces';
 
 import i18n from 'config/i18n';
-import { Trans } from 'react-i18next';
 import { TembaSelectStyle } from 'temba/TembaSelect';
 
 const MAX_ATTACHMENTS = 1;
@@ -476,7 +473,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       const templateTranslation = template.translations[0];
       const templateVariables =
         this.state.templateVariables.length === 0 ||
-        (this.state.template.value && this.state.template.value.id !== template.id)
+        (this.state.template.value && this.state.template.value.uuid !== template.uuid)
           ? range(0, templateTranslation.variable_count).map(() => {
               return {
                 value: ''
@@ -584,56 +581,56 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
-    const quickReplies: Tab = {
-      name: 'Quick Replies',
-      body: (
-        <>
-          <p>
-            {i18n.t(
-              'forms.quick_replies_summary',
-              'Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".'
-            )}
-          </p>
+    // const quickReplies: Tab = {
+    //   name: i18n.t('forms.quick_replies', 'Quick Replies'),
+    //   body: (
+    //     <>
+    //       <p>
+    //         {i18n.t(
+    //           'forms.quick_replies_summary',
+    //           'Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".'
+    //         )}
+    //       </p>
 
-          <MultiChoiceInput
-            name={i18n.t('forms.quick_reply', 'quick_reply')}
-            helpText={
-              <Trans i18nKey="forms.add_quick_reply">Add a new Quick Reply and press enter.</Trans>
-            }
-            items={this.state.quickReplies}
-            entry={this.state.quickReplyEntry}
-            onChange={this.handleQuickRepliesUpdate}
-          />
-        </>
-      ),
-      checked: this.state.quickReplies.value.length > 0,
-      hasErrors: hasErrors(this.state.quickReplyEntry)
-    };
+    //       <MultiChoiceInput
+    //         name={i18n.t('forms.quick_reply', 'quick_reply')}
+    //         helpText={
+    //           <Trans i18nKey="forms.add_quick_reply">Add a new Quick Reply and press enter.</Trans>
+    //         }
+    //         items={this.state.quickReplies}
+    //         entry={this.state.quickReplyEntry}
+    //         onChange={this.handleQuickRepliesUpdate}
+    //       />
+    //     </>
+    //   ),
+    //   checked: this.state.quickReplies.value.length > 0,
+    //   hasErrors: hasErrors(this.state.quickReplyEntry)
+    // };
 
     const attachments: Tab = {
-      name: 'Attachments',
+      name: i18n.t('forms.attachments', 'Attachments'),
       body: this.renderAttachments(),
       checked: this.state.attachments.length > 0,
       hasErrors: this.state.validAttachment
     };
 
-    const advanced: Tab = {
-      name: 'Advanced',
-      body: (
-        <CheckboxElement
-          name={i18n.t('forms.all_destinations', 'All Destinations')}
-          title="All Destinations"
-          labelClassName={styles.checkbox}
-          checked={this.state.sendAll}
-          description={i18n.t(
-            'forms.all_destinations',
-            "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
-          )}
-          onChange={this.handleSendAllUpdate}
-        />
-      ),
-      checked: this.state.sendAll
-    };
+    // const advanced: Tab = {
+    //   name: i18n.t('forms.advanced', 'Advanced'),
+    //   body: (
+    //     <CheckboxElement
+    //       name={i18n.t('forms.all_destinations', 'All Destinations')}
+    //       title={i18n.t('forms.all_destinations', 'All Destinations')}
+    //       labelClassName={styles.checkbox}
+    //       checked={this.state.sendAll}
+    //       description={i18n.t(
+    //         'forms.all_destinations_description',
+    //         "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+    //       )}
+    //       onChange={this.handleSendAllUpdate}
+    //     />
+    //   ),
+    //   checked: this.state.sendAll
+    // };
 
     // const tabs = [quickReplies, attachments, advanced];
     const tabs = [attachments];
