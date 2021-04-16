@@ -1,8 +1,11 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { Types } from 'config/interfaces';
 import { Delay } from 'flowTypes';
-import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';
+import { NodeEditorSettings } from 'store/nodeEditor';
+import { RouterTypes, SwitchRouter } from 'flowTypes';
+import { createRenderNode, resolveRoutes } from '../helpers';
 import { SequenceFormState } from './SequenceForm';
+import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
 
 export const actionToState = (settings: NodeEditorSettings): SequenceFormState => {
   let delayNode: SequenceFormState = {
@@ -13,7 +16,6 @@ export const actionToState = (settings: NodeEditorSettings): SequenceFormState =
   };
   if (settings.originalAction && settings.originalAction.type === 'wait_for_time') {
     const action = settings.originalAction as Delay;
-
     if (action.delay) {
       const delayInSeconds = parseInt(action.delay);
       delayNode.days = Math.floor(delayInSeconds / (3600 * 24)).toString();
@@ -25,16 +27,39 @@ export const actionToState = (settings: NodeEditorSettings): SequenceFormState =
   return delayNode;
 };
 
-export const stateToAction = (settings: NodeEditorSettings, state: SequenceFormState): any => {
+export const stateToNode = (settings: NodeEditorSettings, state: SequenceFormState): any => {
   const { days, hours, minutes } = state;
 
   const delayInSeconds = parseInt(days) * 86400 + parseInt(hours) * 3600 + parseInt(minutes) * 60;
+  const { cases, exits, defaultCategory, caseConfig, categories } = resolveRoutes(
+    [],
+    false,
+    settings.originalNode.node,
+    'Completed'
+  );
 
-  const result = {
-    type: Types.wait_for_time,
-    uuid: getActionUUID(settings, Types.send_msg),
-    delay: delayInSeconds.toString()
+  const router: SwitchRouter = {
+    type: RouterTypes.switch,
+    default_category_uuid: defaultCategory,
+    cases,
+    categories,
+    operand: DEFAULT_OPERAND
   };
 
-  return result;
+  const newRenderNode = createRenderNode(
+    settings.originalNode.node.uuid,
+    router,
+    exits,
+    Types.wait_for_time,
+    [
+      {
+        type: Types.wait_for_time,
+        uuid: getActionUUID(settings, Types.send_msg),
+        delay: delayInSeconds.toString()
+      }
+    ],
+    { cases: caseConfig }
+  );
+
+  return newRenderNode;
 };
