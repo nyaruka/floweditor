@@ -348,6 +348,180 @@ exports[`CaseList render should render list of cases 1`] = `
 </body>
 `;
 
+exports[`CaseList updates changes default operator on add 1`] = `
+<body>
+  <div>
+    <div
+      class="case_list_container "
+      tabindex="0"
+    >
+      <div
+        class="case_list"
+      >
+        <div
+          class="kase case_list_case"
+        >
+          <div
+            class="ele group"
+          >
+            <div
+              class="kase has_number_gt"
+              data-draggable="true"
+            >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
+              <div
+                class="choice"
+              >
+                <div
+                  class="small "
+                >
+                  <temba-select
+                    data-testid="temba_select_operator"
+                    errors="[]"
+                    expressions=""
+                    name="operator"
+                    namekey="verboseName"
+                    valuekey="type"
+                    values="[{\\"type\\":\\"has_number_gt\\",\\"verboseName\\":\\"has a number above\\",\\"operands\\":1}]"
+                  />
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper small"
+                  >
+                    <input
+                      data-testid="arguments"
+                      name="arguments"
+                      placeholder=""
+                      value="42"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper small"
+                  >
+                    <input
+                      data-testid="Exit Name"
+                      name="Exit Name"
+                      value=">42"
+                    />
+                  </div>
+                </div>
+              </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-132de855-4042-4dc1-a18f-cc2e6a8f790a"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="kase case_list_case"
+        >
+          <div
+            class="ele group"
+          >
+            <div
+              class="kase has_number_gt"
+              data-draggable="true"
+            >
+              <span
+                class="fe-chevrons-expand dnd_icon"
+                data-draggable="true"
+              />
+              <div
+                class="choice"
+              >
+                <div
+                  class="small "
+                >
+                  <temba-select
+                    data-testid="temba_select_operator"
+                    errors="[]"
+                    expressions=""
+                    name="operator"
+                    namekey="verboseName"
+                    valuekey="type"
+                    values="[{\\"type\\":\\"has_number_gt\\",\\"verboseName\\":\\"has a number above\\",\\"operands\\":1}]"
+                  />
+                </div>
+              </div>
+              <div
+                class="single_operand"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper small"
+                  >
+                    <input
+                      data-testid="arguments"
+                      name="arguments"
+                      placeholder=""
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="categorize_as"
+                data-draggable="true"
+              >
+                categorize as
+              </div>
+              <div
+                class="category"
+              >
+                <div
+                  class="ele"
+                >
+                  <div
+                    class="wrapper small"
+                  >
+                    <input
+                      data-testid="Exit Name"
+                      name="Exit Name"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <span
+                class="fe-x remove_icon"
+                data-testid="remove-case-2dc85899-0577-4f1b-a620-f12094e34b5e"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
 exports[`CaseList updates should remove cases 1`] = `
 <body>
   <div>
