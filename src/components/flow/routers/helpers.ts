@@ -16,7 +16,8 @@ import {
   UIConfig,
   WebhookExitNames,
   CallClassifier,
-  OpenTicket
+  OpenTicket,
+  Delay
 } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
 import { createUUID, snakify } from 'utils';
@@ -37,7 +38,7 @@ export const createRenderNode = (
   router: Router,
   exits: Exit[],
   type: Types,
-  actions: Action[] = [],
+  actions: Action[] | Delay[] = [],
   uiConfig: { [key: string]: any } = {}
 ): RenderNode => {
   const renderNode: RenderNode = {

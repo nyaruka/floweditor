@@ -1,8 +1,8 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { ActionFormProps } from 'components/flow/props';
-import { actionToState, stateToAction } from 'components/flow/routers/sequence/helpers';
+import { RouterFormProps } from 'components/flow/props';
+import { actionToState, stateToNode } from 'components/flow/routers/sequence/helpers';
 import TypeList from 'components/nodeeditor/TypeList';
 import { FormState } from 'store/nodeEditor';
 import i18n from 'config/i18n';
@@ -15,8 +15,8 @@ export interface SequenceFormState extends FormState {
   minutes: string;
 }
 
-export default class SequenceForm extends React.Component<ActionFormProps, SequenceFormState> {
-  constructor(props: ActionFormProps) {
+export default class SequenceForm extends React.Component<RouterFormProps, SequenceFormState> {
+  constructor(props: RouterFormProps) {
     super(props);
 
     this.state = actionToState(this.props.nodeSettings);
@@ -30,7 +30,7 @@ export default class SequenceForm extends React.Component<ActionFormProps, Seque
     if (
       !isNaN(parseInt(this.state.hours) + parseInt(this.state.minutes) + parseInt(this.state.days))
     ) {
-      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+      this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);
     }
   }
