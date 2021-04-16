@@ -18,6 +18,8 @@ import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { range } from 'utils';
 import { renderIssues } from '../helpers';
+import { Attachment, renderAttachments } from '../sendmsg/attachments';
+import { AxiosResponse } from 'axios';
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -25,6 +27,7 @@ export interface MsgLocalizationFormState extends FormState {
   audio: StringEntry;
   templateVariables: StringEntry[];
   templating: MsgTemplating;
+  attachments: Attachment[];
 }
 
 export default class MsgLocalizationForm extends React.Component<
@@ -86,7 +89,7 @@ export default class MsgLocalizationForm extends React.Component<
   }
 
   private handleSave(): void {
-    const { message: text, quickReplies, audio, templateVariables } = this.state;
+    const { message: text, quickReplies, audio, templateVariables, attachments } = this.state;
 
     // make sure we are valid for saving, only quick replies can be invalid
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
@@ -100,6 +103,10 @@ export default class MsgLocalizationForm extends React.Component<
       if (text.value) {
         translations.text = text.value;
       }
+
+      translations.attachments = attachments
+        .filter((attachment: Attachment) => attachment.url.trim().length > 0)
+        .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
 
       if (quickReplies.value && quickReplies.value.length > 0) {
         translations.quick_replies = quickReplies.value;
@@ -144,28 +151,6 @@ export default class MsgLocalizationForm extends React.Component<
     };
   }
 
-  private handleAddQuickReply(newQuickReply: string): boolean {
-    const newReplies = [...this.state.quickReplies.value];
-    if (newReplies.length >= 10) {
-      return false;
-    }
-
-    // we don't allow two quick replies with the same name
-    const isNew = !newReplies.find(
-      (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
-    );
-
-    if (isNew) {
-      newReplies.push(newQuickReply);
-      this.setState({
-        quickReplies: { value: newReplies }
-      });
-      return true;
-    }
-
-    return false;
-  }
-
   private handleQuickReplyChanged(quickReplies: string[]): void {
     this.handleUpdate({ quickReplies });
   }
@@ -178,6 +163,37 @@ export default class MsgLocalizationForm extends React.Component<
     }) as StringEntry[];
 
     this.setState({ templateVariables });
+  }
+
+  private handleAttachmentUploaded(response: AxiosResponse) {
+    const attachments: any = mutate(this.state.attachments, {
+      $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+    });
+    this.setState({ attachments });
+  }
+
+  private handleAttachmentChanged(index: number, type: string, url: string) {
+    let attachments: any = this.state.attachments;
+    if (index === -1) {
+      attachments = mutate(attachments, {
+        $push: [{ type, url }]
+      });
+    } else {
+      attachments = mutate(attachments, {
+        [index]: {
+          $set: { type, url }
+        }
+      });
+    }
+
+    this.setState({ attachments });
+  }
+
+  private handleAttachmentRemoved(index: number) {
+    const attachments: any = mutate(this.state.attachments, {
+      $splice: [[index, 1]]
+    });
+    this.setState({ attachments });
   }
 
   public render(): JSX.Element {
@@ -228,6 +244,20 @@ export default class MsgLocalizationForm extends React.Component<
           </>
         ),
         checked: hasLocalizedValue
+      });
+    }
+
+    if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
+      tabs.push({
+        name: i18n.t('forms.attachments', 'Attachments'),
+        body: renderAttachments(
+          this.context.config.endpoints.attachments,
+          this.state.attachments,
+          this.handleAttachmentUploaded,
+          this.handleAttachmentChanged,
+          this.handleAttachmentRemoved
+        ),
+        checked: this.state.attachments.length > 0
       });
     }
 
