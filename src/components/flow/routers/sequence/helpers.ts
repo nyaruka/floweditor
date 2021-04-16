@@ -14,8 +14,6 @@ export const actionToState = (settings: NodeEditorSettings): SequenceFormState =
     hours: '0',
     minutes: '0'
   };
-
-  // console.log(settings);
   if (settings.originalAction && settings.originalAction.type === 'wait_for_time') {
     const action = settings.originalAction as Delay;
     if (action.delay) {
