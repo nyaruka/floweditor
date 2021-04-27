@@ -82,7 +82,7 @@ exports[`StartSessionForm render should render 1`] = `
                   cachekey="0"
                   data-testid="temba_select_recipients"
                   errors="[]"
-                  expressions=""
+                  expressions="session"
                   multi="true"
                   name="Recipients"
                   namekey="name"
@@ -255,6 +255,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
             "value": Array [],
           }
         }
+        expressions={true}
         multi={true}
         name="Recipients"
         onChange={[Function]}
@@ -666,6 +667,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
             ],
           }
         }
+        expressions={true}
         multi={true}
         name="Recipients"
         onChange={[Function]}
