@@ -1356,10 +1356,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@nyaruka/temba-components@0.11.1":
-  version "0.11.1"
-  resolved "https://registry.npmjs.org/@nyaruka/temba-components/-/temba-components-0.11.1.tgz#12b80ad7116300301f94692ebc4552e13f58606b"
-  integrity sha512-Yaju8K6+Rw1nk7DS70sMNSpzVn9NmsDEdvd6WBBBzLqEBJCXV58/+l95MxRfIzyeT/CfV2GF1Lq7PD8sc/32DQ==
+"@nyaruka/temba-components@0.11.2":
+  version "0.11.2"
+  resolved "https://registry.npmjs.org/@nyaruka/temba-components/-/temba-components-0.11.2.tgz#87564a98341a0d07e52480fb2277d7574e5d10e9"
+  integrity sha512-gDvQwuuilCSeIX7D1R5d27zrKuMrextPlCls5mC5omF1kaw1CgEU69/SSgCYWBGHR4z7vWZKKbWFL8sjDrt8ew==
   dependencies:
     fa-icons "^0.2.0"
     flru "^1.0.2"
