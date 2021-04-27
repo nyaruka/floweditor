@@ -174,6 +174,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
                 entry={this.state.recipients}
                 searchable={true}
                 multi={true}
+                expressions={true}
                 onChange={this.handleRecipientsChanged}
               />
               <p />
