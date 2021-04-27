@@ -2,7 +2,6 @@
 
 [![Build Status](https://github.com/nyaruka/floweditor/workflows/Build/badge.svg)](https://github.com/nyaruka/floweditor/actions?workflow=Build)
 [![codecov](https://codecov.io/gh/nyaruka/floweditor/branch/master/graph/badge.svg)](https://codecov.io/gh/nyaruka/floweditor)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c2200da1ba5a0176836e/maintainability)](https://codeclimate.com/github/nyaruka/floweditor/maintainability)
 
 This is a standalone flow editing tool designed for use within the [RapidPro](https://github.com/rapidpro/rapidpro) suite of messaging tools but can be adopted for use outside of that ecosystem. The editor is a React component built with TypeScript and bundled with Webpack. It is open-sourced under the AGPL-3.0 license.
 
