@@ -206,7 +206,16 @@ export default class RouterLocalizationForm extends React.Component<
               Sometimes languages need special rules to route things properly. If a translation is
               not provided, the original rule will be used.
             </p>
-            {this.renderCases()}
+            <div
+              className={
+                styles.translating_list_container +
+                ' ' +
+                (this.state.cases.length > 5 ? styles.scrolling : '')
+              }
+              tabIndex={0}
+            >
+              <div className={styles.translating_item_list}>{this.renderCases()}</div>
+            </div>
           </>
         )
       });
@@ -223,7 +232,16 @@ export default class RouterLocalizationForm extends React.Component<
           When category names are referenced later in the flow, the appropriate language for the
           category will be used. If no translation is provided, the original text will be used.
         </p>
-        {this.renderCategories()}
+        <div
+          className={
+            styles.translating_list_container +
+            ' ' +
+            (this.state.categories.length > 5 ? styles.scrolling : '')
+          }
+          tabIndex={0}
+        >
+          <div className={styles.translating_item_list}>{this.renderCategories()}</div>
+        </div>
         {renderIssues(this.props)}
       </Dialog>
     );
