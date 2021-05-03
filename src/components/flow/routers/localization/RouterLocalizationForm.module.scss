@@ -14,7 +14,7 @@
   padding: 0px 9px;
   border: 1px solid darken($translation_bg, 5%);
   display: inline-block;
-  width: 200px;
+  width:  35%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -24,8 +24,9 @@
 
 .translating_to {
   display: inline-block;
-  width: 355px;
+  width: 59%;
   vertical-align: top;
+  float: right;  
 }
 
 .translating_operator_title {
