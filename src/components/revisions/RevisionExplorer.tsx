@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { PopTab } from 'components/poptab/PopTab';
 import dateFormat from 'dateformat';
 import { getAssets, getFlowDetails } from 'external';
-import { FlowDefinition, SPEC_VERSION, FlowDetails, FlowMetadata } from 'flowTypes';
+import { FlowDefinition, SPEC_VERSION, FlowDetails, FlowIssue, FlowMetadata } from 'flowTypes';
 import React from 'react';
 import { Asset, AssetStore } from 'store/flowContext';
 import { renderIf } from 'utils';
@@ -21,6 +21,7 @@ export interface User {
 
 export interface SaveResult {
   revision: Revision;
+  issues: FlowIssue[];
   metadata: FlowMetadata;
 }
 

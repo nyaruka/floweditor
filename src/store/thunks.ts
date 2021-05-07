@@ -238,10 +238,10 @@ export const createDirty = (
         const revision = result.revision;
         definition.revision = revision.revision;
         dispatch(updateDefinition(definition));
+        dispatch(updateIssues(createFlowIssueMap(issues, result.issues)));
 
         if (result.metadata) {
           dispatch(updateMetadata(result.metadata));
-          dispatch(updateIssues(createFlowIssueMap(issues, result.metadata.issues)));
         }
 
         const updatedAssets = mutators.addRevision(assetStore, revision);
@@ -352,8 +352,8 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
     mergeAssetMaps(assetStore.languages.items, { base: DEFAULT_LANGUAGE });
   }
 
-  if (details.metadata && details.metadata.issues) {
-    dispatch(updateIssues(createFlowIssueMap(issues, details.metadata.issues)));
+  if (details.issues) {
+    dispatch(updateIssues(createFlowIssueMap(issues, details.issues)));
   } else {
     dispatch(updateIssues({}));
   }
