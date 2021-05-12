@@ -112,7 +112,6 @@ export interface FlowMetadata {
   waiting_exit_uuids: string[];
   results: Result[];
   parent_refs: string[];
-  issues: FlowIssue[];
 }
 
 export enum FlowIssueType {
@@ -133,6 +132,7 @@ export interface FlowIssue {
 
 export interface FlowDetails {
   definition: FlowDefinition;
+  issues: FlowIssue[];
   metadata: FlowMetadata;
 }
 

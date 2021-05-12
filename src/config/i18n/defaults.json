@@ -405,6 +405,10 @@
     "header": "Recent Messages",
     "header_empty": "No Recent Messages"
   },
+  "recent_messages": {
+    "header": "Recent Messages",
+    "header_empty": "No Recent Messages"
+  },
   "removal_confirmation": "Remove?",
   "revisions": {
     "header": "Revisions",

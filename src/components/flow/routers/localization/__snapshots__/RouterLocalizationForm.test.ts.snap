@@ -25,69 +25,78 @@ exports[`RouterLocalizationForm initializes 1`] = `
             Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.
           </p>
           <div
-            className="translating_operator_container"
-            data-spec="operator-field"
+            className="translating_list_container "
+            tabIndex={0}
           >
             <div
-              className="translating_operator"
-              data-spec="verbose-name"
+              className="translating_item_list"
             >
-              has any of the words
-            </div>
-            <div
-              className="translating_from"
-              data-spec="argument-to-translate"
-            >
-              red
-            </div>
-            <div
-              className="translating_to"
-            >
-              <TextInputElement
-                data-spec="localize-case"
-                entry={
-                  Object {
-                    "value": "rojo, r",
-                  }
-                }
-                name="061fc171-8b79-4636-b892-bd0ea5aa9b42"
-                onChange={[Function]}
-                placeholder="Spanish Translation"
-                showLabel={false}
-              />
-            </div>
-          </div>
-          <div
-            className="translating_operator_container"
-            data-spec="operator-field"
-          >
-            <div
-              className="translating_operator"
-              data-spec="verbose-name"
-            >
-              has any of the words
-            </div>
-            <div
-              className="translating_from"
-              data-spec="argument-to-translate"
-            >
-              blue
-            </div>
-            <div
-              className="translating_to"
-            >
-              <TextInputElement
-                data-spec="localize-case"
-                entry={
-                  Object {
-                    "value": "",
-                  }
-                }
-                name="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-                onChange={[Function]}
-                placeholder="Spanish Translation"
-                showLabel={false}
-              />
+              <div
+                className="translating_operator_container"
+                data-spec="operator-field"
+              >
+                <div
+                  className="translating_operator"
+                  data-spec="verbose-name"
+                >
+                  has any of the words
+                </div>
+                <div
+                  className="translating_from"
+                  data-spec="argument-to-translate"
+                >
+                  red
+                </div>
+                <div
+                  className="translating_to"
+                >
+                  <TextInputElement
+                    data-spec="localize-case"
+                    entry={
+                      Object {
+                        "value": "rojo, r",
+                      }
+                    }
+                    name="061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                    onChange={[Function]}
+                    placeholder="Spanish Translation"
+                    showLabel={false}
+                  />
+                </div>
+              </div>
+              <div
+                className="translating_operator_container"
+                data-spec="operator-field"
+              >
+                <div
+                  className="translating_operator"
+                  data-spec="verbose-name"
+                >
+                  has any of the words
+                </div>
+                <div
+                  className="translating_from"
+                  data-spec="argument-to-translate"
+                >
+                  blue
+                </div>
+                <div
+                  className="translating_to"
+                >
+                  <TextInputElement
+                    data-spec="localize-case"
+                    entry={
+                      Object {
+                        "value": "",
+                      }
+                    }
+                    name="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+                    onChange={[Function]}
+                    placeholder="Spanish Translation"
+                    showLabel={false}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </React.Fragment>,
@@ -103,84 +112,93 @@ exports[`RouterLocalizationForm initializes 1`] = `
     When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
   </p>
   <div
-    className="translating_category"
-    key="1e47a1e1-3c67-4df5-adf1-da542c789adb"
+    className="translating_list_container "
+    tabIndex={0}
   >
     <div
-      className="translating_from"
-      data-spec="category-name"
+      className="translating_item_list"
     >
-      Red
-    </div>
-    <div
-      className="translating_to"
-    >
-      <TextInputElement
-        data-spec="localize-category"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        name=""
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-  <div
-    className="translating_category"
-    key="2dc85899-0577-4f1b-a620-f12094e34b5e"
-  >
-    <div
-      className="translating_from"
-      data-spec="category-name"
-    >
-      Blue
-    </div>
-    <div
-      className="translating_to"
-    >
-      <TextInputElement
-        data-spec="localize-category"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        name=""
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-  <div
-    className="translating_category"
-    key="70ac6ea6-803a-4c33-81c7-dc26803c313f"
-  >
-    <div
-      className="translating_from"
-      data-spec="category-name"
-    >
-      Other
-    </div>
-    <div
-      className="translating_to"
-    >
-      <TextInputElement
-        data-spec="localize-category"
-        entry={
-          Object {
-            "value": "Otro",
-          }
-        }
-        name="Otro"
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
+      <div
+        className="translating_category"
+        key="1e47a1e1-3c67-4df5-adf1-da542c789adb"
+      >
+        <div
+          className="translating_from"
+          data-spec="category-name"
+        >
+          Red
+        </div>
+        <div
+          className="translating_to"
+        >
+          <TextInputElement
+            data-spec="localize-category"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name=""
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_category"
+        key="2dc85899-0577-4f1b-a620-f12094e34b5e"
+      >
+        <div
+          className="translating_from"
+          data-spec="category-name"
+        >
+          Blue
+        </div>
+        <div
+          className="translating_to"
+        >
+          <TextInputElement
+            data-spec="localize-category"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name=""
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_category"
+        key="70ac6ea6-803a-4c33-81c7-dc26803c313f"
+      >
+        <div
+          className="translating_from"
+          data-spec="category-name"
+        >
+          Other
+        </div>
+        <div
+          className="translating_to"
+        >
+          <TextInputElement
+            data-spec="localize-category"
+            entry={
+              Object {
+                "value": "Otro",
+              }
+            }
+            name="Otro"
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
     </div>
   </div>
 </Dialog>
@@ -211,69 +229,78 @@ exports[`RouterLocalizationForm should render 1`] = `
             Sometimes languages need special rules to route things properly. If a translation is not provided, the original rule will be used.
           </p>
           <div
-            className="translating_operator_container"
-            data-spec="operator-field"
+            className="translating_list_container "
+            tabIndex={0}
           >
             <div
-              className="translating_operator"
-              data-spec="verbose-name"
+              className="translating_item_list"
             >
-              has any of the words
-            </div>
-            <div
-              className="translating_from"
-              data-spec="argument-to-translate"
-            >
-              red
-            </div>
-            <div
-              className="translating_to"
-            >
-              <TextInputElement
-                data-spec="localize-case"
-                entry={
-                  Object {
-                    "value": "rojo, r",
-                  }
-                }
-                name="061fc171-8b79-4636-b892-bd0ea5aa9b42"
-                onChange={[Function]}
-                placeholder="Spanish Translation"
-                showLabel={false}
-              />
-            </div>
-          </div>
-          <div
-            className="translating_operator_container"
-            data-spec="operator-field"
-          >
-            <div
-              className="translating_operator"
-              data-spec="verbose-name"
-            >
-              has any of the words
-            </div>
-            <div
-              className="translating_from"
-              data-spec="argument-to-translate"
-            >
-              blue
-            </div>
-            <div
-              className="translating_to"
-            >
-              <TextInputElement
-                data-spec="localize-case"
-                entry={
-                  Object {
-                    "value": "",
-                  }
-                }
-                name="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
-                onChange={[Function]}
-                placeholder="Spanish Translation"
-                showLabel={false}
-              />
+              <div
+                className="translating_operator_container"
+                data-spec="operator-field"
+              >
+                <div
+                  className="translating_operator"
+                  data-spec="verbose-name"
+                >
+                  has any of the words
+                </div>
+                <div
+                  className="translating_from"
+                  data-spec="argument-to-translate"
+                >
+                  red
+                </div>
+                <div
+                  className="translating_to"
+                >
+                  <TextInputElement
+                    data-spec="localize-case"
+                    entry={
+                      Object {
+                        "value": "rojo, r",
+                      }
+                    }
+                    name="061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                    onChange={[Function]}
+                    placeholder="Spanish Translation"
+                    showLabel={false}
+                  />
+                </div>
+              </div>
+              <div
+                className="translating_operator_container"
+                data-spec="operator-field"
+              >
+                <div
+                  className="translating_operator"
+                  data-spec="verbose-name"
+                >
+                  has any of the words
+                </div>
+                <div
+                  className="translating_from"
+                  data-spec="argument-to-translate"
+                >
+                  blue
+                </div>
+                <div
+                  className="translating_to"
+                >
+                  <TextInputElement
+                    data-spec="localize-case"
+                    entry={
+                      Object {
+                        "value": "",
+                      }
+                    }
+                    name="763e4844-3e1b-407a-a1b5-5fdfcd308b41"
+                    onChange={[Function]}
+                    placeholder="Spanish Translation"
+                    showLabel={false}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </React.Fragment>,
@@ -289,84 +316,93 @@ exports[`RouterLocalizationForm should render 1`] = `
     When category names are referenced later in the flow, the appropriate language for the category will be used. If no translation is provided, the original text will be used.
   </p>
   <div
-    className="translating_category"
-    key="1e47a1e1-3c67-4df5-adf1-da542c789adb"
+    className="translating_list_container "
+    tabIndex={0}
   >
     <div
-      className="translating_from"
-      data-spec="category-name"
+      className="translating_item_list"
     >
-      Red
-    </div>
-    <div
-      className="translating_to"
-    >
-      <TextInputElement
-        data-spec="localize-category"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        name=""
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-  <div
-    className="translating_category"
-    key="2dc85899-0577-4f1b-a620-f12094e34b5e"
-  >
-    <div
-      className="translating_from"
-      data-spec="category-name"
-    >
-      Blue
-    </div>
-    <div
-      className="translating_to"
-    >
-      <TextInputElement
-        data-spec="localize-category"
-        entry={
-          Object {
-            "value": "",
-          }
-        }
-        name=""
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
-    </div>
-  </div>
-  <div
-    className="translating_category"
-    key="70ac6ea6-803a-4c33-81c7-dc26803c313f"
-  >
-    <div
-      className="translating_from"
-      data-spec="category-name"
-    >
-      Other
-    </div>
-    <div
-      className="translating_to"
-    >
-      <TextInputElement
-        data-spec="localize-category"
-        entry={
-          Object {
-            "value": "Otro",
-          }
-        }
-        name="Otro"
-        onChange={[Function]}
-        placeholder="Spanish Translation"
-        showLabel={false}
-      />
+      <div
+        className="translating_category"
+        key="1e47a1e1-3c67-4df5-adf1-da542c789adb"
+      >
+        <div
+          className="translating_from"
+          data-spec="category-name"
+        >
+          Red
+        </div>
+        <div
+          className="translating_to"
+        >
+          <TextInputElement
+            data-spec="localize-category"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name=""
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_category"
+        key="2dc85899-0577-4f1b-a620-f12094e34b5e"
+      >
+        <div
+          className="translating_from"
+          data-spec="category-name"
+        >
+          Blue
+        </div>
+        <div
+          className="translating_to"
+        >
+          <TextInputElement
+            data-spec="localize-category"
+            entry={
+              Object {
+                "value": "",
+              }
+            }
+            name=""
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
+      <div
+        className="translating_category"
+        key="70ac6ea6-803a-4c33-81c7-dc26803c313f"
+      >
+        <div
+          className="translating_from"
+          data-spec="category-name"
+        >
+          Other
+        </div>
+        <div
+          className="translating_to"
+        >
+          <TextInputElement
+            data-spec="localize-category"
+            entry={
+              Object {
+                "value": "Otro",
+              }
+            }
+            name="Otro"
+            onChange={[Function]}
+            placeholder="Spanish Translation"
+            showLabel={false}
+          />
+        </div>
+      </div>
     </div>
   </div>
 </Dialog>

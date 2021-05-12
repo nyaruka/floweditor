@@ -434,6 +434,7 @@ export default class CaseElement extends React.Component<CaseElementProps, CaseE
       } else {
         return (
           <TextInputElement
+            data-test-id="case-arguments"
             name={i18n.t('forms.arguments', 'arguments')}
             onChange={this.handleArgumentChanged}
             entry={this.state.argument}

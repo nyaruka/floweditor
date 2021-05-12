@@ -1,7 +1,7 @@
 import CaseList from 'components/flow/routers/caselist/CaseList';
 import { Operators } from 'config/interfaces';
 import React from 'react';
-import { fireEvent, render, waitForDomChange } from 'test/utils';
+import { fireEvent, fireTembaSelect, render, waitForDomChange } from 'test/utils';
 import { mock } from 'testUtils';
 import * as utils from 'utils';
 
@@ -72,6 +72,36 @@ describe(CaseList.name, () => {
       fireEvent.change(argsInput, { target: { value: 'Purple, p' } });
 
       expect(onCasesUpdated).toHaveBeenCalledTimes(4);
+      expect(baseElement).toMatchSnapshot();
+    });
+
+    it('changes default operator on add', () => {
+      const onCasesUpdated = jest.fn();
+
+      // start with an empty list
+      const { baseElement, getAllByTestId } = render(
+        <CaseList cases={[]} onCasesUpdated={onCasesUpdated} />
+      );
+
+      // we should have one operator for the default
+      expect(getAllByTestId('temba_select_operator').length).toBe(1);
+
+      // switch default to greater than operator and populate it
+      fireTembaSelect(getAllByTestId('temba_select_operator')[0], [
+        { type: Operators.has_number_gt }
+      ]);
+      const argsInput = getAllByTestId('arguments')[0];
+      fireEvent.change(argsInput, { target: { value: '42' } });
+
+      // now we should have two rules
+      expect(getAllByTestId('temba_select_operator').length).toBe(2);
+
+      // our new default operator should match the last one we entered
+      const newOperator = getAllByTestId('temba_select_operator')[1];
+      expect(newOperator.getAttribute('values')).toBe(
+        JSON.stringify([{ type: 'has_number_gt', verboseName: 'has a number above', operands: 1 }])
+      );
+
       expect(baseElement).toMatchSnapshot();
     });
   });

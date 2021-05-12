@@ -14,7 +14,7 @@
   padding: 0px 9px;
   border: 1px solid darken($translation_bg, 5%);
   display: inline-block;
-  width: 200px;
+  width:  35%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -24,8 +24,9 @@
 
 .translating_to {
   display: inline-block;
-  width: 355px;
+  width: 59%;
   vertical-align: top;
+  float: right;  
 }
 
 .translating_operator_title {
@@ -45,7 +46,7 @@
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  margin: 10px 0;
+  margin-bottom: 10px;
 }
 
 .translating_operator {
@@ -54,4 +55,25 @@
   font-style: italic;
   padding-top: 10px;
   padding-left: 10px;
+}
+
+.translating_list_container {
+  overflow: hidden;
+  border-radius: $curvature;
+  margin-top: 8px;
+  &:focus {
+    outline: none;
+  }
+
+  &.scrolling {
+    margin-top: 5px;
+    background: rgb(250, 250, 250);
+  }
+
+  .translating_item_list {
+    position: relative;
+    overflow-y: auto;
+    max-height: 200px;
+    padding: 10px;
+  }
 }

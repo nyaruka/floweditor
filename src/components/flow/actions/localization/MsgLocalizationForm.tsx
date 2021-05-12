@@ -20,6 +20,8 @@ import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { createUUID, range } from 'utils';
 import { renderIssues } from '../helpers';
+import { Attachment, renderAttachments } from '../sendmsg/attachments';
+import { AxiosResponse } from 'axios';
 
 const MAX_ATTACHMENTS = 1;
 
@@ -125,6 +127,10 @@ export default class MsgLocalizationForm extends React.Component<
         translations.text = text.value;
       }
 
+      translations.attachments = attachments
+        .filter((attachment: Attachment) => attachment.url.trim().length > 0)
+        .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
+
       if (quickReplies.value && quickReplies.value.length > 0) {
         translations.quick_replies = quickReplies.value;
       }
@@ -181,28 +187,6 @@ export default class MsgLocalizationForm extends React.Component<
     };
   }
 
-  private handleAddQuickReply(newQuickReply: string): boolean {
-    const newReplies = [...this.state.quickReplies.value];
-    if (newReplies.length >= 10) {
-      return false;
-    }
-
-    // we don't allow two quick replies with the same name
-    const isNew = !newReplies.find(
-      (reply: string) => reply.toLowerCase() === newQuickReply.toLowerCase()
-    );
-
-    if (isNew) {
-      newReplies.push(newQuickReply);
-      this.setState({
-        quickReplies: { value: newReplies }
-      });
-      return true;
-    }
-
-    return false;
-  }
-
   private handleQuickReplyChanged(quickReplies: string[]): void {
     this.handleUpdate({ quickReplies });
   }
@@ -217,92 +201,35 @@ export default class MsgLocalizationForm extends React.Component<
     this.setState({ templateVariables });
   }
 
-  private renderAttachment(index: number, attachment: Attachment): JSX.Element {
-    let attachments: any = this.state.attachments;
-    return (
-      <div
-        className={styles.url_attachment}
-        key={index > -1 ? 'url_attachment_' + index : createUUID()}
-      >
-        <div className={styles.type_choice}>
-          <SelectElement
-            key={'attachment_type_' + index}
-            style={TembaSelectStyle.small}
-            name={i18n.t('forms.type_options', 'Type Options')}
-            placeholder="Add Attachment"
-            entry={{
-              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
-            }}
-            onChange={(option: any) => {
-              if (index === -1) {
-                attachments = mutate(attachments, {
-                  $push: [{ type: option.value, url: '' }]
-                });
-              } else {
-                attachments = mutate(attachments, {
-                  [index]: {
-                    $set: { type: option.value, url: attachment.url }
-                  }
-                });
-              }
-              this.setState({ attachments });
-            }}
-            options={TYPE_OPTIONS}
-          />
-        </div>
-        {index > -1 ? (
-          <>
-            <div className={styles.url}>
-              <TextInputElement
-                placeholder="URL"
-                name={i18n.t('forms.url', 'URL')}
-                style={TextInputStyle.small}
-                onChange={(value: string) => {
-                  attachments = mutate(attachments, {
-                    [index]: { $set: { type: attachment.type, url: value } }
-                  });
-                  this.setState({ attachments });
-                }}
-                entry={{ value: attachment.url }}
-                autocomplete={true}
-              />
-            </div>
-            <div className={styles.remove}>
-              <Pill
-                icon="fe-x"
-                text=" Remove"
-                large={true}
-                onClick={() => {
-                  this.handleAttachmentRemoved(index);
-                }}
-              />
-            </div>
-          </>
-        ) : null}
-      </div>
-    );
+  private handleAttachmentUploaded(response: AxiosResponse) {
+    const attachments: any = mutate(this.state.attachments, {
+      $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+    });
+    this.setState({ attachments });
   }
 
-  private renderAttachments(): JSX.Element {
-    const attachments = this.state.attachments.map((attachment, index: number) =>
-      this.renderAttachment(index, attachment)
-    );
+  private handleAttachmentChanged(index: number, type: string, url: string) {
+    let attachments: any = this.state.attachments;
+    if (index === -1) {
+      attachments = mutate(attachments, {
+        $push: [{ type, url }]
+      });
+    } else {
+      attachments = mutate(attachments, {
+        [index]: {
+          $set: { type, url }
+        }
+      });
+    }
 
-    const emptyOption =
-      this.state.attachments.length < MAX_ATTACHMENTS
-        ? this.renderAttachment(-1, { url: '', type: '' })
-        : null;
-    return (
-      <>
-        <p>
-          <Trans i18nKey="forms.add_attachments" values={{ language: this.props.language.name }}>
-            Add an attachment for this message in [[language]] language
-          </Trans>
-        </p>
-        {attachments}
-        {emptyOption}
-      </>
-    );
+    this.setState({ attachments });
+  }
+
+  private handleAttachmentRemoved(index: number) {
+    const attachments: any = mutate(this.state.attachments, {
+      $splice: [[index, 1]]
+    });
+    this.setState({ attachments });
   }
 
   public render(): JSX.Element {
@@ -363,9 +290,23 @@ export default class MsgLocalizationForm extends React.Component<
       });
     }
 
+    if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
+      tabs.push({
+        name: i18n.t('forms.attachments', 'Attachments'),
+        body: renderAttachments(
+          this.context.config.endpoints.attachments,
+          this.state.attachments,
+          this.handleAttachmentUploaded,
+          this.handleAttachmentChanged,
+          this.handleAttachmentRemoved
+        ),
+        checked: this.state.attachments.length > 0
+      });
+    }
+
     // if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
     //   tabs.push({
-    //     name: 'Quick Replies',
+    //     name: i18n.t('forms.quick_replies', 'Quick Replies'),
     //     body: (
     //       <>
     //         <MultiChoiceInput

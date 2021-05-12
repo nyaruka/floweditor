@@ -19,6 +19,67 @@ exports[`MsgLocalizationForm inits inits with initial values 1`] = `
     Array [
       Object {
         "body": <React.Fragment>
+          <p>
+            Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+          </p>
+          <div
+            className="url_attachment"
+          >
+            <div
+              className="type_choice"
+            >
+              <SelectElement
+                entry={
+                  Object {
+                    "value": null,
+                  }
+                }
+                name="Type Options"
+                onChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "name": "Image URL",
+                      "value": "image",
+                    },
+                    Object {
+                      "name": "Audio URL",
+                      "value": "audio",
+                    },
+                    Object {
+                      "name": "Video URL",
+                      "value": "video",
+                    },
+                    Object {
+                      "name": "PDF Document URL",
+                      "value": "application",
+                    },
+                    Object {
+                      "name": "Upload Attachment",
+                      "value": "upload",
+                    },
+                  ]
+                }
+                placeholder="Add Attachment"
+                style="small"
+              />
+            </div>
+          </div>
+          <input
+            onChange={[Function]}
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            type="file"
+          />
+        </React.Fragment>,
+        "checked": false,
+        "name": "Attachments",
+      },
+      Object {
+        "body": <React.Fragment>
           <MultiChoiceInput
             helpText={
               <Trans
@@ -94,6 +155,67 @@ exports[`MsgLocalizationForm render should render 1`] = `
     Array [
       Object {
         "body": <React.Fragment>
+          <p>
+            Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.
+          </p>
+          <div
+            className="url_attachment"
+          >
+            <div
+              className="type_choice"
+            >
+              <SelectElement
+                entry={
+                  Object {
+                    "value": null,
+                  }
+                }
+                name="Type Options"
+                onChange={[Function]}
+                options={
+                  Array [
+                    Object {
+                      "name": "Image URL",
+                      "value": "image",
+                    },
+                    Object {
+                      "name": "Audio URL",
+                      "value": "audio",
+                    },
+                    Object {
+                      "name": "Video URL",
+                      "value": "video",
+                    },
+                    Object {
+                      "name": "PDF Document URL",
+                      "value": "application",
+                    },
+                    Object {
+                      "name": "Upload Attachment",
+                      "value": "upload",
+                    },
+                  ]
+                }
+                placeholder="Add Attachment"
+                style="small"
+              />
+            </div>
+          </div>
+          <input
+            onChange={[Function]}
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+            type="file"
+          />
+        </React.Fragment>,
+        "checked": false,
+        "name": "Attachments",
+      },
+      Object {
+        "body": <React.Fragment>
           <MultiChoiceInput
             helpText={
               <Trans
@@ -152,6 +274,7 @@ exports[`MsgLocalizationForm render should render 1`] = `
 
 exports[`MsgLocalizationForm updates should ignore empty quick replies 1`] = `
 Object {
+  "attachments": Array [],
   "audio": Object {
     "value": null,
   },
@@ -173,7 +296,9 @@ Array [
   "spa",
   Array [
     Object {
-      "translations": Object {},
+      "translations": Object {
+        "attachments": Array [],
+      },
       "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
     },
   ],
@@ -182,6 +307,7 @@ Array [
 
 exports[`MsgLocalizationForm updates should save changes 1`] = `
 Object {
+  "attachments": Array [],
   "audio": Object {
     "value": null,
   },
@@ -209,6 +335,7 @@ Array [
   Array [
     Object {
       "translations": Object {
+        "attachments": Array [],
         "quick_replies": Array [
           "red",
           "green",

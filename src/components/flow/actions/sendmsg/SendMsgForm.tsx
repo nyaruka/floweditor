@@ -4,6 +4,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import axios from 'axios';
 import { ImCross } from 'react-icons/im';
 import Loading from 'components/loading/Loading';
+import { AxiosResponse } from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import {
@@ -15,11 +16,10 @@ import { ActionFormProps } from 'components/flow/props';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
 import { hasUseableTranslation } from 'components/form/assetselector/helpers';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
-import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
+import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
-import Pill from 'components/pill/Pill';
 import { fakePropType } from 'config/ConfigProvider';
-import { fetchAsset, getCookie } from 'external';
+import { fetchAsset } from 'external';
 import { Template, TemplateTranslation } from 'flowTypes';
 import mutate from 'immutability-helper';
 import * as React from 'react';
@@ -33,33 +33,15 @@ import {
   FormEntry
 } from 'store/nodeEditor';
 import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
-import { createUUID, range } from 'utils';
+import { range } from 'utils';
 
 import styles from './SendMsgForm.module.scss';
 import { hasFeature } from 'config/typeConfigs';
 import { FeatureFilter } from 'config/interfaces';
 
 import i18n from 'config/i18n';
-import { TembaSelectStyle } from 'temba/TembaSelect';
-
-const MAX_ATTACHMENTS = 1;
-
-const TYPE_OPTIONS: SelectOption[] = [
-  { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
-  { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
-  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
-  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
-];
-
-const getAttachmentTypeOption = (type: string): SelectOption => {
-  return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
-};
-
-export interface Attachment {
-  type: string;
-  url: string;
-  uploaded?: boolean;
-}
+import { Trans } from 'react-i18next';
+import { Attachment, renderAttachments } from './attachments';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -251,14 +233,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
   }
 
-  public handleAttachmentRemoved(index: number): void {
-    // we found a match, merge us in
-    const updated: any = mutate(this.state.attachments, {
-      $splice: [[index, 1]]
-    });
-    this.setState({ attachments: updated, attachmentError: null, validAttachment: false });
-  }
-
   private getButtons(): ButtonSet {
     return {
       primary: { name: i18n.t('buttons.ok', 'Ok'), onClick: this.handleSave },
@@ -267,197 +241,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         onClick: () => this.props.onClose(true)
       }
     };
-  }
-
-  private renderUpload(index: number, attachment: Attachment): JSX.Element {
-    return (
-      <div
-        className={styles.url_attachment}
-        key={index > -1 ? 'url_attachment_' + index : createUUID()}
-      >
-        <div className={styles.type_choice}>
-          <SelectElement
-            key={'attachment_type_' + index}
-            name={i18n.t('forms.type', 'Type')}
-            style={TembaSelectStyle.small}
-            entry={{
-              value: { name: attachment.type }
-            }}
-            options={TYPE_OPTIONS}
-            disabled={true}
-          />
-        </div>
-        <div className={styles.url}>
-          <span className={styles.upload}>
-            <Pill
-              icon="fe-download"
-              text="Download"
-              large={true}
-              onClick={() => {
-                window.open(attachment.url, '_blank');
-              }}
-            />
-            <div className={styles.remove_upload}>
-              <Pill
-                icon="fe-x"
-                text="Remove"
-                large={true}
-                onClick={() => {
-                  this.handleAttachmentRemoved(index);
-                }}
-              />
-            </div>
-          </span>
-        </div>
-      </div>
-    );
-  }
-
-  private handleUploadFile(files: FileList): void {
-    let attachments: any = this.state.attachments;
-
-    // if we have a csrf in our cookie, pass it along as a header
-    const csrf = getCookie('csrftoken');
-    const headers: any = csrf ? { 'X-CSRFToken': csrf } : {};
-
-    // mark us as ajax
-    headers['X-Requested-With'] = 'XMLHttpRequest';
-
-    const data = new FormData();
-    data.append('file', files[0]);
-    axios
-      .post(this.context.config.endpoints.attachments, data, { headers })
-      .then(response => {
-        attachments = mutate(attachments, {
-          $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
-        });
-        this.setState({ attachments });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  private renderAttachment(index: number, attachment: Attachment): JSX.Element {
-    let attachments: any = this.state.attachments;
-    return (
-      <>
-        <div
-          className={styles.url_attachment}
-          key={index > -1 ? 'url_attachment_' + index : createUUID()}
-        >
-          <div className={styles.type_choice}>
-            <SelectElement
-              key={'attachment_type_' + index}
-              style={TembaSelectStyle.small}
-              name={i18n.t('forms.type_options', 'Type Options')}
-              placeholder="Add Attachment"
-              entry={{
-                value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
-              }}
-              onChange={(option: any) => {
-                if (option.value === 'upload') {
-                  window.setTimeout(() => {
-                    this.filePicker.click();
-                  }, 200);
-                } else {
-                  if (index === -1) {
-                    attachments = mutate(attachments, {
-                      $push: [{ type: option.value, url: '' }]
-                    });
-                  } else {
-                    attachments = mutate(attachments, {
-                      [index]: {
-                        $set: { type: option.value, url: attachment.url }
-                      }
-                    });
-                  }
-                  this.setState({ attachments });
-                }
-              }}
-              options={TYPE_OPTIONS}
-            />
-          </div>
-          {index > -1 ? (
-            <>
-              <div className={styles.url}>
-                <TextInputElement
-                  placeholder="URL"
-                  name={i18n.t('forms.url', 'URL')}
-                  style={TextInputStyle.small}
-                  onChange={(value: string) => {
-                    attachments = mutate(attachments, {
-                      [index]: { $set: { type: attachment.type, url: value } }
-                    });
-                    this.setState({ attachments });
-                  }}
-                  entry={{ value: attachment.url }}
-                  autocomplete={true}
-                />
-              </div>
-              <div className={styles.remove}>
-                <Pill
-                  icon="fe-x"
-                  text=" Remove"
-                  large={true}
-                  onClick={() => {
-                    this.handleAttachmentRemoved(index);
-                  }}
-                />
-              </div>
-            </>
-          ) : null}
-        </div>
-        {this.state.validAttachment && !this.state.attachmentError ? (
-          <div className={styles.loading}>
-            Checking URL validity
-            <Loading size={10} units={6} color="#999999" />
-          </div>
-        ) : null}
-        {this.state.attachmentError ? (
-          <div className={styles.error}>
-            <ImCross className={styles.crossIcon} />
-            {this.state.attachmentError}
-          </div>
-        ) : null}
-      </>
-    );
-  }
-
-  private renderAttachments(): JSX.Element {
-    const attachments = this.state.attachments.map((attachment, index: number) =>
-      attachment.uploaded
-        ? this.renderUpload(index, attachment)
-        : this.renderAttachment(index, attachment)
-    );
-
-    const emptyOption =
-      this.state.attachments.length < MAX_ATTACHMENTS
-        ? this.renderAttachment(-1, { url: '', type: '' })
-        : null;
-    return (
-      <>
-        <p>
-          {i18n.t(
-            'forms.send_msg_summary',
-            'Add an attachment to each message. The attachment can be a file you upload or a dynamic URL using expressions and variables from your Flow.',
-            { count: MAX_ATTACHMENTS }
-          )}
-        </p>
-        {attachments}
-        {emptyOption}
-        <input
-          style={{
-            display: 'none'
-          }}
-          ref={ele => {
-            this.filePicker = ele;
-          }}
-          type="file"
-          onChange={e => this.handleUploadFile(e.target.files)}
-        />
-      </>
-    );
   }
 
   private handleTemplateChanged(selected: any[]): void {
@@ -578,61 +361,96 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     );
   }
 
+  private handleAttachmentUploaded(response: AxiosResponse) {
+    const attachments: any = mutate(this.state.attachments, {
+      $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+    });
+    this.setState({ attachments });
+  }
+
+  private handleAttachmentChanged(index: number, type: string, url: string) {
+    let attachments: any = this.state.attachments;
+    if (index === -1) {
+      attachments = mutate(attachments, {
+        $push: [{ type, url }]
+      });
+    } else {
+      attachments = mutate(attachments, {
+        [index]: {
+          $set: { type, url }
+        }
+      });
+    }
+
+    this.setState({ attachments });
+  }
+
+  private handleAttachmentRemoved(index: number) {
+    const attachments: any = mutate(this.state.attachments, {
+      $splice: [[index, 1]]
+    });
+    this.setState({ attachments });
+  }
+
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
-    // const quickReplies: Tab = {
-    //   name: i18n.t('forms.quick_replies', 'Quick Replies'),
-    //   body: (
-    //     <>
-    //       <p>
-    //         {i18n.t(
-    //           'forms.quick_replies_summary',
-    //           'Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".'
-    //         )}
-    //       </p>
+    const quickReplies: Tab = {
+      name: i18n.t('forms.quick_replies', 'Quick Replies'),
+      body: (
+        <>
+          <p>
+            {i18n.t(
+              'forms.quick_replies_summary',
+              'Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".'
+            )}
+          </p>
 
-    //       <MultiChoiceInput
-    //         name={i18n.t('forms.quick_reply', 'quick_reply')}
-    //         helpText={
-    //           <Trans i18nKey="forms.add_quick_reply">Add a new Quick Reply and press enter.</Trans>
-    //         }
-    //         items={this.state.quickReplies}
-    //         entry={this.state.quickReplyEntry}
-    //         onChange={this.handleQuickRepliesUpdate}
-    //       />
-    //     </>
-    //   ),
-    //   checked: this.state.quickReplies.value.length > 0,
-    //   hasErrors: hasErrors(this.state.quickReplyEntry)
-    // };
+          <MultiChoiceInput
+            name={i18n.t('forms.quick_reply', 'quick_reply')}
+            helpText={
+              <Trans i18nKey="forms.add_quick_reply">Add a new Quick Reply and press enter.</Trans>
+            }
+            items={this.state.quickReplies}
+            entry={this.state.quickReplyEntry}
+            onChange={this.handleQuickRepliesUpdate}
+          />
+        </>
+      ),
+      checked: this.state.quickReplies.value.length > 0,
+      hasErrors: hasErrors(this.state.quickReplyEntry)
+    };
 
     const attachments: Tab = {
       name: i18n.t('forms.attachments', 'Attachments'),
-      body: this.renderAttachments(),
-      checked: this.state.attachments.length > 0,
-      hasErrors: this.state.validAttachment
+      body: renderAttachments(
+        this.context.config.endpoints.attachments,
+        this.state.attachments,
+        this.handleAttachmentUploaded,
+        this.handleAttachmentChanged,
+        this.handleAttachmentRemoved
+      ),
+      checked: this.state.attachments.length > 0
     };
 
-    // const advanced: Tab = {
-    //   name: i18n.t('forms.advanced', 'Advanced'),
-    //   body: (
-    //     <CheckboxElement
-    //       name={i18n.t('forms.all_destinations', 'All Destinations')}
-    //       title={i18n.t('forms.all_destinations', 'All Destinations')}
-    //       labelClassName={styles.checkbox}
-    //       checked={this.state.sendAll}
-    //       description={i18n.t(
-    //         'forms.all_destinations_description',
-    //         "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
-    //       )}
-    //       onChange={this.handleSendAllUpdate}
-    //     />
-    //   ),
-    //   checked: this.state.sendAll
-    // };
+    const advanced: Tab = {
+      name: i18n.t('forms.advanced', 'Advanced'),
+      body: (
+        <CheckboxElement
+          name={i18n.t('forms.all_destinations', 'All Destinations')}
+          title={i18n.t('forms.all_destinations', 'All Destinations')}
+          labelClassName={styles.checkbox}
+          checked={this.state.sendAll}
+          description={i18n.t(
+            'forms.all_destinations_description',
+            "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
+          )}
+          onChange={this.handleSendAllUpdate}
+        />
+      ),
+      checked: this.state.sendAll
+    };
 
-    // const tabs = [quickReplies, attachments, advanced];
     const tabs = [attachments];
 
     if (hasFeature(this.context.config, FeatureFilter.HAS_WHATSAPP)) {
