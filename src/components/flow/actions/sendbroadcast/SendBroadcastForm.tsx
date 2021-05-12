@@ -23,7 +23,7 @@ import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { Template, TemplateTranslation } from 'flowTypes';
 import { createUUID, range } from 'utils';
 import styles from './SendBroadcastForm.module.scss';
-import { Attachment } from '../sendmsg/SendMsgForm';
+import { Attachment } from '../sendmsg/attachments';
 import { TembaSelectStyle } from 'temba/TembaSelect';
 import Pill from 'components/pill/Pill';
 import Loading from 'components/loading/Loading';

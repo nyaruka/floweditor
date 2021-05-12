@@ -395,32 +395,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
-    const quickReplies: Tab = {
-      name: i18n.t('forms.quick_replies', 'Quick Replies'),
-      body: (
-        <>
-          <p>
-            {i18n.t(
-              'forms.quick_replies_summary',
-              'Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for "Yes" and one for "No".'
-            )}
-          </p>
-
-          <MultiChoiceInput
-            name={i18n.t('forms.quick_reply', 'quick_reply')}
-            helpText={
-              <Trans i18nKey="forms.add_quick_reply">Add a new Quick Reply and press enter.</Trans>
-            }
-            items={this.state.quickReplies}
-            entry={this.state.quickReplyEntry}
-            onChange={this.handleQuickRepliesUpdate}
-          />
-        </>
-      ),
-      checked: this.state.quickReplies.value.length > 0,
-      hasErrors: hasErrors(this.state.quickReplyEntry)
-    };
-
     const attachments: Tab = {
       name: i18n.t('forms.attachments', 'Attachments'),
       body: renderAttachments(
@@ -431,24 +405,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         this.handleAttachmentRemoved
       ),
       checked: this.state.attachments.length > 0
-    };
-
-    const advanced: Tab = {
-      name: i18n.t('forms.advanced', 'Advanced'),
-      body: (
-        <CheckboxElement
-          name={i18n.t('forms.all_destinations', 'All Destinations')}
-          title={i18n.t('forms.all_destinations', 'All Destinations')}
-          labelClassName={styles.checkbox}
-          checked={this.state.sendAll}
-          description={i18n.t(
-            'forms.all_destinations_description',
-            "Send a message to all destinations known for this contact. If you aren't sure what this means, leave it unchecked."
-          )}
-          onChange={this.handleSendAllUpdate}
-        />
-      ),
-      checked: this.state.sendAll
     };
 
     const tabs = [attachments];

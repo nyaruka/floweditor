@@ -2,15 +2,13 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import styles from 'components/flow/actions/action/Action.module.scss';
 import { determineTypeConfig } from 'components/flow/helpers';
-import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
 import { LocalizationFormProps } from 'components/flow/props';
-import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
-import Pill from 'components/pill/Pill';
+import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
+import TextInputElement from 'components/form/textinput/TextInputElement';
 import UploadButton from 'components/uploadbutton/UploadButton';
 import { fakePropType } from 'config/ConfigProvider';
 import { SendMsg, MsgTemplating } from 'flowTypes';
 import * as React from 'react';
-import { TembaSelectStyle } from 'temba/TembaSelect';
 import mutate from 'immutability-helper';
 import { FormState, mergeForm, StringArrayEntry, StringEntry } from 'store/nodeEditor';
 import { MaxOfTenItems, validate } from 'store/validators';
@@ -18,29 +16,10 @@ import { MaxOfTenItems, validate } from 'store/validators';
 import { initializeLocalizedForm } from './helpers';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
-import { createUUID, range } from 'utils';
+import { range } from 'utils';
 import { renderIssues } from '../helpers';
 import { Attachment, renderAttachments } from '../sendmsg/attachments';
 import { AxiosResponse } from 'axios';
-
-const MAX_ATTACHMENTS = 1;
-
-const TYPE_OPTIONS: SelectOption[] = [
-  { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
-  { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
-  { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
-  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
-];
-
-const getAttachmentTypeOption = (type: string): SelectOption => {
-  return TYPE_OPTIONS.find((option: SelectOption) => option.value === type);
-};
-
-export interface Attachment {
-  type: string;
-  url: string;
-  uploaded?: boolean;
-}
 
 export interface MsgLocalizationFormState extends FormState {
   message: StringEntry;
@@ -57,7 +36,6 @@ export default class MsgLocalizationForm extends React.Component<
 > {
   constructor(props: LocalizationFormProps) {
     super(props);
-
     this.state = initializeLocalizedForm(this.props.nodeSettings);
     bindCallbacks(this, {
       include: [/^handle/, /^on/]
@@ -115,7 +93,6 @@ export default class MsgLocalizationForm extends React.Component<
 
     // make sure we are valid for saving, only quick replies can be invalid
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
-
     const valid =
       typeConfig.localizeableKeys!.indexOf('quick_replies') > -1
         ? this.handleQuickRepliesUpdate(this.state.quickReplies.value)
@@ -135,11 +112,6 @@ export default class MsgLocalizationForm extends React.Component<
         translations.quick_replies = quickReplies.value;
       }
 
-      if (attachments.length > 0) {
-        translations.attachments = attachments
-          .filter((attachment: Attachment) => attachment.url.trim().length > 0)
-          .map((attachment: Attachment) => `${attachment.type}:${attachment.url}`);
-      }
       if (audio.value) {
         translations.audio_url = audio.value;
       }
@@ -167,14 +139,6 @@ export default class MsgLocalizationForm extends React.Component<
       // notify our modal we are done
       this.props.onClose(false);
     }
-  }
-
-  public handleAttachmentRemoved(index: number): void {
-    // we found a match, merge us in
-    const updated: any = mutate(this.state.attachments, {
-      $splice: [[index, 1]]
-    });
-    this.setState({ attachments: updated });
   }
 
   private getButtons(): ButtonSet {
@@ -236,13 +200,6 @@ export default class MsgLocalizationForm extends React.Component<
     const typeConfig = determineTypeConfig(this.props.nodeSettings);
     const tabs: Tab[] = [];
 
-    if (typeConfig.localizeableKeys.indexOf('attachments') > -1) {
-      tabs.push({
-        name: 'Attachments',
-        body: this.renderAttachments(),
-        checked: this.state.attachments.length > 0
-      });
-    }
     if (
       this.state.templating &&
       typeConfig.localizeableKeys!.indexOf('templating.variables') > -1
@@ -304,29 +261,29 @@ export default class MsgLocalizationForm extends React.Component<
       });
     }
 
-    // if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
-    //   tabs.push({
-    //     name: i18n.t('forms.quick_replies', 'Quick Replies'),
-    //     body: (
-    //       <>
-    //         <MultiChoiceInput
-    //           name={i18n.t('forms.quick_reply', 'Quick Reply')}
-    //           helpText={
-    //             <Trans
-    //               i18nKey="forms.localized_quick_replies"
-    //               values={{ language: this.props.language.name }}
-    //             >
-    //               Add a new [[language]] Quick Reply and press enter.
-    //             </Trans>
-    //           }
-    //           items={this.state.quickReplies}
-    //           onChange={this.handleQuickReplyChanged}
-    //         />
-    //       </>
-    //     ),
-    //     checked: this.state.quickReplies.value.length > 0
-    //   });
-    // }
+    if (typeConfig.localizeableKeys!.indexOf('quick_replies') > -1) {
+      tabs.push({
+        name: i18n.t('forms.quick_replies', 'Quick Replies'),
+        body: (
+          <>
+            <MultiChoiceInput
+              name={i18n.t('forms.quick_reply', 'Quick Reply')}
+              helpText={
+                <Trans
+                  i18nKey="forms.localized_quick_replies"
+                  values={{ language: this.props.language.name }}
+                >
+                  Add a new [[language]] Quick Reply and press enter.
+                </Trans>
+              }
+              items={this.state.quickReplies}
+              onChange={this.handleQuickReplyChanged}
+            />
+          </>
+        ),
+        checked: this.state.quickReplies.value.length > 0
+      });
+    }
 
     let audioButton: JSX.Element | null = null;
     if (typeConfig.localizeableKeys!.indexOf('audio_url') > 0) {
