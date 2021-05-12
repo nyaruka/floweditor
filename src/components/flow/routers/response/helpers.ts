@@ -76,8 +76,6 @@ export const stateToNode = (
     ...optionalRouter
   };
 
-  console.log(router);
-
   const newRenderNode = createRenderNode(
     settings.originalNode.node.uuid,
     router,

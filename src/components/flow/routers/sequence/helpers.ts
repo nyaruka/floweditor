@@ -40,8 +40,6 @@ export const stateToNode = (settings: NodeEditorSettings, state: SequenceFormSta
     'Completed'
   );
 
-  console.log(categories);
-
   const router: SwitchRouter = {
     type: RouterTypes.switch,
     default_category_uuid: defaultCategory,
@@ -64,12 +62,6 @@ export const stateToNode = (settings: NodeEditorSettings, state: SequenceFormSta
     ],
     { cases: caseConfig }
   );
-
-  // const result = {
-  //   type: Types.wait_for_time,
-  //   uuid: getActionUUID(settings, Types.wait_for_time),
-  //   delay: delayInSeconds.toString()
-  // };
 
   return newRenderNode;
 };
