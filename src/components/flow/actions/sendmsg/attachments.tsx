@@ -8,25 +8,47 @@ import { TembaSelectStyle } from 'temba/TembaSelect';
 import { createUUID } from 'utils';
 import styles from './attachments.module.scss';
 import TextInputElement, { TextInputStyle } from 'components/form/textinput/TextInputElement';
+import { ValidationFailure } from 'store/nodeEditor';
+import { ImCross } from 'react-icons/im';
+import Loading from 'components/loading/Loading';
 
 export interface Attachment {
   type: string;
   url: string;
   uploaded?: boolean;
+  validationFailures?: ValidationFailure[];
+  valid?: boolean;
 }
 
-const MAX_ATTACHMENTS = 3;
+const MAX_ATTACHMENTS = 1;
 
 const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
   { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
   { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
-  { value: 'application', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
+  { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
 const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
   { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
 ]);
+
+export const validateURL = (endpoint: any, body: any, msgForm: any) => {
+  axios
+    .get(`${endpoint}?url=${body.url}&type=${body.type}`)
+    .then(response => {
+      if (response.data.is_valid) {
+        msgForm.attachmentValidate(body, false);
+      } else {
+        msgForm.attachmentValidate(body, true, [{ message: response.data.message }]);
+      }
+    })
+    .catch(error => {
+      msgForm.attachmentValidate(body, true, [
+        { message: `The attachment url is invalid!: ${error.toString()}` }
+      ]);
+    });
+};
 
 // we would prefer that attachmetns be entirely stateless, but we have this
 // tiny bit of state for simplicity with the reasonable assumption that only
@@ -162,57 +184,73 @@ export const renderAttachment = (
   onAttachmentRemoved: (index: number) => void
 ): JSX.Element => {
   return (
-    <div
-      className={styles.url_attachment}
-      key={index > -1 ? 'url_attachment_' + index : createUUID()}
-    >
-      <div className={styles.type_choice}>
-        <SelectElement
-          key={'attachment_type_' + index}
-          style={TembaSelectStyle.small}
-          name={i18n.t('forms.type_options', 'Type Options')}
-          placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
-          entry={{
-            value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
-          }}
-          onChange={(option: any) => {
-            if (option.value === 'upload') {
-              window.setTimeout(() => {
-                filePicker.click();
-              }, 0);
-            } else {
-              onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
-            }
-          }}
-          options={index > -1 ? TYPE_OPTIONS : NEW_TYPE_OPTIONS}
-        />
+    <>
+      <div
+        className={styles.url_attachment}
+        key={index > -1 ? 'url_attachment_' + index : createUUID()}
+      >
+        <div className={styles.type_choice}>
+          <SelectElement
+            key={'attachment_type_' + index}
+            style={TembaSelectStyle.small}
+            name={i18n.t('forms.type_options', 'Type Options')}
+            placeholder={i18n.t('forms.add_attachment', 'Add Attachment')}
+            entry={{
+              value: index > -1 ? getAttachmentTypeOption(attachment.type) : null
+            }}
+            onChange={(option: any) => {
+              if (option.value === 'upload') {
+                window.setTimeout(() => {
+                  filePicker.click();
+                }, 0);
+              } else {
+                onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
+              }
+            }}
+            options={index > -1 ? TYPE_OPTIONS : NEW_TYPE_OPTIONS}
+          />
+        </div>
+        {index > -1 ? (
+          <>
+            <div className={styles.url}>
+              <TextInputElement
+                placeholder="URL"
+                name={i18n.t('forms.url', 'URL')}
+                style={TextInputStyle.small}
+                onChange={(value: string) => {
+                  onAttachmentChanged(index, attachment.type, value);
+                }}
+                entry={{ value: attachment.url }}
+                autocomplete={true}
+              />
+            </div>
+            <div className={styles.remove}>
+              <Pill
+                icon="fe-x"
+                text=" Remove"
+                large={true}
+                onClick={() => {
+                  onAttachmentRemoved(index);
+                }}
+              />
+            </div>
+          </>
+        ) : null}
       </div>
-      {index > -1 ? (
-        <>
-          <div className={styles.url}>
-            <TextInputElement
-              placeholder="URL"
-              name={i18n.t('forms.url', 'URL')}
-              style={TextInputStyle.small}
-              onChange={(value: string) => {
-                onAttachmentChanged(index, attachment.type, value);
-              }}
-              entry={{ value: attachment.url }}
-              autocomplete={true}
-            />
+      <div>
+        {attachment.valid && !attachment.validationFailures ? (
+          <div className={styles.loading}>
+            Checking URL validity
+            <Loading size={10} units={6} color="#999999" />
           </div>
-          <div className={styles.remove}>
-            <Pill
-              icon="fe-x"
-              text=" Remove"
-              large={true}
-              onClick={() => {
-                onAttachmentRemoved(index);
-              }}
-            />
+        ) : null}
+        {attachment.validationFailures && attachment.validationFailures.length > 0 ? (
+          <div className={styles.error}>
+            <ImCross className={styles.crossIcon} />
+            {attachment.validationFailures[0].message}
           </div>
-        </>
-      ) : null}
-    </div>
+        ) : null}
+      </div>
+    </>
   );
 };

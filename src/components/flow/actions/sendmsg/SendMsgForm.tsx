@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { react as bindCallbacks } from 'auto-bind';
-import axios from 'axios';
-import { ImCross } from 'react-icons/im';
-import Loading from 'components/loading/Loading';
 import { AxiosResponse } from 'axios';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
@@ -41,7 +38,7 @@ import { FeatureFilter } from 'config/interfaces';
 
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
-import { Attachment, renderAttachments } from './attachments';
+import { Attachment, renderAttachments, validateURL } from './attachments';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -53,12 +50,11 @@ export interface SendMsgFormState extends FormState {
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
   templateTranslation?: TemplateTranslation;
-  validAttachment: any;
-  attachmentError: any;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
   private filePicker: any;
+  private timeout: any;
 
   constructor(props: ActionFormProps) {
     super(props);
@@ -108,7 +104,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         [MaxOfTenItems]
       );
     }
-
     const updated = mergeForm(this.state, updates) as SendMsgFormState;
 
     this.setState(updated);
@@ -131,105 +126,39 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     return this.handleUpdate({ sendAll });
   }
 
-  public handleAxios(body: any, type: any) {
-    axios
-      .get(`${this.props.assetStore.validateMedia.endpoint}?url=${body.url}&type=${body.type}`)
-      .then(response => {
-        if (response.data.is_valid) {
-          // make sure we validate untouched text fields and contact fields
-          // let valid = this.handleMessageUpdate(this.state.message.value, null, true);
-          let valid = true;
-
-          let templateVariables = this.state.templateVariables;
-          // make sure we don't have untouched template variables
-          this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
-            const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
-            templateVariables = mutate(templateVariables, {
-              [num]: { $merge: updated }
-            }) as StringEntry[];
-            valid = valid && !hasErrors(updated);
-          });
-
-          valid = valid && !hasErrors(this.state.quickReplyEntry);
-
-          if (valid) {
-            this.setState({ validAttachment: false });
-            this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
-            // notify our modal we are done
-            this.props.onClose(false);
-          } else {
-            this.setState({ templateVariables, valid });
-          }
-        } else {
-          this.setState({ attachmentError: response.data.message });
-        }
-      })
-      .catch(error => {
-        this.setState({ attachmentError: `The attachment url is invalid!: ${error.toString()}` });
-      });
-  }
-
   private handleSave(): void {
-    if (this.state.attachments.length > 0) {
-      const type = this.state.attachments[0].type;
-      const url = this.state.attachments[0].url;
+    // don't continue if our message already has errors
+    if (hasErrors(this.state.message)) {
+      return;
+    }
 
-      let body = {
-        type,
-        url
-      };
+    if (this.state.attachments.length > 0 && this.state.attachments[0].valid) {
+      return;
+    }
 
-      if (type === 'application') {
-        body.type = 'document';
-      }
+    // make sure we validate untouched text fields and contact fields
+    let valid = this.handleMessageUpdate(this.state.message.value, null, true);
+    let templateVariables = this.state.templateVariables;
+    // make sure we don't have untouched template variables
+    this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
+      const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
+      templateVariables = mutate(templateVariables, {
+        [num]: { $merge: updated }
+      }) as StringEntry[];
+      valid = valid && !hasErrors(updated);
+    });
 
-      switch (type) {
-        case 'image':
-          this.handleAxios(body, 'image');
-          break;
+    valid = valid && !hasErrors(this.state.quickReplyEntry);
 
-        case 'video':
-          this.handleAxios(body, 'video');
-          break;
-
-        case 'audio':
-          this.handleAxios(body, 'audio');
-          break;
-        case 'application':
-          this.handleAxios(body, 'document');
-          break;
-      }
-      this.setState({ validAttachment: true, attachmentError: null });
+    if (templateVariables.length > 0 && !this.state.message.value) {
+      valid = !valid;
+    }
+    if (valid) {
+      this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
+      // notify our modal we are done
+      this.props.onClose(false);
     } else {
-      // don't continue if our message already has errors
-      if (hasErrors(this.state.message)) {
-        return;
-      }
-
-      // make sure we validate untouched text fields and contact fields
-      let valid = this.handleMessageUpdate(this.state.message.value, null, true);
-      let templateVariables = this.state.templateVariables;
-      // make sure we don't have untouched template variables
-      this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
-        const updated = validate(`Variable ${num + 1}`, variable.value, [Required]);
-        templateVariables = mutate(templateVariables, {
-          [num]: { $merge: updated }
-        }) as StringEntry[];
-        valid = valid && !hasErrors(updated);
-      });
-
-      valid = valid && !hasErrors(this.state.quickReplyEntry);
-
-      if (templateVariables.length > 0 && !this.state.message.value) {
-        valid = !valid;
-      }
-      if (valid) {
-        this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
-        // notify our modal we are done
-        this.props.onClose(false);
-      } else {
-        this.setState({ templateVariables, valid });
-      }
+      this.setState({ templateVariables, valid });
     }
   }
 
@@ -368,8 +297,25 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     this.setState({ attachments });
   }
 
+  private attachmentValidate(body: any, valid: boolean, validationFailures: any) {
+    const attachments: any = mutate(this.state.attachments, {
+      [0]: {
+        $set: { type: body.type, url: body.url, valid, validationFailures }
+      }
+    });
+    this.setState({ attachments });
+  }
+
   private handleAttachmentChanged(index: number, type: string, url: string) {
     let attachments: any = this.state.attachments;
+
+    if (type && url) {
+      window.clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        validateURL(this.props.assetStore.validateMedia.endpoint, attachments[0], this);
+      }, 1000);
+    }
+
     if (index === -1) {
       attachments = mutate(attachments, {
         $push: [{ type, url }]
@@ -377,7 +323,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     } else {
       attachments = mutate(attachments, {
         [index]: {
-          $set: { type, url }
+          $set: { type, url, valid: true }
         }
       });
     }
@@ -404,7 +350,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         this.handleAttachmentChanged,
         this.handleAttachmentRemoved
       ),
-      checked: this.state.attachments.length > 0
+      checked: this.state.attachments.length > 0,
+      hasErrors: this.state.attachments.length > 0 && this.state.attachments[0].valid
     };
 
     const tabs = [attachments];
@@ -419,40 +366,27 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       tabs.splice(0, 0, templates);
     }
 
-    // currently, we aren't support to facebook
-
-    // if (hasFeature(this.context.config, FeatureFilter.HAS_FACEBOOK)) {
-    //   const templates: Tab = {
-    //     name: 'Facebook',
-    //     body: this.renderTopicConfig(),
-    //     checked: this.state.topic.value != null
-    //   };
-    //   tabs.splice(0, 0, templates);
-    // }
-
     return (
-      <>
-        <Dialog
-          title={typeConfig.name}
-          headerClass={typeConfig.type}
-          buttons={this.getButtons()}
-          tabs={tabs}
-        >
-          <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-          <TextInputElement
-            name={i18n.t('forms.message', 'Message')}
-            showLabel={false}
-            counter=".sms-counter"
-            onChange={this.handleMessageUpdate}
-            entry={this.state.message}
-            autocomplete={true}
-            focus={true}
-            textarea={true}
-          />
-          <temba-charcount class="sms-counter"></temba-charcount>
-          {renderIssues(this.props)}
-        </Dialog>
-      </>
+      <Dialog
+        title={typeConfig.name}
+        headerClass={typeConfig.type}
+        buttons={this.getButtons()}
+        tabs={tabs}
+      >
+        <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
+        <TextInputElement
+          name={i18n.t('forms.message', 'Message')}
+          showLabel={false}
+          counter=".sms-counter"
+          onChange={this.handleMessageUpdate}
+          entry={this.state.message}
+          autocomplete={true}
+          focus={true}
+          textarea={true}
+        />
+        <temba-charcount class="sms-counter"></temba-charcount>
+        {renderIssues(this.props)}
+      </Dialog>
     );
   }
 }

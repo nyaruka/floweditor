@@ -33,7 +33,8 @@ export const initializeForm = (
       const attachment = {
         type,
         url: attachmentString.substring(splitPoint + 1),
-        uploaded: type.indexOf('/') > -1
+        uploaded: type.indexOf('/') > -1,
+        valid: false
       };
 
       attachments.push(attachment);
@@ -63,9 +64,7 @@ export const initializeForm = (
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
-      valid: true,
-      validAttachment: false,
-      attachmentError: null
+      valid: true
     };
   }
 
@@ -78,9 +77,7 @@ export const initializeForm = (
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
     sendAll: false,
-    valid: false,
-    validAttachment: false,
-    attachmentError: null
+    valid: false
   };
 };
 
