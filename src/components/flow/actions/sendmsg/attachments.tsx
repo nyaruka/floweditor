@@ -29,9 +29,11 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
-  { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
-]);
+// const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
+//   { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
+// ]);
+
+const NEW_TYPE_OPTIONS = TYPE_OPTIONS;
 
 export const validateURL = (endpoint: any, body: any, msgForm: any) => {
   axios
