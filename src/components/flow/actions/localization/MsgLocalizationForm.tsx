@@ -3,7 +3,6 @@ import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
 import styles from 'components/flow/actions/action/Action.module.scss';
 import { determineTypeConfig } from 'components/flow/helpers';
 import { LocalizationFormProps } from 'components/flow/props';
-import MultiChoiceInput from 'components/form/multichoice/MultiChoice';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import UploadButton from 'components/uploadbutton/UploadButton';
 import { fakePropType } from 'config/ConfigProvider';
@@ -15,7 +14,6 @@ import { MaxOfTenItems, validate } from 'store/validators';
 
 import { initializeLocalizedForm } from './helpers';
 import i18n from 'config/i18n';
-import { Trans } from 'react-i18next';
 import { range } from 'utils';
 import { renderIssues } from '../helpers';
 import { Attachment, renderAttachments } from '../sendmsg/attachments';
