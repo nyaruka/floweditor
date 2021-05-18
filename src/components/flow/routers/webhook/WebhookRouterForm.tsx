@@ -249,7 +249,7 @@ export default class WebhookRouterForm extends React.Component<
 
     const tabs: Tab[] = [];
     tabs.push({
-      name: 'HTTP Headers',
+      name: i18n.t('forms.http_headers', 'HTTP Headers'),
       hasErrors: !!this.state.headers.find((header: HeaderEntry) => hasErrors(header)),
       body: (
         <>

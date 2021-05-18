@@ -19,6 +19,7 @@ import AppState from 'store/state';
 import { DispatchWithState, MergeEditorState } from 'store/thunks';
 import { createUUID } from 'utils';
 import { PopTabType } from 'config/interfaces';
+import i18n from 'config/i18n';
 
 const MESSAGE_DELAY_MS = 200;
 
@@ -404,7 +405,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             $push: [
               {
                 type: 'info',
-                text: 'Exited flow',
+                text: i18n.t('simulator.flow_exited', 'Exited flow'),
                 created_on: new Date()
               } as any
             ]
@@ -1003,7 +1004,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
                   type="text"
                   onKeyUp={this.onKeyUp}
                   disabled={this.state.sprinting}
-                  placeholder={this.state.active ? 'Enter message' : 'Press home to start again'}
+                  placeholder={
+                    this.state.active
+                      ? i18n.t('simulator.prompt.message', 'Enter message')
+                      : i18n.t('simulator.prompt.restart', 'Press home to start again')
+                  }
                 />
                 <div className={styles.show_attachments_button}>
                   <div
@@ -1061,9 +1066,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         <div className={styles.simulator_tab + ' ' + tabHidden} onClick={this.onToggle}>
           <div className={styles.simulator_tab_icon + ' fe-smartphone'} />
           <div className={styles.simulator_tab_text}>
-            Run in
-            <br />
-            Simulator
+            {i18n.t('simulator.label', 'Run in Simulator')}
           </div>
         </div>
       </div>

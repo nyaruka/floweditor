@@ -99,6 +99,7 @@ export default class AddLabelsForm extends React.PureComponent<
           entry={this.state.labels}
           searchable={true}
           multi={true}
+          expressions={true}
           onChange={this.handleLabelsChanged}
           createPrefix={i18n.t('create_label', 'Create Label') + ': '}
           createAssetFromInput={this.handleCreateAssetFromInput}

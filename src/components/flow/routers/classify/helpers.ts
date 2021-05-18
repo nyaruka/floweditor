@@ -6,7 +6,7 @@ import {
   createRenderNode
 } from 'components/flow/routers/helpers';
 import { DEFAULT_OPERAND } from 'components/nodeeditor/constants';
-import { Types, Operators, HIDDEN } from 'config/interfaces';
+import { Types, Operators, VISIBILITY_HIDDEN } from 'config/interfaces';
 import { getType } from 'config/typeConfigs';
 import { CallClassifier, SwitchRouter, Case, Exit, Category, RouterTypes } from 'flowTypes';
 import { RenderNode } from 'store/flowContext';
@@ -28,7 +28,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): CallClassifier 
 
 export const nodeToState = (settings: NodeEditorSettings): ClassifyRouterFormState => {
   // TODO: work out an incremental result name
-  const resultName: StringEntry = { value: 'Result' };
+  let resultName: StringEntry = { value: 'Result' };
   let initialCases: CaseProps[] = [];
 
   let operand = DEFAULT_OPERAND;
@@ -43,14 +43,15 @@ export const nodeToState = (settings: NodeEditorSettings): ClassifyRouterFormSta
       initialCases = createCaseProps(router.cases, settings.originalNode);
 
       hiddenCases = initialCases.filter(
-        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility === HIDDEN
+        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility === VISIBILITY_HIDDEN
       );
 
       initialCases = initialCases.filter(
-        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility !== HIDDEN
+        (kase: CaseProps) => getOperatorConfig(kase.kase.type).visibility !== VISIBILITY_HIDDEN
       );
     }
 
+    resultName = { value: router.result_name || 'Result' };
     const action = getOriginalAction(settings) as CallClassifier;
     classifier = { value: action.classifier };
     operand = action.input;
@@ -172,19 +173,4 @@ export const stateToNode = (
     Types.split_by_intent,
     [newAction]
   );
-};
-
-export const createEmptyCase = (): CaseProps => {
-  const uuid = createUUID();
-  return {
-    uuid,
-    kase: {
-      uuid,
-      type: Operators.has_top_intent,
-      arguments: ['', ''],
-      category_uuid: null
-    },
-    categoryName: '',
-    valid: true
-  };
 };

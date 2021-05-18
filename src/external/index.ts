@@ -15,7 +15,6 @@ import {
 import { assetListToMap } from 'store/helpers';
 import { CompletionSchema } from 'utils/completion';
 import { FlowTypes } from 'config/interfaces';
-import { getAuthToken } from 'utils';
 
 // Configure axios to always send JSON requests
 axios.defaults.headers.post['Content-Type'] = 'application/javascript';
@@ -174,6 +173,19 @@ export const getAssets = async (url: string, type: AssetType, id: string): Promi
   return assets;
 };
 
+export const getFlowType = (flow: any) => {
+  switch (flow.type) {
+    case 'message':
+      return FlowTypes.MESSAGING;
+    case 'voice':
+      return FlowTypes.VOICE;
+    case 'background':
+      return FlowTypes.MESSAGING_BACKGROUND;
+    case 'survey':
+      return FlowTypes.MESSAGING_OFFLINE;
+  }
+};
+
 export const resultToAsset = (result: any, type: AssetType, id: string): Asset => {
   const idKey = id || 'uuid';
 
@@ -182,13 +194,16 @@ export const resultToAsset = (result: any, type: AssetType, id: string): Asset =
   if (type === AssetType.Flow && result.type) {
     switch (result.type) {
       case 'message':
-        result.type = FlowTypes.MESSAGE;
+        result.type = FlowTypes.MESSAGING;
         break;
       case 'voice':
         result.type = FlowTypes.VOICE;
         break;
+      case 'background':
+        result.type = FlowTypes.MESSAGING_BACKGROUND;
+        break;
       case 'survey':
-        result.type = FlowTypes.SURVEY;
+        result.type = FlowTypes.MESSAGING_OFFLINE;
         break;
     }
   }

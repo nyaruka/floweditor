@@ -6,7 +6,7 @@ import {
 } from 'components/flow/actions/helpers';
 import { SendBroadcastFormState } from 'components/flow/actions/sendbroadcast/SendBroadcastForm';
 import { Types } from 'config/interfaces';
-import { Attachment } from 'components/flow/actions/sendmsg/SendMsgForm';
+import { Attachment } from 'components/flow/actions/sendmsg/attachments';
 import { BroadcastMsg, SendMsg, MsgTemplating } from 'flowTypes';
 import { AssetType } from 'store/flowContext';
 import { NodeEditorSettings, StringEntry } from 'store/nodeEditor';

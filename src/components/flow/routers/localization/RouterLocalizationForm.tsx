@@ -118,38 +118,42 @@ export default class RouterLocalizationForm extends React.Component<
 
       const { verboseName } = getOperatorConfig(originalCase.type);
 
-      const [orginalArgument] = originalCase.arguments;
+      if (originalCase.arguments) {
+        const [orginalArgument] = originalCase.arguments;
 
-      let argument = '';
-      if (kase.arguments && kase.arguments.length > 0) {
-        argument = kase.arguments[0];
+        let argument = '';
+        if (kase.arguments && kase.arguments.length > 0) {
+          argument = kase.arguments[0];
+        }
+        const translation = i18n.t('forms.translation', 'Translation');
+
+        return (
+          <div
+            key={`translate_${kase.uuid}`}
+            data-spec="operator-field"
+            className={styles.translating_operator_container}
+          >
+            <div data-spec="verbose-name" className={styles.translating_operator}>
+              {verboseName}
+            </div>
+            <div data-spec="argument-to-translate" className={styles.translating_from}>
+              {orginalArgument}
+            </div>
+            <div className={styles.translating_to}>
+              <TextInputElement
+                data-spec="localize-case"
+                name={kase.uuid}
+                placeholder={`${this.props.language.name} ${translation}`}
+                showLabel={false}
+                onChange={(arg: string) => this.handleUpdateCaseArgument(kase, arg)}
+                entry={{ value: argument }}
+              />
+            </div>
+          </div>
+        );
+      } else {
+        return null;
       }
-      const translation = i18n.t('forms.translation', 'Translation');
-
-      return (
-        <div
-          key={`translate_${kase.uuid}`}
-          data-spec="operator-field"
-          className={styles.translating_operator_container}
-        >
-          <div data-spec="verbose-name" className={styles.translating_operator}>
-            {verboseName}
-          </div>
-          <div data-spec="argument-to-translate" className={styles.translating_from}>
-            {orginalArgument}
-          </div>
-          <div className={styles.translating_to}>
-            <TextInputElement
-              data-spec="localize-case"
-              name={kase.uuid}
-              placeholder={`${this.props.language.name} ${translation}`}
-              showLabel={false}
-              onChange={(arg: string) => this.handleUpdateCaseArgument(kase, arg)}
-              entry={{ value: argument }}
-            />
-          </div>
-        </div>
-      );
     });
   }
 
@@ -188,7 +192,12 @@ export default class RouterLocalizationForm extends React.Component<
 
     const tabs: Tab[] = [];
 
-    if (this.state.cases.length > 0) {
+    const hasCasesWithArguments = !!this.state.cases.find((kase: Case) => {
+      const orginalCase = getOriginalCase(this.props.nodeSettings, kase.uuid) as Case;
+      return orginalCase.arguments && orginalCase.arguments.length > 0;
+    });
+
+    if (hasCasesWithArguments) {
       tabs.push({
         name: 'Rule Translations',
         body: (
@@ -197,7 +206,16 @@ export default class RouterLocalizationForm extends React.Component<
               Sometimes languages need special rules to route things properly. If a translation is
               not provided, the original rule will be used.
             </p>
-            {this.renderCases()}
+            <div
+              className={
+                styles.translating_list_container +
+                ' ' +
+                (this.state.cases.length > 5 ? styles.scrolling : '')
+              }
+              tabIndex={0}
+            >
+              <div className={styles.translating_item_list}>{this.renderCases()}</div>
+            </div>
           </>
         )
       });
@@ -214,7 +232,16 @@ export default class RouterLocalizationForm extends React.Component<
           When category names are referenced later in the flow, the appropriate language for the
           category will be used. If no translation is provided, the original text will be used.
         </p>
-        {this.renderCategories()}
+        <div
+          className={
+            styles.translating_list_container +
+            ' ' +
+            (this.state.categories.length > 5 ? styles.scrolling : '')
+          }
+          tabIndex={0}
+        >
+          <div className={styles.translating_item_list}>{this.renderCategories()}</div>
+        </div>
         {renderIssues(this.props)}
       </Dialog>
     );

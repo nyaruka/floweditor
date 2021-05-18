@@ -35,7 +35,8 @@ exports[`ResthookRouterForm render should render 1`] = `
         "name": "Call Zapier",
         "type": "call_resthook",
         "visibility": Array [
-          "message",
+          "messaging",
+          "messaging_background",
           "voice",
         ],
       }

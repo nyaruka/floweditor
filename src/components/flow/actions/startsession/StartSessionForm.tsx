@@ -22,15 +22,15 @@ import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
 
 export const START_TYPE_ASSETS: SelectOption = {
-  name: 'Select recipients manually',
+  name: i18n.t('forms.start_type_manual', 'Select recipients manually'),
   value: 'assets'
 };
 export const START_TYPE_CREATE: SelectOption = {
-  name: 'Create a new contact',
+  name: i18n.t('forms.start_type_create', 'Create a new contact'),
   value: 'create_contact'
 };
 export const START_TYPE_QUERY: SelectOption = {
-  name: 'Select recipients from a query',
+  name: i18n.t('forms.start_type_query', 'Select recipients from a query'),
   value: 'contact_query'
 };
 
@@ -166,11 +166,15 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
             <div data-testid="recipients">
               <AssetSelector
                 name={i18n.t('forms.recipients', 'Recipients')}
-                placeholder="Choose who should be started in the flow"
+                placeholder={i18n.t(
+                  'forms.select_who_to_start',
+                  'Select who should be started in the flow'
+                )}
                 assets={this.props.assetStore.recipients}
                 entry={this.state.recipients}
                 searchable={true}
                 multi={true}
+                expressions={true}
                 onChange={this.handleRecipientsChanged}
               />
               <p />
@@ -193,7 +197,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
 
           <AssetSelector
             name={i18n.t('forms.flow', 'Flow')}
-            placeholder="Choose which flow to start"
+            placeholder={i18n.t('forms.select_flow', 'Select the flow to start')}
             assets={this.props.assetStore.flows}
             entry={this.state.flow}
             searchable={true}

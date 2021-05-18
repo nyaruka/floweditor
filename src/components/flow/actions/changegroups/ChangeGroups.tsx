@@ -35,7 +35,7 @@ export const getContentMarkup = (
           return {
             id: group.name_match,
             name: group.name_match,
-            type: AssetType.GroupNameMatch
+            type: AssetType.NameMatch
           };
         }
         return {

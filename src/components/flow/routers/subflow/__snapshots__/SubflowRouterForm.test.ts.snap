@@ -55,9 +55,9 @@ exports[`SubflowRouterForm render should render 1`] = `
     }
     name="Flow"
     onChange={[Function]}
-    onFilter={[Function]}
     placeholder="Select the flow to start"
     searchable={true}
+    shouldExclude={[Function]}
   />
 </Dialog>
 `;

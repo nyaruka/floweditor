@@ -18,16 +18,16 @@ describe('External', () => {
   });
 
   it('converts rp api flow types', () => {
-    // survey converts to the goflowy message_offline
+    // message to messaging, survey to messaging_offline, voice stays the same
     expect(resultToAsset({ type: 'survey' }, AssetType.Flow, 'uuid').content.type).toEqual(
-      'message_offline'
+      'messaging_offline'
     );
-
-    // message and voice stay the same
     expect(resultToAsset({ type: 'message' }, AssetType.Flow, 'uuid').content.type).toEqual(
-      'message'
+      'messaging'
     );
-
+    expect(resultToAsset({ type: 'background' }, AssetType.Flow, 'uuid').content.type).toEqual(
+      'messaging_background'
+    );
     expect(resultToAsset({ type: 'voice' }, AssetType.Flow, 'uuid').content.type).toEqual('voice');
   });
 });

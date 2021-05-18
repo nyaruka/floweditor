@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DialRouterForm should render 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="header wait_for_dial"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Wait for Forwarded Call
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
+                searchable="true"
+                valuekey="type"
+                values="[{\\"type\\":\\"wait_for_dial\\",\\"name\\":\\"Wait for Forwarded Call\\",\\"description\\":\\"Wait for forwarded call to someone else\\",\\"visibility\\":[\\"voice\\"]}]"
+              />
+            </div>
+          </div>
+        </div>
+        <p>
+          Enter the phone number to dial
+        </p>
+        <div
+          class="ele"
+        >
+          <div
+            class="wrapper normal"
+          >
+            <input
+              data-testid="phone"
+              name="phone"
+              placeholder="Phone Number"
+              value="0979123456"
+            />
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="label"
+            >
+              Result Name
+            </div>
+            <div
+              class="wrapper normal"
+            >
+              <input
+                data-testid="Result Name"
+                name="Result Name"
+                value="Dial Result"
+              />
+            </div>
+            <div
+              class="help_text"
+            >
+              By naming the result, you can reference it later using @results.dial_result
+               
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`DialRouterForm should update wait when phone number is changed 1`] = `
+Array [
+  Object {
+    "inboundConnections": Object {},
+    "node": Object {
+      "actions": Array [],
+      "exits": Array [
+        Object {
+          "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+        },
+        Object {
+          "uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+        },
+        Object {
+          "uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+        },
+        Object {
+          "uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+        },
+        Object {
+          "uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+        },
+        Object {
+          "uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+        },
+      ],
+      "router": Object {
+        "cases": Array [
+          Object {
+            "arguments": Array [
+              "answered",
+            ],
+            "category_uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+            "type": "has_only_text",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+          },
+          Object {
+            "arguments": Array [
+              "no answer",
+            ],
+            "category_uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+            "type": "has_only_text",
+            "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
+          },
+          Object {
+            "arguments": Array [
+              "busy",
+            ],
+            "category_uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+            "type": "has_only_text",
+            "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
+          },
+          Object {
+            "arguments": Array [
+              "failed",
+            ],
+            "category_uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+            "type": "has_only_text",
+            "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
+          },
+        ],
+        "categories": Array [
+          Object {
+            "exit_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
+            "name": "Answered",
+            "uuid": "70ac6ea6-803a-4c33-81c7-dc26803c313f",
+          },
+          Object {
+            "exit_uuid": "e67ce051-f3e4-4c42-807b-e393df5fa382",
+            "name": "No Answer",
+            "uuid": "e0bc3776-792f-49d2-b4be-48be2cf8159a",
+          },
+          Object {
+            "exit_uuid": "6c22884b-0e35-4206-982e-18320691eda9",
+            "name": "Busy",
+            "uuid": "a62e8284-49f8-4292-adbc-d5f6607f85c5",
+          },
+          Object {
+            "exit_uuid": "0c8c9239-9b59-473a-a229-d8a9693be270",
+            "name": "Failed",
+            "uuid": "9adce29f-da95-4182-9cb3-0f1e3bf714e5",
+          },
+          Object {
+            "exit_uuid": "6b59e863-2e14-442b-9987-aaa284871b8e",
+            "name": "Other",
+            "uuid": "00dd2423-0a34-4ee2-b97d-839fb2d593ef",
+          },
+          Object {
+            "exit_uuid": "c5722340-f7e1-4d99-ac5e-3a6e59845111",
+            "name": "No Response",
+            "uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+          },
+        ],
+        "default_category_uuid": "f05fa107-03db-4315-a211-53da63603e6f",
+        "operand": "@(default(resume.dial.status, \\"\\"))",
+        "result_name": "Dial Result",
+        "type": "switch",
+        "wait": Object {
+          "phone": "0979123456",
+          "type": "dial",
+        },
+      },
+      "uuid": "141e0356-9fdd-47d3-a12d-16efc5b45276",
+    },
+    "ui": Object {
+      "config": Object {},
+      "position": null,
+      "type": "wait_for_dial",
+    },
+  },
+]
+`;

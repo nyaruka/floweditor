@@ -1,11 +1,10 @@
 import { react as bindCallbacks } from 'auto-bind';
-import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import AssetSelector from 'components/form/assetselector/AssetSelector';
-import CheckboxElement from 'components/form/checkbox/CheckboxElement';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
@@ -181,24 +180,27 @@ export default class ResultRouterForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
-    const advanced: Tab = {
-      name: 'Advanced',
-      body: (
-        <div className={styles.should_delimit}>
-          <CheckboxElement
-            name={i18n.t('forms.delimit', 'Delimit')}
-            title={i18n.t('forms.delimit_result', 'Delimit Result')}
-            checked={this.state.shouldDelimit}
-            description={i18n.t(
-              'forms.delimit_result_description',
-              'Evaluate your rules against a delimited part of your result'
-            )}
-            onChange={this.handleShouldDelimitChanged}
-          />
-        </div>
-      ),
-      checked: this.state.shouldDelimit
-    };
+
+    // we are not using this tab in GLific
+
+    // const advanced: Tab = {
+    //   name: 'Advanced',
+    //   body: (
+    //     <div className={styles.should_delimit}>
+    //       <CheckboxElement
+    //         name={i18n.t('forms.delimit', 'Delimit')}
+    //         title={i18n.t('forms.delimit_result', 'Delimit Result')}
+    //         checked={this.state.shouldDelimit}
+    //         description={i18n.t(
+    //           'forms.delimit_result_description',
+    //           'Evaluate your rules against a delimited part of your result'
+    //         )}
+    //         onChange={this.handleShouldDelimitChanged}
+    //       />
+    //     </div>
+    //   ),
+    //   checked: this.state.shouldDelimit
+    // };
 
     return (
       <Dialog

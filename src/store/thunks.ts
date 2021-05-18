@@ -178,6 +178,11 @@ const NETWORK_ERROR = i18n.t(
   'Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again.'
 );
 
+const SERVER_ERROR = i18n.t(
+  'errors.server',
+  'Hmm, we ran into a problem trying to save your changes. If this problem persists, take note of the change you are trying to make and contact support.'
+);
+
 export const createSaveMonitor = (dispatch: DispatchWithState) => {
   window.setInterval(() => {
     if (
@@ -233,10 +238,10 @@ export const createDirty = (
         const revision = result.revision;
         definition.revision = revision.revision;
         dispatch(updateDefinition(definition));
+        dispatch(updateIssues(createFlowIssueMap(issues, result.issues)));
 
         if (result.metadata) {
           dispatch(updateMetadata(result.metadata));
-          dispatch(updateIssues(createFlowIssueMap(issues, result.metadata.issues)));
         }
 
         const updatedAssets = mutators.addRevision(assetStore, revision);
@@ -253,11 +258,16 @@ export const createDirty = (
         postingRevision = false;
       },
       (error: AxiosError) => {
-        const errorMessage = error.response
-          ? (error.response.data as ErrorMessage).description
-          : NETWORK_ERROR;
+        let body = NETWORK_ERROR;
 
-        const body = errorMessage;
+        if (error.response && error.response.status === 500) {
+          body = SERVER_ERROR;
+        }
+
+        if (error.response && error.response.data && error.response.data.description) {
+          body = error.response.data.description;
+        }
+
         dispatch(
           mergeEditorState({
             modalMessage: {
@@ -342,8 +352,8 @@ export const loadFlowDefinition = (details: FlowDetails, assetStore: AssetStore)
     mergeAssetMaps(assetStore.languages.items, { base: DEFAULT_LANGUAGE });
   }
 
-  if (details.metadata && details.metadata.issues) {
-    dispatch(updateIssues(createFlowIssueMap(issues, details.metadata.issues)));
+  if (details.issues) {
+    dispatch(updateIssues(createFlowIssueMap(issues, details.issues)));
   } else {
     dispatch(updateIssues({}));
   }

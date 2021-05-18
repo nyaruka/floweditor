@@ -230,21 +230,27 @@ export default class LogEvent extends React.Component<EventProps, LogEventState>
   private renderGroupsChanged(): JSX.Element {
     let parts: string[] = [];
     if (this.props.groups_added) {
-      const info = i18n.t('simulator.added_to_group', 'Added to ');
-      parts.push(info + this.renderValueList(this.props.groups_added.map(group => group.name)));
+      const info = i18n.t('simulator.added_to_group', 'Added to');
+      parts.push(
+        info + ' ' + this.renderValueList(this.props.groups_added.map(group => group.name))
+      );
     }
     if (this.props.groups_removed) {
-      const info = i18n.t('simulator.removed_from_group', 'Removed from ');
-      parts.push(info + this.renderValueList(this.props.groups_removed.map(group => group.name)));
+      const info = i18n.t('simulator.removed_from_group', 'Removed from');
+      parts.push(
+        info + ' ' + this.renderValueList(this.props.groups_removed.map(group => group.name))
+      );
     }
 
     return renderInfo(parts.join('. '));
   }
 
   private renderLabelsAdded(): JSX.Element {
-    let info = i18n.t('simulator.input_labels_added', 'Message labeled with ');
+    let info = i18n.t('simulator.input_labels_added', 'Message labeled with');
 
-    return renderInfo(info + this.renderValueList(this.props.labels.map(label => label.name)));
+    return renderInfo(
+      info + ' ' + this.renderValueList(this.props.labels.map(label => label.name))
+    );
   }
 
   private renderEmailSent(): JSX.Element {

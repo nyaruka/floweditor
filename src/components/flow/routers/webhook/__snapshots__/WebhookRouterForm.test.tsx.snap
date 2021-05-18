@@ -134,7 +134,8 @@ exports[`WebhookRouterForm should render 1`] = `
         "name": "Call Webhook",
         "type": "call_webhook",
         "visibility": Array [
-          "message",
+          "messaging",
+          "messaging_background",
           "voice",
         ],
       }
@@ -426,7 +427,7 @@ exports[`WebhookRouterForm updates should save changes 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"call_webhook\\",\\"name\\":\\"Call Webhook\\",\\"description\\":\\"Call a webhook\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_webhook\\"],\\"visibility\\":[\\"message\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"call_webhook\\",\\"name\\":\\"Call Webhook\\",\\"description\\":\\"Call a webhook\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"split_by_webhook\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
               />
             </div>
           </div>

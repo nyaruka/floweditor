@@ -83,7 +83,7 @@ exports[`WaitRouterForm should render a normal wait 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"wait_for_response\\",\\"name\\":\\"Wait for Response\\",\\"description\\":\\"Wait for the contact to respond\\",\\"localizeableKeys\\":[\\"categories\\",\\"cases\\"],\\"aliases\\":[\\"switch\\"],\\"visibility\\":[\\"message\\",\\"message_offline\\"]}]"
+                values="[{\\"type\\":\\"wait_for_response\\",\\"name\\":\\"Wait for Response\\",\\"description\\":\\"Wait for the contact to respond\\",\\"localizeableKeys\\":[\\"categories\\",\\"cases\\"],\\"aliases\\":[\\"switch\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_offline\\"]}]"
               />
             </div>
           </div>
@@ -176,7 +176,7 @@ exports[`WaitRouterForm should render wait for audio with previous name 1`] = `
                 namekey="description"
                 searchable="true"
                 valuekey="type"
-                values="[{\\"type\\":\\"wait_for_audio\\",\\"name\\":\\"Wait for Audio\\",\\"description\\":\\"Wait for an audio recording\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"message_offline\\",\\"voice\\"]}]"
+                values="[{\\"type\\":\\"wait_for_audio\\",\\"name\\":\\"Wait for Audio\\",\\"description\\":\\"Wait for an audio recording\\",\\"localizeableKeys\\":[\\"exits\\"],\\"visibility\\":[\\"messaging_offline\\",\\"voice\\"]}]"
               />
             </div>
           </div>

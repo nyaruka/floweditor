@@ -68,7 +68,7 @@ describe(Flow.name, () => {
       waitNode,
       waitNode.node.exits[0].uuid,
       1,
-      FlowTypes.MESSAGE
+      FlowTypes.MESSAGING
     );
 
     const actionNode = nodes[nodeMapKeys[0]];
@@ -76,7 +76,7 @@ describe(Flow.name, () => {
       actionNode,
       actionNode.node.exits[0].uuid,
       1,
-      FlowTypes.MESSAGE
+      FlowTypes.MESSAGING
     );
 
     mockConnectionEvent = {

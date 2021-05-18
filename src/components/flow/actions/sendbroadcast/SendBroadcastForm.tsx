@@ -21,15 +21,16 @@ import i18n from 'config/i18n';
 
 import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { Template, TemplateTranslation } from 'flowTypes';
-import { createUUID, getAuthToken, range } from 'utils';
+import { createUUID, range } from 'utils';
 import styles from './SendBroadcastForm.module.scss';
-import { Attachment } from '../sendmsg/SendMsgForm';
+import { Attachment } from '../sendmsg/attachments';
 import { TembaSelectStyle } from 'temba/TembaSelect';
 import Pill from 'components/pill/Pill';
 import Loading from 'components/loading/Loading';
 import { ImCross } from 'react-icons/im';
 import { fetchAsset } from 'external';
 import axios from 'axios';
+
 export interface SendBroadcastFormState extends FormState {
   template: FormEntry;
   templateVariables: StringEntry[];

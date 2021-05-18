@@ -375,8 +375,8 @@ export const createEmptyNode = (
 
   let type = Types.execute_actions;
 
-  // Add an action next if we are coming from a router
-  if (!fromNode || hasRouter(fromNode)) {
+  // Add an action next if 1) this is first node, 2) we are coming from a router or 3) this is a background flow
+  if (!fromNode || hasRouter(fromNode) || flowType === FlowTypes.MESSAGING_BACKGROUND) {
     const replyType = flowType === FlowTypes.VOICE ? Types.say_msg : Types.send_msg;
     const replyAction = {
       uuid: createUUID(),

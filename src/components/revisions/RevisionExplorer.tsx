@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import { PopTab } from 'components/poptab/PopTab';
 import dateFormat from 'dateformat';
 import { getAssets, getFlowDetails } from 'external';
-import { FlowDefinition, SPEC_VERSION, FlowDetails, FlowMetadata } from 'flowTypes';
+import { FlowDefinition, SPEC_VERSION, FlowDetails, FlowIssue, FlowMetadata } from 'flowTypes';
 import React from 'react';
 import { Asset, AssetStore } from 'store/flowContext';
 import { renderIf } from 'utils';
@@ -21,6 +21,7 @@ export interface User {
 
 export interface SaveResult {
   revision: Revision;
+  issues: FlowIssue[];
   metadata: FlowMetadata;
 }
 
@@ -168,7 +169,9 @@ export class RevisionExplorer extends React.Component<
                       onClick={this.onRevisionClicked(asset)}
                     >
                       {renderIf(revision.current)(
-                        <div className={styles.button + ' ' + styles.current}>current</div>
+                        <div className={styles.button + ' ' + styles.current}>
+                          {i18n.t('revisions.current', 'current')}
+                        </div>
                       )}
 
                       {renderIf(revision.status === 'published')(
@@ -177,7 +180,7 @@ export class RevisionExplorer extends React.Component<
 
                       {renderIf(isSelected && !revision.current)(
                         <div onClick={this.onRevertClicked(asset)} className={styles.button}>
-                          revert
+                          {i18n.t('revisions.revert', 'revert')}
                         </div>
                       )}
                       <div className={styles.created_on}>

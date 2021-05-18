@@ -1,0 +1,817 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClassifyRouterForm defaults to correct result name: initial result name 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Classifier Input
+           
+          <span
+            class="tab_icon fe-check"
+          />
+        </div>
+      </div>
+      <div
+        class="header split_by_intent"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split by Intent
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
+                searchable="true"
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
+              />
+            </div>
+          </div>
+        </div>
+        <p>
+          <span>
+            Run 
+          </span>
+          <span
+            class="link"
+          >
+            @input
+          </span>
+          <span>
+             through the classifier...
+          </span>
+        </p>
+        <div
+          class="ele"
+        >
+          <div
+            class="normal "
+          >
+            <temba-select
+              cachekey="0"
+              data-testid="temba_select_classifier"
+              errors="[]"
+              expressions=""
+              name="Classifier"
+              namekey="name"
+              placeholder="Select the classifier to use"
+              valuekey="uuid"
+              values="[{\\"uuid\\":\\"purrington\\",\\"name\\":\\"Purrington\\"}]"
+            />
+          </div>
+        </div>
+        <div
+          class="case_list_container "
+          tabindex="0"
+        >
+          <div
+            class="case_list"
+          >
+            <div
+              class="kase case_list_case"
+            >
+              <div
+                class="ele group"
+              >
+                <div
+                  class="kase has_top_intent"
+                  data-draggable="true"
+                >
+                  <span
+                    class="fe-chevrons-expand dnd_icon"
+                    data-draggable="true"
+                  />
+                  <div
+                    class="choice"
+                  >
+                    <div
+                      class="small "
+                    >
+                      <temba-select
+                        data-testid="temba_select_operator"
+                        errors="[]"
+                        expressions=""
+                        name="operator"
+                        namekey="verboseName"
+                        valuekey="type"
+                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="multi_operand"
+                  >
+                    <div
+                      style="width: 114px;"
+                    >
+                      <div
+                        class="ele"
+                      >
+                        <div
+                          class="small "
+                        >
+                          <temba-select
+                            data-testid="temba_select_intent"
+                            errors="[]"
+                            expressions=""
+                            hideerrors="true"
+                            name="Intent"
+                            namekey="name"
+                            placeholder="Select intent"
+                            valuekey="value"
+                            values="[]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="divider"
+                      data-draggable="true"
+                    >
+                      above
+                    </div>
+                    <div
+                      style="width: 34px;"
+                    >
+                      <div
+                        class="ele"
+                      >
+                        <div
+                          class="wrapper small"
+                        >
+                          <input
+                            data-testid="confidence"
+                            name="confidence"
+                            placeholder=".9"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="categorize_as"
+                    data-draggable="true"
+                  >
+                    categorize as
+                  </div>
+                  <div
+                    class="category"
+                  >
+                    <div
+                      class="ele"
+                    >
+                      <div
+                        class="wrapper small"
+                      >
+                        <input
+                          data-testid="Exit Name"
+                          name="Exit Name"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="fe-x remove_icon"
+                    data-testid="remove-case-42ebf1d0-a43e-4ba6-9577-c863b20c88c4"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="label"
+            >
+              Result Name
+            </div>
+            <div
+              class="wrapper normal"
+            >
+              <input
+                data-testid="Result Name"
+                name="Result Name"
+                value="Initial Result Name"
+              />
+            </div>
+            <div
+              class="help_text"
+            >
+              By naming the result, you can reference it later using @results.initial_result_name
+               
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ClassifyRouterForm should render: default render 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Classifier Input
+           
+          <span
+            class="tab_icon fe-check"
+          />
+        </div>
+      </div>
+      <div
+        class="header split_by_intent"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split by Intent
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
+                searchable="true"
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
+              />
+            </div>
+          </div>
+        </div>
+        <p>
+          <span>
+            Run 
+          </span>
+          <span
+            class="link"
+          >
+            @input
+          </span>
+          <span>
+             through the classifier...
+          </span>
+        </p>
+        <div
+          class="ele"
+        >
+          <div
+            class="normal "
+          >
+            <temba-select
+              cachekey="0"
+              data-testid="temba_select_classifier"
+              errors="[]"
+              expressions=""
+              name="Classifier"
+              namekey="name"
+              placeholder="Select the classifier to use"
+              valuekey="uuid"
+              values="[{\\"uuid\\":\\"purrington\\",\\"name\\":\\"Purrington\\"}]"
+            />
+          </div>
+        </div>
+        <div
+          class="case_list_container "
+          tabindex="0"
+        >
+          <div
+            class="case_list"
+          >
+            <div
+              class="kase case_list_case"
+            >
+              <div
+                class="ele group"
+              >
+                <div
+                  class="kase has_top_intent"
+                  data-draggable="true"
+                >
+                  <span
+                    class="fe-chevrons-expand dnd_icon"
+                    data-draggable="true"
+                  />
+                  <div
+                    class="choice"
+                  >
+                    <div
+                      class="small "
+                    >
+                      <temba-select
+                        data-testid="temba_select_operator"
+                        errors="[]"
+                        expressions=""
+                        name="operator"
+                        namekey="verboseName"
+                        valuekey="type"
+                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="multi_operand"
+                  >
+                    <div
+                      style="width: 114px;"
+                    >
+                      <div
+                        class="ele"
+                      >
+                        <div
+                          class="small "
+                        >
+                          <temba-select
+                            data-testid="temba_select_intent"
+                            errors="[]"
+                            expressions=""
+                            hideerrors="true"
+                            name="Intent"
+                            namekey="name"
+                            placeholder="Select intent"
+                            valuekey="value"
+                            values="[]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="divider"
+                      data-draggable="true"
+                    >
+                      above
+                    </div>
+                    <div
+                      style="width: 34px;"
+                    >
+                      <div
+                        class="ele"
+                      >
+                        <div
+                          class="wrapper small"
+                        >
+                          <input
+                            data-testid="confidence"
+                            name="confidence"
+                            placeholder=".9"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="categorize_as"
+                    data-draggable="true"
+                  >
+                    categorize as
+                  </div>
+                  <div
+                    class="category"
+                  >
+                    <div
+                      class="ele"
+                    >
+                      <div
+                        class="wrapper small"
+                      >
+                        <input
+                          data-testid="Exit Name"
+                          name="Exit Name"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="fe-x remove_icon"
+                    data-testid="remove-case-2dc85899-0577-4f1b-a620-f12094e34b5e"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="label"
+            >
+              Result Name
+            </div>
+            <div
+              class="wrapper normal"
+            >
+              <input
+                data-testid="Result Name"
+                name="Result Name"
+                value="Result"
+              />
+            </div>
+            <div
+              class="help_text"
+            >
+              By naming the result, you can reference it later using @results.result
+               
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
+
+exports[`ClassifyRouterForm updates the result name: updated result name 1`] = `
+<body>
+  <div>
+    <div
+      class="dialog"
+    >
+      <div
+        class="tabs"
+      >
+        <div
+          class="tab "
+        >
+          Classifier Input
+           
+          <span
+            class="tab_icon fe-check"
+          />
+        </div>
+      </div>
+      <div
+        class="header split_by_intent"
+      >
+        <div
+          class="title_container"
+        >
+          <div
+            class="title"
+          >
+            Split by Intent
+          </div>
+          <div
+            class="subtitle"
+          />
+        </div>
+      </div>
+      <div
+        class="content"
+      >
+        <div
+          class=" type_list"
+        >
+          <p>
+            When a contact arrives at this point in your flow...
+          </p>
+          <div>
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_type"
+                errors="[]"
+                expressions=""
+                name="type"
+                namekey="description"
+                searchable="true"
+                valuekey="type"
+                values="[{\\"type\\":\\"split_by_intent\\",\\"name\\":\\"Split by Intent\\",\\"description\\":\\"Split by intent\\",\\"localizeableKeys\\":[\\"exits\\"],\\"aliases\\":[\\"call_classifier\\"],\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"],\\"filter\\":\\"classifier\\"}]"
+              />
+            </div>
+          </div>
+        </div>
+        <p>
+          <span>
+            Run 
+          </span>
+          <span
+            class="link"
+          >
+            @input
+          </span>
+          <span>
+             through the classifier...
+          </span>
+        </p>
+        <div
+          class="ele"
+        >
+          <div
+            class="normal "
+          >
+            <temba-select
+              cachekey="0"
+              data-testid="temba_select_classifier"
+              errors="[]"
+              expressions=""
+              name="Classifier"
+              namekey="name"
+              placeholder="Select the classifier to use"
+              valuekey="uuid"
+              values="[{\\"uuid\\":\\"purrington\\",\\"name\\":\\"Purrington\\"}]"
+            />
+          </div>
+        </div>
+        <div
+          class="case_list_container "
+          tabindex="0"
+        >
+          <div
+            class="case_list"
+          >
+            <div
+              class="kase case_list_case"
+            >
+              <div
+                class="ele group"
+              >
+                <div
+                  class="kase has_top_intent"
+                  data-draggable="true"
+                >
+                  <span
+                    class="fe-chevrons-expand dnd_icon"
+                    data-draggable="true"
+                  />
+                  <div
+                    class="choice"
+                  >
+                    <div
+                      class="small "
+                    >
+                      <temba-select
+                        data-testid="temba_select_operator"
+                        errors="[]"
+                        expressions=""
+                        name="operator"
+                        namekey="verboseName"
+                        valuekey="type"
+                        values="[{\\"type\\":\\"has_top_intent\\",\\"verboseName\\":\\"has top intent\\",\\"operands\\":2,\\"visibility\\":[\\"messaging\\",\\"messaging_background\\",\\"voice\\"]}]"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="multi_operand"
+                  >
+                    <div
+                      style="width: 114px;"
+                    >
+                      <div
+                        class="ele"
+                      >
+                        <div
+                          class="small "
+                        >
+                          <temba-select
+                            data-testid="temba_select_intent"
+                            errors="[]"
+                            expressions=""
+                            hideerrors="true"
+                            name="Intent"
+                            namekey="name"
+                            placeholder="Select intent"
+                            valuekey="value"
+                            values="[]"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="divider"
+                      data-draggable="true"
+                    >
+                      above
+                    </div>
+                    <div
+                      style="width: 34px;"
+                    >
+                      <div
+                        class="ele"
+                      >
+                        <div
+                          class="wrapper small"
+                        >
+                          <input
+                            data-testid="confidence"
+                            name="confidence"
+                            placeholder=".9"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="categorize_as"
+                    data-draggable="true"
+                  >
+                    categorize as
+                  </div>
+                  <div
+                    class="category"
+                  >
+                    <div
+                      class="ele"
+                    >
+                      <div
+                        class="wrapper small"
+                      >
+                        <input
+                          data-testid="Exit Name"
+                          name="Exit Name"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <span
+                    class="fe-x remove_icon"
+                    data-testid="remove-case-70ac6ea6-803a-4c33-81c7-dc26803c313f"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="optional_text_input"
+        >
+          <div
+            class="ele"
+          >
+            <div
+              class="label"
+            >
+              Result Name
+            </div>
+            <div
+              class="wrapper normal"
+            >
+              <input
+                data-testid="Result Name"
+                name="Result Name"
+                value="Updated Result Name"
+              />
+            </div>
+            <div
+              class="help_text"
+            >
+              By naming the result, you can reference it later using @results.updated_result_name
+               
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="footer"
+      >
+        <div
+          class="buttons"
+        >
+          <div
+            class="right_buttons"
+          >
+            <div
+              class="btn secondary  "
+              style="margin-left: 0px; margin-top: 0px;"
+            >
+              Cancel
+            </div>
+            <div
+              class="btn primary  "
+              style="margin-left: 10px; margin-top: 0px;"
+            >
+              Ok
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;

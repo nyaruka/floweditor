@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { getActionUUID } from 'components/flow/actions/helpers';
-import { Attachment, SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
+import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
 import { MsgTemplating, SendMsg } from 'flowTypes';
 import { AssetStore } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import { createUUID } from 'utils';
+import { Attachment } from './attachments';
 
 export const TOPIC_OPTIONS: SelectOption[] = [
   { value: 'event', name: 'Event' },
@@ -32,7 +33,8 @@ export const initializeForm = (
       const attachment = {
         type,
         url: attachmentString.substring(splitPoint + 1),
-        uploaded: type.indexOf('/') > -1
+        uploaded: type.indexOf('/') > -1,
+        valid: false
       };
 
       attachments.push(attachment);
@@ -62,9 +64,7 @@ export const initializeForm = (
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
       sendAll: action.all_urns,
-      valid: true,
-      validAttachment: false,
-      attachmentError: null
+      valid: true
     };
   }
 
@@ -77,9 +77,7 @@ export const initializeForm = (
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
     sendAll: false,
-    valid: false,
-    validAttachment: false,
-    attachmentError: null
+    valid: false
   };
 };
 
