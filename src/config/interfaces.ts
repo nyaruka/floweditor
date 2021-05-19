@@ -100,7 +100,8 @@ export enum Operators {
   has_image = 'has_image',
   has_video = 'has_video',
   has_file = 'has_file',
-  has_location = 'has_location'
+  has_location = 'has_location',
+  has_multiple = 'has_multiple'
 }
 
 export enum FeatureFilter {
