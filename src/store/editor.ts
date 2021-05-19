@@ -122,7 +122,7 @@ export const initialState: EditorState = {
 
   activity: { segments: {}, nodes: {} },
   liveActivity: { segments: {}, nodes: {} },
-  activityInterval: 5000,
+  activityInterval: 60000,
   visible: true,
 
   scrollToNode: null,

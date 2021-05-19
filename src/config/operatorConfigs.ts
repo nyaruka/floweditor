@@ -29,6 +29,11 @@ export const operatorConfigList: Operator[] = [
     operands: 1
   },
   {
+    type: Operators.has_multiple,
+    verboseName: i18n.t('operators.has_multiple', 'has multiple values'),
+    operands: 1
+  },
+  {
     type: Operators.has_all_words,
     verboseName: i18n.t('operators.has_all_words', 'has all of the words'),
     operands: 1
