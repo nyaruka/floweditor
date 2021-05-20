@@ -14,8 +14,7 @@
   "private": false,
   "dependencies": {
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "sass": "1.32.13"
+    "react-dom": "^16.8.6"
   },
   "scripts": {
     "lambda:serve": "netlify-lambda serve lambda -p 6000",
@@ -148,6 +147,7 @@
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "1.5.3",
     "redux-thunk": "2.2.0",
+    "sass": "1.32.13",
     "sha1": "1.1.1",
     "shx": "0.3.2",
     "sign-bunny": "1.0.0",
