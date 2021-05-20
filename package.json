@@ -2,7 +2,7 @@
   "name": "@nyaruka/flow-editor",
   "license": "AGPL-3.0",
   "repository": "git://github.com/nyaruka/floweditor.git",
-  "version": "1.13.9",
+  "version": "1.13.13",
   "description": "'Standalone flow editing tool designed for use within the RapidPro suite of messaging tools but can be adopted for use outside of that ecosystem.'",
   "browser": "umd/flow-editor.min.js",
   "unpkg": "umd/flow-editor.min.js",
@@ -14,7 +14,8 @@
   "private": false,
   "dependencies": {
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "sass": "1.32.13"
   },
   "scripts": {
     "lambda:serve": "netlify-lambda serve lambda -p 6000",
@@ -125,7 +126,6 @@
     "lodash.clonedeep": "4.5.0",
     "moment": "2.24.0",
     "netlify-lambda": "^1.4.9",
-    "node-sass": "4.13.1",
     "prettier": "1.18.2",
     "pretty-quick": "^1.11.0",
     "prop-types": "15.5.7",
