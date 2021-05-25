@@ -16,7 +16,7 @@ import { initializeLocalizedForm } from './helpers';
 import i18n from 'config/i18n';
 import { range } from 'utils';
 import { renderIssues } from '../helpers';
-import { Attachment, renderAttachments } from '../sendmsg/attachments';
+import { Attachment, renderAttachments, validateURL } from '../sendmsg/attachments';
 import { AxiosResponse } from 'axios';
 
 export interface MsgLocalizationFormState extends FormState {
@@ -32,6 +32,7 @@ export default class MsgLocalizationForm extends React.Component<
   LocalizationFormProps,
   MsgLocalizationFormState
 > {
+  private timeout: any;
   constructor(props: LocalizationFormProps) {
     super(props);
     this.state = initializeLocalizedForm(this.props.nodeSettings);
@@ -165,13 +166,29 @@ export default class MsgLocalizationForm extends React.Component<
 
   private handleAttachmentUploaded(response: AxiosResponse) {
     const attachments: any = mutate(this.state.attachments, {
-      $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+      $push: [{ type: 'document', url: response.data.url, uploaded: true }]
+    });
+    this.setState({ attachments });
+  }
+
+  private attachmentValidate(body: any, valid: boolean, validationFailures: any) {
+    const attachments: any = mutate(this.state.attachments, {
+      [0]: {
+        $set: { type: body.type, url: body.url, valid, validationFailures }
+      }
     });
     this.setState({ attachments });
   }
 
   private handleAttachmentChanged(index: number, type: string, url: string) {
     let attachments: any = this.state.attachments;
+
+    if (type && url) {
+      window.clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        validateURL(this.props.assetStore.validateMedia.endpoint, attachments[0], this);
+      }, 1000);
+    }
     if (index === -1) {
       attachments = mutate(attachments, {
         $push: [{ type, url }]
@@ -179,7 +196,7 @@ export default class MsgLocalizationForm extends React.Component<
     } else {
       attachments = mutate(attachments, {
         [index]: {
-          $set: { type, url }
+          $set: { type, url, valid: true }
         }
       });
     }
@@ -250,12 +267,14 @@ export default class MsgLocalizationForm extends React.Component<
         name: i18n.t('forms.attachments', 'Attachments'),
         body: renderAttachments(
           this.context.config.endpoints.attachments,
+          this.context.config.attachmentsEnabled,
           this.state.attachments,
           this.handleAttachmentUploaded,
           this.handleAttachmentChanged,
           this.handleAttachmentRemoved
         ),
-        checked: this.state.attachments.length > 0
+        checked: this.state.attachments.length > 0,
+        hasErrors: this.state.attachments.length > 0 && this.state.attachments[0].valid
       });
     }
 

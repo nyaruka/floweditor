@@ -47,6 +47,7 @@ export interface Endpoints {
 }
 
 export interface FlowEditorConfig {
+  attachmentsEnabled: boolean;
   localStorage: boolean;
   endpoints: Endpoints;
   flow: string;

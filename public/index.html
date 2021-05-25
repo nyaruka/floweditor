@@ -165,8 +165,9 @@
       flow: uuid,
       flowType: 'messaging',
       localStorage: true,
+      attachmentsEnabled:true,
       mutable: true,
-      filters: ['whatsapp'],
+      filters: ['whatsapp', 'classifier'],
 
       excludeTypes: [
         'add_contact_urn',
@@ -176,7 +177,6 @@
         'start_session',
         'open_ticket',
         'transfer_airtime',
-        'split_by_intent',
         'split_by_contact_field',
         'split_by_random',
         'split_by_groups',
@@ -235,7 +235,7 @@
         recipients: base + 'recipients',
         functions: base + 'functions',
         completion: base + 'completion',
-        attachments: base + 'attachments',
+        attachments: base + 'flow-attachment',
         activity: base + 'activity',
         validateMedia: base + 'validate-media',
 

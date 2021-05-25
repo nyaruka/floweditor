@@ -48,6 +48,7 @@ export interface RouterFormProps extends IssueProps {
 export interface LocalizationFormProps extends IssueProps {
   language: Asset;
   nodeSettings: NodeEditorSettings;
+  assetStore?: AssetStore;
   updateLocalizations(languageCode: string, localizations: any[]): void;
   onClose(canceled: boolean): void;
   helpArticles: { [key: string]: string };

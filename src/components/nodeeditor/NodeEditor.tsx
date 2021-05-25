@@ -154,6 +154,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
             onClose: this.close,
             language: this.props.language,
             helpArticles: this.props.helpArticles,
+            assetStore: this.props.assetStore,
             issues: this.props.issues.filter(
               (issue: FlowIssue) => issue.language === this.props.language.id
             )

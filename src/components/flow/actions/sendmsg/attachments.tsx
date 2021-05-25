@@ -29,11 +29,9 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
 ];
 
-// const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
-//   { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
-// ]);
-
-const NEW_TYPE_OPTIONS = TYPE_OPTIONS;
+const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
+  { value: 'upload', name: i18n.t('forms.upload_attachment', 'Upload Attachment') }
+]);
 
 export const validateURL = (endpoint: any, body: any, msgForm: any) => {
   axios
@@ -74,7 +72,10 @@ export const handleUploadFile = (
   headers['X-Requested-With'] = 'XMLHttpRequest';
 
   const data = new FormData();
-  data.append('file', files[0]);
+  data.append('media', files[0]);
+  const mediaName = files[0].name;
+  const extension = mediaName.slice((Math.max(0, mediaName.lastIndexOf('.')) || Infinity) + 1);
+  data.append('extension', extension);
   axios
     .post(endpoint, data, { headers })
     .then(onSuccess)
@@ -85,6 +86,7 @@ export const handleUploadFile = (
 
 export const renderAttachments = (
   endpoint: string,
+  attachmentsEnabled: boolean,
   attachments: Attachment[],
   onUploaded: (response: AxiosResponse) => void,
   onAttachmentChanged: (index: number, value: string, url: string) => void,
@@ -93,12 +95,19 @@ export const renderAttachments = (
   const renderedAttachments = attachments.map((attachment, index: number) =>
     attachment.uploaded
       ? renderUpload(index, attachment, onAttachmentRemoved)
-      : renderAttachment(index, attachment, onAttachmentChanged, onAttachmentRemoved)
+      : renderAttachment(
+          attachmentsEnabled,
+          index,
+          attachment,
+          onAttachmentChanged,
+          onAttachmentRemoved
+        )
   );
 
   const emptyOption =
     attachments.length < MAX_ATTACHMENTS
       ? renderAttachment(
+          attachmentsEnabled,
           -1,
           { url: '', type: '' },
 
@@ -147,7 +156,10 @@ export const renderUpload = (
           name={i18n.t('forms.type', 'Type')}
           style={TembaSelectStyle.small}
           entry={{
-            value: { name: attachment.type }
+            value: {
+              name:
+                attachment.url.length > 20 ? `${attachment.url.slice(0, 20)}...` : attachment.url
+            }
           }}
           options={TYPE_OPTIONS}
           disabled={true}
@@ -180,6 +192,7 @@ export const renderUpload = (
 };
 
 export const renderAttachment = (
+  attachmentsEnabled: boolean,
   index: number,
   attachment: Attachment,
   onAttachmentChanged: (index: number, type: string, url: string) => void,
@@ -209,7 +222,7 @@ export const renderAttachment = (
                 onAttachmentChanged(index, option.value, index === -1 ? '' : attachment.url);
               }
             }}
-            options={index > -1 ? TYPE_OPTIONS : NEW_TYPE_OPTIONS}
+            options={attachmentsEnabled ? NEW_TYPE_OPTIONS : TYPE_OPTIONS}
           />
         </div>
         {index > -1 ? (
