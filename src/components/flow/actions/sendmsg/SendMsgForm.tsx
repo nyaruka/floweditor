@@ -292,7 +292,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
   private handleAttachmentUploaded(response: AxiosResponse) {
     const attachments: any = mutate(this.state.attachments, {
-      $push: [{ type: response.data.type, url: response.data.url, uploaded: true }]
+      $push: [{ type: 'document', url: response.data.url, uploaded: true }]
     });
     this.setState({ attachments });
   }
@@ -345,6 +345,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       name: i18n.t('forms.attachments', 'Attachments'),
       body: renderAttachments(
         this.context.config.endpoints.attachments,
+        this.context.config.attachmentsEnabled,
         this.state.attachments,
         this.handleAttachmentUploaded,
         this.handleAttachmentChanged,
