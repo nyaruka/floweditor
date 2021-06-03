@@ -23,8 +23,6 @@ export const config: FlowEditorConfig = {
     revisions: '/assets/revisions.json',
     classifiers: '/assets/classifiers.json',
     ticketers: '/assets/ticketers.json',
-    completion: '/assets/completion.json',
-    functions: '/assets/functions.json',
     attachments: '/assets/attachments.json',
     recents: '/assets/recents.json',
     templates: '/assets/templates.json',
