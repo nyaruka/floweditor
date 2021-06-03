@@ -4,13 +4,7 @@ import { getSwitchRouter } from 'components/flow/routers/helpers';
 import { SaveResult } from 'components/revisions/RevisionExplorer';
 import { FlowTypes, Type, Types } from 'config/interfaces';
 import { getTypeConfig } from 'config/typeConfigs';
-import {
-  createAssetStore,
-  getCompletionSchema,
-  getFlowDetails,
-  saveRevision,
-  getFunctions
-} from 'external';
+import { createAssetStore, getFlowDetails, saveRevision } from 'external';
 import isEqual from 'fast-deep-equal';
 import {
   Action,
@@ -401,9 +395,6 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, forceSave = false)
     fetchFlowActivity(endpoints.activity, dispatch, getState, uuid);
   };
 
-  const completionSchema = await getCompletionSchema(endpoints.completion);
-  const functions = await getFunctions(endpoints.functions);
-
   getFlowDetails(assetStore.revisions)
     .then((response: any) => {
       // backwards compatibitly for during deployment
@@ -414,9 +405,7 @@ export const fetchFlow = (endpoints: Endpoints, uuid: string, forceSave = false)
       dispatch(loadFlowDefinition(details, assetStore));
       dispatch(
         mergeEditorState({
-          currentRevision: details.definition.revision,
-          completionSchema,
-          functions
+          currentRevision: details.definition.revision
         })
       );
 

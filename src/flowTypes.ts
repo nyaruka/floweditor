@@ -38,8 +38,6 @@ export interface Endpoints {
   environment: string;
   languages: string;
   templates: string;
-  completion: string;
-  functions: string;
   simulateStart: string;
   simulateResume: string;
   editor: string;
