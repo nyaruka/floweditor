@@ -208,10 +208,15 @@ export default class WebhookRouterForm extends React.Component<
 
   private handleSave(): void {
     // validate our url in case they haven't interacted
-    const valid = this.handleUpdate(
-      { url: this.state.url.value, resultName: this.state.resultName.value },
-      true
-    );
+    let valid = false;
+    if (this.state.method.value.name === 'FUNCTION') {
+      valid = this.handleUpdate({ resultName: this.state.resultName.value }, true);
+    } else {
+      valid = this.handleUpdate(
+        { url: this.state.url.value, resultName: this.state.resultName.value },
+        true
+      );
+    }
 
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
@@ -325,9 +330,17 @@ export default class WebhookRouterForm extends React.Component<
           <div className={styles.url}>
             <TextInputElement
               name={i18n.t('forms.url', 'URL')}
-              placeholder={i18n.t('forms.enter_a_url', 'Enter a URL')}
+              placeholder={
+                method === 'FUNCTION'
+                  ? 'Enter function'
+                  : i18n.t('forms.enter_a_url', 'Enter a URL')
+              }
               entry={this.state.url}
-              onChange={this.handleUrlUpdate}
+              onChange={(url, name) => {
+                method === 'FUNCTION'
+                  ? this.setState({ url: { value: url } })
+                  : this.handleUrlUpdate(url, name);
+              }}
               autocomplete={true}
             />
           </div>

@@ -15,7 +15,8 @@ export enum Methods {
   PUT = 'PUT',
   DELETE = 'DELETE',
   HEAD = 'HEAD',
-  PATCH = 'PATCH'
+  PATCH = 'PATCH',
+  FUNCTION = 'FUNCTION'
 }
 
 export interface MethodOption {
@@ -35,10 +36,11 @@ export const GET_METHOD: MethodOption = {
 export const METHOD_OPTIONS: MethodOption[] = [
   GET_METHOD,
   { value: Methods.POST, name: Methods.POST },
-  { value: Methods.PUT, name: Methods.PUT },
-  { value: Methods.DELETE, name: Methods.DELETE },
-  { value: Methods.HEAD, name: Methods.HEAD },
-  { value: Methods.PATCH, name: Methods.PATCH }
+  // { value: Methods.PUT, name: Methods.PUT },
+  // { value: Methods.DELETE, name: Methods.DELETE }, // These methods are not needed currently
+  // { value: Methods.HEAD, name: Methods.HEAD },
+  { value: Methods.PATCH, name: Methods.PATCH },
+  { value: Methods.FUNCTION, name: Methods.FUNCTION }
 ];
 
 export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => {
