@@ -9,6 +9,7 @@ export const config: FlowEditorConfig = {
   mutable: true,
   filters: ['whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
   help: {},
+  brand: 'RapidPro',
   endpoints: {
     resthooks: '/assets/resthooks.json',
     flows: '/assets/flows.json',

@@ -347,7 +347,7 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
 
     // prefetch some of our assets
     const fetches: any[] = [];
-    ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers'].forEach(
+    ['languages', 'fields', 'groups', 'labels', 'globals', 'classifiers', 'ticketers'].forEach(
       (storeId: string) => {
         const store = assetStore[storeId];
         fetches.push(

@@ -141,7 +141,7 @@
   },
   "assets": {
     "classifier": "Call [[name]] classifier",
-    "ticketer": "Using [[name]] service"
+    "ticketer": "Open a ticket on [[name]]"
   },
   "body": "Body",
   "buttons": {
