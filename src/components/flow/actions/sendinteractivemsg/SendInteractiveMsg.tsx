@@ -1,4 +1,4 @@
-import { SendMsg } from 'flowTypes';
+import { SendInteractiveMsg } from 'flowTypes';
 import * as React from 'react';
 
 import styles from './SendInteractiveMsg.module.scss';
@@ -9,7 +9,9 @@ export const PLACEHOLDER = i18n.t(
   'Send interactive message to the contact'
 );
 
-const SendInteractiveMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
+const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = (
+  action: SendInteractiveMsg
+): JSX.Element => {
   if (action.text) {
     return (
       <div>
