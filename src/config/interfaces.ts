@@ -30,6 +30,7 @@ export enum Types {
   call_webhook = 'call_webhook',
   open_ticket = 'open_ticket',
   send_msg = 'send_msg',
+  send_interactive_msg = 'send_interactive_msg',
   send_email = 'send_email',
   send_broadcast = 'send_broadcast',
   enter_flow = 'enter_flow',

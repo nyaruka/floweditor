@@ -20,6 +20,7 @@ import SendEmailComp from 'components/flow/actions/sendemail/SendEmail';
 import SendEmailForm from 'components/flow/actions/sendemail/SendEmailForm';
 import SendMsgComp from 'components/flow/actions/sendmsg/SendMsg';
 import SendMsgForm from 'components/flow/actions/sendmsg/SendMsgForm';
+import SendInteractiveMsgForm from 'components/flow/actions/sendinteractivemsg/SendInteractiveMsgForm';
 import SetRunResultComp from 'components/flow/actions/setrunresult/SetRunResult';
 import SetRunResultForm from 'components/flow/actions/setrunresult/SetRunResultForm';
 import StartFlowComp from 'components/flow/actions/startflow/StartFlow';
@@ -65,6 +66,7 @@ import TicketRouterForm from 'components/flow/routers/ticket/TicketRouterForm';
 import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
 import SequenceForm from 'components/flow/routers/sequence/SequenceForm';
 import Sequence from 'components/flow/routers/sequence/Sequence';
+import SendInteractiveMsgComp from 'components/flow/actions/sendinteractivemsg/SendInteractiveMsg';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -237,6 +239,13 @@ export const typeConfigList: Type[] = [
       // at least an empty array so the localization has a proper cue
       action.quick_replies = action.quick_replies || [];
     }
+  },
+  {
+    type: Types.send_interactive_msg,
+    name: i18n.t('actions.send_interactive_msg.name', 'Interactive Message'),
+    description: i18n.t('actions.send_interactive_msg.description', 'Send Interactive Message'),
+    form: SendInteractiveMsgForm,
+    component: SendInteractiveMsgComp
   },
   {
     type: Types.wait_for_response,
