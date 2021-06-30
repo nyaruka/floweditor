@@ -221,7 +221,7 @@
     "enter_a_body": "Enter a body",
     "enter_a_subject": "Enter a subject",
     "enter_a_url": "Enter a URL",
-    "enter_field_value": "",
+    "enter_field_value": "Enter a new value for [[field]]",
     "enter_flow_parameters_summary": "<0>[[flow]]</0> expects the following parameters to be set by this flow. These can be set using a <4>Save Flow Result</4> action or directly below.",
     "enter_flow_parameters_tab": "Parameters",
     "enter_new_name": "Enter a new name for the contact",
