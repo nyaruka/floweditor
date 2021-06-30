@@ -48,6 +48,7 @@
   &.open_ticket,
   &.missing,
   &.wait_for_time,
+  &.send_interactive_msg,
   &.enter_flow {
     width: $node_min_width - $action_padding * 2;
     padding: $action_padding;

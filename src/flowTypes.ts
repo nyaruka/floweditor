@@ -353,6 +353,10 @@ export interface SendMsg extends Action {
   templating?: MsgTemplating;
 }
 
+export interface SendInteractiveMsg extends Action {
+  text: string;
+}
+
 export interface Delay extends Action {
   delay: string;
 }
