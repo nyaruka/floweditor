@@ -54,6 +54,7 @@ export interface FlowEditorConfig {
   debug?: boolean;
   path?: string;
   headers?: any;
+  brand: string;
   onLoad?: () => void;
   onActivityClicked?: (uuid: string) => void;
   onChangeLanguage?: (code: string, name: string) => void;
@@ -304,7 +305,7 @@ export type SetContactProperty =
 
 export type SetContactAttribute = SetContactField | SetContactProperty;
 
-// tslint:disable-next-line:no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Missing extends Action {}
 
 export interface RecipientsAction extends Action {

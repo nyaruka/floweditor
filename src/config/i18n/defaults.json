@@ -141,7 +141,7 @@
   },
   "assets": {
     "classifier": "Call [[name]] classifier",
-    "ticketer": "Using [[name]] service"
+    "ticketer": "Open a new Ticket on [[name]]"
   },
   "body": "Body",
   "buttons": {
@@ -152,17 +152,17 @@
   },
   "contact_statuses": {
     "active": "Active",
+    "archived": "Archived - remove from groups, ignore forever",
     "blocked": "Blocked - remove from groups, ignore forever",
-    "stopped": "Stopped - remove from groups, ignore until they message again",
-    "archived": "Archived - remove from groups, ignore forever"
+    "stopped": "Stopped - remove from groups, ignore until they message again"
   },
   "context_explorer": {
     "copied_expression": "Copied <1>[[expression]]</1> to clipboard",
     "hide_empty": "Showing keys with values",
     "show_empty": "Showing all keys"
   },
-  "create_group": "Create Group",
   "create_label": "Create Label",
+  "document": "Document",
   "drag_helper": "To connect nodes, <1>drag</1> from the red circle.",
   "email": {
     "subject": "Subject",
@@ -174,7 +174,8 @@
   "errors": {
     "group_not_found": "Enter the name of an existing group",
     "http_header_missing_name": "HTTP headers must have a name",
-    "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again."
+    "network": "Hmm, we ran into a problem trying to save your changes. It could just be that your internet connection is not working well at the moment. Please wait a minute or so and try again.",
+    "server": "Hmm, we ran into a problem trying to save your changes. If this problem persists, take note of the change you are trying to make and contact support."
   },
   "flow_start": "Flow Start",
   "forms": {
@@ -252,8 +253,9 @@
     "name": "Name",
     "operand": "Operand",
     "operator": "operator",
-    "play_audio_help_text": "Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.",
+    "pdf_url": "PDF Document URL",
     "phone_number": "Phone Number",
+    "play_audio_help_text": "Enter a variable that contains a recording the contact has previously recorded. For example, @results.voicemail or @fields.short_bio.",
     "quick_replies": "Quick Replies",
     "quick_replies_summary": "Quick Replies are made into buttons for supported channels. For example, when asking a question, you might add a Quick Reply for \"Yes\" and one for \"No\".",
     "quick_reply": "Quick Reply",
@@ -268,11 +270,11 @@
     "resthook": "Resthook",
     "resthook_to_call": "Select the resthook to call",
     "result": "Result",
-    "result_name": "Result Name",
     "result_category_help": "An optional category for your result. For age, the value might be 17, but the category might be 'Young Adult'",
+    "result_name": "Result Name",
     "result_name_help": "By naming the result, you can reference it later using [[resultFormat]]",
-    "result_value_help": "The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))",
     "result_to_split_on": "Result to split on",
+    "result_value_help": "The value to save for this result or empty to clears it. You can use expressions, for example: @(title(input))",
     "rules": "rules",
     "save_as": "Save as",
     "save_as_title": "Save as..",
@@ -281,6 +283,7 @@
     "select_contacts": "Select Contacts",
     "select_flow": "Select the flow to start",
     "select_groups": "Select Groups",
+    "select_intent": "Select intent",
     "select_language": "Select the language to use for this contact",
     "select_result": "Select Result",
     "select_what_to_update": "Select what to update",
@@ -396,9 +399,9 @@
   },
   "removal_confirmation": "Remove?",
   "revisions": {
+    "current": "current",
     "header": "Revisions",
     "label": "Revision History",
-    "current": "current",
     "revert": "revert"
   },
   "schemes": {
@@ -463,7 +466,6 @@
     }
   },
   "simulator": {
-    "label": "Run in Simulator",
     "added_to_group": "Added to",
     "airtime_transferred": "Transferred [[amount]] [[currency]] to [[recipient]]",
     "contact_field_changed": "Set contact \"[[field]]\" to \"[[value]]\"",
@@ -475,6 +477,7 @@
     "flow_exited": "Exited flow",
     "httplog_dialog": "HTTP Request Details",
     "input_labels_added": "Message labeled with",
+    "label": "Run in Simulator",
     "msg_wait": "Waiting for reply",
     "prompt": {
       "message": "Enter message",
@@ -496,15 +499,6 @@
   },
   "translation": {
     "header": "Flow Translation",
-    "label": "Translations",
-    "attributes": {
-      "body": "Body",
-      "cases": "Rules",
-      "categories": "Categories",
-      "quick_replies": "Quick Replies",
-      "subject": "Subject",
-      "templates": "Template Variables",
-      "text": "Message"
-    }
+    "label": "Translations"
   }
 }
