@@ -18,6 +18,7 @@ import { shouldRequireIf, validate, validateIf } from 'store/validators';
 import i18n from 'config/i18n';
 import { SendMsgFormState } from '../sendmsg/SendMsgForm';
 import { isValidJson } from 'components/flow/routers/webhook/helpers';
+import AssetSelector from 'components/form/assetselector/AssetSelector';
 
 export interface SendInteractiveMsgFormState extends FormState {
   message: StringEntry;
@@ -105,18 +106,16 @@ export default class SendMsgForm extends React.Component<
         tabs={[]}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <TextInputElement
-          name={i18n.t('forms.message', 'Message')}
-          showLabel={false}
-          counter=".sms-counter"
-          onChange={this.handleMessageUpdate}
-          entry={this.state.message}
-          autocomplete={true}
-          focus={true}
-          textarea={true}
+        <AssetSelector
+          name={i18n.t('forms.interactive', 'interactive')}
+          noOptionsMessage="No interactive messages found"
+          placeholder={'Select interactive message'}
+          assets={this.props.assetStore.templates}
+          entry={{ value: '' }}
+          onChange={() => {}}
+          searchable={true}
+          formClearable={true}
         />
-        <temba-charcount class="sms-counter"></temba-charcount>
-        {renderIssues(this.props)}
       </Dialog>
     );
   }
