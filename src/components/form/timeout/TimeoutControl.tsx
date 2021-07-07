@@ -7,6 +7,7 @@ import styles from './TimeoutControl.module.scss';
 import i18n from 'config/i18n';
 import TembaSelect, { TembaSelectStyle } from 'temba/TembaSelect';
 import { SelectOption } from '../select/SelectElement';
+import TextInputElement from '../textinput/TextInputElement';
 
 export const TIMEOUT_OPTIONS: SelectOption[] = [
   { value: '60', name: i18n.t('forms.timeout_1 minute', '1 minute') },
@@ -25,7 +26,8 @@ export const TIMEOUT_OPTIONS: SelectOption[] = [
   { value: '86400', name: i18n.t('forms.timeout_1 day', '1 day') },
   { value: '172800', name: i18n.t('forms.timeout_2 days', '2 days') },
   { value: '259200', name: i18n.t('forms.timeout_3 days', '3 days') },
-  { value: '604800', name: i18n.t('forms.timeout_1 week', '1 week') }
+  { value: '604800', name: i18n.t('forms.timeout_1 week', '1 week') },
+  { value: '0', name: i18n.t('forms.timeout_expression', 'expression') }
 ];
 
 export const DEFAULT_TIMEOUT = TIMEOUT_OPTIONS[4];
@@ -34,7 +36,8 @@ export const ellipsize = (str: string) => `${str}...`;
 
 export interface TimeoutControlProps {
   timeout: number;
-  onChanged(timeout: number): void;
+  expression?: string;
+  onChanged(timeout: number, expression?: string): void;
 }
 
 export default class TimeoutControl extends React.Component<TimeoutControlProps> {
@@ -55,7 +58,7 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
   }
 
   private isChecked(): boolean {
-    return this.props.timeout > 0;
+    return this.props.timeout > -1;
   }
 
   private getInstructions(): string {
@@ -64,8 +67,8 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
   }
 
   private handleChecked(): void {
-    if (this.props.timeout > 0) {
-      this.props.onChanged(0);
+    if (this.props.timeout > -1) {
+      this.props.onChanged(-1);
     } else {
       this.props.onChanged(parseInt(DEFAULT_TIMEOUT.value));
     }
@@ -77,28 +80,42 @@ export default class TimeoutControl extends React.Component<TimeoutControlProps>
 
   public render(): JSX.Element {
     return (
-      <div className={styles.timeout_control_container}>
-        <div className={styles.left_section}>
-          <CheckboxElement
-            name={i18n.t('forms.timeout', 'Timeout')}
-            checked={this.isChecked()}
-            description={this.getInstructions()}
-            checkboxClassName={styles.checkbox}
-            onChange={this.handleChecked}
-          />
-        </div>
-        {renderIf(this.isChecked())(
-          <div className={styles.drop_down}>
-            <TembaSelect
+      <>
+        <div className={styles.timeout_control_container}>
+          <div className={styles.left_section}>
+            <CheckboxElement
               name={i18n.t('forms.timeout', 'Timeout')}
-              style={TembaSelectStyle.small}
-              value={this.getSelected(this.props.timeout)}
-              options={TIMEOUT_OPTIONS}
-              onChange={this.handleTimeoutChanged}
-            ></TembaSelect>
+              checked={this.isChecked()}
+              description={this.getInstructions()}
+              checkboxClassName={styles.checkbox}
+              onChange={this.handleChecked}
+            />
           </div>
+          {renderIf(this.isChecked())(
+            <div className={styles.drop_down}>
+              <TembaSelect
+                name={i18n.t('forms.timeout', 'Timeout')}
+                style={TembaSelectStyle.small}
+                value={this.getSelected(this.props.timeout)}
+                options={TIMEOUT_OPTIONS}
+                onChange={this.handleTimeoutChanged}
+              ></TembaSelect>
+            </div>
+          )}
+        </div>
+        {this.props.timeout === 0 && (
+          <TextInputElement
+            name={i18n.t('forms.expression', 'expression')}
+            showLabel={false}
+            placeholder={i18n.t('forms.expression', 'expression')}
+            onChange={(updatedText: string) => {
+              this.props.onChanged(0, updatedText);
+            }}
+            entry={{ value: this.props.expression }}
+            autocomplete={true}
+          />
         )}
-      </div>
+      </>
     );
   }
 }
