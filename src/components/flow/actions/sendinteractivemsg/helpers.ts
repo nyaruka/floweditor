@@ -13,14 +13,15 @@ export const initializeForm = (
 ): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
+    const { id, text, name } = action;
     return {
-      message: { value: action.text },
+      interactives: { value: { id, text, name } },
       valid: true
     };
   }
 
   return {
-    message: { value: '' },
+    interactives: { value: '' },
     valid: false
   };
 };
@@ -30,7 +31,9 @@ export const stateToAction = (
   state: SendInteractiveMsgFormState
 ): SendInteractiveMsg => {
   const result: SendInteractiveMsg = {
-    text: state.message.value,
+    id: state.interactives.value.id,
+    text: state.interactives.value.interactive_content,
+    name: state.interactives.value.name,
     type: Types.send_interactive_msg,
     uuid: getActionUUID(settings, Types.send_msg)
   };

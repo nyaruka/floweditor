@@ -355,6 +355,11 @@ export const createAssetStore = (endpoints: Endpoints): Promise<AssetStore> => {
         items: {},
         type: AssetType.ValidateMedia,
         endpoint: getURL(endpoints.validateMedia)
+      },
+      interactives: {
+        items: {},
+        type: AssetType.Interactives,
+        endpoint: getURL(endpoints.interactives)
       }
     };
 

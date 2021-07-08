@@ -12,16 +12,8 @@ export const PLACEHOLDER = i18n.t(
 const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = (
   action: SendInteractiveMsg
 ): JSX.Element => {
-  if (action.text) {
-    return (
-      <div>
-        {action.text.split(/\r?\n/).map((line: string, idx: number) => (
-          <div key={action.uuid + idx} className={styles.line}>
-            {line}
-          </div>
-        ))}
-      </div>
-    );
+  if (action.name) {
+    return <div>{action.name}</div>;
   }
 
   return <div className="placeholder">{PLACEHOLDER}</div>;
