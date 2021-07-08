@@ -12,8 +12,28 @@ export const PLACEHOLDER = i18n.t(
 const SendInteractiveMsgComp: React.SFC<SendInteractiveMsg> = (
   action: SendInteractiveMsg
 ): JSX.Element => {
+  const message = JSON.parse(action.text);
+  let body;
+  if (message) {
+    if (message.type === 'list') {
+      body = message.body;
+    } else if (message.type === 'quick_reply') {
+      if (message.content.type === 'text') {
+        body = message.content.text;
+      } else if (['image', 'video'].includes(message.content.type)) {
+        body = message.content.caption;
+      }
+    }
+  }
   if (action.name) {
-    return <div>{action.name}</div>;
+    return (
+      <div>
+        <div>
+          <strong>{action.name}</strong>
+        </div>
+        <div>{body}</div>
+      </div>
+    );
   }
 
   return <div className="placeholder">{PLACEHOLDER}</div>;

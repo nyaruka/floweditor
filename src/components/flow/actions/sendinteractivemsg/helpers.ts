@@ -13,9 +13,10 @@ export const initializeForm = (
 ): SendInteractiveMsgFormState => {
   if (settings.originalAction && settings.originalAction.type === Types.send_interactive_msg) {
     const action = settings.originalAction as SendInteractiveMsg;
-    const { id, text, name } = action;
+    let { id, text, name } = action;
+    text = JSON.parse(text);
     return {
-      interactives: { value: { id, text, name } },
+      interactives: { value: { id, interactive_content: text, name } },
       valid: true
     };
   }

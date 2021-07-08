@@ -13,6 +13,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
 import { FormEntry, FormState, mergeForm } from 'store/nodeEditor';
 import { shouldRequireIf, validate } from 'store/validators';
+import styles from './SendInteractiveMsg.module.scss';
 
 import i18n from 'config/i18n';
 
@@ -104,6 +105,21 @@ export default class SendMsgForm extends React.Component<
 
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
+
+    const currentMessage = this.state.interactives.value;
+    let body;
+    if (currentMessage && currentMessage.interactive_content) {
+      const message = currentMessage.interactive_content;
+      if (message.type === 'list') {
+        body = message.body;
+      } else if (message.type === 'quick_reply') {
+        if (message.content.type === 'text') {
+          body = message.content.text;
+        } else if (['image', 'video'].includes(message.content.type)) {
+          body = message.content.caption;
+        }
+      }
+    }
     return (
       <Dialog
         title={typeConfig.name}
@@ -122,6 +138,7 @@ export default class SendMsgForm extends React.Component<
           searchable={true}
           formClearable={true}
         />
+        <div className={styles.body}> {body}</div>
       </Dialog>
     );
   }
