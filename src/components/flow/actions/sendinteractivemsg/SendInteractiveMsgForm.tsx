@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/explicit-member-accessibility */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { react as bindCallbacks } from 'auto-bind';
-import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import Dialog, { ButtonSet } from 'components/dialog/Dialog';
+import { hasErrors } from 'components/flow/actions/helpers';
 import {
   initializeForm as stateToForm,
   stateToAction
 } from 'components/flow/actions/sendinteractivemsg/helpers';
 import { ActionFormProps } from 'components/flow/props';
-import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
-import { FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { shouldRequireIf, validate, validateIf } from 'store/validators';
+import { FormEntry, FormState, mergeForm } from 'store/nodeEditor';
+import { shouldRequireIf, validate } from 'store/validators';
+import styles from './SendInteractiveMsg.module.scss';
 
 import i18n from 'config/i18n';
-import { SendMsgFormState } from '../sendmsg/SendMsgForm';
-import { isValidJson } from 'components/flow/routers/webhook/helpers';
+
+import AssetSelector from 'components/form/assetselector/AssetSelector';
 
 export interface SendInteractiveMsgFormState extends FormState {
-  message: StringEntry;
+  interactives: FormEntry;
 }
 
 export default class SendMsgForm extends React.Component<
@@ -39,21 +39,30 @@ export default class SendMsgForm extends React.Component<
     config: fakePropType
   };
 
+  private handleInteractivesChanged(selected: any[]): void {
+    const interactiveMsg = selected ? selected[0] : null;
+
+    this.setState({
+      interactives: {
+        value: interactiveMsg
+      }
+    });
+  }
+
   private handleUpdate(
     keys: {
-      text?: string;
+      text?: any;
     },
     submitting = false
   ): boolean {
     const updates: Partial<SendInteractiveMsgFormState> = {};
 
     if (keys.hasOwnProperty('text')) {
-      updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, [
-        shouldRequireIf(submitting),
-        validateIf(isValidJson(), submitting)
+      updates.interactives = validate(i18n.t('forms.message', 'Message'), keys.text, [
+        shouldRequireIf(submitting)
       ]);
     }
-    const updated = mergeForm(this.state, updates) as SendMsgFormState;
+    const updated = mergeForm(this.state, updates) as SendInteractiveMsgFormState;
 
     this.setState(updated);
     return updated.valid;
@@ -69,11 +78,11 @@ export default class SendMsgForm extends React.Component<
 
   private handleSave(): void {
     // don't continue if our message already has errors
-    if (hasErrors(this.state.message)) {
+    if (hasErrors(this.state.interactives)) {
       return;
     }
     // make sure we validate untouched text fields and contact fields
-    let valid = this.handleMessageUpdate(this.state.message.value, null, true);
+    let valid = this.handleMessageUpdate(this.state.interactives.value, null, true);
 
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
@@ -97,6 +106,20 @@ export default class SendMsgForm extends React.Component<
   public render(): JSX.Element {
     const typeConfig = this.props.typeConfig;
 
+    const currentMessage = this.state.interactives.value;
+    let body;
+    if (currentMessage && currentMessage.interactive_content) {
+      const message = currentMessage.interactive_content;
+      if (message.type === 'list') {
+        body = message.body;
+      } else if (message.type === 'quick_reply') {
+        if (message.content.type === 'text') {
+          body = message.content.text;
+        } else if (['image', 'video'].includes(message.content.type)) {
+          body = message.content.caption;
+        }
+      }
+    }
     return (
       <Dialog
         title={typeConfig.name}
@@ -105,18 +128,17 @@ export default class SendMsgForm extends React.Component<
         tabs={[]}
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
-        <TextInputElement
-          name={i18n.t('forms.message', 'Message')}
-          showLabel={false}
-          counter=".sms-counter"
-          onChange={this.handleMessageUpdate}
-          entry={this.state.message}
-          autocomplete={true}
-          focus={true}
-          textarea={true}
+        <AssetSelector
+          name={i18n.t('forms.interactive', 'interactive')}
+          noOptionsMessage="No interactive messages found"
+          placeholder={'Select interactive message'}
+          assets={this.props.assetStore.interactives}
+          entry={this.state.interactives}
+          onChange={this.handleInteractivesChanged}
+          searchable={true}
+          formClearable={true}
         />
-        <temba-charcount class="sms-counter"></temba-charcount>
-        {renderIssues(this.props)}
+        <div className={styles.body}> {body}</div>
       </Dialog>
     );
   }

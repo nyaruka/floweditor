@@ -44,6 +44,7 @@ export interface Endpoints {
   simulateResume: string;
   editor: string;
   validateMedia: string;
+  interactives: string;
 }
 
 export interface FlowEditorConfig {
@@ -356,6 +357,8 @@ export interface SendMsg extends Action {
 
 export interface SendInteractiveMsg extends Action {
   text: string;
+  id: number;
+  name: string;
 }
 
 export interface Delay extends Action {

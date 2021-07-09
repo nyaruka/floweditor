@@ -33,7 +33,8 @@ export const config: FlowEditorConfig = {
     validateMedia: '',
     activity: '',
     simulateStart: '',
-    simulateResume: ''
+    simulateResume: '',
+    interactives: ''
   },
   onChangeLanguage: (code: string, name: string) => {}
 };

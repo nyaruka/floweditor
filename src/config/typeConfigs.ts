@@ -243,7 +243,10 @@ export const typeConfigList: Type[] = [
   {
     type: Types.send_interactive_msg,
     name: i18n.t('actions.send_interactive_msg.name', 'Interactive Message'),
-    description: i18n.t('actions.send_interactive_msg.description', 'Send Interactive Message'),
+    description: i18n.t(
+      'actions.send_interactive_msg.description',
+      'Send the contact an interactive message'
+    ),
     form: SendInteractiveMsgForm,
     component: SendInteractiveMsgComp
   },
