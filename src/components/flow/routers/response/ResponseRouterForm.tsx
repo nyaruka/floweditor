@@ -26,6 +26,7 @@ export interface ResponseRouterFormState extends FormState {
   cases: CaseProps[];
   resultName: StringEntry;
   timeout: number;
+  expression: string;
 }
 
 export const leadInSpecId = 'lead-in';
@@ -55,8 +56,8 @@ export default class ResponseRouterForm extends React.Component<
     });
   }
 
-  private handleUpdateTimeout(timeout: number): void {
-    this.setState({ timeout });
+  private handleUpdateTimeout(timeout: number, expression: string = ''): void {
+    this.setState({ timeout, expression });
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
@@ -90,7 +91,11 @@ export default class ResponseRouterForm extends React.Component<
         headerClass={typeConfig.type}
         buttons={this.getButtons()}
         gutter={
-          <TimeoutControl timeout={this.state.timeout} onChanged={this.handleUpdateTimeout} />
+          <TimeoutControl
+            timeout={this.state.timeout}
+            expression={this.state.expression}
+            onChanged={this.handleUpdateTimeout}
+          />
         }
       >
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />

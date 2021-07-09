@@ -18,7 +18,8 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
 
   // TODO: work out an incremental result name
   let resultName: StringEntry = { value: 'Result' };
-  let timeout = 0;
+  let timeout = -1;
+  let expression = '';
 
   if (settings.originalNode && getType(settings.originalNode) === Types.wait_for_response) {
     const router = settings.originalNode.node.router as SwitchRouter;
@@ -30,8 +31,13 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
       resultName = { value: router.result_name || '' };
     }
 
-    if (settings.originalNode.node.router.wait && settings.originalNode.node.router.wait.timeout) {
-      timeout = settings.originalNode.node.router.wait.timeout.seconds || 0;
+    const wait = settings.originalNode.node.router.wait;
+    if (wait && wait.timeout && wait.timeout) {
+      timeout = wait.timeout.seconds || -1;
+      expression = wait.timeout.expression || '';
+      if (expression.length > 0) {
+        timeout = 0;
+      }
     }
   }
 
@@ -39,6 +45,7 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
     cases: initialCases,
     resultName,
     timeout,
+    expression,
     valid: true
   };
 };
@@ -49,7 +56,7 @@ export const stateToNode = (
 ): RenderNode => {
   const { cases, exits, defaultCategory, timeoutCategory, caseConfig, categories } = resolveRoutes(
     state.cases,
-    state.timeout > 0,
+    state.timeout > -1,
     settings.originalNode.node
   );
 
@@ -62,6 +69,11 @@ export const stateToNode = (
   if (state.timeout > 0) {
     wait.timeout = {
       seconds: state.timeout,
+      category_uuid: timeoutCategory
+    };
+  } else if (state.timeout === 0) {
+    wait.timeout = {
+      expression: state.expression,
       category_uuid: timeoutCategory
     };
   }

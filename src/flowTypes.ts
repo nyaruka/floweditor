@@ -230,7 +230,8 @@ export interface Hint {
 
 export interface Timeout {
   category_uuid: string;
-  seconds: number;
+  seconds?: number;
+  expression?: string;
 }
 
 export interface Wait {
