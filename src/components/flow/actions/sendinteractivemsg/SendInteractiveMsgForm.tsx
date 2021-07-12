@@ -4,6 +4,7 @@ import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
 import { hasErrors } from 'components/flow/actions/helpers';
 import {
+  getMsgBody,
   initializeForm as stateToForm,
   stateToAction
 } from 'components/flow/actions/sendinteractivemsg/helpers';
@@ -110,15 +111,7 @@ export default class SendMsgForm extends React.Component<
     let body;
     if (currentMessage && currentMessage.interactive_content) {
       const message = currentMessage.interactive_content;
-      if (message.type === 'list') {
-        body = message.body;
-      } else if (message.type === 'quick_reply') {
-        if (message.content.type === 'text') {
-          body = message.content.text;
-        } else if (['image', 'video'].includes(message.content.type)) {
-          body = message.content.caption;
-        }
-      }
+      body = getMsgBody(message);
     }
     return (
       <Dialog
