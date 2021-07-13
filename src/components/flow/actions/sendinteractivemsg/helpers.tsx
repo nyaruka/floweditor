@@ -61,7 +61,7 @@ export const getMsgBody = (message: any) => {
     } else if (message.type === 'quick_reply') {
       if (message.content.type === 'text') {
         body = message.content.text;
-      } else if (['image', 'video'].includes(message.content.type)) {
+      } else if (['image', 'video', 'file'].includes(message.content.type)) {
         body = (
           <div className={styles.attachment}>
             <div className="fe-paperclip" />
