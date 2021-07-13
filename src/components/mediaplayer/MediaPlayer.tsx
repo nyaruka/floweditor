@@ -75,15 +75,10 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
 
     if (this.state.playing) {
       this.ele.pause();
-      this.ele.currentTime = null;
+      this.ele.currentTime = 0;
     } else {
       this.ele.load();
-      fetch(this.ele.src)
-        .then(response => response.blob())
-        .then(blob => {
-          this.ele.src = URL.createObjectURL(blob);
-          this.ele.play();
-        });
+      this.ele.play();
     }
   }
 
