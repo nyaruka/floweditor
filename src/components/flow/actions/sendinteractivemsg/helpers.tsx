@@ -73,7 +73,6 @@ export const getMsgBody = (message: any) => {
       body = (
         <div>
           <div>{body}</div>
-
           {message.options.map((option: any) => (
             <div className={styles.listButton}>{option.title}</div>
           ))}
