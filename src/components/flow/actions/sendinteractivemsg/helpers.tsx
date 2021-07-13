@@ -62,12 +62,18 @@ export const getMsgBody = (message: any) => {
       if (message.content.type === 'text') {
         body = message.content.text;
       } else if (['image', 'video'].includes(message.content.type)) {
-        body = message.content.caption;
+        body = (
+          <div className={styles.attachment}>
+            <div className="fe-paperclip" />
+            {message.content.caption}
+          </div>
+        );
       }
 
       body = (
         <div>
           <div>{body}</div>
+
           {message.options.map((option: any) => (
             <div className={styles.listButton}>{option.title}</div>
           ))}
