@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { Types } from 'config/interfaces';
+import * as React from 'react';
 import { SendInteractiveMsg } from 'flowTypes';
 import { AssetStore } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
+import styles from './SendInteractiveMsg.module.scss';
+import { ReactComponent as ButtonIcon } from './icons/button.svg';
 
 import { SendInteractiveMsgFormState } from './SendInteractiveMsgForm';
 
@@ -40,4 +43,42 @@ export const stateToAction = (
   };
 
   return result;
+};
+
+export const getMsgBody = (message: any) => {
+  let body;
+  if (message) {
+    if (message.type === 'list') {
+      body = (
+        <div>
+          <div>{message.body}</div>
+          <div className={styles.listButton}>
+            <ButtonIcon />
+            {message.globalButtons[0].title}
+          </div>
+        </div>
+      );
+    } else if (message.type === 'quick_reply') {
+      if (message.content.type === 'text') {
+        body = message.content.text;
+      } else if (['image', 'video', 'file'].includes(message.content.type)) {
+        body = (
+          <div className={styles.attachment}>
+            <div className="fe-paperclip" />
+            {message.content.caption}
+          </div>
+        );
+      }
+
+      body = (
+        <div>
+          <div>{body}</div>
+          {message.options.map((option: any) => (
+            <div className={styles.listButton}>{option.title}</div>
+          ))}
+        </div>
+      );
+    }
+  }
+  return body;
 };

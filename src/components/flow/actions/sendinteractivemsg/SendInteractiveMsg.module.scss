@@ -7,3 +7,24 @@
 .body {
   padding: 10px;
 }
+
+.listButton {
+  margin-top: 4px;
+  border: 1px solid #93a29b;
+  border-radius: 27px;
+  width: 160px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 8px;
+}
+
+.listButton svg {
+  margin-right: 6px;
+}
+
+.attachment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
