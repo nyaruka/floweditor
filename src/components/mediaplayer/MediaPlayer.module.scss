@@ -3,6 +3,7 @@
   line-height: 1em !important;
   letter-spacing: 1em !important;
   cursor: pointer;
+  display: flex;
 
   &.playing {
     .circle_progress {
@@ -36,11 +37,10 @@
     &:hover {
       color: cornflowerblue;
     }
-
-    position: relative;
-    font-size: 10px;
+    align-self: center;
+    position: absolute;
+    margin-left: -1px;
+    font-size: 12px;
     color: #aaa;
-    top: -16px;
-    left: 0px;
   }
 }
