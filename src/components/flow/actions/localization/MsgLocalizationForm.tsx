@@ -183,7 +183,9 @@ export default class MsgLocalizationForm extends React.Component<
   private handleAttachmentChanged(index: number, type: string, url: string) {
     let attachments: any = this.state.attachments;
 
-    if (type && type !== 'expression' && url) {
+    const isExpression = type === 'expression';
+
+    if (type && !isExpression && url) {
       window.clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         validateURL(this.props.assetStore.validateMedia.endpoint, attachments[0], this);
@@ -195,19 +197,11 @@ export default class MsgLocalizationForm extends React.Component<
         $push: [{ type, url }]
       });
     } else {
-      if (type === 'expression') {
-        attachments = mutate(attachments, {
-          [index]: {
-            $set: { type, url }
-          }
-        });
-      } else {
-        attachments = mutate(attachments, {
-          [index]: {
-            $set: { type, url, valid: true }
-          }
-        });
-      }
+      attachments = mutate(attachments, {
+        [index]: {
+          $set: { type, url, valid: !isExpression }
+        }
+      });
     }
 
     this.setState({ attachments });
