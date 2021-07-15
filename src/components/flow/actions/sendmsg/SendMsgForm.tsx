@@ -309,8 +309,6 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   private handleAttachmentChanged(index: number, type: string, url: string) {
     let attachments: any = this.state.attachments;
 
-    console.log(type);
-
     if (type && type !== 'expression' && url) {
       window.clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
