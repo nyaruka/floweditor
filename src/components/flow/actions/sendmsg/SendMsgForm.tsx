@@ -309,7 +309,9 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
   private handleAttachmentChanged(index: number, type: string, url: string) {
     let attachments: any = this.state.attachments;
 
-    if (type && url) {
+    console.log(type);
+
+    if (type && type !== 'expression' && url) {
       window.clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
         validateURL(this.props.assetStore.validateMedia.endpoint, attachments[0], this);
@@ -321,11 +323,19 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
         $push: [{ type, url }]
       });
     } else {
-      attachments = mutate(attachments, {
-        [index]: {
-          $set: { type, url, valid: true }
-        }
-      });
+      if (type === 'expression') {
+        attachments = mutate(attachments, {
+          [index]: {
+            $set: { type, url }
+          }
+        });
+      } else {
+        attachments = mutate(attachments, {
+          [index]: {
+            $set: { type, url, valid: true }
+          }
+        });
+      }
     }
 
     this.setState({ attachments });

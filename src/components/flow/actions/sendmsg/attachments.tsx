@@ -26,7 +26,8 @@ const TYPE_OPTIONS: SelectOption[] = [
   { value: 'image', name: i18n.t('forms.image_url', 'Image URL') },
   { value: 'audio', name: i18n.t('forms.audio_url', 'Audio URL') },
   { value: 'video', name: i18n.t('forms.video_url', 'Video URL') },
-  { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') }
+  { value: 'document', name: i18n.t('forms.pdf_url', 'PDF Document URL') },
+  { value: 'expression', name: i18n.t('forms.expression', 'Expression') }
 ];
 
 const NEW_TYPE_OPTIONS = TYPE_OPTIONS.concat([
