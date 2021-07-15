@@ -191,7 +191,6 @@ export default class MsgLocalizationForm extends React.Component<
         validateURL(this.props.assetStore.validateMedia.endpoint, attachments[0], this);
       }, 1000);
     }
-
     if (index === -1) {
       attachments = mutate(attachments, {
         $push: [{ type, url }]
