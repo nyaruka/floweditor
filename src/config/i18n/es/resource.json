@@ -141,7 +141,7 @@
   },
   "assets": {
     "classifier": "Llamar clasificador [[name]]",
-    "ticketer": "Utilizando el servicio [[name]]"
+    "ticketer": "Abrir nuevo Ticket en [[name]]"
   },
   "body": "Cuerpo",
   "buttons": {
@@ -152,17 +152,17 @@
   },
   "contact_statuses": {
     "active": "Activo",
+    "archived": "Archivado - remover de grupos, ignorar para siempre",
     "blocked": "Bloqueado - remover de grupos, ignorar para siempre",
-    "stopped": "Detenido - remover de grupos, ignorar hasta que mensajee de nuevo",
-    "archived": "Archivado - remover de grupos, ignorar para siempre"
+    "stopped": "Detenido - remover de grupos, ignorar hasta que mensajee de nuevo"
   },
   "context_explorer": {
     "copied_expression": "<1>[[expression]]</1> copiado al portapapeles",
     "hide_empty": "Mostrando claves con valores",
     "show_empty": "Mostrando todas las claves"
   },
-  "create_group": "Crear Grupo",
   "create_label": "Crear Etiqueta",
+  "document": "Documento",
   "drag_helper": "Para conectar nodos, <1>arrastre</1> desde el círculo rojo.",
   "email": {
     "subject": "Asunto",
@@ -174,7 +174,8 @@
   "errors": {
     "group_not_found": "Ingrese el nombre de un grupo existente",
     "http_header_missing_name": "Las cabeceras HTTP deben tener un nombre",
-    "network": "Hmm, tuvimos un problema al intentar guardar los cambios. Podría ser simplemente que su conexión a Internet no esté funcionando bien en este momento. Espere un minuto y vuelva a intentarlo."
+    "network": "Hmm, tuvimos un problema al intentar guardar los cambios. Podría ser simplemente que su conexión a Internet no esté funcionando bien en este momento. Espere un minuto y vuelva a intentarlo.",
+    "server": "Hmm, nos encontramos con un problema al intentar guardar los cambios. Si este problema persiste, tome nota del cambio que está intentando realizar y póngase en contacto con el servicio de asistencia."
   },
   "flow_start": "Inicio de Flujo",
   "forms": {
@@ -252,8 +253,9 @@
     "name": "Nombre",
     "operand": "Operando",
     "operator": "operador",
-    "play_audio_help_text": "Ingrese una variable que contenga una grabación que el contacto haya grabado previamente. Por ejemplo, @results.voicemail o @fields.short_bio.",
+    "pdf_url": "URL de Documento PDF",
     "phone_number": "Número Telefónico",
+    "play_audio_help_text": "Ingrese una variable que contenga una grabación que el contacto haya grabado previamente. Por ejemplo, @results.voicemail o @fields.short_bio.",
     "quick_replies": "Respuestas Rápidas",
     "quick_replies_summary": "Las respuestas rápidas se convierten en botones para canales compatibles. Por ejemplo, al hacer una pregunta, puede agregar una respuesta rápida para \"Sí\" y una para \"No\".",
     "quick_reply": "Respuesta Rápida",
@@ -268,11 +270,11 @@
     "resthook": "Resthook",
     "resthook_to_call": "Seleccione el resthook que se llamará",
     "result": "Resultado",
-    "result_name": "Nombre del Resultado",
     "result_category_help": "Una categoría opcional para su resultado. Para la edad, el valor podría ser 17, pero la categoría podría ser 'Adulto Joven'",
+    "result_name": "Nombre del Resultado",
     "result_name_help": "Al nombrar el resultado, puede hacer referencia a él más tarde usando [[resultFormat]]",
-    "result_value_help": "El valor a guardar para este resultado o dejarlo vacío para limpiarlo. Puede utilizar expresiones, por ejemplo: @(title(input))",
     "result_to_split_on": "Resultado para dividir",
+    "result_value_help": "El valor a guardar para este resultado o dejarlo vacío para limpiarlo. Puede utilizar expresiones, por ejemplo: @(title(input))",
     "rules": "reglas",
     "save_as": "Guardar como",
     "save_as_title": "Salvar como..",
@@ -281,6 +283,7 @@
     "select_contacts": "Seleccionar Contactos",
     "select_flow": "Seleccionar el flujo a iniciar",
     "select_groups": "Seleccionar Grupos",
+    "select_intent": "Seleccionar intención",
     "select_language": "Seleccionar el lenguaje a utilizar para este contacto",
     "select_result": "Seleccionar Resultado",
     "select_what_to_update": "Seleccionar los datos a actualizar",
@@ -396,9 +399,9 @@
   },
   "removal_confirmation": "Remover?",
   "revisions": {
+    "current": "actual",
     "header": "Revisiones",
     "label": "Historial de Revisión",
-    "current": "actual",
     "revert": "revertir"
   },
   "schemes": {
@@ -463,7 +466,6 @@
     }
   },
   "simulator": {
-    "label": "Ejecutar en Simulador",
     "added_to_group": "Añadido a",
     "airtime_transferred": "Transferido [[amount]] [[currency]] para [[recipient]] ",
     "contact_field_changed": "Establecer contacto \"[[field]]\" para \"[[value]]\"",
@@ -475,6 +477,7 @@
     "flow_exited": "Salida de flujo",
     "httplog_dialog": "Detalles de solicitud HTTP",
     "input_labels_added": "Mensaje etiquetado con",
+    "label": "Ejecutar en Simulador",
     "msg_wait": "Esperando por respuesta",
     "prompt": {
       "message": "Ingresar mensaje",
@@ -496,15 +499,6 @@
   },
   "translation": {
     "header": "Traducción de Flujo",
-    "label": "Traducciones",
-    "attributes": {
-      "body": "Cuerpo",
-      "cases": "Reglas",
-      "categories": "Categorías",
-      "quick_replies": "Respuestas Rápidas",
-      "subject": "Asunto",
-      "templates": "Variables de Plantilla",
-      "text": "Mensaje"
-    }
+    "label": "Traducciones"
   }
 }
