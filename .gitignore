@@ -13,3 +13,5 @@ report.html
 lambda-build
 lib
 build
+fabric
+fabfile.py
