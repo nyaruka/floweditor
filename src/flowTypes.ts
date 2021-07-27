@@ -274,6 +274,7 @@ export interface Label {
 export interface Flow {
   uuid: string;
   name: string;
+  expression?: string;
 }
 
 export interface Action {

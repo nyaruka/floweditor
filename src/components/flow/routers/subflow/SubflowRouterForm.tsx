@@ -19,6 +19,7 @@ import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 // TODO: Remove use of Function
 export interface SubflowRouterFormState extends FormState {
   flow: FormEntry;
+  expression: string;
   params: { [name: string]: StringEntry };
 }
 
@@ -180,6 +181,9 @@ export default class SubflowRouterForm extends React.PureComponent<
       });
     }
 
+    const expressionOption = { id: 'expression', name: 'Expression', type: 'message' };
+    const flowValue = this.state.flow;
+
     return (
       <Dialog
         title={typeConfig.name}
@@ -192,11 +196,24 @@ export default class SubflowRouterForm extends React.PureComponent<
           name={i18n.t('forms.flow', 'Flow')}
           placeholder={i18n.t('forms.select_flow', 'Select the flow to start')}
           assets={this.props.assetStore.flows}
-          entry={this.state.flow}
+          entry={flowValue}
           searchable={true}
           shouldExclude={this.handleShouldExclude}
           onChange={this.handleFlowChanged}
+          additionalOptions={[expressionOption]}
         />
+        {flowValue.value.name === 'Expression' && (
+          <TextInputElement
+            name={i18n.t('forms.expression', 'expression')}
+            showLabel={false}
+            placeholder={i18n.t('forms.expression', 'Enter expression')}
+            onChange={(updatedText: string) => {
+              this.setState({ expression: updatedText });
+            }}
+            entry={{ value: this.state.expression }}
+            autocomplete={true}
+          />
+        )}
         {renderIssues(this.props)}
       </Dialog>
     );

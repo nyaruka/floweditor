@@ -21,6 +21,7 @@ import { createUUID } from 'utils';
 
 export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormState => {
   const params: { [key: string]: StringEntry } = {};
+  let expression = '';
   if (
     getType(settings.originalNode) === Types.split_by_subflow ||
     (settings.originalAction && settings.originalAction.type === Types.enter_flow)
@@ -40,13 +41,17 @@ export const nodeToState = (settings: NodeEditorSettings): SubflowRouterFormStat
       }
     });
 
-    return { flow: { value: action.flow }, params, valid: true };
+    if (action.flow.expression) {
+      expression = action.flow.expression;
+    }
+    return { flow: { value: action.flow }, params, valid: true, expression };
   }
 
   return {
     flow: { value: null },
     params: {},
-    valid: false
+    valid: false,
+    expression
   };
 };
 
@@ -61,8 +66,12 @@ export const stateToNode = (
   const startFlowAction: StartFlow = {
     uuid: action.uuid || createUUID(),
     type: Types.enter_flow,
-    flow: { uuid: state.flow.value.uuid, name: state.flow.value.name }
+    flow: { uuid: state.flow.value.uuid || createUUID(), name: state.flow.value.name }
   };
+
+  if (state.flow.value.name === 'Expression' && state.expression) {
+    startFlowAction.flow.expression = state.expression;
+  }
 
   // If we're already a subflow, lean on those exits and cases
   let exits: Exit[];
