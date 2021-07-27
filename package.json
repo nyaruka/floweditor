@@ -2,7 +2,7 @@
   "name": "@glific/flow-editor",
   "license": "AGPL-3.0",
   "repository": "git://github.com/glific/floweditor.git",
-  "version": "1.13.9-9",
+  "version": "1.13.9-10",
   "description": "'Standalone flow editing tool designed for use within the Glific suite of messaging tools'",
   "browser": "umd/flow-editor.min.js",
   "unpkg": "umd/flow-editor.min.js",
