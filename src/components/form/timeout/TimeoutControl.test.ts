@@ -26,7 +26,7 @@ describe(TimeoutControl.name, () => {
 
   it('handles initial values', () => {
     const { wrapper, instance } = setup(true, {
-      timeout: { $set: 60 },
+      timeout: { $set: 15 },
       onChanged: setMock()
     });
 

@@ -24,6 +24,18 @@ exports[`TimeoutControl handles initial values 1`] = `
       options={
         Array [
           Object {
+            "name": "15 seconds",
+            "value": "15",
+          },
+          Object {
+            "name": "30 seconds",
+            "value": "30",
+          },
+          Object {
+            "name": "45 seconds",
+            "value": "45",
+          },
+          Object {
             "name": "1 minute",
             "value": "60",
           },
@@ -96,8 +108,8 @@ exports[`TimeoutControl handles initial values 1`] = `
       style="small"
       value={
         Object {
-          "name": "1 minute",
-          "value": "60",
+          "name": "15 seconds",
+          "value": "15",
         }
       }
     />
@@ -125,12 +137,12 @@ exports[`TimeoutControl renders 1`] = `
 
 exports[`TimeoutControl updates: check 1`] = `
 Array [
-  300,
+  120,
 ]
 `;
 
 exports[`TimeoutControl updates: update 1`] = `
 Array [
-  300,
+  120,
 ]
 `;
