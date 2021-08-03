@@ -202,7 +202,7 @@ export default class SubflowRouterForm extends React.PureComponent<
           onChange={this.handleFlowChanged}
           additionalOptions={[expressionOption]}
         />
-        {flowValue.value.name === 'Expression' && (
+        {flowValue.value && flowValue.value.name === 'Expression' && (
           <TextInputElement
             name={i18n.t('forms.expression', 'expression')}
             showLabel={false}
