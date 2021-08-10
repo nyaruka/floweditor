@@ -50,11 +50,13 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
         }, 500);
       }
 
+      const progress = duration > 0 ? Math.floor((currentTime / duration) * 100) : 0;
+
       return {
-        currentSeconds: this.ele.ended ? 0 : currentTime,
+        currentSeconds: this.ele.ended || progress === 100 ? 0 : currentTime,
         durationSeconds: duration,
-        playing: currentTime > 0,
-        progress: duration > 0 ? Math.floor((currentTime / duration) * 100) : 0
+        playing: currentTime > 0 && !this.ele.ended,
+        progress: progress
       };
     });
   }
@@ -66,16 +68,17 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
   }
 
   private handleTogglePlay(e: React.MouseEvent<HTMLDivElement>): void {
+    if (e !== null) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     if (this.state.playing) {
       this.ele.pause();
       this.ele.currentTime = 0;
     } else {
+      this.ele.load();
       this.ele.play();
-    }
-
-    if (e !== null) {
-      e.preventDefault();
-      e.stopPropagation();
     }
   }
 
@@ -102,9 +105,18 @@ export class MediaPlayer extends React.Component<MediaPlayerProps, MediaPlayerSt
       <div
         className={styles.player + ' ' + (this.state.playing ? styles.playing : '')}
         style={{ height: this.radius * 2, width: this.radius * 2 }}
+        onMouseUp={e => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
         onMouseDown={this.handleTogglePlay}
       >
-        <audio ref={this.handleRef} onTimeUpdate={this.handleTimeUpdate} src={this.props.url} />
+        <audio
+          ref={this.handleRef}
+          onTimeUpdate={this.handleTimeUpdate}
+          src={this.props.url}
+          preload="none"
+        />
 
         <div className={styles.circles}>
           <svg height={this.radius * 2} width={this.radius * 2}>

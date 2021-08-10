@@ -48,30 +48,7 @@ exports[`TicketRouterForm render should render 1`] = `
             </div>
           </div>
         </div>
-        <p>
-          <span>
-            Open ticket via... 
-          </span>
-        </p>
-        <div
-          class="ele"
-        >
-          <div
-            class="normal "
-          >
-            <temba-select
-              cachekey="0"
-              data-testid="temba_select_ticketer"
-              errors="[]"
-              expressions=""
-              name="Ticketer"
-              namekey="name"
-              placeholder="Select the ticketing service to use"
-              valuekey="uuid"
-              values="[{\\"name\\":\\"Email (bob@acme.com)\\",\\"uuid\\":\\"1165a73a-2ee0-4891-895e-768645194862\\"}]"
-            />
-          </div>
-        </div>
+        
         <div
           class="subject"
         >
@@ -214,30 +191,7 @@ exports[`TicketRouterForm updates should save changes 1`] = `
             </div>
           </div>
         </div>
-        <p>
-          <span>
-            Open ticket via... 
-          </span>
-        </p>
-        <div
-          class="ele"
-        >
-          <div
-            class="normal "
-          >
-            <temba-select
-              cachekey="0"
-              data-testid="temba_select_ticketer"
-              errors="[]"
-              expressions=""
-              name="Ticketer"
-              namekey="name"
-              placeholder="Select the ticketing service to use"
-              valuekey="uuid"
-              values="[{\\"name\\":\\"Email (bob@acme.com)\\",\\"uuid\\":\\"1165a73a-2ee0-4891-895e-768645194862\\"}]"
-            />
-          </div>
-        </div>
+        
         <div
           class="subject"
         >
