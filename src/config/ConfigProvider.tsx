@@ -30,8 +30,7 @@ export default class ConfigProvider extends React.Component<ConfigProviderProps>
 
     const tembaStore: any = document.createElement('temba-store');
 
-    tembaStore.completionsEndpoint = props.config.endpoints.completion;
-    tembaStore.functionsEndpoint = props.config.endpoints.functions;
+    tembaStore.completionEndpoint = props.config.endpoints.completion;
     tembaStore.fieldsEndpoint = props.config.endpoints.fields;
     tembaStore.globalsEndpoint = props.config.endpoints.globals;
 

@@ -32,6 +32,7 @@ export const config: FlowEditorConfig = {
     validateMedia: '',
     activity: '',
     simulateStart: '',
+    completion: '',
     simulateResume: '',
     interactives: ''
   },
