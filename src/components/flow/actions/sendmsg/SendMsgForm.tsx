@@ -29,7 +29,13 @@ import {
   SelectOptionEntry,
   FormEntry
 } from 'store/nodeEditor';
-import { MaxOfTenItems, Required, shouldRequireIf, validate } from 'store/validators';
+import {
+  CharactersLessThan,
+  MaxOfTenItems,
+  Required,
+  shouldRequireIf,
+  validate
+} from 'store/validators';
 import { range } from 'utils';
 
 import styles from './SendMsgForm.module.scss';
@@ -89,7 +95,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     const updates: Partial<SendMsgFormState> = {};
     if (keys.hasOwnProperty('text')) {
       updates.message = validate(i18n.t('forms.message', 'Message'), keys.text, [
-        shouldRequireIf(submitting)
+        shouldRequireIf(submitting),
+        CharactersLessThan(4096, '4096 characters')
       ]);
     }
 
@@ -137,7 +144,8 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     }
 
     // make sure we validate untouched text fields and contact fields
-    let valid = this.handleMessageUpdate(this.state.message.value, null, true);
+    let valid = true;
+
     let templateVariables = this.state.templateVariables;
     // make sure we don't have untouched template variables
     this.state.templateVariables.forEach((variable: StringEntry, num: number) => {
@@ -148,11 +156,16 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       valid = valid && !hasErrors(updated);
     });
 
+    if (valid && templateVariables.length > 0 && !this.state.message.value) {
+      valid = true;
+    }
+
+    if (templateVariables.length === 0) {
+      valid = valid && this.handleMessageUpdate(this.state.message.value, null, true);
+    }
+
     valid = valid && !hasErrors(this.state.quickReplyEntry);
 
-    if (templateVariables.length > 0 && !this.state.message.value) {
-      valid = !valid;
-    }
     if (valid) {
       this.props.updateAction(stateToAction(this.props.nodeSettings, this.state));
       // notify our modal we are done
