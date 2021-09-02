@@ -9,7 +9,7 @@ import { createResultNameInput } from 'components/flow/routers/widgets';
 import TimeoutControl from 'components/form/timeout/TimeoutControl';
 import TypeList from 'components/nodeeditor/TypeList';
 import { FormState, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
+import { LowerCaseAlphaNumeric, StartIsNonNumeric, validate } from 'store/validators';
 import { WAIT_LABEL } from 'components/flow/routers/constants';
 import i18n from 'config/i18n';
 
@@ -47,7 +47,7 @@ export default class ResponseRouterForm extends React.Component<
 
   private handleUpdateResultName(value: string): void {
     const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Alphanumeric,
+      LowerCaseAlphaNumeric,
       StartIsNonNumeric
     ]);
     this.setState({

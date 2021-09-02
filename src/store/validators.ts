@@ -286,3 +286,7 @@ export const ValidURL = fromRegex(REGEX_URL, 'is not a valid URL');
 export const Numeric = fromRegex(/^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number');
 export const Alphanumeric = fromRegex(/^[a-z\d\-_\s]+$/i, 'can only have letters and numbers');
 export const NumOrExp = fromRegex(/^@.*$|^([-+]?((\.\d+)|(\d+)(\.\d+)?)$)/, 'must be a number');
+export const LowerCaseAlphaNumeric = fromRegex(
+  /^[a-z0-9_]+$/,
+  'must be a lowercase alphanumeric character with no spaces'
+);
