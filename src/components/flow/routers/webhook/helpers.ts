@@ -55,7 +55,7 @@ export const getOriginalAction = (settings: NodeEditorSettings): CallWebhook => 
 
 export const nodeToState = (settings: NodeEditorSettings): WebhookRouterFormState => {
   // TODO: work out an incremental result name
-  const resultName: StringEntry = { value: 'Result' };
+  const resultName: StringEntry = { value: 'result' };
 
   const state: WebhookRouterFormState = {
     headers: [],
