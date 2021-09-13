@@ -17,7 +17,7 @@ export const nodeToState = (settings: NodeEditorSettings): ResponseRouterFormSta
   let initialCases: CaseProps[] = [];
 
   // TODO: work out an incremental result name
-  let resultName: StringEntry = { value: 'Result' };
+  let resultName: StringEntry = { value: 'result' };
   let timeout = -1;
   let expression = '';
 
