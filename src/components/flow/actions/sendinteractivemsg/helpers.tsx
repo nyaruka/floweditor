@@ -39,7 +39,7 @@ export const stateToAction = (
     text: JSON.stringify(state.interactives.value.interactive_content),
     name: state.interactives.value.name,
     type: Types.send_interactive_msg,
-    uuid: getActionUUID(settings, Types.send_msg)
+    uuid: getActionUUID(settings, Types.send_interactive_msg)
   };
 
   return result;

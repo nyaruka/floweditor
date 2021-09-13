@@ -10,6 +10,7 @@ export const config: FlowEditorConfig = {
   mutable: true,
   filters: ['whatsapp', 'airtime', 'resthook', 'classifier', 'ticketer'],
   help: {},
+  brand: 'RapidPro',
   endpoints: {
     resthooks: '/assets/resthooks.json',
     flows: '/assets/flows.json',
@@ -24,8 +25,6 @@ export const config: FlowEditorConfig = {
     revisions: '/assets/revisions.json',
     classifiers: '/assets/classifiers.json',
     ticketers: '/assets/ticketers.json',
-    completion: '/assets/completion.json',
-    functions: '/assets/functions.json',
     attachments: '/assets/attachments.json',
     recents: '/assets/recents.json',
     templates: '/assets/templates.json',
@@ -33,6 +32,7 @@ export const config: FlowEditorConfig = {
     validateMedia: '',
     activity: '',
     simulateStart: '',
+    completion: '',
     simulateResume: '',
     interactives: ''
   },
