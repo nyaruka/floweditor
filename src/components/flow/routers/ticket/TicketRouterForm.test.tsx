@@ -30,17 +30,14 @@ describe(TicketRouterForm.name, () => {
       expect(baseElement).toMatchSnapshot();
 
       const okButton = getByText('Ok');
-      const subject = getByTestId('Subject');
       const resultName = getByTestId('Result Name');
 
       // our ticketer, subject, body and result name are required
-      fireChangeText(subject, '');
       fireChangeText(resultName, '');
       fireEvent.click(okButton);
       expect(ticketForm.updateRouter).not.toBeCalled();
 
       // set our subject and result name
-      fireChangeText(subject, 'Need help');
       fireChangeText(resultName, 'My Ticket Result');
 
       fireEvent.click(okButton);

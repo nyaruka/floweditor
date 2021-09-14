@@ -23,6 +23,8 @@ Array [
     "simulateStart": "",
     "templates": "/assets/templates.json",
     "ticketers": "/assets/ticketers.json",
+    "topics": "/assets/topics.json",
+    "users": "/assets/users.json",
   },
   "a4f64f1b-85bc-477e-b706-de313a022979",
   undefined,
