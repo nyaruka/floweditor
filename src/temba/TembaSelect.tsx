@@ -118,7 +118,8 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
             return {
               prefix: this.props.createPrefix,
               name: input,
-              id: 'created'
+              id: 'created',
+              post: true
             };
           }
         }

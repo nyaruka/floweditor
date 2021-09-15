@@ -195,13 +195,17 @@ export default class TicketRouterForm extends React.Component<
         )}
 
         <div style={{ display: 'flex', width: '100%', marginTop: '0.5em' }}>
-          <TembaSelect
-            key="select_topic"
-            name={i18n.t('forms.topic', 'Topic')}
-            endpoint={this.context.config.endpoints.topics}
-            onChange={this.handleTopicUpdate}
-            value={this.state.topic.value}
-          />
+          <div style={{ flexBasis: 250 }}>
+            <TembaSelect
+              key="select_topic"
+              name={i18n.t('forms.topic', 'Topic')}
+              endpoint={this.context.config.endpoints.topics}
+              onChange={this.handleTopicUpdate}
+              value={this.state.topic.value}
+              createPrefix={i18n.t('forms.topic_prefix', 'Create Topic: ')}
+              searchable={true}
+            />
+          </div>
 
           <div style={{ flexGrow: 1, marginLeft: '0.5em' }}>
             <TembaSelect
