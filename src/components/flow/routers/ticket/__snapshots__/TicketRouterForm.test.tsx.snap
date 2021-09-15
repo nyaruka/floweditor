@@ -53,18 +53,23 @@ exports[`TicketRouterForm render should render 1`] = `
           style="display: flex; width: 100%; margin-top: 0.5em;"
         >
           <div
-            class="normal "
+            style="flex-basis: 250px;"
           >
-            <temba-select
-              data-testid="temba_select_topic"
-              endpoint="/assets/topics.json"
-              errors="[]"
-              expressions=""
-              name="Topic"
-              namekey="name"
-              valuekey="value"
-              values="[]"
-            />
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_topic"
+                endpoint="/assets/topics.json"
+                errors="[]"
+                expressions=""
+                name="Topic"
+                namekey="name"
+                searchable="true"
+                valuekey="value"
+                values="[]"
+              />
+            </div>
           </div>
           <div
             style="flex-grow: 1; margin-left: 0.5em;"
@@ -216,18 +221,23 @@ exports[`TicketRouterForm updates should save changes 1`] = `
           style="display: flex; width: 100%; margin-top: 0.5em;"
         >
           <div
-            class="normal "
+            style="flex-basis: 250px;"
           >
-            <temba-select
-              data-testid="temba_select_topic"
-              endpoint="/assets/topics.json"
-              errors="[]"
-              expressions=""
-              name="Topic"
-              namekey="name"
-              valuekey="value"
-              values="[]"
-            />
+            <div
+              class="normal "
+            >
+              <temba-select
+                data-testid="temba_select_topic"
+                endpoint="/assets/topics.json"
+                errors="[]"
+                expressions=""
+                name="Topic"
+                namekey="name"
+                searchable="true"
+                valuekey="value"
+                values="[]"
+              />
+            </div>
           </div>
           <div
             style="flex-grow: 1; margin-left: 0.5em;"
