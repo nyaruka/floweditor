@@ -491,7 +491,7 @@
       "title": "Détails de l'e-mail"
     },
     "session_triggered": "A commencé quelqu'un d'autre dans \"[[flow]]\"",
-    "ticket_opened": "Billet ouvert avec le sujet \"[[subject]]\""
+    "ticket_opened": "Billet ouvert avec le thème \"[[topic]]\""
   },
   "sticky": {
     "body": "...",
