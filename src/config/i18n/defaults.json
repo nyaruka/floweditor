@@ -491,7 +491,7 @@
       "title": "Email Details"
     },
     "session_triggered": "Started somebody else in \"[[flow]]\"",
-    "ticket_opened": "Ticket opened with subject \"[[subject]]\""
+    "ticket_opened": "Ticket opened with topic \"[[topic]]\""
   },
   "sticky": {
     "body": "...",

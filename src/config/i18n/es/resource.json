@@ -491,7 +491,7 @@
       "title": "Detalles de Correo Electrónico"
     },
     "session_triggered": "Empezada a otra persona en \"[[flow]]\"",
-    "ticket_opened": "Ticket abierto con asunto \"[[subject]]\""
+    "ticket_opened": "Ticket abierto con tema \"[[topic]]\""
   },
   "sticky": {
     "body": "...",

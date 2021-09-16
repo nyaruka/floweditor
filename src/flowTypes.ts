@@ -127,7 +127,7 @@ export interface User {
 export interface Topic {
   uuid: string;
   name: string;
-  created_on: string;
+  created_on?: string;
 }
 
 export interface FlowIssue {
