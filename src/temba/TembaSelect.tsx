@@ -34,6 +34,8 @@ export interface TembaSelectProps {
 
   getName?: (option: any) => string;
 
+  createArbitraryOption?: (input: string) => any;
+
   nameKey?: string;
   valueKey?: string;
 
@@ -115,6 +117,10 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
             return !!(name.toLowerCase().trim() === input.toLowerCase().trim());
           });
           if (!existing) {
+            if (this.props.createArbitraryOption) {
+              return this.props.createArbitraryOption(input);
+            }
+
             return {
               prefix: this.props.createPrefix,
               name: input,

@@ -151,6 +151,10 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
     }
   }
 
+  public handleCreateArbitraryOption(input: string): any {
+    return { prefix: this.props.createPrefix, name: input, id: 'created' };
+  }
+
   public handleCreateOption(input: string): void {
     // this is a hack due to react-select triggering two creates in a race
     const now = new Date().getTime();
@@ -211,6 +215,7 @@ export default class AssetSelector extends React.Component<AssetSelectorProps, A
           style={this.props.style}
           onChange={this.handleChanged}
           nameKey={this.props.nameKey || 'name'}
+          createArbitraryOption={this.handleCreateArbitraryOption}
           valueKey={
             this.props.valueKey || (this.props.assets ? this.props.assets.id : undefined) || 'uuid'
           }
