@@ -39,7 +39,7 @@ export const stateToAction = (
     text: JSON.stringify(state.interactives.value.interactive_content),
     name: state.interactives.value.name,
     type: Types.send_interactive_msg,
-    uuid: getActionUUID(settings, Types.send_msg)
+    uuid: getActionUUID(settings, Types.send_interactive_msg)
   };
 
   return result;
@@ -60,12 +60,12 @@ export const getMsgBody = (message: any) => {
       );
     } else if (message.type === 'quick_reply') {
       if (message.content.type === 'text') {
-        body = message.content.caption;
+        body = message.content.text;
       } else if (['image', 'video', 'file'].includes(message.content.type)) {
         body = (
           <div className={styles.attachment}>
             <div className="fe-paperclip" />
-            {message.content.caption}
+            {message.content.text}
           </div>
         );
       }

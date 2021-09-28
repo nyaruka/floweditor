@@ -19,7 +19,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { FormEntry, FormState, mergeForm, StringEntry, ValidationFailure } from 'store/nodeEditor';
 import {
-  Alphanumeric,
+  LowerCaseAlphaNumeric,
   Required,
   shouldRequireIf,
   StartIsNonNumeric,
@@ -167,7 +167,7 @@ export default class WebhookRouterForm extends React.Component<
   private handleUpdateResultName(value: string): void {
     const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
       Required,
-      Alphanumeric,
+      LowerCaseAlphaNumeric,
       StartIsNonNumeric
     ]);
     this.setState({

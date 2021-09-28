@@ -4,7 +4,6 @@ import { Asset, AssetStore, AssetType, RenderNode } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import { DispatchWithState, GetState } from 'store/thunks';
 import { titleCase } from 'utils';
-import { CompletionSchema } from 'utils/completion';
 
 export interface IssueProps {
   helpArticles: { [key: string]: string };
@@ -16,7 +15,6 @@ export interface ActionFormProps extends IssueProps {
   nodeSettings: NodeEditorSettings;
   typeConfig: Type;
   assetStore: AssetStore;
-  completionSchema: CompletionSchema;
 
   addAsset(assetType: string, asset: Asset): void;
 

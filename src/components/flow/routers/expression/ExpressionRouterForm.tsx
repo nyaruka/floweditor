@@ -9,7 +9,7 @@ import { createResultNameInput } from 'components/flow/routers/widgets';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
 import { FormState, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
+import { LowerCaseAlphaNumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import i18n from 'config/i18n';
 
 // TODO: Remove use of Function
@@ -45,12 +45,11 @@ export default class ExpressionRouterForm extends React.Component<
 
   private handleUpdateResultName(value: string): void {
     const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Alphanumeric,
+      LowerCaseAlphaNumeric,
       StartIsNonNumeric
     ]);
     this.setState({
-      resultName,
-      valid: this.state.valid && !hasErrors(resultName)
+      resultName
     });
   }
 
@@ -65,7 +64,7 @@ export default class ExpressionRouterForm extends React.Component<
   }
 
   private handleSave(): void {
-    if (this.state.valid) {
+    if (this.state.valid && !hasErrors(this.state.resultName)) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);
     }

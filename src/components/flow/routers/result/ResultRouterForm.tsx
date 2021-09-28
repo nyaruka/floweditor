@@ -10,7 +10,12 @@ import TypeList from 'components/nodeeditor/TypeList';
 import * as React from 'react';
 import { Asset } from 'store/flowContext';
 import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, shouldRequireIf, StartIsNonNumeric, validate } from 'store/validators';
+import {
+  LowerCaseAlphaNumeric,
+  shouldRequireIf,
+  StartIsNonNumeric,
+  validate
+} from 'store/validators';
 
 import {
   DELIMITER_OPTIONS,
@@ -61,7 +66,7 @@ export default class ResultRouterForm extends React.Component<
 
   private handleUpdateResultName(value: string): void {
     const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Alphanumeric,
+      LowerCaseAlphaNumeric,
       StartIsNonNumeric
     ]);
     this.setState({

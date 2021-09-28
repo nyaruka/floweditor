@@ -7,8 +7,23 @@ import { NodeEditorSettings, FormEntry } from 'store/nodeEditor';
 import { createUUID } from 'utils';
 import { TicketRouterFormState } from 'components/flow/routers/ticket/TicketRouterForm';
 
-export const nodeToState = (settings: NodeEditorSettings): TicketRouterFormState => {
-  let ticketer: FormEntry = { value: null };
+export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
+  const action =
+    settings.originalAction ||
+    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
+
+  if (action.type === Types.open_ticket) {
+    return action as OpenTicket;
+  }
+};
+
+export const nodeToState = (
+  settings: NodeEditorSettings,
+  initialTicketer: any
+): TicketRouterFormState => {
+  let ticketer: FormEntry = initialTicketer
+    ? { value: { uuid: initialTicketer.id, name: initialTicketer.name } }
+    : { value: null };
   let subject = { value: '@run.flow.name' };
   let body = { value: '@results' };
   let resultName = { value: 'Result' };
@@ -55,14 +70,4 @@ export const stateToNode = (
   };
 
   return createWebhookBasedNode(newAction, settings.originalNode, true);
-};
-
-export const getOriginalAction = (settings: NodeEditorSettings): OpenTicket => {
-  const action =
-    settings.originalAction ||
-    (settings.originalNode.node.actions.length > 0 && settings.originalNode.node.actions[0]);
-
-  if (action.type === Types.open_ticket) {
-    return action as OpenTicket;
-  }
 };

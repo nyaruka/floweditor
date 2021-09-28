@@ -1,7 +1,6 @@
 import { SendInteractiveMsg } from 'flowTypes';
 import * as React from 'react';
 
-import styles from './SendInteractiveMsg.module.scss';
 import i18n from 'config/i18n';
 import { getMsgBody } from './helpers';
 

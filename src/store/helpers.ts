@@ -93,7 +93,7 @@ export const getActionIndex = (node: FlowNode, actionUUID: string) => {
   throw new Error('Cannot find action ' + actionUUID);
 };
 
-export const getSuggestedResultName = (count: number) => `Result ${count}`;
+export const getSuggestedResultName = (count: number) => `result_${count}`;
 
 export const hasRouter = (renderNode: RenderNode): boolean => {
   return !!(renderNode && renderNode.node.router);

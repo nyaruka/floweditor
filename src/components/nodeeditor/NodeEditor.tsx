@@ -29,7 +29,6 @@ import {
   onUpdateRouter,
   resetNodeEditingState
 } from 'store/thunks';
-import { CompletionSchema } from 'utils/completion';
 import { LocalizationFormProps } from 'components/flow/props';
 
 export type UpdateLocalizations = (language: string, changes: LocalizationUpdates) => void;
@@ -58,7 +57,6 @@ export interface NodeEditorStoreProps {
   onUpdateAction: OnUpdateAction;
   onUpdateRouter: OnUpdateRouter;
   updateUserAddingAction: UpdateUserAddingAction;
-  completionSchema: CompletionSchema;
 }
 
 export type NodeEditorProps = NodeEditorPassedProps & NodeEditorStoreProps;
@@ -69,7 +67,6 @@ export interface FormProps {
   updateAction(action: AnyAction): void;
 
   addAsset(assetType: string, asset: Asset): void;
-  completionSchema: CompletionSchema;
 
   assetStore: AssetStore;
   issues: FlowIssue[];
@@ -172,7 +169,6 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 
       const formProps: FormProps = {
         assetStore: this.props.assetStore,
-        completionSchema: this.props.completionSchema,
         addAsset: this.handleAddAsset,
         updateAction: this.updateAction,
         updateRouter: this.updateRouter,
@@ -197,7 +193,7 @@ export class NodeEditor extends React.Component<NodeEditorProps> {
 /* istanbul ignore next */
 const mapStateToProps = ({
   flowContext: { definition, nodes, assetStore, issues },
-  editorState: { language, translating, completionSchema },
+  editorState: { language, translating },
   nodeEditor: { typeConfig, settings }
 }: AppState) => {
   const filteredIssues = (issues[settings.originalNode.node.uuid] || []).filter(
@@ -213,8 +209,7 @@ const mapStateToProps = ({
     translating,
     typeConfig,
     settings,
-    assetStore,
-    completionSchema
+    assetStore
   };
 };
 
