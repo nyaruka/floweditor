@@ -217,7 +217,6 @@ export const LessThan = (amount: number, checkName: string): ValidatorFunc => (
   name: string,
   input: FormInput
 ) => {
-  console.log(input);
   if (typeof input === 'string') {
     if (parseFloat(input as string) >= amount) {
       return {
