@@ -189,6 +189,30 @@ export const Regex: ValidatorFunc = (name: string, input: FormInput) => {
   return { failures: [], value: input };
 };
 
+export const CharactersLessThan = (amount: number, checkName: string): ValidatorFunc => (
+  name: string,
+  input: FormInput
+) => {
+  if (typeof input === 'string') {
+    if (input.length >= amount) {
+      return {
+        value: input,
+        failures: [
+          {
+            message: `${name} ${i18n.t(
+              'forms.must_be_less_than',
+              'must be less than'
+            )} ${checkName}`
+          }
+        ]
+      };
+    }
+
+    return { failures: [], value: input };
+  }
+  return { failures: [], value: input };
+};
+
 export const LessThan = (amount: number, checkName: string): ValidatorFunc => (
   name: string,
   input: FormInput
