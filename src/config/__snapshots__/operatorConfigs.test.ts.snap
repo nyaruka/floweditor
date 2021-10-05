@@ -126,18 +126,21 @@ Array [
   },
   Object {
     "categoryName": "Has State",
+    "filter": "locations",
     "operands": 0,
     "type": "has_state",
     "verboseName": "has state",
   },
   Object {
     "categoryName": "Has District",
+    "filter": "locations",
     "operands": 1,
     "type": "has_district",
     "verboseName": "has district",
   },
   Object {
     "categoryName": "Has Ward",
+    "filter": "locations",
     "operands": 2,
     "type": "has_ward",
     "verboseName": "has ward",
@@ -216,6 +219,7 @@ Object {
   },
   "has_district": Object {
     "categoryName": "Has District",
+    "filter": "locations",
     "operands": 1,
     "type": "has_district",
     "verboseName": "has district",
@@ -312,6 +316,7 @@ Object {
   },
   "has_state": Object {
     "categoryName": "Has State",
+    "filter": "locations",
     "operands": 0,
     "type": "has_state",
     "verboseName": "has state",
@@ -349,6 +354,7 @@ Object {
   },
   "has_ward": Object {
     "categoryName": "Has Ward",
+    "filter": "locations",
     "operands": 2,
     "type": "has_ward",
     "verboseName": "has ward",

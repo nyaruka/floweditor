@@ -3,7 +3,8 @@ import {
   OperatorMap,
   Operators,
   VISIBILITY_ONLINE,
-  VISIBILITY_HIDDEN
+  VISIBILITY_HIDDEN,
+  FeatureFilter
 } from 'config/interfaces';
 import i18n from 'config/i18n';
 
@@ -145,19 +146,22 @@ export const operatorConfigList: Operator[] = [
     type: Operators.has_state,
     verboseName: i18n.t('operators.has_state', 'has state'),
     operands: 0,
-    categoryName: i18n.t('operators.has_state_category', 'Has State')
+    categoryName: i18n.t('operators.has_state_category', 'Has State'),
+    filter: FeatureFilter.HAS_LOCATIONS
   },
   {
     type: Operators.has_district,
     verboseName: i18n.t('operators.has_district', 'has district'),
     operands: 1,
-    categoryName: i18n.t('operators.has_district_category', 'Has District')
+    categoryName: i18n.t('operators.has_district_category', 'Has District'),
+    filter: FeatureFilter.HAS_LOCATIONS
   },
   {
     type: Operators.has_ward,
     verboseName: i18n.t('operators.has_ward', 'has ward'),
     operands: 2,
-    categoryName: i18n.t('operators.has_ward_category', 'Has Ward')
+    categoryName: i18n.t('operators.has_ward_category', 'Has Ward'),
+    filter: FeatureFilter.HAS_LOCATIONS
   },
   {
     type: Operators.has_error,
