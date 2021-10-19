@@ -2,7 +2,7 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { Types } from 'config/interfaces';
 import * as React from 'react';
-import { SendInteractiveMsg } from 'flowTypes';
+import { Label, SendInteractiveMsg } from 'flowTypes';
 import { AssetStore } from 'store/flowContext';
 import { NodeEditorSettings } from 'store/nodeEditor';
 import styles from './SendInteractiveMsg.module.scss';
@@ -18,14 +18,28 @@ export const initializeForm = (
     const action = settings.originalAction as SendInteractiveMsg;
     let { id, text, name } = action;
     text = JSON.parse(text);
+    const labels = action.labels
+      ? action.labels.map((label: Label) => {
+          if (label.name_match) {
+            return { name: label.name_match, expression: true };
+          }
+          return label;
+        })
+      : [];
     return {
       interactives: { value: { id, interactive_content: text, name } },
+      labels: {
+        value: labels
+      },
       valid: true
     };
   }
 
   return {
     interactives: { value: '' },
+    labels: {
+      value: []
+    },
     valid: false
   };
 };
@@ -38,6 +52,12 @@ export const stateToAction = (
     id: state.interactives.value.id,
     text: JSON.stringify(state.interactives.value.interactive_content),
     name: state.interactives.value.name,
+    labels: state.labels.value.map((label: any) => {
+      if (label.expression) {
+        return { name_match: label.name };
+      }
+      return label;
+    }),
     type: Types.send_interactive_msg,
     uuid: getActionUUID(settings, Types.send_interactive_msg)
   };

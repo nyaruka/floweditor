@@ -361,6 +361,7 @@ export interface SendInteractiveMsg extends Action {
   text: string;
   id: number;
   name: string;
+  labels?: Label[];
 }
 
 export interface Delay extends Action {
