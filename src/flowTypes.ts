@@ -354,7 +354,7 @@ export interface SendMsg extends Action {
   attachments?: string[];
   topic?: string;
   templating?: MsgTemplating;
-  labels?: any;
+  labels?: Label[];
 }
 
 export interface SendInteractiveMsg extends Action {
