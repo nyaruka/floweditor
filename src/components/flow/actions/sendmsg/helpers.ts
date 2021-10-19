@@ -55,18 +55,22 @@ export const initializeForm = (
       });
     }
 
+    const labels = action.labels
+      ? action.labels.map((label: Label) => {
+          if (label.name_match) {
+            return { name: label.name_match, expression: true };
+          }
+          return label;
+        })
+      : [];
+
     return {
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
       template,
       templateVariables,
       attachments,
       labels: {
-        value: action.labels.map((label: Label) => {
-          if (label.name_match) {
-            return { name: label.name_match, expression: true };
-          }
-          return label;
-        })
+        value: labels
       },
       message: { value: action.text },
       quickReplies: { value: action.quick_replies || [] },

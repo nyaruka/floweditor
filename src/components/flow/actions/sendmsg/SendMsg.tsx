@@ -12,6 +12,28 @@ export const PLACEHOLDER = i18n.t('actions.send_msg.placeholder', 'Send a messag
 
 const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
   const endpoints: any = {};
+  let labels = null;
+
+  if (action.labels) {
+    labels = renderAssetList(
+      action.labels.map((label: any) => {
+        if (label.name_match) {
+          return {
+            id: label.name_match,
+            name: label.name_match,
+            type: AssetType.NameMatch
+          };
+        }
+        return {
+          id: label.uuid,
+          name: label.name,
+          type: AssetType.Label
+        };
+      }),
+      MAX_TO_SHOW,
+      endpoints
+    );
+  }
   if (action.text) {
     let replies = null;
 
@@ -47,34 +69,27 @@ const SendMsgComp: React.SFC<SendMsg> = (action: SendMsg): JSX.Element => {
             <div className={`${styles.whatsapp} fe-whatsapp`} />
           ) : null}
           {action.topic ? <div className={`${styles.facebook} fe-facebook`} /> : null}
-          {renderAssetList(
-            action.labels.map((label: any) => {
-              if (label.name_match) {
-                return {
-                  id: label.name_match,
-                  name: label.name_match,
-                  type: AssetType.NameMatch
-                };
-              }
-              return {
-                id: label.uuid,
-                name: label.name,
-                type: AssetType.Label
-              };
-            }),
-            MAX_TO_SHOW,
-            endpoints
-          )}
+          {labels}
         </div>
         <div className={styles.summary}>{replies}</div>
       </>
     );
   }
   if (action.attachments && action.attachments.length > 0) {
-    return <div className={`${styles.attachment} fe-paperclip`} />;
+    return (
+      <>
+        <div className={`${styles.attachment} fe-paperclip`} />
+        {labels}
+      </>
+    );
   }
   if (action.templating && action.templating.template) {
-    return <div className={`${styles.whatsapp} fe-whatsapp`} />;
+    return (
+      <>
+        <div className={`${styles.whatsapp} fe-whatsapp`} />
+        {labels}
+      </>
+    );
   }
   return <div className="placeholder">{PLACEHOLDER}</div>;
 };

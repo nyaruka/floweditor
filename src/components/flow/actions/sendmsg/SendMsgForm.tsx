@@ -257,6 +257,31 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     this.setState({ topic: { value: topic } });
   }
 
+  private renderLabelOption(): JSX.Element {
+    return (
+      <div className={styles.label_container}>
+        <p>Select the labels to apply to the outgoing message.</p>
+
+        <AssetSelector
+          name={i18n.t('forms.labels', 'Labels')}
+          placeholder={i18n.t(
+            'enter_to_create_label',
+            'Enter the name of an existing label or create a new one'
+          )}
+          assets={this.props.assetStore.labels}
+          entry={this.state.labels}
+          searchable={true}
+          multi={true}
+          expressions={true}
+          onChange={this.handleLabelsChanged}
+          createPrefix={i18n.t('create_label', 'Create Label') + ': '}
+          createAssetFromInput={this.handleCreateAssetFromInput}
+          onAssetCreated={this.handleLabelCreated}
+        />
+      </div>
+    );
+  }
+
   private renderTemplateConfig(): JSX.Element {
     return (
       <>
@@ -301,6 +326,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
             })}
           </>
         ) : null}
+        {this.renderLabelOption()}
       </>
     );
   }
@@ -424,24 +450,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           textarea={true}
         />
         <temba-charcount class="sms-counter"></temba-charcount>
-        <p>Select the labels to apply to the message.</p>
-
-        <AssetSelector
-          name={i18n.t('forms.labels', 'Labels')}
-          placeholder={i18n.t(
-            'enter_to_create_label',
-            'Enter the name of an existing label or create a new one'
-          )}
-          assets={this.props.assetStore.labels}
-          entry={this.state.labels}
-          searchable={true}
-          multi={true}
-          expressions={true}
-          onChange={this.handleLabelsChanged}
-          createPrefix={i18n.t('create_label', 'Create Label') + ': '}
-          createAssetFromInput={this.handleCreateAssetFromInput}
-          onAssetCreated={this.handleLabelCreated}
-        />
+        {this.renderLabelOption()}
         {renderIssues(this.props)}
       </Dialog>
     );
