@@ -2,7 +2,7 @@
 import { getActionUUID } from 'components/flow/actions/helpers';
 import { SendMsgFormState } from 'components/flow/actions/sendmsg/SendMsgForm';
 import { Types } from 'config/interfaces';
-import { MsgTemplating, SendMsg } from 'flowTypes';
+import { Label, MsgTemplating, SendMsg } from 'flowTypes';
 import { AssetStore } from 'store/flowContext';
 import { FormEntry, NodeEditorSettings, StringEntry } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
@@ -60,6 +60,14 @@ export const initializeForm = (
       template,
       templateVariables,
       attachments,
+      labels: {
+        value: action.labels.map((label: Label) => {
+          if (label.name_match) {
+            return { name: label.name_match, expression: true };
+          }
+          return label;
+        })
+      },
       message: { value: action.text },
       quickReplies: { value: action.quick_replies || [] },
       quickReplyEntry: { value: '' },
@@ -77,7 +85,8 @@ export const initializeForm = (
     quickReplies: { value: [] },
     quickReplyEntry: { value: '' },
     sendAll: false,
-    valid: false
+    valid: false,
+    labels: { value: [] }
   };
 };
 
@@ -116,6 +125,12 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
     text: state.message.value,
     type: Types.send_msg,
     all_urns: state.sendAll,
+    labels: state.labels.value.map((label: any) => {
+      if (label.expression) {
+        return { name_match: label.name };
+      }
+      return label;
+    }),
     quick_replies: state.quickReplies.value,
     uuid: getActionUUID(settings, Types.send_msg)
   };

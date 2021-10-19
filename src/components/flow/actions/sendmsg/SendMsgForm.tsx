@@ -45,6 +45,7 @@ import { FeatureFilter } from 'config/interfaces';
 import i18n from 'config/i18n';
 import { Trans } from 'react-i18next';
 import { Attachment, renderAttachments, validateURL } from './attachments';
+import { AddLabelsFormState } from '../addlabels/AddLabelsForm';
 
 export interface SendMsgFormState extends FormState {
   message: StringEntry;
@@ -56,6 +57,7 @@ export interface SendMsgFormState extends FormState {
   topic: SelectOptionEntry;
   templateVariables: StringEntry[];
   templateTranslation?: TemplateTranslation;
+  labels?: any;
 }
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
@@ -346,11 +348,32 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
     this.setState({ attachments });
   }
 
+  public handleLabelsChanged(selected: Asset[], submitting: boolean = false): boolean {
+    const updates: Partial<AddLabelsFormState> = {
+      labels: validate(i18n.t('forms.labels', 'Labels'), selected, [shouldRequireIf(submitting)])
+    };
+
+    const updated = mergeForm(this.state, updates);
+    this.setState(updated);
+    return updated.valid;
+  }
+
   private handleAttachmentRemoved(index: number) {
     const attachments: any = mutate(this.state.attachments, {
       $splice: [[index, 1]]
     });
     this.setState({ attachments });
+  }
+
+  public handleCreateAssetFromInput(input: string): any {
+    return { name: input };
+  }
+
+  public handleLabelCreated(label: Asset): void {
+    // update our store with our new group
+    this.props.addAsset('labels', label);
+
+    this.handleLabelsChanged(this.state.labels.value!.concat(label));
   }
 
   public render(): JSX.Element {
@@ -401,6 +424,24 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           textarea={true}
         />
         <temba-charcount class="sms-counter"></temba-charcount>
+        <p>Select the labels to apply to the message.</p>
+
+        <AssetSelector
+          name={i18n.t('forms.labels', 'Labels')}
+          placeholder={i18n.t(
+            'enter_to_create_label',
+            'Enter the name of an existing label or create a new one'
+          )}
+          assets={this.props.assetStore.labels}
+          entry={this.state.labels}
+          searchable={true}
+          multi={true}
+          expressions={true}
+          onChange={this.handleLabelsChanged}
+          createPrefix={i18n.t('create_label', 'Create Label') + ': '}
+          createAssetFromInput={this.handleCreateAssetFromInput}
+          onAssetCreated={this.handleLabelCreated}
+        />
         {renderIssues(this.props)}
       </Dialog>
     );
