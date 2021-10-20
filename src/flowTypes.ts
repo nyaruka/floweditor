@@ -354,12 +354,14 @@ export interface SendMsg extends Action {
   attachments?: string[];
   topic?: string;
   templating?: MsgTemplating;
+  labels?: Label[];
 }
 
 export interface SendInteractiveMsg extends Action {
   text: string;
   id: number;
   name: string;
+  labels?: Label[];
 }
 
 export interface Delay extends Action {
