@@ -61,6 +61,7 @@ export interface SendMsgFormState extends FormState {
   expression?: any;
 }
 
+// this is an additonal item in templates that need to have a same format as other list items
 const additionalAction = {
   name: 'Expression',
   translations: [
