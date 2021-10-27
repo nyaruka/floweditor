@@ -26,6 +26,7 @@ export const initializeForm = (
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
     const attachments: Attachment[] = [];
+    let expressionValue = null;
     (action.attachments || []).forEach((attachmentString: string) => {
       const splitPoint = attachmentString.indexOf(':');
 
@@ -42,6 +43,9 @@ export const initializeForm = (
 
     if (action.templating) {
       const msgTemplate = action.templating.template;
+      if (action.templating.expression) {
+        expressionValue = { value: action.templating.expression };
+      }
       template = {
         value: {
           uuid: msgTemplate.uuid,
@@ -64,13 +68,8 @@ export const initializeForm = (
         })
       : [];
 
-    let expressionValue = '';
-    if (action.templating.expression) {
-      expressionValue = action.templating.expression;
-    }
-
     return {
-      expression: { value: expressionValue },
+      expression: expressionValue,
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
       template,
       templateVariables,
