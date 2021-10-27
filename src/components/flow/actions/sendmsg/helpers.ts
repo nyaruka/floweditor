@@ -64,7 +64,13 @@ export const initializeForm = (
         })
       : [];
 
+    let expressionValue = '';
+    if (action.templating.expression) {
+      expressionValue = action.templating.expression;
+    }
+
     return {
+      expression: { value: expressionValue },
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
       template,
       templateVariables,
@@ -122,6 +128,10 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
       },
       variables: state.templateVariables.map((variable: StringEntry) => variable.value)
     };
+
+    if (state.expression && state.expression.value) {
+      templating.expression = state.expression.value;
+    }
   }
 
   const result: SendMsg = {

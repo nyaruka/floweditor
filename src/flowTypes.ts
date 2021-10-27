@@ -342,6 +342,7 @@ export interface MsgTemplate {
 }
 
 export interface MsgTemplating {
+  expression?: string;
   uuid: string;
   template: MsgTemplate;
   variables: string[];
