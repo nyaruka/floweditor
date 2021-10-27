@@ -58,7 +58,21 @@ export interface SendMsgFormState extends FormState {
   templateVariables: StringEntry[];
   templateTranslation?: TemplateTranslation;
   labels?: any;
+  expression?: any;
 }
+
+// this is an additonal item in templates that need to have a same format as other list items
+const additionalOption = {
+  name: 'Expression',
+  translations: [
+    {
+      channel: {
+        name: 'WhatsApp'
+      },
+      status: 'approved'
+    }
+  ]
+};
 
 export default class SendMsgForm extends React.Component<ActionFormProps, SendMsgFormState> {
   private filePicker: any;
@@ -71,7 +85,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
       include: [/^handle/, /^on/]
     });
     // intialize our templates if we have them
-    if (this.state.template.value !== null) {
+    if (this.state.template.value !== null && this.state.template.value.name !== 'Expression') {
       fetchAsset(this.props.assetStore.templates, this.state.template.value.uuid).then(
         (asset: Asset) => {
           if (asset !== null) {
@@ -192,6 +206,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
 
     if (!template) {
       this.setState({
+        expression: null,
         template: { value: null },
         templateTranslation: null,
         templateVariables: []
@@ -209,10 +224,14 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           : this.state.templateVariables;
 
       this.setState({
+        expression: null,
         template: { value: template },
         templateTranslation,
         templateVariables
       });
+    }
+    if (template.name === 'Expression') {
+      this.setState({ expression: { value: this.state.expression } });
     }
   }
 
@@ -292,6 +311,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           )}
         </p>
         <AssetSelector
+          additionalOptions={[additionalOption]}
           name={i18n.t('forms.template', 'template')}
           noOptionsMessage="No templates found"
           assets={this.props.assetStore.templates}
@@ -301,9 +321,25 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           searchable={true}
           formClearable={true}
         />
+        {this.state.expression && (
+          <div className={styles.expression}>
+            <TextInputElement
+              name={'Expression'}
+              showLabel={false}
+              placeholder={'Expression'}
+              onChange={(updatedText: string) => {
+                this.setState({ expression: { value: updatedText } });
+              }}
+              entry={{ value: this.state.expression.value }}
+              autocomplete={true}
+            />
+          </div>
+        )}
         {this.state.templateTranslation ? (
           <>
-            <div className={styles.template_text}>{this.state.templateTranslation.content}</div>
+            {this.state.templateTranslation.content && (
+              <div className={styles.template_text}>{this.state.templateTranslation.content}</div>
+            )}
             {range(0, this.state.templateTranslation.variable_count).map((num: number) => {
               return (
                 <div className={styles.variable} key={'tr_arg_' + num}>

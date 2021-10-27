@@ -26,6 +26,7 @@ export const initializeForm = (
   if (settings.originalAction && settings.originalAction.type === Types.send_msg) {
     const action = settings.originalAction as SendMsg;
     const attachments: Attachment[] = [];
+    let expressionValue = null;
     (action.attachments || []).forEach((attachmentString: string) => {
       const splitPoint = attachmentString.indexOf(':');
 
@@ -42,6 +43,9 @@ export const initializeForm = (
 
     if (action.templating) {
       const msgTemplate = action.templating.template;
+      if (action.templating.expression) {
+        expressionValue = { value: action.templating.expression };
+      }
       template = {
         value: {
           uuid: msgTemplate.uuid,
@@ -65,6 +69,7 @@ export const initializeForm = (
       : [];
 
     return {
+      expression: expressionValue,
       topic: { value: TOPIC_OPTIONS.find(option => option.value === action.topic) },
       template,
       templateVariables,
@@ -122,6 +127,10 @@ export const stateToAction = (settings: NodeEditorSettings, state: SendMsgFormSt
       },
       variables: state.templateVariables.map((variable: StringEntry) => variable.value)
     };
+
+    if (state.expression && state.expression.value) {
+      templating.expression = state.expression.value;
+    }
   }
 
   const result: SendMsg = {
