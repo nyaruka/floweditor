@@ -62,7 +62,7 @@ export interface SendMsgFormState extends FormState {
 }
 
 // this is an additonal item in templates that need to have a same format as other list items
-const additionalAction = {
+const additionalOption = {
   name: 'Expression',
   translations: [
     {
@@ -311,7 +311,7 @@ export default class SendMsgForm extends React.Component<ActionFormProps, SendMs
           )}
         </p>
         <AssetSelector
-          additionalOptions={[additionalAction]}
+          additionalOptions={[additionalOption]}
           name={i18n.t('forms.template', 'template')}
           noOptionsMessage="No templates found"
           assets={this.props.assetStore.templates}
