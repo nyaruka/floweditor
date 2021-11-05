@@ -6,7 +6,7 @@ import { createResultNameInput } from 'components/flow/routers/widgets';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import { FormState, mergeForm, StringEntry, SelectOptionArrayEntry } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { getChannelTypeOptions, nodeToState, stateToNode } from './helpers';
 import SelectElement, { SelectOption } from 'components/form/select/SelectElement';
@@ -53,7 +53,10 @@ export default class SchemeRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('resultName')) {
-      updates.resultName = { value: keys.resultName };
+      updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
+        Alphanumeric,
+        StartIsNonNumeric
+      ]);
     }
 
     const updated = mergeForm(this.state, updates);
@@ -62,6 +65,7 @@ export default class SchemeRouterForm extends React.Component<
   }
 
   private handleSave(): void {
+    this.handleSchemesChanged(this.state.schemes.value);
     if (this.state.valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);

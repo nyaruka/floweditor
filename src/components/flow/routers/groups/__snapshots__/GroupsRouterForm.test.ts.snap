@@ -152,6 +152,7 @@ Object {
     ],
   },
   "resultName": Object {
+    "validationFailures": Array [],
     "value": "My Group Result",
   },
   "valid": true,

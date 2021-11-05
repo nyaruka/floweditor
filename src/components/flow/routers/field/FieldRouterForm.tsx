@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import { renderIssues } from 'components/flow/actions/helpers';
 import { getName, sortFieldsAndProperties } from 'components/flow/actions/updatecontact/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
@@ -9,8 +9,8 @@ import AssetSelector from 'components/form/assetselector/AssetSelector';
 import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import * as React from 'react';
-import { FormEntry, FormState, StringEntry } from 'store/nodeEditor';
-import { Alphanumeric, StartIsNonNumeric, validate } from 'store/validators';
+import { FormEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 
 import styles from './FieldRouterForm.module.scss';
 import { getRoutableFields, nodeToState, stateToNode } from './helpers';
@@ -52,26 +52,54 @@ export default class FieldRouterForm extends React.Component<
     });
   }
 
-  private handleUpdateResultName(value: string): void {
-    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
-    this.setState({
-      resultName,
-      valid: this.state.valid && !hasErrors(resultName)
-    });
+  private handleUpdate(keys: {
+    resultName?: string;
+    field?: string;
+    cases?: CaseProps[];
+  }): boolean {
+    const updates: Partial<FieldRouterFormState> = {};
+
+    if (keys.hasOwnProperty('field')) {
+      updates.field = validate(i18n.t('forms.field', 'Field'), keys.field, [Required]);
+    }
+
+    if (keys.hasOwnProperty('cases')) {
+      updates.cases = keys.cases;
+    }
+
+    if (keys.hasOwnProperty('resultName')) {
+      updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
+        Alphanumeric,
+        StartIsNonNumeric
+      ]);
+    }
+
+    const updated = mergeForm(this.state, updates);
+
+    // update our form
+    this.setState(updated);
+    return updated.valid;
+  }
+
+  private handleUpdateResultName(resultName: string): void {
+    this.handleUpdate({ resultName });
   }
 
   private handleFieldChanged(selected: any[]): void {
-    this.setState({ field: { value: selected[0] } });
+    this.handleUpdate({ field: selected[0] });
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
-    this.setState({ cases });
+    this.handleUpdate({ cases });
   }
 
   private handleSave(): void {
+    // if we still have invalid cases, don't move forward
+    const invalidCase = this.state.cases.find((caseProps: CaseProps) => !caseProps.valid);
+    if (invalidCase) {
+      return;
+    }
+
     if (this.state.valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);

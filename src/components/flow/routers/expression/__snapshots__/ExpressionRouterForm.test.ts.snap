@@ -81,35 +81,7 @@ exports[`ExpressionRouterForm should render 1`] = `
 
 exports[`ExpressionRouterForm updates should save changes 1`] = `
 Object {
-  "cases": Array [
-    Object {
-      "categoryName": "Red",
-      "kase": Object {
-        "arguments": Array [
-          "red",
-        ],
-        "type": "has_any_word",
-      },
-    },
-    Object {
-      "categoryName": "Red",
-      "kase": Object {
-        "arguments": Array [
-          "maroon",
-        ],
-        "type": "has_any_word",
-      },
-    },
-    Object {
-      "categoryName": "Green",
-      "kase": Object {
-        "arguments": Array [
-          "green",
-        ],
-        "type": "has_any_word",
-      },
-    },
-  ],
+  "cases": Array [],
   "operand": Object {
     "value": "@input.text",
   },
@@ -129,53 +101,15 @@ Array [
       "actions": Array [],
       "exits": Array [
         Object {
-          "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-        },
-        Object {
-          "uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-        },
-        Object {
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
         },
       ],
       "router": Object {
-        "cases": Array [
-          Object {
-            "arguments": Array [
-              "red",
-            ],
-            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-            "type": "has_any_word",
-          },
-          Object {
-            "arguments": Array [
-              "maroon",
-            ],
-            "category_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-            "type": "has_any_word",
-          },
-          Object {
-            "arguments": Array [
-              "green",
-            ],
-            "category_uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
-            "type": "has_any_word",
-          },
-        ],
+        "cases": Array [],
         "categories": Array [
           Object {
-            "exit_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "name": "Red",
-            "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
-          },
-          Object {
-            "exit_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-            "name": "Green",
-            "uuid": "132de855-4042-4dc1-a18f-cc2e6a8f790a",
-          },
-          Object {
             "exit_uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",
-            "name": "Other",
+            "name": "All Responses",
             "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
         ],
