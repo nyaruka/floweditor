@@ -15,8 +15,9 @@
   }
 
   > .error_list {
-    position: relative;
+    position: fixed;
     z-index: 1;
+    margin-top: 7px;
 
     > .error {
       visibility: hidden;
@@ -68,12 +69,17 @@
 }
 
 .invalid {
+  --color-focus: var(--color-error);
+  --color-widget-border: var(--color-error);
+  --widget-box-shadow-focused: rgba(255, 99, 71, 0.3) 0px 0px 0px 3px;
+
   textarea,
   input {
     border: 1px solid $error_color !important;
     box-shadow: 0 0 0 3px rgba(255, 196, 186, 0.5) !important;
     transition: all 0.3s ease-in-out;
     outline: none;
+    
   }
 }
 
