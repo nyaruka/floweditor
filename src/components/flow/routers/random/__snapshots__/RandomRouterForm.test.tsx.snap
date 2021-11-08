@@ -107,6 +107,7 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
       __className="bucket_name"
       entry={
         Object {
+          "validationFailures": Array [],
           "value": "Bucket 1",
         }
       }
@@ -118,6 +119,7 @@ exports[`RandomRouterForm should convert from a non-random node 1`] = `
       __className="bucket_name"
       entry={
         Object {
+          "validationFailures": Array [],
           "value": "Bucket 2",
         }
       }
@@ -731,6 +733,7 @@ exports[`RandomRouterForm should render 1`] = `
       __className="bucket_name"
       entry={
         Object {
+          "validationFailures": Array [],
           "value": "Bucket 1",
         }
       }
@@ -742,6 +745,7 @@ exports[`RandomRouterForm should render 1`] = `
       __className="bucket_name"
       entry={
         Object {
+          "validationFailures": Array [],
           "value": "Bucket 2",
         }
       }

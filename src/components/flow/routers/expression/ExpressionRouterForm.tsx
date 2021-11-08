@@ -1,14 +1,14 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import { renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { nodeToState, stateToNode } from 'components/flow/routers/expression/helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import TypeList from 'components/nodeeditor/TypeList';
-import { FormState, StringEntry } from 'store/nodeEditor';
+import { FormState, mergeForm, StringEntry } from 'store/nodeEditor';
 import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import i18n from 'config/i18n';
 
@@ -43,29 +43,61 @@ export default class ExpressionRouterForm extends React.Component<
     });
   }
 
-  private handleUpdateResultName(value: string): void {
-    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
-    this.setState({
-      resultName,
-      valid: this.state.valid && !hasErrors(resultName)
-    });
+  private handleUpdate(keys: {
+    resultName?: string;
+    operand?: string;
+    cases?: CaseProps[];
+  }): boolean {
+    const updates: Partial<ExpressionRouterFormState> = {};
+
+    if (keys.hasOwnProperty('operand')) {
+      updates.operand = validate(i18n.t('forms.operand', 'Operand'), keys.operand, [Required]);
+    }
+
+    if (keys.hasOwnProperty('cases')) {
+      updates.cases = keys.cases;
+    }
+
+    if (keys.hasOwnProperty('resultName')) {
+      updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
+        Alphanumeric,
+        StartIsNonNumeric
+      ]);
+    }
+
+    const updated = mergeForm(this.state, updates);
+
+    // update our form
+    this.setState(updated);
+    return updated.valid;
   }
 
-  private handleOperandUpdated(value: string): void {
-    this.setState({
-      operand: validate(i18n.t('forms.operand', 'Operand'), value, [Required])
-    });
+  private handleUpdateResultName(resultName: string): void {
+    this.handleUpdate({ resultName });
+  }
+
+  private handleOperandUpdated(operand: string): void {
+    this.handleUpdate({ operand });
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
-    this.setState({ cases });
+    this.handleUpdate({ cases });
   }
 
   private handleSave(): void {
-    if (this.state.valid) {
+    // if we still have invalid cases, don't move forward
+    const invalidCase = this.state.cases.find((caseProps: CaseProps) => !caseProps.valid);
+    if (invalidCase) {
+      return;
+    }
+
+    // validate our result name in case they haven't interacted
+    const valid = this.handleUpdate({
+      resultName: this.state.resultName.value,
+      operand: this.state.operand.value
+    });
+
+    if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
       this.props.onClose(false);
     }

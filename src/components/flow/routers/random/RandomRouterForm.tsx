@@ -87,6 +87,11 @@ export default class RandomRouterForm extends React.Component<
   }
 
   public handleSave(): void {
+    // don't proceed without our categories filled
+    if (this.state.categories.find(cat => cat.name.trim().length === 0)) {
+      return;
+    }
+
     this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
     this.props.onClose(false);
   }
@@ -113,7 +118,11 @@ export default class RandomRouterForm extends React.Component<
         key={cat.uuid}
         __className={styles.bucket_name}
         name={cat.uuid}
-        entry={{ value: cat.name }}
+        entry={{
+          value: cat.name,
+          validationFailures:
+            cat.name.trim().length === 0 ? [{ message: 'Bucket name is required' }] : []
+        }}
         onChange={(value: string) => {
           this.handleBucketNameChanged(cat, value);
         }}

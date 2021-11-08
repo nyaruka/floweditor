@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import { renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { createResultNameInput } from 'components/flow/routers/widgets';
@@ -60,15 +60,33 @@ export default class ResultRouterForm extends React.Component<
     });
   }
 
-  private handleUpdateResultName(value: string): void {
-    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
-    this.setState({
-      resultName,
-      valid: this.state.valid && !hasErrors(resultName)
-    });
+  private handleUpdate(keys: { resultName?: string; cases?: CaseProps[] }): boolean {
+    const updates: Partial<ResultRouterFormState> = {};
+
+    if (keys.hasOwnProperty('cases')) {
+      updates.cases = keys.cases;
+    }
+
+    if (keys.hasOwnProperty('resultName')) {
+      updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
+        Alphanumeric,
+        StartIsNonNumeric
+      ]);
+    }
+
+    const updated = mergeForm(this.state, updates);
+
+    // update our form
+    this.setState(updated);
+    return updated.valid;
+  }
+
+  private handleUpdateResultName(resultName: string): void {
+    this.handleUpdate({ resultName });
+  }
+
+  private handleCasesUpdated(cases: CaseProps[]): void {
+    this.handleUpdate({ cases });
   }
 
   private handleResultChanged(selected: Asset[], submitting = false): boolean {
@@ -83,11 +101,13 @@ export default class ResultRouterForm extends React.Component<
     return updated.valid;
   }
 
-  private handleCasesUpdated(cases: CaseProps[]): void {
-    this.setState({ cases });
-  }
-
   private handleSave(): void {
+    // if we still have invalid cases, don't move forward
+    const invalidCase = this.state.cases.find((caseProps: CaseProps) => !caseProps.valid);
+    if (invalidCase) {
+      return;
+    }
+
     const valid = this.handleResultChanged([this.state.result.value], true);
     if (valid) {
       this.props.updateRouter(stateToNode(this.props.nodeSettings, this.state));
