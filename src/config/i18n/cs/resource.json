@@ -1,0 +1,504 @@
+{
+  "actions": {
+    "add_contact_groups": {
+      "description": "Přidání kontaktu do skupiny",
+      "name": "Přidat do skupiny"
+    },
+    "add_contact_urn": {
+      "description": "Přidání URN pro kontakt",
+      "name": "Přidat URN"
+    },
+    "add_input": {
+      "description": "Označení příchozí zprávy",
+      "name": "Přidat štítky"
+    },
+    "call_resthook": {
+      "description": "Volání Zapier",
+      "name": "Volat Zapier"
+    },
+    "call_webhook": {
+      "description": "Volání webhooku",
+      "name": "Volání webhooku"
+    },
+    "enter_flow": {
+      "description": "Zadejte další tok",
+      "name": "Zadejte tok"
+    },
+    "open_ticket": {
+      "description": "Otevření tiketu s lidským agentem",
+      "name": "Otevřený tiket"
+    },
+    "play_audio": {
+      "description": "Přehrát záznam kontaktu",
+      "name": "Přehrát záznam"
+    },
+    "play_message": {
+      "description": "Přehrát zprávu",
+      "name": "Přehrát zprávu"
+    },
+    "remove_contact_groups": {
+      "description": "Odebrání kontaktu ze skupiny",
+      "name": "Odebrat ze skupiny"
+    },
+    "say_msg": {
+      "placeholder": "Odeslání zprávy kontaktu"
+    },
+    "send_broadcast": {
+      "description": "Poslat někomu jinému zprávu",
+      "name": "Odeslat vysílání",
+      "placeholder": "Odeslání zprávy kontaktu"
+    },
+    "send_email": {
+      "description": "Odeslat e-mail",
+      "name": "Odeslat e-mail"
+    },
+    "send_msg": {
+      "description": "Odeslat kontaktní osobě zprávu",
+      "name": "Odeslat zprávu",
+      "placeholder": "Odeslání zprávy kontaktu"
+    },
+    "set_contact_field": {
+      "description": "Aktualizace kontaktu",
+      "name": "Aktualizovat kontakt"
+    },
+    "set_run_result": {
+      "description": "Uložit výsledek pro tento tok",
+      "name": "Uložit výsledek toku"
+    },
+    "split_by_contact_field": {
+      "description": "Rozdělení podle kontaktního pole",
+      "name": "Rozdělení podle pole kontaktu"
+    },
+    "split_by_expression": {
+      "description": "Rozdělení pomocí vlastního výrazu",
+      "name": "Rozdělit podle výrazu"
+    },
+    "split_by_groups": {
+      "description": "Rozdělit podle členství ve skupině",
+      "name": "Rozdělit podle členství ve skupině"
+    },
+    "split_by_intent": {
+      "description": "Rozdělit podle záměru",
+      "name": "Rozdělit podle záměru"
+    },
+    "split_by_random": {
+      "description": "Rozdělit náhodně",
+      "name": "Rozdělit náhodně"
+    },
+    "split_by_run_result": {
+      "description": "Rozdělit podle výsledku v toku",
+      "name": "Rozdělit podle výsledku toku"
+    },
+    "split_by_scheme": {
+      "description": "Rozdělit podle typu URN",
+      "name": "Rozdělit podle typu URN"
+    },
+    "start_session": {
+      "description": "Spustit někoho jiného v toku",
+      "name": "Spustit někoho jiného"
+    },
+    "transfer_airtime": {
+      "description": "Odeslat kontaktní vysílací čas",
+      "name": "Odeslat vysílací čas"
+    },
+    "wait_for_audio": {
+      "description": "Počkat na zvukovou nahrávku",
+      "name": "Počkat na zvuk"
+    },
+    "wait_for_dial": {
+      "description": "Čekání na přesměrovaný hovor na někoho jiného",
+      "name": "Čekat na přesměrovaný hovor"
+    },
+    "wait_for_digits": {
+      "description": "Čekání na více číslic",
+      "name": "Počkat na číslice"
+    },
+    "wait_for_image": {
+      "description": "Čekání na obrázek",
+      "name": "Čekání na obrázek"
+    },
+    "wait_for_location": {
+      "description": "Čekání na souřadnice GPS polohy",
+      "name": "Čekání na lokalitu"
+    },
+    "wait_for_menu": {
+      "description": "Čekání na výběr nabídky",
+      "name": "Čekání na výběr nabídky"
+    },
+    "wait_for_response": {
+      "description": "Čekání na odpověď kontaktu",
+      "name": "Čekání na odpověď"
+    },
+    "wait_for_video": {
+      "description": "Čekání na video",
+      "name": "Počkat na video"
+    }
+  },
+  "add": "Přidat",
+  "asset_selector": {
+    "placeholder": "Vyberte stávající [[name]] nebo zadejte nové.",
+    "placeholder_plural": "Vyberte stávající [[name]] nebo zadejte nové."
+  },
+  "assets": {
+    "classifier": "Volání klasifikátoru [[name]]",
+    "ticketer": "Otevřít nový tiket na [[name]]"
+  },
+  "body": "Tělo",
+  "buttons": {
+    "cancel": "Zrušit",
+    "create_message": "Vytvořit zprávu",
+    "download": "Stáhnout",
+    "ok": "Ok"
+  },
+  "contact_statuses": {
+    "active": "Aktivní",
+    "archived": "Archivováno - odstranit ze skupin, navždy ignorovat",
+    "blocked": "Blokováno - odstranit ze skupin, navždy ignorovat",
+    "stopped": "Zastaveno - odstranit ze skupin, ignorovat, dokud se znovu neozvou."
+  },
+  "context_explorer": {
+    "copied_expression": "Zkopírování <1>[[expression]]</1> do schránky",
+    "hide_empty": "Zobrazení klíčů s hodnotami",
+    "show_empty": "Zobrazení všech klíčů"
+  },
+  "create_label": "Vytvořit štítek",
+  "document": "Dokument",
+  "drag_helper": "Uzly spojíte <1>přetažením</1> z červeného kruhu.",
+  "email": {
+    "subject": "Předmět",
+    "to": "k "
+  },
+  "empty_flow_message": "<0>Začněme</0><1>Doporučujeme začít tok zasláním zprávy. Tato zpráva bude odeslána komukoli ihned poté, co se připojí k toku. To je vaše příležitost poslat jim jednu zprávu nebo jim položit otázku.</1>",
+  "enter_to_create_group": "Zadáním názvu vytvoříte novou skupinu",
+  "enter_to_create_label": "Zadejte název existujícího štítku nebo vytvořte nový.",
+  "errors": {
+    "group_not_found": "Zadejte název existující skupiny",
+    "http_header_missing_name": "Hlavičky HTTP musí mít název",
+    "network": "Při pokusu o uložení změn jsme narazili na problém. Je možné, že vaše internetové připojení momentálně nefunguje dobře. Počkejte prosím asi minutu a zkuste to znovu.",
+    "server": "Při pokusu o uložení změn jsme narazili na problém. Pokud tento problém přetrvává, poznamenejte si změnu, kterou se snažíte provést, a kontaktujte podporu."
+  },
+  "flow_start": "Spuštění toku",
+  "forms": {
+    "add_attachment": "Přidat přílohu",
+    "add_groups_summary": "Vyberte skupiny, do kterých chcete kontakt přidat.",
+    "add_labels_summary": "Vyberte štítky, které chcete použít na příchozí zprávu.",
+    "add_quick_reply": "Přidejte novou rychlou odpověď a stiskněte klávesu enter.",
+    "add_urn_summary": "Přidejte nový URN pro dosažení kontaktu, například telefonní číslo.",
+    "advanced": "Pokročilé",
+    "all_destinations": "Všechny destinace",
+    "all_destinations_description": "Odeslání zprávy na všechna místa určení známá pro tento kontakt. Pokud si nejste jisti, co to znamená, nechte tuto možnost nezaškrtnutou.",
+    "and": "a ",
+    "are_required": "jsou vyžadovány",
+    "arguments": "argumenty",
+    "attachments": "Přílohy",
+    "audio_url": "Audio URL",
+    "body": "Body",
+    "buckets": "Zásobníky",
+    "categories": "kategorie",
+    "categorize_as": "kategorizovat jako",
+    "category": "Kategorie",
+    "channel": "Kanál",
+    "channel_type": "Typ kanálu",
+    "classifier": "Klasifikátor",
+    "clear": "Vymazat",
+    "confidence": "důvěra",
+    "contact_field": "Kontaktní pole",
+    "contact_query": "Kontaktní dotaz",
+    "continue_when_no_response": "Pokračovat, když nedostanete žádnou odpověď",
+    "create_group": "Vytvořit skupinu",
+    "create_prefix": "Nový: ",
+    "currency": "Měna",
+    "day": "den",
+    "days": "dny",
+    "delimit": "Vymezení",
+    "delimit_result": "Vymezení výsledku",
+    "delimit_result_description": "Vyhodnoťte svá pravidla vůči ohraničené části vašeho výsledku",
+    "delimiter": "Oddělovač",
+    "district": "Okres",
+    "email_recipient_name": "Příjemce",
+    "email_recipient_placeholder": "Komu",
+    "email_recipient_prompt": "Zadejte e-mailovou adresu",
+    "enter_a_body": "Zadejte obsah zprávy",
+    "enter_a_subject": "Zadejte předmět",
+    "enter_a_url": "Zadejte URL",
+    "enter_field_value": "Zadejte novou hodnotu pro [[field]]",
+    "enter_flow_parameters_summary": "<0>[[flow]]</0> očekává, že tento tok nastaví následující parametry. Ty lze nastavit pomocí akce <4>Uložit výsledek toku</4> nebo přímo níže.",
+    "enter_flow_parameters_tab": "Parametry",
+    "enter_new_name": "Zadejte nové jméno pro kontakt",
+    "enter_urn_value": "Zadejte hodnotu URN",
+    "exit_name": "Název výstupu",
+    "expression_label": "Pokud je výraz...",
+    "field_number": "Číslo pole",
+    "field_value": "Hodnota pole",
+    "flow": "Tok",
+    "flow_result": "Výsledek toku",
+    "groups": "Skupiny",
+    "header_name": "Název záhlaví",
+    "http_headers": "HTTP záhlaví",
+    "image_url": "URL obrázku",
+    "intent": "Záměr",
+    "is_not_a_valid_regex": "není platný regulární výraz",
+    "is_not_finished": "není dokončeno",
+    "is_required": "je vyžadováno",
+    "labels": "Štítky",
+    "language": "Jazyk",
+    "localize_rules": "Někdy jazyky potřebují speciální pravidla pro správné směrování. Pokud překlad není k dispozici, použije se původní pravidlo.",
+    "localized_quick_replies": "Přidejte novou rychlou odpověď v jazyce [[language]] a stiskněte enter.",
+    "maximum_value": "Maximální hodnota",
+    "message": "Zpráva",
+    "message_label": "Pokud je odpověď na zprávu...",
+    "method": "Metoda",
+    "minimum_value": "Minimální hodnota",
+    "must_be_less_than": "musí být menší než",
+    "name": "Název",
+    "operand": "Operand",
+    "operator": "operátor",
+    "pdf_url": "URL adresa PDF dokumentu",
+    "phone_number": "Telefonní číslo",
+    "play_audio_help_text": "Zadejte proměnnou, která obsahuje záznam, který kontakt byl dříve zaznamenaný. Například @results.voicemail nebo @fields.short_bio.",
+    "quick_replies": "Rychlé odpovědi",
+    "quick_replies_summary": "Rychlé odpovědi jsou vytvořeny jako tlačítka pro podporované kanály. Například při položení otázky můžete přidat Rychlou odpověď pro \"Ano\" a jednu pro \"Ne\".",
+    "quick_reply": "Rychlá odpověď",
+    "recipients": "Příjemci",
+    "recording": "Nahrávání",
+    "recording_label": "Předchozí nahrávání",
+    "remove_from_all_label": "Odstranit ze všech",
+    "remove_from_all_summary": "Odebrat aktivní kontakt ze všech skupin, kterých je členem.",
+    "remove_groups_placeholder": "Zadejte název existující skupiny",
+    "remove_groups_summary": "Vyberte skupiny, ze kterých chcete kontakt odebrat.",
+    "remove_value": "Odstranit hodnotu",
+    "resthook": "Resthook",
+    "resthook_to_call": "Zvolte resthook, který chcete volat",
+    "result": "Výsledek",
+    "result_category_help": "Volitelná kategorie pro váš výsledek. V případě věku může být hodnota 17 let, ale kategorie může být \"Mladý dospělý\".",
+    "result_name": "Název výsledku",
+    "result_name_help": "Pokud výsledek pojmenujete, můžete na něj později odkazovat pomocí [[resultFormat]].",
+    "result_to_split_on": "Výsledek k rozdělení",
+    "result_value_help": "Hodnota, která se má pro tento výsledek uložit, nebo prázdná, která jej vymaže. Můžete použít výrazy, např: @(title(input))",
+    "rules": "pravidla",
+    "save_as": "Uložit jako",
+    "save_as_title": "Uložit jako..",
+    "save_result_name": "Název výsledku",
+    "select_channel": "Vyberte kanál, který chcete použít pro tento kontakt",
+    "select_contacts": "Vyberte kontakty",
+    "select_flow": "Vyberte tok, který chcete spustit",
+    "select_groups": "Vyberte skupiny",
+    "select_intent": "Vyberte záměr",
+    "select_language": "Vyberte jazyk, který se má pro tento kontakt použít",
+    "select_result": "Vyberte výsledek",
+    "select_what_to_update": "Vyberte, co se má aktualizovat",
+    "select_who_to_start": "Vyberte, kdo má být spuštěn v toku",
+    "send_msg_facebook_topic_placeholder": "Vyberte téma, které chcete použít na Facebooku",
+    "send_msg_facebook_warning": "Odesílání hromadných zpráv přes kanál Facebooku vyžaduje zadání tématu, pokud uživatel v posledních 24 hodinách žádnou zprávu neodeslal. Nastavení tématu pro použití přes Facebook je důležité zejména pro první zprávu v toku.",
+    "send_msg_summary": "Ke každé zprávě přidejte přílohu. Přílohou může být soubor, který nahrajete, nebo dynamická adresa URL pomocí výrazů a proměnných z vašeho toku.",
+    "send_msg_summary_plural": "Ke každé zprávě přidejte přílohu. Přílohou může být soubor, který nahrajete, nebo dynamická adresa URL pomocí výrazů a proměnných z vašeho toku.",
+    "split_by_channel_placeholder": "Vyberte kanály, které chcete rozdělit podle",
+    "split_by_groups": "Níže vyberte skupiny, podle kterých chcete provést rozdělení.",
+    "split_by_scheme": "Typy kanálů",
+    "split_by_scheme_summary": "URN kontaktu je adresa, kterou kontakt použil ke kontaktu s vámi, například jeho telefonní číslo nebo ID na Facebooku. Níže vyberte, podle kterých typů URN chcete rozdělit.",
+    "start_type": "Typ spuštění",
+    "start_type_create": "Vytvořte nový kontakt",
+    "start_type_manual": "Ručně vyberte příjemce",
+    "start_type_query": "Vyberte příjemce z dotazu",
+    "state": "Stav",
+    "status": "Stav",
+    "subject": "Předmět",
+    "template": "šablona",
+    "the_maximum": "maximum",
+    "the_minimum": "minimum",
+    "ticketer": "Tiketovací služba",
+    "timeout": "Časový limit",
+    "timeout_1 day": "1 den",
+    "timeout_1 hour": "1 hodina",
+    "timeout_1 minute": "1 minuta",
+    "timeout_1 week": "1 týden",
+    "timeout_10 minutes": "10 minut",
+    "timeout_12 hours": "12 hodin",
+    "timeout_15 minutes": "15 minut",
+    "timeout_18 hours": "18 hodin",
+    "timeout_2 days": "2 dny",
+    "timeout_2 hours": "2 hodiny",
+    "timeout_2 minutes": "2 minuty",
+    "timeout_3 days": "3 dny",
+    "timeout_3 hours": "3 hodiny",
+    "timeout_3 minutes": "3 minuty",
+    "timeout_4 minutes": "4 minuty",
+    "timeout_5 minutes": "5 minut",
+    "timeout_6 hours": "6 hodin",
+    "today": "dnes",
+    "today_proper": "Dnes",
+    "translation": "Překlad",
+    "type": "Typ",
+    "type_label": "Když kontakt dorazí do tohoto bodu vašeho toku...",
+    "type_options": "Možnosti typu",
+    "upload_attachment": "Nahrát přílohu",
+    "url": "URL",
+    "urn": "URN",
+    "urn_type": "Typ URN",
+    "use_as_default_language": "Použít jako výchozí jazyk",
+    "value": "Hodnota",
+    "variable": "Proměnná",
+    "video_url": "URL videa",
+    "webhook_body_summary": "Upravte tělo požadavku [[method]], který bude odeslán do vašeho webhooku.",
+    "webhook_example": "Tato odpověď by přidala <1>@webhook.product</1> a <4>@webhook[\"stock level\"]</4> pro použití v toku.",
+    "webhook_header": "Hlavička",
+    "webhook_header_name": "Název hlavičky",
+    "webhook_header_summary": "Níže přidejte další záhlaví, která chcete zaslat spolu s žádostí.",
+    "webhook_help": "Pokud váš server odpoví pomocí JSON, budou jednotlivé vlastnosti přidány do toku.",
+    "whatsapp_warning": "Odesílání zpráv přes kanál WhatsApp vyžaduje použití šablony, pokud jste od kontaktu v posledních 24 hodinách neobdrželi žádnou zprávu. Nastavení šablony pro použití přes WhatsApp je důležité zejména pro první zprávu v toku."
+  },
+  "issues": {
+    "header": "Problémy s tokem",
+    "label": "Problémy s tokem",
+    "legacy_extra": "Nalezen neplatný regulární výraz: [[regex]]",
+    "missing_dependency": "Nelze najít [[type]] pro <1>[[name]]</1>"
+  },
+  "operators": {
+    "has_all_words": "obsahuje všechna slova",
+    "has_any_word": "obsahuje některá ze slov",
+    "has_beginning": "začíná na",
+    "has_category": "má kategorii",
+    "has_date": "má datum",
+    "has_date_category": "Má datum",
+    "has_date_eq": "má datum rovnající se",
+    "has_date_gt": "má datum po",
+    "has_date_lt": "má datum před",
+    "has_district": "má okres",
+    "has_district_category": "Má okres",
+    "has_email": "má e-mail",
+    "has_email_category": "Má e-mail",
+    "has_error": "má chybu",
+    "has_error_category": "Má chybu",
+    "has_group": "je ve skupině",
+    "has_intent": "má záměr",
+    "has_number": "má číslo",
+    "has_number_between": "má číslo mezi",
+    "has_number_eq": "má číslo rovné ",
+    "has_number_gt": "má číslo větší než",
+    "has_number_gte": "má číslo rovné nebo vyšší",
+    "has_number_lt": "má číslo nižší než",
+    "has_number_lte": "má číslo rovné nebo nižší než",
+    "has_only_phrase": "má pouze výraz",
+    "has_pattern": "odpovídá regulárnímu výrazu",
+    "has_phone": "má telefonní číslo",
+    "has_phone_category": "Má telefon",
+    "has_phrase": "obsahuje větu",
+    "has_state": "má stav",
+    "has_state_category": "Má Stav",
+    "has_text": "má nějaký text",
+    "has_time": "má časový údaj",
+    "has_top_intent": "má hlavní záměr",
+    "has_value": "není prázdný",
+    "has_value_category": "Není Prázdný",
+    "has_ward": "má oddíl",
+    "has_ward_category": "Má Oddíl"
+  },
+  "recent_messages": {
+    "header": "Nedávné Zprávy",
+    "header_empty": "Žádné nedávné zprávy"
+  },
+  "removal_confirmation": "Odstranit?",
+  "revisions": {
+    "current": "aktuální",
+    "header": "Revize",
+    "label": "Historie revizí",
+    "revert": "vrátit"
+  },
+  "schemes": {
+    "email": {
+      "name": "E-mail",
+      "path": "E-mailová adresa"
+    },
+    "external": {
+      "name": "Externí",
+      "path": "Externí ID"
+    },
+    "facebook": {
+      "path": "Facebook"
+    },
+    "firebase": {
+      "name": "Firebase",
+      "path": "Firebase ID"
+    },
+    "freschat": {
+      "name": "Freshchat"
+    },
+    "freshchat": {
+      "path": "Freshchat ID"
+    },
+    "jiochat": {
+      "path": "Jiochat ID"
+    },
+    "jiojach": {
+      "name": "Jiochat"
+    },
+    "line": {
+      "name": "Line",
+      "path": "Line ID"
+    },
+    "phone": {
+      "name": "SMS",
+      "path": "telefonní číslo"
+    },
+    "telegram": {
+      "name": "Telegram",
+      "path": "Telegram ID"
+    },
+    "twitter": {
+      "name": "Twitter",
+      "path": "Twitter Handle"
+    },
+    "twitterid": {
+      "name": "Twitter",
+      "path": "Twitter ID"
+    },
+    "viber": {
+      "name": "Viber",
+      "path": "Viber ID"
+    },
+    "wechat": {
+      "name": "Wechat",
+      "path": "Wechat ID"
+    },
+    "whatsapp": {
+      "name": "WhatsApp",
+      "path": "WhatsApp číslo"
+    }
+  },
+  "simulator": {
+    "added_to_group": "Přidáno do",
+    "airtime_transferred": "Převedeno [[amount]] [[currency]] na [[recipient]]",
+    "contact_field_changed": "Nastavit kontakt \"[[field]]\" na \"[[value]]\"",
+    "contact_field_cleared": "Vymazán kontakt \"[[field]]\"",
+    "contact_language_changed": "Nastavit preferovaný jazyk na \"[[language]]\".",
+    "contact_name_changed": "Nastavit jméno kontaktu na \"[[name]]\".",
+    "contact_status_changed": "Nastavit stav na \"[[status]]\"",
+    "flow_entered": "Zadaný tok \"[[flow]]\"",
+    "flow_exited": "Zadaný tok",
+    "httplog_dialog": "Podrobnosti požadavku HTTP",
+    "input_labels_added": "Zpráva označená",
+    "label": "Spustit v simulátoru",
+    "msg_wait": "Čekání na odpověď",
+    "prompt": {
+      "message": "Zadejte zprávu",
+      "restart": "Stisknutím tlačítka domů začněte znovu"
+    },
+    "removed_from_group": "Odstraněno z",
+    "resthook_called": "Spuštěná událost toku \"[[resthook]]\"",
+    "run_result_changed": "Nastavit výsledek \"[[field]]\" na \"[[value]]\".",
+    "sent_email": {
+      "summary": "Odeslán e-mail [[recipients]] s předmětem \"[[subject]]\".",
+      "title": "Podrobnosti e-mailu"
+    },
+    "session_triggered": "Začal někdo jiný v \"[[flow]]\"",
+    "ticket_opened": "Tiket byl otevřen s tématem \"[[topic]]\""
+  },
+  "sticky": {
+    "body": "...",
+    "title": "Nová poznámka"
+  },
+  "translation": {
+    "header": "Překlad Toku",
+    "label": "Překlady"
+  }
+}
