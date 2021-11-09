@@ -1,0 +1,504 @@
+{
+  "actions": {
+    "add_contact_groups": {
+      "description": "Харилцагчийг бүлэгт нэмэх",
+      "name": "Бүлэгт нэмэх"
+    },
+    "add_contact_urn": {
+      "description": "Харилцагчид URN нэмэх",
+      "name": "URN нэмэх"
+    },
+    "add_input": {
+      "description": "Ирсэн мессежийг шошголох",
+      "name": "Шошго нэмэх"
+    },
+    "call_resthook": {
+      "description": "Zapier-руу дуудлага хийх",
+      "name": "Zapier-руу дуудлага хийх"
+    },
+    "call_webhook": {
+      "description": "Webhook-рүү дуудлага хийх",
+      "name": "Webhook-рүү дуудлага хийх"
+    },
+    "enter_flow": {
+      "description": "Өөр урсгал нэмэх",
+      "name": "Урсгал нэмэх"
+    },
+    "open_ticket": {
+      "description": "Хүн агенттай тасалбар нээх",
+      "name": "Тасалбар нээх"
+    },
+    "play_audio": {
+      "description": "Бичлэгийг тоглуулах",
+      "name": "Бичлэгийг тоглуулах"
+    },
+    "play_message": {
+      "description": "Мессежийг тоглуулах",
+      "name": "Мессежийг тоглуулах"
+    },
+    "remove_contact_groups": {
+      "description": "Харилцагчийг бүлгээс хасах",
+      "name": "Бүлгээс хасах"
+    },
+    "say_msg": {
+      "placeholder": "Харилцагчруу мессеж илгээх"
+    },
+    "send_broadcast": {
+      "description": "Өөр хэн нэгэнд мессеж илгээнэ үү ",
+      "name": "Нэвтрүүлэг илгээх ",
+      "placeholder": "Харилцагчруу мессеж илгээх"
+    },
+    "send_email": {
+      "description": "Имэйл илгээх",
+      "name": "Имэйл илгээх"
+    },
+    "send_msg": {
+      "description": "Харилцагчруу мессеж илгээх",
+      "name": "Мессеж илгээх",
+      "placeholder": "Харилцагчруу мессеж илгээх"
+    },
+    "set_contact_field": {
+      "description": "Харилцагчийг шинэчлэх",
+      "name": "Харилцагчийг шинэчлэх"
+    },
+    "set_run_result": {
+      "description": "Энэ урсгалын үр дүнг хадгална уу ",
+      "name": "Урсгалын үр дүнг хадгалах "
+    },
+    "split_by_contact_field": {
+      "description": "Харилцагчийн талбараар хуваах",
+      "name": "Харилцагчийн талбараар хуваах"
+    },
+    "split_by_expression": {
+      "description": "Тусгай илэрхийллээр хуваах",
+      "name": "Тусгай илэрхийллээр хуваах"
+    },
+    "split_by_groups": {
+      "description": "Бүлгийн гишүүнчлэлээр хуваах",
+      "name": "Бүлгийн гишүүнчлэлээр хуваах"
+    },
+    "split_by_intent": {
+      "description": "Зорилгоор хуваах",
+      "name": "Зорилгоор хуваах"
+    },
+    "split_by_random": {
+      "description": "Санамсаргүй байдлаар хуваах",
+      "name": "Санамсаргүй байдлаар хуваах"
+    },
+    "split_by_run_result": {
+      "description": "Урсгал дахь үр дүнгээр хуваах",
+      "name": "Урсгалын үр дүнгээр хуваах "
+    },
+    "split_by_scheme": {
+      "description": "URN төрлөөр хуваах",
+      "name": "URN төрлөөр хуваах"
+    },
+    "start_session": {
+      "description": "Өөр хэн нэгнийг урсгалаар эхлүүл",
+      "name": "Өөр хэн нэгнийг эхлүүл"
+    },
+    "transfer_airtime": {
+      "description": "Харилцагчид нэгж илгээх",
+      "name": "Нэгж илгээх"
+    },
+    "wait_for_audio": {
+      "description": "Аудио бичлэгийг хүлээнэ үү ",
+      "name": "Аудио бичлэгийг хүлээнэ үү "
+    },
+    "wait_for_dial": {
+      "description": "Өөр хэн нэгэн рүү дамжуулсан дуудлагыг хүлээнэ үү",
+      "name": "Дамжуулсан дуудлагыг хүлээнэ үү"
+    },
+    "wait_for_digits": {
+      "description": "Олон оронтой тоон утгыг хүлээнэ үү",
+      "name": "Тоон утгыг хүлээх"
+    },
+    "wait_for_image": {
+      "description": "Зургийг хүлээнэ үү",
+      "name": "Зургийг хүлээнэ үү"
+    },
+    "wait_for_location": {
+      "description": "Байршлын GPS координатыг хүлээнэ үү",
+      "name": "Байршлыг хүлээнэ үү"
+    },
+    "wait_for_menu": {
+      "description": "Цэсний сонголтыг хүлээнэ үү",
+      "name": "Цэсний сонголтыг хүлээнэ үү"
+    },
+    "wait_for_response": {
+      "description": "Харилцагч хариу өгөхийг хүлээнэ үү",
+      "name": "Хариу иртэл хүлээнэ үү"
+    },
+    "wait_for_video": {
+      "description": "Видеог хүлээнэ үү",
+      "name": "Видеог хүлээнэ үү"
+    }
+  },
+  "add": "Нэмэх",
+  "asset_selector": {
+    "placeholder": "Одоо байгаа [[name]]-г сонгох эсвэл шинээр оруулна уу",
+    "placeholder_plural": "Одоо байгаа [[name]]-г сонгох эсвэл шинээр оруулна уу"
+  },
+  "assets": {
+    "classifier": "[[name]] ангилагч руу дуудлага хийх",
+    "ticketer": "[[name]] дээр шинэ тасалбар нээх"
+  },
+  "body": "Их бие",
+  "buttons": {
+    "cancel": "Цуцлах",
+    "create_message": "Мессеж үүсгэх",
+    "download": "Татаж авах",
+    "ok": "Ок"
+  },
+  "contact_statuses": {
+    "active": "Идэвхтэй",
+    "archived": "Архивлагдсан - бүр мөсөн бүлгээс хасах",
+    "blocked": "Блоклосон - бүр мөсөн бүлгээс хасах",
+    "stopped": "Зогсоосон - дахин мессеж ирэх хүртэл бүлгээс хасах"
+  },
+  "context_explorer": {
+    "copied_expression": "<1>[[expression]]</1>-г keyboard-н санах ойруу хуулсан",
+    "hide_empty": "Утга бүхий түлхүүрүүдийг харуулж байна",
+    "show_empty": "Бүх түлхүүрүүдийг харуулж байна"
+  },
+  "create_label": "Шошго үүсгэх",
+  "document": "Баримт бичиг",
+  "drag_helper": "Node-үүдийг холбохын тулд улаан тойргоос <1>чирнэ үү</1>.",
+  "email": {
+    "subject": "Сэдэв",
+    "to": "руу"
+  },
+  "empty_flow_message": "<0>Эхэлцгээе</0> <1>Бид танд мессеж илгээх замаар урсгалаа эхлүүлэхийг зөвлөж байна. Энэ мессежийг урсгалд нэгдсэний дараа хэнд ч илгээх болно. Энэ бол таны мессеж илгээх эсвэл тэднээс асуулт асуух боломж юм.</1>",
+  "enter_to_create_group": "Шинэ бүлэг үүсгэхийн тулд нэр оруулна уу",
+  "enter_to_create_label": "Одоо байгаа шошгоны нэрийг оруулна уу эсвэл шинээр үүсгэнэ үү",
+  "errors": {
+    "group_not_found": "Одоо байгаа бүлгийн нэрийг оруулна уу",
+    "http_header_missing_name": "HTTP headers хэсэг нь нэртэй байх ёстой ",
+    "network": "Хмм, таны өөрчлөлтийг хадгалахад асуудал гарлаа. Таны интернет холболт одоогоор сайн ажиллахгүй байж магадгүй юм. Нэг минут хүлээгээд дахин оролдоно уу.",
+    "server": "Хмм, таны өөрчлөлтийг хадгалахад асуудал гарлаа. Хэрэв энэ асуудал хэвээр байвал та хийх гэж буй өөрчлөлтөө тэмдэглээд оператортой холбоо барина уу."
+  },
+  "flow_start": "Урсгалын эхлэл",
+  "forms": {
+    "add_attachment": "Хавсралт нэмэх",
+    "add_groups_summary": "Харилцагчийг нэмэх бүлгүүдийг сонгоно уу.",
+    "add_labels_summary": "Ирж буй мессежнүүдэд хэрэглэх шошгуудыг сонгоно уу. ",
+    "add_quick_reply": "Шинэ шуурхай хариу нэмээд enter дарна уу.",
+    "add_urn_summary": "Утасны дугаар гэх мэт харилцагчтай холбогдох шинэ URN нэмнэ үү.",
+    "advanced": "Дэвшилтэт",
+    "all_destinations": "Бүх очих газрууд",
+    "all_destinations_description": "Энэ харилцагчийн мэддэг бүх газарлуу мессеж илгээнэ үү. Хэрэв та энэ нь юу гэсэн үг болохыг мэдэхгүй байгаа бол шалгахгүй орхино уу.",
+    "and": "бас",
+    "are_required": "шаардлагатай",
+    "arguments": "аргументууд",
+    "attachments": "Хавсралтууд",
+    "audio_url": "Аудио URL",
+    "body": "Их бие",
+    "buckets": "Багцууд",
+    "categories": "ангилал",
+    "categorize_as": "гэж ангилах",
+    "category": "Ангилал ",
+    "channel": "Суваг",
+    "channel_type": "Сувгийн төрөл",
+    "classifier": "Ангилагч",
+    "clear": "Арилгах",
+    "confidence": "итгэл",
+    "contact_field": "Харилцагчийн талбар",
+    "contact_query": "Харилцагчийн хүсэлт",
+    "continue_when_no_response": "Хариу өгөхгүй бол үргэлжлүүлнэ үү",
+    "create_group": "Бүлэг үүсгэх",
+    "create_prefix": "Шинэ: ",
+    "currency": "Валют",
+    "day": "өдөр",
+    "days": "өдрүүд",
+    "delimit": "Хязгаарлах",
+    "delimit_result": "Үр дүнг хязгаарлах",
+    "delimit_result_description": "Үр дүнгийнхээ хязгаарласан хэсэг дэх дүрмээ хянаарай",
+    "delimiter": "Хязгаарлагч",
+    "district": "Дүүрэг",
+    "email_recipient_name": "Хүлээн авагч",
+    "email_recipient_placeholder": "руу",
+    "email_recipient_prompt": "Имэйл хаягаа оруулна уу",
+    "enter_a_body": "Их биеийг оруулна уу",
+    "enter_a_subject": "Сэдвийг оруулна уу",
+    "enter_a_url": "URL оруулна уу",
+    "enter_field_value": "[[field]]-д шинэ утга оруулна уу",
+    "enter_flow_parameters_summary": "<0>[[flow]]</0> нь дараах параметрүүдийг энэ урсгалаар тохируулагдахыг хүлээж байна. Эдгээрийг <4>Урсгалын үр дүнг хадгалах</4> үйлдлээр эсвэл шууд доорхоор тохируулж болно.",
+    "enter_flow_parameters_tab": "Параметрүүд",
+    "enter_new_name": "Харилцагчийн шинэ нэрийг оруулна уу",
+    "enter_urn_value": "URN утгыг оруулна уу",
+    "exit_name": "Гарах нэр",
+    "expression_label": "Хэрэв илэрхийлэл ...",
+    "field_number": "Талбайн дугаар",
+    "field_value": "Талбайн утга",
+    "flow": "Урсгал",
+    "flow_result": "Урсгалын үр дүн",
+    "groups": "Бүлгүүд",
+    "header_name": "Header хэсгийн нэр",
+    "http_headers": "HTTP Headers",
+    "image_url": "Зургийн URL",
+    "intent": "Зорилго",
+    "is_not_a_valid_regex": "хүчинтэй регекс биш байна",
+    "is_not_finished": "дуусаагүй байна",
+    "is_required": "шаардлагатай",
+    "labels": "Шошго",
+    "language": "Хэл",
+    "localize_rules": "Заримдаа хэлийг зөв тохируулахын тулд тусгай дүрэм хэрэгтэй байдаг. Орчуулга өгөөгүй бол эх дүрмийг ашиглана.",
+    "localized_quick_replies": "Шинэ [[language]] Шуурхай хариулт нэмээд enter дарна уу.",
+    "maximum_value": "Хамгийн их утга",
+    "message": "Мессеж",
+    "message_label": "Хэрэв мессежний хариу ирвэл...",
+    "method": "Арга",
+    "minimum_value": "Хамгийн бага утга",
+    "must_be_less_than": "-аас бага байх ёстой",
+    "name": "Нэр",
+    "operand": "Операнд",
+    "operator": "оператор",
+    "pdf_url": "PDF баримт бичгийн URL",
+    "phone_number": "Утасны дугаар",
+    "play_audio_help_text": "Харилцагчийн өмнө нь бичсэн бичлэгийг агуулсан хувьсагчийг оруулна уу. Жишээлбэл, @results.voicemail эсвэл @fields.short_bio. ",
+    "quick_replies": "Шуурхай хариултууд",
+    "quick_replies_summary": "Шуурхай хариултууд нь дэмжигдсэн сувгуудад товчлуур хэлбэрээр хийгдсэн байдаг. Жишээлбэл, асуулт асуухдаа \"Тийм\" гэж хурдан хариулж, \"Үгүй\" гэж нэмж болно.",
+    "quick_reply": "Шуурхай хариулт",
+    "recipients": "Хүлээн авагчид",
+    "recording": "Бичлэг",
+    "recording_label": "Өмнөх бичлэг",
+    "remove_from_all_label": "Бүгдээс хас",
+    "remove_from_all_summary": "Идэвхитэй харилцагчийг гишүүн болсон бүлгүүдээс хас.",
+    "remove_groups_placeholder": "Одоо байгаа бүлгийн нэрийг оруулна уу",
+    "remove_groups_summary": "Харилцагчийг устгах бүлгүүдийг сонгоно уу.",
+    "remove_value": "Утгыг хасах",
+    "resthook": "Resthook",
+    "resthook_to_call": "Дуудлага хийх resthook-г сонгох",
+    "result": "Үр дүн",
+    "result_category_help": "Таны үр дүнгийн нэмэлт ангилал. Насны хувьд энэ утга нь 17 байж болох ч ангилал нь \"Дөнгөж насанд хүрэгч\" байж болно. ",
+    "result_name": "Үр дүнгийн нэр",
+    "result_name_help": "Үр дүнг нэрлэснээр та [[resultFormat]] ашиглан дараа нь харж болно.",
+    "result_to_split_on": "Хуваах үр дүн",
+    "result_value_help": "Энэ илэрцийг хадгалах утгыг эсвэл арилгахын тулд хоосон орхи. Та илэрхийлэл ашиглаж болно, жишээ нь: @(title(input))",
+    "rules": "дүрэм",
+    "save_as": "Хадгалах",
+    "save_as_title": "Хадгалах",
+    "save_result_name": "Үр дүнгийн нэр",
+    "select_channel": "Энэ харилцагчид ашиглах сувгийг сонгоно уу",
+    "select_contacts": "Харилцагчдыг сонгоно уу",
+    "select_flow": "Эхлэх урсгалыг сонгоно уу",
+    "select_groups": "Бүлгүүдийг сонгоно уу",
+    "select_intent": "Зорилгоо сонгоно уу",
+    "select_language": "Энэ харилцагчид ашиглах хэлээ сонгоно уу",
+    "select_result": "Үр дүнг сонгоно уу",
+    "select_what_to_update": "Юу шинэчлэхээ сонгоно уу",
+    "select_who_to_start": "Урсгалд хэн эхлэх ёстойг сонго",
+    "send_msg_facebook_topic_placeholder": "Facebook дээр ашиглах сэдвээ сонго",
+    "send_msg_facebook_warning": "Фэйсбүүк сувгаар бөөнөөр нь мессеж илгээхдээ хэрэглэгч сүүлийн 24 цагийн дотор мессеж илгээгээгүй бол сэдвийг зааж өгөх шаардлагатай. Facebook дээр ашиглах сэдвийг тохируулах нь таны урсгалын эхний мессежинд ихээхэн чухал юм.",
+    "send_msg_summary": "Зурвас бүрт хавсралт нэмнэ үү. Хавсралт нь таны байршуулсан файл эсвэл урсгалын илэрхийлэл болон хувьсагчдыг ашигласан динамик URL байж болно. ",
+    "send_msg_summary_plural": "Зурвас бүрт хавсралт нэмнэ үү. Хавсралт нь таны байршуулсан файл эсвэл урсгалын илэрхийлэл болон хувьсагчдыг ашигласан динамик URL байж болно. ",
+    "split_by_channel_placeholder": "Хуваах сувгуудаа сонгоно уу",
+    "split_by_groups": "Доорх бүлэгт хуваахыг хүсэж буй бүлгүүдээ сонгоно уу",
+    "split_by_scheme": "Сувгийн төрлүүд",
+    "split_by_scheme_summary": "Харилцагчийн URN нь утасны дугаар эсвэл Facebook ID гэх мэт тантай холбогдоход ашигладасан хаяг юм. Аль URN төрлөөр нь хуваахыг доороос сонгоно уу.",
+    "start_type": "Эхлэх төрөл",
+    "start_type_create": "Шинэ харилцагч үүсгэх ",
+    "start_type_manual": "Хүлээн авагчдыг гараар сонгоно уу",
+    "start_type_query": "Асуулгаас хүлээн авагчдыг сонгоно уу",
+    "state": "Муж",
+    "status": "Статус",
+    "subject": "Сэдэв",
+    "template": "загвар",
+    "the_maximum": "хамгийн их",
+    "the_minimum": "хамгийн бага",
+    "ticketer": "Тасалбар түгээгч",
+    "timeout": "Завсарлага",
+    "timeout_1 day": "1 өдөр",
+    "timeout_1 hour": "1 цаг",
+    "timeout_1 minute": "1 минут",
+    "timeout_1 week": "1 долоо хоног",
+    "timeout_10 minutes": "10 минут ",
+    "timeout_12 hours": "12 цаг",
+    "timeout_15 minutes": "15 минут",
+    "timeout_18 hours": "18 цаг ",
+    "timeout_2 days": "2 өдөр",
+    "timeout_2 hours": "2 цаг ",
+    "timeout_2 minutes": "2 минут ",
+    "timeout_3 days": "3 өдөр ",
+    "timeout_3 hours": "3 цаг",
+    "timeout_3 minutes": "3 минут",
+    "timeout_4 minutes": "4 минут",
+    "timeout_5 minutes": "5 минут",
+    "timeout_6 hours": "6 цаг",
+    "today": "өнөөдөр",
+    "today_proper": "Өнөөдөр",
+    "translation": "Орчуулга",
+    "type": "Төрөл",
+    "type_label": "Таны урсгалын энэ үед харилцагч хүн ирэхэд...",
+    "type_options": "Сонголтуудыг бичнэ үү",
+    "upload_attachment": "Хавсралтыг байршуулах",
+    "url": "URL",
+    "urn": "URN",
+    "urn_type": "URN төрөл ",
+    "use_as_default_language": "Ерөнхий хэлээр ашиглах",
+    "value": "Утга",
+    "variable": "Хувьсагч",
+    "video_url": "Видео URL",
+    "webhook_body_summary": "Таны webhook рүү илгээгдэх хүсэлтийн body [[method]] хэсгийг өөрчил.",
+    "webhook_example": "Энэ хариулт нь урсгалд ашиглагдахын тулд <1>@webhook.product</1> болон <4>@webhook[\"stock level\"]</4>-г нэмнэ.",
+    "webhook_header": "Header",
+    "webhook_header_name": "Header Name",
+    "webhook_header_summary": "Хүсэлтийн хамт илгээхийг хүсэж буй нэмэлт headersг доор нэмнэ үү. ",
+    "webhook_help": "Хэрэв таны сервер JSON-оор хариу өгөх юм бол property бүрийг урсгалд нэмнэ.",
+    "whatsapp_warning": "WhatsApp сувгаар мессеж илгээхдээ сүүлийн 24 цагийн дотор харилцагчаас мессеж хүлээж аваагүй бол загварыг ашиглах шаардлагатай. WhatsApp дээр ашиглах загварыг тохируулах нь таны урсгалын эхний мессежний чухал алхам юм."
+  },
+  "issues": {
+    "header": "Урсгалын асуудлууд",
+    "label": "Урсгалын асуудлууд",
+    "legacy_extra": "Буруу илэрхийлэл олдлоо: [[regex]] ",
+    "missing_dependency": "<1>[[name]]</1>-д зориулсан [[type]] олдохгүй байна "
+  },
+  "operators": {
+    "has_all_words": "бүх үгтэй",
+    "has_any_word": "аль нэг үгтэй",
+    "has_beginning": "-р эхэлдэг",
+    "has_category": "ангилалтай",
+    "has_date": "огноотой",
+    "has_date_category": "Огноотой",
+    "has_date_eq": "-тэй тэнцэх огноотой",
+    "has_date_gt": "-с дараа огноотой",
+    "has_date_lt": "-с өмнө огноотой",
+    "has_district": "дүүрэгтэй",
+    "has_district_category": "Дүүрэгтэй",
+    "has_email": "имэйл хаягтай",
+    "has_email_category": "Имэйл хаягтай",
+    "has_error": "алдаатай",
+    "has_error_category": "Алдаатай",
+    "has_group": "бүлэгт байдаг",
+    "has_intent": "зорилготой",
+    "has_number": "тоотой",
+    "has_number_between": "-н хооронд тоотой",
+    "has_number_eq": "-тэй тэнцэх тоотой",
+    "has_number_gt": "-с дээш тоотой",
+    "has_number_gte": "-с дээш эсвэл яг ижил тоотой",
+    "has_number_lt": "-с доош тоотой",
+    "has_number_lte": "-с доош эсвэл яг ижил тоотой",
+    "has_only_phrase": "гэсэн утгатай",
+    "has_pattern": "-тэй таарах regex-тэй",
+    "has_phone": "утасны дугаартай",
+    "has_phone_category": "Утастай",
+    "has_phrase": "гэсэн утгатай",
+    "has_state": "мужтай",
+    "has_state_category": "Мужтай",
+    "has_text": "тексттэй",
+    "has_time": "цагтай",
+    "has_top_intent": "чухал зорилготой",
+    "has_value": "хоосон биш",
+    "has_value_category": "Хоосон биш",
+    "has_ward": "чиглэлтэй",
+    "has_ward_category": "Чиглэлтэй"
+  },
+  "recent_messages": {
+    "header": "Саяхны мессежнүүд",
+    "header_empty": "Саяхны мессеж хоосон байна"
+  },
+  "removal_confirmation": "Хасах уу?",
+  "revisions": {
+    "current": "одоогийн",
+    "header": "Шинэчлэлтүүд",
+    "label": "Шинэчилсэн түүх",
+    "revert": "буцах"
+  },
+  "schemes": {
+    "email": {
+      "name": "Имэйл",
+      "path": "Имэйл хаяг"
+    },
+    "external": {
+      "name": "Гадаад",
+      "path": "Гадаад ID"
+    },
+    "facebook": {
+      "path": "Facebook"
+    },
+    "firebase": {
+      "name": "Firebase",
+      "path": "Firebase ID"
+    },
+    "freschat": {
+      "name": "Freshchat"
+    },
+    "freshchat": {
+      "path": "Freshchat ID"
+    },
+    "jiochat": {
+      "path": "Jiochat ID"
+    },
+    "jiojach": {
+      "name": "Jiochat"
+    },
+    "line": {
+      "name": "Line",
+      "path": "Line ID"
+    },
+    "phone": {
+      "name": "SMS",
+      "path": "Утасны дугаар"
+    },
+    "telegram": {
+      "name": "Telegram",
+      "path": "Telegram ID"
+    },
+    "twitter": {
+      "name": "Twitter",
+      "path": "Twitter Handle"
+    },
+    "twitterid": {
+      "name": "Twitter",
+      "path": "Twitter ID"
+    },
+    "viber": {
+      "name": "Viber",
+      "path": "Viber ID"
+    },
+    "wechat": {
+      "name": "Wechat",
+      "path": "Wechat ID"
+    },
+    "whatsapp": {
+      "name": "WhatsApp",
+      "path": "WhatsApp дугаар"
+    }
+  },
+  "simulator": {
+    "added_to_group": "Нэмэгдсэн",
+    "airtime_transferred": "[[amount]] [[currency]]-г [[recipient]] руу шилжүүлсэн",
+    "contact_field_changed": "\"[[field]]\" харилцагчийг \"[[value]]\" болгож тохируулах",
+    "contact_field_cleared": "\"[[field]]\" харилцагчийг устгасан",
+    "contact_language_changed": "Сонгосон хэлийг \"[[language]]\" болгож тохируулах",
+    "contact_name_changed": "Харилцагчийн нэрийг \"[[name]]\" болгож тохируулах ",
+    "contact_status_changed": "Төлөвийг \"[[status]]\" болгож тохируулах",
+    "flow_entered": "Оруулсан урсгал \"[[flow]]\"",
+    "flow_exited": "Урсгалаас гарлаа",
+    "httplog_dialog": "HTTP хүсэлтийн дэлгэрэнгүй мэдээлэл",
+    "input_labels_added": "гэсэн шошготой мессеж",
+    "label": "Симулятор дээр ажиллуулах",
+    "msg_wait": "Хариу хүлээж байна",
+    "prompt": {
+      "message": "Мессеж оруулах",
+      "restart": "Дахин эхлүүлэхийн тулд home товчийг дарна уу"
+    },
+    "removed_from_group": "-аас хассан",
+    "resthook_called": "\"[[resthook]]\" урсгалын үйл ажиллагаа",
+    "run_result_changed": "\"[[field]]\" үр дүнг \"[[value]]\" болгож тохируулах",
+    "sent_email": {
+      "summary": "[[recipients]] руу \"[[subject]]\" гарчигтай имэйл илгээсэн",
+      "title": "Имэйлийн дэлгэрэнгүй мэдээлэл"
+    },
+    "session_triggered": "\"[[flow]]\"-д өөр хэн нэгнийг эхлүүлсэн",
+    "ticket_opened": "\"[[сэдэв]]\" сэдвээр нээсэн тасалбар"
+  },
+  "sticky": {
+    "body": "...",
+    "title": "Шинэ тэмдэглэл"
+  },
+  "translation": {
+    "header": "Урсгал орчуулга",
+    "label": "Орчуулга "
+  }
+}
