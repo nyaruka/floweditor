@@ -2,7 +2,7 @@
   "name": "@nyaruka/flow-editor",
   "license": "AGPL-3.0",
   "repository": "git://github.com/nyaruka/floweditor.git",
-  "version": "1.15.1",
+  "version": "1.15.2",
   "description": "'Standalone flow editing tool designed for use within the RapidPro suite of messaging tools but can be adopted for use outside of that ecosystem.'",
   "browser": "umd/flow-editor.min.js",
   "unpkg": "umd/flow-editor.min.js",
