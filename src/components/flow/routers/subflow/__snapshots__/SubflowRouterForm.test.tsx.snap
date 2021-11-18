@@ -69,7 +69,7 @@ Array [
           },
         ],
         "default_category_uuid": "1e47a1e1-3c67-4df5-adf1-da542c789adb",
-        "operand": "@child.run.status",
+        "operand": "@child.status",
         "type": "switch",
       },
       "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
