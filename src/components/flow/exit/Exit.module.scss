@@ -129,11 +129,11 @@
   }
 }
 
-.recent_messages {
+.recent_contacts {
   width: 200px;
   margin-top: 12px;
   margin-left: -100px;
-  z-index: $z_recent_messages;
+  z-index: $z_recent_contacts;
 
   background: $light_gray_2;
   border-radius: $curvature;
@@ -159,14 +159,15 @@
     text-align: center;
   }
 
-  .message {
+  .row {
     text-align: left;
     padding: 8px 10px;
-    .text {
+    
+    .operand {
       font-size: 13px;
     }
 
-    .sent {
+    .time {
       padding-top: 3px;
       font-size: 10px;
     }

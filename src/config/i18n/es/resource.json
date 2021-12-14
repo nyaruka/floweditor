@@ -393,9 +393,9 @@
     "has_ward": "tiene pueblo",
     "has_ward_category": "Tiene Pueblo"
   },
-  "recent_messages": {
-    "header": "Mensajes Recientes",
-    "header_empty": "No hay mensajes recientes"
+  "recent_contacts": {
+    "header": "Contactos Recientes",
+    "header_empty": "No hay contactos recientes"
   },
   "removal_confirmation": "Remover?",
   "revisions": {

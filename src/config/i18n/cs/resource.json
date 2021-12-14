@@ -393,9 +393,9 @@
     "has_ward": "má oddíl",
     "has_ward_category": "Má Oddíl"
   },
-  "recent_messages": {
-    "header": "Nedávné Zprávy",
-    "header_empty": "Žádné nedávné zprávy"
+  "recent_contacts": {
+    "header": "Recent Contacts",
+    "header_empty": "No Recent Contacts"
   },
   "removal_confirmation": "Odstranit?",
   "revisions": {

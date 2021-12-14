@@ -145,46 +145,64 @@ exports[`ExitComp shows missing localization 1`] = `
 </body>
 `;
 
-exports[`ExitComp shows recent messages on mouse over 1`] = `
+exports[`ExitComp shows recent contacts on mouse over 1`] = `
 <body>
   <div>
     <div
-      id="activity_recent_messages"
+      id="activity_recent_contacts"
     >
       <div>
         <div
-          class="recent_messages"
+          class="recent_contacts"
           style="position: absolute; left: 0px; top: 0px;"
         >
           <div
             class="title"
           >
-            Recent Messages
+            Recent Contacts
           </div>
           <div
-            class="message"
+            class="row"
           >
             <div
-              class="text"
+              class="contact"
+            >
+              <a
+                href="undefinedeaea6433-d423-41dd-94a9-075de20f322d"
+              >
+                Jim
+              </a>
+            </div>
+            <div
+              class="operand"
             >
               Hi Mom!
             </div>
             <div
-              class="sent"
+              class="time"
             >
               a few seconds ago
             </div>
           </div>
           <div
-            class="message"
+            class="row"
           >
             <div
-              class="text"
+              class="contact"
+            >
+              <a
+                href="undefinedf781f594-af8b-4493-b67c-2421bf2d4625"
+              >
+                Bob
+              </a>
+            </div>
+            <div
+              class="operand"
             >
               Hi Dad!
             </div>
             <div
-              class="sent"
+              class="time"
             >
               a few seconds ago
             </div>

@@ -10,7 +10,7 @@ import { Category, Exit, FlowNode, LocalizationMap } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { RecentMessage } from 'store/editor';
+import { RecentContact } from 'store/editor';
 import { Asset } from 'store/flowContext';
 import AppState from 'store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from 'store/thunks';
@@ -48,15 +48,15 @@ export interface ExitStoreProps {
   localization: LocalizationMap;
   disconnectExit: DisconnectExit;
   segmentCount: number;
-  recentMessages: RecentMessage[];
+  recentContacts: RecentContact[];
 }
 
 export type ExitProps = ExitPassedProps & ExitStoreProps;
 
 export interface ExitState {
   confirmDelete: boolean;
-  recentMessages: RecentMessage[];
-  fetchingRecentMessages: boolean;
+  recentContacts: RecentContact[];
+  fetchingRecentContacts: boolean;
   showDragHelper: boolean;
 }
 
@@ -72,8 +72,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
     this.state = {
       confirmDelete: false,
-      recentMessages: null,
-      fetchingRecentMessages: false,
+      recentContacts: null,
+      fetchingRecentContacts: false,
       showDragHelper: props.showDragHelper
     };
 
@@ -192,19 +192,19 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private handleShowRecentMessages(): void {
-    if (this.props.recentMessages) {
-      this.setState({ recentMessages: this.props.recentMessages });
+    if (this.props.recentContacts) {
+      this.setState({ recentContacts: this.props.recentContacts });
       return;
     }
 
-    this.setState({ fetchingRecentMessages: true }, () => {
+    this.setState({ fetchingRecentContacts: true }, () => {
       getRecentMessages(
         this.context.config.endpoints.recents,
         this.props.exit,
         this.pendingMessageFetch
       )
-        .then((recentMessages: RecentMessage[]) => {
-          this.setState({ recentMessages, fetchingRecentMessages: false });
+        .then((recentContacts: RecentContact[]) => {
+          this.setState({ recentContacts, fetchingRecentContacts: false });
         })
         .catch(() => {
           // we may have been canceled
@@ -218,7 +218,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       this.pendingMessageFetch = {};
     }
 
-    this.setState({ fetchingRecentMessages: false, recentMessages: null });
+    this.setState({ fetchingRecentContacts: false, recentContacts: null });
   }
 
   private getSegmentCount(): JSX.Element {
@@ -274,16 +274,16 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
   }
 
-  private getRecentMessages(): JSX.Element {
-    if (this.state.fetchingRecentMessages || this.state.recentMessages !== null) {
-      const recentMessages = this.state.recentMessages || [];
-      const hasRecents = recentMessages.length !== 0;
+  private getRecentContacts(): JSX.Element {
+    if (this.state.fetchingRecentContacts || this.state.recentContacts !== null) {
+      const recentContacts = this.state.recentContacts || [];
+      const hasRecents = recentContacts.length !== 0;
 
-      const recentStyles = [styles.recent_messages];
+      const recentStyles = [styles.recent_contacts];
 
-      let title = i18n.t('recent_messages.header', 'Recent Messages');
-      if (!hasRecents && !this.state.fetchingRecentMessages) {
-        title = i18n.t('recent_messages.header_empty', 'No Recent Messages');
+      let title = i18n.t('recent_contacts.header', 'Recent Contacts');
+      if (!hasRecents && !this.state.fetchingRecentContacts) {
+        title = i18n.t('recent_contacts.header_empty', 'No Recent Contacts');
         recentStyles.push(styles.no_recents);
       }
 
@@ -299,17 +299,26 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         top = rect.top + window.scrollY - canvasOffset + 30;
       }
 
+      let getContactURL = (uuid: string): string => {
+        return this.context.config.endpoints.contact + uuid;
+      };
+
       return (
-        <Portal id="activity_recent_messages">
+        <Portal id="activity_recent_contacts">
           <div className={recentStyles.join(' ')} style={{ position: 'absolute', left, top }}>
             <div className={styles.title}>{title}</div>
-            {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
-              <div key={'recent_' + idx} className={styles.message}>
-                <div className={styles.text}>{recentMessage.text}</div>
-                <div className={styles.sent}>{moment.utc(recentMessage.sent).fromNow()}</div>
+            {recentContacts.map((recentContact: RecentContact, idx: number) => (
+              <div key={'recent_' + idx} className={styles.row}>
+                <div className={styles.contact}>
+                  <a href={getContactURL(recentContact.contact.uuid)}>
+                    {recentContact.contact.name}
+                  </a>
+                </div>
+                <div className={styles.operand}>{recentContact.operand}</div>
+                <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>
               </div>
             ))}
-            {this.state.recentMessages === null ? (
+            {this.state.recentContacts === null ? (
               <div className={styles.loading}>
                 <Loading size={10} units={6} color="#999999" />
               </div>
@@ -346,7 +355,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     });
 
     const activity = this.getSegmentCount();
-    const recents = this.getRecentMessages();
+    const recents = this.getRecentContacts();
 
     const events = this.context.config.mutable
       ? createClickHandler(
@@ -386,11 +395,11 @@ const mapStateToProps = (
   }: AppState,
   props: ExitPassedProps
 ) => {
-  // see if we have some passed in (simulated) messages
-  let recentMessages: RecentMessage[] = null;
+  // see if we have some passed in (simulated) contacts
+  let recentContacts: RecentContact[] = null;
   const key = getExitActivityKey(props.exit);
-  if (key in (activity.recentMessages || {})) {
-    recentMessages = activity.recentMessages[key];
+  if (key in (activity.recentContacts || {})) {
+    recentContacts = activity.recentContacts[key];
   }
   const segmentCount = activity.segments[getExitActivityKey(props.exit)] || 0;
 
@@ -400,7 +409,7 @@ const mapStateToProps = (
     translating,
     language,
     localization,
-    recentMessages
+    recentContacts
   };
 };
 
