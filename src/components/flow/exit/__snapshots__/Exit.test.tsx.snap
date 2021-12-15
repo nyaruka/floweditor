@@ -176,6 +176,10 @@ exports[`ExitComp shows recent contacts on mouse over 1`] = `
             <div
               class="operand"
             >
+              <span
+                class="fe-split"
+              />
+               
               Hi Mom!
             </div>
             <div
@@ -199,6 +203,10 @@ exports[`ExitComp shows recent contacts on mouse over 1`] = `
             <div
               class="operand"
             >
+              <span
+                class="fe-split"
+              />
+               
               Hi Dad!
             </div>
             <div

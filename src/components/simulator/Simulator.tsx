@@ -236,6 +236,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         let pathCount = pathCounts[key] || 0;
         pathCounts[key] = pathCount + 1;
 
+        let operand = seg.operand || '';
+        if (operand.length > 100) {
+          operand = operand.substring(0, 97) + '...';
+        }
+
         let recent = recentContacts[key] || [];
         recent.unshift({
           contact: { uuid: SIMULATOR_CONTACT_UUID, name: SIMULATOR_CONTACT_DISPLAY },

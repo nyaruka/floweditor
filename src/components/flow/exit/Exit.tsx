@@ -307,17 +307,27 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         <Portal id="activity_recent_contacts">
           <div className={recentStyles.join(' ')} style={{ position: 'absolute', left, top }}>
             <div className={styles.title}>{title}</div>
-            {recentContacts.map((recentContact: RecentContact, idx: number) => (
-              <div key={'recent_' + idx} className={styles.row}>
-                <div className={styles.contact}>
-                  <a href={getContactURL(recentContact.contact.uuid)}>
-                    {recentContact.contact.name}
-                  </a>
+            {recentContacts.map((recentContact: RecentContact, idx: number) => {
+              let opRow: JSX.Element = null;
+              if (recentContact.operand) {
+                opRow = (
+                  <div className={styles.operand}>
+                    <span className="fe-split" /> {recentContact.operand}
+                  </div>
+                );
+              }
+              return (
+                <div key={'recent_' + idx} className={styles.row}>
+                  <div className={styles.contact}>
+                    <a href={getContactURL(recentContact.contact.uuid)}>
+                      {recentContact.contact.name}
+                    </a>
+                  </div>
+                  {opRow}
+                  <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>
                 </div>
-                <div className={styles.operand}>{recentContact.operand}</div>
-                <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>
-              </div>
-            ))}
+              );
+            })}
             {this.state.recentContacts === null ? (
               <div className={styles.loading}>
                 <Loading size={10} units={6} color="#999999" />

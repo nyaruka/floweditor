@@ -162,9 +162,12 @@
   .row {
     text-align: left;
     padding: 8px 10px;
+    border-top: 1px solid $light_gray;
     
     .operand {
+      padding-top: 3px;
       font-size: 13px;
+      font-style: italic;
     }
 
     .time {
