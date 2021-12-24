@@ -11,11 +11,7 @@ scratch.tsx
 stats.json
 report.html
 lambda-build
-<<<<<<< HEAD
-lib
-=======
 lib
 build
 fabric
 fabfile.py
->>>>>>> tags/v1.15.0
