@@ -19,8 +19,13 @@ import { Asset } from 'store/flowContext';
 import styles from './TicketRouterForm.module.scss';
 import i18n from 'config/i18n';
 import TextInputElement from 'components/form/textinput/TextInputElement';
+import TembaSelect from 'temba/TembaSelect';
+import { fakePropType } from 'config/ConfigProvider';
+import { Topic, User } from 'flowTypes';
 
 export interface TicketRouterFormState extends FormState {
+  assignee: FormEntry;
+  topic: FormEntry;
   ticketer: FormEntry;
   subject: StringEntry;
   body: StringEntry;
@@ -31,6 +36,10 @@ export default class TicketRouterForm extends React.Component<
   RouterFormProps,
   TicketRouterFormState
 > {
+  public static contextTypes = {
+    config: fakePropType
+  };
+
   constructor(props: RouterFormProps) {
     super(props);
 
@@ -45,6 +54,8 @@ export default class TicketRouterForm extends React.Component<
   }
   private handleUpdate(
     keys: {
+      assignee?: User;
+      topic?: Topic;
       ticketer?: Asset;
       subject?: string;
       body?: string;
@@ -54,6 +65,18 @@ export default class TicketRouterForm extends React.Component<
   ): boolean {
     const updates: Partial<TicketRouterFormState> = {};
 
+    if (keys.hasOwnProperty('assignee')) {
+      updates.assignee = validate(i18n.t('forms.assignee', 'Assignee'), keys.assignee, [
+        shouldRequireIf(submitting)
+      ]);
+    }
+
+    if (keys.hasOwnProperty('topic')) {
+      updates.topic = validate(i18n.t('forms.topic', 'Topic'), keys.topic, [
+        shouldRequireIf(submitting)
+      ]);
+    }
+
     if (keys.hasOwnProperty('ticketer')) {
       updates.ticketer = validate(i18n.t('forms.ticketer', 'Ticketer'), keys.ticketer, [
         shouldRequireIf(submitting)
@@ -61,9 +84,7 @@ export default class TicketRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('subject')) {
-      updates.subject = validate(i18n.t('forms.subject', 'Subject'), keys.subject, [
-        shouldRequireIf(submitting)
-      ]);
+      updates.subject = validate(i18n.t('forms.subject', 'Subject'), keys.subject, []);
     }
 
     if (keys.hasOwnProperty('body')) {
@@ -87,6 +108,14 @@ export default class TicketRouterForm extends React.Component<
 
   private handleTicketerUpdate(selected: Asset[]): void {
     this.handleUpdate({ ticketer: selected[0] });
+  }
+
+  private handleAssigneeUpdate(assignee: User): void {
+    this.handleUpdate({ assignee });
+  }
+
+  private handleTopicUpdate(topic: Topic): void {
+    this.handleUpdate({ topic });
   }
 
   private handleSubjectUpdate(subject: string, name: string, submitting = false): boolean {
@@ -165,14 +194,37 @@ export default class TicketRouterForm extends React.Component<
           ''
         )}
 
-        <div className={styles.subject}>
-          <TextInputElement
-            name={i18n.t('forms.subject', 'Subject')}
-            placeholder={i18n.t('forms.enter_a_subject', 'Enter a subject')}
-            entry={this.state.subject}
-            onChange={this.handleSubjectUpdate}
-            autocomplete={true}
-          />
+        <div style={{ display: 'flex', width: '100%', marginTop: '0.5em' }}>
+          <div style={{ flexBasis: 250 }}>
+            <TembaSelect
+              key="select_topic"
+              name={i18n.t('forms.topic', 'Topic')}
+              endpoint={this.context.config.endpoints.topics}
+              onChange={this.handleTopicUpdate}
+              value={this.state.topic.value}
+              createPrefix={i18n.t('forms.topic_prefix', 'Create Topic: ')}
+              searchable={true}
+            />
+          </div>
+
+          <div style={{ flexGrow: 1, marginLeft: '0.5em' }}>
+            <TembaSelect
+              key="select_assignee"
+              name={i18n.t('forms.assignee', 'Assignee')}
+              placeholder="Assign to (Optional)"
+              valueKey="email"
+              endpoint={this.context.config.endpoints.users}
+              onChange={this.handleAssigneeUpdate}
+              clearable={true}
+              value={this.state.assignee.value}
+              getName={(user: User) => {
+                if (!user.first_name && !user.last_name) {
+                  return user.email || '';
+                }
+                return `${user.first_name} ${user.last_name}`;
+              }}
+            />
+          </div>
         </div>
         <div className={styles.body}>
           <TextInputElement

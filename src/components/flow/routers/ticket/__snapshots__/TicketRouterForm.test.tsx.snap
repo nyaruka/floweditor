@@ -50,19 +50,44 @@ exports[`TicketRouterForm render should render 1`] = `
         </div>
         
         <div
-          class="subject"
+          style="display: flex; width: 100%; margin-top: 0.5em;"
         >
           <div
-            class="ele"
+            style="flex-basis: 250px;"
           >
             <div
-              class="wrapper normal"
+              class="normal "
             >
-              <input
-                data-testid="Subject"
-                name="Subject"
-                placeholder="Enter a subject"
-                value="Need help"
+              <temba-select
+                data-testid="temba_select_topic"
+                endpoint="/assets/topics.json"
+                errors="[]"
+                expressions=""
+                name="Topic"
+                namekey="name"
+                searchable="true"
+                valuekey="value"
+                values="[]"
+              />
+            </div>
+          </div>
+          <div
+            style="flex-grow: 1; margin-left: 0.5em;"
+          >
+            <div
+              class="normal "
+            >
+              <temba-select
+                clearable="true"
+                data-testid="temba_select_assignee"
+                endpoint="/assets/users.json"
+                errors="[]"
+                expressions=""
+                name="Assignee"
+                namekey="name"
+                placeholder="Assign to (Optional)"
+                valuekey="email"
+                values="[]"
               />
             </div>
           </div>
@@ -193,19 +218,44 @@ exports[`TicketRouterForm updates should save changes 1`] = `
         </div>
         
         <div
-          class="subject"
+          style="display: flex; width: 100%; margin-top: 0.5em;"
         >
           <div
-            class="ele"
+            style="flex-basis: 250px;"
           >
             <div
-              class="wrapper normal"
+              class="normal "
             >
-              <input
-                data-testid="Subject"
-                name="Subject"
-                placeholder="Enter a subject"
-                value="Need help"
+              <temba-select
+                data-testid="temba_select_topic"
+                endpoint="/assets/topics.json"
+                errors="[]"
+                expressions=""
+                name="Topic"
+                namekey="name"
+                searchable="true"
+                valuekey="value"
+                values="[]"
+              />
+            </div>
+          </div>
+          <div
+            style="flex-grow: 1; margin-left: 0.5em;"
+          >
+            <div
+              class="normal "
+            >
+              <temba-select
+                clearable="true"
+                data-testid="temba_select_assignee"
+                endpoint="/assets/users.json"
+                errors="[]"
+                expressions=""
+                name="Assignee"
+                namekey="name"
+                placeholder="Assign to (Optional)"
+                valuekey="email"
+                values="[]"
               />
             </div>
           </div>
@@ -293,12 +343,26 @@ Array [
     "node": Object {
       "actions": Array [
         Object {
+          "assignee": Object {
+            "value": Object {
+              "created_on": "2021-06-10T21:44:30.971221Z",
+              "email": "agent.user@gmail.com",
+              "first_name": "Agent",
+              "last_name": "User",
+              "role": "agent",
+            },
+          },
           "body": "Where are my cookies",
           "result_name": "My Ticket Result",
-          "subject": "Need help",
           "ticketer": Object {
             "name": "Email (bob@acme.com)",
             "uuid": "1165a73a-2ee0-4891-895e-768645194862",
+          },
+          "topic": Object {
+            "value": Object {
+              "name": "General",
+              "uuid": "6f38eba0-d673-4a35-82df-21bae2b6d466",
+            },
           },
           "type": "open_ticket",
           "uuid": "b1f332f3-bdd3-4891-aec5-1843a712dbf1",

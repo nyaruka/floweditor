@@ -203,7 +203,10 @@ describe(LogEvent.name, () => {
     testEventRender({
       type: 'ticket_opened',
       ticketer: { uuid: '15892014-144c-4721-a611-c80b38481055', name: 'Email Support' },
-      ticket: { subject: 'Need help', body: 'Where are my cookies?' },
+      ticket: {
+        topic: { uuid: 'ee1e36a8-dd42-4464-b6b2-37418a26db1f', name: 'Support' },
+        body: 'Where are my cookies?'
+      },
       result_name: 'Ticket',
       ...commonEventProps
     });

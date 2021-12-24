@@ -141,7 +141,7 @@
   },
   "assets": {
     "classifier": "Chame o classificador [[name]]",
-    "ticketer": "Utilizando o serviço [[name]]"
+    "ticketer": "Open a new Ticket on [[name]]"
   },
   "body": "Corpo",
   "buttons": {
@@ -152,17 +152,17 @@
   },
   "contact_statuses": {
     "active": "Ativo",
+    "archived": "Arquivados - remova de grupos, ignore para sempre",
     "blocked": "Bloqueado - remova de grupos, ignore para sempre",
-    "stopped": "Parado - remova de grupos, ignore até que enviem mensagem novamente",
-    "archived": "Arquivados - remova de grupos, ignore para sempre"
+    "stopped": "Parado - remova de grupos, ignore até que enviem mensagem novamente"
   },
   "context_explorer": {
     "copied_expression": "Copiado <1>[[expression]]</1> para a área de transferência",
     "hide_empty": "Mostrando chaves com valores",
     "show_empty": "Mostrando todas as chaves"
   },
-  "create_group": "Criar Grupo",
   "create_label": "Criar Label",
+  "document": "Document",
   "drag_helper": "Para conectar nós, <1>arraste</1> a partir do círculo vermelho.",
   "email": {
     "subject": "Assunto",
@@ -174,7 +174,8 @@
   "errors": {
     "group_not_found": "Insira o nome de um grupo existente",
     "http_header_missing_name": "Cabeçalhos HTTP devem ter um nome",
-    "network": "Hmm, encontramos um problema ao tentar salvar as suas alterações. Sua conexão com a internet pode não estar funcionando bem no momento. Por favor espere um pouco e tente novamente."
+    "network": "Hmm, encontramos um problema ao tentar salvar as suas alterações. Sua conexão com a internet pode não estar funcionando bem no momento. Por favor espere um pouco e tente novamente.",
+    "server": "Hmm, we ran into a problem trying to save your changes. If this problem persists, take note of the change you are trying to make and contact support."
   },
   "flow_start": "Início de fluxo",
   "forms": {
@@ -252,8 +253,9 @@
     "name": "Nome",
     "operand": "Operando",
     "operator": "operador",
-    "play_audio_help_text": "Digite uma variável que contém uma gravação que o contato gravou anteriormente. Por exemplo, @ results.voicemail ou @ fields.short_bio.",
+    "pdf_url": "PDF Document URL",
     "phone_number": "Número de Telefone",
+    "play_audio_help_text": "Digite uma variável que contém uma gravação que o contato gravou anteriormente. Por exemplo, @ results.voicemail ou @ fields.short_bio.",
     "quick_replies": "Respostas Rápidas",
     "quick_replies_summary": "As Respostas rápidas são transformadas em botões para os canais suportados. Por exemplo, ao fazer uma pergunta, você pode adicionar uma Resposta rápida para \"Sim\" e outra para \"Não\".",
     "quick_reply": "Resposta Rápida",
@@ -268,11 +270,11 @@
     "resthook": "Resthook",
     "resthook_to_call": "Selecione o resthook a ser chamado",
     "result": "Resultado",
-    "result_name": "Nome do Resultado",
     "result_category_help": "Uma categoria opcional para seu resultado. Para a idade, o valor pode ser 17, mas a categoria pode ser 'Jovem Adulto'",
+    "result_name": "Nome do Resultado",
     "result_name_help": "Ao nomear o resultado, você pode fazer referência a ele mais tarde usando [[resultFormat]]",
-    "result_value_help": "O valor a ser salvo para este resultado ou vazio para apagá-lo. Você pode usar expressões, por exemplo: @(title(input))",
     "result_to_split_on": "Resultado para dividir em",
+    "result_value_help": "O valor a ser salvo para este resultado ou vazio para apagá-lo. Você pode usar expressões, por exemplo: @(title(input))",
     "rules": "regras",
     "save_as": "Salvar como",
     "save_as_title": "Salve como..",
@@ -281,6 +283,7 @@
     "select_contacts": "Selecione os Contatos",
     "select_flow": "Selecione o fluxo para iniciar",
     "select_groups": "Selecione os Grupos",
+    "select_intent": "Select intent",
     "select_language": "Selecione o idioma à ser utilizado para este contato",
     "select_result": "Selecione o Resultado",
     "select_what_to_update": "Selecione o que irá atualizar",
@@ -396,9 +399,9 @@
   },
   "removal_confirmation": "Remover?",
   "revisions": {
+    "current": "atual",
     "header": "Revisões",
     "label": "Histórico de Revisão",
-    "current": "atual",
     "revert": "reverter"
   },
   "schemes": {
@@ -463,7 +466,6 @@
     }
   },
   "simulator": {
-    "label": "Rodar no Simulador",
     "added_to_group": "Adicionado a",
     "airtime_transferred": "Transferido [[amount]] [[currency]] to [[recipient]]",
     "contact_field_changed": "Configure o \"[[field]]\" do contato para \"[[value]]\"",
@@ -475,6 +477,7 @@
     "flow_exited": "Saiu do fluxo",
     "httplog_dialog": "Detalhes da solicitação HTTP",
     "input_labels_added": "Mensagem marcada com",
+    "label": "Rodar no Simulador",
     "msg_wait": "Esperando por resposta",
     "prompt": {
       "message": "Insira a mensagem",
@@ -488,7 +491,7 @@
       "title": "Detalhes do Email"
     },
     "session_triggered": "Iniciou outra pessoa em \"[[flow]]\"",
-    "ticket_opened": "Ticket aberto com assunto \"[[subject]]\""
+    "ticket_opened": "Ticket aberto com tema \"[[topic]]\""
   },
   "sticky": {
     "body": "...",
@@ -496,15 +499,6 @@
   },
   "translation": {
     "header": "Tradução do fluxo",
-    "label": "Traduções",
-    "attributes": {
-      "body": "Corpo",
-      "cases": "Regras",
-      "categories": "Categorias",
-      "quick_replies": "Respostas Rápidas",
-      "subject": "Assunto",
-      "templates": "Variáveis de Template",
-      "text": "Mensagem"
-    }
+    "label": "Traduções"
   }
 }

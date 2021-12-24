@@ -3,6 +3,7 @@ import { Asset } from 'store/flowContext';
 import { FormEntry, ValidationFailure } from 'store/nodeEditor';
 import { SelectOption } from 'components/form/select/SelectElement';
 import i18n from 'config/i18n';
+import { Topic, User } from 'flowTypes';
 
 export type FormInput =
   | string
@@ -11,7 +12,9 @@ export type FormInput =
   | Asset
   | Asset[]
   | SelectOption
-  | SelectOption[];
+  | SelectOption[]
+  | User
+  | Topic;
 export type ValidatorFunc = (
   name: string,
   input: FormInput
