@@ -51,8 +51,10 @@ export default class ResponseRouterForm extends React.Component<
       StartIsNonNumeric
     ]);
 
+    const invalidCase = !!this.state.cases.find((caseProps: CaseProps) => !caseProps.valid);
     this.setState({
-      resultName
+      resultName,
+      valid: !invalidCase && !hasErrors(resultName)
     });
   }
 
@@ -62,7 +64,8 @@ export default class ResponseRouterForm extends React.Component<
 
   private handleCasesUpdated(cases: CaseProps[]): void {
     const invalidCase = cases.find((caseProps: CaseProps) => !caseProps.valid);
-    this.setState({ cases, valid: !invalidCase });
+    const nameErrors = hasErrors(this.state.resultName);
+    this.setState({ cases, valid: !invalidCase && !nameErrors });
   }
 
   private handleSave(): void {

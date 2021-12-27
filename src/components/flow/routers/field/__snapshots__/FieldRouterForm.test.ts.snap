@@ -485,26 +485,12 @@ Object {
         "arguments": Array [
           "red",
         ],
+        "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
         "type": "has_any_word",
+        "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
       },
-    },
-    Object {
-      "categoryName": "Red",
-      "kase": Object {
-        "arguments": Array [
-          "maroon",
-        ],
-        "type": "has_any_word",
-      },
-    },
-    Object {
-      "categoryName": "Green",
-      "kase": Object {
-        "arguments": Array [
-          "green",
-        ],
-        "type": "has_any_word",
-      },
+      "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
+      "valid": true,
     },
   ],
   "field": Object {
@@ -533,9 +519,6 @@ Array [
           "uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
         },
         Object {
-          "uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
-        },
-        Object {
           "uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",
         },
       ],
@@ -547,20 +530,7 @@ Array [
             ],
             "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
             "type": "has_any_word",
-          },
-          Object {
-            "arguments": Array [
-              "maroon",
-            ],
-            "category_uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-            "type": "has_any_word",
-          },
-          Object {
-            "arguments": Array [
-              "green",
-            ],
-            "category_uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
-            "type": "has_any_word",
+            "uuid": "061fc171-8b79-4636-b892-bd0ea5aa9b42",
           },
         ],
         "categories": Array [
@@ -568,11 +538,6 @@ Array [
             "exit_uuid": "1dce2b34-9aab-4e20-81c4-3f0408dcb671",
             "name": "Red",
             "uuid": "763e4844-3e1b-407a-a1b5-5fdfcd308b41",
-          },
-          Object {
-            "exit_uuid": "2dc85899-0577-4f1b-a620-f12094e34b5e",
-            "name": "Green",
-            "uuid": "42ebf1d0-a43e-4ba6-9577-c863b20c88c4",
           },
           Object {
             "exit_uuid": "477ac8b4-25e2-483a-8686-2d1332c4da1c",

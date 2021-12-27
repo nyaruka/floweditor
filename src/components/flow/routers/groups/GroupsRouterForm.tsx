@@ -10,7 +10,7 @@ import TypeList from 'components/nodeeditor/TypeList';
 import { fakePropType } from 'config/ConfigProvider';
 import { Asset } from 'store/flowContext';
 import { AssetArrayEntry, FormState, mergeForm, StringEntry } from 'store/nodeEditor';
-import { Required, validate } from 'store/validators';
+import { Alphanumeric, Required, StartIsNonNumeric, validate } from 'store/validators';
 import i18n from 'config/i18n';
 import { renderIssues } from 'components/flow/actions/helpers';
 
@@ -55,7 +55,10 @@ export default class GroupsRouterForm extends React.Component<
     }
 
     if (keys.hasOwnProperty('resultName')) {
-      updates.resultName = { value: keys.resultName };
+      updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
+        Alphanumeric,
+        StartIsNonNumeric
+      ]);
     }
 
     const updated = mergeForm(this.state, updates);

@@ -35,6 +35,8 @@ export interface Endpoints {
   channels: string;
   classifiers: string;
   ticketers: string;
+  users: string;
+  topics: string;
   environment: string;
   languages: string;
   templates: string;
@@ -120,6 +122,20 @@ export enum FlowIssueType {
   MISSING_DEPENDENCY = 'missing_dependency',
   LEGACY_EXTRA = 'legacy_extra',
   INVALID_REGEX = 'invalid_regex'
+}
+
+export interface User {
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  role?: string;
+  created_on?: string;
+}
+
+export interface Topic {
+  uuid: string;
+  name: string;
+  created_on?: string;
 }
 
 export interface FlowIssue {
@@ -449,9 +465,11 @@ export interface CallWebhook extends Action {
 
 export interface OpenTicket extends Action {
   ticketer: Ticketer;
-  subject: string;
+  subject?: string;
+  topic?: Topic;
   body: string;
   result_name: string;
+  assignee?: User;
 }
 
 export interface StartFlow extends Action {

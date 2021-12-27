@@ -28,6 +28,8 @@ export const config: FlowEditorConfig = {
     attachments: '/assets/attachments.json',
     recents: '/assets/recents.json',
     templates: '/assets/templates.json',
+    users: '/assets/users.json',
+    topics: '/assets/topics.json',
     editor: '/flow/editor',
     validateMedia: '',
     activity: '',

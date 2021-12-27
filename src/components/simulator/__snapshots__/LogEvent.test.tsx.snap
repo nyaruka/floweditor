@@ -397,7 +397,7 @@ exports[`LogEvent should render ticket_opened event 1`] = `
         class="info"
       >
         <span>
-          Ticket opened with subject "Need help"
+          Ticket opened with topic "Support"
         </span>
       </div>
     </div>

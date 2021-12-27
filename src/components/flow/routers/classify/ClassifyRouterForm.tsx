@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet, Tab } from 'components/dialog/Dialog';
-import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
+import { renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import { nodeToState, stateToNode } from './helpers';
 import { createResultNameInput } from 'components/flow/routers/widgets';
@@ -71,7 +71,10 @@ export default class ClassifyRouterForm extends React.Component<
 
     if (keys.hasOwnProperty('resultName')) {
       updates.resultName = validate(i18n.t('forms.result_name', 'Result Name'), keys.resultName, [
-        shouldRequireIf(submitting)
+        shouldRequireIf(submitting),
+        Required,
+        Alphanumeric,
+        StartIsNonNumeric
       ]);
     }
 
@@ -93,16 +96,8 @@ export default class ClassifyRouterForm extends React.Component<
     this.setState({ cases, valid: !invalidCase });
   }
 
-  private handleUpdateResultName(value: string): void {
-    const resultName = validate(i18n.t('forms.result_name', 'Result Name'), value, [
-      Required,
-      Alphanumeric,
-      StartIsNonNumeric
-    ]);
-    this.setState({
-      resultName,
-      valid: this.state.valid && !hasErrors(resultName)
-    });
+  private handleUpdateResultName(value: string): boolean {
+    return this.handleUpdate({ resultName: value });
   }
 
   private handleSave(): void {

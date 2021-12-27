@@ -27,16 +27,22 @@ export const nodeToState = (
   let subject = { value: '@run.flow.name' };
   let body = { value: '@results' };
   let resultName = { value: 'Result' };
+  let assignee: FormEntry = { value: null };
+  let topic: FormEntry = { value: null };
 
   if (getType(settings.originalNode) === Types.split_by_ticket) {
     const action = getOriginalAction(settings) as OpenTicket;
     ticketer = { value: action.ticketer };
     subject = { value: action.subject };
     body = { value: action.body };
+    topic = { value: action.topic };
+    assignee = { value: action.assignee };
     resultName = { value: action.result_name };
   }
 
   const state: TicketRouterFormState = {
+    assignee,
+    topic,
     ticketer,
     subject,
     body,
@@ -64,8 +70,9 @@ export const stateToNode = (
       uuid: state.ticketer.value.uuid,
       name: state.ticketer.value.name
     },
-    subject: state.subject.value,
     body: state.body.value,
+    topic: state.topic.value,
+    assignee: state.assignee.value,
     result_name: state.resultName.value
   };
 

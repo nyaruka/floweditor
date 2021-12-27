@@ -23,6 +23,7 @@ export interface TembaSelectProps {
   assets?: Assets;
   errors?: string[];
   style?: TembaSelectStyle;
+  endpoint?: string;
 
   placeholder?: string;
   searchable?: boolean;
@@ -32,6 +33,8 @@ export interface TembaSelectProps {
   cacheKey?: string;
 
   getName?: (option: any) => string;
+
+  createArbitraryOption?: (input: string) => any;
 
   nameKey?: string;
   valueKey?: string;
@@ -45,6 +48,7 @@ export interface TembaSelectProps {
   queryParam?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface TembaSelectState {}
 
 export default class TembaSelect extends React.Component<TembaSelectProps, TembaSelectState> {
@@ -113,10 +117,15 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
             return !!(name.toLowerCase().trim() === input.toLowerCase().trim());
           });
           if (!existing) {
+            if (this.props.createArbitraryOption) {
+              return this.props.createArbitraryOption(input);
+            }
+
             return {
               prefix: this.props.createPrefix,
               name: input,
-              id: 'created'
+              id: 'created',
+              post: true
             };
           }
         }
@@ -146,7 +155,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
 
       let resolved = values;
 
-      if (!this.props.assets && !this.props.tags) {
+      if (!this.props.assets && !this.props.tags && !this.props.endpoint) {
         resolved = values.map((op: any) => {
           const result = (this.props.options || []).find(
             (option: any) => this.getValue(option) === this.getValue(op)
@@ -207,7 +216,7 @@ export default class TembaSelect extends React.Component<TembaSelectProps, Temba
           name={this.props.name}
           cacheKey={this.props.cacheKey}
           expressions={this.props.expressions ? 'session' : ''}
-          endpoint={this.props.assets ? this.props.assets.endpoint : null}
+          endpoint={this.props.assets ? this.props.assets.endpoint : this.props.endpoint}
           values={values}
           errors={JSON.stringify(this.props.errors ? this.props.errors : [])}
           hideErrors={this.props.hideError}
