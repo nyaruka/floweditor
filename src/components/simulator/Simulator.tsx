@@ -354,19 +354,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         ];
       }
 
-      this.updateEvents(runContext.events, runContext.session, () => {
-        let waiting = runContext.session.status === 'waiting';
-        let waitEvent: EventProps = null;
-
-        if (waiting) {
-          // if session is waiting then we should have a wait event
-          for (const evt of runContext.events) {
-            if (evt.type.endsWith('_wait')) {
-              waitEvent = evt;
-            }
+      // if session is waiting, find the wait event
+      let waiting = runContext.session.status === 'waiting';
+      let waitEvent: EventProps = null;
+      if (waiting) {
+        for (const evt of runContext.events) {
+          if (evt.type.endsWith('_wait')) {
+            waitEvent = evt;
           }
         }
+      }
 
+      this.updateEvents(runContext.events, runContext.session, () => {
         let newEvents = this.state.events;
         if (!waiting && wasJustActive) {
           newEvents = update(this.state.events, {
