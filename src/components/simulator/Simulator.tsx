@@ -6,7 +6,7 @@ import ContextExplorer from './ContextExplorer';
 import styles from 'components/simulator/Simulator.module.scss';
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { getURL } from 'external';
-import { FlowDefinition, Group, Wait } from 'flowTypes';
+import { FlowDefinition, Group } from 'flowTypes';
 import update from 'immutability-helper';
 import { ReactNode } from 'react';
 import React from 'react';
@@ -136,7 +136,6 @@ interface Run {
   flow_uuid: string;
   status: string;
   events?: EventProps[];
-  wait?: Wait;
 }
 
 interface Segment {
@@ -160,8 +159,7 @@ interface Session {
   runs: Run[];
   contact: Contact;
   input?: any;
-  wait?: Wait;
-  status?: string;
+  status: string;
 }
 
 /**
@@ -357,16 +355,20 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       }
 
       this.updateEvents(runContext.events, runContext.session, () => {
-        let active = false;
-        for (const run of runContext.session.runs) {
-          if (run.status === 'waiting') {
-            active = true;
-            break;
+        let waiting = runContext.session.status === 'waiting';
+        let waitEvent: EventProps = null;
+
+        if (waiting) {
+          // if session is waiting then we should have a wait event
+          for (const evt of runContext.events) {
+            if (evt.type.endsWith('_wait')) {
+              waitEvent = evt;
+            }
           }
         }
 
         let newEvents = this.state.events;
-        if (!active && wasJustActive) {
+        if (!waiting && wasJustActive) {
           newEvents = update(this.state.events, {
             $push: [
               {
@@ -378,14 +380,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           }) as EventProps[];
         }
 
-        const waitingForHint =
-          runContext.session &&
-          runContext.session.wait &&
-          runContext.session.wait.hint !== undefined;
+        const waitingForHint = waitEvent && waitEvent.hint !== undefined;
 
         let drawerType = null;
         if (waitingForHint) {
-          switch (runContext.session.wait.hint.type) {
+          switch (waitEvent.hint.type) {
             case 'audio':
               drawerType = DrawerType.audio;
               break;
@@ -400,12 +399,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               break;
             case 'digits':
               drawerType = DrawerType.digit;
-              if (runContext.session.wait.hint.count !== 1) {
+              if (waitEvent.hint.count !== 1) {
                 drawerType = DrawerType.digits;
               }
               break;
             default:
-              console.log('Unknown hint', runContext.session.wait.hint.type);
+              console.log('Unknown hint', waitEvent.hint.type);
           }
         }
 
@@ -419,7 +418,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         this.setState(
           {
-            active,
+            active: waiting,
             context: runContext.context,
             sprinting: false,
             session: runContext.session,
