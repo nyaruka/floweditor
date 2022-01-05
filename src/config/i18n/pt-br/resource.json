@@ -393,9 +393,9 @@
     "has_ward": "Tem quadra",
     "has_ward_category": "Tem Quadra"
   },
-  "recent_messages": {
-    "header": "Mensagens Recentes",
-    "header_empty": "Sem Mensagens Recentes"
+  "recent_contacts": {
+    "header": "Recent Contacts",
+    "header_empty": "No Recent Contacts"
   },
   "removal_confirmation": "Remover?",
   "revisions": {

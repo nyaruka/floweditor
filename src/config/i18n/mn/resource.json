@@ -393,9 +393,9 @@
     "has_ward": "чиглэлтэй",
     "has_ward_category": "Чиглэлтэй"
   },
-  "recent_messages": {
-    "header": "Саяхны мессежнүүд",
-    "header_empty": "Саяхны мессеж хоосон байна"
+  "recent_contacts": {
+    "header": "Recent Contacts",
+    "header_empty": "No Recent Contacts"
   },
   "removal_confirmation": "Хасах уу?",
   "revisions": {
