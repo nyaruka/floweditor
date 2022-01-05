@@ -20,6 +20,7 @@ import * as moment from 'moment';
 import styles from './Exit.module.scss';
 import { Portal } from 'components/Portal';
 import i18n from 'config/i18n';
+import { SIMULATOR_CONTACT_UUID } from 'components/simulator/Simulator';
 
 export interface RenderCategory extends Category {
   missing: boolean;
@@ -357,9 +358,13 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                 return (
                   <div key={'recent_' + idx} className={styles.row}>
                     <div className={styles.contact}>
-                      <a href={getContactURL(recentContact.contact.uuid)}>
-                        {recentContact.contact.name}
-                      </a>
+                      {recentContact.contact.uuid === SIMULATOR_CONTACT_UUID ? (
+                        recentContact.contact.name
+                      ) : (
+                        <a href={getContactURL(recentContact.contact.uuid)}>
+                          {recentContact.contact.name}
+                        </a>
+                      )}
                     </div>
                     {opRow}
                     <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>

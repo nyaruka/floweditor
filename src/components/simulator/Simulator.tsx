@@ -21,7 +21,7 @@ import { createUUID } from 'utils';
 import { PopTabType } from 'config/interfaces';
 import i18n from 'config/i18n';
 
-const SIMULATOR_CONTACT_UUID = 'fb3787ab-2eda-48a0-a2bc-e2ddadec1286';
+export const SIMULATOR_CONTACT_UUID = 'fb3787ab-2eda-48a0-a2bc-e2ddadec1286';
 const SIMULATOR_CONTACT_URNS = ['tel:+12065551212'];
 const SIMULATOR_CONTACT_DISPLAY = '+1 (206) 555 1212';
 
