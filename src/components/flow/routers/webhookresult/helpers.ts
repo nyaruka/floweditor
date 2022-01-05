@@ -9,7 +9,7 @@ import { NodeEditorSettings } from 'store/nodeEditor';
 import { WebhookResultRouterFormState } from './WebhookResultRouterForm';
 
 export const nodeToState = (settings: NodeEditorSettings): WebhookResultRouterFormState => {
-  let delayNode: WebhookResultRouterFormState = {
+  let resulNode: WebhookResultRouterFormState = {
     valid: true,
     days: { value: '0' },
     hours: { value: '0' },
@@ -21,13 +21,13 @@ export const nodeToState = (settings: NodeEditorSettings): WebhookResultRouterFo
 
     if (action.delay) {
       const delayInSeconds = parseInt(action.delay);
-      delayNode.days.value = Math.floor(delayInSeconds / (3600 * 24)).toString();
-      delayNode.hours.value = Math.floor((delayInSeconds % (3600 * 24)) / 3600).toString();
-      delayNode.minutes.value = Math.floor((delayInSeconds % 3600) / 60).toString();
+      resulNode.days.value = Math.floor(delayInSeconds / (3600 * 24)).toString();
+      resulNode.hours.value = Math.floor((delayInSeconds % (3600 * 24)) / 3600).toString();
+      resulNode.minutes.value = Math.floor((delayInSeconds % 3600) / 60).toString();
     }
   }
 
-  return delayNode;
+  return resulNode;
 };
 
 export const stateToNode = (
