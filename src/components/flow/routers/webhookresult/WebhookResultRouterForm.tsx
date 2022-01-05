@@ -96,7 +96,7 @@ export default class WebhookResultRouterForm extends React.Component<
       <Dialog title={typeConfig.name} headerClass={typeConfig.type} buttons={this.getButtons()}>
         <TypeList __className="" initialType={typeConfig} onChange={this.props.onTypeChange} />
 
-        <div className={styles.delay_container}>
+        <div className={styles.result_container}>
           <div className={styles.input}>
             <span className={styles.title}>Days</span>
             <TextInputElement
