@@ -66,6 +66,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   private hideDragHelper: number;
   private pendingMessageFetch: Cancel = {};
   private ele: HTMLDivElement;
+  private lastEnter = new Date().getTime();
 
   constructor(props: ExitProps) {
     super(props);
@@ -233,8 +234,15 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             containerStyle={styles.activity}
             countStyle={styles.count}
             keepVisible={false}
-            onMouseEnter={this.handleShowRecentMessages}
-            onMouseLeave={this.handleHideRecentMessages}
+            onMouseEnter={() => {
+              this.lastEnter = new Date().getTime();
+              this.handleShowRecentMessages();
+            }}
+            onMouseLeave={() => {
+              if (new Date().getTime() - this.lastEnter < 100) {
+                this.handleHideRecentMessages();
+              }
+            }}
           />
         </div>
       );
@@ -243,10 +251,10 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
   public getName(): { name: string; localized?: boolean } {
     if (this.props.translating) {
-      let name: string = '';
-      let delim: string = '';
+      let name = '';
+      let delim = '';
 
-      let localized: boolean = false;
+      let localized = false;
 
       this.props.categories.forEach((category: Category) => {
         const localization = getLocalization(
@@ -295,7 +303,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const canvasBounds = canvas.getBoundingClientRect();
         const canvasOffset = canvasBounds.top + window.scrollY;
         const rect = this.ele.getBoundingClientRect();
-        left = rect.left + window.scrollX + 5;
+        left = rect.left + window.scrollX + 5 - canvasBounds.left;
         top = rect.top + window.scrollY - canvasOffset + 30;
       }
 
@@ -305,34 +313,65 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
       return (
         <Portal id="activity_recent_contacts">
-          <div className={recentStyles.join(' ')} style={{ position: 'absolute', left, top }}>
-            <div className={styles.title}>{title}</div>
-            {recentContacts.map((recentContact: RecentContact, idx: number) => {
-              let opRow: JSX.Element = null;
-              if (recentContact.operand) {
-                opRow = (
-                  <div className={styles.operand}>
-                    <span className="fe-split" /> {recentContact.operand}
+          <div
+            className={recentStyles.join(' ')}
+            style={{ position: 'absolute', left, top }}
+            onMouseDown={event => {
+              event.stopPropagation();
+              event.preventDefault();
+            }}
+            onMouseUp={event => {
+              event.stopPropagation();
+              event.preventDefault();
+            }}
+          >
+            <div className="pointer-capture" style={{ display: 'flex', marginTop: '-20px' }}>
+              <div className="left" style={{ flexGrow: 1, pointerEvents: 'none' }}></div>
+              <div
+                onMouseLeave={this.handleHideRecentMessages}
+                className="middle"
+                style={{
+                  width: '50px',
+                  height: '40px',
+                  marginBottom: '-20px',
+                  paddingBottom: '20px'
+                }}
+              >
+                &nbsp;
+              </div>
+              <div className="right" style={{ flexGrow: 1 }}></div>
+            </div>
+            <div
+              className={styles.container}
+              onMouseEnter={() => {
+                this.setState({ recentContacts, fetchingRecentContacts: false });
+              }}
+              onMouseLeave={this.handleHideRecentMessages}
+            >
+              <div className={styles.title}>{title}</div>
+              {recentContacts.map((recentContact: RecentContact, idx: number) => {
+                let opRow: JSX.Element = null;
+                if (recentContact.operand) {
+                  opRow = <div className={styles.operand}>{recentContact.operand}</div>;
+                }
+                return (
+                  <div key={'recent_' + idx} className={styles.row}>
+                    <div className={styles.contact}>
+                      <a href={getContactURL(recentContact.contact.uuid)}>
+                        {recentContact.contact.name}
+                      </a>
+                    </div>
+                    {opRow}
+                    <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>
                   </div>
                 );
-              }
-              return (
-                <div key={'recent_' + idx} className={styles.row}>
-                  <div className={styles.contact}>
-                    <a href={getContactURL(recentContact.contact.uuid)}>
-                      {recentContact.contact.name}
-                    </a>
-                  </div>
-                  {opRow}
-                  <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>
+              })}
+              {this.state.recentContacts === null ? (
+                <div className={styles.loading}>
+                  <Loading size={10} units={6} color="#999999" />
                 </div>
-              );
-            })}
-            {this.state.recentContacts === null ? (
-              <div className={styles.loading}>
-                <Loading size={10} units={6} color="#999999" />
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
         </Portal>
       );

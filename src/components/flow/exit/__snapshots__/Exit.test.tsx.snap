@@ -157,62 +157,77 @@ exports[`ExitComp shows recent contacts on mouse over 1`] = `
           style="position: absolute; left: 0px; top: 0px;"
         >
           <div
-            class="title"
+            class="pointer-capture"
+            style="display: flex; margin-top: -20px;"
           >
-            Recent Contacts
+            <div
+              class="left"
+              style="flex-grow: 1; pointer-events: none;"
+            />
+            <div
+              class="middle"
+              style="width: 50px; height: 40px; margin-bottom: -20px; padding-bottom: 20px;"
+            >
+               
+            </div>
+            <div
+              class="right"
+              style="flex-grow: 1;"
+            />
           </div>
           <div
-            class="row"
+            class="container"
           >
             <div
-              class="contact"
+              class="title"
             >
-              <a
-                href="undefinedeaea6433-d423-41dd-94a9-075de20f322d"
+              Recent Contacts
+            </div>
+            <div
+              class="row"
+            >
+              <div
+                class="contact"
               >
-                Jim
-              </a>
-            </div>
-            <div
-              class="operand"
-            >
-              <span
-                class="fe-split"
-              />
-               
-              Hi Mom!
-            </div>
-            <div
-              class="time"
-            >
-              a few seconds ago
-            </div>
-          </div>
-          <div
-            class="row"
-          >
-            <div
-              class="contact"
-            >
-              <a
-                href="undefinedf781f594-af8b-4493-b67c-2421bf2d4625"
+                <a
+                  href="undefinedeaea6433-d423-41dd-94a9-075de20f322d"
+                >
+                  Jim
+                </a>
+              </div>
+              <div
+                class="operand"
               >
-                Bob
-              </a>
+                Hi Mom!
+              </div>
+              <div
+                class="time"
+              >
+                a few seconds ago
+              </div>
             </div>
             <div
-              class="operand"
+              class="row"
             >
-              <span
-                class="fe-split"
-              />
-               
-              Hi Dad!
-            </div>
-            <div
-              class="time"
-            >
-              a few seconds ago
+              <div
+                class="contact"
+              >
+                <a
+                  href="undefinedf781f594-af8b-4493-b67c-2421bf2d4625"
+                >
+                  Bob
+                </a>
+              </div>
+              <div
+                class="operand"
+              >
+                Hi Dad!
+              </div>
+              <div
+                class="time"
+              >
+                a few seconds ago
+              </div>
             </div>
           </div>
         </div>
