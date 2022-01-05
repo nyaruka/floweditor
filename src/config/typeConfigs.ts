@@ -67,6 +67,8 @@ import OpenTicketComp from 'components/flow/actions/openticket/OpenTicket';
 import SequenceForm from 'components/flow/routers/sequence/SequenceForm';
 import Sequence from 'components/flow/routers/sequence/Sequence';
 import SendInteractiveMsgComp from 'components/flow/actions/sendinteractivemsg/SendInteractiveMsg';
+import WebhookResultRouterForm from 'components/flow/routers/webhookresult/WebhookResultRouterForm';
+import WebhookResultRouter from 'components/flow/routers/webhookresult/WebhookResultRouter';
 
 const dedupeTypeConfigs = (typeConfigs: Type[]) => {
   const map: any = {};
@@ -431,6 +433,13 @@ export const typeConfigList: Type[] = [
     localization: RouterLocalizationForm,
     localizeableKeys: ['exits'],
     visibility: VISIBILITY_SURVEYOR
+  },
+  {
+    type: Types.wait_for_result,
+    name: i18n.t('actions.wait_for_result.name', 'Wait for result'),
+    description: i18n.t('actions.wait_for_result.description', 'Wait for result'),
+    form: WebhookResultRouterForm,
+    component: WebhookResultRouter
   },
   {
     type: Types.wait_for_video,
