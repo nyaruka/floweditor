@@ -58,6 +58,7 @@ export enum Types {
   wait_for_video = 'wait_for_video',
   wait_for_location = 'wait_for_location',
   wait_for_image = 'wait_for_image',
+  wait_for_result = 'wait_for_result',
   missing = 'missing',
   say_msg = 'say_msg',
   play_audio = 'play_audio'
