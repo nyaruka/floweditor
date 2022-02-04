@@ -247,6 +247,7 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
           visible={this.state.visible}
           onShow={this.handleTabClicked}
           onHide={this.handleTabClicked}
+          custom={false}
         >
           <div className={styles.issues_wrapper}>{issues}</div>
         </PopTab>
