@@ -1,7 +1,7 @@
 import { react as bindCallbacks } from 'auto-bind';
 import * as React from 'react';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { renderIssues } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
 import { nodeToState, stateToNode } from 'components/flow/routers/expression/helpers';
@@ -81,7 +81,7 @@ export default class ExpressionRouterForm extends React.Component<
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
-    this.handleUpdate({ cases });
+    this.setState({ cases });
   }
 
   private handleSave(): void {

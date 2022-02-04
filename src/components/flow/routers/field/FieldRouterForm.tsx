@@ -1,6 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Dialog, { ButtonSet } from 'components/dialog/Dialog';
-import { renderIssues } from 'components/flow/actions/helpers';
+import { hasErrors, renderIssues } from 'components/flow/actions/helpers';
 import { getName, sortFieldsAndProperties } from 'components/flow/actions/updatecontact/helpers';
 import { RouterFormProps } from 'components/flow/props';
 import CaseList, { CaseProps } from 'components/flow/routers/caselist/CaseList';
@@ -75,7 +75,6 @@ export default class FieldRouterForm extends React.Component<
     }
 
     const updated = mergeForm(this.state, updates);
-
     // update our form
     this.setState(updated);
     return updated.valid;
@@ -90,7 +89,7 @@ export default class FieldRouterForm extends React.Component<
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
-    this.handleUpdate({ cases });
+    this.setState({ cases });
   }
 
   private handleSave(): void {
