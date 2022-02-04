@@ -146,10 +146,12 @@ export class RevisionExplorer extends React.Component<
           color="#8e5ea7"
           icon="fe-time"
           label={i18n.t('revisions.label', 'Revision History')}
-          top="360px"
+          top="170px"
+          popTop="40px"
           visible={this.state.visible}
           onShow={this.handleTabClicked}
           onHide={this.handleTabClicked}
+          custom={false}
         >
           <div className={styles.explorer_wrapper}>
             <div className={styles.explorer}>

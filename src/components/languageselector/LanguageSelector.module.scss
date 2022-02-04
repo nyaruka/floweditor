@@ -3,15 +3,12 @@
 :global {
   .language-selector {
     z-index: $z_editor_menu;
-    position: absolute;
-    right: 30px;
-    top: 23px;
     user-select: none;
   }
 }
 
 .language {
-  display: inline-block;
+  display: inline;
 }
 
 .language_link {

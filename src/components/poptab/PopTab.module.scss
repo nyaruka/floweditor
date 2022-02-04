@@ -26,44 +26,64 @@
   .tab_wrapper {
     .tab {
       position: absolute;
-      left: -38px;
-      padding: 5px 8px;
+      
+      top: 140px;
+      right: 275px;
+      width: 2rem;
+      
+      padding: 6px 8px;
+      
       border-top-left-radius: 6px;
       border-bottom-left-radius: 6px;
       cursor: pointer;
-      width: 130px;
-      transition: left 0.1s ease-out;
-      transition-delay: 300ms;
+      transition: width 0.1s ease-out;
+
+      display:flex;
 
       &:hover {
-        left: -120px;
-        transition: left 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
+        width: 7rem;
         .label {
           opacity: 1;
+          transition: opacity 0.4s;
+          pointer-events: all;
         }
       }
 
       .icon {
         width: 25px;
-        display: inline-block;
         color: #fff;
         font-weight: bold;
         font-size: 25px;
+        margin-top:5px;
       }
 
       .label {
         padding: 2px 8px;
-        width: 50px;
-        display: inline-block;
         color: #fff;
         opacity: 0;
-        transition: opacity 0.8s;
+        pointer-events: none;
+
+
       }
     }
   }
 
   .popped {
+
+    &.custom {
+      border: none !important;
+      background: transparent;
+      border-radius: 99999px;
+
+      .header {
+        display: none;
+      }
+
+      .body {
+        background: transparent !important;
+      }
+    }
+
     .header {
       color: #fff;
       height: 26px;
@@ -86,7 +106,6 @@
     opacity: 0;
     border: 4px solid;
     border-radius: 4px;
-    overflow: hidden;
     position: relative;
     transition: right 0.2s ease-out, opacity 0.5s;
   }

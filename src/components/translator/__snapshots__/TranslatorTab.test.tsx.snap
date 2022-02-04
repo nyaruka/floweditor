@@ -8,7 +8,7 @@ exports[`TranslatorTab finds email translations 1`] = `
     >
       <div
         class="pop_wrapper pop_wrapper "
-        style="right: 0px; top: 243px;"
+        style="right: -260px; top: 120px;"
       >
         <div
           class="tab_wrapper"
@@ -32,8 +32,8 @@ exports[`TranslatorTab finds email translations 1`] = `
           </div>
         </div>
         <div
-          class="popped"
-          style="border-color: #777; right: 0px; top: -100px;"
+          class="popped "
+          style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
             class="header"
@@ -185,7 +185,7 @@ exports[`TranslatorTab finds message translations 1`] = `
     >
       <div
         class="pop_wrapper pop_wrapper "
-        style="right: 0px; top: 243px;"
+        style="right: -260px; top: 120px;"
       >
         <div
           class="tab_wrapper"
@@ -209,8 +209,8 @@ exports[`TranslatorTab finds message translations 1`] = `
           </div>
         </div>
         <div
-          class="popped"
-          style="border-color: #777; right: 0px; top: -100px;"
+          class="popped "
+          style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
             class="header"
@@ -376,7 +376,7 @@ exports[`TranslatorTab finds split translations 1`] = `
     >
       <div
         class="pop_wrapper pop_wrapper "
-        style="right: 0px; top: 243px;"
+        style="right: -260px; top: 120px;"
       >
         <div
           class="tab_wrapper"
@@ -400,8 +400,8 @@ exports[`TranslatorTab finds split translations 1`] = `
           </div>
         </div>
         <div
-          class="popped"
-          style="border-color: #777; right: 0px; top: -100px;"
+          class="popped "
+          style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
             class="header"
@@ -553,7 +553,7 @@ exports[`TranslatorTab handles partial category translation 1`] = `
     >
       <div
         class="pop_wrapper pop_wrapper "
-        style="right: 0px; top: 243px;"
+        style="right: -260px; top: 120px;"
       >
         <div
           class="tab_wrapper"
@@ -577,8 +577,8 @@ exports[`TranslatorTab handles partial category translation 1`] = `
           </div>
         </div>
         <div
-          class="popped"
-          style="border-color: #777; right: 0px; top: -100px;"
+          class="popped "
+          style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
             class="header"
@@ -730,7 +730,7 @@ exports[`TranslatorTab hides completed translations 1`] = `
     >
       <div
         class="pop_wrapper pop_wrapper "
-        style="right: 0px; top: 243px;"
+        style="right: -260px; top: 120px;"
       >
         <div
           class="tab_wrapper"
@@ -754,8 +754,8 @@ exports[`TranslatorTab hides completed translations 1`] = `
           </div>
         </div>
         <div
-          class="popped"
-          style="border-color: #777; right: 0px; top: -100px;"
+          class="popped "
+          style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
             class="header"
@@ -893,7 +893,7 @@ exports[`TranslatorTab renders 1`] = `
     >
       <div
         class="pop_wrapper pop_wrapper "
-        style="right: -258px; top: 243px;"
+        style="right: -260px; top: 120px;"
       >
         <div
           class="tab_wrapper"
@@ -917,8 +917,8 @@ exports[`TranslatorTab renders 1`] = `
           </div>
         </div>
         <div
-          class="popped"
-          style="border-color: #777; right: 0px; top: -100px;"
+          class="popped "
+          style="border-color: #777; top: 100px; right: 0px;"
         >
           <div
             class="header"

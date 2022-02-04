@@ -9,7 +9,9 @@ export interface PopTabProps {
   label: string;
   header: string;
   top: string;
+  popTop: string;
   visible: boolean;
+  custom: boolean;
   onShow: () => void;
   onHide: () => void;
 }
@@ -23,7 +25,7 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
 
   constructor(props: PopTabProps) {
     super(props);
-    this.state = { width: 258 };
+    this.state = { width: 260 };
 
     bindCallbacks(this, {
       include: [/^handle/]
@@ -32,7 +34,8 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
 
   public componentDidUpdate(): void {
     if (this.state.width !== this.poppedEle.offsetWidth) {
-      this.setState({ width: this.poppedEle.offsetWidth });
+      // we have fixed widths for all poptabs
+      // this.setState({ width: this.poppedEle.offsetWidth });
     }
   }
 
@@ -72,11 +75,11 @@ export class PopTab extends React.Component<PopTabProps, PopTabState> {
         </div>
         <div
           ref={this.handlePoppedRef}
-          className={styles.popped}
+          className={styles.popped + ' ' + (this.props.custom ? styles.custom : '')}
           style={{
             borderColor: this.props.color,
-            right: this.props.visible ? 15 + this.state.width : 0,
-            top: -100
+            top: this.props.popTop || 0,
+            right: this.props.visible ? 40 + this.state.width : 0
           }}
         >
           <div className={styles.header} style={{ background: this.props.color }}>
