@@ -60,25 +60,27 @@ export class LanguageSelector extends React.Component<LanguageSelectorProps> {
 
     return (
       <div className={containerClasses}>
-        {languages.map((lang: Asset, idx: number) => {
-          return (
-            <div key={'lang_' + lang.id} className={styles.language}>
-              {idx > 0 ? <div className={styles.separator}>|</div> : null}
-              <div
-                className={
-                  styles.language_link +
-                  ' ' +
-                  (this.props.language.id === lang.id ? styles.active : '')
-                }
-                onClick={() => {
-                  this.handleLanguageChanged(lang);
-                }}
-              >
-                {lang.name}
+        <div style={{ position: 'fixed', right: '2em', marginTop: '2em', zIndex: 1 }}>
+          {languages.map((lang: Asset, idx: number) => {
+            return (
+              <div key={'lang_' + lang.id} className={styles.language}>
+                {idx > 0 ? <div className={styles.separator}>|</div> : null}
+                <div
+                  className={
+                    styles.language_link +
+                    ' ' +
+                    (this.props.language.id === lang.id ? styles.active : '')
+                  }
+                  onClick={() => {
+                    this.handleLanguageChanged(lang);
+                  }}
+                >
+                  {lang.name}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     );
   }

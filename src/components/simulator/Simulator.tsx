@@ -20,6 +20,7 @@ import { DispatchWithState, MergeEditorState } from 'store/thunks';
 import { createUUID } from 'utils';
 import { PopTabType } from 'config/interfaces';
 import i18n from 'config/i18n';
+import { PopTab } from 'components/poptab/PopTab';
 
 export const SIMULATOR_CONTACT_UUID = 'fb3787ab-2eda-48a0-a2bc-e2ddadec1286';
 const SIMULATOR_CONTACT_URNS = ['tel:+12065551212'];
@@ -589,7 +590,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
   }
 
-  private onToggle(event: any): void {
+  private onToggle(): void {
     const newVisible = !this.state.visible;
 
     this.props.onToggled(newVisible, PopTabType.SIMULATOR);
@@ -935,7 +936,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     const hidden = this.props.popped && this.props.popped !== PopTabType.SIMULATOR;
     const simHidden = hidden || !this.state.visible ? styles.sim_hidden : '';
-    const tabHidden = hidden || this.state.visible ? styles.tab_hidden : '';
 
     const messagesStyle: any = {
       height: 366 - (this.state.drawerOpen ? this.state.drawerHeight - 20 : 0)
@@ -947,94 +947,103 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     return (
-      <div id="sim_container" className={styles.sim_container}>
-        <div>
-          <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
-            {this.getContextExplorer()}
+      <div className={hidden ? styles.tab_hidden : ''}>
+        <PopTab
+          header={i18n.t('simulator.header', 'Simulator')}
+          color="#2db379"
+          icon="fe-smartphone"
+          label={i18n.t('simulator.label', 'Simulator')}
+          top="220px"
+          popTop="0px"
+          custom={true}
+          visible={this.state.visible}
+          onShow={this.onToggle}
+          onHide={this.onToggle}
+        >
+          <div id="sim_container" className={styles.sim_container}>
+            <div>
+              <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
+                {this.getContextExplorer()}
 
-            <div className={styles.screen}>
-              <div className={styles.header}>
-                <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
-              </div>
-              <div className={styles.messages} style={messagesStyle}>
-                {messages}
-                <div
-                  id="bottom"
-                  style={{ float: 'left', clear: 'both', marginTop: 20 }}
-                  ref={this.bottomRef}
-                />
-              </div>
-              <div className={styles.controls}>
-                <input
-                  ref={this.inputBoxRef}
-                  type="text"
-                  onKeyUp={this.onKeyUp}
-                  disabled={this.state.sprinting}
-                  placeholder={
-                    this.state.active
-                      ? i18n.t('simulator.prompt.message', 'Enter message')
-                      : i18n.t('simulator.prompt.restart', 'Press home to start again')
-                  }
-                />
-                <div className={styles.show_attachments_button}>
-                  <div
-                    className="fe-paperclip"
-                    onClick={() => {
-                      this.setState({
-                        attachmentOptionsVisible: true,
-                        drawerOpen: false
-                      });
-                    }}
-                  />
+                <div className={styles.screen}>
+                  <div className={styles.header}>
+                    <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
+                  </div>
+                  <div className={styles.messages} style={messagesStyle}>
+                    {messages}
+                    <div
+                      id="bottom"
+                      style={{ float: 'left', clear: 'both', marginTop: 20 }}
+                      ref={this.bottomRef}
+                    />
+                  </div>
+                  <div className={styles.controls}>
+                    <input
+                      ref={this.inputBoxRef}
+                      type="text"
+                      onKeyUp={this.onKeyUp}
+                      disabled={this.state.sprinting}
+                      placeholder={
+                        this.state.active
+                          ? i18n.t('simulator.prompt.message', 'Enter message')
+                          : i18n.t('simulator.prompt.restart', 'Press home to start again')
+                      }
+                    />
+                    <div className={styles.show_attachments_button}>
+                      <div
+                        className="fe-paperclip"
+                        onClick={() => {
+                          this.setState({
+                            attachmentOptionsVisible: true,
+                            drawerOpen: false
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {this.getAttachmentOptions()}
+                  {this.getDrawer()}
+                  <div className={styles.footer}>
+                    {!this.state.contextExplorerVisible ? (
+                      <div className={styles.show_context_button}>
+                        <div
+                          className="context-button"
+                          onClick={() => {
+                            this.setState({
+                              contextExplorerVisible: true
+                            });
+                          }}
+                        >
+                          <span className="fe-at-sign"></span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className={styles.show_context_button}>
+                        <div
+                          className="context-button"
+                          onClick={() => {
+                            this.setState({
+                              contextExplorerVisible: false
+                            });
+                          }}
+                        >
+                          <span className="fe-x"></span>
+                        </div>
+                      </div>
+                    )}
+
+                    <span
+                      className={
+                        styles.reset + ' ' + (this.state.active ? styles.active : styles.inactive)
+                      }
+                      onClick={this.onReset}
+                    />
+                  </div>
                 </div>
-              </div>
-              {this.getAttachmentOptions()}
-              {this.getDrawer()}
-              <div className={styles.footer}>
-                {!this.state.contextExplorerVisible ? (
-                  <div className={styles.show_context_button}>
-                    <div
-                      className="context-button"
-                      onClick={() => {
-                        this.setState({
-                          contextExplorerVisible: true
-                        });
-                      }}
-                    >
-                      <span className="fe-at-sign"></span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.show_context_button}>
-                    <div
-                      className="context-button"
-                      onClick={() => {
-                        this.setState({
-                          contextExplorerVisible: false
-                        });
-                      }}
-                    >
-                      <span className="fe-x"></span>
-                    </div>
-                  </div>
-                )}
-
-                <span
-                  className={
-                    styles.reset + ' ' + (this.state.active ? styles.active : styles.inactive)
-                  }
-                  onClick={this.onReset}
-                />
               </div>
             </div>
           </div>
-        </div>
-        <div className={styles.simulator_tab + ' ' + tabHidden} onClick={this.onToggle}>
-          <div className={styles.simulator_tab_icon + ' fe-smartphone'} />
-          <div className={styles.simulator_tab_text}>
-            {i18n.t('simulator.label', 'Run in Simulator')}
-          </div>
-        </div>
+        </PopTab>
       </div>
     );
   }

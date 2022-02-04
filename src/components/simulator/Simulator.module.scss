@@ -3,8 +3,8 @@
 $reset_color: #666;
 
 .sim_container {
-  position: fixed;
-  right: 0;
+  position: relative;
+  right: 0px;
   z-index: $z_simulator;
 }
 
@@ -60,9 +60,6 @@ $reset_color: #666;
       color: $disabled_color;
     }
   }
-  left: -300px;
-  top: 0px;
-  position: absolute;
   height: 500px;
   width: 260px;
   cursor: pointer;
@@ -362,6 +359,10 @@ $reset_color: #666;
   }
 }
 
+.tab_hidden {
+  display: none;
+}
+
 .simulator_tab.tab_hidden,
 .simulator_tab:hover.tab_hidden {
   right: -130px;
@@ -372,9 +373,9 @@ $reset_color: #666;
   background-color: #2db379;
   width: 130px;
   height: 50px;
-  position: fixed;
-  right: -92px;
-  top: 300px;
+  position: absolute;
+  right: -77px;
+  top: 220px;
   cursor: pointer;
   z-index: $z_simulator;
   transition: right 200ms, opacity 300ms;
