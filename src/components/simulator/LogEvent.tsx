@@ -3,7 +3,7 @@ import { MediaPlayer } from 'components/mediaplayer/MediaPlayer';
 import Modal from 'components/modal/Modal';
 import styles from 'components/simulator/LogEvent.module.scss';
 import { Types } from 'config/interfaces';
-import { Flow, Group, Label, Topic } from 'flowTypes';
+import { Flow, Group, Label, Topic, Hint } from 'flowTypes';
 import * as React from 'react';
 import { createUUID, getURNPath } from 'utils';
 import i18n from 'config/i18n';
@@ -72,6 +72,8 @@ export interface EventProps {
   classifier?: { uuid: string; name: string };
   ticketer?: { uuid: string; name: string };
   ticket?: { topic: Topic; body: string };
+  hint?: Hint;
+  timeout_seconds?: number;
 }
 
 interface FlowEvent {

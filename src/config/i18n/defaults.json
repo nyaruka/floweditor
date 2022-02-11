@@ -408,9 +408,9 @@
     "header": "Recent Messages",
     "header_empty": "No Recent Messages"
   },
-  "recent_messages": {
-    "header": "Recent Messages",
-    "header_empty": "No Recent Messages"
+  "recent_contacts": {
+    "header": "Recent Contacts",
+    "header_empty": "No Recent Contacts"
   },
   "removal_confirmation": "Remove?",
   "revisions": {

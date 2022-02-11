@@ -75,7 +75,6 @@ export default class FieldRouterForm extends React.Component<
     }
 
     const updated = mergeForm(this.state, updates);
-
     // update our form
     this.setState(updated);
     return updated.valid;
@@ -90,7 +89,7 @@ export default class FieldRouterForm extends React.Component<
   }
 
   private handleCasesUpdated(cases: CaseProps[]): void {
-    this.handleUpdate({ cases });
+    this.setState({ cases });
   }
 
   private handleSave(): void {

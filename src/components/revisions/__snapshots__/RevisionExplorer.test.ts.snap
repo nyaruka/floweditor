@@ -9,12 +9,14 @@ exports[`RevisionExplorer render should render base component 1`] = `
   />
   <PopTab
     color="#8e5ea7"
+    custom={false}
     header="Revisions"
     icon="fe-time"
     label="Revision History"
     onHide={[Function]}
     onShow={[Function]}
-    top="360px"
+    popTop="40px"
+    top="170px"
     visible={false}
   >
     <div

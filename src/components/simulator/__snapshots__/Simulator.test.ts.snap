@@ -2,134 +2,138 @@
 
 exports[`Simulator renders 1`] = `
 <div
-  className="sim_container"
-  id="sim_container"
+  className=""
 >
-  <div>
+  <PopTab
+    color="#2db379"
+    custom={true}
+    header="Simulator"
+    icon="fe-smartphone"
+    label="Run in Simulator"
+    onHide={[Function]}
+    onShow={[Function]}
+    popTop="0px"
+    top="220px"
+    visible={false}
+  >
     <div
-      className="simulator sim_hidden"
-      id="simulator"
-      key="sim"
+      className="sim_container"
+      id="sim_container"
     >
-      <ContextExplorer
-        onClose={[Function]}
-        visible={false}
-      />
-      <div
-        className="screen"
-      >
+      <div>
         <div
-          className="header"
+          className="simulator sim_hidden"
+          id="simulator"
+          key="sim"
         >
-          <div
-            className="close fe-x"
-            onClick={[Function]}
-          />
-        </div>
-        <div
-          className="messages"
-          style={
-            Object {
-              "height": 366,
-            }
-          }
-        >
-          <div
-            id="bottom"
-            style={
-              Object {
-                "clear": "both",
-                "float": "left",
-                "marginTop": 20,
-              }
-            }
-          />
-        </div>
-        <div
-          className="controls"
-        >
-          <input
-            disabled={false}
-            onKeyUp={[Function]}
-            placeholder="Press home to start again"
-            type="text"
+          <ContextExplorer
+            onClose={[Function]}
+            visible={false}
           />
           <div
-            className="show_attachments_button"
+            className="screen"
           >
             <div
-              className="fe-paperclip"
-              onClick={[Function]}
-            />
-          </div>
-        </div>
-        <div
-          className="attachment_buttons "
-        >
-          <div
-            className="fe-x"
-            onClick={[Function]}
-          />
-          <div
-            className="fe-picture2"
-            onClick={[Function]}
-          />
-          <div
-            className="fe-video"
-            onClick={[Function]}
-          />
-          <div
-            className="fe-mic"
-            onClick={[Function]}
-          />
-          <div
-            className="fe-map-marker"
-            onClick={[Function]}
-          />
-        </div>
-        <div
-          className="drawer  forced"
-          style={
-            Object {
-              "bottom": -0,
-            }
-          }
-        />
-        <div
-          className="footer"
-        >
-          <div
-            className="show_context_button"
-          >
-            <div
-              className="context-button"
-              onClick={[Function]}
+              className="header"
             >
+              <div
+                className="close fe-x"
+                onClick={[Function]}
+              />
+            </div>
+            <div
+              className="messages"
+              style={
+                Object {
+                  "height": 366,
+                }
+              }
+            >
+              <div
+                id="bottom"
+                style={
+                  Object {
+                    "clear": "both",
+                    "float": "left",
+                    "marginTop": 20,
+                  }
+                }
+              />
+            </div>
+            <div
+              className="controls"
+            >
+              <input
+                disabled={false}
+                onKeyUp={[Function]}
+                placeholder="Press home to start again"
+                type="text"
+              />
+              <div
+                className="show_attachments_button"
+              >
+                <div
+                  className="fe-paperclip"
+                  onClick={[Function]}
+                />
+              </div>
+            </div>
+            <div
+              className="attachment_buttons "
+            >
+              <div
+                className="fe-x"
+                onClick={[Function]}
+              />
+              <div
+                className="fe-picture2"
+                onClick={[Function]}
+              />
+              <div
+                className="fe-video"
+                onClick={[Function]}
+              />
+              <div
+                className="fe-mic"
+                onClick={[Function]}
+              />
+              <div
+                className="fe-map-marker"
+                onClick={[Function]}
+              />
+            </div>
+            <div
+              className="drawer  forced"
+              style={
+                Object {
+                  "bottom": -0,
+                }
+              }
+            />
+            <div
+              className="footer"
+            >
+              <div
+                className="show_context_button"
+              >
+                <div
+                  className="context-button"
+                  onClick={[Function]}
+                >
+                  <span
+                    className="fe-at-sign"
+                  />
+                </div>
+              </div>
               <span
-                className="fe-at-sign"
+                className="reset inactive"
+                onClick={[Function]}
               />
             </div>
           </div>
-          <span
-            className="reset inactive"
-            onClick={[Function]}
-          />
         </div>
       </div>
     </div>
-  </div>
-  <div
-    className="simulator_tab "
-    onClick={[Function]}
-  >
-    <div
-      className="simulator_tab_icon fe-smartphone"
-    />
-    <div
-      className="simulator_tab_text"
-    >
-      Run in Simulator
-    </div>
-  </div>
+  </PopTab>
 </div>
 `;

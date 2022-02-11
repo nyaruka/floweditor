@@ -65,8 +65,7 @@
 }
 
 .saving {
-  position: absolute;
-  top: -3px;
-  right: 110px;
   z-index: $z_saving;
+  opacity:1;
+  top: 2em;
 }

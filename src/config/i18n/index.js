@@ -8,8 +8,10 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 // See https://www.i18next.com/how-to/add-or-load-translations
 
 import defaults from './defaults.json';
+import cs from './cs/resource.json';
 import es from './es/resource.json';
 import fr from './fr/resource.json';
+import mn from './mn/resource.json';
 import ptBR from './pt-br/resource.json';
 
 i18n
@@ -21,8 +23,10 @@ i18n
     },
     resources: {
       defaults: { translation: defaults },
+      cs: { translation: cs },
       es: { translation: es },
       fr: { translation: fr },
+      mn: { translation: mn },
       'pt-br': { translation: ptBR }
     },
     fallbackLng: ['defaults'],

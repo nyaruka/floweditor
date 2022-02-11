@@ -5,7 +5,7 @@ exports[`NodeComp renders 1`] = `
   <div>
     <div
       class="node_container plumb-drag flow_start"
-      id="b1f332f3-bdd3-4891-aec5-1843a712dbf1"
+      id="061fc171-8b79-4636-b892-bd0ea5aa9b42"
     >
       <div
         class="node"
@@ -40,7 +40,7 @@ exports[`NodeComp renders 1`] = `
             >
               <div
                 class="endpoint"
-                id="b1f332f3-bdd3-4891-aec5-1843a712dbf1:061fc171-8b79-4636-b892-bd0ea5aa9b42"
+                id="061fc171-8b79-4636-b892-bd0ea5aa9b42:1dce2b34-9aab-4e20-81c4-3f0408dcb671"
               />
               <div
                 class="drag_helper "
