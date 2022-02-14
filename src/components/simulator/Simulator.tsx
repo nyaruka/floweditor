@@ -423,7 +423,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
             sprinting: false,
             session: runContext.session,
             events: newEvents,
-            segments: this.state.segments.concat(runContext.segments),
+            segments: this.state.segments.concat(runContext.segments || []),
             drawerOpen,
             drawerType,
             waitingForHint
