@@ -242,10 +242,12 @@ export class IssuesTab extends React.Component<IssuesTabProps, IssuesTabState> {
           label={i18n.t('issues.header', 'Flow Issues')}
           color="tomato"
           icon="fe-warning"
-          top="416px"
+          top="270px"
+          popTop="-60px"
           visible={this.state.visible}
           onShow={this.handleTabClicked}
           onHide={this.handleTabClicked}
+          custom={false}
         >
           <div className={styles.issues_wrapper}>{issues}</div>
         </PopTab>

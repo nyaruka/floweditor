@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { SaveResult } from 'components/revisions/RevisionExplorer';
 import { Endpoints, Exit, FlowDefinition, SPEC_VERSION, FlowDetails } from 'flowTypes';
 import { currencies } from 'store/currencies';
-import { Activity, RecentMessage } from 'store/editor';
+import { Activity, RecentContact } from 'store/editor';
 import { Asset, AssetMap, Assets, AssetStore, AssetType } from 'store/flowContext';
 import { assetListToMap } from 'store/helpers';
 import { FlowTypes } from 'config/interfaces';
@@ -71,19 +71,21 @@ export const saveRevision = (endpoint: string, definition: FlowDefinition): Prom
 export const getRecentMessages = (
   recentsEndpoint: string,
   exit: Exit,
-  cancel: Cancel
-): Promise<RecentMessage[]> =>
-  new Promise<RecentMessage[]>((resolve, reject) => {
+  cancel: Cancel,
+  uuid: String
+): Promise<RecentContact[]> =>
+  new Promise<RecentContact[]>((resolve, reject) => {
     cancel.reject = reject;
+    // we are adding flow uuid here to get unique details for the flow
     return axios
-      .get(`${recentsEndpoint}?exits=${exit.uuid}&to=${exit.destination_uuid}`)
+      .get(`${recentsEndpoint}${exit.uuid}/${exit.destination_uuid}/${uuid}/`)
       .then((response: AxiosResponse) => {
-        const recentMessages: RecentMessage[] = [];
+        const recentcontacts: RecentContact[] = [];
         for (const row of response.data) {
-          recentMessages.push({ text: row.text, sent: row.sent });
+          recentcontacts.push({ contact: row.contact, operand: row.operand, time: row.time });
         }
 
-        resolve(response.data as RecentMessage[]);
+        resolve(response.data as RecentContact[]);
       })
       .catch(error => reject(error));
   });

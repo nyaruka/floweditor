@@ -6,13 +6,13 @@ import ContextExplorer from './ContextExplorer';
 import styles from 'components/simulator/Simulator.module.scss';
 import { ConfigProviderContext, fakePropType } from 'config/ConfigProvider';
 import { getURL } from 'external';
-import { FlowDefinition, Group, Wait } from 'flowTypes';
+import { FlowDefinition, Group } from 'flowTypes';
 import update from 'immutability-helper';
 import { ReactNode } from 'react';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Activity, RecentMessage } from 'store/editor';
+import { Activity, RecentContact } from 'store/editor';
 import { AssetStore, RenderNodeMap, Asset } from 'store/flowContext';
 import { getCurrentDefinition } from 'store/helpers';
 import AppState from 'store/state';
@@ -20,6 +20,11 @@ import { DispatchWithState, MergeEditorState } from 'store/thunks';
 import { createUUID } from 'utils';
 import { PopTabType } from 'config/interfaces';
 import i18n from 'config/i18n';
+import { PopTab } from 'components/poptab/PopTab';
+
+export const SIMULATOR_CONTACT_UUID = 'fb3787ab-2eda-48a0-a2bc-e2ddadec1286';
+const SIMULATOR_CONTACT_URNS = ['tel:+12065551212'];
+const SIMULATOR_CONTACT_DISPLAY = '+1 (206) 555 1212';
 
 const MESSAGE_DELAY_MS = 200;
 
@@ -83,6 +88,7 @@ interface SimulatorState {
   contact: Contact;
   channel: string;
   events: EventProps[];
+  segments: Segment[];
   active: boolean;
   time: string;
 
@@ -131,7 +137,15 @@ interface Run {
   flow_uuid: string;
   status: string;
   events?: EventProps[];
-  wait?: Wait;
+}
+
+interface Segment {
+  flow_uuid: string;
+  node_uuid: string;
+  exit_uuid: string;
+  operand: string;
+  destination_uuid: string;
+  time: string;
 }
 
 interface RunContext {
@@ -139,14 +153,14 @@ interface RunContext {
   session: Session;
   context?: any;
   events: EventProps[];
+  segments: Segment[];
 }
 
 interface Session {
   runs: Run[];
   contact: Contact;
   input?: any;
-  wait?: Wait;
-  status?: string;
+  status: string;
 }
 
 /**
@@ -173,9 +187,10 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
       active: false,
       visible: false,
       events: [],
+      segments: [],
       contact: {
-        uuid: createUUID(),
-        urns: ['tel:+12065551212'],
+        uuid: SIMULATOR_CONTACT_UUID,
+        urns: SIMULATOR_CONTACT_URNS,
         fields: {},
         groups: []
       },
@@ -206,86 +221,69 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     this.inputBox = ref;
   }
 
-  private updateActivity(recentMessages: { [key: string]: RecentMessage[] } = {}): void {
+  private updateActivity(): void {
     if (this.state.session) {
-      // if we are resetting, clear our recent messages
-
-      let lastExit: string = null;
-      const paths: { [key: string]: number } = {};
-      const active: { [nodeUUID: string]: number } = {};
+      const pathCounts: { [key: string]: number } = {};
+      const nodeCounts: { [nodeUUID: string]: number } = {};
+      const recentContacts: { [key: string]: RecentContact[] } = {};
       let activeFlow: string;
 
-      for (const run of this.state.session.runs) {
-        let finalStep: Step = null;
+      // iterate thru segments to get path segment counts and recent contacts
+      for (const seg of this.state.segments) {
+        const key = seg.exit_uuid + ':' + seg.destination_uuid;
 
-        for (const step of run.path) {
-          if (lastExit) {
-            const key = lastExit + ':' + step.node_uuid;
-            let pathCount = paths[key];
-            if (!pathCount) {
-              pathCount = 0;
-            }
-            paths[key] = ++pathCount;
-            if (!(key in recentMessages)) {
-              recentMessages[key] = [];
-            }
-          }
-          lastExit = step.exit_uuid;
-          finalStep = step;
+        let pathCount = pathCounts[key] || 0;
+        pathCounts[key] = pathCount + 1;
+
+        let operand = seg.operand || '';
+        if (operand.length > 100) {
+          operand = operand.substring(0, 97) + '...';
         }
 
-        if (finalStep) {
-          let count = active[finalStep.node_uuid];
-          if (!count) {
-            count = 0;
+        let recent = recentContacts[key] || [];
+        recent.unshift({
+          contact: { uuid: SIMULATOR_CONTACT_UUID, name: SIMULATOR_CONTACT_DISPLAY },
+          operand: seg.operand,
+          time: seg.time
+        });
+        if (recent.length > 5) {
+          // keep capped to 5
+          recent.pop();
+        }
+        recentContacts[key] = recent;
+      }
+
+      // set node counts on the last step of any active/waiting runs
+      for (const run of this.state.session.runs) {
+        if (run.status === 'active' || run.status === 'waiting') {
+          let finalStep: Step = null;
+          if (run.path.length > 0) {
+            finalStep = run.path[run.path.length - 1];
           }
 
-          if (lastExit) {
-            const lastKey = lastExit + ':' + null;
-            paths[lastKey] = 1;
-
-            if (!(lastKey in recentMessages)) {
-              recentMessages[lastKey] = [];
-            }
-          }
-
-          if (this.state.session.status === 'waiting') {
-            active[finalStep.node_uuid] = ++count;
+          if (finalStep) {
+            let count = nodeCounts[finalStep.node_uuid] || 0;
+            nodeCounts[finalStep.node_uuid] = count + 1;
           }
           activeFlow = run.flow_uuid;
         }
       }
 
-      // if we are resetting, clear our recent messages
-      const simulatedMessages = this.state.session.input
-        ? this.props.activity.recentMessages || {}
-        : {};
+      this.props.mergeEditorState({
+        activity: {
+          segments: pathCounts,
+          nodes: nodeCounts,
+          recentContacts: recentContacts
+        }
+      });
 
-      for (const key in recentMessages) {
-        let messages = simulatedMessages[key] || [];
-        messages = recentMessages[key].concat(messages);
-        simulatedMessages[key] = messages;
-      }
-
-      const activity: Activity = {
-        segments: paths,
-        nodes: active,
-        recentMessages: simulatedMessages
-      };
-
-      this.props.mergeEditorState({ activity });
       if (activeFlow && activeFlow !== this.currentFlow) {
         this.currentFlow = activeFlow;
       }
     }
   }
 
-  private updateEvents(
-    events: EventProps[],
-    session: Session,
-    recentMessages: { [key: string]: RecentMessage[] },
-    callback: () => void
-  ): void {
+  private updateEvents(events: EventProps[], session: Session, callback: () => void): void {
     if (events && events.length > 0) {
       const toAdd = [];
 
@@ -297,37 +295,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         if (isMessage(event)) {
           messageFound = true;
-
-          // if it's a message add it to our recent messages
-          let fromUUID = '';
-          let toUUID = '';
-
-          // work backwards, since our events are recent
-          for (let i = session.runs.length - 1; i >= 0; i--) {
-            const path = session.runs[i].path;
-
-            // start at the penultimate node since we have nowhere to render recent messages for the last node
-            for (let j = path.length - 1; j >= 0; j--) {
-              if (path[j].uuid === event.step_uuid) {
-                fromUUID = path[j].exit_uuid;
-                toUUID = path.length > j + 1 ? path[j + 1].node_uuid : null;
-                break;
-              }
-            }
-
-            if (fromUUID) {
-              const key = `${fromUUID}:${toUUID}`;
-              const msg: RecentMessage = {
-                sent: event.created_on,
-                text: event.msg.text
-              };
-              if (key in recentMessages) {
-                recentMessages[key].unshift(msg);
-              } else {
-                recentMessages[key] = [msg];
-              }
-            }
-          }
 
           if (isMT(event)) {
             // save off any quick replies we might have
@@ -356,7 +323,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           callback();
         } else {
           window.setTimeout(() => {
-            this.updateEvents(events, session, recentMessages, callback);
+            this.updateEvents(events, session, callback);
           }, MESSAGE_DELAY_MS);
         }
       });
@@ -388,19 +355,20 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         ];
       }
 
-      const newlyRecentMessages = {};
-
-      this.updateEvents(runContext.events, runContext.session, newlyRecentMessages, () => {
-        let active = false;
-        for (const run of runContext.session.runs) {
-          if (run.status === 'waiting') {
-            active = true;
-            break;
+      // if session is waiting, find the wait event
+      let waiting = runContext.session.status === 'waiting';
+      let waitEvent: EventProps = null;
+      if (waiting) {
+        for (const evt of runContext.events) {
+          if (evt.type.endsWith('_wait')) {
+            waitEvent = evt;
           }
         }
+      }
 
+      this.updateEvents(runContext.events, runContext.session, () => {
         let newEvents = this.state.events;
-        if (!active && wasJustActive) {
+        if (!waiting && wasJustActive) {
           newEvents = update(this.state.events, {
             $push: [
               {
@@ -412,14 +380,11 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
           }) as EventProps[];
         }
 
-        const waitingForHint =
-          runContext.session &&
-          runContext.session.wait &&
-          runContext.session.wait.hint !== undefined;
+        const waitingForHint = waitEvent && waitEvent.hint !== undefined;
 
         let drawerType = null;
         if (waitingForHint) {
-          switch (runContext.session.wait.hint.type) {
+          switch (waitEvent.hint.type) {
             case 'audio':
               drawerType = DrawerType.audio;
               break;
@@ -434,12 +399,12 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
               break;
             case 'digits':
               drawerType = DrawerType.digit;
-              if (runContext.session.wait.hint.count !== 1) {
+              if (waitEvent.hint.count !== 1) {
                 drawerType = DrawerType.digits;
               }
               break;
             default:
-              console.log('Unknown hint', runContext.session.wait.hint.type);
+              console.log('Unknown hint', waitEvent.hint.type);
           }
         }
 
@@ -453,17 +418,18 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
         this.setState(
           {
-            active,
+            active: waiting,
             context: runContext.context,
             sprinting: false,
             session: runContext.session,
             events: newEvents,
+            segments: this.state.segments.concat(runContext.segments),
             drawerOpen,
             drawerType,
             waitingForHint
           },
           () => {
-            this.updateActivity(newlyRecentMessages);
+            this.updateActivity();
             this.handleFocusUpdate();
           }
         );
@@ -474,8 +440,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
   private startFlow(): void {
     const now = new Date().toISOString();
     const contact: any = {
-      uuid: createUUID(),
-      urns: ['tel:+12065551212'],
+      uuid: SIMULATOR_CONTACT_UUID,
+      urns: SIMULATOR_CONTACT_URNS,
       fields: {},
       groups: [],
       created_on: now
@@ -492,7 +458,8 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
         sprinting: true,
         drawerOpen: false,
         attachmentOptionsVisible: false,
-        events: []
+        events: [],
+        segments: []
       },
       () => {
         const body: any = {
@@ -623,7 +590,7 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
   }
 
-  private onToggle(event: any): void {
+  private onToggle(): void {
     const newVisible = !this.state.visible;
 
     this.props.onToggled(newVisible, PopTabType.SIMULATOR);
@@ -969,7 +936,6 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
 
     const hidden = this.props.popped && this.props.popped !== PopTabType.SIMULATOR;
     const simHidden = hidden || !this.state.visible ? styles.sim_hidden : '';
-    const tabHidden = hidden || this.state.visible ? styles.tab_hidden : '';
 
     const messagesStyle: any = {
       height: 366 - (this.state.drawerOpen ? this.state.drawerHeight - 20 : 0)
@@ -981,94 +947,103 @@ export class Simulator extends React.Component<SimulatorProps, SimulatorState> {
     }
 
     return (
-      <div id="sim_container" className={styles.sim_container}>
-        <div>
-          <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
-            {this.getContextExplorer()}
+      <div className={hidden ? styles.tab_hidden : ''}>
+        <PopTab
+          header={i18n.t('simulator.header', 'Simulator')}
+          color="#2db379"
+          icon="fe-smartphone"
+          label={i18n.t('simulator.label', 'Simulator')}
+          top="220px"
+          popTop="0px"
+          custom={true}
+          visible={this.state.visible}
+          onShow={this.onToggle}
+          onHide={this.onToggle}
+        >
+          <div id="sim_container" className={styles.sim_container}>
+            <div>
+              <div id="simulator" className={styles.simulator + ' ' + simHidden} key={'sim'}>
+                {this.getContextExplorer()}
 
-            <div className={styles.screen}>
-              <div className={styles.header}>
-                <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
-              </div>
-              <div className={styles.messages} style={messagesStyle}>
-                {messages}
-                <div
-                  id="bottom"
-                  style={{ float: 'left', clear: 'both', marginTop: 20 }}
-                  ref={this.bottomRef}
-                />
-              </div>
-              <div className={styles.controls}>
-                <input
-                  ref={this.inputBoxRef}
-                  type="text"
-                  onKeyUp={this.onKeyUp}
-                  disabled={this.state.sprinting}
-                  placeholder={
-                    this.state.active
-                      ? i18n.t('simulator.prompt.message', 'Enter message')
-                      : i18n.t('simulator.prompt.restart', 'Press home to start again')
-                  }
-                />
-                <div className={styles.show_attachments_button}>
-                  <div
-                    className="fe-paperclip"
-                    onClick={() => {
-                      this.setState({
-                        attachmentOptionsVisible: true,
-                        drawerOpen: false
-                      });
-                    }}
-                  />
+                <div className={styles.screen}>
+                  <div className={styles.header}>
+                    <div className={styles.close + ' fe-x'} onClick={this.onToggle} />
+                  </div>
+                  <div className={styles.messages} style={messagesStyle}>
+                    {messages}
+                    <div
+                      id="bottom"
+                      style={{ float: 'left', clear: 'both', marginTop: 20 }}
+                      ref={this.bottomRef}
+                    />
+                  </div>
+                  <div className={styles.controls}>
+                    <input
+                      ref={this.inputBoxRef}
+                      type="text"
+                      onKeyUp={this.onKeyUp}
+                      disabled={this.state.sprinting}
+                      placeholder={
+                        this.state.active
+                          ? i18n.t('simulator.prompt.message', 'Enter message')
+                          : i18n.t('simulator.prompt.restart', 'Press home to start again')
+                      }
+                    />
+                    <div className={styles.show_attachments_button}>
+                      <div
+                        className="fe-paperclip"
+                        onClick={() => {
+                          this.setState({
+                            attachmentOptionsVisible: true,
+                            drawerOpen: false
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {this.getAttachmentOptions()}
+                  {this.getDrawer()}
+                  <div className={styles.footer}>
+                    {!this.state.contextExplorerVisible ? (
+                      <div className={styles.show_context_button}>
+                        <div
+                          className="context-button"
+                          onClick={() => {
+                            this.setState({
+                              contextExplorerVisible: true
+                            });
+                          }}
+                        >
+                          <span className="fe-at-sign"></span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className={styles.show_context_button}>
+                        <div
+                          className="context-button"
+                          onClick={() => {
+                            this.setState({
+                              contextExplorerVisible: false
+                            });
+                          }}
+                        >
+                          <span className="fe-x"></span>
+                        </div>
+                      </div>
+                    )}
+
+                    <span
+                      className={
+                        styles.reset + ' ' + (this.state.active ? styles.active : styles.inactive)
+                      }
+                      onClick={this.onReset}
+                    />
+                  </div>
                 </div>
-              </div>
-              {this.getAttachmentOptions()}
-              {this.getDrawer()}
-              <div className={styles.footer}>
-                {!this.state.contextExplorerVisible ? (
-                  <div className={styles.show_context_button}>
-                    <div
-                      className="context-button"
-                      onClick={() => {
-                        this.setState({
-                          contextExplorerVisible: true
-                        });
-                      }}
-                    >
-                      <span className="fe-at-sign"></span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={styles.show_context_button}>
-                    <div
-                      className="context-button"
-                      onClick={() => {
-                        this.setState({
-                          contextExplorerVisible: false
-                        });
-                      }}
-                    >
-                      <span className="fe-x"></span>
-                    </div>
-                  </div>
-                )}
-
-                <span
-                  className={
-                    styles.reset + ' ' + (this.state.active ? styles.active : styles.inactive)
-                  }
-                  onClick={this.onReset}
-                />
               </div>
             </div>
           </div>
-        </div>
-        <div className={styles.simulator_tab + ' ' + tabHidden} onClick={this.onToggle}>
-          <div className={styles.simulator_tab_icon + ' fe-smartphone'} />
-          <div className={styles.simulator_tab_text}>
-            {i18n.t('simulator.label', 'Run in Simulator')}
-          </div>
-        </div>
+        </PopTab>
       </div>
     );
   }

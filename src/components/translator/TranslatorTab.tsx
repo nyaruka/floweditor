@@ -297,10 +297,12 @@ export class TranslatorTab extends React.Component<TranslatorTabProps, Translato
           label={i18n.t('translation.header', 'Flow Translation')}
           color="#777"
           icon="fe-language"
-          top="243px"
+          top="120px"
+          popTop="100px"
           visible={this.state.visible}
           onShow={this.handleTabClicked}
           onHide={this.handleTabClicked}
+          custom={false}
         >
           <div key={'translation_wrapper'} className={wrapperClasses}>
             {this.state.translationBundles.map((bundle: TranslationBundle) => {

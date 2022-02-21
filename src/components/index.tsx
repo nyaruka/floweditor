@@ -1,7 +1,6 @@
 import { react as bindCallbacks } from 'auto-bind';
 import Button, { ButtonTypes } from 'components/button/Button';
 import Dialog from 'components/dialog/Dialog';
-import { Fixy } from 'components/fixy/Fixy';
 import ConnectedFlow from 'components/flow/Flow';
 import styles from 'components/index.module.scss';
 import ConnectedLanguageSelector from 'components/languageselector/LanguageSelector';
@@ -159,9 +158,9 @@ export class FlowEditor extends React.Component<FlowEditorStoreProps> {
 
     return (
       <div id="saving_animation" className={styles.saving}>
-        <Fixy>
+        <div style={{ position: 'fixed', right: '30px', marginTop: '0px', zIndex: 1 }}>
           <Loading units={5} color="#3498db" size={7} />
-        </Fixy>
+        </div>
       </div>
     );
   }

@@ -10,7 +10,7 @@ import { Category, Exit, FlowNode, LocalizationMap } from 'flowTypes';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { RecentMessage } from 'store/editor';
+import { RecentContact } from 'store/editor';
 import { Asset } from 'store/flowContext';
 import AppState from 'store/state';
 import { DisconnectExit, disconnectExit, DispatchWithState } from 'store/thunks';
@@ -20,6 +20,7 @@ import * as moment from 'moment';
 import styles from './Exit.module.scss';
 import { Portal } from 'components/Portal';
 import i18n from 'config/i18n';
+import { SIMULATOR_CONTACT_UUID } from 'components/simulator/Simulator';
 
 export interface RenderCategory extends Category {
   missing: boolean;
@@ -46,17 +47,18 @@ export interface ExitStoreProps {
   dragging: boolean;
   language: Asset;
   localization: LocalizationMap;
+  uuid: String;
   disconnectExit: DisconnectExit;
   segmentCount: number;
-  recentMessages: RecentMessage[];
+  recentContacts: RecentContact[];
 }
 
 export type ExitProps = ExitPassedProps & ExitStoreProps;
 
 export interface ExitState {
   confirmDelete: boolean;
-  recentMessages: RecentMessage[];
-  fetchingRecentMessages: boolean;
+  recentContacts: RecentContact[];
+  fetchingRecentContacts: boolean;
   showDragHelper: boolean;
 }
 
@@ -66,14 +68,15 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   private hideDragHelper: number;
   private pendingMessageFetch: Cancel = {};
   private ele: HTMLDivElement;
+  private lastEnter = new Date().getTime();
 
   constructor(props: ExitProps) {
     super(props);
 
     this.state = {
       confirmDelete: false,
-      recentMessages: null,
-      fetchingRecentMessages: false,
+      recentContacts: null,
+      fetchingRecentContacts: false,
       showDragHelper: props.showDragHelper
     };
 
@@ -192,19 +195,20 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
   }
 
   private handleShowRecentMessages(): void {
-    if (this.props.recentMessages) {
-      this.setState({ recentMessages: this.props.recentMessages });
+    if (this.props.recentContacts) {
+      this.setState({ recentContacts: this.props.recentContacts });
       return;
     }
 
-    this.setState({ fetchingRecentMessages: true }, () => {
+    this.setState({ fetchingRecentContacts: true }, () => {
       getRecentMessages(
         this.context.config.endpoints.recents,
         this.props.exit,
-        this.pendingMessageFetch
+        this.pendingMessageFetch,
+        this.props.uuid
       )
-        .then((recentMessages: RecentMessage[]) => {
-          this.setState({ recentMessages, fetchingRecentMessages: false });
+        .then((recentContacts: RecentContact[]) => {
+          this.setState({ recentContacts, fetchingRecentContacts: false });
         })
         .catch(() => {
           // we may have been canceled
@@ -218,7 +222,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       this.pendingMessageFetch = {};
     }
 
-    this.setState({ fetchingRecentMessages: false, recentMessages: null });
+    this.setState({ fetchingRecentContacts: false, recentContacts: null });
   }
 
   private getSegmentCount(): JSX.Element {
@@ -233,8 +237,15 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
             containerStyle={styles.activity}
             countStyle={styles.count}
             keepVisible={false}
-            onMouseEnter={this.handleShowRecentMessages}
-            onMouseLeave={this.handleHideRecentMessages}
+            onMouseEnter={() => {
+              this.lastEnter = new Date().getTime();
+              this.handleShowRecentMessages();
+            }}
+            onMouseLeave={() => {
+              if (new Date().getTime() - this.lastEnter < 100) {
+                this.handleHideRecentMessages();
+              }
+            }}
           />
         </div>
       );
@@ -243,10 +254,10 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 
   public getName(): { name: string; localized?: boolean } {
     if (this.props.translating) {
-      let name: string = '';
-      let delim: string = '';
+      let name = '';
+      let delim = '';
 
-      let localized: boolean = false;
+      let localized = false;
 
       this.props.categories.forEach((category: Category) => {
         const localization = getLocalization(
@@ -274,16 +285,16 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     }
   }
 
-  private getRecentMessages(): JSX.Element {
-    if (this.state.fetchingRecentMessages || this.state.recentMessages !== null) {
-      const recentMessages = this.state.recentMessages || [];
-      const hasRecents = recentMessages.length !== 0;
+  private getRecentContacts(): JSX.Element {
+    if (this.state.fetchingRecentContacts || this.state.recentContacts !== null) {
+      const recentContacts = this.state.recentContacts || [];
+      const hasRecents = recentContacts.length !== 0;
 
-      const recentStyles = [styles.recent_messages];
+      const recentStyles = [styles.recent_contacts];
 
-      let title = i18n.t('recent_messages.header', 'Recent Messages');
-      if (!hasRecents && !this.state.fetchingRecentMessages) {
-        title = i18n.t('recent_messages.header_empty', 'No Recent Messages');
+      let title = i18n.t('recent_contacts.header', 'Recent Contacts');
+      if (!hasRecents && !this.state.fetchingRecentContacts) {
+        title = i18n.t('recent_contacts.header_empty', 'No Recent Contacts');
         recentStyles.push(styles.no_recents);
       }
 
@@ -295,25 +306,81 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
         const canvasBounds = canvas.getBoundingClientRect();
         const canvasOffset = canvasBounds.top + window.scrollY;
         const rect = this.ele.getBoundingClientRect();
-        left = rect.left + window.scrollX + 5;
+        left = rect.left + window.scrollX + 5 - canvasBounds.left;
         top = rect.top + window.scrollY - canvasOffset + 30;
       }
 
+      let getContactURL = (uuid: string): string => {
+        return this.context.config.endpoints.contact + uuid;
+      };
+
       return (
-        <Portal id="activity_recent_messages">
-          <div className={recentStyles.join(' ')} style={{ position: 'absolute', left, top }}>
-            <div className={styles.title}>{title}</div>
-            {recentMessages.map((recentMessage: RecentMessage, idx: number) => (
-              <div key={'recent_' + idx} className={styles.message}>
-                <div className={styles.text}>{recentMessage.text}</div>
-                <div className={styles.sent}>{moment.utc(recentMessage.sent).fromNow()}</div>
+        <Portal id="activity_recent_contacts">
+          <div
+            className={recentStyles.join(' ')}
+            style={{ position: 'absolute', left, top }}
+            onMouseDown={event => {
+              event.stopPropagation();
+              event.preventDefault();
+            }}
+            onMouseUp={event => {
+              event.stopPropagation();
+              event.preventDefault();
+            }}
+          >
+            <div className="pointer-capture" style={{ display: 'flex', marginTop: '-20px' }}>
+              <div className="left" style={{ flexGrow: 1, pointerEvents: 'none' }}></div>
+              <div
+                onMouseLeave={this.handleHideRecentMessages}
+                className="middle"
+                style={{
+                  width: '50px',
+                  height: '40px',
+                  marginBottom: '-20px',
+                  paddingBottom: '20px'
+                }}
+              >
+                &nbsp;
               </div>
-            ))}
-            {this.state.recentMessages === null ? (
-              <div className={styles.loading}>
-                <Loading size={10} units={6} color="#999999" />
-              </div>
-            ) : null}
+              <div className="right" style={{ flexGrow: 1 }}></div>
+            </div>
+            <div
+              className={styles.container}
+              onMouseEnter={() => {
+                this.setState({ recentContacts, fetchingRecentContacts: false });
+              }}
+              onMouseLeave={this.handleHideRecentMessages}
+            >
+              <div className={styles.title}>{title}</div>
+              {recentContacts.map((recentContact: RecentContact, idx: number) => {
+                let opRow: JSX.Element = null;
+                if (recentContact.operand) {
+                  opRow = <div className={styles.operand}>{recentContact.operand}</div>;
+                }
+                return (
+                  <div key={'recent_' + idx} className={styles.row}>
+                    {recentContact.contact && (
+                      <div className={styles.contact}>
+                        {recentContact.contact.uuid === SIMULATOR_CONTACT_UUID ? (
+                          recentContact.contact.name
+                        ) : (
+                          <a href={getContactURL(recentContact.contact.uuid)}>
+                            {recentContact.contact.name}
+                          </a>
+                        )}
+                      </div>
+                    )}
+                    {opRow}
+                    <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>
+                  </div>
+                );
+              })}
+              {this.state.recentContacts === null ? (
+                <div className={styles.loading}>
+                  <Loading size={10} units={6} color="#999999" />
+                </div>
+              ) : null}
+            </div>
           </div>
         </Portal>
       );
@@ -346,7 +413,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
     });
 
     const activity = this.getSegmentCount();
-    const recents = this.getRecentMessages();
+    const recents = this.getRecentContacts();
 
     const events = this.context.config.mutable
       ? createClickHandler(
@@ -380,17 +447,17 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 const mapStateToProps = (
   {
     flowContext: {
-      definition: { localization }
+      definition: { localization, uuid }
     },
     editorState: { translating, language, dragActive, activity }
   }: AppState,
   props: ExitPassedProps
 ) => {
-  // see if we have some passed in (simulated) messages
-  let recentMessages: RecentMessage[] = null;
+  // see if we have some passed in (simulated) contacts
+  let recentContacts: RecentContact[] = null;
   const key = getExitActivityKey(props.exit);
-  if (key in (activity.recentMessages || {})) {
-    recentMessages = activity.recentMessages[key];
+  if (key in (activity.recentContacts || {})) {
+    recentContacts = activity.recentContacts[key];
   }
   const segmentCount = activity.segments[getExitActivityKey(props.exit)] || 0;
 
@@ -400,7 +467,8 @@ const mapStateToProps = (
     translating,
     language,
     localization,
-    recentMessages
+    uuid,
+    recentContacts
   };
 };
 

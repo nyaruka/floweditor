@@ -9,12 +9,6 @@ import { DEFAULT_KEY, pruneEmpty } from './helpers';
 
 const cx: any = classNames.bind(styles);
 
-const EXCLUDED_PATHS: { [path: string]: boolean } = {
-  'parent.run': true,
-  'child.run': true,
-  legacy_extra: true
-};
-
 type PathStep = number | string;
 
 export interface ContextExplorerProps {
@@ -131,10 +125,6 @@ export default class ContextExplorer extends React.Component<
     }
 
     const newPath = [...path, name];
-    if (EXCLUDED_PATHS[newPath.join('.')]) {
-      return null;
-    }
-
     const valueType = typeof value;
     let text = valueType !== 'object' ? value : '';
     let hasChildren = value && valueType === 'object' && Object.keys(value).length > 0;

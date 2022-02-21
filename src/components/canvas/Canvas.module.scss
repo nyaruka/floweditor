@@ -2,12 +2,6 @@
 
 $background_offset: ($grid_size / 2) + ($node_padding) + px;
 
-.canvas_container {
-  width: 100%;
-  height: 100vh;
-  overflow-y: auto;
-}
-
 .canvas_background {
   padding-top: 60px;
   padding-left: 20px;
