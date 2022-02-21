@@ -47,6 +47,7 @@ export interface ExitStoreProps {
   dragging: boolean;
   language: Asset;
   localization: LocalizationMap;
+  uuid: String;
   disconnectExit: DisconnectExit;
   segmentCount: number;
   recentContacts: RecentContact[];
@@ -203,7 +204,8 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
       getRecentMessages(
         this.context.config.endpoints.recents,
         this.props.exit,
-        this.pendingMessageFetch
+        this.pendingMessageFetch,
+        this.props.uuid
       )
         .then((recentContacts: RecentContact[]) => {
           this.setState({ recentContacts, fetchingRecentContacts: false });
@@ -357,15 +359,17 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
                 }
                 return (
                   <div key={'recent_' + idx} className={styles.row}>
-                    <div className={styles.contact}>
-                      {recentContact.contact.uuid === SIMULATOR_CONTACT_UUID ? (
-                        recentContact.contact.name
-                      ) : (
-                        <a href={getContactURL(recentContact.contact.uuid)}>
-                          {recentContact.contact.name}
-                        </a>
-                      )}
-                    </div>
+                    {recentContact.contact && (
+                      <div className={styles.contact}>
+                        {recentContact.contact.uuid === SIMULATOR_CONTACT_UUID ? (
+                          recentContact.contact.name
+                        ) : (
+                          <a href={getContactURL(recentContact.contact.uuid)}>
+                            {recentContact.contact.name}
+                          </a>
+                        )}
+                      </div>
+                    )}
                     {opRow}
                     <div className={styles.time}>{moment.utc(recentContact.time).fromNow()}</div>
                   </div>
@@ -443,7 +447,7 @@ export class ExitComp extends React.PureComponent<ExitProps, ExitState> {
 const mapStateToProps = (
   {
     flowContext: {
-      definition: { localization }
+      definition: { localization, uuid }
     },
     editorState: { translating, language, dragActive, activity }
   }: AppState,
@@ -463,6 +467,7 @@ const mapStateToProps = (
     translating,
     language,
     localization,
+    uuid,
     recentContacts
   };
 };

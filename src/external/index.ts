@@ -71,12 +71,14 @@ export const saveRevision = (endpoint: string, definition: FlowDefinition): Prom
 export const getRecentMessages = (
   recentsEndpoint: string,
   exit: Exit,
-  cancel: Cancel
+  cancel: Cancel,
+  uuid: String
 ): Promise<RecentContact[]> =>
   new Promise<RecentContact[]>((resolve, reject) => {
     cancel.reject = reject;
+    // we are adding flow uuid here to get unique details for the flow
     return axios
-      .get(`${recentsEndpoint}${exit.uuid}/${exit.destination_uuid}/`)
+      .get(`${recentsEndpoint}${exit.uuid}/${exit.destination_uuid}/${uuid}/`)
       .then((response: AxiosResponse) => {
         const recentcontacts: RecentContact[] = [];
         for (const row of response.data) {
