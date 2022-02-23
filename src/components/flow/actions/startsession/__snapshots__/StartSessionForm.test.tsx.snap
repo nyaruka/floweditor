@@ -227,7 +227,7 @@ exports[`StartSessionForm render should render an empty form with no action 2`] 
             "value": "assets",
           },
           Object {
-            "name": "Select recipients from a query",
+            "name": "Select a contact with a query",
             "value": "contact_query",
           },
           Object {
@@ -347,7 +347,7 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
-                values="[{\\"name\\":\\"Select recipients from a query\\",\\"value\\":\\"contact_query\\"}]"
+                values="[{\\"name\\":\\"Select a contact with a query\\",\\"value\\":\\"contact_query\\"}]"
               />
             </div>
           </div>
@@ -371,7 +371,11 @@ exports[`StartSessionForm render should render contact query 1`] = `
                 />
               </div>
             </div>
-            <p />
+            <div
+              class="helpText"
+            >
+              Only one matching contact will be started
+            </div>
           </div>
           <div
             class="ele"
@@ -621,7 +625,7 @@ exports[`StartSessionForm render should render self, children with base props 1`
             "value": "assets",
           },
           Object {
-            "name": "Select recipients from a query",
+            "name": "Select a contact with a query",
             "value": "contact_query",
           },
           Object {
@@ -762,7 +766,7 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 name="Start Type"
                 namekey="name"
                 valuekey="value"
-                values="[{\\"name\\":\\"Select recipients from a query\\",\\"value\\":\\"contact_query\\"}]"
+                values="[{\\"name\\":\\"Select a contact with a query\\",\\"value\\":\\"contact_query\\"}]"
               />
             </div>
           </div>
@@ -786,7 +790,11 @@ exports[`StartSessionForm render should warn about invalid fields in contact que
                 />
               </div>
             </div>
-            <p />
+            <div
+              class="helpText"
+            >
+              Only one matching contact will be started
+            </div>
           </div>
           <div
             class="ele"
