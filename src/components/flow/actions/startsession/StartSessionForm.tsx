@@ -20,6 +20,7 @@ import { initializeForm, stateToAction } from './helpers';
 import TextInputElement from 'components/form/textinput/TextInputElement';
 import i18n from 'config/i18n';
 import { renderIssues } from '../helpers';
+import styles from './StartSessionForm.module.scss';
 
 export const START_TYPE_ASSETS: SelectOption = {
   name: i18n.t('forms.start_type_manual', 'Select recipients manually'),
@@ -30,7 +31,7 @@ export const START_TYPE_CREATE: SelectOption = {
   value: 'create_contact'
 };
 export const START_TYPE_QUERY: SelectOption = {
-  name: i18n.t('forms.start_type_query', 'Select recipients from a query'),
+  name: i18n.t('forms.start_type_query_contact', 'Select a contact with a query'),
   value: 'contact_query'
 };
 
@@ -191,7 +192,9 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
                 autocomplete={true}
                 focus={true}
               />
-              <p />
+              <div className={styles.helpText}>
+                {i18n.t('forms.contact_query_help', 'Only one matching contact will be started')}
+              </div>
             </div>
           )}
 
