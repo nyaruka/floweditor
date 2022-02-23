@@ -192,7 +192,7 @@ export class StartSessionForm extends React.Component<ActionFormProps, StartSess
                 autocomplete={true}
                 focus={true}
               />
-              <div class={styles.helpText}>
+              <div className={styles.helpText}>
                 {i18n.t('forms.contact_query_help', 'Only one matching contact will be started')}
               </div>
             </div>
