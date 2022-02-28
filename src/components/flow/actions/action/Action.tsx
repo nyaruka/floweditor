@@ -26,6 +26,7 @@ import { hasIssues } from 'components/flow/helpers';
 import MountScroll from 'components/mountscroll/MountScroll';
 
 export interface ActionWrapperPassedProps {
+  nodeUUID: string;
   first: boolean;
   action: AnyAction;
   localization: LocalizationMap;
@@ -184,6 +185,7 @@ export class ActionWrapper extends React.Component<ActionWrapperProps> {
     const body = (
       <>
         <TitleBar
+          nodeUUID={this.props.nodeUUID}
           __className={titleBarClass}
           title={name}
           onRemoval={this.handleRemoval}

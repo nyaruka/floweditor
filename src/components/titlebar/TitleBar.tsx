@@ -6,6 +6,7 @@ import { fakePropType } from 'config/ConfigProvider';
 import i18n from 'config/i18n';
 
 export interface TitleBarProps {
+  nodeUUID?: string;
   title: string;
   onRemoval(event: React.MouseEvent<HTMLElement>): any;
   __className?: string;
@@ -163,7 +164,9 @@ export default class TitleBar extends React.Component<TitleBarProps, TitleBarSta
       <div className={styles.titlebar} data-spec={titlebarContainerSpecId}>
         <div className={`${this.props.__className} ${styles.normal}`} data-spec={titlebarSpecId}>
           {moveArrow}
-          <div className={styles.titletext}>{this.props.title}</div>
+          <div className={styles.titletext}>
+            {this.props.title} {this.props.nodeUUID && `: ${this.props.nodeUUID.slice(-4)}`}
+          </div>
           {remove}
         </div>
         {confirmation}

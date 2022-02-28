@@ -252,6 +252,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
   public render(): JSX.Element {
     const actions: JSX.Element[] = [];
+    const showLabel = this.context.config.showNodeLabel;
 
     let actionList: JSX.Element = null;
     if (this.props.renderNode.node.actions) {
@@ -277,6 +278,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
 
           actions.push(
             <ActionWrapper
+              nodeUUID={showLabel && this.props.nodeUUID}
               {...firstRef}
               key={action.uuid}
               renderNode={this.props.renderNode}
@@ -360,6 +362,7 @@ export class NodeComp extends React.PureComponent<NodeProps> {
                       : config.type
                   ]
                 }
+                nodeUUID={showLabel && this.props.nodeUUID}
                 showRemoval={!this.props.translating}
                 onRemoval={this.handleRemoval}
                 shouldCancelClick={this.handleShouldCancelClick}

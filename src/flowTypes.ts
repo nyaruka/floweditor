@@ -54,6 +54,7 @@ export interface FlowEditorConfig {
   endpoints: Endpoints;
   flow: string;
   flowType: FlowTypes;
+  showNodeUUIDs?: boolean;
   showTemplates?: boolean;
   showDownload?: boolean;
   mutable?: boolean;
